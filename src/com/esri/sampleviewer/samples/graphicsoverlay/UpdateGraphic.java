@@ -42,11 +42,12 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.UniqueValue;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 
-public class IdentifyGraphic extends Application {
+public class UpdateGraphic extends Application {
 
   private MapView mapView;
   private Map map;
   private SpatialReference wgs84 = SpatialReference.create(4326);
+  private GraphicsOverlay graphicsOvelay;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -55,7 +56,7 @@ public class IdentifyGraphic extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Identify graphics");
+    stage.setTitle("Update graphics : Click on graphics to move them");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
@@ -93,7 +94,7 @@ public class IdentifyGraphic extends Application {
       mapView.resume();
 
       // add graphics overlay to MapView.
-      final GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);
+      graphicsOvelay = addGraphicsOverlay(mapView);
       
       //add nesting locations rendered per bird
       addNestingLocations(graphicsOvelay);
@@ -105,6 +106,7 @@ public class IdentifyGraphic extends Application {
         public void handle(MouseEvent event) {
           System.out.println("clicked");
           
+          //a JavaFX screen point where the user clicked
           Point2D clickedPoint = new Point2D(event.getX(), event.getY());
 
           // identify graphics on the graphics overlay
@@ -114,16 +116,9 @@ public class IdentifyGraphic extends Application {
 
             @Override
             public void run() {
-              //wait to do this on the UI thread
-              Platform.runLater(new Runnable() {
-                
-                @Override
-                public void run() {
-                  //when the layer is loaded refresh the layer list
-                  seaBirdDialog(identifyGraphics);
-                  
-                }
-              });
+              
+              //move clicked graphics north a little
+              moveNorth(identifyGraphics);
             }});
         }});
       
@@ -141,8 +136,7 @@ public class IdentifyGraphic extends Application {
 
   };
   
-  public void seaBirdDialog(ListenableFuture<List<Graphic>> identifyGraphics) {
-    String seaBirds = "";
+  public void moveNorth(ListenableFuture<List<Graphic>> identifyGraphics) {
 
     try {
       // get the list of graphics returned by identify
@@ -150,15 +144,16 @@ public class IdentifyGraphic extends Application {
 
       //loop through the graphics
       for (Graphic grItem : graphics) {
-        seaBirds += grItem.getAttributes().get("SEABIRD") + "\n";
+        //update a graphic
+        System.out.println("updating location");
+
+        //create a new point a little north or the original
+        Point oldPt = (Point) grItem.getGeometry();
+        Point updatePt = new Point(oldPt.getX(), oldPt.getY() + 0.01, wgs84);
+        
+        //update with the new geometry
+        grItem.setGeometry(updatePt);
       }
-
-      Alert alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("Seabirds identified:");
-      alert.setHeaderText(null);
-      alert.setContentText(seaBirds);
-
-      alert.showAndWait();
 
     }catch(Exception ie){
       ie.printStackTrace();
