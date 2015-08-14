@@ -15,14 +15,10 @@ limitations under the License.  */
 package com.esri.sampleviewer.samples.graphicsoverlay;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polygon;
