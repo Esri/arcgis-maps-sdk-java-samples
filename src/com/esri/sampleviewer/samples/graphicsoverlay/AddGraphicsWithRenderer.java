@@ -57,9 +57,8 @@ public class AddGraphicsWithRenderer extends Application {
     stage.setScene(scene);
     stage.show();
 
-    // create a Map which defines the layers of data to view
     try {
-      //map = new Map();
+      //create a new map with a light grey canvas.
       map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
       
       // create the MapView JavaFX control and assign its map

@@ -55,34 +55,18 @@ public class IdentifyGraphic extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Identify graphics");
+    stage.setTitle("Identify graphics : Click on graphics to identify seabirds");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
     stage.show();
 
-    // create a Map which defines the layers of data to view
     try {
-      //map = new Map();
+      //create a new map with a light grey canvas.
       map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
-      
-      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-
-          
-          Point2D pt = new Point2D(event.getX(), event.getY());
-          
-          Point webPoint = mapView.screenToLocation(pt);
-          
-          Point wgsPoint =  (Point) GeometryEngine.project(webPoint, SpatialReference.create(4326));
-
-          System.out.println(wgsPoint.getX() + "," + wgsPoint.getY());
-        }
-      });
       
       mapView.setMap(map);
 

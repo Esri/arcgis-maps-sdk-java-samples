@@ -60,28 +60,12 @@ public class AddGraphicsWithSymbols extends Application {
     stage.setScene(scene);
     stage.show();
 
-    // create a Map which defines the layers of data to view
     try {
-      //map = new Map();
+      //create a new map with a light grey canvas.
       map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
-      
-//      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//        @Override
-//        public void handle(MouseEvent event) {
-//
-//          
-//          Point2D pt = new Point2D(event.getX(), event.getY());
-//          
-//          Point webPoint = mapView.screenToLocation(pt);
-//          
-//          Point wgsPoint =  (Point) GeometryEngine.project(webPoint, SpatialReference.create(4326));
-//
-//          System.out.println(wgsPoint.getX() + "," + wgsPoint.getY());
-//        }
-//      });
       
       mapView.setMap(map);
 
@@ -94,8 +78,8 @@ public class AddGraphicsWithSymbols extends Application {
       // add graphics overlay to MapView.
       GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);
       
-      //add some bouey positions to the graphics overlay
-      addBoueyPoints(graphicsOvelay);
+      //add some buoy positions to the graphics overlay
+      addBuoyPoints(graphicsOvelay);
       
       //add boat trip polyline to graphics overlay
       addBoatTrip(graphicsOvelay);
@@ -107,7 +91,6 @@ public class AddGraphicsWithSymbols extends Application {
       addText(graphicsOvelay);
       
     } catch (Exception e) {
-      System.out.println("can't see the map");
       e.printStackTrace();
     }
   }
@@ -135,7 +118,7 @@ public class AddGraphicsWithSymbols extends Application {
     return graphicsOverlay;
   }
   
-  private void addBoueyPoints(GraphicsOverlay graphicOverlay) {
+  private void addBuoyPoints(GraphicsOverlay graphicOverlay) {
     //define the buoy locations
     Point buoy1Loc = new Point(-2.712642647560347,56.062812566811544,wgs84);
     Point buoy2Loc = new Point(-2.6908416959572303,56.06444173689877,wgs84);
