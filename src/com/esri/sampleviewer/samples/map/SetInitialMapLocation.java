@@ -48,7 +48,7 @@ public class SetInitialMapLocation extends Application {
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
       mapView.setMap(map);
-
+      
       // add the MapView
       borderPane.setCenter(mapView);
       

@@ -52,7 +52,7 @@ public class AddGraphicsWithSymbols extends Application {
     // create a border pane
     BorderPane borderPane = new BorderPane();
     Scene scene = new Scene(borderPane);
-
+    
     // size the stage and add a title
     stage.setTitle("Add graphics with symbols");
     stage.setWidth(700);

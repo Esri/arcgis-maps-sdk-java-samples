@@ -56,7 +56,7 @@ public class AddGraphicsWithRenderer extends Application {
     stage.setHeight(800);
     stage.setScene(scene);
     stage.show();
-
+    
     try {
       //create a new map with a light grey canvas.
       map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
