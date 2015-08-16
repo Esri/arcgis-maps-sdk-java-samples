@@ -1,34 +1,24 @@
 package com.esri.sampleviewer.samples.editing;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.Feature;
 import com.esri.arcgisruntime.datasource.FeatureQueryResult;
 import com.esri.arcgisruntime.datasource.QueryParameters;
 import com.esri.arcgisruntime.datasource.QueryParameters.SpatialRelationship;
-import com.esri.arcgisruntime.datasource.arcgis.ArcGISFeature;
-import com.esri.arcgisruntime.datasource.arcgis.AttachmentInfo;
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polygon;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer.SelectionMode;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -41,15 +31,8 @@ public class DeleteFeatures extends Application {
 
   private MapView mapView;
   private Map map;
-  private SpatialReference wgs84 = SpatialReference.create(4326);
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
-  
-  private ToggleGroup editGroup;
-  
-  private enum EDITMODE {ADD,SELECT};
-  
-  private EDITMODE editMode = EDITMODE.ADD;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -58,7 +41,7 @@ public class DeleteFeatures extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Delete features : Click on map to select and press the delete button!");
+    stage.setTitle("Delete features : Click on map to select features and press the delete button!");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
@@ -111,9 +94,6 @@ public class DeleteFeatures extends Application {
       // add the MapView
       borderPane.setCenter(mapView);
       borderPane.setTop(buttonBox);
-      
-      // initiate drawing of the map control - this is going to need to change!
-      mapView.resume();
       
       //generate feature table from service
       damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");

@@ -83,9 +83,6 @@ public class AddGraphicsWithRenderer extends Application {
 
       // add the MapView
       borderPane.setCenter(mapView);
-      
-      // initiate drawing of the map control - this is going to need to change!
-      mapView.resume();
 
       // add graphics overlay to MapView.
       GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);

@@ -71,9 +71,6 @@ public class IdentifyGraphic extends Application {
 
       // add the MapView
       borderPane.setCenter(mapView);
-      
-      // initiate drawing of the map control
-      mapView.resume();
 
       // add graphics overlay to MapView.
       final GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);

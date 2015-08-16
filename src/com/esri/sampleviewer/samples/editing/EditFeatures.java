@@ -1,9 +1,7 @@
 package com.esri.sampleviewer.samples.editing;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
@@ -26,30 +24,21 @@ import com.esri.arcgisruntime.datasource.QueryParameters;
 import com.esri.arcgisruntime.datasource.QueryParameters.SpatialRelationship;
 import com.esri.arcgisruntime.datasource.arcgis.ArcGISFeature;
 import com.esri.arcgisruntime.datasource.arcgis.AttachmentInfo;
-import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polygon;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer.SelectionMode;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.BasemapType;
 import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.RgbColor;
-import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 
 public class EditFeatures extends Application {
 
   private MapView mapView;
   private Map map;
-  private SpatialReference wgs84 = SpatialReference.create(4326);
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
   
@@ -176,9 +165,6 @@ public class EditFeatures extends Application {
       // add the MapView
       borderPane.setCenter(mapView);
       borderPane.setTop(buttonBox);
-      
-      // initiate drawing of the map control - this is going to need to change!
-      mapView.resume();
       
       //generate feature table from service
       damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");

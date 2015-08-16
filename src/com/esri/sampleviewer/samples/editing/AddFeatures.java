@@ -81,9 +81,6 @@ public class AddFeatures extends Application {
       // add the MapView
       borderPane.setCenter(mapView);
       
-      // initiate drawing of the map control
-      mapView.resume();
-      
       //generate feature table from service
       damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
       //create feature layer from the table

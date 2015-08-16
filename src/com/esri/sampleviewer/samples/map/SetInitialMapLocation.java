@@ -52,9 +52,6 @@ public class SetInitialMapLocation extends Application {
       // add the MapView
       borderPane.setCenter(mapView);
       
-      // initiate drawing of the map control
-      mapView.resume();
-      
     } catch (Exception e) {
       System.out.println("can't see the map");
       e.printStackTrace();
