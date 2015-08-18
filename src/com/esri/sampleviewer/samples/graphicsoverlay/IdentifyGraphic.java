@@ -41,6 +41,11 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.UniqueValue;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 
+/**
+ * This sample shows how you can listen into the click event of your map view
+ * to find out which graphics are under your mouse pointer.
+ */
+
 public class IdentifyGraphic extends Application {
 
   private MapView mapView;
@@ -66,7 +71,6 @@ public class IdentifyGraphic extends Application {
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
-      
       mapView.setMap(map);
 
       // add the MapView
@@ -79,8 +83,7 @@ public class IdentifyGraphic extends Application {
       addNestingLocations(graphicsOvelay);
       
       //listen into click events on the map view
-      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
           System.out.println("clicked");
@@ -88,7 +91,8 @@ public class IdentifyGraphic extends Application {
           Point2D clickedPoint = new Point2D(event.getX(), event.getY());
 
           // identify graphics on the graphics overlay
-          final ListenableFuture<List<Graphic>> identifyGraphics = mapView.identifyGraphicsOverlay(graphicsOvelay, clickedPoint, 10, 2);
+          final ListenableFuture<List<Graphic>> identifyGraphics = 
+              mapView.identifyGraphicsOverlay(graphicsOvelay, clickedPoint, 10, 2);
 
           identifyGraphics.addDoneListener(new Runnable() {
 
@@ -117,8 +121,8 @@ public class IdentifyGraphic extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
   };
   
   public void seaBirdDialog(ListenableFuture<List<Graphic>> identifyGraphics) {
@@ -140,8 +144,8 @@ public class IdentifyGraphic extends Application {
 
       alert.showAndWait();
 
-    }catch(Exception ie){
-      ie.printStackTrace();
+    }catch(Exception e){
+      e.printStackTrace();
     }
   }
 

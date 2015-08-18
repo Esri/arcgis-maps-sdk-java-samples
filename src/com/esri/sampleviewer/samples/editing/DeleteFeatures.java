@@ -1,6 +1,24 @@
+/* Copyright 2015 Esri.
+ 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+    http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+limitations under the License.  */
+
 package com.esri.sampleviewer.samples.editing;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -15,6 +33,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.datasource.FeatureQueryResult;
 import com.esri.arcgisruntime.datasource.QueryParameters;
 import com.esri.arcgisruntime.datasource.QueryParameters.SpatialRelationship;
+import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
@@ -25,7 +44,9 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-
+/**
+ * This sample shows you you can select and delete features from a feature service.
+ */
 
 public class DeleteFeatures extends Application {
 
@@ -55,8 +76,10 @@ public class DeleteFeatures extends Application {
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
+      mapView.setMap(map);
       
-      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      // listen to click events on the map to select features
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
           //create a screen point from the mouse event
@@ -70,11 +93,7 @@ public class DeleteFeatures extends Application {
         }
       });
       
-      mapView.setMap(map);
-      
-      //set up some buttons etc
-
-      
+      // set up some buttons etc
       Button btnDeleteFeatures = new Button("Delete selected features");
       
       btnDeleteFeatures.setOnAction(new EventHandler<ActionEvent>() {
@@ -83,9 +102,6 @@ public class DeleteFeatures extends Application {
           deleteFeatures();
         }
       });
-      
-
-      
       
       //hbox to contain buttons
       HBox buttonBox = new HBox();
@@ -97,6 +113,7 @@ public class DeleteFeatures extends Application {
       
       //generate feature table from service
       damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+      
       //create feature layer from the table
       damageFeatureLayer = new FeatureLayer(damageTable);
       
@@ -104,7 +121,6 @@ public class DeleteFeatures extends Application {
       map.getOperationalLayers().add(damageFeatureLayer);
       
     } catch (Exception e) {
-      System.out.println("can't see the map");
       e.printStackTrace();
     }
   }
@@ -114,8 +130,8 @@ public class DeleteFeatures extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
   };
   
   
@@ -146,7 +162,27 @@ public class DeleteFeatures extends Application {
           damageTable.deleteFeaturesAsync(selected.get());
           
           //commit delete operation
-          damageTable.applyEditsAsync();
+          //apply edits to the server
+          final ListenableFuture<List<FeatureEditResult>> applyResult =  damageTable.applyEditsAsync();
+          
+          //add a listener to say when it's done or failed
+          applyResult.addDoneListener(new Runnable() {
+
+            @Override
+            public void run() {
+              //get the result
+              try {
+                List<FeatureEditResult> editResult = applyResult.get();
+                
+                //code goes here to examine the edit results
+                System.out.println("Results applied to service");
+                
+              } catch (InterruptedException | ExecutionException e) {
+                // Code to catch exception state as it didn't work
+                e.printStackTrace();
+              } 
+            }
+          });
           
         } catch (Exception e) {
           // write error code here

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -37,6 +38,10 @@ import com.esri.arcgisruntime.symbology.RgbColor;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.UniqueValue;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
+
+/**
+ * This sample shows how you can add a graphics overlay to your map view which contain different types of graphic.
+ */
 
 public class AddGraphicsWithRenderer extends Application {
 
@@ -63,24 +68,8 @@ public class AddGraphicsWithRenderer extends Application {
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
-      
-      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-
-          
-          Point2D pt = new Point2D(event.getX(), event.getY());
-          
-          Point webPoint = mapView.screenToLocation(pt);
-          
-          Point wgsPoint =  (Point) GeometryEngine.project(webPoint, SpatialReference.create(4326));
-
-          System.out.println(wgsPoint.getX() + "," + wgsPoint.getY());
-        }
-      });
-      
       mapView.setMap(map);
-
+      
       // add the MapView
       borderPane.setCenter(mapView);
 
@@ -91,7 +80,6 @@ public class AddGraphicsWithRenderer extends Application {
       addNestingLocations(graphicsOvelay);
       
     } catch (Exception e) {
-      System.out.println("can't see the map");
       e.printStackTrace();
     }
   }
@@ -101,8 +89,8 @@ public class AddGraphicsWithRenderer extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
   };
 
   public static void main(String[] args) {

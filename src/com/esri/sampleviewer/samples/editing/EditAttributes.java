@@ -14,7 +14,11 @@ limitations under the License.  */
 
 package com.esri.sampleviewer.samples.editing;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -30,6 +34,7 @@ import com.esri.arcgisruntime.datasource.Feature;
 import com.esri.arcgisruntime.datasource.FeatureQueryResult;
 import com.esri.arcgisruntime.datasource.QueryParameters;
 import com.esri.arcgisruntime.datasource.QueryParameters.SpatialRelationship;
+import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
@@ -39,6 +44,10 @@ import com.esri.arcgisruntime.layers.FeatureLayer.SelectionMode;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
+
+/**
+ * This sample shows how to edit attributes on features and commit the changes back to the feature service.
+ */
 
 public class EditAttributes extends Application {
 
@@ -62,14 +71,14 @@ public class EditAttributes extends Application {
 
     // create a Map which defines the layers of data to view
     try {
-      //map = new Map();
-     
       map = new Map(Basemap.createStreets());
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
+      mapView.setMap(map);
       
-      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      // listen into click events for selecting features
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
           //create a screen point from the mouse event
@@ -82,8 +91,6 @@ public class EditAttributes extends Application {
           selectFeature(mapPoint);
         }
       });
-      
-      mapView.setMap(map);
       
       Button btnUpdateAttributes = new Button("Update attrubutes");
       
@@ -104,11 +111,9 @@ public class EditAttributes extends Application {
       borderPane.setCenter(mapView);
       borderPane.setTop(buttonBox);
       
-      // initiate drawing of the map control - this is going to need to change!
-      //mapView.resume();
-      
       //generate feature table from service
       damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+      
       //create feature layer from the table
       damageFeatureLayer = new FeatureLayer(damageTable);
       
@@ -116,7 +121,6 @@ public class EditAttributes extends Application {
       map.getOperationalLayers().add(damageFeatureLayer);
       
     } catch (Exception e) {
-      System.out.println("can't see the map");
       e.printStackTrace();
     }
   }
@@ -126,13 +130,12 @@ public class EditAttributes extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
   };
 
   
   private void selectFeature(Point point) {
-    
     //create a buffer from the point
     Polygon searchGeometry = GeometryEngine.buffer(point, 5000);
     
@@ -145,7 +148,6 @@ public class EditAttributes extends Application {
     damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
     
   }
-  
   
   private void updateAttributes() {
     //get a list of selected features
@@ -170,9 +172,26 @@ public class EditAttributes extends Application {
             //change the attribute
             //feature.getAttributes().put("typdamage", "Inaccessible");
             
+            //apply edits to the server
+            final ListenableFuture<List<FeatureEditResult>> applyResult =  damageTable.applyEditsAsync();
             
-            //update the feature
-            damageTable.updateFeatureAsync(feature);
+            //add a listener to say when it's done or failed
+            applyResult.addDoneListener(new Runnable() {
+
+              @Override
+              public void run() {
+                //get the result
+                try {
+                  List<FeatureEditResult> editResult = applyResult.get();
+                  
+                  //code goes here to examine the edit results
+                  System.out.println("Results applied to service");
+                } catch (InterruptedException | ExecutionException e) {
+                  // Code to catch exception state as it didn't work
+                  e.printStackTrace();
+                } 
+              }
+            });
             
           }
           

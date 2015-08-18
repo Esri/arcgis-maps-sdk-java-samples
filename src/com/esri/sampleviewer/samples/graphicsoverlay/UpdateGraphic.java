@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -38,6 +39,10 @@ import com.esri.arcgisruntime.symbology.RgbColor;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.UniqueValue;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
+
+/**
+ * This sample shows how to perform an update on a graphic by giving a new location.
+ */
 
 public class UpdateGraphic extends Application {
 
@@ -66,22 +71,6 @@ public class UpdateGraphic extends Application {
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
-      
-      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-
-          
-          Point2D pt = new Point2D(event.getX(), event.getY());
-          
-          Point webPoint = mapView.screenToLocation(pt);
-          
-          Point wgsPoint =  (Point) GeometryEngine.project(webPoint, SpatialReference.create(4326));
-
-          System.out.println(wgsPoint.getX() + "," + wgsPoint.getY());
-        }
-      });
-      
       mapView.setMap(map);
 
       // add the MapView
@@ -94,7 +83,7 @@ public class UpdateGraphic extends Application {
       addNestingLocations(graphicsOvelay);
       
       //listen into click events on the map view
-      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
         @Override
         public void handle(MouseEvent event) {
@@ -126,8 +115,8 @@ public class UpdateGraphic extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
   };
   
   public void moveNorth(ListenableFuture<List<Graphic>> identifyGraphics) {
@@ -149,8 +138,8 @@ public class UpdateGraphic extends Application {
         grItem.setGeometry(updatePt);
       }
 
-    }catch(Exception ie){
-      ie.printStackTrace();
+    }catch(Exception e){
+      e.printStackTrace();
     }
   }
 

@@ -15,6 +15,7 @@ limitations under the License.  */
 package com.esri.sampleviewer.samples.graphicsoverlay;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -36,6 +37,15 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
 import com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
+
+/**
+ * This sample shows how to add graphics to a graphics overlay which are rendered using 
+ * a unique value renderer. The unique value renderer uses attributes on the graphic to 
+ * control the symbol which is used to display your graphics.
+ * <br><br>
+ * This application shows the locations of sea birds which are rendered according to the
+ * value of the SEABIRD attribute in each graphic.
+ */
 
 public class AddGraphicsWithSymbols extends Application {
 
@@ -62,7 +72,6 @@ public class AddGraphicsWithSymbols extends Application {
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
-      
       mapView.setMap(map);
 
       // add the MapView
@@ -93,8 +102,8 @@ public class AddGraphicsWithSymbols extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
   };
 
   public static void main(String[] args) {
