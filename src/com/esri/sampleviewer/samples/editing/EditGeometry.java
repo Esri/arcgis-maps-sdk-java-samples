@@ -136,8 +136,8 @@ public class EditGeometry extends Application {
 
   
   private void selectFeature(Point point) {
-    //create a buffer from the point
-    Polygon searchGeometry = GeometryEngine.buffer(point, 5000);
+    //create a buffer from the point which is based on 10 pixels at the current zoom scale
+    Polygon searchGeometry = GeometryEngine.buffer(point, mapView.getUnitsPerPixel() * 10);
     
     //create a query
     QueryParameters queryParams = new QueryParameters();
@@ -161,59 +161,18 @@ public class EditGeometry extends Application {
           for (Feature feature : selected.get()) {
             System.out.println("updating feature");
             
-            //move it north a little
+            //move it north a little (20 pixels at this map scale)
             Point currentLoc = (Point) feature.getGeometry();
-            Point updatedLoc = new Point(currentLoc.getX(), currentLoc.getY() + 5000, mapView.getSpatialReference());
+            Point updatedLoc = new Point(currentLoc.getX(), currentLoc.getY() + (mapView.getUnitsPerPixel() * 20 ), mapView.getSpatialReference());
             feature.setGeometry(updatedLoc);
             
             //update the feature
-            final ListenableFuture<Boolean> result = damageTable.updateFeatureAsync(feature);
+            damageTable.updateFeatureAsync(feature);
             
-            //add a listener to tell us when it's done or failed
-            result.addDoneListener(new Runnable() {
-              
-              @Override
-              public void run() {
-                //was it successful?
-                try {
-                  if (result.get() == true) {
-                    System.out.println("Feature updated");
-                    
-                  //apply edits to the server
-                  final ListenableFuture<List<FeatureEditResult>> applyResult =  damageTable.applyEditsAsync();
-                  
-                  //add a listener to say when it's done or failed
-                  applyResult.addDoneListener(new Runnable() {
-      
-                    @Override
-                    public void run() {
-                      //get the result
-                      try {
-                        List<FeatureEditResult> editResult = applyResult.get();
-                        
-                        //code goes here to examine the edit results
-                        System.out.println("Results applied to service");
-                      } catch (InterruptedException | ExecutionException e) {
-                        // Code to catch exception state as it didn't work
-                        e.printStackTrace();
-                      } 
-                    }
-                  });
-                  }
-                } catch (InterruptedException | ExecutionException e) {
-                  // Code to catch exception
-                  e.printStackTrace();
-                }
-              }
-            });
-            
+            //apply edits to the server
+            damageTable.applyEditsAsync();
           }
-          
-          //commit update operation
-          damageTable.applyEditsAsync();
-          
         } catch (Exception e) {
-          // write error code here
           e.printStackTrace();
         }
       }

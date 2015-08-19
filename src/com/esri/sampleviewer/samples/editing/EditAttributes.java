@@ -57,6 +57,7 @@ public class EditAttributes extends Application {
   private Map map;
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
+  private FeatureQueryResult selectedFeatures;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -107,7 +108,6 @@ public class EditAttributes extends Application {
       //hbox to contain buttons
       HBox buttonBox = new HBox();
       buttonBox.getChildren().add(btnUpdateAttributes);
-
       
       // add the MapView
       borderPane.setCenter(mapView);
@@ -115,6 +115,7 @@ public class EditAttributes extends Application {
       
       //generate feature table from service
       damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+      damageTable.getOutFields().add("*");
       
       //create feature layer from the table
       damageFeatureLayer = new FeatureLayer(damageTable);
@@ -145,78 +146,95 @@ public class EditAttributes extends Application {
     QueryParameters queryParams = new QueryParameters();
     queryParams.setGeometry(searchGeometry);
     queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
-    queryParams.getOutFields().clear();
-    //queryParams.getOutFields().add("objectid");
     queryParams.getOutFields().add("*");
     
     //select based on the query
-    damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
+    ListenableFuture<FeatureQueryResult> result =  damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
     
-    //TODO: remove this!
-    for (Field fld : damageTable.getFields()) {
-      System.out.println(" - field = " + fld.getName());
+    try {
+      //save the selected features
+      selectedFeatures = result.get();
+      
+    } catch (InterruptedException | ExecutionException e) {
+      e.printStackTrace();
     }
-    
   }
   
   private void updateAttributes() {
-    //get a list of selected features
-    final ListenableFuture<FeatureQueryResult> selected = damageFeatureLayer.getSelectedFeaturesAsync();
     
-    selected.addDoneListener(new Runnable() {
-      @Override
-      public void run() {
+    //loop through the selected features
+    if (selectedFeatures != null) {
+      for (Feature feature : selectedFeatures) {
+        //change the damage type
+        String updDamageType = changeDamageType((String) feature.getAttributes().get("typdamage"));
+        
+        //put it in the attribute
+        feature.getAttributes().put("typdamage", updDamageType);
+        
+        //update the feature
         try {
-          //loop through selected features
-          for (Feature feature : selected.get()) {
-            System.out.println("updating feature");
-            
-            //VIJAY this is where it's going wrong!
-            
-            for(String k : feature.getAttributes().keySet()) {
-              System.out.println("  key = " + k);
-            }
-            
-            //read the current value of the "typdamage" attribute, but it's never returned
-            String currentTypDamage = (String) feature.getAttributes().get("typdamage");
-            
-            System.out.println("current val - " + currentTypDamage);
-            
-            //change the attribute
-            //feature.getAttributes().put("typdamage", "Inaccessible");
-            
-            //apply edits to the server
-            final ListenableFuture<List<FeatureEditResult>> applyResult =  damageTable.applyEditsAsync();
-            
-            //add a listener to say when it's done or failed
-            applyResult.addDoneListener(new Runnable() {
+          if (damageTable.updateFeatureAsync(feature).get() == true) {
+            // Successfully updated so apply to service
+            applyEdits();
 
-              @Override
-              public void run() {
-                //get the result
-                try {
-                  List<FeatureEditResult> editResult = applyResult.get();
-                  
-                  //code goes here to examine the edit results
-                  System.out.println("Results applied to service");
-                } catch (InterruptedException | ExecutionException e) {
-                  // Code to catch exception state as it didn't work
-                  e.printStackTrace();
-                } 
-              }
-            });
-            
-          }
-          
-          //commit update operation
-          damageTable.applyEditsAsync();
-          
-        } catch (Exception e) {
-          // write error code here
+          };
+        } catch (InterruptedException | ExecutionException e) {
           e.printStackTrace();
         }
+        
+        //finally clear the selection
+        damageFeatureLayer.clearSelection();
+        selectedFeatures = null;
+        
       }
-    });
+    }
+  }
+  
+  private void applyEdits() {
+    final ListenableFuture<List<FeatureEditResult>> result = damageTable.applyEditsAsync();
+    
+    result.addDoneListener(new Runnable() {
+
+      @Override
+      public void run() {
+        //attempt to get the edit results
+        try {
+          List<FeatureEditResult> editResults = result.get();
+          
+          //code goes here to examine the edit results
+          System.out.println("Results applied to service");
+          
+        } catch (InterruptedException | ExecutionException e) {
+          e.printStackTrace();
+        }
+        
+      }});
+  }
+  
+  private String changeDamageType(String originalDamageType) {
+    
+    //a default return value
+    String updatedDamageType = "Affected";
+    
+    //return a value which is difference to the original
+    switch(originalDamageType) {
+      case "Affected":
+        updatedDamageType = "Destroyed";
+        break;
+      case "Destroyed":
+        updatedDamageType = "Inaccessible";
+        break;
+      case "Inaccessible":
+        updatedDamageType = "Major";
+        break;
+      case "Major":
+        updatedDamageType = "Minor";
+        break;
+      case "Minor":
+        updatedDamageType = "Affected";
+        break;
+    }
+    return updatedDamageType;
   }
 
   public static void main(String[] args) {
