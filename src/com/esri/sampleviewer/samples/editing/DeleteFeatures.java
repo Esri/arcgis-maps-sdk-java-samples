@@ -134,11 +134,9 @@ public class DeleteFeatures extends Application {
     System.exit(0);
   };
   
-  
   private void selectFeature(Point point) {
-    
-    //create a buffer from the point
-    Polygon searchGeometry = GeometryEngine.buffer(point, 5000);
+    //create a buffer from the point which is based on 10 pixels at the current zoom scale
+    Polygon searchGeometry = GeometryEngine.buffer(point, mapView.getUnitsPerPixel() * 10);
     
     //create a query
     QueryParameters queryParams = new QueryParameters();
@@ -191,9 +189,6 @@ public class DeleteFeatures extends Application {
       }
     });
   }
-  
-
-
 
   public static void main(String[] args) {
     Application.launch(args);

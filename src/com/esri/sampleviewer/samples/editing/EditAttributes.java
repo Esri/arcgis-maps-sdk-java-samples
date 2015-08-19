@@ -14,6 +14,7 @@ limitations under the License.  */
 
 package com.esri.sampleviewer.samples.editing;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -32,6 +33,7 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.datasource.Feature;
 import com.esri.arcgisruntime.datasource.FeatureQueryResult;
+import com.esri.arcgisruntime.datasource.Field;
 import com.esri.arcgisruntime.datasource.QueryParameters;
 import com.esri.arcgisruntime.datasource.QueryParameters.SpatialRelationship;
 import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
@@ -136,16 +138,24 @@ public class EditAttributes extends Application {
 
   
   private void selectFeature(Point point) {
-    //create a buffer from the point
-    Polygon searchGeometry = GeometryEngine.buffer(point, 5000);
+    //create a buffer from the point which is based on 10 pixels at the current zoom scale
+    Polygon searchGeometry = GeometryEngine.buffer(point, mapView.getUnitsPerPixel() * 10);
     
     //create a query
     QueryParameters queryParams = new QueryParameters();
     queryParams.setGeometry(searchGeometry);
     queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
+    queryParams.getOutFields().clear();
+    //queryParams.getOutFields().add("objectid");
+    queryParams.getOutFields().add("*");
     
     //select based on the query
     damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
+    
+    //TODO: remove this!
+    for (Field fld : damageTable.getFields()) {
+      System.out.println(" - field = " + fld.getName());
+    }
     
   }
   
@@ -162,7 +172,10 @@ public class EditAttributes extends Application {
             System.out.println("updating feature");
             
             //VIJAY this is where it's going wrong!
-            System.out.println("keys = " + feature.getAttributes().keySet().size());
+            
+            for(String k : feature.getAttributes().keySet()) {
+              System.out.println("  key = " + k);
+            }
             
             //read the current value of the "typdamage" attribute, but it's never returned
             String currentTypDamage = (String) feature.getAttributes().get("typdamage");
