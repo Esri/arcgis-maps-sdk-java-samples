@@ -70,8 +70,6 @@ public class DeleteFeatures extends Application {
 
     // create a Map which defines the layers of data to view
     try {
-      //map = new Map();
-     
       map = new Map(Basemap.createStreets());
       
       // create the MapView JavaFX control and assign its map

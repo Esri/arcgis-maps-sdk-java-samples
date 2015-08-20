@@ -133,6 +133,28 @@ public class AddFeatures extends Application {
         try {
           if (result.get() == true) {
             System.out.println("Feature added!");
+            
+            //apply edits to the server
+            final ListenableFuture<List<FeatureEditResult>> applyResult = damageTable.applyEditsAsync();
+            
+            //add a listener to say when it's done or failed
+            applyResult.addDoneListener(new Runnable() {
+
+              @Override
+              public void run() {
+                //get the result
+                try {
+                  List<FeatureEditResult> editResult = applyResult.get();
+                  
+                  //code goes here to examine the edit results
+                  System.out.println("Results applied to service");
+                  
+                } catch (InterruptedException | ExecutionException e) {
+                  // Code to catch exception state as it didn't work
+                  e.printStackTrace();
+                } 
+              }
+            });
           }
         } catch (InterruptedException | ExecutionException e) {
           // Code to catch exception
@@ -141,27 +163,7 @@ public class AddFeatures extends Application {
       }
     });
     
-    //apply edits to the server
-    final ListenableFuture<List<FeatureEditResult>> applyResult =  damageTable.applyEditsAsync();
-    
-    //add a listener to say when it's done or failed
-    applyResult.addDoneListener(new Runnable() {
 
-      @Override
-      public void run() {
-        //get the result
-        try {
-          List<FeatureEditResult> editResult = applyResult.get();
-          
-          //code goes here to examine the edit results
-          System.out.println("Results applied to service");
-          
-        } catch (InterruptedException | ExecutionException e) {
-          // Code to catch exception state as it didn't work
-          e.printStackTrace();
-        } 
-      }
-    });
   }
    
   public static void main(String[] args) {

@@ -14,7 +14,6 @@ limitations under the License.  */
 
 package com.esri.sampleviewer.samples.editing;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -33,7 +32,6 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.datasource.Feature;
 import com.esri.arcgisruntime.datasource.FeatureQueryResult;
-import com.esri.arcgisruntime.datasource.Field;
 import com.esri.arcgisruntime.datasource.QueryParameters;
 import com.esri.arcgisruntime.datasource.QueryParameters.SpatialRelationship;
 import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
@@ -66,7 +64,7 @@ public class EditAttributes extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Edit features");
+    stage.setTitle("Edit attributes: Click on a feature to select, then press the update attributes button");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
