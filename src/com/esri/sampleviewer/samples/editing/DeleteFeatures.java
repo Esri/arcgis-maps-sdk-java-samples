@@ -54,6 +54,7 @@ public class DeleteFeatures extends Application {
   private Map map;
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
+  private FeatureQueryResult selectedFeatures;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -142,50 +143,70 @@ public class DeleteFeatures extends Application {
     queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
     
     //select based on the query
-    damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
+    ListenableFuture<FeatureQueryResult> result =  damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
     
+    try {
+      //save the selected features
+      selectedFeatures = result.get();
+      
+      //see if there is anything in the list and null it if empty
+      if (selectedFeatures.iterator().hasNext()== false) {
+        selectedFeatures = null;
+      }
+      
+    } catch (InterruptedException | ExecutionException e) {
+      e.printStackTrace();
+    }
   }
   
   private void deleteFeatures() {
-    //get a list of selected features
-    final ListenableFuture<FeatureQueryResult> selected = damageFeatureLayer.getSelectedFeaturesAsync();
     
-    selected.addDoneListener(new Runnable() {
+    //are there any features to delete?
+    if (selectedFeatures != null) {
+      //delete features
+      final ListenableFuture<Boolean> result = damageTable.deleteFeaturesAsync(selectedFeatures);
+      
+      //apply edits once we get the result
+      result.addDoneListener(new Runnable() {
+
+        @Override
+        public void run() {
+          try {
+            if(result.get() == true) {
+              applyEdits();
+            }
+          } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+          }
+          
+          //finally clear the selection
+          damageFeatureLayer.clearSelection();
+          selectedFeatures = null;
+          
+        }});
+    }
+
+  }
+  
+  private void applyEdits() {
+    final ListenableFuture<List<FeatureEditResult>> result = damageTable.applyEditsAsync();
+    
+    result.addDoneListener(new Runnable() {
+
       @Override
       public void run() {
+        //attempt to get the edit results
         try {
-          //delete features
-          damageTable.deleteFeaturesAsync(selected.get());
+          List<FeatureEditResult> editResults = result.get();
           
-          //commit delete operation
-          //apply edits to the server
-          final ListenableFuture<List<FeatureEditResult>> applyResult =  damageTable.applyEditsAsync();
+          //code goes here to examine the edit results
+          System.out.println("Results applied to service");
           
-          //add a listener to say when it's done or failed
-          applyResult.addDoneListener(new Runnable() {
-
-            @Override
-            public void run() {
-              //get the result
-              try {
-                List<FeatureEditResult> editResult = applyResult.get();
-                
-                //code goes here to examine the edit results
-                System.out.println("Results applied to service");
-                
-              } catch (InterruptedException | ExecutionException e) {
-                // Code to catch exception state as it didn't work
-                e.printStackTrace();
-              } 
-            }
-          });
-          
-        } catch (Exception e) {
-          // write error code here
+        } catch (InterruptedException | ExecutionException e) {
           e.printStackTrace();
         }
-      }
-    });
+        
+      }});
   }
 
   public static void main(String[] args) {

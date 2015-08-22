@@ -63,7 +63,7 @@ public class EditGeometry extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Edit feature geometry : click to select a feature and press the 'Move North' button");
+    stage.setTitle("Edit feature geometry : click to select a feature and press the button to nove it North.");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
@@ -92,7 +92,7 @@ public class EditGeometry extends Application {
         }
       });
       
-      Button btnUpdateAttributes = new Button("Update attrubutes");
+      Button btnUpdateAttributes = new Button("Update geometry");
       
       btnUpdateAttributes.setOnAction(new EventHandler<ActionEvent>() {
         @Override
@@ -167,16 +167,61 @@ public class EditGeometry extends Application {
             feature.setGeometry(updatedLoc);
             
             //update the feature
-            damageTable.updateFeatureAsync(feature);
+            ListenableFuture<Boolean> result = damageTable.updateFeatureAsync(feature);
             
-            //apply edits to the server
-            damageTable.applyEditsAsync();
+            //apply the results to the server if it worked
+            result.addDoneListener(new Runnable() {
+
+              @Override
+              public void run() {
+                //apply edits to the server
+                applyEdits();
+              }});
+            
+
           }
         } catch (Exception e) {
           e.printStackTrace();
         }
       }
     });
+  }
+  
+//  private static void ensureGet(final ListenableFuture<?> future) {
+//    if (future == null) {
+//      return;
+//    }
+//    future.addDoneListener(new Runnable() {
+//      @Override
+//      public void run() {
+//        try {
+//          future.get();
+//        } catch (Exception e) {
+//          e.printStackTrace();
+//        }
+//      }
+//    });
+//  }
+  
+  private void applyEdits() {
+    final ListenableFuture<List<FeatureEditResult>> result = damageTable.applyEditsAsync();
+    
+    result.addDoneListener(new Runnable() {
+
+      @Override
+      public void run() {
+        //attempt to get the edit results
+        try {
+          List<FeatureEditResult> editResults = result.get();
+          
+          //code goes here to examine the edit results
+          System.out.println("Results applied to service");
+          
+        } catch (InterruptedException | ExecutionException e) {
+          e.printStackTrace();
+        }
+        
+      }});
   }
 
   public static void main(String[] args) {
