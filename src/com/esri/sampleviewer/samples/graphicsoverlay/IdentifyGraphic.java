@@ -242,7 +242,6 @@ public class IdentifyGraphic extends Application {
     //apply the renderer to the graphics overlay
     graphicOverlay.setRenderer(uniqueValRenderer);
     
-
     //graphics for Eider Ducks
     Graphic eider1 = new Graphic(eider1Loc);
     eider1.getAttributes().put("SEABIRD", "Eider");

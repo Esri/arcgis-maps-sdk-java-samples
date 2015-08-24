@@ -199,7 +199,6 @@ public class DeleteFeatures extends Application {
           
         }});
     }
-
   }
   
   private void applyEdits() {

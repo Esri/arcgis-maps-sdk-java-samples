@@ -28,7 +28,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.BasemapType;
@@ -42,7 +41,7 @@ import com.esri.arcgisruntime.symbology.UniqueValue;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 
 /**
- * This sample shows how to perform an update on a graphic by giving a new location.
+ * This sample shows how to perform an update on a graphic by giving it a new location.
  */
 
 public class UpdateGraphic extends Application {
@@ -67,7 +66,6 @@ public class UpdateGraphic extends Application {
 
     // create a Map which defines the layers of data to view
     try {
-      //map = new Map();
       map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
       
       // create the MapView JavaFX control and assign its map
