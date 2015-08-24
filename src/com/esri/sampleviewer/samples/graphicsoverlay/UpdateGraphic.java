@@ -19,10 +19,15 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.BasemapType;
@@ -36,44 +41,70 @@ import com.esri.arcgisruntime.symbology.UniqueValue;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 
 /**
- * This sample shows how you can add a graphics overlay to your map view which contain different types of graphic.
+ * This sample shows how to perform an update on a graphic by giving it a new location.
  */
 
-public class AddGraphicsWithRenderer extends Application {
+public class UpdateGraphic extends Application {
 
   private MapView mapView;
   private Map map;
   private SpatialReference wgs84 = SpatialReference.create(4326);
+  private GraphicsOverlay graphicsOvelay;
 
   @Override
   public void start(Stage stage) throws Exception {
     // create a border pane
     BorderPane borderPane = new BorderPane();
     Scene scene = new Scene(borderPane);
-
+    
     // size the stage and add a title
-    stage.setTitle("Add graphics with renderers");
+    stage.setTitle("Update graphics : Click on graphics to move them");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
     stage.show();
-    
+
+    // create a Map which defines the layers of data to view
     try {
-      //create a new map with a light grey canvas.
       map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
       mapView.setMap(map);
-      
+
       // add the MapView
       borderPane.setCenter(mapView);
 
       // add graphics overlay to MapView.
-      GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);
+      graphicsOvelay = addGraphicsOverlay(mapView);
       
       //add nesting locations rendered per bird
       addNestingLocations(graphicsOvelay);
+      
+      //listen into click events on the map view
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+        @Override
+        public void handle(MouseEvent event) {
+          // Respond to primary (left) button only
+          if (event.getButton() == MouseButton.PRIMARY)
+          {
+            //a JavaFX screen point where the user clicked
+            Point2D clickedPoint = new Point2D(event.getX(), event.getY());
+  
+            // identify graphics on the graphics overlay
+            final ListenableFuture<List<Graphic>> identifyGraphics = mapView.identifyGraphicsOverlay(graphicsOvelay, clickedPoint, 10, 2);
+  
+            identifyGraphics.addDoneListener(new Runnable() {
+  
+              @Override
+              public void run() {
+                
+                //move clicked graphics north a little
+                moveNorth(identifyGraphics);
+              }});
+          }
+        }});
       
     } catch (Exception e) {
       e.printStackTrace();
@@ -88,6 +119,30 @@ public class AddGraphicsWithRenderer extends Application {
     Platform.exit();
     System.exit(0);
   };
+  
+  public void moveNorth(ListenableFuture<List<Graphic>> identifyGraphics) {
+
+    try {
+      // get the list of graphics returned by identify
+      List<Graphic> graphics = identifyGraphics.get();
+
+      //loop through the graphics
+      for (Graphic grItem : graphics) {
+        //update a graphic
+        System.out.println("updating location");
+
+        //create a new point a little north or the original
+        Point oldPt = (Point) grItem.getGeometry();
+        Point updatePt = new Point(oldPt.getX(), oldPt.getY() + 0.01, wgs84);
+        
+        //update with the new geometry
+        grItem.setGeometry(updatePt);
+      }
+
+    }catch(Exception e){
+      e.printStackTrace();
+    }
+  }
 
   public static void main(String[] args) {
     Application.launch(args);

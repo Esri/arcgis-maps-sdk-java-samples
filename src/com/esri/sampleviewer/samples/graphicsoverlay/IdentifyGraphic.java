@@ -1,3 +1,17 @@
+/* Copyright 2015 Esri.
+ 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+    http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+limitations under the License.  */
+
 package com.esri.sampleviewer.samples.graphicsoverlay;
 
 import java.util.ArrayList;
@@ -10,12 +24,12 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.BasemapType;
@@ -27,6 +41,11 @@ import com.esri.arcgisruntime.symbology.RgbColor;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.UniqueValue;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
+
+/**
+ * This sample shows how you can listen into the click event of your map view
+ * to find out which graphics are under your mouse pointer.
+ */
 
 public class IdentifyGraphic extends Application {
 
@@ -41,42 +60,22 @@ public class IdentifyGraphic extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Identify graphics");
+    stage.setTitle("Identify graphics : Click on graphics to identify seabirds");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
     stage.show();
-
-    // create a Map which defines the layers of data to view
+    
     try {
-      //map = new Map();
+      //create a new map with a light grey canvas.
       map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
-      
-      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-
-          
-          Point2D pt = new Point2D(event.getX(), event.getY());
-          
-          Point webPoint = mapView.screenToLocation(pt);
-          
-          Point wgsPoint =  (Point) GeometryEngine.project(webPoint, SpatialReference.create(4326));
-
-          System.out.println(wgsPoint.getX() + "," + wgsPoint.getY());
-        }
-      });
-      
       mapView.setMap(map);
 
       // add the MapView
       borderPane.setCenter(mapView);
-      
-      // initiate drawing of the map control
-      mapView.resume();
 
       // add graphics overlay to MapView.
       final GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);
@@ -85,32 +84,35 @@ public class IdentifyGraphic extends Application {
       addNestingLocations(graphicsOvelay);
       
       //listen into click events on the map view
-      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-          System.out.println("clicked");
-          
-          Point2D clickedPoint = new Point2D(event.getX(), event.getY());
-
-          // identify graphics on the graphics overlay
-          final ListenableFuture<List<Graphic>> identifyGraphics = mapView.identifyGraphicOverlay(graphicsOvelay, clickedPoint, 10, 2);
-
-          identifyGraphics.addDoneListener(new Runnable() {
-
-            @Override
-            public void run() {
-              //wait to do this on the UI thread
-              Platform.runLater(new Runnable() {
-                
-                @Override
-                public void run() {
-                  //when the layer is loaded refresh the layer list
-                  seaBirdDialog(identifyGraphics);
+          // Respond to primary (left) button only
+          if (event.getButton() == MouseButton.PRIMARY)
+          {
+            //make a screen coordinate from the clicked location
+            Point2D clickedPoint = new Point2D(event.getX(), event.getY());
+  
+            // identify graphics on the graphics overlay
+            final ListenableFuture<List<Graphic>> identifyGraphics = 
+                mapView.identifyGraphicsOverlay(graphicsOvelay, clickedPoint, 10, 2);
+  
+            identifyGraphics.addDoneListener(new Runnable() {
+  
+              @Override
+              public void run() {
+                //wait to do this on the UI thread
+                Platform.runLater(new Runnable() {
                   
-                }
-              });
-            }});
+                  @Override
+                  public void run() {
+                    //when the layer is loaded refresh the layer list
+                    seaBirdDialog(identifyGraphics);
+                    
+                  }
+                });
+              }});
+          }
         }});
       
     } catch (Exception e) {
@@ -123,8 +125,8 @@ public class IdentifyGraphic extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
   };
   
   public void seaBirdDialog(ListenableFuture<List<Graphic>> identifyGraphics) {
@@ -146,8 +148,8 @@ public class IdentifyGraphic extends Application {
 
       alert.showAndWait();
 
-    }catch(Exception ie){
-      ie.printStackTrace();
+    }catch(Exception e){
+      e.printStackTrace();
     }
   }
 
@@ -240,7 +242,6 @@ public class IdentifyGraphic extends Application {
     //apply the renderer to the graphics overlay
     graphicOverlay.setRenderer(uniqueValRenderer);
     
-
     //graphics for Eider Ducks
     Graphic eider1 = new Graphic(eider1Loc);
     eider1.getAttributes().put("SEABIRD", "Eider");

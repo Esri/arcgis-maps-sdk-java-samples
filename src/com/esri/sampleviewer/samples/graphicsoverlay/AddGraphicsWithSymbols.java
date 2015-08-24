@@ -1,14 +1,25 @@
+/* Copyright 2015 Esri.
+ 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+    http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+limitations under the License.  */
+
 package com.esri.sampleviewer.samples.graphicsoverlay;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
+import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polygon;
@@ -27,6 +38,15 @@ import com.esri.arcgisruntime.symbology.TextSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
 import com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
 
+/**
+ * This sample shows how to add graphics to a graphics overlay which are rendered using 
+ * a unique value renderer. The unique value renderer uses attributes on the graphic to 
+ * control the symbol which is used to display your graphics.
+ * <br><br>
+ * This application shows the locations of sea birds which are rendered according to the
+ * value of the SEABIRD attribute in each graphic.
+ */
+
 public class AddGraphicsWithSymbols extends Application {
 
   private MapView mapView;
@@ -38,7 +58,7 @@ public class AddGraphicsWithSymbols extends Application {
     // create a border pane
     BorderPane borderPane = new BorderPane();
     Scene scene = new Scene(borderPane);
-
+    
     // size the stage and add a title
     stage.setTitle("Add graphics with symbols");
     stage.setWidth(700);
@@ -46,42 +66,22 @@ public class AddGraphicsWithSymbols extends Application {
     stage.setScene(scene);
     stage.show();
 
-    // create a Map which defines the layers of data to view
     try {
-      //map = new Map();
+      //create a new map with a light grey canvas.
       map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
       
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
-      
-//      mapView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//        @Override
-//        public void handle(MouseEvent event) {
-//
-//          
-//          Point2D pt = new Point2D(event.getX(), event.getY());
-//          
-//          Point webPoint = mapView.screenToLocation(pt);
-//          
-//          Point wgsPoint =  (Point) GeometryEngine.project(webPoint, SpatialReference.create(4326));
-//
-//          System.out.println(wgsPoint.getX() + "," + wgsPoint.getY());
-//        }
-//      });
-      
       mapView.setMap(map);
 
       // add the MapView
       borderPane.setCenter(mapView);
-      
-      // initiate drawing of the map control - this is going to need to change!
-      mapView.resume();
 
       // add graphics overlay to MapView.
       GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);
       
-      //add some bouey positions to the graphics overlay
-      addBoueyPoints(graphicsOvelay);
+      //add some buoy positions to the graphics overlay
+      addBuoyPoints(graphicsOvelay);
       
       //add boat trip polyline to graphics overlay
       addBoatTrip(graphicsOvelay);
@@ -93,7 +93,6 @@ public class AddGraphicsWithSymbols extends Application {
       addText(graphicsOvelay);
       
     } catch (Exception e) {
-      System.out.println("can't see the map");
       e.printStackTrace();
     }
   }
@@ -103,8 +102,8 @@ public class AddGraphicsWithSymbols extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
   };
 
   public static void main(String[] args) {
@@ -121,7 +120,7 @@ public class AddGraphicsWithSymbols extends Application {
     return graphicsOverlay;
   }
   
-  private void addBoueyPoints(GraphicsOverlay graphicOverlay) {
+  private void addBuoyPoints(GraphicsOverlay graphicOverlay) {
     //define the buoy locations
     Point buoy1Loc = new Point(-2.712642647560347,56.062812566811544,wgs84);
     Point buoy2Loc = new Point(-2.6908416959572303,56.06444173689877,wgs84);
