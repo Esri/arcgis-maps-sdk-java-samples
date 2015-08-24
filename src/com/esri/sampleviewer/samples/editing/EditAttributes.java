@@ -24,6 +24,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -56,6 +57,7 @@ public class EditAttributes extends Application {
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
   private FeatureQueryResult selectedFeatures;
+  private Button btnUpdateAttributes;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -82,19 +84,26 @@ public class EditAttributes extends Application {
       mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-          //create a screen point from the mouse event
-          Point2D pt = new Point2D(event.getX(), event.getY());
-          
-          //convert this to a map coordinate
-          Point mapPoint = mapView.screenToLocation(pt);
-
-          //add a feature to be updated
-          selectFeature(mapPoint);
+          // Respond to primary (left) button only
+          if (event.getButton() == MouseButton.PRIMARY)
+          {
+            //create a screen point from the mouse event
+            Point2D pt = new Point2D(event.getX(), event.getY());
+            
+            //convert this to a map coordinate
+            Point mapPoint = mapView.screenToLocation(pt);
+  
+            //add a feature to be updated
+            selectFeature(mapPoint);
+          }
         }
       });
       
-      Button btnUpdateAttributes = new Button("Update attrubutes");
+      // Button for updating attributes
+      btnUpdateAttributes = new Button("Update attributes");
+      btnUpdateAttributes.setDisable(true);
       
+      // click event for button
       btnUpdateAttributes.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
@@ -103,7 +112,7 @@ public class EditAttributes extends Application {
         }
       });
       
-      //hbox to contain buttons
+      //hbox to contain button
       HBox buttonBox = new HBox();
       buttonBox.getChildren().add(btnUpdateAttributes);
       
@@ -153,6 +162,14 @@ public class EditAttributes extends Application {
       //save the selected features
       selectedFeatures = result.get();
       
+      //see if there is anything in the list and null it if empty
+      if (selectedFeatures.iterator().hasNext()== false) {
+        selectedFeatures = null;
+      } else {
+        // we have features so enable the button
+        btnUpdateAttributes.setDisable(false);
+      }
+      
     } catch (InterruptedException | ExecutionException e) {
       e.printStackTrace();
     }
@@ -184,6 +201,8 @@ public class EditAttributes extends Application {
         damageFeatureLayer.clearSelection();
         selectedFeatures = null;
         
+        //disable the button
+        btnUpdateAttributes.setDisable(true);
       }
     }
   }
@@ -214,7 +233,7 @@ public class EditAttributes extends Application {
     //a default return value
     String updatedDamageType = "Affected";
     
-    //return a value which is difference to the original
+    //return a value which is different to the original
     switch(originalDamageType) {
       case "Affected":
         updatedDamageType = "Destroyed";

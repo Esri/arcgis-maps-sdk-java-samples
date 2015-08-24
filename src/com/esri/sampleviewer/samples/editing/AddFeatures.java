@@ -23,6 +23,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -73,14 +74,18 @@ public class AddFeatures extends Application {
       mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-          //create a screen point from the mouse event
-          Point2D pt = new Point2D(event.getX(), event.getY());
-
-          //convert this to a map coordinate
-          Point mapPoint = mapView.screenToLocation(pt);
-
-          //add a feature at this point
-          addFeature(mapPoint);
+          // Respond to primary (left) button only
+          if (event.getButton() == MouseButton.PRIMARY)
+          {
+            //create a screen point from the mouse event
+            Point2D pt = new Point2D(event.getX(), event.getY());
+  
+            //convert this to a map coordinate
+            Point mapPoint = mapView.screenToLocation(pt);
+  
+            //add a feature at this point
+            addFeature(mapPoint);
+          }
         }        
       });
       

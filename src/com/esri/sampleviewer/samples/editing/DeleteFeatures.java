@@ -24,6 +24,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -55,6 +56,7 @@ public class DeleteFeatures extends Application {
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
   private FeatureQueryResult selectedFeatures;
+  private Button btnDeleteFeatures;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -81,20 +83,26 @@ public class DeleteFeatures extends Application {
       mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-          //create a screen point from the mouse event
-          Point2D pt = new Point2D(event.getX(), event.getY());
-          
-          //convert this to a map coordinate
-          Point mapPoint = mapView.screenToLocation(pt);
-
-          //select features at this point
-          selectFeature(mapPoint);
+          // Respond to primary (left) button only
+          if (event.getButton() == MouseButton.PRIMARY)
+          {
+            //create a screen point from the mouse event
+            Point2D pt = new Point2D(event.getX(), event.getY());
+            
+            //convert this to a map coordinate
+            Point mapPoint = mapView.screenToLocation(pt);
+  
+            //select features at this point
+            selectFeature(mapPoint);
+          }
         }
       });
       
-      // set up some buttons etc
-      Button btnDeleteFeatures = new Button("Delete selected features");
+      // button to delete features
+      btnDeleteFeatures = new Button("Delete selected features");
+      btnDeleteFeatures.setDisable(true);
       
+      // click event for button to delete features
       btnDeleteFeatures.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
@@ -102,7 +110,7 @@ public class DeleteFeatures extends Application {
         }
       });
       
-      //hbox to contain buttons
+      // hbox to contain button
       HBox buttonBox = new HBox();
       buttonBox.getChildren().add(btnDeleteFeatures);
       
@@ -110,7 +118,7 @@ public class DeleteFeatures extends Application {
       borderPane.setCenter(mapView);
       borderPane.setTop(buttonBox);
       
-      //generate feature table from service
+      // generate feature table from service
       damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
       
       //create feature layer from the table
@@ -146,12 +154,15 @@ public class DeleteFeatures extends Application {
     ListenableFuture<FeatureQueryResult> result =  damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
     
     try {
-      //save the selected features
+      // save the selected features
       selectedFeatures = result.get();
       
-      //see if there is anything in the list and null it if empty
+      // see if there is anything in the list and null it if empty
       if (selectedFeatures.iterator().hasNext()== false) {
         selectedFeatures = null;
+      } else {
+        // we have some features so enable delete button
+        btnDeleteFeatures.setDisable(false);
       }
       
     } catch (InterruptedException | ExecutionException e) {
@@ -161,7 +172,7 @@ public class DeleteFeatures extends Application {
   
   private void deleteFeatures() {
     
-    //are there any features to delete?
+    // are there any features to delete?
     if (selectedFeatures != null) {
       //delete features
       final ListenableFuture<Boolean> result = damageTable.deleteFeaturesAsync(selectedFeatures);
@@ -182,6 +193,9 @@ public class DeleteFeatures extends Application {
           //finally clear the selection
           damageFeatureLayer.clearSelection();
           selectedFeatures = null;
+          
+          // disable the button
+          btnDeleteFeatures.setDisable(true);
           
         }});
     }

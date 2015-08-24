@@ -24,6 +24,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -86,29 +87,32 @@ public class IdentifyGraphic extends Application {
       mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-          System.out.println("clicked");
-          
-          Point2D clickedPoint = new Point2D(event.getX(), event.getY());
-
-          // identify graphics on the graphics overlay
-          final ListenableFuture<List<Graphic>> identifyGraphics = 
-              mapView.identifyGraphicsOverlay(graphicsOvelay, clickedPoint, 10, 2);
-
-          identifyGraphics.addDoneListener(new Runnable() {
-
-            @Override
-            public void run() {
-              //wait to do this on the UI thread
-              Platform.runLater(new Runnable() {
-                
-                @Override
-                public void run() {
-                  //when the layer is loaded refresh the layer list
-                  seaBirdDialog(identifyGraphics);
+          // Respond to primary (left) button only
+          if (event.getButton() == MouseButton.PRIMARY)
+          {
+            //make a screen coordinate from the clicked location
+            Point2D clickedPoint = new Point2D(event.getX(), event.getY());
+  
+            // identify graphics on the graphics overlay
+            final ListenableFuture<List<Graphic>> identifyGraphics = 
+                mapView.identifyGraphicsOverlay(graphicsOvelay, clickedPoint, 10, 2);
+  
+            identifyGraphics.addDoneListener(new Runnable() {
+  
+              @Override
+              public void run() {
+                //wait to do this on the UI thread
+                Platform.runLater(new Runnable() {
                   
-                }
-              });
-            }});
+                  @Override
+                  public void run() {
+                    //when the layer is loaded refresh the layer list
+                    seaBirdDialog(identifyGraphics);
+                    
+                  }
+                });
+              }});
+          }
         }});
       
     } catch (Exception e) {

@@ -24,6 +24,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -55,6 +56,8 @@ public class EditGeometry extends Application {
   private Map map;
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
+  private Button btnUpdateGeometry;
+  private FeatureQueryResult selectedFeatures;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -81,20 +84,27 @@ public class EditGeometry extends Application {
       mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-          //create a screen point from the mouse event
-          Point2D pt = new Point2D(event.getX(), event.getY());
-          
-          //convert this to a map coordinate
-          Point mapPoint = mapView.screenToLocation(pt);
-
-          //add a feature to be updated
-          selectFeature(mapPoint);
+          // Respond to primary (left) button only
+          if (event.getButton() == MouseButton.PRIMARY)
+          {
+            //create a screen point from the mouse event
+            Point2D pt = new Point2D(event.getX(), event.getY());
+            
+            //convert this to a map coordinate
+            Point mapPoint = mapView.screenToLocation(pt);
+  
+            //add a feature to be updated
+            selectFeature(mapPoint);
+          }
         }
       });
       
-      Button btnUpdateAttributes = new Button("Update geometry");
+      // button to update geometry
+      btnUpdateGeometry = new Button("Update geometry");
+      btnUpdateGeometry.setDisable(true);
       
-      btnUpdateAttributes.setOnAction(new EventHandler<ActionEvent>() {
+      // click event for button
+      btnUpdateGeometry.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
           //update the selected attributes
@@ -104,8 +114,7 @@ public class EditGeometry extends Application {
       
       //hbox to contain buttons
       HBox buttonBox = new HBox();
-      buttonBox.getChildren().add(btnUpdateAttributes);
-
+      buttonBox.getChildren().add(btnUpdateGeometry);
       
       // add the MapView
       borderPane.setCenter(mapView);
@@ -145,63 +154,54 @@ public class EditGeometry extends Application {
     queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
     
     //select based on the query
-    damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
+    ListenableFuture<FeatureQueryResult> result =  damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
+    
+    try {
+      //save the selected features
+      selectedFeatures = result.get();
+      
+      //see if there is anything in the list and null it if empty
+      if (selectedFeatures.iterator().hasNext()== false) {
+        selectedFeatures = null;
+        btnUpdateGeometry.setDisable(true);
+      } else {
+        // we have features so enable the button
+        btnUpdateGeometry.setDisable(false);
+      }
+      
+    } catch (InterruptedException | ExecutionException e) {
+      e.printStackTrace();
+    }
     
   }
   
   private void updateGeometry() {
-    //get a list of selected features
-    final ListenableFuture<FeatureQueryResult> selected = damageFeatureLayer.getSelectedFeaturesAsync();
-    
-    selected.addDoneListener(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          //loop through selected features
-          for (Feature feature : selected.get()) {
-            System.out.println("updating feature");
-            
-            //move it north a little (20 pixels at this map scale)
-            Point currentLoc = (Point) feature.getGeometry();
-            Point updatedLoc = new Point(currentLoc.getX(), currentLoc.getY() + (mapView.getUnitsPerPixel() * 20 ), mapView.getSpatialReference());
-            feature.setGeometry(updatedLoc);
-            
-            //update the feature
-            ListenableFuture<Boolean> result = damageTable.updateFeatureAsync(feature);
-            
-            //apply the results to the server if it worked
-            result.addDoneListener(new Runnable() {
 
-              @Override
-              public void run() {
-                //apply edits to the server
-                applyEdits();
-              }});
-            
-
-          }
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+    //are there any selected features to update?
+    if (selectedFeatures != null) {
+      //loop through selected features
+      for (Feature feature : selectedFeatures) {
+        System.out.println("updating feature");
+        
+        //move it north a little (20 pixels at this map scale)
+        Point currentLoc = (Point) feature.getGeometry();
+        Point updatedLoc = new Point(currentLoc.getX(), currentLoc.getY() + (mapView.getUnitsPerPixel() * 20 ), mapView.getSpatialReference());
+        feature.setGeometry(updatedLoc);
+        
+        //update the feature
+        ListenableFuture<Boolean> result = damageTable.updateFeatureAsync(feature);
+        
+        //apply the results to the server if it worked
+        result.addDoneListener(new Runnable() {
+      
+          @Override
+          public void run() {
+            //apply edits to the server
+            applyEdits();
+          }});
       }
-    });
+    }
   }
-  
-//  private static void ensureGet(final ListenableFuture<?> future) {
-//    if (future == null) {
-//      return;
-//    }
-//    future.addDoneListener(new Runnable() {
-//      @Override
-//      public void run() {
-//        try {
-//          future.get();
-//        } catch (Exception e) {
-//          e.printStackTrace();
-//        }
-//      }
-//    });
-//  }
   
   private void applyEdits() {
     final ListenableFuture<List<FeatureEditResult>> result = damageTable.applyEditsAsync();

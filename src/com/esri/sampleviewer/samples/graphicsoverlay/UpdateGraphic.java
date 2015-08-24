@@ -22,6 +22,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -87,22 +88,24 @@ public class UpdateGraphic extends Application {
 
         @Override
         public void handle(MouseEvent event) {
-          System.out.println("clicked");
-          
-          //a JavaFX screen point where the user clicked
-          Point2D clickedPoint = new Point2D(event.getX(), event.getY());
-
-          // identify graphics on the graphics overlay
-          final ListenableFuture<List<Graphic>> identifyGraphics = mapView.identifyGraphicsOverlay(graphicsOvelay, clickedPoint, 10, 2);
-
-          identifyGraphics.addDoneListener(new Runnable() {
-
-            @Override
-            public void run() {
-              
-              //move clicked graphics north a little
-              moveNorth(identifyGraphics);
-            }});
+          // Respond to primary (left) button only
+          if (event.getButton() == MouseButton.PRIMARY)
+          {
+            //a JavaFX screen point where the user clicked
+            Point2D clickedPoint = new Point2D(event.getX(), event.getY());
+  
+            // identify graphics on the graphics overlay
+            final ListenableFuture<List<Graphic>> identifyGraphics = mapView.identifyGraphicsOverlay(graphicsOvelay, clickedPoint, 10, 2);
+  
+            identifyGraphics.addDoneListener(new Runnable() {
+  
+              @Override
+              public void run() {
+                
+                //move clicked graphics north a little
+                moveNorth(identifyGraphics);
+              }});
+          }
         }});
       
     } catch (Exception e) {
