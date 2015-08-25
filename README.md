@@ -1,5 +1,7 @@
 # arcgis-runtime-samples-java
 
+**For Quartz Beta 1**
+
 Here are a set of simple samples that show you how to accomplish different mapping and GIS tasks with the ArcGIS Runtime SDK for Java. The samples use ArcGIS Online basemaps and services.  Learn more [here](http://www.arcgis.com/about/).
 
 
