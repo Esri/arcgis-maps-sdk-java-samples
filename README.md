@@ -4,12 +4,9 @@ Here are a set of simple samples that show you how to accomplish different mappi
 
 
 ## Features
-* Basemaps - Set different basemaps interactively
-* Geolocation - Find and display your geolocation
-* Place Finding - Find places or geocode an address
-* Directions - Get directions
-* Graphics - Draw points, lines and polygons
-* Cloud - Draw and query features stored in the ArcGIS Online cloud
+* Basemaps - Set different basemaps
+* Feature editing - Edit online feature services
+* Graphics overlays - Add temporary data to your map view
 
 ## Instructions
 
