@@ -10,14 +10,14 @@ Here are a set of simple samples that show you how to accomplish different mappi
 * Feature editing - Edit online feature services
 * Graphics overlays - Add temporary data to your map view
 
-## Instructions
+# Developer Instructions
 
-###  Fork the repo
+##  Fork the repo
 If you haven't already, fork the [this repo](https://github.com/Esri/arcgis-runtime-samples-java/fork).
 
-### Clone the repo
+## Clone the repo
 
-#### Command line Git
+### Command line Git
 [Clone the ArcGIS Java SDK Samples](https://help.github.com/articles/fork-a-repo#step-2-clone-your-fork)
 
 Open your terminal, navigate to your working directory, use ```git clone``` to get a copy of the repo.
@@ -27,7 +27,7 @@ Open your terminal, navigate to your working directory, use ```git clone``` to g
 $ git clone https://github.com/YOUR-USERNAME/arcgis-runtime-samples-java.git
 ```
 
-### Configure remote upstream for your fork
+## Configure remote upstream for your fork
 To sync changes you make in a fork with this repository, you must configure a remote that points to the upstream repository in Git.
 
 - Open a terminal (Mac users) or command prompt (Windows & Linux users)
@@ -56,7 +56,7 @@ upstream https://github.com/Esri/arcgis-runtime-samples-java.git (fetch)
 upstream https://github.com/Esri/arcgis-runtime-samples-java.git (push)
 ```
 
-### Sync your fork
+## Sync your fork
 Once you have set up a remote upstream you can keep your fork up to date with our samples repository by syncing your fork.
 
 - Open a terminal (Mac users) or command prompt (Windows & Linux users)
