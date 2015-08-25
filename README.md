@@ -10,6 +10,9 @@ Here are a set of simple samples that show you how to accomplish different mappi
 * Feature editing - Edit online feature services
 * Graphics overlays - Add temporary data to your map view
 
+# Download
+You need to download the ArcGIS Runtime SDK for Java to work with this repository.  For more information please see our [Quartz Beta Developers Site](https://developers.arcgis.com/java/beta). 
+
 # Developer Instructions
 
 ##  Fork the repo
