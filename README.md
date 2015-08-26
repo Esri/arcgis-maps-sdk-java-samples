@@ -10,11 +10,77 @@ Here are a set of simple samples that show you how to accomplish different mappi
 * Feature editing - Edit online feature services
 * Graphics overlays - Add temporary data to your map view
 
-## Instructions
+# Download
+You need to download the ArcGIS Runtime SDK for Java to work with this repository.  For more information please see our [Quartz Beta Developers Site](https://developers.arcgis.com/java/beta). 
 
-1. Fork and then clone the repo. 
-2. Run and try the samples.
+# Developer Instructions
 
+##  Fork the repo
+If you haven't already, fork the [this repo](https://github.com/Esri/arcgis-runtime-samples-java/fork).
+
+## Clone the repo
+
+### Command line Git
+[Clone your fork](https://help.github.com/articles/fork-a-repo#step-2-clone-your-fork)
+
+Open your terminal, navigate to your working directory, use ```git clone``` to get a copy of the repo.
+
+```
+# Clones your fork of the repository into the current directory in terminal
+$ git clone https://github.com/YOUR-USERNAME/arcgis-runtime-samples-java.git
+```
+
+## Configure remote upstream for your fork
+To sync changes you make in a fork with this repository, you must configure a remote that points to the upstream repository in Git.
+
+- Open a terminal (Mac users) or command prompt (Windows & Linux users)
+- List the current configured remote repository for your fork
+
+```
+$ git remote -v
+origin	https://github.com/YOUR_USERNAME/arcgis-runtime-samples-java.git (fetch)
+origin
+```
+
+- Specify a new remote upstream repository
+
+```
+$ git remote add upstream https://github.com/Esri/arcgis-runtime-samples-java.git
+```
+
+- Verify the new upstream repository
+
+```
+$ git remote -v
+
+origin	https://github.com/YOUR_USERNAME/arcgis-runtime-samples-java.git (fetch)
+origin	https://github.com/YOUR_USERNAME/arcgis-runtime-samples-java.git (push)
+upstream https://github.com/Esri/arcgis-runtime-samples-java.git (fetch)
+upstream https://github.com/Esri/arcgis-runtime-samples-java.git (push)
+```
+
+## Sync your fork
+Once you have set up a remote upstream you can keep your fork up to date with our samples repository by syncing your fork.
+
+- Open a terminal (Mac users) or command prompt (Windows & Linux users)
+- Change to the current working directory of your local repository
+- Fetch the branches and commits from the upstream repository.  Commits to ```master``` will be stored in a local branch, ```upstream/master```.
+
+```
+$ git fetch upstream
+```
+
+- Check out your forks local ```master``` branch
+
+```
+$ git checkout master
+```
+
+- Merge changes from ```upstream/master``` into  your local ```master``` branch which syncs your forks ```master``` branch with our samples repository.
+
+```
+$ git merge upstream/master
+```
 
 ## Resources
 
