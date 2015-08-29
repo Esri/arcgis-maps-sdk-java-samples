@@ -5,6 +5,8 @@
 /bin/
 gen/
 lib/
+jniLib/
+ArcGISRuntime100.0.0/
 
 # compilation files #
 *.class
