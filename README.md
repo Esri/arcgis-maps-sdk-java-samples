@@ -121,6 +121,37 @@ Windows
 > gradlew.bat clean run --info
 ```
 
+## Import samples into developer IDE
+Once you have the project structure in place from above you can import into your favorite IDE or use text editors like Atom or Sublime Text.  
+
+### IntelliJ IDEA
+To import the project into IntelliJ IDEA, follow these steps:  
+
+1. If no project is open, click **Import Projects** on the Welcome screen. Otherwise, select **File > New > Project from Existing Sources**.
+2. In the select path dialog, select the directory that contains the samples project.
+3. On the project model select dialog, select Gradle, and click Next
+4. On the next page specify Gradle project settings to use the gradle wrapper and click Finish.  
+5. You can see the Gradle tasks by selecting **View > Tool Windows > Gradle**.  Select the Run task to run the sample defined in the build script.
+
+![Running a sample from IntelliJ IDEA](run-intellij.png)
+
+### Eclipse 
+Install the [Buildship](https://projects.eclipse.org/projects/tools.buildship) Eclipse Gradle plugin
+
+1. From Eclipse toolbar select **Help > Install New Software...**
+2. Click the **Available Software Sites** link in the upper right hand corner of the Intall dialog.
+3. Click the **Add** button. 
+4. Create a name for the site, e.g **Buildship Gradle plugin** and add the following url to the **Location** http://download.eclipse.org/buildship/updates/e45/releases and click **OK**.
+
+Once you have the plugin installed you can import the sample project into Ecilpse.  
+
+1. From the Eclipse toolbar select **File > Import**.
+2. Select **Gradle > Gradle Project** and click Next on the Welcome dialog. 
+3. Browse to the directory where you forked/cloned the samples project repository and click **OK** and then **Finish** to exit the wizard.
+4. Now should now see the Gradle tasks view, if you don't select **Window > Show View > Other** and select **Gradle > Gradle Tasks**.  You can initiate any task from this window.  Select the **Run** task to run the sample defined in the build script. 
+
+![Running a sample from Eclipse](run-eclipse.png)
+
 ## Resources
 
 * [ArcGIS Runtime SDK for Java](https://developers.arcgis.com/java/)
