@@ -7,6 +7,8 @@ repositories {
     jcenter()
 }
 
+// configure the main class (entry point) you want to run here
+mainClassName = 'com.esri.sampleviewer.samples.map.SetInitialMapLocation'
 
 // In this section you declare the dependencies
 dependencies {
