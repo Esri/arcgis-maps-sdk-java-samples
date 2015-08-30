@@ -4,8 +4,7 @@
 /build/
 /bin/
 gen/
-lib/
-jniLib/
+libs/
 ArcGISRuntime100.0.0/
 
 # compilation files #
