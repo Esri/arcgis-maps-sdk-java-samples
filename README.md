@@ -82,6 +82,45 @@ $ git checkout master
 $ git merge upstream/master
 ```
 
+## Run the samples
+Once the samples have been forked/cloned locally to your machine you need to add the following from the SDK download.  
+
+- Copy the contents of **JavaSDK100.0.0/ArcGISRuntime100.0.0/** to the root of your samples project.
+- Copy the SDK jar file from **JavaSDK100.0.0/sdk/jars/ArcGISRuntime_Java.jar** to the **libs/** folder in the root of your sample project.  You will need to create the **libs/** folder.  
+
+Your project structure should look like the following:  
+
+![project structure](project-structure.png)
+
+### Gradle
+The samples are designed to run from [gradle](https://gradle.org/).  New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+
+### Gradle build file
+The gradle build file, **build.gradle** is located at the root of the project.  The samples are all listed as source files by package name and class name.  Change the value of the following configuration in your build.gradle file to run any of the samples.  By default the project is set to run the Set Initial Map Locaiton sample as shown below:  
+
+```groovy
+mainClassName = 'com.esri.sampleviewer.samples.map.SetInitialMapLocation'
+```
+
+If you want to run the Identify Graphic sample change the configuration to the following:  
+
+```groovy
+mainClassName = 'com.esri.sampleviewer.samples.graphicsoverlay.IdentifyGraphic'
+```
+
+- Open a terminal (Mac users) or command prompt (Windows & Linux users)
+- Run the following command
+
+Linux/Mac
+```
+$ ./gradlew clean run --info
+```
+
+Windows
+```
+> gradlew.bat clean run --info
+```
+
 ## Resources
 
 * [ArcGIS Runtime SDK for Java](https://developers.arcgis.com/java/)
