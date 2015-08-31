@@ -34,6 +34,7 @@ $ git clone https://github.com/YOUR-USERNAME/arcgis-runtime-samples-java.git
 To sync changes you make in a fork with this repository, you must configure a remote that points to the upstream repository in Git.
 
 - Open a terminal (Mac users) or command prompt (Windows & Linux users)
+- cd into the project directory you just cloned
 - List the current configured remote repository for your fork
 
 ```
