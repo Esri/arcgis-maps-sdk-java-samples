@@ -93,7 +93,7 @@ Your project structure should look like the following:
 ![project structure](project-structure.png)
 
 ### Gradle
-The samples are designed to run from [gradle](https://gradle.org/).  New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+The samples can be run in any java build development system.  For ease of use we are providing a [gradle](https://gradle.org/) build script to easily build and run any samples from a terminal prompt or from within and IDE that supports gradle..  New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
 
 ### Gradle build file
 The gradle build file, **build.gradle** is located at the root of the project.  The samples are all listed as source files by package name and class name.  Change the value of the following configuration in your build.gradle file to run any of the samples.  By default the project is set to run the Set Initial Map Locaiton sample as shown below:  
@@ -109,7 +109,7 @@ mainClassName = 'com.esri.sampleviewer.samples.graphicsoverlay.IdentifyGraphic'
 ```
 
 - Open a terminal (Mac users) or command prompt (Windows & Linux users)
-- Run the following command
+- cd into the project directory and run the following command
 
 Linux/Mac
 ```
