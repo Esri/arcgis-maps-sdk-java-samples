@@ -155,9 +155,10 @@ Once you have the plugin installed you can import the sample project into Ecilps
 
 ## Project Structure
 Here is what the project structure looks like in Eclipse and IntelliJ IDEA where you can use either IDE to continue to work with the samples repository.  
-IntelliJ IDEA                                     | Eclipse
-:------------------------------------------------:|:------------------------------------------------:
-![IntelliJ IDEA](intelliJ-project-structure.png)  | ![Eclipse](eclipse-project-structure.png)
+
+|IntelliJ IDEA                                     | Eclipse                                          |
+|:------------------------------------------------:|:------------------------------------------------:|
+|![IntelliJ IDEA](intelliJ-project-structure.png)  | ![Eclipse](eclipse-project-structure.png)        |
 
 ## Resources
 
