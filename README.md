@@ -94,7 +94,7 @@ Your project structure should look like the following:
 ![project structure](project-structure.png)
 
 ### Gradle
-The samples can be run in any java build development system.  For ease of use we are providing a [gradle](https://gradle.org/) build script to easily build and run any samples from a terminal prompt or from within and IDE that supports gradle..  New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+The samples can be run in any java build development system.  For ease of use we are providing a [gradle](https://gradle.org/) build script to easily build and run any samples from a terminal prompt or from within an IDE that supports gradle.  New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
 
 ### Gradle build file
 The gradle build file, **build.gradle** is located at the root of the project.  The samples are all listed as source files by package name and class name.  Change the value of the following configuration in your build.gradle file to run any of the samples.  By default the project is set to run the Set Initial Map Locaiton sample as shown below:  
@@ -149,7 +149,7 @@ Once you have the plugin installed you can import the sample project into Ecilps
 1. From the Eclipse toolbar select **File > Import**.
 2. Select **Gradle > Gradle Project** and click Next on the Welcome dialog. 
 3. Browse to the directory where you forked/cloned the samples project repository and click **OK** and then **Finish** to exit the wizard.
-4. Now should now see the Gradle tasks view, if you don't select **Window > Show View > Other** and select **Gradle > Gradle Tasks**.  You can initiate any task from this window.  Select the **Run** task to run the sample defined in the build script. 
+4. Now you should now see the Gradle tasks view, if you don't select **Window > Show View > Other** and select **Gradle > Gradle Tasks**.  You can initiate any task from this window.  Select the **Run** task to run the sample defined in the build script. 
 
 ![Running a sample from Eclipse](run-eclipse.png)
 
