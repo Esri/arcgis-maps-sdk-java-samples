@@ -84,12 +84,12 @@ $ git merge upstream/master
 ```
 
 ## Run the samples
-Once the samples have been forked/cloned locally to your machine you need to add the following from the SDK download.  
+Once the samples have been forked/cloned locally to your machine you need to add the following from the SDK download to the sample project you forked/cloned.  
 
-- Copy the contents of **JavaSDK100.0.0/ArcGISRuntime100.0.0/** to the root of your samples project.
-- Copy the SDK jar file from **JavaSDK100.0.0/sdk/jars/ArcGISRuntime_Java.jar** to the **libs/** folder in the root of your sample project.  You will need to create the **libs/** folder.  
+- Copy the contents of **JavaSDK100.0.0/ArcGISRuntime100.0.0/** to the root of your samples project on disk, e.g. /[clone-dir]/arcgis-runtime-samples-java/.
+- Copy the SDK jar file from **JavaSDK100.0.0/sdk/jars/ArcGISRuntime_Java.jar** to the **libs/** folder in the root of your sample project.  You will need to create the **libs/** folder, e.g. /[clone-dir]/arcgis-runtime-samples-java/libs/.  
 
-Your project structure should look like the following:  
+Your project structure should look like the following underneath the root project folder, **arcgis-runtime-samples-java**:  
 
 ![project structure](project-structure.png)
 
