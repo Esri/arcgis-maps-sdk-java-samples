@@ -86,8 +86,8 @@ $ git merge upstream/master
 ## Run the samples
 Once the samples have been forked/cloned locally to your machine you need to add the following from the SDK download to the sample project you forked/cloned.  
 
-- Copy the contents of **JavaSDK100.0.0/ArcGISRuntime100.0.0/** to the root of your samples project on disk, e.g. /[clone-dir]/arcgis-runtime-samples-java/.
-- Copy the SDK jar file from **JavaSDK100.0.0/sdk/jars/ArcGISRuntime_Java.jar** to the **libs/** folder in the root of your sample project.  You will need to create the **libs/** folder, e.g. /[clone-dir]/arcgis-runtime-samples-java/libs/.  
+- Copy the contents of **JavaSDK100.0.0/ArcGISRuntime100.0.0/** to the root of your samples repo on disk, e.g. /[clone-dir]/arcgis-runtime-samples-java/.
+- Copy the SDK jar file from **JavaSDK100.0.0/sdk/jars/ArcGISRuntime_Java.jar** to the **libs/** folder in the root of your sample repo.  You will need to create the **libs/** folder, e.g. /[clone-dir]/arcgis-runtime-samples-java/libs/.  
 
 Your project structure should look like the following underneath the root project folder, **arcgis-runtime-samples-java**:  
 
@@ -97,7 +97,7 @@ Your project structure should look like the following underneath the root projec
 The samples can be run in any java build development system.  For ease of use we are providing a [gradle](https://gradle.org/) build script to easily build and run any samples from a terminal prompt or from within an IDE that supports gradle.  New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
 
 ### Gradle build file
-The gradle build file, **build.gradle** is located at the root of the project.  The samples are all listed as source files by package name and class name.  Change the value of the following configuration in your build.gradle file to run any of the samples.  By default the project is set to run the Set Initial Map Locaiton sample as shown below:  
+The gradle build file, **build.gradle** is located at the root of the sample repo.  The samples are all listed as source files by package name and class name.  Change the value of the following configuration in your build.gradle file to run any of the samples.  By default the project is set to run the [Set Initial Map Location](https://developers.arcgis.com/java/beta/sample-code/set-initial-map-location.htm) sample as shown below:  
 
 ```groovy
 mainClassName = 'com.esri.sampleviewer.samples.map.SetInitialMapLocation'
@@ -123,7 +123,7 @@ Windows
 ```
 
 ## Import samples into developer IDE
-Once you have the project structure in place from above you can import into your favorite IDE or use text editors like Atom or Sublime Text.  
+Once you have the sample repo directory structure in place from above you can import into your favorite IDE or use text editors like Atom or Sublime Text.  
 
 ### IntelliJ IDEA
 To import the project into IntelliJ IDEA, follow these steps:  
@@ -154,7 +154,7 @@ Once you have the plugin installed you can import the sample project into Ecilps
 ![Running a sample from Eclipse](run-eclipse.png)
 
 ## Project Structure
-Here is what the project structure looks like in Eclipse and IntelliJ IDEA where you can use either IDE to continue to work with the samples repository.  
+Here is what the sample repo IDE project structure looks like in Eclipse and IntelliJ IDEA where you can use either IDE to continue to work with the samples repository.  
 
 |IntelliJ IDEA                                     | Eclipse                                          |
 |:------------------------------------------------:|:------------------------------------------------:|
