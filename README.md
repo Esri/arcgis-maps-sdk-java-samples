@@ -97,7 +97,7 @@ Your project structure should look like the following underneath the root projec
 ![project structure](project-structure.png)
 
 ### Gradle
-For ease of use  New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
 
 ### Gradle build file
 The gradle build file, **build.gradle** is located at the root of the sample repo.  The samples are all listed as source files by package name and class name.  Change the value of the following configuration in your build.gradle file to run any of the samples.  By default the project is set to run the [Set Initial Map Location](https://developers.arcgis.com/java/beta/sample-code/set-initial-map-location.htm) sample as shown below:  
@@ -113,7 +113,7 @@ mainClassName = 'com.esri.sampleviewer.samples.graphicsoverlay.IdentifyGraphic'
 ```
 
 - Open a terminal (Mac users) or command prompt (Windows & Linux users)
-- cd into the project directory and run the following command
+- cd into the the sample repo directory and run the following command
 
 Linux/Mac
 ```
@@ -126,7 +126,7 @@ Windows
 ```
 
 ## Import samples into developer IDE
-Once you have the sample repo directory structure in place from above you can import into your favorite IDE or use text editors like Atom or Sublime Text.  
+Once you have the sample repo directory structure in place from above you can import into your favorite IDE.  We will step through [IntelliJ IDEA](https://www.jetbrains.com/idea/) and [Eclipse](https://eclipse.org/) as they both have excellent gradle support.   
 
 ### IntelliJ IDEA
 To import the project into IntelliJ IDEA, follow these steps:  
@@ -147,7 +147,7 @@ Install the [Buildship](https://projects.eclipse.org/projects/tools.buildship) E
 3. Click the **Add** button. 
 4. Create a name for the site, e.g **Buildship Gradle plugin** and add the following url to the **Location** http://download.eclipse.org/buildship/updates/e45/releases and click **OK**.
 
-Once you have the plugin installed you can import the sample project into Ecilpse.  
+Once you have the plugin installed you can import the sample project into Eclipse.  
 
 1. From the Eclipse toolbar select **File > Import**.
 2. Select **Gradle > Gradle Project** and click Next on the Welcome dialog. 
