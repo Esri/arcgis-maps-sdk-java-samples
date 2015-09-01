@@ -7,6 +7,10 @@ gen/
 libs/
 ArcGISRuntime100.0.0/
 
+# Local configuration file (sdk path, etc)
+local.properties
+.gradle/
+
 # compilation files #
 *.class
 
