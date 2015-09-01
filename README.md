@@ -84,6 +84,9 @@ $ git merge upstream/master
 ```
 
 ## Run the samples
+The samples need to be compiled before running them.  Please refer to our [Develop your first map app](https://developers.arcgis.com/java/beta/guide/develop-your-first-map-app.htm) for instructions about using Eclipse or NetBeans to compile and run ArcGIS Java SDK projects.  For convenience, we provide a [gradle](https://gradle.org/) build script to easily build and run any samples from a terminal prompt or from within an IDE that supports gradle.  Please continue with the following sections if interested in using gradle build automation system to compile and run the samples.  
+
+### Add SDK resources
 Once the samples have been forked/cloned locally to your machine you need to add the following from the SDK download to the sample project you forked/cloned.  
 
 - Copy the contents of **JavaSDK100.0.0/ArcGISRuntime100.0.0/** to the root of your samples repo on disk, e.g. /[clone-dir]/arcgis-runtime-samples-java/.
@@ -94,7 +97,7 @@ Your project structure should look like the following underneath the root projec
 ![project structure](project-structure.png)
 
 ### Gradle
-The samples can be run in any java build development system.  For ease of use we are providing a [gradle](https://gradle.org/) build script to easily build and run any samples from a terminal prompt or from within an IDE that supports gradle.  New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+For ease of use  New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
 
 ### Gradle build file
 The gradle build file, **build.gradle** is located at the root of the sample repo.  The samples are all listed as source files by package name and class name.  Change the value of the following configuration in your build.gradle file to run any of the samples.  By default the project is set to run the [Set Initial Map Location](https://developers.arcgis.com/java/beta/sample-code/set-initial-map-location.htm) sample as shown below:  
