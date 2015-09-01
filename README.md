@@ -156,12 +156,15 @@ Once you have the plugin installed you can import the sample project into Eclips
 
 ![Running a sample from Eclipse](run-eclipse.png)
 
-## Project Structure
+### Project Structure
 Here is what the sample repo IDE project structure looks like in Eclipse and IntelliJ IDEA where you can use either IDE to continue to work with the samples repository.  
 
 |IntelliJ IDEA                                     | Eclipse                                          |
 |:------------------------------------------------:|:------------------------------------------------:|
 |![IntelliJ IDEA](intelliJ-project-structure.png)  | ![Eclipse](eclipse-project-structure.png)        |
+
+## Other IDE's
+Netbeans has support through the [gradle-support](http://plugins.netbeans.org/plugin/44510/gradle-support) plugin.  The plugin documentation can be found [here](https://github.com/kelemen/netbeans-gradle-project/wiki).
 
 ## Resources
 
