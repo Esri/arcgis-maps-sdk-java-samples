@@ -23,14 +23,10 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -41,9 +37,11 @@ public class ChangeBasemap extends Application {
     private MapView mapView;
     private Map map;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    // set the strings for the combo box
+    private final String streets = "Streets";
+    private final String topo = "Topographic";
+    private final String gray = "Gray";
+    private final String oceans = "Oceans";
 
     @Override
     public void start(Stage stage) {
@@ -56,36 +54,40 @@ public class ChangeBasemap extends Application {
         stage.setWidth(800);
         stage.setHeight(600);
 
+        // create a HBox layout pane
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(5, 5, 5, 5));
         hbox.setSpacing(10);
+        // set background primary color blue
         hbox.setStyle("-fx-background-color: #2196F3");
-
+        // create a label
         Label label = new Label("Choose Basemap: ");
-        label.setTextFill(Color.web("#212121"));
+        label.setTextFill(Color.web("#FFFFFF"));
 
+        // create a combo box
         ComboBox basemapComboBox = new ComboBox();
-        basemapComboBox.getItems().addAll("Streets", "Topographic", "Gray", "Oceans");
-        basemapComboBox.setPromptText("Choose Basemap");
-        basemapComboBox.setEditable(true);
+        basemapComboBox.getItems().addAll(streets, topo, gray, oceans);
+        basemapComboBox.getSelectionModel().select(topo);
+        basemapComboBox.setEditable(false);
+        // add change listener on combo box
         basemapComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String value, String name) {
                 // handle combo box item selection
-                switch(name){
-                    case "Streets":
+                switch (name) {
+                    case streets:
                         // create a map with Streets Basemap
                         map.setBasemap(Basemap.createStreets());
                         break;
-                    case "Topographic":
+                    case topo:
                         // create a map with Topographic Basemap
                         map.setBasemap(Basemap.createTopographic());
                         break;
-                    case "Gray":
+                    case gray:
                         // create a map with Gray Basemap
                         map.setBasemap(Basemap.createLightGrayCanvas());
                         break;
-                    case "Oceans":
+                    case oceans:
                         // create a map with Oceans Basemap
                         map.setBasemap(Basemap.createOceans());
                         break;
@@ -95,18 +97,20 @@ public class ChangeBasemap extends Application {
             }
         });
 
+        // add lable and combo box to hbox
         hbox.getChildren().addAll(label, basemapComboBox);
 
-        //make a new map using National Geographic mapping centred over East Scotland at zoom level 10.
+        //make a new map using Topographic mapping centred over East Scotland at zoom level 10.
         map = new Map(BasemapType.TOPOGRAPHIC, 56.075844,-2.681572, 10);
 
         // create the MapView JavaFX control and assign its map
         mapView = new MapView();
         mapView.setMap(map);
 
+        // set the panes to the border
         borderPane.setTop(hbox);
         borderPane.setCenter(mapView);
-
+        // show stage
         stage.setScene(scene);
         stage.show();
 
@@ -119,6 +123,10 @@ public class ChangeBasemap extends Application {
         map.dispose();
         System.exit(0);
 
-    };
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 }
