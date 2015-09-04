@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
  See the License for the specific language governing permissions and
 limitations under the License.  */
 
-package com.esri.sampleviewer.samples.editing;
+package main.java.com.esri.sampleviewer.samples.editing;
 
 import java.util.HashMap;
 import java.util.List;
@@ -113,7 +113,7 @@ public class AddFeatures extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
+  }
   
   private void addFeature(Point point) {
     System.out.println("adding feature");

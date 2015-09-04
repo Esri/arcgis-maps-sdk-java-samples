@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
  See the License for the specific language governing permissions and
 limitations under the License.  */
 
-package com.esri.sampleviewer.samples.editing;
+package main.java.com.esri.sampleviewer.samples.editing;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -112,9 +112,12 @@ public class EditAttributes extends Application {
         }
       });
       
-      //hbox to contain button
+      // hbox to contain button
       HBox buttonBox = new HBox();
       buttonBox.getChildren().add(btnUpdateAttributes);
+      
+      // set background primary color blue
+      buttonBox.setStyle("-fx-background-color: #2196F3");
       
       // add the MapView
       borderPane.setCenter(mapView);
@@ -142,8 +145,7 @@ public class EditAttributes extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
-
+  }
   
   private void selectFeature(Point point) {
     //create a buffer from the point which is based on 10 pixels at the current zoom scale
