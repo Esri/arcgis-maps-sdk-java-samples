@@ -139,7 +139,7 @@ public class DeleteFeatures extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
+  }
   
   private void selectFeature(Point point) {
     //create a buffer from the point which is based on 10 pixels at the current zoom scale
@@ -183,7 +183,7 @@ public class DeleteFeatures extends Application {
         @Override
         public void run() {
           try {
-            if(result.get() == true) {
+            if(result.get()) {
               applyEdits();
             }
           } catch (InterruptedException | ExecutionException e) {

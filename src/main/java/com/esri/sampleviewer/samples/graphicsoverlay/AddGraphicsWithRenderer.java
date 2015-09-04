@@ -69,8 +69,11 @@ public class AddGraphicsWithRenderer extends Application {
       // add the MapView
       borderPane.setCenter(mapView);
 
-      // add graphics overlay to MapView.
-      GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);
+      // creates the graphics overlay
+      GraphicsOverlay graphicsOvelay = new GraphicsOverlay();
+
+      // adds the overlay to the map view
+      mapView.getGraphicsOverlays().add(graphicsOvelay);
       
       //add nesting locations rendered per bird
       addNestingLocations(graphicsOvelay);
@@ -87,23 +90,13 @@ public class AddGraphicsWithRenderer extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
+  }
 
   public static void main(String[] args) {
     Application.launch(args);
   }
   
-  private GraphicsOverlay addGraphicsOverlay(MapView mapView) {
-    //create the graphics overlay
-    GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-    
-    //add the overlay to the map view
-    mapView.getGraphicsOverlays().add(graphicsOverlay);
-    
-    return graphicsOverlay;
-  }
-  
-  private void addNestingLocations(GraphicsOverlay graphicOverlay) {
+  private void addNestingLocations(GraphicsOverlay graphicsOverlay) {
     
     //Gannet locations
     Point gannet1Loc = new Point(-2.6419183006274025,56.07737682015417, wgs84);
@@ -176,7 +169,7 @@ public class AddGraphicsWithRenderer extends Application {
     uniqueValRenderer.getUniqueValues().add(uvEider);
     
     //apply the renderer to the graphics overlay
-    graphicOverlay.setRenderer(uniqueValRenderer);
+    graphicsOverlay.setRenderer(uniqueValRenderer);
     
 
     //graphics for Eider Ducks
@@ -210,16 +203,16 @@ public class AddGraphicsWithRenderer extends Application {
     puffin2.getAttributes().put("SEABIRD", "Puffin");
     
     //add all sea birds to graphics overlay
-    graphicOverlay.getGraphics().add(puffin1);
-    graphicOverlay.getGraphics().add(puffin2);
-    graphicOverlay.getGraphics().add(fulmar1);
-    graphicOverlay.getGraphics().add(fulmar2);
-    graphicOverlay.getGraphics().add(fulmar3);
-    graphicOverlay.getGraphics().add(fulmar4);
-    graphicOverlay.getGraphics().add(fulmar5);
-    graphicOverlay.getGraphics().add(fulmar6);
-    graphicOverlay.getGraphics().add(gannet1);
-    graphicOverlay.getGraphics().add(eider1);
-    graphicOverlay.getGraphics().add(eider2);
+    graphicsOverlay.getGraphics().add(puffin1);
+    graphicsOverlay.getGraphics().add(puffin2);
+    graphicsOverlay.getGraphics().add(fulmar1);
+    graphicsOverlay.getGraphics().add(fulmar2);
+    graphicsOverlay.getGraphics().add(fulmar3);
+    graphicsOverlay.getGraphics().add(fulmar4);
+    graphicsOverlay.getGraphics().add(fulmar5);
+    graphicsOverlay.getGraphics().add(fulmar6);
+    graphicsOverlay.getGraphics().add(gannet1);
+    graphicsOverlay.getGraphics().add(eider1);
+    graphicsOverlay.getGraphics().add(eider2);
   }
 }

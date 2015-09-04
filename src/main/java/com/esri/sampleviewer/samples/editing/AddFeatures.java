@@ -113,7 +113,7 @@ public class AddFeatures extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
+  }
   
   private void addFeature(Point point) {
     System.out.println("adding feature");
@@ -136,7 +136,7 @@ public class AddFeatures extends Application {
       public void run() {
         //was it successful?
         try {
-          if (result.get() == true) {
+          if (result.get()) {
             System.out.println("Feature added!");
             
             //apply edits to the server

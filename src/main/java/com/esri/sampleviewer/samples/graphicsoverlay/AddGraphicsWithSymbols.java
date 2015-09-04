@@ -77,8 +77,11 @@ public class AddGraphicsWithSymbols extends Application {
       // add the MapView
       borderPane.setCenter(mapView);
 
-      // add graphics overlay to MapView.
-      GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);
+      // creates the graphics overlay
+      GraphicsOverlay graphicsOvelay = new GraphicsOverlay();
+
+      // adds the overlay to the map view
+      mapView.getGraphicsOverlays().add(graphicsOvelay);
       
       //add some buoy positions to the graphics overlay
       addBuoyPoints(graphicsOvelay);
@@ -104,23 +107,13 @@ public class AddGraphicsWithSymbols extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
+  }
 
   public static void main(String[] args) {
     Application.launch(args);
   }
   
-  private GraphicsOverlay addGraphicsOverlay(MapView mapView) {
-    //create the graphics overlay
-    GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-    
-    //add the overlay to the map view
-    mapView.getGraphicsOverlays().add(graphicsOverlay);
-    
-    return graphicsOverlay;
-  }
-  
-  private void addBuoyPoints(GraphicsOverlay graphicOverlay) {
+  private void addBuoyPoints(GraphicsOverlay graphicsOverlay) {
     //define the buoy locations
     Point buoy1Loc = new Point(-2.712642647560347,56.062812566811544,wgs84);
     Point buoy2Loc = new Point(-2.6908416959572303,56.06444173689877,wgs84);
@@ -137,14 +130,14 @@ public class AddGraphicsWithSymbols extends Application {
     Graphic buoyGraphic4 = new Graphic(buoy4Loc, boueyMarker);
     
     //add the graphics to the graphics overlay
-    graphicOverlay.getGraphics().add(buoyGraphic1);
-    graphicOverlay.getGraphics().add(buoyGraphic2);
-    graphicOverlay.getGraphics().add(buoyGraphic3);
-    graphicOverlay.getGraphics().add(buoyGraphic4);
+    graphicsOverlay.getGraphics().add(buoyGraphic1);
+    graphicsOverlay.getGraphics().add(buoyGraphic2);
+    graphicsOverlay.getGraphics().add(buoyGraphic3);
+    graphicsOverlay.getGraphics().add(buoyGraphic4);
     
   }
   
-  private void addText(GraphicsOverlay graphicOverlay) {
+  private void addText(GraphicsOverlay graphicsOverlay) {
   //create a point geometry
   Point bassLocation = new Point(-2.640631, 56.078083,wgs84);
   Point craigleithLocation = new Point (-2.720324, 56.073569,wgs84);
@@ -164,11 +157,11 @@ public class AddGraphicsWithSymbols extends Application {
   Graphic craigleithGraphic = new Graphic(craigleithLocation, craigleithSymbol);
   
   //add the text to the graphics overlay
-  graphicOverlay.getGraphics().add(bassRockGraphic);
-  graphicOverlay.getGraphics().add(craigleithGraphic);
+  graphicsOverlay.getGraphics().add(bassRockGraphic);
+  graphicsOverlay.getGraphics().add(craigleithGraphic);
   }
   
-  private void addBoatTrip(GraphicsOverlay graphicOverlay) {
+  private void addBoatTrip(GraphicsOverlay graphicsOverlay) {
     //define a polyline for the boat trip
     Polyline boatRoute = getBoatTripGeometry();
     
@@ -179,11 +172,11 @@ public class AddGraphicsWithSymbols extends Application {
     Graphic boatTripGraphic = new Graphic(boatRoute, lineSymbol);
     
     //add to the graphic overlay
-    graphicOverlay.getGraphics().add(boatTripGraphic);
+    graphicsOverlay.getGraphics().add(boatTripGraphic);
     
   }
   
-  private void addNestingGround(GraphicsOverlay graphicOverlay) {
+  private void addNestingGround(GraphicsOverlay graphicsOverlay) {
     
     //define the polygon for the nesting ground
     Polygon nestingGround = getNestingGroundGeometry();
@@ -203,7 +196,7 @@ public class AddGraphicsWithSymbols extends Application {
     Graphic nestingGraphic = new Graphic(nestingGround,fillSymbol);
     
     //add to graphics overlay
-    graphicOverlay.getGraphics().add(nestingGraphic);
+    graphicsOverlay.getGraphics().add(nestingGraphic);
     
   }
   

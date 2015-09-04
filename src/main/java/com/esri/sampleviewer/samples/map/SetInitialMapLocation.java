@@ -15,6 +15,7 @@ limitations under the License.  */
 package com.esri.sampleviewer.samples.map;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -69,9 +70,9 @@ public class SetInitialMapLocation extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
-  };
+  }
 
   public static void main(String[] args) {
     Application.launch(args);

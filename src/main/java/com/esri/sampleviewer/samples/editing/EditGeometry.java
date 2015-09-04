@@ -141,8 +141,7 @@ public class EditGeometry extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
-
+  }
   
   private void selectFeature(Point point) {
     //create a buffer from the point which is based on 10 pixels at the current zoom scale
