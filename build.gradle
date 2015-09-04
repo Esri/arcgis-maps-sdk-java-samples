@@ -1,0 +1,23 @@
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+apply plugin: 'application'
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    jcenter()
+}
+
+// configure the main class (entry point) you want to run here
+mainClassName = 'com.esri.sampleviewer.samples.map.SetInitialMapLocation'
+
+// In this section you declare the dependencies
+dependencies {
+    // local binary dependency
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // arcgis-java dependencies
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'org.apache.httpcomponents:httpclient:4.3.3'
+    compile 'org.apache.httpcomponents:httpcore:4.3.3'
+    compile 'commons-codec:commons-codec:1.6'
+    compile 'commons-logging:commons-logging:1.1.3'
+}

@@ -34,6 +34,7 @@ $ git clone https://github.com/YOUR-USERNAME/arcgis-runtime-samples-java.git
 To sync changes you make in a fork with this repository, you must configure a remote that points to the upstream repository in Git.
 
 - Open a terminal (Mac users) or command prompt (Windows & Linux users)
+- cd into the project directory you just cloned
 - List the current configured remote repository for your fork
 
 ```
@@ -81,6 +82,89 @@ $ git checkout master
 ```
 $ git merge upstream/master
 ```
+
+## Run the samples
+The samples need to be compiled before running them.  Please refer to our [Develop your first map app](https://developers.arcgis.com/java/beta/guide/develop-your-first-map-app.htm) for instructions about using Eclipse or NetBeans to compile and run ArcGIS Java SDK projects.  For convenience, we provide a [gradle](https://gradle.org/) build script to easily build and run any samples from a terminal prompt or from within an IDE that supports gradle.  Please continue with the following sections if interested in using gradle build automation system to compile and run the samples.  
+
+### Add SDK resources
+Once the samples have been forked/cloned locally to your machine you need to add the following from the SDK download to the sample project you forked/cloned.  
+
+- Copy the contents of **JavaSDK100.0.0/ArcGISRuntime100.0.0/** to the root of your samples repo on disk, e.g. /[clone-dir]/arcgis-runtime-samples-java/.
+- Copy the SDK jar file from **JavaSDK100.0.0/sdk/jars/ArcGISRuntime_Java.jar** to the **libs/** folder in the root of your sample repo.  You will need to create the **libs/** folder, e.g. /[clone-dir]/arcgis-runtime-samples-java/libs/.  
+
+Your project structure should look like the following underneath the root project folder, **arcgis-runtime-samples-java**:  
+
+![project structure](project-structure.png)
+
+### Gradle
+New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+
+### Gradle build file
+The gradle build file, **build.gradle** is located at the root of the sample repo.  The samples are all listed as source files by package name and class name.  Change the value of the following configuration in your build.gradle file to run any of the samples.  By default the project is set to run the [Set Initial Map Location](https://developers.arcgis.com/java/beta/sample-code/set-initial-map-location.htm) sample as shown below:  
+
+```groovy
+mainClassName = 'com.esri.sampleviewer.samples.map.SetInitialMapLocation'
+```
+
+If you want to run the Identify Graphic sample change the configuration to the following:  
+
+```groovy
+mainClassName = 'com.esri.sampleviewer.samples.graphicsoverlay.IdentifyGraphic'
+```
+
+- Open a terminal (Mac users) or command prompt (Windows & Linux users)
+- cd into the the sample repo directory and run the following command
+
+Linux/Mac
+```
+$ ./gradlew clean run --info
+```
+
+Windows
+```
+> gradlew.bat clean run --info
+```
+
+## Import samples into developer IDE
+Once you have the sample repo directory structure in place from above you can import into your favorite IDE.  We will step through [IntelliJ IDEA](https://www.jetbrains.com/idea/) and [Eclipse](https://eclipse.org/) as they both have excellent gradle support.   
+
+### IntelliJ IDEA
+To import the project into IntelliJ IDEA, follow these steps:  
+
+1. If no project is open, click **Import Projects** on the Welcome screen. Otherwise, select **File > New > Project from Existing Sources**.
+2. In the select path dialog, select the directory that contains the samples project.
+3. On the project model select dialog, select Gradle, and click Next
+4. On the next page specify Gradle project settings to use the gradle wrapper and click Finish.  
+5. You can see the Gradle tasks by selecting **View > Tool Windows > Gradle**.  Select the Run task to run the sample defined in the build script.
+
+![Running a sample from IntelliJ IDEA](run-intellij.png)
+
+### Eclipse 
+Install the [Buildship](https://projects.eclipse.org/projects/tools.buildship) Eclipse Gradle plugin
+
+1. From Eclipse toolbar select **Help > Install New Software...**
+2. Click the **Available Software Sites** link in the upper right hand corner of the Intall dialog.
+3. Click the **Add** button. 
+4. Create a name for the site, e.g **Buildship Gradle plugin** and add the following url to the **Location** http://download.eclipse.org/buildship/updates/e45/releases and click **OK**.
+
+Once you have the plugin installed you can import the sample project into Eclipse.  
+
+1. From the Eclipse toolbar select **File > Import**.
+2. Select **Gradle > Gradle Project** and click Next on the Welcome dialog. 
+3. Browse to the directory where you forked/cloned the samples project repository and click **OK** and then **Finish** to exit the wizard.
+4. Now you should now see the Gradle tasks view, if you don't select **Window > Show View > Other** and select **Gradle > Gradle Tasks**.  You can initiate any task from this window.  Select the **Run** task to run the sample defined in the build script. 
+
+![Running a sample from Eclipse](run-eclipse.png)
+
+### Project Structure
+Here is what the sample repo IDE project structure looks like in Eclipse and IntelliJ IDEA where you can use either IDE to continue to work with the samples repository.  
+
+|IntelliJ IDEA                                     | Eclipse                                          |
+|:------------------------------------------------:|:------------------------------------------------:|
+|![IntelliJ IDEA](intelliJ-project-structure.png)  | ![Eclipse](eclipse-project-structure.png)        |
+
+## Other IDE's
+Netbeans has support through the [gradle-support](http://plugins.netbeans.org/plugin/44510/gradle-support) plugin.  The plugin documentation can be found [here](https://github.com/kelemen/netbeans-gradle-project/wiki).
 
 ## Resources
 

@@ -4,7 +4,13 @@
 /build/
 /bin/
 gen/
-lib/
+libs/
+ArcGISRuntime100.0.0/
+
+# Local configuration file (sdk path, etc)
+local.properties
+.gradle/
+*.properties
 
 # compilation files #
 *.class
