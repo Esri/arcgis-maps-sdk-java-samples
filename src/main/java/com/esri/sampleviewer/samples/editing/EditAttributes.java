@@ -47,7 +47,8 @@ import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 /**
- * This sample shows how to edit attributes on features and commit the changes back to the feature service.
+ * This sample shows how to edit attributes on features and commit the changes
+ * back to the feature service.
  */
 
 public class EditAttributes extends Application {
@@ -57,6 +58,7 @@ public class EditAttributes extends Application {
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
   private FeatureQueryResult selectedFeatures;
+
   private Button btnUpdateAttributes;
 
   @Override
@@ -66,7 +68,8 @@ public class EditAttributes extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Edit attributes: Click on a feature to select, then press the update attributes button");
+    stage
+        .setTitle("Edit attributes: Click on a feature to select, then press the update attributes button");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
@@ -75,62 +78,64 @@ public class EditAttributes extends Application {
     // create a Map which defines the layers of data to view
     try {
       map = new Map(Basemap.createStreets());
-      
+
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
       mapView.setMap(map);
-      
+
       // listen into click events for selecting features
-      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-          // Respond to primary (left) button only
-          if (event.getButton() == MouseButton.PRIMARY)
-          {
-            //create a screen point from the mouse event
-            Point2D pt = new Point2D(event.getX(), event.getY());
-            
-            //convert this to a map coordinate
-            Point mapPoint = mapView.screenToLocation(pt);
-  
-            //add a feature to be updated
-            selectFeature(mapPoint);
-          }
-        }
-      });
-      
-      // Button for updating attributes
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED,
+          new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+              // respond to primary (left) button only
+              if (event.getButton() == MouseButton.PRIMARY) {
+                // create a screen point from the mouse event
+                Point2D pt = new Point2D(event.getX(), event.getY());
+
+                // convert this to a map coordinate
+                Point mapPoint = mapView.screenToLocation(pt);
+
+                // add a feature to be updated
+                selectFeature(mapPoint);
+              }
+            }
+          });
+
+      // button for updating attributes
       btnUpdateAttributes = new Button("Update attributes");
       btnUpdateAttributes.setDisable(true);
-      
+
       // click event for button
       btnUpdateAttributes.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-          //update the selected attributes
+          // update the selected attributes
           updateAttributes();
         }
       });
-      
-      //hbox to contain button
+
+      // hbox to contain button
       HBox buttonBox = new HBox();
       buttonBox.getChildren().add(btnUpdateAttributes);
-      
+
       // add the MapView
       borderPane.setCenter(mapView);
       borderPane.setTop(buttonBox);
-      
-      //generate feature table from service
-      damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+
+      // generate feature table from service
+      damageTable = new ServiceFeatureTable(
+          "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
       damageTable.getOutFields().add("*");
-      
-      //create feature layer from the table
+
+      // create feature layer from the table
       damageFeatureLayer = new FeatureLayer(damageTable);
-      
-      //add the layer to the map
+
+      // add the layer to the map
       map.getOperationalLayers().add(damageFeatureLayer);
-      
+
     } catch (Exception e) {
+      // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
@@ -143,112 +148,119 @@ public class EditAttributes extends Application {
     Platform.exit();
     System.exit(0);
   }
-  
+
   private void selectFeature(Point point) {
-    //create a buffer from the point which is based on 10 pixels at the current zoom scale
-    Polygon searchGeometry = GeometryEngine.buffer(point, mapView.getUnitsPerPixel() * 10);
-    
-    //create a query
+    // create a buffer from the point which is based on 10 pixels at the current
+    // zoom scale
+    Polygon searchGeometry = GeometryEngine.buffer(point,
+        mapView.getUnitsPerPixel() * 10);
+
+    // create a query
     QueryParameters queryParams = new QueryParameters();
     queryParams.setGeometry(searchGeometry);
     queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
     queryParams.getOutFields().add("*");
-    
-    //select based on the query
-    ListenableFuture<FeatureQueryResult> result =  damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
-    
+
+    // select based on the query
+    ListenableFuture<FeatureQueryResult> result = damageFeatureLayer
+        .selectFeatures(queryParams, SelectionMode.NEW);
+
     try {
-      //save the selected features
+      // save the selected features
       selectedFeatures = result.get();
-      
-      //see if there is anything in the list and null it if empty
-      if (selectedFeatures.iterator().hasNext()== false) {
+
+      // see if there is anything in the list and null it if empty
+      if (!selectedFeatures.iterator().hasNext()) {
         selectedFeatures = null;
       } else {
         // we have features so enable the button
         btnUpdateAttributes.setDisable(false);
       }
-      
+
     } catch (InterruptedException | ExecutionException e) {
+      // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
-  
+
   private void updateAttributes() {
-    
-    //loop through the selected features
+
+    // loop through the selected features
     if (selectedFeatures != null) {
       for (Feature feature : selectedFeatures) {
-        //change the damage type
-        String updDamageType = changeDamageType((String) feature.getAttributes().get("typdamage"));
-        
-        //put it in the attribute
+        // change the damage type
+        String updDamageType = changeDamageType((String) feature
+            .getAttributes().get("typdamage"));
+
+        // put it in the attribute
         feature.getAttributes().put("typdamage", updDamageType);
-        
-        //update the feature
+
+        // update the feature
         try {
           if (damageTable.updateFeatureAsync(feature).get()) {
             // Successfully updated so apply to service
             applyEdits();
-
-          };
+          }
         } catch (InterruptedException | ExecutionException e) {
+          // on any error, display the stack trace.
           e.printStackTrace();
         }
-        
-        //finally clear the selection
+
+        // finally clear the selection
         damageFeatureLayer.clearSelection();
         selectedFeatures = null;
-        
-        //disable the button
+
+        // disable the button
         btnUpdateAttributes.setDisable(true);
       }
     }
   }
-  
+
   private void applyEdits() {
-    final ListenableFuture<List<FeatureEditResult>> result = damageTable.applyEditsAsync();
-    
+    final ListenableFuture<List<FeatureEditResult>> result = damageTable
+        .applyEditsAsync();
+
     result.addDoneListener(new Runnable() {
 
       @Override
       public void run() {
-        //attempt to get the edit results
+        // attempt to get the edit results
         try {
           List<FeatureEditResult> editResults = result.get();
-          
-          //code goes here to examine the edit results
+
+          // code goes here to examine the edit results
           System.out.println("Results applied to service");
-          
+
         } catch (InterruptedException | ExecutionException e) {
           e.printStackTrace();
         }
-        
-      }});
+
+      }
+    });
   }
-  
+
   private String changeDamageType(String originalDamageType) {
-    
-    //a default return value
+
+    // a default return value
     String updatedDamageType = "Affected";
-    
-    //return a value which is different to the original
-    switch(originalDamageType) {
-      case "Affected":
-        updatedDamageType = "Destroyed";
-        break;
-      case "Destroyed":
-        updatedDamageType = "Inaccessible";
-        break;
-      case "Inaccessible":
-        updatedDamageType = "Major";
-        break;
-      case "Major":
-        updatedDamageType = "Minor";
-        break;
-      case "Minor":
-        updatedDamageType = "Affected";
-        break;
+
+    // return a value which is different to the original
+    switch (originalDamageType) {
+    case "Affected":
+      updatedDamageType = "Destroyed";
+      break;
+    case "Destroyed":
+      updatedDamageType = "Inaccessible";
+      break;
+    case "Inaccessible":
+      updatedDamageType = "Major";
+      break;
+    case "Major":
+      updatedDamageType = "Minor";
+      break;
+    case "Minor":
+      updatedDamageType = "Affected";
+      break;
     }
     return updatedDamageType;
   }

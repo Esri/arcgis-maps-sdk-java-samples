@@ -43,8 +43,8 @@ import com.esri.arcgisruntime.symbology.UniqueValue;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 
 /**
- * This sample shows how you can listen into the click event of your map view
- * to find out which graphics are under your mouse pointer.
+ * This sample shows how you can listen into the click event of your map view to
+ * find out which graphics are under your mouse pointer.
  */
 
 public class IdentifyGraphic extends Application {
@@ -60,16 +60,17 @@ public class IdentifyGraphic extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Identify graphics : Click on graphics to identify seabirds");
+    stage
+        .setTitle("Identify graphics : Click on graphics to identify seabirds");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
     stage.show();
-    
+
     try {
-      //create a new map with a light grey canvas.
-      map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
-      
+      // create a new map with a light grey canvas.
+      map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
+
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
       mapView.setMap(map);
@@ -82,42 +83,45 @@ public class IdentifyGraphic extends Application {
 
       // adds the overlay to the map view
       mapView.getGraphicsOverlays().add(graphicsOverlay);
-      
-      //add nesting locations rendered per bird
+
+      // add nesting locations rendered per bird
       addNestingLocations(graphicsOverlay);
-      
-      //listen into click events on the map view
-      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-          // Respond to primary (left) button only
-          if (event.getButton() == MouseButton.PRIMARY)
-          {
-            //make a screen coordinate from the clicked location
-            Point2D clickedPoint = new Point2D(event.getX(), event.getY());
-  
-            // identify graphics on the graphics overlay
-            final ListenableFuture<List<Graphic>> identifyGraphics = 
-                mapView.identifyGraphicsOverlay(graphicsOverlay, clickedPoint, 10, 2);
-  
-            identifyGraphics.addDoneListener(new Runnable() {
-  
-              @Override
-              public void run() {
-                //wait to do this on the UI thread
-                Platform.runLater(new Runnable() {
-                  
+
+      // listen into click events on the map view
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED,
+          new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+              // Respond to primary (left) button only
+              if (event.getButton() == MouseButton.PRIMARY) {
+                // make a screen coordinate from the clicked location
+                Point2D clickedPoint = new Point2D(event.getX(), event.getY());
+
+                // identify graphics on the graphics overlay
+                final ListenableFuture<List<Graphic>> identifyGraphics = mapView
+                    .identifyGraphicsOverlay(graphicsOverlay, clickedPoint, 10,
+                        2);
+
+                identifyGraphics.addDoneListener(new Runnable() {
+
                   @Override
                   public void run() {
-                    //when the layer is loaded refresh the layer list
-                    seaBirdDialog(identifyGraphics);
-                    
+                    // wait to do this on the UI thread
+                    Platform.runLater(new Runnable() {
+
+                      @Override
+                      public void run() {
+                        // when the layer is loaded refresh the layer list
+                        seaBirdDialog(identifyGraphics);
+
+                      }
+                    });
                   }
                 });
-              }});
-          }
-        }});
-      
+              }
+            }
+          });
+
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -131,7 +135,7 @@ public class IdentifyGraphic extends Application {
     Platform.exit();
     System.exit(0);
   }
-  
+
   public void seaBirdDialog(ListenableFuture<List<Graphic>> identifyGraphics) {
     String seaBirds = "";
 
@@ -139,7 +143,7 @@ public class IdentifyGraphic extends Application {
       // get the list of graphics returned by identify
       List<Graphic> graphics = identifyGraphics.get();
 
-      //loop through the graphics
+      // loop through the graphics
       for (Graphic grItem : graphics) {
         seaBirds += grItem.getAttributes().get("SEABIRD") + "\n";
       }
@@ -151,7 +155,8 @@ public class IdentifyGraphic extends Application {
 
       alert.showAndWait();
 
-    }catch(Exception e){
+    } catch (Exception e) {
+      // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
@@ -159,93 +164,84 @@ public class IdentifyGraphic extends Application {
   public static void main(String[] args) {
     Application.launch(args);
   }
-  
-  private void addNestingLocations(GraphicsOverlay graphicsOverlay) {
-    
-    //Gannet locations
-    Point gannet1Loc = new Point(-2.6419183006274025,56.07737682015417, wgs84);
-    
-    //Fulmers locations
-    Point fulmar1Loc = new Point(-2.6690407443541138,56.05821218553146, wgs84);
-    Point fulmar2Loc = new Point(-2.6390000630112374,56.07785581394854, wgs84);
-    Point fulmar3Loc = new Point(-2.7201957331551276,56.074406925730536, wgs84);
-    Point fulmar4Loc = new Point(-2.6889534245585356,56.06242922266836, wgs84);
-    Point fulmar5Loc = new Point(-2.6390000630112374,56.052940240521956, wgs84);
-    Point fulmar6Loc = new Point(-2.6542778952370436,56.05821218553146, wgs84);
-    
-    //Eider Duck locations
-    Point eider1Loc = new Point(-2.6884384414498004,56.0626208952164, wgs84);
-    Point eider2Loc = new Point(-2.7189941059014124,56.07325722773041, wgs84);
-    
-    //Puffin locations
-    Point puffin1Loc = new Point(-2.7203673941913724,56.073448846445544, wgs84);
-    Point puffin2Loc = new Point(-2.639171724047482,56.07843059864234, wgs84);
-    
 
-    //markers used for different sea birds
-    SimpleMarkerSymbol puffinMarker = 
-        new SimpleMarkerSymbol(
-            new RgbColor(255, 0, 0, 255), 
-            10, 
-            SimpleMarkerSymbol.Style.CIRCLE);
-    SimpleMarkerSymbol gannetMarker = 
-        new SimpleMarkerSymbol(
-            new RgbColor(128, 0, 128, 255), 
-            10, 
-            SimpleMarkerSymbol.Style.TRIANGLE);
-    SimpleMarkerSymbol fulmarMarker = 
-        new SimpleMarkerSymbol(
-            new RgbColor(0, 255, 0, 255), 
-            10, 
-            SimpleMarkerSymbol.Style.CROSS);
-    SimpleMarkerSymbol eiderMarker = 
-        new SimpleMarkerSymbol(
-            new RgbColor(0, 0, 255, 255), 
-            10, 
-            SimpleMarkerSymbol.Style.DIAMOND);
-    
-    //a unique value renderer using the SEABIRD attribute
+  private void addNestingLocations(GraphicsOverlay graphicsOverlay) {
+
+    // Gannet locations
+    Point gannet1Loc = new Point(-2.6419183006274025, 56.07737682015417, wgs84);
+
+    // Fulmers locations
+    Point fulmar1Loc = new Point(-2.6690407443541138, 56.05821218553146, wgs84);
+    Point fulmar2Loc = new Point(-2.6390000630112374, 56.07785581394854, wgs84);
+    Point fulmar3Loc = new Point(-2.7201957331551276, 56.074406925730536, wgs84);
+    Point fulmar4Loc = new Point(-2.6889534245585356, 56.06242922266836, wgs84);
+    Point fulmar5Loc = new Point(-2.6390000630112374, 56.052940240521956, wgs84);
+    Point fulmar6Loc = new Point(-2.6542778952370436, 56.05821218553146, wgs84);
+
+    // Eider Duck locations
+    Point eider1Loc = new Point(-2.6884384414498004, 56.0626208952164, wgs84);
+    Point eider2Loc = new Point(-2.7189941059014124, 56.07325722773041, wgs84);
+
+    // Puffin locations
+    Point puffin1Loc = new Point(-2.7203673941913724, 56.073448846445544, wgs84);
+    Point puffin2Loc = new Point(-2.639171724047482, 56.07843059864234, wgs84);
+
+    // markers used for different sea birds
+    SimpleMarkerSymbol puffinMarker = new SimpleMarkerSymbol(new RgbColor(255,
+        0, 0, 255), 10, SimpleMarkerSymbol.Style.CIRCLE);
+    SimpleMarkerSymbol gannetMarker = new SimpleMarkerSymbol(new RgbColor(128,
+        0, 128, 255), 10, SimpleMarkerSymbol.Style.TRIANGLE);
+    SimpleMarkerSymbol fulmarMarker = new SimpleMarkerSymbol(new RgbColor(0,
+        255, 0, 255), 10, SimpleMarkerSymbol.Style.CROSS);
+    SimpleMarkerSymbol eiderMarker = new SimpleMarkerSymbol(new RgbColor(0, 0,
+        255, 255), 10, SimpleMarkerSymbol.Style.DIAMOND);
+
+    // a unique value renderer using the SEABIRD attribute
     UniqueValueRenderer uniqueValRenderer = new UniqueValueRenderer();
     uniqueValRenderer.getFieldNames().add("SEABIRD");
-    
-    //unique value for Puffin
+
+    // unique value for Puffin
     List<Object> puffinValue = new ArrayList<>();
     puffinValue.add("Puffin");
-    UniqueValue uvPuffin = new UniqueValue("Puffin", "Puffin", puffinMarker, puffinValue);
+    UniqueValue uvPuffin = new UniqueValue("Puffin", "Puffin", puffinMarker,
+        puffinValue);
     uniqueValRenderer.getUniqueValues().add(uvPuffin);
-    
-    //unique value for Gannet
+
+    // unique value for Gannet
     List<Object> gannetValue = new ArrayList<>();
     gannetValue.add("Gannet");
-    UniqueValue uvGannet = new UniqueValue("Gannet", "Gannet", gannetMarker, gannetValue);
+    UniqueValue uvGannet = new UniqueValue("Gannet", "Gannet", gannetMarker,
+        gannetValue);
     uniqueValRenderer.getUniqueValues().add(uvGannet);
-    
-    //unique value for Fulmar
+
+    // unique value for Fulmar
     List<Object> fulmarValue = new ArrayList<>();
     fulmarValue.add("Fulmar");
-    UniqueValue uvFulmar = new UniqueValue("Fulmar", "Fulmar", fulmarMarker, fulmarValue);
+    UniqueValue uvFulmar = new UniqueValue("Fulmar", "Fulmar", fulmarMarker,
+        fulmarValue);
     uniqueValRenderer.getUniqueValues().add(uvFulmar);
-    
-    //unique value for Eider
+
+    // unique value for Eider
     List<Object> eiderValue = new ArrayList<>();
     eiderValue.add("Eider");
-    UniqueValue uvEider = new UniqueValue("Eider", "Eider", eiderMarker, eiderValue);
+    UniqueValue uvEider = new UniqueValue("Eider", "Eider", eiderMarker,
+        eiderValue);
     uniqueValRenderer.getUniqueValues().add(uvEider);
-    
-    //apply the renderer to the graphics overlay
+
+    // apply the renderer to the graphics overlay
     graphicsOverlay.setRenderer(uniqueValRenderer);
-    
-    //graphics for Eider Ducks
+
+    // graphics for Eider Ducks
     Graphic eider1 = new Graphic(eider1Loc);
     eider1.getAttributes().put("SEABIRD", "Eider");
     Graphic eider2 = new Graphic(eider2Loc);
     eider2.getAttributes().put("SEABIRD", "Eider");
-    
-    //graphics for Gannets
+
+    // graphics for Gannets
     Graphic gannet1 = new Graphic(gannet1Loc);
     gannet1.getAttributes().put("SEABIRD", "Gannet");
-    
-    //graphics for Fulmars
+
+    // graphics for Fulmars
     Graphic fulmar1 = new Graphic(fulmar1Loc);
     fulmar1.getAttributes().put("SEABIRD", "Fulmar");
     Graphic fulmar2 = new Graphic(fulmar2Loc);
@@ -258,14 +254,14 @@ public class IdentifyGraphic extends Application {
     fulmar5.getAttributes().put("SEABIRD", "Fulmar");
     Graphic fulmar6 = new Graphic(fulmar6Loc);
     fulmar6.getAttributes().put("SEABIRD", "Fulmar");
-    
-    //graphics for Puffins
+
+    // graphics for Puffins
     Graphic puffin1 = new Graphic(puffin1Loc);
     puffin1.getAttributes().put("SEABIRD", "Puffin");
     Graphic puffin2 = new Graphic(puffin2Loc);
     puffin2.getAttributes().put("SEABIRD", "Puffin");
-    
-    //add all sea birds to graphics overlay
+
+    // add all sea birds to graphics overlay
     graphicsOverlay.getGraphics().add(puffin1);
     graphicsOverlay.getGraphics().add(puffin2);
     graphicsOverlay.getGraphics().add(fulmar1);
