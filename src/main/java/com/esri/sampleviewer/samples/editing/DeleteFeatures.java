@@ -46,16 +46,19 @@ import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 /**
- * This sample shows you you can select and delete features from a feature service.
+ * This sample shows you you can select and delete features from a feature
+ * service.
  */
 
 public class DeleteFeatures extends Application {
 
   private MapView mapView;
   private Map map;
+
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
   private FeatureQueryResult selectedFeatures;
+
   private Button btnDeleteFeatures;
 
   @Override
@@ -65,7 +68,8 @@ public class DeleteFeatures extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Delete features : Click on map to select features and press the delete button!");
+    stage
+        .setTitle("Delete features : Click on map to select features and press the delete button!");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
@@ -74,34 +78,34 @@ public class DeleteFeatures extends Application {
     // create a Map which defines the layers of data to view
     try {
       map = new Map(Basemap.createStreets());
-      
+
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
       mapView.setMap(map);
-      
+
       // listen to click events on the map to select features
-      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-          // Respond to primary (left) button only
-          if (event.getButton() == MouseButton.PRIMARY)
-          {
-            //create a screen point from the mouse event
-            Point2D pt = new Point2D(event.getX(), event.getY());
-            
-            //convert this to a map coordinate
-            Point mapPoint = mapView.screenToLocation(pt);
-  
-            //select features at this point
-            selectFeature(mapPoint);
-          }
-        }
-      });
-      
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED,
+          new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+              // respond to primary (left) button only
+              if (event.getButton() == MouseButton.PRIMARY) {
+                // create a screen point from the mouse event
+                Point2D pt = new Point2D(event.getX(), event.getY());
+
+                // convert this to a map coordinate
+                Point mapPoint = mapView.screenToLocation(pt);
+
+                // select features at this point
+                selectFeature(mapPoint);
+              }
+            }
+          });
+
       // button to delete features
       btnDeleteFeatures = new Button("Delete selected features");
       btnDeleteFeatures.setDisable(true);
-      
+
       // click event for button to delete features
       btnDeleteFeatures.setOnAction(new EventHandler<ActionEvent>() {
         @Override
@@ -109,25 +113,27 @@ public class DeleteFeatures extends Application {
           deleteFeatures();
         }
       });
-      
+
       // hbox to contain button
       HBox buttonBox = new HBox();
       buttonBox.getChildren().add(btnDeleteFeatures);
-      
+
       // add the MapView
       borderPane.setCenter(mapView);
       borderPane.setTop(buttonBox);
-      
+
       // generate feature table from service
-      damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
-      
-      //create feature layer from the table
+      damageTable = new ServiceFeatureTable(
+          "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+
+      // create feature layer from the table
       damageFeatureLayer = new FeatureLayer(damageTable);
-      
-      //add the layer to the map
+
+      // add the layer to the map
       map.getOperationalLayers().add(damageFeatureLayer);
-      
+
     } catch (Exception e) {
+      // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
@@ -139,87 +145,95 @@ public class DeleteFeatures extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
-  
+  }
+
   private void selectFeature(Point point) {
-    //create a buffer from the point which is based on 10 pixels at the current zoom scale
-    Polygon searchGeometry = GeometryEngine.buffer(point, mapView.getUnitsPerPixel() * 10);
-    
-    //create a query
+    // create a buffer from the point which is based on 10 pixels at the current
+    // zoom scale
+    Polygon searchGeometry = GeometryEngine.buffer(point,
+        mapView.getUnitsPerPixel() * 10);
+
+    // create a query
     QueryParameters queryParams = new QueryParameters();
     queryParams.setGeometry(searchGeometry);
     queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
-    
-    //select based on the query
-    ListenableFuture<FeatureQueryResult> result =  damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
-    
+
+    // select based on the query
+    ListenableFuture<FeatureQueryResult> result = damageFeatureLayer
+        .selectFeatures(queryParams, SelectionMode.NEW);
+
     try {
       // save the selected features
       selectedFeatures = result.get();
-      
+
       // see if there is anything in the list and null it if empty
-      if (selectedFeatures.iterator().hasNext()== false) {
+      if (selectedFeatures.iterator().hasNext() == false) {
         selectedFeatures = null;
       } else {
         // we have some features so enable delete button
         btnDeleteFeatures.setDisable(false);
       }
-      
+
     } catch (InterruptedException | ExecutionException e) {
+      // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
-  
+
   private void deleteFeatures() {
-    
+
     // are there any features to delete?
     if (selectedFeatures != null) {
-      //delete features
-      final ListenableFuture<Boolean> result = damageTable.deleteFeaturesAsync(selectedFeatures);
-      
-      //apply edits once we get the result
+      // delete features
+      final ListenableFuture<Boolean> result = damageTable
+          .deleteFeaturesAsync(selectedFeatures);
+
+      // apply edits once we get the result
       result.addDoneListener(new Runnable() {
 
         @Override
         public void run() {
           try {
-            if(result.get() == true) {
+            if (result.get()) {
               applyEdits();
             }
           } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
           }
-          
-          //finally clear the selection
+
+          // finally clear the selection
           damageFeatureLayer.clearSelection();
           selectedFeatures = null;
-          
+
           // disable the button
           btnDeleteFeatures.setDisable(true);
-          
-        }});
+
+        }
+      });
     }
   }
-  
+
   private void applyEdits() {
-    final ListenableFuture<List<FeatureEditResult>> result = damageTable.applyEditsAsync();
-    
+    final ListenableFuture<List<FeatureEditResult>> result = damageTable
+        .applyEditsAsync();
+
     result.addDoneListener(new Runnable() {
 
       @Override
       public void run() {
-        //attempt to get the edit results
+        // attempt to get the edit results
         try {
           List<FeatureEditResult> editResults = result.get();
-          
-          //code goes here to examine the edit results
+
+          // code goes here to examine the edit results
           System.out.println("Results applied to service");
-          
+
         } catch (InterruptedException | ExecutionException e) {
           e.printStackTrace();
         }
-        
-      }});
+
+      }
+    });
   }
 
   public static void main(String[] args) {

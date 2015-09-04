@@ -15,22 +15,25 @@ limitations under the License.  */
 package com.esri.sampleviewer.samples.map;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.mapping.BasemapType;
 import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 /**
- * This sample shows how to create a map based on one of the predefined 
- * base maps which is centred at a given latitude and longitude (56.075844,-2.681572) 
+ * This sample shows how to create a map based on one of the predefined base
+ * maps which is centred at a given latitude and longitude (56.075844,-2.681572)
  * at a zoom level of 10.
  */
 
 public class SetInitialMapLocation extends Application {
 
   private MapView mapView;
+
   private Map map;
 
   @Override
@@ -48,18 +51,19 @@ public class SetInitialMapLocation extends Application {
 
     // create a Map which defines the layers of data to view
     try {
-      //make a new map using National Geographic mapping centred over East Scotland at zoom level 10.
-      map = new Map(BasemapType.NATIONAL_GEOGRAPHIC, 56.075844,-2.681572, 10);
-      
+      // make a new map using National Geographic mapping centred over East
+      // Scotland at zoom level 10.
+      map = new Map(BasemapType.NATIONAL_GEOGRAPHIC, 56.075844, -2.681572, 10);
+
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
       mapView.setMap(map);
-      
+
       // add the MapView
       borderPane.setCenter(mapView);
-      
+
     } catch (Exception e) {
-      System.out.println("can't see the map");
+      // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
@@ -69,9 +73,9 @@ public class SetInitialMapLocation extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
-  };
+  }
 
   public static void main(String[] args) {
     Application.launch(args);

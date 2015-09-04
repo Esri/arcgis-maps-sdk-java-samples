@@ -39,16 +39,18 @@ import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 /**
- * This application shows how to add new features to a feature service by clicking on the map.
+ * This application shows how to add new features to a feature service by
+ * clicking on the map.
  */
 
 public class AddFeatures extends Application {
 
   private MapView mapView;
   private Map map;
+
   private ServiceFeatureTable damageTable;
   private FeatureLayer damageFeatureLayer;
-  
+
   @Override
   public void start(Stage stage) throws Exception {
     // create a border pane
@@ -65,42 +67,43 @@ public class AddFeatures extends Application {
     // create a Map which defines the layers of data to view
     try {
       map = new Map(Basemap.createStreets());
-      
+
       // create the MapView JavaFX control and assign its map
       mapView = new MapView();
       mapView.setMap(map);
-      
+
       // add a listener for mouse click events to add new features
-      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-          // Respond to primary (left) button only
-          if (event.getButton() == MouseButton.PRIMARY)
-          {
-            //create a screen point from the mouse event
-            Point2D pt = new Point2D(event.getX(), event.getY());
-  
-            //convert this to a map coordinate
-            Point mapPoint = mapView.screenToLocation(pt);
-  
-            //add a feature at this point
-            addFeature(mapPoint);
-          }
-        }        
-      });
-      
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED,
+          new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+              // respond to primary (left) button only
+              if (event.getButton() == MouseButton.PRIMARY) {
+                // create a screen point from the mouse event
+                Point2D pt = new Point2D(event.getX(), event.getY());
+
+                // convert this to a map coordinate
+                Point mapPoint = mapView.screenToLocation(pt);
+
+                // add a feature at this point
+                addFeature(mapPoint);
+              }
+            }
+          });
+
       // add the MapView
       borderPane.setCenter(mapView);
-      
-      //generate feature table from service
-      damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
-      
-      //create feature layer from the table
+
+      // generate feature table from service
+      damageTable = new ServiceFeatureTable(
+          "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+
+      // create feature layer from the table
       damageFeatureLayer = new FeatureLayer(damageTable);
-      
-      //add the layer to the map
+
+      // add the layer to the map
       map.getOperationalLayers().add(damageFeatureLayer);
-      
+
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -113,64 +116,65 @@ public class AddFeatures extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
-  
+  }
+
   private void addFeature(Point point) {
     System.out.println("adding feature");
-    
-    //create the attributes for the feature
+
+    // create the attributes for the feature
     java.util.Map<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("typdamage", "Minor");
-    attributes.put("primcause" , "Earthquake");
-    
-    //create a new feature from the attributes and the point
+    attributes.put("primcause", "Earthquake");
+
+    // create a new feature from the attributes and the point
     Feature feature = damageTable.createFeature(attributes, point);
-    
-    //add the new feature
-    final ListenableFuture<Boolean> result = damageTable.addFeatureAsync(feature);
-    
-    //add a listener to tell us when it's done or failed
+
+    // add the new feature
+    final ListenableFuture<Boolean> result = damageTable
+        .addFeatureAsync(feature);
+
+    // add a listener to tell us when it's done or failed
     result.addDoneListener(new Runnable() {
-      
+
       @Override
       public void run() {
-        //was it successful?
+        // was it successful?
         try {
-          if (result.get() == true) {
+          if (result.get()) {
             System.out.println("Feature added!");
-            
-            //apply edits to the server
-            final ListenableFuture<List<FeatureEditResult>> applyResult = damageTable.applyEditsAsync();
-            
-            //add a listener to say when it's done or failed
+
+            // apply edits to the server
+            final ListenableFuture<List<FeatureEditResult>> applyResult = damageTable
+                .applyEditsAsync();
+
+            // add a listener to say when it's done or failed
             applyResult.addDoneListener(new Runnable() {
 
               @Override
               public void run() {
-                //get the result
+                // get the result
                 try {
                   List<FeatureEditResult> editResult = applyResult.get();
-                  
-                  //code goes here to examine the edit results
+
+                  // code goes here to examine the edit results
                   System.out.println("Results applied to service");
-                  
+
                 } catch (InterruptedException | ExecutionException e) {
-                  // Code to catch exception state as it didn't work
+                  // code to catch exception state as it didn't work
                   e.printStackTrace();
-                } 
+                }
               }
             });
           }
         } catch (InterruptedException | ExecutionException e) {
-          // Code to catch exception
+          // on any error, display the stack trace.
           e.printStackTrace();
         }
       }
     });
-    
 
   }
-   
+
   public static void main(String[] args) {
     Application.launch(args);
   }

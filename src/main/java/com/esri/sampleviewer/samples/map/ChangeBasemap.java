@@ -15,10 +15,6 @@ limitations under the License.  */
 package com.esri.sampleviewer.samples.map;
 
 
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.BasemapType;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -30,6 +26,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapType;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
 
 
 public class ChangeBasemap extends Application {
@@ -100,7 +101,8 @@ public class ChangeBasemap extends Application {
         // add lable and combo box to hbox
         hbox.getChildren().addAll(label, basemapComboBox);
 
-        //make a new map using Topographic mapping centred over East Scotland at zoom level 10.
+    // make a new map using Topographic mapping centred over East Scotland at
+    // zoom level 10.
         map = new Map(BasemapType.TOPOGRAPHIC, 56.075844,-2.681572, 10);
 
         // create the MapView JavaFX control and assign its map

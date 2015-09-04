@@ -59,7 +59,7 @@ public class AddGraphicsWithRenderer extends Application {
     stage.show();
     
     try {
-      //create a new map with a light grey canvas.
+      // create a new map with a light grey canvas.
       map = new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844,-2.681572, 13);
       
       // create the MapView JavaFX control and assign its map
@@ -69,13 +69,17 @@ public class AddGraphicsWithRenderer extends Application {
       // add the MapView
       borderPane.setCenter(mapView);
 
-      // add graphics overlay to MapView.
-      GraphicsOverlay graphicsOvelay = addGraphicsOverlay(mapView);
+      // creates the graphics overlay
+      GraphicsOverlay graphicsOvelay = new GraphicsOverlay();
+
+      // adds the overlay to the map view
+      mapView.getGraphicsOverlays().add(graphicsOvelay);
       
-      //add nesting locations rendered per bird
+      // add nesting locations rendered per bird
       addNestingLocations(graphicsOvelay);
       
     } catch (Exception e) {
+      // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
@@ -87,28 +91,18 @@ public class AddGraphicsWithRenderer extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
+  }
 
   public static void main(String[] args) {
     Application.launch(args);
   }
   
-  private GraphicsOverlay addGraphicsOverlay(MapView mapView) {
-    //create the graphics overlay
-    GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+  private void addNestingLocations(GraphicsOverlay graphicsOverlay) {
     
-    //add the overlay to the map view
-    mapView.getGraphicsOverlays().add(graphicsOverlay);
-    
-    return graphicsOverlay;
-  }
-  
-  private void addNestingLocations(GraphicsOverlay graphicOverlay) {
-    
-    //Gannet locations
+    // Gannet locations
     Point gannet1Loc = new Point(-2.6419183006274025,56.07737682015417, wgs84);
     
-    //Fulmers locations
+    // Fulmers locations
     Point fulmar1Loc = new Point(-2.6690407443541138,56.05821218553146, wgs84);
     Point fulmar2Loc = new Point(-2.6390000630112374,56.07785581394854, wgs84);
     Point fulmar3Loc = new Point(-2.7201957331551276,56.074406925730536, wgs84);
@@ -116,16 +110,15 @@ public class AddGraphicsWithRenderer extends Application {
     Point fulmar5Loc = new Point(-2.6390000630112374,56.052940240521956, wgs84);
     Point fulmar6Loc = new Point(-2.6542778952370436,56.05821218553146, wgs84);
     
-    //Eider Duck locations
+    // Eider Duck locations
     Point eider1Loc = new Point(-2.6884384414498004,56.0626208952164, wgs84);
     Point eider2Loc = new Point(-2.7189941059014124,56.07325722773041, wgs84);
     
-    //Puffin locations
+    // Puffin locations
     Point puffin1Loc = new Point(-2.7203673941913724,56.073448846445544, wgs84);
     Point puffin2Loc = new Point(-2.639171724047482,56.07843059864234, wgs84);
     
-
-    //markers used for different sea birds
+    // markers used for different sea birds
     SimpleMarkerSymbol puffinMarker = 
         new SimpleMarkerSymbol(
             new RgbColor(255, 0, 0, 255), 
@@ -147,49 +140,49 @@ public class AddGraphicsWithRenderer extends Application {
             10, 
             SimpleMarkerSymbol.Style.DIAMOND);
     
-    //a unique value renderer using the SEABIRD attribute
+    // a unique value renderer using the SEABIRD attribute
     UniqueValueRenderer uniqueValRenderer = new UniqueValueRenderer();
     uniqueValRenderer.getFieldNames().add("SEABIRD");
     
-    //unique value for Puffin
+    // unique value for Puffin
     List<Object> puffinValue = new ArrayList<>();
     puffinValue.add("Puffin");
     UniqueValue uvPuffin = new UniqueValue("Puffin", "Puffin", puffinMarker, puffinValue);
     uniqueValRenderer.getUniqueValues().add(uvPuffin);
     
-    //unique value for Gannet
+    // unique value for Gannet
     List<Object> gannetValue = new ArrayList<>();
     gannetValue.add("Gannet");
     UniqueValue uvGannet = new UniqueValue("Gannet", "Gannet", gannetMarker, gannetValue);
     uniqueValRenderer.getUniqueValues().add(uvGannet);
     
-    //unique value for Fulmar
+    // unique value for Fulmar
     List<Object> fulmarValue = new ArrayList<>();
     fulmarValue.add("Fulmar");
     UniqueValue uvFulmar = new UniqueValue("Fulmar", "Fulmar", fulmarMarker, fulmarValue);
     uniqueValRenderer.getUniqueValues().add(uvFulmar);
     
-    //unique value for Eider
+    // unique value for Eider
     List<Object> eiderValue = new ArrayList<>();
     eiderValue.add("Eider");
     UniqueValue uvEider = new UniqueValue("Eider", "Eider", eiderMarker, eiderValue);
     uniqueValRenderer.getUniqueValues().add(uvEider);
     
-    //apply the renderer to the graphics overlay
-    graphicOverlay.setRenderer(uniqueValRenderer);
+    // apply the renderer to the graphics overlay
+    graphicsOverlay.setRenderer(uniqueValRenderer);
     
 
-    //graphics for Eider Ducks
+    // graphics for Eider Ducks
     Graphic eider1 = new Graphic(eider1Loc);
     eider1.getAttributes().put("SEABIRD", "Eider");
     Graphic eider2 = new Graphic(eider2Loc);
     eider2.getAttributes().put("SEABIRD", "Eider");
     
-    //graphics for Gannets
+    // graphics for Gannets
     Graphic gannet1 = new Graphic(gannet1Loc);
     gannet1.getAttributes().put("SEABIRD", "Gannet");
     
-    //graphics for Fulmars
+    // graphics for Fulmars
     Graphic fulmar1 = new Graphic(fulmar1Loc);
     fulmar1.getAttributes().put("SEABIRD", "Fulmar");
     Graphic fulmar2 = new Graphic(fulmar2Loc);
@@ -203,23 +196,23 @@ public class AddGraphicsWithRenderer extends Application {
     Graphic fulmar6 = new Graphic(fulmar6Loc);
     fulmar6.getAttributes().put("SEABIRD", "Fulmar");
     
-    //graphics for Puffins
+    // graphics for Puffins
     Graphic puffin1 = new Graphic(puffin1Loc);
     puffin1.getAttributes().put("SEABIRD", "Puffin");
     Graphic puffin2 = new Graphic(puffin2Loc);
     puffin2.getAttributes().put("SEABIRD", "Puffin");
     
-    //add all sea birds to graphics overlay
-    graphicOverlay.getGraphics().add(puffin1);
-    graphicOverlay.getGraphics().add(puffin2);
-    graphicOverlay.getGraphics().add(fulmar1);
-    graphicOverlay.getGraphics().add(fulmar2);
-    graphicOverlay.getGraphics().add(fulmar3);
-    graphicOverlay.getGraphics().add(fulmar4);
-    graphicOverlay.getGraphics().add(fulmar5);
-    graphicOverlay.getGraphics().add(fulmar6);
-    graphicOverlay.getGraphics().add(gannet1);
-    graphicOverlay.getGraphics().add(eider1);
-    graphicOverlay.getGraphics().add(eider2);
+    // add all sea birds to graphics overlay
+    graphicsOverlay.getGraphics().add(puffin1);
+    graphicsOverlay.getGraphics().add(puffin2);
+    graphicsOverlay.getGraphics().add(fulmar1);
+    graphicsOverlay.getGraphics().add(fulmar2);
+    graphicsOverlay.getGraphics().add(fulmar3);
+    graphicsOverlay.getGraphics().add(fulmar4);
+    graphicsOverlay.getGraphics().add(fulmar5);
+    graphicsOverlay.getGraphics().add(fulmar6);
+    graphicsOverlay.getGraphics().add(gannet1);
+    graphicsOverlay.getGraphics().add(eider1);
+    graphicsOverlay.getGraphics().add(eider2);
   }
 }

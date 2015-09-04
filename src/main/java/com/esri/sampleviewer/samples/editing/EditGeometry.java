@@ -84,16 +84,16 @@ public class EditGeometry extends Application {
       mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-          // Respond to primary (left) button only
+              // respond to primary (left) button only
           if (event.getButton() == MouseButton.PRIMARY)
           {
-            //create a screen point from the mouse event
+                // create a screen point from the mouse event
             Point2D pt = new Point2D(event.getX(), event.getY());
             
-            //convert this to a map coordinate
+                // convert this to a map coordinate
             Point mapPoint = mapView.screenToLocation(pt);
   
-            //add a feature to be updated
+                // add a feature to be updated
             selectFeature(mapPoint);
           }
         }
@@ -107,12 +107,12 @@ public class EditGeometry extends Application {
       btnUpdateGeometry.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-          //update the selected attributes
+          // update the selected attributes
           updateGeometry();
         }
       });
       
-      //hbox to contain buttons
+      // hbox to contain buttons
       HBox buttonBox = new HBox();
       buttonBox.getChildren().add(btnUpdateGeometry);
       
@@ -120,16 +120,17 @@ public class EditGeometry extends Application {
       borderPane.setCenter(mapView);
       borderPane.setTop(buttonBox);
       
-      //generate feature table from service
+      // generate feature table from service
       damageTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
       
-      //create feature layer from the table
+      // create feature layer from the table
       damageFeatureLayer = new FeatureLayer(damageTable);
       
-      //add the layer to the map
+      // add the layer to the map
       map.getOperationalLayers().add(damageFeatureLayer);
       
     } catch (Exception e) {
+      // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
@@ -141,26 +142,26 @@ public class EditGeometry extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
-
+  }
   
   private void selectFeature(Point point) {
-    //create a buffer from the point which is based on 10 pixels at the current zoom scale
+    // create a buffer from the point which is based on 10 pixels at the current
+    // zoom scale
     Polygon searchGeometry = GeometryEngine.buffer(point, mapView.getUnitsPerPixel() * 10);
     
-    //create a query
+    // create a query
     QueryParameters queryParams = new QueryParameters();
     queryParams.setGeometry(searchGeometry);
     queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
     
-    //select based on the query
+    // select based on the query
     ListenableFuture<FeatureQueryResult> result =  damageFeatureLayer.selectFeatures(queryParams, SelectionMode.NEW);
     
     try {
-      //save the selected features
+      // save the selected features
       selectedFeatures = result.get();
       
-      //see if there is anything in the list and null it if empty
+      // see if there is anything in the list and null it if empty
       if (selectedFeatures.iterator().hasNext()== false) {
         selectedFeatures = null;
         btnUpdateGeometry.setDisable(true);
@@ -170,6 +171,7 @@ public class EditGeometry extends Application {
       }
       
     } catch (InterruptedException | ExecutionException e) {
+      // on any error, display the stack trace.
       e.printStackTrace();
     }
     
