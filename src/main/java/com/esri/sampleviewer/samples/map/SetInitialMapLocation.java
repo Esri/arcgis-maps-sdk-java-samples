@@ -12,9 +12,10 @@ distributed under the License is distributed on an "AS IS" BASIS,
  See the License for the specific language governing permissions and
 limitations under the License.  */
 
-package com.esri.sampleviewer.samples.map;
+package main.java.com.esri.sampleviewer.samples.map;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -69,8 +70,8 @@ public class SetInitialMapLocation extends Application {
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
+    Platform.exit();
     System.exit(0);
-
   };
 
   public static void main(String[] args) {

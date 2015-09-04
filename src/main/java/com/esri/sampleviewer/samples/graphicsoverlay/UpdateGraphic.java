@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
  See the License for the specific language governing permissions and
 limitations under the License.  */
 
-package com.esri.sampleviewer.samples.graphicsoverlay;
+package main.java.com.esri.sampleviewer.samples.graphicsoverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +76,7 @@ public class UpdateGraphic extends Application {
       borderPane.setCenter(mapView);
 
       // add graphics overlay to MapView.
-      graphicsOvelay = addGraphicsOverlay(mapView);
+      graphicsOvelay = addGraphicsOverlay();
       
       //add nesting locations rendered per bird
       addNestingLocations(graphicsOvelay);
@@ -118,7 +118,7 @@ public class UpdateGraphic extends Application {
     map.dispose();
     Platform.exit();
     System.exit(0);
-  };
+  }
   
   public void moveNorth(ListenableFuture<List<Graphic>> identifyGraphics) {
 
@@ -148,7 +148,7 @@ public class UpdateGraphic extends Application {
     Application.launch(args);
   }
   
-  private GraphicsOverlay addGraphicsOverlay(MapView mapView) {
+  private GraphicsOverlay addGraphicsOverlay() {
     //create the graphics overlay
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
     
