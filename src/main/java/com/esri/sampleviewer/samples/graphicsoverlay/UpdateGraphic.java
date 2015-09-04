@@ -50,6 +50,7 @@ public class UpdateGraphic extends Application {
   private MapView mapView;
   private Map map;
   private SpatialReference wgs84 = SpatialReference.create(4326);
+  private GraphicsOverlay graphicsOverlay;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -76,7 +77,7 @@ public class UpdateGraphic extends Application {
       borderPane.setCenter(mapView);
 
       // create the graphics overlay
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+      graphicsOverlay = new GraphicsOverlay();
 
       // add the overlay to the map view
       mapView.getGraphicsOverlays().add(graphicsOverlay);
