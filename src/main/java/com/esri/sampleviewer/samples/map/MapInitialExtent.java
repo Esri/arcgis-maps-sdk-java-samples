@@ -28,6 +28,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * The Set Initial Map Area sample demonstrates how to start a
+ * <@Map> application with a defined initial area using a <@Viewpoint> created
+ * with an <@Envelope> defining the initial area.
+ */
 public class MapInitialExtent extends Application {
 
   private MapView mapView;
@@ -35,11 +40,6 @@ public class MapInitialExtent extends Application {
 
   private final String WORLD_TOPO_SERVICE = "http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer";
 
-  /**
-   * The Set Initial Map Area sample demonstrates how to start a <@Map> app with
-   * a defined initial area using a <@Viewpoint> created with an <@Envelope>
-   * defining the initial area.
-   */
   @Override
   public void start(Stage stage) throws Exception {
 

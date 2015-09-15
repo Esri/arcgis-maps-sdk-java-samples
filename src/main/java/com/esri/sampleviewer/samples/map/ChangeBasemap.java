@@ -30,6 +30,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
+/**
+ * This application shows how to create a ({@link Map}) using a
+ * {@link BasemapType} instance, giving you the option to easily set a map type
+ * (base layer), latitude and longitude around which to center the map, and zoom
+ * level for the map. The BasemapType class is then used to switch the type of
+ * basemap in the map on-the-fly.
+ */
 public class ChangeBasemap extends Application {
 
   private MapView mapView;
@@ -39,13 +46,6 @@ public class ChangeBasemap extends Application {
   private static final double LONGITUDE = -5.0000;
   private static final int LOD = 6;
 
-  /**
-   * This application shows how to create a ({@link Map}) using a
-   * {@link BasemapType} instance, giving you the option to easily set a map
-   * type (base layer), latitude and longitude around which to center the map,
-   * and zoom level for the map. The BasemapType class is then used to switch
-   * the type of basemap in the map on-the-fly.
-   */
   @Override
   public void start(Stage stage) throws Exception {
 

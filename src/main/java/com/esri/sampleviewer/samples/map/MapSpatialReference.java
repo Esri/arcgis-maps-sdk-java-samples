@@ -26,6 +26,15 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * The Set Map Spatial Reference sample application demonstrates how to create a
+ * Map with the <b>WORLD_BONNE<\b> equal-area projection that has a true scale
+ * along the central meridian and all parallels. The sample creates an
+ * <@ArcGISMapImageLayer> that can reproject itself to the <@Map>'s spatial
+ * reference. Not all layer types can be reprojected, like <@ArcGISTiledLayer>,
+ * and will fail to draw if their spatial reference is not the same as the Map's
+ * spatial reference.
+ */
 public class MapSpatialReference extends Application {
 
   private MapView mapView;
@@ -33,15 +42,6 @@ public class MapSpatialReference extends Application {
 
   private static final String WORLD_CITIES_SERVICE = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
 
-  /**
-   * The Set Map Spatial Reference sample application demonstrates how to create
-   * a Map with the <b>WORLD_BONNE<\b> equal-area projection that has a true
-   * scale along the central meridian and all parallels. The sample creates an
-   * <@ArcGISMapImageLayer> that can reproject itself to the <@Map>'s spatial
-   * reference. Not all layer types can be reprojected, like
-   * <@ArcGISTiledLayer>, and will fail to draw if their spatial reference is
-   * not the same as the Map's spatial reference.
-   */
   @Override
   public void start(Stage stage) throws Exception {
 

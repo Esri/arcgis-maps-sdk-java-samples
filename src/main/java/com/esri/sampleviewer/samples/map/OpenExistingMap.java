@@ -34,6 +34,12 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+/**
+ * The Open Existing Map application demonstrates how to open an existing
+ * {@link Map} as a {@PortalItem} from a{@Portal}. The application opens with a
+ * web map from a portal displayed. Select any of the web maps from the drop
+ * down list to open it up in the MapView.
+ */
 public class OpenExistingMap extends Application {
 
   private MapView mapView;
@@ -53,12 +59,6 @@ public class OpenExistingMap extends Application {
   private static final String WEBMAP_USA_TAPESTRY_SEGMENTATION_TITLE = "USA tapestry segmentation";
   private static final String WEBMAP_USA_POP_DENSITY_TITLE = "2015 Population Density in the US";
 
-  /**
-   * The Open Existing Map application demonstrates how to open an existing
-   * {@link Map} as a {@PortalItem} from a{@Portal}. The
-   * application opens with a web map from a portal displayed. Select any of the
-   * web maps from the drop down list to open it up in the MapView.
-   */
   @Override
   public void start(Stage stage) throws Exception {
 

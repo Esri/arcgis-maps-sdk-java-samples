@@ -14,27 +14,27 @@ limitations under the License.  */
 
 package com.esri.sampleviewer.samples.map;
 
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
+/**
+ * The Display Map app is the most basic Map app for the ArcGIS Runtime SDK for
+ * Java. It shows how to inflate a MapView in the scene, create a Map with a
+ * static Basemap.createImagery() and bind the Map to the MapView. By default,
+ * this map supports basic zooming and panning operations.
+ */
 public class DisplayMap extends Application {
 
   private MapView mapView;
   private Map map;
 
-  /**
-   * The Display Map app is the most basic Map app for the ArcGIS Runtime SDK
-   * for Java. It shows how to inflate a MapView in the scene, create a Map with
-   * a static Basemap.createImagery() and bind the Map to the MapView. By
-   * default, this map supports basic zooming and panning operations.
-   */
   @Override
   public void start(Stage stage) throws Exception {
 
