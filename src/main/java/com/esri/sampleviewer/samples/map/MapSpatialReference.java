@@ -14,17 +14,17 @@ limitations under the License.  */
 
 package com.esri.sampleviewer.samples.map;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 public class MapSpatialReference extends Application {
 
@@ -50,7 +50,7 @@ public class MapSpatialReference extends Application {
     Scene scene = new Scene(borderPane);
 
     // size the stage and add a title
-    stage.setTitle("Change Basemap");
+    stage.setTitle("Set initial Spatial Reference");
     stage.setWidth(700);
     stage.setHeight(800);
     stage.setScene(scene);
