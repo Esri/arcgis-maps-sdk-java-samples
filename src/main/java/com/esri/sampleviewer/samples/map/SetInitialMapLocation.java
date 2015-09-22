@@ -14,22 +14,21 @@ limitations under the License.  */
 
 package com.esri.sampleviewer.samples.map;
 
+import com.esri.arcgisruntime.mapping.BasemapType;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.mapping.BasemapType;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
 /**
  * This sample shows how to create a map based on one of the predefined base
  * maps which is centred at a given latitude and longitude (56.075844,-2.681572)
  * at a zoom level of 10.
  */
-
 public class SetInitialMapLocation extends Application {
 
   private MapView mapView;
