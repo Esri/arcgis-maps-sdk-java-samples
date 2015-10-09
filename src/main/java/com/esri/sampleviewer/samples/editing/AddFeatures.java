@@ -1,181 +1,212 @@
-/* Copyright 2015 Esri.
- 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
- 
-    http://www.apache.org/licenses/LICENSE-2.0
- 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
-limitations under the License.  */
+/*
+ * Copyright 2015 Esri.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 
 package com.esri.sampleviewer.samples.editing;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.datasource.Feature;
 import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.Viewpoint;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
- * This application shows how to add new features to a feature service by
- * clicking on the map.
+ * This sample demonstrates how to add a new <@Feature> to a
+ * <@ServiceFeatureTable> by clicking on a <@MapView>. How it works: a
+ * ServiceFeatureTable is created from a URL holding the <@FeatureLayer> where
+ * it is then added to the <@Map> and displayed on a <@MapView>. Once the user
+ * clicks the MapView, a new Feature will be added to the ServiceFeatureTable
+ * and displayed on the MapView. Lastly, this new Feature will be saved to the
+ * server and be able to persist beyond this session.
  */
-
 public class AddFeatures extends Application {
+	private MapView mapView;
 
-  private MapView mapView;
-  private Map map;
+	private static final String SERVICE_LAYER_URL = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+	private static final String SAMPLES_THEME_PATH = "../resources/SamplesTheme.css";
 
-  private ServiceFeatureTable damageTable;
-  private FeatureLayer damageFeatureLayer;
+	@Override
+	public void start(Stage stage) throws Exception {
+		// create stack pane and application scene
+		StackPane stackPane = new StackPane();
+		Scene scene = new Scene(stackPane);
+		scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH).toExternalForm());
 
-  @Override
-  public void start(Stage stage) throws Exception {
-    // create a border pane
-    BorderPane borderPane = new BorderPane();
-    Scene scene = new Scene(borderPane);
+		// set title, size, and add scene to stage
+		stage.setTitle("Add Features Sample");
+		stage.setWidth(800);
+		stage.setHeight(700);
+		stage.setScene(scene);
+		stage.show();
 
-    // size the stage and add a title
-    stage.setTitle("Add features : Click on map to add features");
-    stage.setWidth(700);
-    stage.setHeight(800);
-    stage.setScene(scene);
-    stage.show();
+		// create a control panel
+		VBox vBoxControl = new VBox(6);
+		vBoxControl.setMaxSize(240, 120);
+		vBoxControl.getStyleClass().add("panel-region");
 
-    // create a Map which defines the layers of data to view
-    try {
-      map = new Map(Basemap.createStreets());
+		// create sample label and description
+		Label descriptionLabel = new Label("Sample Description");
+		descriptionLabel.getStyleClass().add("panel-label");
 
-      // create the MapView JavaFX control and assign its map
-      mapView = new MapView();
-      mapView.setMap(map);
+		TextArea description = new TextArea("This sample shows how to add a new\n"
+				+ "features to a ServiceFeatureTable.\n" + "Click on the map and a new Feature\n" + "will be added.");
+		description.setEditable(false);
+		description.setMinSize(210, 80);
 
-      // add a listener for mouse click events to add new features
-      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED,
-          new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-              // respond to primary (left) button only
-              if (event.getButton() == MouseButton.PRIMARY) {
-                // create a screen point from the mouse event
-                Point2D pt = new Point2D(event.getX(), event.getY());
+		// add sample label and description to the control panel
+		vBoxControl.getChildren().addAll(descriptionLabel, description);
 
-                // convert this to a map coordinate
-                Point mapPoint = mapView.screenToLocation(pt);
+		try {
+			// create spatial reference for point
+			SpatialReference spatialReference = SpatialReferences.getWebMercator();
 
-                // add a feature at this point
-                addFeature(mapPoint);
-              }
-            }
-          });
+			// create a initial viewpoint with a point and scale
+			Point pointLondon = new Point(-16773, 6710477, spatialReference);
+			Viewpoint viewpoint = new Viewpoint(pointLondon, 200000);
 
-      // add the MapView
-      borderPane.setCenter(mapView);
+			// create a map with streets basemap
+			Map map = new Map(Basemap.createStreets());
 
-      // generate feature table from service
-      damageTable = new ServiceFeatureTable(
-          "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+			// set viewpoint to the map
+			map.setInitialViewpoint(viewpoint);
 
-      // create feature layer from the table
-      damageFeatureLayer = new FeatureLayer(damageTable);
+			// create a view for this map
+			mapView = new MapView();
 
-      // add the layer to the map
-      map.getOperationalLayers().add(damageFeatureLayer);
+			// create service feature table from URL
+			ServiceFeatureTable featureTable = new ServiceFeatureTable(SERVICE_LAYER_URL);
+			featureTable.getOutFields().add("*"); // * gets all fields from the
+													// table
 
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+			// create a feature layer from table
+			FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
-  @Override
-  public void stop() throws Exception {
-    // release resources when the application closes
-    mapView.dispose();
-    map.dispose();
-    Platform.exit();
-    System.exit(0);
-  }
+			// add the layer to the map
+			map.getOperationalLayers().add(featureLayer);
 
-  private void addFeature(Point point) {
-    System.out.println("adding feature");
+			mapView.setOnMouseClicked(e -> {
+				// check that the primary mouse button was clicked
+				if (e.getButton() == MouseButton.PRIMARY) {
+					// create a point from where the user clicked
+					Point2D point = new Point2D(e.getX(), e.getY());
 
-    // create the attributes for the feature
-    java.util.Map<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("typdamage", "Minor");
-    attributes.put("primcause", "Earthquake");
+					// create a map point from a point
+					Point mapPoint = mapView.screenToLocation(point);
 
-    // create a new feature from the attributes and the point
-    Feature feature = damageTable.createFeature(attributes, point);
+					// add a new feature to the service feature table
+					addNewFeature(mapPoint, featureTable);
+				}
+			});
 
-    // add the new feature
-    final ListenableFuture<Boolean> result = damageTable
-        .addFeatureAsync(feature);
+			// set map to be displayed in map view
+			mapView.setMap(map);
 
-    // add a listener to tell us when it's done or failed
-    result.addDoneListener(new Runnable() {
+			// add the map view and control box to stack pane
+			stackPane.getChildren().addAll(mapView, vBoxControl);
+			StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+			StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
 
-      @Override
-      public void run() {
-        // was it successful?
-        try {
-          if (result.get()) {
-            System.out.println("Feature added!");
+		} catch (Exception e) {
+			// on any error, display the stack trace
+			e.printStackTrace();
+		}
+	}
 
-            // apply edits to the server
-            final ListenableFuture<List<FeatureEditResult>> applyResult = damageTable
-                .applyEditsAsync();
+	/**
+	 * Adds a new Feature to the ServiceFeatureTable and applies the changes to
+	 * the server.
+	 * 
+	 * @param mapPoint x,y-coordinate pair
+	 * @param damageTable holds all Feature data
+	 */
+	private void addNewFeature(Point mapPoint, ServiceFeatureTable damageTable) {
+		// create default attributes for the feature
+		java.util.Map<String, Object> attributes = new HashMap<>();
+		attributes.put("typdamage", "Minor");
+		attributes.put("primcause", "Earthquake");
 
-            // add a listener to say when it's done or failed
-            applyResult.addDoneListener(new Runnable() {
+		// creates a new feature using a default attributes and point
+		Feature feature = damageTable.createFeature(attributes, mapPoint);
 
-              @Override
-              public void run() {
-                // get the result
-                try {
-                  List<FeatureEditResult> editResult = applyResult.get();
+		// adds the new feature to the service
+		final ListenableFuture<Boolean> result = damageTable.addFeatureAsync(feature);
 
-                  // code goes here to examine the edit results
-                  System.out.println("Results applied to service");
+		try {
+			// apply the changes to the server if successful
+			if (result.get().booleanValue()) {
+				final ListenableFuture<List<FeatureEditResult>> serverResult = damageTable.applyEditsAsync();
+				// check if the server result was successful
+				if (!serverResult.get().get(0).hasCompletedWithErrors()) {
+					System.out.println("Feature successfully added");
+				} else {
+					System.out.println("Server Error: Feature failed to be added to Server.");
+				}
+			} else {
+				System.out.println("Local Error: Feature failed to be added to ServiceFeatureTable locally.");
+			}
 
-                } catch (InterruptedException | ExecutionException e) {
-                  // code to catch exception state as it didn't work
-                  e.printStackTrace();
-                }
-              }
-            });
-          }
-        } catch (InterruptedException | ExecutionException e) {
-          // on any error, display the stack trace.
-          e.printStackTrace();
-        }
-      }
-    });
+		} catch (Exception e) {
+			// on any error, display the stack trace
+			e.printStackTrace();
+		}
+	}
 
-  }
+	/**
+	 * Stops and releases all resources used in application.
+	 * 
+	 * @throws Exception if security manager doesn't allow JVM to exit with
+	 * current status
+	 */
+	@Override
+	public void stop() throws Exception {
+		if (mapView != null) {
+			mapView.dispose();
+		}
+		Platform.exit();
+		System.exit(0);
+	}
 
-  public static void main(String[] args) {
-    Application.launch(args);
-  }
+	/**
+	 * Opens and runs application.
+	 * 
+	 * @param args arguments passed to this application
+	 */
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
 }
