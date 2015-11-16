@@ -37,6 +37,7 @@ public class SetInitialMapLocation extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
+
     // create a border pane
     BorderPane borderPane = new BorderPane();
     Scene scene = new Scene(borderPane);
@@ -69,6 +70,7 @@ public class SetInitialMapLocation extends Application {
 
   @Override
   public void stop() throws Exception {
+
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
@@ -77,6 +79,7 @@ public class SetInitialMapLocation extends Application {
   }
 
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 }

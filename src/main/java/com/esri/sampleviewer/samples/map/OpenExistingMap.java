@@ -50,14 +50,20 @@ public class OpenExistingMap extends Application {
   private static final String PORTAL_URL = "http://www.arcgis.com/";
 
   // webmap portal item id's
-  private static final String WEBMAP_HOUSES_WITH_MORTAGES_ID = "2d6fa24b357d427f9c737774e7b0f977";
-  private static final String WEBMAP_USA_TAPESTRY_SEGMENTATION_ID = "01f052c8995e4b9e889d73c3e210ebe3";
-  private static final String WEBMAP_USA_POP_DENSITY_ID = "85c92f2a6e5b49f894fb72988d87551f";
+  private static final String WEBMAP_HOUSES_WITH_MORTAGES_ID =
+      "2d6fa24b357d427f9c737774e7b0f977";
+  private static final String WEBMAP_USA_TAPESTRY_SEGMENTATION_ID =
+      "01f052c8995e4b9e889d73c3e210ebe3";
+  private static final String WEBMAP_USA_POP_DENSITY_ID =
+      "85c92f2a6e5b49f894fb72988d87551f";
 
   // webmap titles
-  private static final String WEBMAP_HOUSES_WITH_MORTAGES_TITLE = "Houses with mortgages";
-  private static final String WEBMAP_USA_TAPESTRY_SEGMENTATION_TITLE = "USA tapestry segmentation";
-  private static final String WEBMAP_USA_POP_DENSITY_TITLE = "2015 Population Density in the US";
+  private static final String WEBMAP_HOUSES_WITH_MORTAGES_TITLE =
+      "Houses with mortgages";
+  private static final String WEBMAP_USA_TAPESTRY_SEGMENTATION_TITLE =
+      "USA tapestry segmentation";
+  private static final String WEBMAP_USA_POP_DENSITY_TITLE =
+      "2015 Population Density in the US";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -73,8 +79,8 @@ public class OpenExistingMap extends Application {
     stage.setScene(scene);
     stage.show();
 
-    ObservableList<WebmapEntry> webmapData = FXCollections
-        .observableArrayList();
+    ObservableList<WebmapEntry> webmapData =
+        FXCollections.observableArrayList();
 
     // Init the webmap items.
     webmapData.add(new WebmapEntry(WEBMAP_HOUSES_WITH_MORTAGES_TITLE,
@@ -92,8 +98,10 @@ public class OpenExistingMap extends Application {
     // Define rendering of the list of values in ComboBox drop down.
     webmapComboBox.setCellFactory((comboBox) -> {
       return new ListCell<WebmapEntry>() {
+
         @Override
         protected void updateItem(WebmapEntry item, boolean empty) {
+
           super.updateItem(item, empty);
 
           if (item == null || empty) {
@@ -107,8 +115,10 @@ public class OpenExistingMap extends Application {
 
     // Define rendering of selected value shown in ComboBox.
     webmapComboBox.setConverter(new StringConverter<WebmapEntry>() {
+
       @Override
       public String toString(WebmapEntry webmap) {
+
         if (webmap == null) {
           return null;
         }
@@ -117,14 +127,15 @@ public class OpenExistingMap extends Application {
 
       @Override
       public WebmapEntry fromString(String webmapString) {
+
         return null; // No conversion fromString needed.
       }
     });
 
     // Handle ComboBox event.
     webmapComboBox.setOnAction((event) -> {
-      WebmapEntry selectedWebMap = webmapComboBox.getSelectionModel()
-          .getSelectedItem();
+      WebmapEntry selectedWebMap =
+          webmapComboBox.getSelectionModel().getSelectedItem();
       if (map != null) {
         mapView.setMap(null);
         map.dispose();
@@ -134,8 +145,8 @@ public class OpenExistingMap extends Application {
       mapView.setMap(map);
     });
 
-    FlowPane flowPane = new FlowPane(Orientation.HORIZONTAL, 0, 0,
-        webmapComboBox);
+    FlowPane flowPane =
+        new FlowPane(Orientation.HORIZONTAL, 0, 0, webmapComboBox);
     flowPane.setPadding(new Insets(5, 0, 0, 5));
     flowPane.setColumnHalignment(HPos.LEFT);
     flowPane.setLayoutX(20);
@@ -162,6 +173,7 @@ public class OpenExistingMap extends Application {
 
   @Override
   public void stop() throws Exception {
+
     // releases resources when the application closes
     mapView.dispose();
     map.dispose();
@@ -175,6 +187,7 @@ public class OpenExistingMap extends Application {
    * @args arguments to this application.
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 
@@ -182,6 +195,7 @@ public class OpenExistingMap extends Application {
    * Defines class for the webmap entries.
    */
   private class WebmapEntry {
+
     private final String name;
     private final String id;
 
@@ -197,10 +211,12 @@ public class OpenExistingMap extends Application {
     }
 
     public String getName() {
+
       return name;
     }
 
     public String getId() {
+
       return id;
     }
   }

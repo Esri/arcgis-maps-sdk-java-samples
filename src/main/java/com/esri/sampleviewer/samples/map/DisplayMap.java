@@ -68,6 +68,7 @@ public class DisplayMap extends Application {
 
   @Override
   public void stop() throws Exception {
+
     // releases resources when the application closes
     mapView.dispose();
     map.dispose();
@@ -81,6 +82,7 @@ public class DisplayMap extends Application {
    * @args arguments to this application.
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 }

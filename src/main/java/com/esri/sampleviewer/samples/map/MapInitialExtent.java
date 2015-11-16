@@ -38,7 +38,8 @@ public class MapInitialExtent extends Application {
   private MapView mapView;
   private Map map;
 
-  private final String WORLD_TOPO_SERVICE = "http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer";
+  private final String WORLD_TOPO_SERVICE =
+      "http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -87,6 +88,7 @@ public class MapInitialExtent extends Application {
 
   @Override
   public void stop() throws Exception {
+
     // releases resources when the application closes
     mapView.dispose();
     map.dispose();
@@ -100,6 +102,7 @@ public class MapInitialExtent extends Application {
    * @args arguments to this application.
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 }
