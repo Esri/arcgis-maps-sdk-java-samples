@@ -40,7 +40,8 @@ public class MapSpatialReference extends Application {
   private MapView mapView;
   private Map map;
 
-  private static final String WORLD_CITIES_SERVICE = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
+  private static final String WORLD_CITIES_SERVICE =
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -64,8 +65,8 @@ public class MapSpatialReference extends Application {
       map = new Map(SpatialReference.create(54024));
       // Adding a map image layer which can reproject itself to the map's
       // spatial reference
-      ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer(
-          WORLD_CITIES_SERVICE);
+      ArcGISMapImageLayer mapImageLayer =
+          new ArcGISMapImageLayer(WORLD_CITIES_SERVICE);
       // set the map image layer as basemap
       Basemap basemap = new Basemap(mapImageLayer);
       // add the basemap to the map
@@ -84,6 +85,7 @@ public class MapSpatialReference extends Application {
 
   @Override
   public void stop() throws Exception {
+
     // releases resources when the application closes
     mapView.dispose();
     map.dispose();
@@ -97,6 +99,7 @@ public class MapSpatialReference extends Application {
    * @args arguments to this application.
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 }
