@@ -73,8 +73,8 @@ public class ManageOperationalLayers extends Application {
 
     // set title, size, and add scene to stage
     stage.setTitle("Manage Operation Layer Sample");
-    stage.setWidth(700);
-    stage.setHeight(800);
+    stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
