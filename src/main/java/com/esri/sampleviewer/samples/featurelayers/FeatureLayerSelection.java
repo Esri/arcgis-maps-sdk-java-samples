@@ -55,145 +55,158 @@ import javafx.stage.Stage;
  */
 public class FeatureLayerSelection extends Application {
 
-	private MapView mapView;
+  private MapView mapView;
 
-	private final String DAMAGE_ASSESSMENT_FEATURE_SERVICE = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
-	private static final String SAMPLES_THEME_PATH = "../resources/SamplesTheme.css";
+  private final String DAMAGE_ASSESSMENT_FEATURE_SERVICE =
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
 
-	@Override
-	public void start(Stage stage) throws Exception {
-		// create stack pane and application scene
-		StackPane stackPane = new StackPane();
-		Scene scene = new Scene(stackPane);
-		scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH).toExternalForm());
+  @Override
+  public void start(Stage stage) throws Exception {
 
-		// size the stage, add a title, and set scene to stage
-		stage.setTitle("Feature Layer Selection");
-		stage.setHeight(700);
-		stage.setWidth(800);
-		stage.setScene(scene);
-		stage.show();
+    // create stack pane and application scene
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
+    scene.getStylesheets()
+        .add(getClass().getResource(SAMPLES_THEME_PATH).toExternalForm());
 
-		// create a control panel
-		VBox vBoxControl = new VBox(6);
-		vBoxControl.setMaxSize(240, 100);
-		vBoxControl.getStyleClass().add("panel-region");
+    // size the stage, add a title, and set scene to stage
+    stage.setTitle("Feature Layer Selection");
+    stage.setHeight(700);
+    stage.setWidth(800);
+    stage.setScene(scene);
+    stage.show();
 
-		// create sample label and description
-		Label descriptionLabel = new Label("Sample Description");
-		descriptionLabel.getStyleClass().add("panel-label");
+    // create a control panel
+    VBox vBoxControl = new VBox(6);
+    vBoxControl.setMaxSize(240, 150);
+    vBoxControl.getStyleClass().add("panel-region");
 
-		TextArea description = new TextArea("This sample demonstrates how to \n"
-				+ "select features in a feature layer. Click\n" + "the features to select them.");
-		description.setEditable(false);
-		description.setMinSize(210, 60);
+    // create sample label and description
+    Label descriptionLabel = new Label("Sample Description");
+    descriptionLabel.getStyleClass().add("panel-label");
+    TextArea description = new TextArea(
+        "This sample demonstrates how to select Features in a Feature"
+            + "Layer. Click the Features to select them.");
+    description.setWrapText(true);
+    description.autosize();
+    description.setEditable(false);
 
-		// add sample label and description to the control panel
-		vBoxControl.getChildren().addAll(descriptionLabel, description);
+    // add sample label and description to the control panel
+    vBoxControl.getChildren().addAll(descriptionLabel, description);
 
-		try {
-			// create a view for this map
-			mapView = new MapView();
+    try {
+      // create a view for this map
+      mapView = new MapView();
 
-			// create a map with the streets basemap
-			Map map = new Map(Basemap.createStreets());
+      // create a map with the streets basemap
+      Map map = new Map(Basemap.createStreets());
 
-			// set an initial viewpoint
-			map.setInitialViewpoint(new Viewpoint(new Envelope(-1131596.019761, 3893114.069099, 3926705.982140,
-					7977912.461790, 0, 0, 0, 0, SpatialReferences.getWebMercator())));
+      // set an initial viewpoint
+      map.setInitialViewpoint(new Viewpoint(
+          new Envelope(-1131596.019761, 3893114.069099, 3926705.982140,
+              7977912.461790, 0, 0, 0, 0, SpatialReferences.getWebMercator())));
 
-			// set the map to be displayed in the view
-			mapView.setMap(map);
+      // set the map to be displayed in the view
+      mapView.setMap(map);
 
-			// create feature layer with its service feature table
-			// create the service feature table
-			final ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(DAMAGE_ASSESSMENT_FEATURE_SERVICE);
+      // create feature layer with its service feature table
+      // create the service feature table
+      final ServiceFeatureTable serviceFeatureTable =
+          new ServiceFeatureTable(DAMAGE_ASSESSMENT_FEATURE_SERVICE);
 
-			// create the feature layer using the service feature table
-			final FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
-			featureLayer.setSelectionColor(new RgbColor(0, 255, 255, 255)); // cyan,
-			// fully
-			// opaque
-			featureLayer.setSelectionWidth(3);
+      // create the feature layer using the service feature table
+      final FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
+      featureLayer.setSelectionColor(new RgbColor(0, 255, 255, 255)); // cyan,
+      // fully
+      // opaque
+      featureLayer.setSelectionWidth(3);
 
-			// add the layer to the map
-			map.getOperationalLayers().add(featureLayer);
+      // add the layer to the map
+      map.getOperationalLayers().add(featureLayer);
 
-			mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+      mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 
-				// get the point that was clicked and convert it to a point in
-				// map coordinates
-				Point clickPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
-				int tolerance = 10;
-				double mapTolerance = tolerance * mapView.getUnitsPerPixel();
+        // get the point that was clicked and convert it to a point in
+        // map coordinates
+        Point clickPoint =
+            mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
+        int tolerance = 10;
+        double mapTolerance = tolerance * mapView.getUnitsPerPixel();
 
-				// create objects required to do a selection with a query
-				Envelope envelope = new Envelope(clickPoint.getX() - mapTolerance, clickPoint.getY() - mapTolerance,
-						clickPoint.getX() + mapTolerance, clickPoint.getY() + mapTolerance, 0, 0, 0, 0,
-						map.getSpatialReference());
-				QueryParameters query = new QueryParameters();
-				query.setGeometry(envelope);
-				query.getOutFields().add("*");
+        // create objects required to do a selection with a query
+        Envelope envelope = new Envelope(clickPoint.getX() - mapTolerance,
+            clickPoint.getY() - mapTolerance, clickPoint.getX() + mapTolerance,
+            clickPoint.getY() + mapTolerance, 0, 0, 0, 0,
+            map.getSpatialReference());
+        QueryParameters query = new QueryParameters();
+        query.setGeometry(envelope);
+        query.getOutFields().add("*");
 
-				// call select features
-				final ListenableFuture<FeatureQueryResult> queryFeatures = featureLayer.selectFeatures(query,
-						FeatureLayer.SelectionMode.NEW);
-				// add done loading listener to fire when the selection returns
-				queryFeatures.addDoneListener(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							// call get on the future to get the result
-							FeatureQueryResult result = queryFeatures.get();
+        // call select features
+        final ListenableFuture<FeatureQueryResult> queryFeatures =
+            featureLayer.selectFeatures(query, FeatureLayer.SelectionMode.NEW);
+        // add done loading listener to fire when the selection returns
+        queryFeatures.addDoneListener(new Runnable() {
 
-							// find out how many items there are in the result
-							int nFeatures = 0;
-							for (Feature feature : result) {
-								nFeatures++;
-							}
-							System.out.println("Features selected: " + nFeatures);
+          @Override
+          public void run() {
 
-						} catch (Exception e) {
-							// on any error, notify.
-							e.printStackTrace();
-						}
-					}
-				});
-			});
+            try {
+              // call get on the future to get the result
+              FeatureQueryResult result = queryFeatures.get();
 
-			// add the map view and control box to stack pane
-			stackPane.getChildren().addAll(mapView, vBoxControl);
-			StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-			StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+              // find out how many items there are in the result
+              int nFeatures = 0;
+              for (Feature feature : result) {
+                nFeatures++;
+              }
+              System.out.println("Features selected: " + nFeatures);
 
-		} catch (Exception e) {
-			// on any error, display exception
-			e.printStackTrace();
-		}
-	}
+            } catch (Exception e) {
+              // on any error, notify.
+              e.printStackTrace();
+            }
+          }
+        });
+      });
 
-	/**
-	 * Stops and releases all resources used in application.
-	 * 
-	 * @throws Exception if security manager doesn't allow JVM to exit with
-	 * current status
-	 */
-	@Override
-	public void stop() throws Exception {
-		// release resources when the application closes
-		if (mapView != null) {
-			mapView.dispose();
-		}
-		Platform.exit();
-		System.exit(0);
-	}
+      // add the map view and control box to stack pane
+      stackPane.getChildren().addAll(mapView, vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
 
-	/**
-	 * Opens and runs application.
-	 * 
-	 * @param args arguments passed to this application
-	 */
-	public static void main(String[] args) {
-		Application.launch(args);
-	}
+    } catch (Exception e) {
+      // on any error, display exception
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   * 
+   * @throws Exception if security manager doesn't allow JVM to exit with
+   *           current status
+   */
+  @Override
+  public void stop() throws Exception {
+
+    // release resources when the application closes
+    if (mapView != null) {
+      mapView.dispose();
+    }
+    Platform.exit();
+    System.exit(0);
+  }
+
+  /**
+   * Opens and runs application.
+   * 
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
+
+    Application.launch(args);
+  }
 }
