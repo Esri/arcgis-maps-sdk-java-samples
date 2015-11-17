@@ -16,6 +16,7 @@ package com.esri.sampleviewer.samples.map;
 
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -30,8 +31,10 @@ import javafx.stage.Stage;
  * The Set Map Spatial Reference sample application demonstrates how to create a
  * Map with the <b>WORLD_BONNE<\b> equal-area projection that has a true scale
  * along the central meridian and all parallels. The sample creates an
- * <@ArcGISMapImageLayer> that can reproject itself to the <@Map>'s spatial
- * reference. Not all layer types can be reprojected, like <@ArcGISTiledLayer>,
+ * {@link ArcGISMapImageLayer} that can reproject itself to the {@link Map}'s
+ * spatial reference.
+ * <p>
+ * Note: Not all layer types can be reprojected, like {@link ArcGISTiledLayer},
  * and will fail to draw if their spatial reference is not the same as the Map's
  * spatial reference.
  */

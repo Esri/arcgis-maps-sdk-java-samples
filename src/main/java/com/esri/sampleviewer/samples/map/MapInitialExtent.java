@@ -29,9 +29,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
- * The Set Initial Map Area sample demonstrates how to start a
- * <@Map> application with a defined initial area using a <@Viewpoint> created
- * with an <@Envelope> defining the initial area.
+ * The Set Initial Map Area sample demonstrates how to start a {@link Map}
+ * application with a defined initial area using a {@link Viewpoint} created
+ * with an {@link Envelope} defining the initial area.
  */
 public class MapInitialExtent extends Application {
 

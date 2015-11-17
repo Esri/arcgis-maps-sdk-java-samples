@@ -25,10 +25,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
- * The Display Map app is the most basic Map app for the ArcGIS Runtime SDK for
- * Java. It shows how to inflate a MapView in the scene, create a Map with a
- * static Basemap.createImagery() and bind the Map to the MapView. By default,
- * this map supports basic zooming and panning operations.
+ * The Display Map app is the most basic {@link Map} app for the ArcGIS Runtime
+ * SDK for Java. It shows how to inflate a {@link MapView} in the scene, create
+ * a Map with a static {@link Basemap} and bind the Map to the MapView . By
+ * default, this map supports basic zooming and panning operations.
  */
 public class DisplayMap extends Application {
 
