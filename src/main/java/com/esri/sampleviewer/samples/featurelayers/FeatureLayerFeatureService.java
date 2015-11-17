@@ -47,99 +47,108 @@ import javafx.stage.Stage;
  */
 public class FeatureLayerFeatureService extends Application {
 
-	private MapView mapView;
+  private MapView mapView;
 
-	private static final String GEOLOGY_FEATURE_SERVICE = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/9";
-	private static final String SAMPLES_THEME_PATH = "../resources/SamplesTheme.css";
+  private static final String GEOLOGY_FEATURE_SERVICE =
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/9";
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
 
-	@Override
-	public void start(Stage stage) throws Exception {
-		// create stack pane and application scene
-		StackPane stackPane = new StackPane();
-		Scene scene = new Scene(stackPane);
-		scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH).toExternalForm());
+  @Override
+  public void start(Stage stage) throws Exception {
 
-		// size the stage, add a title, and set scene to stage
-		stage.setTitle("Feature Layer from Feature Server");
-		stage.setHeight(700);
-		stage.setWidth(800);
-		stage.setScene(scene);
-		stage.show();
+    // create stack pane and application scene
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
+    scene.getStylesheets()
+        .add(getClass().getResource(SAMPLES_THEME_PATH).toExternalForm());
 
-		// create a control panel
-		VBox vBoxControl = new VBox(6);
-		vBoxControl.setMaxSize(240, 100);
-		vBoxControl.getStyleClass().add("panel-region");
+    // size the stage, add a title, and set scene to stage
+    stage.setTitle("Feature Layer from Feature Server");
+    stage.setHeight(700);
+    stage.setWidth(800);
+    stage.setScene(scene);
+    stage.show();
 
-		// create sample label and description
-		Label descriptionLabel = new Label("Sample Description");
-		descriptionLabel.getStyleClass().add("panel-label");
+    // create a control panel
+    VBox vBoxControl = new VBox(6);
+    vBoxControl.setMaxSize(240, 120);
+    vBoxControl.getStyleClass().add("panel-region");
 
-		TextArea description = new TextArea(
-				"This sample shows how to use a layer\n" + " from an ArcGIS feature service as a\n" + "feature layer.");
-		description.setEditable(false);
-		description.setMinSize(210, 60);
+    // create sample label and description
+    Label descriptionLabel = new Label("Sample Description");
+    descriptionLabel.getStyleClass().add("panel-label");
 
-		// add sample label and description to the control panel
-		vBoxControl.getChildren().addAll(descriptionLabel, description);
+    TextArea description = new TextArea("This sample shows how to use a layer"
+        + " from an ArcGIS feature service as a feature layer.");
+    description.setWrapText(true);
+    description.autosize();
+    description.setEditable(false);
 
-		try {
-			// create a view for this map
-			mapView = new MapView();
+    // add sample label and description to the control panel
+    vBoxControl.getChildren().addAll(descriptionLabel, description);
 
-			// create a map with the terrain with labels basemap
-			Map map = new Map(Basemap.createTerrainWithLabels());
+    try {
+      // create a view for this map
+      mapView = new MapView();
 
-			// set an initial viewpoint
-			map.setInitialViewpoint(
-					new Viewpoint(new Point(-13176752, 4090404, SpatialReferences.getWebMercator()), 500000));
+      // create a map with the terrain with labels basemap
+      Map map = new Map(Basemap.createTerrainWithLabels());
 
-			// create feature layer with its service feature table
-			// create the service feature table
-			ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(GEOLOGY_FEATURE_SERVICE);
+      // set an initial viewpoint
+      map.setInitialViewpoint(new Viewpoint(
+          new Point(-13176752, 4090404, SpatialReferences.getWebMercator()),
+          500000));
 
-			// create the feature layer using the service feature table
-			FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
+      // create feature layer with its service feature table
+      // create the service feature table
+      ServiceFeatureTable serviceFeatureTable =
+          new ServiceFeatureTable(GEOLOGY_FEATURE_SERVICE);
 
-			// add the layer to the map
-			map.getOperationalLayers().add(featureLayer);
+      // create the feature layer using the service feature table
+      FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
-			// set the map to be displayed in the view
-			mapView.setMap(map);
+      // add the layer to the map
+      map.getOperationalLayers().add(featureLayer);
 
-			// add the map view and control box to stack pane
-			stackPane.getChildren().addAll(mapView, vBoxControl);
-			StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-			StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      // set the map to be displayed in the view
+      mapView.setMap(map);
 
-		} catch (Exception e) {
-			// on any error, display stack trace
-			e.printStackTrace();
-		}
-	}
+      // add the map view and control box to stack pane
+      stackPane.getChildren().addAll(mapView, vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
 
-	/**
-	 * Stops and releases all resources used in application.
-	 * 
-	 * @throws Exception if security manager doesn't allow JVM to exit with
-	 * current status
-	 */
-	@Override
-	public void stop() throws Exception {
-		// release resources when the application closes
-		if (mapView != null) {
-			mapView.dispose();
-		}
-		Platform.exit();
-		System.exit(0);
-	}
+    } catch (Exception e) {
+      // on any error, display stack trace
+      e.printStackTrace();
+    }
+  }
 
-	/**
-	 * Opens and runs application.
-	 * 
-	 * @param args arguments passed to this application
-	 */
-	public static void main(String[] args) {
-		Application.launch(args);
-	}
+  /**
+   * Stops and releases all resources used in application.
+   * 
+   * @throws Exception if security manager doesn't allow JVM to exit with
+   *           current status
+   */
+  @Override
+  public void stop() throws Exception {
+
+    // release resources when the application closes
+    if (mapView != null) {
+      mapView.dispose();
+    }
+    Platform.exit();
+    System.exit(0);
+  }
+
+  /**
+   * Opens and runs application.
+   * 
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
+
+    Application.launch(args);
+  }
 }
