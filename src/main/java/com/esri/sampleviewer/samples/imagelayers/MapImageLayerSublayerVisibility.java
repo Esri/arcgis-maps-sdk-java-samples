@@ -55,7 +55,8 @@ public class MapImageLayerSublayerVisibility extends Application {
   private CheckComboBox<String> checkComboBox;
 
   // World Topo Map Service URL
-  private static final String WORLD_CITIES_SERVICE = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
+  private static final String WORLD_CITIES_SERVICE =
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -122,6 +123,7 @@ public class MapImageLayerSublayerVisibility extends Application {
 
   @Override
   public void stop() throws Exception {
+
     // releases resources when the application closes
     if (mapView != null) {
       mapView.dispose();
@@ -139,6 +141,7 @@ public class MapImageLayerSublayerVisibility extends Application {
    * @args arguments to this application.
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 
@@ -148,6 +151,7 @@ public class MapImageLayerSublayerVisibility extends Application {
    * @sublayer sub layer to be toggled
    */
   private void toggleVisibility(String sublayer) {
+
     int indexSublayer = checkComboBox.getCheckModel().getItemIndex(sublayer);
     // check if the sub layer is selected in the checkComboBox
     if (checkComboBox.getCheckModel().getCheckedItems().contains(sublayer)) {

@@ -46,6 +46,7 @@ public class SimpleMarkerSymbolSample extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
+
     // create border pane and application scene
     BorderPane borderPane = new BorderPane();
     Scene scene = new Scene(borderPane);
@@ -107,6 +108,7 @@ public class SimpleMarkerSymbolSample extends Application {
    */
   @Override
   public void stop() throws Exception {
+
     // release resources when the application closes
     if (mapView != null) {
       mapView.dispose();
@@ -121,6 +123,7 @@ public class SimpleMarkerSymbolSample extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 }

@@ -35,13 +35,16 @@ import javafx.stage.Stage;
  * By default, this map supports basic zooming and panning operations.
  */
 public class MapImageLayer extends Application {
+
   private Map map;
   private MapView mapView;
 
-  private final String WORLD_ELEVATION_SERVICE = "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
+  private final String WORLD_ELEVATION_SERVICE =
+      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
 
   @Override
   public void start(Stage stage) throws Exception {
+
     // create a border pane and application scene
     BorderPane borderPane = new BorderPane();
     Scene scene = new Scene(borderPane);
@@ -57,7 +60,8 @@ public class MapImageLayer extends Application {
       // create a view for our map
       mapView = new MapView();
       // create new Map Image Layer from service URL
-      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(WORLD_ELEVATION_SERVICE);
+      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(
+          WORLD_ELEVATION_SERVICE);
       // set Map Image Layer as basemap
       Basemap basemap = new Basemap(imageLayer);
       // add basemap to map
@@ -76,10 +80,12 @@ public class MapImageLayer extends Application {
   /**
    * Stops and releases all resources used in application.
    * 
-   * @throws Exception if security manager doesn't allow JVM to exit with current status
+   * @throws Exception if security manager doesn't allow JVM to exit with
+   *           current status
    */
   @Override
   public void stop() throws Exception {
+
     mapView.dispose();
     map.dispose();
     Platform.exit();
@@ -92,6 +98,7 @@ public class MapImageLayer extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 }
