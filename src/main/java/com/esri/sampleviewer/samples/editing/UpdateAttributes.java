@@ -64,221 +64,236 @@ import javafx.stage.Stage;
  * able to persist beyond this session.
  */
 public class UpdateAttributes extends Application {
-	private MapView mapView;
 
-	private FeatureQueryResult selectedFeatures;
-	private FeatureLayer featureLayer;
-	private ServiceFeatureTable featureTable;
-	private ComboBox<String> comboBox;
+  private MapView mapView;
 
-	private static final String FEATURE_LAYER_URL = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
-	private static final String SAMPLES_THEME_PATH = "../resources/SamplesTheme.css";
+  private FeatureQueryResult selectedFeatures;
+  private FeatureLayer featureLayer;
+  private ServiceFeatureTable featureTable;
+  private ComboBox<String> comboBox;
 
-	@Override
-	public void start(Stage stage) throws Exception {
-		// create stack pane and application scene
-		StackPane stackPane = new StackPane();
-		Scene scene = new Scene(stackPane);
-		scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH).toExternalForm());
+  private static final String FEATURE_LAYER_URL =
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
 
-		// size the stage, add a title, and set scene to stage
-		stage.setTitle("Update Attributes Sample");
-		stage.setHeight(700);
-		stage.setWidth(800);
-		stage.setScene(scene);
-		stage.show();
+  @Override
+  public void start(Stage stage) throws Exception {
 
-		// create a control panel
-		VBox vBoxControl = new VBox(6);
-		vBoxControl.setMaxSize(240, 120);
-		vBoxControl.getStyleClass().add("panel-region");
+    // create stack pane and application scene
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
-		// create sample label and description
-		Label descriptionLabel = new Label("Sample Description");
-		descriptionLabel.getStyleClass().add("panel-label");
+    // size the stage, add a title, and set scene to stage
+    stage.setTitle("Update Attributes Sample");
+    stage.setHeight(700);
+    stage.setWidth(800);
+    stage.setScene(scene);
+    stage.show();
 
-		TextArea description = new TextArea(
-				"This sample shows how to update\n" + "feature attributes. Click on a feature\n"
-						+ "to select it, then use the combo box\n" + "to update the typdamage attribute.");
-		description.setEditable(false);
-		description.setMinSize(210, 80);
+    // create a control panel
+    VBox vBoxControl = new VBox(6);
+    vBoxControl.setMaxSize(240, 120);
+    vBoxControl.getStyleClass().add("panel-region");
 
-		// create list of damage types
-		ObservableList<String> damageList = FXCollections.observableArrayList();
-		damageList.add("Destroyed");
-		damageList.add("Inaccessible");
-		damageList.add("Major");
-		damageList.add("Minor");
-		damageList.add("Affected");
+    // create sample label and description
+    Label descriptionLabel = new Label("Sample Description");
+    descriptionLabel.getStyleClass().add("panel-label");
 
-		Label typeDamageLabel = new Label("Select type damage:");
-		typeDamageLabel.getStyleClass().add("panel-label");
+    TextArea description = new TextArea(
+        "This sample shows how to update\n"
+            + "feature attributes. Click on a feature\n"
+            + "to select it, then use the combo box\n"
+            + "to update the typdamage attribute.");
+    description.setEditable(false);
+    description.setMinSize(210, 80);
 
-		// create combo box
-		comboBox = new ComboBox<>(damageList);
+    // create list of damage types
+    ObservableList<String> damageList = FXCollections.observableArrayList();
+    damageList.add("Destroyed");
+    damageList.add("Inaccessible");
+    damageList.add("Major");
+    damageList.add("Minor");
+    damageList.add("Affected");
 
-		// set size, tooltip and disable values for the combo box
-		comboBox.setPrefSize(200, 10);
-		comboBox.setTooltip(new Tooltip("Type of Damage"));
-		comboBox.setDisable(true);
+    Label typeDamageLabel = new Label("Select type damage:");
+    typeDamageLabel.getStyleClass().add("panel-label");
 
-		// handle type damage selection
-		comboBox.showingProperty().addListener((obs, wasShowing, isShowing) -> {
-			if (!isShowing) {
-				// update the selected feature
-				updateAttributes();
-			}
-		});
+    // create combo box
+    comboBox = new ComboBox<>(damageList);
 
-		// add sample label and description and comboBox to the control panel
-		vBoxControl.getChildren().addAll(descriptionLabel, description, typeDamageLabel, comboBox);
+    // set size, tooltip and disable values for the combo box
+    comboBox.setPrefSize(200, 10);
+    comboBox.setTooltip(new Tooltip("Type of Damage"));
+    comboBox.setDisable(true);
 
-		try {
-			// create spatial reference for point
-			SpatialReference spatialReference = SpatialReferences.getWebMercator();
+    // handle type damage selection
+    comboBox.showingProperty().addListener((obs, wasShowing, isShowing) -> {
+      if (!isShowing) {
+        // update the selected feature
+        updateAttributes();
+      }
+    });
 
-			// create a initial viewpoint with a point and scale
-			Point pointLondon = new Point(-036773, 6710477, spatialReference);
-			Viewpoint viewpoint = new Viewpoint(pointLondon, 200000);
+    // add sample label and description and comboBox to the control panel
+    vBoxControl.getChildren().addAll(descriptionLabel, description,
+        typeDamageLabel, comboBox);
 
-			// create a map with streets basemap
-			Map map = new Map(Basemap.createStreets());
+    try {
+      // create spatial reference for point
+      SpatialReference spatialReference = SpatialReferences.getWebMercator();
 
-			// set viewpoint to map
-			map.setInitialViewpoint(viewpoint);
+      // create a initial viewpoint with a point and scale
+      Point pointLondon = new Point(-036773, 6710477, spatialReference);
+      Viewpoint viewpoint = new Viewpoint(pointLondon, 200000);
 
-			// create view for this map
-			mapView = new MapView();
+      // create a map with streets basemap
+      Map map = new Map(Basemap.createStreets());
 
-			// create service feature table from URL
-			featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
-			featureTable.getOutFields().add("*"); // gets all fields from table
+      // set viewpoint to map
+      map.setInitialViewpoint(viewpoint);
 
-			// create a feature layer from table
-			featureLayer = new FeatureLayer(featureTable);
+      // create view for this map
+      mapView = new MapView();
 
-			// enable combobox once the layer is loaded
-			featureLayer.addDoneLoadingListener(() -> comboBox.setDisable(false));
+      // create service feature table from URL
+      featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
+      featureTable.getOutFields().add("*"); // gets all fields from table
 
-			// add the layer to the map
-			map.getOperationalLayers().add(featureLayer);
+      // create a feature layer from table
+      featureLayer = new FeatureLayer(featureTable);
 
-			mapView.setOnMouseClicked(e -> {
-				// accept only primary mouse click
-				if (e.getButton() == MouseButton.PRIMARY) {
-					// create point from where user clicked
-					Point2D point = new Point2D(e.getX(), e.getY());
+      // enable combobox once the layer is loaded
+      featureLayer.addDoneLoadingListener(() -> comboBox.setDisable(false));
 
-					// create map point from point
-					Point mapPoint = mapView.screenToLocation(point);
+      // add the layer to the map
+      map.getOperationalLayers().add(featureLayer);
 
-					// select feature that user clicked
-					selectFeatures(mapPoint);
-				}
-			});
-			// set map to be displayed in view
-			mapView.setMap(map);
+      mapView.setOnMouseClicked(e -> {
+        // accept only primary mouse click
+        if (e.getButton() == MouseButton.PRIMARY) {
+          // create point from where user clicked
+          Point2D point = new Point2D(e.getX(), e.getY());
 
-			// add the map view and control box to stack pane
-			stackPane.getChildren().addAll(mapView, vBoxControl);
-			StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-			StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+          // create map point from point
+          Point mapPoint = mapView.screenToLocation(point);
 
-		} catch (Exception e) {
-			// on any error, display the stack trace
-			e.printStackTrace();
-		}
-	}
+          // select feature that user clicked
+          selectFeatures(mapPoint);
+        }
+      });
+      // set map to be displayed in view
+      mapView.setMap(map);
 
-	/**
-	 * Selects features around the map point
-	 * 
-	 * @param mapPoint x,y-coordinate pair
-	 */
-	private void selectFeatures(Point mapPoint) {
-		// create a buffer for the mapPoint
-		double distance = mapView.getUnitsPerPixel() * 10;
-		Polygon pointBuffer = GeometryEngine.buffer(mapPoint, distance);
+      // add the map view and control box to stack pane
+      stackPane.getChildren().addAll(mapView, vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
 
-		// create a query from pointBuffer
-		QueryParameters queryParams = new QueryParameters();
-		queryParams.setGeometry(pointBuffer);
-		queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
-		queryParams.getOutFields().add("*");
+    } catch (Exception e) {
+      // on any error, display the stack trace
+      e.printStackTrace();
+    }
+  }
 
-		// select the features based on the query
-		ListenableFuture<FeatureQueryResult> queryFeatures = featureLayer.selectFeatures(queryParams,
-				SelectionMode.NEW);
+  /**
+   * Selects features around the map point
+   * 
+   * @param mapPoint x,y-coordinate pair
+   */
+  private void selectFeatures(Point mapPoint) {
 
-		try {
-			// get selected features from the result
-			selectedFeatures = queryFeatures.get();
+    // create a buffer for the mapPoint
+    double distance = mapView.getUnitsPerPixel() * 10;
+    Polygon pointBuffer = GeometryEngine.buffer(mapPoint, distance);
 
-		} catch (Exception e) {
-			// on any error, display the stack trace
-			e.printStackTrace();
-		}
-	}
+    // create a query from pointBuffer
+    QueryParameters queryParams = new QueryParameters();
+    queryParams.setGeometry(pointBuffer);
+    queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
+    queryParams.getOutFields().add("*");
 
-	/**
-	 * Applies changes to the feature, Service Feature Table and on the server;
-	 * 
-	 * @param featureTable holds all Feature data
-	 */
-	private void updateAttributes() {
-		if (selectedFeatures != null) {
+    // select the features based on the query
+    ListenableFuture<FeatureQueryResult> queryFeatures = featureLayer
+        .selectFeatures(queryParams,
+            SelectionMode.NEW);
 
-			// apply damage type to the selected features
-			selectedFeatures.forEach(feature -> {
-				feature.getAttributes().put("typdamage", comboBox.getValue());
+    try {
+      // get selected features from the result
+      selectedFeatures = queryFeatures.get();
 
-				// update feature in the feature table
-				final ListenableFuture<Boolean> mapViewResult = featureTable.updateFeatureAsync(feature);
+    } catch (Exception e) {
+      // on any error, display the stack trace
+      e.printStackTrace();
+    }
+  }
 
-				try {
-					// if successful, update change to the server
-					if (mapViewResult.get().booleanValue()) {
-						// apply change to the server
-						final ListenableFuture<List<FeatureEditResult>> serverResult = featureTable.applyEditsAsync();
-						// check if server result successful
-						if (!serverResult.get().get(0).hasCompletedWithErrors()) {
-							System.out.println("Feature successfully updated");
-						}
-					}
-				} catch (Exception e) {
-					// on any error, display the stack trace
-					e.printStackTrace();
-				}
-			});
-			// Clear the selected features
-			featureLayer.clearSelection();
-			selectedFeatures = null;
-		}
-	}
+  /**
+   * Applies changes to the feature, Service Feature Table and on the server;
+   * 
+   * @param featureTable holds all Feature data
+   */
+  private void updateAttributes() {
 
-	/**
-	 * Stops and releases all resources used in application.
-	 * 
-	 * @throws Exception if security manager doesn't allow JVM to exit with
-	 * current status
-	 */
-	@Override
-	public void stop() throws Exception {
-		// release resources when the application closes
-		if (mapView != null) {
-			mapView.dispose();
-		}
-		Platform.exit();
-		System.exit(0);
-	}
+    if (selectedFeatures != null) {
 
-	/**
-	 * Opens and runs application.
-	 * 
-	 * @param args arguments passed to this application
-	 */
-	public static void main(String[] args) {
-		Application.launch(args);
-	}
+      // apply damage type to the selected features
+      selectedFeatures.forEach(feature -> {
+        feature.getAttributes().put("typdamage", comboBox.getValue());
+
+        // update feature in the feature table
+        final ListenableFuture<Boolean> mapViewResult = featureTable
+            .updateFeatureAsync(feature);
+
+        try {
+          // if successful, update change to the server
+          if (mapViewResult.get().booleanValue()) {
+            // apply change to the server
+            final ListenableFuture<List<FeatureEditResult>> serverResult =
+                featureTable.applyEditsAsync();
+            // check if server result successful
+            if (!serverResult.get().get(0).hasCompletedWithErrors()) {
+              System.out.println("Feature successfully updated");
+            }
+          }
+        } catch (Exception e) {
+          // on any error, display the stack trace
+          e.printStackTrace();
+        }
+      });
+      // Clear the selected features
+      featureLayer.clearSelection();
+      selectedFeatures = null;
+    }
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   * 
+   * @throws Exception if security manager doesn't allow JVM to exit with
+   *           current status
+   */
+  @Override
+  public void stop() throws Exception {
+
+    // release resources when the application closes
+    if (mapView != null) {
+      mapView.dispose();
+    }
+    Platform.exit();
+    System.exit(0);
+  }
+
+  /**
+   * Opens and runs application.
+   * 
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
+
+    Application.launch(args);
+  }
 
 }

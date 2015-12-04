@@ -35,13 +35,16 @@ import javafx.stage.Stage;
  * basic zooming and panning operations.
  */
 public class TiledLayer extends Application {
+
   private Map map;
   private MapView mapView;
 
-  private final String WORLD_TOPO_SERVICE = "http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer";
+  private final String WORLD_TOPO_SERVICE =
+      "http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer";
 
   @Override
   public void start(Stage stage) throws Exception {
+
     // create a border pane and application scene
     BorderPane borderPane = new BorderPane();
     Scene scene = new Scene(borderPane);
@@ -76,10 +79,12 @@ public class TiledLayer extends Application {
   /**
    * Stops and releases all resources used in application.
    * 
-   * @throws Exception if security manager doesn't allow JVM to exit with current status
+   * @throws Exception if security manager doesn't allow JVM to exit with
+   *           current status
    */
   @Override
   public void stop() throws Exception {
+
     // release resources when the application closes
     mapView.dispose();
     map.dispose();
@@ -93,6 +98,7 @@ public class TiledLayer extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 

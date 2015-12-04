@@ -51,13 +51,16 @@ import javafx.stage.Stage;
  * cleaned up when the application closes).
  */
 public class PictureMarkerSymbolSample extends Application {
+
   private MapView mapView;
   private File orangeSymbolPath;
 
-  private final String CAMPSITE_SYMBOL = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae";
+  private final String CAMPSITE_SYMBOL =
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae";
 
   @Override
   public void start(Stage stage) throws Exception {
+
     // create border pane and application scene
     BorderPane borderPane = new BorderPane();
     Scene scene = new Scene(borderPane);
@@ -139,6 +142,7 @@ public class PictureMarkerSymbolSample extends Application {
    */
   private void placePictureMarkerSymbol(GraphicsOverlay graphicsOverlay,
       PictureMarkerSymbol markerSymbol, Point graphicPoint) {
+
     // set size of the image
     markerSymbol.setHeight(40);
     markerSymbol.setWidth(40);
@@ -159,6 +163,7 @@ public class PictureMarkerSymbolSample extends Application {
    * @return true if successful
    */
   private boolean saveResourceToExternalStorage() {
+
     try {
       // create a file that will be deleted automatically
       orangeSymbolPath = File.createTempFile("orange_symbol", ".png");
@@ -186,6 +191,7 @@ public class PictureMarkerSymbolSample extends Application {
    */
   @Override
   public void stop() throws Exception {
+
     // release resources when the application closes
     if (mapView != null) {
       mapView.dispose();
@@ -200,6 +206,7 @@ public class PictureMarkerSymbolSample extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
 }

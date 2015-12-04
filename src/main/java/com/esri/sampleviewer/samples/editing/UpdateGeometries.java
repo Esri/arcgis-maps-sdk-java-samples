@@ -60,207 +60,222 @@ import javafx.stage.Stage;
  * beginning a session make sure to be zoomed in to produce the best results.
  */
 public class UpdateGeometries extends Application {
-	private MapView mapView;
-	private FeatureLayer featureLayer;
-	private FeatureQueryResult selectedFeatures;
 
-	private static final String FEATURE_LAYER_URL = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
-	private static final String SAMPLES_THEME_PATH = "../resources/SamplesTheme.css";
+  private MapView mapView;
+  private FeatureLayer featureLayer;
+  private FeatureQueryResult selectedFeatures;
 
-	@Override
-	public void start(Stage stage) throws Exception {
-		// create stack pane and application scene
-		StackPane stackPane = new StackPane();
-		Scene scene = new Scene(stackPane);
-		scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH).toExternalForm());
+  private static final String FEATURE_LAYER_URL =
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
 
-		// set title, size, and add scene to stage
-		stage.setTitle("Update Geometries Sample");
-		stage.setWidth(800);
-		stage.setHeight(700);
-		stage.setScene(scene);
-		stage.show();
+  @Override
+  public void start(Stage stage) throws Exception {
 
-		// create a control panel
-		VBox vBoxControl = new VBox(6);
-		vBoxControl.setMaxSize(240, 120);
-		vBoxControl.getStyleClass().add("panel-region");
+    // create stack pane and application scene
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
-		// create sample label and description
-		Label descriptionLabel = new Label("Sample Description");
-		descriptionLabel.getStyleClass().add("panel-label");
+    // set title, size, and add scene to stage
+    stage.setTitle("Update Geometries Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
 
-		TextArea description = new TextArea("This sample shows how to update \n"
-				+ "the geometry of a feature. Click on a \n" + "feature to select it, then click on the\n"
-				+ "map to move the feature to a new\n" + "location.");
+    // create a control panel
+    VBox vBoxControl = new VBox(6);
+    vBoxControl.setMaxSize(240, 120);
+    vBoxControl.getStyleClass().add("panel-region");
 
-		description.setEditable(false);
-		description.setMinSize(210, 100);
+    // create sample label and description
+    Label descriptionLabel = new Label("Sample Description");
+    descriptionLabel.getStyleClass().add("panel-label");
 
-		// add sample label and description to the control panel
-		vBoxControl.getChildren().addAll(descriptionLabel, description);
+    TextArea description = new TextArea("This sample shows how to update \n"
+        + "the geometry of a feature. Click on a \n"
+        + "feature to select it, then click on the\n"
+        + "map to move the feature to a new\n" + "location.");
 
-		try {
-			// create spatial reference for point
-			SpatialReference spatialReference = SpatialReferences.getWebMercator();
-			// create an initial viewpoint with a point and scale
-			Point pointLondon = new Point(-036773, 6710477, spatialReference);
-			Viewpoint viewpoint = new Viewpoint(pointLondon, 200000);
+    description.setEditable(false);
+    description.setMinSize(210, 100);
 
-			// create a map with streets basemap
-			Map map = new Map(Basemap.createStreets());
+    // add sample label and description to the control panel
+    vBoxControl.getChildren().addAll(descriptionLabel, description);
 
-			// set viewpoint for map
-			map.setInitialViewpoint(viewpoint);
+    try {
+      // create spatial reference for point
+      SpatialReference spatialReference = SpatialReferences.getWebMercator();
+      // create an initial viewpoint with a point and scale
+      Point pointLondon = new Point(-036773, 6710477, spatialReference);
+      Viewpoint viewpoint = new Viewpoint(pointLondon, 200000);
 
-			// create a view for this map
-			mapView = new MapView();
+      // create a map with streets basemap
+      Map map = new Map(Basemap.createStreets());
 
-			// create service feature table from URL
-			ServiceFeatureTable featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
-			featureTable.getOutFields().add("*"); // * gets all fields from the
-													// table
+      // set viewpoint for map
+      map.setInitialViewpoint(viewpoint);
 
-			// create a feature layer from table
-			featureLayer = new FeatureLayer(featureTable);
+      // create a view for this map
+      mapView = new MapView();
 
-			// add the layer to the map
-			map.getOperationalLayers().add(featureLayer);
+      // create service feature table from URL
+      ServiceFeatureTable featureTable = new ServiceFeatureTable(
+          FEATURE_LAYER_URL);
+      featureTable.getOutFields().add("*"); // * gets all fields from the
+      // table
 
-			// set map to be displayed in view
-			mapView.setMap(map);
+      // create a feature layer from table
+      featureLayer = new FeatureLayer(featureTable);
 
-			mapView.setOnMouseClicked(e -> {
-				// check for primary and secondary mouse click
-				if (e.getButton() == MouseButton.PRIMARY) {
-					// create point from where user clicked
-					Point2D point = new Point2D(e.getX(), e.getY());
+      // add the layer to the map
+      map.getOperationalLayers().add(featureLayer);
 
-					// create map point from point
-					Point mapPoint = mapView.screenToLocation(point);
+      // set map to be displayed in view
+      mapView.setMap(map);
 
-					// check that no feature is selected
-					if (selectedFeatures == null) {
-						// select feature that the user clicked
-						selectFeature(mapPoint);
-					} else {
-						// move feature to new location
-						updateGeometry(mapPoint, featureTable);
-						// clear the selection
-						featureLayer.clearSelection();
-						// set selectedFeatures to null
-						selectedFeatures = null;
-					}
+      mapView.setOnMouseClicked(e -> {
+        // check for primary and secondary mouse click
+        if (e.getButton() == MouseButton.PRIMARY) {
+          // create point from where user clicked
+          Point2D point = new Point2D(e.getX(), e.getY());
 
-				} else if (e.getButton() == MouseButton.SECONDARY) {
-					// deselect the feature if selected
-					if (selectedFeatures != null) {
-						// clear the selection
-						featureLayer.clearSelection();
-						// set selectedFeatures to null
-						selectedFeatures = null;
-					}
-				}
-			});
+          // create map point from point
+          Point mapPoint = mapView.screenToLocation(point);
 
-			// add the map view and control box to stack pane
-			stackPane.getChildren().addAll(mapView, vBoxControl);
-			StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-			StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+          // check that no feature is selected
+          if (selectedFeatures == null) {
+            // select feature that the user clicked
+            selectFeature(mapPoint);
+          } else {
+            // move feature to new location
+            updateGeometry(mapPoint, featureTable);
+            // clear the selection
+            featureLayer.clearSelection();
+            // set selectedFeatures to null
+            selectedFeatures = null;
+          }
 
-		} catch (Exception e) {
-			// on any error, display the stack trace
-			e.printStackTrace();
-		}
-	}
+        } else if (e.getButton() == MouseButton.SECONDARY) {
+          // deselect the feature if selected
+          if (selectedFeatures != null) {
+            // clear the selection
+            featureLayer.clearSelection();
+            // set selectedFeatures to null
+            selectedFeatures = null;
+          }
+        }
+      });
 
-	/**
-	 * Selects features around map point.
-	 * 
-	 * @param mapPoint x,y-coordinate pair
-	 */
-	private void selectFeature(Point mapPoint) {
-		// get unit per pixel times ten
-		double distance = mapView.getUnitsPerPixel() * 10;
-		// create a buffer for the mapPoint
-		Polygon pointBuffer = GeometryEngine.buffer(mapPoint, distance);
+      // add the map view and control box to stack pane
+      stackPane.getChildren().addAll(mapView, vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
 
-		// create a query from pointBuffer
-		QueryParameters queryParams = new QueryParameters();
-		queryParams.setGeometry(pointBuffer);
-		queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
-		queryParams.getOutFields().add("*");
+    } catch (Exception e) {
+      // on any error, display the stack trace
+      e.printStackTrace();
+    }
+  }
 
-		// select based on the query
-		final ListenableFuture<FeatureQueryResult> queryFeatures = featureLayer.selectFeatures(queryParams,
-				SelectionMode.NEW);
+  /**
+   * Selects features around map point.
+   * 
+   * @param mapPoint x,y-coordinate pair
+   */
+  private void selectFeature(Point mapPoint) {
 
-		try {
-			// get user's selection
-			selectedFeatures = queryFeatures.get();
-		} catch (Exception e) {
-			// on any error, display the stack trace
-			e.printStackTrace();
-		}
-	}
+    // get unit per pixel times ten
+    double distance = mapView.getUnitsPerPixel() * 10;
+    // create a buffer for the mapPoint
+    Polygon pointBuffer = GeometryEngine.buffer(mapPoint, distance);
 
-	/**
-	 * Updates the location of the features that are selected.
-	 * 
-	 * @param newPoint x,y-coordinate pair
-	 * @param damageTable holds all Feature data
-	 */
-	private void updateGeometry(Point newPoint, ServiceFeatureTable damageTable) {
+    // create a query from pointBuffer
+    QueryParameters queryParams = new QueryParameters();
+    queryParams.setGeometry(pointBuffer);
+    queryParams.setSpatialRelationship(SpatialRelationship.WITHIN);
+    queryParams.getOutFields().add("*");
 
-		selectedFeatures.forEach(feature -> {
-			// set x,y-coordinate pair from feature to newPoint
-			feature.setGeometry(newPoint);
+    // select based on the query
+    final ListenableFuture<FeatureQueryResult> queryFeatures = featureLayer
+        .selectFeatures(queryParams,
+            SelectionMode.NEW);
 
-			// update the feature to display on map view
-			final ListenableFuture<Boolean> featureTableResult = damageTable.updateFeatureAsync(feature);
+    try {
+      // get user's selection
+      selectedFeatures = queryFeatures.get();
+    } catch (Exception e) {
+      // on any error, display the stack trace
+      e.printStackTrace();
+    }
+  }
 
-			try {
-				// if successful, update changes to the server
-				if (featureTableResult.get().booleanValue()) {
-					final ListenableFuture<List<FeatureEditResult>> serverResult = damageTable.applyEditsAsync();
-					// check if the server result was successful
-					if (!serverResult.get().get(0).hasCompletedWithErrors()) {
-						System.out.println("Successful");
-					} else {
-						System.out.println("Server Error: Feature failed to update geometry to server.");
-					}
-				} else {
-					System.out
-							.println("Local Error: Feature failed to update geometry to ServiceFeatureTable locally.");
-				}
-			} catch (Exception e) {
-				// on any error, display the stack trace
-				e.printStackTrace();
-			}
-		});
-	}
+  /**
+   * Updates the location of the features that are selected.
+   * 
+   * @param newPoint x,y-coordinate pair
+   * @param damageTable holds all Feature data
+   */
+  private void updateGeometry(Point newPoint, ServiceFeatureTable damageTable) {
 
-	/**
-	 * Stops and releases all resources used in application.
-	 * 
-	 * @throws Exception if security manager doesn't allow JVM to exit with
-	 * current status
-	 */
-	@Override
-	public void stop() throws Exception {
-		if (mapView != null) {
-			mapView.dispose();
-		}
-		Platform.exit();
-		System.exit(0);
-	}
+    selectedFeatures.forEach(feature -> {
+      // set x,y-coordinate pair from feature to newPoint
+      feature.setGeometry(newPoint);
 
-	/**
-	 * Opens and runs application.
-	 * 
-	 * @param args arguments passed to this application
-	 */
-	public static void main(String[] args) {
-		Application.launch(args);
-	}
+      // update the feature to display on map view
+      final ListenableFuture<Boolean> featureTableResult = damageTable
+          .updateFeatureAsync(feature);
+
+      try {
+        // if successful, update changes to the server
+        if (featureTableResult.get().booleanValue()) {
+          final ListenableFuture<List<FeatureEditResult>> serverResult =
+              damageTable.applyEditsAsync();
+          // check if the server result was successful
+          if (!serverResult.get().get(0).hasCompletedWithErrors()) {
+            System.out.println("Successful");
+          } else {
+            System.out.println(
+                "Server Error: Feature failed to update geometry to server.");
+          }
+        } else {
+          System.out
+              .println(
+                  "Local Error: Feature failed to update geometry to ServiceFeatureTable locally.");
+        }
+      } catch (Exception e) {
+        // on any error, display the stack trace
+        e.printStackTrace();
+      }
+    });
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   * 
+   * @throws Exception if security manager doesn't allow JVM to exit with
+   *           current status
+   */
+  @Override
+  public void stop() throws Exception {
+
+    if (mapView != null) {
+      mapView.dispose();
+    }
+    Platform.exit();
+    System.exit(0);
+  }
+
+  /**
+   * Opens and runs application.
+   * 
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
+
+    Application.launch(args);
+  }
 }

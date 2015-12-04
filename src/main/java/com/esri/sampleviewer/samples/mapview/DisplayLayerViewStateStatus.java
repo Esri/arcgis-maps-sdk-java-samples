@@ -129,15 +129,18 @@ public class DisplayLayerViewStateStatus extends Application {
     try {
 
       // create three layers to add to the map
-      final ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(SERVICE_TIME_ZONES);
+      final ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(
+          SERVICE_TIME_ZONES);
 
-      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(SERVICE_CENSUS);
+      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(
+          SERVICE_CENSUS);
       // setting the scales at which this layer can be viewed
       imageLayer.setMinScale(MIN_SCALE);
       imageLayer.setMaxScale(MIN_SCALE / 10);
 
       // creating a layer from a service feature table
-      final ServiceFeatureTable featureTable = new ServiceFeatureTable(SERVICE_RECREATION);
+      final ServiceFeatureTable featureTable = new ServiceFeatureTable(
+          SERVICE_RECREATION);
       final FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
       // adding layers to the maps' layer list
@@ -152,7 +155,8 @@ public class DisplayLayerViewStateStatus extends Application {
 
       // a point where the map view will zoom to, -11e6 same as -11 x 10^6
       mapView.setViewpoint(new Viewpoint(
-          new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), MIN_SCALE));
+          new Point(-11e6, 45e5, SpatialReferences.getWebMercator()),
+          MIN_SCALE));
 
       // create a list to hold the view status of all three layers
       viewStatusList = new String[3];
@@ -187,7 +191,8 @@ public class DisplayLayerViewStateStatus extends Application {
         }
 
         // updates view status to corresponding label
-        Platform.runLater(() -> changedLabel.setText(viewStatusList[layerIndex]));
+        Platform.runLater(() -> changedLabel.setText(
+            viewStatusList[layerIndex]));
       });
 
       // add the map view and control panel to stack pane
