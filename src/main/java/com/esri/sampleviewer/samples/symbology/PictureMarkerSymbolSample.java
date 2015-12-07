@@ -48,7 +48,7 @@ import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
  * locally on the application, or from disk storage.
  * <p>
  * The {@link GraphicsOverlay} will hold our {@link PictureMarkerSymbol}s so
- * they can be displayed to the MapView.
+ * they can be displayed on the MapView.
  * <p>
  * For loading a file store on a disk. The application stores a temporary file
  * onto your machine and then gets the address of where that file was stored.
@@ -89,8 +89,8 @@ public class PictureMarkerSymbolSample extends Application {
 
     // set title, size, and add scene to stage
     stage.setTitle("Picture Marker Symbol Sample");
-    stage.setWidth(700);
-    stage.setHeight(800);
+    stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
@@ -125,15 +125,19 @@ public class PictureMarkerSymbolSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create points for displaying graphics
-      Point leftPoint = new Point(-228835, 6550763, SpatialReferences.getWebMercator()); // Disk
-      Point rightPoint = new Point(-223560, 6552021, SpatialReferences.getWebMercator()); // URL
-      Point middlePoint = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
+      Point leftPoint = new Point(-228835, 6550763, SpatialReferences
+          .getWebMercator()); // Disk
+      Point rightPoint = new Point(-223560, 6552021, SpatialReferences
+          .getWebMercator()); // URL
+      Point middlePoint = new Point(-226773, 6550477, SpatialReferences
+          .getWebMercator());
 
       // create orange picture marker symbol from disk
       if (saveResourceToExternalStorage()) {
         // create orange picture marker symbol
-        PictureMarkerSymbol orangeSymbol = new PictureMarkerSymbol(orangeSymbolPath
-            .getAbsolutePath());
+        PictureMarkerSymbol orangeSymbol = new PictureMarkerSymbol(
+            orangeSymbolPath
+                .getAbsolutePath());
         // place orange picture marker symbol on map
         placePictureMarkerSymbol(graphicsOverlay, orangeSymbol, leftPoint);
       }
@@ -146,7 +150,8 @@ public class PictureMarkerSymbolSample extends Application {
       placePictureMarkerSymbol(graphicsOverlay, blueSymbol, middlePoint);
 
       // create campsite picture marker symbol from URL
-      PictureMarkerSymbol campsiteSymbol = new PictureMarkerSymbol(CAMPSITE_SYMBOL);
+      PictureMarkerSymbol campsiteSymbol = new PictureMarkerSymbol(
+          CAMPSITE_SYMBOL);
       // place campsite picture marker symbol on map
       placePictureMarkerSymbol(graphicsOverlay, campsiteSymbol, rightPoint);
 
