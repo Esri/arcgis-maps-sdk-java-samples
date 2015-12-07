@@ -14,15 +14,6 @@ limitations under the License.  */
 
 package com.esri.sampleviewer.samples.mapview;
 
-import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.Viewpoint;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -35,18 +26,32 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.Viewpoint;
+
 /**
  * This sample demonstrates two different ways to rotate the view of the Map.
  * <h4>How it Works</h4>
- * <li>To display the {@link MapView} with a starting rotation pass a
- * {@link Viewpoint} that is initialized with an angle in degrees and a
- * {@link Envelope} to the {@link MapView#setViewpointAsync} method.</li>
- * <li>The {@link MapView#setViewpointRotationAsync} method takes an angle in
- * degrees and rotates the MapView to that angle.</li>
+ * 
+ * Starting Rotation: initialize a {@link Viewpoint} with a {@link Envelope} and
+ * an angle, in degrees. Then set the Viewpoint to the
+ * {@link MapView#setViewpointAsync} method.
+ * <p>
+ * Set Rotation: The {@link MapView#setViewpointRotationAsync} method takes an
+ * angle in degrees and rotates the MapView to that angle.
  */
 public class MapRotation extends Application {
 
   private MapView mapView;
+
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -54,8 +59,8 @@ public class MapRotation extends Application {
     // create stack pane and application scene
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
-    scene.getStylesheets().add(getClass()
-        .getResource("../resources/SamplesTheme.css").toExternalForm());
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
     // set title, size, and add scene to stage
     stage.setTitle("Map Rotation Sample");
@@ -95,7 +100,7 @@ public class MapRotation extends Application {
     try {
 
       // create a map with topographic basemap
-      Map map = new Map(Basemap.createTopographic());
+      final Map map = new Map(Basemap.createTopographic());
 
       // enable slider when map view is done loading
       map.addDoneLoadingListener(() -> {
@@ -108,11 +113,12 @@ public class MapRotation extends Application {
 
       // create a starting viewpoint for the map view
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
-      Point pointBottomLeft =
-          new Point(-13639984.0, 4537387.0, spatialReference);
+      Point pointBottomLeft = new Point(-13639984.0, 4537387.0,
+          spatialReference);
       Point pointTopRight = new Point(-13606734.0, 4558866, spatialReference);
       Envelope envelope = new Envelope(pointBottomLeft, pointTopRight);
-      Viewpoint viewpoint = new Viewpoint(envelope, 5.0f);
+
+      Viewpoint viewpoint = new Viewpoint(envelope, 5.0f);// envelope, rotation
 
       // set viewpoint to the map view
       mapView.setViewpointAsync(viewpoint);

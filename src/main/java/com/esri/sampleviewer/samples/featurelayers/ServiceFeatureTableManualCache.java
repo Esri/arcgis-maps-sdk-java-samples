@@ -18,18 +18,6 @@ package com.esri.sampleviewer.samples.featurelayers;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.FeatureQueryResult;
-import com.esri.arcgisruntime.datasource.QueryParameters;
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.Viewpoint;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -42,32 +30,46 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.datasource.FeatureQueryResult;
+import com.esri.arcgisruntime.datasource.QueryParameters;
+import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.Viewpoint;
+
 /**
  * This sample demonstrates how to set Manual Cache mode on a
- * ServiceFeatureTable.
+ * ServiceFeatureTable and how to manually fetch Features from that table.
  * <p>
  * Manual Cache mode only fetches Features when
  * {@link ServiceFeatureTable#populateFromServiceAsync} is called. If you know
  * what Features you need ahead of time, this is the best mode.
+ * <p>
+ * Manual Cache mode must be set before the ServiceFeatureTable is loaded.
  * <h4>How it Works</h4>
  * 
  * A {@link ServiceFeatureTable} is created from a URL, then the Manual Cache
  * mode is set by passing ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE to
- * the {@link ServiceFeatureTable#setFeatureRequestMode} method. A
- * {@link FeatureLayer} is then created using this ServiceFeatureTable.
- * <h4>Implementation Requirements</h4>
+ * {@link ServiceFeatureTable#setFeatureRequestMode}. A {@link FeatureLayer} is
+ * then created using that table and added to the Map to display it's Features.
+ * Calling the populateFromServiceAsync method will then populate the table with
+ * Features.
  * 
- * Manual Cache mode must be set before the ServiceFeatureTable is loaded.
  * <p>
- * ListenableFuture needs to be a class level field because it could get garbage
- * collected right after being set. Meaning that the addDoneListener method will
- * never be called.
+ * A ListenableFuture needs to be a class level field because it could get
+ * garbage collected right after being set.
  */
 public class ServiceFeatureTableManualCache extends Application {
 
   private MapView mapView;
   private Label featuresReturnLabel;
   private ServiceFeatureTable featureTable;
+
   private ListenableFuture<FeatureQueryResult> tableResult;
 
   private static final String SERVICE_FEATURE_URL =
@@ -98,9 +100,9 @@ public class ServiceFeatureTableManualCache extends Application {
     Label descriptionLabel = new Label("Sample Description:");
     descriptionLabel.getStyleClass().add("panel-label");
     TextArea description = new TextArea(
-        "This sample shows how to set 'MANUAL_CACHE' mode to a Service Feature Table.\n"
-            + "To manually request the cache, click the button to request the cache "
-            + "from the Service Feature Table.");
+        "This sample shows how to set 'MANUAL_CACHE' mode on a Service Feature Table. "
+            + "To manually request the cache, click the button to populate the "
+            + "Service Feature Table's cache.");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);
@@ -121,6 +123,9 @@ public class ServiceFeatureTableManualCache extends Application {
         requestCacheButton, featuresReturnLabel);
     try {
 
+      // create a map with topographic basemap
+      final Map map = new Map(Basemap.createTopographic());
+
       // create service feature table from a url
       featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
 
@@ -138,9 +143,6 @@ public class ServiceFeatureTableManualCache extends Application {
         requestCacheButton.setDisable(false);
       });
 
-      // create a map with topographic basemap
-      Map map = new Map(Basemap.createTopographic());
-
       // add feature layer to the map
       map.getOperationalLayers().add(featureLayer);
 
@@ -149,9 +151,9 @@ public class ServiceFeatureTableManualCache extends Application {
       mapView.setMap(map);
 
       // set the starting viewpoint for the map view
-      mapView.setViewpoint(new Viewpoint(
-          new Point(-13630484, 4545415, SpatialReferences.getWebMercator()),
-          150000));
+      Point point = new Point(-13630484, 4545415, SpatialReferences
+          .getWebMercator());
+      mapView.setViewpoint(new Viewpoint(point, 150000));
 
       // add the map view and control panel to stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);
@@ -180,8 +182,8 @@ public class ServiceFeatureTableManualCache extends Application {
       try {
         // find the number of features returned from query
         AtomicInteger featuresReturned = new AtomicInteger();
-        tableResult.get()
-            .forEach(feature -> featuresReturned.getAndIncrement());
+        tableResult.get().forEach(feature -> featuresReturned
+            .getAndIncrement());
 
         // display to user how many features where returned
         Platform.runLater(() -> featuresReturnLabel

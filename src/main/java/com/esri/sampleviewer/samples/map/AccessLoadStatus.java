@@ -16,14 +16,6 @@
 
 package com.esri.sampleviewer.samples.map;
 
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.loadable.Loadable;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.Viewpoint;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -36,16 +28,29 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+
 /**
- * This sample demonstrates how to access the Maps' LoadStatus. How it works:
- * The load status is obtained from the {@link LoadStatus} property, which is
- * inherited from the {@link Loadable} interface.
- * 
- * <h4>Implementation Requirements</h4>
+ * This sample demonstrates how to access the Maps' LoadStatus.
  * <p>
- * The loadStatus will be considered loaded when any of the following are true:
- * the map has a valid {@link SpatialReference}; the map has an an initial
- * {@link Viewpoint}; one of the map's predefined layers has been created.
+ * The {@link LoadStatus} will be considered loaded when the following are true:
+ * <li>The {@link Map} has a valid {@link SpatialReference}
+ * <li>The Map has an been set to the {@link MapView}</li>
+ * <h4>How it Works</h4>
+ * 
+ * Once a Map has a {@link SpatialReference} and is set to the {@link MapView}
+ * it will begin loading. By using the {@link Map#addLoadStatusChangedListener}
+ * method we can listen for whenever the Map's LoadStatus changes.
+ * <p>
+ * Different types of LoadStatus:
+ * <li>LOADING
+ * <li>FAILED_TO_LOAD
+ * <li>NOT_LOADED
+ * <li>LOADED</li>
  * 
  */
 public class AccessLoadStatus extends Application {
@@ -64,8 +69,8 @@ public class AccessLoadStatus extends Application {
 
     // set title, size, and add scene to stage
     stage.setTitle("Load Status Sample");
-    stage.setWidth(800);
-    stage.setHeight(700);
+    stage.setWidth(700);
+    stage.setHeight(800);
     stage.setScene(scene);
     stage.show();
 
@@ -78,7 +83,8 @@ public class AccessLoadStatus extends Application {
     Label descriptionLabel = new Label("Sample Description:");
     descriptionLabel.getStyleClass().add("panel-label");
     TextArea description = new TextArea(
-        "This sample shows how to access the Map's load status. Click the reload button to begin.");
+        "This sample shows how to access the Map's load status. Click the"
+            + " reload button to begin.");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);
@@ -124,8 +130,7 @@ public class AccessLoadStatus extends Application {
         }
 
         // update the load status text to the loading status that was fired
-        Platform
-            .runLater(() -> loadStatusText.appendText(loadingStatus + "\n"));
+        Platform.runLater(() -> loadStatusText.appendText(loadingStatus + "\n"));
       });
 
       mapView.setMap(map);

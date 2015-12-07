@@ -16,15 +16,6 @@
 
 package com.esri.sampleviewer.samples.featurelayers;
 
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.Viewpoint;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -36,20 +27,34 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.Viewpoint;
+
 /**
- * This sample shows how to use a layer from an ArcGIS feature service as a
- * feature layer. How it works: first create a service feature table using the
- * URL to the layer in the feature service you want to use. This is the data
- * source. Then, create a <@FeatureLayer> and pass in the service feature table
- * you have created. Add the feature layer to a map then set the map on a map
- * view and the layer will be displayed using default modes and properties as
- * defined on the service.
+ * This sample shows how to create a FeatureLayer from a ServiceFeatureTable and
+ * add it to the Map.
+ * <p>
+ * A {@link FeatureLayer} allows us to work with Features from a table, like
+ * displaying Features to Map.
+ * <h4>How it Works</h4>
+ * 
+ * First a {@link ServiceFeatureTable} is created from a URL and then a
+ * FeatureLayer is created by supplying that table. Using the
+ * {@link Map#getOperationalLayers} method the FeatureLayer is added to the Map
+ * then displayed in the view by setting the Map to the {@link MapView#setMap}
+ * method.
  */
 public class FeatureLayerFeatureService extends Application {
 
   private MapView mapView;
 
-  private static final String GEOLOGY_FEATURE_SERVICE =
+  private static final String SERVICE_FEATURE_URL =
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/9";
   private static final String SAMPLES_THEME_PATH =
       "../resources/SamplesTheme.css";
@@ -60,65 +65,61 @@ public class FeatureLayerFeatureService extends Application {
     // create stack pane and application scene
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
-    scene.getStylesheets()
-        .add(getClass().getResource(SAMPLES_THEME_PATH).toExternalForm());
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
-    // size the stage, add a title, and set scene to stage
-    stage.setTitle("Feature Layer from Feature Server");
-    stage.setHeight(700);
+    // set title, size, and add scene to stage
+    stage.setTitle("Feature Layer from Feature Server Sample");
     stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(240, 120);
+    vBoxControl.setMaxSize(250, 190);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample label and description
     Label descriptionLabel = new Label("Sample Description");
     descriptionLabel.getStyleClass().add("panel-label");
-
-    TextArea description = new TextArea("This sample shows how to use a layer"
-        + " from an ArcGIS feature service as a feature layer.");
+    TextArea description = new TextArea("This sample shows how to create a "
+        + "Feature Layer from a Service Feature Table and add it to the Map.");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);
 
     // add sample label and description to the control panel
     vBoxControl.getChildren().addAll(descriptionLabel, description);
-
     try {
-      // create a view for this map
-      mapView = new MapView();
 
       // create a map with the terrain with labels basemap
-      Map map = new Map(Basemap.createTerrainWithLabels());
+      final Map map = new Map(Basemap.createTerrainWithLabels());
 
       // set an initial viewpoint
-      map.setInitialViewpoint(new Viewpoint(
-          new Point(-13176752, 4090404, SpatialReferences.getWebMercator()),
-          500000));
+      Point startPoint = new Point(-13176752, 4090404,
+          SpatialReferences.getWebMercator());
 
-      // create feature layer with its service feature table
-      // create the service feature table
-      ServiceFeatureTable serviceFeatureTable =
-          new ServiceFeatureTable(GEOLOGY_FEATURE_SERVICE);
+      map.setInitialViewpoint(new Viewpoint(startPoint, 500000));//point and scale
+
+      // create service feature table from URL
+      final ServiceFeatureTable featureTable = new ServiceFeatureTable(
+          SERVICE_FEATURE_URL);
 
       // create the feature layer using the service feature table
-      FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
+      final FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
       // add the layer to the map
       map.getOperationalLayers().add(featureLayer);
 
-      // set the map to be displayed in the view
+      // create a view and set map to it
+      mapView = new MapView();
       mapView.setMap(map);
 
       // add the map view and control box to stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);
       StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
       StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
-
     } catch (Exception e) {
       // on any error, display stack trace
       e.printStackTrace();
@@ -151,4 +152,5 @@ public class FeatureLayerFeatureService extends Application {
 
     Application.launch(args);
   }
+
 }

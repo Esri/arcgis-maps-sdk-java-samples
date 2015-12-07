@@ -14,62 +14,95 @@ limitations under the License.  */
 
 package com.esri.sampleviewer.samples.tiledlayers;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
 /**
- * The ArcGIS Tile Layer URL app is the most basic Map application for the
- * <a href="https://developers.arcgis.com/java/"> ArcGIS Runtime SDK for
- * Java </a> using Tiled Layer <@Basemap> from an ArcGIS Online service URL. It
- * shows how to inflate a <@MapView>, create a Tiled Layer from an ArcGIS Online
- * service URL and bind that to a Basemap. The Basemap is used to create a
- * <@Map> which is used inside of the MapView. By default, this map supports
- * basic zooming and panning operations.
+ * This sample shows how to display an ArcGISTiledLayer on a Map.
+ * <p>
+ * {@link ArcGISTiledLayer} displays data as pre-generated tiles.
+ * <p>
+ * {@link Basemap} is beneath all other layers on a {@link Map} and is used to
+ * provide visual reference for all other layers.
+ * <h4>How it Works</h4>
+ *
+ * An ArcGISTiledLayer is created from a URL and assigned to a Basemap. This
+ * Basemap is then assigned to a Map and displayed using the MapView.
  */
 public class TiledLayer extends Application {
 
-  private Map map;
   private MapView mapView;
 
-  private final String WORLD_TOPO_SERVICE =
+  private static final String WORLD_TOPO_SERVICE =
       "http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer";
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
 
   @Override
   public void start(Stage stage) throws Exception {
 
-    // create a border pane and application scene
-    BorderPane borderPane = new BorderPane();
-    Scene scene = new Scene(borderPane);
+    // create stack pane and application scene
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
-    // size the stage, add a title, and set scene to stage
+    // set title, size, and add scene to stage
     stage.setTitle("Tiled Layer From URL Example");
-    stage.setHeight(700);
     stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
-    try {
-      // create a view for this map
-      mapView = new MapView();
-      // create new Tiled Layer from service URL
-      ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(WORLD_TOPO_SERVICE);
-      // set Tiled Layer as basemap
-      Basemap basemap = new Basemap(tiledLayer);
-      // add basemap to map
-      map = new Map(basemap);
-      // set the map to be displayed in the view
-      mapView.setMap(map);
-      // place map in the center of the border pane
-      borderPane.setCenter(mapView);
+    // create a control panel
+    VBox vBoxControl = new VBox(6);
+    vBoxControl.setMaxSize(250, 190);
+    vBoxControl.getStyleClass().add("panel-region");
 
+    // create sample description
+    Label descriptionLabel = new Label("Sample Description:");
+    descriptionLabel.getStyleClass().add("panel-label");
+    TextArea description = new TextArea("This sample shows how to apply a "
+        + "ArcGIS Tiled Layer to the Map.");
+    description.setWrapText(true);
+    description.autosize();
+    description.setEditable(false);
+
+    // add label and sample description to the control panel
+    vBoxControl.getChildren().addAll(descriptionLabel, description);
+    try {
+
+      // create new Tiled Layer from service URL
+      final ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(
+          WORLD_TOPO_SERVICE);
+
+      // set Tiled Layer as basemap
+      final Basemap basemap = new Basemap(tiledLayer);
+
+      // add basemap to map
+      final Map map = new Map(basemap);
+
+      // create a view and set map to it
+      mapView = new MapView();
+      mapView.setMap(map);
+
+      // add the map view and control panel to stack pane
+      stackPane.getChildren().addAll(mapView, vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display stack trace
       e.printStackTrace();
@@ -78,23 +111,23 @@ public class TiledLayer extends Application {
 
   /**
    * Stops and releases all resources used in application.
-   * 
+   *
    * @throws Exception if security manager doesn't allow JVM to exit with
    *           current status
    */
   @Override
   public void stop() throws Exception {
 
-    // release resources when the application closes
-    mapView.dispose();
-    map.dispose();
+    if (mapView != null) {
+      mapView.dispose();
+    }
     Platform.exit();
     System.exit(0);
   }
 
   /**
    * Opens and runs application.
-   * 
+   *
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {

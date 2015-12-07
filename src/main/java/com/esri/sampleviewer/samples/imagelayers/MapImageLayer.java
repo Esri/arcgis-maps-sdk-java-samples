@@ -14,63 +14,92 @@ limitations under the License.  */
 
 package com.esri.sampleviewer.samples.imagelayers;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
-import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
 /**
- * The ArcGIS Map Image Layer from URL app is the most basic Map application for
- * the <a href="https://developers.arcgis.com/java/"> ArcGIS Runtime SDK for
- * Java </a> using an <@ArcGISMapImageLayer> operational layer from an ArcGIS
- * Online service URL. It shows how to inflate a <@MapView>, create a Map Image
- * Layer from an ArcGIS Online service URL and bind that to a <@Basemap>. The
- * <@Basemap> is used to create a <@Map> which is used inside of the <@MapView>.
- * By default, this map supports basic zooming and panning operations.
+ * This sample demonstrates how to display an ArcGISMapImageLayer on a Map.
+ * <p>
+ * {@link ArcGISMapImageLayer} displays data using dynamically generated map
+ * images.
+ * <h4>How it Works</h4>
+ * 
+ * A ArcGISMapImageLayer is created from a URL and added to the Map using the
+ * {@link Map#getOperationalLayers} method. This Map is then set to the MapView
+ * to display the ArcGISMapImageLayer.
  */
 public class MapImageLayer extends Application {
 
-  private Map map;
   private MapView mapView;
 
-  private final String WORLD_ELEVATION_SERVICE =
+  private static final String SERVICE_FEATURE_URL =
       "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
 
   @Override
   public void start(Stage stage) throws Exception {
 
-    // create a border pane and application scene
-    BorderPane borderPane = new BorderPane();
-    Scene scene = new Scene(borderPane);
+    // create stack pane and application scene
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
+    scene.getStylesheets().add(getClass().getResource(
+        "../resources/SamplesTheme.css")
+        .toExternalForm());
 
-    // set size of stage, add title, and set scene to stage
-    stage.setTitle("Map Image Layer From URL Example");
-    stage.setWidth(700);
-    stage.setHeight(800);
+    // set title, size, and add scene to stage
+    stage.setTitle("ArcGIS Map Image Layer Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
-    try {
-      // create a view for our map
-      mapView = new MapView();
-      // create new Map Image Layer from service URL
-      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(
-          WORLD_ELEVATION_SERVICE);
-      // set Map Image Layer as basemap
-      Basemap basemap = new Basemap(imageLayer);
-      // add basemap to map
-      map = new Map(basemap);
-      // set map to be displayed in view
-      mapView.setMap(map);
-      // place the map in the center of the border pane
-      borderPane.setCenter(mapView);
+    // create a control panel
+    VBox vBoxControl = new VBox(6);
+    vBoxControl.setMaxSize(250, 190);
+    vBoxControl.getStyleClass().add("panel-region");
 
+    // create sample description
+    Label descriptionLabel = new Label("Sample Description:");
+    descriptionLabel.getStyleClass().add("panel-label");
+    TextArea description = new TextArea("This sample shows how to display "
+        + "an ArcGIS Map Image Layer on a Map.");
+    description.setWrapText(true);
+    description.autosize();
+    description.setEditable(false);
+
+    // add label and sample description to the control panel
+    vBoxControl.getChildren().addAll(descriptionLabel, description);
+    try {
+
+      // add basemap to map
+      final Map map = new Map();
+
+      // create new map image Layer from service url
+      final ArcGISMapImageLayer imageLayer =
+          new ArcGISMapImageLayer(SERVICE_FEATURE_URL);
+
+      // add layer to map list
+      map.getOperationalLayers().add(imageLayer);
+
+      // create a view and set map to it
+      mapView = new MapView();
+      mapView.setMap(map);
+
+      // add the map view and control panel to stack pane
+      stackPane.getChildren().addAll(mapView, vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display stack trace
       e.printStackTrace();
@@ -86,8 +115,9 @@ public class MapImageLayer extends Application {
   @Override
   public void stop() throws Exception {
 
-    mapView.dispose();
-    map.dispose();
+    if (mapView != null) {
+      mapView.dispose();
+    }
     Platform.exit();
     System.exit(0);
   }
@@ -101,4 +131,5 @@ public class MapImageLayer extends Application {
 
     Application.launch(args);
   }
+
 }

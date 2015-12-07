@@ -1,18 +1,31 @@
-/* Copyright 2015 Esri.
- 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
- 
-    http://www.apache.org/licenses/LICENSE-2.0
- 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
-limitations under the License.  */
+/*
+ * Copyright 2015 Esri.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 
 package com.esri.sampleviewer.samples.symbology;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
@@ -27,59 +40,79 @@ import com.esri.arcgisruntime.symbology.Color;
 import com.esri.arcgisruntime.symbology.RgbColor;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
 /**
- * This sample adds a <@Graphic> to a <@GraphicsOverlay> using a
- * <@SimpleMarkerSymbol>. How it works, a <@Point> geometry is created from some
- * known coordinates, a SimpleMarkerSymbol is constructed, and both are set on a
- * graphic. The graphic is added to a graphics overlay in the <@MapView> so that
- * it is visible.
+ * This sample demonstrates how to add a SimpleMarkerSymbol to a Graphic and
+ * display it using a GraphicsOverlay.
+ * <p>
+ * Adding a {@link Graphic} to a {@link GraphicsOverlay} will make it visible to
+ * the user as long as the GraphicsOverlay is set to the MapView and the Graphic
+ * has a symbol.
+ * <h4>How it Works</h4>
+ * 
+ * First a GraphicsOverlay needs to be created and added using the
+ * {@link MapView#getGraphicsOverlays} method. Then a Graphic can be created
+ * using a {@link Point} and a {@link SimpleMarkerSymbol}. Lastly the Graphic
+ * needs to be added to the GraphicsOverlay, {@link GraphicsOverlay#getGraphics}
+ * .
  */
 public class SimpleMarkerSymbolSample extends Application {
 
   private MapView mapView;
 
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
+
   @Override
   public void start(Stage stage) throws Exception {
 
-    // create border pane and application scene
-    BorderPane borderPane = new BorderPane();
-    Scene scene = new Scene(borderPane);
+    // create stack pane and application scene
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
     // size the stage, add a title, and set scene to stage
     stage.setTitle("Simple Marker Symbol Sample");
-    stage.setHeight(700);
     stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
-    try {
-      // create SpatialReference for points
-      SpatialReference webMercator = SpatialReferences.getWebMercator();
+    // create a control panel
+    VBox vBoxControl = new VBox(6);
+    vBoxControl.setMaxSize(250, 190);
+    vBoxControl.getStyleClass().add("panel-region");
 
-      // create an initial viewpoint with a point and scale
+    // create sample label and description
+    Label descriptionLabel = new Label("Sample Description");
+    descriptionLabel.getStyleClass().add("panel-label");
+    TextArea description = new TextArea("This sample shows how to add a "
+        + "Simple Marker Symbol to a Graphic and display it using a "
+        + "Graphics Overlay.");
+    description.setWrapText(true);
+    description.autosize();
+    description.setEditable(false);
+
+    // add sample label and description to the control panel
+    vBoxControl.getChildren().addAll(descriptionLabel, description);
+    try {
+
+      // create map with imagery basemap
+      final Map map = new Map(Basemap.createImagery());
+
+      // create spatial reference for WGS 1948
+      final SpatialReference webMercator = SpatialReferences.getWebMercator();
+
+      // create a initial viewpoint with a center point and scale
       Point point = new Point(-226773, 6550477, webMercator);
       Viewpoint viewpoint = new Viewpoint(point, 7500);
 
-      // create a view for this map
-      mapView = new MapView();
-
-      // create map with imagery basemap
-      Map map = new Map(Basemap.createImagery());
-
-      // set initial map view point
+      // set initial view point to the map
       map.setInitialViewpoint(viewpoint);
 
-      // set map to be displayed in the mapview
+      // create a view and set map to it
+      mapView = new MapView();
       mapView.setMap(map);
-
-      // place map in the center of the border pane
-      borderPane.setCenter(mapView);
 
       // create new graphics overlay and add it to the mapview
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
@@ -94,6 +127,10 @@ public class SimpleMarkerSymbolSample extends Application {
       Graphic graphic = new Graphic(point, symbol);
       graphicsOverlay.getGraphics().add(graphic);
 
+      // add the map view and control box to stack pane
+      stackPane.getChildren().addAll(mapView, vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -126,4 +163,5 @@ public class SimpleMarkerSymbolSample extends Application {
 
     Application.launch(args);
   }
+
 }

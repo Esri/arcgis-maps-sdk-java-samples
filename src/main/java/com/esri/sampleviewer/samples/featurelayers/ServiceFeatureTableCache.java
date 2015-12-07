@@ -16,15 +16,6 @@
 
 package com.esri.sampleviewer.samples.featurelayers;
 
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.Viewpoint;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -36,19 +27,34 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.Viewpoint;
+
 /**
- * This sample demonstrates how to use a feature service with a service feature
- * table in on-interaction-cache mode (which is the default mode for service
- * feature tables). How it works Set the
- * <@ServiceFeatureTable.FeatureRequestMode> property of the service feature
- * table to <b>ON_INTERACTION_CACHE</b> before the table is loaded. The mode
- * cannot be changed once the table has been loaded.
+ * This sample demonstrates how to create a ServiceFeatureTable with cache mode
+ * set to ON_INTERACTION_CACHE (this is the default mode for a Service Feature
+ * Table).
+ * <p>
+ * ON_INTERACTION_CACHE retrieves data from the server when it is needed,
+ * example would be after a pan or zoom.
+ * <h4>How it Works</h4>
+ * 
+ * A {@link ServiceFeatureTable} is created from a URL,then the cache mode is
+ * set by passing ServiceFeatureTable.FeatureRequestMode.ON_INTERACTION_CACHE to
+ * {@link ServiceFeatureTable#setFeatureRequestMode}.
  */
 public class ServiceFeatureTableCache extends Application {
 
   private MapView mapView;
 
-  private static final String FEATURE_SERVICE_URL =
+  private static final String SERVICE_FEATURE_URL =
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0";
   private static final String SAMPLES_THEME_PATH =
       "../resources/SamplesTheme.css";
@@ -59,70 +65,69 @@ public class ServiceFeatureTableCache extends Application {
     // create stack pane and application scene
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
-    scene.getStylesheets()
-        .add(getClass().getResource(SAMPLES_THEME_PATH).toExternalForm());
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
-    // size the stage, add a title, and set scene to stage
-    stage.setTitle("Feature Layer from Feature Server");
-    stage.setHeight(700);
+    // set title, size, and add scene to stage
+    stage.setTitle("Feature Layer from Feature Server Sample");
     stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(250, 150);
+    vBoxControl.setMaxSize(250, 190);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample label and description
     Label descriptionLabel = new Label("Sample Description");
     descriptionLabel.getStyleClass().add("panel-label");
     TextArea description = new TextArea(
-        "This sample demonstrates how to use a feature service with a "
-            + "Service Feature Table in on-interaction-cache mode.");
+        "This sample demonstrates how to create a Service Feature Table "
+            + "with cache mode set to 'ON_INTERACTION_CACHE'.");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);
 
     // add sample label and description to the control panel
     vBoxControl.getChildren().addAll(descriptionLabel, description);
-
     try {
-      // create a view for this map
-      mapView = new MapView();
 
       // create a map with the light Gray Canvas basemap
-      Map map = new Map(Basemap.createLightGrayCanvas());
+      final Map map = new Map(Basemap.createLightGrayCanvas());
 
       // set an initial viewpoint
-      map.setInitialViewpoint(new Viewpoint(new Envelope(-1.30758164047166E7,
-          4014771.46954516, -1.30730056797177E7, 4016869.78617381, 0, 0, 0, 0,
-          SpatialReferences.getWebMercator())));
+      Point leftPoint = new Point(-1.30758164047166E7, 4014771.46954516,
+          SpatialReferences.getWebMercator());
+      Point rightPoint = new Point(-1.30730056797177E7, 4016869.78617381,
+          SpatialReferences.getWebMercator());
 
-      // create feature layer with its service feature table
-      // create the service feature table
-      ServiceFeatureTable serviceFeatureTable =
-          new ServiceFeatureTable(FEATURE_SERVICE_URL);
+      map.setInitialViewpoint(new Viewpoint(new Envelope(leftPoint,
+          rightPoint)));
 
-      // explicitly set the mode to on interaction cache (which is also
-      // the default mode for service feature tables)
+      // create the service feature table from url
+      final ServiceFeatureTable serviceFeatureTable =
+          new ServiceFeatureTable(SERVICE_FEATURE_URL);
+
+      // explicitly set the mode to on interaction cache
       serviceFeatureTable.setFeatureRequestMode(
           ServiceFeatureTable.FeatureRequestMode.ON_INTERACTION_CACHE);
 
       // create the feature layer using the service feature table
-      FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
+      final FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
       // add the layer to the map
       map.getOperationalLayers().add(featureLayer);
 
-      // set map to be displayed in map view
+      // create a view for this map and set map to it
+      mapView = new MapView();
       mapView.setMap(map);
 
       // add the map view and control box to stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);
       StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
       StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
-
     } catch (Exception e) {
       // on any error, display stack trace
       e.printStackTrace();
