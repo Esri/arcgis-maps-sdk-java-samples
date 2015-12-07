@@ -1,16 +1,13 @@
-/* Copyright 2015 Esri.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
-limitations under the License.  */
+/*
+ * Copyright 2015 Esri. Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
 
 package com.esri.sampleviewer.samples.imagelayers;
 
@@ -97,8 +94,8 @@ public class MapImageLayerSublayerVisibility extends Application {
       map = new Map(BasemapType.TOPOGRAPHIC, 48.354406, -99.998267, 2);
 
       // create a Image Layer with dynamically generated map images
-      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(
-          WORLD_CITIES_SERVICE);
+      ArcGISMapImageLayer imageLayer =
+          new ArcGISMapImageLayer(WORLD_CITIES_SERVICE);
       imageLayer.setOpacity(0.7f);
 
       // add world cities layers as map operational layer

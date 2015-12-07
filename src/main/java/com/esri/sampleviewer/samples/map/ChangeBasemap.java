@@ -16,11 +16,6 @@
 
 package com.esri.sampleviewer.samples.map;
 
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.BasemapType;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -37,12 +32,21 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapType;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+
 /**
- * This sample demonstrates how to change the {@link Basemap} of a {@link Map}.
- * How it works: the values method allows one to get a collection of different
- * Basemaps. This collection is then cycled through to add functionality. When a
- * Basemap is selected, it is set to a new Map and that Map is set to the
- * {@link MapView}.
+ * This sample demonstrates how to change the Map's Basemap.
+ * <p>
+ * {@link Basemap} is beneath all other layers on a {@link Map} and is used to
+ * provide visual reference for all other layers.
+ * <h4>How it Works</h4>
+ * 
+ * A Map is created using an initial Basemap, latitude and longitude, and a
+ * scale at which to view the Map. When a Basemap is selected, it is set to a
+ * new Map and that Map is set to the {@link MapView}.
  */
 public class ChangeBasemap extends Application {
 
@@ -53,34 +57,38 @@ public class ChangeBasemap extends Application {
   private static final double LONGITUDE = -5.0000;
   private static final int LOD = 6;
 
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
+
   @Override
   public void start(Stage stage) throws Exception {
 
     // create stack pane and application scene
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
-    scene.getStylesheets().add(getClass()
-        .getResource("../resources/SamplesTheme.css").toExternalForm());
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
     // set title, size, and add scene to stage
     stage.setTitle("Change Basemap Sample");
-    stage.setWidth(700);
-    stage.setHeight(800);
+    stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(184, 420);
+    vBoxControl.setMaxSize(265, 250);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample description
     Label descriptionLabel = new Label("Sample Description:");
     descriptionLabel.getStyleClass().add("panel-label");
-    TextArea description =
-        new TextArea("This sample shows how to change the Basemap of a Map.");
+    TextArea description = new TextArea("This sample shows how to change the "
+        + "Basemap of a Map.");
     description.setWrapText(true);
     description.autosize();
+    description.setMinHeight(190);
     description.setEditable(false);
 
     // add label and sample description to the control panel
@@ -116,8 +124,8 @@ public class ChangeBasemap extends Application {
     }
 
     vBoxControl.getChildren().add(flowPane);
-
     try {
+
       // create map with topograohic basemap
       map = new Map(BasemapType.TOPOGRAPHIC, LATITUDE, LONGITUDE, LOD);
 

@@ -1,23 +1,37 @@
-/* Copyright 2015 Esri.
- 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
- 
-    http://www.apache.org/licenses/LICENSE-2.0
- 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
-limitations under the License.  */
+/*
+ * Copyright 2015 Esri.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 
 package com.esri.sampleviewer.samples.symbology;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Map;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -28,68 +42,92 @@ import com.esri.arcgisruntime.symbology.RgbColor;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
 /**
- * This sample demonstrates how to create a <@SimpleRenderer> and add it to a
- * <@GraphicsOverlay>. Renderers define the symbology for all graphics in a
- * GraphicsOverlay (unless they are overridden by setting the symbol directly on
- * the graphic). SimpleRenderers can also be defined on <@FeatureLayer> using
- * the same code. How it works, a SimpleRenderer is created using a
- * <@SimpleMarkerSymbol> (red cross) and set onto a GraphicsOverlay. The three
- * points are created and each added to a <@Graphic> which are then added to the
- * GraphicsOverlay. The GraphicsOverlay is added to the <@MapView> to make it
- * visible, then all Graphics are styled with the same symbol that was defined
- * in the renderer.
+ * This sample demonstrates how to create a SimpleRenderer and add it to a
+ * GraphicsOverlay.
+ * <p>
+ * This {@link SimpleRenderer}, when added to the {@link GraphicsOverlay}, will
+ * use its {@link SimpleMarkerSymbol} to display any {@link Graphic}s that don't
+ * already have a symbol set. A Renderer will not override a symbol that is
+ * manually set to a Graphic.
+ * <p>
+ * SimpleRenderers can also be defined on a {@link FeatureLayer}.
+ * <h4>How it Works</h4>
+ * 
+ * First a GraphicsOverlay needs to be created and added using the
+ * {@link MapView#getGraphicsOverlays} method. Now a SimpleRenderer can be
+ * created using a SimpleMarkerSymbol and set to the GraphicsOverlay using the
+ * {@link GraphicsOverlay#setRenderer} method.
+ * <p>
+ * There is no need to set a symbol on a Graphic, the symbol from the renderer
+ * is used.
  */
 public class SimpleRendererSample extends Application {
 
   private MapView mapView;
 
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
+
   @Override
   public void start(Stage stage) throws Exception {
 
-    // create a border pane and a application scene
-    BorderPane borderPane = new BorderPane();
-    Scene scene = new Scene(borderPane);
+    // create stack pane and application scene
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
     // size the stage, add a title, and set scene to stage
     stage.setTitle("Simple Renderer Sample");
-    stage.setHeight(700);
     stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
+    // create a control panel
+    VBox vBoxControl = new VBox(6);
+    vBoxControl.setMaxSize(250, 190);
+    vBoxControl.getStyleClass().add("panel-region");
+
+    // create sample label and description
+    Label descriptionLabel = new Label("Sample Description");
+    descriptionLabel.getStyleClass().add("panel-label");
+    TextArea description = new TextArea("This sample shows how to create a "
+        + "Simple Renderer and add it to a Graphics Overlay. Graphics applied "
+        + "to the Graphics Overlay will automatically render with the same "
+        + "symbol.");
+    description.setWrapText(true);
+    description.autosize();
+    description.setEditable(false);
+
+    // add sample label and description to the control panel
+    vBoxControl.getChildren().addAll(descriptionLabel, description);
     try {
-      // create SpatialReference for points
-      SpatialReference wgs84 = SpatialReferences.getWgs84();
-
-      // create points for displaying graphics
-      Point oldFaithfullPoint = new Point(-110.828140, 44.460458, wgs84);
-      Point cascadeGeyserPoint = new Point(-110.829004, 44.462438, wgs84);
-      Point plumeGeyserPoint = new Point(-110.829381, 44.462735, wgs84);
-
-      // create view for this map
-      mapView = new MapView();
 
       // create a map with the imagery basemap
-      Map map = new Map(Basemap.createImageryWithLabels());
+      final Map map = new Map(Basemap.createImageryWithLabels());
 
-      // set map to be displayed in mapview
+      // create a view and set map to it
+      mapView = new MapView();
       mapView.setMap(map);
 
-      // place map in border pane
-      borderPane.setCenter(mapView);
+      // create SpatialReference for points
+      final SpatialReference spatialReference = SpatialReferences.getWgs84();
+
+      // create points for displaying graphics
+      Point oldFaithfullPoint = new Point(-110.828140, 44.460458,
+          spatialReference);
+      Point cascadeGeyserPoint = new Point(-110.829004, 44.462438,
+          spatialReference);
+      Point plumeGeyserPoint = new Point(-110.829381, 44.462735,
+          spatialReference);
 
       // create initial viewpoint using an envelope
       Envelope envelope = new Envelope(oldFaithfullPoint, plumeGeyserPoint);
 
       // set viewpoint on mapview with padding
-      mapView.setViewpointGeometryWithPaddingAsync(envelope, 100.0);
+      mapView.setViewpointGeometryWithPaddingAsync(envelope, 300.0);
 
       // create a graphics overlay and add it to the mapview
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
@@ -97,26 +135,26 @@ public class SimpleRendererSample extends Application {
 
       // create a simple symbol for use in a simple renderer
       Color color = new RgbColor(255, 0, 0, 255); // red, fully opaque
-      // size12, style ofcross
       SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(color, 12,
           SimpleMarkerSymbol.Style.CROSS);
       SimpleRenderer renderer = new SimpleRenderer(symbol);
 
-      // apply the renderer to the graphics overlay (so all graphics will use
-      // the same symbol from the renders)
+      // apply the renderer to the graphics overlay 
       graphicsOverlay.setRenderer(renderer);
 
-      // create graphics from the geyser location points. NOTE: no need to set
-      // the symbol on the graphic because the renderer takes care of it.
-      // The points are in WGS84, but graphics get reprojected automatically, so
-      // they work fine in a map with a spatial reference of web mercator.
+      // create graphics from the location points. 
       Graphic oldFaithfullGraphic = new Graphic(oldFaithfullPoint);
+
       Graphic cascadeGeyserGraphic = new Graphic(cascadeGeyserPoint);
       Graphic plumeGeyserGraphic = new Graphic(plumeGeyserPoint);
       graphicsOverlay.getGraphics().add(oldFaithfullGraphic);
       graphicsOverlay.getGraphics().add(cascadeGeyserGraphic);
       graphicsOverlay.getGraphics().add(plumeGeyserGraphic);
 
+      // add the map view and control box to stack pane
+      stackPane.getChildren().addAll(mapView, vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display stack trace
       e.printStackTrace();

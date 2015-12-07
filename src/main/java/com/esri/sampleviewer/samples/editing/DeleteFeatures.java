@@ -18,23 +18,6 @@ package com.esri.sampleviewer.samples.editing;
 
 import java.util.List;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.FeatureQueryResult;
-import com.esri.arcgisruntime.datasource.QueryParameters;
-import com.esri.arcgisruntime.datasource.QueryParameters.SpatialRelationship;
-import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.GeometryEngine;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.Polygon;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.layers.FeatureLayer.SelectionMode;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.Viewpoint;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -49,14 +32,38 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.datasource.Feature;
+import com.esri.arcgisruntime.datasource.FeatureQueryResult;
+import com.esri.arcgisruntime.datasource.QueryParameters;
+import com.esri.arcgisruntime.datasource.QueryParameters.SpatialRelationship;
+import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
+import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.Polygon;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.layers.FeatureLayer.SelectionMode;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.Viewpoint;
+
 /**
- * This sample demonstrates how to delete a <@Feature> from a
- * <@ServiceFeatureTable>. How it works: a ServiceFeatureTable is created from a
- * URL holding the <@FeatureLayer>. This FeatureLayer is then added to a
- * <@Map> and displayed on a <@MapView>. Once the user selects a Feature and the
- * delete button is pressed the Feature will then be deleted from the
- * ServiceFeatureTable. Lastly, the deleted Feature action will be saved to the
- * server.
+ * This sample demonstrates how to delete a Feature from a ServiceFeatureTable.
+ * <h4>How it Works</h4>
+ * 
+ * A {@link ServiceFeatureTable} is created from a URL which stores
+ * {@link Feature}s that are associated with that URL. To interact with those
+ * Features a {@link FeatureLayer} needs to be created from that table. A
+ * Feature is then selected using the {@link FeatureLayer#selectFeatures} method
+ * and can be deleted from the table with the
+ * {@link ServiceFeatureTable#deleteFeaturesAsync} method.
+ * <p>
+ * A ListenableFuture needs to be a class level field because it could get
+ * garbage collected right after being set.
  */
 public class DeleteFeatures extends Application {
 
@@ -64,9 +71,12 @@ public class DeleteFeatures extends Application {
   private FeatureLayer featureLayer;
   private ServiceFeatureTable featureTable;
   private FeatureQueryResult selectedFeatures;
-  private Button deleteButton;
 
-  private static final String FEATURE_LAYER_URL =
+  private ListenableFuture<FeatureQueryResult> queryResult;
+  private ListenableFuture<Boolean> tableResult;
+  private ListenableFuture<List<FeatureEditResult>> serverResult;
+
+  private static final String SERVICE_FEATURE_URL =
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
   private static final String SAMPLES_THEME_PATH =
       "../resources/SamplesTheme.css";
@@ -82,93 +92,91 @@ public class DeleteFeatures extends Application {
 
     // set title, size, and add scene to stage
     stage.setTitle("Delete Features Sample");
-    stage.setWidth(700);
-    stage.setHeight(800);
+    stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(240, 120);
+    vBoxControl.setMaxSize(250, 190);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample label and description
     Label descriptionLabel = new Label("Sample Description");
     descriptionLabel.getStyleClass().add("panel-label");
-
-    TextArea description = new TextArea(
-        "This sample shows how to delete a\n"
-            + "feature from a ServiceFeatureTable.\n"
-            + "Click on the feature to highligh it and\n"
-            + "press the delete button to delete it.");
+    TextArea description = new TextArea("This sample shows how to delete "
+        + "Features from a Service Feature Table. Click on the Feature to "
+        + "select it and press the delete button to delete it.");
+    description.setWrapText(true);
+    description.autosize();
     description.setEditable(false);
-    description.setMinSize(210, 80);
 
-    // create a delete button and fill the width of the screen
-    deleteButton = new Button("Delete Feature");
+    // create a delete button
+    Button deleteButton = new Button("Delete Feature");
     deleteButton.setMaxWidth(Double.MAX_VALUE);
     deleteButton.setDisable(true);
 
     // delete the selected feature
     deleteButton.setOnAction(e -> {
-      deleteFeature();
+      if (selectedFeatures != null) {
+        deleteFeature();
+      }
     });
 
-    // add sample label and description to the control panel
+    // add label, description, and button to the control panel
     vBoxControl.getChildren().addAll(descriptionLabel, description,
         deleteButton);
-
     try {
-      // create an initial viewpoint
-      Point pointLondon = new Point(-036773, 6710477, SpatialReferences
-          .getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(pointLondon, 200000);
 
       // create a map with streets basemap
-      Map map = new Map(Basemap.createStreets());
+      final Map map = new Map(Basemap.createStreets());
 
-      // set initial viewpoint for the map
+      // create starting viewpoint for that map
+      final SpatialReference spatialReference = SpatialReferences
+          .getWebMercator();
+      Point startPoint = new Point(-036773, 6710477, spatialReference);
+      Viewpoint viewpoint = new Viewpoint(startPoint, 200000); // point and scale
+
+      // set a initial viewpoint for the map
       map.setInitialViewpoint(viewpoint);
 
-      // create a view for this map
-      mapView = new MapView();
-
       // create service feature table from URL
-      featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
-
-      // focuses on the features that are located in the viewpoint
-      featureTable.setBufferFactor(1);
-      featureTable.getOutFields().add("*"); // * gets all fields from the
-      // table
+      featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
+      featureTable.getOutFields().add("*"); // * gets all fields from the table
 
       // create a feature layer from table
       featureLayer = new FeatureLayer(featureTable);
 
+      // enable button when feature layer is done loading
+      featureLayer.addDoneLoadingListener(() -> {
+        deleteButton.setDisable(false);
+      });
+
       // add the layer to the map
       map.getOperationalLayers().add(featureLayer);
 
+      // create a view and set map to it
+      mapView = new MapView();
+      mapView.setMap(map);
+
       mapView.setOnMouseClicked(e -> {
-        // check for primary or secondary mouse click
         if (e.getButton() == MouseButton.PRIMARY) {
           // create a point from where the user clicked
           Point2D point = new Point2D(e.getX(), e.getY());
 
-          // create a map point from a point
+          // create a map point from the point
           Point mapPoint = mapView.screenToLocation(point);
 
-          // select feature that the user clicked
-          selectFeature(mapPoint);
+          // select feature clicked
+          selectFeatures(mapPoint);
         }
       });
-
-      // set map to be displayed in map view
-      mapView.setMap(map);
 
       // add the map view and control box to stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);
       StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
       StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
-
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
@@ -176,13 +184,11 @@ public class DeleteFeatures extends Application {
   }
 
   /**
-   * Checks if any features were selected around the map point. If any features
-   * were selected, store those features in selectFeatures. If not set
-   * selectedFeatures to null.
+   * Selects Features around mapPoint.
    * 
-   * @param mapPoint x,y-coordinate pair
+   * @param mapPoint x,y coordinate pair
    */
-  private void selectFeature(Point mapPoint) {
+  private void selectFeatures(Point mapPoint) {
 
     // get unit per pixel times ten
     double distance = mapView.getUnitsPerPixel() * 10;
@@ -196,23 +202,16 @@ public class DeleteFeatures extends Application {
     queryParams.getOutFields().add("*");
 
     // select based on the query
-    ListenableFuture<FeatureQueryResult> result = featureLayer.selectFeatures(
-        queryParams, SelectionMode.NEW);
+    queryResult = featureLayer.selectFeatures(queryParams, SelectionMode.NEW);
 
     try {
       // get selection
-      selectedFeatures = result.get();
+      selectedFeatures = queryResult.get();
 
-      // if feature wasn't selected set selectedFeatures to null
+      // if feature not selected
       if (!selectedFeatures.iterator().hasNext()) {
         selectedFeatures = null;
-        // disable the button
-        deleteButton.setDisable(true);
-      } else {
-        // enable the delete button
-        deleteButton.setDisable(false);
       }
-
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
@@ -220,34 +219,31 @@ public class DeleteFeatures extends Application {
   }
 
   /**
-   * Deletes the Features from a ServiceFeatureTable and applies the changes to
-   * the server.
+   * Deletes selected Features from a ServiceFeatureTable and applies the
+   * changes to the server.
    */
   private void deleteFeature() {
 
     if (selectedFeatures != null) {
       // delete the features from the service feature table
-      final ListenableFuture<Boolean> tableResult = featureTable
-          .deleteFeaturesAsync(selectedFeatures);
+      tableResult = featureTable.deleteFeaturesAsync(selectedFeatures);
 
       try {
-        // update the changes to the server if successful
+        // if successful update server
         if (tableResult.get().booleanValue()) {
           // apply changes to the server
-          final ListenableFuture<List<FeatureEditResult>> serverResult =
-              featureTable.applyEditsAsync();
+          serverResult = featureTable.applyEditsAsync();
+
           // check if the server result was successful
           if (!serverResult.get().get(0).hasCompletedWithErrors()) {
             System.out.println("Feature successfully deleted");
-            // disable the delete button
-            deleteButton.setDisable(true);
           } else {
             System.out.println(
-                "Server Error: Feature failed to be deleted to Server.");
+                "Server Error: Failed to delete feature from Server.");
           }
         } else {
           System.out.println(
-              "Local Error: Feature failed to be deleted to ServiceFeatureTable locally.");
+              "Table Error: Failed to delete feature from ServiceFeatureTable.");
         }
       } catch (Exception e) {
         // on any error, display the stack trace

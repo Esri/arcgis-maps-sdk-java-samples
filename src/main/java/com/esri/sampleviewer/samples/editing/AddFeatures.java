@@ -19,19 +19,6 @@ package com.esri.sampleviewer.samples.editing;
 import java.util.HashMap;
 import java.util.List;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.Feature;
-import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.Viewpoint;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -45,20 +32,41 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.datasource.Feature;
+import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
+import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.Viewpoint;
+
 /**
- * This sample demonstrates how to add a new <@Feature> to a
- * <@ServiceFeatureTable> by clicking on a <@MapView>. How it works: a
- * ServiceFeatureTable is created from a URL holding the <@FeatureLayer> where
- * it is then added to the <@Map> and displayed on a <@MapView>. Once the user
- * clicks the MapView, a new Feature will be added to the ServiceFeatureTable
- * and displayed on the MapView. Lastly, this new Feature will be saved to the
- * server and be able to persist beyond this session.
+ * This sample demonstrates how to add a new Feature to a ServiceFeatureTable.
+ * <h4>How it Works</h4>
+ * 
+ * A {@link ServiceFeatureTable} is created from a URL which stores
+ * {@link Feature}s that are associated with that URL. Supply attributes, which
+ * are a key value pair, and a Point from the Map to
+ * {@link ServiceFeatureTable#createFeature} in order to create a new Feature.
+ * Lastly all that needs to be done is to pass that new Feature to
+ * {@link ServiceFeatureTable#updateFeatureAsync} to updated it to the table.
+ * <p>
+ * A ListenableFuture needs to be a class level field because it could get
+ * garbage collected right after being set.
  */
 public class AddFeatures extends Application {
 
   private MapView mapView;
 
-  private static final String SERVICE_LAYER_URL =
+  private ListenableFuture<Boolean> tableResult;
+  private ListenableFuture<List<FeatureEditResult>> serverResult;
+
+  private static final String SERVICE_FEATURE_URL =
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
   private static final String SAMPLES_THEME_PATH =
       "../resources/SamplesTheme.css";
@@ -73,7 +81,7 @@ public class AddFeatures extends Application {
         .toExternalForm());
 
     // set title, size, and add scene to stage
-    stage.setTitle("Add Features Sample");
+    stage.setTitle("Add Feature Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
@@ -81,58 +89,56 @@ public class AddFeatures extends Application {
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(240, 120);
+    vBoxControl.setMaxSize(250, 190);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample label and description
     Label descriptionLabel = new Label("Sample Description");
     descriptionLabel.getStyleClass().add("panel-label");
-
-    TextArea description = new TextArea("This sample shows how to add a new\n"
-        + "features to a ServiceFeatureTable.\n"
-        + "Click on the map and a new Feature\n" + "will be added.");
+    TextArea description = new TextArea("This sample shows how to add a new "
+        + "Feature to a Service Feature Table. Click on the Map and new "
+        + "Feature will be added.");
+    description.setWrapText(true);
+    description.autosize();
     description.setEditable(false);
-    description.setMinSize(210, 80);
 
-    // add sample label and description to the control panel
+    // add label and description to the control panel
     vBoxControl.getChildren().addAll(descriptionLabel, description);
-
     try {
-      // create spatial reference for point
-      SpatialReference spatialReference = SpatialReferences.getWebMercator();
-
-      // create a initial viewpoint with a point and scale
-      Point pointLondon = new Point(-16773, 6710477, spatialReference);
-      Viewpoint viewpoint = new Viewpoint(pointLondon, 200000);
 
       // create a map with streets basemap
-      Map map = new Map(Basemap.createStreets());
+      final Map map = new Map(Basemap.createStreets());
+
+      // create starting viewpoint for that map
+      final SpatialReference spatialReference =
+          SpatialReferences.getWebMercator();
+      Point startPoint = new Point(-16773, 6710477, spatialReference);
+      Viewpoint viewpoint = new Viewpoint(startPoint, 200000); // point and scale
 
       // set viewpoint to the map
       map.setInitialViewpoint(viewpoint);
 
-      // create a view for this map
-      mapView = new MapView();
-
       // create service feature table from URL
-      ServiceFeatureTable featureTable = new ServiceFeatureTable(
-          SERVICE_LAYER_URL);
-      featureTable.getOutFields().add("*"); // * gets all fields from the
-      // table
+      final ServiceFeatureTable featureTable = new ServiceFeatureTable(
+          SERVICE_FEATURE_URL);
+      featureTable.getOutFields().add("*");// * gets all fields from the table
 
       // create a feature layer from table
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      final FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
       // add the layer to the map
       map.getOperationalLayers().add(featureLayer);
 
+      // create a view and set map to it
+      mapView = new MapView();
+      mapView.setMap(map);
+
       mapView.setOnMouseClicked(e -> {
-        // check that the primary mouse button was clicked
         if (e.getButton() == MouseButton.PRIMARY) {
           // create a point from where the user clicked
           Point2D point = new Point2D(e.getX(), e.getY());
 
-          // create a map point from a point
+          // create a map point from the point
           Point mapPoint = mapView.screenToLocation(point);
 
           // add a new feature to the service feature table
@@ -140,14 +146,10 @@ public class AddFeatures extends Application {
         }
       });
 
-      // set map to be displayed in map view
-      mapView.setMap(map);
-
       // add the map view and control box to stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);
       StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
       StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
-
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
@@ -158,38 +160,37 @@ public class AddFeatures extends Application {
    * Adds a new Feature to the ServiceFeatureTable and applies the changes to
    * the server.
    * 
-   * @param mapPoint x,y-coordinate pair
-   * @param damageTable holds all Feature data
+   * @param mapPoint x,y coordinate pair
+   * @param featureTable holds all Feature data
    */
-  private void addNewFeature(Point mapPoint, ServiceFeatureTable damageTable) {
+  private void addNewFeature(Point mapPoint, ServiceFeatureTable featureTable) {
 
     // create default attributes for the feature
     java.util.Map<String, Object> attributes = new HashMap<>();
     attributes.put("typdamage", "Minor");
     attributes.put("primcause", "Earthquake");
 
-    // creates a new feature using a default attributes and point
-    Feature feature = damageTable.createFeature(attributes, mapPoint);
+    // creates a new feature from the service feature table
+    Feature feature = featureTable.createFeature(attributes, mapPoint);
 
     // adds the new feature to the service
-    final ListenableFuture<Boolean> result = damageTable.addFeatureAsync(
-        feature);
+    tableResult = featureTable.addFeatureAsync(feature);
 
     try {
-      // apply the changes to the server if successful
-      if (result.get().booleanValue()) {
-        final ListenableFuture<List<FeatureEditResult>> serverResult =
-            damageTable.applyEditsAsync();
+      // if successful apply changes
+      if (tableResult.get().booleanValue()) {
+        serverResult = featureTable.applyEditsAsync();
+
         // check if the server result was successful
         if (!serverResult.get().get(0).hasCompletedWithErrors()) {
           System.out.println("Feature successfully added");
         } else {
           System.out.println(
-              "Server Error: Feature failed to be added to Server.");
+              "Server Error: Failed to add feature to Server.");
         }
       } else {
         System.out.println(
-            "Local Error: Feature failed to be added to ServiceFeatureTable locally.");
+            "Table Error: Failed to add feature to ServiceFeatureTable.");
       }
 
     } catch (Exception e) {
@@ -223,4 +224,5 @@ public class AddFeatures extends Application {
 
     Application.launch(args);
   }
+
 }

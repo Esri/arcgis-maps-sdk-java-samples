@@ -15,20 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.mapping.BasemapType;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.RgbColor;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.UniqueValue;
-import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -44,24 +30,39 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.mapping.BasemapType;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.RgbColor;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.UniqueValue;
+import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
+
 /**
  * This sample demonstrates how to identify Graphics at a given screen point.
  * <h4>How it Works</h4>
  * 
  * A new {@link GraphicsOverlay} is created and added to the MapView using the
- * {@link MapView#getGraphicsOverlays} method. A set of default {@link Graphic}s
- * are then added to this GraphicsOverlay and can be identified by using the
+ * {@link MapView#getGraphicsOverlays} method. A set of {@link Graphic}s are
+ * then added to this GraphicsOverlay and can be identified by using the
  * {@link MapView#identifyGraphicsOverlays} method.
- * <h4>Implementation Requirements</h4>
- * 
- * ListenableFuture needs to be a class level field because it could get garbage
- * collected right after being set. Meaning that the addDoneListener method will
- * never be called.
+ * <p>
+ * A ListenableFuture needs to be a class level field because it could get
+ * garbage collected right after being set.
  */
 public class IdentifyGraphics extends Application {
 
   private MapView mapView;
   private ListenableFuture<List<Graphic>> identifyGraphics;
+
+  private static final String SAMPLES_THEME_PATH =
+      "../resources/SamplesTheme.css";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -69,19 +70,19 @@ public class IdentifyGraphics extends Application {
     // create stack pane and application scene
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
-    scene.getStylesheets().add(getClass()
-        .getResource("../resources/SamplesTheme.css").toExternalForm());
+    scene.getStylesheets().add(getClass().getResource(SAMPLES_THEME_PATH)
+        .toExternalForm());
 
     // set title, size, and add scene to stage
     stage.setTitle("Identify Graphics Sample");
-    stage.setWidth(700);
-    stage.setHeight(800);
+    stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(240, 120);
+    vBoxControl.setMaxSize(250, 190);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample description
@@ -97,9 +98,6 @@ public class IdentifyGraphics extends Application {
     vBoxControl.getChildren().addAll(descriptionLabel, description);
     try {
 
-      // create a graphics overlay
-      final GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-
       // create a map with basemap light gray canvas
       final Map map =
           new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
@@ -107,6 +105,9 @@ public class IdentifyGraphics extends Application {
       // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // create a graphics overlay
+      final GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
 
       // add graphics overlay to the map view
       mapView.getGraphicsOverlays().add(graphicsOverlay);
@@ -119,13 +120,14 @@ public class IdentifyGraphics extends Application {
           // create a point from location clicked
           Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
-          // identify any graphics that were selected (overlay, point, buffer,
-          // max results)
+          // identify any graphics that were selected 
           identifyGraphics = mapView.identifyGraphicsOverlay(graphicsOverlay,
               mapViewPoint, 10, 1);
 
-          identifyGraphics.addDoneListener(
-              () -> Platform.runLater(() -> createGraphicDialog()));
+          //displays dialog for graphics
+          identifyGraphics.addDoneListener(() -> {
+            Platform.runLater(() -> createGraphicDialog());
+          });
         }
       });
 
@@ -133,7 +135,6 @@ public class IdentifyGraphics extends Application {
       stackPane.getChildren().addAll(mapView, vBoxControl);
       StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
       StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
-
     } catch (Exception e) {
       // on any error, print stack trace
       e.printStackTrace();
@@ -190,20 +191,20 @@ public class IdentifyGraphics extends Application {
 
     // create four graphics and add them to the graphics overlay
     SpatialReference spatialReference = SpatialReferences.getWgs84();
-    Graphic redGraphic =
-        new Graphic(new Point(-2.641, 56.077, spatialReference));
+    Graphic redGraphic = new Graphic(new Point(-2.641, 56.077,
+        spatialReference));
     redGraphic.getAttributes().put("SYMBOL", "Red Circle Symbol");
 
-    Graphic purpleGraphic =
-        new Graphic(new Point(-2.669, 56.058, spatialReference));
+    Graphic purpleGraphic = new Graphic(new Point(-2.669, 56.058,
+        spatialReference));
     purpleGraphic.getAttributes().put("SYMBOL", "Purple Triangle Symbol");
 
-    Graphic greenGraphic =
-        new Graphic(new Point(-2.688, 56.062, spatialReference));
+    Graphic greenGraphic = new Graphic(new Point(-2.688, 56.062,
+        spatialReference));
     greenGraphic.getAttributes().put("SYMBOL", "Green Cross Symbol");
 
-    Graphic blueGraphic =
-        new Graphic(new Point(-2.720, 56.073, spatialReference));
+    Graphic blueGraphic = new Graphic(new Point(-2.720, 56.073,
+        spatialReference));
     blueGraphic.getAttributes().put("SYMBOL", "Blue Diamond Symbol");
 
     graphicsOverlay.getGraphics().addAll(

@@ -15,18 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.mapping.BasemapType;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.RgbColor;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.Symbol;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -43,33 +31,44 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.mapping.BasemapType;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.RgbColor;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.Symbol;
+
 /**
  * This sample demonstrates how to update the Geometry and attributes of a
  * Graphic.
  * <h4>How it Works</h4>
  * 
- * A {@link Graphic} is selected using the
- * {@link MapView#identifyGraphicsOverlay} method. The Geometry of a Graphic can
- * then be changed by using the {@link Graphic#setGeometry} method. The
- * {@link Symbol} of a Graphic can also be changed by using the
- * {@link Graphic#setSymbol} method. Lastly, the attributes of a Graphic can be
- * set by using the {@link Graphic#getAttributes} method and setting the new
- * value to the corresponding key.
- * <h4>Implementation Requirements</h4>
- * 
- * ListenableFuture needs to be a class level field because it could get garbage
- * collected right after being set. Meaning that the addDoneListener method will
- * never be called.
+ * Once {@link Graphic}s are created and added to the {@link GraphicsOverlay} a
+ * Graphic can be selected by using {@link MapView#identifyGraphicsOverlay}. The
+ * Geometry of a Graphic can then be changed by using the
+ * {@link Graphic#setGeometry} method. The {@link Symbol} of a Graphic can also
+ * be changed by using the {@link Graphic#setSymbol} method. Lastly, the
+ * attributes of a Graphic can be set by using the {@link Graphic#getAttributes}
+ * method and setting the new value to the corresponding key.
+ * <p>
+ * A listenableFuture needs to be a class level field because it could get
+ * garbage collected right after being set.
  */
 public class UpdateGraphics extends Application {
-
-  private boolean isUpdateLocationActive;
-  private List<SimpleMarkerSymbol> markers;
 
   private MapView mapView;
   private Graphic selectedGraphic;
   private GraphicsOverlay graphicsOverlay;
+
   private ListenableFuture<List<Graphic>> identifyGraphics;
+
+  private boolean isUpdateLocationActive;
+  private List<SimpleMarkerSymbol> markers;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -82,14 +81,14 @@ public class UpdateGraphics extends Application {
 
     // set title, size, and add scene to stage
     stage.setTitle("Update Graphics Sample");
-    stage.setWidth(700);
-    stage.setHeight(800);
+    stage.setWidth(800);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(240, 400);
+    vBoxControl.setMaxSize(250, 400);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample description
@@ -99,8 +98,8 @@ public class UpdateGraphics extends Application {
         "This sample shows how to update the location, symbol, and attributes"
             + " of a Graphic. First select a Graphic, to change its location hit"
             + " the update location button and click anywhere on the map. To "
-            + "update its description click the update description. To update "
-            + "its symbol just select a symbol from drop down box.");
+            + "update its description click the update description button. To "
+            + "update its symbol just select a symbol from drop down box.");
     description.setWrapText(true);
     description.autosize();
     description.setMinHeight(250);
@@ -171,7 +170,7 @@ public class UpdateGraphics extends Application {
       selectedGraphic = new Graphic();
 
       // create a map with basemap light gray canvas
-      Map map =
+      final Map map =
           new Map(BasemapType.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
 
       // enable buttons when map view is done loading
@@ -243,7 +242,7 @@ public class UpdateGraphics extends Application {
 
     Graphic graphic;
     // create spatial reference for the points
-    SpatialReference spatialReference = SpatialReference.create(4326);
+    final SpatialReference spatialReference = SpatialReference.create(4326);
 
     // create points to place markers
     List<Point> points = new ArrayList<>();

@@ -8,6 +8,16 @@
 
 package com.esri.sampleviewer.samples.mapview;
 
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.Viewpoint;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -19,16 +29,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.PointCollection;
-import com.esri.arcgisruntime.geometry.Polyline;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.Viewpoint;
 
 /**
  * This sample demonstrates three different ways in which one can change the
@@ -45,7 +45,7 @@ import com.esri.arcgisruntime.mapping.view.Viewpoint;
 public class ChangeViewpoint extends Application {
 
   private MapView mapView;
-  private SpatialReference spatialReference;
+  private SpatialReference spartialReference;
 
   private static final int SCALE = 5000;
 
@@ -55,8 +55,8 @@ public class ChangeViewpoint extends Application {
     // create stack pane and application scene
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
-    scene.getStylesheets().add(getClass().getResource(
-        "../resources/SamplesTheme.css").toExternalForm());
+    scene.getStylesheets().add(getClass()
+        .getResource("../resources/SamplesTheme.css").toExternalForm());
 
     // set title, size, and add scene to stage
     stage.setTitle("Change Viewpoint Sample");
@@ -73,8 +73,8 @@ public class ChangeViewpoint extends Application {
     // create sample description
     Label descriptionLabel = new Label("Sample Description:");
     descriptionLabel.getStyleClass().add("panel-label");
-    TextArea description = new TextArea("This sample shows different ways " +
-        "to change the Viewpoint of a Map.");
+    TextArea description = new TextArea("This sample shows different ways "
+        + "to change the Viewpoint of a Map.");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);
@@ -89,7 +89,7 @@ public class ChangeViewpoint extends Application {
 
     animateButton.setOnAction(e -> {
       // create the London location point
-      Point londonPoint = new Point(-14093, 6711377, spatialReference);
+      Point londonPoint = new Point(-14093, 6711377, spartialReference);
       // create the viewpoint with the London point and scale
       Viewpoint viewpoint = new Viewpoint(londonPoint, SCALE);
       // set the map views's viewpoint to London with a seven second duration
@@ -98,14 +98,15 @@ public class ChangeViewpoint extends Application {
 
     centerButton.setOnAction(e -> {
       // create the Waterloo location point
-      Point waterlooPoint = new Point(-12153, 6710527, spatialReference);
+      Point waterlooPoint = new Point(-12153, 6710527, spartialReference);
       // set the map views's viewpoint centered on Waterloo and scaled
       mapView.setViewpointCenterWithScaleAsync(waterlooPoint, SCALE);
     });
 
     geometryButton.setOnAction(e -> {
       // create a collection of points around Westminster
-      PointCollection westminsterPoints = new PointCollection(spatialReference);
+      PointCollection westminsterPoints =
+          new PointCollection(spartialReference);
       westminsterPoints.add(new Point(-13823, 6710390));
       westminsterPoints.add(new Point(-13823, 6710150));
       westminsterPoints.add(new Point(-14680, 6710390));
@@ -130,9 +131,9 @@ public class ChangeViewpoint extends Application {
       mapView.setMap(map);
 
       // create spatial reference for all points
-      spatialReference = SpatialReferences.getWebMercator();
+      spartialReference = SpatialReferences.getWebMercator();
       // create point for starting location
-      Point startPoint = new Point(-14093, 6711377, spatialReference);
+      Point startPoint = new Point(-14093, 6711377, spartialReference);
 
       // set viewpoint of map view to starting point and scaled
       mapView.setViewpointCenterWithScaleAsync(startPoint, SCALE);
