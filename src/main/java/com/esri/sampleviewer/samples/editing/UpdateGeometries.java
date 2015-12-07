@@ -97,7 +97,7 @@ public class UpdateGeometries extends Application {
         .toExternalForm());
 
     // set title, size, and add scene to stage
-    stage.setTitle("Update Geometrys Sample");
+    stage.setTitle("Update Geometries Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
