@@ -89,15 +89,15 @@ public class AddFeatures extends Application {
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(250, 190);
+    vBoxControl.setMaxSize(250, 150);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample label and description
     Label descriptionLabel = new Label("Sample Description");
     descriptionLabel.getStyleClass().add("panel-label");
-    TextArea description = new TextArea("This sample shows how to add a new "
-        + "Feature to a Service Feature Table. Click on the Map and new "
-        + "Feature will be added.");
+    TextArea description = new TextArea("This sample shows how to add a new " +
+        "Feature to a Service Feature Table. Click on the Map and new " +
+        "Feature will be added.");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);
@@ -110,8 +110,8 @@ public class AddFeatures extends Application {
       final Map map = new Map(Basemap.createStreets());
 
       // create starting viewpoint for that map
-      final SpatialReference spatialReference =
-          SpatialReferences.getWebMercator();
+      final SpatialReference spatialReference = SpatialReferences
+          .getWebMercator();
       Point startPoint = new Point(-16773, 6710477, spatialReference);
       Viewpoint viewpoint = new Viewpoint(startPoint, 200000); // point and scale
 
@@ -185,8 +185,7 @@ public class AddFeatures extends Application {
         if (!serverResult.get().get(0).hasCompletedWithErrors()) {
           System.out.println("Feature successfully added");
         } else {
-          System.out.println(
-              "Server Error: Failed to add feature to Server.");
+          System.out.println("Server Error: Failed to add feature to Server.");
         }
       } else {
         System.out.println(

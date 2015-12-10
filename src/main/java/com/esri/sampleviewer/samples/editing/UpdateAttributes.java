@@ -107,15 +107,15 @@ public class UpdateAttributes extends Application {
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(250, 190);
+    vBoxControl.setMaxSize(240, 250);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample label and description
     Label descriptionLabel = new Label("Sample Description");
     descriptionLabel.getStyleClass().add("panel-label");
-    TextArea description = new TextArea("This sample shows how to update a "
-        + "Feature's attributes. Click on a Feature to select it, then use "
-        + "the combo box to update the typdamage attribute.");
+    TextArea description = new TextArea("This sample shows how to update a " +
+        "Feature's attributes. Click on a Feature to select it, then use " +
+        "the combo box to update the typdamage attribute.");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);

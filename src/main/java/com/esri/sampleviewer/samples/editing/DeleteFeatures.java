@@ -99,15 +99,15 @@ public class DeleteFeatures extends Application {
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(250, 190);
+    vBoxControl.setMaxSize(250, 200);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample label and description
     Label descriptionLabel = new Label("Sample Description");
     descriptionLabel.getStyleClass().add("panel-label");
-    TextArea description = new TextArea("This sample shows how to delete "
-        + "Features from a Service Feature Table. Click on the Feature to "
-        + "select it and press the delete button to delete it.");
+    TextArea description = new TextArea("This sample shows how to delete " +
+        "Features from a Service Feature Table. Click on the Feature to " +
+        "select it and press the delete button to delete it.");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);
