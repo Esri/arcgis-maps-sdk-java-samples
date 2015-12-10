@@ -18,8 +18,6 @@ package com.esri.sampleviewer.samples.symbology;
 
 import java.io.File;
 
-import javax.imageio.ImageIO;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -42,6 +40,8 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
+
+import javax.imageio.ImageIO;
 
 /**
  * This sample demonstrates how to create a PictureMarkerSymbol from a URL,
@@ -96,15 +96,15 @@ public class PictureMarkerSymbolSample extends Application {
 
     // create a control panel
     VBox vBoxControl = new VBox(6);
-    vBoxControl.setMaxSize(250, 190);
+    vBoxControl.setMaxSize(220, 170);
     vBoxControl.getStyleClass().add("panel-region");
 
     // create sample description
     Label descriptionLabel = new Label("Sample Description:");
     descriptionLabel.getStyleClass().add("panel-label");
     TextArea description = new TextArea(
-        "This sample shows how to create a Picture Marker Symbol from a URL, locally on"
-            + " the application, or from disk storage");
+        "This sample shows how to create a Picture Marker Symbol from a URL, locally on" +
+            " the application, or from disk storage");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);
@@ -136,15 +136,14 @@ public class PictureMarkerSymbolSample extends Application {
       if (saveResourceToExternalStorage()) {
         // create orange picture marker symbol
         PictureMarkerSymbol orangeSymbol = new PictureMarkerSymbol(
-            orangeSymbolPath
-                .getAbsolutePath());
+            orangeSymbolPath.getAbsolutePath());
         // place orange picture marker symbol on map
         placePictureMarkerSymbol(graphicsOverlay, orangeSymbol, leftPoint);
       }
 
       // create blue picture marker symbol from local
-      Image newImage = new Image(getClass()
-          .getResourceAsStream("resources/blue_symbol.png"));
+      Image newImage = new Image(getClass().getResourceAsStream(
+          "resources/blue_symbol.png"));
       PictureMarkerSymbol blueSymbol = new PictureMarkerSymbol(newImage);
       // place blue picture marker symbol on map
       placePictureMarkerSymbol(graphicsOverlay, blueSymbol, middlePoint);
