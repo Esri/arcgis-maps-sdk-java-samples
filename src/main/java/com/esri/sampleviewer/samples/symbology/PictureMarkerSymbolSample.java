@@ -18,6 +18,8 @@ package com.esri.sampleviewer.samples.symbology;
 
 import java.io.File;
 
+import javax.imageio.ImageIO;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -41,8 +43,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 
-import javax.imageio.ImageIO;
-
 /**
  * This sample demonstrates how to create a PictureMarkerSymbol from a URL,
  * locally on the application, or from disk storage.
@@ -50,15 +50,15 @@ import javax.imageio.ImageIO;
  * The {@link GraphicsOverlay} will hold our {@link PictureMarkerSymbol}s so
  * they can be displayed on the MapView.
  * <p>
- * For loading a file store on a disk. The application stores a temporary file
+ * For loading a file stored on a disk. The application stores a temporary file
  * onto your machine and then gets the address of where that file was stored.
  * <h4>How it Works</h4>
  * 
  * First a {@link GraphicsOverlay} is created and added to the
  * {@link MapView#getGraphicsOverlays} method. The PictureMarkerSymbol(String
  * uri) constructor creates a symbol from a specified URI. This means that a
- * symbol can be created from a URL, a web page, or one can enter a path
- * location to a file stored on their machine.
+ * symbol can be created from a URL, a web page, or from an absolute path to a
+ * file that is stored locally.
  * <p>
  * The new PictureMarkerSymbol(Image) constructor creates a symbol from a Javafx
  * Image. The Image used for this demo is stored in the resource folder that
@@ -67,6 +67,8 @@ import javax.imageio.ImageIO;
  * Lastly once a symbol is created it will need to be added to a {@link Graphic}
  * along with a Point and then pass that graphic to the
  * {@link GraphicsOverlay#getGraphics} method.
+ * <p>
+ * Note: the Map must be loaded before creating a PictureMarkerSymbol from URL.
  */
 public class PictureMarkerSymbolSample extends Application {
 
@@ -103,8 +105,8 @@ public class PictureMarkerSymbolSample extends Application {
     Label descriptionLabel = new Label("Sample Description:");
     descriptionLabel.getStyleClass().add("panel-label");
     TextArea description = new TextArea(
-        "This sample shows how to create a Picture Marker Symbol from a URL, locally on" +
-            " the application, or from disk storage");
+        "This sample shows how to create a Picture Marker Symbol from a URL, "
+            + "locally on the application, or from disk storage");
     description.setWrapText(true);
     description.autosize();
     description.setEditable(false);
@@ -118,13 +120,13 @@ public class PictureMarkerSymbolSample extends Application {
 
       // create view for this map
       mapView = new MapView();
+      // set map to be displayed in mapview
+      mapView.setMap(map);
 
       // create graphics overlay and add it to the mapview
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create points for displaying graphics
       Point leftPoint = new Point(-228835, 6550763, SpatialReferences
           .getWebMercator()); // Disk
       Point rightPoint = new Point(-223560, 6552021, SpatialReferences
@@ -132,45 +134,36 @@ public class PictureMarkerSymbolSample extends Application {
       Point middlePoint = new Point(-226773, 6550477, SpatialReferences
           .getWebMercator());
 
-      // create orange picture marker symbol from disk
-      if (saveResourceToExternalStorage()) {
-        // create orange picture marker symbol
-        PictureMarkerSymbol orangeSymbol = new PictureMarkerSymbol(
-            orangeSymbolPath.getAbsolutePath());
-        // place orange picture marker symbol on map
-        placePictureMarkerSymbol(graphicsOverlay, orangeSymbol, leftPoint);
-      }
+      Envelope envelope = new Envelope(leftPoint, rightPoint);
+      mapView.setViewpointGeometryWithPaddingAsync(envelope, 100);
 
-      // create blue picture marker symbol from local
-      Image newImage = new Image(getClass().getResourceAsStream(
-          "resources/blue_symbol.png"));
-      PictureMarkerSymbol blueSymbol = new PictureMarkerSymbol(newImage);
-      // place blue picture marker symbol on map
-      placePictureMarkerSymbol(graphicsOverlay, blueSymbol, middlePoint);
+      map.addDoneLoadingListener(() -> {
+        // create symbol from URL
+        PictureMarkerSymbol campsiteSymbol = new PictureMarkerSymbol(
+            CAMPSITE_SYMBOL);
+        placePictureMarkerSymbol(graphicsOverlay, campsiteSymbol, rightPoint);
 
-      // create campsite picture marker symbol from URL
-      PictureMarkerSymbol campsiteSymbol = new PictureMarkerSymbol(
-          CAMPSITE_SYMBOL);
-      // place campsite picture marker symbol on map
-      placePictureMarkerSymbol(graphicsOverlay, campsiteSymbol, rightPoint);
+        // create orange picture marker symbol from disk
+        if (saveResourceToExternalStorage()) {
+          // create orange picture marker symbol
+          PictureMarkerSymbol orangeSymbol = new PictureMarkerSymbol(
+              orangeSymbolPath.getAbsolutePath());
+          // place orange picture marker symbol on map
+          placePictureMarkerSymbol(graphicsOverlay, orangeSymbol, leftPoint);
+        }
 
-      campsiteSymbol.addDoneLoadingListener(() -> {
-        Platform.runLater(() -> {
-          stackPane.getChildren().add(vBoxControl);
-          StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-          StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
-        });
+        ////create blue picture marker symbol from local
+        Image newImage = new Image(getClass().getResourceAsStream(
+            "resources/blue_symbol.png"));
+        PictureMarkerSymbol blueSymbol = new PictureMarkerSymbol(newImage);
+        //place blue picture marker symbol on map
+        placePictureMarkerSymbol(graphicsOverlay, blueSymbol, middlePoint);
       });
 
-      // set map to be displayed in mapview
-      mapView.setMap(map);
-
-      // set viewpoint on mapview with padding
-      Envelope envelope = new Envelope(leftPoint, rightPoint);
-      mapView.setViewpointGeometryWithPaddingAsync(envelope, 100.0);
-
-      // add the map view and control panel to stack pane
       stackPane.getChildren().add(mapView);
+      stackPane.getChildren().add(vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       e.printStackTrace();
     }
