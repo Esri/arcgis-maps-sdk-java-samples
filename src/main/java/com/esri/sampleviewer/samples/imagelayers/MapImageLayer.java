@@ -82,7 +82,6 @@ public class MapImageLayer extends Application {
     vBoxControl.getChildren().addAll(descriptionLabel, description);
     try {
 
-      // add basemap to map
       final Map map = new Map();
 
       // create new map image Layer from service url
