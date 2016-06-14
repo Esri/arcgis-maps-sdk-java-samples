@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Eclipse" />
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+      <entry name="!?*.aj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="access-load-status_main" target="1.8" />
+      <module name="access-load-status_test" target="1.8" />
+      <module name="add-features_main" target="1.8" />
+      <module name="add-features_test" target="1.8" />
+      <module name="add-graphics-with-renderer_main" target="1.8" />
+      <module name="add-graphics-with-renderer_test" target="1.8" />
+      <module name="add-graphics-with-symbols_main" target="1.8" />
+      <module name="add-graphics-with-symbols_test" target="1.8" />
+      <module name="arcgis-runtime-samples-java_main" target="1.8" />
+      <module name="arcgis-runtime-samples-java_test" target="1.8" />
+      <module name="change-basemap_main" target="1.8" />
+      <module name="change-basemap_test" target="1.8" />
+      <module name="change-feature-layer-renderer_main" target="1.8" />
+      <module name="change-feature-layer-renderer_test" target="1.8" />
+      <module name="change-viewpoint_main" target="1.8" />
+      <module name="change-viewpoint_test" target="1.8" />
+      <module name="delete-features_main" target="1.8" />
+      <module name="delete-features_test" target="1.8" />
+      <module name="display-drawing-status_main" target="1.8" />
+      <module name="display-drawing-status_test" target="1.8" />
+      <module name="display-information_main" target="1.8" />
+      <module name="display-information_test" target="1.8" />
+      <module name="display-layer-view-state-status_main" target="1.8" />
+      <module name="display-layer-view-state-status_test" target="1.8" />
+      <module name="display-map_main" target="1.8" />
+      <module name="display-map_test" target="1.8" />
+      <module name="display-scene_main" target="1.8" />
+      <module name="display-scene_test" target="1.8" />
+      <module name="distance-composite-symbol_main" target="1.8" />
+      <module name="distance-composite-symbol_test" target="1.8" />
+      <module name="edit-feature-attachments_main" target="1.8" />
+      <module name="edit-feature-attachments_test" target="1.8" />
+      <module name="editing_main" target="1.8" />
+      <module name="editing_test" target="1.8" />
+      <module name="elevation-mode_main" target="1.8" />
+      <module name="elevation-mode_test" target="1.8" />
+      <module name="extrude-graphics_main" target="1.8" />
+      <module name="extrude-graphics_test" target="1.8" />
+      <module name="feature-layer-definition-expression_main" target="1.8" />
+      <module name="feature-layer-definition-expression_test" target="1.8" />
+      <module name="feature-layer-feature-service_main" target="1.8" />
+      <module name="feature-layer-feature-service_test" target="1.8" />
+      <module name="feature-layer-query_main" target="1.8" />
+      <module name="feature-layer-query_test" target="1.8" />
+      <module name="feature-layer-selection_main" target="1.8" />
+      <module name="feature-layer-selection_test" target="1.8" />
+      <module name="feature-layers_main" target="1.8" />
+      <module name="feature-layers_test" target="1.8" />
+      <module name="find-address_main" target="1.8" />
+      <module name="find-address_test" target="1.8" />
+      <module name="find-place_main" target="1.8" />
+      <module name="find-place_test" target="1.8" />
+      <module name="find-route_main" target="1.8" />
+      <module name="find-route_test" target="1.8" />
+      <module name="geocode-online_main" target="1.8" />
+      <module name="geocode-online_test" target="1.8" />
+      <module name="geometry-engine-sample_main" target="1.8" />
+      <module name="geometry-engine-sample_test" target="1.8" />
+      <module name="geometry-engine-simplify_main" target="1.8" />
+      <module name="geometry-engine-simplify_test" target="1.8" />
+      <module name="geometry_main" target="1.8" />
+      <module name="geometry_test" target="1.8" />
+      <module name="identify-graphics_main" target="1.8" />
+      <module name="identify-graphics_test" target="1.8" />
+      <module name="image-layers_main" target="1.8" />
+      <module name="image-layers_test" target="1.8" />
+      <module name="manage-bookmarks_main" target="1.8" />
+      <module name="manage-bookmarks_test" target="1.8" />
+      <module name="manage-operational-layers_main" target="1.8" />
+      <module name="manage-operational-layers_test" target="1.8" />
+      <module name="map-image-layer-sublayer-visibility_main" target="1.8" />
+      <module name="map-image-layer-sublayer-visibility_test" target="1.8" />
+      <module name="map-image-layer_main" target="1.8" />
+      <module name="map-image-layer_test" target="1.8" />
+      <module name="map-initial-extent_main" target="1.8" />
+      <module name="map-initial-extent_test" target="1.8" />
+      <module name="map-rotation_main" target="1.8" />
+      <module name="map-rotation_test" target="1.8" />
+      <module name="map-spatial-reference_main" target="1.8" />
+      <module name="map-spatial-reference_test" target="1.8" />
+      <module name="map-view_main" target="1.8" />
+      <module name="map-view_test" target="1.8" />
+      <module name="map_main" target="1.8" />
+      <module name="map_test" target="1.8" />
+      <module name="min-max-scale_main" target="1.8" />
+      <module name="min-max-scale_test" target="1.8" />
+      <module name="mission-replay_main" target="1.8" />
+      <module name="mission-replay_test" target="1.8" />
+      <module name="na_main" target="1.8" />
+      <module name="na_test" target="1.8" />
+      <module name="open-existing-map_main" target="1.8" />
+      <module name="open-existing-map_test" target="1.8" />
+      <module name="picture-marker-symbol-sample_main" target="1.8" />
+      <module name="picture-marker-symbol-sample_test" target="1.8" />
+      <module name="reverse-geocode-online_main" target="1.8" />
+      <module name="reverse-geocode-online_test" target="1.8" />
+      <module name="scene_main" target="1.8" />
+      <module name="scene_test" target="1.8" />
+      <module name="search_main" target="1.8" />
+      <module name="search_test" target="1.8" />
+      <module name="service-feature-table-cache_main" target="1.8" />
+      <module name="service-feature-table-cache_test" target="1.8" />
+      <module name="service-feature-table-manual-cache_main" target="1.8" />
+      <module name="service-feature-table-manual-cache_test" target="1.8" />
+      <module name="service-feature-table-nocache_main" target="1.8" />
+      <module name="service-feature-table-nocache_test" target="1.8" />
+      <module name="set-initial-map-location_main" target="1.8" />
+      <module name="set-initial-map-location_test" target="1.8" />
+      <module name="show-callout_main" target="1.8" />
+      <module name="show-callout_test" target="1.8" />
+      <module name="simple-fill-symbol-sample_main" target="1.8" />
+      <module name="simple-fill-symbol-sample_test" target="1.8" />
+      <module name="simple-line-symbol-sample_main" target="1.8" />
+      <module name="simple-line-symbol-sample_test" target="1.8" />
+      <module name="simple-marker-symbol-sample_main" target="1.8" />
+      <module name="simple-marker-symbol-sample_test" target="1.8" />
+      <module name="simple-renderer-sample_main" target="1.8" />
+      <module name="simple-renderer-sample_test" target="1.8" />
+      <module name="symbology_main" target="1.8" />
+      <module name="symbology_test" target="1.8" />
+      <module name="symbols_main" target="1.8" />
+      <module name="symbols_test" target="1.8" />
+      <module name="tiled-layer_main" target="1.8" />
+      <module name="tiled-layer_test" target="1.8" />
+      <module name="tiled-layers_main" target="1.8" />
+      <module name="tiled-layers_test" target="1.8" />
+      <module name="unique-value-renderer-sample_main" target="1.8" />
+      <module name="unique-value-renderer-sample_test" target="1.8" />
+      <module name="update-attributes_main" target="1.8" />
+      <module name="update-attributes_test" target="1.8" />
+      <module name="update-geometries_main" target="1.8" />
+      <module name="update-geometries_test" target="1.8" />
+      <module name="update-graphics_main" target="1.8" />
+      <module name="update-graphics_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
