@@ -4,6 +4,8 @@ Demonstrates how to add Graphics to a GraphicsOverlay and display those Graphics
 ![](AddGraphicsWithRenderer.png)
 
 ##How it works##
+To add Graphics to a GraphicsOverlay using a UniqueValueRenderer:
+
 1. Create a `GraphicsOverlay` and attach it to the `MapView`.
 2. Create a `Graphic` for each bird location.
   - Each graphic will have a `Point` with a x,y-coordinate location to display a symbol
