@@ -22,6 +22,7 @@ To add Graphics to a GraphicsOverlay using a UniqueValueRenderer:
 8. Set unique value renderer to graphics overlay, `GraphicsOverlay.setRenderer(unique value renderer)`.
 
 ##Features##
+- ArcGISMap
 - Graphic
 - GraphicsOverlay
 - MapView
