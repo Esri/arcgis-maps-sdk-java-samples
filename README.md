@@ -31,7 +31,7 @@ On Windows
 There is no need to install Gradle to run the samples.
 
 ## Importing into an IDE
-We will step through how to import the Samples project into Eclipse and IntelliJ. In both IDEs you can choose to 
+We will step through how to import the Samples project into Eclipse and IntelliJ IDEA. In both IDEs you can choose to 
 import all the samples, just a category of samples, or a single sample.
 
 ### IntelliJ IDEA
@@ -100,5 +100,3 @@ License for the specific language governing permissions and limitations
 under the License.
 
 A copy of the license is available in the repository's license.txt file.
-
-
