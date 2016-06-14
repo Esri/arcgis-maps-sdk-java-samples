@@ -1,0 +1,24 @@
+group 'com.esri.samples.editing'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url 'http://android:8080/artifactory/arcgis'
+    }
+}
+
+dependencies {
+    compile 'com.esri.arcgisruntime:arcgis-java:100.0.0-1362'
+    compile 'commons-codec:commons-codec:1.6'
+    compile 'commons-logging:commons-logging:1.1.3'
+    compile 'org.controlsfx:controlsfx:8.40.9'
+}
+
+run {
+    mainClassName = "com.esri.samples.editing.AddFeatures"
+}

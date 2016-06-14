@@ -1,0 +1,4 @@
+task run {
+    evaluationDependsOnChildren()
+    dependsOn subprojects.run
+}

@@ -1,0 +1,3 @@
+rootProject.name = 'image-layers'
+include 'map-image-layer',
+        'map-image-layer-sublayer-visibility'
