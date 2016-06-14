@@ -9,10 +9,10 @@ When you click on a graphic on the map, you should see an alert.
 ##How it works##
 To identify `Graphic`s from the MapView.
 
-1. Create a GraphicsOverlay and add it to the `MapView`.
-2. Add `Graphic` along with a `SimpleFillSymbol`. 
-3. Add the graphic to the `GraphicsOverlay`. 
-4. Identify the graphics on the specified location using the `mapView#identifyGraphicsOverlayAsync(graphicsOverlay, point, tolerance, max results)` method.
+- Create a GraphicsOverlay and add it to the `MapView`.
+- Add `Graphic` along with a `SimpleFillSymbol`. 
+- Add the graphic to the `GraphicsOverlay`. 
+- Identify the graphics on the specified location using the `mapView#identifyGraphicsOverlayAsync(graphicsOverlay, point, tolerance, max results)` method.
 
 ##Features##
 - MapView
