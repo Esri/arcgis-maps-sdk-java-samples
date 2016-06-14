@@ -6,7 +6,7 @@ This sample demonstrates how to show coordinates for a clicked location on an
 Click anywhere on the map to show a callout with the clicked location's 
 coordinates.
 
-![](DisplayCallout.png)
+![](ShowCallout.png)
 
 ##How it works
 To show a callout with the clicked location's coordinates:
