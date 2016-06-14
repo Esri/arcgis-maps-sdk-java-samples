@@ -16,6 +16,8 @@ Update Graphic's Symbol:
 ![](UpdateGraphics.png)
 
 ##How it works##
+How to change a Graphic's Symbol, attributes, and geometry:
+
 1. Create a `GraphicsOverlay` and attach it to the `MapView`.
 2. Create `Graphic`s using a `Point` and `SimpleMarkerSymbol`. 
   - point gives the x,y-coordinate location of where SimpleMarkerSymbol will be located
