@@ -4,7 +4,7 @@ The sample demonstrates how to open an existing web map.
 ##How to use the sample##
 The sample opens with a web map displayed by default. You can select a `ArcGISMap` from the drop-down list. On selection the web map opens up in the `MapView`.
 
-![](MinMaxScale.png)
+![](OpenExistingMap.png)
 
 ##How it works##
 To open an existing web map:
