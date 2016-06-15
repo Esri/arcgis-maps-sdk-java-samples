@@ -4,8 +4,7 @@ This sample demonstrates how to update the location of a Feature from a `Service
 ##How to use the sample##
 Click on a feature on the map to select the feature. You can click on a new location in order to save the new geometry location.
 
-![](UpdateGeometries1.png" alt="Update Geometries)
-![](UpdateGeometries2.png" alt="Update Geometries)
+![](UpdateGeometries.png)
 
 ##How it works##
 To get features from a `ServiceFeatureTable` and change their geometry:
