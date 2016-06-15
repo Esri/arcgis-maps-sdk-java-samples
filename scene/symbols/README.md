@@ -3,7 +3,7 @@ Demonstrates how to create symbols with different 3D shapes. Includes tetrahedro
 
 ##How to use the sample##
 
-![](ExtrudeGraphics.png)
+![](Symbols.png)
 
 ##How it works##
 To create a `SimpleMarkerSceneSymbol` with a 3D shape:
