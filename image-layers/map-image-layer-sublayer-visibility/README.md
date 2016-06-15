@@ -4,7 +4,7 @@ This sample demonstrates how to add multiple layers to your `ArcGISMap` using a 
 ##How to use the sample##
 The sample provides a drop down on the top which displays the list of `ArcGISSubLayers`. Each sublayer in the list has a check-box, which can be used to toggle the visibility of that particular sublayer.
 
-![](MapImageLayerSublayerVisibility.png)
+![](ArcGISImageLayerSublayerVisibility.png)
 
 ##How it works##
 To add an ArcGISMapImageLayer to your ArcGISMap using its URL:
