@@ -1,4 +1,4 @@
-# ArcGIS Java SDK Samples
+# ArcGIS Runtime Java SDK Samples
 ### Quartz Beta 2
 This project includes a set of samples demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
