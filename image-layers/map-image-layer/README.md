@@ -2,7 +2,7 @@
 This sample demonstrates how to display an `ArcGISMapImageLayer` on a `ArcGISMap`. Typically
 this type of content is known as operational data, example being business data that changes frequently, such as displaying a fleet of vehicles as they make deliveries.
 
-![](MapImageLayer.png)
+![](ArcGISImageLayer.png)
 
 ##How it works##
 To add an ArcGISMapImageLayer to your ArcGISMap using its URL:
