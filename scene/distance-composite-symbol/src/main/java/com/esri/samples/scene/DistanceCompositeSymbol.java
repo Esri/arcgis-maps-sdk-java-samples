@@ -96,7 +96,7 @@ public class DistanceCompositeSymbol extends Application {
       graphicsOverlay.getGraphics().add(aircraftGraphic);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(aircraftPosition, 1500, 0, 80.0, 0.0);
+      Camera camera = new Camera(aircraftPosition, 500, 0, 80.0, 0.0);
       sceneView.setViewpointCamera(camera);
     } catch (Exception e) {
       // on any error, display the stack trace.
