@@ -11,10 +11,7 @@
 
 package com.esri.samples.scene;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import java.nio.file.Paths;
 
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -32,10 +29,14 @@ import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 public class DistanceCompositeSymbol extends Application {
 
   private SceneView sceneView;
-  private static final String DIRECTORY_PATH = System.getProperty("user.dir");
   private static final String ELEVATION_IMAGE_SERVICE =
       "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
 
@@ -79,7 +80,7 @@ public class DistanceCompositeSymbol extends Application {
       SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, red, 10);
       SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 75, 75);
       coneSymbol.setPitch(-90);
-      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(DIRECTORY_PATH + "/bin/SkyCrane.lwo", 0.01);
+      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(Paths.get(getClass().getResource("/SkyCrane.lwo").toURI()).toString(), 0.01);
       modelSymbol.setHeading(180);
       modelSymbol.loadAsync();
 

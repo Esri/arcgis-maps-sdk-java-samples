@@ -11,22 +11,9 @@
 
 package com.esri.samples.search;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
-
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.datasource.arcgis.TileCache;
@@ -45,6 +32,20 @@ import com.esri.arcgisruntime.tasks.geocode.GeocodeResult;
 import com.esri.arcgisruntime.tasks.geocode.LocatorTask;
 import com.esri.arcgisruntime.tasks.geocode.ReverseGeocodeParameters;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 public class FindAddress extends Application {
 
   private MapView mapView;
@@ -57,7 +58,6 @@ public class FindAddress extends Application {
   private PictureMarkerSymbol pinSymbol;
   private ComboBox<String> searchBox;
   private boolean realtimeMode = false;
-  private static final String DIRECTORY_PATH = System.getProperty("user.dir");
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -115,7 +115,7 @@ public class FindAddress extends Application {
       });
 
       // create a basemap from a local tile package
-      TileCache tileCache = new TileCache(DIRECTORY_PATH + "/bin/SanFrancisco.tpk");
+      TileCache tileCache = new TileCache(Paths.get(getClass().getResource("/SanFrancisco.tpk").toURI()).toString());
       tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
 
@@ -147,7 +147,7 @@ public class FindAddress extends Application {
       callout.setTranslateY(-40); // half image height
 
       // create a locator task
-      locatorTask = new LocatorTask(DIRECTORY_PATH + "/bin/SanFranciscoLocator.loc");
+      locatorTask = new LocatorTask(Paths.get(getClass().getResource("/SanFranciscoLocator.loc").toURI()).toString());
 
       // set geocode task parameters
       geocodeParameters = new GeocodeParameters();
