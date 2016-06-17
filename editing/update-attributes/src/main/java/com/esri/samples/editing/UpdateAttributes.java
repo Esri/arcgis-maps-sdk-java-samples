@@ -124,7 +124,7 @@ public class UpdateAttributes extends Application {
 
       mapView.setOnMouseClicked(event -> {
         // accept only primary mouse click
-        if (event.getButton() == MouseButton.PRIMARY) {
+        if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
           // create point from where user clicked
           Point2D point = new Point2D(event.getX(), event.getY());
 
