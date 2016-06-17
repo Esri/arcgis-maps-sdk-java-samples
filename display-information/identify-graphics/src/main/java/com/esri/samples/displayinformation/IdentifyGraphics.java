@@ -72,7 +72,7 @@ public class IdentifyGraphics extends Application {
       mapView.addSpatialReferenceChangedListener(src -> addGraphicsOverlay());
 
       mapView.setOnMouseClicked(e -> {
-        if (e.getButton() == MouseButton.PRIMARY) {
+        if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
           // create a point from location clicked
           Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
