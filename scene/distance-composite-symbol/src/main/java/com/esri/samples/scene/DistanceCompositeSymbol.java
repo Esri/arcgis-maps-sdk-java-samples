@@ -22,7 +22,11 @@ import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.view.*;
+import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
+import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.DistanceCompositeSceneSymbol;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
@@ -31,6 +35,7 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 public class DistanceCompositeSymbol extends Application {
 
   private SceneView sceneView;
+  private static final String DIRECTORY_PATH = System.getProperty("user.dir");
   private static final String ELEVATION_IMAGE_SERVICE =
       "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
 
@@ -64,11 +69,6 @@ public class DistanceCompositeSymbol extends Application {
       surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
       scene.setBaseSurface(surface);
 
-      // add a camera and initial camera position
-      Point cameraPosition = new Point(-2.708471, 56.095, 5040, SpatialReferences.getWgs84());
-      Camera camera = new Camera(cameraPosition, 0, 80.0, 300.0);
-      sceneView.setViewpointCamera(camera);
-
       // add a graphics overlay
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
@@ -79,25 +79,25 @@ public class DistanceCompositeSymbol extends Application {
       SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, red, 10);
       SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 75, 75);
       coneSymbol.setPitch(-90);
-      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(getClass().getResource("/SkyCrane.lwo").getPath().substring(
-          1), 0.01);
+      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(DIRECTORY_PATH + "/bin/SkyCrane.lwo", 0.01);
       modelSymbol.setHeading(180);
       modelSymbol.loadAsync();
 
-      modelSymbol.addDoneLoadingListener(() -> {
-        // set up the distance composite symbol
-        DistanceCompositeSceneSymbol compositeSymbol = new DistanceCompositeSceneSymbol();
-        compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(modelSymbol, 0, 1000));
-        compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(coneSymbol, 1000, 20000));
-        compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(circleSymbol, 20000, 0));
+      // set up the distance composite symbol
+      DistanceCompositeSceneSymbol compositeSymbol = new DistanceCompositeSceneSymbol();
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(modelSymbol, 0, 999));
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(coneSymbol, 1000, 1999));
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(circleSymbol, 2000, 0));
 
-        // create graphic
-        Point aircraftPosition = new Point(-2.708471, 56.096575, 5000, SpatialReferences.getWgs84());
-        Graphic aircraftGraphic = new Graphic(aircraftPosition, compositeSymbol);
+      // create graphic
+      Point aircraftPosition = new Point(-2.708471, 56.096575, 5000, SpatialReferences.getWgs84());
+      Graphic aircraftGraphic = new Graphic(aircraftPosition, compositeSymbol);
+      // add graphic to graphics overlay
+      graphicsOverlay.getGraphics().add(aircraftGraphic);
 
-        // add graphic to graphics overlay
-        graphicsOverlay.getGraphics().add(aircraftGraphic);
-      });
+      // add a camera and initial camera position
+      Camera camera = new Camera(aircraftPosition, 1500, 0, 80.0, 0.0);
+      sceneView.setViewpointCamera(camera);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
