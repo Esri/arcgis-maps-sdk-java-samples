@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Callout;
@@ -54,12 +53,6 @@ public class ShowCallout extends Application {
       // create a view and set map to it
       mapView = new MapView();
       mapView.setMap(map);
-
-      // create point for starting location
-      Point startPoint = new Point(-14093, 6711377, SpatialReferences.getWebMercator());
-
-      // set viewpoint of map view to starting point
-      mapView.setViewpointCenterAsync(startPoint);
 
       // click event to display the callout
       mapView.setOnMouseClicked(e -> {
