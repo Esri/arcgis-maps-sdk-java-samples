@@ -17,6 +17,8 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -25,7 +27,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.mapping.*;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Bookmark;
+import com.esri.arcgisruntime.mapping.BookmarkList;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ManageBookmarks extends Application {
@@ -81,10 +87,15 @@ public class ManageBookmarks extends Application {
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(text -> {
-          if (text.trim().length() > 0) {
+          if (text.trim().length() > 0 && !bookmarkNames.getItems().contains(text)) {
             bookmark = new Bookmark(text, mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY));
             bookmarkList.add(bookmark);
             bookmarkNames.getItems().add(bookmark.getName());
+          } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setHeaderText("Text Error");
+            alert.setContentText("Text name already exist or no text was entered.");
+            alert.showAndWait();
           }
         });
       });
