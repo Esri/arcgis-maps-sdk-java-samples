@@ -35,6 +35,7 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -112,20 +113,17 @@ public class FindPlace extends Application {
       // add controls to the user interface panel
       vBoxControl.getChildren().addAll(searchBox, locationBox, searchButton);
 
-      // create ArcGISMap with imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImageryWithLabels());
+      // create ArcGISMap with streets basemap
+      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
 
       // create a view and set ArcGISMap to it
       mapView = new MapView();
       mapView.setMap(map);
+      mapView.setWrapAroundMode(WrapAroundMode.DISABLED);
 
       // add a graphics overlay to the map view
       graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
-
-      // set viewpoint of map view to starting point
-      Point startPoint = new Point(-14093, 6711377, SpatialReferences.getWebMercator());
-      mapView.setViewpointCenterAsync(startPoint);
 
       // set the callouts default style
       Callout callout = mapView.getCallout();
@@ -279,8 +277,7 @@ public class FindPlace extends Application {
 
       // set the geocode task parameters based on type of query
       GeocodeParameters geocodeParameters = new GeocodeParameters();
-      geocodeParameters.getResultAttributeNames().add("*"); // return all
-                                                            // attributes
+      geocodeParameters.getResultAttributeNames().add("*"); // return all attributes
       geocodeParameters.setOutputSpatialReference(SpatialReferences.getWebMercator());
       if (byExtent) {
         geocodeParameters.setSearchArea(mapView.getVisibleArea().getExtent());
@@ -433,7 +430,8 @@ public class FindPlace extends Application {
             };
 
             // zoom to see all results and disable redo-search button
-            ListenableFuture<Boolean> changeViewpoint = mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
+            ListenableFuture<Boolean> changeViewpoint = mapView.setViewpointGeometryAsync(
+            	GeometryEngine.buffer(graphicsOverlay.getExtent(), 200));
             changeViewpoint.addDoneListener(() -> {
               redoButton.setDisable(true);
               mapView.addViewpointChangedListener(changedListener);
