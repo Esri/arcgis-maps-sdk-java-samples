@@ -57,6 +57,7 @@ public class FindAddress extends Application {
   private PictureMarkerSymbol pinSymbol;
   private ComboBox<String> searchBox;
   private boolean realtimeMode = false;
+  private static final String DIRECTORY_PATH = System.getProperty("user.dir");
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -114,7 +115,7 @@ public class FindAddress extends Application {
       });
 
       // create a basemap from a local tile package
-      TileCache tileCache = new TileCache(getClass().getResource("/SanFrancisco.tpk").getPath().substring(1));
+      TileCache tileCache = new TileCache(DIRECTORY_PATH + "/bin/SanFrancisco.tpk");
       tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
 
@@ -146,18 +147,18 @@ public class FindAddress extends Application {
       callout.setTranslateY(-40); // half image height
 
       // create a locator task
-      locatorTask = new LocatorTask(getClass().getResource("/SanFranciscoLocator.loc").getPath().substring(1));
+      locatorTask = new LocatorTask(DIRECTORY_PATH + "/bin/SanFranciscoLocator.loc");
 
       // set geocode task parameters
       geocodeParameters = new GeocodeParameters();
       geocodeParameters.getResultAttributeNames().add("*"); // return all
-                                                            // attributes
+                                                           // attributes
       geocodeParameters.setMaxResults(1); // get closest match
 
       // set reverse geocode task parameters
       reverseGeocodeParameters = new ReverseGeocodeParameters();
       reverseGeocodeParameters.getResultAttributeNames().add("*"); // return all
-                                                                   // attributes
+                                                                  // attributes
       reverseGeocodeParameters.setOutputSpatialReference(mapView.getSpatialReference());
 
       // create mouse moved event handler
