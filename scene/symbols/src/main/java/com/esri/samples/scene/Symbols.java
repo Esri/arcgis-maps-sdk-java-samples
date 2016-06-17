@@ -66,16 +66,14 @@ public class Symbols extends Application {
       Point cameraLocation = camera.getLocation();
 
       // add base surface for elevation data
-      ArcGISTiledElevationSource elevationSource =
-          new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE);
+      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE);
       Surface surface = new Surface();
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 
       // add graphics overlay(s)
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-      graphicsOverlay.getSceneProperties().setSurfacePlacement(
-          LayerSceneProperties.SurfacePlacement.ABSOLUTE);
+      graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create graphics for each type of symbol
@@ -105,11 +103,10 @@ public class Symbols extends Application {
           default:
             color = 0xFFFFFFFF; // white
         }
-        SimpleMarkerSceneSymbol symbol = new SimpleMarkerSceneSymbol(style,
-            color, 200, 200, 200, SceneSymbol.AnchorPosition.CENTER);
+        SimpleMarkerSceneSymbol symbol = new SimpleMarkerSceneSymbol(style, color, 200, 200, 200,
+            SceneSymbol.AnchorPosition.CENTER);
         int position = counter.getAndIncrement();
-        return new Graphic(new Point(x + 0.01 * position, y, z, cameraLocation
-            .getSpatialReference()), symbol);
+        return new Graphic(new Point(x + 0.01 * position, y, z, cameraLocation.getSpatialReference()), symbol);
       }).collect(Collectors.toCollection(graphicsOverlay::getGraphics));
 
     } catch (Exception e) {

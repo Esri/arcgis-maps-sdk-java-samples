@@ -14,15 +14,11 @@ buildscript {
 }
 
 repositories {
-    jcenter()
-}
-
-repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile 'org.controlsfx:controlsfx:8.40.9'
+    compile 'org.controlsfx:controlsfx:8.40.10'
 }
 
 run {

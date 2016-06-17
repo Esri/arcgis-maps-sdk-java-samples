@@ -13,10 +13,6 @@ buildscript {
     }
 }
 
-repositories {
-    jcenter()
-}
-
 run {
     mainClassName = "com.esri.samples.displayinformation.ShowCallout"
 }

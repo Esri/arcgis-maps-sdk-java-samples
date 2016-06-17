@@ -11,6 +11,20 @@
 
 package com.esri.samples.editing;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Point2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.ArcGISRuntimeException;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.datasource.Feature;
@@ -25,19 +39,6 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class AddFeatures extends Application {
 
@@ -95,8 +96,10 @@ public class AddFeatures extends Application {
           // create a map point from a point
           Point mapPoint = mapView.screenToLocation(point);
 
-          // for a wrapped around map, the point coordinates includes the wrapped around value
-          // for a service in projected coordinate system, this wrapped around value has to be normalized
+          // for a wrapped around map, the point coordinates include the wrapped
+          // around value
+          // for a service in projected coordinate system, this wrapped around
+          // value has to be normalized
           Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
 
           // add a new feature to the service feature table
@@ -134,7 +137,7 @@ public class AddFeatures extends Application {
     attributes.put("typdamage", "Destroyed");
     attributes.put("primcause", "Earthquake");
 
-    // creates a new feature using a default attributes and point
+    // creates a new feature using default attributes and point
     Feature feature = featureTable.createFeature(attributes, mapPoint);
 
     // check if feature can be added to feature table

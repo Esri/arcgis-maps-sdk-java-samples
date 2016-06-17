@@ -11,10 +11,9 @@
 
 package com.esri.samples.editing;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -41,9 +40,9 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class UpdateGeometries extends Application {
 
   private MapView mapView;
-  private ServiceFeatureTable featureTable;
-  private FeatureLayer featureLayer;
-  private List<Feature> selected = new ArrayList<>();
+  private static ServiceFeatureTable featureTable;
+  private static FeatureLayer featureLayer;
+  private static Feature selected;
 
   private static final String FEATURE_LAYER_URL =
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
@@ -96,17 +95,17 @@ public class UpdateGeometries extends Application {
           ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, 1);
           results.addDoneListener(() -> {
             try {
-              // add clicked feature to selected
+              // get selected feature
               List<GeoElement> elements = results.get().getIdentifiedElements();
-              elements.stream().filter(g -> g instanceof Feature).map(g -> (Feature) g).collect(Collectors.toCollection(
-                  () -> selected));
+              if (elements.size() > 0 && elements.get(0) instanceof Feature) {
+                selected = (Feature) elements.get(0);
 
-              if (elements.size() > 0) {
-                // show the clicked features as selected
-                featureLayer.selectFeatures(selected);
+                // replace the previous selection
+                featureLayer.clearSelection();
+                featureLayer.selectFeature(selected);
               } else {
                 // move selected features
-                moveFeatures(mapPoint, selected, featureTable);
+                moveSelected(mapPoint);
               }
             } catch (InterruptedException | ExecutionException e) {
               displayMessage("Exception getting identify result", e.getCause().getMessage());
@@ -114,7 +113,6 @@ public class UpdateGeometries extends Application {
           });
           // check for secondary mouse click
         } else if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
-          selected.clear();
           featureLayer.clearSelection();
         }
       });
@@ -131,34 +129,25 @@ public class UpdateGeometries extends Application {
   /**
    * Updates the location of the selected features.
    * 
-   * @param newPoint new location to move feature
-   * @param features list of features to update position
-   * @param featureTable feature table
+   * @param newPoint new location to move selected feature
    */
-  private void moveFeatures(Point newPoint, List<Feature> features, ServiceFeatureTable featureTable) {
+  private void moveSelected(Point newPoint) {
 
-    System.out.println(features.size());
+    // check if feature allows updating and move it
+    Stream.of(selected).map(f -> (ArcGISFeature) f).filter(ArcGISFeature::canUpdateGeometry).forEach(f -> {
+      // update position
+      f.setGeometry(newPoint);
 
-    // filter features to keep ones that allow geometry updating
-    features = features.stream().map(f -> (ArcGISFeature) f).filter(ArcGISFeature::canUpdateGeometry).collect(Collectors
-        .toList());
-
-    System.out.println(features.size());
-
-    // move the features to the clicked location
-    features.forEach(f -> f.setGeometry(newPoint));
-
-    // update the feature to display on map view
-    ListenableFuture<Void> featureTableResult = featureTable.updateFeaturesAsync(features);
-    featureTableResult.addDoneListener(() -> applyEdits(featureTable));
+      // update the feature to display on map view
+      ListenableFuture<Void> featureTableResult = featureTable.updateFeatureAsync(f);
+      featureTableResult.addDoneListener(UpdateGeometries::applyEdits);
+    });
   }
 
   /**
    * Sends any edits on the ServiceFeatureTable to the server.
-   *
-   * @param featureTable service feature table
    */
-  private void applyEdits(ServiceFeatureTable featureTable) {
+  private static void applyEdits() {
 
     // apply the changes to the server
     ListenableFuture<List<FeatureEditResult>> editResult = featureTable.applyEditsAsync();
@@ -166,9 +155,7 @@ public class UpdateGeometries extends Application {
       try {
         List<FeatureEditResult> edits = editResult.get();
         // check if the server edit was successful
-        if (edits != null && edits.size() > 0 && !edits.get(0).hasCompletedWithErrors()) {
-          displayMessage(null, "Feature geometry updated on server");
-        } else if (edits != null && edits.size() > 0) {
+        if (edits != null && edits.size() > 0 && edits.get(0).hasCompletedWithErrors()) {
           throw edits.get(0).getError();
         }
       } catch (InterruptedException | ExecutionException e) {
@@ -183,7 +170,7 @@ public class UpdateGeometries extends Application {
    * @param title title of alert
    * @param message message to display
    */
-  private void displayMessage(String title, String message) {
+  private static void displayMessage(String title, String message) {
 
     Platform.runLater(() -> {
       Alert dialog = new Alert(Alert.AlertType.INFORMATION);

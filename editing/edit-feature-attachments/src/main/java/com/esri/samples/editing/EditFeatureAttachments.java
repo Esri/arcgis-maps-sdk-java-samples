@@ -15,18 +15,6 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.arcgis.ArcGISFeature;
-import com.esri.arcgisruntime.datasource.arcgis.Attachment;
-import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.GeoElement;
-import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -41,6 +29,18 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.datasource.arcgis.ArcGISFeature;
+import com.esri.arcgisruntime.datasource.arcgis.Attachment;
+import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
+import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.GeoElement;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class EditFeatureAttachments extends Application {
 
@@ -213,7 +213,8 @@ public class EditFeatureAttachments extends Application {
         // update feature table
         ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);
 
-        // apply update to server when new feature is added, and update the displayed list of attachments
+        // apply update to server when new feature is added, and update the
+        // displayed list of attachments
         tableResult.addDoneListener(() -> applyEdits(featureTable));
       });
     } else {

@@ -15,10 +15,11 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import org.controlsfx.control.ToggleSwitch;
 
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
@@ -53,38 +54,32 @@ public class FeatureLayerDefinitionExpression extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(120, 80);
+      VBox vBoxControl = new VBox();
+      vBoxControl.setMaxSize(150, 40);
       vBoxControl.getStyleClass().add("panel-region");
 
-      // create buttons to apply/reset definition expression
-      Button applyButton = new Button("Apply");
-      Button resetButton = new Button("Reset");
-      applyButton.setMaxWidth(Double.MAX_VALUE);
-      resetButton.setMaxWidth(Double.MAX_VALUE);
-      applyButton.setDisable(true);
-      resetButton.setDisable(true);
+      // create renderer toggle switch
+      ToggleSwitch definitionSwitch = new ToggleSwitch();
+      definitionSwitch.setText("expression");
 
       // set the definition expression
-      applyButton.setOnAction(e -> featureLayer.setDefinitionExpression("req_Type = 'Tree Maintenance or Damage'"));
-
-      // reset the definition expression
-      resetButton.setOnAction(e -> featureLayer.setDefinitionExpression(""));
+      definitionSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        if (definitionSwitch.isSelected()) {
+          featureLayer.setDefinitionExpression("req_Type = 'Tree Maintenance or Damage'");
+        } else {
+          // reset the definition expression
+          featureLayer.setDefinitionExpression("");
+        }
+      });
 
       // add buttons to the control panel
-      vBoxControl.getChildren().addAll(applyButton, resetButton);
+      vBoxControl.getChildren().addAll(definitionSwitch);
 
       // create service feature table
       final ServiceFeatureTable featureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);
 
       // create feature layer from service feature table
       featureLayer = new FeatureLayer(featureTable);
-
-      // enable buttons when done loading
-      featureLayer.addDoneLoadingListener(() -> {
-        applyButton.setDisable(false);
-        resetButton.setDisable(false);
-      });
 
       // create a ArcGISMap using the basemap topographic
       final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
@@ -106,6 +101,7 @@ public class FeatureLayerDefinitionExpression extends Application {
       stackPane.getChildren().addAll(mapView, vBoxControl);
       StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
       StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();

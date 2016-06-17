@@ -10,6 +10,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: com.esri.arcgisruntime:arcgis-java:100.0.0-beta-2" level="project" />
+    <orderEntry type="library" name="Gradle: org.controlsfx:controlsfx:8.40.10" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.3.3" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.3.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.3.6" level="project" />

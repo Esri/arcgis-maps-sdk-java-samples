@@ -11,7 +11,6 @@
 
 package com.esri.samples.displayinformation;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -21,7 +20,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -31,14 +29,9 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class ShowCallout extends Application {
 
   private MapView mapView;
-  private SpatialReference spartialReference;
 
   // callout show and hide animation duration
   private static final Duration DURATION = new Duration(500);
-
-  static {
-    ArcGISRuntimeEnvironment.setInstallDirectory(System.getProperty("user.home") + "/.arcgis/");
-  }
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -62,10 +55,8 @@ public class ShowCallout extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create spatial reference for all points
-      spartialReference = SpatialReferences.getWebMercator();
       // create point for starting location
-      Point startPoint = new Point(-14093, 6711377, spartialReference);
+      Point startPoint = new Point(-14093, 6711377, SpatialReferences.getWebMercator());
 
       // set viewpoint of map view to starting point
       mapView.setViewpointCenterAsync(startPoint);

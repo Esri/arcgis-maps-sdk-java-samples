@@ -73,20 +73,17 @@ public class ExtrudeGraphics extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(
-          ELEVATION_IMAGE_SERVICE));
+      surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
       scene.setBaseSurface(surface);
 
       // add a graphics overlay
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-      graphicsOverlay.getSceneProperties().setSurfacePlacement(
-          LayerSceneProperties.SurfacePlacement.DRAPED);
+      graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.DRAPED);
 
       // set renderer with extrusion property
       SimpleRenderer renderer = new SimpleRenderer();
       SceneProperties renderProperties = renderer.getSceneProperties();
-      renderProperties.setExtrusionMode(
-          SceneProperties.ExtrusionMode.BASE_HEIGHT);
+      renderProperties.setExtrusionMode(SceneProperties.ExtrusionMode.BASE_HEIGHT);
       renderProperties.setExtrusionExpression("height");
       graphicsOverlay.setRenderer(renderer);
 
@@ -95,24 +92,19 @@ public class ExtrudeGraphics extends Application {
       double maxHeight = 10000.0;
       double x = camera.getLocation().getX();
       double y = camera.getLocation().getY() + 0.2;
-      List<Point> points = IntStream.range(0, 100).mapToObj(i -> new Point(i /
-          10 * squareSize + x, i % 10 * squareSize + y)).collect(Collectors
-              .toList());
+      List<Point> points = IntStream.range(0, 100).mapToObj(i -> new Point(i / 10 * squareSize + x, i % 10 *
+          squareSize + y)).collect(Collectors.toList());
 
       // create and style graphics
       points.stream().forEach(p -> {
         double z = (int) (maxHeight * Math.random());
-        int color = ColorUtil.colorToArgb(Color.color(1.0 / maxHeight * z, 0,
-            0.5, 1));
-        Polygon polygon = new Polygon(new PointCollection(Arrays.asList(
-            new Point(p.getX(), p.getY(), z), new Point(p.getX() + squareSize, p
-                .getY(), z), new Point(p.getX() + squareSize, p.getY() +
-                    squareSize, z), new Point(p.getX(), p.getY() + squareSize,
-                        z))));
+        int color = ColorUtil.colorToArgb(Color.color(1.0 / maxHeight * z, 0, 0.5, 1));
+        Polygon polygon = new Polygon(new PointCollection(Arrays.asList(new Point(p.getX(), p.getY(), z), new Point(p
+            .getX() + squareSize, p.getY(), z), new Point(p.getX() + squareSize, p.getY() + squareSize, z), new Point(p
+                .getX(), p.getY() + squareSize, z))));
         Graphic graphic = new Graphic(polygon);
         graphic.getAttributes().put("height", z);
-        graphic.setSymbol(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID,
-            color, null));
+        graphic.setSymbol(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, color, null));
         graphicsOverlay.getGraphics().add(graphic);
       });
 

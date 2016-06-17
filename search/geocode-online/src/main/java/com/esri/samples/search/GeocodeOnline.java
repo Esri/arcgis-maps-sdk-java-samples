@@ -65,7 +65,6 @@ public class GeocodeOnline extends Application {
 
       // create search box
       searchBox = new ComboBox<>();
-      searchBox.setMaxWidth(Double.MAX_VALUE);
       searchBox.setPromptText("Search");
       searchBox.setEditable(true);
       searchBox.setMaxWidth(260.0);
@@ -92,7 +91,7 @@ public class GeocodeOnline extends Application {
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
       callout.setTranslateY(-40); // half image height
 
-      // create a locatorTask task
+      // create a locatorTask
       locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
       // create geocode task parameters

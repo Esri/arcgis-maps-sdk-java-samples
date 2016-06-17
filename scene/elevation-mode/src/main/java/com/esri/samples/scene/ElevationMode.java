@@ -12,9 +12,9 @@
 package com.esri.samples.scene;
 
 import static com.esri.arcgisruntime.mapping.view.LayerSceneProperties.SurfacePlacement;
+import static com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
+import static com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
 
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.TextSymbol;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -29,8 +29,8 @@ import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-import static com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
-import static com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.TextSymbol;
 
 public class ElevationMode extends Application {
 
@@ -69,30 +69,25 @@ public class ElevationMode extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(
-          ELEVATION_IMAGE_SERVICE));
+      surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
       scene.setBaseSurface(surface);
 
       // create overlays with elevation modes
       GraphicsOverlay drapedOverlay = new GraphicsOverlay();
-      drapedOverlay.getSceneProperties().setSurfacePlacement(
-          SurfacePlacement.DRAPED);
+      drapedOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.DRAPED);
       sceneView.getGraphicsOverlays().add(drapedOverlay);
       GraphicsOverlay relativeOverlay = new GraphicsOverlay();
-      relativeOverlay.getSceneProperties().setSurfacePlacement(
-          SurfacePlacement.RELATIVE);
+      relativeOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.RELATIVE);
       sceneView.getGraphicsOverlays().add(relativeOverlay);
       GraphicsOverlay absoluteOverlay = new GraphicsOverlay();
-      absoluteOverlay.getSceneProperties().setSurfacePlacement(
-          SurfacePlacement.ABSOLUTE);
+      absoluteOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(absoluteOverlay);
 
       // create point for graphic location
-      Point point = new Point(-4.04,53.06, 1000, camera.getLocation().getSpatialReference());
+      Point point = new Point(-4.04, 53.06, 1000, camera.getLocation().getSpatialReference());
 
       // create a red (0xFFFF0000) circle symbol
-      SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(
-          SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
+      SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
 
       // create a text symbol for each elevation mode
       TextSymbol drapedText = new TextSymbol(10, "DRAPED", 0xFFFFFFFF, HorizontalAlignment.LEFT,
@@ -102,7 +97,8 @@ public class ElevationMode extends Application {
       TextSymbol absoluteText = new TextSymbol(10, "ABSOLUTE", 0xFFFFFFFF, HorizontalAlignment.LEFT,
           VerticalAlignment.MIDDLE);
 
-      // add the point graphic and text graphic to the corresponding graphics overlay
+      // add the point graphic and text graphic to the corresponding graphics
+      // overlay
       drapedOverlay.getGraphics().add(new Graphic(point, circleSymbol));
       drapedOverlay.getGraphics().add(new Graphic(point, drapedText));
 

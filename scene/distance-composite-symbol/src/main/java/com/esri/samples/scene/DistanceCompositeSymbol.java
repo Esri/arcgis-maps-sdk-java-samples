@@ -61,50 +61,39 @@ public class DistanceCompositeSymbol extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(
-          ELEVATION_IMAGE_SERVICE));
+      surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
       scene.setBaseSurface(surface);
 
       // add a camera and initial camera position
-      Point cameraPosition = new Point(-2.708471, 56.095, 5040,
-          SpatialReferences.getWgs84());
+      Point cameraPosition = new Point(-2.708471, 56.095, 5040, SpatialReferences.getWgs84());
       Camera camera = new Camera(cameraPosition, 0, 80.0, 300.0);
       sceneView.setViewpointCamera(camera);
 
       // add a graphics overlay
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-      graphicsOverlay.getSceneProperties().setSurfacePlacement(
-          LayerSceneProperties.SurfacePlacement.RELATIVE);
+      graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
       // set up the different symbols
       int red = 0xFFFF0000;
-      SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(
-          SimpleMarkerSymbol.Style.CIRCLE, red, 10);
-      SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(
-          red, 75, 75);
+      SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, red, 10);
+      SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 75, 75);
       coneSymbol.setPitch(-90);
-      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(getClass()
-          .getResource("/SkyCrane.lwo").getPath().substring(1), 0.01);
+      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(getClass().getResource("/SkyCrane.lwo").getPath().substring(
+          1), 0.01);
       modelSymbol.setHeading(180);
       modelSymbol.loadAsync();
 
       modelSymbol.addDoneLoadingListener(() -> {
         // set up the distance composite symbol
-        DistanceCompositeSceneSymbol compositeSymbol =
-            new DistanceCompositeSceneSymbol();
-        compositeSymbol.getRangeCollection().add(
-            new DistanceCompositeSceneSymbol.Range(modelSymbol, 0, 1000));
-        compositeSymbol.getRangeCollection().add(
-            new DistanceCompositeSceneSymbol.Range(coneSymbol, 1000, 20000));
-        compositeSymbol.getRangeCollection().add(
-            new DistanceCompositeSceneSymbol.Range(circleSymbol, 20000, 0));
+        DistanceCompositeSceneSymbol compositeSymbol = new DistanceCompositeSceneSymbol();
+        compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(modelSymbol, 0, 1000));
+        compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(coneSymbol, 1000, 20000));
+        compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(circleSymbol, 20000, 0));
 
         // create graphic
-        Point aircraftPosition = new Point(-2.708471, 56.096575, 5000,
-            SpatialReferences.getWgs84());
-        Graphic aircraftGraphic = new Graphic(aircraftPosition,
-            compositeSymbol);
+        Point aircraftPosition = new Point(-2.708471, 56.096575, 5000, SpatialReferences.getWgs84());
+        Graphic aircraftGraphic = new Graphic(aircraftPosition, compositeSymbol);
 
         // add graphic to graphics overlay
         graphicsOverlay.getGraphics().add(aircraftGraphic);

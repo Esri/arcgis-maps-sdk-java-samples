@@ -66,7 +66,7 @@ public class ReverseGeocodeOnline extends Application {
       // add a progress indicator
       progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
       progressIndicator.setMaxSize(40, 40);
-      progressIndicator.setStyle(" -fx-progress-color: white;");
+      progressIndicator.setStyle("-fx-progress-color: white;");
       progressIndicator.setVisible(false);
 
       // create ArcGISMap with imagery basemap centered over the US

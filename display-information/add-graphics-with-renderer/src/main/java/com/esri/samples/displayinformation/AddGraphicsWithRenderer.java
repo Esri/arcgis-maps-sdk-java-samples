@@ -79,7 +79,7 @@ public class AddGraphicsWithRenderer extends Application {
   }
 
   /**
-   * Creates Graphics for the nesting location of three different seabirds and
+   * Creates Graphics for the nesting location of four different seabirds and
    * adds them to the GraphicsOverlay. A UniqueValueRenderer is used to add
    * Symbols to each of these nesting locations based on bird type.
    */

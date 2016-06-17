@@ -11,17 +11,9 @@
 
 package com.esri.samples.editing;
 
-import com.esri.arcgisruntime.ArcGISRuntimeException;
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.arcgis.ArcGISFeature;
-import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.GeoElement;
-import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
-import com.esri.arcgisruntime.mapping.view.MapView;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -39,8 +31,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.concurrent.ExecutionException;
+import com.esri.arcgisruntime.ArcGISRuntimeException;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.datasource.arcgis.ArcGISFeature;
+import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
+import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.GeoElement;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class UpdateAttributes extends Application {
 
@@ -129,7 +130,6 @@ public class UpdateAttributes extends Application {
 
           // clear any previous selection
           featureLayer.clearSelection();
-          featureLayer.clearSelection();
           comboBox.setDisable(true);
 
           // get the clicked feature
@@ -170,9 +170,8 @@ public class UpdateAttributes extends Application {
   }
 
   private void selectAttribute(ArcGISFeature feature) {
-    Platform.runLater(() -> {
-      comboBox.getSelectionModel().select((String) feature.getAttributes().get("typdamage"));
-    });
+
+    Platform.runLater(() -> comboBox.getSelectionModel().select((String) feature.getAttributes().get("typdamage")));
   }
 
   /**

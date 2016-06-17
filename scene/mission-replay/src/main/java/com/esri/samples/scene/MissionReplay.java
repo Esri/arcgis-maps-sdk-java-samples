@@ -1,24 +1,17 @@
-/* Copyright 2015 Esri.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.  */
+/*
+ * Copyright 2015 Esri. Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
 
 package com.esri.samples.scene;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,23 +39,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.PointCollection;
-import com.esri.arcgisruntime.geometry.Polyline;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.Camera;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.geometry.*;
+import com.esri.arcgisruntime.mapping.*;
+import com.esri.arcgisruntime.mapping.view.*;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties.SurfacePlacement;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 import com.esri.arcgisruntime.symbology.Renderer.SceneProperties;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
@@ -128,14 +108,14 @@ public class MissionReplay extends Application {
   private Camera camera;
   // holds all graphics for 3D space (scene)
   private GraphicsOverlay view3DOverlay;
-  //holds all graphics for 2D space (map)
+  // holds all graphics for 2D space (map)
   private GraphicsOverlay view2DOverlay;
   // store location and symbol of plane in 3D and 2D space
   private Graphic plane3DGraphic;
   private Graphic plane2DGraphic;
   // represent a plane for a 3D and 2D graphic
   private ModelSceneSymbol plane3DMarker;
-  //  private SimpleMarkerSceneSymbol plane3DMarker;
+  // private SimpleMarkerSceneSymbol plane3DMarker;
   private SimpleMarkerSymbol plane2DMarker;
 
   // displays a 3D scene to user
@@ -156,8 +136,7 @@ public class MissionReplay extends Application {
       // setting up application window
       view3D = new StackPane();
       Scene fxScene = new Scene(view3D);
-      fxScene.getStylesheets().add(getClass().getResource("/SamplesTheme.css")
-          .toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
       stage.setTitle("3D Mission Replay");
       stage.setWidth(800);
       stage.setHeight(700);
@@ -176,8 +155,8 @@ public class MissionReplay extends Application {
   }
 
   /**
-   * Creates a SceneView, 3D view, using an ArcGISScene that has an elevated layer and adds
-   * a GraphicsOverlay with surface placement set to absolute.
+   * Creates a SceneView, 3D view, using an ArcGISScene that has an elevated
+   * layer and adds a GraphicsOverlay with surface placement set to absolute.
    */
   private void create3DView() {
 
@@ -196,7 +175,8 @@ public class MissionReplay extends Application {
     // holds graphics for our 3D view
     view3DOverlay = new GraphicsOverlay();
     sceneView.getGraphicsOverlays().add(view3DOverlay);
-    // graphics now have altitude relative to ground level using graphic's Z value
+    // graphics now have altitude relative to ground level using graphic's Z
+    // value
     view3DOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.ABSOLUTE);
   }
 
@@ -223,8 +203,8 @@ public class MissionReplay extends Application {
   /**
    * Sets up everything needed to start the plane along it's path.
    * <p>
-   * Stores location and settings for the plane, resets any animation or graphics,
-   * and creates graphics for displaying plane and route.
+   * Stores location and settings for the plane, resets any animation or
+   * graphics, and creates graphics for displaying plane and route.
    */
   private void setScene() {
 
@@ -295,7 +275,7 @@ public class MissionReplay extends Application {
     plane2DMarker = new SimpleMarkerSymbol(Style.TRIANGLE, 0xff0000ff, 10);
     plane2DGraphic = new Graphic(routePoints.get(STARTING_POINT), plane2DMarker);
 
-    // set 2D plane in direction of route 
+    // set 2D plane in direction of route
     plane2DGraphic.getAttributes().put("ANGLE", settings.get(HEADING).floatValue());
     renderer2D.setRotationExpression("[ANGLE]");
 
@@ -319,20 +299,19 @@ public class MissionReplay extends Application {
   /**
    * Moves 2D and 3D view to follow plane if the toggle option is set to true.
    * <p>
-   * 3D view hovers behind 3D plane using the camera distance and camera angle settings.
-   * 3D view mimics heading of plane.
+   * 3D view hovers behind 3D plane using the camera distance and camera angle
+   * settings. 3D view mimics heading of plane.
    * <p>
-   * 2D view centers on 2D plane looking down. 
+   * 2D view centers on 2D plane looking down.
    * 
    * @param point location to move camera
    */
   private void moveView(int point) {
+
     if (followCamera) {
       // moving 3D view
-      camera = new Camera(routePoints.get(point), cameraZoom.get(),
-          ((double) plane3DGraphic.getAttributes().get("HEADING")),
-          cameraAngle.get(),
-          0);
+      camera = new Camera(routePoints.get(point), cameraZoom.get(), ((double) plane3DGraphic.getAttributes().get(
+          "HEADING")), cameraAngle.get(), 0);
 
       sceneView.setViewpointCamera(camera);
 
@@ -342,10 +321,11 @@ public class MissionReplay extends Application {
   }
 
   /**
-   * Creates the animation, camera, and mini-map controls along with displaying 
+   * Creates the animation, camera, and mini-map controls along with displaying
    * plane settings.
    */
   private void setupHUD() {
+
     Pane planeDetails = createPlaneDetails();
     Pane cameraControl = createCameraControl();
     Pane animationControl = createAnimationControl();
@@ -359,11 +339,13 @@ public class MissionReplay extends Application {
   }
 
   /**
-   * Creates a display for showing plane's altitude, heading, pitch, and roll information.
+   * Creates a display for showing plane's altitude, heading, pitch, and roll
+   * information.
    * 
    * @return pane that displays all of the planes settings
    */
   private Pane createPlaneDetails() {
+
     Label detailsLabel = new Label("Current Position");
     detailsLabel.getStyleClass().add("panel-label");
 
@@ -386,10 +368,11 @@ public class MissionReplay extends Application {
    * @return pane control for camera settings
    */
   private Pane createCameraControl() {
+
     Label zoomLabel = new Label("Camera Zoom");
     zoomLabel.getStyleClass().add("panel-label");
     zoomSlider = createSlider(500, 3000, cameraZoom.get());
-    //    zoomSlider.valueProperty().bindBidirectional(cameraZoom);
+    // zoomSlider.valueProperty().bindBidirectional(cameraZoom);
     // connecting mouse scroll to zoom slider
     sceneView.setOnScroll(e -> {
       double scrollAmount = e.getDeltaY();
@@ -412,8 +395,7 @@ public class MissionReplay extends Application {
 
     cameraControlBox = new VBox();
     cameraControlBox.setDisable(true);
-    cameraControlBox.getChildren().addAll(zoomLabel, zoomSlider, angleLabel, angleSlider,
-        speedLabel, speedSlider);
+    cameraControlBox.getChildren().addAll(zoomLabel, zoomSlider, angleLabel, angleSlider, speedLabel, speedSlider);
     cameraControlBox.getStyleClass().add("panel-region");
     cameraControlBox.setMaxSize(CONTROL_WIDTH, CONTROL_HEIGHT);
 
@@ -421,12 +403,13 @@ public class MissionReplay extends Application {
   }
 
   /**
-   * Creates the controls for selecting a mission, tracking mission progress, 
+   * Creates the controls for selecting a mission, tracking mission progress,
    * start/stop mission buttons, and button to toggle following the plane.
    * 
    * @return pane that hold all the animation controls
    */
   private Pane createAnimationControl() {
+
     // creates selecting mission control
     Label missionLabel = new Label("Select a Mission");
     missionLabel.getStyleClass().add("panel-label");
@@ -491,8 +474,8 @@ public class MissionReplay extends Application {
     });
     toggleButton.setMinWidth(150);
 
-    VBox animationControl = new VBox(missionLabel, missionSelect, progressLabel, progressSlider,
-        animationBox, toggleButton);
+    VBox animationControl = new VBox(missionLabel, missionSelect, progressLabel, progressSlider, animationBox,
+        toggleButton);
     animationControl.setSpacing(5);
     animationControl.setAlignment(Pos.CENTER);
     animationControl.getStyleClass().add("panel-region");
@@ -532,8 +515,8 @@ public class MissionReplay extends Application {
   }
 
   /**
-   * Moves plane from one location to the next while moving camera with it. Also sets the 
-   * plane's heading, pitch, and roll at each point.
+   * Moves plane from one location to the next while moving camera with it. Also
+   * sets the plane's heading, pitch, and roll at each point.
    * <p>
    * If last point is reached then plane starts back at the beginning.
    * <p>
@@ -565,10 +548,11 @@ public class MissionReplay extends Application {
   }
 
   /**
-   * Updates the displayed settings in the bottom right corner and progress bar in
-   * top left corner.
+   * Updates the displayed settings in the bottom right corner and progress bar
+   * in top left corner.
    */
   private void updateDisplayedSettings() {
+
     DecimalFormat df = new DecimalFormat("0.0");
     altitudeText.setText("" + df.format(routePoints.get(nextPoint).getZ()));
     headingText.setText("" + df.format(((double) plane3DGraphic.getAttributes().get("HEADING"))));
@@ -584,6 +568,7 @@ public class MissionReplay extends Application {
    * Creates a timer for the plane animation.
    */
   private void createTimer() {
+
     timer = new Timeline(new KeyFrame(Duration.millis(timerDelay), ae -> {
       movePlane();
     }));
@@ -591,10 +576,11 @@ public class MissionReplay extends Application {
   }
 
   /**
-   * Creates a slider with a minimum and maximum slide amount as well as an initial. 
+   * Creates a slider with a minimum and maximum slide amount as well as an
+   * initial.
    * <p>
-   * Show tick marks is enabled, showing ten major tick marks and one minor tick marks 
-   * between each major one.
+   * Show tick marks is enabled, showing ten major tick marks and one minor tick
+   * marks between each major one.
    * 
    * @param min minimum value of the slider
    * @param max maximum value of the slider
@@ -619,6 +605,7 @@ public class MissionReplay extends Application {
    * @return container for label and text
    */
   private HBox createLabelAndText(String labelText, Text text) {
+
     HBox newBox = new HBox();
     Label newLabel = new Label(labelText);
     newLabel.setMinWidth(70);
@@ -630,14 +617,15 @@ public class MissionReplay extends Application {
   }
 
   /**
-   * Reads information from a csv file that describes a point (x,y,z), heading, 
+   * Reads information from a csv file that describes a point (x,y,z), heading,
    * pitch, and roll.
    * <p>
-   * The point is stored in a list of route locations. Heading, pitch, and roll are
-   * stored in a list of settings for the plane at each point. 
+   * The point is stored in a list of route locations. Heading, pitch, and roll
+   * are stored in a list of settings for the plane at each point.
    * 
    */
   private void storeRouteSettings() {
+
     // reads csv file
     BufferedReader buffer = null;
     // holds a line from the csv file
@@ -675,10 +663,8 @@ public class MissionReplay extends Application {
           System.out.println("Bad line input file: " + bufferLine);
         }
       }
-    } catch (FileNotFoundException fnf) {
-      fnf.printStackTrace();
-    } catch (IOException io) {
-      io.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     } finally {
       try {
         if (buffer != null) {
@@ -695,6 +681,10 @@ public class MissionReplay extends Application {
    */
   @Override
   public void stop() {
+
+    if (timer != null) {
+      timer.stop();
+    }
 
     if (sceneView != null) {
       sceneView.dispose();

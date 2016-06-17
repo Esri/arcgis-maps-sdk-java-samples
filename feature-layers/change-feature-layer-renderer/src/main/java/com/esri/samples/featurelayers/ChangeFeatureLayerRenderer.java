@@ -15,10 +15,11 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import org.controlsfx.control.ToggleSwitch;
 
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -59,29 +60,29 @@ public class ChangeFeatureLayerRenderer extends Application {
 
       // create a control panel
       VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(150, 80);
+      vBoxControl.setMaxSize(150, 40);
       vBoxControl.getStyleClass().add("panel-region");
 
-      // create change and reset renderer buttons
-      Button changeButton = new Button("Change Render");
-      Button resetButton = new Button("Reset Renderer");
-      changeButton.setMaxWidth(Double.MAX_VALUE);
-      resetButton.setMaxWidth(Double.MAX_VALUE);
-      changeButton.setDisable(true);
-      resetButton.setDisable(true);
+      // create a blue (0xFF0000FF) line symbol renderer
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2);
+      SimpleRenderer blueRenderer = new SimpleRenderer(lineSymbol);
 
-      changeButton.setOnAction(e -> {
-        // create a blue (0xFF0000FF) line symbol renderer
-        SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2);
-        SimpleRenderer simpleRenderer = new SimpleRenderer(lineSymbol);
+      // create renderer toggle switch
+      ToggleSwitch rendererSwitch = new ToggleSwitch();
+      rendererSwitch.setText("blue renderer");
 
-        featureLayer.setRenderer(simpleRenderer);
+      // set the render if the switch is selected
+      rendererSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        if (rendererSwitch.isSelected()) {
+          featureLayer.setRenderer(blueRenderer);
+        } else {
+          // reset the renderer if not selected
+          featureLayer.resetRenderer();
+        }
       });
 
-      resetButton.setOnAction(e -> featureLayer.resetRenderer());
-
       // add buttons to the control panel
-      vBoxControl.getChildren().addAll(changeButton, resetButton);
+      vBoxControl.getChildren().addAll(rendererSwitch);
 
       // create starting envelope for the ArcGISMap
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
@@ -94,12 +95,6 @@ public class ChangeFeatureLayerRenderer extends Application {
 
       // create a feature layer from the service feature table
       featureLayer = new FeatureLayer(featureTable);
-
-      // enable buttons when feature layer is done loading
-      featureLayer.addDoneLoadingListener(() -> {
-        changeButton.setDisable(false);
-        resetButton.setDisable(false);
-      });
 
       // create a ArcGISMap with basemap topographic
       final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
