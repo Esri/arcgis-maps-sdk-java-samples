@@ -1,5 +1,5 @@
 #Display Scene#
-Demonstrates how to display an scene with elevation data.
+Demonstrates how to display a scene with an elevation source. An elevation source allows objects to be viewed in 3D, like this picture of f Mt. Everest.
 
 ![](DisplayScene.png)
 
