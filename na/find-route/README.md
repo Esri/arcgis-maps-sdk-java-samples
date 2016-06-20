@@ -13,9 +13,9 @@ To display a route using a RouteTask:
 - Add the map to the view via `MapView` via `MapView.setMap()`. 
 - Create a `RouteTask` using an URL from an online service. Online route task solves a route from an online route service.
 - Set the `RouteParameters` to find a route between the Stops. 
-- Get the `Route` using the  `RouteTask#solveAsync(routeParameters)`.
+- Get the `Route` using the  `RouteTask.solveAsync(routeParameters)`.
 - Display the route by adding it to a `GraphicsOverlay`.
-- Show the step by step `DirectionMessage`s using the `Route#getDirectionManeuvers()` method.
+- Show the step by step `DirectionMessage`s using the `Route.getDirectionManeuvers()` method.
 
 ##Features##
 - ArcGISMap
