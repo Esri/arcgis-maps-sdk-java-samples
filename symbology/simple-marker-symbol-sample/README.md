@@ -4,7 +4,7 @@ This sample demonstrates how to add a `SimpleMarkerSymbol` to your `ArcGISMap`.
 ##How to use the sample##
 For simplicity, the sample starts with a predefined `SimpleMarkerSymbol` geometry.
 
-![](SimpleLineSymbolSample.png)
+![](SimpleMarkerSymbol.png)
 
 ##How it works##
  To show picture marker symbols in your app:
