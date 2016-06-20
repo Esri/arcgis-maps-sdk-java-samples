@@ -30,5 +30,5 @@ To change the `Viewpoint`:
 - ArcGISMap
 - Basemap
 - Point
-- Viewpoint
 - SpatialReference
+- Viewpoint
