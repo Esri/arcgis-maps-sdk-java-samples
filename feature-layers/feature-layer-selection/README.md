@@ -1,26 +1,27 @@
 #Feature Layer Selection#
-This sample shows how to select `Feature`s in a `FeatureLayer`.
+Demonstrates shows how to select Features from a FeatureLayer.
 
 ##How to use the sample##
-click on a feature on the map to select it.
+Click on a feature from the map to select it.
 
 ![](FeatureLayerSelection.png)
 
 ##How it works##
-To select Features in your FeatureLayer
+To select `Feature`s from your `FeatureLayer`
 
-- Create a `ServiceFeatureTable` from a URL.
-- Create a FeatureLayer from the ServiceFeatureTable.
-- An `Envelope` is created every time the user clicks on the `MapView`.
-- Set the `QueryParameters` based on the Envelope using the `query#setGeometry(geometry)` method. 
-- Fire the query on the FeatureTable using `featureTable#queryFeaturesAsync(query)` method.
-- Once it gets complete get the selected Feature's from the `FeatureQueryResult`.
+1. Create a `ServiceFeatureTable` from a URL.
+2. Create a feature layer from the service feature table.
+3. Identify `MapView` on the location the user has clicked.
+  - call `MapView.identifyLayerAsync(FeatureLayer, Point2D, tolerance, max results)`
+  - feature layer, from above
+  - Point2D, location where the user clicked
+  - tolerance, area around Point2D to locate features
+  - max results, maximum number of features to return
+4. Select all features that were identified, `FeatureLayer.selectFeatures()`.
 
 ##Features##
 - ArcGISMap
-- MapView
-- Envelope
+- Feature
 - FeatureLayer
+- MapView
 - ServiceFeatureTable
-- QueryParameters
-- FeatureQueryResult

@@ -1,10 +1,14 @@
 #Change Viewpoint#
-This sample demonstrates different ways in which you can change the `Viewpoint` or visible area of an `ArcGISMap`.
+Demonstrates different ways in which you can change the Viewpoint,visible area, of an ArcGISMap.
 
 
 ##How to use the sample##
-The `MapView` provides different methods you can use to set the viewpoint. The app uses the `setViewpointWithDurationAsync` method for animation to zoom to London, `setViewpointCenterWithScaleAsync` method to zoom to Waterloo at a certain scale and `setViewpointGeometryAsync` method to zoom to Westminstes area. Apart from these, there are some other methods (mentioned below) you can use.
-
+The `MapView` provides different methods you can use to set the viewpoint. 
+ - London button pans to London given a certain time length, `MapView.setViewpointWithDurationAsync()`.
+ - Waterloo button centers at a point and set a distance from the ground using a scale, `MapView.setViewpointCenterWithScaleAsync()`.
+ - Westminster button set viewpoint given some type of geometry, `MapView.setViewpointGeometryAsync()`.
+ 
+Below are some other ways to set a viewpoint.
 - setViewpoint
 - setViewpointAsync
 - setViewpointCenterAsync
@@ -16,15 +20,15 @@ The `MapView` provides different methods you can use to set the viewpoint. The a
 ![](ChangeViewpoint.png)
 
 ##How it works##
-To change the viewpoint:
+To change the `Viewpoint`:
 
-- Create an ArcGISMap 
-- Set the map to the view via `MapView` via `MapView#setMap()`. 
-- Change the Viewpoint using the `MapView#setViewPoint` methods mentioned above.
+1. Create an `ArcGISMap`. 
+2. Set the map to the`MapView`, `MapView.setMap()`. 
+3. Change the view point with `MapView.setViewPoint()` or any method mention above.
 
 ##Features##
 - ArcGISMap
 - Basemap
 - Point
-- Viewpoint
 - SpatialReference
+- Viewpoint

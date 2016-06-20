@@ -1,18 +1,20 @@
 #Map Rotation#
-This sample demonstrates how to rotate an `ArcGISMap`. To set rotation of a map, use the `MapView`method `setViewpointRotationAsync` which takes an angle in degrees and rotates the MapView to that angle.
+Demonstrates how to rotate an ArcGISMap.
 
 ##How to use the sample##
-There are a bunch of ways you can change the rotation of the ArcGISMap. In this sample you use a slider to rotate.
+The slider changes the rotation of the ArcGISMap.
 
 ![](MapRotation.png)
 
 ##How it works##
-To rotate an ArcGISMap:
+To rotate an `ArcGISMap`:
 
-- Create an ArcGISMap 
-- Add the map to the view via `MapView` via `MapView#setMap()`. 
-- Use the `MapView#setViewpointRotationAsync` method to indicate the rotation angle.
+1. Create an ArcGISMap. 
+2. Add the map to the `MapView`, `MapView.setMap()`. 
+3. Use `MapView.setViewpointRotationAsync` to indicate the rotation angle.
 
 ##Features##
 - ArcGISMap
+- Envelope
 - MapView
+- Point
