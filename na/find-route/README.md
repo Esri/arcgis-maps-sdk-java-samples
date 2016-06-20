@@ -9,7 +9,7 @@ For simplicity, the sample comes loaded with a start and end stop. You can click
 ##How it works##
 To display a route using a RouteTask:
 
-- Create an ArcGISMap 
+- Create an ArcGISMap.
 - Add the map to the view via `MapView` via `MapView#setMap()`. 
 - Create a `RouteTask` using an URL from an online service. Online route task solves a route from an online route service.
 - Set the `RouteParameters` to find a route between the Stops. 
