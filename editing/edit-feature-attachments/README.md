@@ -4,7 +4,7 @@ Demonstrates how you can add, delete, and fetch an attachment from a Feature in 
 ##How to use the sample##
 To add an attachment.
   - click on a feature and then click add attachment button in panel
-  - 
+  
 To delete an attachment.
   - click on a feature, select an attachment from attachment list, and click delete attachment button
 
