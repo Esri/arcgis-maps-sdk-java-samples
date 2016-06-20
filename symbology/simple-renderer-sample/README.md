@@ -4,7 +4,7 @@ This sample demonstrates  how to create a `SimpleRenderer` and add it to a `Grap
 ##How to use the sample##
 For simplicity, the sample starts with a predefined `SimpleRenderer`.
 
-![](SimpleRenderer.png)
+![](SimpleRendererSample.png)
 
 ##How it works##
  To show picture marker symbols in your app:
