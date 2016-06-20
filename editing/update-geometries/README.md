@@ -1,23 +1,24 @@
 #Update Geometries#
-This sample demonstrates how to update the location of a Feature from a `ServiceFeatureTable`.
+Demonstrates how to update the location of a Feature from a ServiceFeatureTable.
 
 ##How to use the sample##
-Click on a feature on the map to select the feature. You can click on a new location in order to save the new geometry location.
+To update a feature's location.
+ - click on a feature from the map and then click on another location to move feature to that location
 
 ![](UpdateGeometries.png)
 
 ##How it works##
-To get features from a `ServiceFeatureTable` and change their geometry:
+To get a `Feature` from a `ServiceFeatureTable` and change it's geometry:
 
-- Create a ServiceFeatureTable from a URL.
-- Create a FeatureLayer from the ServiceFeatureTable.
-- Select features from the FeatureLayer via `FeatureLayer#selectFeatures` method.
-- Change the selected feature's location using `Feature#setGeometry(Geometry)` method.
-- After a change, update the table on the server using `ServiceFeatureTable#applyEditsAsync` method.
+- Create a service feature table from a URL.
+- Create a `FeatureLayey` from the service feature table.
+- Select features from the feature layer, `FeatureLayer.selectFeatures`.
+- Change the selected feature's location using `Feature.setGeometry(Geometry)`.
+- After a change, update the table on the server using `ServiceFeatureTable.applyEditsAsync`.
 
 ##Features##
 - ArcGISMap
-- MapView
 - Feature
 - FeatureLayer
+- MapView
 - ServiceFeatureTable
