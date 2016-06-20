@@ -7,7 +7,7 @@ This sample demonstrates how to display a Graphic using a SimpleMarkerSymbol, Si
 To display a `Graphic` using a symbol:
 
 1. Create a `GraphicsOverlay` and add it to the `MapView`, `MapView.getGraphicsOverlay.add()`.
-2. To create a `Graphic` using a `SimpleMarkerSymbol`.
+2. To create a graphic using a `SimpleMarkerSymbol`.
   - create a `Point` where the graphic will be located
   - create a simple marker symbol` that will display at that point
   - assign point and symbol to graphic, `Graphic(point, symbol)`
