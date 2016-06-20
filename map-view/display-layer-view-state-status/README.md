@@ -3,7 +3,7 @@ Demonstrates how to get view status for layers in a ArcGISMap.
 
 ##How to use the sample##
 The view status of a layer changes while the layer is loading, like the start of the application. If you pan or zoom the map, the view status of some layers should also change. 
-The `LayerViewStatus` could be:
+The LayerViewStatus could be:
 - ACTIVE
 - ERROR
 - LOADING
