@@ -9,11 +9,11 @@ A list of ArcGISSubLayers is display in a drop down box in the top right. Each s
 ##How it works##
 To add an `ArcGISMapImageLayer` to your `ArcGISMap` using its URL:
 
-- Create an ArcGISMap image layer from its URL.
-- Add it to `ArcGISMap.getOperationalLayers().add()`.
-- Display the ArcGISMap by adding it to the `MapView`.
-- Gain access to the sub-layers from the `ArcGISMapImageLayer.getSubLayers()` method which returns a `SubLayerList`. The sub layer list is a modifiable list of `ArcGISSubLayers`. 
-- Determine if the layer is visible or not by turning on / off the ArcGISSubLayers visibility in the sub layer list.
+1. Create an ArcGISMap image layer from its URL.
+2. Add it to `ArcGISMap.getOperationalLayers().add()`.
+3. Display the ArcGISMap by adding it to the `MapView`.
+4. Gain access to the sub-layers from the `ArcGISMapImageLayer.getSubLayers()` method which returns a `SubLayerList`. The sub layer list is a modifiable list of `ArcGISSubLayers`. 
+5. Determine if the layer is visible or not by turning on / off the ArcGISSubLayers visibility in the sub layer list.
 
 ##Features##
 - ArcGISMap
