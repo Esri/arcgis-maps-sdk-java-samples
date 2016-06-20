@@ -19,7 +19,7 @@ To display a `Graphic` using a symbol:
 4. To create a graphic using a `SimepleFillSymbol`.
   - create a point collection that will hold all the points that make up the line
   - create a `Polygon` using the point collection, `Polygon(PointCollection)`
-  - create a simple line symbol` that will display as an outline for points collected
+  - create a simple line symbol that will display as an outline for points collected
   - create a simeple fill symbol`, using line symbol from above, that will fill the region in between the points collected with a single color 
   - assignn polygon and symbol to graphic, `Graphic(polygon, symbol)`
 5. To create a graphic using a `TextSymbol`
