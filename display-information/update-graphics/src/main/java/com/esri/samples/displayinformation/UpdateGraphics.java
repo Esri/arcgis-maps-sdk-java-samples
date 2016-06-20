@@ -232,7 +232,7 @@ public class UpdateGraphics extends Application {
 
     // create a list of descriptions for graphics
     List<String> descriptions = new ArrayList<>();
-    descriptions.add("Just oppsite of Bass Rock.");
+    descriptions.add("Just opposite of Bass Rock.");
     descriptions.add("100m long and 50m wide.");
     descriptions.add("Lighthouse in northern section.");
     descriptions.add("Also known as Barley Farmstead.");
