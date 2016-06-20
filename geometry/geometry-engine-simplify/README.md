@@ -1,5 +1,5 @@
 #Geometry Engine Simplify#
-This sample demonstrates how to use the `GeometryEngine` to perform the simplify geometry operation on a `Polygon`.
+Demonstrates how to use the GeometryEngine to perform the simplify geometry operation on a Polygon.
 
 ##How to use the sample##
 Click on the simplify button to apply the simplify geometry operation between the intersecting polygons. Click reset to restart the sample.
@@ -9,16 +9,17 @@ Click on the simplify button to apply the simplify geometry operation between th
 ##How it works##
 To perform the simplify geometry operation on a `Polygon`.
 
-- Create a GraphicsOverlay and add it to the `MapView`.
-- Define the `PointCollection` of the `Geometry`.
-- Add the `Polygon`s to the GraphicsOverlay.
-- Determine the simplified geometry by using the `GeometryEngine.simplify(polygon#getGeometry()` method.
+1. Create a `GraphicsOverlay` and add it to the `MapView`.
+2. Define the `PointCollection` of the `Geometry`.
+3. Add the polygons to the GraphicsOverlay.
+4. Determine the simplified geometry by using the `GeometryEngine.simplify(polygon.getGeometry()`.
 
 ##Features##
-- MapView
+- Geometry
 - Graphic
 - GraphicsOverlay
+- MapView
 - Point
 - PointCollection
+- SimpleLineSymbol
 - SimpleFillSymbol
-- Geometry
