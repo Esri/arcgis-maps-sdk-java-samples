@@ -3,15 +3,15 @@ Demonstrates how to identify a Graphic and change it's Symbol, attributes, and g
 
 ##How to use the sample##
 Update Graphic's Location:
-  - Click on a graphic, then click the update location button
-  - Now click a new location on the map to move graphic
+  - click on a graphic, then click the update location button
+  - now click a new location on the map to move graphic
 
 Update Graphic's Description:
-  - Click on a graphic, then click the update description button
-  - Enter a new description and click ok
+  - click on a graphic, then click the update description button
+  - enter a new description and click ok
 
 Update Graphic's Symbol:
-  - Click on a graphic, then choose a symbol from the update symbol drop down box
+  - click on a graphic, then choose a symbol from the update symbol drop down box
 
 ![](UpdateGraphics.png)
 
