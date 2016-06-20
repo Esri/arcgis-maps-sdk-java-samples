@@ -10,13 +10,7 @@ This guide has instructions for running samples using the command line or with t
 For developers new to Git, please see the wiki page for how to [clone this repository](https://github.com/Esri/arcgis-runtime-samples-java/wiki/working-with-git).
 
 ## Running the Samples
-To run the samples in a terminal, `cd` into the project and run
-```
-$ ./gradlew build
-```
-to build the project.
-
-To run a sample, simply call the gradle run task for the sample:
+To run the samples in a terminal, `cd` into the project and call the gradle run task for the sample:
 
 On Linux/Mac
 ```
