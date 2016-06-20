@@ -1,0 +1,3 @@
+rootProject.name = 'geometry'
+include 'geometry-engine-sample',
+        'geometry-engine-simplify'

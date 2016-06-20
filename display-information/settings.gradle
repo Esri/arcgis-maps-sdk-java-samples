@@ -1,0 +1,6 @@
+rootProject.name = 'display-information'
+include 'add-graphics-with-renderer',
+        'add-graphics-with-symbols',
+        'identify-graphics',
+        'show-callout',
+        'update-graphics'

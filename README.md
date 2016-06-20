@@ -1,201 +1,91 @@
-# arcgis-runtime-samples-java
+# ArcGIS Runtime Java SDK Samples
+### Quartz Beta 2
+This project includes a set of samples demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
-**For Quartz Beta 1**
+These samples are built with Gradle. If you want to learn more about Gradle, learn more from [Gradle's guide]
+(https://docs.gradle.org/current/userguide/userguide.html). The samples project has a Gradle multi-project structure.
 
-Here are a set of simple samples that show you how to accomplish different mapping and GIS tasks with the ArcGIS Runtime SDK for Java. The samples use ArcGIS Online basemaps and services.  Learn more [here](http://www.arcgis.com/about/).
+This guide has instructions for running samples using the command line or with the Eclipse and IntelliJ IDEA IDEs.
 
+For developers new to Git, please see the wiki page for how to [clone this repository](https://github.com/Esri/arcgis-runtime-samples-java/wiki/working-with-git).
 
-## Features
-* Basemaps - Set different basemaps
-* Feature editing - Edit online feature services
-* Graphics overlays - Add temporary data to your map view
+## Running the Samples
+To run the samples in a terminal, `cd` into the project and call the gradle run task for the sample:
 
-# Download
-You need to download the ArcGIS Runtime SDK for Java to work with this repository.  For more information please see our [Quartz Beta Developers Site](https://developers.arcgis.com/java/beta). 
-
-# Developer Instructions
-
-##  Fork the repo
-If you haven't already, fork the [this repo](https://github.com/Esri/arcgis-runtime-samples-java/fork).
-
-## Clone the repo
-
-### Command line Git
-[Clone your fork](https://help.github.com/articles/fork-a-repo#step-2-clone-your-fork)
-
-Open your terminal, navigate to your working directory, use ```git clone``` to get a copy of the repo.
-
+On Linux/Mac
 ```
-# Clones your fork of the repository into the current directory in terminal
-$ git clone https://github.com/YOUR-USERNAME/arcgis-runtime-samples-java.git
+$ ./gradlew :display-information:show-callout:run
 ```
 
-## Configure remote upstream for your fork
-To sync changes you make in a fork with this repository, you must configure a remote that points to the upstream repository in Git.
-
-- Open a terminal (Mac users) or command prompt (Windows & Linux users)
-- cd into the project directory you just cloned
-- List the current configured remote repository for your fork
-
+On Windows
 ```
-$ git remote -v
-origin	https://github.com/YOUR_USERNAME/arcgis-runtime-samples-java.git (fetch)
-origin
+> gradlew.bat :display-information:show-callout:run
 ```
 
-- Specify a new remote upstream repository
+There is no need to install Gradle to run the samples.
 
-```
-$ git remote add upstream https://github.com/Esri/arcgis-runtime-samples-java.git
-```
-
-- Verify the new upstream repository
-
-```
-$ git remote -v
-
-origin	https://github.com/YOUR_USERNAME/arcgis-runtime-samples-java.git (fetch)
-origin	https://github.com/YOUR_USERNAME/arcgis-runtime-samples-java.git (push)
-upstream https://github.com/Esri/arcgis-runtime-samples-java.git (fetch)
-upstream https://github.com/Esri/arcgis-runtime-samples-java.git (push)
-```
-
-## Sync your fork
-Once you have set up a remote upstream you can keep your fork up to date with our samples repository by syncing your fork.
-
-- Open a terminal (Mac users) or command prompt (Windows & Linux users)
-- Change to the current working directory of your local repository
-- Fetch the branches and commits from the upstream repository.  Commits to ```master``` will be stored in a local branch, ```upstream/master```.
-
-```
-$ git fetch upstream
-```
-
-- Check out your forks local ```master``` branch
-
-```
-$ git checkout master
-```
-
-- Merge changes from ```upstream/master``` into  your local ```master``` branch which syncs your forks ```master``` branch with our samples repository.
-
-```
-$ git merge upstream/master
-```
-
-## Run the samples
-The samples need to be compiled before running them.  Please refer to our [Develop your first map app](https://developers.arcgis.com/java/beta/guide/develop-your-first-map-app.htm) for instructions about using Eclipse or NetBeans to compile and run ArcGIS Java SDK projects.  For convenience, we provide a [gradle](https://gradle.org/) build script to easily build and run any samples from a terminal prompt or from within an IDE that supports gradle.  Please continue with the following sections if interested in using gradle build automation system to compile and run the samples.  
-
-### Add SDK resources
-Once the samples have been forked/cloned locally to your machine you need to add the following from the SDK download to the sample project you forked/cloned.  
-
-- Copy the contents of **JavaSDK100.0.0/ArcGISRuntime100.0.0/** to the root of your samples repo on disk, e.g. /[clone-dir]/arcgis-runtime-samples-java/.
-- Copy the SDK jar file from **JavaSDK100.0.0/sdk/jars/ArcGISRuntime_Java.jar** to the **libs/** folder in the root of your sample repo.  You will need to create the **libs/** folder, e.g. /[clone-dir]/arcgis-runtime-samples-java/libs/.  
-
-Your project structure should look like the following underneath the root project folder, **arcgis-runtime-samples-java**:  
-
-![project structure](project-structure.png)
-
-### Gradle
-New to gradle?  Learn more [here](https://gradle.org/getting-started-gradle-java/). There is no need to install anything to run gradle as the samples project comes with the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-
-### Gradle build file
-The gradle build file, **build.gradle** is located at the root of the sample repo.  The samples are all listed as source files by package name and class name.  Change the value of the following configuration in your build.gradle file to run any of the samples.  By default the project is set to run the [Set Initial Map Location](https://developers.arcgis.com/java/beta/sample-code/set-initial-map-location.htm) sample as shown below:  
-
-```groovy
-mainClassName = 'com.esri.sampleviewer.samples.map.SetInitialMapLocation'
-```
-
-If you want to run the Identify Graphic sample change the configuration to the following:  
-
-```groovy
-mainClassName = 'com.esri.sampleviewer.samples.graphicsoverlay.IdentifyGraphic'
-```
-
-- Open a terminal (Mac users) or command prompt (Windows & Linux users)
-- cd into the the sample repo directory and run the following command
-
-Linux/Mac
-```
-$ ./gradlew clean run --info
-```
-
-Windows
-```
-> gradlew.bat clean run --info
-```
-
-## Import samples into developer IDE
-Once you have the sample repo directory structure in place from above you can import into your favorite IDE.  We will step through [IntelliJ IDEA](https://www.jetbrains.com/idea/) and [Eclipse](https://eclipse.org/) as they both have excellent gradle support.   
+## Importing into an IDE
+We will step through how to import the Samples project into Eclipse and IntelliJ IDEA. In both IDEs you can choose to 
+import all the samples, just a category of samples, or a single sample.
 
 ### IntelliJ IDEA
-To import the project into IntelliJ IDEA, follow these steps:  
+After cloning the samples, open IntelliJ IDEA and follow these steps:
 
-1. If no project is open, click **Import Projects** on the Welcome screen. Otherwise, select **File > New > Project from Existing Sources**.
-2. In the select path dialog, select the directory that contains the samples project.
-3. On the project model select dialog, select Gradle, and click Next
-4. On the next page specify Gradle project settings to use the gradle wrapper and click Finish.  
-5. You can see the Gradle tasks by selecting **View > Tool Windows > Gradle**.  Select the Run task to run the sample defined in the build script.
+1. Click *Import Projects* from the Welcome Screen or select *File > New > Project from Existing Sources*.
+2. In the select path dialog, select the root `build.gradle` file in the `arcgis-runtime-samples-java` directory. If you only want to import a category of samples, select the `build.gradle` file in that category directory. To import just one sample, select the `build.gradle` file from the sample's directory. Click *OK* after specifying the `build.gradle` file.
+3. Click *OK* at the next dialog to complete the import.
 
-![Running a sample from IntelliJ IDEA](run-intellij.png)
+<img src="./intellij_proj.png" alt="IntelliJ IDEA project structure" height="200">
 
-### Eclipse 
-Install the [Buildship](https://projects.eclipse.org/projects/tools.buildship) Eclipse Gradle plugin
+To view all of the gradle tasks including the Run task, go to *View > Tool Windows > Gradle*. Select the Run task in the sample's task list to run the sample.
 
-1. From Eclipse toolbar select **Help > Install New Software...**
-2. Click the **Available Software Sites** link in the upper right hand corner of the Intall dialog.
-3. Click the **Add** button. 
-4. Create a name for the site, e.g **Buildship Gradle plugin** and add the following url to the **Location** http://download.eclipse.org/buildship/updates/e45/releases and click **OK**.
+Alternatively, you can open the sample's main class, right-click, and select *Run* from the dropdown menu.
 
-Once you have the plugin installed you can import the sample project into Eclipse.  
+### Eclipse
+To import the samples with Eclipse's default gradle plugin, follow these steps:
 
-1. From the Eclipse toolbar select **File > Import**.
-2. Select **Gradle > Gradle Project** and click Next on the Welcome dialog. 
-3. Browse to the directory where you forked/cloned the samples project repository and click **OK** and then **Finish** to exit the wizard.
-4. Now you should now see the Gradle tasks view, if you don't select **Window > Show View > Other** and select **Gradle > Gradle Tasks**.  You can initiate any task from this window.  Select the **Run** task to run the sample defined in the build script. 
+1. Open Eclipse and select *File > Import*.
+2. In the import wizard, choose *Gradle > Gradle Project*, then click Next.
+3. Select the `arcgis-runtime-samples-java` directory as the project root directory. If you choose a category or sample directory as the root, only those samples will be imported.
+4. Click *finish* to complete the import.
 
-![Running a sample from Eclipse](run-eclipse.png)
+By default, Eclipse shows each sub-project as a separate project in the workspace. If you want to see the samples in a nested folder view, follow these steps:
 
-### Project Structure
-Here is what the sample repo IDE project structure looks like in Eclipse and IntelliJ IDEA where you can use either IDE to continue to work with the samples repository.  
+1. Open the Project Explorer view by selected *Window > Show view > Project Explorer*.
+2. Click the down-arrow in the top-right corner of the Project Explorer window OR press Ctrl + F10 with the Project 
+Explorer window selected.
+3. In the dropdown menu that appears, select *Projects Presentation > Hierarchical*. Eclipse should now show the 
+samples as a single, nested project. You may need to restart Eclipse for the change to occur.
 
-|IntelliJ IDEA                                     | Eclipse                                          |
-|:------------------------------------------------:|:------------------------------------------------:|
-|![IntelliJ IDEA](intelliJ-project-structure.png)  | ![Eclipse](eclipse-project-structure.png)        |
+<img src="./eclipse_proj.png" alt="Eclipse project structure" height="200">
 
-## Other IDE's
-Netbeans has support through the [gradle-support](http://plugins.netbeans.org/plugin/44510/gradle-support) plugin.  The plugin documentation can be found [here](https://github.com/kelemen/netbeans-gradle-project/wiki).
+###Other IDEs###
+Other IDEs may support Gradle too. Please consult their documentation for importing Gradle projects.
 
-## Resources
+##Resources##
+* [ArcGIS Runtime SDK for Java](https://developers.arcgis.com/java/)  
+* [ArcGIS Blog](https://blogs.esri.com/esri/arcgis/)  
+* [Esri Twitter](https://twitter.com/esri)  
 
-* [ArcGIS Runtime SDK for Java](https://developers.arcgis.com/java/)
-* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
-* [twitter@esri](http://twitter.com/esri)
+##Contributing##
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing]
+(https://github.com/esri/contributing).
 
-## Issues
+Find a bug or want a new feature? Please let us know by submitting an issue.
 
-Find a bug or want to request a new feature?  Please let us know by submitting an issue.
+##Licensing##
+Copyright 2016 Esri
 
-## Contributing
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. You may obtain a copy 
+of the License at
 
-Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
+http://www.apache.org/licenses/LICENSE-2.0
 
-## Licensing
-Copyright 2015 Esri
+Unless required by applicable law or agreed to in writing, software 
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT 
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
+License for the specific language governing permissions and limitations 
+under the License.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-A copy of the license is available in the repository's license.txt  file.
-
-[](Esri Tags: ArcGIS Runtime Java JavaFX)
-[](Esri Language: JavaScript)​
+A copy of the license is available in the repository's license.txt file.
