@@ -4,7 +4,7 @@ This sample demonstrates how to use an `UniqueValueRenderer` to style Features f
 ##How to use the sample##
 For simplicity, the sample starts with a predefined `UniqueValue`s for some US states which are set to the `UniqueValueRenderer` and applied to the FeatureLayer.
 
-![](UniqueValueRenderer.png)
+![](UniqueValueRendererSample.png)
 
 ##How it works##
  To show picture marker symbols in your app:
