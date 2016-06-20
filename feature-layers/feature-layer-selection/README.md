@@ -2,7 +2,7 @@
 Demonstrates shows how to select Features from a FeatureLayer.
 
 ##How to use the sample##
-click on a feature from the map to select it.
+Click on a feature from the map to select it.
 
 ![](FeatureLayerSelection.png)
 
