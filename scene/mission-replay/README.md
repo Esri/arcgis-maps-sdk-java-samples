@@ -3,18 +3,18 @@ Demonstrates how to animate a `Graphic` that uses a `ModelSceneSymbol`.
 
 ##How to use the sample##
 Animation Controls (Top Left Corner):
-  - Select a mission -- selects a location with a route for plane to fly.
-  - Mission progress -- shows how far along the route the plane is.
-  - Start and Stop -- controls animation of plane.
-  - Toggle -- keeps camera attach to plane or in a fixed location.
+  - Select a mission -- selects a location with a route for plane to fly
+  - Mission progress -- shows how far along the route the plane is
+  - Start and Stop -- controls animation of plane
+  - Toggle -- keeps camera attach to plane or in a fixed location
   
 Camera Controls (Top Right Corner):
-  - Camare zoom -- distance between camera and plane.
-  - Camera angle -- viewing angle between camera and plane.
-  - Flight speed -- controls speed of animation.
+  - Camare zoom -- distance between camera and plane
+  - Camera angle -- viewing angle between camera and plane
+  - Flight speed -- controls speed of animation
   
 2D Map Controls (Bottom Left Corner):
-  - Plus and Minus -- controls distance of 2D view from ground level.
+  - Plus and Minus -- controls distance of 2D view from ground level
 
 ![](Mission_Replay.png)
 
