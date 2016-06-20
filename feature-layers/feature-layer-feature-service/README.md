@@ -1,17 +1,17 @@
 #Feature Layer Feature Service#
-This sample shows how to create a `FeatureLayer` from a `ServiceFeatureTable` and add it to an `ArcGISMap`.
+Demonstrates how to create a FeatureLayer from a ServiceFeatureTable and add it to an ArcGISMap.
 
 ![](FeatureLayerFeatureService.png)
 
 ##How it works##
-To add the Features in your FeatureLayer to a map
+To add `Feature`s from your `FeatureLayer` to an `ArcGISMap`.
 
-- Create a ServiceFeatureTable from a URL.
-- Create a FeatureLayer from the ServiceFeatureTable.
-- Set the FeatureLayer to your ArcGISMap using `map.getOperationalLayers().add(featureLayer)`.
+1. Create a `ServiceFeatureTable` from a URL.
+2. Create a feature layer from the service feature table.
+3. Set the feature layer to your ArcGISMap using `ArcGISMap.getOperationalLayers().add(FeatureLayer)`.
 
 ##Features##
 - ArcGISMap
-- MapView
 - FeatureLayer
+- MapView
 - ServiceFeatureTable
