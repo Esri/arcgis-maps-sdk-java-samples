@@ -46,7 +46,7 @@ To import the samples with Eclipse's default gradle plugin, follow these steps:
 
 1. Open Eclipse and select *File > Import*.
 2. In the import wizard, choose *Gradle > Gradle Project*, then click Next.
-3. Select the `arcgis-runtime-samples-java` directory as the project root directory. You can choose a category or sample directory to only import those samples.
+3. Select the `arcgis-runtime-samples-java` directory as the project root directory. If you choose a category or sample directory as the root, only those samples will be imported.
 4. Click *finish* to complete the import.
 
 By default, Eclipse shows each sub-project as a separate project in the workspace. If you want to see the samples in a nested folder view, follow these steps:
