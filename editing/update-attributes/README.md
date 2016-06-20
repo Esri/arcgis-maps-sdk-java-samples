@@ -1,23 +1,25 @@
 #Update Attributes#
-This sample demonstrates how update the attributes of a `Feature` from a `ServiceFeatureTable`.
+Demonstrates how update the attributes of a Feature from a ServiceFeatureTable.
 
 ##How to use the sample##
-Features in the map represent properties and its colour the type of damage on that property. In order to change the type of damage, select a feature and click on the Damage Type drop-down. Doing so, would display a list of values to choose from. Selecting one would dismiss the list and update the damage type for the selected property. 
+To change the feature's damage property.
+  - select feature from the map
+  - from drop down box select a damage type
 
 ![](UpdateAttributes.png)
 
 ##How it works##
-To get features from a `ServiceFeatureTable` and edit its attributes:
+To get a `Feature` from a `ServiceFeatureTable` and update its attributes:
 
-- Create a ServiceFeatureTable from a URL.
-- Create a FeatureLayer from the ServiceFeatureTable.
-- Select features from the FeatureLayer via `FeatureLayer#selectFeatures` method.
-- To update the feature's attribute use the `ArcGISFeature#getAttributes().put()` method.
-- After a change, apply the changes on the server using `ServiceFeatureTable#applyEditsAsync` method.
+1. Create a ServiceFeatureTable from a URL.
+2. Create a `FeatureLayer` from the ServiceFeatureTable.
+3. Select features from the FeatureLayer, `FeatureLayer.selectFeatures`.
+4. To update the feature's attribute use the `ArcGISFeature.getAttributes().put()`.
+5. After a change, apply the changes on the server using `ServiceFeatureTable.applyEditsAsync`.
 
 ##Features##
 - ArcGISMap
-- MapView
 - Feature
 - FeatureLayer
+- MapView
 - ServiceFeatureTable
