@@ -1,19 +1,22 @@
 #Service Feature Table (Manual Cache)#
-This sample shows how to use a Feature Service in manual cache mode.
+Demonstrates how to use a feature service in a manual-cache mode.
 
 ##How to use the sample##
-Click on the Request Cache button to get the `Feature`s in manual cache mode. The Features Returned label shows how many features are returned by the service.
+Click on the Request Cache button to manually request Features. Returned label displays how many features were returned by the service.
 
 Note: Maximum of Features returned is set to 1000.
 
 ![](ServiceFeatureLayerManualCache.png)
 
 ##How it works##
-By setting the `FeatureRequestMode` to MANUAL_CACHE on the `FeatureTable`.
+How to set `FeatureRequestMode.MANUAL_CACHE` mode:
+
+1. Create a `ServiceFeatureTable` from a URL.
+2. Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.MANUAL_CACHE)`.
 
 ##Features##
 - ArcGISMap
-- MapView
 - FeatureLayer
+- MapView
 - ServiceFeatureTable
 - ServiceFeatureTable.FeatureRequestMode
