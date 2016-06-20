@@ -1,28 +1,32 @@
 #Add Graphics with Symbols#
-This sample demonstrates how to add points, polylines, and polygons as graphics. It also demostrates how to set a symbol to a renderer to the graphics and add to a `GraphicsOverlay`. The sample also adds `TextSymbol` to represent text as symbols on the GraphicsOverlay.
+This sample demonstrates how to display a Graphic using a SimpleMarkerSymbol, SimpleLineSymbol, SimepleFillSymbol, and a TextSymbol.
 
 ![](AddGraphicsWithSymbols.png)
 
 ##How it works##
-To add a `Graphic` that displays a symbol:
+To display a `Graphic` using a symbol:
 
 1. Create a `GraphicsOverlay` and add it to the `MapView`, `MapView.getGraphicsOverlay.add()`.
-2. To create a `Graphic` using a `Point`.
-  - create a point where the graphic will be located
-  - create a `SimpleMarkerSymbol` that will display this symbol at that point
+2. To create a `Graphic` using a `SimpleMarkerSymbol`.
+  - create a `Point` where the graphic will be located
+  - create a simple marker symbol` that will display at that point
   - assign point and symbol to graphic, `Graphic(point, symbol)`
-3. To create a graphic using a `Polyline`:
+3. To create a graphic using a `SimpleLineSymbol`.
   - create a `PointCollection` that will hold all the points that make up the line
   - create a `Polyline` using the point collection, `Polyline(PointCollection)`
-  - create a `SimpleLineSymbol` that will display a symbol over those collected points
+  - create a simple line symbol that will display over those collected points
   - assign polyline and symbol to graphic, `Graphic(polyline, symbol)`
-4. To create a graphic using a `Polygon`.
+4. To create a graphic using a `SimepleFillSymbol`.
   - create a point collection that will hold all the points that make up the line
   - create a `Polygon` using the point collection, `Polygon(PointCollection)`
-  - create a `SimpleLineSymbol` that will display a symbol that outlines those points collected
-  - create a `SimepleFillSymbol` using line symbol from above, that will fill the region in between the points collected with a single color 
+  - create a simple line symbol` that will display as an outline for points collected
+  - create a simeple fill symbol`, using line symbol from above, that will fill the region in between the points collected with a single color 
   - assignn polygon and symbol to graphic, `Graphic(polygon, symbol)`
-5. Add graphic to graphics overlay to display it to the map view.
+5. To create a graphic using a `TextSymbol`
+  - create a point where the graphic will be located
+  - create a text symbol, that will display at that point
+  - assign point and symbol to graphic, `Graphic(point, symbol)`
+6. Add graphic to graphics overlay to display it to the map view.
 
 ##Features##
 - Graphic
@@ -35,3 +39,4 @@ To add a `Graphic` that displays a symbol:
 - SimepleFillSymbol
 - SimpleLineSymbol
 - SimpleMarkerSymbol
+- TextSymbol
