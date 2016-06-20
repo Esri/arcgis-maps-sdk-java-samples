@@ -9,11 +9,11 @@ Click on a location in the MapView to add a feature at that location.
 ##How it works##
 To get features from a `ServiceFeatureTable` and update it with new features:
 
-* Create a ServiceFeatureTable from a URL.
-* Create a `FeatureLayer` from the ServiceFeatureTable.
-* Create a `Feature` with attributes and a location using ServiceFeatureTable.
-* Apply the addition to the ServiceFeatureTable by using `ServiceFeatureTable.addFeatureAsync()`.
-* Update the data on the server using `ServiceFeatureTable.applyEditsAsync()`.
+1 Create a ServiceFeatureTable from a URL.
+2 Create a `FeatureLayer` from the ServiceFeatureTable.
+3 Create a `Feature` with attributes and a location using ServiceFeatureTable.
+4 Apply the addition to the ServiceFeatureTable by using `ServiceFeatureTable.addFeatureAsync()`.
+5 Update the data on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
 ##Features##
 - ArcGISMap
