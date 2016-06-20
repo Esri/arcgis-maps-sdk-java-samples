@@ -4,7 +4,7 @@ Demonstrates how to add multiple layers to your ArcGISMap using a BasemapType an
 ##How to use the sample##
 A list of ArcGISSubLayers is display in a drop down box in the top right. Each sublayer in the list has a check-box, which can be used to toggle the visibility of that particular sublayer.
 
-![](ArcGISImageLayerSublayerVisibility.png)
+![](MapImageLayerSublayerVisibility.png)
 
 ##How it works##
 To change visibility of a `ArcGISSubLayer` from your `ArcGISMap`:
