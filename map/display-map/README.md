@@ -1,13 +1,13 @@
 #Display a Map#
-This sample demonstrates how to create `ArcGISMap` using a `Basemap`. A Basemap is beneath all other layers on a ArcGISMap and provides visual reference for all other layers.
+Demonstrates how to create ArcGISMap using a basemap. A basemap is beneath all other layers on a ArcGISMap and provides visual reference to other layers.
 
 ![](DisplayMap.png)
 
 ##How it works##
-To display a ArcGISMap:
+To display a `ArcGISMap`:
 
-- Create an ArcGISMap using a default basemap such us `Basemap#createImagery()`.  
-- Set the map to the view via `MapView` via `MapView#setMap()`. 
+1. Create an ArcGISMap using a default `Basemap` such us `Basemap.createImagery()`.  
+2. Set the map to the map view, `MapView.setMap()`. 
 
 ##Features##
 - ArcGISMap
