@@ -11,7 +11,7 @@ californiaValue.add("CA");
 uniqueValueRenderer.getUniqueValues().add(new UniqueValue("California", "State of California",
 californiaFillSymbol, californiaValue));
 ```
-When this unique value renderer comes across the feature who has a key "STATE_ABBR" and value "CA" it will assign the symbol from the unique value above to this feature.
+When this unique value renderer comes across the feature who key "STATE_ABBR" is value "CA" it will assign the symbol from the unique value above to this feature.
  
 ##How to use the sample##
 Sample starts with a predefined UniqueValues for some US states which are set to the UniqueValueRenderer and applied to the FeatureLayer.
