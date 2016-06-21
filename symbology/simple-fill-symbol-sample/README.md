@@ -4,8 +4,10 @@ Demonstrates how to change a SimpleFillSymbol color, outline (LineSymbol), and s
 ##How to use the sample##
 Change Fill color:
   - change the color that makes up the area of the polygon
+
 Change Outline Color:
   - adds a border color to the polygon
+
 Change Fill Style:
   - changes the pattern that makes up the area of the polygon
 
