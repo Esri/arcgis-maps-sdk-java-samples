@@ -15,4 +15,5 @@ To set an initial location:
 ##Features##
 - ArcGISMap
 - Basemap
+- Basemap.Type
 - MapView
