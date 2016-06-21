@@ -1,24 +1,26 @@
 ##Simple Renderer##
-This sample demonstrates  how to create a `SimpleRenderer` and add it to a `GraphicsOverlay`. Renderers are used to display any `Graphic`s that don't already have a symbol set. A Renderer will not override a symbol that is manually set to a Graphic.
+Demonstrates how to create a SimpleRenderer and add it to a GraphicsOverlay. Renderers are used to display graphics that don't already have a symbol set. A renderer will not override a symbol that is manually set to a graphic.
 
 ##How to use the sample##
-For simplicity, the sample starts with a predefined `SimpleRenderer`.
+Starts with a predefined SimpleRenderer that sets a cross SimpleMarkerSymbol as a default symbol for graphics.
 
 ![](SimpleRendererSample.png)
 
 ##How it works##
- To show picture marker symbols in your app:
+ How to set a default symbol using a `SimpleRenderer`:
 
-- Create the `ArcGISMap`'s basemap
-- Create the GraphicsOverlay and add it to the `MapView` using `MapView#getGraphicsOverlays` method.
-- Add the map to the view via `MapView` via `MapView#setMap()`.  
-- Create a `SimpleRenderer` using a `SimpleMarkerSymbol` via `SimpleRenderer#symbol` constructor. 
-- Lately, set the renderer into the GraphicsOverlays using the `graphicsOverlay#setRenderer(renderer)` method.
+1. Create a `ArcGISMap`'s with `Basemap`.
+2. Create a `GraphicsOverlay` and add it to the `MapView`, `MapView.getGraphicsOverlays().add()`.
+3. Add the map to the view, `MapView.setMap()`.  
+4. Create a simple renderer using a `SimpleMarkerSymbol`, `SimpleRenderer(Symbol)`. 
+5. Lately, set the renderer to graphics overlay using `GraphicsOverlay.setRenderer(Renderer)`.
  
 ##Features##
 - ArcGISMap
-- MapView
 - Graphic
 - GraphicsOverlay
+- MapView
+- Point
 - SimpleMarkerSymbol
+- SimpleMarkerSymbol.Style
 - SimpleRenderer
