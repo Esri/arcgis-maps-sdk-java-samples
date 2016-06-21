@@ -1,16 +1,16 @@
 #Set Initial Map Location#
-This sample creates an `ArcGISMap` with a standard ESRI National Geographic `Basemap` that is centred on a latitude and longitude location and zoomed into a specific level of detail.
-
-##How to use the sample##
-The sample uses the all-encompassing ArcGISMap constructor to initialize with the national geographic basemap at an initial location and level of detail. The basemap is one of the standard ArcGIS Online basemaps and is defined using BasemapType of .NATIONAL_GEOGRAPHIC.
+Creates an ArcGISMap with a standard ESRI National Geographic basemap. This basemap is centred on a latitude and longitude coordinate location, which is zoomed to a specific level of detail.
 
 ![](SetInitialMapLocation.png)
 
 ##How it works##
 To set an initial location:
 
-- Create an ArcGISMap using a default basemap type such us `Basemap#Type#NATIONAL_GEOGRAPHIC`, indicate the longitude and latitude coordinates and the level of details.  
-- Set the map to the view via `MapView` via `MapView#setMap()`. 
+1. Create an `ArcGISMap`, `ArcGISMap(Basemap, latitude, longitude, scale)`.
+  - `Basemap`, use basemap type to access a basemap for map, `Basemap.Type.NATIONAL_GEOGRAPHIC`
+  - latitude and longitude coordinate location
+  - scale, level of detail displayed on `MapView`
+2. Set the map to the map view, `MapView.setMap()`. 
 
 ##Features##
 - ArcGISMap
