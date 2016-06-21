@@ -3,25 +3,32 @@ Demonstrates how to create a graphic using a distance composite scene symbol. Di
 render different symbols depending on the distance between the camera and the graphic.
 
 ##How to use the sample##
-Zoom out, away from the plane model. At a certain distance away, the plane will become a cone. And farther away, it 
-will render as a dot.
+The symbol of graphic will change while zooming in or out.
 
 ![](DistanceCompositeSymbol.png)
 
 ##How it works##
 To create and display a `DistanceCompositeSceneSymbol`:
+
 1. Create a `GraphicsOverlay` and add it to the `SceneView`.
-2. Create symbols for each way the composite symbol can be rendered.
-3. Create a `DistanceCompositeSceneSymbol`.
-4. Add a `Range` for each symbol to `compositeSymbol.getRangeCollection()`, specifying the distance range it will be 
-used for: `compositeSymbol.getRangeCollection().add(new Range(farAwaySymbol, 0, 1000));`
-5. Create a graphic with the symbol: `Graphic compositeGraphic = new Graphic(position, compositeSymbol);`
+2. Create symbols for each `Range` the composite symbol.
+3. Create a distance composite scene symbol`.
+4. Add a range for each symbol to `DistanceCompositeSceneSymbol.getRangeCollection().add(new Range(symbol, min distance, max distance))`.
+  - symbol, symbol to be used within the min/max range that is given
+  - min/max distance, the minimum and maximum distance that the symbol will be display from the `Camera`
+5. Create a `Graphic` with the symbol: `Graphic(Point, DistanceCompositeSceneSymbol)`
 6. Add the graphic to the graphics overlay.
 
 ##Features##
 - ArcGISScene
+- ArcGISTiledElevationSource
+- Camera
 - DistanceCompositeSceneSymbol
 - DistanceCompositeSceneSymbol.Range
 - Graphic
 - GraphicsOverlay
+- ModelSceneSymbol
+- Range
+- RangeCollection
 - SceneView
+- SimpleMarkerSceneSymbol
