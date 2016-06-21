@@ -1,23 +1,33 @@
 #Manage Bookmarks#
-This samples demonstrates how to access and add `Bookmark`s to an `ArcGISMap`.
+Demonstrates how to access and add bookmarks to an ArcGISMap.
 
 ##How to use the sample##
-The map in the sample comes pre-populated with a set of bookmarks. You can click on the Bookmarks from the control panel to update the `MapView`. To create a new bookmark, pan and/or zoom to a new location and click on the on the Add Bookmark button. You will be prompted to provide a name for the new bookmark. When you click OK the new bookmark should also show up in the list.
+The map in the sample comes pre-populated with a set of bookmarks.
+To access a bookmark and move to that location.
+  - click on a bookmark's name from the list
+ 
+To add a bookmark.
+  - pan and/or zoom to a new location and click on the on the Add Bookmark button
+  - enter a unique name for the bookmark and click ok
+  - bookmark will be added to the list
 
 ![](ManageBookmarks.png)
 
 ##How it works##
-To display the ArcGISMap's bookmarks:
+To display the `ArcGISMap`'s `Bookmark`s:
 
-- Create an ArcGISMap; it has a property called bookmarks.  
-- Create a BookMarkList from the ArcGISMap via `ArcGISMap#getBookmarks()` method.
-- Set the map to the view via `MapView` via `MapView#setMap()`. 
-- For creating a new bookmark use the `mapView#getCurrentViewpoint` method as the bookmark viewpoint and the name you provide as the bookmark.name
-- Finally, add the new bookmark to the list of bookmarks using `bookmarkList#add()`.
+1. Create an ArcGISMap; it has a property called bookmarks.  
+2. Create a `BookmarkList` from the ArcGISMap, `ArcGISMap.getBookmarks()`.
+3. Set the map to the `MapView`, `MapView.setMap()`. 
+4. To create a new bookmark
+  - use `MapView.getCurrentViewpoint()` to set the bookmark's viewpoint 
+  - bookmark.name for the name of the bookmark
+  - add new bookmark to book mark list, `BookmarkList.add()`
 
 ##Features##
 - ArcGISMap
-- MapView
+- Basemap
 - Bookmark
 - BookmarkList
+- MapView
 - Viewpoint
