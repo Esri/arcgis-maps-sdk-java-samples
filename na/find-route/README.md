@@ -1,29 +1,32 @@
 #Find Route#
-This sample demonstrates how to get a route between two `Stop`s locations.
+Demonstrates how to get a route between two stops.
 
 ##How to use the sample##
-For simplicity, the sample comes loaded with a start and end stop. You can click on the Find route button to get a route between these stops. Once the route is generated, the `DirectionMessage`s are shown step by step directions in the directions list.
+For simplicity, the sample comes loaded with a start and end stop. You can click on the Find route button to get a route between these stops. Once the route is generated, the DirectionMessages show step by step directions in the directions list.
 
 ![](FindRoute.png)
 
 ##How it works##
-To display a route using a RouteTask:
+To display a `Route` using a `RouteTask`:
 
-- Create an `ArcGISMap`.
-- Add the map to the view via `MapView` via `MapView.setMap()`. 
-- Create a `RouteTask` using an URL from an online service. Online route task solves a route from an online route service.
-- Set the `RouteParameters` to find a route between the Stops. 
-- Get the `Route` using the  `RouteTask.solveAsync(routeParameters)`.
-- Display the route by adding it to a `GraphicsOverlay`.
-- Show the step by step `DirectionMessage`s using the `Route.getDirectionManeuvers()` method.
+1. Create an `ArcGISMap`.
+2. Add the map to the `MapView`, `MapView.setMap()`. 
+3. Create a `RouteTask` using an URL from an online service. 
+  - online route task solves a route from an online route service
+4. Set the `RouteParameters` to find a route between the `Stop`s. 
+5. Get the route using the  `RouteTask.solveAsync(routeParameters)`.
+6. Display the route by adding it to a `GraphicsOverlay.getGraphics().add()`.
+7. Show the step by step `DirectionMessage`s using the `Route.getDirectionManeuvers()` method.
 
 ##Features##
 - ArcGISMap
-- MapView
+- DirectionManeuver
+- DirectionMessage
+- Graphic
 - GraphicsOverlay
+- MapView
 - Route
 - RouteTask
 - RouteParameters
 - RouteResult
-- DirectionManeuver
-- DirectionMessage
+- Stop
