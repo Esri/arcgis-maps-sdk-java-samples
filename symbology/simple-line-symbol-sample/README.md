@@ -1,27 +1,35 @@
 ##Simple Line Symbol##
-This sample demonstrates how to change a `SimpleLineSymbol` colour and style properties.
+Demonstrates how to change a SimpleLineSymbol's color and style properties.
 
 ##How to use the sample##
-For simplicity, the sample starts with a `Polyline` symbol with a default colour, width and style. Use the sample dropdowns to change the `SimpleLineSymbol` colour, width and style properties.
+Change Line Color:
+  - changes the color of the line symbol
+Change Line Width:
+  - change the width of the line symbol
+Change Line Style:
+  - changes the pattern of the line symbol
 
 ![](SimpleLineSymbol.png)
 
 ##How it works##
- To show picture marker symbols in your app:
+ To display a `SimpleLineSymbol`:
 
-- Create the `ArcGISMap`'s basemap
-- Create the GraphicsOverlay and add it to the `MapView` using `MapView#getGraphicsOverlays` method.
-- Add the map to the view via `MapView` via `MapView#setMap()`. 
-- Create a `Polyline` using `PointCollection` to indicate the `Graphic`'s geometry. 
-- Create a `SimpleLineSymbol` to indicate your line style and colour.
-- Lately, create a `Graphic` via `Graphic(geometry, symbol)` method and add it to the `GraphicsOverlay`.
+1. Create a `ArcGISMap`'s with `Basemap`.
+2. Create a `GraphicsOverlay` and add it to the `MapView`, `MapView.getGraphicsOverlays().add()`.
+3. Add the map to the view, `MapView.setMap()`. 
+4. Create a `Polyline` using a `PointCollection` to indicate the boundaries of the `Graphic`. 
+5. Create a `SimpleLineSymbol(SimpleLineSymbol.Style, color, width)`.
+  - style, pattern that makes up this symbol
+  - color, color to display this symbol as
+  - width, size of this symbol
+6. Lately, create a `Graphic(Geometry, Symbol)` and add it to the graphics overlay.
  
 ##Features##
 - ArcGISMap
-- MapView
 - Graphic
+- GraphicsOverlay
+- MapView
 - Polyline
 - PointCollection
-- GraphicsOverlay
 - SimpleLineSymbol
- 
+- SimpleLineSymbol.Style
