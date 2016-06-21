@@ -4,10 +4,10 @@ Demonstrates how to change a SimpleLineSymbol's color and style properties.
 ##How to use the sample##
 Change Line Color:
   - changes the color of the line symbol
-  - 
+ 
 Change Line Width:
   - change the width of the line symbol
-  - 
+
 Change Line Style:
   - changes the pattern of the line symbol
 
