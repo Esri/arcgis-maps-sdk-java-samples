@@ -2,7 +2,6 @@
 Demonstrates how to display an ArcGISMap at a specific view point.
 
 ##How to use the sample##
-A viewpoint is constructed from an `Envelope` defined by minimum (x,y) and maximum (x,y) `Point`'s values. The map's initialViewpoint is set to this viewpoint before the map is loaded by the ArcGISMap. 
 As application is loading, initial view point is set and map view zooms to that location.
 
 ![](MapInitialExtent.png)
