@@ -2,7 +2,7 @@
 Demonstrates how to add, remove and reorder operational layers in an ArcGISMap.
 
 ##How to use the sample##
-The map in the sample application comes with three ArcGISMapImageLayers already added. In the left control panel are two lists of the layers. 
+The map in the sample application comes with three ArcGISMapImageLayers already added. In the left control panel are two lists to hold layers. 
 
 First list has the layers that are currently part of the map. Right click on the layer to remove it or left click on the layer to move it to the top.
 
