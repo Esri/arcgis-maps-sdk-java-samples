@@ -1,8 +1,8 @@
 #Tiled Layer
-Demonstrates how to display an ArcGISTiledLayer on an ArcGISMap as a Basemap.
+Demonstrates how to display an ArcGISTiledLayer on an ArcGISMap as a basemap.
 
 This service pre-generates images based on a tiling scheme which allows for rapid ArcGISMap visualization and navigation.
-An ArcGISTiledLayer can also be added to the ArcGISMap as a layer but it's best practice to use as a Basemap since its purpose is to provide geographical context.
+An ArcGISTiledLayer can also be added to the ArcGISMap as a layer but it's best practice to use as a basemap since its purpose is to provide geographical context.
 
 ![](TiledLayer.png)
 
