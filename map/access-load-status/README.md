@@ -7,11 +7,11 @@ The sample provides an information area which displays what the ArcGISMap's load
 ![](AccessLoadStatus.png)
 
 ##How it works##
-To access to the ArcGISMap load status.
+To access the `ArcGISMap`'s `LoadStatus`.
 
 1. Create an ArcGISMap.
-2. Use `ArcGISMap.addLoadStatusChangedListener()` and `ArcGISMap.getNewLoadStatus()`t o display the `LoadStatus` of the map.
-3. Set the ArcGISMap to the MapView to began loading map.
+2. Use `ArcGISMap.addLoadStatusChangedListener()` and `ArcGISMap.getNewLoadStatus()`t o display the load status of the map.
+3. Set the ArcGISMap to the `MapView` to began loading.
 
 ##Features##
 - ArcGISMap 
