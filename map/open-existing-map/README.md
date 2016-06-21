@@ -1,20 +1,21 @@
 #Open an Existing Map#
-The sample demonstrates how to open an existing web map.
+Demonstrates how to open an existing web map.
 
 ##How to use the sample##
-The sample opens with a web map displayed by default. You can select a `ArcGISMap` from the drop-down list. On selection the web map opens up in the `MapView`.
+A ArcGISMap web map can be selected from the drop-down list. On selection the web map opens up in the MapView.
 
 ![](OpenExistingMap.png)
 
 ##How it works##
 To open an existing web map:
 
-- Create a `Portal` from the ArcGIS url `http://www.arcgis.com/`
-- Crate a `PortalItem` using the Portal and the web map id.
-- The last create the ArcGISMap using the PortalItem and set it into the MapView.
+1. Create a `Portal` from the ArcGIS url `http://www.arcgis.com/`.
+2. Create a `PortalItem` using the Portal and the web map id.
+3. Create a `ArcGISMap` using the portal item.
+4. Set map to the `MapView`.
 
 ##Features##
 - ArcGISMap
 - MapView
-- PortalItem
 - Portal
+- PortalItem
