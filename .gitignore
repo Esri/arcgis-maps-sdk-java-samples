@@ -16,7 +16,6 @@ local.properties
 .metadata
 .project
 .classpath
-local.properties
 .settings/
 .loadpath
 .recommenders
