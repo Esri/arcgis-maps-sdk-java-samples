@@ -1,2 +1,38 @@
-/build/
-/.settings/
+# ArcGIS Java SDK
+bin/
+tmp/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+.gradle/
+
+# Intellij project files
+*.ipr
+*.iml
+.idea/
+
+# Eclipse
+.metadata
+.project
+.classpath
+local.properties
+.settings/
+.loadpath
+.recommenders
+.factorypath
+
+# SublimeText
+/*.sublime-project
+*.sublime-workspace
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
