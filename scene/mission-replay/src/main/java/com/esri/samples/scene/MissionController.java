@@ -1,6 +1,5 @@
 package com.esri.samples.scene;
 
-import java.awt.event.MouseWheelEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,13 +14,8 @@ import java.util.stream.Collectors;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.*;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
@@ -98,8 +92,8 @@ public class MissionController {
             timer.setCycleCount(Animation.INDEFINITE);
 
             // bindings
-            cameraModel.cameraDistanceProperty().bind(zoomSlider.valueProperty());
-            cameraModel.cameraAngleProperty().bind(angleSlider.valueProperty());
+            cameraModel.distanceProperty().bind(zoomSlider.valueProperty());
+            cameraModel.angleProperty().bind(angleSlider.valueProperty());
             progressSlider.valueProperty().bind(animationModel.progressProperty());
             progressSlider.maxProperty().bind(animationModel.framesProperty());
             timer.rateProperty().bind(speedSlider.valueProperty());
@@ -124,12 +118,9 @@ public class MissionController {
     private void create3DPlane() throws URISyntaxException {
         String modelURI = Paths.get(getClass().getResource("/SkyCrane/SkyCrane.lwo").toURI()).toString();
         ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 0.01);
-        plane3DSymbol.setHeading(90);
+        plane3DSymbol.setHeading(-180);
         plane3DSymbol.loadAsync();
         plane3D = new Graphic(new Point(0, 0, 0, SpatialReferences.getWgs84()), plane3DSymbol);
-        plane3D.getAttributes().put("HEADING", 0.0);
-        plane3D.getAttributes().put("PITCH", 0.0);
-        plane3D.getAttributes().put("ROLL", 0.0);
 
         // create renderer to handle updating plane rotation
         SimpleRenderer renderer3D = new SimpleRenderer();
@@ -183,7 +174,7 @@ public class MissionController {
                .map( l -> {
                    Map<String, Object> ordinates = new HashMap<>();
                    ordinates.put("position", new Point(Double.valueOf(l[0]), Double.valueOf(l[1]), Double
-                           .valueOf(l[2]), camera.getLocation().getSpatialReference()));
+                           .valueOf(l[2]), SpatialReferences.getWgs84()));
                    ordinates.put("heading", Double.valueOf(l[3]));
                    ordinates.put("pitch", Double.valueOf(l[4]));
                    ordinates.put("roll", Double.valueOf(l[5]));
@@ -238,22 +229,18 @@ public class MissionController {
 
         //3d
         plane3D.setGeometry(position);
-        plane2D.getAttributes().replace("HEADING", planeModel.getHeading());
-        plane3D.getAttributes().replace("PITCH", planeModel.getPitch());
-        plane3D.getAttributes().replace("ROLL", planeModel.getRoll());
+        plane2D.getAttributes().put("HEADING", planeModel.getHeading());
+        plane3D.getAttributes().put("PITCH", planeModel.getPitch());
+        plane3D.getAttributes().put("ROLL", planeModel.getRoll());
 
         if (cameraModel.getFollow()) {
             // 3d camera
-            camera = new Camera(position, cameraModel.getCameraDistance(), planeModel.getHeading(), cameraModel
-                .getCameraAngle(), 0);
+            camera = new Camera(position, cameraModel.getDistance(), planeModel.getHeading(), cameraModel.getAngle(),
+                planeModel.getRoll());
             sceneView.setViewpointCamera(camera);
 
             //2d
-            Platform.runLater(() -> {
-                mapView.setViewpointCenterAsync(position);
-                mapView.setViewpointRotationAsync(planeModel.getHeading());
-            });
-
+            mapView.setViewpoint(new Viewpoint(position, mapView.getMapScale(), 360 + planeModel.getHeading()));
         }
     }
 }

@@ -18,7 +18,7 @@
 <StackPane fx:controller="com.esri.samples.scene.MissionController"
            xmlns:fx="http://javafx.com/fxml">
     <fx:define>
-        <CameraModel fx:id="cameraModel" cameraDistance="1000" cameraAngle="70" follow="true">
+        <CameraModel fx:id="cameraModel" distance="1000" angle="70" follow="true">
         </CameraModel>
         <AnimationModel fx:id="animationModel" keyframe="0">
         </AnimationModel>
@@ -80,7 +80,7 @@
             <Insets top="10" bottom="10" left="10" right="10">
             </Insets>
         </StackPane.margin>
-        <Label text="Position" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <Label text="Altitude" GridPane.columnIndex="0" GridPane.rowIndex="0">
         </Label>
         <Label text="${planeModel.altitude}" GridPane.columnIndex="1" GridPane.rowIndex="0">
         </Label>

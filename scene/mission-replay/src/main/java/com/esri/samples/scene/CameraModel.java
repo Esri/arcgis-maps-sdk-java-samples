@@ -5,29 +5,29 @@ import javafx.beans.property.*;
 public class CameraModel {
 
   private final BooleanProperty follow;
-  private final DoubleProperty cameraDistance;
-  private final DoubleProperty cameraAngle;
+  private final DoubleProperty distance;
+  private final DoubleProperty angle;
 
   /**
    * Default constructor
    */
   public CameraModel() {
     this.follow = new SimpleBooleanProperty();
-    this.cameraDistance = new SimpleDoubleProperty();
-    this.cameraAngle = new SimpleDoubleProperty();
+    this.distance = new SimpleDoubleProperty();
+    this.angle = new SimpleDoubleProperty();
   }
 
   /**
    * Creates a model of camera properties.
    *
    * @param follow
-   * @param cameraDistance
-   * @param cameraAngle
+   * @param distance
+   * @param angle
    */
-  public CameraModel(boolean follow, double cameraDistance, double cameraAngle) {
+  public CameraModel(boolean follow, double distance, double angle) {
     this.follow = new SimpleBooleanProperty(follow);
-    this.cameraDistance = new SimpleDoubleProperty(cameraDistance);
-    this.cameraAngle = new SimpleDoubleProperty(cameraAngle);
+    this.distance = new SimpleDoubleProperty(distance);
+    this.angle = new SimpleDoubleProperty(angle);
   }
 
   public boolean getFollow() {
@@ -42,27 +42,27 @@ public class CameraModel {
     this.follow.set(follow);
   }
 
-  public double getCameraDistance() {
-    return cameraDistance.get();
+  public double getDistance() {
+    return distance.get();
   }
 
-  public DoubleProperty cameraDistanceProperty() {
-    return cameraDistance;
+  public DoubleProperty distanceProperty() {
+    return distance;
   }
 
-  public void setCameraDistance(double cameraDistance) {
-    this.cameraDistance.set(cameraDistance);
+  public void setDistance(double distance) {
+    this.distance.set(distance);
   }
 
-  public double getCameraAngle() {
-    return cameraAngle.get();
+  public double getAngle() {
+    return angle.get();
   }
 
-  public DoubleProperty cameraAngleProperty() {
-    return cameraAngle;
+  public DoubleProperty angleProperty() {
+    return angle;
   }
 
-  public void setCameraAngle(double cameraAngle) {
-    this.cameraAngle.set(cameraAngle);
+  public void setAngle(double angle) {
+    this.angle.set(angle);
   }
 }
