@@ -15,7 +15,7 @@ public class MissionReplay extends Application {
         // setup the scene
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MissionView.fxml"));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
         stage.setTitle("Display a scene");
         stage.setWidth(800);

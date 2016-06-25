@@ -18,7 +18,7 @@
 <StackPane fx:controller="com.esri.samples.scene.MissionController"
            xmlns:fx="http://javafx.com/fxml">
     <fx:define>
-        <CameraModel fx:id="cameraModel" distance="1000" angle="70" follow="true">
+        <CameraModel fx:id="cameraModel" distance="500.0" angle="75.0" follow="true">
         </CameraModel>
         <AnimationModel fx:id="animationModel" keyframe="0">
         </AnimationModel>
@@ -27,11 +27,7 @@
     </fx:define>
     <SceneView fx:id="sceneView">
     </SceneView>
-    <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="50">
-        <StackPane.margin>
-            <Insets top="10" bottom="10" left="10" right="10">
-            </Insets>
-        </StackPane.margin>
+    <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="50" styleClass="pane">
         <ComboBox fx:id="missionSelector" promptText="Select a Mission" onAction="#changeMission">
             <items>
                 <FXCollections fx:factory="observableArrayList">
@@ -57,29 +53,21 @@
             </ToggleButton>
         </HBox>
     </VBox>
-    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="200" maxHeight="50">
-        <StackPane.margin>
-            <Insets top="10" bottom="10" left="10" right="10">
-            </Insets>
-        </StackPane.margin>
+    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="200" maxHeight="50" styleClass="pane">
         <Label text="Zoom">
         </Label>
-        <Slider fx:id="zoomSlider" min="100.0" max="10000.0">
+        <Slider fx:id="zoomSlider" min="100.0" max="10000.0" value="500.0" showTickMarks="true" majorTickUnit="1000.0">
         </Slider>
-        <Label text="Angle">
+        <Label text="Pitch">
         </Label>
-        <Slider fx:id="angleSlider" min="0.0" max="90.0">
+        <Slider fx:id="angleSlider" min="0.0" max="90.0" value="75.0" showTickMarks="true" majorTickUnit="10.0">
         </Slider>
         <Label text="Speed">
         </Label>
-        <Slider fx:id="speedSlider" min="0.25" max="5">
+        <Slider fx:id="speedSlider" min="0.25" max="5" showTickMarks="true" majorTickUnit="1.0">
         </Slider>
     </VBox>
-    <GridPane StackPane.alignment="BOTTOM_RIGHT" maxWidth="200" maxHeight="50">
-        <StackPane.margin>
-            <Insets top="10" bottom="10" left="10" right="10">
-            </Insets>
-        </StackPane.margin>
+    <GridPane StackPane.alignment="BOTTOM_RIGHT" maxWidth="150" maxHeight="50" hgap="10" vgap="5" styleClass="pane">
         <Label text="Altitude" GridPane.columnIndex="0" GridPane.rowIndex="0">
         </Label>
         <Label text="${planeModel.altitude}" GridPane.columnIndex="1" GridPane.rowIndex="0">
@@ -98,10 +86,6 @@
         </Label>
     </GridPane>
     <VBox StackPane.alignment="BOTTOM_LEFT" maxWidth="200" maxHeight="200">
-        <StackPane.margin>
-            <Insets top="10" bottom="10" left="10" right="10">
-            </Insets>
-        </StackPane.margin>
         <StackPane VBox.vgrow="ALWAYS">
             <MapView fx:id="mapView">
             </MapView>

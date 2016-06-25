@@ -94,14 +94,14 @@ public class MissionController {
             // bindings
             cameraModel.distanceProperty().bind(zoomSlider.valueProperty());
             cameraModel.angleProperty().bind(angleSlider.valueProperty());
-            progressSlider.valueProperty().bind(animationModel.progressProperty());
             progressSlider.maxProperty().bind(animationModel.framesProperty());
+            progressSlider.valueProperty().bind(animationModel.progressProperty());
             timer.rateProperty().bind(speedSlider.valueProperty());
             followButton.disableProperty().bind(Bindings.not(playButton.selectedProperty()));
             followButton.textProperty().bind(Bindings.createStringBinding(() -> followButton.isSelected() ?
                 "Free cam" : "Follow", followButton.selectedProperty()));
             playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() ?
-                "Stop" : "Play", followButton.selectedProperty()));
+                "Stop" : "Play", playButton.selectedProperty()));
 
             // disable scroll zoom in follow mode
             sceneView.addEventFilter(ScrollEvent.ANY, e -> {
@@ -118,7 +118,7 @@ public class MissionController {
     private void create3DPlane() throws URISyntaxException {
         String modelURI = Paths.get(getClass().getResource("/SkyCrane/SkyCrane.lwo").toURI()).toString();
         ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 0.01);
-        plane3DSymbol.setHeading(-180);
+        plane3DSymbol.setHeading(180);
         plane3DSymbol.loadAsync();
         plane3D = new Graphic(new Point(0, 0, 0, SpatialReferences.getWgs84()), plane3DSymbol);
 
@@ -149,6 +149,7 @@ public class MissionController {
         String mission = missionSelector.getSelectionModel().getSelectedItem();
         missionData = getMissionData(mission);
         animationModel.setFrames(missionData.size());
+        animationModel.setKeyframe(0);
 
         // draw mission route on mini map
         PointCollection points = new PointCollection(SpatialReferences.getWgs84());
@@ -160,6 +161,7 @@ public class MissionController {
 
         // show initial frame
         animate(0);
+        playButton.setSelected(false);
 
         // enable play
         playButton.setDisable(false);
@@ -229,7 +231,7 @@ public class MissionController {
 
         //3d
         plane3D.setGeometry(position);
-        plane2D.getAttributes().put("HEADING", planeModel.getHeading());
+        plane3D.getAttributes().put("HEADING", planeModel.getHeading());
         plane3D.getAttributes().put("PITCH", planeModel.getPitch());
         plane3D.getAttributes().put("ROLL", planeModel.getRoll());
 

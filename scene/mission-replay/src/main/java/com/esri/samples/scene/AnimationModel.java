@@ -17,7 +17,8 @@ public class AnimationModel {
     this.keyframe = new SimpleIntegerProperty(0);
     this.progress = new SimpleDoubleProperty(0);
 
-    this.progress.bind(Bindings.createIntegerBinding(() -> getKeyframe() / getFrames(), this.keyframe, this.frames));
+    this.progress.bind(Bindings.createIntegerBinding(() -> this.keyframe.getValue() / this.frames.getValue(), this
+        .keyframe, this.frames));
   }
 
   public AnimationModel(int keyframe) {
