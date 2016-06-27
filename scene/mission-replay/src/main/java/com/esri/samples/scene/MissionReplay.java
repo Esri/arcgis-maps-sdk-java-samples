@@ -10,38 +10,39 @@ import javafx.stage.Stage;
 
 public class MissionReplay extends Application {
 
-    @Override
-    public void start(Stage stage) throws IOException {
-        // setup the scene
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MissionView.fxml"));
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+  public static MissionController controller;
 
-        stage.setTitle("Display a scene");
-        stage.setWidth(800);
-        stage.setHeight(700);
-        stage.setScene(scene);
-        stage.show();
-    }
+  @Override
+  public void start(Stage stage) throws IOException {
+    // setup the scene
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MissionView.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene scene = new Scene(root);
+    scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
-    /**
-     * Stops and releases all resources used in application.
-     */
-    @Override
-    public void stop() {
+    stage.setTitle("Display a scene");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
+  }
 
-        /*if (sceneView != null) {
-            sceneView.dispose();
-        }*/
-    }
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
+    controller.terminate();
+  }
 
-    /**
-     * Opens and runs application.
-     *
-     * @param args arguments passed to this application
-     */
-    public static void main(String[] args) {
+  /**
+   * Opens and runs application.
+   *
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
 
-        Application.launch(args);
-    }
+    Application.launch(args);
+  }
 }

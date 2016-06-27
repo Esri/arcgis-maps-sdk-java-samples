@@ -1,7 +1,11 @@
 package com.esri.samples.scene;
 
-import javafx.beans.property.*;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
+/**
+ * Model bean to bind to plane properties.
+ */
 public class PlaneModel {
 
   private final DoubleProperty altitude;
@@ -10,7 +14,7 @@ public class PlaneModel {
   private final DoubleProperty roll;
 
   /**
-   * Default constructor
+   * Default constructor (needed for FXML injection)
    */
   public PlaneModel() {
     this.altitude = new SimpleDoubleProperty();
@@ -20,12 +24,12 @@ public class PlaneModel {
   }
 
   /**
-   * Creates a model of plane properties.
+   * Constructs a plane model with the specified values.
    *
-   * @param altitude
-   * @param heading
-   * @param pitch
-   * @param roll
+   * @param altitude plane altitude
+   * @param heading plane heading
+   * @param pitch plane pitch
+   * @param roll plane roll
    */
   public PlaneModel(double altitude, double heading, double pitch, double roll) {
     this.altitude = new SimpleDoubleProperty(altitude);
@@ -38,6 +42,10 @@ public class PlaneModel {
     return altitude.get();
   }
 
+  /**
+   * Property tracking plane altitude.
+   * @return plane altitude property
+   */
   public DoubleProperty altitudeProperty() {
     return altitude;
   }
@@ -50,6 +58,10 @@ public class PlaneModel {
     return heading.get();
   }
 
+  /**
+   * Property tracking plane heading.
+   * @return plane heading property
+   */
   public DoubleProperty headingProperty() {
     return heading;
   }
@@ -62,6 +74,10 @@ public class PlaneModel {
     return pitch.get();
   }
 
+  /**
+   * Property tracking plane pitch.
+   * @return plane pitch property
+   */
   public DoubleProperty pitchProperty() {
     return pitch;
   }
@@ -70,6 +86,10 @@ public class PlaneModel {
     this.pitch.set(pitch);
   }
 
+  /**
+   * Property tracking plane roll.
+   * @return plane roll property
+   */
   public double getRoll() {
     return roll.get();
   }

@@ -1,26 +1,28 @@
 package com.esri.samples.scene;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/**
+ * Model bean to bind to animation properties.
+ */
 public class AnimationModel {
 
   private final IntegerProperty frames;
   private final IntegerProperty keyframe;
-  private final DoubleProperty progress;
 
+  /**
+   * Default constructor (needed for FXML injection)
+   */
   public AnimationModel() {
     this.frames = new SimpleIntegerProperty(1);
     this.keyframe = new SimpleIntegerProperty(0);
-    this.progress = new SimpleDoubleProperty(0);
-
-    this.progress.bind(Bindings.createIntegerBinding(() -> this.keyframe.getValue() / this.frames.getValue(), this
-        .keyframe, this.frames));
   }
 
+  /**
+   * Constructs the animation model with the specified keyframe
+   * @param keyframe starting animation frame
+   */
   public AnimationModel(int keyframe) {
     this();
     this.setKeyframe(keyframe);
@@ -30,6 +32,10 @@ public class AnimationModel {
     return frames.get();
   }
 
+  /**
+   * Property tracking the number of frames in an animation.
+   * @return frames property
+   */
   public IntegerProperty framesProperty() {
     return frames;
   }
@@ -38,27 +44,23 @@ public class AnimationModel {
     this.frames.set(frames);
   }
 
-  public double getProgress() {
-    return progress.get();
-  }
-
-  public DoubleProperty progressProperty() {
-    return progress;
-  }
-
-  public void setProgress(double progress) {
-    this.progress.set(progress);
-  }
-
   public int getKeyframe() {
     return keyframe.get();
   }
 
+  /**
+   * Increments and gets the next keyframe.
+   * @return next keyframe
+   */
   public int nextKeyframe() {
     setKeyframe(getKeyframe() + 1);
     return getKeyframe();
   }
 
+  /**
+   * Property tracking the current frame of an animation.
+   * @return keyframe property
+   */
   public IntegerProperty keyframeProperty() {
     return keyframe;
   }

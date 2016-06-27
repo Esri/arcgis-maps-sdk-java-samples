@@ -14,9 +14,9 @@
 <?import com.esri.samples.scene.CameraModel?>
 <?import com.esri.samples.scene.AnimationModel?>
 <?import com.esri.samples.scene.PlaneModel?>
-<?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.scene.MissionController"
            xmlns:fx="http://javafx.com/fxml">
+    <!--Instantiate model instances to bind to-->
     <fx:define>
         <CameraModel fx:id="cameraModel" distance="500.0" angle="75.0" follow="true">
         </CameraModel>
@@ -25,8 +25,10 @@
         <PlaneModel fx:id="planeModel">
         </PlaneModel>
     </fx:define>
+    <!--SDK SceneView-->
     <SceneView fx:id="sceneView">
     </SceneView>
+    <!--Mission Selector Pane-->
     <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="50" styleClass="pane">
         <ComboBox fx:id="missionSelector" promptText="Select a Mission" onAction="#changeMission">
             <items>
@@ -44,7 +46,7 @@
         </ComboBox>
         <Label text="Mission Progress">
         </Label>
-        <Slider fx:id="progressSlider" min="0">
+        <Slider fx:id="progressSlider" min="0" max="1">
         </Slider>
         <HBox alignment="CENTER">
             <ToggleButton fx:id="playButton" text="Play" onAction="#togglePlay" disable="true">
@@ -53,6 +55,7 @@
             </ToggleButton>
         </HBox>
     </VBox>
+    <!--Camera Controls Pane-->
     <VBox StackPane.alignment="TOP_RIGHT" maxWidth="200" maxHeight="50" styleClass="pane">
         <Label text="Zoom">
         </Label>
@@ -67,6 +70,7 @@
         <Slider fx:id="speedSlider" min="0.25" max="5" showTickMarks="true" majorTickUnit="1.0">
         </Slider>
     </VBox>
+    <!--Position Parameters Pane-->
     <GridPane StackPane.alignment="BOTTOM_RIGHT" maxWidth="150" maxHeight="50" hgap="10" vgap="5" styleClass="pane">
         <Label text="Altitude" GridPane.columnIndex="0" GridPane.rowIndex="0">
         </Label>
@@ -85,8 +89,10 @@
         <Label text="${planeModel.roll}" GridPane.columnIndex="1" GridPane.rowIndex="3">
         </Label>
     </GridPane>
+    <!--Mini Map-->
     <VBox StackPane.alignment="BOTTOM_LEFT" maxWidth="200" maxHeight="200">
         <StackPane VBox.vgrow="ALWAYS">
+            <!--SDK MapView-->
             <MapView fx:id="mapView">
             </MapView>
             <VBox StackPane.alignment="TOP_LEFT">
