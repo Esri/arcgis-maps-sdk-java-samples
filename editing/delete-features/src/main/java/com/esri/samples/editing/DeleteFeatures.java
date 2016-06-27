@@ -45,6 +45,7 @@ public class DeleteFeatures extends Application {
   private FeatureLayer featureLayer;
   private ServiceFeatureTable featureTable;
   private Button deleteButton;
+  private ListenableFuture<FeatureQueryResult> selectionResult;
 
   private static final String FEATURE_LAYER_URL =
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
@@ -72,7 +73,7 @@ public class DeleteFeatures extends Application {
       // create event to delete the selected features on click
       deleteButton.setOnAction(event -> {
         // get selected features
-        ListenableFuture<FeatureQueryResult> selectionResult = featureLayer.getSelectedFeaturesAsync();
+        selectionResult = featureLayer.getSelectedFeaturesAsync();
         selectionResult.addDoneListener(() -> {
           try {
             FeatureQueryResult selected = selectionResult.get();
