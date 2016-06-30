@@ -40,7 +40,7 @@ import com.esri.arcgisruntime.symbology.StyleSymbolSearchParameters;
 import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
 
-public class DictionarySymbolSample extends Application {
+public class SymbolDictionarySample extends Application {
 
   private Text resultsFoundText;
   private ScrollPane resultsPane;
@@ -52,11 +52,11 @@ public class DictionarySymbolSample extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    // loads a specification for creating dictionary symbols
+    // loads a specification for the symbol dictionary
     dictionarySymbol = new SymbolDictionary("mil2525d");
     dictionarySymbol.loadAsync();
 
-    // parameters used to search for dictionary symbols
+    // parameters used to search for symbol dictionary
     searchParameters = new StyleSymbolSearchParameters();
 
     // creates container to hold all components
@@ -75,9 +75,9 @@ public class DictionarySymbolSample extends Application {
   }
 
   /**
-   * Creates a Pane that searches for dictionary symbols and displays the number of results found.
+   * Creates a Pane that searches through the symbol dictionary and displays the number of results found.
    * <p>
-   * A dictionary symbol can be searched using a name, tag, symbol class, category, or key.
+   * A symbol dictionary can be searched using a name, tag, symbol class, category, or key.
    * 
    * @return a pane used for searching dictionary symbols
    */
@@ -88,7 +88,7 @@ public class DictionarySymbolSample extends Application {
     searchPane.setVgap(10);
     searchPane.setPadding(new Insets(25, 0, 25, 25));
 
-    // creates five different ways to search for dictionary symbols
+    // creates five different ways to search through a symbol dictionary
     int row = 0;
     searchFields = new TextField[5];
     String[] labelNames = new String[] {
@@ -124,7 +124,7 @@ public class DictionarySymbolSample extends Application {
   /**
    * Control that displays all search results in a scroll area.
    * 
-   * @return control for displaying dictionary symbol search results
+   * @return control for displaying symbol dictionary search results
    */
   private Control createResultsControl() {
     resultsPane = new ScrollPane();
@@ -138,9 +138,9 @@ public class DictionarySymbolSample extends Application {
   }
 
   /**
-   * Searches for Dictionary Symbols using the text from the search fields.
+   * Searches through the symbol dictionary using the text from the search fields.
    * <p>
-   * An image of the Dictionary symbol is shown, if one, along with its full name, tags, symbol class, category, and key.
+   * An image of the symbol(s) found is shown, along with its full name, tags, symbol class, category, and key.
    * 
    * @param event action from search button
    */
