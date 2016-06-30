@@ -10,15 +10,15 @@ import javafx.beans.property.SimpleDoubleProperty;
  */
 public class CameraModel {
 
-  private final BooleanProperty follow;
+  private final BooleanProperty following;
   private final DoubleProperty distance;
   private final DoubleProperty angle;
 
   /**
-   * Default constructor (needed for FXML injection)
+   * Default constructor (needed for FXML injection).
    */
   public CameraModel() {
-    this.follow = new SimpleBooleanProperty();
+    this.following = new SimpleBooleanProperty();
     this.distance = new SimpleDoubleProperty();
     this.angle = new SimpleDoubleProperty();
   }
@@ -26,55 +26,83 @@ public class CameraModel {
   /**
    * Constructs the camera model with the specified property values.
    *
-   * @param follow if the camera should lock onto and follow the target
-   * @param distance following distance for camera to view from
-   * @param angle following pitch angle for camera to view from. (0 - 90 degrees)
+   * @param following if the camera should lock onto and following the target
+   * @param distance  followinging distance for camera to view from
+   * @param angle     followinging pitch angle for camera to view from. (0 - 90 degrees)
    */
-  public CameraModel(boolean follow, double distance, double angle) {
-    this.follow = new SimpleBooleanProperty(follow);
+  public CameraModel(boolean following, double distance, double angle) {
+    this.following = new SimpleBooleanProperty(following);
     this.distance = new SimpleDoubleProperty(distance);
     this.angle = new SimpleDoubleProperty(angle);
   }
 
-  public boolean getFollow() {
-    return follow.get();
+  /**
+   * Checks if the camera is in follow mode.
+   *
+   * @return true if the camera is in follow mode, false otherwise
+   */
+  public boolean isFollowing() {
+    return following.get();
   }
 
   /**
-   * Property tracking the camera's follow mode.
-   * @return if the camera is following
+   * Property tracking the camera's following mode.
+   *
+   * @return following property
    */
-  public BooleanProperty followProperty() {
-    return follow;
+  public BooleanProperty followingProperty() {
+    return following;
   }
 
-  public void setFollow(boolean follow) {
-    this.follow.set(follow);
+  /**
+   * Sets the camera follow mode.
+   *
+   * @param following if the camera should be in follow mode
+   */
+  public void setFollowing(boolean following) {
+    this.following.set(following);
   }
 
+  /**
+   * Gets the distance from the camera to the target.
+   *
+   * @return distance from camera to target
+   */
   public double getDistance() {
     return distance.get();
   }
 
   /**
-   * Property tracking the camera's follow distance.
-   * @return following distance
+   * Property tracking the camera's following distance.
+   *
+   * @return following distance property
    */
   public DoubleProperty distanceProperty() {
     return distance;
   }
 
+  /**
+   * Sets the follow distance between the camera and the target.
+   *
+   * @param distance follow distance between camera and target
+   */
   public void setDistance(double distance) {
     this.distance.set(distance);
   }
 
+  /**
+   * Gets the pitch angle the camera views the target from.
+   *
+   * @return pitch angle between camera and target
+   */
   public double getAngle() {
     return angle.get();
   }
 
   /**
    * Property tracking the following camera's pitch angle.
-   * @return following pitch angle.
+   *
+   * @return following pitch angle property
    */
   public DoubleProperty angleProperty() {
     return angle;
@@ -82,6 +110,7 @@ public class CameraModel {
 
   /**
    * Sets the following camera's pitch angle.
+   *
    * @param angle pitch angle (0 - 90 degrees)
    */
   public void setAngle(double angle) {

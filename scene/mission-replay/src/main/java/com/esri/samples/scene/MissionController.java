@@ -14,11 +14,15 @@ import java.util.stream.Collectors;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.util.Duration;
 
@@ -46,8 +50,6 @@ public class MissionController {
   @FXML private Slider speedSlider;
 
   private Camera camera;
-  private GraphicsOverlay sceneOverlay;
-  private GraphicsOverlay mapOverlay;
   private Timeline timer;
   private Graphic plane3D;
   private Graphic plane2D;
@@ -77,21 +79,42 @@ public class MissionController {
       scene.setBaseSurface(surface);
 
       // create a graphics overlay for the scene
-      sceneOverlay = new GraphicsOverlay();
-      sceneOverlay.setRenderer(new SimpleRenderer());
+      GraphicsOverlay sceneOverlay = new GraphicsOverlay();
       sceneOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(sceneOverlay);
+
+      // create renderer to handle updating plane rotation using the graphics card
+      SimpleRenderer renderer3D = new SimpleRenderer();
+      Renderer.SceneProperties renderProperties = renderer3D.getSceneProperties();
+      renderProperties.setHeadingExpression("HEADING");
+      renderProperties.setPitchExpression("PITCH");
+      renderProperties.setRollExpression("ROLL");
+      sceneOverlay.setRenderer(renderer3D);
 
       // set up mini map
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());
       mapView.setMap(map);
-      mapView.setViewpointScaleAsync(10000);
-      mapOverlay = new GraphicsOverlay();
+
+      // create a graphics overlay for the mini map
+      GraphicsOverlay mapOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(mapOverlay);
 
-      // create 2D and 3D graphics
-      create2DPlane();
-      create3DPlane();
+      // create renderer to handle updating plane heading using the graphics card
+      SimpleRenderer renderer2D = new SimpleRenderer();
+      renderer2D.setRotationExpression("[ANGLE]");
+      mapOverlay.setRenderer(renderer2D);
+
+      // set up route graphic
+      SimpleLineSymbol routeSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+      routeGraphic = new Graphic();
+      routeGraphic.setSymbol(routeSymbol);
+      mapOverlay.getGraphics().add(routeGraphic);
+
+      // create 2D and 3D plane graphics
+      plane2D = create2DPlane();
+      mapOverlay.getGraphics().add(plane2D);
+      plane3D = create3DPlane();
+      sceneOverlay.getGraphics().add(plane3D);
 
       // setup animation to render a new frame every 20 ms by default
       timer = new Timeline(new KeyFrame(Duration.millis(20), e -> animate(animationModel.nextKeyframe())));
@@ -113,12 +136,17 @@ public class MissionController {
       playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() ?
           "Stop" : "Play", playButton.selectedProperty()));
 
-      // disable scroll zoom in follow mode
-      sceneView.addEventFilter(ScrollEvent.ANY, e -> {
-        if (!followButton.isDisabled() && cameraModel.getFollow()) {
+      // disable scroll zoom and dragging in follow mode
+      EventHandler<Event> handler = (e) -> {
+        if (!followButton.isDisabled() && cameraModel.isFollowing()) {
           e.consume();
         }
-      });
+      };
+      sceneView.addEventFilter(ScrollEvent.ANY, handler);
+      sceneView.addEventFilter(MouseEvent.ANY, handler);
+
+      // open default mission selection
+      changeMission();
 
     } catch (Exception e) {
       // on any exception, print the stack trace
@@ -127,45 +155,32 @@ public class MissionController {
   }
 
   /**
-   * Creates a 3D graphic representing the plane in the scene. Adds the graphic to the scene view's graphics overlay.
+   * Creates a 3D graphic representing the plane in the scene.
+   *
    * @throws URISyntaxException if model cannot be loaded
    */
-  private void create3DPlane() throws URISyntaxException {
+  private Graphic create3DPlane() throws URISyntaxException {
     // load the plane's 3D model symbol
-    String modelURI = Paths.get(getClass().getResource("/SkyCrane/SkyCrane.lwo").toURI()).toString();
-    ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 0.01);
+    String modelURI = Paths.get(getClass().getResource("/piper/piper_pa18.dae").toURI()).toString();
+    ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 3.0);
     plane3DSymbol.setHeading(180); // correct the symbol's orientation to match the graphic's orientation
     plane3DSymbol.loadAsync();
 
-    // create renderer to handle updating plane rotation using the graphics card
-    SimpleRenderer renderer3D = new SimpleRenderer();
-    Renderer.SceneProperties renderProperties = renderer3D.getSceneProperties();
-    renderProperties.setHeadingExpression("HEADING");
-    renderProperties.setPitchExpression("PITCH");
-    renderProperties.setRollExpression("ROLL");
-    sceneOverlay.setRenderer(renderer3D);
-
-    // add the graphic to the scene view graphic overlay
-    plane3D = new Graphic(new Point(0, 0, 0, SpatialReferences.getWgs84()), plane3DSymbol);
-    sceneOverlay.getGraphics().add(plane3D);
+    // create the graphic
+    return new Graphic(new Point(0, 0, 0, SpatialReferences.getWgs84()), plane3DSymbol);
   }
 
   /**
    * Creates a 2D graphic representing the plane on the mini map. Adds the graphic to the map view's graphics overlay.
    */
-  private void create2DPlane() {
-    // create a red (0xFFFF0000) triangle symbol to represent the plane on the mini map
-    SimpleMarkerSymbol plane2DSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 10);
+  private Graphic create2DPlane() {
+    // create a blue (0xFF0000FF) triangle symbol to represent the plane on the mini map
+    SimpleMarkerSymbol plane2DSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFF0000FF, 10);
 
-    // create renderer to handle updating plane heading using the graphics card
-    SimpleRenderer renderer2D = new SimpleRenderer();
-    renderer2D.setRotationExpression("[ANGLE]");
-    mapOverlay.setRenderer(renderer2D);
-
-    // create a graphic with the symbol and add it to the graphics overlay
-    plane2D = new Graphic(new Point(0, 0, SpatialReferences.getWgs84()), plane2DSymbol);
-    plane2D.getAttributes().put("ANGLE", 0f);
-    mapOverlay.getGraphics().add(plane2D);
+    // create a graphic with the symbol and attributes
+    Map<String, Object> attributes = new HashMap<>();
+    attributes.put("ANGLE", 0f);
+    return new Graphic(new Point(0, 0, SpatialReferences.getWgs84()), attributes, plane2DSymbol);
   }
 
   /**
@@ -176,7 +191,6 @@ public class MissionController {
 
     // clear previous mission data
     missionData = new ArrayList<>();
-    if (routeGraphic != null) mapOverlay.getGraphics().remove(routeGraphic);
 
     // get mission data
     String mission = missionSelector.getSelectionModel().getSelectedItem();
@@ -187,13 +201,11 @@ public class MissionController {
     // draw mission route on mini map
     PointCollection points = new PointCollection(SpatialReferences.getWgs84());
     points.addAll(missionData.stream().map(m -> (Point) m.get("position")).collect(Collectors.toList()));
-    SimpleLineSymbol routeSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
     Polyline route = new Polyline(points);
-    routeGraphic = new Graphic(route, routeSymbol);
-    mapOverlay.getGraphics().add(0, routeGraphic);
+    routeGraphic.setGeometry(route);
 
-    // show initial keyframe
-    animate(0);
+    // refresh mini map zoom and show initial keyframe
+    mapView.setViewpointScaleAsync(100000).addDoneListener(() -> Platform.runLater(() -> animate(0)));
     timer.stop();
 
     // enable play button
@@ -234,45 +246,6 @@ public class MissionController {
     throw new RuntimeException("Error reading mission file: " + mission);
   }
 
-
-  /**
-   * Switches the animation on or off depending on the toggled state of the play button.
-   */
-  @FXML
-  private void togglePlay() {
-
-    if (playButton.isSelected()) {
-      timer.play();
-    } else {
-      timer.stop();
-    }
-  }
-
-  /**
-   * Switches the toggle mode on the camera model when the toggle button is clicked.
-   */
-  @FXML
-  private void toggleFollow() {
-    if (followButton.isSelected()) plane2D.getAttributes().put("ANGLE", 0f);
-    cameraModel.setFollow(followButton.isSelected());
-  }
-
-  /**
-   * Sets the map view scale to zoom in one exponential step.
-   */
-  @FXML
-  private void zoomInMap() {
-    mapView.setViewpointScaleAsync(mapView.getMapScale() / 25);
-  }
-
-  /**
-   * Sets the map view scale to zoom out one exponential step.
-   */
-  @FXML
-  private void zoomOutMap() {
-    mapView.setViewpointScaleAsync(mapView.getMapScale() * 25);
-  }
-
   /**
    * Animates a single keyframe corresponding to the index in the mission data profile. Updates the position and
    * rotation of the 2D/3D plane graphic and sets the camera viewpoint.
@@ -300,7 +273,7 @@ public class MissionController {
     plane3D.getAttributes().put("PITCH", planeModel.getPitch());
     plane3D.getAttributes().put("ROLL", planeModel.getRoll());
 
-    if (cameraModel.getFollow()) {
+    if (cameraModel.isFollowing()) {
       // move the camera to follow the plane
       camera = new Camera(position, cameraModel.getDistance(), planeModel.getHeading(), cameraModel.getAngle(),
           planeModel.getRoll());
@@ -309,14 +282,52 @@ public class MissionController {
       // rotate the map view about the direction of motion
       mapView.setViewpoint(new Viewpoint(position, mapView.getMapScale(), 360 + planeModel.getHeading()));
     } else {
-      plane2D.getAttributes().put("ANGLE", -270 + planeModel.getHeading());
+      plane2D.getAttributes().put("ANGLE", 360 + planeModel.getHeading() - mapView.getMapRotation());
     }
+  }
+
+  /**
+   * Switches the animation on or off depending on the toggled state of the play button.
+   */
+  @FXML
+  private void togglePlay() {
+
+    if (playButton.isSelected()) {
+      timer.play();
+    } else {
+      timer.stop();
+    }
+  }
+
+  /**
+   * Switches the toggle mode on the camera model when the toggle button is clicked.
+   */
+  @FXML
+  private void toggleFollow() {
+    if (followButton.isSelected()) plane2D.getAttributes().put("ANGLE", 0f);
+    cameraModel.setFollowing(followButton.isSelected());
+  }
+
+  /**
+   * Sets the map view scale to zoom in one exponential step.
+   */
+  @FXML
+  private void zoomInMap() {
+    mapView.setViewpoint(new Viewpoint((Point) plane2D.getGeometry(), mapView.getMapScale() / 5));
+  }
+
+  /**
+   * Sets the map view scale to zoom out one exponential step.
+   */
+  @FXML
+  private void zoomOutMap() {
+    mapView.setViewpoint(new Viewpoint((Point) plane2D.getGeometry(), mapView.getMapScale() * 5));
   }
 
   /**
    * Stops the animation and disposes of application resources.
    */
-  protected void terminate() {
+  void terminate() {
     timer.stop();
     if (sceneView != null) sceneView.dispose();
     if (mapView != null) mapView.dispose();

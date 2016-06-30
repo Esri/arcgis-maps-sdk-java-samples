@@ -1,105 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import com.esri.arcgisruntime.mapping.view.SceneView?>
-<?import javafx.scene.control.ComboBox?>
-<?import java.lang.String?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import javafx.collections.*?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ToggleButton?>
-<?import com.esri.samples.scene.CameraModel?>
+<?import com.esri.arcgisruntime.mapping.view.SceneView?>
 <?import com.esri.samples.scene.AnimationModel?>
+<?import com.esri.samples.scene.CameraModel?>
 <?import com.esri.samples.scene.PlaneModel?>
+
 <StackPane fx:controller="com.esri.samples.scene.MissionController"
-           xmlns:fx="http://javafx.com/fxml">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css">
     <!--Instantiate model instances to bind to-->
     <fx:define>
-        <CameraModel fx:id="cameraModel" distance="500.0" angle="75.0" follow="true">
-        </CameraModel>
-        <AnimationModel fx:id="animationModel" keyframe="0">
-        </AnimationModel>
-        <PlaneModel fx:id="planeModel">
-        </PlaneModel>
+        <CameraModel fx:id="cameraModel" distance="200.0" angle="75.0" following="true"/>
+        <AnimationModel fx:id="animationModel" keyframe="0"/>
+        <PlaneModel fx:id="planeModel"/>
     </fx:define>
     <!--SDK SceneView-->
-    <SceneView fx:id="sceneView">
-    </SceneView>
+    <SceneView fx:id="sceneView"/>
     <!--Mission Selector Pane-->
     <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="50" styleClass="pane">
         <ComboBox fx:id="missionSelector" promptText="Select a Mission" onAction="#changeMission">
+            <value>
+                <String fx:value="GrandCanyon.csv"/>
+            </value>
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="GrandCanyon.csv">
-                    </String>
-                    <String fx:value="Hawaii.csv">
-                    </String>
-                    <String fx:value="Pyrenees.csv">
-                    </String>
-                    <String fx:value="Snowdon.csv">
-                    </String>
+                    <String fx:value="GrandCanyon.csv"/>
+                    <String fx:value="Hawaii.csv"/>
+                    <String fx:value="Pyrenees.csv"/>
+                    <String fx:value="Snowdon.csv"/>
                 </FXCollections>
             </items>
         </ComboBox>
-        <Label text="Mission Progress">
-        </Label>
-        <Slider fx:id="progressSlider" min="0" max="1">
-        </Slider>
+        <Label text="Mission Progress"/>
+        <Slider fx:id="progressSlider" min="0" max="1"/>
         <HBox alignment="CENTER">
-            <ToggleButton fx:id="playButton" text="Play" onAction="#togglePlay" disable="true">
-            </ToggleButton>
-            <ToggleButton fx:id="followButton" text="Follow" onAction="#toggleFollow" selected="true">
-            </ToggleButton>
+            <ToggleButton fx:id="playButton" text="Play" onAction="#togglePlay" disable="true"/>
+            <ToggleButton fx:id="followButton" text="Follow" onAction="#toggleFollow" selected="true"/>
         </HBox>
     </VBox>
     <!--Camera Controls Pane-->
     <VBox StackPane.alignment="TOP_RIGHT" maxWidth="200" maxHeight="50" styleClass="pane">
-        <Label text="Zoom">
-        </Label>
-        <Slider fx:id="zoomSlider" min="100.0" max="10000.0" value="500.0" showTickMarks="true" majorTickUnit="1000.0">
-        </Slider>
-        <Label text="Pitch">
-        </Label>
-        <Slider fx:id="angleSlider" min="0.0" max="90.0" value="75.0" showTickMarks="true" majorTickUnit="10.0">
-        </Slider>
-        <Label text="Speed">
-        </Label>
-        <Slider fx:id="speedSlider" min="0.25" max="5" showTickMarks="true" majorTickUnit="1.0">
-        </Slider>
+        <Label text="Zoom"/>
+        <Slider fx:id="zoomSlider" min="10.0" max="500.0" value="50.0" showTickMarks="true" majorTickUnit="100.0"/>
+        <Label text="Pitch"/>
+        <Slider fx:id="angleSlider" min="0.0" max="90.0" value="75.0" showTickMarks="true" majorTickUnit="30.0"/>
+        <Label text="Speed"/>
+        <Slider fx:id="speedSlider" min="0.25" max="5" showTickMarks="true" majorTickUnit="1.0"/>
     </VBox>
     <!--Position Parameters Pane-->
-    <GridPane StackPane.alignment="BOTTOM_RIGHT" maxWidth="150" maxHeight="50" hgap="10" vgap="5" styleClass="pane">
-        <Label text="Altitude" GridPane.columnIndex="0" GridPane.rowIndex="0">
-        </Label>
-        <Label text="${planeModel.altitude}" GridPane.columnIndex="1" GridPane.rowIndex="0">
-        </Label>
-        <Label text="Heading" GridPane.columnIndex="0" GridPane.rowIndex="1">
-        </Label>
-        <Label text="${planeModel.heading}" GridPane.columnIndex="1" GridPane.rowIndex="1">
-        </Label>
-        <Label text="Pitch" GridPane.columnIndex="0" GridPane.rowIndex="2">
-        </Label>
-        <Label text="${planeModel.pitch}" GridPane.columnIndex="1" GridPane.rowIndex="2">
-        </Label>
-        <Label text="Roll" GridPane.columnIndex="0" GridPane.rowIndex="3">
-        </Label>
-        <Label text="${planeModel.roll}" GridPane.columnIndex="1" GridPane.rowIndex="3">
-        </Label>
+    <GridPane StackPane.alignment="BOTTOM_RIGHT" maxWidth="200" prefWidth="150" maxHeight="50" hgap="10" vgap="5"
+              styleClass="pane">
+        <Label text="Altitude" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label text="${planeModel.altitude}" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="Heading" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label text="${planeModel.heading}" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="Pitch" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label text="${planeModel.pitch}" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Roll" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label text="${planeModel.roll}" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
     </GridPane>
     <!--Mini Map-->
     <VBox StackPane.alignment="BOTTOM_LEFT" maxWidth="200" maxHeight="200">
         <StackPane VBox.vgrow="ALWAYS">
             <!--SDK MapView-->
-            <MapView fx:id="mapView">
-            </MapView>
+            <MapView fx:id="mapView"/>
             <VBox StackPane.alignment="TOP_LEFT">
-                <Button text="+" onAction="#zoomInMap" prefWidth="25">
-                </Button>
-                <Button text="-" onAction="#zoomOutMap" prefWidth="25">
-                </Button>
+                <Button text="+" onAction="#zoomInMap" prefWidth="25"/>
+                <Button text="-" onAction="#zoomOutMap" prefWidth="25"/>
             </VBox>
         </StackPane>
     </VBox>

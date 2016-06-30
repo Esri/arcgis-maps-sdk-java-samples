@@ -10,17 +10,17 @@ import javafx.stage.Stage;
 
 public class MissionReplay extends Application {
 
-  public static MissionController controller;
+  private static MissionController controller;
 
   @Override
   public void start(Stage stage) throws IOException {
-    // setup the scene
+    // set up the scene
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MissionView.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
-    scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
+    // set up the stage
     stage.setTitle("Display a scene");
     stage.setWidth(800);
     stage.setHeight(700);
