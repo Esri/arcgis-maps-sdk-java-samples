@@ -1,9 +1,4 @@
-.panel-region {
-  -fx-background-color: rgba(0,0,0, 0.3);
-  -fx-padding: 10.0 10.0 10.0 10.0;
-}
-
-.panel-label {
-  -fx-text-fill: white;
+.label {
+  -fx-font: 16px "Arial";
   -fx-font-weight: bold;
 }

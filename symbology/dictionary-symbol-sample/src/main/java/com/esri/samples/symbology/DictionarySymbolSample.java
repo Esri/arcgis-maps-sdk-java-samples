@@ -12,127 +12,207 @@
 package com.esri.samples.symbology;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.symbology.CimSymbol;
 import com.esri.arcgisruntime.symbology.StyleSymbolSearchParameters;
 import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
 
 public class DictionarySymbolSample extends Application {
 
-  private MapView mapView;
+  private Text resultsFoundText;
+  private ScrollPane resultsPane;
+  private TextField[] searchFields;
+  private VBox searchResultsBox;
+
+  private SymbolDictionary dictionarySymbol;
+  private StyleSymbolSearchParameters searchParameters;
 
   @Override
   public void start(Stage stage) throws Exception {
+    // loads a specification for creating dictionary symbols
+    dictionarySymbol = new SymbolDictionary("mil2525d");
+    dictionarySymbol.loadAsync();
 
-    try {
-      // create stack pane and application scene
-      StackPane stackPane = new StackPane();
-      Scene scene = new Scene(stackPane);
+    // parameters used to search for dictionary symbols
+    searchParameters = new StyleSymbolSearchParameters();
 
-      // set title, size, and add scene to stage
-      stage.setTitle("Dictionary Symbol Sample");
-      stage.setWidth(800);
-      stage.setHeight(700);
-      stage.setScene(scene);
-      stage.show();
+    // creates container to hold all components
+    VBox windowContainer = new VBox();
+    windowContainer.getChildren().addAll(createSearchPane(), createResultsControl());
+    Scene scene = new Scene(windowContainer);
+    scene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
 
-      // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(180, 200);
-      vBoxControl.getStyleClass().add("panel-region");
-
-      //DELETE
-      //      List<String> dictionarySymbols = SymbolDictionary.getSpecificationTypes();
-      //      System.out.println("Size: " + dictionarySymbols.size());
-      //      for (String symbol : dictionarySymbols) {
-      //        System.out.println("Type: " + symbol);
-      //      }
-      //DELETE
-
-      //
-      SymbolDictionary dictionarySymbol = new SymbolDictionary("mil2525d");
-      dictionarySymbol.loadAsync();
-      //      ListenableFuture<StyleSymbolSearchParameters> searchParameters =
-      //          dictionarySymbol.getAllStyleSymbolSearchParametersAsync();
-
-      //      List<String> symbolNames = dictionarySymbol.getSymbologyFieldNames();
-      //      System.out.println("Size: " + symbolNames.size());
-      //      for (String fieldName : symbolNames) {
-      //        System.out.println("Symbol Name: " + fieldName);
-      //      }
-
-      //      List<String> textNames = dictionarySymbol.getTextFieldNames();
-      //      System.out.println("Size: " + textNames.size());
-      //      for (String fieldName : textNames) {
-      //        System.out.println("Text Name: " + fieldName);
-      //      }
-
-      //      searchParameters.addDoneListener(() -> {
-      //        try {
-      //          List<String> searchNames = searchParameters.get().getNames();
-      //          System.out.println("Size: " + searchNames.size());
-      //          //                        for (int i = 50; i < 100; i++) {
-      //          for (String name : searchNames) {
-      //            //                          System.out.println("Search Name: " + searchNames.get(i));
-      //            System.out.println("Search Name: " + name);
-      //          }
-      //        } catch (Exception ex) {
-      //
-      //        }
-      //      });
-
-      //FINDING A SYMBOL
-      StyleSymbolSearchParameters params = new StyleSymbolSearchParameters();
-      //      params.getKeys().add("110000");
-      //      params.setKeysStrictMatch(false);
-      //      params.getCategories().add("Sea Surface : Main Icon");
-      //      params.setCategoriesStrictMatch(false);
-      params.getTags().add("Missile");
-      params.setTagsStrictMatch(false);
-      //      params.getNames().add("Maritime Points : Acoustic Fix : Friend");
-      //      params.getNames().add("Missile Range : Long Range (Air Missile)");
-      //      params.setNamesStrictMatch(false);
-      ListenableFuture<List<StyleSymbolSearchResult>> styleSymbols =
-          dictionarySymbol.searchSymbolsAsync(params);
-      List<StyleSymbolSearchResult> symbolsResult = styleSymbols.get();
-      //      double x = 0;
-      for (StyleSymbolSearchResult symbolResult : symbolsResult) {
-        //        System.out.println("Name: " + symbolResult.getName());
-        System.out.println("Tags: " + symbolResult.getTags());
-        //        System.out.println("Symbol Class: " + symbolResult.getSymbolClass());
-        //        System.out.println("Category: " + symbolResult.getCategory());
-        //        System.out.println("Key: " + symbolResult.getKey());
-        //        CimSymbol symbol = symbolResult.getSymbol();
-        //        Point geometry = new Point(x, x, SpatialReference.create(4326));
-        //        x += 5;
-        //        Graphic gr = new Graphic(geometry, symbol);
-        //        mapView.getGraphicsOverlays().get(0).getGraphics().add(gr);
-      }
-      //FINDING A SYMBOL
-
-      // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll();
-      //      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      //      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
-    } catch (Exception e) {
-      // on any error, display the stack trace
-      e.printStackTrace();
-    }
+    // set title, size, and add scene to stage
+    stage.setTitle("Dictionary Symbol Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.setResizable(false);
+    stage.show();
   }
 
   /**
-   * Stops and releases all resources used in application.
+   * Creates a Pane that searches for dictionary symbols and displays the number of results found.
+   * <p>
+   * A dictionary symbol can be searched using a name, tag, symbol class, category, or key.
+   * 
+   * @return a pane used for searching dictionary symbols
    */
-  @Override
-  public void stop() throws Exception {
+  private Pane createSearchPane() {
+    // container for all components in top pane
+    GridPane searchPane = new GridPane();
+    searchPane.setHgap(10);
+    searchPane.setVgap(10);
+    searchPane.setPadding(new Insets(25, 0, 25, 25));
+
+    // creates five different ways to search for dictionary symbols
+    int row = 0;
+    searchFields = new TextField[5];
+    String[] labelNames = new String[] {
+        "Name: ", "Tag: ", "Symbol Class: ", "Category: ", "Key: "
+    };
+    for (String labelName : labelNames) {
+      Label nameLabel = new Label(labelName);
+      searchFields[row] = new TextField();
+      searchPane.add(nameLabel, 0, row);
+      searchPane.add(searchFields[row], 1, row++);
+    }
+
+    // searches for any dictionary symbols that match text from text fields
+    Button searchButton = new Button("Search for Symbols");
+    searchButton.setMaxWidth(Double.MAX_VALUE);
+    searchButton.setOnAction(this::handleSearchAction);
+    searchPane.add(searchButton, 1, row);
+
+    // clears all of the search results
+    Button clearButton = new Button("Clear");
+    clearButton.setOnAction(this::handleClearAction);
+    searchPane.add(clearButton, 2, row++);
+
+    // displays number of search results
+    Label resultsLabel = new Label("Result(s) Found: ");
+    resultsFoundText = new Text();
+    searchPane.add(resultsLabel, 0, row);
+    searchPane.add(resultsFoundText, 1, row);
+
+    return searchPane;
+  }
+
+  /**
+   * Control that displays all search results in a scroll area.
+   * 
+   * @return control for displaying dictionary symbol search results
+   */
+  private Control createResultsControl() {
+    resultsPane = new ScrollPane();
+    resultsPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    VBox.setVgrow(resultsPane, Priority.ALWAYS);
+
+    // displays search results
+    searchResultsBox = new VBox(10);
+
+    return resultsPane;
+  }
+
+  /**
+   * Searches for Dictionary Symbols using the text from the search fields.
+   * <p>
+   * An image of the Dictionary symbol is shown, if one, along with its full name, tags, symbol class, category, and key.
+   * 
+   * @param event action from search button
+   */
+  private void handleSearchAction(ActionEvent event) {
+    searchParameters.getNames().add(searchFields[0].getText());
+    searchParameters.getTags().add(searchFields[1].getText());
+    searchParameters.getSymbolClasses().add(searchFields[2].getText());
+    searchParameters.getCategories().add(searchFields[3].getText());
+    searchParameters.getKeys().add(searchFields[4].getText());
+
+    try {
+      // searching for any matches
+      ListenableFuture<List<StyleSymbolSearchResult>> searchResult =
+          dictionarySymbol.searchSymbolsAsync(searchParameters);
+      List<StyleSymbolSearchResult> symbolResults = searchResult.get();
+      resultsFoundText.setText("" + symbolResults.size());
+
+      // reset result so duplicates are not added
+      searchResultsBox = new VBox(10);
+      // display each result found
+      symbolResults.forEach(symbolResult -> {
+        Text description = new Text("Name: " + symbolResult.getName()
+            + "\nTags: " + symbolResult.getTags()
+            + "\nSymbol Classe: " + symbolResult.getSymbolClass()
+            + "\nCategory: " + symbolResult.getCategory()
+            + "\nKey: " + symbolResult.getKey());
+
+        ImageView symbolImage = new ImageView();
+        symbolImage.setFitWidth(40);
+        // Text symbol are not Cim Symbol
+        if (!symbolResult.getCategory().startsWith("Text")) {
+          try {
+            CimSymbol symbol = symbolResult.getSymbol();
+            ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, 100, 0x00FFFFFF, new Point(0, 0, 0));
+            Image image = imageResult.get();
+            symbolImage.setImage(image);
+          } catch (ExecutionException ee) {
+            System.out.println("Creating CimSymbol image was aborted!\n" + ee.getMessage());
+          } catch (InterruptedException ie) {
+            System.out.println("Thread interrupted while creating CimSymbol Image search!\n" + ie.getMessage());
+          }
+        }
+        searchResultsBox.getChildren().add(new HBox(symbolImage, description));
+      });
+      resultsPane.setContent(searchResultsBox);
+    } catch (ExecutionException ee) {
+      System.out.println("Dictionary Symbol search was aborted!\n" + ee.getMessage());
+    } catch (InterruptedException ie) {
+      System.out.println("Thread interrupted during Dictionary Symbol search!\n" + ie.getMessage());
+    }
+
+  }
+
+  /**
+   * Clears all search results from screen.
+   * 
+   * @param event action for clear button
+   */
+  private void handleClearAction(ActionEvent event) {
+    // reset search parameters to empty
+    searchParameters = new StyleSymbolSearchParameters();
+
+    // clear search results
+    searchResultsBox = new VBox(10);
+    resultsPane.setContent(searchResultsBox);
+
+    resultsFoundText.setText("");
+
+    // clear all text in search fields
+    for (TextField searchField : searchFields) {
+      searchField.clear();
+    }
   }
 
   /**
