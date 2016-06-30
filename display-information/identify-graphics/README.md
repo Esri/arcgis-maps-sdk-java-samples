@@ -12,7 +12,7 @@ To identify a `Graphic` from the `MapView`.
 1. Create a `GraphicsOverlay` and add it to the MapView.
 2. Add Graphic along with a `SimpleFillSymbol`. 
 3. Add the graphic to the graphics overlay. 
-4. Identify the graphics on the specified location using the `MapView.identifyGraphicsOverlayAsync(graphicsOverlay, point, tolerance, max results)` method.
+4. Identify the graphics on the specified location, `MapView.identifyGraphicsOverlayAsync(graphicsOverlay, point, tolerance, max results)` method.
 
 ##Features##
 - Graphic
