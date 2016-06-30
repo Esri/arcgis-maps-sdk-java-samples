@@ -70,7 +70,7 @@ public class MissionController {
       sceneView.setArcGISScene(scene);
 
       // set initial camera viewpoint
-      camera = new Camera(28.4, 83.9, 10010.0, 10.0, 80.0, 300.0);
+      camera = new Camera(-111.8568649, 36.05793612, 2000, 10.0, 80.0, 300.0);
       sceneView.setViewpointCamera(camera);
 
       // add elevation data
