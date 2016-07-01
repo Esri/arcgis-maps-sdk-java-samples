@@ -1,8 +1,5 @@
 package com.esri.samples.scene;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 
@@ -39,7 +36,7 @@ public class ScenePropertiesExpressionsController {
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
     sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
-    // add renderer using direction expressions
+    // add renderer using rotation expressions
     SimpleRenderer renderer = new SimpleRenderer();
     renderer.getSceneProperties().setHeadingExpression("HEADING");
     renderer.getSceneProperties().setPitchExpression("PITCH");
@@ -56,6 +53,9 @@ public class ScenePropertiesExpressionsController {
     pitchSlider.valueProperty().addListener(o -> cone.getAttributes().put("PITCH", pitchSlider.getValue()));
   }
 
+  /**
+   * Disposes application resources.
+   */
   void terminate() {
     if (sceneView != null) sceneView.dispose();
   }
