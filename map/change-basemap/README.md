@@ -9,12 +9,12 @@ You can change the basemap of the map by clicking an icon from the toolbar at th
 ##How it works##
 To change the `ArcGISMap`'s `Basemap`:
 
-1.  Create an ArcGISMap, `ArcGISMap(Basemap, latitude, longitude, scale)`.
+1.  Create an ArcGIS map, `ArcGISMap(Basemap, latitude, longitude, scale)`.
   - Basemap, use basemap type to access a basemap for map, `Basemap.Type.NATIONAL_GEOGRAPHIC`
   - latitude and longitude coordinate location
   - scale, level of detail displayed on `MapView`
-2. Set the ArcGISMap to the map view.
-3. Choose a new `Basemap.Type` and set it to the ArcGISMap to change it. 
+2. Set the ArcGIS map to the map view.
+3. Choose a new `Basemap.Type` and set it to the ArcGIS map to change it. 
 
 ##Features##
 - ArcGISMap
