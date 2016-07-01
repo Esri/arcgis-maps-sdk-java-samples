@@ -36,8 +36,8 @@ To animate a `Graphic` by updating it's `Geometry`, heading, pitch, and roll:
   - set heading, pitch, and roll expressions, `SceneProperties.setHeadingExpression("HEADING")`.
 6. Add graphic to the graphics overlay.
 7. Set renderer to graphics overlay, `GraphicsOverlay.setRenderer(Renderer)`
-7. Update graphic's location, `Graphic.setGeometry(Point)`.
-8. Update symbol's heading, pitch, and roll, `attributes.replace("HEADING", settings.get(HEADING))`.
+8. Update graphic's location, `Graphic.setGeometry(Point)`.
+9. Update symbol's heading, pitch, and roll, `attributes.replace("HEADING", settings.get(HEADING))`.
 
 ##Features##
 - ArcGISMap
