@@ -1,4 +1,14 @@
 allprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
+
+    repositories {
+        maven {
+            url 'http://android:8080/artifactory/arcgis'
+        }
+    }
+
+    dependencies {
+        compile 'com.esri.arcgisruntime:arcgis-java:100.0.0-1383'
+    }
 }
