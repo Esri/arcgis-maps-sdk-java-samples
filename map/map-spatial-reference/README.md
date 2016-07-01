@@ -9,11 +9,11 @@ ArcGISMapImageLayer is added to map with default spatial reference of GCS_WGS_19
 ##How it works##
 To set a `SpatialReference` and project that to all operational layers of `ArcGISMap`:
 
-1. Create an ArcGISMap passing in a spatial reference, `ArcGISMap(SpatialReference.create(54024))`.  
+1. Create an ArcGIS map passing in a spatial reference, `ArcGISMap(SpatialReference.create(54024))`.  
 2. Create an `ArcGISMapImageLayer` as a `Basemap`.
-3. Set basemap to ArcGISMap.
-4. Set ArcGISMap to the `MapView`.
-  - the ArcGISMap image layer will now use the spatial reference set to the map and not it's default spatial reference
+3. Set basemap to ArcGIS map.
+4. Set ArcGIS map to the `MapView`.
+  - the ArcGIS map image layer will now use the spatial reference set to the map and not it's default spatial reference
 
 ##Features##
 - ArcGISMap
