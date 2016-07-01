@@ -24,7 +24,7 @@ Change Fill Style:
   - style, pattern that makes up the area of the geometry 
   - color, color the symbol will be displayed
   - outline, `SimpleLineSymbol` that make up the border of the symbol
-6. Lately, create a `Graphic(Geometry, Symbol)` and add it to the `GraphicsOverlay`.
+6. Lately, create a `Graphic(Geometry, Symbol)` and add it to the graphics overlay.
  
 ##Features##
 - ArcGISMap
