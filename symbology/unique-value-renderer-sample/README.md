@@ -23,7 +23,7 @@ Sample starts with a predefined UniqueValues for some US states which are set to
 
 1. Create a `ArcGISMap`'s with `Basemap`.
 2. Create a `FeatureLayer` and add it to the map, `ArcGISMap.getOperationalLayers().add()`.
-3. Add the map to the view,`MapView.setMap()`.  
+3. Add the map to the view, `MapView.setMap()`.  
 4. Create a `UniqueValueRenderer`.
    - specify default feature attribute to look for, `UniqueValueRenderer.getFieldNames().add()`
    - set default symbol for renderer, `UniqueValueRenderer.setDefaultSymbol()`
