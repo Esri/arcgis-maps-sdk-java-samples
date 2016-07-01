@@ -29,10 +29,10 @@ To animate a `Graphic` by updating it's `Point` and `Symbol`'s heading, pitch, a
   - set symbol to the one we made above
 4. Add Attributes to graphic.
   - Get attributes from graphic, `Graphic.getAttributes()`.
-  - Add heading, pitch, and roll attribute, `attributes.put("HEADING", settings.get(HEADING))`;
+  - Add heading, pitch, and roll attribute, `attributes.put("HEADING", settings.get(HEADING))`
 5. Create a `SimpleRenderer` to access and set it's expression properties.
   - access properties with `Renderer.getSceneProperties()`
-  - set heading, pitch, and roll expressions, `SceneProperties.setHeadingExpression("HEADING");`.
+  - set heading, pitch, and roll expressions, `SceneProperties.setHeadingExpression("HEADING")`.
 6. Add graphic to the graphicsoverlay.
 7. Set renderer to graphics overlay, `GraphicsOverlay.setRenderer(Renderer)`
 7. Update graphic's location, `Graphic.setGeometry(Point)`.
