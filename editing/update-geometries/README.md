@@ -11,10 +11,10 @@ To update a feature's location.
 To get a `Feature` from a `ServiceFeatureTable` and change it's geometry:
 
 1. Create a service feature table from a URL.
-2. Create a `FeatureLayey` from the service feature table.
+2. Create a `FeatureLayer` from the service feature table.
 3. Select features from the feature layer, `FeatureLayer.selectFeatures`.
 4. Change the selected feature's location using `Feature.setGeometry(Geometry)`.
-5. After a change, update the table on the server using `ServiceFeatureTable.applyEditsAsync`.
+5. After a change, update the table on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
 ##Features##
 - ArcGISMap
