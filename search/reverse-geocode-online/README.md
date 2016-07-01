@@ -14,7 +14,7 @@ To perform online reverse geocode:
 2. Create a `LocatorTask` using a URL.
 3. Set the `GeocodeParameters` for the LocatorTask and specify the geocodes' attributes.
 4. Get the matching results from the `GeocodeResult` using `LocatorTask.reverseGeocodeAsync()`.
-5. Lastly, to show the results using a `PictureMarkerSymbol` with attributes and add the symbol to a `Graphic` in the `GraphicsOverlay`.
+5. Lastly, to show the results using a `PictureMarkerSymbol` with attributes and add the symbol to a `Graphic` in the  `GraphicsOverlay`.
 
 ##Features##
 - ArcGISMap
