@@ -48,8 +48,7 @@ public class ScenePropertiesExpressionsController {
     // create a red (0xFFFF0000) cone graphic
     SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(0xFFFF0000, 100, 100);
     coneSymbol.setPitch(-90);  // correct symbol's default pitch
-    Map<String, Object> attributes = new HashMap<>();
-    Graphic cone = new Graphic(new Point(83.9, 28.41, 1000, SpatialReferences.getWgs84()), attributes, coneSymbol);
+    Graphic cone = new Graphic(new Point(83.9, 28.41, 1000, SpatialReferences.getWgs84()), coneSymbol);
     graphicsOverlay.getGraphics().add(cone);
 
     // bind attribute values to sliders
