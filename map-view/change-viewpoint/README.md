@@ -1,5 +1,5 @@
 #Change Viewpoint#
-Demonstrates different ways in which you can change the Viewpoint,visible area, of an ArcGISMap.
+Demonstrates different ways in which you can change the Viewpoint, visible area, of an ArcGISMap.
 
 
 ##How to use the sample##
