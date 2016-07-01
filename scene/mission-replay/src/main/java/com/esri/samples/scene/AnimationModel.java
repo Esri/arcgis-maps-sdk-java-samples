@@ -29,6 +29,11 @@ public class AnimationModel {
     this.setKeyframe(keyframe);
   }
 
+  /**
+   * Gets the total number of frames in the animation
+   *
+   * @return total frames in animation
+   */
   public int getFrames() {
     return frames.get();
   }

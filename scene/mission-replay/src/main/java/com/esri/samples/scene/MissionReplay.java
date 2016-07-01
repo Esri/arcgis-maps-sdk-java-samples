@@ -15,7 +15,7 @@ public class MissionReplay extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MissionView.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mission.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

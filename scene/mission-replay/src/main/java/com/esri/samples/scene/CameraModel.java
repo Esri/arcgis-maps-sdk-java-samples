@@ -27,8 +27,8 @@ public class CameraModel {
    * Constructs the camera model with the specified property values.
    *
    * @param following if the camera should lock onto and following the target
-   * @param distance  followinging distance for camera to view from
-   * @param angle     followinging pitch angle for camera to view from. (0 - 90 degrees)
+   * @param distance  following distance for camera to view from
+   * @param angle     following pitch angle for camera to view from. (0 - 90 degrees)
    */
   public CameraModel(boolean following, double distance, double angle) {
     this.following = new SimpleBooleanProperty(following);

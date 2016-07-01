@@ -34,6 +34,9 @@ import com.esri.arcgisruntime.mapping.*;
 import com.esri.arcgisruntime.mapping.view.*;
 import com.esri.arcgisruntime.symbology.*;
 
+/**
+ * Controller class. Automatically instantiated when the FXML loads due to the fx:controller attribute.
+ */
 public class MissionController {
   // injected elements from fxml
   @FXML private CameraModel cameraModel;
@@ -50,7 +53,7 @@ public class MissionController {
   @FXML private Slider speedSlider;
 
   private Camera camera;
-  private Timeline timer;
+  private Timeline animation;
   private Graphic plane3D;
   private Graphic plane2D;
   private List<Map<String, Object>> missionData;
@@ -117,8 +120,8 @@ public class MissionController {
       sceneOverlay.getGraphics().add(plane3D);
 
       // setup animation to render a new frame every 20 ms by default
-      timer = new Timeline(new KeyFrame(Duration.millis(20), e -> animate(animationModel.nextKeyframe())));
-      timer.setCycleCount(Animation.INDEFINITE);
+      animation = new Timeline(new KeyFrame(Duration.millis(20), e -> animate(animationModel.nextKeyframe())));
+      animation.setCycleCount(Animation.INDEFINITE);
 
       // bind camera slider controls to camera model properties
       cameraModel.distanceProperty().bind(zoomSlider.valueProperty());
@@ -127,7 +130,7 @@ public class MissionController {
       // bind animation properties
       progressSlider.maxProperty().bind(animationModel.framesProperty());
       progressSlider.valueProperty().bindBidirectional(animationModel.keyframeProperty());
-      timer.rateProperty().bind(speedSlider.valueProperty());
+      animation.rateProperty().bind(speedSlider.valueProperty());
 
       // bind button properties
       followButton.disableProperty().bind(Bindings.not(playButton.selectedProperty()));
@@ -206,7 +209,7 @@ public class MissionController {
 
     // refresh mini map zoom and show initial keyframe
     mapView.setViewpointScaleAsync(100000).addDoneListener(() -> Platform.runLater(() -> animate(0)));
-    timer.stop();
+    animation.stop();
 
     // enable play button
     playButton.setSelected(false);
@@ -293,9 +296,9 @@ public class MissionController {
   private void togglePlay() {
 
     if (playButton.isSelected()) {
-      timer.play();
+      animation.play();
     } else {
-      timer.stop();
+      animation.stop();
     }
   }
 
@@ -328,7 +331,7 @@ public class MissionController {
    * Stops the animation and disposes of application resources.
    */
   void terminate() {
-    timer.stop();
+    animation.stop();
     if (sceneView != null) sceneView.dispose();
     if (mapView != null) mapView.dispose();
   }
