@@ -4,6 +4,8 @@ Demonstrates how to update the orientation of a graphic using scene property rot
 ##How to use the sample##
 Move the heading and pitch sliders to change the cone's orientation.
 
+![](ScenePropertiesExpressions.png)
+
 ##How it works##
 To update a graphic's orientation using expressions:
 1. Create a new `GraphicsOverlay`.
