@@ -17,7 +17,7 @@ The picture marker symbols that you see in the app are all constructed from diff
 3. Add the map to the view, `MapView.setMap()`. 
 4. Use the constructor `PictureMarkerSymbol(String uri)` to create a symbol from a specified URI (URL, a web page, or from an absolute path to a file that is stored locally).
 5. Use the constructor `PictureMarkerSymbol(Image)` to create a symbol from a local image. 
-6. Lastly once a symbol is created it will need to be added to a `Graphic`. Set the graphic to the GraphicsOverlay using the `GraphicsOverlay.getGraphics().add()` method indicating the location `Point`.
+6. Lastly once a symbol is created it will need to be added to a `Graphic`. Set the graphic to the graphics overlay using the `GraphicsOverlay.getGraphics().add()` method indicating the location `Point`.
 
 ##Features##
 - ArcGISMap

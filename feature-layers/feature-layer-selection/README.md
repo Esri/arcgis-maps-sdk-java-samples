@@ -7,7 +7,7 @@ Click on a feature from the map to select it.
 ![](FeatureLayerSelection.png)
 
 ##How it works##
-To select `Feature`s from your `FeatureLayer`
+To select `Feature`s from your `FeatureLayer`:
 
 1. Create a `ServiceFeatureTable` from a URL.
 2. Create a feature layer from the service feature table.
