@@ -7,11 +7,11 @@ An ArcGISTiledLayer can also be added to the ArcGISMap as a layer but it's best 
 ![](TiledLayer.png)
 
 ##How it works
-To add an `ArcGISTiledLayer` as a `Basemap` to an `ArcGISMap`.
+To add an `ArcGISTiledLayer` as a `Basemap` to an `ArcGISMap`:
 
 1. Create an ArcGISTiledLayer from a URL.
 2. Create a Basemap passing in the tiled layer from above.
-3. Set basemap to ArcGISMap, `ArcGISMap.setBasemap()`.
+3. Set basemap to ArcGIS map, `ArcGISMap.setBasemap()`.
 4. Set map to mapview, `MapView.setMap()`.
 
 ##Features
