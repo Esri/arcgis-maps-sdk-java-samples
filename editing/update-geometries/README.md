@@ -5,7 +5,7 @@ Demonstrates how to update the location of a Feature from a ServiceFeatureTable.
 To update a feature's location.
  - click on a feature from the map and then click on another location to move it
 
-![](UpdateGeometries.png)
+![](Update-Geometries.png)
 
 ##How it works##
 To get a `Feature` from a `ServiceFeatureTable` and change it's geometry:
