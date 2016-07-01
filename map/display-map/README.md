@@ -6,7 +6,7 @@ Demonstrates how to create ArcGISMap using a basemap. A basemap is beneath all o
 ##How it works##
 To display a `ArcGISMap`:
 
-1. Create an ArcGISMap using a default `Basemap` such us `Basemap.createImagery()`.  
+1. Create an ArcGIS map using a default `Basemap` such use `Basemap.createImagery()`.  
 2. Set the map to the map view, `MapView.setMap()`. 
 
 ##Features##
