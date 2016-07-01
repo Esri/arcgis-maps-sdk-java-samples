@@ -1,5 +1,5 @@
 #Change Viewpoint#
-Demonstrates different ways in which you can change the Viewpoint,visible area, of an ArcGISMap.
+Demonstrates different ways in which you can change the Viewpoint, visible area, of an ArcGISMap.
 
 
 ##How to use the sample##
@@ -23,7 +23,7 @@ Below are some other ways to set a viewpoint.
 To change the `Viewpoint`:
 
 1. Create an `ArcGISMap`. 
-2. Set the map to the`MapView`, `MapView.setMap()`. 
+2. Set the map to the `MapView`, `MapView.setMap()`. 
 3. Change the view point with `MapView.setViewPoint()` or any method mention above.
 
 ##Features##

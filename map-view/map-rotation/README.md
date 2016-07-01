@@ -9,7 +9,7 @@ The slider changes the rotation of the ArcGISMap.
 ##How it works##
 To rotate an `ArcGISMap`:
 
-1. Create an ArcGISMap. 
+1. Create an ArcGIS map. 
 2. Add the map to the `MapView`, `MapView.setMap()`. 
 3. Use `MapView.setViewpointRotationAsync` to indicate the rotation angle.
 

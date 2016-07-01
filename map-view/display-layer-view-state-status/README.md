@@ -17,7 +17,7 @@ The LayerViewStatus could be:
 To use the `MapView`'s `DrawStatus`:
 
 1. Create an `ArcGISMap`. 
-2. Set the map to the`MapView`, `MapView.setMap()`. 
+2. Set the map to the `MapView`, `MapView.setMap()`. 
 3. Add the `MapView.addLayerViewStateChangedListener()` property and listen when the `Layer.getLayerViewStatus()` changes.
 
 ##Features##

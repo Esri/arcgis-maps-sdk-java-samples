@@ -14,8 +14,8 @@ Second list has layers that have been removed from the first list. Click on laye
 To manage the operational layers:
 
 1. Create an `ArcGISMap`.  
-2. Get the ArcGISMap `LayerList` using `ArcGISMap.getOperationalLayers()`.
-3. Add/Remove layers from the ArcGISMap by add/removing them from the LayerList.
+2. Get the ArcGIS map `LayerList` using `ArcGISMap.getOperationalLayers()`.
+3. Add/Remove layers from the ArcGIS map by add/removing them from the layer list.
 4. The last `Layer` added to the list will be the Layer that is on top.
 
 ##Features##

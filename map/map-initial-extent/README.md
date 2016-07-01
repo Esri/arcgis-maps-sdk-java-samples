@@ -11,8 +11,8 @@ To set an initial `Viewpoint`:
 
 1. Create an `ArcGISMap`.  
 2. Create a view point using an `Envelope`, `Viewpoint(Envelope)`.
-3. Set the starting location of the ArcGISMap, `ArcGISMap.setInitialViewpoint(Viewpoint)`.
-4. Set the ArcGISMap to the `MapView`.
+3. Set the starting location of the ArcGIS map, `ArcGISMap.setInitialViewpoint(Viewpoint)`.
+4. Set the ArcGIS map to the `MapView`.
 
 ##Features##
 - ArcGISMap

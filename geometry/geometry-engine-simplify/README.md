@@ -7,7 +7,7 @@ Click on the simplify button to apply the simplify geometry operation between th
 ![](GeometryEngineSimplify.png)
 
 ##How it works##
-To perform the simplify geometry operation on a `Polygon`.
+To perform the simplify geometry operation on a `Polygon`:
 
 1. Create a `GraphicsOverlay` and add it to the `MapView`.
 2. Define the `PointCollection` of the `Geometry`.
