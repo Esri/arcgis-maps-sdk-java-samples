@@ -1,6 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'application'
-//apply plugin: 'com.esri.arcgisruntime.java'
+apply plugin: 'com.esri.arcgisruntime.java'
 
 buildscript {
     repositories {
@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        //classpath 'com.esri.arcgisruntime:gradle-arcgis-java-plugin:0.9.0'
+        classpath 'com.esri.arcgisruntime:gradle-arcgis-java-plugin:0.9.0'
     }
 }
 
