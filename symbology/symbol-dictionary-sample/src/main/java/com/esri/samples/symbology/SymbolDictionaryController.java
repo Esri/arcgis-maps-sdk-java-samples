@@ -203,7 +203,7 @@ public class SymbolDictionaryController {
     searchParameters = new StyleSymbolSearchParameters();
 
     // clear search results
-    resultsBox = new VBox(10);
+    searchResultsBox = new VBox(10);
 //    resultsPane.setContent(searchResultsBox);
 
     resultsText.setText("");
