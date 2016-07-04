@@ -1,5 +1,6 @@
 rootProject.name = 'symbology'
-include 'picture-marker-symbol-sample',
+include 'symbol-dictionary-sample',
+        'picture-marker-symbol-sample',
         'simple-fill-symbol-sample',
         'simple-line-symbol-sample',
         'simple-marker-symbol-sample',
