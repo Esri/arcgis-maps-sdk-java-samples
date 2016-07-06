@@ -15,7 +15,7 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
   - this will allows the application continue working while the dictionary loads all symbol primitives found within the mil2525d specification
 3. Create a `DictionaryRenderer`, `DictionaryRenderer(SymbolDictionary)`.
   - apply it to the `GraphicsOverlay.setRenderer(DictionaryRenderer)`
-4. Parse through local XML file creating a map of key,value pairs for each block of attributes.
+4. Parse through local XML file creating a mapping of key,value pairs for each block of attributes.
   - use the name of the attribute as key and text used within that attribute as the value
 5. Create a graphic for each mapping of attributes.
   - _wkid key, holds the geometry's spatial reference
