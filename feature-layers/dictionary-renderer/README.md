@@ -21,7 +21,7 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
   - load asynchronouly, `FeatureLayer.loadAsync()`
 7. Wait for each layer to load, `featureLayer.addDoneLoadingListener`.
 8. Check if layer is last layer to load and create `Envelope` from each layer.
-  - set this extent to be the `Viewpoint` of the map view, `MapView.setViewpoint(new Viewpoint(Envelope))`
+  - set this envelope to be the `Viewpoint` of the map view, `MapView.setViewpoint(new Viewpoint(Envelope))`
 9. Add feature layer to map, `Map.getOperationalLayers().add(FeatureLayer)`.
 10. Create `DictionaryRenderer(SymbolDictionary)` and attach to feature layer, `FeatureLayer.setRenderer(DictionaryRenderer)`,
 
