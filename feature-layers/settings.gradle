@@ -1,5 +1,6 @@
 rootProject.name = 'feature-layers'
 include 'change-feature-layer-renderer',
+        'dictionary-renderer',
         'feature-layer-definition-expression',
         'feature-layer-feature-service',
         'feature-layer-query',
