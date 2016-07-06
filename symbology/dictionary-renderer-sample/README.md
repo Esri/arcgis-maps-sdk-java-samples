@@ -21,6 +21,7 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
   - _wkid key, holds the geometry's spatial reference
   - _control_points, creates the shape of the geometry
   - other attributes explain to dictionary symbol how to display graphic
+  - add graphic to `GraphicsOverlay.getGraphics().add(Graphic)`
 
 ##Features##
 - ArcGISMap
