@@ -12,7 +12,7 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
   - specificationType, this will be the mil2525d.stylx local file
   - dictionaryPath,  path to the mil2525d.stylx local file
 2. Load the dictionary asynchronouly, `DictionarySymbol.loadAsync()`.
-  - this will allows the application continue working while the dictionary loads all symbol primitives found within the mil2525d specification
+  - this will allows the application to continue working while the dictionary loads all symbol primitives found within the mil2525d specification
 3. Create a `DictionaryRenderer`, `DictionaryRenderer(SymbolDictionary)`.
   - apply it to the `GraphicsOverlay.setRenderer(DictionaryRenderer)`
 4. Parse through local XML file creating a mapping of key,value pairs for each block of attributes.
