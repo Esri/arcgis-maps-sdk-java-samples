@@ -29,7 +29,7 @@ How to search through a  `SymbolDictionary`:
 
 1. Create a symbol dicitonary with the mil2525d specification, `SymbolDictionary("mil2525d")`
 2. Load the dictionary asynchronouly, `DictionarySymbol.loadAsync()`
-  - this will allows us to continue working while the dictionary loads all symbol primitives found within the mil2525d specification
+  - this will allows the application to continue working while the dictionary loads all symbol primitives found within the mil2525d specification
 3. Create search parameters for the dictionary, `StyleSymbolSearchParameters()`.
 4. Set the parameters to search through the dictionary.
   - Name, `StyleSymbolSearchParameters.getNames().add()`
