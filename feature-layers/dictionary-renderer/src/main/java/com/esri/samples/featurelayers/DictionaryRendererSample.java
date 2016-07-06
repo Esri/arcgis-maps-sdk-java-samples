@@ -64,9 +64,11 @@ public class DictionaryRendererSample extends Application {
     Geodatabase geodatabase = new Geodatabase(databaseLocation.getAbsolutePath());
     geodatabase.loadAsync();
 
-    geodatabase.addDoneLoadingListener(() -> {
-      SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d");
+    // render tells layer what symbols to apply to what features
+    SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d");
+    symbolDictionary.loadAsync();
 
+    geodatabase.addDoneLoadingListener(() -> {
       geodatabase.getGeodatabaseFeatureTables().forEach(table -> {
         FeatureLayer featureLayer = new FeatureLayer(table);
         featureLayer.loadAsync();
@@ -87,8 +89,8 @@ public class DictionaryRendererSample extends Application {
         });
 
         map.getOperationalLayers().add(featureLayer);
-        // render tells layer what symbols to apply to what features
         DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(symbolDictionary);
+        dictionaryRenderer.getSymbologyFieldOverrides().get(key);
         featureLayer.setRenderer(dictionaryRenderer);
       });
     });
