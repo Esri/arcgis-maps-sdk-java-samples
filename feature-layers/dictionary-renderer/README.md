@@ -8,20 +8,22 @@ feature within the geodatabase.
 ##How it works##
 To apply a `DictionaryRenderer` and display mil2525d graphics:
 
-1.  Create a `SymbolDicitonary`, `SymbolDictionary(specificationType, dictionaryPath)`.
-  - specificationType, this will be the mil2525d.stylx local file
-  - dictionaryPath,  path to the mil2525d.stylx local file
-2. Load the dictionary asynchronouly, `DictionarySymbol.loadAsync()`.
-  - this will allows the application continue working while the dictionary loads all symbol primitives found within the mil2525d specification
-3. Create a `DictionaryRenderer`, `DictionaryRenderer(SymbolDictionary)`.
-  - apply it to the `GraphicsOverlay.setRenderer(DictionaryRenderer)`
-4. Parse through local XML file creating a mapping of key,value pairs for each block of attributes.
-  - use the name of the attribute as key and text within that attribute as the value
-5. Create a graphic for each mapping of attributes.
-  - _wkid key, holds the geometry's spatial reference
-  - _control_points, creates the shape of the geometry
-  - other attributes explain to dictionary symbol how to display graphic
-  - add graphic to `GraphicsOverlay.getGraphics().add(Graphic)`
+1. Create a `Geodatabase(geodatabasePath)`.
+  - geodatabasePath, local path to geodatabase
+2. Load the geodatabase asynchronouly, `Geodatabase.loadAsync()`.
+  - this will allows the application to continue working while the geodatabase loads in all feature tables
+3.  Create a `SymbolDicitonary`, `SymbolDictionary(specificationType)`.
+  - specificationType, this will be the mil2525d.stylx file
+  - load asynchronouly, `DictionarySymbol.loadAsync()`
+4. Wait for geodatabase to completely load, `Geodatabase.addDoneLoadingListener()`.
+5. Cycle through each `GeodatabaseFeatureTable` from geodatabase, `Geodatabase.getGeodatabaseFeatureTables()`.
+6. Create a `FeatureLayer` from each table within the geodatabase, `FeatureLayer(GeodatabaseFeatureTable)`.
+  - load asynchronouly, `FeatureLayer.loadAsync()`
+7. Wait for each layer to load, `featureLayer.addDoneLoadingListener`.
+8. Check if layer is last layer to load and create `Envelope` from each layer.
+  - set this extent to be the `Viewpoint` of the map view, `MapView.setViewpoint(new Viewpoint(Envelope))`
+9. Add feature layer to map, `Map.getOperationalLayers().add(FeatureLayer)`.
+10. Create `DictionaryRenderer(SymbolDictionary)` and attach to feature layer, `FeatureLayer.setRenderer(DictionaryRenderer)`,
 
 ##Features##
 - ArcGISMap
