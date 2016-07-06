@@ -90,7 +90,6 @@ public class DictionaryRendererSample extends Application {
 
         map.getOperationalLayers().add(featureLayer);
         DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(symbolDictionary);
-        dictionaryRenderer.getSymbologyFieldOverrides().get(key);
         featureLayer.setRenderer(dictionaryRenderer);
       });
     });
