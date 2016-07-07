@@ -1,5 +1,6 @@
 rootProject.name = 'scene'
-include 'display-scene',
+include 'dictionary-renderer-graphics-overlay',
+        'display-scene',
         'distance-composite-symbol',
         'elevation-mode',
         'extrude-graphics',
