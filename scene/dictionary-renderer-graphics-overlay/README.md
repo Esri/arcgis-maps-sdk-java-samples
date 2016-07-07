@@ -1,9 +1,9 @@
 #Dictionary Renderer with Graphics Overlay#
-Demonstrates how to apply a dictionary renderer to a graphics overlay and display mil2525d graphics. 
+Demonstrates how to apply a dictionary renderer to a graphics overlay and display mil2525d graphics in 3D. 
 The dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key, 
 value attributes for each graphic.
 
-![](DictionaryRendererGraphicsOverlay.png)
+![](DictionaryRendererGraphicsOverlay3D.png)
 
 ##How it works##
 To apply a `DictionaryRenderer` and display mil2525d graphics:
@@ -24,18 +24,21 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
   - add graphic to `GraphicsOverlay.getGraphics().add(Graphic)`
 
 ##Features##
-- ArcGISMap
+- ArcGISScene
+- ArcGISTiledElevationSource
 - Basemap
+- Camera
 - DictionaryRenderer
 - Envelope
 - Geometry
 - GeometryEngine
 - Graphic
 - GraphicsOverlay
-- MapView
 - MultipartBuilder
 - Point
 - PolygonBuilder
 - PolylineBuilder
+- SceneView
 - SymbolDictionary
+- Surface
 
