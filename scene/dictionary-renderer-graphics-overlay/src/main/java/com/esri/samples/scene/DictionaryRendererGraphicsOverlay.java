@@ -86,6 +86,7 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     // set specification for symbol dictionary using local resource path
     File specificationFile = new File(getClass().getResource("/mil2525d.stylx").getPath());
     SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d", specificationFile.getAbsolutePath());
+    symbolDictionary.loadAsync();
 
     // tells graphics overlay how to render graphics with symbol dictionary attributes set
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
