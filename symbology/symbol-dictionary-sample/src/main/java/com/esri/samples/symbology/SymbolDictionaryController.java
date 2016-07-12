@@ -17,13 +17,13 @@ package com.esri.samples.symbology;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -40,7 +40,7 @@ import com.esri.arcgisruntime.symbology.SymbolDictionary;
 public class SymbolDictionaryController {
 
   // injected elements from fxml
-  @FXML private ScrollPane scrollPane;
+  @FXML private ListView<SymbolView> resultList;
   @FXML private TextField nameField;
   @FXML private TextField tagField;
   @FXML private TextField symbolClassField;
@@ -49,119 +49,64 @@ public class SymbolDictionaryController {
   @FXML private Text searchResultsFound;
   @FXML private ProgressIndicator progress;
 
-  private VBox searchResultsBox;
-
   private SymbolDictionary dictionarySymbol;
   private StyleSymbolSearchParameters searchParameters;
 
   /**
-   * 
+   * Initialize fields after FXML is loaded.
    */
   public void initialize() {
     // loads a specification for the symbol dictionary
     dictionarySymbol = new SymbolDictionary("mil2525d");
     dictionarySymbol.loadAsync();
-
-    // parameters used to search for symbol dictionary
-    searchParameters = new StyleSymbolSearchParameters();
   }
 
   /**
    * Searches through the symbol dictionary using the text from the search fields.
-   * 
-   * @param event action from search button
    */
   @FXML
-  private void handleSearchAction(ActionEvent event) {
-    // accessing text from all search fields 
+  private void handleSearchAction() {
+    // clear previous results
+    resultList.getItems().clear();
+    progress.setVisible(true);
+
+    // accessing text from all search fields
+    searchParameters = new StyleSymbolSearchParameters();
     searchParameters.getNames().add(nameField.getText());
     searchParameters.getTags().add(tagField.getText());
     searchParameters.getSymbolClasses().add(symbolClassField.getText());
     searchParameters.getCategories().add(categoryField.getText());
     searchParameters.getKeys().add(keyField.getText());
 
-    new Thread(() -> {
+    // search for any matches in dictionary
+    ListenableFuture<List<StyleSymbolSearchResult>> searchResult = dictionarySymbol.searchSymbolsAsync(searchParameters);
+    searchResult.addDoneListener(() -> {
       try {
-        progress.setVisible(true);
-        // searching for any matches in dictionary
-        ListenableFuture<List<StyleSymbolSearchResult>> searchResult =
-            dictionarySymbol.searchSymbolsAsync(searchParameters);
         List<StyleSymbolSearchResult> symbolResults = searchResult.get();
 
-        // displays number of results
-        Platform.runLater(() -> searchResultsFound.setText("" + symbolResults.size()));
-        //        searchResultsFound.setText("" + symbolResults.size());
+        Platform.runLater(() -> {
+          // create and add results to listview
+          symbolResults.stream().map(SymbolView::new).collect(Collectors.toCollection(() -> resultList.getItems()));
 
-        // reset result so duplicates are not added
-        searchResultsBox = new VBox(10);
-        if (symbolResults.size() > 0) {
-          symbolResults.forEach(e -> {
-            new Thread(() -> {
-              displaySymbol(e);
-            }).start();
-          });
-        } else {
-          Text description = new Text("No Results Found");
-          searchResultsBox.getChildren().add(description);
-        }
-        Platform.runLater(() -> scrollPane.setContent(searchResultsBox));
-      } catch (ExecutionException ee) {
-        System.out.println("Dictionary Symbol search was aborted!\n" + ee.getMessage());
-      } catch (InterruptedException ie) {
-        System.out.println("Thread interrupted during Dictionary Symbol search!\n" + ie.getMessage());
-      } finally {
-        progress.setVisible(false);
+          // show result count
+          searchResultsFound.setText(String.valueOf(resultList.getItems().size()));
+          progress.setVisible(false);
+        });
+
+      } catch (ExecutionException | InterruptedException e) {
+        e.printStackTrace();
       }
-    }).start();
-  }
-
-  /**
-   * Displays an image of the symbol passed along with its full name, tags, symbol class, category, and key.
-   * 
-   * @param symbolResult symbol to be displayed
-   */
-  private void displaySymbol(StyleSymbolSearchResult symbolResult) {
-    Text description = new Text("Name: " + symbolResult.getName()
-        + "\nTags: " + symbolResult.getTags()
-        + "\nSymbol Classe: " + symbolResult.getSymbolClass()
-        + "\nCategory: " + symbolResult.getCategory()
-        + "\nKey: " + symbolResult.getKey());
-
-    ImageView symbolImage = new ImageView();
-    symbolImage.setFitWidth(40);
-    // Text symbols are not Cim Symbols
-    if (!symbolResult.getCategory().startsWith("Text")) {
-      try {
-        CimSymbol symbol = symbolResult.getSymbol();
-        ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, 100, 0x00FFFFFF, new Point(0, 0, 0));
-        Image image = imageResult.get();
-        symbolImage.setImage(image);
-      } catch (ExecutionException ee) {
-        System.out.println("Creating CimSymbol image was aborted!\n" + ee.getMessage());
-      } catch (InterruptedException ie) {
-        System.out.println("Thread interrupted while creating CimSymbol Image search!\n" + ie.getMessage());
-      }
-    }
-    Platform.runLater(() -> searchResultsBox.getChildren().add(new HBox(symbolImage, description)));
-    //    searchResultsBox.getChildren().add(new HBox(symbolImage, description));
+    });
   }
 
   /**
    * Clears search results and any text in the search fields.
-   * 
-   * @param event action for clear button
    */
   @FXML
-  private void handleClearAction(ActionEvent event) {
-    // reset search parameters to empty
-    searchParameters = new StyleSymbolSearchParameters();
-
+  private void handleClearAction() {
     // clear search results
-    searchResultsBox = new VBox(10);
-    scrollPane.setContent(searchResultsBox);
-
-    // clear number of results found
-    searchResultsFound.setText("");
+    resultList.getItems().clear();
+    searchResultsFound.setText(String.valueOf(0));
 
     // clear all text from search fields
     nameField.clear();

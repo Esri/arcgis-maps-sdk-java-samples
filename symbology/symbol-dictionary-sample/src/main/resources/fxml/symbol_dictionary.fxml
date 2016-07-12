@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
@@ -12,8 +11,9 @@
 <?import javafx.scene.text.Text?>
 
 
+<?import javafx.scene.control.ListView?>
 <VBox fx:controller="com.esri.samples.symbology.SymbolDictionaryController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css">
+      xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css">
     <!-- Top Pane for Search Result -->
     <GridPane hgap="10" vgap="10"  prefHeight="200">
         <padding><Insets top="25" right="0" bottom="25" left="25"/></padding>
@@ -41,6 +41,5 @@
     </GridPane>
     
     <!--  Bottom Pane for Displaying Symbols -->
-    <ScrollPane fx:id="scrollPane" VBox.vgrow="ALWAYS" hbarPolicy="NEVER">
-    </ScrollPane>
+    <ListView fx:id="resultList" VBox.vgrow="ALWAYS"/>
 </VBox>
