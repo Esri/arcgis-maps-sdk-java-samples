@@ -22,6 +22,5 @@ dependencies {
 }
 
 run {
-    mainClassName =
-            'com.esri.samples.featurelayers.FeatureLayerDefinitionExpression'
+    mainClassName = 'com.esri.samples.featurelayers.DictionaryRendererSample'
 }
