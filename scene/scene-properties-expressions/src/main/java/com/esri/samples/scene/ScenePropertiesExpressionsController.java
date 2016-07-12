@@ -29,7 +29,8 @@ public class ScenePropertiesExpressionsController {
     sceneView.setArcGISScene(scene);
 
     // add a camera and initial camera position
-    Camera camera = new Camera(28.4, 83.9, 1000, 0, 50, 0);
+    Point point = new Point(83.9, 28.4, 1000, SpatialReferences.getWgs84());
+    Camera camera = new Camera(point, 1000, 0, 50, 0);
     sceneView.setViewpointCamera(camera);
 
     // create a graphics overlay
