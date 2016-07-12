@@ -33,7 +33,6 @@ public class SymbolDictionarySample extends Application {
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
-    stage.setResizable(false);
     stage.show();
   }
 
