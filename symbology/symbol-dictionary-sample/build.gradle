@@ -14,5 +14,5 @@ buildscript {
 }
 
 run {
-    mainClassName = 'com.esri.samples.symbology.DictionarySymbolSample'
+    mainClassName = 'com.esri.samples.symbology.SymbolDictionarySample'
 }
