@@ -13,6 +13,15 @@ buildscript {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // xml parsing
+    compile 'org.jooq:joox:1.4.0'
+}
+
 run {
     mainClassName = 'com.esri.samples.symbology.PictureMarkerSymbolSample'
 }
