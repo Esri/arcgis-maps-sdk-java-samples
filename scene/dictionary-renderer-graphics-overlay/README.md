@@ -3,7 +3,7 @@ Demonstrates how to apply a dictionary renderer to a graphics overlay and displa
 The dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key, 
 value attributes for each graphic.
 
-![](DictionaryRendererGraphicsOverlay3D.png)
+![](DictionaryRendererGraphicsOverlay.png)
 
 ##How it works##
 To apply a `DictionaryRenderer` and display mil2525d graphics:

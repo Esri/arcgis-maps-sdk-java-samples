@@ -17,25 +17,23 @@ package com.esri.samples.scene;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
+import com.esri.arcgisruntime.geometry.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.geometry.Geometry;
-import com.esri.arcgisruntime.geometry.GeometryEngine;
-import com.esri.arcgisruntime.geometry.MultipartBuilder;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.PolygonBuilder;
-import com.esri.arcgisruntime.geometry.PolylineBuilder;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -47,13 +45,11 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
 
+import static org.joox.JOOX.$;
+
 public class DictionaryRendererGraphicsOverlay extends Application {
 
-  // displays 3D view
   private SceneView sceneView;
-  // bounding geometry for all graphics
-  private Geometry graphicsBoundary;
-  // holds all graphics displayed on the view
   private GraphicsOverlay graphicsOverlay;
 
   private static final String ELEVATION_IMAGE_SERVICE =
@@ -86,18 +82,20 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     // set specification for symbol dictionary using local resource path
     File specificationFile = new File(getClass().getResource("/mil2525d.stylx").getPath());
     SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d", specificationFile.getAbsolutePath());
-    symbolDictionary.loadAsync();
 
     // tells graphics overlay how to render graphics with symbol dictionary attributes set
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
     graphicsOverlay.setRenderer(renderer);
 
-    parseXMLFile();
+    // parse graphic attributes from xml file
+    List<Map<String, Object>> messages = parseMessages();
 
-    // set geometry's spatial reference to be the same as the scene view
-    graphicsBoundary = GeometryEngine.project(graphicsBoundary, sceneView.getSpatialReference());
+    // create graphics with attributes and add to graphics overlay
+    messages.stream().map(DictionaryRendererGraphicsOverlay::createGraphic).collect(Collectors.toCollection(() ->
+        graphicsOverlay.getGraphics()));
+
     // set the view to the center of the geometry
-    Camera camera = new Camera(graphicsBoundary.getExtent().getCenter(), 15000, 0.0, 50.0, 0.0);
+    Camera camera = new Camera(graphicsOverlay.getExtent().getCenter(), 15000, 0.0, 50.0, 0.0);
     sceneView.setViewpointCamera(camera);
   }
 
@@ -105,98 +103,51 @@ public class DictionaryRendererGraphicsOverlay extends Application {
    * Parses through a xml file and creates a graphic for each block of attributes found. Each block of attributes is then
    * assigned to that graphic.
    */
-  private void parseXMLFile() {
-    // parse through XML file containing symbol dictionary attributes
-    Map<String, Object> attributes = new HashMap<>();
-    try {
-      File symbolData = new File(getClass().getResource("/Mil2525DMessages.xml").getPath());
-      FileInputStream file = new FileInputStream(symbolData.getAbsolutePath());
-      XMLStreamReader xmlReader = XMLInputFactory.newInstance().createXMLStreamReader(file);
+  private List<Map<String, Object>> parseMessages() throws Exception {
 
-      // skip first element tag
-      xmlReader.next();
-      while (xmlReader.hasNext()) {
-        // if next thing read is an element from the xml file
-        if (xmlReader.next() == XMLStreamConstants.START_ELEMENT) {
-          String attributeName = xmlReader.getLocalName().trim();
-          if (attributeName.equals("message") && attributes.size() > 0) {
-            createGraphic(attributes);
-            attributes = new HashMap<>();
-          } else {
-            xmlReader.next();
-            String attributeValue = xmlReader.getText().trim();
-            attributes.put(attributeName, attributeValue);
-          }
-        }
-      }
-      // create graphic for last block of attributes
-      createGraphic(attributes);
-      if (file != null)
-        file.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    final List<Map<String, Object>> messages = new ArrayList<>();
+    File symbolData = new File(getClass().getResource("/Mil2525DMessages.xml").getPath());
+    $(symbolData).find("message").each().forEach(message -> {
+      Map<String, Object> attributes = new HashMap<>();
+      message.children().forEach(attr -> attributes.put(attr.getNodeName(), attr.getTextContent()));
+      messages.add(attributes);
+    });
+
+    return messages;
   }
 
   /**
    * Creates a graphic using a symbol dictionary and the attributes that were passed.
-   * 
+   *
    * @param attributes tells symbol dictionary what symbol to apply to graphic
    */
-  private void createGraphic(Map<String, Object> attributes) {
+  private static Graphic createGraphic(Map<String, Object> attributes) {
 
-    Geometry geometry = null;
+    // get spatial reference
     int wkid = Integer.parseInt((String) attributes.get("_wkid"));
     SpatialReference sr = SpatialReference.create(wkid);
-    // get points that make up the graphic's geometry
-    String[] geometryPoints = ((String) attributes.get("_control_points")).split(";");
 
-    // geometry is made up of a single point
-    if (geometryPoints.length == 1) {
-      // split into x,y coordinates
-      String[] coordinates = geometryPoints[0].split(",");
-      geometry = new Point(Double.parseDouble(coordinates[0]), Double.parseDouble(coordinates[1]), sr);
+    // get points from coordinates' string
+    PointCollection points = new PointCollection(sr);
+    String[] coordinates = ((String) attributes.get("_control_points")).split(";");
+    Stream.of(coordinates)
+        .map(cs -> cs.split(","))
+        .map(c -> new Point(Double.valueOf(c[0]), Double.valueOf(c[1]), sr))
+        .collect(Collectors.toCollection(() -> points));
+
+    // determine type of geometry and return a graphic
+    if (points.size() == 1) {
+      // point
+      return new Graphic(points.get(0), attributes);
+    } else if (points.size() > 3 && points.get(0).equals(points.get(points.size() - 1))) {
+      // polygon
+      return new Graphic(new Polygon(points), attributes);
     } else {
-      geometry = createBuilderFromPoints(geometryPoints, sr).toGeometry();
-    }
-
-    if (!geometry.isEmpty()) {
-      Graphic graphic = new Graphic(geometry, attributes);
-      graphicsOverlay.getGraphics().add(graphic);
-
-      // update boundary geometry so all graphics are within
-      graphicsBoundary = graphicsBoundary == null ? geometry : GeometryEngine.union(graphicsBoundary, geometry);
+      // polyline
+      return new Graphic(new Polyline(points), attributes);
     }
   }
 
-  /**
-   * Builds a polygon or polyline from the points that are passed.
-   * 
-   * @param points used to build a polygon or polyline geometry
-   * @param sr spatial reference of the geometry to be built
-   * @return geometry that was built
-   */
-  private MultipartBuilder createBuilderFromPoints(String[] points, SpatialReference sr) {
-
-    MultipartBuilder builder = null;
-    if (points.length >= 3 && points[0] == points[points.length - 1]) {
-      // if there are at least 3 points and the first and last point are the same, assume it's a polygon
-      builder = new PolygonBuilder(sr);
-    } else {
-      builder = new PolylineBuilder(sr);
-    }
-
-    // add each point to the geometry   
-    for (String point : points) {
-      // split into x,y coordinates 
-      String[] coordinates = point.split(",");
-      if (coordinates.length >= 2) {
-        builder.addPoint(new Point(Double.parseDouble(coordinates[0]), Double.parseDouble(coordinates[1]), sr));
-      }
-    }
-
-    return builder;
-  }
 
   /**
    * Stops and releases all resources used in application.
