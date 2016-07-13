@@ -164,7 +164,8 @@ public class MissionController {
    */
   private Graphic create3DPlane() throws URISyntaxException {
     // load the plane's 3D model symbol
-    String modelURI = Paths.get(getClass().getResource("/piper/piper_pa18.dae").toURI()).toString();
+    //TODO: Add model
+    String modelURI = Paths.get(getClass().getResource("").toURI()).toString();
     ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 3.0);
     plane3DSymbol.setHeading(180); // correct the symbol's orientation to match the graphic's orientation
     plane3DSymbol.loadAsync();
