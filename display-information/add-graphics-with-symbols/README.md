@@ -1,5 +1,5 @@
 #Add Graphics with Symbols#
-Demonstrates how to display a Graphic using a SimpleMarkerSymbol, SimpleLineSymbol, SimepleFillSymbol, and a TextSymbol.
+Demonstrates how to display a Graphic using a SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, and a TextSymbol.
 
 ![](AddGraphicsWithSymbols.png)
 
