@@ -1,6 +1,5 @@
 rootProject.name = 'symbology'
-include 'dictionary-renderer-sample',
-        'picture-marker-symbol-sample',
+include 'picture-marker-symbol-sample',
         'simple-fill-symbol-sample',
         'simple-line-symbol-sample',
         'simple-marker-symbol-sample',
