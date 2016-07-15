@@ -15,6 +15,8 @@
  */
 package com.esri.samples.displayinformation;
 
+import static org.joox.JOOX.$;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,12 +25,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.esri.arcgisruntime.geometry.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.Polygon;
+import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -37,12 +45,11 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
 
-import static org.joox.JOOX.$;
-
 public class DictionaryRendererGraphicsOverlay extends Application {
 
   private MapView mapView;
   private GraphicsOverlay graphicsOverlay;
+  private Geometry graphicsBoundary;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -57,11 +64,12 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     stage.setScene(scene);
     stage.show();
 
-    ArcGISMap map = new ArcGISMap(SpatialReferences.getWebMercator());
-    map.setBasemap(Basemap.createTopographic());
+    ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
     mapView.setMap(map);
 
     graphicsOverlay = new GraphicsOverlay();
+    // graphics can no longer be view after this point
+    graphicsOverlay.setMinScale(1000000);
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // set specification for symbol dictionary using local resource path
@@ -76,11 +84,15 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
-    messages.stream().map(DictionaryRendererGraphicsOverlay::createGraphic).collect(Collectors.toCollection(() ->
-        graphicsOverlay.getGraphics()));
+    messages.stream().map(DictionaryRendererGraphicsOverlay::createGraphic)
+        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
 
-    // set viewpoint to zoom to graphics' extent
-    mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
+    //setting viewpoint over graphics
+    graphicsOverlay.getGraphics().forEach(graphic -> {
+      graphicsBoundary = graphicsBoundary == null ? graphic.getGeometry()
+          : GeometryEngine.union(graphicsBoundary, graphic.getGeometry()).getExtent();
+    });
+    mapView.setViewpointGeometryAsync(GeometryEngine.buffer(graphicsBoundary, 5000));
   }
 
   /**
@@ -91,6 +103,7 @@ public class DictionaryRendererGraphicsOverlay extends Application {
 
     final List<Map<String, Object>> messages = new ArrayList<>();
     File symbolData = new File(getClass().getResource("/Mil2525DMessages.xml").getPath());
+    // $ reads the file
     $(symbolData).find("message").each().forEach(message -> {
       Map<String, Object> attributes = new HashMap<>();
       message.children().forEach(attr -> attributes.put(attr.getNodeName(), attr.getTextContent()));
@@ -120,16 +133,18 @@ public class DictionaryRendererGraphicsOverlay extends Application {
         .collect(Collectors.toCollection(() -> points));
 
     // determine type of geometry and return a graphic
+    Graphic graphic;
     if (points.size() == 1) {
       // point
-      return new Graphic(points.get(0), attributes);
+      graphic = new Graphic(points.get(0), attributes);
     } else if (points.size() > 3 && points.get(0).equals(points.get(points.size() - 1))) {
       // polygon
-      return new Graphic(new Polygon(points), attributes);
+      graphic = new Graphic(new Polygon(points), attributes);
     } else {
       // polyline
-      return new Graphic(new Polyline(points), attributes);
+      graphic = new Graphic(new Polyline(points), attributes);
     }
+    return graphic;
   }
 
   /**
@@ -137,7 +152,7 @@ public class DictionaryRendererGraphicsOverlay extends Application {
    */
   @Override
   public void stop() {
-    
+
     if (mapView != null) {
       mapView.dispose();
     }
