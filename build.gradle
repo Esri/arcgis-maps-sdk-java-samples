@@ -3,6 +3,7 @@ allprojects {
     apply plugin: 'eclipse'
 
     repositories {
+        mavenCentral()
         maven {
             url 'http://android:8080/artifactory/arcgis'
         }

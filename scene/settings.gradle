@@ -3,6 +3,6 @@ include 'display-scene',
         'distance-composite-symbol',
         'elevation-mode',
         'extrude-graphics',
-        'scene-properties-expressions',
         'mission-replay',
+        'scene-properties-expressions',
         'symbols'

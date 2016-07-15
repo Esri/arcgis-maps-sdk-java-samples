@@ -1,6 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
+repositories {
+
+}
+
 run {
     mainClassName = 'com.esri.samples.scene.ElevationMode'
 }
