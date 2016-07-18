@@ -6,7 +6,7 @@ Click on the Request Cache button to manually request Features. Returned label d
 
 Note: Maximum of Features returned is set to 1000.
 
-![](ServiceFeatureLayerManualCache.png)
+![](ServiceFeatureTableManualCache.png)
 
 ##How it works##
 How to set `FeatureRequestMode.MANUAL_CACHE` mode:
