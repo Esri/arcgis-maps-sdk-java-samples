@@ -37,10 +37,12 @@ import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerViewStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
@@ -68,8 +70,6 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     mapView.setMap(map);
 
     graphicsOverlay = new GraphicsOverlay();
-    // graphics can no longer be view after this point
-    graphicsOverlay.setMinScale(1000000);
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // set specification for symbol dictionary using local resource path
@@ -84,15 +84,15 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
-    messages.stream().map(DictionaryRendererGraphicsOverlay::createGraphic)
-        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
-
-    //setting viewpoint over graphics
-    graphicsOverlay.getGraphics().forEach(graphic -> {
-      graphicsBoundary = graphicsBoundary == null ? graphic.getGeometry()
-          : GeometryEngine.union(graphicsBoundary, graphic.getGeometry()).getExtent();
+    messages.stream().map(DictionaryRendererGraphicsOverlay::createGraphic).collect(Collectors.toCollection(() ->
+        graphicsOverlay.getGraphics()));
+    
+    mapView.addLayerViewStateChangedListener(l -> {
+      // setting viewpoint to graphics in overlay once everything has loaded
+      if(l.getLayerViewStatus().iterator().next() == LayerViewStatus.ACTIVE){
+        mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
+      }
     });
-    mapView.setViewpointGeometryAsync(GeometryEngine.buffer(graphicsBoundary, 5000));
   }
 
   /**
