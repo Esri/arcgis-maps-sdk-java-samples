@@ -84,9 +84,12 @@ public class DictionaryRendererGraphicsOverlay extends Application {
         graphicsOverlay.getGraphics()));
     
     mapView.addLayerViewStateChangedListener(l -> {
-      // setting viewpoint to graphics in overlay once everything has loaded
+      // waiting for graphics to load to the view
       if(l.getLayerViewStatus().iterator().next() == LayerViewStatus.ACTIVE){
+        // setting viewpoint to graphics in overlay
         mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
+        // graphics no longer show after this scale
+        graphicsOverlay.setMinScale(1000000);
       }
     });
   }
