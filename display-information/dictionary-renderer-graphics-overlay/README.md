@@ -27,16 +27,13 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
 - ArcGISMap
 - Basemap
 - DictionaryRenderer
-- Envelope
-- Geometry
-- GeometryEngine
 - Graphic
 - GraphicsOverlay
+- LayerViewStatus
 - MapView
-- MultipartBuilder
 - Point
-- PolygonBuilder
-- PolylineBuilder
+- PointCollection
+- Polygon
+- Polyline
 - SymbolDictionary
-- 
 
