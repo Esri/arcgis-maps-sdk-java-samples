@@ -20,19 +20,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.symbology.CimSymbol;
 import com.esri.arcgisruntime.symbology.StyleSymbolSearchParameters;
 import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
@@ -47,7 +41,6 @@ public class SymbolDictionaryController {
   @FXML private TextField categoryField;
   @FXML private TextField keyField;
   @FXML private Text searchResultsFound;
-  @FXML private ProgressIndicator progress;
 
   private SymbolDictionary dictionarySymbol;
   private StyleSymbolSearchParameters searchParameters;
@@ -68,7 +61,6 @@ public class SymbolDictionaryController {
   private void handleSearchAction() {
     // clear previous results
     resultList.getItems().clear();
-    progress.setVisible(true);
 
     // accessing text from all search fields
     searchParameters = new StyleSymbolSearchParameters();
@@ -90,7 +82,6 @@ public class SymbolDictionaryController {
 
           // show result count
           searchResultsFound.setText(String.valueOf(resultList.getItems().size()));
-          progress.setVisible(false);
         });
 
       } catch (ExecutionException | InterruptedException e) {

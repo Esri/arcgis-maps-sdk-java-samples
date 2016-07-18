@@ -19,13 +19,9 @@ import javafx.stage.Stage;
 
 public class SymbolDictionarySample extends Application {
 
-  private static SymbolDictionaryController controller;
-
   @Override
   public void start(Stage stage) throws Exception {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/symbol_dictionary.fxml"));
-    Parent root = loader.load();
-    controller = loader.getController();
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/symbol_dictionary.fxml"));
     Scene scene = new Scene(root);
 
     // set title, size, and add scene to stage
