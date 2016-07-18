@@ -11,7 +11,7 @@ To find the union, difference, or intersection between intersecting `Polygon`s:
 
 1. Create a `GraphicsOverlay` and add it to the `MapView`.
 2. Define a `PointCollection` of each `Geometry`.
-3. Add the intersecting polygons to the GraphicsOverlay.
+3. Add the intersecting polygons to the graphics overlay.
 4. Determine spatial relationships between polygons, e.g. union, difference, etc, by using the appropriate operation `GeometryEngine.operation(polygon.getGeometry(), polygon.getGeometry())`
 
 ##Features##
