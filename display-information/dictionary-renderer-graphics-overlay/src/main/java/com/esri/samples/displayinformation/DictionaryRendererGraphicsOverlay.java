@@ -83,9 +83,9 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     messages.stream().map(DictionaryRendererGraphicsOverlay::createGraphic).collect(Collectors.toCollection(() ->
         graphicsOverlay.getGraphics()));
     
-    mapView.addLayerViewStateChangedListener(l -> {
+    mapView.addLayerViewStateChangedListener(layer -> {
       // waiting for graphics to load to the view
-      if(l.getLayerViewStatus().iterator().next() == LayerViewStatus.ACTIVE){
+      if(layer.getLayerViewStatus().iterator().next() == LayerViewStatus.ACTIVE){
         // setting viewpoint to graphics in overlay
         mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
         // graphics no longer show after this scale
