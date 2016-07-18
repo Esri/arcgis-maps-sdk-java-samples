@@ -52,5 +52,6 @@ include 'display-information:add-graphics-with-renderer',
         'symbology:simple-line-symbol-sample',
         'symbology:simple-marker-symbol-sample',
         'symbology:simple-renderer-sample',
+        'symbology:symbol-dictionary-sample',
         'symbology:unique-value-renderer-sample',
         'tiled-layers:tiled-layer'
