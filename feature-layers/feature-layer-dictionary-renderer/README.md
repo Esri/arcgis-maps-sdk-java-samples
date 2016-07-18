@@ -30,14 +30,9 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
 - Basemap
 - DictionaryRenderer
 - Envelope
-- Geometry
+- FeatureLayer
+- Geodatabase
 - GeometryEngine
-- Graphic
-- GraphicsOverlay
 - MapView
-- MultipartBuilder
-- Point
-- PolygonBuilder
-- PolylineBuilder
 - SymbolDictionary
 
