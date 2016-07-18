@@ -28,7 +28,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
 
-public class DictionaryRendererSample extends Application {
+public class FeatureLayerDictionaryRendererSample extends Application {
 
   private MapView mapView;
   private Envelope extent;
