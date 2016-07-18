@@ -4,4 +4,5 @@ include 'picture-marker-symbol-sample',
         'simple-line-symbol-sample',
         'simple-marker-symbol-sample',
         'simple-renderer-sample',
+        'symbol-dictionary-sample',
         'unique-value-renderer-sample'
