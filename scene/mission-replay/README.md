@@ -16,7 +16,7 @@ Camera Controls (Top Right Corner):
 2D Map Controls (Bottom Left Corner):
   - Plus and Minus -- controls distance of 2D view from ground level
 
-![](Mission_Replay.png)
+![](MissionReplay.png)
 
 
 ##How it works##

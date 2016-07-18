@@ -11,7 +11,7 @@ Change Line Width:
 Change Line Style:
   - changes the pattern of the line symbol
 
-![](SimpleLineSymbol.png)
+![](SimpleLineSymbolSample.png)
 
 ##How it works##
  To display a `SimpleLineSymbol`:

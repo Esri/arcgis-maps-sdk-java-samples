@@ -7,7 +7,7 @@ The picture marker symbols that you see in the app are all constructed from diff
   - blue pin with a star, stored in the resource folder that comes with the application
   - orange pin, created from a file path on disk (which is written to disk when the app starts and cleaned up when the app closes)
 
-![](PictureMarkerSymbol.png)
+![](PictureMarkerSymbolSample.png)
 
 ##How it works##
  To display a `PictureMarkerSymbol`:

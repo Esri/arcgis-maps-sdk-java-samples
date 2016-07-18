@@ -4,7 +4,7 @@ Demonstrates how to add a SimpleMarkerSymbol to your ArcGISMap.
 ##How to use the sample##
 For simplicity, the sample starts with a predefined SimpleMarkerSymbol set as a red circle.
 
-![](SimpleMarkerSymbol.png)
+![](SimpleMarkerSymbolSample.png)
 
 ##How it works##
  To display a `SimpleMarkerSymbol`:
