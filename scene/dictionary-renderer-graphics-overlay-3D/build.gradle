@@ -23,5 +23,5 @@ dependencies {
 }
 
 run {
-    mainClassName = 'com.esri.samples.scene.DictionaryRendererGraphicsOverlay'
+    mainClassName = 'com.esri.samples.scene.DictionaryRendererGraphicsOverlay3D'
 }

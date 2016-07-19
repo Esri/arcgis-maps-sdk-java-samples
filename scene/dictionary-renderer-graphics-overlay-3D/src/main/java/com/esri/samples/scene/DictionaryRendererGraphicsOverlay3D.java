@@ -47,7 +47,7 @@ import com.esri.arcgisruntime.symbology.SymbolDictionary;
 
 import static org.joox.JOOX.$;
 
-public class DictionaryRendererGraphicsOverlay extends Application {
+public class DictionaryRendererGraphicsOverlay3D extends Application {
 
   private SceneView sceneView;
   private GraphicsOverlay graphicsOverlay;
@@ -91,7 +91,7 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
-    messages.stream().map(DictionaryRendererGraphicsOverlay::createGraphic).collect(Collectors.toCollection(() ->
+    messages.stream().map(DictionaryRendererGraphicsOverlay3D::createGraphic).collect(Collectors.toCollection(() ->
         graphicsOverlay.getGraphics()));
 
     // set the view to the center of the geometry
