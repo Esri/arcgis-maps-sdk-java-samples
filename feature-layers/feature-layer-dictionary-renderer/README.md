@@ -3,7 +3,7 @@ Demonstrates how to apply a dictionary renderer to a feature layer and display m
 The dictionary renderer creates these graphics using a mil2525d style file and the attributes attached to each
 feature within the geodatabase.
 
-![](DictionaryRenderer.png)
+![](FeatureLayerDictionaryRenderer.png)
 
 ##How it works##
 To apply a `DictionaryRenderer` and display mil2525d graphics:
@@ -30,14 +30,9 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
 - Basemap
 - DictionaryRenderer
 - Envelope
-- Geometry
+- FeatureLayer
+- Geodatabase
 - GeometryEngine
-- Graphic
-- GraphicsOverlay
 - MapView
-- MultipartBuilder
-- Point
-- PolygonBuilder
-- PolylineBuilder
 - SymbolDictionary
 
