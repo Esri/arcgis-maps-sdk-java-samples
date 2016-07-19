@@ -39,7 +39,6 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.LayerViewStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
@@ -80,17 +79,15 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
-    messages.stream().map(DictionaryRendererGraphicsOverlay::createGraphic).collect(Collectors.toCollection(() ->
-        graphicsOverlay.getGraphics()));
-    
-    mapView.addLayerViewStateChangedListener(layer -> {
-      // waiting for graphics to load to the view
-      if(layer.getLayerViewStatus().iterator().next() == LayerViewStatus.ACTIVE){
-        // setting viewpoint to graphics in overlay
-        mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
-        // graphics no longer show after this scale
-        graphicsOverlay.setMinScale(1000000);
-      }
+    messages.stream().map(DictionaryRendererGraphicsOverlay::createGraphic)
+        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
+
+    // once view has loaded
+    mapView.addSpatialReferenceChangedListener(e -> {
+      // set initial viewpoint
+      mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
+      // graphics no longer show after this scale
+      graphicsOverlay.setMinScale(1000000);
     });
   }
 
