@@ -12,6 +12,7 @@
 package com.esri.samples.featurelayers;
 
 import java.io.File;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -31,7 +32,7 @@ import com.esri.arcgisruntime.symbology.SymbolDictionary;
 public class FeatureLayerDictionaryRendererSample extends Application {
 
   private MapView mapView;
-  private Envelope extent;
+  private Envelope initialViewpoint;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -41,7 +42,7 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     Scene scene = new Scene(appWindow);
 
     // set title, size, and add scene to stage
-    stage.setTitle("Dictionary Renderer Sample");
+    stage.setTitle("Feature Layer Dictionary Renderer Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
@@ -59,18 +60,32 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d");
     symbolDictionary.loadAsync();
 
-    geodatabase.addDoneLoadingListener(() -> geodatabase.getGeodatabaseFeatureTables().forEach(table -> {
-      FeatureLayer featureLayer = new FeatureLayer(table);
-      map.getOperationalLayers().add(featureLayer);
-      DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(symbolDictionary);
-      featureLayer.setRenderer(dictionaryRenderer);
-      featureLayer.loadAsync();
-      featureLayer.addDoneLoadingListener(() -> {
-        extent = extent == null ? featureLayer.getFullExtent() : GeometryEngine.union(extent, featureLayer
-            .getFullExtent()).getExtent();
-        mapView.setViewpointGeometryAsync(extent);
+    geodatabase.addDoneLoadingListener(() -> {
+      // count for the number of layers loaded to the map
+      AtomicInteger layersLoaded = new AtomicInteger(0);
+      final int geodatabaseLayers = geodatabase.getGeodatabaseFeatureTables().size();
+
+      geodatabase.getGeodatabaseFeatureTables().forEach(table -> {
+        // add each layer to map
+        FeatureLayer featureLayer = new FeatureLayer(table);
+        featureLayer.loadAsync();
+        map.getOperationalLayers().add(featureLayer);
+
+        // displays features from layer using mil2525d symbols
+        DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(symbolDictionary);
+        featureLayer.setRenderer(dictionaryRenderer);
+
+        featureLayer.addDoneLoadingListener(() -> {
+          // sets initial viewpoint to encompass all graphics displayed on the map view 
+          initialViewpoint = initialViewpoint == null ? featureLayer.getFullExtent()
+              : GeometryEngine.union(initialViewpoint, featureLayer.getFullExtent()).getExtent();
+          // once last layer has loaded set initial viewpoint
+          if (layersLoaded.incrementAndGet() == geodatabaseLayers) {
+            mapView.setViewpointGeometryAsync(initialViewpoint);
+          }
+        });
       });
-    }));
+    });
   }
 
   /**
