@@ -29,16 +29,14 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
 - Basemap
 - Camera
 - DictionaryRenderer
-- Envelope
-- Geometry
-- GeometryEngine
 - Graphic
 - GraphicsOverlay
-- MultipartBuilder
 - Point
-- PolygonBuilder
-- PolylineBuilder
+- PointCollection
+- Polygon
+- Polyline
 - SceneView
-- SymbolDictionary
+- SpatialReference
 - Surface
+- SymbolDictionary
 
