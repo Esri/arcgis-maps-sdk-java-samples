@@ -65,6 +65,8 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     mapView.setMap(map);
 
     graphicsOverlay = new GraphicsOverlay();
+    // graphics no longer show after zooming passed this scale
+    graphicsOverlay.setMinScale(1000000);
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // set specification for symbol dictionary using local resource path
@@ -86,8 +88,6 @@ public class DictionaryRendererGraphicsOverlay extends Application {
     mapView.addSpatialReferenceChangedListener(e -> {
       // set initial viewpoint
       mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
-      // graphics no longer show after this scale
-      graphicsOverlay.setMinScale(1000000);
     });
   }
 
