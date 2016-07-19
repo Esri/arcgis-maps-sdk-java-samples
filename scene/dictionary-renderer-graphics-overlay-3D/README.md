@@ -1,4 +1,4 @@
-#Dictionary Renderer with Graphics Overlay#
+#Dictionary Renderer with Graphics Overlay for 3D#
 Demonstrates how to apply a dictionary renderer to a graphics overlay and display mil2525d graphics in 3D. 
 The dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key, 
 value attributes for each graphic.
