@@ -1,4 +1,4 @@
-#Dictionary Symbol#
+#Symbol Dictionary#
 Demonstrates how to search for symbol primitives within a Symbol Dictionary using the mil2525d specification and display those symbols.
 There are five ways to search through a Symbol Dictionary:
 - Name
