@@ -76,6 +76,8 @@ public class DictionaryRendererGraphicsOverlay3D extends Application {
     scene.setBaseSurface(surface);
 
     graphicsOverlay = new GraphicsOverlay();
+    // graphics no longer show after zooming out passed this scale
+    graphicsOverlay.setMinScale(1000000);
     sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
     // set specification for symbol dictionary using local resource path

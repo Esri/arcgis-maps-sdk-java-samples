@@ -12,7 +12,6 @@
 package com.esri.samples.featurelayers;
 
 import java.io.File;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -61,14 +60,12 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     symbolDictionary.loadAsync();
 
     geodatabase.addDoneLoadingListener(() -> {
-      // count for the number of layers loaded to the map
-      AtomicInteger layersLoaded = new AtomicInteger(0);
-      final int geodatabaseLayers = geodatabase.getGeodatabaseFeatureTables().size();
-
       geodatabase.getGeodatabaseFeatureTables().forEach(table -> {
         // add each layer to map
         FeatureLayer featureLayer = new FeatureLayer(table);
         featureLayer.loadAsync();
+        // Features no longer show after this scale
+        featureLayer.setMinScale(1000000);
         map.getOperationalLayers().add(featureLayer);
 
         // displays features from layer using mil2525d symbols
@@ -76,15 +73,17 @@ public class FeatureLayerDictionaryRendererSample extends Application {
         featureLayer.setRenderer(dictionaryRenderer);
 
         featureLayer.addDoneLoadingListener(() -> {
-          // sets initial viewpoint to encompass all graphics displayed on the map view 
+          // initial viewpoint to encompass all graphics displayed on the map view 
           initialViewpoint = initialViewpoint == null ? featureLayer.getFullExtent()
               : GeometryEngine.union(initialViewpoint, featureLayer.getFullExtent()).getExtent();
-          // once last layer has loaded set initial viewpoint
-          if (layersLoaded.incrementAndGet() == geodatabaseLayers) {
-            mapView.setViewpointGeometryAsync(initialViewpoint);
-          }
         });
       });
+    });
+
+    // once view has loaded
+    mapView.addSpatialReferenceChangedListener(e -> {
+      // set initial viewpoint
+      mapView.setViewpointGeometryAsync(initialViewpoint);
     });
   }
 
