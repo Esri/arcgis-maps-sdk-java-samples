@@ -15,8 +15,9 @@
  */
 package com.esri.samples.scene;
 
+import static org.joox.JOOX.$;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,16 +25,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamReader;
-
-import com.esri.arcgisruntime.geometry.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.Polygon;
+import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -44,8 +45,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
-
-import static org.joox.JOOX.$;
 
 public class DictionaryRendererGraphicsOverlay3D extends Application {
 
@@ -62,7 +61,7 @@ public class DictionaryRendererGraphicsOverlay3D extends Application {
     Scene sceneFX = new Scene(appWindow);
 
     // set title, size, and add scene to stage
-    stage.setTitle("3D Dictionary Renderer Graphics Overlay Sample");
+    stage.setTitle("Dictionary Renderer Graphics Overlay 3D Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(sceneFX);
@@ -91,8 +90,8 @@ public class DictionaryRendererGraphicsOverlay3D extends Application {
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
-    messages.stream().map(DictionaryRendererGraphicsOverlay3D::createGraphic).collect(Collectors.toCollection(() ->
-        graphicsOverlay.getGraphics()));
+    messages.stream().map(DictionaryRendererGraphicsOverlay3D::createGraphic)
+        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
 
     // set the view to the center of the geometry
     Camera camera = new Camera(graphicsOverlay.getExtent().getCenter(), 15000, 0.0, 50.0, 0.0);
@@ -136,18 +135,20 @@ public class DictionaryRendererGraphicsOverlay3D extends Application {
         .collect(Collectors.toCollection(() -> points));
 
     // determine type of geometry and return a graphic
+    Graphic graphic;
     if (points.size() == 1) {
       // point
-      return new Graphic(points.get(0), attributes);
+      graphic = new Graphic(points.get(0), attributes);
     } else if (points.size() > 3 && points.get(0).equals(points.get(points.size() - 1))) {
       // polygon
-      return new Graphic(new Polygon(points), attributes);
+      graphic = new Graphic(new Polygon(points), attributes);
     } else {
       // polyline
-      return new Graphic(new Polyline(points), attributes);
+      graphic = new Graphic(new Polyline(points), attributes);
     }
-  }
 
+    return graphic;
+  }
 
   /**
    * Stops and releases all resources used in application.
