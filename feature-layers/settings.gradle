@@ -6,4 +6,4 @@ include 'change-feature-layer-renderer',
         'feature-layer-selection',
         'service-feature-table-cache',
         'service-feature-table-manual-cache',
-        'service-feature-table-nocache'
+        'service-feature-table-no-cache'
