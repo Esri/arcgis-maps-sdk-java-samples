@@ -8,6 +8,7 @@ Move the heading and pitch sliders to change the cone's orientation.
 
 ##How it works
 To update a `Graphic`'s orientation using expressions:
+
 1. Create a new `GraphicsOverlay`.
 2. Create a `SimpleRenderer` and set expressions on its scene properties: `renderer.getSceneProperties().setHeadingExpression("HEADING")`. Then set the renderer to the graphics overlay with `graphicsOverlay.setRenderer(renderer)`.
 3. Create a `Graphic` and add it to the graphics overlay.
