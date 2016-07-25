@@ -2,7 +2,7 @@
 Demonstrates how to add a scene layer to a scene.
 ![](SceneLayerSample.png)
 
-##How it works##
+##How it works
 To add an `ArcGISSceneLayer` to a scene:  
 
 1. Create an `ArcGISScene` and set its `Basemap` with `ArcGISScene.setBasemap()`.
