@@ -30,6 +30,8 @@ public class SceneLayerSample extends Application {
   private SceneView sceneView;
   private static final String ELEVATION_IMAGE_SERVICE =
       "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
+  //You can choose the elevation service below instead for only elevation data local to the scene layer
+  //http://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer
   private static final String BUILDINGS = "http://scene.arcgis.com/arcgis/rest/services/Hosted/Buildings_Brest/SceneServer/layers/0";
 
   @Override
