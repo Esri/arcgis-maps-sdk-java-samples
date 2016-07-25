@@ -4,6 +4,7 @@ include 'dictionary-renderer-graphics-overlay-3D',
         'distance-composite-symbol',
         'elevation-mode',
         'extrude-graphics',
-        'scene-properties-expressions',
         'mission-replay',
+        'scene-layer-sample',
+        'scene-properties-expressions',
         'symbols'
