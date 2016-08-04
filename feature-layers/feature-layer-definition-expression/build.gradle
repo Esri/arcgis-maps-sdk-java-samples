@@ -6,7 +6,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.controlsfx:controlsfx:8.40.10'
+    compile 'org.controlsfx:controlsfx:8.40.11'
 }
 
 run {
