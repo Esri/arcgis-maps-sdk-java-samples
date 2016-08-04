@@ -17,7 +17,7 @@ To get a `Feature` from a `ServiceFeatureTable` and update its attributes:
 4. To update the feature's attribute use the `ArcGISFeature.getAttributes().put()`.
 5. After a change, apply the changes on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-##Features##
+##Tags
 - ArcGISMap
 - Feature
 - FeatureLayer

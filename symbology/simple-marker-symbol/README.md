@@ -18,7 +18,7 @@ For simplicity, the sample starts with a predefined SimpleMarkerSymbol set as a 
   -  size, size of the symbol
 5. Lately, create a `Graphic(Geometry, Symbol)` method and add it to the graphics overlay.
  
-##Features##
+##Tags
 - ArcGISMap
 - Graphic
 - GraphicsOverlay

@@ -16,7 +16,7 @@ To get a geocode from a query and display its location on the `ArcGISMap`:
 4. Get the matching results from the `GeocodeResult` using `LocatorTask.geocodeAsync(query, geocodeParameters)`.
 5. Lastly, to show the results using a `PictureMarkerSymbol` with attributes and add the symbol to a `Graphic` in the  `GraphicsOverlay`.
 
-##Features##
+##Tags
 - ArcGISMap
 - GeocodeParameters
 - GeocodeResult

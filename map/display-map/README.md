@@ -9,7 +9,7 @@ To display a `ArcGISMap`:
 1. Create an ArcGIS map using a default `Basemap` such use `Basemap.createImagery()`.  
 2. Set the map to the map view, `MapView.setMap()`. 
 
-##Features##
+##Tags
 - ArcGISMap
 - Basemap
 - MapView

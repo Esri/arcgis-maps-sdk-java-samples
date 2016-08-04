@@ -7,7 +7,7 @@ The picture marker symbols that you see in the app are all constructed from diff
   - blue pin with a star, stored in the resource folder that comes with the application
   - orange pin, created from a file path on disk (which is written to disk when the app starts and cleaned up when the app closes)
 
-![](PictureMarkerSymbolSample.png)
+![](PictureMarkerSymbol.png)
 
 ##How it works##
  To display a `PictureMarkerSymbol`:
@@ -19,7 +19,7 @@ The picture marker symbols that you see in the app are all constructed from diff
 5. Use the constructor `PictureMarkerSymbol(Image)` to create a symbol from a local image. 
 6. Lastly once a symbol is created it will need to be added to a `Graphic`. Set the graphic to the graphics overlay using the `GraphicsOverlay.getGraphics().add()` method indicating the location `Point`.
 
-##Features##
+##Tags
 - ArcGISMap
 - Graphic
 - GraphicsOverlay

@@ -13,7 +13,7 @@ To access the `ArcGISMap`'s `LoadStatus`:
 2. Use `ArcGISMap.addLoadStatusChangedListener()` and `ArcGISMap.getNewLoadStatus()` to display the load status of the map.
 3. Set the ArcGIS map to the `MapView` to began loading.
 
-##Features##
+##Tags
 - ArcGISMap 
 - Basemap
 - MapView

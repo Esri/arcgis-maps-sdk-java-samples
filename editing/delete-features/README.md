@@ -17,7 +17,7 @@ To delete a `Feature` from a `ServiceFeatureTable`:
 4. Remove the selected features from the ServiceFeatureTable using `ServiceFeatureTable.deleteFeaturesAsync()`.
 5. Update the table on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-##Features##
+##Tags
 - ArcGISMap
 - Feature
 - FeatureLayer

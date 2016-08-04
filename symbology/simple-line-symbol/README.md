@@ -11,7 +11,7 @@ Change Line Width:
 Change Line Style:
   - changes the pattern of the line symbol
 
-![](SimpleLineSymbolSample.png)
+![](SimpleLineSymbol.png)
 
 ##How it works##
  To display a `SimpleLineSymbol`:
@@ -26,7 +26,7 @@ Change Line Style:
   - width, size of this symbol
 6. Lately, create a `Graphic(Geometry, Symbol)` and add it to the graphics overlay.
  
-##Features##
+##Tags
 - ArcGISMap
 - Graphic
 - GraphicsOverlay

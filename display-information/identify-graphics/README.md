@@ -14,7 +14,7 @@ To identify a `Graphic` from the `MapView`.
 3. Add the graphic to the graphics overlay. 
 4. Identify the graphics on the specified location, `MapView.identifyGraphicsOverlayAsync(graphicsOverlay, point, tolerance, max results)` method.
 
-##Features##
+##Tags
 - Graphic
 - GraphicsOverlay
 - MapView

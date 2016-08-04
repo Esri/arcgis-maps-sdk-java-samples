@@ -16,7 +16,7 @@ When this unique value renderer comes across the feature whos key "STATE_ABBR" i
 ##How to use the sample##
 Sample starts with a predefined UniqueValues for some US states which are set to the UniqueValueRenderer and applied to the FeatureLayer.
 
-![](UniqueValueRendererSample.png)
+![](UniqueValueRenderer.png)
 
 ##How it works##
  To display different `Symbol` for different `Graphic`s:
@@ -35,7 +35,7 @@ Sample starts with a predefined UniqueValues for some US states which are set to
   - value, list of values that will use the symbol set here (Example: List of state name abbreviations "CA")
 6. Add unique values to renderer, `UniqueValueRenderer.getUniqueValues().add(UniqueValue)`. 
  
-##Features##
+##Tags
 - ArcGISMap
 - FeatureLayer
 - MapView

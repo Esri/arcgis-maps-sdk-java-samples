@@ -9,7 +9,7 @@ How to set `FeatureRequestMode.ON_INTERACTION_CACHE` mode:
 1. Create a `ServiceFeatureTable` from a URL.
 2. Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.ON_INTERACTION_CACHE)`.
 
-##Features##
+##Tags
 - ArcGISMap
 - FeatureLayer
 - MapView

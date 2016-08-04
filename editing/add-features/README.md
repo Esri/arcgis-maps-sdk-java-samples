@@ -15,7 +15,7 @@ To get features from a `ServiceFeatureTable` and update it with new `Feature`s:
 4. Apply the addition to the service feature table by using `ServiceFeatureTable.addFeatureAsync()`.
 5. Update the data on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-##Features##
+##Tags
 - ArcGISMap
 - Feature
 - FeatureLayer

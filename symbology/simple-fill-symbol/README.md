@@ -26,7 +26,7 @@ Change Fill Style:
   - outline, `SimpleLineSymbol` that make up the border of the symbol
 6. Lately, create a `Graphic(Geometry, Symbol)` and add it to the graphics overlay.
  
-##Features##
+##Tags
 - ArcGISMap
 - Graphic
 - GraphicsOverlay

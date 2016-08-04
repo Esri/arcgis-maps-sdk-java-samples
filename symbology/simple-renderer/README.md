@@ -15,7 +15,7 @@ Starts with a predefined SimpleRenderer that sets a cross SimpleMarkerSymbol as 
 4. Create a simple renderer using a `SimpleMarkerSymbol`, `SimpleRenderer(Symbol)`. 
 5. Lately, set the renderer to graphics overlay using `GraphicsOverlay.setRenderer(Renderer)`.
  
-##Features##
+##Tags
 - ArcGISMap
 - Graphic
 - GraphicsOverlay

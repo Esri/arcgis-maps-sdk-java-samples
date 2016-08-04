@@ -17,7 +17,7 @@ Choose from the dropdown or input your own place and location to search near. Cl
 5. Limit results to the view's visible area using the `MapView.getVisibleArea()` method.
 6. Show the matching retrieved results from the `LocatorTask.geocodeAsync(String, GeocodeParameters)` via `PictureMarkerSymbol`s with a `Graphic` in a `GraphicsOverlay`.
 
-##Features##
+##Tags
 - ArcGISMap
 - GeocodeParameters
 - GeocodeResult

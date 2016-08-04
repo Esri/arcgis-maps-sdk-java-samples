@@ -10,7 +10,7 @@ To add `Feature`s from your `FeatureLayer` to an `ArcGISMap`.
 2. Create a feature layer from the service feature table.
 3. Set the feature layer to your ArcGISMap using `ArcGISMap.getOperationalLayers().add(FeatureLayer)`.
 
-##Features##
+##Tags
 - ArcGISMap
 - FeatureLayer
 - MapView

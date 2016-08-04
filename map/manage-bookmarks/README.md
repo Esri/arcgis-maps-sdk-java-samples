@@ -24,7 +24,7 @@ To display the `ArcGISMap`'s `Bookmark`s:
   - bookmark.name for the name of the bookmark
   - add new bookmark to book mark list, `BookmarkList.add()`
 
-##Features##
+##Tags
 - ArcGISMap
 - Basemap
 - Bookmark

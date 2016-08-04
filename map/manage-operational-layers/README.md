@@ -18,7 +18,7 @@ To manage the operational layers:
 3. Add/Remove layers from the ArcGIS map by add/removing them from the layer list.
 4. The last `Layer` added to the list will be the Layer that is on top.
 
-##Features##
+##Tags
 - ArcGISMap
 - ArcGISMapImageLayer
 - Basemap
