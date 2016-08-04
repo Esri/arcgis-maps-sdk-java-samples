@@ -2,5 +2,5 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 run {
-    mainClassName = 'com.esri.samples.na.FindRoute'
+    mainClassName = 'com.esri.samples.na.FindRouteSample'
 }

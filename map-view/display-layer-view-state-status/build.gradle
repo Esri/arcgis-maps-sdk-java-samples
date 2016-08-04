@@ -2,5 +2,5 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 run {
-    mainClassName = 'com.esri.samples.mapview.DisplayLayerViewStateStatus'
+    mainClassName = 'com.esri.samples.mapview.DisplayLayerViewStateStatusSample'
 }

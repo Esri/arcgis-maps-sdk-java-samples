@@ -1,9 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-
-
-
 repositories {
     mavenCentral()
 }
@@ -13,6 +10,5 @@ dependencies {
 }
 
 run {
-    mainClassName =
-            'com.esri.samples.featurelayers.FeatureLayerDefinitionExpression'
+    mainClassName = 'com.esri.samples.featurelayers.FeatureLayerDefinitionExpressionSample'
 }

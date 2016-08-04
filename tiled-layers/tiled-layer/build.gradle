@@ -2,5 +2,5 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 run {
-    mainClassName = 'com.esri.samples.tiledlayers.TiledLayer'
+    mainClassName = 'com.esri.samples.tiledlayers.TiledLayerSample'
 }
