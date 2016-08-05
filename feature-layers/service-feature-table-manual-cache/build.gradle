@@ -2,6 +2,5 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 run {
-    mainClassName =
-            "com.esri.samples.featurelayers.ServiceFeatureTableManualCache"
+    mainClassName = "com.esri.samples.featurelayers.ServiceFeatureTableManualCacheSample"
 }

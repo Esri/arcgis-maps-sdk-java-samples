@@ -16,7 +16,7 @@ To create a `SimpleMarkerSceneSymbol` with a 3D shape:
 4. Add the graphic to the graphics overlay, `GraphicsOverlay.getGraphics().add(Graphic)`.
 5. Add the graphics overlay to the `SceneView`, `SceneView.getGraphicsOverlays().add(GraphicsOverlay)`.
 
-##Features##
+##Tags
 - ArcGISScene
 - Graphic
 - GraphicsOverlay

@@ -10,6 +10,6 @@ allprojects {
     }
 
     dependencies {
-        compile 'com.esri.arcgisruntime:arcgis-java:100.0.0-1383'
+        compile 'com.esri.arcgisruntime:arcgis-java:100.0.0-1416'
     }
 }

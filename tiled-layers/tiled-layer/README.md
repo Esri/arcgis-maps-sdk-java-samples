@@ -14,7 +14,7 @@ To add an `ArcGISTiledLayer` as a `Basemap` to an `ArcGISMap`:
 3. Set basemap to ArcGIS map, `ArcGISMap.setBasemap()`.
 4. Set map to mapview, `MapView.setMap()`.
 
-##Features
+##Tags
 - ArcGISMap
 - ArcGISTiledLayer
 - Basemap

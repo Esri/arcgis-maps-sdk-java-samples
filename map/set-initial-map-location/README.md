@@ -12,7 +12,7 @@ To set an initial location:
   - scale, level of detail displayed on `MapView`
 2. Set the map to the map view, `MapView.setMap()`. 
 
-##Features##
+##Tags
 - ArcGISMap
 - Basemap
 - Basemap.Type

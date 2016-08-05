@@ -11,7 +11,7 @@ How to set `FeatureRequestMode.ON_INTERACTION_NO_CAHCE` mode:
 1. Create a `ServiceFeatureTable` from a URL.
 2. Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.ON_INTERACTION_NO_CAHCE)`.
 
-##Features##
+##Tags
 - ArcGISMap
 - FeatureLayer
 - MapView

@@ -14,7 +14,7 @@ To perform the simplify geometry operation on a `Polygon`:
 3. Add the polygons to the GraphicsOverlay.
 4. Determine the simplified geometry by using the `GeometryEngine.simplify(polygon.getGeometry()`.
 
-##Features##
+##Tags
 - Geometry
 - Graphic
 - GraphicsOverlay

@@ -1,7 +1,7 @@
-#Update Graphics#
+#Update Graphics
 Demonstrates how to identify a Graphic and change it's symbol, attributes, and geometry. Geometry explains the  graphic's location on a map, a symbol controls how a graphic will be displayed to a map, and the attributes help store information about the graphic in a key value pair.
 
-##How to use the sample##
+##How to use the sample
 Update Graphic's Location:
   - click on a graphic, then click the update location button
   - now click a new location on the map to move graphic
@@ -15,7 +15,7 @@ Update Graphic's Symbol:
 
 ![](UpdateGraphics.png)
 
-##How it works##
+##How it works
 How to change a `Graphic`'s symbol, attributes, and geometry:
 
 1. Create a `GraphicsOverlay` and attach it to the `MapView`.
@@ -42,7 +42,7 @@ How to change a `Graphic`'s symbol, attributes, and geometry:
   - get symbol from the drop down box
   - assign that symbol to the selected graphic, `Graphic.setSymbol()`
 
-##Features##
+##Tags
 - ArcGISMap
 - Graphic
 - GraphicsOverlay

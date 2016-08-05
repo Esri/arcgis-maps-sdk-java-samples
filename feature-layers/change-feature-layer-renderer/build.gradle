@@ -1,17 +1,14 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-
-
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile 'org.controlsfx:controlsfx:8.40.10'
+    compile 'org.controlsfx:controlsfx:8.40.11'
 }
 
 run {
-    mainClassName = 'com.esri.samples.featurelayers.ChangeFeatureLayerRenderer'
+    mainClassName = 'com.esri.samples.featurelayers.ChangeFeatureLayerRendererSample'
 }

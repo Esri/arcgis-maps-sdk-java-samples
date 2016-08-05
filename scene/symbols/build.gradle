@@ -2,5 +2,5 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 run {
-    mainClassName = 'com.esri.samples.scene.Symbols'
+    mainClassName = 'com.esri.samples.scene.SymbolsSample'
 }
