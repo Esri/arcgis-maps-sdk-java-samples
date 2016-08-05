@@ -49,7 +49,7 @@ public class GeometryEngineSimplifySample extends Application {
       scene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
 
       // set title, size, and add scene to stage
-      stage.setTitle("Geometry Engine Simplify");
+      stage.setTitle("Geometry Engine Simplify Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

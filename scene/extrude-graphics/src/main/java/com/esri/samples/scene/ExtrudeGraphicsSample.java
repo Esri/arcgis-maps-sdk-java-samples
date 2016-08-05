@@ -52,7 +52,7 @@ public class ExtrudeGraphicsSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, squareSize, and add JavaFX scene to stage
-      stage.setTitle("Extrude Graphics");
+      stage.setTitle("Extrude Graphics Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);

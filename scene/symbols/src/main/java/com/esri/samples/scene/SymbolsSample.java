@@ -45,7 +45,7 @@ public class SymbolsSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Symbols");
+      stage.setTitle("Symbols Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);

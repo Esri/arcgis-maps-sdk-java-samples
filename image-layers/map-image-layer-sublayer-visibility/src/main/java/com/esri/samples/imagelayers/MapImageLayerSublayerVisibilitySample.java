@@ -49,7 +49,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
       // size the stage and add a title
-      stage.setTitle("Change Sub-Layer Visibility");
+      stage.setTitle("Change Sub-Layer Visibility Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

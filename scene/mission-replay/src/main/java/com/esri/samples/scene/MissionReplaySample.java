@@ -137,7 +137,7 @@ public class MissionReplaySample extends Application {
       view3D = new StackPane();
       Scene fxScene = new Scene(view3D);
       fxScene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
-      stage.setTitle("3D Mission Replay");
+      stage.setTitle("3D Mission Replay Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);

@@ -37,7 +37,7 @@ public class TiledLayerSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Tiled Layer From URL");
+      stage.setTitle("Tiled Layer From URL Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

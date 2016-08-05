@@ -48,7 +48,7 @@ public class ElevationModeSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Symbols");
+      stage.setTitle("Elevation Mode Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);

@@ -39,7 +39,7 @@ public class DisplaySceneSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Display a scene");
+      stage.setTitle("Display a Scene Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);

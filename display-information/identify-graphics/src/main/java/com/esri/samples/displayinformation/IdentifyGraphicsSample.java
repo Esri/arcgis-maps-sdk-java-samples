@@ -127,7 +127,7 @@ public class IdentifyGraphicsSample extends Application {
         // show a alert dialog box if a graphic was returned
         Alert dialog = new Alert(AlertType.INFORMATION);
         dialog.setHeaderText(null);
-        dialog.setTitle("Information Dialog");
+        dialog.setTitle("Information Dialog Sample");
         dialog.setContentText("Clicked on " + graphics.size() + " graphic");
         dialog.showAndWait();
       }

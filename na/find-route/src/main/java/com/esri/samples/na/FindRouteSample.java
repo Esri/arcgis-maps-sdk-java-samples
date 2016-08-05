@@ -69,7 +69,7 @@ public class FindRouteSample extends Application {
       scene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
 
       // set title, size, and add scene to stage
-      stage.setTitle("Find Route");
+      stage.setTitle("Find Route Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

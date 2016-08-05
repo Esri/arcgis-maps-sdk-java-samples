@@ -21,7 +21,7 @@ public class ScenePropertiesExpressionsSample extends Application {
     Scene scene = new Scene(root);
 
     // set up the stage
-    stage.setTitle("Scene Properties Expressions");
+    stage.setTitle("Scene Properties Expressions Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
