@@ -164,9 +164,8 @@ public class MissionController {
    */
   private Graphic create3DPlane() throws URISyntaxException {
     // load the plane's 3D model symbol
-    //TODO: Add model
-    String modelURI = Paths.get(getClass().getResource("").toURI()).toString();
-    ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 3.0);
+    String modelURI = Paths.get(getClass().getResource("/SkyCrane/SkyCrane.lwo").toURI()).toString();
+    ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 0.01);
     plane3DSymbol.setHeading(180); // correct the symbol's orientation to match the graphic's orientation
     plane3DSymbol.loadAsync();
 
