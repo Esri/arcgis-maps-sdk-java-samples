@@ -1,3 +1,14 @@
+/*
+ * Copyright 2016 Esri. Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
 package com.esri.samples.scene;
 
 import java.io.BufferedReader;
@@ -26,10 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.util.Duration;
 
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.PointCollection;
-import com.esri.arcgisruntime.geometry.Polyline;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.geometry.*;
 import com.esri.arcgisruntime.mapping.*;
 import com.esri.arcgisruntime.mapping.view.*;
 import com.esri.arcgisruntime.symbology.*;
@@ -39,18 +47,30 @@ import com.esri.arcgisruntime.symbology.*;
  */
 public class MissionController {
   // injected elements from fxml
-  @FXML private CameraModel cameraModel;
-  @FXML private AnimationModel animationModel;
-  @FXML private PlaneModel planeModel;
-  @FXML private SceneView sceneView;
-  @FXML private MapView mapView;
-  @FXML private ComboBox<String> missionSelector;
-  @FXML private Slider progressSlider;
-  @FXML private ToggleButton playButton;
-  @FXML private ToggleButton followButton;
-  @FXML private Slider zoomSlider;
-  @FXML private Slider angleSlider;
-  @FXML private Slider speedSlider;
+  @FXML
+  private CameraModel cameraModel;
+  @FXML
+  private AnimationModel animationModel;
+  @FXML
+  private PlaneModel planeModel;
+  @FXML
+  private SceneView sceneView;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private ComboBox<String> missionSelector;
+  @FXML
+  private Slider progressSlider;
+  @FXML
+  private ToggleButton playButton;
+  @FXML
+  private ToggleButton followButton;
+  @FXML
+  private Slider zoomSlider;
+  @FXML
+  private Slider angleSlider;
+  @FXML
+  private Slider speedSlider;
 
   private Camera camera;
   private Timeline animation;
@@ -59,6 +79,11 @@ public class MissionController {
   private List<Map<String, Object>> missionData;
   private Graphic routeGraphic;
 
+  private static final String POSITION = "POSITION";
+  private static final String HEADING = "HEADING";
+  private static final String PITCH = "PITCH";
+  private static final String ROLL = "ROLL";
+  private static final SpatialReference WGS84 = SpatialReferences.getWgs84();
   private static final String ELEVATION_IMAGE_SERVICE =
       "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
 
@@ -170,7 +195,7 @@ public class MissionController {
     plane3DSymbol.loadAsync();
 
     // create the graphic
-    return new Graphic(new Point(0, 0, 0, SpatialReferences.getWgs84()), plane3DSymbol);
+    return new Graphic(new Point(0, 0, 0, WGS84), plane3DSymbol);
   }
 
   /**
@@ -183,7 +208,7 @@ public class MissionController {
     // create a graphic with the symbol and attributes
     Map<String, Object> attributes = new HashMap<>();
     attributes.put("ANGLE", 0f);
-    return new Graphic(new Point(0, 0, SpatialReferences.getWgs84()), attributes, plane2DSymbol);
+    return new Graphic(new Point(0, 0, WGS84), attributes, plane2DSymbol);
   }
 
   /**
@@ -202,8 +227,8 @@ public class MissionController {
     animationModel.setKeyframe(0);
 
     // draw mission route on mini map
-    PointCollection points = new PointCollection(SpatialReferences.getWgs84());
-    points.addAll(missionData.stream().map(m -> (Point) m.get("position")).collect(Collectors.toList()));
+    PointCollection points = new PointCollection(WGS84);
+    points.addAll(missionData.stream().map(m -> (Point) m.get(POSITION)).collect(Collectors.toList()));
     Polyline route = new Polyline(points);
     routeGraphic.setGeometry(route);
 
@@ -229,15 +254,15 @@ public class MissionController {
     try (BufferedReader missionFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/" + mission)))) {
       List<Map<String, Object>> missionData = new ArrayList<>();
       missionFile.lines()
+          //ex: -156.3666517,20.6255059,999.999908,83.77659,1.05E-09,-47.766567
           .map(l -> l.split(","))
           .map(l -> {
             // create a map of parameters (ordinates) to values
             Map<String, Object> ordinates = new HashMap<>();
-            ordinates.put("position", new Point(Double.valueOf(l[0]), Double.valueOf(l[1]), Double
-                .valueOf(l[2]), SpatialReferences.getWgs84()));
-            ordinates.put("heading", Double.valueOf(l[3]));
-            ordinates.put("pitch", Double.valueOf(l[4]));
-            ordinates.put("roll", Double.valueOf(l[5]));
+            ordinates.put(POSITION, new Point(Double.valueOf(l[0]), Double.valueOf(l[1]), Double.valueOf(l[2]), WGS84));
+            ordinates.put(HEADING, Double.valueOf(l[3]));
+            ordinates.put(PITCH, Double.valueOf(l[4]));
+            ordinates.put(ROLL, Double.valueOf(l[5]));
             return ordinates;
           })
           .collect(Collectors.toCollection(() -> missionData));
@@ -256,25 +281,25 @@ public class MissionController {
    * @param keyframe index in mission data to show
    */
   private void animate(int keyframe) {
-    // get the next position
+    // get the next POSITION
     Map<String, Object> datum = missionData.get(keyframe);
-    Point position = (Point) datum.get("position");
+    Point position = (Point) datum.get(POSITION);
 
     // update the model bean with new parameters
     planeModel.setAltitude(position.getZ());
-    planeModel.setHeading((double) datum.get("heading"));
-    planeModel.setPitch((double) datum.get("pitch"));
-    planeModel.setRoll((double) datum.get("roll"));
+    planeModel.setHeading((double) datum.get(HEADING));
+    planeModel.setPitch((double) datum.get(PITCH));
+    planeModel.setRoll((double) datum.get(ROLL));
 
-    // move 2D plane to next position
+    // move 2D plane to next POSITION
     plane2D.setGeometry(position);
 
-    // move 3D plane to next position
+    // move 3D plane to next POSITION
     plane3D.setGeometry(position);
     // update attribute expressions to immediately update rotation
-    plane3D.getAttributes().put("HEADING", planeModel.getHeading());
-    plane3D.getAttributes().put("PITCH", planeModel.getPitch());
-    plane3D.getAttributes().put("ROLL", planeModel.getRoll());
+    plane3D.getAttributes().put(HEADING, planeModel.getHeading());
+    plane3D.getAttributes().put(PITCH, planeModel.getPitch());
+    plane3D.getAttributes().put(ROLL, planeModel.getRoll());
 
     if (cameraModel.isFollowing()) {
       // move the camera to follow the plane
@@ -307,7 +332,9 @@ public class MissionController {
    */
   @FXML
   private void toggleFollow() {
-    if (followButton.isSelected()) plane2D.getAttributes().put("ANGLE", 0f);
+    if (followButton.isSelected()) {
+      plane2D.getAttributes().put("ANGLE", 0f);
+    }
     cameraModel.setFollowing(followButton.isSelected());
   }
 
@@ -332,7 +359,11 @@ public class MissionController {
    */
   void terminate() {
     animation.stop();
-    if (sceneView != null) sceneView.dispose();
-    if (mapView != null) mapView.dispose();
+    if (sceneView != null) {
+      sceneView.dispose();
+    }
+    if (mapView != null) {
+      mapView.dispose();
+    }
   }
 }
