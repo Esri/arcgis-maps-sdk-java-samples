@@ -1,0 +1,8 @@
+.pane {
+  -fx-background-color: rgba(0,0,0, 0.3);
+  -fx-padding: 10;
+}
+
+.label {
+  -fx-text-fill: white;
+}
