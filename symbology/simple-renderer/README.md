@@ -4,7 +4,7 @@ Demonstrates how to create a SimpleRenderer and add it to a GraphicsOverlay. Ren
 ##How to use the sample##
 Starts with a predefined SimpleRenderer that sets a cross SimpleMarkerSymbol as a default symbol for graphics.
 
-![](SimpleRendererSample.png)
+![](SimpleRenderer.png)
 
 ##How it works##
  How to set a default symbol using a `SimpleRenderer`:

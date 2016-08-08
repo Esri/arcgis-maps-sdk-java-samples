@@ -11,7 +11,7 @@ Change Outline Color:
 Change Fill Style:
   - changes the pattern that makes up the area of the polygon
 
-![](SimpleFillSymbolSample.png)
+![](SimpleFillSymbol.png)
 
 ##How it works##
  To create a `SimpleFillSymbol`:
