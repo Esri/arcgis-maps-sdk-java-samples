@@ -39,7 +39,8 @@ To animate a `Graphic` by updating it's `Geometry`, heading, pitch, and roll:
 8. Update graphic's location, `Graphic.setGeometry(Point)`.
 9. Update symbol's heading, pitch, and roll, `attributes.replace("HEADING", settings.get(HEADING))`.
 
-##Features
+##Tags
+- 3D
 - ArcGISMap
 - ArcGISScene
 - Camera
