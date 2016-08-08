@@ -38,7 +38,7 @@
             </items>
         </ComboBox>
         <Label text="Mission Progress"/>
-        <Slider fx:id="progressSlider" min="0" max="1"/>
+        <Slider fx:id="progressSlider" max="1"/>
         <HBox alignment="CENTER">
             <ToggleButton fx:id="playButton" text="Play" onAction="#togglePlay" disable="true"/>
             <ToggleButton fx:id="followButton" text="Follow" onAction="#toggleFollow" selected="true"/>
@@ -47,9 +47,9 @@
     <!--Camera Controls Pane-->
     <VBox StackPane.alignment="TOP_RIGHT" maxWidth="200" maxHeight="50" styleClass="pane">
         <Label text="Zoom"/>
-        <Slider fx:id="zoomSlider" min="10.0" max="500.0" value="50.0" showTickMarks="true" majorTickUnit="100.0"/>
+        <Slider fx:id="zoomSlider" min="10.0" max="500.0" value="200.0" showTickMarks="true" majorTickUnit="100.0"/>
         <Label text="Pitch"/>
-        <Slider fx:id="angleSlider" min="0.0" max="90.0" value="75.0" showTickMarks="true" majorTickUnit="30.0"/>
+        <Slider fx:id="angleSlider" max="90.0" value="75.0" showTickMarks="true" majorTickUnit="30.0"/>
         <Label text="Speed"/>
         <Slider fx:id="speedSlider" min="0.25" max="5" showTickMarks="true" majorTickUnit="1.0"/>
     </VBox>
