@@ -32,7 +32,6 @@ import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -64,15 +63,12 @@ public class AddFeatures extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create spatial reference for point
-      SpatialReference spatialReference = SpatialReferences.getWebMercator();
-
       // create a ArcGISMap with streets basemap
       ArcGISMap map = new ArcGISMap(Basemap.createStreets());
 
       // set viewpoint of the ArcGISMap
-      Point pointLondon = new Point(-16773, 6710477, spatialReference);
-      Viewpoint viewpoint = new Viewpoint(pointLondon, 200000);
+      Point pointDenver = new Point(-11687201.100282, 4828230.144053, SpatialReferences.getWebMercator());
+      Viewpoint viewpoint = new Viewpoint(pointDenver, 200000);
       map.setInitialViewpoint(viewpoint);
 
       // create a view for this ArcGISMap
@@ -96,10 +92,8 @@ public class AddFeatures extends Application {
           // create a map point from a point
           Point mapPoint = mapView.screenToLocation(point);
 
-          // for a wrapped around map, the point coordinates include the wrapped
-          // around value
-          // for a service in projected coordinate system, this wrapped around
-          // value has to be normalized
+          // for a wrapped around map, the point coordinates include the wrapped around value
+          // for a service in projected coordinate system, this wrapped around value has to be normalized
           Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
 
           // add a new feature to the service feature table
