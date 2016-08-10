@@ -1,14 +1,14 @@
-#Delete Features#
+#Delete Features
 Demonstrates how to delete a Feature from a FeatureLayer using a feature service. 
 
-##How to use the sample##
+##How to use the sample
 To delete a feature.
   - click on a feature on the Map
   - click on the delete button
 
-![](DeleteFeatures.png)
+![](DeleteFeatures.gif)
 
-##How it works##
+##How it works
 To delete a `Feature` from a `ServiceFeatureTable`:
 
 1. Create a service feature table from a URL.
@@ -17,7 +17,7 @@ To delete a `Feature` from a `ServiceFeatureTable`:
 4. Remove the selected features from the ServiceFeatureTable using `ServiceFeatureTable.deleteFeaturesAsync()`.
 5. Update the table on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-##Features##
+##Features
 - ArcGISMap
 - Feature
 - FeatureLayer

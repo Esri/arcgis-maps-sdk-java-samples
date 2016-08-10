@@ -1,16 +1,16 @@
-#Edit Feature Attachments#
+#Edit Feature Attachments
 Demonstrates how you can add, delete, and fetch an attachment from a Feature in a FeatureLayer. 
 
-##How to use the sample##
+##How to use the sample
 To add an attachment.
   - click on a feature and then click add attachment button in panel
   
 To delete an attachment.
   - click on a feature, select an attachment from attachment list, and click delete attachment button
 
-![](EditFeatureAttachments.png)
+![](EditFeatureAttachments.gif)
 
-##How it works##
+##How it works
 To get a `Feature` from a `ServiceFeatureTable` and add or delete `Attachment`:
 
 1. Create a service feature table from a URL.
@@ -21,7 +21,7 @@ To get a `Feature` from a `ServiceFeatureTable` and add or delete `Attachment`:
 6. To delete an attachment from the selected ArcGISFeature, use the `ArcGISFeature.deleteAttachmentAsync()`.
 7. After a change, apply the changes to the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-##Features##
+##Features
 - ArcGISFeature
 - ArcGISMap
 - Attachment
