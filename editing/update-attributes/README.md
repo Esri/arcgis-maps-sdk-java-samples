@@ -1,14 +1,14 @@
-#Update Attributes#
+#Update Attributes
 Demonstrates how update the attributes of a Feature from a ServiceFeatureTable.
 
-##How to use the sample##
+##How to use the sample
 To change the feature's damage property.
   - select feature from the map
   - from drop down box select a damage type
 
-![](UpdateAttributes.png)
+![](UpdateAttributes.gif)
 
-##How it works##
+##How it works
 To get a `Feature` from a `ServiceFeatureTable` and update its attributes:
 
 1. Create a service feature table from a URL.

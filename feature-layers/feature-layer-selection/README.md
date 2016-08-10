@@ -1,5 +1,5 @@
 #Feature Layer Selection#
-Demonstrates shows how to select Features from a FeatureLayer.
+Demonstrates how to select Features from a FeatureLayer.
 
 ##How to use the sample##
 Click on a feature from the map to select it.

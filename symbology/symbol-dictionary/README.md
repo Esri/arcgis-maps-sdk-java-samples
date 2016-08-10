@@ -1,4 +1,4 @@
-#Dictionary Symbol#
+#Symbol Dictionary#
 Demonstrates how to search for symbol primitives within a Symbol Dictionary using the mil2525d specification and display those symbols.
 There are five ways to search through a Symbol Dictionary:
 - Name
@@ -23,8 +23,8 @@ Clear button:
 ##How it works##
 How to search through a `SymbolDictionary`:
 
-1. Create a symbol dicitonary with the mil2525d specification, `SymbolDictionary("mil2525d")`
-2. Load the dictionary asynchronouly, `DictionarySymbol.loadAsync()`
+1. Create a symbol dictionary with the mil2525d specification, `SymbolDictionary("mil2525d")`
+2. Load the dictionary asynchronously, `DictionarySymbol.loadAsync()`
   - this will allows the application to continue working while the dictionary loads all symbol primitives found within the mil2525d specification
 3. Create search parameters for the dictionary, `StyleSymbolSearchParameters()`.
 4. Set the parameters to search through the dictionary.
@@ -36,7 +36,7 @@ How to search through a `SymbolDictionary`:
 5.  Search through dictionary using parameters, `DictionarySymbol.searchSymbolsAsync(StyleSymbolSearchParameters)`.
 6. Cycle through the `StyleSymbolSearchResult` list that was returned and display it to screen.
   - get `CimSymbol`,`StyleSymbolSearchResult.getSymbol()`, and create an image from it, `CimSymbol.createSwatchAsync()`
-  - use other get methods for the symbol's name, tags, symbolClass, category, and key, like `StyleSymbolSearchResult.getName()`
+  - use other get methods for the symbol's name, tags, symbolClass, category, and key, like  `StyleSymbolSearchResult.getName()`
 
 ##Tags
 - CimSymbol

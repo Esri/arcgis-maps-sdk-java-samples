@@ -33,9 +33,12 @@ import com.esri.arcgisruntime.datasource.Feature;
 import com.esri.arcgisruntime.datasource.FeatureQueryResult;
 import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -85,9 +88,13 @@ public class DeleteFeaturesSample extends Application {
         });
       });
 
-      // create a ArcGISMap with streets basemap and initial viewpoint
-      // coordinates
-      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 51.5014, -0.1425, 11);
+      // create a ArcGISMap with streets basemap
+      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+
+      // set viewpoint of the ArcGISMap
+      Point pointDenver = new Point(-11687201.100282, 4828230.144053, SpatialReferences.getWebMercator());
+      Viewpoint viewpoint = new Viewpoint(pointDenver, 200000);
+      map.setInitialViewpoint(viewpoint);
 
       // create a view for this ArcGISMap
       mapView = new MapView();
@@ -106,7 +113,7 @@ public class DeleteFeaturesSample extends Application {
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
           // create a point from where the user clicked
           Point2D point = new Point2D(event.getX(), event.getY());
-          // identify the clicke feature
+          // identify the clicked feature
           ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, 1);
           results.addDoneListener(() -> {
             try {
