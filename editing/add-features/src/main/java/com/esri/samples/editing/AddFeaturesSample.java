@@ -97,11 +97,7 @@ public class AddFeaturesSample extends Application {
           Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
 
           // add a new feature to the service feature table
-          try {
-            addFeature(normalizedMapPoint, featureTable);
-          } catch (Exception e) {
-            displayMessage("Cannot add feature", e.getCause().getMessage());
-          }
+          addFeature(normalizedMapPoint, featureTable);
         }
       });
 
@@ -135,14 +131,12 @@ public class AddFeaturesSample extends Application {
     Feature feature = featureTable.createFeature(attributes, mapPoint);
 
     // check if feature can be added to feature table
-    ArcGISRuntimeException exception = featureTable.canAdd(feature);
-    if (exception == null) {
+    if (featureTable.canAdd()) {
       // add the new feature to the feature table
       ListenableFuture<Void> addResult = featureTable.addFeatureAsync(feature);
       addResult.addDoneListener(() -> applyEdits(featureTable));
     } else {
-      // throw a runtime exception if feature cannot be added
-      throw exception;
+      displayMessage(null, "Cannot add a feature to this feature table");
     }
   }
 

@@ -95,7 +95,7 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
       Point startPoint = new Point(-13630845, 4544861, SpatialReferences.getWebMercator());
 
       // set the viewpoint for the map view
-      mapView.setViewpointCenterWithScaleAsync(startPoint, 150000);
+      mapView.setViewpointCenterAsync(startPoint, 150000);
 
       // add the map view and control panel to stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);

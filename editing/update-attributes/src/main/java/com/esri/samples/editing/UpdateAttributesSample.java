@@ -186,8 +186,7 @@ public class UpdateAttributesSample extends Application {
    */
   private void updateAttributes(ArcGISFeature feature) {
 
-    ArcGISRuntimeException exception = featureTable.canUpdate(feature);
-    if (exception == null) {
+    if (featureTable.canUpdate(feature)) {
       // update attribute
       selected.getAttributes().put("typdamage", comboBox.getValue());
 
@@ -195,7 +194,7 @@ public class UpdateAttributesSample extends Application {
       ListenableFuture<Void> editResult = featureTable.updateFeatureAsync(feature);
       editResult.addDoneListener(() -> applyEdits(featureTable));
     } else {
-      throw exception;
+      displayMessage(null, "Cannot update this feature.");
     }
   }
 

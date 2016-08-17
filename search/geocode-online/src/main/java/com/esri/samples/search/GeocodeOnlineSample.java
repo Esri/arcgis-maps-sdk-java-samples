@@ -210,7 +210,7 @@ public class GeocodeOnlineSample extends Application {
 
           // set the viewpoint to the marker
           Point location = geocodes.get(0).getDisplayLocation();
-          mapView.setViewpointCenterWithScaleAsync(location, 10000);
+          mapView.setViewpointCenterAsync(location, 10000);
 
           // update the marker
           Platform.runLater(() -> {
