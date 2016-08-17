@@ -294,7 +294,7 @@ public class FindAddressSample extends Application {
 
           // set the viewpoint to the marker
           Point location = geocode.getDisplayLocation();
-          mapView.setViewpointCenterWithScaleAsync(location, 10000);
+          mapView.setViewpointCenterAsync(location, 10000);
 
           // get attributes from the result for the callout
           String title;

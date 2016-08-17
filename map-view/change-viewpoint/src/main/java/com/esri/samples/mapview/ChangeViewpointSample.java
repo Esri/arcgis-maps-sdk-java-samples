@@ -68,14 +68,14 @@ public class ChangeViewpointSample extends Application {
         // create the viewpoint with the London point and scale
         Viewpoint viewpoint = new Viewpoint(londonPoint, SCALE);
         // set the map views's viewpoint to London with a seven second duration
-        mapView.setViewpointWithDurationAsync(viewpoint, 7);
+        mapView.setViewpointAsync(viewpoint, 7);
       });
 
       centerButton.setOnAction(e -> {
         // create the Waterloo location point
         Point waterlooPoint = new Point(-12153, 6710527, spatialReference);
         // set the map views's viewpoint centered on Waterloo and scaled
-        mapView.setViewpointCenterWithScaleAsync(waterlooPoint, SCALE);
+        mapView.setViewpointCenterAsync(waterlooPoint, SCALE);
       });
 
       geometryButton.setOnAction(e -> {
@@ -108,7 +108,7 @@ public class ChangeViewpointSample extends Application {
       Point startPoint = new Point(-14093, 6711377, spatialReference);
 
       // set viewpoint of map view to starting point and scaled
-      mapView.setViewpointCenterWithScaleAsync(startPoint, SCALE);
+      mapView.setViewpointCenterAsync(startPoint, SCALE);
 
       // add map view and control panel to stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);

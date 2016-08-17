@@ -101,7 +101,7 @@ public class GeometryEngineSimplifySample extends Application {
 
       // set the map views's viewpoint centred on London and scaled
       Point viewPoint = new Point(-13500, 6710327, SpatialReferences.getWebMercator());
-      mapView.setViewpointCenterWithScaleAsync(viewPoint, 25000);
+      mapView.setViewpointCenterAsync(viewPoint, 25000);
 
       // create geometry layers
       geomLayer = new GraphicsOverlay();

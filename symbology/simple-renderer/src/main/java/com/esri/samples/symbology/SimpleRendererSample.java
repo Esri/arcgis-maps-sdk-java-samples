@@ -66,7 +66,7 @@ public class SimpleRendererSample extends Application {
       Envelope envelope = new Envelope(oldFaithfullPoint, plumeGeyserPoint);
 
       // set viewpoint on mapview with padding
-      mapView.setViewpointGeometryWithPaddingAsync(envelope, 300.0);
+      mapView.setViewpointGeometryAsync(envelope, 100.0);
 
       // create a graphics overlay and add it to the mapview
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();

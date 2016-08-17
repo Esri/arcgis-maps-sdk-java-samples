@@ -98,7 +98,7 @@ public class PictureMarkerSymbolSample extends Application {
 
       // set viewpoint on mapview with padding
       Envelope envelope = new Envelope(leftPoint, rightPoint);
-      mapView.setViewpointGeometryWithPaddingAsync(envelope, 100.0);
+      mapView.setViewpointGeometryAsync(envelope, 100.0);
 
       // add the map view and control panel to stack pane
       stackPane.getChildren().add(mapView);

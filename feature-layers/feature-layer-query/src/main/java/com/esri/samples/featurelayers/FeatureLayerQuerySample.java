@@ -101,7 +101,7 @@ public class FeatureLayerQuerySample extends Application {
         } else {
           dialog.setContentText("State Not Found! Add a valid state name.");
           dialog.showAndWait();
-          mapView.setViewpointCenterWithScaleAsync(startPoint, SCALE);
+          mapView.setViewpointCenterAsync(startPoint, SCALE);
         }
       });
 
@@ -140,7 +140,7 @@ public class FeatureLayerQuerySample extends Application {
       mapView.setMap(map);
 
       // set viewpoint to the start point
-      mapView.setViewpointCenterWithScaleAsync(startPoint, SCALE);
+      mapView.setViewpointCenterAsync(startPoint, SCALE);
 
       // add the map view and control panel to stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);
@@ -175,7 +175,7 @@ public class FeatureLayerQuerySample extends Application {
           // get state feature and zoom to it
           Feature feature = result.iterator().next();
           Envelope envelope = feature.getGeometry().getExtent();
-          mapView.setViewpointGeometryWithPaddingAsync(envelope, 200);
+          mapView.setViewpointGeometryAsync(envelope, 200);
 
           // set the state feature to be selected
           featureLayer.selectFeature(feature);
@@ -183,7 +183,7 @@ public class FeatureLayerQuerySample extends Application {
           Platform.runLater(() -> {
             dialog.setContentText("State Not Found! Add a valid state name.");
             dialog.showAndWait();
-            mapView.setViewpointCenterWithScaleAsync(startPoint, SCALE);
+            mapView.setViewpointCenterAsync(startPoint, SCALE);
           });
         }
       } catch (Exception e) {
