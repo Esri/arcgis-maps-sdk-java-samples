@@ -47,30 +47,18 @@ import com.esri.arcgisruntime.symbology.*;
  */
 public class MissionController {
   // injected elements from fxml
-  @FXML
-  private CameraModel cameraModel;
-  @FXML
-  private AnimationModel animationModel;
-  @FXML
-  private PlaneModel planeModel;
-  @FXML
-  private SceneView sceneView;
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ComboBox<String> missionSelector;
-  @FXML
-  private Slider progressSlider;
-  @FXML
-  private ToggleButton playButton;
-  @FXML
-  private ToggleButton followButton;
-  @FXML
-  private Slider zoomSlider;
-  @FXML
-  private Slider angleSlider;
-  @FXML
-  private Slider speedSlider;
+  @FXML private CameraModel cameraModel;
+  @FXML private AnimationModel animationModel;
+  @FXML private PlaneModel planeModel;
+  @FXML private SceneView sceneView;
+  @FXML private MapView mapView;
+  @FXML private ComboBox<String> missionSelector;
+  @FXML private Slider progressSlider;
+  @FXML private ToggleButton playButton;
+  @FXML private ToggleButton followButton;
+  @FXML private Slider zoomSlider;
+  @FXML private Slider angleSlider;
+  @FXML private Slider speedSlider;
 
   private Camera camera;
   private Timeline animation;
