@@ -48,17 +48,20 @@ public class MapImageLayerSublayerVisibility extends Application {
       // create a border pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      
       // size the stage and add a title
       stage.setTitle("Change Sub-Layer Visibility");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+      
       // create the layers data to show in the CheckComboBox
       ObservableList<String> layersList = FXCollections.observableArrayList();
       layersList.add("Cities");
       layersList.add("Continents");
       layersList.add("World");
+      
       // create the CheckComboBox with the data
       checkComboBox = new CheckComboBox<>(layersList);
       // set all sub layers on by default
@@ -68,6 +71,7 @@ public class MapImageLayerSublayerVisibility extends Application {
       // handle sub layer selection
       checkComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) c -> layersList.forEach(
           this::toggleVisibility));
+      
       // create a ArcGISMap with the a BasemapTyppe Topographic
       ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 48.354406, -99.998267, 2);
       // create a Image Layer with dynamically generated ArcGISMap images
@@ -75,11 +79,14 @@ public class MapImageLayerSublayerVisibility extends Application {
       imageLayer.setOpacity(0.7f);
       // add world cities layers as ArcGISMap operational layer
       map.getOperationalLayers().add(imageLayer);
+      
       // set the ArcGISMap to be displayed in this view
       mapView = new MapView();
       mapView.setMap(map);
+      
       // get the layers from the ArcGISMap image layer
       layers = imageLayer.getSublayers();
+      
       // add the MapView and sublayers menu
       stackPane.getChildren().addAll(mapView, checkComboBox);
       StackPane.setAlignment(checkComboBox, Pos.TOP_LEFT);
