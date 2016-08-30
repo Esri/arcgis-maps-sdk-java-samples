@@ -96,7 +96,7 @@ public class ExtrudeGraphicsSample extends Application {
           squareSize + y)).collect(Collectors.toList());
 
       // create and style graphics
-      points.stream().forEach(p -> {
+      points.forEach(p -> {
         double z = (int) (maxHeight * Math.random());
         int color = ColorUtil.colorToArgb(Color.color(1.0 / maxHeight * z, 0, 0.5, 1));
         Polygon polygon = new Polygon(new PointCollection(Arrays.asList(new Point(p.getX(), p.getY(), z), new Point(p
