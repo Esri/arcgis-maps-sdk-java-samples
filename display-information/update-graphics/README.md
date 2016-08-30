@@ -42,7 +42,7 @@ How to change a `Graphic`'s symbol, attributes, and geometry:
   - get symbol from the drop down box
   - assign that symbol to the selected graphic, `Graphic.setSymbol()`
 
-##Tags
+##Features
 - ArcGISMap
 - Graphic
 - GraphicsOverlay

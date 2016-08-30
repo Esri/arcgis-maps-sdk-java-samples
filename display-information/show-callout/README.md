@@ -16,7 +16,7 @@ To show a `Callout` with the clicked location's coordinates:
 5. Use `Callout.setDetail()` to display map's point `Point.getX()` and `Point.getY()` to screen.
 5. Show the callout, `Callout.showCalloutAt(point)`, and dismiss on the next click with `Callout.dismiss()`.
  
-##Tags
+##Features
  - ArcGISMap
  - Callout
  - MapView

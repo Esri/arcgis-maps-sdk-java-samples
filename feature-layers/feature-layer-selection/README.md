@@ -19,7 +19,7 @@ To select `Feature`s from your `FeatureLayer`:
   - max results, maximum number of features to return
 4. Select all features that were identified, `FeatureLayer.selectFeatures()`.
 
-##Tags
+##Features
 - ArcGISMap
 - Feature
 - FeatureLayer

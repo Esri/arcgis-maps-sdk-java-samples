@@ -26,7 +26,7 @@ To change the `Viewpoint`:
 2. Set the map to the `MapView`, `MapView.setMap()`. 
 3. Change the view point with `MapView.setViewPoint()` or any method mention above.
 
-##Tags
+##Features
 - ArcGISMap
 - Basemap
 - Point

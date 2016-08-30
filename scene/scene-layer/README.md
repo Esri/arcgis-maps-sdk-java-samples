@@ -10,7 +10,7 @@ To add an `ArcGISSceneLayer` to a scene:
 3. Create an `ArcGISSceneLayer`:  `sceneLayer = new ArcGISSceneLayer(SCENE_LAYER_SERVICE_URL)`
 4. Add the scene layer to the scene: `Scene.getOperationalLayers().add(sceneLayer)`;
 
-##Tags
+##Features
 - 3D
 - ArcGISScene
 - ArcGISSceneLayer

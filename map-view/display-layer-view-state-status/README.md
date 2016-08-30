@@ -20,7 +20,7 @@ To use the `MapView`'s `DrawStatus`:
 2. Set the map to the `MapView`, `MapView.setMap()`. 
 3. Add the `MapView.addLayerViewStateChangedListener()` property and listen when the `Layer.getLayerViewStatus()` changes.
 
-##Tags
+##Features
 - ArcGISMap
 - ArcGISMapImageLayer
 - Layer

@@ -19,7 +19,7 @@ To create and display a `DistanceCompositeSceneSymbol`:
 5. Create a `Graphic` with the symbol: `Graphic(Point, DistanceCompositeSceneSymbol)`
 6. Add the graphic to the graphics overlay.
 
-##Tags
+##Features
 - ArcGISScene
 - ArcGISTiledElevationSource
 - Camera

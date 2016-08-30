@@ -14,7 +14,7 @@ To change the `FeatureLayer`'s `Renderer`:
 - Create a new renderer (in this case, a `SimpleRenderer`).
 - Change the feature layer's renderer using `FeatureLayer.setRenderer(SimpleRenderer)`.
 
-##Tags
+##Features
 - ArcGISMap
 - FeatureLayer
 - MapView

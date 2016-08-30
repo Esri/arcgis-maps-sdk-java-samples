@@ -15,7 +15,7 @@ To set a `SpatialReference` and project that to all operational layers of `ArcGI
 4. Set ArcGIS map to the `MapView`.
   - the ArcGIS map image layer will now use the spatial reference set to the map and not it's default spatial reference
 
-##Tags
+##Features
 - ArcGISMap
 - ArcGISMapImageLayer
 - Basemap

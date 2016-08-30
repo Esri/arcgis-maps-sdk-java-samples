@@ -14,7 +14,7 @@ To open an existing web map:
 3. Create a `ArcGISMap` using the portal item.
 4. Set map to the `MapView`.
 
-##Tags
+##Features
 - ArcGISMap
 - MapView
 - Portal

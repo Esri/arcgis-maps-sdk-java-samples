@@ -16,7 +16,7 @@ To change the `ArcGISMap`'s `Basemap`:
 2. Set the ArcGIS map to the map view.
 3. Choose a new `Basemap.Type` and set it to the ArcGIS map to change it. 
 
-##Tags
+##Features
 - ArcGISMap
 - Basemap
 - Basemap.Type

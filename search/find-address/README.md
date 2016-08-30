@@ -17,7 +17,7 @@ For simplicity, the sample comes loaded with a set of addresses. You can select 
 5. To reverse geocode a location, get the `Point` location on the map view and use `LocatorTask.reverseGeocodeAsync(Point)`.
 6. Show the retrieved results by creating a `PictureMarkerSymbol` with attributes from the result and add that symbol to a `Graphic`  in the `GraphicsOverlay`.
 
-##Tags
+##Features
 - ArcGISMap
 - ArcGISTiledLayer
 - Callout

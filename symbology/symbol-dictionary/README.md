@@ -38,7 +38,7 @@ How to search through a `SymbolDictionary`:
   - get `CimSymbol`,`StyleSymbolSearchResult.getSymbol()`, and create an image from it, `CimSymbol.createSwatchAsync()`
   - use other get methods for the symbol's name, tags, symbolClass, category, and key, like  `StyleSymbolSearchResult.getName()`
 
-##Tags
+##Features
 - CimSymbol
 - StyleSymbolSearchParameters
 - StyleSymbolSearchResult

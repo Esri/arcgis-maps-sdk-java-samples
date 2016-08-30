@@ -11,7 +11,7 @@ To create an `ArcGISScene` with elevation data:
 3. Create a `Surface` and add a `ArcGISTiledElevationSource`, `Surface.getElevationSources().add()`.
 4. Set the surface as the scene's base surface: `ArcGIScene.setBaseSurface(surface)`.
 
-##Tags
+##Features
 - ArcGISScene
 - ArcGISTiledElevationSource
 - Camera

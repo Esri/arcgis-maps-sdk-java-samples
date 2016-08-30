@@ -23,7 +23,7 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
   - other attributes explain to dictionary symbol how to display graphic
   - add graphic to `GraphicsOverlay.getGraphics().add(Graphic)`
 
-##Tags
+##Features
 - ArcGISMap
 - Basemap
 - DictionaryRenderer

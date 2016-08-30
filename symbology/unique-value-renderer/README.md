@@ -35,7 +35,7 @@ Sample starts with a predefined UniqueValues for some US states which are set to
   - value, list of values that will use the symbol set here (Example: List of state name abbreviations "CA")
 6. Add unique values to renderer, `UniqueValueRenderer.getUniqueValues().add(UniqueValue)`. 
  
-##Tags
+##Features
 - ArcGISMap
 - FeatureLayer
 - MapView

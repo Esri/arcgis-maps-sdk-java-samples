@@ -15,7 +15,7 @@ To update a `Graphic`'s orientation using expressions:
 4. To update the graphic's rotation, use `Graphic.getAttributes.put("HEADING", heading)` where the attribute key is 
 the expression and the value is the rotation angle.
 
-##Tags
+##Features
 - ArcGISScene
 - Graphic
 - GraphicsOverlay

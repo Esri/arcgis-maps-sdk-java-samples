@@ -10,7 +10,7 @@ To add an `ArcGISMapImageLayer` to your `ArcGISMap` using its URL:
 2. Add it to `ArcGISMap.getOperationalLayers().add()`.
 3. Display the ArcGIS map by adding it to the `MapView`.
 
-##Tags
+##Features
 - ArcGISMapImageLayer
 - ArcGISMap
 - MapView

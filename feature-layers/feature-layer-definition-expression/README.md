@@ -13,7 +13,7 @@ To limit the `Feature`s in your `FeatureLayer`:
 2. Create a feature layer from the service feature table.
 3. Set the limit of the features on your feature layer using `FeatureLayer.setDefinitionExpression(Expression)`.
 
-##Tags
+##Features
 - ArcGISMap
 - FeatureLayer
 - MapView

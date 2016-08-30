@@ -14,7 +14,7 @@ To position `Graphic`s using `SurfacePlacement` (DRAPED, RELATIVE, ABSOLUTE):
 3. Add graphics to the graphics overlay, `GraphicsOverlay.getGraphics.add(Graphic)`.
 4. Add the graphics overlay to the `SceneView`, `SceneView.getGraphicsOverlays().add(GraphicsOverlay)`.
 
-##Tags
+##Features
 - ArcGISScene
 - Camera
 - Graphic

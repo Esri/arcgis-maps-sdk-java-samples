@@ -17,7 +17,7 @@ To query a `Feature` from your `FeatureLayer`:
 4. Fire the query on the service feature table using `ServiceFeatureTable.queryFeaturesAsync(query)`.
 5. Once complete get the feature's from the `FeatureQueryResult`.
 
-##Tags
+##Features
 - ArcGISMap
 - FeatureLayer
 - FeatureQueryResult

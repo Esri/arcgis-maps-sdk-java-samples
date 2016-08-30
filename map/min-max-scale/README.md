@@ -13,7 +13,7 @@ To set the min and max scales on a `ArcGISMap`:
 2. Set min and max scales of map, `ArcGISMap.setMaxScale()` and `ArcGISMap.setMinScale()`.
 3. Set the ArcGIS map to the `MapView`.
 
-##Tags
+##Features
 - ArcGISMap
 - Basemap
 - MapView

@@ -25,7 +25,7 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
 9. Add feature layer to map, `Map.getOperationalLayers().add(FeatureLayer)`.
 10. Create `DictionaryRenderer(SymbolDictionary)` and attach to feature layer, `FeatureLayer.setRenderer(DictionaryRenderer)`.
 
-##Features##
+##Features
 - ArcGISMap
 - Basemap
 - DictionaryRenderer

@@ -19,7 +19,7 @@ The picture marker symbols that you see in the app are all constructed from diff
 5. Use the constructor `PictureMarkerSymbol(Image)` to create a symbol from a local image. 
 6. Lastly once a symbol is created it will need to be added to a `Graphic`. Set the graphic to the graphics overlay using the `GraphicsOverlay.getGraphics().add()` method indicating the location `Point`.
 
-##Tags
+##Features
 - ArcGISMap
 - Graphic
 - GraphicsOverlay

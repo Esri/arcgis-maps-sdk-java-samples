@@ -14,7 +14,7 @@ To use the `MapView`'s `DrawStatus`:
 2. Set the map to the view `MapView`, `MapView.setMap()`. 
 3. Add `MapView.addDrawStatusChangedListener()` block and listen when the `MapView.DrawStatus` changes.
 
-##Tags
+##Features
 - ArcGISMap
 - Basemap
 - DrawStatus 

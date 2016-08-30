@@ -18,7 +18,7 @@ To display a `Route` using a `RouteTask`:
 6. Display the route by adding it to a `GraphicsOverlay.getGraphics().add()`.
 7. Show the step by step `DirectionMessage`s using the `Route.getDirectionManeuvers()` method.
 
-##Tags
+##Features
 - ArcGISMap
 - DirectionManeuver
 - DirectionMessage

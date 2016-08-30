@@ -28,7 +28,7 @@ To display a `Graphic` using a symbol:
   - assign point and symbol to graphic, `Graphic(point, symbol)`
 6. Add graphic to graphics overlay to display it to the map view.
 
-##Tags
+##Features
 - Graphic
 - GraphicsOverlay
 - MapView

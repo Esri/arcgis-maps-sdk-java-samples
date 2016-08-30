@@ -26,7 +26,7 @@ Change Line Style:
   - width, size of this symbol
 6. Lately, create a `Graphic(Geometry, Symbol)` and add it to the graphics overlay.
  
-##Tags
+##Features
 - ArcGISMap
 - Graphic
 - GraphicsOverlay

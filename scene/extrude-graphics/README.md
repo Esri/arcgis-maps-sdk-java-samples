@@ -18,7 +18,7 @@ To extrude graphics according to a property:
 5. Set the renderer on the graphics overlay, `GraphicsOverlay.setRenderer(Renderer)`.
 6. Create graphics with their attribute set, `Graphic.getAttributes().put("height", Z Value)`.
 
-##Tags
+##Features
 - ArcGISScene
 - Graphic
 - GraphicsOverlay
