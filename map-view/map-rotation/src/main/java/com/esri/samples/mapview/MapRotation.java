@@ -20,6 +20,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -56,11 +57,19 @@ public class MapRotation extends Application {
       Slider slider = new Slider(-180.0, 180.0, 0.0);
       slider.setMaxWidth(240.0);
       slider.setDisable(true);
+      slider.setShowTickLabels(true);
+      slider.setShowTickMarks(true);
+      slider.setMajorTickUnit(90);
+      slider.setBlockIncrement(45);
+
+      final Label rotationValue = new Label();
 
       // listen for the value in the slider to change
       slider.valueProperty().addListener(e -> {
         // rotate map view based on new value in slider
         mapView.setViewpointRotationAsync(slider.getValue());
+        // set the rotation text rounded to int
+        rotationValue.setText(String.valueOf(Math.round(slider.getValue())));
       });
 
       // create a ArcGISMap with topographic basemap
@@ -83,10 +92,12 @@ public class MapRotation extends Application {
       // set viewpoint to the map view
       mapView.setViewpointAsync(viewpoint);
 
-      // add map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, slider);
+      // add map view, slider, and label to stack pane
+      stackPane.getChildren().addAll(mapView, slider, rotationValue);
       StackPane.setAlignment(slider, Pos.TOP_LEFT);
       StackPane.setMargin(slider, new Insets(10, 0, 0, 10));
+      StackPane.setAlignment(rotationValue, Pos.TOP_LEFT);
+      StackPane.setMargin(rotationValue, new Insets(10, 0, 0, 250));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
