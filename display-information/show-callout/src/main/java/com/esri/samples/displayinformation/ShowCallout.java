@@ -53,7 +53,7 @@ public class ShowCallout extends Application {
       stage.show();
 
       // create ArcGISMap with imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImageryWithLabels());
+      final ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 34.056295, -117.195800, 10);
 
       // create a view and set map to it
       mapView = new MapView();
