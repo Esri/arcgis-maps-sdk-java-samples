@@ -4,7 +4,7 @@ Demonstrates how to change the Renderer of a FeatureLayer.
 ##How to use the sample##
 Use the buttons in the control panel to change the renderer.
 
-![](ChangeFeatureLayerRenderer.png)
+![](ChangeFeatureLayerRenderer.gif)
 
 ##How it works##
 To change the `FeatureLayer`'s `Renderer`:

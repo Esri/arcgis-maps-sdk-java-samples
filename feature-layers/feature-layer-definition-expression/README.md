@@ -4,7 +4,7 @@ Demonstrates how to set the limit of Features to display on the ArcGISMap.
 ##How to use the sample##
 Use the buttons in the control panel to apply or reset definition expression.
 
-![](FeatureLayerDefinitionExpression.png)
+![](FeatureLayerDefinitionExpression.gif)
 
 ##How it works##
 To limit the `Feature`s in your `FeatureLayer`:
