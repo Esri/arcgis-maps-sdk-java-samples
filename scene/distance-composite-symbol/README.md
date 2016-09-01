@@ -5,7 +5,7 @@ render different symbols depending on the distance between the camera and the gr
 ##How to use the sample##
 The symbol of graphic will change while zooming in or out.
 
-![](DistanceCompositeSymbol.png)
+![](DistanceCompositeSymbol.gif)
 
 ##How it works##
 To create and display a `DistanceCompositeSceneSymbol`:

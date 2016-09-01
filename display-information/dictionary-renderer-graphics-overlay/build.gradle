@@ -23,5 +23,5 @@ dependencies {
 }
 
 run {
-    mainClassName = 'com.esri.samples.symbology.DictionaryRendererGraphicsOverlay'
+    mainClassName = 'com.esri.samples.displayinformation.DictionaryRendererGraphicsOverlay'
 }

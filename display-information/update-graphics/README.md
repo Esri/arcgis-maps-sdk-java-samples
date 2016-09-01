@@ -13,7 +13,7 @@ Update Graphic's Description:
 Update Graphic's Symbol:
   - click on a graphic, then choose a symbol from the update symbol drop down box
 
-![](UpdateGraphics.png)
+![](UpdateGraphics.gif)
 
 ##How it works##
 How to change a `Graphic`'s symbol, attributes, and geometry:
