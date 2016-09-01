@@ -56,6 +56,11 @@ public class MapRotation extends Application {
       Slider slider = new Slider(-180.0, 180.0, 0.0);
       slider.setMaxWidth(240.0);
       slider.setDisable(true);
+      slider.setShowTickLabels(true);
+      slider.setShowTickMarks(true);
+      slider.setMajorTickUnit(90);
+      slider.setBlockIncrement(45);
+
 
       // listen for the value in the slider to change
       slider.valueProperty().addListener(e -> {
@@ -83,7 +88,7 @@ public class MapRotation extends Application {
       // set viewpoint to the map view
       mapView.setViewpointAsync(viewpoint);
 
-      // add map view and control panel to stack pane
+      // add map view and slider to stack pane
       stackPane.getChildren().addAll(mapView, slider);
       StackPane.setAlignment(slider, Pos.TOP_LEFT);
       StackPane.setMargin(slider, new Insets(10, 0, 0, 10));
