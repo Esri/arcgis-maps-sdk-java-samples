@@ -60,7 +60,7 @@ public class SymbolView extends HBox implements Initializable {
     // set image for non-text symbols
     if (!category.getText().startsWith("Text")) {
       CimSymbol symbol = styleSymbolSearchResult.getSymbol();
-      ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, 100, 0x00FFFFFF, new Point(0, 0, 0));
+      ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, 0x00FFFFFF, new Point(0, 0, 0));
       imageResult.addDoneListener(() -> {
         try {
           imageView.setImage(imageResult.get());
