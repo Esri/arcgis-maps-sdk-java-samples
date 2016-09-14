@@ -1,0 +1,2 @@
+rootProject.name = 'local-server'
+include 'local-server-services'
