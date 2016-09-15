@@ -10,7 +10,7 @@ This guide has instructions for running samples using the command line or with t
 For developers new to Git, please see the wiki page for how to [clone this repository](https://github.com/Esri/arcgis-runtime-samples-java/wiki/working-with-git).
 
 ## Running the Samples
-To run the samples in a terminal, `cd` into the project and call the gradle run task for the sample:
+To run the samples in a terminal, `cd` into the project and call the gradle `run` task for the sample:
 
 On Linux/Mac
 ```
@@ -23,6 +23,12 @@ On Windows
 ```
 
 There is no need to install Gradle to run the samples.
+
+## Offline sample data
+Some samples require offline data. The first time you refresh the Gradle project in an IDE, or run the `build` or 
+`run` tasks, the `downloadData` task will automatically download a local data folder called samples-data into the 
+directory with arcgis-java-runtime-samples. To get the latest data, delete the old `samples-data` folder, and then run
+`downloadData`.
 
 ## Importing into an IDE
 We will step through how to import the Samples project into Eclipse and IntelliJ IDEA. In both IDEs you can choose to 
