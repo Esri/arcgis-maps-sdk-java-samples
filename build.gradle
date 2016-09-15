@@ -1,3 +1,7 @@
+def rootDir = "../"
+def dataZip = rootDir + 'data.zip'
+def samplesData = rootDir + 'samples-data'
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
@@ -10,6 +14,19 @@ allprojects {
     }
 
     dependencies {
-        compile 'com.esri.arcgisruntime:arcgis-java:100.0.0-1450'
+        compile 'com.esri.arcgisruntime:arcgis-java:100.0.0-1459'
+    }
+}
+
+// Download data from AGOL for offline data samples
+task downloadData {
+    if (!file(samplesData).exists()) {
+        ant.get(src: 'https://arcgisruntime.maps.arcgis' +
+                '.com/sharing/rest/content/items/8b10b52320464b1bb728e552cfa6cb50/data', dest: dataZip)
+        copy {
+            from zipTree(dataZip)
+            into(rootDir)
+        }
+        delete(dataZip)
     }
 }
