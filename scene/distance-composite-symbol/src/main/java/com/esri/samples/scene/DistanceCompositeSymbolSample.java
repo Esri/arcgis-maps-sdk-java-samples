@@ -80,7 +80,8 @@ public class DistanceCompositeSymbolSample extends Application {
       SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, red, 10);
       SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 75, 75);
       coneSymbol.setPitch(-90);
-      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(Paths.get(getClass().getResource("/SkyCrane.lwo").toURI()).toString(), 0.01);
+      String modelURI = System.getProperty("user.dir") + "/../samples-data/skycrane/Skycrane.lwo";
+      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(modelURI, 0.01);
       modelSymbol.setHeading(180);
       modelSymbol.loadAsync();
 

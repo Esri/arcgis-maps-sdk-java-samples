@@ -115,7 +115,8 @@ public class FindAddressSample extends Application {
       });
 
       // create a basemap from a local tile package
-      TileCache tileCache = new TileCache(Paths.get(getClass().getResource("/SanFrancisco.tpk").toURI()).toString());
+      TileCache tileCache = new TileCache(System.getProperty("user.dir") +
+          "/../samples-data/sanfrancisco/SanFrancisco.tpk");
       tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
 
@@ -147,12 +148,12 @@ public class FindAddressSample extends Application {
       callout.setTranslateY(-40); // half image height
 
       // create a locator task
-      locatorTask = new LocatorTask(Paths.get(getClass().getResource("/SanFranciscoLocator.loc").toURI()).toString());
+      locatorTask = new LocatorTask(System.getProperty("user.dir") +
+          "/../samples-data/sanfrancisco/SanFranciscoLocator.loc");
 
       // set geocode task parameters
       geocodeParameters = new GeocodeParameters();
-      geocodeParameters.getResultAttributeNames().add("*"); // return all
-                                                           // attributes
+      geocodeParameters.getResultAttributeNames().add("*"); // return all attributes
       geocodeParameters.setMaxResults(1); // get closest match
 
       // set reverse geocode task parameters

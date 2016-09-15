@@ -15,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -189,7 +188,7 @@ public class MissionReplayController {
    */
   private Graphic create3DPlane() throws URISyntaxException {
     // load the plane's 3D model symbol
-    String modelURI = Paths.get(getClass().getResource("/SkyCrane/SkyCrane.lwo").toURI()).toString();
+    String modelURI = System.getProperty("user.dir") + "/../samples-data/skycrane/Skycrane.lwo";
     ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 0.01);
     plane3DSymbol.setHeading(180); // correct the symbol's orientation to match the graphic's orientation
     plane3DSymbol.loadAsync();
