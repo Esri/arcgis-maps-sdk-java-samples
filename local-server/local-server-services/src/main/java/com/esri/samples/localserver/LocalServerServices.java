@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Esri.
+ * Copyright 2016 Esri.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,75 +13,48 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.esri.samples.localserver;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.view.MapView;
+public class LocalServerServices extends Application {
 
-public class LocalServerServices extends Application{
-  private MapView mapView;
-
-  private final String SERVICE_FEATURE_URL =
-      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
+  private static LocalServerServicesController controller;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) throws IOException {
+    // set up the scene
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LocalServerServices.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene scene = new Scene(root);
 
-    try {
-      // create stack pane and application scene)
-      StackPane stackPane = new StackPane();
-      Scene scene = new Scene(stackPane);
-
-      // set title, size, and add scene to stage
-      stage.setTitle("ArcGISMap Image Layer From URL Sample");
-      stage.setWidth(800);
-      stage.setHeight(700);
-      stage.setScene(scene);
-      stage.show();
-
-      // create new ArcGISMap image Layer from service url
-      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(SERVICE_FEATURE_URL);
-
-      final ArcGISMap map = new ArcGISMap();
-      // add layer to ArcGISMap's layer list
-      map.getOperationalLayers().add(imageLayer);
-
-      // create a view and set ArcGISMap to it
-      mapView = new MapView();
-      mapView.setMap(map);
-
-      // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
-    } catch (Exception e) {
-      // on any error, display stack trace
-      e.printStackTrace();
-    }
+    // set up the stage
+    stage.setTitle("Local Server Services");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
   }
 
   /**
    * Stops and releases all resources used in application.
-   * 
-   * @throws Exception if security manager doesn't allow JVM to exit with
-   *           current status
    */
   @Override
-  public void stop() throws Exception {
-
-    // releases resources when the application closes
-    if (mapView != null) {
-      mapView.dispose();
-    }
+  public void stop() {
+    controller.terminate();
   }
 
   /**
    * Opens and runs application.
-   * 
+   *
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
