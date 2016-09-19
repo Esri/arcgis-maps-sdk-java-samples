@@ -19,7 +19,6 @@ List of Running Services (Bottom):
   - Go to URL -- Opens browser to the service that is selected in the `List of Running Services`. 
   - 
   
-![](LocalServerServices.png)
 
 ##How it works
 To start a `Local Server` and start a `Local Service` to it:
