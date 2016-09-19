@@ -17,7 +17,7 @@ Text Area (Middle):
 List of Running Services:
   -
 
-![](LocalServerServices.PNG)
+![](LocalServerServices.png)
 
 
 ##How it works
