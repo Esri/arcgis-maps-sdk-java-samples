@@ -28,7 +28,7 @@
     
       <VBox HBox.hgrow="ALWAYS" spacing="3"> 
         <Label text="Local Services Controls"/>
-        <ComboBox fx:id="serviceOption" maxWidth="Infinity">
+        <ComboBox fx:id="serviceOptions" maxWidth="Infinity">
           
           <value>
             <String fx:value="Map Service"/>
@@ -54,25 +54,24 @@
     </HBox>
   </top>
     
-    <center> 
-      <HBox>
-        <padding><Insets top="5" right="10" bottom="5" left="10"/></padding>
-        <TextArea fx:id="centerText" HBox.hgrow="ALWAYS"  maxWidth="Infinity" editable="false"/>
-      </HBox>
-    </center>
+    <!-- Center Section -->
+  <center>
+    <HBox>
+      <padding><Insets top="5" right="10" bottom="5" left="10"/></padding>
+      <TextArea fx:id="centerText" HBox.hgrow="ALWAYS"  maxWidth="Infinity" editable="false"/>
+    </HBox>
+  </center>
     
-    <bottom> 
-     <VBox>
-        <padding><Insets top="5" right="10" bottom="10" left="10"/></padding>
-        <Label text="List of Running Services"/>
-        <VBox spacing="3" alignment="center_right"> 
-          <ListView fx:id="bottomView" maxWidth="Infinity" maxHeight="100" onMouseClicked="#enableButtons"/>
-          <Button fx:id="btnURL" text="Go to URL" disable="true" onAction="#handleURL"/>
-        </VBox>
+     <!-- Bottom Section -->
+  <bottom> 
+   <VBox>
+      <padding><Insets top="5" right="10" bottom="10" left="10"/></padding>
+      <Label text="List of Running Services"/>
+      <VBox spacing="3" alignment="center_right"> 
+        <ListView fx:id="runningServices" maxWidth="Infinity" maxHeight="100" onMouseClicked="#enableServiceButtons"/>
+        <Button fx:id="btnURL" text="Go to URL" disable="true" onAction="#handleURL"/>
       </VBox>
-    </bottom>
-
-  <!-- Center Section -->
-  
-  <!-- Bottom Section -->
+    </VBox>
+  </bottom>
+    
 </BorderPane>
