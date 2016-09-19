@@ -17,8 +17,9 @@ Text Area (Middle):
 List of Running Services (Bottom):
   - Displays any services that are currently running on the server and allows for one of the services to be selected. 
   - Go to URL -- Opens browser to the service that is selected in the `List of Running Services`. 
-
-
+  - 
+  
+![](LocalServerServices.png)
 
 ##How it works
 To start a `Local Server` and start a `Local Service` to it:
