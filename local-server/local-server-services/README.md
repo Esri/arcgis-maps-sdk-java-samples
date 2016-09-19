@@ -22,9 +22,33 @@ List of Running Services:
 
 
 ##How it works
-To :
+To start a `Local Server` and start a `Local Service` to it:
 
-1. 
+1. Create and run a local server.
+  - `LocalServer.INSTANCE` creates a local server
+  - `Server.startAsync()` starts the server asynchronously
+2. Wait for server to be in the  `LocalServerStatus.STARTED` state.
+  - `Server.addStatusChangedKistener()` fires whenever the running status of the local server has changed.
+3. Create and run local service, example of running a `Local Map Service`.
+  - `new LocalMapService(URL)`, creates a local map servie with the given url path of where the local map service can be found
+  - `Service.startAsync()`, starts the service asynchronously
+  - service will be added to the local server when running status is `LocalServerStatus.STARTED`
 
-##Features
-- 
+To stop a `Local Server` and stop any `Local Service`s that are added to it:
+
+1. Get any services that are currently running on the local server, `Server.getServices()`.
+2. Loop through all services and stop any that are currently started.
+  - check service is started, `Service.getStatus()` equals `LocalServerStatus.STARTED`
+  - `Service.stopAsync()`, stops the service asynchronously
+3. Wait for all services to be in the `LocalServerStatus.STOPPED` state.
+  - `Service.addStatusChangedKistener()` fires whenever the running status of the local service has changed.
+4. Stop the local server, `Server.stopAsync()`.
+
+##Tags
+- LocalFeatureService
+- LocalGeoprocessingService
+- LocalMapService
+- LocalServer
+- StatusChangedEvent
+- LocalServerStatus
+- LocalService
