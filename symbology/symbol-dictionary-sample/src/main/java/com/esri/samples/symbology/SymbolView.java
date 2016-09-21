@@ -16,10 +16,11 @@
 
 package com.esri.samples.symbology;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.symbology.CimSymbol;
-import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,10 +29,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
+import com.esri.arcgisruntime.symbology.Symbol;
 
 public class SymbolView extends HBox implements Initializable {
 
@@ -41,7 +42,7 @@ public class SymbolView extends HBox implements Initializable {
   private @FXML Label symbolClass;
   private @FXML Label category;
   private @FXML Label key;
-  
+
   StyleSymbolSearchResult styleSymbolSearchResult;
 
   /**
@@ -75,7 +76,7 @@ public class SymbolView extends HBox implements Initializable {
 
     // set image for non-text symbols
     if (!category.getText().startsWith("Text")) {
-      CimSymbol symbol = styleSymbolSearchResult.getSymbol();
+      Symbol symbol = styleSymbolSearchResult.getSymbol();
       ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, 100, 0x00FFFFFF, new Point(0, 0, 0));
       imageResult.addDoneListener(() -> {
         try {
