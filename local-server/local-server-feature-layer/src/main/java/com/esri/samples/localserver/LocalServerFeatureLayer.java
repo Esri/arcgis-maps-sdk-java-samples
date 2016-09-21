@@ -15,7 +15,132 @@
  */
 package com.esri.samples.localserver;
 
+import java.nio.file.Paths;
 
-public class LocalServerFeatureLayer {
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.localserver.LocalFeatureService;
+import com.esri.arcgisruntime.localserver.LocalServer;
+import com.esri.arcgisruntime.localserver.LocalServerStatus;
+import com.esri.arcgisruntime.localserver.LocalService;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.util.ListenableList;
+
+public class LocalServerFeatureLayer extends Application {
+
+  private ArcGISMap map;
+  private MapView mapView;
+  private LocalServer server;
+
+  @Override
+  public void start(Stage stage) throws Exception {
+
+    try {
+      // create stack pane and application scene
+      StackPane stackPane = new StackPane();
+      Scene scene = new Scene(stackPane);
+
+      // set title, size, and add scene to stage
+      stage.setTitle("Local Server Feature Layer");
+      stage.setWidth(800);
+      stage.setHeight(700);
+      stage.setScene(scene);
+      stage.show();
+
+      // create a view with a map and basemap
+      map = new ArcGISMap(Basemap.createStreets());
+      mapView = new MapView();
+      mapView.setMap(map);
+
+      // add view to application window
+      stackPane.getChildren().add(mapView);
+
+      server = LocalServer.INSTANCE;
+      server.addStatusChangedListener(status -> {
+        System.out.println("Running");
+        if (status.getNewStatus() == LocalServerStatus.STARTED) {
+          System.out.println("Local Server has started!");
+          try {
+            String featureServiceURL = Paths.get(getClass().getResource("/PointsofInterest.mpk").toURI()).toString();
+            LocalFeatureService featureService = new LocalFeatureService(featureServiceURL);
+            featureService.addStatusChangedListener(s -> {
+              if (s.getNewStatus() == LocalServerStatus.STARTED) {
+                System.out.println("Local Service has started!");
+                String url = featureService.getUrl() + "/0";
+                System.out.println("Url: " + url);
+                ServiceFeatureTable featureTable = new ServiceFeatureTable(url);
+                featureTable.loadAsync();
+                FeatureLayer featureLayer = new FeatureLayer(featureTable);
+                featureLayer.loadAsync();
+                map.getOperationalLayers().add(featureLayer);
+                mapView.setViewpoint(new Viewpoint(featureLayer.getFullExtent()));
+              }
+            });
+            featureService.startAsync();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        } else if (status.getNewStatus() == LocalServerStatus.STOPPED) {
+          System.out.println("STOPPED");
+        }
+      });
+      server.startAsync();
+    } catch (Exception e) {
+      // on any error, display the stack trace.
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() throws Exception {
+
+    if (server != null) {
+      ListenableList<LocalService> services = server.getServices();
+      // stop any services that have been started
+      for (LocalService service : server.getServices()) {
+        if (service.getStatus() == LocalServerStatus.STARTED) {
+
+          ListenableFuture<Void> stop = service.stopAsync();
+          // stop server once all services have stopped
+          stop.addDoneListener(() -> {
+            int servicesStarted = services.size();
+            for (LocalService s : services) {
+              if (s.getStatus() == LocalServerStatus.STOPPED) {
+                servicesStarted--;
+              }
+            }
+            if (servicesStarted == 0) {
+              server.stopAsync();
+            }
+          });
+        }
+      }
+    }
+
+    if (mapView != null) {
+      mapView.dispose();
+    }
+  }
+
+  /**
+   * Opens and runs application.
+   *
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
+
+    Application.launch(args);
+  }
 }
