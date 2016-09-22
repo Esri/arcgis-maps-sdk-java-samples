@@ -15,6 +15,7 @@
  */
 package com.esri.samples.localserver;
 
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
 import javafx.application.Application;
@@ -29,6 +30,7 @@ import com.esri.arcgisruntime.localserver.LocalFeatureService;
 import com.esri.arcgisruntime.localserver.LocalServer;
 import com.esri.arcgisruntime.localserver.LocalServerStatus;
 import com.esri.arcgisruntime.localserver.LocalService;
+import com.esri.arcgisruntime.localserver.LocalService.StatusChangedEvent;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -40,6 +42,7 @@ public class LocalServerFeatureLayer extends Application {
   private ArcGISMap map;
   private MapView mapView;
   private LocalServer server;
+  private LocalFeatureService featureService;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -64,33 +67,19 @@ public class LocalServerFeatureLayer extends Application {
       // add view to application window
       stackPane.getChildren().add(mapView);
 
+      // create local server
       server = LocalServer.INSTANCE;
+      // listen for the status of the local server to change
       server.addStatusChangedListener(status -> {
-        System.out.println("Running");
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
-          System.out.println("Local Server has started!");
           try {
             String featureServiceURL = Paths.get(getClass().getResource("/PointsofInterest.mpk").toURI()).toString();
-            LocalFeatureService featureService = new LocalFeatureService(featureServiceURL);
-            featureService.addStatusChangedListener(s -> {
-              if (s.getNewStatus() == LocalServerStatus.STARTED) {
-                System.out.println("Local Service has started!");
-                String url = featureService.getUrl() + "/0";
-                System.out.println("Url: " + url);
-                ServiceFeatureTable featureTable = new ServiceFeatureTable(url);
-                featureTable.loadAsync();
-                FeatureLayer featureLayer = new FeatureLayer(featureTable);
-                featureLayer.loadAsync();
-                map.getOperationalLayers().add(featureLayer);
-                mapView.setViewpoint(new Viewpoint(featureLayer.getFullExtent()));
-              }
-            });
+            featureService = new LocalFeatureService(featureServiceURL);
+            featureService.addStatusChangedListener(this::addLocalFeatureLayer);
             featureService.startAsync();
-          } catch (Exception e) {
-            e.printStackTrace();
+          } catch (URISyntaxException e) {
+            System.out.println("Failed to find mpk file. " + e.getMessage());
           }
-        } else if (status.getNewStatus() == LocalServerStatus.STOPPED) {
-          System.out.println("STOPPED");
         }
       });
       server.startAsync();
@@ -101,12 +90,45 @@ public class LocalServerFeatureLayer extends Application {
   }
 
   /**
+   * Once the feature service starts, a feature layer is created from that service and added to the map.
+   * <p>
+   * When the feature layer is done loading the view will zoom to the location of were the features were added.
+   * 
+   * @param status status of feature service
+   */
+  private void addLocalFeatureLayer(StatusChangedEvent status) {
+
+    // check that the feature service has started
+    if (status.getNewStatus() == LocalServerStatus.STARTED) {
+      System.out.println("Adding feature");
+      // get the url of where feature service is located
+      String url = featureService.getUrl() + "/0";
+      // create a feature layer using the url
+      ServiceFeatureTable featureTable = new ServiceFeatureTable(url);
+      featureTable.loadAsync();
+      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      featureLayer.addDoneLoadingListener(() -> {
+        // zoom to location were feature were added
+        mapView.setViewpoint(new Viewpoint(featureLayer.getFullExtent().getCenter(), 30000000));
+      });
+      featureLayer.loadAsync();
+      // add feature layer to map
+      map.getOperationalLayers().add(featureLayer);
+
+    } else if (status.getNewStatus() == LocalServerStatus.STOPPED) {
+      // if feature layer is stopped then stop the server
+      System.out.println("Stopping server");
+      server.stopAsync();
+    }
+  }
+
+  /**
    * Stops and releases all resources used in application.
    */
   @Override
   public void stop() throws Exception {
 
-    if (server != null) {
+    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
       ListenableList<LocalService> services = server.getServices();
       // stop any services that have been started
       for (LocalService service : server.getServices()) {
@@ -128,6 +150,14 @@ public class LocalServerFeatureLayer extends Application {
         }
       }
     }
+
+    //    if (featureService != null && featureService.getStatus() == LocalServerStatus.STARTED) {
+    //      // stop feature service if it is running
+    //      featureService.stopAsync();
+    //    } else if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
+    //      // if server is only thing running stop it
+    //      server.stopAsync();
+    //    }
 
     if (mapView != null) {
       mapView.dispose();
