@@ -27,6 +27,7 @@ To create a `FeatureLayer` from a `LocalFeatureService`:
 6. Add feature layer to map, `Map.getOperationalLayers().add(featureLayer)`.
 
 ##Tags
+- FeatureLayer
 - LocalFeatureService
 - LocalServer
 - LocalServerStatus
