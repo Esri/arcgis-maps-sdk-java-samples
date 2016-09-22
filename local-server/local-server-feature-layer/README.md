@@ -10,7 +10,7 @@ A Local Server and Local Feature Service will automatically be started and once 
 ##How it works
 To create a `FeatureLayer` from a `LocalFeatureService`:
 
-1.Create and run a local server.
+1. Create and run a local server.
   - `LocalServer.INSTANCE` creates a local server
   - `Server.startAsync()` starts the server asynchronously
 2. Wait for server to be in the  `LocalServerStatus.STARTED` state.
