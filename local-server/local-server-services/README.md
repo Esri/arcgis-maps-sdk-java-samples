@@ -30,7 +30,7 @@ To start a `LocalServer` and start a `LocalService` to it:
 2. Wait for server to be in the  `LocalServerStatus.STARTED` state.
   - `Server.addStatusChangedKistener()` fires whenever the running status of the local server has changed.
 3. Create and run a local service, example of running a `LocalMapService`.
-  - `new LocalMapService(URL)`, creates a local map servie with the given url path of where the local map service can be found
+  - `new LocalMapService(Url)`, creates a local map servie with the given url path to mpk file
   - `Service.startAsync()`, starts the service asynchronously
   - service will be added to the local server automatically 
 
