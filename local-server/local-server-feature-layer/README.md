@@ -23,7 +23,7 @@ To create a `FeatureLayer` from a `LocalFeatureService`:
   - `LocalFeatureService.addStatusChangedKistener()` fires whenever the running status of the local service has changed.
 5. Create feature layer from local feature service.
   - create a `ServiceFeatureTable(Url)` from local feature service url, `LocalFeatureService.getUrl()`
-  - create feature layer from service feature table
+  - create feature layer from service feature table, `new FeatureLayer(ServiceFeatureTable)`
 6. Add feature layer to map, `Map.getOperationalLayers().add(featureLayer)`.
 
 ##Tags
