@@ -56,7 +56,9 @@ public class LocalServerServicesController {
   @FXML
   private TextArea centerText;
   @FXML
-  ListView<String> runningServices;
+  private ListView<String> runningServices;
+
+  private boolean isServerStopping;
 
   private LocalServer server;
   private ListenableList<LocalService> services;
@@ -77,6 +79,7 @@ public class LocalServerServicesController {
     if (eventTarget.equals(btnStartServer)) {
       // start local server
       server = LocalServer.INSTANCE;
+      isServerStopping = false;
       server.addStatusChangedListener(status -> {
         centerText.appendText("Server Status: " + status.getNewStatus().toString() + "\n");
       });
@@ -167,6 +170,18 @@ public class LocalServerServicesController {
       centerText.appendText(serviceName + " Status: " + status.getNewStatus().toString() + "\n");
       if (status.getNewStatus() == LocalServerStatus.STARTED) {
         Platform.runLater(() -> runningServices.getItems().add(serviceName + " URL ->  " + localService.getUrl()));
+
+      } else if (isServerStopping && status.getNewStatus() == LocalServerStatus.STOPPED) {
+        int servicesStarted = services.size();
+        for (LocalService service : services) {
+          if (service.getStatus() == LocalServerStatus.STOPPED) {
+            servicesStarted--;
+          }
+        }
+        if (servicesStarted == 0) {
+          System.out.println("Service Stopped");
+          stopServer();
+        }
       }
     });
     localService.startAsync();
@@ -216,6 +231,7 @@ public class LocalServerServicesController {
    * Stops any Local Services that are currently running and then stops the Local Server. 
    */
   void terminate() {
+    isServerStopping = true;
     stopServicesAndServer();
   }
 
@@ -231,17 +247,17 @@ public class LocalServerServicesController {
 
           ListenableFuture<Void> stop = service.stopAsync();
           // stop server once all services have stopped
-          stop.addDoneListener(() -> {
-            int servicesStarted = services.size();
-            for (LocalService s : services) {
-              if (s.getStatus() == LocalServerStatus.STOPPED) {
-                servicesStarted--;
-              }
-            }
-            if (servicesStarted == 0) {
-              stopServer();
-            }
-          });
+          //                    stop.addDoneListener(() -> {
+          //                      int servicesStarted = services.size();
+          //                      for (LocalService s : services) {
+          //                        if (s.getStatus() == LocalServerStatus.STOPPED) {
+          //                          servicesStarted--;
+          //                        }
+          //                      }
+          //                      if (servicesStarted == 0) {
+          //                        stopServer();
+          //                      }
+          //                    });
         }
       }
       runningServices.getItems().clear();
