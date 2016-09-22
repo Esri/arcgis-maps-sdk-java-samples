@@ -19,7 +19,10 @@ import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -36,10 +39,13 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class LocalServerFeatureLayer extends Application {
 
+  private static final int APPLICATION_WIDTH = 800;
+
   private ArcGISMap map;
   private MapView mapView;
   private LocalServer server;
   private LocalFeatureService featureService;
+  private ProgressBar featureLayerProgress;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -51,7 +57,7 @@ public class LocalServerFeatureLayer extends Application {
 
       // set title, size, and add scene to stage
       stage.setTitle("Local Server Feature Layer");
-      stage.setWidth(800);
+      stage.setWidth(APPLICATION_WIDTH);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
@@ -61,8 +67,9 @@ public class LocalServerFeatureLayer extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add view to application window
-      stackPane.getChildren().add(mapView);
+      // track progress of loading feature layer to map
+      featureLayerProgress = new ProgressBar(-100.0);
+      featureLayerProgress.setMaxWidth(APPLICATION_WIDTH / 4);
 
       // create local server
       server = LocalServer.INSTANCE;
@@ -80,6 +87,10 @@ public class LocalServerFeatureLayer extends Application {
         }
       });
       server.startAsync();
+
+      // add view to application window
+      stackPane.getChildren().addAll(mapView, featureLayerProgress);
+      StackPane.setAlignment(featureLayerProgress, Pos.CENTER);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -97,7 +108,6 @@ public class LocalServerFeatureLayer extends Application {
 
     // check that the feature service has started
     if (status.getNewStatus() == LocalServerStatus.STARTED) {
-      System.out.println("Adding feature");
       // get the url of where feature service is located
       String url = featureService.getUrl() + "/0";
       // create a feature layer using the url
@@ -105,8 +115,10 @@ public class LocalServerFeatureLayer extends Application {
       featureTable.loadAsync();
       FeatureLayer featureLayer = new FeatureLayer(featureTable);
       featureLayer.addDoneLoadingListener(() -> {
-        // zoom to location were feature were added
+        // zoom to location were features were added
         mapView.setViewpoint(new Viewpoint(featureLayer.getFullExtent().getCenter(), 30000000));
+        // turn off progress, feature layer is loaded
+        Platform.runLater(() -> featureLayerProgress.setVisible(false));
       });
       featureLayer.loadAsync();
       // add feature layer to map
