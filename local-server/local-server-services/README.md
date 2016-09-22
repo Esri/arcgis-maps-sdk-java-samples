@@ -22,19 +22,19 @@ List of Running Services (Bottom):
   
 
 ##How it works
-To start a `Local Server` and start a `Local Service` to it:
+To start a `LocalServer` and start a `LocalService` to it:
 
 1. Create and run a local server.
   - `LocalServer.INSTANCE` creates a local server
   - `Server.startAsync()` starts the server asynchronously
 2. Wait for server to be in the  `LocalServerStatus.STARTED` state.
   - `Server.addStatusChangedKistener()` fires whenever the running status of the local server has changed.
-3. Create and run a local service, example of running a `Local Map Service`.
+3. Create and run a local service, example of running a `LocalMapService`.
   - `new LocalMapService(URL)`, creates a local map servie with the given url path of where the local map service can be found
   - `Service.startAsync()`, starts the service asynchronously
   - service will be added to the local server automatically 
 
-To stop a `Local Server` and stop any `Local Service`s that are added to it:
+To stop a `LocalServer` and stop any `LocalService`s that are added to it:
 
 1. Get any services that are currently running on the local server, `Server.getServices()`.
 2. Loop through all services and stop any that are currently started.
