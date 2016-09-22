@@ -4,7 +4,7 @@ Demonstrates how to start a Local Server and Local Feature Service, then create 
 ##How to use the sample
 A Local Server and Local Feature Service will automatically be started and once running a Feature Layer will be created and added to the map. 
   
-![](LocalServerFeatureLayer.PNG)
+![](LocalServerMapImageLayer.PNG)
   
 
 ##How it works
