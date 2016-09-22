@@ -15,31 +15,35 @@
  */
 package com.esri.samples.localserver;
 
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.localserver.LocalFeatureService;
+import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+import com.esri.arcgisruntime.localserver.LocalMapService;
 import com.esri.arcgisruntime.localserver.LocalServer;
 import com.esri.arcgisruntime.localserver.LocalServerStatus;
-import com.esri.arcgisruntime.localserver.LocalService;
+import com.esri.arcgisruntime.localserver.LocalService.StatusChangedEvent;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.util.ListenableList;
 
 public class LocalServerMapImageLayer extends Application {
 
-  private ArcGISMap map;
+  private static final int APPLICATION_WIDTH = 800;
+
   private MapView mapView;
   private LocalServer server;
+  private LocalMapService mapImageService;
+  private ProgressBar imageLayerProgress;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -50,53 +54,74 @@ public class LocalServerMapImageLayer extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Local Server Feature Layer");
-      stage.setWidth(800);
+      stage.setTitle("Local Server Map Image Layer");
+      stage.setWidth(APPLICATION_WIDTH);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
 
       // create a view with a map and basemap
-      map = new ArcGISMap(Basemap.createStreets());
+      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add view to application window
-      stackPane.getChildren().add(mapView);
+      // track progress of loading map image layer to map
+      imageLayerProgress = new ProgressBar(-100.0);
+      imageLayerProgress.setMaxWidth(APPLICATION_WIDTH / 4);
 
+      // create local server
       server = LocalServer.INSTANCE;
+      // listen for the status of the local server to change
       server.addStatusChangedListener(status -> {
-        System.out.println("Running");
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
-          System.out.println("Local Server has started!");
           try {
-            String featureServiceURL = Paths.get(getClass().getResource("/PointsofInterest.mpk").toURI()).toString();
-            LocalFeatureService featureService = new LocalFeatureService(featureServiceURL);
-            featureService.addStatusChangedListener(s -> {
-              if (s.getNewStatus() == LocalServerStatus.STARTED) {
-                System.out.println("Local Service has started!");
-                String url = featureService.getUrl() + "/0";
-                System.out.println("Url: " + url);
-                ServiceFeatureTable featureTable = new ServiceFeatureTable(url);
-                featureTable.loadAsync();
-                FeatureLayer featureLayer = new FeatureLayer(featureTable);
-                featureLayer.loadAsync();
-                map.getOperationalLayers().add(featureLayer);
-                mapView.setViewpoint(new Viewpoint(featureLayer.getFullExtent()));
-              }
-            });
-            featureService.startAsync();
-          } catch (Exception e) {
-            e.printStackTrace();
+            String mapServiceURL = Paths.get(getClass().getResource("/RelationshipID.mpk").toURI()).toString();
+            mapImageService = new LocalMapService(mapServiceURL);
+            mapImageService.addStatusChangedListener(this::addLocalMapImageLayer);
+            mapImageService.startAsync();
+          } catch (URISyntaxException e) {
+            System.out.println("Failed to find mpk file. " + e.getMessage());
           }
-        } else if (status.getNewStatus() == LocalServerStatus.STOPPED) {
-          System.out.println("STOPPED");
         }
       });
       server.startAsync();
+
+      // add view to application window with progress bar
+      stackPane.getChildren().addAll(mapView, imageLayerProgress);
+      StackPane.setAlignment(imageLayerProgress, Pos.CENTER);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
+    }
+  }
+
+  /**
+   * Once the map service starts, a map image layer is created from that service and added to the map.
+   * <p>
+   * When the map image layer is done loading the view will zoom to the location of were the image has been added.
+   * 
+   * @param status status of feature service
+   */
+  private void addLocalMapImageLayer(StatusChangedEvent status) {
+
+    // check that the map service has started
+    if (status.getNewStatus() == LocalServerStatus.STARTED) {
+      // get the url of where map service is located
+      String url = mapImageService.getUrl();
+      // create a map image layer using url
+      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(url);
+      // set viewpoint once layer has loaded
+      imageLayer.addDoneLoadingListener(() -> {
+        mapView.setViewpoint(new Viewpoint(imageLayer.getFullExtent().getCenter(), 80000000));
+        Platform.runLater(() -> imageLayerProgress.setVisible(false));
+      });
+      imageLayer.loadAsync();
+      // add image layer to map
+      mapView.getMap().getOperationalLayers().add(imageLayer);
+
+    } else if (status.getNewStatus() == LocalServerStatus.STOPPED) {
+      // if map image layer is stopped then stop the server
+      server.stopAsync();
     }
   }
 
@@ -106,27 +131,12 @@ public class LocalServerMapImageLayer extends Application {
   @Override
   public void stop() throws Exception {
 
-    if (server != null) {
-      ListenableList<LocalService> services = server.getServices();
-      // stop any services that have been started
-      for (LocalService service : server.getServices()) {
-        if (service.getStatus() == LocalServerStatus.STARTED) {
-
-          ListenableFuture<Void> stop = service.stopAsync();
-          // stop server once all services have stopped
-          stop.addDoneListener(() -> {
-            int servicesStarted = services.size();
-            for (LocalService s : services) {
-              if (s.getStatus() == LocalServerStatus.STOPPED) {
-                servicesStarted--;
-              }
-            }
-            if (servicesStarted == 0) {
-              server.stopAsync();
-            }
-          });
-        }
-      }
+    if (mapImageService != null && mapImageService.getStatus() == LocalServerStatus.STARTED) {
+      // stop feature service if it is running
+      mapImageService.stopAsync();
+    } else if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
+      // if server is only thing running stop it
+      server.stopAsync();
     }
 
     if (mapView != null) {
