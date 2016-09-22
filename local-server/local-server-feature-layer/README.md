@@ -1,30 +1,33 @@
 #Local Server Feature Layer
-Demonstrates how to start 
+Demonstrates how to start a Local Service and Local Feature Service, then create a Feature Layer from the Local Feature Service and add it to a map. 
 
 ##How to use the sample
-Local Server Controls (Top Left):
-  - Start Local Server -- Starts a Local Server if one is not already running.
-  - Stop Local Server --  Stops a Local Server if one is running. 
-  
-Local Services Controls (Top Right):
-  - Combo Box -- Allows for the selection of a Local Map, Feature, or Geoprocessing Service. 
-  - Start Service -- Starts the Service that is selected in the combo box.
-  - Stop Service --  Stops the Service that is selected in the `List of Running Services`.
-  
-Text Area (Middle):
-  - Displays the running status of the Local Server and any services that are added to that server. 
-  
-List of Running Services (Bottom):
-  - Displays any services that are currently running on the server and allows for one of the services to be selected. 
-  - Go to URL -- Opens browser to the service that is selected in the `List of Running Services`. 
+A Local Server and Local Feature Service will automatically be started and once running a Feature Layer will be created and added to the map. 
   
 ![](LocalServerFeatureLayer.PNG)
   
 
 ##How it works
-To :
+To create a `FeatureLayer` from a `LocalFeatureService`:
 
-1.
+1.Create and run a local server.
+  - `LocalServer.INSTANCE` creates a local server
+  - `Server.startAsync()` starts the server asynchronously
+2. Wait for server to be in the  `LocalServerStatus.STARTED` state.
+  - `Server.addStatusChangedKistener()` fires whenever the running status of the local server has changed.
+3. Create and run a local feature service.
+  - `new LocalFeatureService(Url)`, creates a local map servie with the given url path of where the local map service can be found
+  - `LocalFeatureService.startAsync()`, starts the service asynchronously
+  - service will be added to the local server automatically
+4. Wait for feature service to be in the  `LocalServerStatus.STARTED` state.
+  - `LocalFeatureService.addStatusChangedKistener()` fires whenever the running status of the local service has changed.
+5. Create feature layer from local feature service.
+  - create a `ServiceFeatureTable(Url)` from local feature service url, `LocalFeatureService.getUrl()`
+  - create feature layer from service feature table
+6. Add feature layer to map, `Map.getOperationalLayers().add(featureLayer)`.
 
 ##Tags
-- 
+- LocalFeatureService
+- LocalServer
+- LocalServerStatus
+- StatusChangedEvent
