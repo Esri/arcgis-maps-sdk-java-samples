@@ -16,7 +16,7 @@ To create a `FeatureLayer` from a `LocalFeatureService`:
 2. Wait for server to be in the  `LocalServerStatus.STARTED` state.
   - `Server.addStatusChangedKistener()` fires whenever the running status of the local server has changed.
 3. Create and run a local feature service.
-  - `new LocalFeatureService(Url)`, creates a local map servie with the given url path of where the local map service can be found
+  - `new LocalFeatureService(Url)`, creates a local feature service with the given url path of where the local map service can be found
   - `LocalFeatureService.startAsync()`, starts the service asynchronously
   - service will be added to the local server automatically
 4. Wait for feature service to be in the  `LocalServerStatus.STARTED` state.
