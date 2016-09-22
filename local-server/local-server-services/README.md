@@ -29,10 +29,10 @@ To start a `Local Server` and start a `Local Service` to it:
   - `Server.startAsync()` starts the server asynchronously
 2. Wait for server to be in the  `LocalServerStatus.STARTED` state.
   - `Server.addStatusChangedKistener()` fires whenever the running status of the local server has changed.
-3. Create and run local service, example of running a `Local Map Service`.
+3. Create and run a local service, example of running a `Local Map Service`.
   - `new LocalMapService(URL)`, creates a local map servie with the given url path of where the local map service can be found
   - `Service.startAsync()`, starts the service asynchronously
-  - service will be added to the local server when running status is `LocalServerStatus.STARTED`
+  - service will be added to the local server automatically 
 
 To stop a `Local Server` and stop any `Local Service`s that are added to it:
 
