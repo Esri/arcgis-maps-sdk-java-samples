@@ -23,19 +23,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.localserver.LocalFeatureService;
 import com.esri.arcgisruntime.localserver.LocalServer;
 import com.esri.arcgisruntime.localserver.LocalServerStatus;
-import com.esri.arcgisruntime.localserver.LocalService;
 import com.esri.arcgisruntime.localserver.LocalService.StatusChangedEvent;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.util.ListenableList;
 
 public class LocalServerFeatureLayer extends Application {
 
@@ -117,7 +114,6 @@ public class LocalServerFeatureLayer extends Application {
 
     } else if (status.getNewStatus() == LocalServerStatus.STOPPED) {
       // if feature layer is stopped then stop the server
-      System.out.println("Stopping server");
       server.stopAsync();
     }
   }
@@ -128,36 +124,13 @@ public class LocalServerFeatureLayer extends Application {
   @Override
   public void stop() throws Exception {
 
-    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
-      ListenableList<LocalService> services = server.getServices();
-      // stop any services that have been started
-      for (LocalService service : server.getServices()) {
-        if (service.getStatus() == LocalServerStatus.STARTED) {
-
-          ListenableFuture<Void> stop = service.stopAsync();
-          // stop server once all services have stopped
-          stop.addDoneListener(() -> {
-            int servicesStarted = services.size();
-            for (LocalService s : services) {
-              if (s.getStatus() == LocalServerStatus.STOPPED) {
-                servicesStarted--;
-              }
-            }
-            if (servicesStarted == 0) {
-              server.stopAsync();
-            }
-          });
-        }
-      }
+    if (featureService != null && featureService.getStatus() == LocalServerStatus.STARTED) {
+      // stop feature service if it is running
+      featureService.stopAsync();
+    } else if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
+      // if server is only thing running stop it
+      server.stopAsync();
     }
-
-    //    if (featureService != null && featureService.getStatus() == LocalServerStatus.STARTED) {
-    //      // stop feature service if it is running
-    //      featureService.stopAsync();
-    //    } else if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
-    //      // if server is only thing running stop it
-    //      server.stopAsync();
-    //    }
 
     if (mapView != null) {
       mapView.dispose();
