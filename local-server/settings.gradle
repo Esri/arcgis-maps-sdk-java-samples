@@ -1,2 +1,3 @@
 rootProject.name = 'local-server'
-include 'local-server-services'
+include 'local-server-geoprocessing',
+        'local-server-services'
