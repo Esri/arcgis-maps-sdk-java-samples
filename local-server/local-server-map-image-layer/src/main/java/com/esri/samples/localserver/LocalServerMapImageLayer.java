@@ -131,11 +131,8 @@ public class LocalServerMapImageLayer extends Application {
   @Override
   public void stop() throws Exception {
 
-    if (mapImageService != null && mapImageService.getStatus() == LocalServerStatus.STARTED) {
-      // stop feature service if it is running
-      mapImageService.stopAsync();
-    } else if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
-      // if server is only thing running stop it
+    // stops any services and server that is running
+    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
       server.stopAsync();
     }
 
