@@ -136,11 +136,8 @@ public class LocalServerFeatureLayer extends Application {
   @Override
   public void stop() throws Exception {
 
-    if (featureService != null && featureService.getStatus() == LocalServerStatus.STARTED) {
-      // stop feature service if it is running
-      featureService.stopAsync();
-    } else if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
-      // if server is only thing running stop it
+    // stop any services and server that is running
+    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
       server.stopAsync();
     }
 
