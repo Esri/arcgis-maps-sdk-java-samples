@@ -2,33 +2,40 @@
 ### Quartz Beta 2
 This project includes a set of samples demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
-These samples are built with Gradle. If you want to learn more about Gradle, learn more from [Gradle's guide]
-(https://docs.gradle.org/current/userguide/userguide.html). The samples project has a Gradle multi-project structure.
+These samples are built with Gradle. If you want to learn more about Gradle, learn more from [Gradle's guide](https://docs.gradle.org/current/userguide/userguide.html). The samples project has a Gradle multi-project structure.
 
 This guide has instructions for running samples using the command line or with the Eclipse and IntelliJ IDEA IDEs.
 
 For developers new to Git, please see the wiki page for how to [clone this repository](https://github.com/Esri/arcgis-runtime-samples-java/wiki/working-with-git).
 
 ## Running the Samples
-To run the samples in a terminal, `cd` into the project and call the gradle `run` task for the sample:
+To run the samples in a terminal, `cd` into the project and call the gradle `run` task, supplying the sample main class:
 
 On Linux/Mac
 ```
-$ ./gradlew :display-information:show-callout:run
+$ ./gradlew run -PmainClass="com.esri.samples.scene.display_scene.DisplaySceneSample"
 ```
 
 On Windows
 ```
-> gradlew.bat :display-information:show-callout:run
+> gradlew.bat run -PmainClass="com.esri.samples.scene.display_scene.DisplaySceneSample"
 ```
+
+If no `mainClass` property is supplied, the default sample set in the buildscript will be run. 
 
 There is no need to install Gradle to run the samples.
 
+## The ArcGIS Runtime Gradle Plugin
+The plugin provides the project with everything an ArcGIS runtime project needs to run. It adds the 
+arcgis api as a dependency and downloads the native libraries into the project root. This download occurs 
+automatically the first time you build the project and is only performed once.
+
+You can see the open source plugin and learn more about it on [github](https://github.com/ArcGIS/gradle-arcgis-java-plugin).
+
 ## Offline sample data
 Some samples require offline data. The first time you refresh the Gradle project in an IDE, or run the `build` or 
-`run` tasks, the `downloadData` task will automatically download a local data folder called samples-data into the 
-directory with arcgis-java-runtime-samples. To get the latest data, delete the old `samples-data` folder, and then run
-`downloadData`.
+`run` tasks, the `downloadData` task will automatically download  `samples-data` into the project root. To get the 
+latest data, delete the old `samples-data` folder, and then run `downloadData`.
 
 ## Importing into an IDE
 We will step through how to import the Samples project into Eclipse and IntelliJ IDEA. In both IDEs you can choose to 

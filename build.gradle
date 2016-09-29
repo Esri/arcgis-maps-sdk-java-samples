@@ -1,25 +1,31 @@
-def rootDir = "../"
-def dataZip = rootDir + 'data.zip'
-def samplesData = rootDir + 'samples-data'
+apply plugin: 'application'
+apply plugin: 'com.esri.arcgisruntime.java'
 
-allprojects {
-    apply plugin: 'java'
-    apply plugin: 'eclipse'
-
+buildscript {
     repositories {
-        mavenCentral()
-        maven {
-            url 'http://android:8080/artifactory/arcgis'
-        }
+        /*maven {
+            url 'https://esri.bintray.com/arcgis'
+        }*/
+        mavenLocal()
     }
-
     dependencies {
-        compile 'com.esri.arcgisruntime:arcgis-java:100.0.0-1459'
+        classpath 'com.esri.arcgisruntime:gradle-arcgis-java-plugin:1.0.0-SNAPSHOT'
     }
+}
+
+arcgis.version = '100.0.0-1468'
+
+dependencies {
+    compile 'org.controlsfx:controlsfx:8.40.11'
+    compile 'org.jooq:joox:1.4.0'
 }
 
 // Download data from AGOL for offline data samples
 task downloadData {
+    def rootDir = "./"
+    def dataZip = rootDir + 'data.zip'
+    def samplesData = rootDir + 'samples-data'
+
     if (!file(samplesData).exists()) {
         ant.get(src: 'https://arcgisruntime.maps.arcgis' +
                 '.com/sharing/rest/content/items/8b10b52320464b1bb728e552cfa6cb50/data', dest: dataZip)
@@ -29,4 +35,12 @@ task downloadData {
         }
         delete(dataZip)
     }
+}
+
+run {
+    mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
 }

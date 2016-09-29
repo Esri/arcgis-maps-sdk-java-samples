@@ -1,6 +1,0 @@
-rootProject.name = 'editing'
-include 'add-features',
-        'delete-features',
-        'edit-feature-attachments',
-        'update-attributes',
-        'update-geometries'
