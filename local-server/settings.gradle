@@ -1,0 +1,3 @@
+rootProject.name = 'local-server'
+include 'local-server-feature-layer',
+        'local-server-services'
