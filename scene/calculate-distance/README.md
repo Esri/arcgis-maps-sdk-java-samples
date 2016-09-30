@@ -2,7 +2,7 @@
 Demonstrates how to calculate the distance, in meters, between two Graphics in 3D space.
 
 ##How to use the sample
-Once the SceneView has loaded the Graphics animation will begin. The distance between the two Graphics will be displayed at the top of the application and will be updated when the Graphics animation starts. 
+Once the SceneView has loaded the Graphic's animation will begin. The distance between the two Graphics will be displayed at the top of the application and will be updated when the Graphics animation starts. 
 
 ![](CalculateDistance3D.PNG)
 
