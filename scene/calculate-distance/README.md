@@ -14,7 +14,7 @@ To calculate the distance between two `Graphic`s in 3D space:
 1. Create the two graphics and add to graphics overlay.
   - supply each graphic with a `Point`, starting location, and `SimpleMarkerSymbol`
 1. Convert each graphic's point to the Cartesian coordinate system
-1. Create a JavaFX Point3D from the Cartesian x,y,z.
+1. Create a JavaFX Point3D from the Cartesian x,y, and z value.
 1. Then get the distance between each of the JavaFX Point3Ds, `Point3D.distance(Point3D)`.
 
 ##Features
