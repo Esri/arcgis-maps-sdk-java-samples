@@ -20,8 +20,9 @@ dependencies {
     compile 'org.jooq:joox:1.4.0'
 }
 
-// Download data from AGOL for offline data samples
 task downloadData {
+    description = "Downloads data from AGOL for samples with offline data"
+
     def rootDir = "./"
     def dataZip = rootDir + 'data.zip'
     def samplesData = rootDir + 'samples-data'
@@ -44,3 +45,5 @@ run {
 task wrapper(type: Wrapper) {
     gradleVersion = '3.0'
 }
+
+run.dependsOn downloadData
