@@ -42,7 +42,7 @@ import com.esri.arcgisruntime.mapping.view.LayerSceneProperties.SurfacePlacement
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
-public class CalculateDistanceController {
+public class CalculateDistance3DController {
 
   @FXML
   private Label txtDistance;

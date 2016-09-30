@@ -10,7 +10,7 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
 
-<StackPane fx:controller="com.esri.samples.scene.CalculateDistanceController"
+<StackPane fx:controller="com.esri.samples.scene.CalculateDistance3DControllerer"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css">
     <!--SDK SceneView-->
     <SceneView fx:id="sceneView"/>

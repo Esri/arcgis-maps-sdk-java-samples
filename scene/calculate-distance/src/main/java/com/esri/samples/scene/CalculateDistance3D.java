@@ -23,9 +23,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class CalculateDistance extends Application {
+public class CalculateDistance3D extends Application {
 
-  private static CalculateDistanceController controller;
+  private static CalculateDistance3DController controller;
 
   @Override
   public void start(Stage stage) throws IOException {
