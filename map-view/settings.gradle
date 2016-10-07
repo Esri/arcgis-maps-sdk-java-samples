@@ -1,5 +1,0 @@
-rootProject.name = 'map-view'
-include 'change-viewpoint',
-        'display-drawing-status',
-        'display-layer-view-state-status',
-        'map-rotation'

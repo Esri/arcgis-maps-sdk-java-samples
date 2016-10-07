@@ -1,5 +1,0 @@
-rootProject.name = 'search'
-include 'find-address',
-        'find-place',
-        'geocode-online',
-        'reverse-geocode-online'

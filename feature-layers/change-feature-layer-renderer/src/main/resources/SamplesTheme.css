@@ -1,9 +1,0 @@
-.panel-region {
-  -fx-background-color: rgba(0,0,0, 0.3);
-  -fx-padding: 10.0 10.0 10.0 10.0;
-}
-
-.label {
-  -fx-text-fill: white;
-  -fx-font-weight: bold;
-}

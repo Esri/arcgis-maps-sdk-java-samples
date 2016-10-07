@@ -1,8 +1,0 @@
-rootProject.name = 'symbology'
-include 'picture-marker-symbol',
-        'simple-fill-symbol',
-        'simple-line-symbol',
-        'simple-marker-symbol',
-        'simple-renderer',
-        'symbol-dictionary',
-        'unique-value-renderer'
