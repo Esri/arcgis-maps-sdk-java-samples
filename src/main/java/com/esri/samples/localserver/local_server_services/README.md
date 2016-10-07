@@ -6,19 +6,19 @@
 
 <p>Local Server Controls (Top Left):
   <li> Start Local Server -- Starts a Local Server if one is not already running.</li>
-  <li> Stop Local Server --  Stops a Local Server if one is running. </p></li>
+  <li> Stop Local Server --  Stops a Local Server if one is running. </li></p>
 
 <p>Local Services Controls (Top Right):
-  - Combo Box -- Allows for the selection of a Local Map, Feature, or Geoprocessing Service. 
-  - Start Service -- Starts the Service that is selected in the combo box.
-  - Stop Service --  Stops the Service that is selected in the <code>List of Running Services</code>.</p>
+  <li>  Combo Box -- Allows for the selection of a Local Map, Feature, or Geoprocessing Service.</li>
+  <li>  Start Service -- Starts the Service that is selected in the combo box.</li>
+  <li>  Stop Service --  Stops the Service that is selected in the <code>List of Running Services</code>.</li></p>
 
 <p>Text Area (Middle):
-  - Displays the running status of the Local Server and any services that are added to that server. </p>
+  <li> Displays the running status of the Local Server and any services that are added to that server. </li></p>
 
 <p>List of Running Services (Bottom):
-  - Displays any services that are currently running on the server and allows for one of the services to be selected. 
-  - Go to URL -- Opens browser to the service that is selected in the <code>List of Running Services</code>. </p>
+  <li> Displays any services that are currently running on the server and allows for one of the services to be selected.</li> 
+  <li> Go to URL -- Opens browser to the service that is selected in the <code>List of Running Services</code>. </li></p>
 
 <p><img src="LocalServerServices.png" alt="" title="" /></p>
 
