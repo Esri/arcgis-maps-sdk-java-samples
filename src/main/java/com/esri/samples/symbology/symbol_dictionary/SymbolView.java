@@ -1,9 +1,10 @@
 package com.esri.samples.symbology.symbol_dictionary;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.symbology.CimSymbol;
-import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,10 +13,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
+import com.esri.arcgisruntime.symbology.Symbol;
 
 public class SymbolView extends HBox implements Initializable {
 
@@ -25,7 +26,7 @@ public class SymbolView extends HBox implements Initializable {
   private @FXML Label symbolClass;
   private @FXML Label category;
   private @FXML Label key;
-  
+
   StyleSymbolSearchResult styleSymbolSearchResult;
 
   /**
@@ -37,7 +38,7 @@ public class SymbolView extends HBox implements Initializable {
     styleSymbolSearchResult = symbolResult;
 
     // Set the view of this component to the fxml file
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/symbol_dictionary_view.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/symbol_dictionary/symbol_dictionary_view.fxml"));
     loader.setRoot(this);
     loader.setController(this);
 
@@ -59,7 +60,7 @@ public class SymbolView extends HBox implements Initializable {
 
     // set image for non-text symbols
     if (!category.getText().startsWith("Text")) {
-      CimSymbol symbol = styleSymbolSearchResult.getSymbol();
+      Symbol symbol = styleSymbolSearchResult.getSymbol();
       ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, 0x00FFFFFF, new Point(0, 0, 0));
       imageResult.addDoneListener(() -> {
         try {
