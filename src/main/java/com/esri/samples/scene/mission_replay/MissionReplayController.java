@@ -71,9 +71,10 @@ public class MissionReplayController {
   private Slider angleSlider;
   @FXML
   private Slider speedSlider;
+  @FXML
+  private Timeline animation;
 
   private Camera camera;
-  private Timeline animation;
   private Graphic plane3D;
   private Graphic plane2D;
   private List<Map<String, Object>> missionData;
@@ -145,20 +146,10 @@ public class MissionReplayController {
       sceneOverlay.getGraphics().add(plane3D);
 
       // setup animation to render a new frame every 20 ms by default
-      animation = new Timeline(new KeyFrame(Duration.millis(20), e -> animate(animationModel.nextKeyframe())));
-      animation.setCycleCount(Animation.INDEFINITE);
-
-      // bind camera slider controls to camera model properties
-      cameraModel.distanceProperty().bind(zoomSlider.valueProperty());
-      cameraModel.angleProperty().bind(angleSlider.valueProperty());
-
-      // bind animation properties
-      progressSlider.maxProperty().bind(animationModel.framesProperty());
-      progressSlider.valueProperty().bindBidirectional(animationModel.keyframeProperty());
-      animation.rateProperty().bind(speedSlider.valueProperty());
+      animation.getKeyFrames().add(new KeyFrame(Duration.millis(20), e -> animate(animationModel.nextKeyframe())));
 
       // bind button properties
-      followButton.disableProperty().bind(Bindings.not(playButton.selectedProperty()));
+      followButton.disableProperty().bind(playButton.selectedProperty().not());
       followButton.textProperty().bind(Bindings.createStringBinding(() -> followButton.isSelected() ?
           "Free cam" : "Follow", followButton.selectedProperty()));
       playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() ?
@@ -189,9 +180,8 @@ public class MissionReplayController {
    */
   private Graphic create3DPlane() throws URISyntaxException {
     // load the plane's 3D model symbol
-    String modelURI = new File("./samples-data/skycrane/Skycrane.lwo").getAbsolutePath();
-    ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 0.01);
-    plane3DSymbol.setHeading(180); // correct the symbol's orientation to match the graphic's orientation
+    String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
+    ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
     plane3DSymbol.loadAsync();
 
     // create the graphic
