@@ -9,7 +9,7 @@
  * governing permissions and limitations under the License.
  */
 
-package com.esri.samples.scene.mission_replay;
+package com.esri.samples.scene.animate_3d_symbols;
 
 import java.io.IOException;
 
@@ -19,9 +19,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class MissionReplaySample extends Application {
+public class Animate3dSymbolsSample extends Application {
 
-  private static MissionReplayController controller;
+  private static Animate3dSymbolsController controller;
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -32,7 +32,7 @@ public class MissionReplaySample extends Application {
     Scene scene = new Scene(root);
 
     // set up the stage
-    stage.setTitle("Display a scene");
+    stage.setTitle("Animate 3d Symbols Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);

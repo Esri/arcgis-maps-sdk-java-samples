@@ -9,7 +9,7 @@
  * governing permissions and limitations under the License.
  */
 
-package com.esri.samples.scene.mission_replay;
+package com.esri.samples.scene.animate_3d_symbols;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -45,7 +44,7 @@ import com.esri.arcgisruntime.symbology.*;
 /**
  * Controller class. Automatically instantiated when the FXML loads due to the fx:controller attribute.
  */
-public class MissionReplayController {
+public class Animate3dSymbolsController {
   // injected elements from fxml
   @FXML
   private CameraModel cameraModel;

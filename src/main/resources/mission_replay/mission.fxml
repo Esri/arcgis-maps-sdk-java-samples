@@ -8,12 +8,12 @@
 
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
-<?import com.esri.samples.scene.mission_replay.AnimationModel?>
-<?import com.esri.samples.scene.mission_replay.CameraModel?>
-<?import com.esri.samples.scene.mission_replay.PlaneModel?>
+<?import com.esri.samples.scene.animate_3d_symbols.AnimationModel?>
+<?import com.esri.samples.scene.animate_3d_symbols.CameraModel?>
+<?import com.esri.samples.scene.animate_3d_symbols.PlaneModel?>
 
 <?import javafx.animation.Timeline?>
-<StackPane fx:controller="com.esri.samples.scene.mission_replay.MissionReplayController"
+<StackPane fx:controller="com.esri.samples.scene.animate_3d_symbols.Animate3dSymbolsController"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/mission_replay/style.css">
     <!--Instantiate model instances to bind to-->
     <fx:define>
