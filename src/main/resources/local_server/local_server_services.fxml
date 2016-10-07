@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:controller="com.esri.samples.localserver.local_server_services.LocalServerServicesController"
+           xmlns:fx="http://javafx.com/fxml">
+  <!-- Top Section -->
+  <top>
+    <HBox spacing="10">
+      <padding><Insets top="10" right="10" bottom="5" left="10"/></padding>
+    
+      <VBox spacing="3"> 
+        <Button fx:id="btnStartServer" text="Start Local Server" minWidth="200" onAction="#handleStartLocalServer"/>
+        <Button fx:id="btnStopServer" text="Stop Local Server" minWidth="200" onAction="#handleStopLocalServer" 
+          disable="true"/>
+      </VBox>
+    
+      <VBox HBox.hgrow="ALWAYS" spacing="3"> 
+        <ComboBox fx:id="serviceOptions" maxWidth="Infinity">
+          
+          <value>
+            <String fx:value="Map Service"/>
+          </value>
+          
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Map Service"/>
+              <String fx:value="Feature Service"/>
+              <String fx:value="Geoprocessing Service"/>
+            </FXCollections>
+          </items>
+        </ComboBox>
+        
+        <HBox spacing="3">
+          <Button fx:id="btnStartService" HBox.hgrow="ALWAYS" text="Start Service" maxWidth="Infinity" 
+            onAction="#handleStartLocalService" disable="true"/>
+          <Button fx:id="btnStopService"  HBox.hgrow="ALWAYS" text="Stop Service" maxWidth="Infinity" 
+            onAction="#handleStopLocalService" disable="true"/>
+        </HBox>
+ 
+      </VBox>
+    </HBox>
+  </top>
+    
+    <!-- Displays Sever/Service status to center text area -->
+  <center>
+    <HBox>
+      <padding><Insets top="5" right="10" bottom="5" left="10"/></padding>
+      <TextArea fx:id="statusLog" HBox.hgrow="ALWAYS"  maxWidth="Infinity" editable="false"/>
+    </HBox>
+  </center>
+    
+     <!-- List services that are currently running -->
+  <bottom> 
+   <VBox>
+      <padding><Insets top="5" right="10" bottom="10" left="10"/></padding>
+      <Label text="List of Running Services"/>
+      <VBox spacing="3" alignment="center_right"> 
+        <ListView fx:id="runningServices" maxWidth="Infinity" maxHeight="100" onMouseClicked="#enableServiceButtons"/>
+        <Button fx:id="btnURL" text="Go to URL" disable="true" onAction="#handleURL"/>
+      </VBox>
+    </VBox>
+  </bottom>
+    
+</BorderPane>
