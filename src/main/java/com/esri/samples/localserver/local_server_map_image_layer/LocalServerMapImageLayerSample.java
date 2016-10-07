@@ -99,7 +99,7 @@ public class LocalServerMapImageLayerSample extends Application {
   /**
    * Once the map service starts, a map image layer is created from that service and added to the map.
    * <p>
-   * When the map image layer is done loading the view will zoom to the location of were the image has been added.
+   * When the map image layer is done loading, the view will zoom to the location of were the image has been added.
    * 
    * @param status status of feature service
    */
