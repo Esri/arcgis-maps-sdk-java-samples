@@ -5,8 +5,8 @@
 <h2>How to use the sample</h2>
 
 <p>Local Server Controls (Top Left):
-  - Start Local Server -- Starts a Local Server if one is not already running.
-  - Stop Local Server --  Stops a Local Server if one is running. </p>
+  <li>- Start Local Server -- Starts a Local Server if one is not already running.
+  - Stop Local Server --  Stops a Local Server if one is running. </p></li>
 
 <p>Local Services Controls (Top Right):
   - Combo Box -- Allows for the selection of a Local Map, Feature, or Geoprocessing Service. 
