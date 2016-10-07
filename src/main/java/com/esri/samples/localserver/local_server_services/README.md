@@ -20,7 +20,7 @@
   <li> Displays any services that are currently running on the server and allows for one of the services to be selected.</li> 
   <li> Go to URL -- Opens browser to the service that is selected in the <code>List of Running Services</code>. </li></p>
 
-<p><img src="LocalServerServices.png" alt="" title="" /></p>
+<p><img src="LocalServerServices.gif" alt="" title="" /></p>
 
 <h2>How it works</h2>
 
