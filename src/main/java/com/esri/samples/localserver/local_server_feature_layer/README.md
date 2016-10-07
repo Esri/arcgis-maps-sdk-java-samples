@@ -6,7 +6,7 @@
 
 <p>A Local Server and Local Feature Service will automatically be started and once running a Feature Layer will be created and added to the map. </p>
 
-<p><img src="LocalServerFeatureLayer.PNG" alt="" title="" /></p>
+<p><img src="" alt="" title="" /></p>
 
 <h2>How it works</h2>
 
