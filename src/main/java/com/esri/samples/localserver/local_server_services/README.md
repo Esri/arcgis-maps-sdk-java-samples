@@ -2,6 +2,7 @@
 
 <p>Demonstrates how to start and stop a Local Server and start and stop a Local Map, Feature, and Geoprocessing Service to that server.</p>
 
+<p><img src="LocalServerServices.gif" title="Local Server Services Sample" /></p>
 <h2>How to use the sample</h2>
 
 <p>Local Server Controls (Top Left): </p>
@@ -19,8 +20,6 @@
 <p>List of Running Services (Bottom): </p>
   <ul><li> Displays any services that are currently running on the server and allows for one of the services to be selected.</li> 
   <li> Go to URL -- Opens browser to the service that is selected in the <code>List of Running Services</code>. </li></ul>
-
-<p><img src="LocalServerServices.gif" alt="" title="" /></p>
 
 <h2>How it works</h2>
 
