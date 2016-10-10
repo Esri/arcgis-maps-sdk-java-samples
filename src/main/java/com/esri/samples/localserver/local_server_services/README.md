@@ -14,11 +14,11 @@
   <li>  Stop Service --  Stops the Service that is selected in the <code>List of Running Services</code>.</li></p>
 
 <p>Text Area (Middle): </p>
-  <li> Displays the running status of the Local Server and any services that are added to that server. </li>
+  <ul><li> Displays the running status of the Local Server and any services that are added to that server. </li></ul>
 
-<p>List of Running Services (Bottom):
-  <li> Displays any services that are currently running on the server and allows for one of the services to be selected.</li> 
-  <li> Go to URL -- Opens browser to the service that is selected in the <code>List of Running Services</code>. </li></p>
+<p>List of Running Services (Bottom): </p>
+  <ul><li> Displays any services that are currently running on the server and allows for one of the services to be selected.</li> 
+  <li> Go to URL -- Opens browser to the service that is selected in the <code>List of Running Services</code>. </li></ul>
 
 <p><img src="LocalServerServices.gif" alt="" title="" /></p>
 
