@@ -14,7 +14,7 @@
 
 <?import javafx.animation.Timeline?>
 <StackPane fx:controller="com.esri.samples.scene.animate_3d_symbols.Animate3dSymbolsController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/mission_replay/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/animate_3d_symbols/style.css">
     <!--Instantiate model instances to bind to-->
     <fx:define>
         <Timeline fx:id="animation" rate="${speedSlider.value}" cycleCount="-1"/>

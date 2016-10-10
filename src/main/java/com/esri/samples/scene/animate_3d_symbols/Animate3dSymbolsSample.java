@@ -26,7 +26,7 @@ public class Animate3dSymbolsSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mission_replay/mission.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/animate_3d_symbols/mission.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

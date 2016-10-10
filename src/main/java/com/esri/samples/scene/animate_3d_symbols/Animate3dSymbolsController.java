@@ -241,7 +241,7 @@ public class Animate3dSymbolsController {
 
     // open a file reader to the mission file that automatically closes after read
     try (BufferedReader missionFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream
-        ("/mission_replay/" + mission)))) {
+        ("/animate_3d_symbols/" + mission)))) {
       List<Map<String, Object>> missionData = new ArrayList<>();
       missionFile.lines()
           //ex: -156.3666517,20.6255059,999.999908,83.77659,1.05E-09,-47.766567
