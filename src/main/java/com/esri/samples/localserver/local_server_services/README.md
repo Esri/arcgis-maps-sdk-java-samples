@@ -8,10 +8,10 @@
   <ul><li> Start Local Server -- Starts a Local Server if one is not already running.</li>
   <li> Stop Local Server --  Stops a Local Server if one is running. </li></ul>
 
-<p>Local Services Controls (Top Right):
-  <li>  Combo Box -- Allows for the selection of a Local Map, Feature, or Geoprocessing Service.</li>
-  <li>  Start Service -- Starts the Service that is selected in the combo box.</li>
-  <li>  Stop Service --  Stops the Service that is selected in the <code>List of Running Services</code>.</li></p>
+<p>Local Services Controls (Top Right): </p>
+  <ul><li> Combo Box -- Allows for the selection of a Local Map, Feature, or Geoprocessing Service.</li>
+  <li> Start Service -- Starts the Service that is selected in the combo box.</li>
+  <li> Stop Service --  Stops the Service that is selected in the <code>List of Running Services</code>.</li></ul>
 
 <p>Text Area (Middle): </p>
   <ul><li> Displays the running status of the Local Server and any services that are added to that server. </li></ul>
