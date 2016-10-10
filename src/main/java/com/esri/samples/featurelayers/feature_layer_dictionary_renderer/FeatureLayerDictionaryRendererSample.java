@@ -18,7 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.datasource.arcgis.Geodatabase;
+import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -26,7 +26,7 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
-import com.esri.arcgisruntime.symbology.SymbolDictionary;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 
 public class FeatureLayerDictionaryRendererSample extends Application {
 
@@ -57,7 +57,7 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     geodatabase.loadAsync();
 
     // render tells layer what symbols to apply to what features
-    SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d");
+    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
     symbolDictionary.loadAsync();
 
     geodatabase.addDoneLoadingListener(() -> {

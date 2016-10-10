@@ -75,7 +75,7 @@ public class IdentifyGraphicsSample extends Application {
           Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
           // identify graphics on the graphics overlay
-          identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, IdentifyReturns.GEOELEMENTS_ONLY);
+          identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
 
           identifyGraphics.addDoneListener(() -> Platform.runLater(this::createGraphicDialog));
         }

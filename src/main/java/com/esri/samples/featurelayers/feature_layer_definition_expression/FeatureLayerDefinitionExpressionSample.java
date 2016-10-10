@@ -13,7 +13,7 @@ package com.esri.samples.featurelayers.feature_layer_definition_expression;
 
 import org.controlsfx.control.ToggleSwitch;
 
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;

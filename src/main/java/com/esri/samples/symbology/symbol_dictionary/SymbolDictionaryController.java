@@ -26,9 +26,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 import com.esri.arcgisruntime.symbology.StyleSymbolSearchParameters;
 import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
-import com.esri.arcgisruntime.symbology.SymbolDictionary;
 
 public class SymbolDictionaryController {
 
@@ -41,7 +41,7 @@ public class SymbolDictionaryController {
   @FXML private TextField keyField;
   @FXML private Text searchResultsFound;
 
-  private SymbolDictionary dictionarySymbol;
+  private DictionarySymbolStyle dictionarySymbol;
   private StyleSymbolSearchParameters searchParameters;
 
   /**
@@ -49,7 +49,7 @@ public class SymbolDictionaryController {
    */
   public void initialize() {
     // loads a specification for the symbol dictionary
-    dictionarySymbol = new SymbolDictionary("mil2525d");
+    dictionarySymbol = new DictionarySymbolStyle("mil2525d");
     dictionarySymbol.loadAsync();
   }
 

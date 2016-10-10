@@ -15,22 +15,6 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.arcgis.ArcGISFeature;
-import com.esri.arcgisruntime.datasource.arcgis.Attachment;
-import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.GeoElement;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
-import com.esri.arcgisruntime.mapping.view.IdentifyReturns;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -45,6 +29,21 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.ArcGISFeature;
+import com.esri.arcgisruntime.data.Attachment;
+import com.esri.arcgisruntime.data.FeatureEditResult;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.GeoElement;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class EditFeatureAttachmentsSample extends Application {
 
@@ -150,7 +149,7 @@ public class EditFeatureAttachmentsSample extends Application {
           addAttachmentButton.setDisable(true);
 
           // get the clicked feature
-          ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, IdentifyReturns.GEOELEMENTS_ONLY);
+          ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false);
           results.addDoneListener(() -> {
             try {
               IdentifyLayerResult layer = results.get();

@@ -15,21 +15,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.Feature;
-import com.esri.arcgisruntime.datasource.FeatureQueryResult;
-import com.esri.arcgisruntime.datasource.arcgis.FeatureEditResult;
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
-import com.esri.arcgisruntime.mapping.view.IdentifyReturns;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -42,6 +27,20 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.Feature;
+import com.esri.arcgisruntime.data.FeatureEditResult;
+import com.esri.arcgisruntime.data.FeatureQueryResult;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class DeleteFeaturesSample extends Application {
 
@@ -115,7 +114,7 @@ public class DeleteFeaturesSample extends Application {
           // create a point from where the user clicked
           Point2D point = new Point2D(event.getX(), event.getY());
           // identify the clicked feature
-          ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, IdentifyReturns.GEOELEMENTS_ONLY);
+          ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false);
           results.addDoneListener(() -> {
             try {
               IdentifyLayerResult layer = results.get();

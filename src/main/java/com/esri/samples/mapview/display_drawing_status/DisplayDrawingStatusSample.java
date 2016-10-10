@@ -19,7 +19,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;

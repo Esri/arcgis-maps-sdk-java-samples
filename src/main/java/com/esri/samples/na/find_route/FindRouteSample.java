@@ -40,7 +40,12 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol.Style;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
 import com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
-import com.esri.arcgisruntime.tasks.route.*;
+import com.esri.arcgisruntime.tasks.networkanalysis.DirectionMessageType;
+import com.esri.arcgisruntime.tasks.networkanalysis.Route;
+import com.esri.arcgisruntime.tasks.networkanalysis.RouteParameters;
+import com.esri.arcgisruntime.tasks.networkanalysis.RouteResult;
+import com.esri.arcgisruntime.tasks.networkanalysis.RouteTask;
+import com.esri.arcgisruntime.tasks.networkanalysis.Stop;
 
 public class FindRouteSample extends Application {
 

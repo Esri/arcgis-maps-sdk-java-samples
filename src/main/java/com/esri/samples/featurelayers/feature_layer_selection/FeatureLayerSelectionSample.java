@@ -22,8 +22,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.Feature;
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.Feature;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -31,7 +31,6 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
-import com.esri.arcgisruntime.mapping.view.IdentifyReturns;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class FeatureLayerSelectionSample extends Application {
@@ -92,7 +91,7 @@ public class FeatureLayerSelectionSample extends Application {
 
           // identify the clicked features
           final ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 10,
-              IdentifyReturns.GEOELEMENTS_ONLY);
+              false);
           results.addDoneListener(() -> {
 
             try {

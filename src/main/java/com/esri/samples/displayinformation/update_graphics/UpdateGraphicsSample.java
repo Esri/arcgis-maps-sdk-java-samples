@@ -169,7 +169,7 @@ public class UpdateGraphicsSample extends Application {
             isUpdateLocationActive = false;
           } else {
             // identify the graphic that was selected
-            identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, IdentifyReturns.GEOELEMENTS_ONLY);
+            identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
 
             identifyGraphics.addDoneListener(() -> {
               try {

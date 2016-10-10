@@ -218,8 +218,7 @@ public class FindPlaceSample extends Application {
           Point2D point = new Point2D(evt.getX(), evt.getY());
 
           // get layers with elements near the clicked location
-          identifyResults = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, point,
-              10, IdentifyReturns.GEOELEMENTS_ONLY);
+          identifyResults = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, point, 10, false);
           identifyResults.addDoneListener(() -> {
             try {
               List<Graphic> graphics = identifyResults.get().getGraphics();
