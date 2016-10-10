@@ -30,7 +30,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -52,12 +51,8 @@ public class Animate3dSymbolsController {
   @FXML private SceneView sceneView;
   @FXML private MapView mapView;
   @FXML private ComboBox<String> missionSelector;
-  @FXML private Slider progressSlider;
   @FXML private ToggleButton playButton;
   @FXML private ToggleButton followButton;
-  @FXML private Slider zoomSlider;
-  @FXML private Slider angleSlider;
-  @FXML private Slider speedSlider;
   @FXML private Timeline animation;
 
   private Camera camera;
