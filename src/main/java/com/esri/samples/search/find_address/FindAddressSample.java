@@ -14,20 +14,6 @@ package com.esri.samples.search.find_address;
 import java.util.HashMap;
 import java.util.List;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.datasource.arcgis.TileCache;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.*;
-import com.esri.arcgisruntime.mapping.view.Callout.LeaderPosition;
-import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
-import com.esri.arcgisruntime.tasks.geocode.GeocodeParameters;
-import com.esri.arcgisruntime.tasks.geocode.GeocodeResult;
-import com.esri.arcgisruntime.tasks.geocode.LocatorTask;
-import com.esri.arcgisruntime.tasks.geocode.ReverseGeocodeParameters;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -41,6 +27,24 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.TileCache;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.Callout;
+import com.esri.arcgisruntime.mapping.view.Callout.LeaderPosition;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.IdentifyGraphicsOverlayResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
+import com.esri.arcgisruntime.tasks.geocode.GeocodeParameters;
+import com.esri.arcgisruntime.tasks.geocode.GeocodeResult;
+import com.esri.arcgisruntime.tasks.geocode.LocatorTask;
+import com.esri.arcgisruntime.tasks.geocode.ReverseGeocodeParameters;
 
 public class FindAddressSample extends Application {
 
@@ -178,8 +182,7 @@ public class FindAddressSample extends Application {
             mapView.setOnMouseMoved(null);
           } else {
             // identify the selected graphic
-            identifyResults = mapView.identifyGraphicsOverlayAsync(graphicsOverlay,
-                clickLocation, 10, IdentifyReturns.GEOELEMENTS_ONLY);
+            identifyResults = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, clickLocation, 10, false);
             identifyResults.addDoneListener(() -> {
               try {
                 List<Graphic> graphics = identifyResults.get().getGraphics();

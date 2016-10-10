@@ -32,7 +32,7 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
-import com.esri.arcgisruntime.symbology.SymbolDictionary;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -66,7 +66,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // create symbol dictionary from specification
-    SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d");
+    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
 
     // tells graphics overlay how to render graphics with symbol dictionary attributes set
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);

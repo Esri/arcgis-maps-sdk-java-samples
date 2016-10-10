@@ -13,7 +13,7 @@ buildscript {
     }
 }
 
-arcgis.version = '100.0.0-1468'
+arcgis.version = '100.0.0-1485'
 
 dependencies {
     compile 'org.controlsfx:controlsfx:8.40.11'

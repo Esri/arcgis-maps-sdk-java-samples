@@ -44,7 +44,7 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
-import com.esri.arcgisruntime.symbology.SymbolDictionary;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 
 public class DictionaryRendererGraphicsOverlay3d extends Application {
 
@@ -81,7 +81,7 @@ public class DictionaryRendererGraphicsOverlay3d extends Application {
     sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
     // create symbol dictionary from specification
-    SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d");
+    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
 
     // tells graphics overlay how to render graphics with symbol dictionary attributes set
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
