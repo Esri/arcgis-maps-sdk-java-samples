@@ -9,7 +9,7 @@
  * governing permissions and limitations under the License.
  */
 
-package com.esri.samples.scene.mission_replay;
+package com.esri.samples.scene.animate_3d_symbols;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

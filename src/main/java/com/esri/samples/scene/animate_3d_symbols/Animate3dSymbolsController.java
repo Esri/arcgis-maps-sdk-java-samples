@@ -9,7 +9,7 @@
  * governing permissions and limitations under the License.
  */
 
-package com.esri.samples.scene.mission_replay;
+package com.esri.samples.scene.animate_3d_symbols;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -31,7 +30,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -45,35 +43,19 @@ import com.esri.arcgisruntime.symbology.*;
 /**
  * Controller class. Automatically instantiated when the FXML loads due to the fx:controller attribute.
  */
-public class MissionReplayController {
+public class Animate3dSymbolsController {
   // injected elements from fxml
-  @FXML
-  private CameraModel cameraModel;
-  @FXML
-  private AnimationModel animationModel;
-  @FXML
-  private PlaneModel planeModel;
-  @FXML
-  private SceneView sceneView;
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ComboBox<String> missionSelector;
-  @FXML
-  private Slider progressSlider;
-  @FXML
-  private ToggleButton playButton;
-  @FXML
-  private ToggleButton followButton;
-  @FXML
-  private Slider zoomSlider;
-  @FXML
-  private Slider angleSlider;
-  @FXML
-  private Slider speedSlider;
+  @FXML private CameraModel cameraModel;
+  @FXML private AnimationModel animationModel;
+  @FXML private PlaneModel planeModel;
+  @FXML private SceneView sceneView;
+  @FXML private MapView mapView;
+  @FXML private ComboBox<String> missionSelector;
+  @FXML private ToggleButton playButton;
+  @FXML private ToggleButton followButton;
+  @FXML private Timeline animation;
 
   private Camera camera;
-  private Timeline animation;
   private Graphic plane3D;
   private Graphic plane2D;
   private List<Map<String, Object>> missionData;
@@ -145,20 +127,10 @@ public class MissionReplayController {
       sceneOverlay.getGraphics().add(plane3D);
 
       // setup animation to render a new frame every 20 ms by default
-      animation = new Timeline(new KeyFrame(Duration.millis(20), e -> animate(animationModel.nextKeyframe())));
-      animation.setCycleCount(Animation.INDEFINITE);
-
-      // bind camera slider controls to camera model properties
-      cameraModel.distanceProperty().bind(zoomSlider.valueProperty());
-      cameraModel.angleProperty().bind(angleSlider.valueProperty());
-
-      // bind animation properties
-      progressSlider.maxProperty().bind(animationModel.framesProperty());
-      progressSlider.valueProperty().bindBidirectional(animationModel.keyframeProperty());
-      animation.rateProperty().bind(speedSlider.valueProperty());
+      animation.getKeyFrames().add(new KeyFrame(Duration.millis(20), e -> animate(animationModel.nextKeyframe())));
 
       // bind button properties
-      followButton.disableProperty().bind(Bindings.not(playButton.selectedProperty()));
+      followButton.disableProperty().bind(playButton.selectedProperty().not());
       followButton.textProperty().bind(Bindings.createStringBinding(() -> followButton.isSelected() ?
           "Free cam" : "Follow", followButton.selectedProperty()));
       playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() ?
@@ -189,9 +161,8 @@ public class MissionReplayController {
    */
   private Graphic create3DPlane() throws URISyntaxException {
     // load the plane's 3D model symbol
-    String modelURI = new File("./samples-data/skycrane/Skycrane.lwo").getAbsolutePath();
-    ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 0.01);
-    plane3DSymbol.setHeading(180); // correct the symbol's orientation to match the graphic's orientation
+    String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
+    ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
     plane3DSymbol.loadAsync();
 
     // create the graphic
@@ -252,7 +223,7 @@ public class MissionReplayController {
 
     // open a file reader to the mission file that automatically closes after read
     try (BufferedReader missionFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream
-        ("/mission_replay/" + mission)))) {
+        ("/animate_3d_symbols/" + mission)))) {
       List<Map<String, Object>> missionData = new ArrayList<>();
       missionFile.lines()
           //ex: -156.3666517,20.6255059,999.999908,83.77659,1.05E-09,-47.766567

@@ -8,15 +8,17 @@
 
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
-<?import com.esri.samples.scene.mission_replay.AnimationModel?>
-<?import com.esri.samples.scene.mission_replay.CameraModel?>
-<?import com.esri.samples.scene.mission_replay.PlaneModel?>
+<?import com.esri.samples.scene.animate_3d_symbols.AnimationModel?>
+<?import com.esri.samples.scene.animate_3d_symbols.CameraModel?>
+<?import com.esri.samples.scene.animate_3d_symbols.PlaneModel?>
 
-<StackPane fx:controller="com.esri.samples.scene.mission_replay.MissionReplayController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/mission_replay/style.css">
+<?import javafx.animation.Timeline?>
+<StackPane fx:controller="com.esri.samples.scene.animate_3d_symbols.Animate3dSymbolsController"
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/animate_3d_symbols/style.css">
     <!--Instantiate model instances to bind to-->
     <fx:define>
-        <CameraModel fx:id="cameraModel" distance="200.0" angle="75.0" following="true"/>
+        <Timeline fx:id="animation" rate="${speedSlider.value}" cycleCount="-1"/>
+        <CameraModel fx:id="cameraModel" distance="${zoomSlider.value}" angle="${angleSlider.value}" following="true"/>
         <AnimationModel fx:id="animationModel" keyframe="0"/>
         <PlaneModel fx:id="planeModel"/>
     </fx:define>
@@ -38,16 +40,17 @@
             </items>
         </ComboBox>
         <Label text="Mission Progress"/>
-        <Slider fx:id="progressSlider" max="1"/>
+        <Slider fx:id="progressSlider" value="${animationModel.keyframe}" max="${animationModel.frames}"/>
         <HBox alignment="CENTER">
             <ToggleButton fx:id="playButton" text="Play" onAction="#togglePlay" disable="true"/>
-            <ToggleButton fx:id="followButton" text="Follow" onAction="#toggleFollow" selected="true"/>
+            <ToggleButton fx:id="followButton" text="Follow" onAction="#toggleFollow" selected="true"
+                          disable="${playButton.selected}"/>
         </HBox>
     </VBox>
     <!--Camera Controls Pane-->
     <VBox StackPane.alignment="TOP_RIGHT" maxWidth="200" maxHeight="50" styleClass="pane">
         <Label text="Zoom"/>
-        <Slider fx:id="zoomSlider" min="10.0" max="500.0" value="200.0" showTickMarks="true" majorTickUnit="100.0"/>
+        <Slider fx:id="zoomSlider" min="10.0" max="500.0" value="50.0" showTickMarks="true" majorTickUnit="100.0"/>
         <Label text="Pitch"/>
         <Slider fx:id="angleSlider" max="90.0" value="75.0" showTickMarks="true" majorTickUnit="30.0"/>
         <Label text="Speed"/>
