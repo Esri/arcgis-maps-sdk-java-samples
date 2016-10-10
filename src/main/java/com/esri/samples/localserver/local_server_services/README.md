@@ -13,8 +13,8 @@
   <li>  Start Service -- Starts the Service that is selected in the combo box.</li>
   <li>  Stop Service --  Stops the Service that is selected in the <code>List of Running Services</code>.</li></p>
 
-<p>Text Area (Middle):
-  <li> Displays the running status of the Local Server and any services that are added to that server. </li></p>
+<p>Text Area (Middle): </p>
+  <li> Displays the running status of the Local Server and any services that are added to that server. </li>
 
 <p>List of Running Services (Bottom):
   <li> Displays any services that are currently running on the server and allows for one of the services to be selected.</li> 
