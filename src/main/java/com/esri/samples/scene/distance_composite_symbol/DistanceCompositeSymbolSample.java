@@ -11,6 +11,8 @@
 
 package com.esri.samples.scene.distance_composite_symbol;
 
+import java.io.File;
+
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
@@ -76,18 +78,17 @@ public class DistanceCompositeSymbolSample extends Application {
       // set up the different symbols
       int red = 0xFFFF0000;
       SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, red, 10);
-      SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 75, 75);
+      SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 10, 10);
       coneSymbol.setPitch(-90);
-      String modelURI = System.getProperty("user.dir") + "/samples-data/skycrane/Skycrane.lwo";
-      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(modelURI, 0.01);
-      modelSymbol.setHeading(180);
+      String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
+      ModelSceneSymbol modelSymbol = new ModelSceneSymbol(modelURI, 1.0);
       modelSymbol.loadAsync();
 
       // set up the distance composite symbol
       DistanceCompositeSceneSymbol compositeSymbol = new DistanceCompositeSceneSymbol();
-      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(modelSymbol, 0, 999));
-      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(coneSymbol, 1000, 1999));
-      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(circleSymbol, 2000, 0));
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(modelSymbol, 0, 99));
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(coneSymbol, 100, 999));
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(circleSymbol, 1000, 0));
 
       // create graphic
       Point aircraftPosition = new Point(-2.708471, 56.096575, 5000, SpatialReferences.getWgs84());
@@ -96,7 +97,7 @@ public class DistanceCompositeSymbolSample extends Application {
       graphicsOverlay.getGraphics().add(aircraftGraphic);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(aircraftPosition, 500, 0, 80.0, 0.0);
+      Camera camera = new Camera(aircraftPosition, 20, 0, 70.0, 0.0);
       sceneView.setViewpointCamera(camera);
     } catch (Exception e) {
       // on any error, display the stack trace.

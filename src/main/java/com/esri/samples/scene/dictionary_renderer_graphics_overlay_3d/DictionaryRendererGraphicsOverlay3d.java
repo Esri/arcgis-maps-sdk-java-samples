@@ -46,7 +46,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.SymbolDictionary;
 
-public class DictionaryRendererGraphicsOverlay3D extends Application {
+public class DictionaryRendererGraphicsOverlay3d extends Application {
 
   private SceneView sceneView;
   private GraphicsOverlay graphicsOverlay;
@@ -91,7 +91,7 @@ public class DictionaryRendererGraphicsOverlay3D extends Application {
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
-    messages.stream().map(DictionaryRendererGraphicsOverlay3D::createGraphic)
+    messages.stream().map(DictionaryRendererGraphicsOverlay3d::createGraphic)
         .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
 
     // set the view to the center of the geometry

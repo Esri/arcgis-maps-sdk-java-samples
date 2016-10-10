@@ -1,7 +1,9 @@
-<h1>Mission Replay</h1>
+<h1>Animate 3d Symbols</h1>
 
 <p>Demonstrates how to animate a graphic's position and rotation and follow it with a camera. Also shows how to combine
   a SceneView and MapView in an MVC application with property binding.</p>
+
+<p><img src="Animate3dSymbols.png" alt="" title="" /></p>
 
 <h2>How to use the sample</h2>
 
@@ -18,8 +20,6 @@
 
 <p>2D Map Controls (Bottom Left Corner):
   - Plus and Minus -- controls distance of 2D view from ground level</p>
-
-<p><img src="MissionReplay.png" alt="" title="" /></p>
 
 <h2>How it works</h2>
 
