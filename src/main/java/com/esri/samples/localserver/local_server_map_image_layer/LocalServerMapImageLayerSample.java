@@ -15,14 +15,11 @@
  */
 package com.esri.samples.localserver.local_server_map_image_layer;
 
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -43,7 +40,7 @@ public class LocalServerMapImageLayerSample extends Application {
   private MapView mapView;
   private LocalServer server;
   private LocalMapService mapImageService;
-  private ProgressBar imageLayerProgress;
+  private ProgressIndicator imageLayerProgress;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -66,23 +63,18 @@ public class LocalServerMapImageLayerSample extends Application {
       mapView.setMap(map);
 
       // track progress of loading map image layer to map
-      imageLayerProgress = new ProgressBar(-100.0);
-      imageLayerProgress.setMaxWidth(APPLICATION_WIDTH / 4);
+      imageLayerProgress = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
+      imageLayerProgress.setMaxWidth(30);
 
       // create local server
       server = LocalServer.INSTANCE;
       // listen for the status of the local server to change
       server.addStatusChangedListener(status -> {
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
-          try {
-            String mapServiceURL =
-                Paths.get(getClass().getResource("/local_server/RelationshipID.mpk").toURI()).toString();
+            String mapServiceURL = "./samples-data/local_server/RelationshipID.mpk";
             mapImageService = new LocalMapService(mapServiceURL);
             mapImageService.addStatusChangedListener(this::addLocalMapImageLayer);
             mapImageService.startAsync();
-          } catch (URISyntaxException e) {
-            System.out.println("Failed to find mpk file. " + e.getMessage());
-          }
         }
       });
       server.startAsync();
@@ -123,15 +115,22 @@ public class LocalServerMapImageLayerSample extends Application {
   }
 
   /**
+   * Stops the local server and its running services.
+   */
+  private void stopLocalServer() {
+
+    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
+      server.stopAsync();
+    }
+  }
+
+  /**
    * Stops and releases all resources used in application.
    */
   @Override
   public void stop() throws Exception {
 
-    // stops any services and server that is running
-    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
-      server.stopAsync();
-    }
+    stopLocalServer();
 
     if (mapView != null) {
       mapView.dispose();
