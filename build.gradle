@@ -4,7 +4,7 @@ apply plugin: 'com.esri.arcgisruntime.java'
 buildscript {
     repositories {
         maven {
-            url 'http://android:8080/artifactory/arcgis'
+            url 'http://android:8080/artifactory/libs-snapshots'
             //url 'https://esri.bintray.com/arcgis'
         }
     }
