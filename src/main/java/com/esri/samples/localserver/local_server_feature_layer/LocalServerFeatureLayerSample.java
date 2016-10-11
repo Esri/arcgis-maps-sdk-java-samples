@@ -15,18 +15,20 @@
  */
 package com.esri.samples.localserver.local_server_feature_layer;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.datasource.arcgis.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.localserver.LocalFeatureService;
 import com.esri.arcgisruntime.localserver.LocalServer;
@@ -45,7 +47,7 @@ public class LocalServerFeatureLayerSample extends Application {
   private MapView mapView;
   private LocalServer server;
   private LocalFeatureService featureService;
-  private ProgressBar featureLayerProgress;
+  private ProgressIndicator featureLayerProgress;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -68,26 +70,22 @@ public class LocalServerFeatureLayerSample extends Application {
       mapView.setMap(map);
 
       // track progress of loading feature layer to map
-      featureLayerProgress = new ProgressBar(-100.0);
-      featureLayerProgress.setMaxWidth(APPLICATION_WIDTH / 4);
+      featureLayerProgress = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
+      featureLayerProgress.setMaxWidth(30);
 
       // create local server
       server = LocalServer.INSTANCE;
-      // listen for the status of the local server to change
+
+      // start feature service
+      server.startAsync();
       server.addStatusChangedListener(status -> {
-        if (status.getNewStatus() == LocalServerStatus.STARTED) {
-          try {
-            String featureServiceURL =
-                Paths.get(getClass().getResource("/local_server/PointsofInterest.mpk").toURI()).toString();
-            featureService = new LocalFeatureService(featureServiceURL);
-            featureService.addStatusChangedListener(this::addLocalFeatureLayer);
-            featureService.startAsync();
-          } catch (URISyntaxException e) {
-            System.out.println("Failed to find mpk file. " + e.getMessage());
-          }
+        if (server.getStatus() == LocalServerStatus.STARTED) {
+          String featureServiceURL = new File("samples-data/local_server/PointsofInterest.mpk").getAbsolutePath();
+          featureService = new LocalFeatureService(featureServiceURL);
+          featureService.addStatusChangedListener(this::addLocalFeatureLayer);
+          featureService.startAsync();
         }
       });
-      server.startAsync();
 
       // add view to application window
       stackPane.getChildren().addAll(mapView, featureLayerProgress);
@@ -129,15 +127,22 @@ public class LocalServerFeatureLayerSample extends Application {
   }
 
   /**
+   * Stops the local server and its running services.
+   */
+  private void stopLocalServer() throws InterruptedException, ExecutionException {
+
+    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
+      server.stopAsync().get();
+    }
+  }
+
+  /**
    * Stops and releases all resources used in application.
    */
   @Override
   public void stop() throws Exception {
 
-    // stop any services and server that is running
-    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
-      server.stopAsync();
-    }
+    stopLocalServer();
 
     if (mapView != null) {
       mapView.dispose();
