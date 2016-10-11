@@ -15,6 +15,8 @@
  */
 package com.esri.samples.localserver.local_server_map_image_layer;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -68,16 +70,18 @@ public class LocalServerMapImageLayerSample extends Application {
 
       // create local server
       server = LocalServer.INSTANCE;
-      // listen for the status of the local server to change
+
+      // start local server
+      server.startAsync();
       server.addStatusChangedListener(status -> {
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
-            String mapServiceURL = "./samples-data/local_server/RelationshipID.mpk";
-            mapImageService = new LocalMapService(mapServiceURL);
-            mapImageService.addStatusChangedListener(this::addLocalMapImageLayer);
-            mapImageService.startAsync();
+          // start map image service
+          String mapServiceURL = new File("./samples-data/local_server/RelationshipID.mpk").getAbsolutePath();
+          mapImageService = new LocalMapService(mapServiceURL);
+          mapImageService.addStatusChangedListener(this::addLocalMapImageLayer);
+          mapImageService.startAsync();
         }
       });
-      server.startAsync();
 
       // add view to application window with progress bar
       stackPane.getChildren().addAll(mapView, imageLayerProgress);
