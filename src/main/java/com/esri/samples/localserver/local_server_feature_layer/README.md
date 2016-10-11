@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to start a Local Server and Local Feature Service, then create a Feature Layer from the Local Feature Service and add it to a map. </p>
 
+<img src="LocalServerFeatureLayer.png" title="LocalServerFeatureLayer" />
+
 <h2>How to use the sample</h2>
 
 <p>A Local Server and Local Feature Service will automatically be started and once running a Feature Layer will be created and added to the map. </p>
-
-<p><img src="LocalServerFeatureLayer.PNG" alt="" title="" /></p>
 
 <h2>How it works</h2>
 
@@ -32,8 +32,7 @@
 <li>Add feature layer to map, <code>Map.getOperationalLayers().add(FeatureLayer)</code>.</li>
 </ol>
 
-<h2>Tags</h2>
-
+<h2>Features</h2>
 <ul>
 <li>FeatureLayer</li>
 <li>LocalFeatureService</li>
