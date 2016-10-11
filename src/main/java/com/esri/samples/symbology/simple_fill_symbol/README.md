@@ -13,7 +13,7 @@
 <p>Change Fill Style:
   - changes the pattern that makes up the area of the polygon</p>
 
-<p><img src="SimpleFillSymbol.png" alt="" title="" /></p>
+<p><img src="SimpleFillSymbol.png"/></p>
 
 <h2>How it works</h2>
 

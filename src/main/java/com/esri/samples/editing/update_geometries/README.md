@@ -7,7 +7,7 @@
 <p>To update a feature's location.
  - click on a feature from the map and then click on another location to move it</p>
 
-<p><img src="UpdateGeometries.gif" alt="" title="" /></p>
+<p><img src="UpdateGeometries.gif"/></p>
 
 <h2>How it works</h2>
 

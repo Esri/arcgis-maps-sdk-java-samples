@@ -6,7 +6,7 @@
 
 <p>When you click on a graphic on the map, you should see an alert.</p>
 
-<p><img src="IdentifyGraphics.png" alt="" title="" /></p>
+<p><img src="IdentifyGraphics.png"/></p>
 
 <h2>How it works</h2>
 

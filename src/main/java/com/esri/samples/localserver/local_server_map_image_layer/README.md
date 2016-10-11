@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to start a Local Server and Local Map Service, then create a Map Image Layer from the Local Map Service and add it to a map. </p>
 
-<img src="LocalServerMapImageLayer.png" title="LocalServerMapImageLayer.png" />
+<img src="LocalServerMapImageLayer.png"/>
 
 <h2>How to use the sample</h2>
 

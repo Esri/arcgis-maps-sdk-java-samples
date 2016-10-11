@@ -8,7 +8,7 @@
 
 <p>Note: Maximum of Features returned is set to 1000.</p>
 
-<p><img src="ServiceFeatureTableManualCache.png" alt="" title="" /></p>
+<p><img src="ServiceFeatureTableManualCache.png"/></p>
 
 <h2>How it works</h2>
 

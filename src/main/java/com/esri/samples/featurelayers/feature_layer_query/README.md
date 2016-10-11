@@ -8,7 +8,7 @@
 
 <p>Note: The search is case sensitive.</p>
 
-<p><img src="FeatureLayerQuery.png" alt="" title="" /></p>
+<p><img src="FeatureLayerQuery.png"/></p>
 
 <h2>How it works</h2>
 

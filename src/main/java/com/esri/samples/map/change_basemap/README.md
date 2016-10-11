@@ -6,7 +6,7 @@
 
 <p>You can change the basemap of the map by clicking an icon from the toolbar at the top.</p>
 
-<p><img src="ChangeBasemap.png" alt="" title="" /></p>
+<p><img src="ChangeBasemap.png"/></p>
 
 <h2>How it works</h2>
 

@@ -13,7 +13,7 @@
   - enter a unique name for the bookmark and click ok
   - bookmark will be added to the list</p>
 
-<p><img src="ManageBookmarks.png" alt="" title="" /></p>
+<p><img src="ManageBookmarks.png"/></p>
 
 <h2>How it works</h2>
 

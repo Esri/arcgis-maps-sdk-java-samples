@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to add Graphics to a GraphicsOverlay and display those Graphics to a MapView using a UniqueValueRenderer. The UniqueValueRenderer uses the attribute value of a Graphic to assign a specific symbol to a specific graphic. </p>
 
-<p><img src="AddGraphicsWithRenderer.png" alt="" title="" /></p>
+<p><img src="AddGraphicsWithRenderer.png"/></p>
 
 <h2>How it works</h2>
 

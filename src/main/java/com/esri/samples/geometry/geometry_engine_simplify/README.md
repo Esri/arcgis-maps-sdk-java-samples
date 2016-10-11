@@ -6,7 +6,7 @@
 
 <p>Click on the simplify button to apply the simplify geometry operation between the intersecting polygons. Click reset to restart the sample.</p>
 
-<p><img src="GeometryEngineSimplify.png" alt="" title="" /></p>
+<p><img src="GeometryEngineSimplify.png"/></p>
 
 <h2>How it works</h2>
 

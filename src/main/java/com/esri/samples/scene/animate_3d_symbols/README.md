@@ -3,7 +3,7 @@
 <p>Demonstrates how to animate a graphic's position and rotation and follow it with a camera. Also shows how to combine
   a SceneView and MapView in an MVC application with property binding.</p>
 
-<p><img src="Animate3dSymbols.png" alt="" title="" /></p>
+<p><img src="Animate3dSymbols.png"/></p>
 
 <h2>How to use the sample</h2>
 

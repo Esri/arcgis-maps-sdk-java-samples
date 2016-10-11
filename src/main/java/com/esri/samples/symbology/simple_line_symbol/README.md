@@ -13,7 +13,7 @@
 <p>Change Line Style:
   - changes the pattern of the line symbol</p>
 
-<p><img src="SimpleLineSymbol.png" alt="" title="" /></p>
+<p><img src="SimpleLineSymbol.png"/></p>
 
 <h2>How it works</h2>
 

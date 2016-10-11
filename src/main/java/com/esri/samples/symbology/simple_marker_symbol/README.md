@@ -6,7 +6,7 @@
 
 <p>For simplicity, the sample starts with a predefined SimpleMarkerSymbol set as a red circle.</p>
 
-<p><img src="SimpleMarkerSymbol.png" alt="" title="" /></p>
+<p><img src="SimpleMarkerSymbol.png"/></p>
 
 <h2>How it works</h2>
 

@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to create symbols with different 3D shapes. Includes tetrahedrons, cubes, spheres, diamonds, cylinders, and cones.</p>
 
-<p><img src="Symbols.png" alt="" title="" /></p>
+<p><img src="Symbols.png"/></p>
 
 <h2>How it works</h2>
 

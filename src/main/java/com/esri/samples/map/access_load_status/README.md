@@ -6,7 +6,7 @@
 
 <p>The sample provides an information area which displays what the ArcGISMap's load status is. Click on the button to reload the ArcGISMap.</p>
 
-<p><img src="AccessLoadStatus.png" alt="" title="" /></p>
+<p><img src="AccessLoadStatus.png"/></p>
 
 <h2>How it works</h2>
 

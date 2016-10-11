@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to use a feature service in in an on-interaction-cache mode. This is the default mode for a Service Feature Table.</p>
 
-<p><img src="ServiceFeatureTableCache.png" alt="" title="" /></p>
+<p><img src="ServiceFeatureTableCache.png"/></p>
 
 <h2>How it works</h2>
 

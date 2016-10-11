@@ -6,7 +6,7 @@
 
 <p>You can click on the ArcGISMap to perform online reverse geocoding and show the matching results in the ArcGISMap. </p>
 
-<p><img src="ReverseGeocodeOnline.png" alt="" title="" /></p>
+<p><img src="ReverseGeocodeOnline.png"/></p>
 
 <h2>How it works</h2>
 

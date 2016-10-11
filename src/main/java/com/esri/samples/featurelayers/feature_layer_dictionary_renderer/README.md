@@ -4,7 +4,7 @@
   The dictionary renderer creates these graphics using a mil2525d style file and the attributes attached to each
   feature within the geodatabase.</p>
 
-<p><img src="FeatureLayerDictionaryRenderer.png" alt="" title="" /></p>
+<p><img src="FeatureLayerDictionaryRenderer.png"/></p>
 
 <h2>How it works</h2>
 

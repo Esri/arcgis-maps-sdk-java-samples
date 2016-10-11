@@ -6,7 +6,7 @@
 
 <p>As application is loading, initial view point is set and map view zooms to that location.</p>
 
-<p><img src="MapInitialExtent.png" alt="" title="" /></p>
+<p><img src="MapInitialExtent.png"/></p>
 
 <h2>How it works</h2>
 

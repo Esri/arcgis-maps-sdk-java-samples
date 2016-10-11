@@ -6,7 +6,7 @@
 
 <p>The sample provides a drop down on the top, where you can select a geometry operation. When you choose a geometry operation the application performs this operation between the intersecting polygons and applies the result to the geometries.</p>
 
-<p><img src="GeometryEngineSample.png" alt="" title="" /></p>
+<p><img src="GeometryEngineSample.png"/></p>
 
 <h2>How it works</h2>
 

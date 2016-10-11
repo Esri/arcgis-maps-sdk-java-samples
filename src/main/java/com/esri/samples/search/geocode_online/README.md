@@ -6,7 +6,7 @@
 
 <p>For simplicity, the sample comes loaded with a set of addresses. You can select an address to perform online geocoding and show the matching results on the ArcGISMap. </p>
 
-<p><img src="GeocodeOnline.png" alt="" title="" /></p>
+<p><img src="GeocodeOnline.png"/></p>
 
 <h2>How it works</h2>
 

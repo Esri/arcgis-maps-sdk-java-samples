@@ -13,7 +13,7 @@
         - OUT</em>OF_SCALE
     - UNKNOWN</p>
 
-<p><img src="DisplayLayerViewStateStatus.png" alt="" title="" /></p>
+<p><img src="DisplayLayerViewStateStatus.png"/></p>
 
 <h2>How it works</h2>
 

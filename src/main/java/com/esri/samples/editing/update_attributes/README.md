@@ -8,7 +8,7 @@
   - select feature from the map
   - from drop down box select a damage type</p>
 
-<p><img src="UpdateAttributes.gif" alt="" title="" /></p>
+<p><img src="UpdateAttributes.gif"/></p>
 
 <h2>How it works</h2>
 

@@ -6,7 +6,7 @@
 
 <p>Click anywhere on the map to show a callout with the clicked location's coordinates.</p>
 
-<p><img src="ShowCallout.png" alt="" title="" /></p>
+<p><img src="ShowCallout.png"/></p>
 
 <h2>How it works</h2>
 

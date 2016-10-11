@@ -19,7 +19,7 @@
 <p>Clear button:
   - will clear any previous search results and start fresh</p>
 
-<p><img src="SymbolDictionary.png" alt="" title="" /></p>
+<p><img src="SymbolDictionary.png"/></p>
 
 <h2>How it works</h2>
 

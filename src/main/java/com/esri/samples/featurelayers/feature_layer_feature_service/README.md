@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to create a FeatureLayer from a ServiceFeatureTable and add it to an ArcGISMap.</p>
 
-<p><img src="FeatureLayerFeatureService.png" alt="" title="" /></p>
+<p><img src="FeatureLayerFeatureService.png"/></p>
 
 <h2>How it works</h2>
 

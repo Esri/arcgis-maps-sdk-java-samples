@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to start a Local Server and Local Feature Service, then create a Feature Layer from the Local Feature Service and add it to a map. </p>
 
-<img src="LocalServerFeatureLayer.png" title="LocalServerFeatureLayer" />
+<img src="LocalServerFeatureLayer.png"/>
 
 <h2>How to use the sample</h2>
 
