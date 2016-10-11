@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to start a Local Server and Local Map Service, then create a Map Image Layer from the Local Map Service and add it to a map. </p>
 
+<img src="LocalServerMapImageLayer.png" title="LocalServerMapImageLayer.png" />
+
 <h2>How to use the sample</h2>
 
 <p>A Local Server and Local Map Service will automatically be started and once running a Map Image Layer will be created and added to the map. </p>
-
-<p><img src="LocalServerMapImageLayer.PNG" alt="" title="" /></p>
 
 <h2>How it works</h2>
 
@@ -30,8 +30,7 @@
 <li>Add map image layer to map, <code>Map.getOperationalLayers().add(ArcGISMapImageLayer)</code>.</li>
 </ol>
 
-<h2>Tags</h2>
-
+<h2>Features</h2>
 <ul>
 <li>ArcGISMapImageLayer</li>
 <li>LocalMapService</li>
