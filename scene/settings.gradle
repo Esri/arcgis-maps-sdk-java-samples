@@ -1,5 +1,6 @@
 rootProject.name = 'scene'
-include 'dictionary-renderer-graphics-overlay-3D',
+include 'calculate-distance-3D',
+        'dictionary-renderer-graphics-overlay-3D',
         'display-scene',
         'distance-composite-symbol',
         'elevation-mode',
