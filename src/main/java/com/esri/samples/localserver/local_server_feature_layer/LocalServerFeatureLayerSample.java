@@ -45,9 +45,10 @@ public class LocalServerFeatureLayerSample extends Application {
 
   private ArcGISMap map;
   private MapView mapView;
-  private LocalServer server;
   private LocalFeatureService featureService;
   private ProgressIndicator featureLayerProgress;
+  
+  private static final LocalServer server = LocalServer.INSTANCE;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -72,9 +73,6 @@ public class LocalServerFeatureLayerSample extends Application {
       // track progress of loading feature layer to map
       featureLayerProgress = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
       featureLayerProgress.setMaxWidth(30);
-
-      // create local server
-      server = LocalServer.INSTANCE;
 
       // start local server
       server.startAsync();

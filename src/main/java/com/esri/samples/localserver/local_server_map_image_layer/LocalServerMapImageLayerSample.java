@@ -40,9 +40,10 @@ public class LocalServerMapImageLayerSample extends Application {
   private static final int APPLICATION_WIDTH = 800;
 
   private MapView mapView;
-  private LocalServer server;
   private LocalMapService mapImageService;
   private ProgressIndicator imageLayerProgress;
+  
+  private static final LocalServer server = LocalServer.INSTANCE;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -67,9 +68,6 @@ public class LocalServerMapImageLayerSample extends Application {
       // track progress of loading map image layer to map
       imageLayerProgress = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
       imageLayerProgress.setMaxWidth(30);
-
-      // create local server
-      server = LocalServer.INSTANCE;
 
       // start local server
       server.startAsync();
