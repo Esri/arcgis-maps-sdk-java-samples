@@ -2,25 +2,24 @@
 
 <p>Demonstrates how to start and stop a Local Server and start and stop a Local Map, Feature, and Geoprocessing Service to that server.</p>
 
+<p><img src="LocalServerServices.gif" title="Local Server Services Sample" /></p>
 <h2>How to use the sample</h2>
 
-<p>Local Server Controls (Top Left):
-  <li> Start Local Server -- Starts a Local Server if one is not already running.</li>
-  <li> Stop Local Server --  Stops a Local Server if one is running. </li></p>
+<p>Local Server Controls (Top Left): </p>
+  <ul><li> Start Local Server -- Starts a Local Server if one is not already running.</li>
+  <li> Stop Local Server --  Stops a Local Server if one is running. </li></ul>
 
-<p>Local Services Controls (Top Right):
-  <li>  Combo Box -- Allows for the selection of a Local Map, Feature, or Geoprocessing Service.</li>
-  <li>  Start Service -- Starts the Service that is selected in the combo box.</li>
-  <li>  Stop Service --  Stops the Service that is selected in the <code>List of Running Services</code>.</li></p>
+<p>Local Services Controls (Top Right): </p>
+  <ul><li> Combo Box -- Allows for the selection of a Local Map, Feature, or Geoprocessing Service.</li>
+  <li> Start Service -- Starts the Service that is selected in the combo box.</li>
+  <li> Stop Service --  Stops the Service that is selected in the <code>List of Running Services</code>.</li></ul>
 
-<p>Text Area (Middle):
-  <li> Displays the running status of the Local Server and any services that are added to that server. </li></p>
+<p>Text Area (Middle): </p>
+  <ul><li> Displays the running status of the Local Server and any services that are added to that server. </li></ul>
 
-<p>List of Running Services (Bottom):
-  <li> Displays any services that are currently running on the server and allows for one of the services to be selected.</li> 
-  <li> Go to URL -- Opens browser to the service that is selected in the <code>List of Running Services</code>. </li></p>
-
-<p><img src="LocalServerServices.gif" alt="" title="" /></p>
+<p>List of Running Services (Bottom): </p>
+  <ul><li> Displays any services that are currently running on the server and allows for one of the services to be selected.</li> 
+  <li> Go to URL -- Opens browser to the service that is selected in the <code>List of Running Services</code>. </li></ul>
 
 <h2>How it works</h2>
 
