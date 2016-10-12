@@ -49,7 +49,7 @@
 <li>Stop the local server, <code>Server.stopAsync()</code>.</li>
 </ol>
 
-<h2>Tags</h2>
+<h2>Features</h2>
 
 <ul>
 <li>LocalFeatureService</li>
