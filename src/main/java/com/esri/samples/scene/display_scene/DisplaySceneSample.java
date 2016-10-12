@@ -56,8 +56,10 @@ public class DisplaySceneSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
+      //      surface.setElevationExaggeration(2);
       surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
       scene.setBaseSurface(surface);
+      surface.setElevationExaggeration(2);
 
       // add a camera and initial camera position
       Camera camera = new Camera(28.4, 83.9, 10010.0, 10.0, 80.0, 300.0);

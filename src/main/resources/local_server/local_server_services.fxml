@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?language javascript?>
 
 <BorderPane fx:controller="com.esri.samples.localserver.local_server_services.LocalServerServicesController"
            xmlns:fx="http://javafx.com/fxml">
@@ -22,7 +23,7 @@
       <VBox spacing="3"> 
         <Button fx:id="btnStartServer" text="Start Local Server" minWidth="200" onAction="#handleStartLocalServer"/>
         <Button fx:id="btnStopServer" text="Stop Local Server" minWidth="200" onAction="#handleStopLocalServer" 
-          disable="true"/>
+          disable="${!btnStartServer.disable}"/>
       </VBox>
     
       <VBox HBox.hgrow="ALWAYS" spacing="3"> 
@@ -43,9 +44,9 @@
         
         <HBox spacing="3">
           <Button fx:id="btnStartService" HBox.hgrow="ALWAYS" text="Start Service" maxWidth="Infinity" 
-            onAction="#handleStartLocalService" disable="true"/>
+            onAction="#handleStartLocalService" disable="${!btnStartServer.disable}"/>
           <Button fx:id="btnStopService"  HBox.hgrow="ALWAYS" text="Stop Service" maxWidth="Infinity" 
-            onAction="#handleStopLocalService" disable="true"/>
+            onAction="#handleStopLocalService" disable="false"/>
         </HBox>
  
       </VBox>
@@ -66,8 +67,11 @@
       <padding><Insets top="5" right="10" bottom="10" left="10"/></padding>
       <Label text="List of Running Services"/>
       <VBox spacing="3" alignment="center_right"> 
-        <ListView fx:id="runningServices" maxWidth="Infinity" maxHeight="100" onMouseClicked="#enableServiceButtons"/>
-        <Button fx:id="btnURL" text="Go to URL" disable="true" onAction="#handleURL"/>
+        <ListView fx:id="runningServices" maxWidth="Infinity" maxHeight="100"/>
+          <fx:script>          
+            btnStopService.disableProperty().bind(runningServices.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
+          </fx:script> 
+        <Button fx:id="btnUrl" text="Go to URL" disable="${btnStopService.disable}" onAction="#handleURL"/>
       </VBox>
     </VBox>
   </bottom>
