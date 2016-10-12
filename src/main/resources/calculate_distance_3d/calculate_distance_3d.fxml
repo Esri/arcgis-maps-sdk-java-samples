@@ -11,7 +11,7 @@
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
 
 <StackPane fx:controller="com.esri.samples.scene.calculate_distance_3d.CalculateDistance3dController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/SamplesTheme.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/calculate_distance_3d/CalculateDistance3d.css">
     <!--SDK SceneView-->
     <SceneView fx:id="sceneView"/>
     <!--Position Parameters Pane-->
