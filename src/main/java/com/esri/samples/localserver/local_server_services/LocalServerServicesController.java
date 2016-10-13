@@ -39,42 +39,33 @@ import com.esri.arcgisruntime.util.ListenableList;
 public class LocalServerServicesController {
 
   @FXML private Button btnStartServer;
-  @FXML private Button btnStopServer;
-  @FXML private Button btnStartService;
-  @FXML private Button btnStopService;
-  @FXML private Button btnUrl;
   @FXML private ComboBox<String> serviceOptions;
   @FXML private TextArea statusLog;
   @FXML private ListView<String> runningServices;
 
-  private LocalServer.StatusChangedListener serverStatusListener;
   private ListenableList<LocalService> services;
   private HostServices hostServices;
 
   private static final LocalServer server = LocalServer.INSTANCE;
 
+  @FXML
+  private void initialize() {
+    // watch server status
+    server.addStatusChangedListener(status -> {
+      statusLog.appendText("Server Status: " + status.getNewStatus().toString() + "\n");
+      btnStartServer.setDisable(status.getNewStatus() == LocalServerStatus.STARTED);
+    });
+  }
+
   /** 
    * Handles starting a local server.
-   * 
-   * @param event the event that fired this action 
    */
   @FXML
   private void handleStartLocalServer() {
-
     // start local server
-    serverStatusListener = status -> {
-      statusLog.appendText("Server Status: " + status.getNewStatus().toString() + "\n");
-      if (status.getNewStatus() == LocalServerStatus.STARTED) {
-        btnStartServer.setDisable(true);
-      }
-      if (status.getNewStatus() == LocalServerStatus.STOPPED) {
-        server.removeStatusChangedListener(serverStatusListener);
-      }
-    };
-    server.addStatusChangedListener(serverStatusListener);
     server.startAsync();
 
-    // tracking services attached to this local server
+    // get observable list of services
     services = server.getServices();
   }
 
@@ -82,103 +73,77 @@ public class LocalServerServicesController {
    * Handles stopping a local server.
    */
   @FXML
-  private void handleStopLocalServer() {
+  void handleStopLocalServer() {
+    // stop local server
+    server.stopAsync();
 
-    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
-      server.stopAsync();
-    }
-
-    btnStartServer.setDisable(false);
+    // remove listed running services
+    runningServices.getItems().clear();
   }
 
   /**
-   * Gets the selected item from the combo box and creates a Local Service to add to the Local Server.
+   * Creates and starts the selected local service in the dropdown.
    * <p>
-   * Only creates a Local Service that is not currently running on the Local Server.
-   * 
-   * @throws URISyntaxException if URL passed to Local Service is incorrect 
+   * Shows a warning popup if the local service is already running.
    */
   @FXML
-  private void handleStartLocalService() throws URISyntaxException {
+  private void handleStartSelectedService() {
 
-    if (server.getStatus() == LocalServerStatus.STARTED) {
-      // check that the service selected is not already running
-      boolean serviceExists = false;
-      String serviceSelected = serviceOptions.getSelectionModel().getSelectedItem();
-      for (String runningService : runningServices.getItems()) {
-        if (runningService.startsWith(serviceSelected)) {
-          serviceExists = true;
-        }
+    String selected = serviceOptions.getSelectionModel().getSelectedItem();
+    if (runningServices.getItems().filtered(n -> n.startsWith(selected)).size() > 0) {
+      // warn service is already running
+      Platform.runLater(() -> {
+        Alert dialog = new Alert(AlertType.INFORMATION);
+        dialog.setHeaderText("Service Running");
+        dialog.setContentText(selected + " has already been started.");
+        dialog.showAndWait();
+      });
+    } else {
+      // create local service
+      final String serviceUrl;
+      final LocalService localService;
+      String pathStart = "./samples-data/local_server/";
+      switch (selected) {
+        case "Map Service":
+          serviceUrl = new File(pathStart + "PointsofInterest.mpk").getAbsolutePath();
+          localService = new LocalMapService(serviceUrl);
+          break;
+        case "Feature Service":
+          serviceUrl = new File(pathStart + "PointsofInterest.mpk").getAbsolutePath();
+          localService = new LocalFeatureService(serviceUrl);
+          break;
+        case "Geoprocessing Service":
+          serviceUrl = new File(pathStart + "MessageInABottle.gpk").getAbsolutePath();
+          localService = new LocalGeoprocessingService(serviceUrl); break;
+        default: localService = null;
       }
 
-      // start service if not currently running on the Local Server
-      if (!serviceExists) {
-        String serviceUrl = "";
-        LocalService localService = null;
-        String pathStart = "./samples-data/local_server/";
-        switch (serviceSelected) {
-          case "Map Service":
-            serviceUrl = new File(pathStart + "PointsofInterest.mpk").getAbsolutePath();
-            localService = new LocalMapService(serviceUrl);
-            break;
-          case "Feature Service":
-            serviceUrl = new File(pathStart + "PointsofInterest.mpk").getAbsolutePath();
-            localService = new LocalFeatureService(serviceUrl);
-            break;
-          case "Geoprocessing Service":
-            serviceUrl = new File(pathStart + "MessageInABottle.gpk").getAbsolutePath();
-            localService = new LocalGeoprocessingService(serviceUrl);
-        }
-
-        startLocalService(localService, serviceSelected);
-
-      } else {
-        // if service is currently running on server warn user
-        Platform.runLater(() -> {
-          Alert dialog = new Alert(AlertType.INFORMATION);
-          dialog.setHeaderText("Service Running");
-          dialog.setContentText(serviceSelected + " has already been started.");
-          dialog.showAndWait();
+      // start local service and watch for updates
+      if (localService != null) {
+        localService.addStatusChangedListener(status -> {
+          statusLog.appendText(selected + " Status: " + status.getNewStatus().toString() + "\n");
+          if (status.getNewStatus() == LocalServerStatus.STARTED) {
+            Platform.runLater(() -> runningServices.getItems().add(selected + " URL ->  " + localService.getUrl()));
+          }
         });
+        localService.startAsync();
       }
     }
   }
 
-  /** 
-   * Starts a Local Service.
-   * <p>
-   * The status of the Local Service is displayed in the center text area of the application.
-   * The URL of the Local Service is added to the list of running services.
-   * 
-   * @param localService Local Service to start.
-   * @param serviceName Name of Local Service. 
-   */
-  private void startLocalService(LocalService localService, String serviceName) {
-
-    localService.addStatusChangedListener(status -> {
-      statusLog.appendText(serviceName + " Status: " + status.getNewStatus().toString() + "\n");
-      if (status.getNewStatus() == LocalServerStatus.STARTED) {
-        Platform.runLater(() -> runningServices.getItems().add(serviceName + " URL ->  " + localService.getUrl()));
-      }
-    });
-    localService.startAsync();
-  }
-
   /**
-   * Gets the Local Service that is selected from the list of running services and stops it.
-   * 
+   * Stops the selected service from the running services list.
    */
   @FXML
-  private void handleStopLocalService() {
+  private void handleStopSelectedService() {
 
-    int serviceIndex = runningServices.getSelectionModel().getSelectedIndex();
-    services.get(serviceIndex).stopAsync();
-    runningServices.getItems().remove(serviceIndex);
+    int selectedIndex = runningServices.getSelectionModel().getSelectedIndex();
+    services.get(selectedIndex).stopAsync();
+    runningServices.getItems().remove(selectedIndex);
   }
 
   /** 
-   * Opens a browser to the Local Service that is selected in the list of running services.
-   * 
+   * Opens a browser to the url of the selected service.
    */
   @FXML
   private void handleURL() {
@@ -188,19 +153,11 @@ public class LocalServerServicesController {
   }
 
   /** 
-   * Stops any Local Services that are currently running and then stops the Local Server. 
-   */
-  void terminate() {
-
-    handleStopLocalServer();
-  }
-
-  /** 
    * Allows access to the Host Services of the main JavaFX application.
    * 
    * @param hostServices Hosted Services from main JavaFX application 
    */
-  public void setHostServices(HostServices hostServices) {
+  void setHostServices(HostServices hostServices) {
 
     this.hostServices = hostServices;
   }
