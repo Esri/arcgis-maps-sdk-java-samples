@@ -52,7 +52,7 @@ public class LocalServerServicesSample extends Application {
    */
   @Override
   public void stop() {
-    controller.terminate();
+    controller.handleStopLocalServer();
   }
 
   /**
