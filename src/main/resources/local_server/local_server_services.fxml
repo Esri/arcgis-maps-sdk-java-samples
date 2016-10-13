@@ -21,13 +21,13 @@
       <padding><Insets top="10" right="10" bottom="5" left="10"/></padding>
     
       <VBox spacing="3"> 
-        <Button fx:id="btnStartServer" text="Start Local Server" minWidth="200" onAction="#handleStartLocalServer"/>
-        <Button fx:id="btnStopServer" text="Stop Local Server" minWidth="200" onAction="#handleStopLocalServer" 
-          disable="${!btnStartServer.disable}"/>
+        <Button fx:id="btnStartServer" text="Start Local Server" onAction="#handleStartLocalServer" minWidth="200"/>
+        <Button text="Stop Local Server"  onAction="#handleStopLocalServer" disable="${!btnStartServer.disable}"
+                minWidth="200"/>
       </VBox>
     
       <VBox HBox.hgrow="ALWAYS" spacing="3"> 
-        <ComboBox fx:id="serviceOptions" maxWidth="Infinity">
+        <ComboBox fx:id="serviceOptions" maxWidth="Infinity" disable="${!btnStartServer.disable}">
           
           <value>
             <String fx:value="Map Service"/>
@@ -43,10 +43,10 @@
         </ComboBox>
         
         <HBox spacing="3">
-          <Button fx:id="btnStartService" HBox.hgrow="ALWAYS" text="Start Service" maxWidth="Infinity" 
-            onAction="#handleStartLocalService" disable="${!btnStartServer.disable}"/>
-          <Button fx:id="btnStopService"  HBox.hgrow="ALWAYS" text="Stop Service" maxWidth="Infinity" 
-            onAction="#handleStopLocalService" disable="false"/>
+          <Button HBox.hgrow="ALWAYS" text="Start Service" maxWidth="Infinity"
+            onAction="#handleStartSelectedService" disable="${!btnStartServer.disable}"/>
+          <Button fx:id="btnStopService" HBox.hgrow="ALWAYS" text="Stop Service" maxWidth="Infinity"
+            onAction="#handleStopSelectedService"/>
         </HBox>
  
       </VBox>
@@ -71,7 +71,7 @@
           <fx:script>          
             btnStopService.disableProperty().bind(runningServices.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
           </fx:script> 
-        <Button fx:id="btnUrl" text="Go to URL" disable="${btnStopService.disable}" onAction="#handleURL"/>
+        <Button text="Go to URL" disable="${btnStopService.disable}" onAction="#handleURL"/>
       </VBox>
     </VBox>
   </bottom>
