@@ -25,8 +25,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.concurrent.Job;
-import com.esri.arcgisruntime.datasource.arcgis.TileCache;
+import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.geoprocessing.GeoprocessingDouble;
+import com.esri.arcgisruntime.geoprocessing.GeoprocessingFeatures;
 import com.esri.arcgisruntime.geoprocessing.GeoprocessingJob;
 import com.esri.arcgisruntime.geoprocessing.GeoprocessingParameter;
 import com.esri.arcgisruntime.geoprocessing.GeoprocessingParameters;
@@ -47,9 +48,10 @@ public class LocalServerGeoprocessingController {
   @FXML private Button btnClear;
 
   @FXML private MapView mapView;
-  private LocalServer server;
   private LocalGeoprocessingService gpService;
   private GeoprocessingTask gpTask;
+
+  private static final LocalServer server = LocalServer.INSTANCE;
 
   /**
    * Called after FXML loads. Sets up scene and map and configures property bindings.
@@ -68,12 +70,9 @@ public class LocalServerGeoprocessingController {
       tiledLayer.loadAsync();
       tiledLayer.addDoneLoadingListener(() -> {
         mapView.setViewpointGeometryAsync(tiledLayer.getFullExtent());
-        //        mapView.setViewpointRotationAsync(90);
       });
       map.getOperationalLayers().add(tiledLayer);
 
-      // create local server
-      server = LocalServer.INSTANCE;
       // listen for the status of the local server to change
       server.addStatusChangedListener(status -> {
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
@@ -89,6 +88,7 @@ public class LocalServerGeoprocessingController {
               }
             });
             gpService.startAsync();
+
           } catch (URISyntaxException e) {
             System.out.println("Failed to find gpk file. " + e.getMessage());
           }
@@ -118,14 +118,17 @@ public class LocalServerGeoprocessingController {
     });
 
     gpJob.addJobDoneListener(() -> {
-      System.out.println("Job Done");
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
         Map<String, GeoprocessingParameter> outputs = gpJob.getResult().getOutputs();
         System.out.println("Outputs: " + outputs.size());
 
-        outputs.get("Contour_Result");
+        System.out.println("Parameter: " + outputs.get("Contour_Result"));
 
-        System.out.println("Task Url: " + gpTask.getUri());
+        GeoprocessingFeatures features = (GeoprocessingFeatures) outputs.get("Contour_Result");
+        System.out.println("URL: " + features.getUrl());
+        System.out.println("URi: " + features.getUri());
+        //        gpJob.getResult().getMapImageLayer();
+
         //        System.out.println("Job Url: " + gpJob.getUri());
         // create a map image layer using url
         //        ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(gpJob.getUri());

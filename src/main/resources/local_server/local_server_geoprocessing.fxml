@@ -10,16 +10,16 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 
 <StackPane fx:controller="com.esri.samples.localserver.local_server_geoprocessing.LocalServerGeoprocessingController"                                   
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/SamplesTheme.css">
            
    <!--SDK MapView-->
   <MapView fx:id="mapView"/>
 	
     <!--Controls-->
-  <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="50" styleClass="pane">
+  <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="50" styleClass="panel-region">
     
     <HBox spacing="5" alignment="CENTER">
-      <Label text="Interval: "/>
+      <Label text="Interval: " styleClass="panel-label"/>
       <TextField fx:id="txtInterval" text="200" maxWidth="50"/>
     </HBox>
     
