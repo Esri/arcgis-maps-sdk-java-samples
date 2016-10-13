@@ -75,7 +75,9 @@ public class LocalServerServicesController {
   @FXML
   void handleStopLocalServer() {
     // stop local server
-    server.stopAsync();
+    if (server.getStatus() == LocalServerStatus.STARTED) {
+      server.stopAsync();
+    }
 
     // remove listed running services
     runningServices.getItems().clear();
