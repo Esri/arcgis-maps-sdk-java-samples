@@ -26,7 +26,6 @@ import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.data.TileCache;
-import com.esri.arcgisruntime.geoprocessing.GeoprocessingDouble;
 import com.esri.arcgisruntime.geoprocessing.GeoprocessingFeatures;
 import com.esri.arcgisruntime.geoprocessing.GeoprocessingJob;
 import com.esri.arcgisruntime.geoprocessing.GeoprocessingParameter;
@@ -83,8 +82,11 @@ public class LocalServerGeoprocessingController {
               System.out.println("Service Status: " + s.getNewStatus());
               if (s.getNewStatus() == LocalServerStatus.STARTED) {
                 btnGenerate.setDisable(false);
+                //                System.out.println("URL: " + gpService.getUrl() + "/Contour");
+                //                gpTask = new GeoprocessingTask(gpService.getUrl() + "/Contour");
                 System.out.println("URL: " + gpService.getUrl() + "/Contour");
-                gpTask = new GeoprocessingTask(gpService.getUrl() + "/Contour");
+                gpTask = new GeoprocessingTask(
+                    "https://capitest.esri.com/arcgis/rest/services/JapanModel1/GPServer/JP_Buffer");
               }
             });
             gpService.startAsync();
@@ -107,10 +109,11 @@ public class LocalServerGeoprocessingController {
 
     double interval = Double.parseDouble(txtInterval.getText());
     GeoprocessingParameters gpParameters = new GeoprocessingParameters(
-        GeoprocessingParameters.ExecutionType.SYNCHRONOUS_EXECUTE);
+        //        GeoprocessingParameters.ExecutionType.SYNCHRONOUS_EXECUTE);
+        GeoprocessingParameters.ExecutionType.ASYNCHRONOUS_SUBMIT);
 
-    final Map<String, GeoprocessingParameter> inputs = gpParameters.getInputs();
-    inputs.put("Interval", new GeoprocessingDouble(interval));
+    //    final Map<String, GeoprocessingParameter> inputs = gpParameters.getInputs();
+    //    inputs.put("Interval", new GeoprocessingDouble(interval));
 
     GeoprocessingJob gpJob = gpTask.run(gpParameters);
     gpJob.addJobChangedListener(() -> {
@@ -119,6 +122,8 @@ public class LocalServerGeoprocessingController {
 
     gpJob.addJobDoneListener(() -> {
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
+        gpJob.getResult();
+
         Map<String, GeoprocessingParameter> outputs = gpJob.getResult().getOutputs();
         System.out.println("Outputs: " + outputs.size());
 
