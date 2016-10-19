@@ -62,25 +62,23 @@ public class ChangeBasemapSample extends Application {
 
       // setup all buttons to switch basemaps
       for (Basemap.Type type : Basemap.Type.values()) {
-        if (type != Basemap.Type.UNKNOWN) {
-          String basemapString = type.toString();
+        String basemapString = type.toString();
 
-          Button button = new Button();
-          button.setTooltip(new Tooltip(basemapString));
-          button.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/change_basemap/" + basemapString
-              .toLowerCase() + ".png"))));
+        Button button = new Button();
+        button.setTooltip(new Tooltip(basemapString));
+        button.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/change_basemap/" + basemapString
+            .toLowerCase() + ".png"))));
 
-          // listener to switch ArcGISMap types when button clicked
-          button.setOnAction(e -> {
-            if (map != null) {
-              mapView.setMap(null);
-            }
-            map = new ArcGISMap(Basemap.Type.valueOf(basemapString), LATITUDE, LONGITUDE, LOD);
-            mapView.setMap(map);
-          });
+        // listener to switch ArcGISMap types when button clicked
+        button.setOnAction(e -> {
+          if (map != null) {
+            mapView.setMap(null);
+          }
+          map = new ArcGISMap(Basemap.Type.valueOf(basemapString), LATITUDE, LONGITUDE, LOD);
+          mapView.setMap(map);
+        });
 
-          flowPane.getChildren().add(button);
-        }
+        flowPane.getChildren().add(button);
       }
 
       vBoxControl.getChildren().add(flowPane);
