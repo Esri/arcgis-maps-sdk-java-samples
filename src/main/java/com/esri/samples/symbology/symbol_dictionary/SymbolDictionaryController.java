@@ -19,16 +19,16 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
+import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
+import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
-import com.esri.arcgisruntime.symbology.StyleSymbolSearchParameters;
-import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
 
 public class SymbolDictionaryController {
 
@@ -42,7 +42,7 @@ public class SymbolDictionaryController {
   @FXML private Text searchResultsFound;
 
   private DictionarySymbolStyle dictionarySymbol;
-  private StyleSymbolSearchParameters searchParameters;
+  private SymbolStyleSearchParameters searchParameters;
 
   /**
    * Initialize fields after FXML is loaded.
@@ -62,7 +62,7 @@ public class SymbolDictionaryController {
     resultList.getItems().clear();
 
     // accessing text from all search fields
-    searchParameters = new StyleSymbolSearchParameters();
+    searchParameters = new SymbolStyleSearchParameters();
     searchParameters.getNames().add(nameField.getText());
     searchParameters.getTags().add(tagField.getText());
     searchParameters.getSymbolClasses().add(symbolClassField.getText());
@@ -70,10 +70,10 @@ public class SymbolDictionaryController {
     searchParameters.getKeys().add(keyField.getText());
 
     // search for any matches in dictionary
-    ListenableFuture<List<StyleSymbolSearchResult>> searchResult = dictionarySymbol.searchSymbolsAsync(searchParameters);
+    ListenableFuture<List<SymbolStyleSearchResult>> searchResult = dictionarySymbol.searchSymbolsAsync(searchParameters);
     searchResult.addDoneListener(() -> {
       try {
-        List<StyleSymbolSearchResult> symbolResults = searchResult.get();
+        List<SymbolStyleSearchResult> symbolResults = searchResult.get();
 
         Platform.runLater(() -> {
           // create and add results to listview

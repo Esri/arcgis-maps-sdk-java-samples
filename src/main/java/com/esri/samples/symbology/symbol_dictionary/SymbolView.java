@@ -15,10 +15,10 @@ import javafx.scene.layout.HBox;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.symbology.StyleSymbolSearchResult;
+import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 import com.esri.arcgisruntime.symbology.Symbol;
 
-public class SymbolView extends HBox implements Initializable {
+class SymbolView extends HBox implements Initializable {
 
   private @FXML ImageView imageView;
   private @FXML Label name;
@@ -27,14 +27,14 @@ public class SymbolView extends HBox implements Initializable {
   private @FXML Label category;
   private @FXML Label key;
 
-  StyleSymbolSearchResult styleSymbolSearchResult;
+  SymbolStyleSearchResult styleSymbolSearchResult;
 
   /**
    * Creates a view of a symbol with a picture and description.
    *
    * @param symbolResult symbol result from a symbol dictionary search
    */
-  public SymbolView(StyleSymbolSearchResult symbolResult) {
+  SymbolView(SymbolStyleSearchResult symbolResult) {
     styleSymbolSearchResult = symbolResult;
 
     // Set the view of this component to the fxml file
