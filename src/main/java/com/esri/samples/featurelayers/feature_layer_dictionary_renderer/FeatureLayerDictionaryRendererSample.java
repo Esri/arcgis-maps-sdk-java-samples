@@ -51,8 +51,7 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     mapView.setMap(map);
 
     // load geo-database from local location
-    String databaseLocation = new File("./samples-data/dictionary/militaryoverlay.geodatabase").getAbsolutePath();
-    Geodatabase geodatabase = new Geodatabase(databaseLocation);
+    Geodatabase geodatabase = new Geodatabase("./samples-data/dictionary/militaryoverlay.geodatabase");
     geodatabase.loadAsync();
 
     // render tells layer what symbols to apply to what features
