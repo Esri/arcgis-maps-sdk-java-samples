@@ -93,9 +93,8 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
   private List<Map<String, Object>> parseMessages() throws Exception {
 
     final List<Map<String, Object>> messages = new ArrayList<>();
-    File symbolData = new File(getClass().getResource("/Mil2525DMessages.xml").getPath());
     // $ reads the file
-    $(symbolData).find("message").each().forEach(message -> {
+    $(getClass().getResourceAsStream("/Mil2525DMessages.xml")).find("message").each().forEach(message -> {
       Map<String, Object> attributes = new HashMap<>();
       message.children().forEach(attr -> attributes.put(attr.getNodeName(), attr.getTextContent()));
       messages.add(attributes);
