@@ -17,13 +17,13 @@
 <ul><li><code>LocalServer.INSTANCE</code> creates a local server</li>
 <li><code>Server.startAsync()</code> starts the server asynchronously</li></ul></li>
 <li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.
-<ul><li><code>Server.addStatusChangedKistener()</code> fires whenever the status of the local server has changed.</li></ul></li>
+<ul><li><code>Server.addStatusChangedListener()</code> fires whenever the status of the local server has changed.</li></ul></li>
 <li>Create and run a local map service.
 <ul><li><code>new LocalMapService(Url)</code>, creates a local map service with the given url path to mpk file</li>
 <li><code>LocalMapService.startAsync()</code>, starts the service asynchronously</li>
 <li>service will be added to the local server automatically</li></ul></li>
 <li>Wait for map service to be in the  <code>LocalServerStatus.STARTED</code> state.
-<ul><li><code>LocalMapService.addStatusChangedKistener()</code> fires whenever the status of the local service has changed.</li></ul></li>
+<ul><li><code>LocalMapService.addStatusChangedListener()</code> fires whenever the status of the local service has changed.</li></ul></li>
 <li>Create a map image layer from local map service.
 <ul><li>create a <code>new ArcGISMapImageLayer(Url)</code> from local map service url, <code>LocalMapService.getUrl()</code></li>
 <li>load the layer asynchronously, <code>ArcGISMapImageLayer.loadAsync()</code></li></ul></li>
