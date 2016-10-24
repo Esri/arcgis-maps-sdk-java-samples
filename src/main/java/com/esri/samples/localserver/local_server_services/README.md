@@ -31,7 +31,7 @@
 <ul><li><code>LocalServer.INSTANCE</code> creates a local server</li>
 <li><code>Server.startAsync()</code> starts the server asynchronously</li></ul></li>
 <li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.
-<ul><li><code>Server.addStatusChangedKistener()</code> fires whenever the running status of the local server has changed.</li></ul></li>
+<ul><li><code>Server.addStatusChangedListener()</code> fires whenever the running status of the local server has changed.</li></ul></li>
 <li>Create and run a local service, example of running a <code>LocalMapService</code>.
 <ul><li><code>new LocalMapService(Url)</code>, creates a local map service with the given url path to mpk file</li>
 <li><code>Service.startAsync()</code>, starts the service asynchronously</li>
