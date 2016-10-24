@@ -46,7 +46,7 @@
 <ul><li>check service is started, <code>Service.getStatus()</code> equals <code>LocalServerStatus.STARTED</code></li>
 <li><code>Service.stopAsync()</code>, stops the service asynchronously</li></ul></li>
 <li>Wait for all services to be in the <code>LocalServerStatus.STOPPED</code> state.
-<ul><li><code>Service.addStatusChangedKistener()</code> fires whenever the running status of the local service has changed.</li></ul></li>
+<ul><li><code>Service.addStatusChangedListener()</code> fires whenever the running status of the local service has changed.</li></ul></li>
 <li>Stop the local server, <code>Server.stopAsync()</code>.</li>
 </ol>
 
