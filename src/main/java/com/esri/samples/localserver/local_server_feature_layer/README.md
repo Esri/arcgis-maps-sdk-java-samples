@@ -17,13 +17,13 @@
 <ul><li><code>LocalServer.INSTANCE</code> creates a local server</li>
 <li><code>Server.startAsync()</code> starts the server asynchronously</li></ul></li>
 <li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.
-<ul><li><code>Server.addStatusChangedKistener()</code> fires whenever the status of the local server has changed.</li></ul></li>
+<ul><li><code>Server.addStatusChangedListener()</code> fires whenever the status of the local server has changed.</li></ul></li>
 <li>Create and run a local feature service.
 <ul><li><code>new LocalFeatureService(Url)</code>, creates a local feature service with the given url path to mpk file</li>
 <li><code>LocalFeatureService.startAsync()</code>, starts the service asynchronously</li>
 <li>service will be added to the local server automatically</li></ul></li>
 <li>Wait for feature service to be in the  <code>LocalServerStatus.STARTED</code> state.
-<ul><li><code>LocalFeatureService.addStatusChangedKistener()</code> fires whenever the status of the local service has changed.</li></ul></li>
+<ul><li><code>LocalFeatureService.addStatusChangedListener()</code> fires whenever the status of the local service has changed.</li></ul></li>
 <li>Create a feature layer from local feature service.
 <ul><li>create a <code>ServiceFeatureTable(Url)</code> from local feature service url, <code>LocalFeatureService.getUrl()</code></li>
 <li>load the table asynchronously, <code>ServiceFeatureTable.loadAsync()</code></li>
