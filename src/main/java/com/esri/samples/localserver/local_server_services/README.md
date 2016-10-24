@@ -33,7 +33,7 @@
 <li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.
 <ul><li><code>Server.addStatusChangedKistener()</code> fires whenever the running status of the local server has changed.</li></ul></li>
 <li>Create and run a local service, example of running a <code>LocalMapService</code>.
-<ul><li><code>new LocalMapService(Url)</code>, creates a local map servie with the given url path to mpk file</li>
+<ul><li><code>new LocalMapService(Url)</code>, creates a local map service with the given url path to mpk file</li>
 <li><code>Service.startAsync()</code>, starts the service asynchronously</li>
 <li>service will be added to the local server automatically </li></ul></li>
 </ol>
