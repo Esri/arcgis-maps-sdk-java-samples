@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.esri.samples.scene.calculate_distance_3d;
 
 import javafx.animation.Animation;
@@ -192,7 +193,7 @@ public class CalculateDistance3dController {
   /**
    * Converts a Point to the Cartesian coordinate system.
    * 
-   * @param Point point to convert
+   * @param point point to convert
    * @return a 3D point in Cartesian coordinates
    */
   private Point3D convertToCartesianPoint(Point point) {
@@ -216,7 +217,7 @@ public class CalculateDistance3dController {
   /**
    * Converts degrees to radians.
    * 
-   * @param degree degree to convert
+   * @param degrees degree to convert
    * @return the converted degrees
    */
   private double convertToRadians(double degrees) {
