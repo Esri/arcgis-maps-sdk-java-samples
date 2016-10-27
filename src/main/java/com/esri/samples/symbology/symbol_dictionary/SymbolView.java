@@ -21,6 +21,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.symbology.Symbol;
+import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,11 +33,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
-import com.esri.arcgisruntime.symbology.Symbol;
 
 class SymbolView extends HBox implements Initializable {
 

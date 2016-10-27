@@ -16,6 +16,12 @@
 
 package com.esri.samples.displayinformation.show_callout;
 
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.Callout;
+import com.esri.arcgisruntime.mapping.view.MapView;
+
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -23,12 +29,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.Callout;
-import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ShowCalloutSample extends Application {
 

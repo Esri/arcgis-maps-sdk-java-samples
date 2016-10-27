@@ -20,15 +20,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Feature;
@@ -43,6 +34,15 @@ import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Point2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class UpdateGeometriesSample extends Application {
 

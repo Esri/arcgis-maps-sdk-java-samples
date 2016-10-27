@@ -17,25 +17,15 @@
 package com.esri.samples.localserver.local_server_services;
 
 import java.io.File;
-import java.net.URISyntaxException;
+
+import com.esri.arcgisruntime.localserver.*;
+import com.esri.arcgisruntime.util.ListenableList;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-
-import com.esri.arcgisruntime.localserver.LocalFeatureService;
-import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
-import com.esri.arcgisruntime.localserver.LocalMapService;
-import com.esri.arcgisruntime.localserver.LocalServer;
-import com.esri.arcgisruntime.localserver.LocalServerStatus;
-import com.esri.arcgisruntime.localserver.LocalService;
-import com.esri.arcgisruntime.util.ListenableList;
 
 public class LocalServerServicesController {
 

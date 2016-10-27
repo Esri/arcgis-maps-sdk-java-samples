@@ -20,11 +20,6 @@ import static com.esri.arcgisruntime.mapping.view.LayerSceneProperties.SurfacePl
 import static com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
 import static com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
@@ -36,6 +31,11 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class ElevationModeSample extends Application {
 

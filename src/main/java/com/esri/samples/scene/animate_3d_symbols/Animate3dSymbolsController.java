@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.esri.arcgisruntime.geometry.*;
+import com.esri.arcgisruntime.mapping.*;
+import com.esri.arcgisruntime.mapping.view.*;
+import com.esri.arcgisruntime.symbology.*;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -39,11 +44,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.util.Duration;
-
-import com.esri.arcgisruntime.geometry.*;
-import com.esri.arcgisruntime.mapping.*;
-import com.esri.arcgisruntime.mapping.view.*;
-import com.esri.arcgisruntime.symbology.*;
 
 /**
  * Controller class. Automatically instantiated when the FXML loads due to the fx:controller attribute.

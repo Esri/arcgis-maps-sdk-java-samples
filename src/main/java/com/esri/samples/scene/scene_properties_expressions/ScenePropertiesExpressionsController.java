@@ -16,9 +16,6 @@
 
 package com.esri.samples.scene.scene_properties_expressions;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Slider;
-
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
@@ -29,6 +26,9 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Slider;
 
 public class ScenePropertiesExpressionsController {
   @FXML private SceneView sceneView;

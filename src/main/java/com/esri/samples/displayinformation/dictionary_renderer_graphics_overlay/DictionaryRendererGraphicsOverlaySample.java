@@ -18,7 +18,6 @@ package com.esri.samples.displayinformation.dictionary_renderer_graphics_overlay
 
 import static org.joox.JOOX.$;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

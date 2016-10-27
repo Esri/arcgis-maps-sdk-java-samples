@@ -16,6 +16,11 @@
 
 package com.esri.samples.map.open_existing_map;
 
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,11 +35,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.portal.Portal;
-import com.esri.arcgisruntime.portal.PortalItem;
 
 public class OpenExistingMapSample extends Application {
 

@@ -19,13 +19,6 @@ package com.esri.samples.featurelayers.feature_layer_selection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.application.Application;
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -37,6 +30,13 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
+
+import javafx.application.Application;
+import javafx.geometry.Point2D;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class FeatureLayerSelectionSample extends Application {
 

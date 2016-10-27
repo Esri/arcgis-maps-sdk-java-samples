@@ -16,11 +16,6 @@
 
 package com.esri.samples.featurelayers.feature_layer_dictionary_renderer;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -30,6 +25,11 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class FeatureLayerDictionaryRendererSample extends Application {
 

@@ -18,14 +18,6 @@ package com.esri.samples.symbology.picture_marker_symbol;
 
 import java.io.File;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import javax.imageio.ImageIO;
 
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -37,6 +29,14 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class PictureMarkerSymbolSample extends Application {
 

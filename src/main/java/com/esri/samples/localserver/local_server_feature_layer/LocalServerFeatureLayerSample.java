@@ -17,17 +17,7 @@
 package com.esri.samples.localserver.local_server_feature_layer;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
-
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -39,6 +29,14 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class LocalServerFeatureLayerSample extends Application {
 

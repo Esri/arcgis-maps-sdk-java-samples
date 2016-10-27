@@ -16,6 +16,17 @@
 
 package com.esri.samples.scene.calculate_distance_3d;
 
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Surface;
+import com.esri.arcgisruntime.mapping.view.*;
+import com.esri.arcgisruntime.mapping.view.LayerSceneProperties.SurfacePlacement;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -25,23 +36,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point3D;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
-
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.view.Camera;
-import com.esri.arcgisruntime.mapping.view.DrawStatus;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.LayerSceneProperties.SurfacePlacement;
-import com.esri.arcgisruntime.mapping.view.SceneView;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class CalculateDistance3dController {
 
