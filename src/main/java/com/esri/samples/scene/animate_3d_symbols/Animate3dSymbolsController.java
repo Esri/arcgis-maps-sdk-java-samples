@@ -93,12 +93,13 @@ public class Animate3dSymbolsController {
       sceneOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(sceneOverlay);
 
-      // create renderer to handle updating plane rotation using the graphics card
+      // create renderer to handle updating plane rotation using the GPU
       SimpleRenderer renderer3D = new SimpleRenderer();
+      renderer3D.setRotationType(RotationType.GEOGRAPHIC);
       Renderer.SceneProperties renderProperties = renderer3D.getSceneProperties();
-      renderProperties.setHeadingExpression("HEADING");
-      renderProperties.setPitchExpression("PITCH");
-      renderProperties.setRollExpression("ROLL");
+      renderProperties.setHeadingExpression("[HEADING]");
+      renderProperties.setPitchExpression("[PITCH]");
+      renderProperties.setRollExpression("[ROLL]");
       sceneOverlay.setRenderer(renderer3D);
 
       // set up mini map
@@ -160,6 +161,7 @@ public class Animate3dSymbolsController {
    * @throws URISyntaxException if model cannot be loaded
    */
   private Graphic create3DPlane() throws URISyntaxException {
+
     // load the plane's 3D model symbol
     String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
     ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
@@ -178,7 +180,7 @@ public class Animate3dSymbolsController {
 
     // create a graphic with the symbol and attributes
     Map<String, Object> attributes = new HashMap<>();
-    attributes.put("ANGLE", 0f);
+    attributes.put("[ANGLE]", 0f);
     return new Graphic(new Point(0, 0, WGS84), attributes, plane2DSymbol);
   }
 
@@ -253,6 +255,7 @@ public class Animate3dSymbolsController {
    * @param keyframe index in mission data to show
    */
   private void animate(int keyframe) {
+
     // get the next POSITION
     Map<String, Object> datum = missionData.get(keyframe);
     Point position = (Point) datum.get(POSITION);
@@ -282,7 +285,7 @@ public class Animate3dSymbolsController {
       // rotate the map view about the direction of motion
       mapView.setViewpoint(new Viewpoint(position, mapView.getMapScale(), 360 + planeModel.getHeading()));
     } else {
-      plane2D.getAttributes().put("ANGLE", 360 + planeModel.getHeading() - mapView.getMapRotation());
+      plane2D.getAttributes().put("[ANGLE]", 360 + planeModel.getHeading() - mapView.getMapRotation());
     }
   }
 
@@ -304,8 +307,9 @@ public class Animate3dSymbolsController {
    */
   @FXML
   private void toggleFollow() {
+
     if (followButton.isSelected()) {
-      plane2D.getAttributes().put("ANGLE", 0f);
+      plane2D.getAttributes().put("[ANGLE]", 0f);
     }
     cameraModel.setFollowing(followButton.isSelected());
   }
@@ -330,6 +334,7 @@ public class Animate3dSymbolsController {
    * Stops the animation and disposes of application resources.
    */
   void terminate() {
+
     animation.stop();
     if (sceneView != null) {
       sceneView.dispose();
