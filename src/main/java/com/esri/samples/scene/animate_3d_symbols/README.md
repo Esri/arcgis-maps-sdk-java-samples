@@ -33,14 +33,14 @@
       <li>set symbol to the one we made above</li></ul></li>
   <li>Add Attributes to graphic.
     <ul><li>Get attributes from graphic, <code>Graphic.getAttributes()</code>.</li>
-      <li>Add heading, pitch, and roll attribute, <code>attributes.put("HEADING", settings.get(HEADING))</code>;</li></ul></li>
+      <li>Add heading, pitch, and roll attribute, <code>attributes.put("[HEADING]", heading)</code>;</li></ul></li>
   <li>Create a <code>SimpleRenderer</code> to access and set it's expression properties.
     <ul><li>access properties with <code>Renderer.getSceneProperties()</code></li>
-      <li>set heading, pitch, and roll expressions, <code>SceneProperties.setHeadingExpression("HEADING")</code>.</li></ul></li>
+      <li>set heading, pitch, and roll expressions, <code>SceneProperties.setHeadingExpression("[HEADING]")</code>.</li></ul></li>
   <li>Add graphic to the graphics overlay.</li>
   <li>Set renderer to graphics overlay, <code>GraphicsOverlay.setRenderer(Renderer)</code></li>
   <li>Update graphic's location, <code>Graphic.setGeometry(Point)</code>.</li>
-  <li>Update symbol's heading, pitch, and roll, <code>attributes.replace("HEADING", settings.get(HEADING))</code>.</li>
+  <li>Update symbol's heading, pitch, and roll, <code>attributes.replace("[HEADING]", heading)</code>.</li>
 </ol>
 
 <h2>Features</h2>
