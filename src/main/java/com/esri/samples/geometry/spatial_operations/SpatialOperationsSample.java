@@ -9,7 +9,7 @@
  * governing permissions and limitations under the License.
  */
 
-package com.esri.samples.geometry.geometry_engine;
+package com.esri.samples.geometry.spatial_operations;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -32,7 +32,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
-public class GeometryEngineSample extends Application {
+public class SpatialOperationsSample extends Application {
 
   private MapView mapView;
   private GraphicsOverlay geomLayer;
@@ -42,7 +42,7 @@ public class GeometryEngineSample extends Application {
 
   // geometry operations
   private enum OPERATION_TYPE {
-    UNION, DIFFERENCE, BUFFER, INTERSECTION
+    UNION, DIFFERENCE, SYMMETRIC_DIFFERENCE, INTERSECTION
   }
 
   // simple black (0xFF000000) line symbol
@@ -96,8 +96,8 @@ public class GeometryEngineSample extends Application {
           case DIFFERENCE:
             resultPolygon = GeometryEngine.difference(polygon1.getGeometry(), polygon2.getGeometry());
             break;
-          case BUFFER:
-            resultPolygon = GeometryEngine.buffer(polygon2.getGeometry(), 50);
+          case SYMMETRIC_DIFFERENCE:
+            resultPolygon = GeometryEngine.symmetricDifference(polygon1.getGeometry(), polygon2.getGeometry());
             break;
           case INTERSECTION:
           default:
