@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text ?>
+
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import com.esri.arcgisruntime.mapping.view.SceneView?>
+
+<StackPane fx:controller="com.esri.samples.scene.calculate_distance_3d.CalculateDistance3dController"
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/calculate_distance_3d/CalculateDistance3d.css">
+    <!--SDK SceneView-->
+    <SceneView fx:id="sceneView"/>
+    <!--Position Parameters Pane-->
+    <HBox StackPane.alignment="TOP_CENTER" maxWidth="200" maxHeight="50" spacing="5" styleClass="pane">
+        <Label text="Distance: "  />
+        <Label fx:id="txtDistance" text="" />
+    </HBox>
+</StackPane>

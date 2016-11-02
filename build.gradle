@@ -1,10 +1,13 @@
-apply plugin: 'application'
 apply plugin: 'com.esri.arcgisruntime.java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
 
 buildscript {
     repositories {
         maven {
-            url 'http://android:8080/artifactory/arcgis'
+            url 'http://android:8080/artifactory/libs-snapshots'
+            //url 'http://android:8080/artifactory/arcgis' when plugin reaches 1.0.0
             //url 'https://esri.bintray.com/arcgis'
         }
     }
@@ -13,7 +16,10 @@ buildscript {
     }
 }
 
-arcgis.version = '100.0.0-1468'
+arcgis.version = '100.0.0-1506'
+
+idea.module.downloadJavadoc = true
+eclipse.classpath.downloadJavadoc = true
 
 dependencies {
     compile 'org.controlsfx:controlsfx:8.40.11'

@@ -4,7 +4,7 @@
 The dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key, 
 value attributes for each graphic.</p>
 
-<p><img src="DictionaryRendererGraphicsOverlay.png" alt="" title="" /></p>
+<p><img src="DictionaryRendererGraphicsOverlay.png"/></p>
 
 <h2>How it works</h2>
 

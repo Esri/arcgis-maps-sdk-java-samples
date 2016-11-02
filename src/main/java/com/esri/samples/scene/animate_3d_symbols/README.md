@@ -1,7 +1,9 @@
-<h1>Mission Replay</h1>
+<h1>Animate 3d Symbols</h1>
 
 <p>Demonstrates how to animate a graphic's position and rotation and follow it with a camera. Also shows how to combine
   a SceneView and MapView in an MVC application with property binding.</p>
+
+<p><img src="Animate3dSymbols.png"/></p>
 
 <h2>How to use the sample</h2>
 
@@ -19,8 +21,6 @@
 <p>2D Map Controls (Bottom Left Corner):
   - Plus and Minus -- controls distance of 2D view from ground level</p>
 
-<p><img src="MissionReplay.png" alt="" title="" /></p>
-
 <h2>How it works</h2>
 
 <p>To animate a <code>Graphic</code> by updating it's <code>Geometry</code>, heading, pitch, and roll:</p>
@@ -33,14 +33,14 @@
       <li>set symbol to the one we made above</li></ul></li>
   <li>Add Attributes to graphic.
     <ul><li>Get attributes from graphic, <code>Graphic.getAttributes()</code>.</li>
-      <li>Add heading, pitch, and roll attribute, <code>attributes.put("HEADING", settings.get(HEADING))</code>;</li></ul></li>
+      <li>Add heading, pitch, and roll attribute, <code>attributes.put("[HEADING]", heading)</code>;</li></ul></li>
   <li>Create a <code>SimpleRenderer</code> to access and set it's expression properties.
     <ul><li>access properties with <code>Renderer.getSceneProperties()</code></li>
-      <li>set heading, pitch, and roll expressions, <code>SceneProperties.setHeadingExpression("HEADING")</code>.</li></ul></li>
+      <li>set heading, pitch, and roll expressions, <code>SceneProperties.setHeadingExpression("[HEADING]")</code>.</li></ul></li>
   <li>Add graphic to the graphics overlay.</li>
   <li>Set renderer to graphics overlay, <code>GraphicsOverlay.setRenderer(Renderer)</code></li>
   <li>Update graphic's location, <code>Graphic.setGeometry(Point)</code>.</li>
-  <li>Update symbol's heading, pitch, and roll, <code>attributes.replace("HEADING", settings.get(HEADING))</code>.</li>
+  <li>Update symbol's heading, pitch, and roll, <code>attributes.replace("[HEADING]", heading)</code>.</li>
 </ol>
 
 <h2>Features</h2>

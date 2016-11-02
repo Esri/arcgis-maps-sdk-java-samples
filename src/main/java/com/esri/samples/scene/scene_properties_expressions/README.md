@@ -6,7 +6,7 @@
 
 <p>Move the heading and pitch sliders to change the cone's orientation.</p>
 
-<p><img src="ScenePropertiesExpressions.png" alt="" title="" /></p>
+<p><img src="ScenePropertiesExpressions.png"/></p>
 
 <h2>How it works</h2>
 

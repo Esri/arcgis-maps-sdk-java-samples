@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to position graphics using different elevation modes.</p>
 
-<p><img src="ElevationMode.png" alt="" title="" /></p>
+<p><img src="ElevationMode.png"/></p>
 
 <h2>How it works</h2>
 

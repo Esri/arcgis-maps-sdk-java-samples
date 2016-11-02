@@ -6,7 +6,7 @@
 
 <p>Use the buttons in the control panel to apply or reset definition expression.</p>
 
-<p><img src="FeatureLayerDefinitionExpression.png" alt="" title="" /></p>
+<p><img src="FeatureLayerDefinitionExpression.png"/></p>
 
 <h2>How it works</h2>
 

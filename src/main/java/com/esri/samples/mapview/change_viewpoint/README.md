@@ -17,7 +17,7 @@
  - setViewpointRotationAsync
  - setViewpointScaleAsync</p>
 
-<p><img src="ChangeViewpoint.png" alt="" title="" /></p>
+<p><img src="ChangeViewpoint.png"/></p>
 
 <h2>How it works</h2>
 

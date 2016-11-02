@@ -1,15 +1,24 @@
 /*
- * Copyright 2015 Esri. Licensed under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Copyright 2016 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.esri.samples.map.change_basemap;
+
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.MapView;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -23,10 +32,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ChangeBasemapSample extends Application {
 
@@ -62,25 +67,23 @@ public class ChangeBasemapSample extends Application {
 
       // setup all buttons to switch basemaps
       for (Basemap.Type type : Basemap.Type.values()) {
-        if (type != Basemap.Type.UNKNOWN) {
-          String basemapString = type.toString();
+        String basemapString = type.toString();
 
-          Button button = new Button();
-          button.setTooltip(new Tooltip(basemapString));
-          button.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/change_basemap/" + basemapString
-              .toLowerCase() + ".png"))));
+        Button button = new Button();
+        button.setTooltip(new Tooltip(basemapString));
+        button.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/change_basemap/" + basemapString
+            .toLowerCase() + ".png"))));
 
-          // listener to switch ArcGISMap types when button clicked
-          button.setOnAction(e -> {
-            if (map != null) {
-              mapView.setMap(null);
-            }
-            map = new ArcGISMap(Basemap.Type.valueOf(basemapString), LATITUDE, LONGITUDE, LOD);
-            mapView.setMap(map);
-          });
+        // listener to switch ArcGISMap types when button clicked
+        button.setOnAction(e -> {
+          if (map != null) {
+            mapView.setMap(null);
+          }
+          map = new ArcGISMap(Basemap.Type.valueOf(basemapString), LATITUDE, LONGITUDE, LOD);
+          mapView.setMap(map);
+        });
 
-          flowPane.getChildren().add(button);
-        }
+        flowPane.getChildren().add(button);
       }
 
       vBoxControl.getChildren().add(flowPane);

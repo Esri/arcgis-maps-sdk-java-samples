@@ -10,7 +10,7 @@
 <p>To delete an attachment.
   - click on a feature, select an attachment from attachment list, and click delete attachment button</p>
 
-<p><img src="EditFeatureAttachments.gif" alt="" title="" /></p>
+<p><img src="EditFeatureAttachments.gif"/></p>
 
 <h2>How it works</h2>
 

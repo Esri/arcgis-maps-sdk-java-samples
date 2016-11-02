@@ -9,7 +9,7 @@
     - blue pin with a star, stored in the resource folder that comes with the application
     - orange pin, created from a file path on disk (which is written to disk when the app starts and cleaned up when the app closes)</p>
 
-<p><img src="PictureMarkerSymbol.png" alt="" title="" /></p>
+<p><img src="PictureMarkerSymbol.png"/></p>
 
 <h2>How it works</h2>
 

@@ -1,23 +1,23 @@
 /*
- * Copyright 2015 Esri.
- * 
+ * Copyright 2016 Esri.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.esri.samples.scene.dictionary_renderer_graphics_overlay_3d;
 
 import static org.joox.JOOX.$;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,16 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.PointCollection;
-import com.esri.arcgisruntime.geometry.Polygon;
-import com.esri.arcgisruntime.geometry.Polyline;
-import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.*;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -44,9 +35,14 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
-import com.esri.arcgisruntime.symbology.SymbolDictionary;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 
-public class DictionaryRendererGraphicsOverlay3D extends Application {
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+public class DictionaryRendererGraphicsOverlay3d extends Application {
 
   private SceneView sceneView;
   private GraphicsOverlay graphicsOverlay;
@@ -81,7 +77,7 @@ public class DictionaryRendererGraphicsOverlay3D extends Application {
     sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
     // create symbol dictionary from specification
-    SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d");
+    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
 
     // tells graphics overlay how to render graphics with symbol dictionary attributes set
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
@@ -91,7 +87,7 @@ public class DictionaryRendererGraphicsOverlay3D extends Application {
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
-    messages.stream().map(DictionaryRendererGraphicsOverlay3D::createGraphic)
+    messages.stream().map(DictionaryRendererGraphicsOverlay3d::createGraphic)
         .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
 
     // set the view to the center of the geometry
@@ -106,8 +102,7 @@ public class DictionaryRendererGraphicsOverlay3D extends Application {
   private List<Map<String, Object>> parseMessages() throws Exception {
 
     final List<Map<String, Object>> messages = new ArrayList<>();
-    File symbolData = new File(getClass().getResource("/Mil2525DMessages.xml").getPath());
-    $(symbolData).find("message").each().forEach(message -> {
+    $(getClass().getResource("/Mil2525DMessages.xml")).find("message").each().forEach(message -> {
       Map<String, Object> attributes = new HashMap<>();
       message.children().forEach(attr -> attributes.put(attr.getNodeName(), attr.getTextContent()));
       messages.add(attributes);

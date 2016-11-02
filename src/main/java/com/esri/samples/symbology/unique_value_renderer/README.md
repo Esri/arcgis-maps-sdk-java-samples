@@ -20,7 +20,7 @@ californiaFillSymbol, californiaValue));
 
 <p>Sample starts with a predefined UniqueValues for some US states which are set to the UniqueValueRenderer and applied to the FeatureLayer.</p>
 
-<p><img src="UniqueValueRenderer.png" alt="" title="" /></p>
+<p><img src="UniqueValueRenderer.png"/></p>
 
 <h2>How it works</h2>
 

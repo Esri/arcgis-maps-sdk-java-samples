@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to display an ArcGISMapImageLayer on a ArcGISMap. Typically this type of content is known as operational data, an example would be business data that changes frequently, such as displaying a fleet of vehicles as they make deliveries.</p>
 
-<p><img src="MapImageLayer.png" alt="" title="" /></p>
+<p><img src="MapImageLayer.png"/></p>
 
 <h2>How it works</h2>
 

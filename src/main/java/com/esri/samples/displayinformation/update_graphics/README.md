@@ -15,7 +15,7 @@
 <p>Update Graphic's Symbol:
   - click on a graphic, then choose a symbol from the update symbol drop down box</p>
 
-<p><img src="UpdateGraphics.png" alt="" title="" /></p>
+<p><img src="UpdateGraphics.png"/></p>
 
 <h2>How it works</h2>
 

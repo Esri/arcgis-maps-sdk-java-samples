@@ -6,7 +6,7 @@
 
 <p>A list of ArcGISSubLayers is display in a drop down box in the top right. Each sublayer in the list has a check-box, which can be used to toggle the visibility of that particular sublayer.</p>
 
-<p><img src="MapImageLayerSublayerVisibility.png" alt="" title="" /></p>
+<p><img src="MapImageLayerSublayerVisibility.png"/></p>
 
 <h2>How it works</h2>
 

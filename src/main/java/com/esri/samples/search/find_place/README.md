@@ -6,7 +6,7 @@
 
 <p>Choose from the dropdown or input your own place and location to search near. Click the search button to find matching places. A redo search button will appear if you pan the map after a search.</p>
 
-<p><img src="FindPlace.png" alt="" title="" /></p>
+<p><img src="FindPlace.png"/></p>
 
 <h2>How it works</h2>
 

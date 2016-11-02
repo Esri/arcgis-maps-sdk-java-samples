@@ -6,7 +6,7 @@
 
 <p>The ArcGISMap has a minimum and maximum scale set which locks the map view in-between that range.</p>
 
-<p><img src="MinMaxScale.png" alt="" title="" /></p>
+<p><img src="MinMaxScale.png"/></p>
 
 <h2>How it works</h2>
 

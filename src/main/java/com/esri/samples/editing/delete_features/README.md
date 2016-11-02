@@ -8,7 +8,7 @@
   - click on a feature on the Map
   - click on the delete button</p>
 
-<p><img src="DeleteFeatures.gif" alt="" title="" /></p>
+<p><img src="DeleteFeatures.gif"/></p>
 
 <h2>How it works</h2>
 

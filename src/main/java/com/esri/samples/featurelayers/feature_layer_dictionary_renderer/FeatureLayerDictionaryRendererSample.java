@@ -1,24 +1,22 @@
 /*
- * Copyright 2015 Esri. Licensed under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Copyright 2016 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.esri.samples.featurelayers.feature_layer_dictionary_renderer;
 
-import java.io.File;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-import com.esri.arcgisruntime.datasource.arcgis.Geodatabase;
+import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -26,7 +24,12 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
-import com.esri.arcgisruntime.symbology.SymbolDictionary;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class FeatureLayerDictionaryRendererSample extends Application {
 
@@ -51,13 +54,11 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     mapView.setMap(map);
 
     // load geo-database from local location
-    File databaseLocation = new File(getClass().getResource("/feature_layer_dictionary_renderer/militaryoverlay" +
-        ".geodatabase").getPath());
-    Geodatabase geodatabase = new Geodatabase(databaseLocation.getAbsolutePath());
+    Geodatabase geodatabase = new Geodatabase("./samples-data/dictionary/militaryoverlay.geodatabase");
     geodatabase.loadAsync();
 
     // render tells layer what symbols to apply to what features
-    SymbolDictionary symbolDictionary = new SymbolDictionary("mil2525d");
+    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
     symbolDictionary.loadAsync();
 
     geodatabase.addDoneLoadingListener(() -> {

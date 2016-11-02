@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to display a scene with an elevation source. An elevation source allows objects to be viewed in 3D, like this picture of Mt. Everest.</p>
 
-<p><img src="DisplayScene.png" alt="" title="" /></p>
+<p><img src="DisplayScene.png"/></p>
 
 <h2>How it works</h2>
 

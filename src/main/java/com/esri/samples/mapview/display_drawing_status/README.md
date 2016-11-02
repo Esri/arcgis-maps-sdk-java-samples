@@ -6,7 +6,7 @@
 
 <p>The progress bar in the top right displays the drawing status of the map view.</p>
 
-<p><img src="DisplayDrawingStatus.png" alt="" title="" /></p>
+<p><img src="DisplayDrawingStatus.png"/></p>
 
 <h2>How it works</h2>
 

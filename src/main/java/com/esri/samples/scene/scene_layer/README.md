@@ -1,7 +1,7 @@
 <h1>Scene Layer Sample</h1>
 
 <p>Demonstrates how to add a scene layer to a scene.
-    <img src="SceneLayerSample.png" alt="" title="" /></p>
+    <img src="SceneLayerSample.png"/></p>
 
 <h2>How it works</h2>
 

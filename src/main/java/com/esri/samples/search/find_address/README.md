@@ -6,7 +6,7 @@
 
 <p>For simplicity, the sample comes loaded with a set of addresses. You can select any address to perform geocoding and show it's location on map. To perform reverse geocoding in real-time, click on any location on the ArcGISMap to provide it's address.</p>
 
-<p><img src="FindAddress.png" alt="" title="" /></p>
+<p><img src="FindAddress.png"/></p>
 
 <h2>How it works</h2>
 

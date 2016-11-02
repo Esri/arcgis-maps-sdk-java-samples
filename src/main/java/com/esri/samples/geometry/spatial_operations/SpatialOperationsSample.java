@@ -9,7 +9,7 @@
  * governing permissions and limitations under the License.
  */
 
-package com.esri.samples.geometry.geometry_engine;
+package com.esri.samples.geometry.spatial_operations;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -32,7 +32,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
-public class GeometryEngineSample extends Application {
+public class SpatialOperationsSample extends Application {
 
   private MapView mapView;
   private GraphicsOverlay geomLayer;
@@ -42,7 +42,7 @@ public class GeometryEngineSample extends Application {
 
   // geometry operations
   private enum OPERATION_TYPE {
-    UNION, DIFFERENCE, BUFFER, INTERSECTION
+    UNION, DIFFERENCE, SYMMETRIC_DIFFERENCE, INTERSECTION
   }
 
   // simple black (0xFF000000) line symbol
@@ -96,8 +96,8 @@ public class GeometryEngineSample extends Application {
           case DIFFERENCE:
             resultPolygon = GeometryEngine.difference(polygon1.getGeometry(), polygon2.getGeometry());
             break;
-          case BUFFER:
-            resultPolygon = GeometryEngine.buffer(polygon2.getGeometry(), 50);
+          case SYMMETRIC_DIFFERENCE:
+            resultPolygon = GeometryEngine.symmetricDifference(polygon1.getGeometry(), polygon2.getGeometry());
             break;
           case INTERSECTION:
           default:
@@ -165,11 +165,11 @@ public class GeometryEngineSample extends Application {
 
     // create blue (0xFF0000CC) polygon
     PointCollection pointsPoly = new PointCollection(SpatialReferences.getWebMercator());
-    pointsPoly.add(new Point(-13160, 6710100));
-    pointsPoly.add(new Point(-13300, 6710500));
-    pointsPoly.add(new Point(-13760, 6710730));
-    pointsPoly.add(new Point(-14660, 6710000));
     pointsPoly.add(new Point(-13960, 6709400));
+    pointsPoly.add(new Point(-14660, 6710000));
+    pointsPoly.add(new Point(-13760, 6710730));
+    pointsPoly.add(new Point(-13300, 6710500));
+    pointsPoly.add(new Point(-13160, 6710100));
 
     SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFF0000CC, line);
     Polygon polygonSymbol = new Polygon(pointsPoly);
@@ -182,16 +182,14 @@ public class GeometryEngineSample extends Application {
     outerRingSegmentCollection.add(new Point(-12160, 6710730));
     outerRingSegmentCollection.add(new Point(-13160, 6709700));
     outerRingSegmentCollection.add(new Point(-14560, 6710730));
-    outerRingSegmentCollection.add(new Point(-13060, 6711030));
     Part outerRing = new Part(outerRingSegmentCollection);
 
     // inner ring
     PointCollection innerRingSegmentCollection = new PointCollection(SpatialReferences.getWebMercator());
     innerRingSegmentCollection.add(new Point(-13060, 6710910));
-    innerRingSegmentCollection.add(new Point(-12450, 6710660));
-    innerRingSegmentCollection.add(new Point(-13160, 6709900));
     innerRingSegmentCollection.add(new Point(-14160, 6710630));
-    innerRingSegmentCollection.add(new Point(-13060, 6710910));
+    innerRingSegmentCollection.add(new Point(-13160, 6709900));
+    innerRingSegmentCollection.add(new Point(-12450, 6710660));
     Part innerRing = new Part(innerRingSegmentCollection);
 
     PartCollection polygonParts = new PartCollection(outerRing);

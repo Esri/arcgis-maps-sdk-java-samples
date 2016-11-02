@@ -6,7 +6,7 @@
 
 <p>Use the buttons in the control panel to change the renderer.</p>
 
-<p><img src="ChangeFeatureLayerRenderer.png" alt="" title="" /></p>
+<p><img src="ChangeFeatureLayerRenderer.png"/></p>
 
 <h2>How it works</h2>
 

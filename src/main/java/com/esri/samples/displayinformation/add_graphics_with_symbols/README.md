@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to display a Graphic using a SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, and a TextSymbol.</p>
 
-<p><img src="AddGraphicsWithSymbols.png" alt="" title="" /></p>
+<p><img src="AddGraphicsWithSymbols.png"/></p>
 
 <h2>How it works</h2>
 

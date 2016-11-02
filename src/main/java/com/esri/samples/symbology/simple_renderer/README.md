@@ -6,7 +6,7 @@
 
 <p>Starts with a predefined SimpleRenderer that sets a cross SimpleMarkerSymbol as a default symbol for graphics.</p>
 
-<p><img src="SimpleRenderer.png" alt="" title="" /></p>
+<p><img src="SimpleRenderer.png"/></p>
 
 <h2>How it works</h2>
 
