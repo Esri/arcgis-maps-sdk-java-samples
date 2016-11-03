@@ -1,8 +1,8 @@
-<h1>Calculate Distance 3D</h1>
+<h1>Calculate Distance 3d</h1>
 
 <p>Demonstrates how to calculate the distance, in meters, between two Graphics in 3D space.</p>
 
-<p><img src="CalculateDistance3d.PNG" title="CalculateDistance3d" /></p>
+<p><img src="CalculateDistance3d.png"/></p>
 
 <h2>How to use the sample</h2>
 
