@@ -19,18 +19,14 @@ import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.data.TileCache;
-import com.esri.arcgisruntime.geoprocessing.GeoprocessingFeatures;
-import com.esri.arcgisruntime.geoprocessing.GeoprocessingJob;
-import com.esri.arcgisruntime.geoprocessing.GeoprocessingParameter;
-import com.esri.arcgisruntime.geoprocessing.GeoprocessingParameters;
-import com.esri.arcgisruntime.geoprocessing.GeoprocessingTask;
+import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
 import com.esri.arcgisruntime.localserver.LocalGeoprocessingService.ServiceType;
@@ -39,15 +35,21 @@ import com.esri.arcgisruntime.localserver.LocalServerStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingDouble;
+import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingJob;
+import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameter;
+import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameters;
+import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
 
 public class LocalServerGeoprocessingController {
 
   @FXML private TextField txtInterval;
   @FXML private Button btnGenerate;
   @FXML private Button btnClear;
+  @FXML private ProgressBar progressBar;
 
   @FXML private MapView mapView;
-  private LocalGeoprocessingService gpService;
+  private LocalGeoprocessingService localGPService;
   private GeoprocessingTask gpTask;
 
   private static final LocalServer server = LocalServer.INSTANCE;
@@ -62,7 +64,7 @@ public class LocalServerGeoprocessingController {
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
       mapView.setMap(map);
 
-      //
+      //load tiled layer and zoom to location
       String rasterURL = Paths.get(getClass().getResource("/local_server/RasterHillshade.tpk").toURI()).toString();
       TileCache tileCache = new TileCache(rasterURL);
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
@@ -74,26 +76,25 @@ public class LocalServerGeoprocessingController {
 
       // listen for the status of the local server to change
       server.addStatusChangedListener(status -> {
+        // start local geoprocessing service once local server has started
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
           try {
             String gpServiceURL = Paths.get(getClass().getResource("/local_server/Contour.gpk").toURI()).toString();
-            gpService = new LocalGeoprocessingService(gpServiceURL, ServiceType.AsynchronousSubmitWithMapServerResult);
-            gpService.addStatusChangedListener(s -> {
-              System.out.println("Service Status: " + s.getNewStatus());
-              if (s.getNewStatus() == LocalServerStatus.STARTED) {
-                btnGenerate.setDisable(false);
-                //                System.out.println("URL: " + gpService.getUrl() + "/Contour");
-                //                gpTask = new GeoprocessingTask(gpService.getUrl() + "/Contour");
-                System.out.println("URL: " + gpService.getUrl() + "/Contour");
-                gpTask = new GeoprocessingTask(
-                    "https://capitest.esri.com/arcgis/rest/services/JapanModel1/GPServer/JP_Buffer");
-              }
-            });
-            gpService.startAsync();
-
+            localGPService = new LocalGeoprocessingService(gpServiceURL,
+                ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
           } catch (URISyntaxException e) {
             System.out.println("Failed to find gpk file. " + e.getMessage());
           }
+
+          localGPService.addStatusChangedListener(s -> {
+            // create geoprocessing task once local geoprocessing service is started
+            if (s.getNewStatus() == LocalServerStatus.STARTED) {
+              gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Contour");
+              btnClear.disableProperty().bind(btnGenerate.disabledProperty().not());
+              btnGenerate.setDisable(false);
+            }
+          });
+          localGPService.startAsync();
         }
       });
       server.startAsync();
@@ -104,56 +105,51 @@ public class LocalServerGeoprocessingController {
     }
   }
 
+  /**
+   *  Creates a Map Image Layer that displays contour lines on the map using the interval the that is set. 
+   *   
+   */
   @FXML
-  protected void handleGenerateContours(ActionEvent event) {
+  protected void handleGenerateContours() {
 
+    // tracking progress of creating contour map 
+    progressBar.setVisible(true);
+    // create parameter using interval set
     double interval = Double.parseDouble(txtInterval.getText());
     GeoprocessingParameters gpParameters = new GeoprocessingParameters(
-        //        GeoprocessingParameters.ExecutionType.SYNCHRONOUS_EXECUTE);
         GeoprocessingParameters.ExecutionType.ASYNCHRONOUS_SUBMIT);
+    final Map<String, GeoprocessingParameter> inputs = gpParameters.getInputs();
+    inputs.put("Interval", new GeoprocessingDouble(interval));
 
-    //    final Map<String, GeoprocessingParameter> inputs = gpParameters.getInputs();
-    //    inputs.put("Interval", new GeoprocessingDouble(interval));
-
-    GeoprocessingJob gpJob = gpTask.run(gpParameters);
-    gpJob.addJobChangedListener(() -> {
-      System.out.println("Job Status: " + gpJob.getStatus());
-    });
-
+    // adds contour lines to map
+    GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
     gpJob.addJobDoneListener(() -> {
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
-        gpJob.getResult();
-
-        Map<String, GeoprocessingParameter> outputs = gpJob.getResult().getOutputs();
-        System.out.println("Outputs: " + outputs.size());
-
-        System.out.println("Parameter: " + outputs.get("Contour_Result"));
-
-        GeoprocessingFeatures features = (GeoprocessingFeatures) outputs.get("Contour_Result");
-        System.out.println("URL: " + features.getUrl());
-        System.out.println("URi: " + features.getUri());
-        //        gpJob.getResult().getMapImageLayer();
-
-        //        System.out.println("Job Url: " + gpJob.getUri());
-        // create a map image layer using url
-        //        ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(gpJob.getUri());
-        // set viewpoint once layer has loaded
-        //        imageLayer.addDoneLoadingListener(() -> {
-        //          System.out.println("Image layer done");
-        //          mapView.getMap().getOperationalLayers().add(imageLayer);
-        //          //              Platform.runLater(() -> imageLayerProgress.setVisible(false));
-        //        });
-        //        imageLayer.loadAsync();
+        // creating map image url from local groprocessing service url
+        String serviceUrl = localGPService.getUrl();
+        String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
+        ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer(mapServerUrl);
+        mapImageLayer.loadAsync();
+        mapView.getMap().getOperationalLayers().add(mapImageLayer);
+        btnGenerate.setDisable(true);
       } else {
         System.out.println("Error: " + gpJob.getError().getAdditionalMessage());
       }
+      progressBar.setVisible(false);
     });
-
     gpJob.start();
   }
 
+  /**
+   * Removes contour lines from map if any are applied.
+   */
   @FXML
-  protected void handleClearResults(ActionEvent event) {
+  protected void handleClearResults() {
+
+    if (mapView.getMap().getOperationalLayers().size() > 1) {
+      mapView.getMap().getOperationalLayers().remove(1);
+      btnGenerate.setDisable(false);
+    }
   }
 
   /**
