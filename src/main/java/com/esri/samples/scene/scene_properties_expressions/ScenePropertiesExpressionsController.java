@@ -20,10 +20,7 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.Camera;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.mapping.view.*;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
@@ -51,18 +48,19 @@ public class ScenePropertiesExpressionsController {
 
     // create a graphics overlay
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+    graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
     sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
     // add renderer using rotation expressions
     SimpleRenderer renderer = new SimpleRenderer();
-    renderer.getSceneProperties().setHeadingExpression("HEADING");
-    renderer.getSceneProperties().setPitchExpression("PITCH");
+    renderer.getSceneProperties().setHeadingExpression("[HEADING]");
+    renderer.getSceneProperties().setPitchExpression("[PITCH]");
     graphicsOverlay.setRenderer(renderer);
 
     // create a red (0xFFFF0000) cone graphic
     SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(0xFFFF0000, 100, 100);
     coneSymbol.setPitch(-90);  // correct symbol's default pitch
-    Graphic cone = new Graphic(new Point(83.9, 28.41, 1000, SpatialReferences.getWgs84()), coneSymbol);
+    Graphic cone = new Graphic(new Point(83.9, 28.41, 200, SpatialReferences.getWgs84()), coneSymbol);
     graphicsOverlay.getGraphics().add(cone);
 
     // bind attribute values to sliders

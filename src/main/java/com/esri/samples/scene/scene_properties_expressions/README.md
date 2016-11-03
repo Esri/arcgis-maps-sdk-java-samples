@@ -14,7 +14,9 @@
 
 <ol>
     <li>Create a new <code>GraphicsOverlay</code>.</li>
-    <li>Create a <code>SimpleRenderer</code> and set expressions on its scene properties: <code>Renderer.getSceneProperties().setHeadingExpression("HEADING")</code>. Then set the renderer to the graphics overlay with  <code>GraphicsOverlay.setRenderer(renderer)</code>.</li>
+    <li>Create a <code>SimpleRenderer</code> and set expressions on its scene properties: <code>Renderer
+    .getSceneProperties().setHeadingExpression("[HEADING]")</code>. Then set the renderer to the graphics overlay 
+    with  <code>GraphicsOverlay.setRenderer(renderer)</code>.</li>
     <li>Create a graphic and add it to the graphics overlay.</li>
     <li>To update the graphic's rotation, use <code>Graphic.getAttributes.put("HEADING", heading)</code> where the attribute key is
         the expression and the value is the rotation angle.</li>
