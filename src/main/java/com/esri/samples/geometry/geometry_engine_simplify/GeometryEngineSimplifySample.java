@@ -16,16 +16,6 @@
 
 package com.esri.samples.geometry.geometry_engine_simplify;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.geometry.*;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,6 +24,15 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.geometry.*;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 public class GeometryEngineSimplifySample extends Application {
 
@@ -98,8 +97,6 @@ public class GeometryEngineSimplifySample extends Application {
       vBoxControl.getChildren().addAll(simplifyButton, resetButton);
 
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
-
-      System.out.println(ArcGISRuntimeEnvironment.getResourcesDirectory().getAbsolutePath());
 
       // enable geometry operations when ArcGISMap is done loading
       map.addDoneLoadingListener(() -> simplifyButton.setDisable(false));
