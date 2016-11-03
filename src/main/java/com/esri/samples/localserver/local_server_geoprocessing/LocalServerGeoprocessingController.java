@@ -80,6 +80,7 @@ public class LocalServerGeoprocessingController {
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
           try {
             String gpServiceURL = Paths.get(getClass().getResource("/local_server/Contour.gpk").toURI()).toString();
+            // need map server result to add contour lines to map
             localGPService = new LocalGeoprocessingService(gpServiceURL,
                 ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
           } catch (URISyntaxException e) {
@@ -89,6 +90,7 @@ public class LocalServerGeoprocessingController {
           localGPService.addStatusChangedListener(s -> {
             // create geoprocessing task once local geoprocessing service is started
             if (s.getNewStatus() == LocalServerStatus.STARTED) {
+              // add `/Contour` to use contour geoprocessing tool 
               gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Contour");
               btnClear.disableProperty().bind(btnGenerate.disabledProperty().not());
               btnGenerate.setDisable(false);
