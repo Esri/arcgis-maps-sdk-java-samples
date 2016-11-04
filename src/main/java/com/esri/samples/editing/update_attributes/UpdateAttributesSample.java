@@ -23,13 +23,10 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.FeatureEditResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.GeoElement;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -113,13 +110,8 @@ public class UpdateAttributesSample extends Application {
       // add damage type label and comboBox to the control panel
       vBoxControl.getChildren().addAll(typeDamageLabel, comboBox);
 
-      // create a ArcGISMap with streets basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
-
-      // set viewpoint of the ArcGISMap
-      Point pointDenver = new Point(-11687201.100282, 4828230.144053, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(pointDenver, 200000);
-      map.setInitialViewpoint(viewpoint);
+      // create a map with streets basemap
+      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
 
       // create view for this ArcGISMap
       mapView = new MapView();

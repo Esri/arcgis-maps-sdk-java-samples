@@ -17,6 +17,8 @@
 package com.esri.samples.editing.edit_feature_attachments;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -25,13 +27,10 @@ import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Attachment;
 import com.esri.arcgisruntime.data.FeatureEditResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.GeoElement;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -117,13 +116,8 @@ public class EditFeatureAttachmentsSample extends Application {
       // add controls to the panel
       vBoxControl.getChildren().addAll(addAttachmentButton, deleteAttachmentButton, attachmentsLabel, attachmentList);
 
-      // create a ArcGISMap with streets basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
-
-      // set viewpoint of the ArcGISMap
-      Point pointDenver = new Point(-11687201.100282, 4828230.144053, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(pointDenver, 200000);
-      map.setInitialViewpoint(viewpoint);
+      // create a map with streets basemap
+      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
 
       // create service feature table from URL
       featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
@@ -219,18 +213,24 @@ public class EditFeatureAttachmentsSample extends Application {
    */
   private void addAttachment(File imageFile) {
 
-    if (selected.canEditAttachments()) {
-      ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(imageFile, "image/png", "destroyed.png");
-      addResult.addDoneListener(() -> {
-        // update feature table
-        ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);
+    try {
+      if (selected.canEditAttachments()) {
+        byte[] image = Files.readAllBytes(imageFile.toPath());
+        ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(image, "image/png",
+            "destroyed.png");
+        addResult.addDoneListener(() -> {
+          // update feature table
+          ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);
 
-        // apply update to server when new feature is added, and update the
-        // displayed list of attachments
-        tableResult.addDoneListener(() -> applyEdits(featureTable));
-      });
-    } else {
-      displayMessage(null, "Cannot add attachment.");
+          // apply update to server when new feature is added, and update the
+          // displayed list of attachments
+          tableResult.addDoneListener(() -> applyEdits(featureTable));
+        });
+      } else {
+        displayMessage(null, "Cannot add attachment.");
+      }
+    } catch (IOException e) {
+      displayMessage(null, "Could not read attachment");
     }
   }
 
