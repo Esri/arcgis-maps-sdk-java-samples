@@ -87,8 +87,8 @@ public class DistanceCompositeSymbolSample extends Application {
 
       // set up the distance composite symbol
       DistanceCompositeSceneSymbol compositeSymbol = new DistanceCompositeSceneSymbol();
-      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(modelSymbol, 0, 99));
-      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(coneSymbol, 100, 999));
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(modelSymbol, 0, 100));
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(coneSymbol, 100, 1000));
       compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(circleSymbol, 1000, 0));
 
       // create graphic
