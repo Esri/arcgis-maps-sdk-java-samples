@@ -16,7 +16,7 @@ buildscript {
     }
 }
 
-arcgis.version = '100.0.0-1509'
+arcgis.version = '100.0.0-1513'
 
 idea.module.downloadJavadoc = true
 eclipse.classpath.downloadJavadoc = true
