@@ -1,9 +1,12 @@
 /*
  * Copyright 2016 Esri.
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -84,7 +87,7 @@ public class DictionaryRendererGraphicsOverlay3d extends Application {
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
     graphicsOverlay.setRenderer(renderer);
 
-    // parse graphic attributes from XML file
+    // parse graphic attributes from a XML file
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
@@ -98,8 +101,7 @@ public class DictionaryRendererGraphicsOverlay3d extends Application {
   }
 
   /**
-   * Parses through a XML file and creates a graphic for each block of attributes found. Each block of attributes is
-   * then assigned to that graphic.
+   * Parses a XML file and creates a message for each block of attributes found.
    */
   private List<Map<String, Object>> parseMessages() throws Exception {
     final List<Map<String, Object>> messages = new ArrayList<>();
