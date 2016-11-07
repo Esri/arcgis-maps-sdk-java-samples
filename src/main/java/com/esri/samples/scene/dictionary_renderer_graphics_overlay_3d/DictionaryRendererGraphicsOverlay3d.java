@@ -1,12 +1,12 @@
 /*
  * Copyright 2016 Esri.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -25,7 +25,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.esri.arcgisruntime.geometry.*;
+import com.esri.arcgisruntime.geometry.Multipoint;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -34,6 +37,7 @@ import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay.RenderingMode;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 
@@ -42,17 +46,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-/**
- * Demonstrates how to apply a dictionary renderer to a graphics overlay and display mil2525d graphics in 3D. The
- * dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key-value
- * attributes for each graphic.
- */
 public class DictionaryRendererGraphicsOverlay3d extends Application {
 
   private SceneView sceneView;
   private GraphicsOverlay graphicsOverlay;
 
-  private static final String ELEVATION_IMAGE_SERVICE = "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
+  private static final String ELEVATION_IMAGE_SERVICE =
+      "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -75,7 +75,7 @@ public class DictionaryRendererGraphicsOverlay3d extends Application {
     surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
     scene.setBaseSurface(surface);
 
-    graphicsOverlay = new GraphicsOverlay();
+    graphicsOverlay = new GraphicsOverlay(RenderingMode.STATIC);
     // graphics no longer show after zooming out passed this scale
     graphicsOverlay.setMinScale(1000000);
     sceneView.getGraphicsOverlays().add(graphicsOverlay);
@@ -87,13 +87,12 @@ public class DictionaryRendererGraphicsOverlay3d extends Application {
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
     graphicsOverlay.setRenderer(renderer);
 
-    // parse graphic attributes from a XML file
+    // parse graphic attributes from xml file
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
-    messages.stream()
-      .map(DictionaryRendererGraphicsOverlay3d::createGraphic)
-      .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
+    messages.stream().map(DictionaryRendererGraphicsOverlay3d::createGraphic)
+        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
 
     // set the view to the center of the geometry
     Camera camera = new Camera(graphicsOverlay.getExtent().getCenter(), 15000, 0.0, 50.0, 0.0);
@@ -101,18 +100,17 @@ public class DictionaryRendererGraphicsOverlay3d extends Application {
   }
 
   /**
-   * Parses a XML file and creates a message for each block of attributes found.
+   * Parses through a xml file and creates a graphic for each block of attributes found. Each block of attributes is then
+   * assigned to that graphic.
    */
   private List<Map<String, Object>> parseMessages() throws Exception {
+
     final List<Map<String, Object>> messages = new ArrayList<>();
-    $(getClass().getResourceAsStream("/Mil2525DMessages.xml")) // $ reads the file
-      .find("message")
-      .each()
-      .forEach(message -> {
-        Map<String, Object> attributes = new HashMap<>();
-        message.children().forEach(attr -> attributes.put(attr.getNodeName(), attr.getTextContent()));
-        messages.add(attributes);
-      });
+    $(getClass().getResource("/Mil2525DMessages.xml")).find("message").each().forEach(message -> {
+      Map<String, Object> attributes = new HashMap<>();
+      message.children().forEach(attr -> attributes.put(attr.getNodeName(), attr.getTextContent()));
+      messages.add(attributes);
+    });
 
     return messages;
   }
@@ -132,11 +130,11 @@ public class DictionaryRendererGraphicsOverlay3d extends Application {
     PointCollection points = new PointCollection(sr);
     String[] coordinates = ((String) attributes.get("_control_points")).split(";");
     Stream.of(coordinates)
-      .map(cs -> cs.split(","))
-      .map(c -> new Point(Double.valueOf(c[0]), Double.valueOf(c[1]), sr))
-      .collect(Collectors.toCollection(() -> points));
+        .map(cs -> cs.split(","))
+        .map(c -> new Point(Double.valueOf(c[0]), Double.valueOf(c[1]), sr))
+        .collect(Collectors.toCollection(() -> points));
 
-    // return a graphic with multipoint geometry
+    // determine type of geometry and return a graphic
     return new Graphic(new Multipoint(points), attributes);
   }
 
