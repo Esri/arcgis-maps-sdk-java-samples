@@ -89,7 +89,7 @@ public class ExtrudeGraphicsSample extends Application {
       SimpleRenderer renderer = new SimpleRenderer();
       SceneProperties renderProperties = renderer.getSceneProperties();
       renderProperties.setExtrusionMode(SceneProperties.ExtrusionMode.BASE_HEIGHT);
-      renderProperties.setExtrusionExpression("height");
+      renderProperties.setExtrusionExpression("[HEIGHT]");
       graphicsOverlay.setRenderer(renderer);
 
       // setup graphic positions
@@ -108,7 +108,7 @@ public class ExtrudeGraphicsSample extends Application {
             .getX() + squareSize, p.getY(), z), new Point(p.getX() + squareSize, p.getY() + squareSize, z), new Point(p
                 .getX(), p.getY() + squareSize, z))));
         Graphic graphic = new Graphic(polygon);
-        graphic.getAttributes().put("height", z);
+        graphic.getAttributes().put("HEIGHT", z);
         graphic.setSymbol(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, color, null));
         graphicsOverlay.getGraphics().add(graphic);
       });

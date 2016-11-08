@@ -18,9 +18,10 @@
   <li>Get the renderer's <code>SceneProperties</code> using <code>Renderer.getSceneProperties()</code>.</li>
   <li>Set the extrusion mode for the renderer with <code>SceneProperties.setExtrusionMode(ExtrusionMode)</code>.
     <ul><li>BASE_HEIGHT, graphic is extruded to various z-values</li></ul></li>
-  <li>Specify the attribute name of the graphic that the extrusion mode will use, <code>SceneProperties.setExtrusionExpression("height")</code>.</li>
+  <li>Specify the attribute name of the graphic that the extrusion mode will use, <code>SceneProperties
+  .setExtrusionExpression("[HEIGHT]")</code>.</li>
   <li>Set the renderer on the graphics overlay, <code>GraphicsOverlay.setRenderer(Renderer)</code>.</li>
-  <li>Create graphics with their attribute set, <code>Graphic.getAttributes().put("height", Z Value)</code>.</li>
+  <li>Create graphics with their attribute set, <code>Graphic.getAttributes().put("HEIGHT", Z Value)</code>.</li>
 </ol>
 
 <h2>Features</h2>
