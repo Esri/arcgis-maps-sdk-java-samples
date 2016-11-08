@@ -39,11 +39,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-/**
- * Demonstrates how to apply a dictionary renderer to a graphics overlay and display mil2525d graphics. The dictionary
- * renderer creates these graphics using a local mil2525d style file and a XML file with key-value attributes for each
- * graphic.
- */
 public class DictionaryRendererGraphicsOverlaySample extends Application {
 
   private MapView mapView;
