@@ -19,6 +19,11 @@ package com.esri.samples.symbology.unique_value_renderer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -31,11 +36,6 @@ import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer.UniqueValue;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class UniqueValueRendererSample extends Application {
 
@@ -101,17 +101,17 @@ public class UniqueValueRendererSample extends Application {
       // set value for California, Arizona, and Nevada
       List<Object> californiaValue = new ArrayList<>();
       californiaValue.add("CA");
-      uniqueValueRenderer.getUniqueValues().add(new UniqueValue("California", "State of California",
+      uniqueValueRenderer.getUniqueValues().add(new UniqueValue("State of California", "California",
           californiaFillSymbol, californiaValue));
 
       List<Object> arizonaValue = new ArrayList<>();
       arizonaValue.add("AZ");
-      uniqueValueRenderer.getUniqueValues().add(new UniqueValue("Arizona", "State of Arizona", arizonaFillSymbol,
+      uniqueValueRenderer.getUniqueValues().add(new UniqueValue("State of Arizona", "Arizona", arizonaFillSymbol,
           arizonaValue));
 
       List<Object> nevadaValue = new ArrayList<>();
       nevadaValue.add("NV");
-      uniqueValueRenderer.getUniqueValues().add(new UniqueValue("Nevada", "State of Nevada", nevadaFillSymbol,
+      uniqueValueRenderer.getUniqueValues().add(new UniqueValue("State of Nevada", "Nevada", nevadaFillSymbol,
           nevadaValue));
 
       // set the renderer on the feature layer
