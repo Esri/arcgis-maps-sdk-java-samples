@@ -120,7 +120,7 @@
 		<identity>3</identity>
 		<symbolset>25</symbolset>
 		<symbolentity>151403</symbolentity>
-		<_control_points>-232985.46344,6676177.58919;-230125.30147,6678445.28904;-227673.83247,6679548.39442</_control_points>
+		<_control_points>-227887.6304,6679432.824;-231073.9175,6678364.481;-233341.8042,6676508.937;-227756.4303,6678889.281</_control_points>
 		<uniquedesignation>AXIS 1</uniquedesignation>
 	</message>
 	<message>
@@ -132,31 +132,89 @@
 		<identity>3</identity>
 		<symbolset>25</symbolset>
 		<symbolentity>140602</symbolentity>
-		<_control_points>-227083.61756,6671116.03977;-224659.72866,6672918.82283;-223270.50713,6675574.68752;-221637.41685,6676517.70675;</_control_points>
+		<_control_points>-221637.41685,6676517.70675;-223270.50713,6675574.68752;-224659.72866,6672918.82283;-227083.61756,6671116.03977</_control_points>
 		<uniquedesignation>DIRECTION OF ATTACK</uniquedesignation>
 	</message>
+	
+	<message>
+		<_type>position_report</_type>
+		<_action>update</_action>
+		<_id>43de0a7b-0096-40de-a0f5-37d7f2e19766</_id>
+		<_wkid>3857</_wkid>
+		<sic>GFGPDLF-------X</sic>
+		<name>Coordinating Point</name>
+		<identity>3</identity>
+		<symbolset>25</symbolset>
+		<symbolentity>130600</symbolentity>
+		<_control_points>-234719.25175,6677823.60821</_control_points>
+	</message>
+	
+	<message>
+		<_type>position_report</_type>
+		<_action>update</_action>
+		<_id>43de0a7b-0096-40de-a0f5-37d7f2e19799</_id>
+		<_wkid>3857</_wkid>
+		<sic>GFGPDLF-------X</sic>
+		<name>Coordinating Point</name>
+		<identity>3</identity>
+		<symbolset>25</symbolset>
+		<symbolentity>130600</symbolentity>
+		<_control_points>-225988.06539,6670222.47612</_control_points>
+	</message>
+	
 	<message>
 		<_type>position_report</_type>
 		<_action>update</_action>
 		<_id>34de0a7b-0096-40de-a0f5-37d7f2e19733</_id>
 		<_wkid>3857</_wkid>
 		<sic>GFGPDLF-------X</sic>
+		<name>FEBA</name>
 		<identity>3</identity>
 		<symbolset>25</symbolset>
 		<symbolentity>140400</symbolentity>
-		<_control_points>-234719.25175,6677823.60821;-225988.06539,6670222.47612</_control_points>
+		<_control_points>-234719.25175,6677823.60821;-231663.52053,6674851.53948;-225988.06539,6670222.47612</_control_points>
 	</message>
+	
 	<message>
 		<_type>position_report</_type>
 		<_action>update</_action>
 		<_id>1911b817-a9d8-47e4-9af8-f4651abc9b7f</_id>
 		<_wkid>3857</_wkid>
 		<sic>GFGPDLF-------X</sic>
+		<name>Coordinating Point</name>
+		<identity>3</identity>
+		<symbolset>25</symbolset>
+		<symbolentity>130600</symbolentity>
+		<_control_points>-223790.13283,6682565.35566</_control_points>
+	</message>
+	
+	<message>
+		<_type>position_report</_type>
+		<_action>update</_action>
+		<_id>1911b817-a9d8-47e4-9af8-f4651abc9b7f</_id>
+		<_wkid>3857</_wkid>
+		<sic>GFGPDLF-------X</sic>
+		<name>Coordinating Point</name>
+		<identity>3</identity>
+		<symbolset>25</symbolset>
+		<symbolentity>130600</symbolentity>
+		<_control_points>-218178.02854,6677300.35115</_control_points>
+	</message>
+	
+	<message>
+		<_type>position_report</_type>
+		<_action>update</_action>
+		<_id>1911b817-a9d8-47e4-9af8-f4651abc9b7f</_id>
+		<_wkid>3857</_wkid>
+		<sic>GFGPDLF-------X</sic>
+		<name>FEBA</name>
 		<identity>3</identity>
 		<symbolset>25</symbolset>
 		<symbolentity>140400</symbolentity>
-		<_control_points>-223790.13283,6682565.35566;-218178.02854,6677300.35115</_control_points>
+		<_control_points>-223790.13283,6682565.35566;-222561.78307,6680584.95503;-218178.02854,6677300.35115</_control_points>
 	</message>
+	
+	
 	<message>
 		<_type>position_report</_type>
 		<_action>update</_action>
@@ -166,7 +224,7 @@
 		<identity>3</identity>
 		<symbolset>25</symbolset>
 		<symbolentity>140603</symbolentity>
-		<_control_points>-232194.67644,6675625.78198;-228500.51759,6677576.8009;-226906.99878,6679149.88998</_control_points>
+		<_control_points>-226906.99878,6679149.88998;-228500.51759,6677576.8009;-232194.67644,6675625.78198</_control_points>
 		<uniquedesignation>DIRECTION OF ATTACK</uniquedesignation>
 	</message>
 	<message>
