@@ -41,7 +41,7 @@
     <li><code>GeoprocessingParameters.getInputs().put("Interval", new GeoprocessingDouble(double))</code>, creates a parameter with name `Interval` with the interval set as its value.</li>
   </ul>
 </li>
-<li> Ceate and start a <code>GeoprocessingJob</code> using the parameters from above.
+<li> Create and start a <code>GeoprocessingJob</code> using the parameters from above.
   <ul>
     <li><code>GeoprocessingTask.createJob(GeoprocessingParameters)</code>, creates a geoprocessing job</li>
     <li><code>GeoprocessingJob.start()</code>, starts job</li>
