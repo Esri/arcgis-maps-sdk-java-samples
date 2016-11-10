@@ -42,7 +42,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class DictionaryRendererGraphicsOverlay3d extends Application {
+public class DictionaryRendererGraphicsOverlay3dSample extends Application {
 
   private SceneView sceneView;
   private GraphicsOverlay graphicsOverlay;
@@ -87,7 +87,7 @@ public class DictionaryRendererGraphicsOverlay3d extends Application {
     List<Map<String, Object>> messages = parseMessages();
 
     // create graphics with attributes and add to graphics overlay
-    messages.stream().map(DictionaryRendererGraphicsOverlay3d::createGraphic)
+    messages.stream().map(DictionaryRendererGraphicsOverlay3dSample::createGraphic)
         .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
 
     // set the view to the center of the geometry
