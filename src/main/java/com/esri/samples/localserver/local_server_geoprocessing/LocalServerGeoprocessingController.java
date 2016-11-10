@@ -15,7 +15,6 @@
  */
 package com.esri.samples.localserver.local_server_geoprocessing;
 
-import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Map;
 
@@ -41,6 +40,10 @@ import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameter;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameters;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
 
+/**
+ * https://devtopia.esri.com/runtime/local-server/issues/146
+ *
+ */
 public class LocalServerGeoprocessingController {
 
   @FXML private TextField txtInterval;
@@ -65,6 +68,7 @@ public class LocalServerGeoprocessingController {
       mapView.setMap(map);
 
       //load tiled layer and zoom to location
+      //      String rasterURL = new File("./samples-data/local_server/RasterHillshade.tpk").getAbsolutePath();
       String rasterURL = Paths.get(getClass().getResource("/local_server/RasterHillshade.tpk").toURI()).toString();
       TileCache tileCache = new TileCache(rasterURL);
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
@@ -79,12 +83,13 @@ public class LocalServerGeoprocessingController {
         // start local geoprocessing service once local server has started
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
           try {
+            //          String gpServiceURL = new File("./samples-data/local_server/Contour.gpk").getAbsolutePath();
             String gpServiceURL = Paths.get(getClass().getResource("/local_server/Contour.gpk").toURI()).toString();
             // need map server result to add contour lines to map
-            localGPService = new LocalGeoprocessingService(gpServiceURL,
-                ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
-          } catch (URISyntaxException e) {
-            System.out.println("Failed to find gpk file. " + e.getMessage());
+            localGPService =
+                new LocalGeoprocessingService(gpServiceURL, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
+          } catch (Exception e) {
+
           }
 
           localGPService.addStatusChangedListener(s -> {
@@ -109,7 +114,6 @@ public class LocalServerGeoprocessingController {
 
   /**
    *  Creates a Map Image Layer that displays contour lines on the map using the interval the that is set. 
-   *   
    */
   @FXML
   protected void handleGenerateContours() {
@@ -117,10 +121,11 @@ public class LocalServerGeoprocessingController {
     // tracking progress of creating contour map 
     progressBar.setVisible(true);
     // create parameter using interval set
-    double interval = Double.parseDouble(txtInterval.getText());
     GeoprocessingParameters gpParameters = new GeoprocessingParameters(
         GeoprocessingParameters.ExecutionType.ASYNCHRONOUS_SUBMIT);
+
     final Map<String, GeoprocessingParameter> inputs = gpParameters.getInputs();
+    double interval = Double.parseDouble(txtInterval.getText());
     inputs.put("Interval", new GeoprocessingDouble(interval));
 
     // adds contour lines to map
@@ -130,6 +135,7 @@ public class LocalServerGeoprocessingController {
         // creating map image url from local groprocessing service url
         String serviceUrl = localGPService.getUrl();
         String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
+        System.out.println("Map Url: " + mapServerUrl);
         ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer(mapServerUrl);
         mapImageLayer.loadAsync();
         mapView.getMap().getOperationalLayers().add(mapImageLayer);

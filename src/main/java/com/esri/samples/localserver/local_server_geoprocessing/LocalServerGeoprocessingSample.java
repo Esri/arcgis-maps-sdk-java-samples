@@ -33,7 +33,6 @@ public class LocalServerGeoprocessingSample extends Application {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/local_server/local_server_geoprocessing.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
-    //    controller.setHostServices(getHostServices());
     Scene scene = new Scene(root);
 
     // set up the stage
@@ -42,8 +41,6 @@ public class LocalServerGeoprocessingSample extends Application {
     stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
-
-    //    this.getHostServices();
   }
 
   /**
