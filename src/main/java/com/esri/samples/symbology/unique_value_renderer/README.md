@@ -9,7 +9,7 @@ new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, RED, 2));
 
 List&lt;Object&gt; californiaValue = new ArrayList&lt;&gt;();
 californiaValue.add("CA");
-uniqueValueRenderer.getUniqueValues().add(new UniqueValue("California", "State of California",
+uniqueValueRenderer.getUniqueValues().add(new UniqueValue(State of California", "California",
 californiaFillSymbol, californiaValue));
 </code></pre>
 
@@ -34,9 +34,9 @@ californiaFillSymbol, californiaValue));
         <ul><li>specify default feature attribute to look for, <code>UniqueValueRenderer.getFieldNames().add()</code></li>
             <li>set default symbol for renderer, <code>UniqueValueRenderer.setDefaultSymbol()</code></li>
             <li>set renderer to feature layer, <code>FeatureLayer.setRenderer(Renderer)</code></li></ul></li>
-    <li>Create a set of <code>UniqueValue(Name, Description, Symbol, Value)</code>.
-        <ul><li>name, name for this unique value</li>
-            <li>description, description for this unique value</li>
+    <li>Create a set of <code>UniqueValue(Description, Name, Symbol, Value)</code>.
+        <ul><li>description, description for this unique value</li>
+             <li>name, name for this unique value</li>
             <li>symbol, symbol to be displayed for the values listed here</li>
             <li>value, list of values that will use the symbol set here (Example: List of state name abbreviations "CA")</li></ul></li>
     <li>Add unique values to renderer, <code>UniqueValueRenderer.getUniqueValues().add(UniqueValue)</code>. </li>

@@ -7,7 +7,7 @@
 
 <p>The symbol of graphic will change while zooming in or out.</p>
 
-<p><img src="DistanceCompositeSymbol.png"/></p>
+<p><img src="DistanceCompositeSymbol.gif"/></p>
 
 <h2>How it works</h2>
 
