@@ -15,10 +15,13 @@
  */
 package com.esri.samples.localserver.local_server_geoprocessing;
 
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.Map;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -68,8 +71,7 @@ public class LocalServerGeoprocessingController {
       mapView.setMap(map);
 
       //load tiled layer and zoom to location
-      //      String rasterURL = new File("./samples-data/local_server/RasterHillshade.tpk").getAbsolutePath();
-      String rasterURL = Paths.get(getClass().getResource("/local_server/RasterHillshade.tpk").toURI()).toString();
+      String rasterURL = new File("./samples-data/local_server/RasterHillshade.tpk").getAbsolutePath();
       TileCache tileCache = new TileCache(rasterURL);
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
       tiledLayer.loadAsync();
@@ -83,8 +85,7 @@ public class LocalServerGeoprocessingController {
         // start local geoprocessing service once local server has started
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
           try {
-            //          String gpServiceURL = new File("./samples-data/local_server/Contour.gpk").getAbsolutePath();
-            String gpServiceURL = Paths.get(getClass().getResource("/local_server/Contour.gpk").toURI()).toString();
+            String gpServiceURL = new File("./samples-data/local_server/Contour.gpk").getAbsolutePath();
             // need map server result to add contour lines to map
             localGPService =
                 new LocalGeoprocessingService(gpServiceURL, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
@@ -135,13 +136,17 @@ public class LocalServerGeoprocessingController {
         // creating map image url from local groprocessing service url
         String serviceUrl = localGPService.getUrl();
         String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
-        System.out.println("Map Url: " + mapServerUrl);
         ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer(mapServerUrl);
         mapImageLayer.loadAsync();
         mapView.getMap().getOperationalLayers().add(mapImageLayer);
         btnGenerate.setDisable(true);
       } else {
-        System.out.println("Error: " + gpJob.getError().getAdditionalMessage());
+        Platform.runLater(() -> {
+          Alert dialog = new Alert(AlertType.ERROR);
+          dialog.setHeaderText("Geoprocess Job Fail");
+          dialog.setContentText("Error: " + gpJob.getError().getAdditionalMessage());
+          dialog.showAndWait();
+        });
       }
       progressBar.setVisible(false);
     });
