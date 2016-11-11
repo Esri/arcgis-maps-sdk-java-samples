@@ -2,6 +2,8 @@
 
 <p>Demonstrates how to start a Local Server and Local Feature Service, then create a Feature Layer from the Local Feature Service and add it to a map. </p>
 
+<p><b>Note:</b> Local Server is not supported on MacOS</p>
+
 <img src="LocalServerFeatureLayer.png"/>
 
 <h2>How to use the sample</h2>
