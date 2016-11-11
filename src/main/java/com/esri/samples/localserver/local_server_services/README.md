@@ -2,6 +2,8 @@
 
 <p>Demonstrates how to start and stop a Local Server and start and stop a Local Map, Feature, and Geoprocessing Service to that server.</p>
 
+<p><b>Note:</b> Local Server is not supported on MacOS</p>
+
 <p><img src="LocalServerServices.gif"/></p>
 
 <h2>How to use the sample</h2>
