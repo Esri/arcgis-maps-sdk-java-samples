@@ -43,10 +43,6 @@ import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameter;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameters;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
 
-/**
- * https://devtopia.esri.com/runtime/local-server/issues/146
- *
- */
 public class LocalServerGeoprocessingController {
 
   @FXML private TextField txtInterval;
