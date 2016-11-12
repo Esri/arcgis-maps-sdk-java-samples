@@ -11,7 +11,7 @@
 
 <?import javafx.scene.control.ListView?>
 <VBox fx:controller="com.esri.samples.symbology.symbol_dictionary.SymbolDictionaryController"
-      xmlns:fx="http://javafx.com/fxml" stylesheets="/symbol_dictionary/style.css">
+      xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
     <!-- Top Pane for Search Result -->
     <GridPane hgap="10" vgap="10"  prefHeight="200">
         <padding><Insets top="25" bottom="25" left="25"/></padding>

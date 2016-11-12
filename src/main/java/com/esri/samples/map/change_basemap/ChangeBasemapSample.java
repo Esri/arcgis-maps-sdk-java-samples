@@ -71,7 +71,7 @@ public class ChangeBasemapSample extends Application {
 
         Button button = new Button();
         button.setTooltip(new Tooltip(basemapString));
-        button.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/change_basemap/" + basemapString
+        button.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/basemap_thumbnails/" + basemapString
             .toLowerCase() + ".png"))));
 
         // listener to switch ArcGISMap types when button clicked

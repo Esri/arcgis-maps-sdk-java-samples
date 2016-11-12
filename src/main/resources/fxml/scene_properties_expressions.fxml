@@ -6,11 +6,11 @@
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
 
 <StackPane fx:controller="com.esri.samples.scene.scene_properties_expressions.ScenePropertiesExpressionsController" xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/scene_properties_expressions/style.css">
+           stylesheets="/css/style.css">
     <!--SDK SceneView-->
     <SceneView fx:id="sceneView"/>
     <!--Slider box-->
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="50" spacing="5" styleClass="pane">
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="50" spacing="5" styleClass="panel-region">
         <Label text="heading"/>
         <Slider fx:id="headingSlider" max="360" majorTickUnit="90" showTickLabels="true"/>
         <Label text="pitch"/>

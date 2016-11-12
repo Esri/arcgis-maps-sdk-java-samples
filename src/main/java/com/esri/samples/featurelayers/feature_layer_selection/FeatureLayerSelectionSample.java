@@ -109,9 +109,6 @@ public class FeatureLayerSelectionSample extends Application {
               // select features
               featureLayer.selectFeatures(features);
 
-              // select all of the identified features
-              System.out.println("Features selected: " + features.size());
-
             } catch (Exception e) {
               e.printStackTrace();
             }

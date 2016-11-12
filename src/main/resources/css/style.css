@@ -3,7 +3,14 @@
   -fx-padding: 10.0 10.0 10.0 10.0;
 }
 
-.panel-label {
+.panel-region .label {
   -fx-text-fill: white;
-  -fx-font-weight: bold;
+}
+
+.label {
+  -fx-text-fill: black;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: white;
 }
