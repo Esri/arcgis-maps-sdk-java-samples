@@ -32,7 +32,7 @@ public class ScenePropertiesExpressionsSample extends Application {
   public void start(Stage stage) throws IOException {
     // set up the scene
     FXMLLoader loader = new FXMLLoader(getClass().getResource
-        ("/scene_properties_expressions/scene_properties_expressions.fxml"));
+        ("/fxml/scene_properties_expressions.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

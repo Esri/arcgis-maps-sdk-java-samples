@@ -51,7 +51,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     Scene scene = new Scene(appWindow);
 
     // set title, size, and add scene to stage
-    stage.setTitle("Dictionary Renderer Sample");
+    stage.setTitle("Dictionary Renderer Graphics Overlay Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
@@ -92,7 +92,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
    */
   private List<Map<String, Object>> parseMessages() throws Exception {
     final List<Map<String, Object>> messages = new ArrayList<>();
-    $(getClass().getResourceAsStream("/Mil2525DMessages.xml")) // $ reads the file
+    $(getClass().getResourceAsStream("/symbols/Mil2525DMessages.xml")) // $ reads the file
       .find("message")
       .each()
       .forEach(message -> {

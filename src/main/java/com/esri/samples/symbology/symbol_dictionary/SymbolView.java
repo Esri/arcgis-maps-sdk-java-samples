@@ -54,7 +54,7 @@ class SymbolView extends HBox implements Initializable {
     styleSymbolSearchResult = symbolResult;
 
     // Set the view of this component to the fxml file
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/symbol_dictionary/symbol_dictionary_view.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/symbol_dictionary_view.fxml"));
     loader.setRoot(this);
     loader.setController(this);
 

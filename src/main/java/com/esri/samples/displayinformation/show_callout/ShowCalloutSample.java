@@ -75,7 +75,7 @@ public class ShowCalloutSample extends Application {
 
           if (!callout.isVisible()) {
             // set the callout's details
-            callout.setTitle("Show Callout Sample");
+            callout.setTitle("Callout");
             callout.setDetail(String.format("x: %.2f, y: %.2f", mapPoint.getX(), mapPoint.getY()));
 
             // show the callout where the user clicked

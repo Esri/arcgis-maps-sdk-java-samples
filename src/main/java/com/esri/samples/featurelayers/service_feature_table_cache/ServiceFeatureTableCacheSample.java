@@ -46,7 +46,7 @@ public class ServiceFeatureTableCacheSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // size the stage, add a title, and set scene to stage
-      stage.setTitle("Feature Layer from Feature Server Sample");
+      stage.setTitle("Service Feature Table Cache Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

@@ -55,10 +55,10 @@ public class ManageOperationalLayersSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/css/SamplesTheme.css").toExternalForm());
 
       // set title, size, and add scene to stage
-      stage.setTitle("Manage Operation Layer Sample");
+      stage.setTitle("Manage Operational Layers Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

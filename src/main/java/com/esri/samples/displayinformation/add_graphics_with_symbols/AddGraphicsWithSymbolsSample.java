@@ -39,7 +39,7 @@ public class AddGraphicsWithSymbolsSample extends Application {
   private MapView mapView;
   private GraphicsOverlay graphicsOverlay;
 
-  private static final SpatialReference SPATIAL_REFERENECE = SpatialReferences.getWgs84();
+  private static final SpatialReference SPATIAL_REFERENCE = SpatialReferences.getWgs84();
 
   private static final int BLUE = 0xFF0000E6;
 
@@ -101,16 +101,16 @@ public class AddGraphicsWithSymbolsSample extends Application {
 
     // create graphics and add to graphics overlay
     Graphic graphic;
-    graphic = new Graphic(new Point(-2.72, 56.065, SPATIAL_REFERENECE), redCircleSymbol);
+    graphic = new Graphic(new Point(-2.72, 56.065, SPATIAL_REFERENCE), redCircleSymbol);
     graphicsOverlay.getGraphics().add(graphic);
 
-    graphic = new Graphic(new Point(-2.69, 56.065, SPATIAL_REFERENECE), redCircleSymbol);
+    graphic = new Graphic(new Point(-2.69, 56.065, SPATIAL_REFERENCE), redCircleSymbol);
     graphicsOverlay.getGraphics().add(graphic);
 
-    graphic = new Graphic(new Point(-2.66, 56.065, SPATIAL_REFERENECE), redCircleSymbol);
+    graphic = new Graphic(new Point(-2.66, 56.065, SPATIAL_REFERENCE), redCircleSymbol);
     graphicsOverlay.getGraphics().add(graphic);
 
-    graphic = new Graphic(new Point(-2.63, 56.065, SPATIAL_REFERENECE), redCircleSymbol);
+    graphic = new Graphic(new Point(-2.63, 56.065, SPATIAL_REFERENCE), redCircleSymbol);
     graphicsOverlay.getGraphics().add(graphic);
   }
 
@@ -123,7 +123,7 @@ public class AddGraphicsWithSymbolsSample extends Application {
     SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF800080, 4);
 
     // create a new point collection for polyline
-    PointCollection points = new PointCollection(SPATIAL_REFERENECE);
+    PointCollection points = new PointCollection(SPATIAL_REFERENCE);
 
     // create and add points to the point collection
     points.add(new Point(-2.715, 56.061));
@@ -156,7 +156,7 @@ public class AddGraphicsWithSymbolsSample extends Application {
         outlineSymbol);
 
     // create a new point collection for polygon
-    PointCollection points = new PointCollection(SPATIAL_REFERENECE);
+    PointCollection points = new PointCollection(SPATIAL_REFERENCE);
 
     // create and add points to the point collection
     points.add(new Point(-2.6425, 56.0784));
@@ -189,8 +189,8 @@ public class AddGraphicsWithSymbolsSample extends Application {
         VerticalAlignment.TOP);
 
     // create two points
-    Point bassPoint = new Point(-2.64, 56.079, SPATIAL_REFERENECE);
-    Point craigleithPoint = new Point(-2.72, 56.076, SPATIAL_REFERENECE);
+    Point bassPoint = new Point(-2.64, 56.079, SPATIAL_REFERENCE);
+    Point craigleithPoint = new Point(-2.72, 56.076, SPATIAL_REFERENCE);
 
     // create two graphics from the points and symbols
     Graphic bassRockGraphic = new Graphic(bassPoint, bassRockTextSymbol);

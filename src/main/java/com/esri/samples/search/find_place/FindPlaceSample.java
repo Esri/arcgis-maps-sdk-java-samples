@@ -70,7 +70,7 @@ public class FindPlaceSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/css/SamplesTheme.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Find Place Sample");
@@ -140,7 +140,7 @@ public class FindPlaceSample extends Application {
       locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
       // create a pin graphic
-      Image img = new Image(getClass().getResourceAsStream("/pin.png"), 0, 80, true, true);
+      Image img = new Image(getClass().getResourceAsStream("/symbols/pin.png"), 0, 80, true, true);
       pinSymbol = new PictureMarkerSymbol(img);
       pinSymbol.loadAsync();
 

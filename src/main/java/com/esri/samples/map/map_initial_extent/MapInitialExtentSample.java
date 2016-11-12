@@ -42,7 +42,7 @@ public class MapInitialExtentSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("ArcGISMap Initial Extent Sample");
+      stage.setTitle("Map Initial Extent Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

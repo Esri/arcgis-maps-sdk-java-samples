@@ -51,7 +51,7 @@ public class DistanceCompositeSymbolSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Distance Composite Symbol");
+      stage.setTitle("Distance Composite Symbol Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);

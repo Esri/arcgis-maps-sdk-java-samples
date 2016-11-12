@@ -38,7 +38,7 @@ public class DisplayMapSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Display a ArcGISMap Sample");
+      stage.setTitle("Display Map Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

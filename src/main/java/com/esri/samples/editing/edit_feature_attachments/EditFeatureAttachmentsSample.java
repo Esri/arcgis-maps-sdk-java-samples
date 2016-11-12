@@ -73,7 +73,7 @@ public class EditFeatureAttachmentsSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/css/SamplesTheme.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Edit Feature Attachments Sample");
@@ -105,7 +105,7 @@ public class EditFeatureAttachmentsSample extends Application {
       deleteAttachmentButton.setDisable(true);
 
       // location of attachment to be added
-      File imageFile = new File(getClass().getResource("/destroyed.png").toURI());
+      File imageFile = new File(getClass().getResource("/symbols/destroyed.png").toURI());
 
       // button click to add image attachment to selected feature
       addAttachmentButton.setOnAction(e -> addAttachment(imageFile));
@@ -217,7 +217,7 @@ public class EditFeatureAttachmentsSample extends Application {
       if (selected.canEditAttachments()) {
         byte[] image = Files.readAllBytes(imageFile.toPath());
         ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(image, "image/png",
-            "destroyed.png");
+            "symbols/destroyed.png");
         addResult.addDoneListener(() -> {
           // update feature table
           ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);

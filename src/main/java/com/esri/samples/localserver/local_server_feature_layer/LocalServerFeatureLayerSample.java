@@ -58,7 +58,7 @@ public class LocalServerFeatureLayerSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Local Server Feature Layer");
+      stage.setTitle("Local Server Feature Layer Sample");
       stage.setWidth(APPLICATION_WIDTH);
       stage.setHeight(700);
       stage.setScene(scene);

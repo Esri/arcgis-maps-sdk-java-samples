@@ -31,13 +31,13 @@ public class CalculateDistance3dSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/calculate_distance_3d/calculate_distance_3d.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/calculate_distance_3d.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
 
     // set up the stage
-    stage.setTitle("Calculate a 3D Distance");
+    stage.setTitle("Calculate Distance 3d Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);

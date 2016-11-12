@@ -65,7 +65,7 @@ public class ChangeBasemapSample extends Application {
       flowPane.setVgap(4);
       flowPane.setHgap(4);
 
-      // setup all buttons to switch basemaps
+      // setup all buttons to switch basemap_thumbnails
       for (Basemap.Type type : Basemap.Type.values()) {
         String basemapString = type.toString();
 

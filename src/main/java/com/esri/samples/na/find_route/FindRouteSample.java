@@ -71,7 +71,7 @@ public class FindRouteSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/SamplesTheme.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/css/SamplesTheme.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Find Route Sample");

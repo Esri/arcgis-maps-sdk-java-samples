@@ -31,14 +31,14 @@ public class LocalServerServicesSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/local_server_services/local_server_services.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/local_server_services.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     controller.setHostServices(getHostServices());
     Scene scene = new Scene(root);
 
     // set up the stage
-    stage.setTitle("Local Server Services");
+    stage.setTitle("Local Server Services Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
