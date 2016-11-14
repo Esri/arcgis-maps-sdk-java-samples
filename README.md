@@ -2,7 +2,7 @@
 ### 100.0.0
 This project includes a set of samples demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
-These samples are built with Gradle. If you want to learn more about Gradle, learn more from [Gradle's guide](https://docs.gradle.org/current/userguide/userguide.html). The samples project has a Gradle multi-project structure.
+These samples are built with Gradle. If you want to learn more about Gradle, learn more from [Gradle's guide](https://docs.gradle.org/current/userguide/userguide.html).
 
 This guide has instructions for running samples using the command line or with Eclipse and IntelliJ IDEA.
 
@@ -21,7 +21,7 @@ On Windows
 > gradlew.bat run -PmainClass="com.esri.samples.scene.display_scene.DisplaySceneSample"
 ```
 
-If no `mainClass` property is supplied, the default sample (set in the `build.gradle` file) will be run. 
+If no `mainClass` property is supplied, the default sample (set in the build.gradle file) will be run. 
 
 There is no need to install Gradle to run the samples.
 
@@ -35,7 +35,7 @@ Some samples require offline data. A `samples-data` directory will automatically
 first time you call the `run` task.
 
 ## Importing into an IDE
-We will step through how to import the Samples project into Eclipse and IntelliJ IDEA.
+We will step through how to import the Samples project into Eclipse and IntelliJ IDEA. Other IDEs may support Gradle too. Please consult their documentation for importing Gradle projects.
 
 ### IntelliJ IDEA
 After cloning the samples, open IntelliJ IDEA and follow these steps:
@@ -59,9 +59,6 @@ To import the samples with Eclipse's default gradle plugin, follow these steps:
 4. Click *finish* to complete the import.
 
 <img src="./eclipse_proj.png" alt="Eclipse project structure" height="200">
-
-### Other IDEs
-Other IDEs may support Gradle too. Please consult their documentation for importing Gradle projects.
 
 ## Resources
 * [ArcGIS Runtime SDK for Java](https://developers.arcgis.com/java/)  
