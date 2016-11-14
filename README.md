@@ -1,10 +1,10 @@
 # ArcGIS Runtime Java SDK Samples
-### Quartz Beta 2
+### 100.0.0
 This project includes a set of samples demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
 These samples are built with Gradle. If you want to learn more about Gradle, learn more from [Gradle's guide](https://docs.gradle.org/current/userguide/userguide.html). The samples project has a Gradle multi-project structure.
 
-This guide has instructions for running samples using the command line or with the Eclipse and IntelliJ IDEA IDEs.
+This guide has instructions for running samples using the command line or with Eclipse and IntelliJ IDEA.
 
 For developers new to Git, please see the wiki page for how to [clone this repository](https://github.com/Esri/arcgis-runtime-samples-java/wiki/working-with-git).
 
@@ -21,7 +21,7 @@ On Windows
 > gradlew.bat run -PmainClass="com.esri.samples.scene.display_scene.DisplaySceneSample"
 ```
 
-If no `mainClass` property is supplied, the default sample (set in the buildscript) will be run. 
+If no `mainClass` property is supplied, the default sample (set in the `build.gradle` file) will be run. 
 
 There is no need to install Gradle to run the samples.
 
@@ -29,8 +29,6 @@ There is no need to install Gradle to run the samples.
 The plugin provides the project with everything an ArcGIS runtime project needs to run. It adds the 
 arcgis api as a dependency and downloads the native libraries into `$USER_HOME/.arcgis`. This download occurs 
 automatically the first time you build the project and is only performed once.
-
-You can see the open source plugin and learn more about it on [github](https://github.com/ArcGIS/gradle-arcgis-java-plugin).
 
 ## Offline sample data
 Some samples require offline data. A `samples-data` directory will automatically download to the project root the 
