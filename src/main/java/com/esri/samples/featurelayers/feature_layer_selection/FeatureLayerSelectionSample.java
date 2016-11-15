@@ -96,7 +96,7 @@ public class FeatureLayerSelectionSample extends Application {
 
           // identify the clicked features
           final ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 10,
-              false);
+              false, 10);
           results.addDoneListener(() -> {
 
             try {

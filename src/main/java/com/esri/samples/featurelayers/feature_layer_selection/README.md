@@ -15,13 +15,10 @@
 <ol>
   <li>Create a <code>ServiceFeatureTable</code> from a URL.</li>
   <li>Create a feature layer from the service feature table.</li>
-  <li>Identify <code>MapView</code> on the location the user has clicked.
-    <ul><li>call <code>MapView.identifyLayerAsync(FeatureLayer, Point2D, tolerance, max results)</code></li>
-      <li>feature layer, from above</li>
-      <li>Point2D, location where the user clicked</li>
-      <li>tolerance, area around Point2D to locate features</li>
-      <li>max results, maximum number of features to return</li></ul></li>
-  <li>Select all features that were identified, <code>FeatureLayer.selectFeatures()</code>.</li>
+  <li>Identify <code>MapView</code> on the location the user has clicked <code>MapView.identifyLayerAsync
+  (featureLayer, clickLocation, tolerance, returnPopupsOnly, maxResults)
+    </code></li>
+  <li>Select all features that were identified with <code>FeatureLayer.selectFeatures(features)</code>.</li>
 </ol>
 
 <h2>Features</h2>
