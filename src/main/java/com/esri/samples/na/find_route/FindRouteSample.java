@@ -118,7 +118,6 @@ public class FindRouteSample extends Application {
           findButton.setDisable(true);
 
         } catch (Exception ex) {
-          System.out.println("Failed solving the route");
           ex.printStackTrace();
         }
       });
@@ -194,14 +193,12 @@ public class FindRouteSample extends Application {
             routeGraphicsOverlay.getGraphics().add(new Graphic(stop2Loc, stop2Text));
 
           } catch (Exception ex) {
-            // on any error, print the stack trace
-            System.out.println("RouteTask: Failed generating default route parameters " + ex.getMessage());
+            ex.printStackTrace();
           }
         });
 
       } catch (Exception e) {
-        // on any error, print the stack trace
-        System.out.println("RouteTask: Failed creating route " + e.getMessage());
+        e.printStackTrace();
       }
 
       // add the map view and control panel to stack pane
