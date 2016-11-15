@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to change the ArcGISMap's basemap. A basemap is beneath all other layers on an ArcGISMap and is used to provide visual reference to other layers.</p>
 
+<p><img src="ChangeBasemap.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>You can change the basemap of the map by clicking an icon from the toolbar at the top.</p>
-
-<p><img src="ChangeBasemap.png"/></p>
 
 <h2>How it works</h2>
 

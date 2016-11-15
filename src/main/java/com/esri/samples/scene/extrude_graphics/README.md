@@ -2,12 +2,12 @@
 
 <p>Demonstrates how to render graphics extruded in their Z direction.</p>
 
+<p><img src="ExtrudeGraphics.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Zoom and pan the scene to find the extruded graphics. Note how they are extruded to the level set in their height
   property.</p>
-
-<p><img src="ExtrudeGraphics.png"/></p>
 
 <h2>How it works</h2>
 

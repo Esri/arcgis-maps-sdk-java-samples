@@ -2,6 +2,8 @@
 
 <p>Demonstrates different ways in which you can change the Viewpoint, visible area, of an ArcGISMap.</p>
 
+<p><img src="ChangeViewpoint.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>The <code>MapView</code> provides different methods you can use to set the viewpoint.
@@ -16,8 +18,6 @@
  - setViewpointGeometryAsync
  - setViewpointRotationAsync
  - setViewpointScaleAsync</p>
-
-<p><img src="ChangeViewpoint.png"/></p>
 
 <h2>How it works</h2>
 

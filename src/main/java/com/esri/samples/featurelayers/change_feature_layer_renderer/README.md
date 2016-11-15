@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to change the Renderer of a FeatureLayer.</p>
 
+<p><img src="ChangeFeatureLayerRenderer.gif"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Use the buttons in the control panel to change the renderer.</p>
-
-<p><img src="ChangeFeatureLayerRenderer.gif"/></p>
 
 <h2>How it works</h2>
 

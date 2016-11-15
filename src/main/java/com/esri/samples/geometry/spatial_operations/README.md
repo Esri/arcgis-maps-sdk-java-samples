@@ -3,13 +3,13 @@
 <p>Demonstrates how to use the GeometryEngine to perform geometry operations between overlapping polygons in a 
 GraphicsOverlay.</p>
 
+<p><img src="SpatialOperations.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>The sample provides a drop down on the top, where you can select a geometry operation. When you choose a geometry 
 operation, the application performs this operation between the overlapping polygons and applies the result to the 
 geometries.</p>
-
-<p><img src="SpatialOperations.png"/></p>
 
 <h2>How it works</h2>
 

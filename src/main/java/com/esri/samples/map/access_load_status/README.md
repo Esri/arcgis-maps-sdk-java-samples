@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to tell what the ArcGISMap's load status is. An ArcGISMap is considered loaded once it has a valid SpatialReference and it has been set to the MapView.</p>
 
+<p><img src="AccessLoadStatus.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>The sample provides an information area which displays what the ArcGISMap's load status is. Click on the button to reload the ArcGISMap.</p>
-
-<p><img src="AccessLoadStatus.png"/></p>
 
 <h2>How it works</h2>
 

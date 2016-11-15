@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to rotate an ArcGISMap.</p>
 
+<p><img src="MapRotation.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>The slider changes the rotation of the ArcGISMap.</p>
-
-<p><img src="MapRotation.png"/></p>
 
 <h2>How it works</h2>
 

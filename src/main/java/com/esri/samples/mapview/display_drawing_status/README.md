@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to display the current DrawStatus of the MapView.</p>
 
+<p><img src="DisplayDrawingStatus.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>The progress bar in the top right displays the drawing status of the map view.</p>
-
-<p><img src="DisplayDrawingStatus.png"/></p>
 
 <h2>How it works</h2>
 

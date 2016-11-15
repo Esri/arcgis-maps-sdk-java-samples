@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to geocode an address query and display its location on the ArcGISMap.</p>
 
+<p><img src="GeocodeOnline.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>For simplicity, the sample comes loaded with a set of addresses. You can select an address to perform online geocoding and show the matching results on the ArcGISMap. </p>
-
-<p><img src="GeocodeOnline.png"/></p>
 
 <h2>How it works</h2>
 

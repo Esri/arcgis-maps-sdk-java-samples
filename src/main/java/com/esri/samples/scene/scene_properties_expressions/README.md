@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to update the orientation of a graphic using scene property rotation expressions.</p>
 
+<p><img src="ScenePropertiesExpressions.gif"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Move the heading and pitch sliders to change the cone's orientation.</p>
-
-<p><img src="ScenePropertiesExpressions.gif"/></p>
 
 <h2>How it works</h2>
 

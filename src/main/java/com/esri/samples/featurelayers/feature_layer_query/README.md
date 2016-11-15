@@ -2,13 +2,13 @@
 
 <p>Demonstrates how to query a FeatureLayer from a FeatureTable.</p>
 
+<p><img src="FeatureLayerQuery.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Input the name of a U.S. state into search bar. When you hit search the application performs a query on the feature table and based on the result either highlights the state geometry or provides an error.</p>
 
 <p>Note: The search is case sensitive.</p>
-
-<p><img src="FeatureLayerQuery.png"/></p>
 
 <h2>How it works</h2>
 

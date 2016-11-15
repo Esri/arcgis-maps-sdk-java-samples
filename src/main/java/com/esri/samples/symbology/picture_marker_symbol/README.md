@@ -2,14 +2,14 @@
 
 <p>Demonstrates how to create a PictureMarkerSymbol from different types of picture resources; an URL, locally on the device or in the app.</p>
 
+<p><img src="PictureMarkerSymbol.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>The picture marker symbols that you see in the app are all constructed from different types of resources
     - campsite,  constructed from a URL
     - blue pin with a star, stored in the resource folder that comes with the application
     - orange pin, created from a file path on disk (which is written to disk when the app starts and cleaned up when the app closes)</p>
-
-<p><img src="PictureMarkerSymbol.png"/></p>
 
 <h2>How it works</h2>
 

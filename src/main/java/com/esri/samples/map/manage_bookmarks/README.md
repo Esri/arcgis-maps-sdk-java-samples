@@ -2,6 +2,8 @@
 
 <p>Demonstrates how to access and add bookmarks to an ArcGISMap.</p>
 
+<p><img src="ManageBookmarks.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>The map in the sample comes pre-populated with a set of bookmarks.
@@ -12,8 +14,6 @@
   - pan and/or zoom to a new location and click on the on the Add Bookmark button
   - enter a unique name for the bookmark and click ok
   - bookmark will be added to the list</p>
-
-<p><img src="ManageBookmarks.png"/></p>
 
 <h2>How it works</h2>
 

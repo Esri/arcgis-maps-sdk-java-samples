@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to add new Features to a ServiceFeatureTable and apply those Features to it's server. A FeatureLayer created using this SeviceFeatutreTable that is applied to the ArcGISMap will display any new Features automatically.</p>
 
+<p><img src="AddFeatures.gif"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Click on a location in the MapView to add a Feature at that location.</p>
-
-<p><img src="AddFeatures.gif" alt="" title="" /></p>
 
 <h2>How it works</h2>
 

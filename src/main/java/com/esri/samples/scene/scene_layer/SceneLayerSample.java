@@ -32,11 +32,10 @@ import javafx.stage.Stage;
 public class SceneLayerSample extends Application {
 
   private SceneView sceneView;
-  private static final String ELEVATION_IMAGE_SERVICE =
-      "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
-  //You can choose the elevation service below instead for only elevation data local to the scene layer
-  //http://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer
-  private static final String BUILDINGS = "http://scene.arcgis.com/arcgis/rest/services/Hosted/Buildings_Brest/SceneServer/layers/0";
+  private static final String LOCAL_ELEVATION_IMAGE_SERVICE = "http://scene.arcgis" +
+      ".com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
+  private static final String BUILDINGS = "http://scene.arcgis" +
+      ".com/arcgis/rest/services/Hosted/Buildings_Brest/SceneServer/layers/0";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -65,7 +64,7 @@ public class SceneLayerSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
+      surface.getElevationSources().add(new ArcGISTiledElevationSource(LOCAL_ELEVATION_IMAGE_SERVICE));
       scene.setBaseSurface(surface);
 
       // add a scene layer

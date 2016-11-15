@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to select Features from a FeatureLayer.</p>
 
+<p><img src="FeatureLayerSelection.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Click on a feature from the map to select it.</p>
-
-<p><img src="FeatureLayerSelection.png"/></p>
 
 <h2>How it works</h2>
 

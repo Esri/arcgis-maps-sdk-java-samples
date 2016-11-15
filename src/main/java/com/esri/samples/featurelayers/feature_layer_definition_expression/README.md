@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to set the limit of Features to display on the ArcGISMap.</p>
 
+<p><img src="FeatureLayerDefinitionExpression.gif"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Use the buttons in the control panel to apply or reset definition expression.</p>
-
-<p><img src="FeatureLayerDefinitionExpression.gif"/></p>
 
 <h2>How it works</h2>
 

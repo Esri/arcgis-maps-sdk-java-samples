@@ -2,6 +2,8 @@
 
 <p>Demonstrates how to use an UniqueValueRenderer to display Features from a FeatureLayer using different symbols. An unique value renderer sets an attribute to look for any matches within it's unique values. If there is a match then the symbol assign to that unique value is use to display that feature with the same value.</p>
 
+<p><img src="UniqueValueRenderer.png"/></p>
+
 <p>In this sample the unique value renderer is looking for the "STATE_ABBR" attribute within each feature of the feature layer. For example we will have a unique value renderer that has a unique value set to the abbreviation for California.</p>
 <pre><code>
 SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, RED,
@@ -13,14 +15,11 @@ uniqueValueRenderer.getUniqueValues().add(new UniqueValue(State of California", 
 californiaFillSymbol, californiaValue));
 </code></pre>
 
-
 <p>When this unique value renderer comes across the feature whos key "STATE_ABBR" is value "CA" it will assign the symbol from the unique value above to this feature.</p>
 
 <h2>How to use the sample</h2>
 
 <p>Sample starts with a predefined UniqueValues for some US states which are set to the UniqueValueRenderer and applied to the FeatureLayer.</p>
-
-<p><img src="UniqueValueRenderer.png"/></p>
 
 <h2>How it works</h2>
 

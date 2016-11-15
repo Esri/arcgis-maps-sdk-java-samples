@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to display an ArcGISMap at a specific view point.</p>
 
+<p><img src="MapInitialExtent.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>As application is loading, initial view point is set and map view zooms to that location.</p>
-
-<p><img src="MapInitialExtent.png"/></p>
 
 <h2>How it works</h2>
 

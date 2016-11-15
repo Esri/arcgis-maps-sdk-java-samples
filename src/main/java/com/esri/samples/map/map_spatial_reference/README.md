@@ -2,11 +2,11 @@
 
 <p>Demonstrates how you can set the spatial reference on a ArcGISMap and all the operational layers will project accordingly.</p>
 
+<p><img src="MapSpatialReference.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>ArcGISMapImageLayer is added to map with default spatial reference of GCS<em>WGS</em>1984 (WKID: 4326). By setting the ArcGISMap to a spatial reference of world bonne (WKID: 54024), the ArcGISMapImageLayer gets re-projected to map's spatial reference.</p>
-
-<p><img src="MapSpatialReference.png"/></p>
 
 <h2>How it works</h2>
 

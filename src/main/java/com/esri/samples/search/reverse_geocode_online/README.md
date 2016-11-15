@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to reverse geocode a location and find its nearest address.</p>
 
+<p><img src="ReverseGeocodeOnline.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>You can click on the ArcGISMap to perform online reverse geocoding and show the matching results in the ArcGISMap. </p>
-
-<p><img src="ReverseGeocodeOnline.png"/></p>
 
 <h2>How it works</h2>
 

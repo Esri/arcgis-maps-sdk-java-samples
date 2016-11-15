@@ -41,8 +41,6 @@ public class DisplayLayerViewStateStatusSample extends Application {
 
   private MapView mapView;
 
-  private String[] viewStatusList;
-
   private static final int MIN_SCALE = 40000000;
   private static final int TILED_LAYER = 0;
   private static final int IMAGE_LAYER = 1;
@@ -91,8 +89,8 @@ public class DisplayLayerViewStateStatusSample extends Application {
       // create three layers to add to the ArcGISMap
       final ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(SERVICE_TIME_ZONES);
 
+      // this layer will be OUT_OF_SCALE outside of its set min/max scales
       final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(SERVICE_CENSUS);
-      // setting the scales at which this layer can be viewed
       imageLayer.setMinScale(MIN_SCALE);
       imageLayer.setMaxScale(MIN_SCALE / 10);
 
@@ -110,16 +108,12 @@ public class DisplayLayerViewStateStatusSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // a point where the map view will zoom to, -11e6 same as -11 x 10^6
+      // set viewpoint
       mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), MIN_SCALE));
-
-      // create a list to hold the view status of all three layers
-      viewStatusList = new String[3];
 
       // fires every time a layers' view status has changed
       mapView.addLayerViewStateChangedListener(e -> {
         // holds the label that needs to be changed
-        Label changedLabel;
         Layer layer = e.getLayer();
 
         String viewStatus = e.getLayerViewStatus().iterator().next().toString();
@@ -128,25 +122,14 @@ public class DisplayLayerViewStateStatusSample extends Application {
         // finding and updating label that needs to be changed
         switch (layerIndex) {
           case TILED_LAYER:
-            viewStatusList[TILED_LAYER] = "World Time Zones: " + viewStatus;
-            changedLabel = worldTimeZonesLabel;
+            worldTimeZonesLabel.setText("World Time Zones: " + viewStatus);
             break;
           case IMAGE_LAYER:
-            viewStatusList[IMAGE_LAYER] = "Census: " + viewStatus;
-            changedLabel = censusLabel;
+            censusLabel.setText("Census: " + viewStatus);
             break;
           case FEATURE_LAYER:
-            viewStatusList[FEATURE_LAYER] = "Facilities: " + viewStatus;
-            changedLabel = facilitiesLabel;
-            break;
-          default:
-            System.out.println("Indexing Error: " + layer.getName() +
-                " not found in ArcGISMap's operational layers list.");
-            changedLabel = new Label();
+            facilitiesLabel.setText("Facilities: " + viewStatus);
         }
-
-        // updates view status to corresponding label
-        Platform.runLater(() -> changedLabel.setText(viewStatusList[layerIndex]));
       });
 
       // add the map view and control panel to stack pane

@@ -2,6 +2,8 @@
 
 <p>Demonstrates how you can add, delete, and fetch an attachment from a Feature in a FeatureLayer. </p>
 
+<p><img src="EditFeatureAttachments.gif"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>To add an attachment.
@@ -9,8 +11,6 @@
 
 <p>To delete an attachment.
   - click on a feature, select an attachment from attachment list, and click delete attachment button</p>
-
-<p><img src="EditFeatureAttachments.gif"/></p>
 
 <h2>How it works</h2>
 

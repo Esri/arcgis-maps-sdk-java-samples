@@ -1,7 +1,11 @@
 <h1>Symbol Dictionary</h1>
 
-<p>Demonstrates how to search for symbol primitives within a Symbol Dictionary using the mil2525d specification and display those symbols.
-  There are five ways to search through a Symbol Dictionary:
+<p>Demonstrates how to search for symbol primitives within a Symbol Dictionary using the mil2525d specification and 
+display those symbols.</p>
+  
+<p><img src="SymbolDictionary.png"/></p>
+  
+<p>There are five ways to search through a Symbol Dictionary:
   - Name
   - Tags
   - Symbol Class
@@ -18,8 +22,6 @@
 
 <p>Clear button:
   - will clear any previous search results and start fresh</p>
-
-<p><img src="SymbolDictionary.png"/></p>
 
 <h2>How it works</h2>
 

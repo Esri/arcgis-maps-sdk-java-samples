@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to set the minimum and maximum scale of an ArcGISMap.</p>
 
+<p><img src="MinMaxScale.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>The ArcGISMap has a minimum and maximum scale set which locks the map view in-between that range.</p>
-
-<p><img src="MinMaxScale.png"/></p>
 
 <h2>How it works</h2>
 

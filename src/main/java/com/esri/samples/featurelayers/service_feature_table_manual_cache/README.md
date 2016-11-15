@@ -2,13 +2,13 @@
 
 <p>Demonstrates how to use a feature service in a manual-cache mode.</p>
 
+<p><img src="ServiceFeatureTableManualCache.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Click on the Request Cache button to manually request Features. Returned label displays how many features were returned by the service.</p>
 
 <p>Note: Maximum of Features returned is set to 1000.</p>
-
-<p><img src="ServiceFeatureTableManualCache.png"/></p>
 
 <h2>How it works</h2>
 

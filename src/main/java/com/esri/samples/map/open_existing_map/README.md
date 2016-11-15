@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to open an existing web map.</p>
 
+<p><img src="OpenExistingMap.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>A ArcGISMap web map can be selected from the drop-down list. On selection the web map opens up in the MapView.</p>
-
-<p><img src="OpenExistingMap.png"/></p>
 
 <h2>How it works</h2>
 

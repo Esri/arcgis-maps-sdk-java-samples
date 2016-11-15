@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to create a SimpleRenderer and add it to a GraphicsOverlay. Renderers are used to display graphics that don't already have a symbol set. A renderer will not override a symbol that is manually set to a graphic.</p>
 
+<p><img src="SimpleRenderer.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Starts with a predefined SimpleRenderer that sets a cross SimpleMarkerSymbol as a default symbol for graphics.</p>
-
-<p><img src="SimpleRenderer.png"/></p>
 
 <h2>How it works</h2>
 

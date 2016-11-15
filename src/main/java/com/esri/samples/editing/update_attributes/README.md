@@ -2,13 +2,13 @@
 
 <p>Demonstrates how update the attributes of a Feature from a ServiceFeatureTable.</p>
 
+<p><img src="UpdateAttributes.gif"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>To change the feature's damage property.
   - select feature from the map
   - from drop down box select a damage type</p>
-
-<p><img src="UpdateAttributes.gif"/></p>
 
 <h2>How it works</h2>
 

@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to add a SimpleMarkerSymbol to your ArcGISMap.</p>
 
+<p><img src="SimpleMarkerSymbol.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>For simplicity, the sample starts with a predefined SimpleMarkerSymbol set as a red circle.</p>
-
-<p><img src="SimpleMarkerSymbol.png"/></p>
 
 <h2>How it works</h2>
 

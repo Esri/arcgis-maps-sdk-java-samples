@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to get a route between two stops.</p>
 
+<p><img src="FindRoute.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>For simplicity, the sample comes loaded with a start and end stop. You can click on the Find route button to get a route between these stops. Once the route is generated, the DirectionMessages show step by step directions in the directions list.</p>
-
-<p><img src="FindRoute.png"/></p>
 
 <h2>How it works</h2>
 

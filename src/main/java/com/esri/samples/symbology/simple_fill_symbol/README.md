@@ -2,6 +2,8 @@
 
 <p>Demonstrates how to change a SimpleFillSymbol color, outline (LineSymbol), and style properties.</p>
 
+<p><img src="SimpleFillSymbol.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Change Fill color:
@@ -12,8 +14,6 @@
 
 <p>Change Fill Style:
   - changes the pattern that makes up the area of the polygon</p>
-
-<p><img src="SimpleFillSymbol.png"/></p>
 
 <h2>How it works</h2>
 

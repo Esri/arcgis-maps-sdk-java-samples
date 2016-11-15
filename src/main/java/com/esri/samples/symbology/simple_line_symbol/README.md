@@ -2,6 +2,8 @@
 
 <p>Demonstrates how to change a SimpleLineSymbol's color and style properties.</p>
 
+<p><img src="SimpleLineSymbol.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Change Line Color:
@@ -12,8 +14,6 @@
 
 <p>Change Line Style:
   - changes the pattern of the line symbol</p>
-
-<p><img src="SimpleLineSymbol.png"/></p>
 
 <h2>How it works</h2>
 

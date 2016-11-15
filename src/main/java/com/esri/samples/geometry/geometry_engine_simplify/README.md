@@ -2,11 +2,11 @@
 
 <p>Demonstrates how to use the GeometryEngine to perform the simplify geometry operation on a Polygon.</p>
 
+<p><img src="GeometryEngineSimplify.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Click on the simplify button to apply the simplify geometry operation between the intersecting polygons. Click reset to restart the sample.</p>
-
-<p><img src="GeometryEngineSimplify.png"/></p>
 
 <h2>How it works</h2>
 

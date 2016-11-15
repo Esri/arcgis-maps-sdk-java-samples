@@ -2,6 +2,8 @@
 
 <p>Demonstrates how to identify a Graphic and change it's symbol, attributes, and geometry. Geometry explains the  graphic's location on a map, a symbol controls how a graphic will be displayed to a map, and the attributes help store information about the graphic in a key value pair.</p>
 
+<p><img src="UpdateGraphics.gif"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Update Graphic's Location:
@@ -14,8 +16,6 @@
 
 <p>Update Graphic's Symbol:
   - click on a graphic, then choose a symbol from the update symbol drop down box</p>
-
-<p><img src="UpdateGraphics.gif"/></p>
 
 <h2>How it works</h2>
 
