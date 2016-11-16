@@ -146,6 +146,7 @@ public class EditFeatureAttachmentsSample extends Application {
           // clear previous results
           featureLayer.clearSelection();
           addAttachmentButton.setDisable(true);
+          attachmentList.getItems().clear();
 
           // get the clicked feature
           ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false);
