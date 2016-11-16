@@ -420,9 +420,7 @@ public class FindPlaceSample extends Application {
             // add the markers to the graphics overlay
             graphicsOverlay.getGraphics().addAll(markers);
 
-            // listener to enable the redo-search button the first time the user
-            // moves
-            // away from the initial search area
+            // listener to enable the redo-search button the first time the user moves away from the initial search area
             ViewpointChangedListener changedListener = new ViewpointChangedListener() {
 
               @Override
@@ -434,8 +432,7 @@ public class FindPlaceSample extends Application {
             };
 
             // zoom to see all results and disable redo-search button
-            ListenableFuture<Boolean> changeViewpoint = mapView.setViewpointGeometryAsync(
-            	GeometryEngine.buffer(graphicsOverlay.getExtent(), 200));
+            ListenableFuture<Boolean> changeViewpoint = mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
             changeViewpoint.addDoneListener(() -> {
               redoButton.setDisable(true);
               mapView.addViewpointChangedListener(changedListener);
