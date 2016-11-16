@@ -105,7 +105,7 @@ public class EditFeatureAttachmentsSample extends Application {
       deleteAttachmentButton.setDisable(true);
 
       // location of attachment to be added
-      File imageFile = new File(getClass().getResource("/symbols/destroyed.png").toURI());
+      File imageFile = new File(getClass().getResource("/symbols/destroyed.png").getPath());
 
       // button click to add image attachment to selected feature
       addAttachmentButton.setOnAction(e -> addAttachment(imageFile));
