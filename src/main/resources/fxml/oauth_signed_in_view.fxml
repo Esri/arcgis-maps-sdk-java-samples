@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="/oauth/style.css" spacing="10"
+      styleClass="vbox">
+
+    <VBox styleClass="vbox">
+        <Label text="Full Name" styleClass="property-name"/>
+        <Label fx:id="fullName" styleClass="property-value"/>
+    </VBox>
+
+    <VBox styleClass="vbox">
+        <Label text="Username" styleClass="property-name"/>
+        <Label fx:id="username" styleClass="property-value"/>
+    </VBox>
+
+    <VBox styleClass="vbox">
+        <Label text="Email" styleClass="property-name"/>
+        <Label fx:id="email" styleClass="property-value"/>
+    </VBox>
+
+    <VBox styleClass="vbox">
+        <Label text="Member Since" styleClass="property-name"/>
+        <Label fx:id="memberSince" styleClass="property-value"/>
+    </VBox>
+
+    <VBox styleClass="vbox">
+        <Label text="Role" styleClass="property-name"/>
+        <Label fx:id="role" styleClass="property-value"/>
+    </VBox>
+</VBox>

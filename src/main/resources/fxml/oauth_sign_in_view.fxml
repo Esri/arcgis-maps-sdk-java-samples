@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.esri.samples.portal.oauth.OAuthSignInController"
+      styleClass="vbox"
+      spacing="10"
+      stylesheets="/oauth/style.css">
+    <VBox styleClass="vbox">
+        <Label text="Portal URL" styleClass="property-name"/>
+        <TextField fx:id="portalURL" text="http://csf.maps.arcgis.com"/>
+    </VBox>
+
+    <VBox styleClass="vbox">
+        <Label text="Client Id" styleClass="property-name"/>
+        <TextField fx:id="clientId" text="1EnyBzSblxWRtNaJ"/>
+    </VBox>
+
+    <VBox styleClass="vbox">
+        <Label text="Redirect URI" styleClass="property-name"/>
+        <TextField fx:id="redirectUri" text="urn:ietf:wg:oauth:2.0:oob"/>
+    </VBox>
+
+    <VBox styleClass="vbox">
+        <Button fx:id="signIn" text="Sign In" onAction="#handleSignIn"/>
+    </VBox>
+</VBox>
