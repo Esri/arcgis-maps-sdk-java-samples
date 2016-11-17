@@ -17,8 +17,6 @@
 package com.esri.samples.featurelayers.feature_layer_dictionary_renderer;
 
 import com.esri.arcgisruntime.data.Geodatabase;
-import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -34,7 +32,6 @@ import javafx.stage.Stage;
 public class FeatureLayerDictionaryRendererSample extends Application {
 
   private MapView mapView;
-  private Envelope initialViewpoint;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -76,16 +73,9 @@ public class FeatureLayerDictionaryRendererSample extends Application {
 
         featureLayer.addDoneLoadingListener(() -> {
           // initial viewpoint to encompass all graphics displayed on the map view 
-          initialViewpoint = initialViewpoint == null ? featureLayer.getFullExtent()
-              : GeometryEngine.union(initialViewpoint, featureLayer.getFullExtent()).getExtent();
+          mapView.setViewpointGeometryAsync(featureLayer.getFullExtent());
         });
       });
-    });
-
-    // once view has loaded
-    mapView.addSpatialReferenceChangedListener(e -> {
-      // set initial viewpoint
-      mapView.setViewpointGeometryAsync(initialViewpoint);
     });
   }
 
