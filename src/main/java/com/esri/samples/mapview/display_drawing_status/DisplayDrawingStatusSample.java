@@ -53,7 +53,7 @@ public class DisplayDrawingStatusSample extends Application {
 
       // set title, size, and add scene to stage
       stage.setTitle("Display Drawing Status Sample");
-      stage.setWidth(1300);
+      stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
