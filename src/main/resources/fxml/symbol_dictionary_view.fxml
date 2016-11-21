@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" spacing="10">
+    <ImageView fx:id="imageView" fitWidth="40"/>
+    <GridPane hgap="10" vgap="3">
+        <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="name" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label text="Tags:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label fx:id="tags" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Label text="Symbol Class:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="symbolClass" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label text="Category:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Label fx:id="category" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <Label text="Key:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <Label fx:id="key" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    </GridPane>
+</fx:root>

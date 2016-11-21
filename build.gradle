@@ -1,4 +1,53 @@
-allprojects {
-    apply plugin: 'java'
-    apply plugin: 'eclipse'
+apply plugin: 'com.esri.arcgisruntime.java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://esri.bintray.com/arcgis'
+        }
+    }
+    dependencies {
+        classpath 'com.esri.arcgisruntime:gradle-arcgis-java-plugin:1.0.0'
+    }
 }
+
+arcgis.version = '100.0.0'
+
+idea.module.downloadJavadoc = true
+eclipse.classpath.downloadJavadoc = true
+
+dependencies {
+    compile 'org.controlsfx:controlsfx:8.40.10'
+    compile 'org.jooq:joox:1.4.0'
+}
+
+task downloadData {
+    description = "Downloads data from AGOL for samples with offline data"
+
+    def rootDir = "./"
+    def dataZip = rootDir + 'data.zip'
+    def samplesData = rootDir + 'samples-data'
+
+    if (!file(samplesData).exists()) {
+        ant.get(src: 'https://arcgisruntime.maps.arcgis' +
+                '.com/sharing/rest/content/items/8b10b52320464b1bb728e552cfa6cb50/data', dest: dataZip)
+        copy {
+            from zipTree(dataZip)
+            into(rootDir)
+        }
+        delete(dataZip)
+    }
+}
+
+run {
+    mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
+}
+
+run.dependsOn downloadData

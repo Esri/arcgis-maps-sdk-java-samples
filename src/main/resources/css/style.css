@@ -1,0 +1,20 @@
+.panel-region {
+  -fx-background-color: rgba(0,0,0, 0.3);
+  -fx-padding: 10.0 10.0 10.0 10.0;
+}
+
+.panel-region .label {
+  -fx-text-fill: white;
+}
+
+.label {
+  -fx-text-fill: black;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: white;
+}
+
+.panel-region .check-box {
+   -fx-text-fill: white;
+}
