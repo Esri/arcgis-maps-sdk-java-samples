@@ -19,6 +19,7 @@ package com.esri.samples.localserver.local_server_map_image_layer;
 import java.io.File;
 
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.localserver.LocalMapService;
 import com.esri.arcgisruntime.localserver.LocalServer;
 import com.esri.arcgisruntime.localserver.LocalServerStatus;
@@ -71,7 +72,6 @@ public class LocalServerMapImageLayerSample extends Application {
       imageLayerProgress.setMaxWidth(30);
 
       // start local server
-      server.startAsync();
       server.addStatusChangedListener(status -> {
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
           // start map image service
@@ -81,6 +81,7 @@ public class LocalServerMapImageLayerSample extends Application {
           mapImageService.startAsync();
         }
       });
+      server.startAsync();
 
       // add view to application window with progress bar
       stackPane.getChildren().addAll(mapView, imageLayerProgress);
@@ -108,8 +109,10 @@ public class LocalServerMapImageLayerSample extends Application {
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(url);
       // set viewpoint once layer has loaded
       imageLayer.addDoneLoadingListener(() -> {
-        mapView.setViewpoint(new Viewpoint(imageLayer.getFullExtent().getCenter(), 80000000));
-        Platform.runLater(() -> imageLayerProgress.setVisible(false));
+        if (imageLayer.getLoadStatus() == LoadStatus.LOADED && imageLayer.getFullExtent() != null) {
+          mapView.setViewpoint(new Viewpoint(imageLayer.getFullExtent()));
+          Platform.runLater(() -> imageLayerProgress.setVisible(false));
+        }
       });
       imageLayer.loadAsync();
       // add image layer to map
@@ -118,23 +121,10 @@ public class LocalServerMapImageLayerSample extends Application {
   }
 
   /**
-   * Stops the local server and its running services.
-   */
-  private void stopLocalServer() {
-
-    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
-      server.stopAsync();
-    }
-  }
-
-  /**
    * Stops and releases all resources used in application.
    */
   @Override
   public void stop() throws Exception {
-
-    stopLocalServer();
-
     if (mapView != null) {
       mapView.dispose();
     }
