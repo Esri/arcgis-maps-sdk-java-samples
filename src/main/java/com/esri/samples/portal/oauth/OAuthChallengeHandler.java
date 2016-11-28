@@ -1,12 +1,28 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2016 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.esri.samples.portal.oauth;
 
-import com.esri.arcgisruntime.security.*;
+import com.esri.arcgisruntime.security.AuthenticationChallenge;
+import com.esri.arcgisruntime.security.AuthenticationChallengeHandler;
+import com.esri.arcgisruntime.security.AuthenticationChallengeResponse;
 import com.esri.arcgisruntime.security.AuthenticationChallengeResponse.Action;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.OAuthConfiguration;
+import com.esri.arcgisruntime.security.OAuthTokenCredential;
+import com.esri.arcgisruntime.security.OAuthTokenCredentialRequest;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.web.WebEngine;
@@ -66,13 +82,16 @@ final class OAuthChallenge {
     CountDownLatch authorizationCodeLatch = new CountDownLatch(1);
 
     Platform.runLater(() -> {
+      // display the authorization screen as a web view
       WebView browser = new WebView();
       Stage dialog = Controller.showDialog(browser, 450, 450);
       WebEngine webEngine = browser.getEngine();
-
       webEngine.load(authorizationUrl);
+
+      // read the HTTP response to user action
       webEngine.setOnStatusChanged(new EventHandler<WebEvent<String>>() {
         public void handle(WebEvent<String> event) {
+          // extract code or error from the location in HTTP response
           if (event.getSource() instanceof WebEngine) {
             String location = webEngine.getLocation();
             if (location.contains("code=")) {
