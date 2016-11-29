@@ -9,17 +9,17 @@
       stylesheets="/oauth/style.css">
     <VBox styleClass="vbox">
         <Label text="Portal URL" styleClass="property-name"/>
-        <TextField fx:id="portalURL" text="http://csf.maps.arcgis.com"/>
+        <TextField fx:id="portalURL" promptText="portal url"/>
     </VBox>
 
     <VBox styleClass="vbox">
         <Label text="Client Id" styleClass="property-name"/>
-        <TextField fx:id="clientId" text="1EnyBzSblxW"/>
+        <TextField fx:id="clientId" promptText="client id"/>
     </VBox>
 
     <VBox styleClass="vbox">
         <Label text="Redirect URI" styleClass="property-name"/>
-        <TextField fx:id="redirectUri" text="urn:ietf:wg:oauth:2.0:oob"/>
+        <TextField fx:id="redirectUri" promptText="redirect uri"/>
     </VBox>
 
     <VBox styleClass="vbox">
