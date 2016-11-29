@@ -14,7 +14,7 @@
 
     <VBox styleClass="vbox">
         <Label text="Client Id" styleClass="property-name"/>
-        <TextField fx:id="clientId" text="1EnyBzSblxWRtNaJ"/>
+        <TextField fx:id="clientId" text="1EnyBzSblxW"/>
     </VBox>
 
     <VBox styleClass="vbox">
