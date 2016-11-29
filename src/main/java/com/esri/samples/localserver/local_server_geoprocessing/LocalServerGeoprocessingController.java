@@ -160,11 +160,18 @@ public class LocalServerGeoprocessingController {
   }
 
   /**
-   * Stops the animation and disposes of application resources.
+   * Stops and releases all resources used in application.
    */
   void terminate() {
     if (mapView != null) {
       mapView.dispose();
     }
+
+    // stop local server when jvm shuts down
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+      if (server.getStatus() == LocalServerStatus.STARTED) {
+        server.stopAsync();
+      }
+    }));
   }
 }
