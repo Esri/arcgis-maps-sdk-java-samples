@@ -16,7 +16,11 @@
 
 package com.esri.samples.raster.blend_renderer;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -24,52 +28,35 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.samples.scene.scene_properties_expressions.ScenePropertiesExpressionsController;
 
 public class BlendRendererSample extends Application {
 
-  private MapView mapView;
+  private static BlendRendererController controller;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) throws IOException {
+    // set up the scene
+    FXMLLoader loader = new FXMLLoader(getClass().getResource
+        ("/fxml/blend_renderer.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene scene = new Scene(root);
 
-    try {
-      // create stack pane and application scene
-      StackPane stackPane = new StackPane();
-      Scene scene = new Scene(stackPane);
-
-      // set title, size, and add scene to stage
-      stage.setTitle("Blend Renderer Sample");
-      stage.setWidth(800);
-      stage.setHeight(700);
-      stage.setScene(scene);
-      stage.show();
-
-      // create ArcGISMap with imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImageryWithLabels());
-
-      // create a view and set map to it
-      mapView = new MapView();
-      mapView.setMap(map);
-
-      // add map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView);
-
-    } catch (Exception e) {
-      // on any error, print the stack trace
-      e.printStackTrace();
-    }
+    // set up the stage
+    stage.setTitle("Blend Renderer Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
   }
 
   /**
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
-
-    // release resources when the application closes
-    if (mapView != null) {
-      mapView.dispose();
-    }
+  public void stop() {
+    controller.terminate();
   }
 
   /**
