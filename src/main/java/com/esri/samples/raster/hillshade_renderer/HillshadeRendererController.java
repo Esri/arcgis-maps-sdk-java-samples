@@ -14,24 +14,21 @@
  * the License.
  */
 
-package com.esri.samples.raster.blend_renderer;
+package com.esri.samples.raster.hillshade_renderer;
 
 import java.io.File;
 import java.util.Arrays;
-
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.raster.BlendRenderer;
-import com.esri.arcgisruntime.raster.ColorRamp;
-import com.esri.arcgisruntime.raster.Raster;
-import com.esri.arcgisruntime.raster.SlopeType;
+import com.esri.arcgisruntime.raster.*;
 
-public class BlendRendererController {
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
+
+public class HillshadeRendererController {
 
   public MapView mapView;
   public ComboBox<SlopeType> slopeTypeComboBox;
@@ -40,17 +37,14 @@ public class BlendRendererController {
   public Slider altitudeSlider;
 
   private RasterLayer rasterLayer;
-  private Raster imageryRaster;
-  private Raster elevationRaster;
 
   public void initialize() {
 
     // create rasters
-    imageryRaster = new Raster(new File("./samples-data/raster/Shasta.tif").getAbsolutePath());
-    elevationRaster = new Raster(new File("./samples-data/raster/Shasta_Elevation.tif").getAbsolutePath());
+    Raster raster = new Raster(new File("./samples-data/raster/srtm.tiff").getAbsolutePath());
 
     // create a raster layer
-    rasterLayer = new RasterLayer(imageryRaster);
+    rasterLayer = new RasterLayer(raster);
 
     // create a basemap from the raster layer
     Basemap basemap = new Basemap(rasterLayer);
@@ -60,8 +54,6 @@ public class BlendRendererController {
     mapView.setMap(map);
 
     // set defaults
-    colorRampComboBox.getItems().setAll(ColorRamp.PresetType.values());
-    colorRampComboBox.getSelectionModel().select(ColorRamp.PresetType.NONE);
     slopeTypeComboBox.getItems().setAll(SlopeType.values());
     slopeTypeComboBox.getSelectionModel().select(SlopeType.NONE);
 
@@ -85,20 +77,11 @@ public class BlendRendererController {
    */
   public void updateRenderer() {
 
-    ColorRamp colorRamp = colorRampComboBox.getSelectionModel().getSelectedItem() != ColorRamp.PresetType.NONE?
-        new ColorRamp(colorRampComboBox.getSelectionModel().getSelectedItem(), 800) : null;
-
-    // if color map is not NONE, color the hillshade elevation raster instead of using satellite imagery raster color
-    rasterLayer = colorRamp != null ? new RasterLayer(elevationRaster) : new RasterLayer(imageryRaster);
-
-    mapView.getMap().setBasemap(new Basemap(rasterLayer));
-
     // create blend renderer
-    BlendRenderer blendRenderer = new BlendRenderer(elevationRaster, Arrays.asList(9.0), Arrays.asList(255.0), Arrays
-        .asList(), Arrays.asList(), Arrays.asList(), Arrays.asList(), colorRamp, altitudeSlider.getValue(), azimuthSlider
-        .getValue(), 1, slopeTypeComboBox.getSelectionModel().getSelectedItem(), 1, 1, 8);
+    HillshadeRenderer hillshadeRenderer = new HillshadeRenderer(altitudeSlider.getValue(), azimuthSlider.getValue(),
+        0.000016, slopeTypeComboBox.getSelectionModel().getSelectedItem(), 1, 1, 8);
 
-    rasterLayer.setRasterRenderer(blendRenderer);
+    rasterLayer.setRasterRenderer(hillshadeRenderer);
   }
 
   void terminate() {
