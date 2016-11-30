@@ -94,8 +94,8 @@ public class BlendRendererController {
     mapView.getMap().setBasemap(new Basemap(rasterLayer));
 
     // create blend renderer
-    BlendRenderer blendRenderer = new BlendRenderer(elevationRaster, Arrays.asList(9.0), Arrays.asList(255.0), Arrays
-        .asList(), Arrays.asList(), Arrays.asList(), Arrays.asList(), colorRamp, altitudeSlider.getValue(), azimuthSlider
+    BlendRenderer blendRenderer = new BlendRenderer(elevationRaster, Arrays.asList(9.0), Arrays.asList(255.0), null,
+        null, null, null, colorRamp, altitudeSlider.getValue(), azimuthSlider
         .getValue(), 1, slopeTypeComboBox.getSelectionModel().getSelectedItem(), 1, 1, 8);
 
     rasterLayer.setRasterRenderer(blendRenderer);

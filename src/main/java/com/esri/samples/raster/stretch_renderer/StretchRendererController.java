@@ -101,7 +101,7 @@ public class StretchRendererController {
     }
 
     // create blend renderer
-    StretchRenderer stretchRenderer = new StretchRenderer(stretchParameters, Arrays.asList(), true, null);
+    StretchRenderer stretchRenderer = new StretchRenderer(stretchParameters, null, true, null);
 
     rasterLayer.setRasterRenderer(stretchRenderer);
   }
