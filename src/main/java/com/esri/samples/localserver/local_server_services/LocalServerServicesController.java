@@ -154,17 +154,4 @@ public class LocalServerServicesController {
 
     this.hostServices = hostServices;
   }
-
-  /**
-   * Stops and releases all resources used in application.
-   */
-  void terminate() {
-
-    // stop local server when jvm shuts down
-    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-      if (server.getStatus() == LocalServerStatus.STARTED) {
-        server.stopAsync();
-      }
-    }));
-  }
 }

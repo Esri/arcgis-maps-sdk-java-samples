@@ -128,13 +128,6 @@ public class LocalServerMapImageLayerSample extends Application {
     if (mapView != null) {
       mapView.dispose();
     }
-
-    // stop local server when jvm shuts down
-    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-      if (server.getStatus() == LocalServerStatus.STARTED) {
-        server.stopAsync();
-      }
-    }));
   }
 
   /**
