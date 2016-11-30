@@ -50,7 +50,7 @@ public class RgbRendererController {
   public void initialize() {
 
     // create rasters
-    Raster raster = new Raster(new File("./samples-data/raster/ShastaBW.tif").getAbsolutePath());
+    Raster raster = new Raster(new File("./samples-data/raster/Shasta.tif").getAbsolutePath());
 
     // create a raster layer
     rasterLayer = new RasterLayer(raster);
@@ -123,10 +123,10 @@ public class RgbRendererController {
         stretchParameters = new StandardDeviationStretchParameters(factorSpinner.getValue());
     }
 
-    // create blend renderer
-    StretchRenderer stretchRenderer = new StretchRenderer(stretchParameters, Arrays.asList(), true, null);
+    // create rgb renderer
+    RGBRenderer rgbRenderer = new RGBRenderer(stretchParameters, Arrays.asList(0, 1, 2), null, true);
 
-    rasterLayer.setRasterRenderer(stretchRenderer);
+    rasterLayer.setRasterRenderer(rgbRenderer);
   }
 
   void terminate() {

@@ -26,14 +26,14 @@
                       GridPane.columnIndex="1" maxWidth="110"/>
             <!--Standard Deviation-->
             <Label text="Factor" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Spinner fx:id="factorSpinner" min="0" max="2" initialValue="1" GridPane.rowIndex="1"
+            <Spinner fx:id="factorSpinner" min="0" max="3" initialValue="1" GridPane.rowIndex="1"
                      GridPane.columnIndex="1" maxWidth="110" editable="true"/>
             <!--Percent Clip-->
             <Label text="Min/Max %" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <Spinner fx:id="minPercentSpinner" initialValue="0" GridPane.rowIndex="2" GridPane.columnIndex="1"
-                     maxWidth="110" editable="true"/>
-            <Spinner fx:id="maxPercentSpinner" initialValue="100" GridPane.rowIndex="2" GridPane.columnIndex="2"
-                     maxWidth="110" editable="true"/>
+            <Spinner fx:id="minPercentSpinner" min="0" max="100" initialValue="0" GridPane.rowIndex="2"
+                     GridPane.columnIndex="1" maxWidth="110" editable="true"/>
+            <Spinner fx:id="maxPercentSpinner" min="0" max="100" initialValue="10" GridPane.rowIndex="2"
+                     GridPane.columnIndex="2" maxWidth="110" editable="true"/>
             <!--Min/Max-->
             <Label text="Min RGB" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
             <Spinner fx:id="minRedSpinner" min="0" max="255" GridPane.rowIndex="3" GridPane.columnIndex="1"
