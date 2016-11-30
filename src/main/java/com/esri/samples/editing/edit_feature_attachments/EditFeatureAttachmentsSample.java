@@ -16,9 +16,6 @@
 
 package com.esri.samples.editing.edit_feature_attachments;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -48,6 +45,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import org.apache.commons.io.IOUtils;
 
 public class EditFeatureAttachmentsSample extends Application {
 
@@ -104,11 +103,11 @@ public class EditFeatureAttachmentsSample extends Application {
       deleteAttachmentButton.setMaxWidth(Double.MAX_VALUE);
       deleteAttachmentButton.setDisable(true);
 
-      // location of attachment to be added
-      File imageFile = new File(getClass().getResource("/symbols/destroyed.png").getPath());
+      // get image attachment
+      byte[] image= IOUtils.toByteArray(getClass().getResourceAsStream("/symbols/destroyed.png"));
 
       // button click to add image attachment to selected feature
-      addAttachmentButton.setOnAction(e -> addAttachment(imageFile));
+      addAttachmentButton.setOnAction(e -> addAttachment(image));
 
       // button click to delete selected attachment
       deleteAttachmentButton.setOnAction(e -> deleteAttachment(attachmentList.getSelectionModel().getSelectedIndex()));
@@ -210,14 +209,12 @@ public class EditFeatureAttachmentsSample extends Application {
   /**
    * Adds an attachment to a Feature.
    * 
-   * @param imageFile a file location for a resource
+   * @param attachment byte array of attachment
    */
-  private void addAttachment(File imageFile) {
+  private void addAttachment(byte[] attachment) {
 
-    try {
       if (selected.canEditAttachments()) {
-        byte[] image = Files.readAllBytes(imageFile.toPath());
-        ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(image, "image/png",
+        ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(attachment, "image/png",
             "symbols/destroyed.png");
         addResult.addDoneListener(() -> {
           // update feature table
@@ -230,9 +227,6 @@ public class EditFeatureAttachmentsSample extends Application {
       } else {
         displayMessage(null, "Cannot add attachment.");
       }
-    } catch (IOException e) {
-      displayMessage(null, "Could not read attachment");
-    }
   }
 
   /**
