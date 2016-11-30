@@ -42,7 +42,7 @@ public class UniqueValueRendererSample extends Application {
   private MapView mapView;
 
   private final String SAMPLE_SERVICE_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3";
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3";
 
   // colors for symbols
   private static final int GRAY = 0xFFD3D3D3;
