@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to solve a route on-the-fly using only offline data.</p>
 
-<p><img src="OfflineRouting.png"/></p>
+<p><img src="OfflineRouting.gif"/></p>
 
 <h2>How to use the sample</h2>
 
