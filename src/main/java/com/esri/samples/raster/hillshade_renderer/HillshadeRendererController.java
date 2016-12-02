@@ -25,16 +25,17 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.*;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 
 public class HillshadeRendererController {
 
-  public MapView mapView;
-  public ComboBox<SlopeType> slopeTypeComboBox;
-  public ComboBox<ColorRamp.PresetType> colorRampComboBox;
-  public Slider azimuthSlider;
-  public Slider altitudeSlider;
+  @FXML private MapView mapView;
+  @FXML private ComboBox<SlopeType> slopeTypeComboBox;
+  @FXML private ComboBox<ColorRamp.PresetType> colorRampComboBox;
+  @FXML private Slider azimuthSlider;
+  @FXML private Slider altitudeSlider;
 
   private RasterLayer rasterLayer;
 
@@ -84,6 +85,9 @@ public class HillshadeRendererController {
     rasterLayer.setRasterRenderer(hillshadeRenderer);
   }
 
+  /**
+   * Stops and releases all resources used in application.
+   */
   void terminate() {
 
     if (mapView != null) {

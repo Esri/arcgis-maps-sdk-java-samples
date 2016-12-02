@@ -27,23 +27,24 @@ import com.esri.arcgisruntime.raster.*;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 
 public class RgbRendererController {
 
-  public MapView mapView;
-  public ComboBox<String> stretchTypeComboBox;
-  public Spinner<Integer> factorSpinner;
-  public Spinner<Integer> minPercentSpinner;
-  public Spinner<Integer> maxPercentSpinner;
-  public Spinner<Integer> minRedSpinner;
-  public Spinner<Integer> minGreenSpinner;
-  public Spinner<Integer> minBlueSpinner;
-  public Spinner<Integer> maxRedSpinner;
-  public Spinner<Integer> maxGreenSpinner;
-  public Spinner<Integer> maxBlueSpinner;
+  @FXML private MapView mapView;
+  @FXML private ComboBox<String> stretchTypeComboBox;
+  @FXML private Spinner<Integer> factorSpinner;
+  @FXML private Spinner<Integer> minPercentSpinner;
+  @FXML private Spinner<Integer> maxPercentSpinner;
+  @FXML private Spinner<Integer> minRedSpinner;
+  @FXML private Spinner<Integer> minGreenSpinner;
+  @FXML private Spinner<Integer> minBlueSpinner;
+  @FXML private Spinner<Integer> maxRedSpinner;
+  @FXML private Spinner<Integer> maxGreenSpinner;
+  @FXML private Spinner<Integer> maxBlueSpinner;
 
   private RasterLayer rasterLayer;
 
@@ -129,6 +130,9 @@ public class RgbRendererController {
     rasterLayer.setRasterRenderer(rgbRenderer);
   }
 
+  /**
+   * Stops and releases all resources used in application.
+   */
   void terminate() {
 
     if (mapView != null) {

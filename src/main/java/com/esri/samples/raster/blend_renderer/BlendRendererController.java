@@ -19,6 +19,7 @@ package com.esri.samples.raster.blend_renderer;
 import java.io.File;
 import java.util.Arrays;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 
@@ -33,11 +34,11 @@ import com.esri.arcgisruntime.raster.SlopeType;
 
 public class BlendRendererController {
 
-  public MapView mapView;
-  public ComboBox<SlopeType> slopeTypeComboBox;
-  public ComboBox<ColorRamp.PresetType> colorRampComboBox;
-  public Slider azimuthSlider;
-  public Slider altitudeSlider;
+  @FXML private MapView mapView;
+  @FXML private ComboBox<SlopeType> slopeTypeComboBox;
+  @FXML private ComboBox<ColorRamp.PresetType> colorRampComboBox;
+  @FXML private Slider azimuthSlider;
+  @FXML private Slider altitudeSlider;
 
   private RasterLayer rasterLayer;
   private Raster imageryRaster;
@@ -101,6 +102,9 @@ public class BlendRendererController {
     rasterLayer.setRasterRenderer(blendRenderer);
   }
 
+  /**
+   * Stops and releases all resources used in application.
+   */
   void terminate() {
 
     if (mapView != null) {

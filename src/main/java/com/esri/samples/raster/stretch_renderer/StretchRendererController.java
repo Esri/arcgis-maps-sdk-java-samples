@@ -25,16 +25,17 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.*;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 
 public class StretchRendererController {
 
-  public MapView mapView;
-  public ComboBox<String> stretchTypeComboBox;
-  public Slider factorSlider;
-  public Slider minSlider;
-  public Slider maxSlider;
+  @FXML private MapView mapView;
+  @FXML private ComboBox<String> stretchTypeComboBox;
+  @FXML private Slider factorSlider;
+  @FXML private Slider minSlider;
+  @FXML private Slider maxSlider;
 
   private RasterLayer rasterLayer;
 
@@ -92,7 +93,7 @@ public class StretchRendererController {
     StretchParameters stretchParameters;
     switch (stretchTypeComboBox.getSelectionModel().getSelectedItem()) {
       case "MinMax": stretchParameters = new MinMaxStretchParameters(Arrays.asList(min), Arrays.asList(max)); break;
-      case "PercentClip":stretchParameters = new PercentClipStretchParameters(min, max); break;
+      case "PercentClip": stretchParameters = new PercentClipStretchParameters(min, max); break;
       default:
         minSlider.setDisable(true);
         maxSlider.setDisable(true);
@@ -106,6 +107,9 @@ public class StretchRendererController {
     rasterLayer.setRasterRenderer(stretchRenderer);
   }
 
+  /**
+   * Stops and releases all resources used in application.
+   */
   void terminate() {
 
     if (mapView != null) {
