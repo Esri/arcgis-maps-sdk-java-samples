@@ -88,7 +88,7 @@ public class BlendRendererController {
     ColorRamp colorRamp = colorRampComboBox.getSelectionModel().getSelectedItem() != ColorRamp.PresetType.NONE?
         new ColorRamp(colorRampComboBox.getSelectionModel().getSelectedItem(), 800) : null;
 
-    // if color map is not NONE, color the hillshade elevation raster instead of using satellite imagery raster color
+    // if color ramp is not NONE, color the hillshade elevation raster instead of using satellite imagery raster color
     rasterLayer = colorRamp != null ? new RasterLayer(elevationRaster) : new RasterLayer(imageryRaster);
 
     mapView.getMap().setBasemap(new Basemap(rasterLayer));
