@@ -160,7 +160,7 @@ public class LocalServerGeoprocessingController {
   }
 
   /**
-   * Stops the animation and disposes of application resources.
+   * Stops and releases all resources used in application.
    */
   void terminate() {
     if (mapView != null) {
