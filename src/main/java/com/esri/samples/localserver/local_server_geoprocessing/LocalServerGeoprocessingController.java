@@ -71,9 +71,7 @@ public class LocalServerGeoprocessingController {
       TileCache tileCache = new TileCache(rasterURL);
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
       tiledLayer.loadAsync();
-      tiledLayer.addDoneLoadingListener(() -> {
-        mapView.setViewpointGeometryAsync(tiledLayer.getFullExtent());
-      });
+      tiledLayer.addDoneLoadingListener(() -> mapView.setViewpointGeometryAsync(tiledLayer.getFullExtent()));
       map.getOperationalLayers().add(tiledLayer);
 
       // listen for the status of the local server to change
@@ -86,7 +84,7 @@ public class LocalServerGeoprocessingController {
             localGPService =
                 new LocalGeoprocessingService(gpServiceURL, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
           } catch (Exception e) {
-
+            e.printStackTrace();
           }
 
           localGPService.addStatusChangedListener(s -> {
@@ -162,7 +160,7 @@ public class LocalServerGeoprocessingController {
   }
 
   /**
-   * Stops the animation and disposes of application resources.
+   * Stops and releases all resources used in application.
    */
   void terminate() {
     if (mapView != null) {

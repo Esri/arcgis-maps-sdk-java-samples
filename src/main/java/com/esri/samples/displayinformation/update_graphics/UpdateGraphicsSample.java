@@ -185,6 +185,8 @@ public class UpdateGraphicsSample extends Application {
                   // store the selected graphic
                   selectedGraphic = identifyGraphics.get().getGraphics().get(0);
                   selectedGraphic.setSelected(true);
+                  String style = ((SimpleMarkerSymbol) selectedGraphic.getSymbol()).getStyle().toString();
+                  symbolBox.getSelectionModel().select(style);
                 }
               } catch (Exception x) {
                 // on any error, display the stack trace

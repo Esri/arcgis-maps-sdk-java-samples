@@ -64,7 +64,7 @@ public class LocalServerServicesController {
    * Handles stopping a local server.
    */
   @FXML
-  void handleStopLocalServer() {
+  private void handleStopLocalServer() {
     // stop local server
     if (server.getStatus() == LocalServerStatus.STARTED) {
       server.stopAsync();

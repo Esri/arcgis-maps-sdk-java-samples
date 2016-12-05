@@ -14,3 +14,7 @@
 .slider .axis {
     -fx-tick-label-fill: white;
 }
+
+.panel-region .check-box {
+   -fx-text-fill: white;
+}

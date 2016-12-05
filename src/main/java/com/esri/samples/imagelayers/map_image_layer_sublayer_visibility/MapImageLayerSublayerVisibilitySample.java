@@ -16,31 +16,25 @@
 
 package com.esri.samples.imagelayers.map_image_layer_sublayer_visibility;
 
-import org.controlsfx.control.CheckComboBox;
-
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+import com.esri.arcgisruntime.layers.ArcGISSublayer;
 import com.esri.arcgisruntime.layers.SublayerList;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MapImageLayerSublayerVisibilitySample extends Application {
 
   private MapView mapView;
-
-  private SublayerList layers;
-
-  private CheckComboBox<String> checkComboBox;
 
   // World Topo Map Service URL
   private static final String WORLD_CITIES_SERVICE =
@@ -53,41 +47,55 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       // create a border pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+
       // size the stage and add a title
       stage.setTitle("Map Image Layer Sublayer Visibility Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
-      // create the layers data to show in the CheckComboBox
-      ObservableList<String> layersList = FXCollections.observableArrayList();
-      layersList.add("Cities");
-      layersList.add("Continents");
-      layersList.add("World");
-      // create the CheckComboBox with the data
-      checkComboBox = new CheckComboBox<>(layersList);
-      // set all sub layers on by default
-      checkComboBox.getCheckModel().checkAll();
-      checkComboBox.setPrefSize(300, 20);
-      checkComboBox.setPadding(new Insets(20, 0, 0, 10));
-      // handle sub layer selection
-      checkComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) c -> layersList.forEach(
-          this::toggleVisibility));
+
+      // create a control panel
+      VBox vBoxControl = new VBox(6);
+      vBoxControl.setMaxSize(180, 130);
+      vBoxControl.getStyleClass().add("panel-region");
+
+      // create checkboxes for each sublayer
+      CheckBox citiesBox = new CheckBox("Cities");
+      CheckBox continentsBox = new CheckBox("Continents");
+      CheckBox worldBox = new CheckBox("World");
+
+      vBoxControl.getChildren().addAll(citiesBox, continentsBox, worldBox);
+      vBoxControl.getChildren().forEach(c -> ((CheckBox) c).setSelected(true));
+
       // create a ArcGISMap with the a BasemapTyppe Topographic
       ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 48.354406, -99.998267, 2);
+
       // create a Image Layer with dynamically generated ArcGISMap images
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(WORLD_CITIES_SERVICE);
       imageLayer.setOpacity(0.7f);
+
       // add world cities layers as ArcGISMap operational layer
       map.getOperationalLayers().add(imageLayer);
+
       // set the ArcGISMap to be displayed in this view
       mapView = new MapView();
       mapView.setMap(map);
+
       // get the layers from the ArcGISMap image layer
-      layers = imageLayer.getSublayers();
-      // add the MapView and sublayers menu
-      stackPane.getChildren().addAll(mapView, checkComboBox);
-      StackPane.setAlignment(checkComboBox, Pos.TOP_LEFT);
+      SublayerList layers = imageLayer.getSublayers();
+
+      // handle sub layer selection
+      citiesBox.selectedProperty().addListener(e -> layers.get(0).setVisible(citiesBox.isSelected()));
+      continentsBox.selectedProperty().addListener(e -> layers.get(1).setVisible(continentsBox.isSelected()));
+      worldBox.selectedProperty().addListener(e -> layers.get(2).setVisible(worldBox.isSelected()));
+
+      // add the MapView and checkboxes
+      stackPane.getChildren().addAll(mapView, vBoxControl);
+      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -111,27 +119,5 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
   public static void main(String[] args) {
 
     Application.launch(args);
-  }
-
-  /**
-   * Toggle sub layer visibility.
-   * 
-   * @param sublayer sub layer to be toggled
-   */
-  private void toggleVisibility(String sublayer) {
-
-    int indexSublayer = checkComboBox.getCheckModel().getItemIndex(sublayer);
-    // check if the sub layer is selected in the checkComboBox
-    if (checkComboBox.getCheckModel().getCheckedItems().contains(sublayer)) {
-      // sub layer is off, turn it on
-      if (!layers.get(indexSublayer).isVisible()) {
-        layers.get(indexSublayer).setVisible(true);
-      }
-    } else {
-      // sub layer is on, turn it off
-      if (layers.get(indexSublayer).isVisible()) {
-        layers.get(indexSublayer).setVisible(false);
-      }
-    }
   }
 }

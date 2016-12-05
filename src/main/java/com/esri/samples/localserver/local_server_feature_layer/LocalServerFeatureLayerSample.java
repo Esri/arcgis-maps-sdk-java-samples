@@ -21,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.localserver.LocalFeatureService;
 import com.esri.arcgisruntime.localserver.LocalServer;
 import com.esri.arcgisruntime.localserver.LocalServerStatus;
@@ -112,10 +113,10 @@ public class LocalServerFeatureLayerSample extends Application {
       featureTable.loadAsync();
       FeatureLayer featureLayer = new FeatureLayer(featureTable);
       featureLayer.addDoneLoadingListener(() -> {
-        // zoom to location were features were added
-        mapView.setViewpoint(new Viewpoint(featureLayer.getFullExtent().getCenter(), 30000000));
-        // turn off progress, feature layer is loaded
-        Platform.runLater(() -> featureLayerProgress.setVisible(false));
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED && featureLayer.getFullExtent() != null) {
+          mapView.setViewpoint(new Viewpoint(featureLayer.getFullExtent()));
+          Platform.runLater(() -> featureLayerProgress.setVisible(false));
+        }
       });
       featureLayer.loadAsync();
       // add feature layer to map
@@ -125,23 +126,10 @@ public class LocalServerFeatureLayerSample extends Application {
   }
 
   /**
-   * Stops the local server and its running services.
-   */
-  private void stopLocalServer() throws InterruptedException, ExecutionException {
-
-    if (server != null && server.getStatus() == LocalServerStatus.STARTED) {
-      server.stopAsync().get();
-    }
-  }
-
-  /**
    * Stops and releases all resources used in application.
    */
   @Override
   public void stop() throws Exception {
-
-    stopLocalServer();
-
     if (mapView != null) {
       mapView.dispose();
     }

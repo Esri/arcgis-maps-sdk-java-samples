@@ -14,11 +14,14 @@ buildscript {
     }
 }
 
+arcgis.version = '100.0.0'
+
 idea.module.downloadJavadoc = true
 eclipse.classpath.downloadJavadoc = true
 
 dependencies {
-    compile 'org.controlsfx:controlsfx:8.40.11'
+    compile 'commons-io:commons-io:2.4'
+    compile 'org.controlsfx:controlsfx:8.40.10'
     compile 'org.jooq:joox:1.4.0'
 }
 
