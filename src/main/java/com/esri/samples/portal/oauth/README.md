@@ -2,14 +2,14 @@
 
 <p>Demonstrates how to use the OAuth 2.0 protocol for authentication into the ArcGIS platform. Once authenticated the sample displays the user's profile.</p>
 
+<p><img src="OAuth.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Enter the details of the application registered in ArcGIS platform. Click on sign-in.
 This will allow the ArcGIS platform to prompt a sign-in dialog. After the credentials are entered correctly, the sample
 will receive an authorization code from the ArcGIS platform. This authorization code will then be used to obtain an
 access token. This access token is used later to access user's profile.</p>
-
-<p><img src="OAuth.png"/></p>
 
 <h2>How it works</h2>
 
