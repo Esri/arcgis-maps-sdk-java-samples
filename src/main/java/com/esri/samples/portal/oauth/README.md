@@ -16,18 +16,21 @@ access token. This access token is used later to access user's profile.</p>
 <ol>
     <li>Setup an <code>OAuthConfiguration</code> with the settings of an application registered in the ArcGIS platform.</li>
     <li>Setup an <code>AuthenticationChallengeHandler</code> that challenges the user for authentication. You could
-    create a custom handler similar to the one created in this sample <code>OAuthChallengeHandler</code>.</li>
+    create a custom handler similar to the one created in this sample: <code>OAuthChallengeHandler</code>.</li>
     <li>On trying to access a secured resource, the authentication challenge in invoked.</li>
     <li><code>OAuthChallengeHandler</code> directs the user to a sign-in page (using a <code>WebView</code>) from ArcGIS platform.</li>
     <li>On successful sign-in, the ArcGIS platform provides an authorization code.</li>
-    <li>Use the authorization code, to create a <code>OAuthTokenCredentialRequest</code>. This will be used by the Runtime
+    <li>Use the authorization code to create a <code>OAuthTokenCredentialRequest</code>. This will be used by the Runtime
     to request an access token. The access token is then used to request a secured resource in the ArcGIS platform.</li>
 </ol>
 
 <h2>Features</h2>
 
 <ul>
-    <li>OAuthConfiguration</li>
     <li>AuthenticationChallengeHandler</li>
+    <li>OAuthConfiguration</li>
+    <li>OAuthTokenCredential</li>
     <li>OAuthTokenCredentialRequest</li>
+    <li>Portal</li>
+    <li>PortalUser</li>
 </ul>
