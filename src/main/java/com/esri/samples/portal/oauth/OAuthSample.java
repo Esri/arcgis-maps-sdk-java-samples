@@ -15,7 +15,6 @@
  */
 package com.esri.samples.portal.oauth;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,17 +25,15 @@ public class OAuthSample extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/oauth_sign_in_view.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/oauth_controller.fxml"));
     Parent root = loader.load();
+    Scene scene = new Scene(root);
 
     // set title, size, and add scene to stage
-    Scene scene = new Scene(root);
     stage.setTitle("OAuth");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
-
-    Controller.create(scene, stage);
 
     stage.show();
   }

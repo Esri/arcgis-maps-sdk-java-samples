@@ -15,6 +15,15 @@
  */
 package com.esri.samples.portal.oauth;
 
+import java.util.concurrent.CountDownLatch;
+
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.security.AuthenticationChallenge;
 import com.esri.arcgisruntime.security.AuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.AuthenticationChallengeResponse;
@@ -23,14 +32,6 @@ import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
 import com.esri.arcgisruntime.security.OAuthTokenCredential;
 import com.esri.arcgisruntime.security.OAuthTokenCredentialRequest;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebEvent;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
-
-import java.util.concurrent.CountDownLatch;
 
 /**
  * Handler to be used when accessing a secured resource.
@@ -51,12 +52,12 @@ final class OAuthChallengeHandler implements AuthenticationChallengeHandler {
 
       // get the authorization code by sending user to the authorization screen
       String authorizationUrl = OAuthTokenCredentialRequest.getAuthorizationUrl(
-        config.getPortalUrl(), config.getClientId(), config.getRedirectUri(), 0 /* expiration */);
+          config.getPortalUrl(), config.getClientId(), config.getRedirectUri(), 0);
       String authorizationCode = OAuthChallenge.getAuthorizationCode(authorizationUrl);
 
       // use the authorization code to get a token
       OAuthTokenCredentialRequest request = new OAuthTokenCredentialRequest(
-        config.getPortalUrl(), null, config.getClientId(), null, authorizationCode);
+          config.getPortalUrl(), null, config.getClientId(),null, authorizationCode);
       OAuthTokenCredential credential = request.executeAsync().get();
       return new AuthenticationChallengeResponse(Action.CONTINUE_WITH_CREDENTIAL, credential);
     } catch (Exception e) {
@@ -77,31 +78,32 @@ final class OAuthChallenge {
    * @return authorization code
    * @throws Exception if something goes wrong during authorization
    */
-  public static String getAuthorizationCode(String authorizationUrl) throws Exception {
+  static String getAuthorizationCode(String authorizationUrl) throws Exception {
     StringBuilder authorizationCode = new StringBuilder();
     CountDownLatch authorizationCodeLatch = new CountDownLatch(1);
 
     Platform.runLater(() -> {
       // display the authorization screen as a web view
       WebView browser = new WebView();
-      Stage dialog = Controller.showDialog(browser, 450, 450);
+      Stage dialog = new Stage();
+      dialog.initModality(Modality.APPLICATION_MODAL);
+      dialog.setScene(new Scene(browser, 450, 450));
+      dialog.show();
       WebEngine webEngine = browser.getEngine();
       webEngine.load(authorizationUrl);
 
       // read the HTTP response to user action
-      webEngine.setOnStatusChanged(new EventHandler<WebEvent<String>>() {
-        public void handle(WebEvent<String> event) {
-          // extract code or error from the location in HTTP response
-          if (event.getSource() instanceof WebEngine) {
-            String location = webEngine.getLocation();
-            if (location.contains("code=")) {
-              authorizationCode.append(location.split("code=")[1]);
-              authorizationCodeLatch.countDown();
-              dialog.close();
-            } else if (location.contains("error=")) {
-              authorizationCodeLatch.countDown();
-              dialog.close();
-            }
+      webEngine.setOnStatusChanged(event -> {
+        // extract code or error from the location in HTTP response
+        if (event.getSource() instanceof WebEngine) {
+          String location = webEngine.getLocation();
+          if (location.contains("code=")) {
+            authorizationCode.append(location.split("code=")[1]);
+            authorizationCodeLatch.countDown();
+            dialog.close();
+          } else if (location.contains("error=")) {
+            authorizationCodeLatch.countDown();
+            dialog.close();
           }
         }
       });

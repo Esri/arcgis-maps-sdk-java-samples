@@ -13,59 +13,80 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.esri.samples.portal.oauth;
+
+import java.text.SimpleDateFormat;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
-/**
- * Controller for the Sign-in view.
- */
-public class OAuthSignInController {
-
-  private OAuthConfiguration oAuthConfiguration;
+public class OAuthController {
 
   @FXML
   private TextField portalURL;
-
   @FXML
   private TextField clientId;
-
   @FXML
   private TextField redirectUri;
+  @FXML
+  private Label fullName;
+  @FXML
+  private Label username;
+  @FXML
+  private Label email;
+  @FXML
+  private Label memberSince;
+  @FXML
+  private Label role;
+
+  private SimpleDateFormat formatter;
 
   @FXML
-  private Button signIn;
-
-  public void initialize() {
-    Platform.runLater(() -> signIn.requestFocus());
+  private void initialize() {
+    formatter = new SimpleDateFormat("MMM dd, yyyy");
   }
-  
+
   @FXML
   private void handleSignIn() throws Exception {
-    // setup the OAuthSample info such as clientId
+
+    // configure OAuth with portal and client info
     OAuthConfiguration oAuthConfiguration = new OAuthConfiguration(
-      portalURL.getText(), clientId.getText(), redirectUri.getText());
+        portalURL.getText(), clientId.getText(), redirectUri.getText());
     AuthenticationManager.addOAuthConfiguration(oAuthConfiguration);
 
     // setup the handler that will prompt an authentication challenge to the user
     AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
 
-    // loading the portal info of a secured resource will invoke the authentication challenge
     Portal portal = new Portal(portalURL.getText(), true);
     portal.addDoneLoadingListener(() -> {
       if (portal.getLoadStatus() == LoadStatus.LOADED) {
-        Controller.show(portal.getUser());
+
+        // display portal user info
+        fullName.setText(portal.getUser().getFullName());
+        username.setText(portal.getUser().getUsername());
+        email.setText(portal.getUser().getEmail());
+        memberSince.setText(formatter.format(portal.getUser().getCreated().getTime()));
+        role.setText(portal.getUser().getRole().name());
+
       } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-        Controller.showError(portal.getLoadError().getCause().getMessage());
+
+        // show alert message on error
+        Alert alert = new Alert(Alert.AlertType.ERROR, portal.getLoadError().getCause().getMessage());
+        alert.show();
       }
     });
+
+    // loading the portal info of a secured resource
+    // this will invoke the authentication challenge
     portal.loadAsync();
   }
+
 }
