@@ -69,13 +69,13 @@ public class ColormapRendererSample extends Application {
       map.getOperationalLayers().add(rasterLayer);
 
       // create a color map where values 0-150 are red (0xFFFF0000) and 150-250 are yellow (0xFFFFFF00)
-      List<Integer> gradient = IntStream.range(0, 250)
+      List<Integer> colors = IntStream.range(0, 250)
           .boxed()
           .map(i -> i < 150 ? 0xFFFF0000 : 0xFFFFFF00)
           .collect(Collectors.toList());
 
       // create a colormap renderer
-      ColormapRenderer colormapRenderer = new ColormapRenderer(gradient);
+      ColormapRenderer colormapRenderer = new ColormapRenderer(colors);
 
       // set the colormap renderer on the raster layer
       rasterLayer.setRasterRenderer(colormapRenderer);
