@@ -13,6 +13,7 @@ with a color based on the original value brightness.</p>
   <li>Create a <code>RasterLayer</code> from the raster</li>
   <li>Create a <code>List&lt;Integer&gt;</code> representing colors. Colors at the beginning of the list replace the darkest values in 
   the raster and colors at the end of the list replaced the brightest values of the raster.</li>
+  <li>Create a <code>ColormapRenderer()</code> with the color list and apply it to the raster layer with <code>rasterLayer.setRasterRenderer(colormapRenderer)</code></li>
 </ol>
 
 <h2>Features</h2>
