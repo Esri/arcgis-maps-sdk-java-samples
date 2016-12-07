@@ -81,7 +81,7 @@ public class ColormapRendererSample extends Application {
       rasterLayer.setRasterRenderer(colormapRenderer);
 
       // set viewpoint on the raster
-      rasterLayer.addDoneLoadingListener(() -> mapView.setViewpointGeometryAsync(rasterLayer.getFullExtent()));
+      rasterLayer.addDoneLoadingListener(() -> mapView.setViewpointGeometryAsync(rasterLayer.getFullExtent(), 150));
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
