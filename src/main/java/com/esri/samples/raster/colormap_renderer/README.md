@@ -11,8 +11,8 @@ with a color based on the original value brightness.</p>
 <ol>
   <li>Create a <code>Raster</code> from a raster file</li>
   <li>Create a <code>RasterLayer</code> from the raster</li>
-  <li>Create a <code>List<Integer></code> representing colors. Colors at the beginning of the list replace the darkest values in 
-  the raster and colors at the end of the list replaced the brightest values of the raster.
+  <li>Create a <code>List&lt;Integer&gt;</code> representing colors. Colors at the beginning of the list replace the darkest values in 
+  the raster and colors at the end of the list replaced the brightest values of the raster.</li>
 </ol>
 
 <h2>Features</h2>
