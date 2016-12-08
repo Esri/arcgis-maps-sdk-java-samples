@@ -1,0 +1,38 @@
+<!--
+  ~ Copyright 2016 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ButtonType?>
+<fx:root type="javafx.scene.control.Dialog" xmlns:fx="http://javafx.com/fxml">
+    <dialogPane>
+        <DialogPane>
+            <content>
+                <GridPane vgap="10" hgap="10">
+                    <Label text="Portal URL" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="portalURL" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Client ID" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="clientID" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Redirect URI" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="redirectURI" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
+            </content>
+            <ButtonType fx:id="cancelButton" buttonData="CANCEL_CLOSE" text="Cancel"/>
+            <ButtonType fx:id="continueButton" buttonData="FINISH" text="Continue"/>
+        </DialogPane>
+    </dialogPane>
+</fx:root>
