@@ -61,7 +61,7 @@ public class AddGraphicsWithRendererSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a graphic overlay for the point
+      // create a graphics overlay for displaying point graphic
       GraphicsOverlay pointGraphicOverlay = new GraphicsOverlay();
       // create point geometry
       Point point = new Point(40e5, 40e5, SpatialReferences.getWebMercator());
