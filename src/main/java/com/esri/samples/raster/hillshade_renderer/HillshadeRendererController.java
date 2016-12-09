@@ -33,7 +33,6 @@ public class HillshadeRendererController {
 
   @FXML private MapView mapView;
   @FXML private ComboBox<SlopeType> slopeTypeComboBox;
-  @FXML private ComboBox<ColorRamp.PresetType> colorRampComboBox;
   @FXML private Slider azimuthSlider;
   @FXML private Slider altitudeSlider;
 
