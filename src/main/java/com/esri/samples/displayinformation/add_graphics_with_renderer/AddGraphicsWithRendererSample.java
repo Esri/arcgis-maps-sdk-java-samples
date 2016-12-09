@@ -16,20 +16,19 @@
 
 package com.esri.samples.displayinformation.add_graphics_with_renderer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.PolygonBuilder;
+import com.esri.arcgisruntime.geometry.PolylineBuilder;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol.Style;
-import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
-import com.esri.arcgisruntime.symbology.UniqueValueRenderer.UniqueValue;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -39,13 +38,6 @@ import javafx.stage.Stage;
 public class AddGraphicsWithRendererSample extends Application {
 
   private MapView mapView;
-  private GraphicsOverlay graphicsOverlay;
-
-  // colors for symbols
-  private static final int PURPLE = 0xFF800080;
-  private static final int BLUE = 0xFF0000FF;
-  private static final int RED = 0xFFFF0000;
-  private static final int GREEN = 0xFF00FF00;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -62,128 +54,61 @@ public class AddGraphicsWithRendererSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a new ArcGISMap with a light grey canvas.
-      ArcGISMap map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
+      // create a map with topographic basemap
+      ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 15.169193, 16.333479, 2);
 
       // set the map to the view
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add the graphics overlay
-      graphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
+      // create a graphic overlay for the point
+      GraphicsOverlay pointGraphicOverlay = new GraphicsOverlay();
+      // create point geometry
+      Point point = new Point(40e5, 40e5, SpatialReferences.getWebMercator());
+      // red (0xFFFF0000) diamond point symbol
+      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xFFFF0000, 10);
+      // create graphic for point
+      Graphic pointGraphic = new Graphic(point);
+      // create simple renderer
+      SimpleRenderer pointRenderer = new SimpleRenderer(pointSymbol);
+      // set renderer on graphics overlay
+      pointGraphicOverlay.setRenderer(pointRenderer);
+      // add graphic to overlay
+      pointGraphicOverlay.getGraphics().add(pointGraphic);
+      // add graphics overlay to the MapView
+      mapView.getGraphicsOverlays().add(pointGraphicOverlay);
 
-      // set nesting locations
-      addNestingLocations();
+      // solid blue (0xFF0000FF) line graphic
+      GraphicsOverlay lineGraphicOverlay = new GraphicsOverlay();
+      PolylineBuilder lineGeometry = new PolylineBuilder(SpatialReferences.getWebMercator());
+      lineGeometry.addPoint(-10e5, 40e5);
+      lineGeometry.addPoint(20e5, 50e5);
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
+      Graphic lineGraphic = new Graphic(lineGeometry.toGeometry());
+      lineGraphicOverlay.getGraphics().add(lineGraphic);
+      SimpleRenderer lineRenderer = new SimpleRenderer(lineSymbol);
+      lineGraphicOverlay.setRenderer(lineRenderer);
+      mapView.getGraphicsOverlays().add(lineGraphicOverlay);
+
+      // solid yellow (0xFFFFFF00) polygon graphic
+      GraphicsOverlay polygonGraphicOverlay = new GraphicsOverlay();
+      PolygonBuilder polygonGeometry = new PolygonBuilder(SpatialReferences.getWebMercator());
+      polygonGeometry.addPoint(-20e5, 20e5);
+      polygonGeometry.addPoint(20e5, 20e5);
+      polygonGeometry.addPoint(20e5, -20e5);
+      polygonGeometry.addPoint(-20e5, -20e5);
+      Graphic polygonGraphic = new Graphic(polygonGeometry.toGeometry());
+      SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFFFFF00, null);
+      SimpleRenderer polygonRenderer = new SimpleRenderer(polygonSymbol);
+      polygonGraphicOverlay.setRenderer(polygonRenderer);
+      polygonGraphicOverlay.getGraphics().add(polygonGraphic);
+      mapView.getGraphicsOverlays().add(polygonGraphicOverlay);
 
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Creates Graphics for the nesting location of four different seabirds and
-   * adds them to the GraphicsOverlay. A UniqueValueRenderer is used to add
-   * Symbols to each of these nesting locations based on bird type.
-   */
-  private void addNestingLocations() {
-
-    // set spatial reference to be used in the point locations
-    SpatialReference wgs84 = SpatialReference.create(4326);
-
-    // create points to represent different bird nest locations
-    Point gannet1Loc = new Point(-2.6419183006274025, 56.07737682015417, wgs84);
-
-    Point eider1Loc = new Point(-2.6884384414498004, 56.0626208952164, wgs84);
-    Point eider2Loc = new Point(-2.7189941059014124, 56.0732572277308, wgs84);
-
-    Point puffin1Loc = new Point(-2.7203673941913724, 56.073448846445544, wgs84);
-    Point puffin2Loc = new Point(-2.639171724047482, 56.07843059864234, wgs84);
-
-    Point fulmar1Loc = new Point(-2.6690407443541138, 56.05821218553146, wgs84);
-    Point fulmar2Loc = new Point(-2.6390000630112374, 56.07785581394854, wgs84);
-    Point fulmar3Loc = new Point(-2.7201957331551276, 56.07440692573053, wgs84);
-    Point fulmar4Loc = new Point(-2.6889534245585356, 56.06242922266836, wgs84);
-    Point fulmar5Loc = new Point(-2.6390000630112374, 56.05294024052195, wgs84);
-    Point fulmar6Loc = new Point(-2.6542778952370436, 56.05821218553146, wgs84);
-
-    // create graphics for each bird using the points above
-    Graphic gannet1 = new Graphic(gannet1Loc);
-    Graphic eider1 = new Graphic(eider1Loc);
-    Graphic eider2 = new Graphic(eider2Loc);
-    Graphic puffin1 = new Graphic(puffin1Loc);
-    Graphic puffin2 = new Graphic(puffin2Loc);
-    Graphic fulmar1 = new Graphic(fulmar1Loc);
-    Graphic fulmar2 = new Graphic(fulmar2Loc);
-    Graphic fulmar3 = new Graphic(fulmar3Loc);
-    Graphic fulmar4 = new Graphic(fulmar4Loc);
-    Graphic fulmar5 = new Graphic(fulmar5Loc);
-    Graphic fulmar6 = new Graphic(fulmar6Loc);
-
-    // need to know what kind of bird it is when it renders
-    gannet1.getAttributes().put("SEABIRD", "Gannet");
-    eider1.getAttributes().put("SEABIRD", "Eider");
-    eider2.getAttributes().put("SEABIRD", "Eider");
-    puffin1.getAttributes().put("SEABIRD", "Puffin");
-    puffin2.getAttributes().put("SEABIRD", "Puffin");
-    fulmar1.getAttributes().put("SEABIRD", "Fulmar");
-    fulmar2.getAttributes().put("SEABIRD", "Fulmar");
-    fulmar3.getAttributes().put("SEABIRD", "Fulmar");
-    fulmar4.getAttributes().put("SEABIRD", "Fulmar");
-    fulmar5.getAttributes().put("SEABIRD", "Fulmar");
-    fulmar6.getAttributes().put("SEABIRD", "Fulmar");
-
-    // adds graphics to the overlay
-    graphicsOverlay.getGraphics().add(gannet1);
-    graphicsOverlay.getGraphics().add(eider1);
-    graphicsOverlay.getGraphics().add(eider2);
-    graphicsOverlay.getGraphics().add(puffin1);
-    graphicsOverlay.getGraphics().add(puffin2);
-    graphicsOverlay.getGraphics().add(fulmar1);
-    graphicsOverlay.getGraphics().add(fulmar2);
-    graphicsOverlay.getGraphics().add(fulmar3);
-    graphicsOverlay.getGraphics().add(fulmar4);
-    graphicsOverlay.getGraphics().add(fulmar5);
-    graphicsOverlay.getGraphics().add(fulmar6);
-
-    // renders graphics to the map view by applying symbols to them
-    UniqueValueRenderer uniqueValRenderer = new UniqueValueRenderer();
-    // so the renderer knows what attribute it is looking for
-    uniqueValRenderer.getFieldNames().add("SEABIRD");
-
-    // create symbols to represent the different nesting locations
-    SimpleMarkerSymbol gannetMarker = new SimpleMarkerSymbol(Style.TRIANGLE, PURPLE, 10);
-    SimpleMarkerSymbol eiderMarker = new SimpleMarkerSymbol(Style.DIAMOND, BLUE, 10);
-    SimpleMarkerSymbol puffinMarker = new SimpleMarkerSymbol(Style.CIRCLE, RED, 10);
-    SimpleMarkerSymbol fulmarMarker = new SimpleMarkerSymbol(Style.CROSS, GREEN, 10);
-
-    // set UniqueValue renders for each nesting type
-    List<Object> gannetValue = new ArrayList<>();
-    gannetValue.add("Gannet"); // name of the bird we are looking for
-    UniqueValue uvGannet =
-        // label, description, symbol, value to match to symbol
-        new UniqueValue("Gannet", "Gannet", gannetMarker, gannetValue);
-    uniqueValRenderer.getUniqueValues().add(uvGannet);
-
-    List<Object> eiderValue = new ArrayList<>();
-    eiderValue.add("Eider");
-    UniqueValue uvEider = new UniqueValue("Eider", "Eider", eiderMarker, eiderValue);
-    uniqueValRenderer.getUniqueValues().add(uvEider);
-
-    List<Object> puffinValue = new ArrayList<>();
-    puffinValue.add("Puffin");
-    UniqueValue uvPuffin = new UniqueValue("Puffin", "Puffin", puffinMarker, puffinValue);
-    uniqueValRenderer.getUniqueValues().add(uvPuffin);
-
-    List<Object> fulmarValue = new ArrayList<>();
-    fulmarValue.add("Fulmar");
-    UniqueValue uvFulmar = new UniqueValue("Fulmar", "Fulmar", fulmarMarker, fulmarValue);
-    uniqueValRenderer.getUniqueValues().add(uvFulmar);
-
-    // set UniqueValue renderer to the graphics in the graphics overlay
-    graphicsOverlay.setRenderer(uniqueValRenderer);
   }
 
   /**
