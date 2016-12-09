@@ -14,10 +14,10 @@ on your portal. Click the Save button to save the map to the chosen folder.
 
 <p>To create and save a map to your portal for use in an app:</p>
 <ol>
-  <li>Create an <ccde>ArcGISMap</code> with a <code>Basemap</code> and operational layers</li>
+  <li>Create an <code>ArcGISMap</code> with a <code>Basemap</code> and operational layers</li>
   <li>Create an <code>OAuthConfiguration</code> with your portal and app credential.</li>
-  <li>Add the configuration to the <code>AuthenticationMangager</li>
-  <li>Create a <code>Portal</code> and load it. Use a custom <code>AuthenticationChallengeHandler</li> to 
+  <li>Add the configuration to the <code>AuthenticationMangager</code></li>
+  <li>Create a <code>Portal</code> and load it. Use a custom <code>AuthenticationChallengeHandler</code> to 
   authenticate with your username and password</li>
   <li>Once authenticated, save the map by calling <code>map.saveMapAsAsync()</code>, passing in the title, tags, 
   description, and portal folder</li>
