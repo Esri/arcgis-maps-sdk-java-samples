@@ -41,7 +41,7 @@ public class StretchRendererController {
 
   public void initialize() {
 
-    // create rasters
+    // create raster
     Raster raster = new Raster(new File("./samples-data/raster/ShastaBW.tif").getAbsolutePath());
 
     // create a raster layer
