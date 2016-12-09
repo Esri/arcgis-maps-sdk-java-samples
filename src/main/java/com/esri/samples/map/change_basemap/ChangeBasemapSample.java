@@ -76,9 +76,6 @@ public class ChangeBasemapSample extends Application {
 
         // listener to switch ArcGISMap types when button clicked
         button.setOnAction(e -> {
-          if (map != null) {
-            mapView.setMap(null);
-          }
           map = new ArcGISMap(Basemap.Type.valueOf(basemapString), LATITUDE, LONGITUDE, LOD);
           mapView.setMap(map);
         });
