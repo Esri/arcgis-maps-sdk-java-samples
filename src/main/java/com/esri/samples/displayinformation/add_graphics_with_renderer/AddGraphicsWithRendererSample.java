@@ -65,10 +65,10 @@ public class AddGraphicsWithRendererSample extends Application {
       GraphicsOverlay pointGraphicOverlay = new GraphicsOverlay();
       // create point geometry
       Point point = new Point(40e5, 40e5, SpatialReferences.getWebMercator());
-      // red (0xFFFF0000) diamond point symbol
-      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xFFFF0000, 10);
       // create graphic for point
       Graphic pointGraphic = new Graphic(point);
+      // red (0xFFFF0000) diamond point symbol
+      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xFFFF0000, 10);
       // create simple renderer
       SimpleRenderer pointRenderer = new SimpleRenderer(pointSymbol);
       // set renderer on graphics overlay
@@ -83,9 +83,9 @@ public class AddGraphicsWithRendererSample extends Application {
       PolylineBuilder lineGeometry = new PolylineBuilder(SpatialReferences.getWebMercator());
       lineGeometry.addPoint(-10e5, 40e5);
       lineGeometry.addPoint(20e5, 50e5);
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
       Graphic lineGraphic = new Graphic(lineGeometry.toGeometry());
       lineGraphicOverlay.getGraphics().add(lineGraphic);
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
       SimpleRenderer lineRenderer = new SimpleRenderer(lineSymbol);
       lineGraphicOverlay.setRenderer(lineRenderer);
       mapView.getGraphicsOverlays().add(lineGraphicOverlay);
@@ -98,10 +98,10 @@ public class AddGraphicsWithRendererSample extends Application {
       polygonGeometry.addPoint(20e5, -20e5);
       polygonGeometry.addPoint(-20e5, -20e5);
       Graphic polygonGraphic = new Graphic(polygonGeometry.toGeometry());
+      polygonGraphicOverlay.getGraphics().add(polygonGraphic);
       SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFFFFF00, null);
       SimpleRenderer polygonRenderer = new SimpleRenderer(polygonSymbol);
       polygonGraphicOverlay.setRenderer(polygonRenderer);
-      polygonGraphicOverlay.getGraphics().add(polygonGraphic);
       mapView.getGraphicsOverlays().add(polygonGraphicOverlay);
 
       // add the map view to stack pane
