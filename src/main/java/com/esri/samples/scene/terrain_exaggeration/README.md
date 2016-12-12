@@ -6,7 +6,7 @@
 
 <h2>How to use the sample</h2>
 
-<p>Selecting an exaggeration amount from the slider will apply that ammonut to the scene's surface.</p>
+<p>Selecting an exaggeration amount from the slider will apply that to the scene's surface.</p>
 
 <h2>How it works</h2>
 
