@@ -10,7 +10,7 @@
 
 <h2>How it works</h2>
 
-<p>To set exaggeration to a <code>Scene</code>'s <code>Surface</code>:</p>
+<p>To set exaggeration of a <code>Scene</code>'s <code>Surface</code>:</p>
 
 <ol>
   <li>Create an elevated surface and add it to the scene, <code>Surface.getElevationSources().add("Elevation URL")</code></li>
