@@ -1,38 +1,27 @@
-<!--Sample name-->
-<h1>Offline Routing</h1>
+<h1>Terrain Exaggeration</h1>
 
-<!--Short paragraph describing the main idea of the sample, what workflow it aims to address, or why it might be useful. Don't use `code` blocks here.-->
-<p>Demonstrates how to solve a route on-the-fly using only offline data.</p>
+<p>Demonstrates how to add vertical exaggeration to a scene surface.</p>
 
-<!--Image: GIF if the sample has one, PNG otherwise. Do not add title or other attributes-->
-<p><img src="OfflineRouting.gif"/></p>
+<p><img src="TerrainExaggeration.PNG"/></p>
 
 <h2>How to use the sample</h2>
 
-<!--Describe what the UI components (buttons, menus, etc) are supposed to do or what interactions you are supposed to perform on the map/scene to see the sample's functionality-->
-<p>Left-click near a road to add a stop to the route. A number graphic will show its order in the route. After adding at least 2 stops, a route will display. Use the combo box in the top left corner to choose between the travel
-modes "Fastest" and "Shortest" (how the route is optimized). To move a stop, right-click the graphic to select it, then move your mouse to reposition, and finally right-click again to set the new position. The route will update
-on-the-fly while moving stops.</p>
+<p>Selecting an exaggeration amount from the slider will apply that ammonut to the scene's surface.</p>
 
 <h2>How it works</h2>
 
-<!--Convention: To do the main feature demonstrated by this sample: ...-->
-<p>To display a <code>Route</code> using a <code>RouteTask</code> with offline data:</p>
+<p>To set exaggeration to a <code>Scene</code>'s <code>Surface</code>:</p>
 
-<!--A general overview of steps in the code. Don't get too specific and avoid talking about user interaction, or specific datasets. Think of this section as the plan of attack for writing the sample.-->
 <ol>
-  <li>Create the map's <code>Basemap</code> from a local tile package using a <code>TileCache</code> and <code>ArcGISTiledLayer</code></li>
-  <li>Create a <code>RouteTask</code> with an offline locator geodatabase</li>
-  <li>Get the <code>RouteParameters</code> using <code>routeTask.createDefaultParameters()</code></li>
-  <li>Create <code>Stop</code>s and add them to the route task's parameters.</li>
-  <li>Solve the <code>Route</code> using <code>routeTask.solveRouteAsync(routeParameters)</code></li>
-  <li>Create a graphic with the route's geometry and a <code>SimpleLineSymbol</code> and display it on another
-  <code>GraphicsOverlay</code>.</li>
+  <li>Create an elevated surface and add it to the scene, <code>Surface.getElevationSources().add("Elevation URL")</code></li>
+  <li>Add surface to the scene, <code> scene.setBaseSurface(Surface)</code></li>
+  <li>Set exaggeration amount of the surface, <code>Surface.setElevationExaggeration(Exaggeration Amount)</code></li>
 </ol>
 
 <h2>Features</h2>
 
-<!--This should contain tags like "Offline" or "3D" and classes used by the samples. Order alphabetically.-->
 <ul>
-  <li>ArcGISMap</li>
+  <li>ArcGISScene</li>
+  <li>ArcGISSurface</li>
+  <li>ArcGISTiledElevationSource</li>
 </ul>
