@@ -1,26 +1,36 @@
-<h1>Display Scene</h1>
+<h1>Feature Collection Layer</h1>
 
-<p>Demonstrates how to display a scene with an elevation source. An elevation source allows objects to be viewed in 3D, like this picture of Mt. Everest.</p>
+<p>Demonstrates how to create a new Feature Collection with a Point, Polyline, and Polygon Feature Collection Table. The Feature Collection is then displayed on the ArcGISMap as a Layer.</p>
 
-<p><img src="DisplayScene.png"/></p>
+<p><img src="FeatureCollectionLayer.PNG"/></p>
 
 <h2>How it works</h2>
 
-<p>To create an <code>ArcGISScene</code> with elevation data:</p>
+<p>To display a <code>FeatureCollection</code> as a <code>FeatureCollectionLayer</code> on an <code>ArcGISMap</code> using different <code>FeatureCollectionTable</code>s:</p>
 
 <ol>
-    <li>Create an ArcGIS scene and set the <code>Basemap</code> with <code>ArcGISScene.setBasemap()</code>.</li>
-    <li>Create a <code>SceneView</code> and set the scene to the view, <code>SceneView.setScene(scene)</code>.</li>
-    <li>Create a <code>Surface</code> and add a <code>ArcGISTiledElevationSource</code>, <code>Surface.getElevationSources().add()</code>.</li>
-    <li>Set the surface as the scene's base surface: <code>ArcGIScene.setBaseSurface(surface)</code>.</li>
+    <li>Create a feature collection layer using a new feature collection, <code>new FeatureCollectionLayer(FeatureCollection)</code></li>
+    <li>The layer is then added to the map <code>ArcGISap.getOperationalLayers().add(FeatureCollectionLayer)</code>.</li>
+    <li>A feature collection table is then created for the <code>GeometryType</code>s <code>Point</code> <code>Polyline</code> <code>Polygon</code>, <code>new FeatureCollectionTable(Fields, GeometryType, SpatialRefernce)</code></li>
+      <ol>
+        <li><code>Field</code>s is a list of the geometry's attributes defining attribute's name</li>
+      </ol>
+    <li>A <code>SimpleRenderer</code> is then assigned to each table which will render any <code>Feature</code>s from that table using the <code>Symbol</code> that was set.</li>
+    <li>The table is then added to the feature collection, <code>FeatureCollection.getTables().add(FeatureCollectionTable)</code>.</li>
+    <li>To create a feature from the feature collection table use the createFeature method passing an attribute and geometry for that feature, <code>FeatureCollectionTable.createFeature(attributes, Geometry)</code>.</li>
+    <li>Add new feature to the table,  <code>FeatureCollectionTable.addFeatureAsync(Feature)</code>.</li>
 </ol>
 
 <h2>Features</h2>
 
 <ul>
-    <li>ArcGISScene</li>
-    <li>ArcGISTiledElevationSource</li>
-    <li>Camera</li>
-    <li>SceneView</li>
-    <li>Surface</li>
+    <li>FeatureCollection</li>
+    <li>FeatureCollectionLayer</li>
+    <li>FeatureCollectionTable</li>
+    <li>Feature</li>
+    <li>Field</li>
+    <li>SimpleFillSymbol</li>
+    <li>SimpleLineSymbol</li>
+    <li>SimpleMarkerSymbol</li>
+    <li>SimpleRenderer</li>
 </ul>
