@@ -12,8 +12,8 @@
     <li>Create a geodatabase using the provided local resource, <code>new Geodatabase("GeodatabaseResourceUrl")</code>.</li>
     <li>Wait for geodatabase to load, <code>Geodatabase.addDoneLoadingListener(Runnable)</code></li>
     <li>Get the `Trailheads`<code>GeodatabaseFeatureTable</code> from the geodatabase, <code>Geodatabase.getGeodatabaseFeatureTable("TableName")</code></li>
-    <li>Make sure to load the geodatabase feature table, GeodatabaseFeatureTable.loadAsync()</li>
-    <li>Create feature layer using the table from above, new FeatureLayer(GeodatabaseFeatureTable)</li>
+    <li>Make sure to load the geodatabase feature table, <code>GeodatabaseFeatureTable.loadAsync()</code></li>
+    <li>Create feature layer using the table from above, <code>new FeatureLayer(GeodatabaseFeatureTable)</code></li>
     <li>Add feature layer to <code>ArcGISMap</code>, <code>ArcGISMap.getOperationalLayers().add(FeatureLayer)</code></li>
 </ol>
 
