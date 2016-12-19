@@ -250,13 +250,14 @@ public class OfflineRoutingSample extends Application {
           routeOverlay.getGraphics().clear();
           routeOverlay.getGraphics().add(graphic);
 
+        } catch (InterruptedException | ExecutionException e) {
+          // ignore, no route solution
+
+        } finally {
           // add mouse moved listener back
           if (!stopsOverlay.getSelectedGraphics().isEmpty()) {
             mapView.setOnMouseMoved(mouseMovedListener);
           }
-
-        } catch (InterruptedException | ExecutionException e) {
-          e.printStackTrace();
         }
       });
     }

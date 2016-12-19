@@ -12,13 +12,13 @@ in dark images.</p>
 
 <h2>How it works</h2>
 
-<p>To apply a `StretchRenderer` to a `RasterLayer`:</p>
+<p>To apply a <code>StretchRenderer</code> to a <code>RasterLayer</code>:</p>
 <ol>
-  <li>Create a `Raster` from a raster file</li>
-  <li>Create a `RasterLayer` from the raster</li>
-  <li>Create a `Basemap` from the raster layer and set it to the map</li>
-  <li>Create a `StretchRenderer`, specifying the stretch parameters and other properties</li>
-  <li>Set the renderer on the raster layer with `rasterLayer.setRenderer(renderer)`</li>
+  <li>Create a <code>Raster</code> from a raster file</li>
+  <li>Create a <code>RasterLayer</code> from the raster</li>
+  <li>Create a <code>Basemap</code> from the raster layer and set it to the map</li>
+  <li>Create a <code>StretchRenderer</code>, specifying the stretch parameters and other properties</li>
+  <li>Set the renderer on the raster layer with <code>rasterLayer.setRenderer(renderer)</code></li>
 </ol>
 
 <h2>Features</h2>
