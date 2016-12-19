@@ -10,10 +10,10 @@
 
 <ol>
     <li>Create a feature collection layer using a new feature collection, <code>new FeatureCollectionLayer(FeatureCollection)</code></li>
-    <li>The layer is then added to the map <code>ArcGISap.getOperationalLayers().add(FeatureCollectionLayer)</code>.</li>
+    <li>The layer is then added to the map, <code>ArcGISap.getOperationalLayers().add(FeatureCollectionLayer)</code>.</li>
     <li>A feature collection table is then created for the <code>GeometryType</code>s <code>Point</code> <code>Polyline</code> <code>Polygon</code>, <code>new FeatureCollectionTable(Fields, GeometryType, SpatialRefernce)</code></li>
       <ol>
-        <li><code>Field</code>s is a list of the geometry's attributes defining attribute's name</li>
+        <li><code>Field</code>s is a list of the feature's attributes, which this one defines it's name.</li>
       </ol>
     <li>A <code>SimpleRenderer</code> is then assigned to each table which will render any <code>Feature</code>s from that table using the <code>Symbol</code> that was set.</li>
     <li>The table is then added to the feature collection, <code>FeatureCollection.getTables().add(FeatureCollectionTable)</code>.</li>
