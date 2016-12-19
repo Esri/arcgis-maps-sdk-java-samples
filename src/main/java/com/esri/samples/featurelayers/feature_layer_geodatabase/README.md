@@ -1,4 +1,4 @@
-<h1>Feature Layer (Geodatabase)/h1>
+<h1>Feature Layer (Geodatabase)</h1>
 
 <p>Demonstrates how to consume an Esri Geodatabase by using a FeatureLayer and a GeodatabaseFeatureTable.</p>
 
