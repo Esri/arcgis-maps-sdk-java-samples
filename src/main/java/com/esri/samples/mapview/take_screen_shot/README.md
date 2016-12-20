@@ -13,7 +13,7 @@
 
 <p>Dialog Box</p>
 <ul>
-    <li>Save Button: Save image as `MapViewScreenShot.png` in same folder as TakeScreenShot.java</li>
+    <li>Save Button: saves image as `MapViewScreenShot.png` in same folder location as TakeScreenShot.java</li>
     <li>Cancel Button: exits dialog and goes back to MapView.</li>
 </ul>
 
