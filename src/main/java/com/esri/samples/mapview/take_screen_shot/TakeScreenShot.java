@@ -72,7 +72,7 @@ public class TakeScreenShot extends Application {
       fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG file (*.png)", "*.png"));
 
       // create button to take screen shot
-      Button screenShotButton = new Button("Take Screen Shot");
+      Button screenShotButton = new Button("Take Screenshot");
       screenShotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
       screenShotButton.setOnAction(e -> {
         // export image from map view
