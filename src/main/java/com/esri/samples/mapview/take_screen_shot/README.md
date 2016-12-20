@@ -1,8 +1,8 @@
-<h1>Display a Map</h1>
+<h1>Take Screen Shot (MapView)</h1>
 
 <p>Demonstrates how to create ArcGISMap using a basemap. A basemap is beneath all other layers on a ArcGISMap and provides visual reference to other layers.</p>
 
-<p><img src="DisplayMap.png"/></p>
+<p><img src="TakeScreenShot.gif"/></p>
 
 <h2>How it works</h2>
 
