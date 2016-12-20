@@ -1,23 +1,36 @@
 <h1>Take Screen Shot (MapView)</h1>
 
-<p>Demonstrates how to create ArcGISMap using a basemap. A basemap is beneath all other layers on a ArcGISMap and provides visual reference to other layers.</p>
+<p>Demonstrates how to export a section of the ArcGISMap as an image file.</p>
 
-<p><img src="TakeScreenShot.gif"/></p>
+<p><img src="TakeScreenShot.PNG"/></p>
+
+<h2>How to use this Sample</h2>
+
+<p>Take Screen Shot Button</p>
+<ol>
+    <li>Takes a screen shot of the current view and display in a dialog box.</li>
+</ol>
+
+<p>Dialog Box</p>
+<ol>
+    <li>Save Button: Save image as `MapViewScreenShot.png` in same folder as TakeScreenShot.java</li>
+    <li>Cancel Button: exits dialog and goes back to MapView.</li>
+</ol>
 
 <h2>How it works</h2>
 
-<p>To display a <code>ArcGISMap</code>:</p>
+<p>To export a section of the <code>ArcGISMap</code> as an image file:</p>
 
 <ol>
-    <li>Create an ArcGIS map using a default <code>Basemap</code> such use <code>Basemap.createImagery()</code>.  </li>
-    <li>Set the map to the map view, <code>MapView.setMap()</code>. </li>
+    <li>To export an image from the <code>MapView</code>, <code>MapView.exportImageAsync()</code></li>
+    <li>Listen for image to be done exporting, <code>ListenableFuture.addDoneListener(Runnable)</code></li>
+    <li>Get Image from listener, <code>ListenableFuture.get()</code></li>
 </ol>
 
 <h2>Features</h2>
 
 <ul>
     <li>ArcGISMap</li>
-    <li>Basemap</li>
     <li>MapView</li>
 </ul>
 
