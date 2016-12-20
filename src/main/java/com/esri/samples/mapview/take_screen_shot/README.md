@@ -7,15 +7,15 @@
 <h2>How to use this Sample</h2>
 
 <p>Take Screen Shot Button</p>
-<ol>
+<ul>
     <li>Takes a screen shot of the current view and display in a dialog box.</li>
-</ol>
+</ul>
 
 <p>Dialog Box</p>
-<ol>
+<ul>
     <li>Save Button: Save image as `MapViewScreenShot.png` in same folder as TakeScreenShot.java</li>
     <li>Cancel Button: exits dialog and goes back to MapView.</li>
-</ol>
+</ul>
 
 <h2>How it works</h2>
 
