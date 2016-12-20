@@ -34,6 +34,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -65,18 +66,27 @@ public class TakeScreenShot extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+      // create a file chooser for saving image
+      final FileChooser fileChooser = new FileChooser();
+      fileChooser.setInitialFileName("map-screenshot");
+      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG file (*.png)", "*.png"));
+
       // create button to take screen shot
       Button screenShotButton = new Button("Take Screen Shot");
       screenShotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
       screenShotButton.setOnAction(e -> {
-
-        // creating image from map view
+        // export image from map view
         ListenableFuture<Image> mapImage = mapView.exportImageAsync();
         mapImage.addDoneListener(() -> {
           try {
-            // display dialog with map view image
+            // get image
             Image image = mapImage.get();
-            createAlertDialog(new ImageView(image));
+            // choose a location to save the file
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null) {
+              // write the image to the save location
+              ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+            }
           } catch (Exception ex) {
             ex.printStackTrace();
           }
@@ -86,39 +96,9 @@ public class TakeScreenShot extends Application {
       // add the map view to stack pane
       borderPane.setCenter(mapView);
       borderPane.setBottom(screenShotButton);
-      BorderPane.setAlignment(screenShotButton, Pos.CENTER);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
-    }
-  }
-
-  /**
-   * Creates an alert dialog that set the ImageView that was passed as it's main content.
-   * <p>
-   * The save button, saves the Image in the ImageView to this folder location.
-   * The cancel button, will exit out of the dialog.
-   *  
-   * @param imageView holds image to display within alert dialog
-   * @throws Exception if file can't be saved
-   */
-  private void createAlertDialog(ImageView imageView) throws Exception {
-
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("Save Image Dialog");
-    alert.setHeaderText("MapView Screen Shot Image");
-    ButtonType buttonTypeOne = new ButtonType("Save", ButtonData.OK_DONE);
-    ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-    alert.getDialogPane().setContent(imageView);
-    alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
-    Optional<ButtonType> result = alert.showAndWait();
-
-    if (result.get() == buttonTypeOne) {
-
-      File output = new File(System.getProperty("user.dir") +
-          "/src/main/java/com/esri/samples/mapview/take_screen_shot/MapViewScreenShot.png");
-      BufferedImage buffedImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
-      ImageIO.write(buffedImage, "png", output);
     }
   }
 
