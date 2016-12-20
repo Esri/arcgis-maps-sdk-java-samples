@@ -1,4 +1,4 @@
-<h1>Take Screen Shot (MapView)</h1>
+<h1>Take Screen Shot</h1>
 
 <p>Demonstrates how to export a section of the ArcGISMap as an image file.</p>
 
@@ -6,25 +6,16 @@
 
 <h2>How to use this Sample</h2>
 
-<p>Take Screen Shot Button</p>
-<ul>
-    <li>Takes a screen shot of the current view and display in a dialog box.</li>
-</ul>
-
-<p>Dialog Box</p>
-<ul>
-    <li>Save Button: saves image as `MapViewScreenShot.png` in same folder location as TakeScreenShot.java</li>
-    <li>Cancel Button: exits dialog and goes back to MapView.</li>
-</ul>
+Click the Take Screenshot button to export the image. In the file chooser that opens, set a file name and location to
+ save the image.
 
 <h2>How it works</h2>
 
-<p>To export a section of the <code>ArcGISMap</code> as an image file:</p>
+<p>To export the visible area of the <code>ArcGISMap</code> as an image file:</p>
 
 <ol>
-    <li>To export an image from the <code>MapView</code>, <code>MapView.exportImageAsync()</code></li>
-    <li>Listen for image to be done exporting, <code>ListenableFuture.addDoneListener(Runnable)</code></li>
-    <li>Get Image from listener, <code>ListenableFuture.get()</code></li>
+    <li>Export the image with <code>mapView.exportImageAsync()</code></li>
+    <li>Get the <code>Image</code> from the done loading listener</li>
 </ol>
 
 <h2>Features</h2>
