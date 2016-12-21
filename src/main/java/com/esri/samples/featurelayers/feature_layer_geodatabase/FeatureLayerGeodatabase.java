@@ -25,12 +25,9 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.layers.ArcGISVectorTiledLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class FeatureLayerGeodatabase extends Application {
@@ -53,31 +50,24 @@ public class FeatureLayerGeodatabase extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // add vector tiled layer of Los Angeles as basemap to map
-      String vectorTileUrl = new File(getClass().getResource("/LosAngeles.vtpk").getPath()).getAbsolutePath();
-      ArcGISVectorTiledLayer tiledLayer = new ArcGISVectorTiledLayer(vectorTileUrl);
-      tiledLayer.loadAsync();
-      Basemap basemap = new Basemap(tiledLayer);
-      ArcGISMap map = new ArcGISMap(basemap);
-
-      // add map to voew
+      // create map and add to view
+      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set initial view point of map view with scale 
-      Point initialPoint = new Point(-1.3160351979111826E7, 4033294.989576314, mapView.getSpatialReference());
-      mapView.setViewpointAsync(new Viewpoint(initialPoint, 35e4));
-
       // create geodatabase from local resource
-      String geodatabaseUrl = new File(getClass().getResource("/LA_Trails.geodatabase").getPath()).getAbsolutePath();
+      String geodatabaseUrl = new File("samples-data/los_angeles/LA_Trails.geodatabase").getAbsolutePath();
       Geodatabase geodatabase = new Geodatabase(geodatabaseUrl);
       geodatabase.addDoneLoadingListener(() -> {
         // access the geodatabase's feature table Trailheads
         GeodatabaseFeatureTable geodatabaseFeatureTable = geodatabase.getGeodatabaseFeatureTable("Trailheads");
-        geodatabaseFeatureTable.loadAsync();
 
         // create a layer from the geodatabase feature table above and add to map
         FeatureLayer featureLayer = new FeatureLayer(geodatabaseFeatureTable);
+        featureLayer.addDoneLoadingListener(() -> {
+          // set viewpoint to the location of feature layer's features
+          mapView.setViewpointCenterAsync(featureLayer.getFullExtent().getCenter(), 1000000);
+        });
         map.getOperationalLayers().add(featureLayer);
       });
       // load geodatabase
