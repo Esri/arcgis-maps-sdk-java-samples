@@ -95,7 +95,7 @@ public class FeatureCollectionLayerSample extends Application {
   /**
    * Creates a Point Feature Collection Table with one Point and adds it to the Feature collection that was passed.
    * 
-   * @param featureCollection
+   * @param featureCollection that the point Feature Collection Table will be added to
    */
   private void createPointTable(FeatureCollection featureCollection) {
 
@@ -106,8 +106,7 @@ public class FeatureCollectionLayerSample extends Application {
     // a feature collection table that creates point geometry
     FeatureCollectionTable pointsTable = new FeatureCollectionTable(pointFields, GeometryType.POINT, WGS84);
 
-    // a default symbol used to display any features from the feature collection table that are not already assigned a
-    // symbol
+    // set a default symbol for features in the collection table
     SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(Style.TRIANGLE, 0xFFFF0000, 18);
     SimpleRenderer renderer = new SimpleRenderer(markerSymbol);
     pointsTable.setRenderer(renderer);
@@ -128,7 +127,7 @@ public class FeatureCollectionLayerSample extends Application {
   /**
    * Creates a PolyLine Feature Collection Table with one PolyLine and adds it to the Feature collection that was passed.
    * 
-   * @param featureCollection
+   * @param featureCollection that the polyline Feature Collection Table will be added to
    */
   private void createPolylineTable(FeatureCollection featureCollection) {
 
@@ -139,8 +138,7 @@ public class FeatureCollectionLayerSample extends Application {
     // a feature collection table that creates polyline geometry
     FeatureCollectionTable polylineTable = new FeatureCollectionTable(polylineFields, GeometryType.POLYLINE, WGS84);
 
-    // a default symbol used to display any features from the feature collection table that are not already assigned a
-    // symbol
+    // set a default symbol for features in the collection table
     SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF00FF00, 3);
     SimpleRenderer renderer = new SimpleRenderer(lineSymbol);
     polylineTable.setRenderer(renderer);
@@ -163,7 +161,7 @@ public class FeatureCollectionLayerSample extends Application {
   /**
    * Creates a Polygon Feature Collection Table with one Polygon and adds it to the Feature collection that was passed.
    * 
-   * @param featureCollection
+   * @param featureCollection that the polygon Feature Collection Table will be added to
    */
   private void createPolygonTables(FeatureCollection featureCollection) {
 
@@ -174,8 +172,7 @@ public class FeatureCollectionLayerSample extends Application {
     // a feature collection table that creates polygon geometry
     FeatureCollectionTable polygonTable = new FeatureCollectionTable(polygonFields, GeometryType.POLYGON, WGS84);
 
-    // a default symbol used to display any features from the feature collection table that are not already assigned a
-    // symbol
+    // set a default symbol for features in the collection table
     SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2);
     SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFF00FFFF, lineSymbol);
     SimpleRenderer renderer = new SimpleRenderer(fillSymbol);
