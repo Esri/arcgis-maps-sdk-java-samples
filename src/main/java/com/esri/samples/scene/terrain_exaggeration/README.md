@@ -10,18 +10,18 @@
 
 <h2>How it works</h2>
 
-<p>To set exaggeration of a <code>Scene</code>'s <code>Surface</code>:</p>
+<p>To exaggerate a <code>Scene</code>'s <code>Surface</code>:</p>
 
 <ol>
-  <li>Create an elevated surface and add it to the scene, <code>Surface.getElevationSources().add("Elevation URL")</code></li>
+  <li>Create an elevated surface and add it to the scene, <code>Surface.getElevationSources().add("elevationURL")</code></li>
   <li>Add surface to the scene, <code> scene.setBaseSurface(Surface)</code></li>
-  <li>Set exaggeration amount of the surface, <code>Surface.setElevationExaggeration(Exaggeration Amount)</code></li>
+  <li>Set exaggeration amount of the surface, <code>Surface.setElevationExaggeration(exaggeration)</code></li>
 </ol>
 
 <h2>Features</h2>
 
 <ul>
   <li>ArcGISScene</li>
-  <li>ArcGISSurface</li>
+  <li>Surface</li>
   <li>ArcGISTiledElevationSource</li>
 </ul>
