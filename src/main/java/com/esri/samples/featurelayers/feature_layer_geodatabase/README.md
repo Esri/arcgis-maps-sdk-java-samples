@@ -31,4 +31,4 @@
 ##Offline Data
 Link | Local Location
 ---------|-------|
-|[Los Angeles Trailheads](https://www.arcgis.com/home/item.html?id=2b0f9e17105847809dfeb04e3cad69e0)| `<userhome>`/arcgis-runtime-samples-java/samples-data/geodatabase/LA_Trails.geodatabase |
+|[Los Angeles Trailheads](https://www.arcgis.com/home/item.html?id=2b0f9e17105847809dfeb04e3cad69e0)| `<userhome>`/arcgis-runtime-samples-java/samples-data/los_angeles/LA_Trails.geodatabase |
