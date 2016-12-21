@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to add vertical exaggeration to a scene's surface.</p>
 
-<p><img src="TerrainExaggeration.PNG"/></p>
+<p><img src="TerrainExaggeration.gif"/></p>
 
 <h2>How to use the sample</h2>
 
