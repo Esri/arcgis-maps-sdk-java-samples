@@ -33,11 +33,6 @@ public class TerrainExaggerationController {
   @FXML private SceneView sceneView;
   @FXML private Slider exaggerationSlider;
 
-  private static final String ELEVATION_IMAGE_SERVICE =
-      "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
-  private static final String TILED_LAYER =
-      "http://tiles.arcgis.com/tiles/Sf0q24s0oDKgX14j/arcgis/rest/services/TIN_DataStructure/MapServer";
-
   public void initialize() {
 
     try {
