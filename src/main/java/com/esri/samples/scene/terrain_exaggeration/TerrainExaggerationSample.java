@@ -15,72 +15,32 @@
  */
 package com.esri.samples.scene.terrain_exaggeration;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import java.io.IOException;
 
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
-import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.view.Camera;
-import com.esri.arcgisruntime.mapping.view.SceneView;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class TerrainExaggerationSample extends Application {
 
-  private SceneView sceneView;
+  private static TerrainExaggerationController controller;
 
   @Override
-  public void start(Stage stage) throws Exception {
-    // create stack pane and JavaFX app scene
-    StackPane stackPane = new StackPane();
-    Scene fxScene = new Scene(stackPane);
+  public void start(Stage stage) throws IOException {
+    // set up the scene
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/terrain_exaggeration.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene scene = new Scene(root);
 
     // set up the stage
     stage.setTitle("Terrain Exaggeration Sample");
     stage.setWidth(800);
     stage.setHeight(700);
-    stage.setScene(fxScene);
+    stage.setScene(scene);
     stage.show();
-
-    try {
-      // create a scene and add a basemap to it
-      ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createNationalGeographic());
-
-      // add the SceneView to the stack pane
-      sceneView = new SceneView();
-      sceneView.setArcGISScene(scene);
-
-      // add base surface for elevation data
-      Surface surface = new Surface();
-      final String elevationImageService =
-          "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(elevationImageService));
-      surface.setElevationExaggeration(5);
-      scene.setBaseSurface(surface);
-
-      // add terrain layer to scene
-      final String imageLayer =
-          "https://gis.grantcountywa.gov:6443/arcgis/rest/services/EveryoneData/SlopePercent/MapServer";
-      ArcGISMapImageLayer layer = new ArcGISMapImageLayer(imageLayer);
-      layer.loadAsync();
-      scene.getOperationalLayers().add(layer);
-
-      // add a camera and initial camera position
-      Point initialLocation = new Point(-119.94891542688772, 46.75792111605992, 0, sceneView.getSpatialReference());
-      Camera camera = new Camera(initialLocation, 15000.0, 40.0, 60.0, 0.0);
-      sceneView.setViewpointCamera(camera);
-
-      // add the SceneView to the stack pane
-      stackPane.getChildren().add(sceneView);
-    } catch (Exception e) {
-      // on any exception, print the stack trace
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -88,9 +48,7 @@ public class TerrainExaggerationSample extends Application {
    */
   @Override
   public void stop() {
-
-    if (sceneView != null)
-      sceneView.dispose();
+    controller.terminate();
   }
 
   /**
