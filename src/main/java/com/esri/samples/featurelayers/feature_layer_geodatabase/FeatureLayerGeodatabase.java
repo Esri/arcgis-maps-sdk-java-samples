@@ -68,6 +68,7 @@ public class FeatureLayerGeodatabase extends Application {
           // set viewpoint to the location of feature layer's features
           mapView.setViewpointCenterAsync(featureLayer.getFullExtent().getCenter(), 1000000);
         });
+        // display feature layer to the map view
         map.getOperationalLayers().add(featureLayer);
       });
       // load geodatabase
