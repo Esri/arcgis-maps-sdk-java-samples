@@ -14,8 +14,8 @@ Click the Take Screenshot button to export the image. In the file chooser that o
 <p>To export the visible area of the <code>ArcGISMap</code> as an image file:</p>
 
 <ol>
-    <li>Export the image with <code>mapView.exportImageAsync()</code></li>
-    <li>Get the <code>Image</code> from the done loading listener</li>
+    <li>Export the image with <code>mapView.exportImageAsync()</code>.</li>
+    <li>Get the <code>Image</code> once export is done loading.</li>
 </ol>
 
 <h2>Features</h2>
