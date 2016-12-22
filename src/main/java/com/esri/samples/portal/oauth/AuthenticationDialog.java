@@ -55,19 +55,20 @@ class AuthenticationDialog extends Dialog<OAuthConfiguration> {
     }
 
     setResultConverter(dialogButton -> {
-      if (!portalURL.getText().equals("") && !clientID.getText().equals("") && !redirectURI.getText().equals("")) {
-        try {
-          return dialogButton == continueButton ? new OAuthConfiguration(portalURL.getText(), clientID.getText(),
-              redirectURI.getText()) : null;
-        } catch (Exception e) {
+      if (dialogButton == continueButton) {
+        if (!portalURL.getText().equals("") && !clientID.getText().equals("") && !redirectURI.getText().equals("")) {
+          try {
+            return new OAuthConfiguration(portalURL.getText(), clientID.getText(), redirectURI.getText());
+          } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.show();
+          }
+        } else {
           Alert alert = new Alert(Alert.AlertType.ERROR);
-          alert.setContentText(e.getMessage());
+          alert.setContentText("missing credentials");
           alert.show();
         }
-      } else {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText("missing credentials");
-        alert.show();
       }
       return null;
     });
