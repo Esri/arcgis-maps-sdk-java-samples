@@ -49,22 +49,14 @@ import javafx.util.StringConverter;
 public class CreateAndSaveMapController {
 
 
-  @FXML
-  private MapView mapView;
-  @FXML
-  private TextField title;
-  @FXML
-  private TextField tags;
-  @FXML
-  private TextArea description;
-  @FXML
-  private ComboBox<PortalFolder> folderList;
-  @FXML
-  private ListView<Basemap> basemapList;
-  @FXML
-  private ListView<Layer> layersList;
-  @FXML
-  private Button saveButton;
+  @FXML private MapView mapView;
+  @FXML private TextField title;
+  @FXML private TextField tags;
+  @FXML private TextArea description;
+  @FXML private ComboBox<PortalFolder> folderList;
+  @FXML private ListView<Basemap> basemapList;
+  @FXML private ListView<Layer> layersList;
+  @FXML private Button saveButton;
 
   private ArcGISMap map;
   private Portal portal;
