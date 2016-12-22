@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright 2016 Esri.
   ~
@@ -14,14 +15,13 @@
   ~ the License.
   -->
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ListView?>
-<StackPane fx:controller="com.esri.samples.portal.webmap_keyword_search.WebmapKeywordSearchController" xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/css/style.css">
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<StackPane fx:controller="com.esri.samples.portal.webmap_keyword_search.WebmapKeywordSearchController"
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" spacing="10" maxWidth="250" styleClass="panel-region">
         <TextField fx:id="keyword" promptText="search" onAction="#search"/>
