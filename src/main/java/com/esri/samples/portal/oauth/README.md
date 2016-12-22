@@ -1,6 +1,6 @@
 <h1>OAuth</h1>
 
-<p>Demonstrates how to use the OAuth 2.0 protocol for authentication into the ArcGIS platform. Once authenticated, the sample displays the user's profile.</p>
+<p>Demonstrates how to use the OAuth 2.0 protocol for authentication into the ArcGIS platform. Once authenticated, the sample displays the user's profile information.</p>
 
 <p><img src="OAuth.png"/></p>
 
