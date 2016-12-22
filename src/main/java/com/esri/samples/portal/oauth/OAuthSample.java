@@ -27,15 +27,17 @@ public class OAuthSample extends Application {
   public void start(Stage stage) throws Exception {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/oauth_controller.fxml"));
     Parent root = loader.load();
+    OAuthController controller = loader.getController();
     Scene scene = new Scene(root);
 
     // set title, size, and add scene to stage
-    stage.setTitle("OAuth");
+    stage.setTitle("OAuth Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
-
     stage.show();
+
+    controller.authenticate();
   }
 
   /**
