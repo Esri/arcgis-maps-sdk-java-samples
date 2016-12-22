@@ -50,7 +50,7 @@ public class RgbRendererController {
 
   public void initialize() {
 
-    // create rasters
+    // create raster
     Raster raster = new Raster(new File("./samples-data/raster/Shasta.tif").getAbsolutePath());
 
     // create a raster layer

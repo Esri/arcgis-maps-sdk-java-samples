@@ -33,7 +33,6 @@ public class HillshadeRendererController {
 
   @FXML private MapView mapView;
   @FXML private ComboBox<SlopeType> slopeTypeComboBox;
-  @FXML private ComboBox<ColorRamp.PresetType> colorRampComboBox;
   @FXML private Slider azimuthSlider;
   @FXML private Slider altitudeSlider;
 
@@ -41,7 +40,7 @@ public class HillshadeRendererController {
 
   public void initialize() {
 
-    // create rasters
+    // create raster
     Raster raster = new Raster(new File("./samples-data/raster/srtm.tiff").getAbsolutePath());
 
     // create a raster layer
