@@ -18,6 +18,7 @@ package com.esri.samples.map.create_and_save_map;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
@@ -45,6 +46,8 @@ class AuthenticationDialog extends Dialog<OAuthConfiguration> {
     loader.setRoot(this);
     loader.setController(this);
 
+    setTitle("Authenticate");
+
     try {
       loader.load();
     } catch (Exception e) {
@@ -52,12 +55,22 @@ class AuthenticationDialog extends Dialog<OAuthConfiguration> {
     }
 
     setResultConverter(dialogButton -> {
-      try {
-        return dialogButton == continueButton ? new OAuthConfiguration(portalURL.getText(), clientID.getText(),
-            redirectURI.getText()) : null;
-      } catch (Exception e) {
-        return null;
+      if (dialogButton == continueButton) {
+        if (!portalURL.getText().equals("") && !clientID.getText().equals("") && !redirectURI.getText().equals("")) {
+          try {
+            return new OAuthConfiguration(portalURL.getText(), clientID.getText(), redirectURI.getText());
+          } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.show();
+          }
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setContentText("missing credentials");
+          alert.show();
+        }
       }
+      return null;
     });
   }
 
