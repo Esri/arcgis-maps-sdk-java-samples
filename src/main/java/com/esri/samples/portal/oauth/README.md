@@ -6,8 +6,10 @@
 
 <h2>How to use the sample</h2>
 
-<p>Enter the details of the application registered in ArcGIS platform. Click on sign-in.
-This will allow the ArcGIS platform to prompt a sign-in dialog. After the credentials are entered correctly, the sample
+<p>This sample requires you to setup your own app on arcgis.com. See the <a href="https://github.com/Esri/arcgis-runtime-samples-java/wiki/OAuth">wiki</a> for details.</p>
+
+<p>Enter the details of the application registered on arcgis.com and click sign-in.
+This will open a sign-in dialog. After the credentials are entered correctly, the sample
 will receive an authorization code from the ArcGIS platform. This authorization code will then be used to obtain an
 access token. This access token is used later to access user's profile.</p>
 
