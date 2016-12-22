@@ -118,9 +118,11 @@ public class CreateAndSaveMapController {
    */
   void authenticate() {
 
-    Dialog<OAuthConfiguration> authenticationDialog = new AuthenticationDialog();
-    authenticationDialog.showAndWait().ifPresent(configuration -> {
+    AuthenticationDialog authenticationDialog = new AuthenticationDialog();
+    authenticationDialog.show();
+    authenticationDialog.setOnCloseRequest(r -> {
 
+      OAuthConfiguration configuration = authenticationDialog.getResult();
       AuthenticationManager.addOAuthConfiguration(configuration);
 
       // setup the handler that will prompt an authentication challenge to the user
