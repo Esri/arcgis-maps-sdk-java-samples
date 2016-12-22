@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to consume an Esri Geodatabase by using a FeatureLayer and a GeodatabaseFeatureTable.</p>
 
-<p><img src="FeatureLayerGeodatabase.PNG"/></p>
+<p><img src="FeatureLayerGeodatabase.png"/></p>
 
 <h2>How it works</h2>
 

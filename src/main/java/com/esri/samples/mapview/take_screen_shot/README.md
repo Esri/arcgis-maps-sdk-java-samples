@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to export a section of the ArcGISMap as an image file.</p>
 
-<p><img src="TakeScreenShot.PNG"/></p>
+<p><img src="TakeScreenShot.png"/></p>
 
 <h2>How to use this Sample</h2>
 

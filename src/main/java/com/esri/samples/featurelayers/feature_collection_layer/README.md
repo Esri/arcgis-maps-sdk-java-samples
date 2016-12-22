@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to create a new Feature Collection with a Point, Polyline, and Polygon Feature Collection Table. The Feature Collection is then displayed on the ArcGISMap as a Layer.</p>
 
-<p><img src="FeatureCollectionLayer.PNG"/></p>
+<p><img src="FeatureCollectionLayer.png"/></p>
 
 <h2>How it works</h2>
 
