@@ -50,8 +50,10 @@ public class OAuthController {
   void authenticate() throws Exception {
 
     AuthenticationDialog authenticationDialog = new AuthenticationDialog();
-    authenticationDialog.showAndWait().ifPresent(configuration -> {
+    authenticationDialog.show();
+    authenticationDialog.setOnCloseRequest(r -> {
 
+      OAuthConfiguration configuration = authenticationDialog.getResult();
       AuthenticationManager.addOAuthConfiguration(configuration);
 
       // setup the handler that will prompt an authentication challenge to the user
