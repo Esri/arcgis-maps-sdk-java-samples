@@ -14,7 +14,7 @@ buildscript {
     }
 }
 
-arcgis.version = '100.1.0-1536'
+arcgis.version = '100.1.0-1571'
 arcgis.internal = true
 
 idea.module.downloadJavadoc = true
