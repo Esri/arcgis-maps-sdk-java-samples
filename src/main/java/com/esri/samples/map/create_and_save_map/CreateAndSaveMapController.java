@@ -41,6 +41,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -57,6 +58,7 @@ public class CreateAndSaveMapController {
   @FXML private ListView<Basemap> basemapList;
   @FXML private ListView<Layer> layersList;
   @FXML private Button saveButton;
+  @FXML private ProgressIndicator progress;
 
   private ArcGISMap map;
   private Portal portal;
@@ -184,6 +186,7 @@ public class CreateAndSaveMapController {
    */
   @FXML
   private void saveMap() {
+    progress.setVisible(true);
     try {
       ListenableFuture<PortalItem> result = map.saveAsAsync(portal, folderList.getSelectionModel().getSelectedItem(),
           title.getText(), Arrays.asList(tags.getText().split(",")), description.getText(), null, true);
@@ -194,9 +197,12 @@ public class CreateAndSaveMapController {
               portalItem.getItemId(), Alert.AlertType.INFORMATION);
         } catch (InterruptedException | ExecutionException e) {
           showMessage("Save Unscuccessful", e.getCause().getMessage(), Alert.AlertType.ERROR);
+        } finally {
+          progress.setVisible(false);
         }
       });
     } catch (Exception e) {
+      progress.setVisible(false);
       showMessage("Could not save map", e.getMessage(), Alert.AlertType.ERROR);
     }
   }
