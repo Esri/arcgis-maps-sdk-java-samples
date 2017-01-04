@@ -1,6 +1,6 @@
 <h1>Rgb Renderer</h1>
 
-<p>How to use a RGB renderer on a raster layer. An RGB renderer is used to adjust the color bands of a multispectral 
+<p>Demonstrates how to use a RGB renderer on a raster layer. An RGB renderer is used to adjust the color bands of a multispectral 
 image.</p>
 
 <p><img src="RgbRenderer.png"/></p>
