@@ -1,6 +1,6 @@
 <h1>Hillshade Renderer</h1>
 
-<p>How to use a hillshade renderer on a raster layer. Hillshade renderers can adjust a grayscale raster (usually of 
+<p>Demonstrates how to use a hillshade renderer on a raster layer. Hillshade renderers can adjust a grayscale raster (usually of 
 terrain) according to a sun angle.</p>
 
 <p><img src="HillshadeRenderer.png"/></p>
