@@ -1,6 +1,6 @@
 <h1>Tile Cache</h1>
 
-<p>Create a basemap from a local tile package with a tile cache and ArcGISTiledLayer.</p>
+<p>Demonstrates how to create a basemap from a local tile package with a tile cache and ArcGISTiledLayer.</p>
 
 <p><img src="TileCache.png"/></p>
 
