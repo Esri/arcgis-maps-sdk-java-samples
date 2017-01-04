@@ -10,7 +10,7 @@
 
 <h2>How it works</h2>
 
-<p>To exaggerate a <code>Scene</code>'s <code>Surface</code>:</p>
+<p>To exaggerate a <code>ArcGISScene</code>'s <code>Surface</code>:</p>
 
 <ol>
   <li>Create an elevated surface and add it to the scene, <code>surface.getElevationSources().add("elevationURL")</code></li>
