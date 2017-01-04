@@ -1,4 +1,4 @@
-<h1>Feature Layer (Geodatabase)</h1>
+g<h1>Feature Layer (Geodatabase)</h1>
 
 <p>Demonstrates how to consume an Esri Geodatabase by using a FeatureLayer and a GeodatabaseFeatureTable.</p>
 
@@ -11,9 +11,9 @@
 <ol>
     <li>Create a geodatabase using the provided local resource, <code>new Geodatabase(geodatabaseResourceUrl)</code>.</li>
     <li>Wait for geodatabase to load, <code>Geodatabase.addDoneLoadingListener(runnable)</code></li>
-    <li>Get the `Trailheads` <code>GeodatabaseFeatureTable</code> from the geodatabase, <code>Geodatabase.getGeodatabaseFeatureTable(tableName)</code></li>
+    <li>Get the `Trailheads` <code>GeodatabaseFeatureTable</code> from the geodatabase, <code>geodatabase.getGeodatabaseFeatureTable(tableName)</code></li>
     <li>Create feature layer using the table from above, <code>new FeatureLayer(geodatabaseFeatureTable)</code></li>
-    <li>Add feature layer to <code>ArcGISMap</code>, <code>ArcGISMap.getOperationalLayers().add(featureLayer)</code></li>
+    <li>Add feature layer to <code>ArcGISMap</code>, <code>map.getOperationalLayers().add(featureLayer)</code></li>
 </ol>
 
 <h2>Features</h2>
