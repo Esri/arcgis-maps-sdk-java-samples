@@ -1,6 +1,6 @@
 <h1>Raster Layer File</h1>
 
-<p>How to create and use a raster layer made from a local raster file.</p>
+<p>Demonstrates how to create and use a raster layer made from a local raster file.</p>
 
 <p><img src="RasterLayerFile.png"/></p>
 
