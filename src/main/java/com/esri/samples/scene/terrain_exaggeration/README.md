@@ -1,4 +1,4 @@
-s<h1>Terrain Exaggeration</h1>
+<h1>Terrain Exaggeration</h1>
 
 <p>Demonstrates how to add vertical exaggeration to a scene's surface.</p>
 
@@ -13,7 +13,7 @@ s<h1>Terrain Exaggeration</h1>
 <p>To exaggerate a <code>Scene</code>'s <code>Surface</code>:</p>
 
 <ol>
-  <li>Create an elevated surface and add it to the scene, <code>Surface.getElevationSources().add("elevationURL")</code></li>
+  <li>Create an elevated surface and add it to the scene, <code>surface.getElevationSources().add("elevationURL")</code></li>
   <li>Add surface to the scene, <code> scene.setBaseSurface(Surface)</code></li>
   <li>Set exaggeration amount of the surface, <code>surface.setElevationExaggeration(exaggeration)</code></li>
 </ol>
