@@ -8,9 +8,9 @@
 
 <p>To add a <code>RasterLayer</code> as an operational layer from a local raster file:</p>
 <ol>
-  <li>Create a <code>Raster</code> from a raster file</li>
-  <li>Create a <code>RasterLayer</code> from the raster</li>
-  <li>Add it as an operational layer with <code>map.getOperationalLayers().add(rasterLayer)</code></li>
+  <li>Create a <code>Raster</code> from a raster file.</li>
+  <li>Create a raster layer from the raster.</li>
+  <li>Add it as an operational layer with <code>map.getOperationalLayers().add(rasterLayer)</code>.</li>
 </ol>
 
 <h2>Features</h2>
