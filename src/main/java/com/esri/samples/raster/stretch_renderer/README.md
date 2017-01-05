@@ -15,9 +15,9 @@ in dark images.</p>
 <p>To apply a <code>StretchRenderer</code> to a <code>RasterLayer</code>:</p>
 <ol>
   <li>Create a <code>Raster</code> from a raster file</li>
-  <li>Create a <code>RasterLayer</code> from the raster</li>
+  <li>Create a raster layer from the raster</li>
   <li>Create a <code>Basemap</code> from the raster layer and set it to the map</li>
-  <li>Create a <code>StretchRenderer</code>, specifying the stretch parameters and other properties</li>
+  <li>Create a stretch renderer, specifying the stretch parameters and other properties</li>
   <li>Set the renderer on the raster layer with <code>rasterLayer.setRenderer(renderer)</code></li>
 </ol>
 
