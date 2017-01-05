@@ -15,7 +15,7 @@ Click the Take Screenshot button to export the image. In the file chooser that o
 
 <ol>
     <li>Export the image with <code>mapView.exportImageAsync()</code>.</li>
-    <li>Get the <code>Image</code> once export is done loading.</li>
+    <li>Get the image once export is done loading, <code>mapImage.get()</code>.</li>
 </ol>
 
 <h2>Features</h2>
