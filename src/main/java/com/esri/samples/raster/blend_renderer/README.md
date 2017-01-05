@@ -14,14 +14,14 @@ the satellite imagery, choose the color ramp type NONE.</p>
 
 <p>To apply a <code>BlendRenderer</code> to a <code>RasterLayer</code>:</p>
 <ol>
-  <li>Create a <code>Raster</code> from a raster file</li>
-  <li>Create a <code>RasterLayer</code> from the raster</li>
-  <li>Create a <code>Basemap</code> from the raster layer and set it to the map</li>
-  <li>Create a <code>Raster</code> for elevation from a grayscale raster file</li>
-  <li>Create a <code>BlendRenderer</code>, specifying the elevation raster, color ramp, and other properties</li>
+  <li>Create a <code>Raster</code> from a raster file.</li>
+  <li>Create a raster layer from the raster.</li>
+  <li>Create a <code>Basemap</code> from the raster layer and set it to the map.</li>
+  <li>Create a raster for elevation from a grayscale raster file.</li>
+  <li>Create a blend renderer, specifying the elevation raster, color ramp, and other properties.</li>
   <ul>
     <li>If you specify a non-null color ramp, use the elevation raster as the base raster in addition to the 
-    elevation raster parameter. That way the color ramp is used instead of the satellite imagery</li>
+    elevation raster parameter. That way the color ramp is used instead of the satellite imagery.</li>
   </ul>
   <li>Set the renderer on the raster layer with <code>rasterLayer.setRenderer(renderer)</code>.</li>
 </ol>
