@@ -41,14 +41,10 @@ import javafx.scene.control.TextField;
 public class WebmapKeywordSearchController {
 
 
-  @FXML
-  private TextField keyword;
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ListView<PortalItem> resultsList;
-  @FXML
-  private Button moreButton;
+  @FXML private TextField keyword;
+  @FXML private MapView mapView;
+  @FXML private ListView<PortalItem> resultsList;
+  @FXML private Button moreButton;
 
   private Portal portal;
   private PortalQueryResultSet<PortalItem> portalQueryResultSet;
