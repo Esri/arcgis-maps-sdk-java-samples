@@ -1,23 +1,20 @@
-<h1>Display a Map</h1>
+<h1>Closest Facility</h1>
 
-<p>Demonstrates how to create ArcGISMap using a basemap. A basemap is beneath all other layers on a ArcGISMap and provides visual reference to other layers.</p>
+<p>Demonstrates how to .</p>
 
-<p><img src="DisplayMap.png"/></p>
+<p><img src="ClosestFacility.png"/></p>
 
 <h2>How it works</h2>
 
-<p>To display a <code>ArcGISMap</code>:</p>
+<p>To <code></code>:</p>
 
 <ol>
-    <li>Create an ArcGIS map using a default <code>Basemap</code> such use <code>Basemap.createImagery()</code>.  </li>
-    <li>Set the map to the map view, <code>MapView.setMap()</code>. </li>
+    <li><code></code>.  </li>
 </ol>
 
 <h2>Features</h2>
 
 <ul>
-    <li>ArcGISMap</li>
-    <li>Basemap</li>
-    <li>MapView</li>
+    <li></li>
 </ul>
 
