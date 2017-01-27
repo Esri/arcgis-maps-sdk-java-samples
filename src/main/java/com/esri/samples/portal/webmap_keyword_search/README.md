@@ -13,11 +13,11 @@ Click on the "Find More Results" button to add more results to the list.
 
 <p>To search for webmaps in a <code>Portal</code> matching a keyword:</p>
 <ol>
-  <li>Create a <code>Portal</code> and load it.</li>
+  <li>Create a <code>Portal</code> and load it</li>
   <li>Create <code>PortalItemQueryParameters</code>. Set the type to <code>PortalItem.Type.WEBMAP</code> and the 
-  query to the keyword you want to search.</li>
+  query to the keyword you want to search</li>
   <li>Use <code>portal.findItemsAsync(params)</code> to get the first set of matching items.</li>
-  <li>Get more results with <code>portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters())</code>.</li>
+  <li>Get more results with <code>portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters())</code></li>
 </ol>
 
 <h2>Features</h2>
