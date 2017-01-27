@@ -11,7 +11,7 @@
   <li>Create a <code>TileCache</code>, specifying the path to the local tile package</li>
   <li>Create a <code>ArcGISTiledLayerLayer</code> with the tile cache</li>
   <li>Create a <code>Basemap</code> with the tiled layer</li>
-  <li>Create a <code>ArcGISMap</code> with the basemap and set it to a <code>MapView</code></li>
+  <li>Create a <code>ArcGISMap</li> with the basemap and set it to a <code>MapView</code></li>
 </ol>
 
 <h2>Features</h2>
