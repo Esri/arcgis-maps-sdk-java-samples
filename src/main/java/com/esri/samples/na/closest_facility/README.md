@@ -23,13 +23,11 @@
     <li>Display route to <code>MapView</code>. 
       <ul>Create <code>Graphic</code> from route geometry, <code>new Graphic(route.getRouteGeometry())</code></ul>
       <ul>Add graphic to <code>GraphicsOverlay</code> which is attached to the mapview</ul></li>
-    <li></li>
 </ol>
 
 <h2>Features</h2>
 
 <ul>
-  <li><li>
   <li>ClosestFacilityParameters</li>
   <li>ClosestFacilityResult</li>
   <li>ClosestFacilityRoute</li>
