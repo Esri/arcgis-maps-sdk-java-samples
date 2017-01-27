@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to .</p>
 
-<p><img src="ClosestFacility.PNG"/></p>
+<p><img src=""/></p>
 
 <h2>How it works</h2>
 
