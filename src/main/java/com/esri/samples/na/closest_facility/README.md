@@ -33,9 +33,9 @@
   <li>ClosestFacilityRoute</li>
   <li>ClosestFacilityTask</li>
   <li>Facility</li>
-  <li>Graphic<li>
-  <li>GraphicsOverlay<li>
+  <li>Graphic</li>
+  <li>GraphicsOverlay</li>
   <li>Incident</li>
-  <li>MapView<li>
+  <li>MapView</li>
 </ul>
 
