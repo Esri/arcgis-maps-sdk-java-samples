@@ -42,4 +42,3 @@ on-the-fly while moving stops.</p>
   <li>Stop</li>
   <li>TextSymbol</li>
   <li>TileCache</li>
-</ul>
