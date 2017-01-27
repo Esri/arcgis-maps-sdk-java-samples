@@ -17,6 +17,7 @@ package com.esri.samples.na.closest_facility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -47,60 +48,66 @@ import com.esri.arcgisruntime.tasks.networkanalysis.Incident;
 
 public class ClosestFacilitySample extends Application {
 
+  // black cross were user clicked
   private Point incidentPoint;
   private GraphicsOverlay graphicsOverlay;
+  // holds locations of hospitals around San Diego
   private List<Facility> facilities;
   private MapView mapView;
+  // solves task to find closest route between a incident and a facility
   private ClosestFacilityTask task;
 
-  private SimpleMarkerSymbol incidentSymbol;
+  // used to display route between incident and facility to mapview
   private SimpleLineSymbol routeSymbol;
-
+  // same spatial reference of the map
   private SpatialReference spatialReference = SpatialReferences.getWebMercator();
 
   @Override
   public void start(Stage stage) throws Exception {
 
-    try {
-      // create stack pane and application scene
-      StackPane stackPane = new StackPane();
-      Scene scene = new Scene(stackPane);
+    // pane will hold mapview to be displayed on application 
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
 
-      // set title, size, and add scene to stage
-      stage.setTitle("Closest Facility Sample");
-      stage.setWidth(800);
-      stage.setHeight(700);
-      stage.setScene(scene);
-      stage.show();
+    // set title, size, and add scene to stage
+    stage.setTitle("Closest Facility Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
+
+    try {
 
       // create a map with streets basemap and add to view
       ArcGISMap map = new ArcGISMap(Basemap.createStreets());
       mapView = new MapView();
       mapView.setMap(map);
+      // add the mapview to stack pane
+      stackPane.getChildren().addAll(mapView);
 
       // set view to be over San Diego
       mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
-      // contains graphics that can be displayed to the view
       graphicsOverlay = new GraphicsOverlay();
       createFacilitiesAndGraphics();
       // to load graphics faster, add graphics overlay to view once all graphics are in graphics overlay
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // task to find the closest route between an incident and a facility
-      task = new ClosestFacilityTask(
-          "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
+      // task to find the closest route between an incident and a facility 
+      final String sanDiegoRegion =
+          "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility";
+      task = new ClosestFacilityTask(sanDiegoRegion);
       task.loadAsync();
 
-      // symbols display incident(black cross) and route(blue line) to view
-      incidentSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFF000000, 20);
+      // symbols that display incident(black cross) and route(blue line) to view
+      SimpleMarkerSymbol incidentSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFF000000, 20);
       routeSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2.0f);
 
-      // plac incident were user clicks and find closest route to facility
+      // place incident were user clicks and display route to closest facility
       mapView.setOnMouseClicked(e -> {
         // check that the primary mouse button was clicked
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-          // show incident to the view
+          // show incident to the mapview
           Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
           incidentPoint = new Point(mapPoint.getX(), mapPoint.getY(), spatialReference);
           Graphic graphic = new Graphic(incidentPoint, incidentSymbol);
@@ -109,9 +116,6 @@ public class ClosestFacilitySample extends Application {
           createParametersAndSolveRoute();
         }
       });
-
-      // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -132,14 +136,14 @@ public class ClosestFacilitySample extends Application {
     facilityPoints.add(new Point(-1.3039784633928463E7, 3856692.5980474586, spatialReference));
     facilityPoints.add(new Point(-1.3049023883956768E7, 3861993.789732541, spatialReference));
 
-    // image used to display facility to view
+    // image for displaying facility
     String facilityUrl = "http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png";
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol(facilityUrl);
     facilitySymbol.setHeight(30);
     facilitySymbol.setWidth(30);
 
     List<Graphic> graphics = graphicsOverlay.getGraphics();
-    // list of facilties that will be needed to sovle our closest facility route task
+    // list of facilities that will be needed to solve our closest facility route task
     facilities = new ArrayList<>();
     facilityPoints.forEach(facilityPoint -> {
       facilities.add(new Facility(facilityPoint));
@@ -148,39 +152,36 @@ public class ClosestFacilitySample extends Application {
   }
 
   /**
-   * Adds facilities and user's incident to closest facility parameters which will be used to display a route from
-   * the user's incident to its' nearest facility.
+   * Adds facilities(hospitals) and user's incident(black cross) to closest facility parameters which will be used to 
+   * display the closest route from the user's incident to its' nearest facility.
    */
   private void createParametersAndSolveRoute() {
     // parameters used to find closest facility to incident
     final ListenableFuture<ClosestFacilityParameters> parameters = task.createDefaultParametersAsync();
     parameters.addDoneListener(() -> {
       try {
-        // add facilities and incident from user to parameters
+        // add facilities from map and incident from user to parameters
         ClosestFacilityParameters facilityParameters = parameters.get();
-        facilityParameters.setOutputSpatialReference(spatialReference);
         facilityParameters.getFacilities().addAll(facilities);
         facilityParameters.getIncidents().add(new Incident(incidentPoint));
 
-        // find route to closest using parameters from above
+        // find closest route using parameters from above
         ListenableFuture<ClosestFacilityResult> result = task.solveClosestFacilityAsync(facilityParameters);
         result.addDoneListener(() -> {
           try {
             ClosestFacilityResult facilityResult = result.get();
-            // a list of closest facilities based on first incident
+            // a list of closest facilities based on users incident
             List<Integer> rankedList = facilityResult.getRankedFacilities(0);
             // get the index of the closest facility to incident
             int closestFacility = rankedList.get(0);
-            // get route from incident to closest facility and display to view
+            // get route from incident to closest facility and display to mapview
             ClosestFacilityRoute route = facilityResult.getRoute(closestFacility, 0);
             graphicsOverlay.getGraphics().add(new Graphic(route.getRouteGeometry(), routeSymbol));
-          } catch (Exception ex) {
+          } catch (ExecutionException | InterruptedException ex) {
             ex.printStackTrace();
           }
         });
-
-        // catch all exceptions 
-      } catch (Exception ex) {
+      } catch (ExecutionException | InterruptedException ex) {
         ex.printStackTrace();
       }
     });
