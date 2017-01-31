@@ -1,6 +1,6 @@
 <h1>Rgb Renderer</h1>
 
-<p>Demonstrates how to use a Rgb renderer on a raster layer. An Rgb renderer is used to adjust the color bands of a multispectral 
+<p>How to use a RGB renderer on a raster layer. An RGB renderer is used to adjust the color bands of a multispectral 
 image.</p>
 
 <p><img src="RgbRenderer.png"/></p>
@@ -13,11 +13,11 @@ image.</p>
 
 <p>To apply a <code>RgbRenderer</code> to a <code>RasterLayer</code>:</p>
 <ol>
-  <li>Create a <code>Raster</code> from a multispectral raster file.</li>
-  <li>Create a raster layer from the raster.</li>
-  <li>Create a <code>Basemap</code> from the raster layer and set it to the map.</li>
-  <li>Create a rgb renderer, specifying the stretch parameters and other properties.</li>
-  <li>Set the renderer on the raster layer with <code>rasterLayer.setRenderer(renderer)</code>.</li>
+  <li>Create a <code>Raster</code> from a multispectral raster file</li>
+  <li>Create a <code>RasterLayer</code> from the raster</li>
+  <li>Create a <code>Basemap</code> from the raster layer and set it to the map</li>
+  <li>Create a <code>RgbRenderer</code>, specifying the stretch parameters and other properties</li>
+  <li>Set the renderer on the raster layer with <code>rasterLayer.setRenderer(renderer)</code></li>
 </ol>
 
 <h2>Features</h2>
