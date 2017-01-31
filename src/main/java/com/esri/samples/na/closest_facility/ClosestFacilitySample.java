@@ -15,13 +15,16 @@
  */
 package com.esri.samples.na.closest_facility;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -56,6 +59,8 @@ public class ClosestFacilitySample extends Application {
   private MapView mapView;
   // solves task to find closest route between a incident and a facility
   private ClosestFacilityTask task;
+  // parameters needed to slove for route
+  private ClosestFacilityParameters facilityParameters;
 
   // used to display route between incident and facility to mapview
   private SimpleLineSymbol routeSymbol;
@@ -98,6 +103,15 @@ public class ClosestFacilitySample extends Application {
           "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility";
       task = new ClosestFacilityTask(sanDiegoRegion);
       task.loadAsync();
+      // get default parameters used to find closest facility to incident
+      ListenableFuture<ClosestFacilityParameters> parameters = task.createDefaultParametersAsync();
+      parameters.addDoneListener(() -> {
+        try {
+          facilityParameters = parameters.get();
+        } catch (ExecutionException | InterruptedException e) {
+          e.printStackTrace();
+        }
+      });
 
       // symbols that display incident(black cross) and route(blue line) to view
       SimpleMarkerSymbol incidentSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFF000000, 20);
@@ -113,7 +127,7 @@ public class ClosestFacilitySample extends Application {
           Graphic graphic = new Graphic(incidentPoint, incidentSymbol);
           graphicsOverlay.getGraphics().add(graphic);
 
-          createParametersAndSolveRoute();
+          populateParametersAndSolveRoute();
         }
       });
     } catch (Exception e) {
@@ -123,18 +137,20 @@ public class ClosestFacilitySample extends Application {
   }
 
   /**
-   * Creates points around the San Diego region that will be used to create facilities and Graphics of those facilities.
+   * Creates facilities around the San Diego region.
+   * <p>
+   * Facilities are created using point geometry which is then used to make graphics for the graphics overlay.
    */
   private void createFacilitiesAndGraphics() {
     // List of facilities to be placed around San Diego area
-    List<Point> facilityPoints = new ArrayList<>();
-    facilityPoints.add(new Point(-1.3042129900625112E7, 3860127.9479775648, spatialReference));
-    facilityPoints.add(new Point(-1.3042193400557665E7, 3862448.873041752, spatialReference));
-    facilityPoints.add(new Point(-1.3046882875518233E7, 3862704.9896770366, spatialReference));
-    facilityPoints.add(new Point(-1.3040539754780494E7, 3862924.5938606677, spatialReference));
-    facilityPoints.add(new Point(-1.3042571225655518E7, 3858981.773018156, spatialReference));
-    facilityPoints.add(new Point(-1.3039784633928463E7, 3856692.5980474586, spatialReference));
-    facilityPoints.add(new Point(-1.3049023883956768E7, 3861993.789732541, spatialReference));
+    facilities = Arrays.asList(
+        new Facility(new Point(-1.3042129900625112E7, 3860127.9479775648, spatialReference)),
+        new Facility(new Point(-1.3042193400557665E7, 3862448.873041752, spatialReference)),
+        new Facility(new Point(-1.3046882875518233E7, 3862704.9896770366, spatialReference)),
+        new Facility(new Point(-1.3040539754780494E7, 3862924.5938606677, spatialReference)),
+        new Facility(new Point(-1.3042571225655518E7, 3858981.773018156, spatialReference)),
+        new Facility(new Point(-1.3039784633928463E7, 3856692.5980474586, spatialReference)),
+        new Facility(new Point(-1.3049023883956768E7, 3861993.789732541, spatialReference)));
 
     // image for displaying facility
     String facilityUrl = "http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png";
@@ -142,47 +158,47 @@ public class ClosestFacilitySample extends Application {
     facilitySymbol.setHeight(30);
     facilitySymbol.setWidth(30);
 
-    List<Graphic> graphics = graphicsOverlay.getGraphics();
-    // list of facilities that will be needed to solve our closest facility route task
-    facilities = new ArrayList<>();
-    facilityPoints.forEach(facilityPoint -> {
-      facilities.add(new Facility(facilityPoint));
-      graphics.add(new Graphic(facilityPoint, facilitySymbol));
-    });
+    // for each facility, create a graphic and add to graphics overlay
+    facilities.stream().map(f -> new Graphic(f.getGeometry(), facilitySymbol))
+        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
   }
 
   /**
    * Adds facilities(hospitals) and user's incident(black cross) to closest facility parameters which will be used to 
    * display the closest route from the user's incident to its' nearest facility.
    */
-  private void createParametersAndSolveRoute() {
-    // parameters used to find closest facility to incident
-    final ListenableFuture<ClosestFacilityParameters> parameters = task.createDefaultParametersAsync();
-    parameters.addDoneListener(() -> {
-      try {
-        // add facilities from map and incident from user to parameters
-        ClosestFacilityParameters facilityParameters = parameters.get();
-        facilityParameters.getFacilities().addAll(facilities);
-        facilityParameters.getIncidents().add(new Incident(incidentPoint));
+  private void populateParametersAndSolveRoute() {
+    // clear any parameters that were set
+    facilityParameters.getFacilities().clear();
+    facilityParameters.getIncidents().clear();
+    // set new parameters to find route
+    facilityParameters.getFacilities().addAll(facilities);
+    facilityParameters.getIncidents().add(new Incident(incidentPoint));
 
-        // find closest route using parameters from above
-        ListenableFuture<ClosestFacilityResult> result = task.solveClosestFacilityAsync(facilityParameters);
-        result.addDoneListener(() -> {
-          try {
-            ClosestFacilityResult facilityResult = result.get();
-            // a list of closest facilities based on users incident
-            List<Integer> rankedList = facilityResult.getRankedFacilities(0);
-            // get the index of the closest facility to incident
-            int closestFacility = rankedList.get(0);
-            // get route from incident to closest facility and display to mapview
-            ClosestFacilityRoute route = facilityResult.getRoute(closestFacility, 0);
-            graphicsOverlay.getGraphics().add(new Graphic(route.getRouteGeometry(), routeSymbol));
-          } catch (ExecutionException | InterruptedException ex) {
-            ex.printStackTrace();
-          }
-        });
-      } catch (ExecutionException | InterruptedException ex) {
-        ex.printStackTrace();
+    // find closest route using parameters from above
+    ListenableFuture<ClosestFacilityResult> result = task.solveClosestFacilityAsync(facilityParameters);
+    result.addDoneListener(() -> {
+      try {
+        ClosestFacilityResult facilityResult = result.get();
+        // a list of closest facilities based on users incident
+        List<Integer> rankedList = facilityResult.getRankedFacilities(0);
+        // get the index of the closest facility to incident
+        int closestFacility = rankedList.get(0);
+        // get route from incident to closest facility and display to mapview
+        ClosestFacilityRoute route = facilityResult.getRoute(closestFacility, 0);
+        graphicsOverlay.getGraphics().add(new Graphic(route.getRouteGeometry(), routeSymbol));
+      } catch (ExecutionException e) {
+        if (e.getMessage().contains("Unable to complete operation")) {
+          Alert dialog = new Alert(AlertType.WARNING);
+          dialog.setHeaderText(null);
+          dialog.setTitle("Route Error");
+          dialog.setContentText("Incident not within San Diego area!");
+          dialog.showAndWait();
+        } else {
+          e.printStackTrace();
+        }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
       }
     });
   }
