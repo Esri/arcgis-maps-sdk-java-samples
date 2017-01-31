@@ -21,8 +21,8 @@
     <li>Get index of closest facility, <code>rankedFacilitiesList.get(0)</code></li>
     <li>Find closest facility route, <code>facilityResult.getRoute(closestFacilityIndex, IncidentIndex)</code></li>
     <li>Display route to <code>MapView</code>. 
-      <ul>Create <code>Graphic</code> from route geometry, <code>new Graphic(route.getRouteGeometry())</code></ul>
-      <ul>Add graphic to <code>GraphicsOverlay</code> which is attached to the mapview</ul></li>
+      <ul><li>create <code>Graphic</code> from route geometry, <code>new Graphic(route.getRouteGeometry())</code></li>
+      <li>add graphic to <code>GraphicsOverlay</code> which is attached to the mapview</li></ul></li>
 </ol>
 
 <h2>Features</h2>
