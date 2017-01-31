@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to solve a Closest Facility Task to find the closest route between a facility, hospital, and a incident, black cross.</p>
 
-<p><img src="ClosestFacility.PNG"/></p>
+<p><img src="ClosestFacility.png"/></p>
 
 <h2>How to use sample</h2>
 <p>Left click near any of the hospitals and a route will be displayed from that clicked location to the nearest hospital.</p>
