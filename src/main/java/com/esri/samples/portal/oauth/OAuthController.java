@@ -54,6 +54,8 @@ public class OAuthController {
     authenticationDialog.setOnCloseRequest(r -> {
 
       OAuthConfiguration configuration = authenticationDialog.getResult();
+      // check that configuration was made
+      if(configuration != null){
       AuthenticationManager.addOAuthConfiguration(configuration);
 
       // setup the handler that will prompt an authentication challenge to the user
@@ -80,6 +82,7 @@ public class OAuthController {
       // loading the portal info of a secured resource
       // this will invoke the authentication challenge
       portal.loadAsync();
+      }
     });
   }
 
