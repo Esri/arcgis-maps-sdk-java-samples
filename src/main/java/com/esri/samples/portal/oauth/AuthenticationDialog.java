@@ -30,16 +30,11 @@ import com.esri.arcgisruntime.security.OAuthConfiguration;
  */
 class AuthenticationDialog extends Dialog<OAuthConfiguration> {
 
-  @FXML
-  private TextField portalURL;
-  @FXML
-  private TextField clientID;
-  @FXML
-  private TextField redirectURI;
-  @FXML
-  private ButtonType cancelButton;
-  @FXML
-  private ButtonType continueButton;
+  @FXML private TextField portalURL;
+  @FXML private TextField clientID;
+  @FXML private TextField redirectURI;
+  @FXML private ButtonType cancelButton;
+  @FXML private ButtonType continueButton;
 
   AuthenticationDialog() {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/oauth_auth_dialog.fxml"));
@@ -60,18 +55,19 @@ class AuthenticationDialog extends Dialog<OAuthConfiguration> {
           try {
             return new OAuthConfiguration(portalURL.getText(), clientID.getText(), redirectURI.getText());
           } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText(e.getMessage());
-            alert.show();
+            showMessage(e.getMessage());
           }
         } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR);
-          alert.setContentText("missing credentials");
-          alert.show();
+          showMessage("missing credentials");
         }
       }
       return null;
     });
   }
 
+  private void showMessage(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText(message);
+    alert.show();
+  }
 }

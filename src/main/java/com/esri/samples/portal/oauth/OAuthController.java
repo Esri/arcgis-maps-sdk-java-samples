@@ -18,16 +18,15 @@ package com.esri.samples.portal.oauth;
 
 import java.text.SimpleDateFormat;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 public class OAuthController {
 
@@ -54,32 +53,35 @@ public class OAuthController {
     authenticationDialog.setOnCloseRequest(r -> {
 
       OAuthConfiguration configuration = authenticationDialog.getResult();
-      AuthenticationManager.addOAuthConfiguration(configuration);
+      // check that configuration was made
+      if (configuration != null) {
+        AuthenticationManager.addOAuthConfiguration(configuration);
 
-      // setup the handler that will prompt an authentication challenge to the user
-      AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
+        // setup the handler that will prompt an authentication challenge to the user
+        AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
 
-      Portal portal = new Portal("http://" + configuration.getPortalUrl(), true);
-      portal.addDoneLoadingListener(() -> {
-        if (portal.getLoadStatus() == LoadStatus.LOADED) {
+        Portal portal = new Portal("http://" + configuration.getPortalUrl(), true);
+        portal.addDoneLoadingListener(() -> {
+          if (portal.getLoadStatus() == LoadStatus.LOADED) {
 
-          // display portal user info
-          fullName.setText(portal.getUser().getFullName());
-          username.setText(portal.getUser().getUsername());
-          email.setText(portal.getUser().getEmail());
-          memberSince.setText(formatter.format(portal.getUser().getCreated().getTime()));
-          role.setText(portal.getUser().getRole() != null ? portal.getUser().getRole().name() : "");
+            // display portal user info
+            fullName.setText(portal.getUser().getFullName());
+            username.setText(portal.getUser().getUsername());
+            email.setText(portal.getUser().getEmail());
+            memberSince.setText(formatter.format(portal.getUser().getCreated().getTime()));
+            role.setText(portal.getUser().getRole() != null ? portal.getUser().getRole().name() : "");
 
-        } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+          } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
 
-          // show alert message on error
-          showMessage("Authentication failed", portal.getLoadError().getMessage(), Alert.AlertType.ERROR);
-        }
-      });
+            // show alert message on error
+            showMessage("Authentication failed", portal.getLoadError().getMessage(), Alert.AlertType.ERROR);
+          }
+        });
 
-      // loading the portal info of a secured resource
-      // this will invoke the authentication challenge
-      portal.loadAsync();
+        // loading the portal info of a secured resource
+        // this will invoke the authentication challenge
+        portal.loadAsync();
+      }
     });
   }
 

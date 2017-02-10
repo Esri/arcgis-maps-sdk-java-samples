@@ -20,6 +20,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.Layer;
@@ -34,21 +46,7 @@ import com.esri.arcgisruntime.portal.PortalUserContent;
 import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
-
 public class CreateAndSaveMapController {
-
 
   @FXML private MapView mapView;
   @FXML private TextField title;
@@ -72,9 +70,8 @@ public class CreateAndSaveMapController {
 
     // update basemap when selection changes
     basemapList.getSelectionModel().select(0);
-    basemapList.getSelectionModel().selectedItemProperty().addListener(o ->
-      map.setBasemap(basemapList.getSelectionModel().getSelectedItem())
-    );
+    basemapList.getSelectionModel().selectedItemProperty()
+        .addListener(o -> map.setBasemap(basemapList.getSelectionModel().getSelectedItem()));
 
     basemapList.setCellFactory(c -> new BasemapCell());
 
@@ -83,7 +80,8 @@ public class CreateAndSaveMapController {
     mapView.setMap(map);
 
     // set operational layer options
-    String worldElevationService = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
+    String worldElevationService =
+        "http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
     ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(worldElevationService);
     worldElevation.loadAsync();
 
@@ -103,6 +101,7 @@ public class CreateAndSaveMapController {
 
     // set portal folder title converter
     folderList.setConverter(new StringConverter<PortalFolder>() {
+
       @Override
       public String toString(PortalFolder folder) {
         return folder.getTitle();
@@ -125,34 +124,37 @@ public class CreateAndSaveMapController {
     authenticationDialog.setOnCloseRequest(r -> {
 
       OAuthConfiguration configuration = authenticationDialog.getResult();
-      AuthenticationManager.addOAuthConfiguration(configuration);
+      // check authentication went through
+      if (configuration != null) {
+        AuthenticationManager.addOAuthConfiguration(configuration);
 
-      // setup the handler that will prompt an authentication challenge to the user
-      AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
+        // setup the handler that will prompt an authentication challenge to the user
+        AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
 
-      portal = new Portal("http://" + configuration.getPortalUrl(), true);
-      portal.addDoneLoadingListener(() -> {
-        if (portal.getLoadStatus() == LoadStatus.LOADED) {
-          try {
-            PortalUserContent portalUserContent = portal.getUser().fetchContentAsync().get();
-            List<PortalFolder> portalFolders = portalUserContent.getFolders();
-            folderList.getItems().addAll(portalFolders);
-          } catch (Exception e) {
-            e.printStackTrace();
+        portal = new Portal("http://" + configuration.getPortalUrl(), true);
+        portal.addDoneLoadingListener(() -> {
+          if (portal.getLoadStatus() == LoadStatus.LOADED) {
+            try {
+              PortalUserContent portalUserContent = portal.getUser().fetchContentAsync().get();
+              List<PortalFolder> portalFolders = portalUserContent.getFolders();
+              folderList.getItems().addAll(portalFolders);
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+
+            saveButton.setDisable(false);
+
+          } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+
+            // show alert message on error
+            showMessage("Authentication failed", portal.getLoadError().getMessage(), Alert.AlertType.ERROR);
           }
+        });
 
-          saveButton.setDisable(false);
-
-        } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-
-          // show alert message on error
-          showMessage("Authentication failed", portal.getLoadError().getMessage(), Alert.AlertType.ERROR);
-        }
-      });
-
-      // loading the portal info of a secured resource
-      // this will invoke the authentication challenge
-      portal.loadAsync();
+        // loading the portal info of a secured resource
+        // this will invoke the authentication challenge
+        portal.loadAsync();
+      }
     });
 
   }
@@ -161,6 +163,7 @@ public class CreateAndSaveMapController {
    * Shows a Basemap title in a ListView.
    */
   private class BasemapCell extends ListCell<Basemap> {
+
     @Override
     protected void updateItem(Basemap basemap, boolean empty) {
       super.updateItem(basemap, empty);
@@ -173,6 +176,7 @@ public class CreateAndSaveMapController {
    * Shows a Layer title in a ListView.
    */
   private class LayerCell extends ListCell<Layer> {
+
     @Override
     protected void updateItem(Layer layer, boolean empty) {
       super.updateItem(layer, empty);
