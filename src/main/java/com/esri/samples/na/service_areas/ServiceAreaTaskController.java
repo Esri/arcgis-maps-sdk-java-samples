@@ -49,7 +49,7 @@ import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygon;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 
-public class ServiceAreasTaskController {
+public class ServiceAreaTaskController {
 
   @FXML private MapView mapView;
   @FXML private ToggleButton btnAddFacility;

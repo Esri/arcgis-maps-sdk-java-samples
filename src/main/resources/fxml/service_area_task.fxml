@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 
-<BorderPane fx:controller="com.esri.samples.na.service_areas.ServiceAreasTaskController" xmlns:fx="http://javafx.com/fxml"
+<BorderPane fx:controller="com.esri.samples.na.service_areas.ServiceAreaTaskController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <center>
       <MapView fx:id="mapView"/>

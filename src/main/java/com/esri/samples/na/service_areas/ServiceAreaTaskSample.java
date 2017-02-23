@@ -21,15 +21,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ServiceAreasTaskSample extends Application {
+public class ServiceAreaTaskSample extends Application {
 
-  private static ServiceAreasTaskController controller;
+  private static ServiceAreaTaskController controller;
 
   @Override
   public void start(Stage stage) throws Exception {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/service_areas_task.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/service_area_task.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
