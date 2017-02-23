@@ -1,8 +1,8 @@
-<h1>Display a Map</h1>
+<h1>Service Area Task</h1>
 
 <p>Demonstrates how to create ArcGISMap using a basemap. A basemap is beneath all other layers on a ArcGISMap and provides visual reference to other layers.</p>
 
-<p><img src="DisplayMap.png"/></p>
+<p><img src="ServiceAreasTask.gif"/></p>
 
 <h2>How it works</h2>
 
@@ -17,7 +17,14 @@
 
 <ul>
     <li>ArcGISMap</li>
-    <li>Basemap</li>
+    <li>GraphicsOverlay</li>
     <li>MapView</li>
+    <li>PolylineBarrier</li>
+    <li>ServiceAreaFacility</li>
+    <li>ServiceAreaParameters</li>
+    <li>ServiceAreaPolygon</li>
+    <li>ServiceAreaResult</li>
+    <li>ServiceAreaTask</li>
+    <li>PolylineBuilder</li>
 </ul>
 
