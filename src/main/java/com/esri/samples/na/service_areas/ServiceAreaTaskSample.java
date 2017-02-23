@@ -35,7 +35,7 @@ public class ServiceAreaTaskSample extends Application {
     Scene scene = new Scene(root);
 
     // set title, size, and add scene to stage
-    stage.setTitle("Service Areas Sample");
+    stage.setTitle("Service Area Task Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
