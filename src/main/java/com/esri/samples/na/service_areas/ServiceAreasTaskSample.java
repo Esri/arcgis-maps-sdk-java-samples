@@ -21,9 +21,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ServiceAreasSample extends Application {
+public class ServiceAreasTaskSample extends Application {
 
-  private static ServiceAreasController controller;
+  private static ServiceAreasTaskController controller;
 
   @Override
   public void start(Stage stage) throws Exception {

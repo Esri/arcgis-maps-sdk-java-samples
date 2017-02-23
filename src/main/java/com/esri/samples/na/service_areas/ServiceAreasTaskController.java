@@ -49,7 +49,7 @@ import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygon;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 
-public class ServiceAreasController {
+public class ServiceAreasTaskController {
 
   @FXML private MapView mapView;
   @FXML private ToggleButton btnAddFacility;
@@ -207,7 +207,7 @@ public class ServiceAreasController {
         }
       });
     } else {
-      showErrorMessage("Must have atleast 1 Facility!");
+      showErrorMessage("Must have at least 1 Facility!");
     }
   }
 
