@@ -1,6 +1,6 @@
 <h1>Service Area Task</h1>
 
-<p>Demonstrates how find services areas around a point using the ServiceAreasTask. </p>
+<p>Demonstrates how find services areas around a point using the ServiceAreasTask. A service area shows locations that can be reached from a facility based off a certain impedance. One kind of impedence could be time.</p>
 
 <p><img src="ServiceAreasTask.gif"/></p>
 
