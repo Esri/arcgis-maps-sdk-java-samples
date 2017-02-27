@@ -34,8 +34,8 @@
             </toggleGroup>
           </ToggleButton>
           <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Add Barrier"  onAction="#createBarrier" minWidth="200"/>
-        <Button fx:id="btnShowServiceArea" text="Show Service Areas" onAction="#showServiceAreas" minWidth="200"/>
-        <Button fx:id="btnReset" text="Reset" onAction="#clearRouteAndGraphics" minWidth="200"/>
+        <Button text="Show Service Areas" onAction="#showServiceAreas" minWidth="200"/>
+        <Button text="Reset" onAction="#clearRouteAndGraphics" minWidth="200"/>
       </HBox>
     </top>
 </BorderPane>

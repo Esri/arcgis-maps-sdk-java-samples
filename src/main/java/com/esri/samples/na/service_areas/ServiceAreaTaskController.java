@@ -16,6 +16,7 @@
 package com.esri.samples.na.service_areas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -23,7 +24,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 
@@ -54,39 +54,48 @@ public class ServiceAreaTaskController {
   @FXML private MapView mapView;
   @FXML private ToggleButton btnAddFacility;
   @FXML private ToggleButton btnAddBarrier;
-  @FXML private Button btnShowServiceArea;
-  @FXML private Button btnReset;
 
-  // holds all location to find service areas around
+  // all location were serice areas will be found
   private List<ServiceAreaFacility> serviceAreaFacilities;
-  // different colors to display multiple service areas
-  private List<SimpleFillSymbol> fillSymbols;
 
-  // task to find service area around a location
-  private ServiceAreaTask task;
-  // used to solve task above
+  // task to find service area around a facility
+  private ServiceAreaTask serviceAreaTask;
+  // used for solving task above
   private ServiceAreaParameters serviceAreaParameters;
-  // holds all facilities that are displayed to the mapview
+  // for displaying service area facilities to the mapview
   private GraphicsOverlay facilityOverlay;
-  // holds all polygon service areas that are displayed to the mapview
-  private GraphicsOverlay polygonOverlay;
-  // holds all barriers that are displayed to mapview
+  // for displaying service areas to the mapview
+  private GraphicsOverlay serviceAreasOverlay;
+  // for displaying barriers to mapview
   private GraphicsOverlay barrierOverlay;
   // used to make barriers
   private PolylineBuilder barrierBuilder;
+  // fills service areas with a color when displayed to mapview
+  private SimpleFillSymbol fillSymbol;
   // used for placing geometry on mapview
   private SpatialReference spatialReference = SpatialReferences.getWebMercator();
 
+  @FXML
   public void initialize() {
 
-    // create map of creates and add to mapview
     ArcGISMap map = new ArcGISMap(Basemap.createStreets());
     mapView.setMap(map);
     // set mapview to San Francisco
     mapView.setViewpoint(new Viewpoint(37.77, -122.41, 40000));
 
     createServiceAreaTask();
-    setDisplayValues();
+
+    // for display graphics to mapview
+    facilityOverlay = new GraphicsOverlay();
+    serviceAreasOverlay = new GraphicsOverlay();
+    barrierOverlay = new GraphicsOverlay();
+    mapView.getGraphicsOverlays().addAll(Arrays.asList(facilityOverlay, serviceAreasOverlay, barrierOverlay));
+
+    barrierBuilder = new PolylineBuilder(spatialReference);
+    serviceAreaFacilities = new ArrayList<>();
+
+    SimpleLineSymbol outline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 3.0f);
+    fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x6600FF00, outline);
 
     // icon used to display facilities to mapview
     String facilityUrl = "http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png";
@@ -96,44 +105,41 @@ public class ServiceAreaTaskController {
 
     // creates facilities and barriers at user's clicked location
     mapView.setOnMouseClicked(e -> {
-      // check that the primary mouse button was clicked
       if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
         // create a point from where the user clicked
         Point2D point = new Point2D(e.getX(), e.getY());
-        // create a map point from user point
         Point mapPoint = mapView.screenToLocation(point);
         if (btnAddFacility.isSelected()) {
-          // create facility and display to mapview
+          // create facility from point and display to mapview
           Point servicePoint = new Point(mapPoint.getX(), mapPoint.getY(), spatialReference);
           serviceAreaFacilities.add(new ServiceAreaFacility(servicePoint));
-          Graphic graphic = new Graphic(servicePoint, facilitySymbol);
-          facilityOverlay.getGraphics().add(graphic);
+          facilityOverlay.getGraphics().add(new Graphic(servicePoint, facilitySymbol));
         } else if (btnAddBarrier.isSelected()) {
           // create barrier and display to mapview
           barrierBuilder.addPoint(new Point(mapPoint.getX(), mapPoint.getY(), spatialReference));
           barrierOverlay.getGraphics().add(barrierOverlay.getGraphics().size(),
-              new Graphic(barrierBuilder.toGeometry(), fillSymbols.get(0).getOutline()));
+              new Graphic(barrierBuilder.toGeometry(), fillSymbol.getOutline()));
         }
       }
     });
   }
 
   /**
-   * creates task to compute services areas with given region from url and get default parameters from task.
+   * Creates task to compute services areas with given region from url and get defaults parameters from task.
    */
   private void createServiceAreaTask() {
-    final String sanFranRegion =
+    final String SanFranciscoRegion =
         "http://ragss12512:6080/arcgis/rest/services/NA/SanFrancisco_GPNAS/NAServer/Service%20Area";
-    task = new ServiceAreaTask(sanFranRegion);
-    task.loadAsync();
+    serviceAreaTask = new ServiceAreaTask(SanFranciscoRegion);
+    serviceAreaTask.loadAsync();
 
-    // get default parameters from service area task
-    ListenableFuture<ServiceAreaParameters> parameters = task.createDefaultParametersAsync();
+    ListenableFuture<ServiceAreaParameters> parameters = serviceAreaTask.createDefaultParametersAsync();
     parameters.addDoneListener(() -> {
       try {
         serviceAreaParameters = parameters.get();
+        // allows service areas that are returned to be displayed to mapview
         serviceAreaParameters.setOutputSpatialReference(spatialReference);
-        // allows use to display service areas to mapview
+        // returns service areas which are displayed as polygons
         serviceAreaParameters.setReturnPolygons(true);
       } catch (ExecutionException | InterruptedException e) {
         e.printStackTrace();
@@ -142,7 +148,7 @@ public class ServiceAreaTaskController {
   }
 
   /**
-   * Starts creating a new barrier is barrier button is selected.
+   * Starts creating a new barrier if barrier button is selected.
    */
   @FXML
   private void createBarrier() {
@@ -152,7 +158,7 @@ public class ServiceAreaTaskController {
   }
 
   /**
-   * Clears all graphics from mapview and clears all faclilities and barriers from service area parameters.
+   * Clears all graphics from mapview and clears all facilities and barriers from service area parameters.
    */
   @FXML
   private void clearRouteAndGraphics() {
@@ -160,7 +166,7 @@ public class ServiceAreaTaskController {
     serviceAreaParameters.clearPolylineBarriers();
     serviceAreaFacilities.clear();
     facilityOverlay.getGraphics().clear();
-    polygonOverlay.getGraphics().clear();
+    serviceAreasOverlay.getGraphics().clear();
     barrierOverlay.getGraphics().clear();
   }
 
@@ -175,32 +181,31 @@ public class ServiceAreaTaskController {
     //turn barrier button off and add any barriers to service area parameters
     btnAddBarrier.setSelected(false);
     List<PolylineBarrier> polylineBarriers = new ArrayList<>();
-    barrierOverlay.getGraphics().forEach(graphic -> {
-      polylineBarriers.add(new PolylineBarrier((Polyline) graphic.getGeometry()));
-    });
+    barrierOverlay.getGraphics()
+        .forEach(barrier -> polylineBarriers.add(new PolylineBarrier((Polyline) barrier.getGeometry())));
     serviceAreaParameters.setPolylineBarriers(polylineBarriers);
 
     // need at least one facility for the task to work
     if (serviceAreaFacilities.size() > 0) {
-      // get rid of any previous service area graphics
-      polygonOverlay.getGraphics().clear();
+      serviceAreasOverlay.getGraphics().clear();
       serviceAreaParameters.setFacilities(serviceAreaFacilities);
       // find service areas around facility using parameters that were set
-      ListenableFuture<ServiceAreaResult> result = task.solveServiceAreaAsync(serviceAreaParameters);
+      ListenableFuture<ServiceAreaResult> result = serviceAreaTask.solveServiceAreaAsync(serviceAreaParameters);
       result.addDoneListener(() -> {
         try {
-          // display all service areas for all service are facilities and display to mapview
-          List<Graphic> graphics = polygonOverlay.getGraphics();
+          // display all service areas that were found to mapview
+          List<Graphic> graphics = serviceAreasOverlay.getGraphics();
           ServiceAreaResult serviceAreaResult = result.get();
           for (int i = 0; i < serviceAreaFacilities.size(); i++) {
             List<ServiceAreaPolygon> polygons = serviceAreaResult.getResultPolygons(i);
+            // could be more than one service area
             for (int j = 0; j < polygons.size(); j++) {
-              graphics.add(new Graphic(polygons.get(j).getGeometry(), fillSymbols.get(j % 3)));
+              graphics.add(new Graphic(polygons.get(j).getGeometry(), fillSymbol));
             }
           }
         } catch (ExecutionException | InterruptedException e) {
           if (e.getMessage().contains("Unable to complete operation")) {
-            showErrorMessage("Facility not within SanFrancisco area!");
+            showErrorMessage("Facility not within San Francisco area!");
           } else {
             e.printStackTrace();
           }
@@ -222,29 +227,6 @@ public class ServiceAreaTaskController {
     dialog.setTitle("Error");
     dialog.setContentText(message);
     dialog.showAndWait();
-  }
-
-  /**
-   * Creates objects for displaying graphics to mapview.
-   */
-  private void setDisplayValues() {
-    // setup colors for multiple service areas
-    SimpleLineSymbol outline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 3.0f);
-    fillSymbols = new ArrayList<>();
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x6600FF00, outline));
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FFFF00, outline));
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FF0000, outline));
-
-    // storing graphics to display to mapview
-    facilityOverlay = new GraphicsOverlay();
-    polygonOverlay = new GraphicsOverlay();
-    barrierOverlay = new GraphicsOverlay();
-    mapView.getGraphicsOverlays().add(facilityOverlay);
-    mapView.getGraphicsOverlays().add(polygonOverlay);
-    mapView.getGraphicsOverlays().add(barrierOverlay);
-
-    barrierBuilder = new PolylineBuilder(spatialReference);
-    serviceAreaFacilities = new ArrayList<>();
   }
 
   /**
