@@ -5,13 +5,13 @@
 <p><img src="ServiceAreaTask.gif"/></p>
 
 <h2>How to use sample</h2>
-<p>In order to find any services areas at least one ServiceAreaFaciltiy needs to be added.</p>
-<p>To add a facility, click the facility button then click anywhere on the MapView.</p>
-<p>To add a barrier, click the barrier button and click multiple location on MapView to draw a barrier.</p>
-<ul><p>Hit the barrier button again to finish drawing barrier.</p>
-<p>Hitting any other button will also stop the barrier from drawing.</p></ul>
-<p>To show service areas around facilities that were added, click show service areas button.</p>
-<p>Reset button, clears all graphics and reset ServiceAreaTask.</p>
+<li>In order to find any services areas at least one ServiceAreaFaciltiy needs to be added.</li>
+<li>To add a facility, click the facility button then click anywhere on the MapView.</li>
+<li>To add a barrier, click the barrier button and click multiple location on MapView to draw a barrier.</li>
+<ul><li>Hit the barrier button again to finish drawing barrier.</li>
+<li>Hitting any other button will also stop the barrier from drawing.</li></ul>
+<li>To show service areas around facilities that were added, click show service areas button.</li>
+<li>Reset button, clears all graphics and reset ServiceAreaTask.</li>
 
 <h2>How it works</h2>
 
