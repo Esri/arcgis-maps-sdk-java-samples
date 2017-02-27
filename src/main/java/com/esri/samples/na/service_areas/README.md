@@ -20,13 +20,13 @@
 <ol>
 <li>Create a <code>ServiceAreaTask</code> from an online service.</li>
 <li>Get ServiceAreaParameters from task, <code>task.createDefaultParametersAsync()</code></li>
-<li>Set spatial reference to parameters, this will allow any geometry that is return to be displayed on mapview, <code>serviceAreaParameters.setOutputSpatialReference(spatialReference)</code></li>
-<li>Set return polygons to parameters, this will return any service areas that need to be displayed, <code>serviceAreaParameters.setReturnPolygons(true)</code></li>
+<li>Set spatial reference to parameters, this will allow any geometry that is return to be displayed on the MapView, <code>serviceAreaParameters.setOutputSpatialReference(spatialReference)</code></li>
+<li>Set return polygons to parameters, this will return any service area that needs to be displayed, <code>serviceAreaParameters.setReturnPolygons(true)</code></li>
 <li>Add a <code>ServiceAreaFacilty</code> to parameters, <code>serviceAreaParameters.setFacilities(serviceAreaFacility)</code></li>
 <li>Get <code>ServiceAreaResult</code> by solving the service area task using parameters, <code>task.solveServiceAreaAsync(serviceAreaParameters).get()</code></li>
-<li>Get any <code>ServiceAreaPolygon</code>s areas that were returned, <code>serviceAreaResult.getResultPolygons(facilityIndex)</code></li>
-<ul>facilityIndex is the faciltiy from the mapview that you want to get the services areas of</ul>
-<li>Display services areas to mapview, <code>graphicsOverlay.getGraphics().add(new Graphic(serviceAreaPolygon.getGeometry(), fillSymbol))</code></li>
+<li>Get any <code>ServiceAreaPolygon</code>s that were returned, <code>serviceAreaResult.getResultPolygons(facilityIndex)</code></li>
+<ul><li>facilityIndex is the faciltiy from the mapview that you want to get the services areas of</li></ul>
+<li>Display services areas to MapView, <code>graphicsOverlay.getGraphics().add(new Graphic(serviceAreaPolygon.getGeometry(), fillSymbol))</code></li>
 </ol>
 
 <h2>Features</h2>
