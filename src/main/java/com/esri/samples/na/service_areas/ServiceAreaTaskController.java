@@ -46,6 +46,7 @@ import com.esri.arcgisruntime.tasks.networkanalysis.PolylineBarrier;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaFacility;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaParameters;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygon;
+import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygonDetail;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 
@@ -141,6 +142,8 @@ public class ServiceAreaTaskController {
         serviceAreaParameters.setOutputSpatialReference(spatialReference);
         // returns service areas which are displayed as polygons
         serviceAreaParameters.setReturnPolygons(true);
+        // enhances the detail of showing service areas
+        serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
       } catch (ExecutionException | InterruptedException e) {
         e.printStackTrace();
       }
