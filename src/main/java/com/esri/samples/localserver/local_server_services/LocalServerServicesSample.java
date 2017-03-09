@@ -16,20 +16,27 @@
 
 package com.esri.samples.localserver.local_server_services;
 
+import java.io.File;
 import java.io.IOException;
+
+import com.esri.arcgisruntime.localserver.LocalServer;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class LocalServerServicesSample extends Application {
 
   private static LocalServerServicesController controller;
+  
+  private static Stage stage;
 
   @Override
   public void start(Stage stage) throws IOException {
+    LocalServer.INSTANCE.setInstallPath("C:\\Program Files (x86)\\ArcGIS SDKs");
     // set up the scene
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/local_server_services.fxml"));
     Parent root = loader.load();
@@ -44,7 +51,7 @@ public class LocalServerServicesSample extends Application {
     stage.setScene(scene);
     stage.show();
 
-    this.getHostServices();
+    LocalServerServicesSample.stage = stage;
   }
 
   /**
@@ -55,5 +62,16 @@ public class LocalServerServicesSample extends Application {
   public static void main(String[] args) {
 
     Application.launch(args);
+  }
+  
+  /**
+   * Opens a dialog to choose a file.
+   * 
+   * @return the chosen file
+   * 
+   * @since 100.1.0
+   */
+  static File openFileDialog() {
+    return new FileChooser().showOpenDialog(stage);
   }
 }

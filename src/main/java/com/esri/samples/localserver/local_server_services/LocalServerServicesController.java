@@ -18,21 +18,33 @@ package com.esri.samples.localserver.local_server_services;
 
 import java.io.File;
 
-import com.esri.arcgisruntime.localserver.*;
+import com.esri.arcgisruntime.localserver.LocalFeatureService;
+import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
+import com.esri.arcgisruntime.localserver.LocalMapService;
+import com.esri.arcgisruntime.localserver.LocalServer;
+import com.esri.arcgisruntime.localserver.LocalServerStatus;
+import com.esri.arcgisruntime.localserver.LocalService;
 import com.esri.arcgisruntime.util.ListenableList;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 
 public class LocalServerServicesController {
 
   @FXML private Button btnStartServer;
   @FXML private ComboBox<String> serviceOptions;
+  @FXML private Label lblSelectedPackage;
+  @FXML private Button btnSelectPackage;
   @FXML private TextArea statusLog;
-  @FXML private ListView<String> runningServices;
+  @FXML private ListView<String> runningServices;  
 
   private ListenableList<LocalService> services;
   private HostServices hostServices;
@@ -45,6 +57,7 @@ public class LocalServerServicesController {
     server.addStatusChangedListener(status -> {
       statusLog.appendText("Server Status: " + status.getNewStatus().toString() + "\n");
       btnStartServer.setDisable(status.getNewStatus() == LocalServerStatus.STARTED);
+      handleSelectServiceOption();
     });
   }
 
@@ -95,20 +108,19 @@ public class LocalServerServicesController {
       // create local service
       final String serviceUrl;
       final LocalService localService;
-      String pathStart = "./samples-data/local_server/";
+      serviceUrl = new File(lblSelectedPackage.getText()).getAbsolutePath();
       switch (selected) {
         case "Map Service":
-          serviceUrl = new File(pathStart + "PointsofInterest.mpk").getAbsolutePath();
           localService = new LocalMapService(serviceUrl);
           break;
         case "Feature Service":
-          serviceUrl = new File(pathStart + "PointsofInterest.mpk").getAbsolutePath();
           localService = new LocalFeatureService(serviceUrl);
           break;
         case "Geoprocessing Service":
-          serviceUrl = new File(pathStart + "MessageInABottle.gpk").getAbsolutePath();
-          localService = new LocalGeoprocessingService(serviceUrl); break;
-        default: localService = null;
+          localService = new LocalGeoprocessingService(serviceUrl);
+          break;
+        default: 
+          localService = null;
       }
 
       // start local service and watch for updates
@@ -122,6 +134,32 @@ public class LocalServerServicesController {
         localService.startAsync();
       }
     }
+  }
+  
+  @FXML
+  private void handleSelectServiceOption() {
+    String selected = serviceOptions.getSelectionModel().getSelectedItem();
+    String pathStart = "./samples-data/local_server/";
+    switch (selected) {
+      case "Map Service":
+      case "Feature Service":
+        lblSelectedPackage.setText(pathStart + "PointsofInterest.mpk");
+        break;
+      case "Geoprocessing Service":
+        lblSelectedPackage.setText(pathStart +  "MessageInABottle.gpk");
+        break;
+      default:
+        break;
+    }
+  }
+  
+  @FXML
+  private void handleSelectPackage() {
+    File selectedFile = LocalServerServicesSample.openFileDialog();
+    if (selectedFile == null) {
+      return;
+    }
+    lblSelectedPackage.setText(selectedFile.getAbsolutePath());
   }
 
   /**
