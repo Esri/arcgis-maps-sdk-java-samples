@@ -41,10 +41,10 @@ public class LocalServerServicesController {
 
   @FXML private Button btnStartServer;
   @FXML private ComboBox<String> serviceOptions;
-  @FXML private Label lblSelectedPackage;
   @FXML private Button btnSelectPackage;
+  @FXML private Label lblSelectedPackage;
   @FXML private TextArea statusLog;
-  @FXML private ListView<String> runningServices;  
+  @FXML private ListView<String> runningServices;
 
   private ListenableList<LocalService> services;
   private HostServices hostServices;

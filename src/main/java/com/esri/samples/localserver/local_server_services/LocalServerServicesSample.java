@@ -19,8 +19,6 @@ package com.esri.samples.localserver.local_server_services;
 import java.io.File;
 import java.io.IOException;
 
-import com.esri.arcgisruntime.localserver.LocalServer;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,7 +34,6 @@ public class LocalServerServicesSample extends Application {
 
   @Override
   public void start(Stage stage) throws IOException {
-    LocalServer.INSTANCE.setInstallPath("C:\\Program Files (x86)\\ArcGIS SDKs");
     // set up the scene
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/local_server_services.fxml"));
     Parent root = loader.load();
