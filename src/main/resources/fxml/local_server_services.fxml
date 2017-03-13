@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.stage.FileChooser?>
 <?language javascript?>
 
 <BorderPane fx:controller="com.esri.samples.localserver.local_server_services.LocalServerServicesController"
@@ -29,7 +28,7 @@
     
       <VBox HBox.hgrow="ALWAYS" spacing="3"> 
         <HBox>
-          <ComboBox fx:id="serviceOptions" maxWidth="Infinity" disable="${!btnStartServer.disable}" onAction="#handleSelectServiceOption">
+          <ComboBox fx:id="serviceOptions" minWidth="200" maxWidth="Infinity" disable="${!btnStartServer.disable}" onAction="#handleSelectServiceOption">
           
             <value>
               <String fx:value="Map Service"/>
@@ -43,8 +42,8 @@
               </FXCollections>
             </items>
           </ComboBox>
-          <Button fx:id="btnSelectPackage" text="Select package" disable="${!btnStartServer.disable}" onAction="#handleSelectPackage"/>
-          <Label fx:id="lblSelectedPackage" text=""/>
+          <Button text="Select package" disable="${!btnStartServer.disable}" minWidth="100" onAction="#handleSelectPackage"/>
+          <Label fx:id="selectedPackageLabel"/>
         </HBox>
         
         <HBox spacing="3">
