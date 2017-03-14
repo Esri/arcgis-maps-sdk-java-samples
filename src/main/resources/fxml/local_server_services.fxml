@@ -27,20 +27,24 @@
       </VBox>
     
       <VBox HBox.hgrow="ALWAYS" spacing="3"> 
-        <ComboBox fx:id="serviceOptions" maxWidth="Infinity" disable="${!btnStartServer.disable}">
+        <HBox>
+          <ComboBox fx:id="serviceOptions" minWidth="200" maxWidth="Infinity" disable="${!btnStartServer.disable}" onAction="#handleSelectServiceOption">
           
-          <value>
-            <String fx:value="Map Service"/>
-          </value>
-          
-          <items>
-            <FXCollections fx:factory="observableArrayList">
+            <value>
               <String fx:value="Map Service"/>
-              <String fx:value="Feature Service"/>
-              <String fx:value="Geoprocessing Service"/>
-            </FXCollections>
-          </items>
-        </ComboBox>
+            </value>
+          
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Map Service"/>
+                <String fx:value="Feature Service"/>
+                <String fx:value="Geoprocessing Service"/>
+              </FXCollections>
+            </items>
+          </ComboBox>
+          <Button text="Select package" disable="${!btnStartServer.disable}" minWidth="100" onAction="#handleSelectPackage"/>
+          <Label fx:id="selectedPackageLabel"/>
+        </HBox>
         
         <HBox spacing="3">
           <Button HBox.hgrow="ALWAYS" text="Start Service" maxWidth="Infinity"
