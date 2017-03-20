@@ -72,7 +72,7 @@ public class ServiceAreaTaskController {
   // used to make barriers
   private PolylineBuilder barrierBuilder;
   // fills service areas with a color when displayed to mapview
-  private SimpleFillSymbol fillSymbol;
+  private List<SimpleFillSymbol> fillSymbols;
   // used for placing geometry on mapview
   private SpatialReference spatialReference = SpatialReferences.getWebMercator();
 
@@ -84,19 +84,38 @@ public class ServiceAreaTaskController {
     // set mapview to San Francisco
     mapView.setViewpoint(new Viewpoint(37.77, -122.41, 40000));
 
-    createServiceAreaTask();
+    // create service area task from url
+    final String SanFranciscoRegion =
+        "http://qadev000238.esri.com/server/rest/services/NA/SanFran_WithTM/NAServer/Service_Area_Defaults";
+    serviceAreaTask = new ServiceAreaTask(SanFranciscoRegion);
+    serviceAreaTask.loadAsync();
+    // create default parameters from task
+    ListenableFuture<ServiceAreaParameters> parameters = serviceAreaTask.createDefaultParametersAsync();
+    parameters.addDoneListener(() -> {
+      try {
+        serviceAreaParameters = parameters.get();
+        serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
+        // adding another service area of 2 minutes
+        // default parameters have a default service area of 5 minutes
+        serviceAreaParameters.getDefaultImpedanceCutoffs().addAll(Arrays.asList(2.0));
+      } catch (ExecutionException | InterruptedException e) {
+        e.printStackTrace();
+      }
+    });
 
-    // for display graphics to mapview
-    facilityOverlay = new GraphicsOverlay();
+    // for displaying graphics to mapview
     serviceAreasOverlay = new GraphicsOverlay();
+    facilityOverlay = new GraphicsOverlay();
     barrierOverlay = new GraphicsOverlay();
-    mapView.getGraphicsOverlays().addAll(Arrays.asList(facilityOverlay, serviceAreasOverlay, barrierOverlay));
+    mapView.getGraphicsOverlays().addAll(Arrays.asList(serviceAreasOverlay, barrierOverlay, facilityOverlay));
 
     barrierBuilder = new PolylineBuilder(spatialReference);
     serviceAreaFacilities = new ArrayList<>();
 
     SimpleLineSymbol outline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 3.0f);
-    fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x6600FF00, outline);
+    fillSymbols = new ArrayList<>();
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FF0000, outline));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FFA500, outline));
 
     // icon used to display facilities to mapview
     String facilityUrl = "http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png";
@@ -119,33 +138,8 @@ public class ServiceAreaTaskController {
           // create barrier and display to mapview
           barrierBuilder.addPoint(new Point(mapPoint.getX(), mapPoint.getY(), spatialReference));
           barrierOverlay.getGraphics().add(barrierOverlay.getGraphics().size(),
-              new Graphic(barrierBuilder.toGeometry(), fillSymbol.getOutline()));
+              new Graphic(barrierBuilder.toGeometry(), outline));
         }
-      }
-    });
-  }
-
-  /**
-   * Creates task to compute services areas with given region from url and get defaults parameters from task.
-   */
-  private void createServiceAreaTask() {
-    final String SanFranciscoRegion =
-        "http://ragss12512:6080/arcgis/rest/services/NA/SanFrancisco_GPNAS/NAServer/Service%20Area";
-    serviceAreaTask = new ServiceAreaTask(SanFranciscoRegion);
-    serviceAreaTask.loadAsync();
-
-    ListenableFuture<ServiceAreaParameters> parameters = serviceAreaTask.createDefaultParametersAsync();
-    parameters.addDoneListener(() -> {
-      try {
-        serviceAreaParameters = parameters.get();
-        // allows service areas that are returned to be displayed to mapview
-        serviceAreaParameters.setOutputSpatialReference(spatialReference);
-        // returns service areas which are displayed as polygons
-        serviceAreaParameters.setReturnPolygons(true);
-        // enhances the detail of showing service areas
-        serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
-      } catch (ExecutionException | InterruptedException e) {
-        e.printStackTrace();
       }
     });
   }
@@ -203,7 +197,7 @@ public class ServiceAreaTaskController {
             List<ServiceAreaPolygon> polygons = serviceAreaResult.getResultPolygons(i);
             // could be more than one service area
             for (int j = 0; j < polygons.size(); j++) {
-              graphics.add(new Graphic(polygons.get(j).getGeometry(), fillSymbol));
+              graphics.add(new Graphic(polygons.get(j).getGeometry(), fillSymbols.get(j % 2)));
             }
           }
         } catch (ExecutionException | InterruptedException e) {
