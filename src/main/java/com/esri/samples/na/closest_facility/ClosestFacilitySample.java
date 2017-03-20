@@ -57,11 +57,10 @@ public class ClosestFacilitySample extends Application {
   // holds locations of hospitals around San Diego
   private List<Facility> facilities;
   private MapView mapView;
-  // solves task to find closest route between a incident and a facility
+  // solves task to find closest route between an incident and a facility
   private ClosestFacilityTask task;
-  // parameters needed to slove for route
+  // parameters needed to solve for route
   private ClosestFacilityParameters facilityParameters;
-
   // used to display route between incident and facility to mapview
   private SimpleLineSymbol routeSymbol;
   // same spatial reference of the map
@@ -102,16 +101,14 @@ public class ClosestFacilitySample extends Application {
       final String sanDiegoRegion =
           "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility";
       task = new ClosestFacilityTask(sanDiegoRegion);
-      task.loadAsync();
-      // get default parameters used to find closest facility to incident
-      ListenableFuture<ClosestFacilityParameters> parameters = task.createDefaultParametersAsync();
-      parameters.addDoneListener(() -> {
+      task.addDoneLoadingListener(() -> {
         try {
-          facilityParameters = parameters.get();
+          facilityParameters = task.createDefaultParametersAsync().get();
         } catch (ExecutionException | InterruptedException e) {
           e.printStackTrace();
         }
       });
+      task.loadAsync();
 
       // symbols that display incident(black cross) and route(blue line) to view
       SimpleMarkerSymbol incidentSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFF000000, 20);
@@ -169,11 +166,11 @@ public class ClosestFacilitySample extends Application {
    */
   private void populateParametersAndSolveRoute() {
     // clear any parameters that were set
-    facilityParameters.getFacilities().clear();
-    facilityParameters.getIncidents().clear();
+    facilityParameters.clearFacilities();
+    facilityParameters.clearIncidents();
     // set new parameters to find route
-    facilityParameters.getFacilities().addAll(facilities);
-    facilityParameters.getIncidents().add(new Incident(incidentPoint));
+    facilityParameters.setFacilities(facilities);
+    facilityParameters.setIncidents(Arrays.asList(new Incident(incidentPoint)));
 
     // find closest route using parameters from above
     ListenableFuture<ClosestFacilityResult> result = task.solveClosestFacilityAsync(facilityParameters);
