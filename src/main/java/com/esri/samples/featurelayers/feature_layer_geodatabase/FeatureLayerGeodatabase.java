@@ -61,7 +61,7 @@ public class FeatureLayerGeodatabase extends Application {
       geodatabase.addDoneLoadingListener(() -> {
         // access the geodatabase's feature table Trailheads
         GeodatabaseFeatureTable geodatabaseFeatureTable = geodatabase.getGeodatabaseFeatureTable("Trailheads");
-
+        geodatabaseFeatureTable.loadAsync();
         // create a layer from the geodatabase feature table above and add to map
         FeatureLayer featureLayer = new FeatureLayer(geodatabaseFeatureTable);
         featureLayer.addDoneLoadingListener(() -> {
