@@ -61,6 +61,9 @@ public class ChangeBasemapSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // creates a map view
+      mapView = new MapView();
+
       // setup listview of basemaps
       ListView<Basemap.Type> basemapList = new ListView<>();
       Arrays.stream(Basemap.Type.values()).collect(Collectors.toCollection(basemapList::getItems));
@@ -73,12 +76,8 @@ public class ChangeBasemapSample extends Application {
         mapView.setMap(map);
       });
 
-      // create ArcGISMap with topographic basemap
-      map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, LATITUDE, LONGITUDE, LOD);
-
-      // creates a map view and set map to it
-      mapView = new MapView();
-      mapView.setMap(map);
+      // select the first basemap
+      basemapList.getSelectionModel().selectFirst();
 
       // add the map view and control panel to stack pane
       stackPane.getChildren().addAll(mapView, basemapList);
