@@ -26,7 +26,6 @@
 </ol>
 
 <h2>Features</h2>
-
 <ul>
   <li>ClosestFacilityParameters</li>
   <li>ClosestFacilityResult</li>
