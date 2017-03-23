@@ -16,6 +16,7 @@
 
 package com.esri.samples.map.change_basemap;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,7 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -65,8 +67,7 @@ public class ChangeBasemapSample extends Application {
       mapView = new MapView();
 
       // setup listview of basemaps
-      ListView<Basemap.Type> basemapList = new ListView<>();
-      Arrays.stream(Basemap.Type.values()).collect(Collectors.toCollection(basemapList::getItems));
+      ListView<Basemap.Type> basemapList = new ListView<>(FXCollections.observableArrayList(Basemap.Type.values()));
       basemapList.setMaxSize(250, 150);
 
       // change the basemap when list option is selected
