@@ -6,7 +6,7 @@
 
 <h2>How to use the sample</h2>
 
-<p>You can change the basemap of the map by clicking an icon from the toolbar at the top.</p>
+<p>Choose any basemap from the list view.</p>
 
 <h2>How it works</h2>
 

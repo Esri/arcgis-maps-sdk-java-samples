@@ -18,6 +18,8 @@ package com.esri.samples.localserver.local_server_services;
 
 import java.io.IOException;
 
+import com.esri.arcgisruntime.localserver.LocalServer;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,7 +29,7 @@ import javafx.stage.Stage;
 public class LocalServerServicesSample extends Application {
 
   private static LocalServerServicesController controller;
-
+  
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
@@ -43,8 +45,6 @@ public class LocalServerServicesSample extends Application {
     stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
-
-    this.getHostServices();
   }
 
   /**
