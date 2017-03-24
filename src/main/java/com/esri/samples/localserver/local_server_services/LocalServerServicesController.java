@@ -146,6 +146,7 @@ public class LocalServerServicesController {
 
     File selectedFile = packageChooser.showOpenDialog(packagePath.getScene().getWindow());
     if (selectedFile != null) {
+      packageChooser.setInitialDirectory(selectedFile.getParentFile());
       packageChooser.setInitialFileName(selectedFile.getAbsolutePath());
     }
   }
