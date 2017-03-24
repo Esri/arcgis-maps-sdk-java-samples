@@ -16,6 +16,8 @@
 
 package com.esri.samples.localserver.local_server_services;
 
+import static javafx.stage.FileChooser.ExtensionFilter;
+
 import java.io.File;
 
 import com.esri.arcgisruntime.localserver.LocalFeatureService;
@@ -24,79 +26,92 @@ import com.esri.arcgisruntime.localserver.LocalMapService;
 import com.esri.arcgisruntime.localserver.LocalServer;
 import com.esri.arcgisruntime.localserver.LocalServerStatus;
 import com.esri.arcgisruntime.localserver.LocalService;
-import com.esri.arcgisruntime.util.ListenableList;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
 public class LocalServerServicesController {
 
-  @FXML private Button btnStartServer;
+  @FXML private TextField packagePath;
   @FXML private ComboBox<String> serviceOptions;
-  @FXML private Label selectedPackageLabel;
   @FXML private TextArea statusLog;
-  @FXML private ListView<String> runningServices;
+  @FXML private ListView<LocalService> runningServices;
+  @FXML private Button stopServiceButton;
 
-  private ListenableList<LocalService> services;
   private HostServices hostServices;
+  private FileChooser packageChooser;
 
   private static final LocalServer server = LocalServer.INSTANCE;
 
   @FXML
   private void initialize() {
-    // watch server status
-    server.addStatusChangedListener(status -> {
-      statusLog.appendText("Server Status: " + status.getNewStatus().toString() + "\n");
-      btnStartServer.setDisable(status.getNewStatus() == LocalServerStatus.STARTED);
-      handleSelectServiceOption();
-    });
-  }
 
-  /** 
-   * Handles starting a local server.
-   */
-  @FXML
-  private void handleStartLocalServer() {
-    // start local server
+    // start the local server
     server.startAsync();
 
-    // get observable list of services
-    services = server.getServices();
-  }
+    // log the server status
+    server.addStatusChangedListener(status ->
+        statusLog.appendText("Server Status: " + status.getNewStatus().toString() + "\n")
+    );
 
-  /** 
-   * Handles stopping a local server.
-   */
-  @FXML
-  private void handleStopLocalServer() {
-    // stop local server
-    if (server.getStatus() == LocalServerStatus.STARTED) {
-      server.stopAsync();
-    }
+    // setup UI bindings
+    stopServiceButton.disableProperty().bind(runningServices.getSelectionModel().selectedItemProperty().isNull());
+    packagePath.textProperty().addListener(o -> {
+      serviceOptions.getItems().clear();
+      String[] uriParts = packagePath.getText().split("\\.");
+      if (uriParts.length > 0) {
+        String extension = uriParts[uriParts.length - 1];
+        switch (extension) {
+          case "mpk": serviceOptions.getItems().addAll("Map Service", "Feature Service"); break;
+          case "gpk": serviceOptions.getItems().add("Geoprocessing Service");
+        }
+        serviceOptions.getSelectionModel().select(0);
+      }
+    });
 
-    // remove listed running services
-    runningServices.getItems().clear();
+    // create a file chooser to select package files
+    packageChooser = new FileChooser();
+    ExtensionFilter extensionFilter = new ExtensionFilter("Local Server Packages", "*.mpk", "*.gpk");
+    packagePath.textProperty().bind(packageChooser.initialFileNameProperty());
+    packageChooser.setInitialDirectory(new File("./samples-data/local_server"));
+    packageChooser.setInitialFileName(packageChooser.getInitialDirectory().getAbsolutePath() + "/PointsOfInterest.mpk");
+    packageChooser.getExtensionFilters().add(extensionFilter);
+    packageChooser.setSelectedExtensionFilter(extensionFilter);
+
+    // create list view representation of running services
+    runningServices.setCellFactory(list ->
+      new ListCell<LocalService>(){
+
+        @Override
+        protected void updateItem(LocalService service, boolean bln) {
+          super.updateItem(service, bln);
+          if (service != null) {
+            setText(service.getName() + "  :  " + service.getUrl());
+          }
+        }
+
+      }
+    );
   }
 
   /**
-   * Creates and starts the selected local service in the dropdown.
-   * <p>
-   * Shows a warning popup if the local service is already running.
+   * Creates and starts the selected service.
    */
   @FXML
-  private void handleStartSelectedService() {
+  private void startSelectedService() {
+
     String selected = serviceOptions.getSelectionModel().getSelectedItem();
     // create local service
-    final String serviceUrl;
     final LocalService localService;
-    serviceUrl = new File(selectedPackageLabel.getText()).getAbsolutePath();
+    final String serviceUrl = packageChooser.getInitialFileName();
     switch (selected) {
       case "Map Service":
         localService = new LocalMapService(serviceUrl);
@@ -116,57 +131,42 @@ public class LocalServerServicesController {
       localService.addStatusChangedListener(status -> {
         statusLog.appendText(selected + " Status: " + status.getNewStatus().toString() + "\n");
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
-          Platform.runLater(() -> runningServices.getItems().add(selected + " URL ->  " + localService.getUrl()));
+          Platform.runLater(() -> runningServices.getItems().add(localService));
         }
       });
       localService.startAsync();
     }
   }
-  
+
+  /**
+   * Opens a dialog to choose a package file.
+   */
   @FXML
-  private void handleSelectServiceOption() {
-    String selected = serviceOptions.getSelectionModel().getSelectedItem();
-    String pathStart = "./samples-data/local_server/";
-    switch (selected) {
-      case "Map Service":
-      case "Feature Service":
-        selectedPackageLabel.setText(pathStart + "PointsofInterest.mpk");
-        break;
-      case "Geoprocessing Service":
-        selectedPackageLabel.setText(pathStart +  "MessageInABottle.gpk");
-        break;
-      default:
-        break;
+  private void openPackage() {
+
+    File selectedFile = packageChooser.showOpenDialog(packagePath.getScene().getWindow());
+    if (selectedFile != null) {
+      packageChooser.setInitialFileName(selectedFile.getAbsolutePath());
     }
-  }
-  
-  @FXML
-  private void handleSelectPackage() {
-    File selectedFile = new FileChooser().showOpenDialog(btnStartServer.getScene().getWindow());
-    if (selectedFile == null) {
-      return;
-    }
-    selectedPackageLabel.setText(selectedFile.getAbsolutePath());
   }
 
   /**
    * Stops the selected service from the running services list.
    */
   @FXML
-  private void handleStopSelectedService() {
-
-    int selectedIndex = runningServices.getSelectionModel().getSelectedIndex();
-    services.get(selectedIndex).stopAsync();
-    runningServices.getItems().remove(selectedIndex);
+  private void stopSelectedService() {
+    LocalService selectedService = runningServices.getSelectionModel().getSelectedItem();
+    selectedService.stopAsync();
+    runningServices.getItems().remove(selectedService);
   }
 
   /** 
    * Opens a browser to the url of the selected service.
    */
   @FXML
-  private void handleURL() {
+  private void openServiceURL() {
 
-    String url = runningServices.getSelectionModel().getSelectedItem().split(">")[1].trim();
+    String url = runningServices.getSelectionModel().getSelectedItem().getUrl();
     hostServices.showDocument(url);
   }
 
