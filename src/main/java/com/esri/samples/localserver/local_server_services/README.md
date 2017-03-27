@@ -4,7 +4,7 @@
 
 <p><b>Note:</b> Local Server is not supported on MacOS</p>
 
-<p><img src="LocalServerServices.gif"/></p>
+<p><img src="LocalServerServices.png"/></p>
 
 <h2>How to use the sample</h2>
 
