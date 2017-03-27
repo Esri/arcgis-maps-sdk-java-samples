@@ -178,7 +178,7 @@ public class ClosestFacilitySample extends Application {
       try {
         ClosestFacilityResult facilityResult = result.get();
         // a list of closest facilities based on users incident
-        List<Integer> rankedList = facilityResult.getRankedFacilities(0);
+        List<Integer> rankedList = facilityResult.getRankedFacilityIndexes(0);
         // get the index of the closest facility to incident
         int closestFacility = rankedList.get(0);
         // get route from incident to closest facility and display to mapview

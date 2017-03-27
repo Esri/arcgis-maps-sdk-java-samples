@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 
@@ -55,6 +56,7 @@ public class ServiceAreaTaskController {
   @FXML private MapView mapView;
   @FXML private ToggleButton btnAddFacility;
   @FXML private ToggleButton btnAddBarrier;
+  @FXML private ProgressIndicator progressIndicator;
 
   // all location were serice areas will be found
   private List<ServiceAreaFacility> serviceAreaFacilities;
@@ -175,15 +177,16 @@ public class ServiceAreaTaskController {
   @FXML
   private void showServiceAreas() {
 
-    //turn barrier button off and add any barriers to service area parameters
-    btnAddBarrier.setSelected(false);
-    List<PolylineBarrier> polylineBarriers = new ArrayList<>();
-    barrierOverlay.getGraphics()
-        .forEach(barrier -> polylineBarriers.add(new PolylineBarrier((Polyline) barrier.getGeometry())));
-    serviceAreaParameters.setPolylineBarriers(polylineBarriers);
-
     // need at least one facility for the task to work
     if (serviceAreaFacilities.size() > 0) {
+      progressIndicator.setVisible(true);
+      //turn barrier button off and add any barriers to service area parameters
+      btnAddBarrier.setSelected(false);
+      List<PolylineBarrier> polylineBarriers = new ArrayList<>();
+      barrierOverlay.getGraphics()
+          .forEach(barrier -> polylineBarriers.add(new PolylineBarrier((Polyline) barrier.getGeometry())));
+      serviceAreaParameters.setPolylineBarriers(polylineBarriers);
+
       serviceAreasOverlay.getGraphics().clear();
       serviceAreaParameters.setFacilities(serviceAreaFacilities);
       // find service areas around facility using parameters that were set
@@ -207,6 +210,7 @@ public class ServiceAreaTaskController {
             e.printStackTrace();
           }
         }
+        progressIndicator.setVisible(false);
       });
     } else {
       showErrorMessage("Must have at least 1 Facility!");
