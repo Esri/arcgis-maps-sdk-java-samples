@@ -5,9 +5,9 @@
 <p><img src="ServiceAreaTask.gif"/></p>
 
 <h2>How to use sample</h2>
-<li>In order to find any services areas at least one ServiceAreaFaciltiy needs to be added.</li>
-<li>To add a facility, click the facility button then click anywhere on the MapView.</li>
-<li>To add a barrier, click the barrier button and click multiple location on MapView to draw a barrier.</li>
+<li>In order to find any service areas at least one ServiceAreaFaciltiy needs to be added.</li>
+<li>To add a facility, click the facility button, then click anywhere on the MapView.</li>
+<li>To add a barrier, click the barrier button, and click multiple locations on MapView.</li>
 <ul><li>Hit the barrier button again to finish drawing barrier.</li>
 <li>Hitting any other button will also stop the barrier from drawing.</li></ul>
 <li>To show service areas around facilities that were added, click show service areas button.</li>
@@ -20,8 +20,7 @@
 <ol>
 <li>Create a <code>ServiceAreaTask</code> from an online service.</li>
 <li>Get ServiceAreaParameters from task, <code>task.createDefaultParametersAsync()</code></li>
-<li>Set spatial reference to parameters, this will allow any geometry that is return to be displayed on the MapView, <code>serviceAreaParameters.setOutputSpatialReference(spatialReference)</code></li>
-<li>Set return polygons to parameters, this will return any service area that needs to be displayed, <code>serviceAreaParameters.setReturnPolygons(true)</code></li>
+<li>Setting return polygons to true will return all services areas, <code>serviceAreaParameters.setReturnPolygons(true)</code></li>
 <li>Add a <code>ServiceAreaFacilty</code> to parameters, <code>serviceAreaParameters.setFacilities(serviceAreaFacility)</code></li>
 <li>Get <code>ServiceAreaResult</code> by solving the service area task using parameters, <code>task.solveServiceAreaAsync(serviceAreaParameters).get()</code></li>
 <li>Get any <code>ServiceAreaPolygon</code>s that were returned, <code>serviceAreaResult.getResultPolygons(facilityIndex)</code></li>
@@ -30,7 +29,6 @@
 </ol>
 
 <h2>Features</h2>
-
 <ul>
     <li>ArcGISMap</li>
     <li>GraphicsOverlay</li>

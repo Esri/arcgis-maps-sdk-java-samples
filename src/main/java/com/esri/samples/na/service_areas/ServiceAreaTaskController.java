@@ -87,8 +87,7 @@ public class ServiceAreaTaskController {
     mapView.setViewpoint(new Viewpoint(37.77, -122.41, 40000));
 
     // create service area task from url
-    final String SanFranciscoRegion =
-        "http://qadev000238.esri.com/server/rest/services/NA/SanFran_WithTM/NAServer/Service_Area_Defaults";
+    final String SanFranciscoRegion = "http://qadev000238.esri.com/server/rest/services/NA/SanFran_WithTM/NAServer/Service_Area_Defaults";
     serviceAreaTask = new ServiceAreaTask(SanFranciscoRegion);
     serviceAreaTask.loadAsync();
     // create default parameters from task
@@ -97,6 +96,7 @@ public class ServiceAreaTaskController {
       try {
         serviceAreaParameters = parameters.get();
         serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
+        serviceAreaParameters.setReturnPolygons(true);
         // adding another service area of 2 minutes
         // default parameters have a default service area of 5 minutes
         serviceAreaParameters.getDefaultImpedanceCutoffs().addAll(Arrays.asList(2.0));
@@ -139,8 +139,7 @@ public class ServiceAreaTaskController {
         } else if (btnAddBarrier.isSelected()) {
           // create barrier and display to mapview
           barrierBuilder.addPoint(new Point(mapPoint.getX(), mapPoint.getY(), spatialReference));
-          barrierOverlay.getGraphics().add(barrierOverlay.getGraphics().size(),
-              new Graphic(barrierBuilder.toGeometry(), outline));
+          barrierOverlay.getGraphics().add(barrierOverlay.getGraphics().size(), new Graphic(barrierBuilder.toGeometry(), outline));
         }
       }
     });
