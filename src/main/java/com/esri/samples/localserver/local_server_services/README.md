@@ -8,9 +8,9 @@
 
 <h2>How to use the sample</h2>
 
-<p>Choose a .mpk or .gpk file to process by clicking the Open button and choosing a package file from the dialog. 
-Choose a service type (Map, Feature, or Geoprocessing) corresponding to the file you chose. Click the start button 
-to start the service. The service's status will be displayed in the center log.</p>
+<p>Choose an option from the dropdown control to filter packages by service type. Then click the Open button to 
+choose a package. Finally, click the Start button to start the service. The service's status will be displayed in 
+the center log.</p>
 
 <p>To stop a service, select it from the Running Services list and click the Stop Service button. To go to the 
 service's URL in your default web browser, select it and click the Go to URL button.</p>
