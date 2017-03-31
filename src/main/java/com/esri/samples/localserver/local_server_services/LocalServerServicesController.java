@@ -29,6 +29,8 @@ import com.esri.arcgisruntime.localserver.LocalService;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -42,6 +44,7 @@ public class LocalServerServicesController {
 
   @FXML private TextField packagePath;
   @FXML private ComboBox<String> serviceOptions;
+  @FXML private Button startServiceButton;
   @FXML private TextArea statusLog;
   @FXML private ListView<LocalService> runningServices;
   @FXML private Button stopServiceButton;
@@ -62,29 +65,26 @@ public class LocalServerServicesController {
         statusLog.appendText("Server Status: " + status.getNewStatus().toString() + "\n")
     );
 
-    // setup UI bindings
-    stopServiceButton.disableProperty().bind(runningServices.getSelectionModel().selectedItemProperty().isNull());
-    packagePath.textProperty().addListener(o -> {
-      serviceOptions.getItems().clear();
-      String[] uriParts = packagePath.getText().split("\\.");
-      if (uriParts.length > 0) {
-        String extension = uriParts[uriParts.length - 1];
-        switch (extension) {
-          case "mpk": serviceOptions.getItems().addAll("Map Service", "Feature Service"); break;
-          case "gpk": serviceOptions.getItems().add("Geoprocessing Service");
-        }
-        serviceOptions.getSelectionModel().select(0);
-      }
-    });
-
     // create a file chooser to select package files
     packageChooser = new FileChooser();
-    ExtensionFilter extensionFilter = new ExtensionFilter("Local Server Packages", "*.mpk", "*.gpk");
     packagePath.textProperty().bind(packageChooser.initialFileNameProperty());
     packageChooser.setInitialDirectory(new File("./samples-data/local_server"));
     packageChooser.setInitialFileName(packageChooser.getInitialDirectory().getAbsolutePath() + "/PointsOfInterest.mpk");
-    packageChooser.getExtensionFilters().add(extensionFilter);
-    packageChooser.setSelectedExtensionFilter(extensionFilter);
+
+    // create filters to choose files for specific services
+    ExtensionFilter mpkFilter = new ExtensionFilter("Map Packages (*.mpk)", "*.mpk");
+    ExtensionFilter gpkFilter = new ExtensionFilter("Geoprocessing Packages (*.gpk)", "*.gpk");
+    packageChooser.getExtensionFilters().add(mpkFilter);
+
+    // use the combobox to select a filter
+    serviceOptions.getSelectionModel().selectedItemProperty().addListener(o -> {
+      packageChooser.setInitialFileName(null);
+      packageChooser.getExtensionFilters().clear();
+      switch (serviceOptions.getSelectionModel().getSelectedItem()) {
+        case "Geoprocessing Service" : packageChooser.getExtensionFilters().add(gpkFilter); break;
+        default: packageChooser.getExtensionFilters().add(mpkFilter);
+      }
+    });
 
     // create list view representation of running services
     runningServices.setCellFactory(list ->
@@ -100,6 +100,10 @@ public class LocalServerServicesController {
 
       }
     );
+
+    // setup UI bindings
+    stopServiceButton.disableProperty().bind(runningServices.getSelectionModel().selectedItemProperty().isNull());
+    startServiceButton.disableProperty().bind(packageChooser.initialFileNameProperty().isNull());
   }
 
   /**
