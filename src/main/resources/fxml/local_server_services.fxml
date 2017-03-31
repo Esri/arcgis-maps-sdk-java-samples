@@ -21,7 +21,7 @@
   <top>
     <GridPane hgap="5" vgap="5">
       <padding><Insets left="10" top="10" right="10" bottom="10"/></padding>
-      <ComboBox fx:id="serviceOptions" GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="Infinity">
+      <ComboBox fx:id="serviceOptions" GridPane.rowIndex="0" GridPane.columnIndex="0" maxWidth="Infinity">
         <value>
           <String fx:value="Map Service"/>
         </value>
@@ -33,16 +33,16 @@
           </FXCollections>
         </items>
       </ComboBox>
-      <Button onAction="#openPackage" text="Open" GridPane.rowIndex="0" GridPane.columnIndex="1">
+      <Button fx:id="startServiceButton" text="Start" onAction="#startSelectedService" GridPane.rowIndex="0"
+              GridPane.columnIndex="1" maxWidth="Infinity"/>
+      <TextField fx:id="packagePath" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS"/>
+      <Button onAction="#openPackage" text="Open" GridPane.rowIndex="1" GridPane.columnIndex="1">
         <graphic>
           <ImageView>
             <Image url="/icons/files-48.png" requestedHeight="16" preserveRatio="true" smooth="true"/>
           </ImageView>
         </graphic>
       </Button>
-      <TextField fx:id="packagePath" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS"/>
-      <Button fx:id="startServiceButton" text="Start" onAction="#startSelectedService" GridPane.rowIndex="1"
-              GridPane.columnIndex="1" maxWidth="Infinity"/>
     </GridPane>
   </top>
     
