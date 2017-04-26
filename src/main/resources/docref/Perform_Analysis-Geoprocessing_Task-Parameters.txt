@@ -1,0 +1,11 @@
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Parameters
+// create a GeoprocessingParameters with execution type, for example, ASYNCHRONOUS_SUBMIT
+GeoprocessingParameters geoprocessingParameters = new GeoprocessingParameters(ExecutionType.ASYNCHRONOUS_SUBMIT);
+
+// provide input parameters required for the geoprocessing task
+// this example shows an input parameter called "Query"
+// the data type of "Query" is GPString in the REST spec, identified by GeoprocessingString in the Java API
+String inputParameterName = "Query";
+GeoprocessingString inputParameterValue = new GeoprocessingString("(\"DATE\" > date '1998-12-31 23:59:59')");
+geoprocessingParameters.getInputs().put(inputParameterName, inputParameterValue);
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Parameters

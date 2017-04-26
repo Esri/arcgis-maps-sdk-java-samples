@@ -1,0 +1,53 @@
+//[DocRef: Name=Work_With_Maps-Create_an_Offline_Map-GeodatabaseSyncTask
+// create a line symbol (a thick purple line)
+
+// create the GeodatabaseSyncTask object
+GeodatabaseSyncTask geodatabaseSyncTask = new GeodatabaseSyncTask("/url/to/sync/enabled/FeatureServer");
+
+// process after the task has loaded
+geodatabaseSyncTask.addDoneLoadingListener(() -&gt; {
+  if (geodatabaseSyncTask.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+    // deal with load error, use task.getLoadError() to get error details
+    return;
+  }
+
+  // service info tells you whether the feature service supports sync
+  ArcGISFeatureServiceInfo featureServiceInfo = geodatabaseSyncTask.getFeatureServiceInfo();
+  if (!featureServiceInfo.isSyncEnabled()) {
+     // deal with feature service that is not sync enabled
+    return;
+  }
+
+  // use the supported sync model
+  SyncModel syncModel = featureServiceInfo.getSyncCapabilities().isSupportsSyncModelLayer() ?
+    SyncModel.PER_LAYER :
+    SyncModel.PER_GEODATABASE;
+
+  // download geodatabase
+  createGeodatabaseFromService(geodatabaseSyncTask, syncModel);
+});
+
+void createGeodatabaseFromService(GeodatabaseSyncTask geodatabaseSyncTask, SyncModel syncModel) {
+  // set up your GenerateGeodatabaseParameters
+  GenerateGeodatabaseParameters generateGeodatabaseParameters = new GenerateGeodatabaseParameters();
+  generateGeodatabaseParameters.getLayerOptions().add(new GenerateLayerOption(0)); // layer 0
+  generateGeodatabaseParameters.setExtent(mapView.getVisibleArea().getExtent()); // desired extent to download
+  generateGeodatabaseParameters.setReturnAttachments(true);
+  generateGeodatabaseParameters.setSyncModel(syncModel);
+  // optionally, specify the spatial reference of the geodatabase to be generated
+  generateGeodatabaseParameters.setOutSpatialReference(map.getSpatialReference()); 
+
+  // start the process of generating and downloading the geodatabase to the local device
+  GenerateGeodatabaseJob generateGeodatabaseJob = 
+    geodatabaseSyncTask.generateGeodatabaseAsync(generateGeodatabaseParameters, PATH_TO_OUTPUT_GEODATABASE);
+
+  // handle completion
+  generateGeodatabaseJob.addJobDoneListener(() -&gt; {
+    if (generateGeodatabaseJob.getStatus() == Status.FAILED) {
+      // deal with error, use generateGeodatabaseJob.getError() to get error details
+      return;
+    }
+    // geodatabase is now available at PATH_TO_OUTPUT_GEODATABASE
+  });
+}
+//[DocRef: Name=Work_With_Maps-Create_an_Offline_Map-GeodatabaseSyncTask

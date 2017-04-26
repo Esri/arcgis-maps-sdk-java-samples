@@ -1,0 +1,14 @@
+//[DocRef: Name=Working_With_Maps-Add_Raster_data-Raster_Function
+// create a raster function
+RasterFunction rasterFunction = new RasterFunction("/path/to/raster/function.json");
+
+// initialize the arguments of the raster function
+RasterFunctionArguments rasterFunctionArguments = rasterFunction.getArguments();
+List<String> rasterNames = rasterFunctionArguments.getRasterNames();
+// assuming rasterNames has 2 entries, set the 2 rasters
+rasterFunctionArguments.setRaster(rasterNames.get(0), new Raster("/path/to/raster/0"));
+rasterFunctionArguments.setRaster(rasterNames.get(1), new Raster("/path/to/raster/1"));
+
+// create a new raster based on the function
+Raster raster = new Raster(rasterFunction);
+//[DocRef: Name=Working_With_Maps-Add_Raster_data-Raster_Function

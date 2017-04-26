@@ -1,0 +1,8 @@
+//[DocRef: Name=Release_your_App-License_App-License_Info
+// get license string while online
+LicenseInfo licenseInfo = portal.getPortalInfo().getLicenseInfo();
+// serialize the LicenseInfo to json string
+String licenseJson = licenseInfo.toJson();
+// deserialize LicenseInfo json string to license as Standard
+ArcGISRuntimeEnvironment.setLicense(licenseInfo);
+//[DocRef: Name=Release_your_App-License_App-License_Info

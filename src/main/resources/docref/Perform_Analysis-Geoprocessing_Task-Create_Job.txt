@@ -1,0 +1,21 @@
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Create_Job
+// create a job that will communicate with the GPServer
+final GeoprocessingJob geoprocessingJob = geoprocessingTask.createJob(geoprocessingParameters);
+
+// attach a listener to monitor result of the geoprocessing task
+geoprocessingJob.addJobDoneListener(new Runnable() {
+  @Override
+  public void run() {
+    if (geoprocessingJob.getStatus() == Status.FAILED) {
+      // handle failure 
+      // use geoprocessingJob.getError() to get error details
+    } else if (geoprocessingJob.getStatus() == Status.SUCCEEDED) {
+      GeoprocessingResult geoprocessingResult = geoprocessingJob.getResult();
+      process(geoprocessingResult);
+    }
+  }
+});
+
+// start the job
+geoprocessingJob.start();
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Create_Job

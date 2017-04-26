@@ -1,0 +1,31 @@
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polyline_Builder
+class roadGeometryEditor {
+  PolylineBuilder polylineBuilder = null;
+  Graphic temporaryGraphic = null;
+
+  // Builder held as member variable
+  public roadGeometryEditor(roadFeature) {
+    // Set initial state of the builder based on an existing geometry
+    polylineBuilder = new PolylineBuilder(roadFeature.getGeometry());
+    // Set up a temporary graphic to draw the geometry
+    SimpleLineSymbol roadSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, rgbColor, 5, 1.0f);
+    temporaryGraphic = new Graphic(polylineBuilder.toGeometry(), roadSymbol);
+    mapView.getGraphicsOverlay().getGraphics().add(temporaryGraphic);
+  }  
+
+  public void addPointToEnd(Point newEndPoint) {
+    // Change the geometry
+    polylineBuilder.getParts().get(0).addPoint(newEndPoint);
+  }  
+
+  public Polyline getCurrentGeometry() {
+    // Get latest state of the geometry
+    return polylineBuilder.toGeometry();
+  }
+
+  public void drawLatestGeometry(GraphicsOverlay editorOverlay) {
+    // Update the user's view of the geometry
+    temporaryGraphic.setGeometry(getCurrentGeometry());
+  }
+}
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polyline_Builder

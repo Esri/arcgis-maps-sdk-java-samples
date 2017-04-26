@@ -1,0 +1,17 @@
+//[DocRef: Name=Work_With_Maps-Create_an_Offline_Map-Open_Mobile_Map_Package-Java
+// create the mobile map package
+      MobileMapPackage mapPackage = new MobileMapPackage(mmpFile);
+      // add done listener which will invoke when mobile map package has loaded
+      mapPackage.addDoneLoadingListener(() -> {
+        // check load status and that the mobile map package has maps
+        if (mapPackage.getLoadStatus() == LoadStatus.LOADED && mapPackage.getMaps().size() > 0) {
+          // add the map from the mobile map package to the MapView
+          mapView.setMap(mapPackage.getMaps().get(0));
+        } else {
+          // display error if fails to load
+          System.out.println("Load Error: " + mapPackage.getLoadError().getMessage());
+        }
+      });
+      // load the mobile map package asynchronously
+      mapPackage.loadAsync();
+//[DocRef: Name=Work_With_Maps-Create_an_Offline_Map-Open_Mobile_Map_Package-Java

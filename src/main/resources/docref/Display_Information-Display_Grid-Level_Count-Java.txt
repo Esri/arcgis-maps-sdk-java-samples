@@ -1,0 +1,4 @@
+//[DocRef: Name=Display_Information-Display_Grid-Level_Count-Java
+// find the number of resolution levels in the grid
+int gridLevels = grid.getLevelCount();
+//[DocRef: Name=Display_Information-Display_Grid-Level_Count-Java

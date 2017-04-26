@@ -1,0 +1,4 @@
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Create
+GeoprocessingTask geoprocessingTask = new GeoprocessingTask(
+  "http://myserver/ArcGIS/rest/services/BufferPoints/GPServer/BufferPoints");
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Create

@@ -1,0 +1,17 @@
+//[DocRef: Name=Use_Cloud_And_Servers-Access_Content-Portal_By_ID
+mPortalItem = new PortalItem(mPortal, "2d6fa24b357d427f9c737774e7b0f977");
+//load the PortalItem asynchronously, and wait until complete
+mPortalItem.loadAsync();
+mPortalItem.addDoneLoadingListener(new Runnable() {
+  @Override
+  public void run() {
+    //check loading was successful
+    if (mPortalItem.getLoadStatus() == LoadStatus.LOADED) {
+      //get information about the portal item
+      Date modified = new Date(mPortalItem.getModified());
+      String itemDetails = String.format("%s was last modified on %tA, %te of %tB", mPortalItem.getTitle(),
+          modified, modified, modified);
+    }
+  }
+});
+//[DocRef: Name=Use_Cloud_And_Servers-Access_Content-Portal_By_ID

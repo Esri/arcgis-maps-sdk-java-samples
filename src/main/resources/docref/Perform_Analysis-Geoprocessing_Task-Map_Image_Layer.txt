@@ -1,0 +1,7 @@
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Map_Image_Layer
+// access output ArcGISMapImageLayer after task is done
+void process(GeoprocessingResult geoprocessingResult) {
+  ArcGISMapImageLayer mapImageLayer = geoprocessingResult.getMapImageLayer();
+  map.getOperationalLayers().add(mapImageLayer);
+}
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Map_Image_Layer

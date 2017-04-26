@@ -1,0 +1,6 @@
+//[DocRef: Name=Use_Cloud_And_Servers-Access_ArcGIS_Platform-Default_Authentication_Challenger
+// Set the DefaultAuthenticationChallegeHandler to allow authentication with the portal.
+DefaultAuthenticationChallengeHandler handler = new DefaultAuthenticationChallengeHandler(this);
+AuthenticationManager.setAuthenticationChallengeHandler(handler);
+final Portal portal = new Portal("http://geoportal.mycompany.com", true);
+//[DocRef: Name=Use_Cloud_And_Servers-Access_ArcGIS_Platform-Default_Authentication_Challenger

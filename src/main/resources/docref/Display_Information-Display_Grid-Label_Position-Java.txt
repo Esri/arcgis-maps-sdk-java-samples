@@ -1,0 +1,4 @@
+//[DocRef: Name=Display_Information-Display_Grid-Label_Position-Java
+//update the label positioning to geographic
+grid.setLabelPosition(LabelPosition.GEOGRAPHIC);
+//[DocRef: Name=Display_Information-Display_Grid-Label_Position-Java

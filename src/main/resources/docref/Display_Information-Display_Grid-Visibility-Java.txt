@@ -1,0 +1,4 @@
+//[DocRef: Name=Display_Information-Display_Grid-Visibility-Java
+// hide the grid 
+grid.setVisible(false);
+//[DocRef: Name=Display_Information-Display_Grid-Visibility-Java

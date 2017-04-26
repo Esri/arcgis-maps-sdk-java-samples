@@ -1,0 +1,7 @@
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Builder_Segments
+Part firstPart = new Part();
+polygonBuilder.getParts().addPart(firstPart);
+firstPart.addPoint(0, 0);      // Add an initial point
+firstPart.addPoint(0, 7);      // Adjusts the Part so that it has one LineSegment (0,0) -> (0,7)
+firstPart.addSegment(new LineSegment(0, 7, 5, 0);  // Adds a new LineSegment (0,7) -> (5,0))
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Builder_Segments

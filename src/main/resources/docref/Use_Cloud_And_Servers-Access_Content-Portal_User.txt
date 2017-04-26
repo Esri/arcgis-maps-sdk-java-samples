@@ -1,0 +1,44 @@
+//[DocRef: Name=Use_Cloud_And_Servers-Access_Content-Portal_User
+final PortalUser user = mPortal.getUser();
+// fetch the content in the users root folder
+final ListenableFuture<PortalUserContent> contentFuture = user.fetchContentAsync();
+contentFuture.addDoneListener(new Runnable() {
+  
+  @Override
+  public void run() {
+    try {
+      StringBuilder userInfo = new StringBuilder();
+      //iterate items in root folder...
+      final PortalUserContent portalUserContent = contentFuture.get();
+      for (PortalItem item : portalUserContent.getItems()){
+        userInfo.append(String.format("Item: %s\n", item.getTitle()));
+      }
+
+      //iterate user's folders
+      for (PortalFolder folder : portalUserContent.getFolders()){
+        userInfo.append(String.format("Folder: %s\n", folder.getTitle()));
+        //fetch the items in each folder
+        final ListenableFuture<List<PortalItem>> folderFuture = user.fetchContentInFolderAsync(folder.getFolderId());
+        folderFuture.addDoneListener(new Runnable() {
+        
+          @Override
+          public void run() {
+            try {
+              //iterate items in each folder
+              List<PortalItem> folderContent = folderFuture.get();
+              for (PortalItem folderItem : folderContent)
+              {
+                userInfo.append(String.format("-Item: %s\n", folderItem.getTitle()));
+              }
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        });
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+});
+//[DocRef: Name=Use_Cloud_And_Servers-Access_Content-Portal_User

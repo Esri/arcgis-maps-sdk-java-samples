@@ -1,0 +1,13 @@
+//[DocRef: Name=Use_Cloud_And_Servers-Access_ArcGIS_Platform-Portal
+final Portal portal = new Portal("http://www.arcgis.com");
+portal.addDoneLoadingListener(new Runnable() {
+  @Override
+  public void run() {
+    if (portal.getLoadStatus() == LoadStatus.LOADED) {
+      PortalInfo portalInformation = portal.getPortalInfo();
+      String portalName = portalInformation.getPortalName(); // Returns 'ArcGIS Online'
+    }
+   }
+});
+portal.loadAsync();
+//[DocRef: Name=Use_Cloud_And_Servers-Access_ArcGIS_Platform-Portal

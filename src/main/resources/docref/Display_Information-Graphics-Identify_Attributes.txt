@@ -1,0 +1,25 @@
+//[DocRef: Name=Display_Information-Graphics-Identify_Attributes
+public void seaBirdDialog(ListenableFuture&lt;List&lt;Graphic&gt;&gt; identifyGraphics) {
+    String seaBirds = "";
+
+    try {
+      // get the list of graphics returned by identify
+      List&lt;Graphic&gt; graphics = identifyGraphics.get();
+
+      // loop through the graphics
+      for (Graphic grItem : graphics) {
+        seaBirds += grItem.getAttributes().get("SEABIRD") + "\n";
+      }
+
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.setTitle("Seabirds identified:");
+      alert.setHeaderText(null);
+      alert.setContentText(seaBirds);
+
+      alert.showAndWait();
+
+    }catch(Exception e){
+      e.printStackTrace();
+    }
+  }
+//[DocRef: Name=Display_Information-Graphics-Identify_Attributes

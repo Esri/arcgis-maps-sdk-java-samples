@@ -1,0 +1,4 @@
+//[DocRef: Name=Display_Information-Display_Grid-Label_Format-Java
+// format the labels to display in degrees, minutes and seconds
+grid.setLabelFormat(LabelFormat.DEGREES_MINUTES_SECONDS);
+//[DocRef: Name=Display_Information-Display_Grid-Label_Format-Java

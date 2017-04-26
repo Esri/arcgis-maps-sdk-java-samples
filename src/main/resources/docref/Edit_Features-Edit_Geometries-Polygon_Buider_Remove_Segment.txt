@@ -1,0 +1,3 @@
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Buider_Remove_Segment
+polygonBuilder.getParts().get(0).remove(0);
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Buider_Remove_Segment

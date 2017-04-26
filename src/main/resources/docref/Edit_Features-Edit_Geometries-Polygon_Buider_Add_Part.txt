@@ -1,0 +1,8 @@
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Buider_Add_Part
+PartCollection partCollection = new PartCollection(SpatialReferences.getWgs84());
+Part part = new Part(SpatialReferences.getWgs84());
+part.addPoint(new Point(78.75000000000003, 66.86936993741895));
+part.addPoint( new Point(56.25000000000001, 67.22037237346096));
+partCollection.add(part);
+polygonBuilder.getParts().addAll(partCollection);
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Buider_Add_Part

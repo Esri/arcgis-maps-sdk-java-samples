@@ -1,0 +1,21 @@
+//[DocRef: Name=Use_Cloud_And_Servers-Share_Portal_Item-UnShare_Group
+// Unshare the item from the specified list of groups
+final ListenableFuture&lt;List&lt;PortalGroup&gt;&gt; unshareFuture = portalItemToShare.unshareGroupsAsync(unshareGroups);
+unshareFuture.addDoneListener(new Runnable() {
+ @Override
+ public void run() {
+   try {
+     // Get a list of any portal groups which the item unshare failed, for example groups it wasnt already shared with
+    List&lt;PortalGroup&gt; failedGroups = unshareFuture.get();
+    if ((failedGroups != null) &amp;&amp; (failedGroups.size() &gt; 0) ) {
+      showMessage("Unsharing failed for " + failedGroups.size() + " of the groups:");
+    }
+    else {
+       showMessage(String.format("Item unshared from %d groups", unshareGroups.size()));
+    }
+   } catch (InterruptedException | ExecutionException e) {
+      dealWithException(e);
+   }
+ }
+});
+//[DocRef: Name=Use_Cloud_And_Servers-Share_Portal_Item-UnShare_Group
