@@ -1,0 +1,6 @@
+ //[DocRef: Name=Fundamentals-Local_Server-Stop-Java
+// stop local server
+if (server.getStatus() == LocalServerStatus.STARTED) {
+  server.stopAsync();
+}
+//[DocRef: Name=Fundamentals-Local_Server-Stop-Java

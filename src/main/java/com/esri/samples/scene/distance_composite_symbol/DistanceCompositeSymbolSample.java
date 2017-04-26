@@ -18,22 +18,26 @@ package com.esri.samples.scene.distance_composite_symbol;
 
 import java.io.File;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.view.*;
+import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
+import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.DistanceCompositeSceneSymbol;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class DistanceCompositeSymbolSample extends Application {
 
@@ -76,6 +80,7 @@ public class DistanceCompositeSymbolSample extends Application {
       graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
+      //[DocRef: Name=Working_With_3D-Add_Graphics-Distance_Composite_Symbol
       // set up the different symbols
       int red = 0xFFFF0000;
       SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, red, 10);
@@ -96,6 +101,7 @@ public class DistanceCompositeSymbolSample extends Application {
       Graphic aircraftGraphic = new Graphic(aircraftPosition, compositeSymbol);
       // add graphic to graphics overlay
       graphicsOverlay.getGraphics().add(aircraftGraphic);
+      //[DocRef: Name=Working_With_3D-Add_Graphics-Distance_Composite_Symbol
 
       // add a camera and initial camera position
       Camera camera = new Camera(aircraftPosition, 20, 0, 70.0, 0.0);

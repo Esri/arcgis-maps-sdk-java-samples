@@ -16,6 +16,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.geometry.Point;
@@ -36,19 +49,6 @@ import com.esri.arcgisruntime.tasks.networkanalysis.RouteResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.RouteTask;
 import com.esri.arcgisruntime.tasks.networkanalysis.Stop;
 import com.esri.arcgisruntime.tasks.networkanalysis.TravelMode;
-
-import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 public class OfflineRoutingSample extends Application {
 
@@ -90,9 +90,11 @@ public class OfflineRoutingSample extends Application {
       routeOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().addAll(Arrays.asList(routeOverlay, stopsOverlay));
 
+      //[DocRef: Name=Route_And_Directions-Find_Route-Geodatabase-Java
       // create an offline RouteTask
       routeTask = new RouteTask("./samples-data/san_diego/sandiego.geodatabase", "Streets_ND");
       routeTask.loadAsync();
+      //[DocRef: Name=Route_And_Directions-Find_Route-Geodatabase-Java
 
       // create route parameters
       routeParameters = routeTask.createDefaultParametersAsync().get();

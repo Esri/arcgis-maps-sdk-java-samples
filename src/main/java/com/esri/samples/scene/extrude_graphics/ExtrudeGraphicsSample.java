@@ -16,12 +16,16 @@
 
 package com.esri.samples.scene.extrude_graphics;
 
-import static com.esri.arcgisruntime.symbology.Renderer.SceneProperties;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
@@ -30,16 +34,15 @@ import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.view.*;
+import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
+import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ColorUtil;
+import com.esri.arcgisruntime.symbology.Renderer.SceneProperties;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 public class ExtrudeGraphicsSample extends Application {
 
@@ -85,12 +88,14 @@ public class ExtrudeGraphicsSample extends Application {
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.DRAPED);
 
+      //[DocRef: Name=Working_With_3D-Add_Graphics-Extrusion
       // set renderer with extrusion property
       SimpleRenderer renderer = new SimpleRenderer();
       SceneProperties renderProperties = renderer.getSceneProperties();
       renderProperties.setExtrusionMode(SceneProperties.ExtrusionMode.BASE_HEIGHT);
       renderProperties.setExtrusionExpression("[HEIGHT]");
       graphicsOverlay.setRenderer(renderer);
+      //[DocRef: Name=Working_With_3D-Add_Graphics-Extrusion
 
       // setup graphic positions
       double squareSize = 0.01;

@@ -16,21 +16,18 @@
 
 package com.esri.samples.imagelayers.map_image_layer;
 
-import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.view.MapView;
+
 public class MapImageLayerSample extends Application {
 
   private MapView mapView;
-
-  private final String SERVICE_FEATURE_URL =
-      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -47,8 +44,12 @@ public class MapImageLayerSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      //[DocRef: Name=Use_Cloud_And_Servers-Access_ArcGISPlatform-Image_Layer
+      final String serviceFeatureURL =
+          "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
       // create new ArcGISMap image Layer from service url
-      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(SERVICE_FEATURE_URL);
+      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(serviceFeatureURL);
+      //[DocRef: Name=Use_Cloud_And_Servers-Access_ArcGISPlatform-Image_Layer
 
       final ArcGISMap map = new ArcGISMap();
       // add layer to ArcGISMap's layer list

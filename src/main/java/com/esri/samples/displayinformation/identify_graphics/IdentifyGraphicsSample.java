@@ -18,6 +18,16 @@ package com.esri.samples.displayinformation.identify_graphics;
 
 import java.util.List;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Point2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
@@ -29,16 +39,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyGraphicsOverlayResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class IdentifyGraphicsSample extends Application {
 
@@ -61,9 +61,6 @@ public class IdentifyGraphicsSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a graphics overlay
-      graphicsOverlay = new GraphicsOverlay();
-
       // create a ArcGISMap with BaseMap topographic
       final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
 
@@ -71,12 +68,17 @@ public class IdentifyGraphicsSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+      //[DocRef: Name=Display_Information-Graphics-GraphicsOverlay
+      // create a graphics overlay
+      graphicsOverlay = new GraphicsOverlay();
       // add graphics overlay to the map view
       mapView.getGraphicsOverlays().add(graphicsOverlay);
+      //[DocRef: Name=Display_Information-Graphics-GraphicsOverlay
 
       // work with the MapView after it has loaded
       mapView.addSpatialReferenceChangedListener(src -> addGraphicsOverlay());
 
+      //[DocRef: Name=Display_Information-Graphics-Identify-Java
       mapView.setOnMouseClicked(e -> {
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
           // create a point from location clicked
@@ -88,6 +90,7 @@ public class IdentifyGraphicsSample extends Application {
           identifyGraphics.addDoneListener(() -> Platform.runLater(this::createGraphicDialog));
         }
       });
+      //[DocRef: Name=Display_Information-Graphics-Identify-Java
 
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
@@ -120,6 +123,7 @@ public class IdentifyGraphicsSample extends Application {
     graphicsOverlay.getGraphics().add(polygonGraphic);
   }
 
+  //[DocRef: Name=Display_Information-Graphics-Identify_Dialog-Java
   /**
    * Indicates when a graphic is clicked by showing an Alert.
    */
@@ -143,6 +147,7 @@ public class IdentifyGraphicsSample extends Application {
       e.printStackTrace();
     }
   }
+  //[DocRef: Name=Display_Information-Graphics-Identify_Dialog-Java
 
   /**
    * Stops and releases all resources used in application.

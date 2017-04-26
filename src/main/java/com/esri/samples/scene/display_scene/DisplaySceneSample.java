@@ -16,17 +16,17 @@
 
 package com.esri.samples.scene.display_scene;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class DisplaySceneSample extends Application {
 
@@ -50,19 +50,23 @@ public class DisplaySceneSample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
+      //[DocRef: Name=Working_With_3D-Display_Scene-Create_Scene
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene();
       scene.setBasemap(Basemap.createImagery());
-
-      // add the SceneView to the stack pane
-      sceneView = new SceneView();
-      sceneView.setArcGISScene(scene);
-      stackPane.getChildren().addAll(sceneView);
 
       // add base surface for elevation data
       Surface surface = new Surface();
       surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
       scene.setBaseSurface(surface);
+      //[DocRef: Name=Working_With_3D-Display_Scene-Create_Scene
+
+      //[DocRef: Name=Working_With_3D-Display_Scene-Display_Scene-Java
+      // add the SceneView to the stack pane
+      sceneView = new SceneView();
+      sceneView.setArcGISScene(scene);
+      stackPane.getChildren().addAll(sceneView);
+      //[DocRef: Name=Working_With_3D-Display_Scene-Display_Scene-Java
 
       // add a camera and initial camera position
       Camera camera = new Camera(28.4, 83.9, 10010.0, 10.0, 80.0, 300.0);
