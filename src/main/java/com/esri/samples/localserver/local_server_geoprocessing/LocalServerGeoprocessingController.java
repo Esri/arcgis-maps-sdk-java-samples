@@ -92,8 +92,11 @@ public class LocalServerGeoprocessingController {
             if (s.getNewStatus() == LocalServerStatus.STARTED) {
               // add `/Contour` to use contour geoprocessing tool 
               gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Contour");
-              btnClear.disableProperty().bind(btnGenerate.disabledProperty().not());
-              btnGenerate.setDisable(false);
+
+              Platform.runLater(() -> {
+                btnClear.disableProperty().bind(btnGenerate.disabledProperty().not());
+                btnGenerate.setDisable(false);
+              });
             }
           });
           localGPService.startAsync();
@@ -114,7 +117,12 @@ public class LocalServerGeoprocessingController {
   protected void handleGenerateContours() {
 
     // tracking progress of creating contour map 
-    progressBar.setVisible(true);
+    Platform.runLater(() -> {
+      btnGenerate.setDisable(true);
+      progressBar.setProgress(0);
+      progressBar.setVisible(true);
+    });
+
     // create parameter using interval set
     GeoprocessingParameters gpParameters = new GeoprocessingParameters(
         GeoprocessingParameters.ExecutionType.ASYNCHRONOUS_SUBMIT);
@@ -125,6 +133,10 @@ public class LocalServerGeoprocessingController {
 
     // adds contour lines to map
     GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
+    gpJob.addProgressChangedListener(() -> Platform.runLater(() -> {
+      progressBar.setProgress(((double) gpJob.getProgress()) / 100);
+    }));
+
     gpJob.addJobDoneListener(() -> {
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
         // creating map image url from local groprocessing service url
@@ -133,16 +145,19 @@ public class LocalServerGeoprocessingController {
         ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer(mapServerUrl);
         mapImageLayer.loadAsync();
         mapView.getMap().getOperationalLayers().add(mapImageLayer);
-        btnGenerate.setDisable(true);
-      } else {
-        Platform.runLater(() -> {
+      }
+
+      Platform.runLater(() -> {
+        if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
+          btnGenerate.setDisable(true);
+        } else {
           Alert dialog = new Alert(AlertType.ERROR);
           dialog.setHeaderText("Geoprocess Job Fail");
           dialog.setContentText("Error: " + gpJob.getError().getAdditionalMessage());
           dialog.showAndWait();
-        });
-      }
-      progressBar.setVisible(false);
+        }
+        progressBar.setVisible(false);
+      });
     });
     gpJob.start();
   }
@@ -155,7 +170,9 @@ public class LocalServerGeoprocessingController {
 
     if (mapView.getMap().getOperationalLayers().size() > 1) {
       mapView.getMap().getOperationalLayers().remove(1);
-      btnGenerate.setDisable(false);
+      Platform.runLater(() -> {
+        btnGenerate.setDisable(false);
+      });
     }
   }
 
