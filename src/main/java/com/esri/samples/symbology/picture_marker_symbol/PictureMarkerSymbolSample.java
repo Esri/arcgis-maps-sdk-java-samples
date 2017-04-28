@@ -138,6 +138,7 @@ public class PictureMarkerSymbolSample extends Application {
 
   }
 
+  //[DocRef: Name=Fundamentals-Renderer_Symbols-PMS_File2-Java
   /**
    * Writes a resource image to a file.
    * 
@@ -161,6 +162,7 @@ public class PictureMarkerSymbolSample extends Application {
     // check to see if the resource was created on disk
     return orangeSymbolPath.exists();
   }
+  //[DocRef: Name=Fundamentals-Renderer_Symbols-PMS_File2-Java
 
   /**
    * Stops and releases all resources used in application.

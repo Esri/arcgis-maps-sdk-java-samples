@@ -14,7 +14,7 @@
  * the License.
  */
 
-//[DocRef: Name=GetStarted_FirstMapApp_FirstApplication-Java
+//[DocRef: Name=Get_Started-First_Map_App-First_Application-Java
 package com.esri.samples.map.display_map;
 
 import javafx.application.Application;
@@ -22,11 +22,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-//[DocRef: Name=GetStarted_FirstMapApp_Imports-Java
+//[DocRef: Name=Get_Started-First_Map_App-Imports-Java
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
-//[DocRef: Name=GetStarted_FirstMapApp_Imports-Java
+//[DocRef: Name=Get_Started-First_Map_App-Imports-Java
 
 //[DocRef: Name=Get_Started-First_Map_App-Variable-Java
 public class DisplayMapSample extends Application {
@@ -67,7 +67,7 @@ public class DisplayMapSample extends Application {
     }
   }
 
-  //[DocRef: Name=Get_Started-First_Map_App-Dispose
+  //[DocRef: Name=Get_Started-First_Map_App-Dispose-Java
   /**
    * Stops and releases all resources used in application.
    */
@@ -78,7 +78,7 @@ public class DisplayMapSample extends Application {
       mapView.dispose();
     }
   }
-  //[DocRef: Name=Get_Started-First_Map_App-Dispose
+  //[DocRef: Name=Get_Started-First_Map_App-Dispose-Java
 
   /**
    * Opens and runs application.
@@ -91,4 +91,4 @@ public class DisplayMapSample extends Application {
   }
 
 }
-//[DocRef: Name=GetStarted_FirstMapApp_FirstApplication-Java
+//[DocRef: Name=Get_Started-First_Map_App-First_Application-Java

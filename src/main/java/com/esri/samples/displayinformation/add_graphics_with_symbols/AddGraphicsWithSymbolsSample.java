@@ -193,10 +193,10 @@ public class AddGraphicsWithSymbolsSample extends Application {
     Polygon polygon = new Polygon(points);
     //[DocRef: Name=Display_Information-Graphics-Polygon
 
-    //[DocRef: Name=Display_Information-Graphics-Polygon
+    //[DocRef: Name=Display_Information-Graphics-Graphic_Polygon
     // create the graphic with polyline and symbol
     Graphic graphic = new Graphic(polygon, fillSymbol);
-    //[DocRef: Name=Display_Information-Graphics-Polygon
+    //[DocRef: Name=Display_Information-Graphics-Graphic_Polygon
 
     //[DocRef: Name=Display_Information-Graphics-GraphicsOverlay_Polygon
     // add graphic to the graphics overlay

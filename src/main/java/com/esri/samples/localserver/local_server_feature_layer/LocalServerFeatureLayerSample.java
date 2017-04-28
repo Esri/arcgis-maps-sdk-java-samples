@@ -17,7 +17,14 @@
 package com.esri.samples.localserver.local_server_feature_layer;
 
 import java.io.File;
-import java.util.concurrent.ExecutionException;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -31,14 +38,6 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 public class LocalServerFeatureLayerSample extends Application {
 
   private static final int APPLICATION_WIDTH = 800;
@@ -47,7 +46,7 @@ public class LocalServerFeatureLayerSample extends Application {
   private MapView mapView;
   private LocalFeatureService featureService;
   private ProgressIndicator featureLayerProgress;
-  
+
   private static final LocalServer server = LocalServer.INSTANCE;
 
   @Override
@@ -78,11 +77,13 @@ public class LocalServerFeatureLayerSample extends Application {
       server.startAsync();
       server.addStatusChangedListener(status -> {
         if (server.getStatus() == LocalServerStatus.STARTED) {
+          //[DocRef: Name=Fundamentals-Local_Server-Feature_Service-Java
           // start feature service
           String featureServiceURL = new File("samples-data/local_server/PointsofInterest.mpk").getAbsolutePath();
           featureService = new LocalFeatureService(featureServiceURL);
           featureService.addStatusChangedListener(this::addLocalFeatureLayer);
           featureService.startAsync();
+          //[DocRef: Name=Fundamentals-Local_Server-Feature_Service-Java
         }
       });
 
@@ -95,6 +96,7 @@ public class LocalServerFeatureLayerSample extends Application {
     }
   }
 
+  //[DocRef: Name=Fundamentals-Local_Server-Feature_Service2-Java
   /**
    * Once the feature service starts, a feature layer is created from that service and added to the map.
    * <p>
@@ -124,6 +126,7 @@ public class LocalServerFeatureLayerSample extends Application {
 
     }
   }
+  //[DocRef: Name=Fundamentals-Local_Server-Feature_Service2-Java
 
   /**
    * Stops and releases all resources used in application.
