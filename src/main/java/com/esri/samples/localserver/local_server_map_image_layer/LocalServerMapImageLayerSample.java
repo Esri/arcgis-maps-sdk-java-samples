@@ -18,6 +18,14 @@ package com.esri.samples.localserver.local_server_map_image_layer;
 
 import java.io.File;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.localserver.LocalMapService;
@@ -29,14 +37,6 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 public class LocalServerMapImageLayerSample extends Application {
 
   private static final int APPLICATION_WIDTH = 800;
@@ -44,7 +44,7 @@ public class LocalServerMapImageLayerSample extends Application {
   private MapView mapView;
   private LocalMapService mapImageService;
   private ProgressIndicator imageLayerProgress;
-  
+
   private static final LocalServer server = LocalServer.INSTANCE;
 
   @Override
