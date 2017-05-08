@@ -19,6 +19,10 @@ package com.esri.samples.raster.blend_renderer;
 import java.io.File;
 import java.util.Collections;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
+
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -27,10 +31,6 @@ import com.esri.arcgisruntime.raster.BlendRenderer;
 import com.esri.arcgisruntime.raster.ColorRamp;
 import com.esri.arcgisruntime.raster.Raster;
 import com.esri.arcgisruntime.raster.SlopeType;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
 
 public class BlendRendererController {
 
