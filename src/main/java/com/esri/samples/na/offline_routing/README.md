@@ -17,11 +17,11 @@ on-the-fly while moving stops.</p>
 <p>To display a <code>Route</code> using a <code>RouteTask</code> with offline data:</p>
 
 <ol>
-  <li>Create the map's <code>Basemap</code> from a local tile package using a <code>TileCache</code> and <code>ArcGISTiledLayer</code>.</li>
-  <li>Create a <code>RouteTask</code> with an offline locator geodatabase.</li>
-  <li>Get the <code>RouteParameters</code> using <code>routeTask.createDefaultParameters()</code>.</li>
+  <li>Create the map's <code>Basemap</code> from a local tile package using a <code>TileCache</code> and <code>ArcGISTiledLayer</code></li>
+  <li>Create a <code>RouteTask</code> with an offline locator geodatabase</li>
+  <li>Get the <code>RouteParameters</code> using <code>routeTask.createDefaultParameters()</code></li>
   <li>Create <code>Stop</code>s and add them to the route task's parameters.</li>
-  <li>Solve the <code>Route</code> using <code>routeTask.solveRouteAsync(routeParameters)</code>.</li>
+  <li>Solve the <code>Route</code> using <code>routeTask.solveRouteAsync(routeParameters)</code></li>
   <li>Create a graphic with the route's geometry and a <code>SimpleLineSymbol</code> and display it on another 
   <code>GraphicsOverlay</code>.</li>
 </ol>
