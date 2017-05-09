@@ -1,0 +1,7 @@
+//[DocRef: Name=Display_Information-Display_Grid-Set_Text-Java
+// apply new symbols to each grid level
+for (int level = 0; level < gridLevels; level++) {
+  grid.setTextSymbol(level, textSymbol);
+  grid.setLineSymbol(level, lineSymbol);
+}
+//[DocRef: Name=Display_Information-Display_Grid-Set_Text-Java

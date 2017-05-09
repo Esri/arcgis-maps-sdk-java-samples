@@ -1,0 +1,22 @@
+//[DocRef: Name=Fundaments-Load_Pattern-PortalItem_Add_To_Map-shared
+// create a Map which is loaded from a webmap
+UserCredential creds = new UserCredential("myuser", "password");
+Portal portal = new Portal("http://myportal/");
+portal.setCredential(creds);
+final PortalItem portalItem = new PortalItem(portal, "5cdcac1d6d814b82a48453d3e3876fd1");
+
+// make a map from portal item
+map = new ArcGISMap(portalItem);
+
+//load the map
+map.loadAsync();
+
+//listen to when it is loaded
+map.addDoneLoadingListener(new Runnable() {
+
+  @Override
+  public void run() {
+    System.out.println("map loaded");
+  }
+});
+//[DocRef: Name=Fundaments-Load_Pattern-PortalItem_Add_To_Map-shared

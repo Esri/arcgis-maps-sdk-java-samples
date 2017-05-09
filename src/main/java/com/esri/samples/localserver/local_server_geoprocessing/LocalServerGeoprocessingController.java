@@ -76,6 +76,7 @@ public class LocalServerGeoprocessingController {
 
       // listen for the status of the local server to change
       server.addStatusChangedListener(status -> {
+        //[DocRef: Name=Fundamentals-Local_Server-Geoprocessing-Java
         // start local geoprocessing service once local server has started
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
           try {
@@ -97,6 +98,7 @@ public class LocalServerGeoprocessingController {
             }
           });
           localGPService.startAsync();
+          //[DocRef: Name=Fundamentals-Local_Server-Geoprocessing-Java
         }
       });
       server.startAsync();

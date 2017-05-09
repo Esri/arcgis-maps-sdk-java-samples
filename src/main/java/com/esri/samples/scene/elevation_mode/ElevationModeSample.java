@@ -16,9 +16,10 @@
 
 package com.esri.samples.scene.elevation_mode;
 
-import static com.esri.arcgisruntime.mapping.view.LayerSceneProperties.SurfacePlacement;
-import static com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
-import static com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
@@ -28,14 +29,12 @@ import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerSceneProperties.SurfacePlacement;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
+import com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
 
 public class ElevationModeSample extends Application {
 
@@ -77,6 +76,7 @@ public class ElevationModeSample extends Application {
       surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
       scene.setBaseSurface(surface);
 
+      //[DocRef: Name=Working_With_3D-Add_Graphics-Surface_Placement
       // create overlays with elevation modes
       GraphicsOverlay drapedOverlay = new GraphicsOverlay();
       drapedOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.DRAPED);
@@ -88,12 +88,6 @@ public class ElevationModeSample extends Application {
       absoluteOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(absoluteOverlay);
 
-      // create point for graphic location
-      Point point = new Point(-4.04, 53.06, 1000, camera.getLocation().getSpatialReference());
-
-      // create a red (0xFFFF0000) circle symbol
-      SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
-
       // create a text symbol for each elevation mode
       TextSymbol drapedText = new TextSymbol(10, "DRAPED", 0xFFFFFFFF, HorizontalAlignment.LEFT,
           VerticalAlignment.MIDDLE);
@@ -102,16 +96,23 @@ public class ElevationModeSample extends Application {
       TextSymbol absoluteText = new TextSymbol(10, "ABSOLUTE", 0xFFFFFFFF, HorizontalAlignment.LEFT,
           VerticalAlignment.MIDDLE);
 
+      // create point for graphic location
+      Point point = new Point(-4.04, 53.06, 1000, camera.getLocation().getSpatialReference());
+      SimpleMarkerSymbol redSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
+      SimpleMarkerSymbol greenSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF00FF00, 10);
+      SimpleMarkerSymbol blueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF0000FF, 10);
+
       // add the point graphic and text graphic to the corresponding graphics
       // overlay
-      drapedOverlay.getGraphics().add(new Graphic(point, circleSymbol));
+      drapedOverlay.getGraphics().add(new Graphic(point, redSymbol));
       drapedOverlay.getGraphics().add(new Graphic(point, drapedText));
 
-      relativeOverlay.getGraphics().add(new Graphic(point, circleSymbol));
+      relativeOverlay.getGraphics().add(new Graphic(point, greenSymbol));
       relativeOverlay.getGraphics().add(new Graphic(point, relativeText));
 
-      absoluteOverlay.getGraphics().add(new Graphic(point, circleSymbol));
+      absoluteOverlay.getGraphics().add(new Graphic(point, blueSymbol));
       absoluteOverlay.getGraphics().add(new Graphic(point, absoluteText));
+      //[DocRef: Name=Working_With_3D-Add_Graphics-Surface_Placement
 
     } catch (Exception e) {
       // on any error, display the stack trace

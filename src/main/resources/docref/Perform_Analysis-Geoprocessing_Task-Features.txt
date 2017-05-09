@@ -1,0 +1,20 @@
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Create_Job
+// access output features after task is done
+void process(GeoprocessingResult geoprocessingResult) {
+  final GeoprocessingFeatures geoprocessginFeatures = 
+    (GeoprocessingFeatures) geoprocessingResult.getOutputs().get("Output_Features");
+
+  if (geoprocessginFeatures.canFetchOutputFeatures()) {
+    ListenableFuture<Void> fetchOutputFeaturesFuture =
+      geoprocessginFeatures.fetchOutputFeaturesAsync();
+
+    fetchOutputFeaturesFuture.addDoneListener(new Runnable() {
+      @Override
+      public void run() {
+        FeatureSet features = geoprocessginFeatures.getFeatures();
+        // process features. for example, add features to a graphics overlay
+      }
+    });
+  }
+}
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Create_Job

@@ -1,0 +1,14 @@
+//[DocRef: Name=Working_With_Maps-Wraparound-Set
+// Check if map is in wraparound mode:
+if (mapView.getWrapAroundMode() == WrapAroundMode.DISABLED) {
+  // Enable wraparound
+  mapView.setWrapAroundMode(WrapAroundMode.ENABLE_WHEN_SUPPORTED);
+  if (! mapView.isWrapAroundEnabled()) {
+    // wraparound was enabled, but is not supported)
+  }
+}
+else {
+  // Disable wraparound
+  mapView.setWrapAroundMode(WrapAroundMode.DISABLED);
+}
+//[DocRef: Name=Working_With_Maps-Wraparound-Set

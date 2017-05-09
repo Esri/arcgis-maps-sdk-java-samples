@@ -1,0 +1,17 @@
+//[DocRef: Name=Working_With_Maps-Add_Raster_data-Raster_Mosaic
+// create raster and raster layer
+String rasterFilePath = "/path/to/raster.format";
+Raster raster = new Raster(rasterFilePath);
+RasterLayer rasterLayer = new RasterLayer(raster);
+
+// add as a basemap
+ArcGISMap map = new ArcGISMap(new Basemap(rasterLayer));
+
+// Alternatively you can create a raster layer from a mosaic dataset
+MosaicDatasetRaster mosaicDatasetRaster = new MosaicDatasetRaster("/path/to/mosaic.sqlite", "rasterName");
+RasterLayer mosaicDatasetRasterLayer = new RasterLayer(mosaicDatasetRaster);
+
+// add as an operational layer
+ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvasVector());
+map.getOperationalLayers().add(mosaicDatasetRasterLayer);
+//[DocRef: Name=Working_With_Maps-Add_Raster_data-Raster_Mosaic

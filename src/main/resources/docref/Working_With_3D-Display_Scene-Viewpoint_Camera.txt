@@ -1,0 +1,3 @@
+//[DocRef: Name=Working_With_3D-Display_Scene-Viewpoint_Camera
+sceneView.setViewpointCameraAsync(camera);
+//[DocRef: Name=Working_With_3D-Display_Scene-Viewpoint_Camera

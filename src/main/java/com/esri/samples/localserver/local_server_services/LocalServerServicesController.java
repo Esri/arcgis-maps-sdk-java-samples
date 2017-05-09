@@ -16,22 +16,13 @@
 
 package com.esri.samples.localserver.local_server_services;
 
-import static javafx.stage.FileChooser.ExtensionFilter;
-
 import java.io.File;
-
-import com.esri.arcgisruntime.localserver.LocalFeatureService;
-import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
-import com.esri.arcgisruntime.localserver.LocalMapService;
-import com.esri.arcgisruntime.localserver.LocalServer;
-import com.esri.arcgisruntime.localserver.LocalServerStatus;
-import com.esri.arcgisruntime.localserver.LocalService;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -39,6 +30,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+
+import com.esri.arcgisruntime.localserver.LocalFeatureService;
+import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
+import com.esri.arcgisruntime.localserver.LocalMapService;
+import com.esri.arcgisruntime.localserver.LocalServer;
+import com.esri.arcgisruntime.localserver.LocalServerStatus;
+import com.esri.arcgisruntime.localserver.LocalService;
 
 public class LocalServerServicesController {
 
@@ -52,18 +51,34 @@ public class LocalServerServicesController {
   private HostServices hostServices;
   private FileChooser packageChooser;
 
-  private static final LocalServer server = LocalServer.INSTANCE;
+  private LocalServer server;
 
   @FXML
   private void initialize() {
 
-    // start the local server
-    server.startAsync();
+    //[DocRef: Name=Fundamentals-Local_Server-Check_Install-Java
+    // check that local server install path can be accessed
+    if (LocalServer.INSTANCE.checkInstallValid()) {
+      server = LocalServer.INSTANCE;
+      //[DocRef: Name=Fundamentals-Local_Server-Start-Java
+      // start local server
+      server.startAsync();
+      // watch server status
+      server.addStatusChangedListener(status -> {
+        statusLog.appendText("Server Status: " + status.getNewStatus().toString() + "\n");
+      });
+      //[DocRef: Name=Fundamentals-Local_Server-Start-Java
+    } else {
+      Platform.runLater(() -> {
+        Alert dialog = new Alert(AlertType.INFORMATION);
+        dialog.setHeaderText("Local Server Load Error");
+        dialog.setContentText("Local Server install path couldn't be located.");
+        dialog.showAndWait();
 
-    // log the server status
-    server.addStatusChangedListener(status ->
-        statusLog.appendText("Server Status: " + status.getNewStatus().toString() + "\n")
-    );
+        Platform.exit();
+      });
+    }
+    //[DocRef: Name=Fundamentals-Local_Server-Check_Install-Java
 
     // create a file chooser to select package files
     packageChooser = new FileChooser();
@@ -81,25 +96,26 @@ public class LocalServerServicesController {
       packageChooser.setInitialFileName(null);
       packageChooser.getExtensionFilters().clear();
       switch (serviceOptions.getSelectionModel().getSelectedItem()) {
-        case "Geoprocessing Service" : packageChooser.getExtensionFilters().add(gpkFilter); break;
-        default: packageChooser.getExtensionFilters().add(mpkFilter);
+        case "Geoprocessing Service":
+          packageChooser.getExtensionFilters().add(gpkFilter);
+          break;
+        default:
+          packageChooser.getExtensionFilters().add(mpkFilter);
       }
     });
 
     // create list view representation of running services
-    runningServices.setCellFactory(list ->
-      new ListCell<LocalService>(){
+    runningServices.setCellFactory(list -> new ListCell<LocalService>() {
 
-        @Override
-        protected void updateItem(LocalService service, boolean bln) {
-          super.updateItem(service, bln);
-          if (service != null) {
-            setText(service.getName() + "  :  " + service.getUrl());
-          }
+      @Override
+      protected void updateItem(LocalService service, boolean bln) {
+        super.updateItem(service, bln);
+        if (service != null) {
+          setText(service.getName() + "  :  " + service.getUrl());
         }
-
       }
-    );
+
+    });
 
     // setup UI bindings
     stopServiceButton.disableProperty().bind(runningServices.getSelectionModel().selectedItemProperty().isNull());

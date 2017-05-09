@@ -1,0 +1,12 @@
+//[DocRef: Name=Working_With_3D-Add_Graphics-Marker_Scene_Symbol
+// sphere symbol
+SimpleMarkerSceneSymbol sphere = new SimpleMarkerSceneSymbol(SimpleMarkerSceneSymbol.Style.SPHERE, 0xCC880000, 3000,
+    3000, 3000, AnchorPosition.CENTER);
+
+// sphere point
+Point spherePoint = new Point(-4.04, 53.16, 1000);
+
+// add graphic
+Graphic sphereGraphic = new Graphic(spherePoint, sphere);
+graphicsOverlay.getGraphics().add(sphereGraphic);
+//[DocRef: Name=Working_With_3D-Add_Graphics-Marker_Scene_Symbol

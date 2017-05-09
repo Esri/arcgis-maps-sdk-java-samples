@@ -18,18 +18,8 @@ package com.esri.samples.displayinformation.update_graphics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.IdentifyGraphicsOverlayResult;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -44,6 +34,17 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.IdentifyGraphicsOverlayResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class UpdateGraphicsSample extends Application {
 
@@ -100,7 +101,7 @@ public class UpdateGraphicsSample extends Application {
       updateDescriptionButton.setOnAction(e -> {
         if (selectedGraphic.isSelected()) {
           // get attributes from selected graphic
-          java.util.Map<String, Object> attributes = selectedGraphic.getAttributes();
+          Map<String, Object> attributes = selectedGraphic.getAttributes();
 
           // create input dialog
           TextInputDialog dialog = new TextInputDialog();
@@ -167,6 +168,7 @@ public class UpdateGraphicsSample extends Application {
           // clear any selected graphic
           graphicsOverlay.clearSelection();
 
+          //[DocRef: Name=Display_Information-Graphics-Set_Geometry
           // create a point from location clicked
           Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
@@ -174,6 +176,7 @@ public class UpdateGraphicsSample extends Application {
             // add new location to selected graphic
             Point mapPoint = mapView.screenToLocation(mapViewPoint);
             selectedGraphic.setGeometry(mapPoint);
+            //[DocRef: Name=Display_Information-Graphics-Set_Geometry
             isUpdateLocationActive = false;
           } else {
             // identify the graphic that was selected

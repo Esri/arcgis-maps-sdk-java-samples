@@ -1,0 +1,5 @@
+//[DocRef: Name=Working_With_Maps-Wraparound-Normalized
+if (mapView.isWrapAroundEnabled()) {
+  Geometry normalized = GeometryEngine.normalizeCentralMeridian(mapView.getVisibleArea());
+}
+//[DocRef: Name=Working_With_Maps-Wraparound-Normalized

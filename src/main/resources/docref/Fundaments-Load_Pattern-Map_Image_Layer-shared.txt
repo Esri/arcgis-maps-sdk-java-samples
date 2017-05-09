@@ -1,0 +1,15 @@
+//[DocRef: Name=Fundaments-Load_Pattern-Map_Image_Layer-shared
+ArcGISMapImageLayer censusLayer = new ArcGISMapImageLayer("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer");
+censusLayer.setMinScale(5000);
+censusLayer.setMaxScale(1000000);
+
+censusLayer.loadAsync();
+censusLayer.addDoneLoadingListener(new Runnable() {
+
+  @Override
+  public void run() {
+    // overridden min & max scale values will be retained even when the resource finishes loading
+    System.out.println("layer loaded");
+  }
+});
+//[DocRef: Name=Fundaments-Load_Pattern-Map_Image_Layer-shared

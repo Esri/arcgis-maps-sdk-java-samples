@@ -74,11 +74,13 @@ public class LocalServerMapImageLayerSample extends Application {
       // start local server
       server.addStatusChangedListener(status -> {
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
+          //[DocRef: Name=Fundamentals-Local_Server-Map_Service-Java
           // start map image service
           String mapServiceURL = new File("./samples-data/local_server/RelationshipID.mpk").getAbsolutePath();
           mapImageService = new LocalMapService(mapServiceURL);
           mapImageService.addStatusChangedListener(this::addLocalMapImageLayer);
           mapImageService.startAsync();
+          //[DocRef: Name=Fundamentals-Local_Server-Map_Service-Java
         }
       });
       server.startAsync();
@@ -92,6 +94,7 @@ public class LocalServerMapImageLayerSample extends Application {
     }
   }
 
+  //[DocRef: Name=Fundamentals-Local_Server-Map_Service2-Java
   /**
    * Once the map service starts, a map image layer is created from that service and added to the map.
    * <p>
@@ -119,6 +122,7 @@ public class LocalServerMapImageLayerSample extends Application {
       mapView.getMap().getOperationalLayers().add(imageLayer);
     }
   }
+  //[DocRef: Name=Fundamentals-Local_Server-Map_Service2-Java
 
   /**
    * Stops and releases all resources used in application.

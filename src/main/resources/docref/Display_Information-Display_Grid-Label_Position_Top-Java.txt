@@ -1,0 +1,4 @@
+//[DocRef: Name=Display_Information-Display_Grid-Label_Position_Top-Java
+//update the label positioning to top right
+grid.setLabelPosition(LabelPosition.TOP_RIGHT);
+//[DocRef: Name=Display_Information-Display_Grid-Label_Position_Top-Java

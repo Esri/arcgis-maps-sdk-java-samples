@@ -1,0 +1,11 @@
+//[DocRef: Name=Display_Information-Display_Grid-Halo-Java
+// create a line symbol (a thick purple line)
+SimpleLineSymbol lineSymbol = new SimpleLineSymbol(Style.SOLID, 0xFF663399, 5);
+
+// create a text style with white text and blue halo.
+TextSymbol textSymbol = new TextSymbol();
+textSymbol.setSize(20);
+textSymbol.setColor(0xFFFFFFFF);
+textSymbol.setHaloColor(0xFF000099);
+textSymbol.setHaloWidth(5);
+//[DocRef: Name=Display_Information-Display_Grid-Halo-Java

@@ -1,0 +1,4 @@
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Buider_Line_Segment
+ LineSegment lineSegment = new LineSegment(new Point(78.75000000000003, 66.86936993741895), new Point(56.25000000000001, 67.22037237346096));
+ polygonBuilder.getParts().get(0).set(0, lineSegment);
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Buider_Line_Segment

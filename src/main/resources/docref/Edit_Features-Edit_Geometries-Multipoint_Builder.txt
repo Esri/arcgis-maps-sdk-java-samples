@@ -1,0 +1,8 @@
+//[DocRef: Name=Edit_Features-Edit_Geometries-Multipoint_Builder
+MultipointBuilder builder = new MultipointBuilder(null);
+PointCollection points = builder.getPoints();
+points.add(userAddedPoint1);
+points.add(userAddedPoint2);
+[...]
+Multipoint multipoint = builder.toGeometry();
+//[DocRef: Name=Edit_Features-Edit_Geometries-Multipoint_Builder

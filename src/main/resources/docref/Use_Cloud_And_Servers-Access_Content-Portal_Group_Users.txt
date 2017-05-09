@@ -1,0 +1,23 @@
+//[DocRef: Name=Use_Cloud_And_Servers-Access_Content-Portal_Group_Users
+PortalUser user = mPortal.getUser();
+for (PortalGroup group : user.getGroups()) {
+  //fetch the membership of each group.
+  final ListenableFuture<PortalGroupUsers> portalGroupUsers = group.fetchGroupUsersAsync();
+  portalGroupUsers.addDoneListener(new Runnable() {
+    @Override
+    public void run() {
+      try {
+        //iterate the users in the membership
+        final PortalGroupUsers portalGroupUsers = portalGroupUsers.get();
+        List<String> groupUsers = portalGroupUsers.getUsers();
+        for (String userName : groupUsers) {
+          //do something with the usernames
+        }
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  });
+}
+//[DocRef: Name=Use_Cloud_And_Servers-Access_Content-Portal_Group_Users

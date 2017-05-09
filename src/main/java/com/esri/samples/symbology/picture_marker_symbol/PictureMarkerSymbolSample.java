@@ -20,6 +20,14 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -29,14 +37,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
-
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class PictureMarkerSymbolSample extends Application {
 
@@ -73,10 +73,9 @@ public class PictureMarkerSymbolSample extends Application {
 
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
+      //[DocRef: Name=Fundamentals-Renderer_Symbols-PMS_File-Java
       // create points for displaying graphics
       Point leftPoint = new Point(-228835, 6550763, SpatialReferences.getWebMercator()); // Disk
-      Point rightPoint = new Point(-223560, 6552021, SpatialReferences.getWebMercator()); // URL
-      Point middlePoint = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
 
       // create orange picture marker symbol from disk
       if (saveResourceToExternalStorage()) {
@@ -85,16 +84,19 @@ public class PictureMarkerSymbolSample extends Application {
         // place orange picture marker symbol on ArcGISMap
         placePictureMarkerSymbol(orangeSymbol, leftPoint);
       }
+      //[DocRef: Name=Fundamentals-Renderer_Symbols-PMS_File-Java
 
       // create blue picture marker symbol from local
       Image newImage = new Image("/symbols/blue_symbol.png");
       PictureMarkerSymbol blueSymbol = new PictureMarkerSymbol(newImage);
+      Point middlePoint = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
       // place blue picture marker symbol on ArcGISMap
       placePictureMarkerSymbol(blueSymbol, middlePoint);
 
       // create campsite picture marker symbol from URL
       PictureMarkerSymbol campsiteSymbol = new PictureMarkerSymbol(CAMPSITE_SYMBOL);
 
+      Point rightPoint = new Point(-223560, 6552021, SpatialReferences.getWebMercator()); // URL
       // place campsite picture marker symbol on ArcGISMap
       map.addDoneLoadingListener(() -> Platform.runLater(() -> placePictureMarkerSymbol(campsiteSymbol, rightPoint)));
 
@@ -136,6 +138,7 @@ public class PictureMarkerSymbolSample extends Application {
 
   }
 
+  //[DocRef: Name=Fundamentals-Renderer_Symbols-PMS_File2-Java
   /**
    * Writes a resource image to a file.
    * 
@@ -159,6 +162,7 @@ public class PictureMarkerSymbolSample extends Application {
     // check to see if the resource was created on disk
     return orangeSymbolPath.exists();
   }
+  //[DocRef: Name=Fundamentals-Renderer_Symbols-PMS_File2-Java
 
   /**
    * Stops and releases all resources used in application.

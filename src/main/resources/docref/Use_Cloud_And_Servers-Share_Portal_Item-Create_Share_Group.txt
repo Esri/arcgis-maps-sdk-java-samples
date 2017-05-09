@@ -1,0 +1,12 @@
+//[DocRef: Name=Use_Cloud_And_Servers-Share_Portal_Item-Create_Share_Group
+// Get all the users groups
+List&lt;PortalGroup&gt; usersGroups = authenticatedUser.getGroups();
+// Decide which groups to share with
+final ArrayList&lt;PortalGroup&gt; shareWithGroups = new ArrayList&lt;&gt;(0);
+for (PortalGroup group : usersGroups) {
+   // Only choose groups that are not view-only
+   if (!group.isViewOnly()) {
+     shareWithGroups.add(group);
+   }
+}
+//[DocRef: Name=Use_Cloud_And_Servers-Share_Portal_Item-Create_Share_Group

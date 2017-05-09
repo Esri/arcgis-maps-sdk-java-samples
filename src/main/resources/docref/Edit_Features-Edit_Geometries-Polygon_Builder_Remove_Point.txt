@@ -1,0 +1,3 @@
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Builder_Remove_Point
+polygonBuilder.getParts().get(0).removePoint(0);
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polygon_Builder_Remove_Point

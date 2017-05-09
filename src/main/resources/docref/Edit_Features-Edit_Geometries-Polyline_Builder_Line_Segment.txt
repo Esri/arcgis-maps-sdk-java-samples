@@ -1,0 +1,11 @@
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polyline_Builder_Line_Segment
+// Create a builder, set the Spatial Reference
+PolylineBuilder polylineBuilder = new PolygonBuilder(SpatialReferences.getWgs84());  
+
+Part firstPart = new Part();
+firstPart.add(new LineSegment(0, 0, 0, 7));  // A LineSegment (0,0) -> (0,7)
+firstPart.add(new LineSegment(new Point(0,7), new Point(3,6)));      // A LineSegment (0,7) -> (3, 6)
+
+polylineBuilder.addPart(firstPart);
+Polyline polyline = polylineBuilder.toGeometry(); // Convert the current state of the builder to a Polyline
+//[DocRef: Name=Edit_Features-Edit_Geometries-Polyline_Builder_Line_Segment

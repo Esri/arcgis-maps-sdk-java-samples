@@ -1,0 +1,14 @@
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Raster
+// access raster or data file after task is done
+void process(GeoprocessingResult geoprocessingResult) {
+  final GeoprocessingRaster geoprocessingRaster = 
+    (GeoprocessingRaster) geoprocessingResult.getOutputs().get("Hotspot_Raster");
+  ListenableFuture<Void> fetchRasterFuture = geoprocessingRaster.fetchFileAsync("<fileNameWithPath>");
+  fetchRasterFuture.addDoneListener(new Runnable() {
+    @Override
+    public void run() {
+      // file now available at <fileNameWithPath>
+    }
+  });
+}
+//[DocRef: Name=Perform_Analysis-Geoprocessing_Task-Raster

@@ -27,11 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.esri.arcgisruntime.geometry.*;
-import com.esri.arcgisruntime.mapping.*;
-import com.esri.arcgisruntime.mapping.view.*;
-import com.esri.arcgisruntime.symbology.*;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -45,10 +40,35 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.util.Duration;
 
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Surface;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
+import com.esri.arcgisruntime.symbology.Renderer;
+import com.esri.arcgisruntime.symbology.RotationType;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
+
 /**
  * Controller class. Automatically instantiated when the FXML loads due to the fx:controller attribute.
  */
 public class Animate3dSymbolsController {
+
   // injected elements from fxml
   @FXML private CameraModel cameraModel;
   @FXML private AnimationModel animationModel;
@@ -98,6 +118,7 @@ public class Animate3dSymbolsController {
       sceneOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(sceneOverlay);
 
+      //[DocRef: Name=Working_With_3D-Add_Graphics-Expression
       // create renderer to handle updating plane rotation using the GPU
       SimpleRenderer renderer3D = new SimpleRenderer();
       renderer3D.setRotationType(RotationType.GEOGRAPHIC);
@@ -106,6 +127,7 @@ public class Animate3dSymbolsController {
       renderProperties.setPitchExpression("[PITCH]");
       renderProperties.setRollExpression("[ROLL]");
       sceneOverlay.setRenderer(renderer3D);
+      //[DocRef: Name=Working_With_3D-Add_Graphics-Expression
 
       // set up mini map
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());
@@ -137,10 +159,8 @@ public class Animate3dSymbolsController {
 
       // bind button properties
       followButton.disableProperty().bind(playButton.selectedProperty().not());
-      followButton.textProperty().bind(Bindings.createStringBinding(() -> followButton.isSelected() ?
-          "Free cam" : "Follow", followButton.selectedProperty()));
-      playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() ?
-          "Stop" : "Play", playButton.selectedProperty()));
+      followButton.textProperty().bind(Bindings.createStringBinding(() -> followButton.isSelected() ? "Free cam" : "Follow", followButton.selectedProperty()));
+      playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() ? "Stop" : "Play", playButton.selectedProperty()));
 
       // disable scroll zoom and dragging in follow mode
       EventHandler<Event> handler = (e) -> {
@@ -160,6 +180,7 @@ public class Animate3dSymbolsController {
     }
   }
 
+  //[DocRef: Name=Working_With_3D-Add_Graphics-Model_Symbol
   /**
    * Creates a 3D graphic representing the plane in the scene.
    *
@@ -175,11 +196,13 @@ public class Animate3dSymbolsController {
     // create the graphic
     return new Graphic(new Point(0, 0, 0, WGS84), plane3DSymbol);
   }
+  //[DocRef: Name=Working_With_3D-Add_Graphics-Model_Symbol
 
   /**
    * Creates a 2D graphic representing the plane on the mini map. Adds the graphic to the map view's graphics overlay.
    */
   private Graphic create2DPlane() {
+
     // create a blue (0xFF0000FF) triangle symbol to represent the plane on the mini map
     SimpleMarkerSymbol plane2DSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFF0000FF, 10);
 
@@ -229,8 +252,7 @@ public class Animate3dSymbolsController {
   private List<Map<String, Object>> getMissionData(String mission) {
 
     // open a file reader to the mission file that automatically closes after read
-    try (BufferedReader missionFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream
-        ("/csv/" + mission)))) {
+    try (BufferedReader missionFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/csv/" + mission)))) {
       List<Map<String, Object>> missionData = new ArrayList<>();
       missionFile.lines()
           //ex: -156.3666517,20.6255059,999.999908,83.77659,1.05E-09,-47.766567
