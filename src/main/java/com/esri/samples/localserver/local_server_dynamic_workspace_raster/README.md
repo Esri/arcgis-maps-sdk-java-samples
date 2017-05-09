@@ -1,4 +1,4 @@
-<h1>Local Server Feature Layer</h1>
+<h1>Local Server Dynamic Workspace Raster</h1>
 
 <p>Demonstrates how to dynamically add a local raster file to map using the Local Server. </p>
 
