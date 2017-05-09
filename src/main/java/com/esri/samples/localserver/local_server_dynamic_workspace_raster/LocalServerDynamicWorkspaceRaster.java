@@ -43,7 +43,6 @@ public class LocalServerDynamicWorkspaceRaster extends Application {
 	private static final LocalServer server = LocalServer.INSTANCE;
 	private LocalMapService localMapService;
 	private ArcGISMapImageSublayer newSL;
-	private static final int SCALE = 80000;
 	
 	
 	@Override
