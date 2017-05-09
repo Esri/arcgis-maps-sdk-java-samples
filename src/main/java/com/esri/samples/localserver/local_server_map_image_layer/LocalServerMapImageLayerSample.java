@@ -75,7 +75,7 @@ public class LocalServerMapImageLayerSample extends Application {
       server.addStatusChangedListener(status -> {
         if (status.getNewStatus() == LocalServerStatus.STARTED) {
           // start map image service
-          String mapServiceURL = new File("./samples-data/local_server/USCitiesStates.mpk").getAbsolutePath();
+          String mapServiceURL = new File("./samples-data/local_server/RelationshipID.mpk").getAbsolutePath();
           mapImageService = new LocalMapService(mapServiceURL);
           mapImageService.addStatusChangedListener(this::addLocalMapImageLayer);
           mapImageService.startAsync();
