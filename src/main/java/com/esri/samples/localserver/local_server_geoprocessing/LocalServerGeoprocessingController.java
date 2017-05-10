@@ -18,7 +18,6 @@ package com.esri.samples.localserver.local_server_geoprocessing;
 import java.io.File;
 import java.util.Map;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -135,12 +134,10 @@ public class LocalServerGeoprocessingController {
         mapView.getMap().getOperationalLayers().add(mapImageLayer);
         btnGenerate.setDisable(true);
       } else {
-        Platform.runLater(() -> {
-          Alert dialog = new Alert(AlertType.ERROR);
-          dialog.setHeaderText("Geoprocess Job Fail");
-          dialog.setContentText("Error: " + gpJob.getError().getAdditionalMessage());
-          dialog.showAndWait();
-        });
+        Alert dialog = new Alert(AlertType.ERROR);
+        dialog.setHeaderText("Geoprocess Job Fail");
+        dialog.setContentText("Error: " + gpJob.getError().getAdditionalMessage());
+        dialog.showAndWait();
       }
       progressBar.setVisible(false);
     });
