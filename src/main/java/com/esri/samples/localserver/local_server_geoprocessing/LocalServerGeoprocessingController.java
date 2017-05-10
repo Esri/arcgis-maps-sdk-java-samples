@@ -18,7 +18,6 @@ package com.esri.samples.localserver.local_server_geoprocessing;
 import java.io.File;
 import java.util.Map;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -92,11 +91,8 @@ public class LocalServerGeoprocessingController {
             if (s.getNewStatus() == LocalServerStatus.STARTED) {
               // add `/Contour` to use contour geoprocessing tool 
               gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Contour");
-
-              Platform.runLater(() -> {
-                btnClear.disableProperty().bind(btnGenerate.disabledProperty().not());
-                btnGenerate.setDisable(false);
-              });
+              btnClear.disableProperty().bind(btnGenerate.disabledProperty().not());
+              btnGenerate.setDisable(false);
             }
           });
           localGPService.startAsync();
@@ -117,10 +113,7 @@ public class LocalServerGeoprocessingController {
   protected void handleGenerateContours() {
 
     // tracking progress of creating contour map 
-    btnGenerate.setDisable(true);
-    progressBar.setProgress(0);
     progressBar.setVisible(true);
-
     // create parameter using interval set
     GeoprocessingParameters gpParameters = new GeoprocessingParameters(
         GeoprocessingParameters.ExecutionType.ASYNCHRONOUS_SUBMIT);
@@ -131,10 +124,6 @@ public class LocalServerGeoprocessingController {
 
     // adds contour lines to map
     GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
-    gpJob.addProgressChangedListener(() -> {
-      progressBar.setProgress(((double) gpJob.getProgress()) / 100);
-    });
-
     gpJob.addJobDoneListener(() -> {
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
         // creating map image url from local groprocessing service url
