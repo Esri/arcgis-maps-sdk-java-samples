@@ -1,0 +1,13 @@
+package testing;
+
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
+
+public class CreateDictionarySymbolStyleWithPathGist {
+
+  public static void main(String[] args) {
+    //[DocRef: Name=Display_information-Military_Symbols-Create_With_Path
+    DictionarySymbolStyle dictionarySymbol = new DictionarySymbolStyle("specificationType", "absolute/path/to/file/.stylx");
+    dictionarySymbol.loadAsync();
+    //[DocRef: Name=Display_information-Military_Symbols-Create_With_Path
+  }
+}

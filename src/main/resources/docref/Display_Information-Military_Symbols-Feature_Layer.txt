@@ -1,0 +1,31 @@
+package testing;
+
+import com.esri.arcgisruntime.data.Geodatabase;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.symbology.DictionaryRenderer;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
+
+public class DictionarySymbolFeatureLayerGist {
+
+  public static void main(String[] args) {
+    //[DocRef: Name=Display_information-Military_Symbols-Feature_Layer
+    Geodatabase geodatabase = new Geodatabase("path/to/dictionary/geodatbase");
+    geodatabase.loadAsync();
+    // render tells layer what symbols to apply to what features
+    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("specificationType");
+    symbolDictionary.loadAsync();
+
+    geodatabase.addDoneLoadingListener(() -> {
+      geodatabase.getGeodatabaseFeatureTables().forEach(table -> {
+        // add each layer to map
+        FeatureLayer featureLayer = new FeatureLayer(table);
+        featureLayer.loadAsync();
+
+        // displays features from layer using mil2525d symbols
+        DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(symbolDictionary);
+        featureLayer.setRenderer(dictionaryRenderer);
+      });
+    });
+  }
+  //[DocRef: Name=Display_information-Military_Symbols-Feature_Layer
+}

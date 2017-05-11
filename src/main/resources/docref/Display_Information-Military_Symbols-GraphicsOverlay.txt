@@ -1,0 +1,21 @@
+package testing;
+
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.symbology.DictionaryRenderer;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
+
+public class DictionarySymbolGraphicsOverlayGist {
+
+  private static GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+
+  public static void main(String[] args) {
+    //[DocRef: Name=Display_information-Military_Symbols-GraphicsOverlay
+    // create symbol dictionary from specification
+    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("specificationType");
+
+    // tells graphics overlay how to render graphics with symbol dictionary attributes set
+    DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
+    graphicsOverlay.setRenderer(renderer);
+    //[DocRef: Name=Display_information-Military_Symbols-GraphicsOverlay
+  }
+}
