@@ -26,6 +26,7 @@ import com.esri.arcgisruntime.localserver.LocalServerStatus;
 import com.esri.arcgisruntime.localserver.RasterWorkspace;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class LocalServerDynamicWorkspaceRasterSample extends Application {
@@ -52,8 +53,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
 	        // create Add Raster button
 	        Button addButton = new Button("Choose Raster");
 	        addButton.setMaxSize(150, 25);
-	        addButton.setDisable(true);
-
+	        addButton.setDisable(false);
 
 	        // choose the file, then start the Local Server instance and the local map service...
 	        addButton.setOnAction(e -> {    
@@ -82,13 +82,12 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
 	                  });
 	             }
 	        });
-
+	        
+	        // create a map and add it to a map view
 	        ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
-	        map.addDoneLoadingListener(() -> addButton.setDisable(false));
-
 	        mapView = new MapView();
 	        mapView.setMap(map);
-
+	        
 	        // add the map view and control panel to stack pane...
 	        stackPane.getChildren().addAll(mapView, addButton);
 	        StackPane.setAlignment(addButton, Pos.TOP_LEFT);
@@ -98,7 +97,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
 	        e.printStackTrace();
 	      }
 	}
-
+ 
 	/** Start the LocalServer and the LocalMapService
 	 * 
 	 * @param fileName
@@ -146,27 +145,23 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
 	      });
 	}
 	
-	/**
-	 * Stops and releases all resources used in application.
-	 * 
-	 * @throws Exception if security manager doesn't allow JVM to exit with
-     *           current status
-	 */
-	@Override
-	public void stop() throws Exception {
-		if (mapView != null) {
-			mapView.dispose();
-		}
-	}
-	  
-	  
-	/**
-     * Opens and runs application.
-     * 
-     * @param args arguments passed to this application
-     */	
-	public static void main(String[] args) {
-
-	    Application.launch(args);
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() throws Exception {
+    if (mapView != null) {
+      mapView.dispose();
     }
+  }
+
+  /**
+   * Opens and runs application.
+   *
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
+
+    Application.launch(args);
+  }
 }
