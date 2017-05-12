@@ -41,7 +41,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
 	        StackPane stackPane = new StackPane();
 	        Scene scene = new Scene(stackPane);
 	        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
-
+	        
 	        // set title, size, and add scene to stage
 	        stage.setTitle("Dynamic workspaces: raster");
 	        stage.setWidth(800);
@@ -89,7 +89,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
 	        mapView = new MapView();
 	        mapView.setMap(map);
 
-	        // add the map view and control panel to stack pane
+	        // add the map view and control panel to stack pane...
 	        stackPane.getChildren().addAll(mapView, addButton);
 	        StackPane.setAlignment(addButton, Pos.TOP_LEFT);
 	        StackPane.setMargin(addButton, new Insets(10, 0, 0, 10));
