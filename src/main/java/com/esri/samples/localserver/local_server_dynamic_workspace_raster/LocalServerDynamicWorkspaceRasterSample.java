@@ -54,8 +54,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
       addButton.setMaxSize(150, 25);
       addButton.setDisable(false);
 
-      // choose the file, then start the Local Server instance and the
-      // local map service...
+      // choose the file, then start the Local Server instance and the local map service
       addButton.setOnAction(e -> {
 
         if (LocalServer.INSTANCE.checkInstallValid()) {
@@ -87,7 +86,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add the map view and control panel to stack pane...
+      // add the map view and control panel to stack pane
       stackPane.getChildren().addAll(mapView, addButton);
       StackPane.setAlignment(addButton, Pos.TOP_LEFT);
       StackPane.setMargin(addButton, new Insets(10, 0, 0, 10));
@@ -110,12 +109,11 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
     server.addStatusChangedListener(status -> {
       if (server.getStatus() == LocalServerStatus.STARTED) {
 
-        // start a service from the blank MPK...
+        // start a service from the blank MPK
         String mapServiceURL = "./samples-data/local_server/mpk_blank.mpk";
         LocalMapService localMapService = new LocalMapService(mapServiceURL);
 
-        // Can't add a dynamic workspace to a running service, so do
-        // that first...
+        // Can't add a dynamic workspace to a running service, so do that first
         RasterWorkspace rasterWorkspace = new RasterWorkspace("raster_wkspc", path);
         RasterSublayerSource source = new RasterSublayerSource(rasterWorkspace.getId(), fileName);
         ArcGISMapImageSublayer imageSublayer = new ArcGISMapImageSublayer(0, source);
@@ -124,8 +122,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
         localMapService.addStatusChangedListener(event -> {
           if (event.getNewStatus() == LocalServerStatus.STARTED) {
 
-            // Now, we're ready to add the raster layer...
-            // create a map image layer using url
+            // Now, we're ready to add the raster layer. Create a map image layer using url
             ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(localMapService.getUrl());
 
             // Add the sub layer to the image layer
@@ -136,8 +133,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
             });
             imageLayer.loadAsync();
 
-            // add the image layer to map. Clear any previous
-            // layers...
+            // add the image layer to map. Clear any previous layers
             mapView.getMap().getOperationalLayers().clear();
             mapView.getMap().getOperationalLayers().add(imageLayer);
           }
