@@ -8,7 +8,7 @@
 
 <h2>How to use the sample</h2>
 
-<p>After the local server is done loading, click the Choose Raster button to select a raster to work with.</p>
+<p>Click the Choose Raster button to select a raster to work with.</p>
 
 <h2>How it works</h2>
 
@@ -24,7 +24,7 @@
 <ul><li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.</li></ul>
 <ul><li><code>localMapService.addStatusChangedListener()</code> fires whenever the status of the local server has changed.</li></ul></li>
 <li>Create a <code>ArcGISMapImageLayer</code> using the url from the <code>localMapService</code>.</li>
-<li>Load the <code>ArcGISMapImageLayer</code>. After it is done loading, Add the <code>ArcGISMapImageSublayer</code> to 
+<li>Add the <code>ArcGISMapImageSublayer</code> to 
 it's list of sublayers. The ArcGISMapImageSublayer points to the raster file on disk.
 <li>Finally, add the <code>ArcGISMapImageLayer</code> to the map's list of operational layers to show it on the map
 .</li>
@@ -35,7 +35,7 @@ it's list of sublayers. The ArcGISMapImageSublayer points to the raster file on 
 <li>ArcGISMapImageLayer</li>
 <li>ArcGISMapImageSublayer</li>
 <li>LocalServer</li>
-<li>LocalServerStatus</li>
+<li>DynamicWorkspace</li>
 <li>RasterSublayerSource</li>
 <li>RasterWorkspace</li>
 </ul>
