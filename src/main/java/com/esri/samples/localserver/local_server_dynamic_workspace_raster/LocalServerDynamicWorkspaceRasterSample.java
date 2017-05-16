@@ -1,7 +1,9 @@
+
 package com.esri.samples.localserver.local_server_dynamic_workspace_raster;
 
 import java.io.File;
 import java.util.Arrays;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -31,7 +33,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class LocalServerDynamicWorkspaceRasterSample extends Application {
 
   private MapView mapView;
-  private static LocalServer server = LocalServer.INSTANCE;
+  private static LocalServer server;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -58,6 +60,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
       addButton.setOnAction(e -> {
 
         if (LocalServer.INSTANCE.checkInstallValid()) {
+          server = LocalServer.INSTANCE;
           // Browse to the raster file
           FileChooser fileChooser = new FileChooser();
           fileChooser.setTitle("Open Resource File");
@@ -148,6 +151,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
    */
   @Override
   public void stop() throws Exception {
+
     if (mapView != null) {
       mapView.dispose();
     }
@@ -156,8 +160,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
   /**
    * Opens and runs application.
    *
-   * @param args
-   *          arguments passed to this application
+   * @param args arguments passed to this application
    */
   public static void main(String[] args) {
 
