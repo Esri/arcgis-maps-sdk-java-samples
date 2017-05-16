@@ -17,7 +17,16 @@
 package com.esri.samples.localserver.local_server_feature_layer;
 
 import java.io.File;
-import java.util.concurrent.ExecutionException;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -31,14 +40,6 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 public class LocalServerFeatureLayerSample extends Application {
 
   private static final int APPLICATION_WIDTH = 800;
@@ -47,8 +48,8 @@ public class LocalServerFeatureLayerSample extends Application {
   private MapView mapView;
   private LocalFeatureService featureService;
   private ProgressIndicator featureLayerProgress;
-  
-  private static final LocalServer server = LocalServer.INSTANCE;
+
+  private static LocalServer server;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -74,17 +75,30 @@ public class LocalServerFeatureLayerSample extends Application {
       featureLayerProgress = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
       featureLayerProgress.setMaxWidth(30);
 
-      // start local server
-      server.startAsync();
-      server.addStatusChangedListener(status -> {
-        if (server.getStatus() == LocalServerStatus.STARTED) {
-          // start feature service
-          String featureServiceURL = new File("samples-data/local_server/PointsofInterest.mpk").getAbsolutePath();
-          featureService = new LocalFeatureService(featureServiceURL);
-          featureService.addStatusChangedListener(this::addLocalFeatureLayer);
-          featureService.startAsync();
-        }
-      });
+      // check that local server install path can be accessed
+      if (LocalServer.INSTANCE.checkInstallValid()) {
+        server = LocalServer.INSTANCE;
+        server.addStatusChangedListener(status -> {
+          if (server.getStatus() == LocalServerStatus.STARTED) {
+            // start feature service
+            String featureServiceURL = new File("samples-data/local_server/PointsofInterest.mpk").getAbsolutePath();
+            featureService = new LocalFeatureService(featureServiceURL);
+            featureService.addStatusChangedListener(this::addLocalFeatureLayer);
+            featureService.startAsync();
+          }
+        });
+        // start local server
+        server.startAsync();
+      } else {
+        Platform.runLater(() -> {
+          Alert dialog = new Alert(AlertType.INFORMATION);
+          dialog.setHeaderText("Local Server Load Error");
+          dialog.setContentText("Local Geoprocessing Failed to load.");
+          dialog.showAndWait();
+
+          Platform.exit();
+        });
+      }
 
       // add view to application window
       stackPane.getChildren().addAll(mapView, featureLayerProgress);
@@ -130,6 +144,7 @@ public class LocalServerFeatureLayerSample extends Application {
    */
   @Override
   public void stop() throws Exception {
+
     if (mapView != null) {
       mapView.dispose();
     }
