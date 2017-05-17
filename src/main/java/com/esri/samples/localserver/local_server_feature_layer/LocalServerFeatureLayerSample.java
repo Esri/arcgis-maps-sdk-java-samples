@@ -42,8 +42,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class LocalServerFeatureLayerSample extends Application {
 
-  private static final int APPLICATION_WIDTH = 800;
-
   private ArcGISMap map;
   private MapView mapView;
   private LocalFeatureService featureService;
@@ -61,7 +59,7 @@ public class LocalServerFeatureLayerSample extends Application {
 
       // set title, size, and add scene to stage
       stage.setTitle("Local Server Feature Layer Sample");
-      stage.setWidth(APPLICATION_WIDTH);
+      stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();

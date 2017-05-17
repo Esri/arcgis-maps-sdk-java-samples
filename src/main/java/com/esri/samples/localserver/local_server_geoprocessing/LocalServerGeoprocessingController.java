@@ -46,17 +46,12 @@ import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
 
 public class LocalServerGeoprocessingController {
 
-  @FXML
-  private TextField txtInterval;
-  @FXML
-  private Button btnGenerate;
-  @FXML
-  private Button btnClear;
-  @FXML
-  private ProgressBar progressBar;
+  @FXML private TextField txtInterval;
+  @FXML private Button btnGenerate;
+  @FXML private Button btnClear;
+  @FXML private ProgressBar progressBar;
+  @FXML private MapView mapView;
 
-  @FXML
-  private MapView mapView;
   private LocalGeoprocessingService localGPService;
   private GeoprocessingTask gpTask;
 
@@ -140,6 +135,11 @@ public class LocalServerGeoprocessingController {
 
     // adds contour lines to map
     GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
+
+    gpJob.addProgressChangedListener(() -> {
+      progressBar.setProgress(((double) gpJob.getProgress()) / 100);
+    });
+
     gpJob.addJobDoneListener(() -> {
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
         // creating map image url from local groprocessing service url

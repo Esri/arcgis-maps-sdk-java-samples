@@ -41,18 +41,12 @@ import com.esri.arcgisruntime.localserver.LocalService;
 
 public class LocalServerServicesController {
 
-  @FXML
-  private TextField packagePath;
-  @FXML
-  private ComboBox<String> serviceOptions;
-  @FXML
-  private Button startServiceButton;
-  @FXML
-  private TextArea statusLog;
-  @FXML
-  private ListView<LocalService> runningServices;
-  @FXML
-  private Button stopServiceButton;
+  @FXML private TextField packagePath;
+  @FXML private ComboBox<String> serviceOptions;
+  @FXML private Button startServiceButton;
+  @FXML private TextArea statusLog;
+  @FXML private ListView<LocalService> runningServices;
+  @FXML private Button stopServiceButton;
 
   private HostServices hostServices;
   private FileChooser packageChooser;
