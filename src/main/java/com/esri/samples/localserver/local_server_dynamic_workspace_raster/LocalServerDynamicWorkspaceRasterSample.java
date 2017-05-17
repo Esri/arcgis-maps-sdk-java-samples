@@ -28,6 +28,7 @@ import com.esri.arcgisruntime.localserver.LocalServerStatus;
 import com.esri.arcgisruntime.localserver.RasterWorkspace;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class LocalServerDynamicWorkspaceRasterSample extends Application {
@@ -88,10 +89,6 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
         if (selectedFile != null) {
           String fileName = selectedFile.getName();
           String path = selectedFile.getParent();
-
-          System.out.println("FileName: " + fileName);
-          System.out.println("Path: " + path);
-
           startLocalMapService(fileName, path);
         }
       });
@@ -138,8 +135,10 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
         imageLayer.addDoneLoadingListener(() -> {
           if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
             imageLayer.getSublayers().add(imageSublayer);
-            System.out.println("" + imageSublayer.getLoadStatus().name());
-            System.out.println("" + imageSublayer.getMapServiceSublayerInfo().getExtent());
+            imageSublayer.addDoneLoadingListener(() -> {
+              mapView.setViewpoint(new Viewpoint(imageSublayer.getMapServiceSublayerInfo().getExtent()));
+            });
+            imageSublayer.loadAsync();
           }
         });
         imageLayer.loadAsync();
