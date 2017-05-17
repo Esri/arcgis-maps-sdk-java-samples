@@ -22,6 +22,8 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -45,7 +47,7 @@ public class LocalServerMapImageLayerSample extends Application {
   private LocalMapService mapImageService;
   private ProgressIndicator imageLayerProgress;
 
-  private static final LocalServer server = LocalServer.INSTANCE;
+  private static LocalServer server;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -71,17 +73,30 @@ public class LocalServerMapImageLayerSample extends Application {
       imageLayerProgress = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
       imageLayerProgress.setMaxWidth(30);
 
-      // start local server
-      server.addStatusChangedListener(status -> {
-        if (status.getNewStatus() == LocalServerStatus.STARTED) {
-          // start map image service
-          String mapServiceURL = new File("./samples-data/local_server/RelationshipID.mpk").getAbsolutePath();
-          mapImageService = new LocalMapService(mapServiceURL);
-          mapImageService.addStatusChangedListener(this::addLocalMapImageLayer);
-          mapImageService.startAsync();
-        }
-      });
-      server.startAsync();
+      // check that local server install path can be accessed
+      if (LocalServer.INSTANCE.checkInstallValid()) {
+        server = LocalServer.INSTANCE;
+        // start local server
+        server.addStatusChangedListener(status -> {
+          if (status.getNewStatus() == LocalServerStatus.STARTED) {
+            // start map image service
+            String mapServiceURL = new File("./samples-data/local_server/RelationshipID.mpk").getAbsolutePath();
+            mapImageService = new LocalMapService(mapServiceURL);
+            mapImageService.addStatusChangedListener(this::addLocalMapImageLayer);
+            mapImageService.startAsync();
+          }
+        });
+        server.startAsync();
+      } else {
+        Platform.runLater(() -> {
+          Alert dialog = new Alert(AlertType.INFORMATION);
+          dialog.setHeaderText("Local Server Load Error");
+          dialog.setContentText("Local Geoprocessing Failed to load.");
+          dialog.showAndWait();
+
+          Platform.exit();
+        });
+      }
 
       // add view to application window with progress bar
       stackPane.getChildren().addAll(mapView, imageLayerProgress);
@@ -125,6 +140,7 @@ public class LocalServerMapImageLayerSample extends Application {
    */
   @Override
   public void stop() throws Exception {
+
     if (mapView != null) {
       mapView.dispose();
     }

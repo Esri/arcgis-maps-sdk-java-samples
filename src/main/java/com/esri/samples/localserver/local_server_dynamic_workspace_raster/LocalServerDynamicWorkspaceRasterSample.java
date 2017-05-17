@@ -1,7 +1,9 @@
+
 package com.esri.samples.localserver.local_server_dynamic_workspace_raster;
 
 import java.io.File;
 import java.util.Arrays;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -26,12 +28,13 @@ import com.esri.arcgisruntime.localserver.LocalServerStatus;
 import com.esri.arcgisruntime.localserver.RasterWorkspace;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class LocalServerDynamicWorkspaceRasterSample extends Application {
 
   private MapView mapView;
-  private static LocalServer server = LocalServer.INSTANCE;
+  private static LocalServer server;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -52,32 +55,41 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
       // create Add Raster button
       Button addButton = new Button("Choose Raster");
       addButton.setMaxSize(150, 25);
-      addButton.setDisable(false);
+      addButton.setDisable(true);
 
-      // choose the file, then start the Local Server instance and the local map service
-      addButton.setOnAction(e -> {
-
-        if (LocalServer.INSTANCE.checkInstallValid()) {
-          // Browse to the raster file
-          FileChooser fileChooser = new FileChooser();
-          fileChooser.setTitle("Open Resource File");
-          fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.tif"));
-          fileChooser.setInitialDirectory(new File("./samples-data/raster/"));
-          File selectedFile = fileChooser.showOpenDialog(stage);
-
-          if (selectedFile != null) {
-            String fileName = selectedFile.getName();
-            String path = selectedFile.getParent();
-            startLocalService(fileName, path);
+      // start local server if found
+      if (LocalServer.INSTANCE.checkInstallValid()) {
+        server = LocalServer.INSTANCE;
+        server.addStatusChangedListener(status -> {
+          if (server.getStatus() == LocalServerStatus.STARTED) {
+            addButton.setDisable(false);
           }
-        } else {
-          Platform.runLater(() -> {
-            Alert dialog = new Alert(AlertType.INFORMATION);
-            dialog.setHeaderText("Local Server Load Error");
-            dialog.setContentText("Local Server install path couldn't be located.");
-            dialog.showAndWait();
-            Platform.exit();
-          });
+        });
+        // start local server
+        server.startAsync();
+      } else {
+        Platform.runLater(() -> {
+          Alert dialog = new Alert(AlertType.INFORMATION);
+          dialog.setHeaderText("Local Server Load Error");
+          dialog.setContentText("Local Server install path couldn't be located.");
+          dialog.showAndWait();
+          Platform.exit();
+        });
+      }
+
+      // choose the file, then start the local map service
+      addButton.setOnAction(e -> {
+        // Browse to the raster file
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.tif"));
+        fileChooser.setInitialDirectory(new File("./samples-data/raster/"));
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+          String fileName = selectedFile.getName();
+          String path = selectedFile.getParent();
+          startLocalMapService(fileName, path);
         }
       });
 
@@ -97,50 +109,46 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
   }
 
   /**
-   * Start the LocalServer and the LocalMapService
+   * Start a LocalMapService and attaches a dynamic workspace raster.
    * 
    * @param fileName
    * @param path
    */
-  private void startLocalService(String fileName, String path) {
+  private void startLocalMapService(String fileName, String path) {
 
-    // start local server
-    server.startAsync();
-    server.addStatusChangedListener(status -> {
-      if (server.getStatus() == LocalServerStatus.STARTED) {
+    // start a service from the blank MPK
+    String mapServiceURL = "./samples-data/local_server/mpk_blank.mpk";
+    LocalMapService localMapService = new LocalMapService(mapServiceURL);
 
-        // start a service from the blank MPK
-        String mapServiceURL = "./samples-data/local_server/mpk_blank.mpk";
-        LocalMapService localMapService = new LocalMapService(mapServiceURL);
+    // Can't add a dynamic workspace to a running service, so do that first
+    RasterWorkspace rasterWorkspace = new RasterWorkspace("raster_wkspc", path);
+    RasterSublayerSource source = new RasterSublayerSource(rasterWorkspace.getId(), fileName);
+    ArcGISMapImageSublayer imageSublayer = new ArcGISMapImageSublayer(0, source);
+    Iterable<DynamicWorkspace> dynamicWorkspaces = Arrays.asList(rasterWorkspace);
+    localMapService.setDynamicWorkspaces(dynamicWorkspaces);
+    localMapService.addStatusChangedListener(event -> {
+      if (event.getNewStatus() == LocalServerStatus.STARTED) {
+        // Now, we're ready to add the raster layer. Create a map image layer using url
+        ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(localMapService.getUrl());
 
-        // Can't add a dynamic workspace to a running service, so do that first
-        RasterWorkspace rasterWorkspace = new RasterWorkspace("raster_wkspc", path);
-        RasterSublayerSource source = new RasterSublayerSource(rasterWorkspace.getId(), fileName);
-        ArcGISMapImageSublayer imageSublayer = new ArcGISMapImageSublayer(0, source);
-        Iterable<DynamicWorkspace> dynamicWorkspaces = Arrays.asList(rasterWorkspace);
-        localMapService.setDynamicWorkspaces(dynamicWorkspaces);
-        localMapService.addStatusChangedListener(event -> {
-          if (event.getNewStatus() == LocalServerStatus.STARTED) {
-
-            // Now, we're ready to add the raster layer. Create a map image layer using url
-            ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(localMapService.getUrl());
-
-            // Add the sub layer to the image layer
-            imageLayer.addDoneLoadingListener(() -> {
-              if (imageLayer.getLoadStatus() == LoadStatus.LOADED && imageLayer.getFullExtent() != null) {
-                imageLayer.getSublayers().add(imageSublayer);
-              }
+        // Add the sub layer to the image layer
+        imageLayer.addDoneLoadingListener(() -> {
+          if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
+            imageLayer.getSublayers().add(imageSublayer);
+            imageSublayer.addDoneLoadingListener(() -> {
+              mapView.setViewpoint(new Viewpoint(imageSublayer.getMapServiceSublayerInfo().getExtent()));
             });
-            imageLayer.loadAsync();
-
-            // add the image layer to map. Clear any previous layers
-            mapView.getMap().getOperationalLayers().clear();
-            mapView.getMap().getOperationalLayers().add(imageLayer);
+            imageSublayer.loadAsync();
           }
         });
-        localMapService.startAsync();
+        imageLayer.loadAsync();
+
+        // add the image layer to map. Clear any previous layers
+        mapView.getMap().getOperationalLayers().clear();
+        mapView.getMap().getOperationalLayers().add(imageLayer);
       }
     });
+    localMapService.startAsync();
   }
 
   /**
@@ -148,6 +156,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
    */
   @Override
   public void stop() throws Exception {
+
     if (mapView != null) {
       mapView.dispose();
     }
@@ -156,8 +165,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
   /**
    * Opens and runs application.
    *
-   * @param args
-   *          arguments passed to this application
+   * @param args arguments passed to this application
    */
   public static void main(String[] args) {
 
