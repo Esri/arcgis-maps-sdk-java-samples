@@ -111,7 +111,7 @@ public class FindRouteSample extends Application {
           routeGraphicsOverlay.getGraphics().add(routeGraphic);
 
           // get the direction text for each maneuver
-          for(DirectionManeuver step : route.getDirectionManeuvers()) {
+          for (DirectionManeuver step : route.getDirectionManeuvers()) {
         	  directionsList.getItems().add(step.getDirectionText());
           }
 
