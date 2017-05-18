@@ -112,7 +112,7 @@ public class FindRouteSample extends Application {
 
           // get the direction text for each maneuver
           for (DirectionManeuver step : route.getDirectionManeuvers()) {
-        	  directionsList.getItems().add(step.getDirectionText());
+            directionsList.getItems().add(step.getDirectionText());
           }
 
           resetButton.setDisable(false);
