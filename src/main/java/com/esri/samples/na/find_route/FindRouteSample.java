@@ -176,7 +176,7 @@ public class FindRouteSample extends Application {
             Point stop2Loc = new Point(-1.3036911787723785E7, 3839935.706521739, ESPG_3857);
 
             // add route stops
-            List<Stop> routeStops = new ArrayList<Stop>();
+            List<Stop> routeStops = new ArrayList<>();
             routeStops.add(new Stop(stop1Loc));
             routeStops.add(new Stop(stop2Loc));
             routeParameters.setStops(routeStops);
