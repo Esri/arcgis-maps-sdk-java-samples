@@ -1,4 +1,4 @@
-package com.esri.samples.localserver.local_server_dynamic_workspace_shp;
+package com.esri.samples.localserver.local_server_dynamic_workspace_shapefile;
 import java.io.File;
 import java.util.Arrays;
 
@@ -47,7 +47,7 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
       scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
-      stage.setTitle("Dynamic workspaces: shapefile");
+      stage.setTitle("Local Server Dynamic Workspace Shapefile Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -58,7 +58,7 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
       addButton.setMaxSize(150, 25);
       addButton.setDisable(true);
 
-      // start local server if found
+      // check local server is installed
       if (LocalServer.INSTANCE.checkInstallValid()) {
         server = LocalServer.INSTANCE;
         server.addStatusChangedListener(status -> {
@@ -78,10 +78,11 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
         });
       }
 
+      FileChooser fileChooser = new FileChooser();
       // choose the file, then start the local map service
       addButton.setOnAction(e -> {
-        // Browse to the shapefile file
-        FileChooser fileChooser = new FileChooser();
+        // browse to the shapefile file
+        
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Shapefiles", "*.shp"));
         fileChooser.setInitialDirectory(new File("./samples-data/shapefiles/"));
@@ -121,25 +122,30 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
     String mapServiceURL = "./samples-data/local_server/mpk_blank.mpk";
     LocalMapService localMapService = new LocalMapService(mapServiceURL);
 
-    // Can't add a dynamic workspace to a running service, so do that first
+    //create a shapefile workspace
     ShapefileWorkspace shapefileWorkspace = new ShapefileWorkspace("shp_wkspc", path);
+    // create a layersource that represents the actual shapefile on disk
     TableSublayerSource source = new TableSublayerSource(shapefileWorkspace.getId(), fileName);
+    // create a sublayer instance from the source
     ArcGISMapImageSublayer shapefileSublayer = new ArcGISMapImageSublayer(0, source);
+    // add the dynamic workspace to the localMapService
     Iterable<DynamicWorkspace> dynamicWorkspaces = Arrays.asList(shapefileWorkspace);
     localMapService.setDynamicWorkspaces(dynamicWorkspaces);
     localMapService.addStatusChangedListener(event -> {
       if (event.getNewStatus() == LocalServerStatus.STARTED) {
-        // Now, we're ready to add the shapefile layer. Create a map image layer using url
+        // ready to add the shapefile layer to the map. Create a map image layer using url
         ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(localMapService.getUrl());
 
-        // Add the sub layer to the image layer
+        // add the sub layer to the image layer
         imageLayer.addDoneLoadingListener(() -> {
-          if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {     
+          if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {  
+            // default symbol and renderer need to be created and applied
             SimpleLineSymbol lineSymbol = new SimpleLineSymbol(Style.SOLID, 0xFFFF0000, 3);
             shapefileSublayer.setRenderer(new SimpleRenderer(lineSymbol));
             imageLayer.getSublayers().add(shapefileSublayer);
             
             shapefileSublayer.addDoneLoadingListener(() -> {
+              // zoom the map to the extent of the added shapefile layer
               mapView.setViewpoint(new Viewpoint(shapefileSublayer.getMapServiceSublayerInfo().getExtent()));
             });
             shapefileSublayer.loadAsync();
