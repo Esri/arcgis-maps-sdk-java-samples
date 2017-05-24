@@ -39,5 +39,4 @@
 <li>LocalServer</li>
 <li>ShapefileWorkspace</li>
 <li>TableSublayerSource</li>
-<li>StatusChangedEvent</li>
 </ul>
