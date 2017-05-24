@@ -13,6 +13,7 @@ import com.esri.arcgisruntime.localserver.LocalServerStatus;
 import com.esri.arcgisruntime.localserver.ShapefileWorkspace;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol.Style;
@@ -137,6 +138,11 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
             SimpleLineSymbol lineSymbol = new SimpleLineSymbol(Style.SOLID, 0xFFFF0000, 3);
             shapefileSublayer.setRenderer(new SimpleRenderer(lineSymbol));
             imageLayer.getSublayers().add(shapefileSublayer);
+            
+            shapefileSublayer.addDoneLoadingListener(() -> {
+              mapView.setViewpoint(new Viewpoint(shapefileSublayer.getMapServiceSublayerInfo().getExtent()));
+            });
+            shapefileSublayer.loadAsync();
           }
         });
         imageLayer.loadAsync();
