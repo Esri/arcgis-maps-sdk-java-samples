@@ -1,8 +1,39 @@
+/*
+ * Copyright 2016 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 
-package com.esri.samples.localserver.local_server_dynamic_workspace_raster;
-
+package com.esri.samples.localserver.local_server_dynamic_workspace_shapefile;
 import java.io.File;
 import java.util.Arrays;
+
+import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+import com.esri.arcgisruntime.layers.ArcGISMapImageSublayer;
+import com.esri.arcgisruntime.layers.TableSublayerSource;
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.localserver.DynamicWorkspace;
+import com.esri.arcgisruntime.localserver.LocalMapService;
+import com.esri.arcgisruntime.localserver.LocalServer;
+import com.esri.arcgisruntime.localserver.LocalServerStatus;
+import com.esri.arcgisruntime.localserver.ShapefileWorkspace;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol.Style;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -17,21 +48,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
-import com.esri.arcgisruntime.layers.ArcGISMapImageSublayer;
-import com.esri.arcgisruntime.layers.RasterSublayerSource;
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.localserver.DynamicWorkspace;
-import com.esri.arcgisruntime.localserver.LocalMapService;
-import com.esri.arcgisruntime.localserver.LocalServer;
-import com.esri.arcgisruntime.localserver.LocalServerStatus;
-import com.esri.arcgisruntime.localserver.RasterWorkspace;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
-public class LocalServerDynamicWorkspaceRasterSample extends Application {
+public class LocalServerDynamicWorkspaceShapefileSample extends Application {
 
   private MapView mapView;
   private static LocalServer server;
@@ -46,18 +63,18 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
       scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
-      stage.setTitle("Dynamic workspaces: raster");
+      stage.setTitle("Local Server Dynamic Workspace Shapefile Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
 
-      // create Add Raster button
-      Button addButton = new Button("Choose Raster");
+      // create Choose Shapefile button
+      Button addButton = new Button("Choose Shapefile");
       addButton.setMaxSize(150, 25);
       addButton.setDisable(true);
 
-      // start local server if found
+      // check local server is installed
       if (LocalServer.INSTANCE.checkInstallValid()) {
         server = LocalServer.INSTANCE;
         server.addStatusChangedListener(status -> {
@@ -77,13 +94,13 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
         });
       }
 
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Open Resource File");
+      fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Shapefiles", "*.shp"));
+      fileChooser.setInitialDirectory(new File("./samples-data/shapefiles/"));
       // choose the file, then start the local map service
       addButton.setOnAction(e -> {
-        // Browse to the raster file
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.tif"));
-        fileChooser.setInitialDirectory(new File("./samples-data/raster/"));
+        // browse to the shapefile file
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         if (selectedFile != null) {
@@ -109,7 +126,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
   }
 
   /**
-   * Start a LocalMapService and attaches a dynamic workspace raster.
+   * Start a LocalMapService and attaches a dynamic workspace shapefile.
    * 
    * @param fileName
    * @param path
@@ -120,25 +137,33 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
     String mapServiceURL = "./samples-data/local_server/mpk_blank.mpk";
     LocalMapService localMapService = new LocalMapService(mapServiceURL);
 
-    // Can't add a dynamic workspace to a running service, so do that first
-    RasterWorkspace rasterWorkspace = new RasterWorkspace("raster_wkspc", path);
-    RasterSublayerSource source = new RasterSublayerSource(rasterWorkspace.getId(), fileName);
-    ArcGISMapImageSublayer imageSublayer = new ArcGISMapImageSublayer(0, source);
-    Iterable<DynamicWorkspace> dynamicWorkspaces = Arrays.asList(rasterWorkspace);
+    //create a shapefile workspace
+    ShapefileWorkspace shapefileWorkspace = new ShapefileWorkspace("shp_wkspc", path);
+    // create a layersource that represents the actual shapefile on disk
+    TableSublayerSource source = new TableSublayerSource(shapefileWorkspace.getId(), fileName);
+    // create a sublayer instance from the source
+    ArcGISMapImageSublayer shapefileSublayer = new ArcGISMapImageSublayer(0, source);
+    // add the dynamic workspace to the localMapService
+    Iterable<DynamicWorkspace> dynamicWorkspaces = Arrays.asList(shapefileWorkspace);
     localMapService.setDynamicWorkspaces(dynamicWorkspaces);
     localMapService.addStatusChangedListener(event -> {
       if (event.getNewStatus() == LocalServerStatus.STARTED) {
-        // Now, we're ready to add the raster layer. Create a map image layer using url
+        // ready to add the shapefile layer to the map. Create a map image layer using url
         ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(localMapService.getUrl());
 
-        // Add the sub layer to the image layer
+        // add the sub layer to the image layer
         imageLayer.addDoneLoadingListener(() -> {
-          if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
-            imageLayer.getSublayers().add(imageSublayer);
-            imageSublayer.addDoneLoadingListener(() -> {
-              mapView.setViewpoint(new Viewpoint(imageSublayer.getMapServiceSublayerInfo().getExtent()));
+          if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {  
+            // default symbol and renderer need to be created and applied
+            SimpleLineSymbol lineSymbol = new SimpleLineSymbol(Style.SOLID, 0xFFFF0000, 3);
+            shapefileSublayer.setRenderer(new SimpleRenderer(lineSymbol));
+            imageLayer.getSublayers().add(shapefileSublayer);
+            
+            shapefileSublayer.addDoneLoadingListener(() -> {
+              // zoom the map to the extent of the added shapefile layer
+              mapView.setViewpoint(new Viewpoint(shapefileSublayer.getMapServiceSublayerInfo().getExtent()));
             });
-            imageSublayer.loadAsync();
+            shapefileSublayer.loadAsync();
           }
         });
         imageLayer.loadAsync();
