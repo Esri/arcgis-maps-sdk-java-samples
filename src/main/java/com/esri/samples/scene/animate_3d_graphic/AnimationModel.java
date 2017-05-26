@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.animate_3d_symbols;
+package com.esri.samples.scene.animate_3d_graphic;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -86,7 +86,7 @@ public class AnimationModel {
    *
    * @return next keyframe
    */
-  public int nextKeyframe() {
+  int nextKeyframe() {
     setKeyframe(getKeyframe() + 1);
     return getKeyframe();
   }
