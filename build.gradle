@@ -1,7 +1,7 @@
-apply plugin: 'com.esri.arcgisruntime.java'
 apply plugin: 'application'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'com.esri.arcgisruntime.java'
 
 buildscript {
     repositories {
@@ -14,7 +14,7 @@ buildscript {
     }
 }
 
-arcgis.version = '100.1.0-1690'
+arcgis.version = '100.1.0-1715'
 arcgis.internal = true
 
 idea.module.downloadJavadoc = true
