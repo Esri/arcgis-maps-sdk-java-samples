@@ -91,7 +91,6 @@ public class Animate3dGraphicController {
 
       // create renderer to handle updating plane's orientation
       SimpleRenderer renderer3D = new SimpleRenderer();
-      renderer3D.setRotationType(RotationType.GEOGRAPHIC);
       Renderer.SceneProperties renderProperties = renderer3D.getSceneProperties();
       renderProperties.setHeadingExpression("[HEADING]");
       renderProperties.setPitchExpression("[PITCH]");
@@ -108,6 +107,8 @@ public class Animate3dGraphicController {
 
       // create renderer to rotate the plane graphic in the mini map
       SimpleRenderer renderer2D = new SimpleRenderer();
+      SimpleMarkerSymbol plane2DSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFF0000FF, 10);
+      renderer2D.setSymbol(plane2DSymbol);
       renderer2D.setRotationExpression("[ANGLE]");
       mapOverlay.setRenderer(renderer2D);
 
@@ -118,10 +119,9 @@ public class Animate3dGraphicController {
       mapOverlay.getGraphics().add(routeGraphic);
 
       // create a graphic with a blue (0xFF0000FF) triangle symbol to represent the plane on the mini map
-      SimpleMarkerSymbol plane2DSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFF0000FF, 10);
       Map<String, Object> attributes = new HashMap<>();
       attributes.put("ANGLE", 0f);
-      plane2D = new Graphic(new Point(0, 0, WGS84), attributes, plane2DSymbol);
+      plane2D = new Graphic(new Point(0, 0, WGS84), attributes);
       mapOverlay.getGraphics().add(plane2D);
 
       // create a graphic with a ModelSceneSymbol of a plane to add to the scene
@@ -240,7 +240,7 @@ public class Animate3dGraphicController {
       // rotate the map view in the direction of motion to make graphic always point up
       mapView.setViewpoint(new Viewpoint(position, mapView.getMapScale(), 360 + (float) datum.get("HEADING")));
     } else {
-      plane2D.getAttributes().put("ANGLE", datum.get("HEADING"));
+      plane2D.getAttributes().put("ANGLE", 360 + (float) datum.get("HEADING") - mapView.getMapRotation());
     }
   }
 
