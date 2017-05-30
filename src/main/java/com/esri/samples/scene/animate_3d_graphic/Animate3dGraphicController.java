@@ -59,7 +59,7 @@ public class Animate3dGraphicController {
   @FXML private Label pitchLabel;
   @FXML private Label rollLabel;
 
-  private CameraController orbitCameraController;
+  private OrbitGeoElementCameraController orbitCameraController;
   private List<Map<String, Object>> missionData;
   private Graphic plane3D;
   private Graphic plane2D;

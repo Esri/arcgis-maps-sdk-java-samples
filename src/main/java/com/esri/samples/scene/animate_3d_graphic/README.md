@@ -50,6 +50,7 @@ Also shows how to combine a SceneView and MapView in an MVC application with pro
   <li>ArcGISMap</li>
   <li>ArcGISScene</li>
   <li>Camera</li>
+  <li>GlobeCameraController</li>
   <li>Graphic</li>
   <li>GraphicsOverlay</li>
   <li>LayerSceneProperties.SurfacePlacement</li>
