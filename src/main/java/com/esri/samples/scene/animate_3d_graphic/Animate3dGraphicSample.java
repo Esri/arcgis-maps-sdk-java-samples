@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.animate_3d_symbols;
+package com.esri.samples.scene.animate_3d_graphic;
 
 import java.io.IOException;
 
@@ -24,20 +24,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Animate3dSymbolsSample extends Application {
+public class Animate3dGraphicSample extends Application {
 
-  private static Animate3dSymbolsController controller;
+  private static Animate3dGraphicController controller;
 
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/animate_3d_symbols.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/animate_3d_graphic.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
 
     // set up the stage
-    stage.setTitle("Animate 3d Symbols Sample");
+    stage.setTitle("Animate 3d Graphic Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
