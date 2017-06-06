@@ -1,7 +1,7 @@
 <h1>Animate 3d Graphic</h1>
 
-<p>Demonstrates how to animate a graphic's position and rotation and follow using an OrbitGeoElementCameraController. 
-Also shows how to combine a SceneView and MapView in an MVC application with property binding.</p>
+<p>This MVC application demonstrates following a graphic with an OrbitGeoElementCameraControler while animating its 
+position and orientation.</p>
 
 <p><img src="Animate3dGraphic.png"/></p>
 
