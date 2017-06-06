@@ -27,6 +27,7 @@ import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.*;
 import com.esri.arcgisruntime.symbology.DistanceCompositeSceneSymbol;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
+import com.esri.arcgisruntime.symbology.SceneSymbol.AnchorPosition;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
@@ -79,8 +80,9 @@ public class DistanceCompositeSymbolSample extends Application {
       // set up the different symbols
       int red = 0xFFFF0000;
       SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, red, 10);
-      SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 10, 10);
+      SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 3, 10);
       coneSymbol.setPitch(-90);
+      coneSymbol.setAnchorPosition(AnchorPosition.CENTER);
       String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
       ModelSceneSymbol modelSymbol = new ModelSceneSymbol(modelURI, 1.0);
       modelSymbol.loadAsync();
@@ -88,8 +90,8 @@ public class DistanceCompositeSymbolSample extends Application {
       // set up the distance composite symbol
       DistanceCompositeSceneSymbol compositeSymbol = new DistanceCompositeSceneSymbol();
       compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(modelSymbol, 0, 100));
-      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(coneSymbol, 100, 1000));
-      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(circleSymbol, 1000, 0));
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(coneSymbol, 100, 500));
+      compositeSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(circleSymbol, 500, 0));
 
       // create graphic
       Point aircraftPosition = new Point(-2.708471, 56.096575, 5000, SpatialReferences.getWgs84());
