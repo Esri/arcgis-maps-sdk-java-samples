@@ -41,9 +41,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.util.Duration;
 
-/**
- * Controller class. Automatically instantiated when the FXML loads due to the fx:controller attribute.
- */
 public class Animate3dGraphicController {
 
   // injected elements from fxml
@@ -133,6 +130,7 @@ public class Animate3dGraphicController {
 
       // create an orbit camera controller to follow the plane
       orbitCameraController = new OrbitGeoElementCameraController(plane3D, 20.0);
+      orbitCameraController.setCameraPitchOffset(75.0);
       sceneView.setCameraController(orbitCameraController);
 
       // setup animation to render a new frame every 20 ms by default
