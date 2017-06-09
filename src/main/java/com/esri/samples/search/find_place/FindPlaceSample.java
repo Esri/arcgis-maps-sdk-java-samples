@@ -133,8 +133,7 @@ public class FindPlaceSample extends Application {
 
       // set the callouts default style
       Callout callout = mapView.getCallout();
-      callout.setLeaderPosition(LeaderPosition.BOTTOM);
-      callout.setTranslateY(-40); // half image height
+      callout.setLeaderPosition(LeaderPosition.TOP);
 
       // create a locatorTask task
       locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
