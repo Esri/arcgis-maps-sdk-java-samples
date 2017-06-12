@@ -29,6 +29,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.PolylineBuilder;
@@ -83,12 +85,12 @@ public class ServiceAreaTaskController {
 
     ArcGISMap map = new ArcGISMap(Basemap.createStreets());
     mapView.setMap(map);
-    // set mapview to San Francisco
-    mapView.setViewpoint(new Viewpoint(37.77, -122.41, 40000));
+    // set mapview to San Diego
+    mapView.setViewpoint(new Viewpoint(32.73, -117.14, 60000));
 
     // create service area task from url
-    final String SanFranciscoRegion = "http://qadev000238.esri.com/server/rest/services/NA/SanFran_WithTM/NAServer/Service_Area_Defaults";
-    serviceAreaTask = new ServiceAreaTask(SanFranciscoRegion);
+    final String SanDiegoRegion = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ServiceArea";
+    serviceAreaTask = new ServiceAreaTask(SanDiegoRegion);
     serviceAreaTask.loadAsync();
     // create default parameters from task
     ListenableFuture<ServiceAreaParameters> parameters = serviceAreaTask.createDefaultParametersAsync();
@@ -204,7 +206,7 @@ public class ServiceAreaTaskController {
           }
         } catch (ExecutionException | InterruptedException e) {
           if (e.getMessage().contains("Unable to complete operation")) {
-            showErrorMessage("Facility not within San Francisco area!");
+            showErrorMessage("Facility not within San Diego area!");
           } else {
             e.printStackTrace();
           }
