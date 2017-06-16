@@ -46,6 +46,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class FindAddressSample extends Application {
 
@@ -147,7 +148,6 @@ public class FindAddressSample extends Application {
       // set the callout's default style
       Callout callout = mapView.getCallout();
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
-      callout.setTranslateY(-40); // half image height
 
       // create a locator task
       locatorTask = new LocatorTask(System.getProperty("user.dir") +
@@ -257,7 +257,7 @@ public class FindAddressSample extends Application {
             Callout callout = mapView.getCallout();
             callout.setTitle(street);
             callout.setDetail(city + ", " + state + " " + zip);
-            callout.showCalloutAt(geocode.getDisplayLocation());
+            callout.showCalloutAt(geocode.getDisplayLocation(), new Point2D(0, -24), Duration.ZERO);
           });
 
         } catch (Exception e) {
@@ -336,7 +336,7 @@ public class FindAddressSample extends Application {
             Callout callout = mapView.getCallout();
             callout.setTitle(marker.getAttributes().get("title").toString());
             callout.setDetail(marker.getAttributes().get("detail").toString());
-            callout.showCalloutAt(location);
+            callout.showCalloutAt(location, new Point2D(0, -24), Duration.ZERO);
           });
         }
 
