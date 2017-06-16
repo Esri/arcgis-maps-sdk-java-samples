@@ -18,8 +18,6 @@ package com.esri.samples.localserver.local_server_services;
 
 import java.io.IOException;
 
-import com.esri.arcgisruntime.localserver.LocalServer;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
