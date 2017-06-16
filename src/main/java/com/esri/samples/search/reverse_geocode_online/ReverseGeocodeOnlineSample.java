@@ -44,6 +44,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class ReverseGeocodeOnlineSample extends Application {
 
@@ -85,10 +86,9 @@ public class ReverseGeocodeOnlineSample extends Application {
       graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // set the callouts default style
+      // set the callout's default style
       Callout callout = mapView.getCallout();
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
-      callout.setTranslateY(-40); // half image height
 
       // create a locator task
       locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
@@ -157,7 +157,7 @@ public class ReverseGeocodeOnlineSample extends Application {
                   // display the callout
                   callout.setTitle(marker.getAttributes().get("title").toString());
                   callout.setDetail(marker.getAttributes().get("detail").toString());
-                  callout.showCalloutAt(location);
+                  callout.showCalloutAt(location, new Point2D(0, -24), Duration.ZERO);
                 });
               }
             } catch (Exception e) {

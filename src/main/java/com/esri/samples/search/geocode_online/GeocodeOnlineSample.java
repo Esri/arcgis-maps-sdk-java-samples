@@ -38,12 +38,14 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class GeocodeOnlineSample extends Application {
 
@@ -91,10 +93,9 @@ public class GeocodeOnlineSample extends Application {
       graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // set the callouts default style
+      // set the callout's default style
       Callout callout = mapView.getCallout();
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
-      callout.setTranslateY(-40); // half image height
 
       // create a locatorTask
       locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
@@ -230,7 +231,7 @@ public class GeocodeOnlineSample extends Application {
             Callout callout = mapView.getCallout();
             callout.setTitle(marker.getAttributes().get("title").toString());
             callout.setDetail(marker.getAttributes().get("detail").toString());
-            callout.showCalloutAt(location);
+            callout.showCalloutAt(location, new Point2D(0, -24), Duration.ZERO);
           });
         }
 
