@@ -25,26 +25,22 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class LocalServerServicesSample extends Application {
-
-  private static LocalServerServicesController controller;
-
+  
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/local_server_services.fxml"));
     Parent root = loader.load();
-    controller = loader.getController();
+    LocalServerServicesController controller = loader.getController();
     controller.setHostServices(getHostServices());
     Scene scene = new Scene(root);
 
     // set up the stage
     stage.setTitle("Local Server Services Sample");
     stage.setWidth(800);
-    stage.setHeight(700);
+    stage.setHeight(400);
     stage.setScene(scene);
     stage.show();
-
-    this.getHostServices();
   }
 
   /**

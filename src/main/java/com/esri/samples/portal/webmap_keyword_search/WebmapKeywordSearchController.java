@@ -19,21 +19,16 @@ package com.esri.samples.portal.webmap_keyword_search;
 import java.util.List;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.portal.PortalQueryParameters;
 import com.esri.arcgisruntime.portal.PortalQueryResultSet;
-import com.esri.arcgisruntime.security.AuthenticationManager;
-import com.esri.arcgisruntime.security.OAuthConfiguration;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -41,10 +36,14 @@ import javafx.scene.control.TextField;
 public class WebmapKeywordSearchController {
 
 
-  @FXML private TextField keyword;
-  @FXML private MapView mapView;
-  @FXML private ListView<PortalItem> resultsList;
-  @FXML private Button moreButton;
+  @FXML
+  private TextField keyword;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private ListView<PortalItem> resultsList;
+  @FXML
+  private Button moreButton;
 
   private Portal portal;
   private PortalQueryResultSet<PortalItem> portalQueryResultSet;

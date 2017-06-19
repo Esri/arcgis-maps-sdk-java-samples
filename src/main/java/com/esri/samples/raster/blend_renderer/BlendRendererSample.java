@@ -22,13 +22,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.samples.scene.scene_properties_expressions.ScenePropertiesExpressionsController;
 
 public class BlendRendererSample extends Application {
 

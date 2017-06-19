@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -49,6 +48,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class FindPlaceSample extends Application {
 
@@ -131,10 +131,9 @@ public class FindPlaceSample extends Application {
       graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // set the callouts default style
+      // set the callout's default style
       Callout callout = mapView.getCallout();
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
-      callout.setTranslateY(-40); // half image height
 
       // create a locatorTask task
       locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
@@ -233,7 +232,7 @@ public class FindPlaceSample extends Application {
                 Platform.runLater(() -> {
                   callout.setTitle(marker.getAttributes().get("title").toString());
                   callout.setDetail(marker.getAttributes().get("detail").toString());
-                  callout.showCalloutAt((Point) marker.getGeometry());
+                  callout.showCalloutAt((Point) marker.getGeometry(), new Point2D(0, -24), Duration.ZERO);
                 });
               }
             } catch (Exception e) {

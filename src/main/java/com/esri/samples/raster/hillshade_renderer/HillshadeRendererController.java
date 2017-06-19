@@ -17,7 +17,6 @@
 package com.esri.samples.raster.hillshade_renderer;
 
 import java.io.File;
-import java.util.Arrays;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
