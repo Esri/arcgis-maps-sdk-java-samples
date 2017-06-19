@@ -64,7 +64,7 @@ public class MapRotationSample extends Application {
       });
 
       // create a ArcGISMap with topographic basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
 
       // enable slider when map view is done loading
       map.addDoneLoadingListener(() -> slider.setDisable(false));
