@@ -55,6 +55,9 @@ public class MapRotationSample extends Application {
       // create a slider with a range of 360 units and start it half way
       Slider slider = new Slider(-180.0, 180.0, 0.0);
       slider.setMaxWidth(240.0);
+      slider.setShowTickLabels(true);
+      slider.setShowTickMarks(true);
+      slider.setMajorTickUnit(90);
       slider.setDisable(true);
 
       // listen for the value in the slider to change
