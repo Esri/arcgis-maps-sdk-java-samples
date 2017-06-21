@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,18 +16,23 @@
 
 package com.esri.samples.scene.scene_properties_expressions;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Slider;
+
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.*;
+import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
+import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Slider;
-
 public class ScenePropertiesExpressionsController {
+
   @FXML private SceneView sceneView;
   @FXML private Slider headingSlider;
   @FXML private Slider pitchSlider;
@@ -72,6 +77,7 @@ public class ScenePropertiesExpressionsController {
    * Disposes application resources.
    */
   void terminate() {
-    if (sceneView != null) sceneView.dispose();
+    if (sceneView != null)
+      sceneView.dispose();
   }
 }

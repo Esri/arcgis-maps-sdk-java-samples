@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,11 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.esri.arcgisruntime.geometry.*;
-import com.esri.arcgisruntime.mapping.*;
-import com.esri.arcgisruntime.mapping.view.*;
-import com.esri.arcgisruntime.symbology.*;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -40,6 +35,30 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.util.Duration;
+
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Surface;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.GlobeCameraController;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
+import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
+import com.esri.arcgisruntime.symbology.Renderer;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 public class Animate3dGraphicController {
 
@@ -125,7 +144,7 @@ public class Animate3dGraphicController {
       String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
       ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
       plane3DSymbol.loadAsync();
-      plane3D =  new Graphic(new Point(0, 0, 0, WGS84), plane3DSymbol);
+      plane3D = new Graphic(new Point(0, 0, 0, WGS84), plane3DSymbol);
       sceneOverlay.getGraphics().add(plane3D);
 
       // create an orbit camera controller to follow the plane
@@ -137,10 +156,8 @@ public class Animate3dGraphicController {
       animation.getKeyFrames().add(new KeyFrame(Duration.millis(20), e -> animate(animationModel.nextKeyframe())));
 
       // bind button properties
-      followButton.textProperty().bind(Bindings.createStringBinding(() -> followButton.isSelected() ?
-          "Free cam" : "Follow", followButton.selectedProperty()));
-      playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() ?
-          "Stop" : "Play", playButton.selectedProperty()));
+      followButton.textProperty().bind(Bindings.createStringBinding(() -> followButton.isSelected() ? "Free cam" : "Follow", followButton.selectedProperty()));
+      playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() ? "Stop" : "Play", playButton.selectedProperty()));
 
       // open default mission selection
       changeMission();
@@ -186,8 +203,7 @@ public class Animate3dGraphicController {
   private List<Map<String, Object>> getMissionData(String mission) {
 
     // open a file reader to the mission file that automatically closes after read
-    try (BufferedReader missionFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream
-        ("/csv/" + mission)))) {
+    try (BufferedReader missionFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/csv/" + mission)))) {
       return missionFile.lines()
           //ex: -156.3666517,20.6255059,999.999908,83.77659,1.05E-09,-47.766567
           .map(l -> l.split(","))
