@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,7 +25,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.esri.arcgisruntime.geometry.*;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.geometry.Multipoint;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -33,11 +41,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class DictionaryRendererGraphicsOverlaySample extends Application {
 
@@ -77,8 +80,8 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
 
     // create graphics with attributes and add to graphics overlay
     messages.stream()
-      .map(DictionaryRendererGraphicsOverlaySample::createGraphic)
-      .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
+        .map(DictionaryRendererGraphicsOverlaySample::createGraphic)
+        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
 
     // once view has loaded
     mapView.addSpatialReferenceChangedListener(e -> {
@@ -93,13 +96,13 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
   private List<Map<String, Object>> parseMessages() throws Exception {
     final List<Map<String, Object>> messages = new ArrayList<>();
     $(getClass().getResourceAsStream("/symbols/Mil2525DMessages.xml")) // $ reads the file
-      .find("message")
-      .each()
-      .forEach(message -> {
-        Map<String, Object> attributes = new HashMap<>();
-        message.children().forEach(attr -> attributes.put(attr.getNodeName(), attr.getTextContent()));
-        messages.add(attributes);
-      });
+        .find("message")
+        .each()
+        .forEach(message -> {
+          Map<String, Object> attributes = new HashMap<>();
+          message.children().forEach(attr -> attributes.put(attr.getNodeName(), attr.getTextContent()));
+          messages.add(attributes);
+        });
 
     return messages;
   }
@@ -119,9 +122,9 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     PointCollection points = new PointCollection(sr);
     String[] coordinates = ((String) attributes.get("_control_points")).split(";");
     Stream.of(coordinates)
-      .map(cs -> cs.split(","))
-      .map(c -> new Point(Double.valueOf(c[0]), Double.valueOf(c[1]), sr))
-      .collect(Collectors.toCollection(() -> points));
+        .map(cs -> cs.split(","))
+        .map(c -> new Point(Double.valueOf(c[0]), Double.valueOf(c[1]), sr))
+        .collect(Collectors.toCollection(() -> points));
 
     // return a graphic with multipoint geometry
     return new Graphic(new Multipoint(points), attributes);
