@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,22 +16,18 @@
 
 package com.esri.samples.map.change_basemap;
 
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ChangeBasemapSample extends Application {
 
@@ -57,45 +53,27 @@ public class ChangeBasemapSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a control panel
-      VBox vBoxControl = new VBox(8);
-      vBoxControl.setMaxSize(690, 80);
-
-      FlowPane flowPane = new FlowPane();
-      flowPane.setVgap(4);
-      flowPane.setHgap(4);
-
-      // setup all buttons to switch basemap_thumbnails
-      for (Basemap.Type type : Basemap.Type.values()) {
-        String basemapString = type.toString();
-
-        Button button = new Button();
-        button.setTooltip(new Tooltip(basemapString));
-        button.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/basemap_thumbnails/" + basemapString
-            .toLowerCase() + ".png"))));
-
-        // listener to switch ArcGISMap types when button clicked
-        button.setOnAction(e -> {
-          map = new ArcGISMap(Basemap.Type.valueOf(basemapString), LATITUDE, LONGITUDE, LOD);
-          mapView.setMap(map);
-        });
-
-        flowPane.getChildren().add(button);
-      }
-
-      vBoxControl.getChildren().add(flowPane);
-
-      // create ArcGISMap with topographic basemap
-      map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, LATITUDE, LONGITUDE, LOD);
-
-      // creates a map view and set map to it
+      // creates a map view
       mapView = new MapView();
-      mapView.setMap(map);
+
+      // setup listview of basemaps
+      ListView<Basemap.Type> basemapList = new ListView<>(FXCollections.observableArrayList(Basemap.Type.values()));
+      basemapList.setMaxSize(250, 150);
+
+      // change the basemap when list option is selected
+      basemapList.getSelectionModel().selectedItemProperty().addListener(o -> {
+        String basemapString = basemapList.getSelectionModel().getSelectedItem().toString();
+        map = new ArcGISMap(Basemap.Type.valueOf(basemapString), LATITUDE, LONGITUDE, LOD);
+        mapView.setMap(map);
+      });
+
+      // select the first basemap
+      basemapList.getSelectionModel().selectFirst();
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_CENTER);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, basemapList);
+      StackPane.setAlignment(basemapList, Pos.TOP_LEFT);
+      StackPane.setMargin(basemapList, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.

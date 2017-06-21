@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to select Features from a FeatureLayer.</p>
 
-<p><img src="FeatureLayerSelection.png"/></p>
+<p><img src="FeatureLayerSelection.PNG"/></p>
 
 <h2>How to use the sample</h2>
 

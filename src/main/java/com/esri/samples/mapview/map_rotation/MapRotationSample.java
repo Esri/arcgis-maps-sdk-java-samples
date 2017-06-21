@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,6 +16,14 @@
 
 package com.esri.samples.mapview.map_rotation;
 
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
@@ -24,14 +32,6 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class MapRotationSample extends Application {
 
@@ -55,6 +55,9 @@ public class MapRotationSample extends Application {
       // create a slider with a range of 360 units and start it half way
       Slider slider = new Slider(-180.0, 180.0, 0.0);
       slider.setMaxWidth(240.0);
+      slider.setShowTickLabels(true);
+      slider.setShowTickMarks(true);
+      slider.setMajorTickUnit(90);
       slider.setDisable(true);
 
       // listen for the value in the slider to change
@@ -64,7 +67,7 @@ public class MapRotationSample extends Application {
       });
 
       // create a ArcGISMap with topographic basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
 
       // enable slider when map view is done loading
       map.addDoneLoadingListener(() -> slider.setDisable(false));

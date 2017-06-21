@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to display the current DrawStatus of the MapView.</p>
 
-<p><img src="DisplayDrawingStatus.png"/></p>
+<p><img src="DisplayDrawingStatus.PNG"/></p>
 
 <h2>How to use the sample</h2>
 

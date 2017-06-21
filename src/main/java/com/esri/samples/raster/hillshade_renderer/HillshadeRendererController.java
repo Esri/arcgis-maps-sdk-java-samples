@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,17 +17,18 @@
 package com.esri.samples.raster.hillshade_renderer;
 
 import java.io.File;
-import java.util.Arrays;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.raster.*;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
+import com.esri.arcgisruntime.raster.HillshadeRenderer;
+import com.esri.arcgisruntime.raster.Raster;
+import com.esri.arcgisruntime.raster.SlopeType;
 
 public class HillshadeRendererController {
 
