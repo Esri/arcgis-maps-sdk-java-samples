@@ -67,8 +67,8 @@ public class DisplayDrawingStatusSample extends Application {
 
       // create a starting viewpoint for the ArcGISMap
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
-      Point bottomLeftPoint = new Point(-13639984.0, 4537387.0, spatialReference);
-      Point topRightPoint = new Point(-13606734.0, 4558866, spatialReference);
+      Point bottomLeftPoint = new Point(-1.5054808160556655E7, 2718975.702666207, spatialReference);
+      Point topRightPoint = new Point(-6810317.90634398, 6850505.377826911, spatialReference);
       Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
       Viewpoint viewpoint = new Viewpoint(envelope);
 
