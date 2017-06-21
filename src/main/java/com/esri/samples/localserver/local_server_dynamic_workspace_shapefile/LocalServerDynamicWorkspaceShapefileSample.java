@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,8 +15,22 @@
  */
 
 package com.esri.samples.localserver.local_server_dynamic_workspace_shapefile;
+
 import java.io.File;
 import java.util.Arrays;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.ArcGISMapImageSublayer;
@@ -34,19 +48,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol.Style;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
-
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 
 public class LocalServerDynamicWorkspaceShapefileSample extends Application {
 
@@ -153,12 +154,12 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
 
         // add the sub layer to the image layer
         imageLayer.addDoneLoadingListener(() -> {
-          if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {  
+          if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
             // default symbol and renderer need to be created and applied
             SimpleLineSymbol lineSymbol = new SimpleLineSymbol(Style.SOLID, 0xFFFF0000, 3);
             shapefileSublayer.setRenderer(new SimpleRenderer(lineSymbol));
             imageLayer.getSublayers().add(shapefileSublayer);
-            
+
             shapefileSublayer.addDoneLoadingListener(() -> {
               // zoom the map to the extent of the added shapefile layer
               mapView.setViewpoint(new Viewpoint(shapefileSublayer.getMapServiceSublayerInfo().getExtent()));
