@@ -18,17 +18,17 @@
 <li>Create and run a local server.
 <ul><li><code>LocalServer.INSTANCE</code> creates a local server</li></ul>
 <ul><li><code>Server.startAsync()</code> starts the server asynchronously</li></ul>
-<li>Create a <code>LocalMapService</code> instance using an empty .MPK file (the sample uses one that is created for you). Don't start it yet.</li>
-<li>Create a <code>ShapefileWorkspace</code>  with id 'shp_wkspc' and absolute path to location of were shapefile is being stored.</li>
+<li>Create a LocalMapService instance using an empty .MPK file (the sample uses one that is created for you). Don't start it yet.</li>
+<li>Create a ShapefileWorkspace  with id 'shp_wkspc' and absolute path to location of were shapefile is being stored.</li>
 <li>Create a <code>TableSublayerSource</code>  using  <code>shapefileWorkspace.getId()</code> and name of  shapefile with extension, example `mjrroads.shp`.</li>
-<li>Add <code>ShapefileWorkspace</code> to <code>LocalMapService.setDynamicWorkspaces()</code>.</li>
-<li>Start the <code>LocalMapService</code>
+<li>Add ShapefileWorkspace to <code>LocalMapService.setDynamicWorkspaces()</code>.</li>
+<li>Start the LocalMapService
 <ul><li><code>localMapService.startAsync()</code></li></ul>
 <ul><li><code>localMapService.addStatusChangedListener()</code> fires whenever the status of the local server has changed.</li></ul></li>
 <ul><li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.</li></ul>
 <li>Create a <code>ArcGISMapImageLayer</code> using <code>localMapService.getUrl()</code></li>
-<li>Add the ArcGISMapImageSublayer to it's list of sublayers. The ArcGISMapImageSublayer points to the shapefile file on disk.
-<li>Once <code>ArcGISMapImageLayer</code> is done loading,  set <code>ArcGISMapImageSublayer</code> to <code>ArcGISMapImageLayer.getSublayers()</code>. The ArcGISMapImageSublayer points to the shapefile file on disk.</li>
+<li>Add the <code>ArcGISMapImageSublayer</code> to it's list of sublayers. The ArcGISMapImageSublayer points to the shapefile file on disk.
+<li>Once ArcGISMapImageLayer is done loading,  set ArcGISMapImageSublayer to <code>ArcGISMapImageLayer.getSublayers()</code>. The ArcGISMapImageSublayer points to the shapefile file on disk.</li>
 </ol>
 
 <h2>Features</h2>
