@@ -53,7 +53,7 @@ public class ShowCalloutSample extends Application {
       stage.show();
 
       // create ArcGISMap with imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImageryWithLabels());
+      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
 
       // create a view and set map to it
       mapView = new MapView();
@@ -75,7 +75,7 @@ public class ShowCalloutSample extends Application {
 
           if (!callout.isVisible()) {
             // set the callout's details
-            callout.setTitle("Callout");
+            callout.setTitle("Location");
             callout.setDetail(String.format("x: %.2f, y: %.2f", mapPoint.getX(), mapPoint.getY()));
 
             // show the callout where the user clicked
