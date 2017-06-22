@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to show coordinates for a clicked location on an ArcGISMap in a Callout.</p>
 
-<p><img src="ShowCallout.PNG"/></p>
+<p><img src="ShowCallout.png"/></p>
 
 <h2>How to use the sample</h2>
 
