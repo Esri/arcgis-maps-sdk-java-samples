@@ -26,7 +26,7 @@
 <ul><li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.</li></ul>
 <ul><li><code>localMapService.addStatusChangedListener()</code> fires whenever the status of the local server has changed.</li></ul></li>
 <li>Create a <code>ArcGISMapImageLayer</code> using the url from the LocalMapService</li>
-<li>Add the <code>ArcGISMapImageSublaye<code>r to it's list of sublayers. The ArcGISMapImageSublayer points to the raster file on disk.
+<li>Add the <code>ArcGISMapImageSublaye</code>r to it's list of sublayers. The ArcGISMapImageSublayer points to the raster file on disk.
 <li>Finally, add the ArcGISMapImageLayer to map's list of operational layers. The raster layer appears in the map.</li>
 </ol>
 
