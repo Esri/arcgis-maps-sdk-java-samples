@@ -72,20 +72,23 @@ public class RgbRendererController {
     stretchTypeComboBox.getSelectionModel().select("MinMax");
 
     // bindings
-    BooleanBinding minMaxStretchBinding = Bindings.createBooleanBinding(() -> !"MinMax".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
-        .getSelectionModel().selectedItemProperty());
+    BooleanBinding minMaxStretchBinding = Bindings.createBooleanBinding(
+        () -> !"MinMax".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
+            .getSelectionModel().selectedItemProperty());
     minRedSpinner.disableProperty().bind(minMaxStretchBinding);
     minGreenSpinner.disableProperty().bind(minMaxStretchBinding);
     minBlueSpinner.disableProperty().bind(minMaxStretchBinding);
     maxRedSpinner.disableProperty().bind(minMaxStretchBinding);
     maxGreenSpinner.disableProperty().bind(minMaxStretchBinding);
     maxBlueSpinner.disableProperty().bind(minMaxStretchBinding);
-    BooleanBinding percentClipStretchBinding = Bindings.createBooleanBinding(() -> !"PercentClip".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
-        .getSelectionModel().selectedItemProperty());
+    BooleanBinding percentClipStretchBinding = Bindings.createBooleanBinding(
+        () -> !"PercentClip".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
+            .getSelectionModel().selectedItemProperty());
     minPercentSpinner.disableProperty().bind(percentClipStretchBinding);
     maxPercentSpinner.disableProperty().bind(percentClipStretchBinding);
-    BooleanBinding stdDeviationStretchBinding = Bindings.createBooleanBinding(() -> !"StdDeviation".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
-        .getSelectionModel().selectedItemProperty());
+    BooleanBinding stdDeviationStretchBinding = Bindings.createBooleanBinding(
+        () -> !"StdDeviation".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
+            .getSelectionModel().selectedItemProperty());
     factorSpinner.disableProperty().bind(stdDeviationStretchBinding);
 
     // add listeners
@@ -119,7 +122,8 @@ public class RgbRendererController {
     StretchParameters stretchParameters;
     switch (stretchTypeComboBox.getSelectionModel().getSelectedItem()) {
       case "MinMax":
-        stretchParameters = new MinMaxStretchParameters(Arrays.asList(minR, minG, minB), Arrays.asList(maxR, maxG, maxB));
+        stretchParameters =
+            new MinMaxStretchParameters(Arrays.asList(minR, minG, minB), Arrays.asList(maxR, maxG, maxB));
         break;
       case "PercentClip":
         stretchParameters = new PercentClipStretchParameters(minP, maxP);
