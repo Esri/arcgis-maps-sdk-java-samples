@@ -90,7 +90,8 @@ public class EditFeatureAttachmentsSample extends Application {
       attachmentList = new ListView<>();
       attachmentsLabel = new Label("Attachments: ");
       attachmentsLabel.getStyleClass().add("panel-label");
-      attachmentList.getSelectionModel().selectedItemProperty().addListener((event) -> deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1));
+      attachmentList.getSelectionModel().selectedItemProperty().addListener((event) -> 
+          deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1));
 
       // create add/delete buttons
       addAttachmentButton = new Button("Add Attachment");

@@ -156,8 +156,10 @@ public class Animate3dGraphicController {
       animation.getKeyFrames().add(new KeyFrame(Duration.millis(20), e -> animate(animationModel.nextKeyframe())));
 
       // bind button properties
-      followButton.textProperty().bind(Bindings.createStringBinding(() -> followButton.isSelected() ? "Free cam" : "Follow", followButton.selectedProperty()));
-      playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() ? "Stop" : "Play", playButton.selectedProperty()));
+      followButton.textProperty().bind(Bindings.createStringBinding(() -> followButton.isSelected() 
+          ? "Free cam" : "Follow", followButton.selectedProperty()));
+      playButton.textProperty().bind(Bindings.createStringBinding(() -> playButton.isSelected() 
+          ? "Stop" : "Play", playButton.selectedProperty()));
 
       // open default mission selection
       changeMission();
@@ -203,7 +205,8 @@ public class Animate3dGraphicController {
   private List<Map<String, Object>> getMissionData(String mission) {
 
     // open a file reader to the mission file that automatically closes after read
-    try (BufferedReader missionFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/csv/" + mission)))) {
+    try (BufferedReader missionFile = new BufferedReader(
+        new InputStreamReader(getClass().getResourceAsStream("/csv/" + mission)))) {
       return missionFile.lines()
           //ex: -156.3666517,20.6255059,999.999908,83.77659,1.05E-09,-47.766567
           .map(l -> l.split(","))

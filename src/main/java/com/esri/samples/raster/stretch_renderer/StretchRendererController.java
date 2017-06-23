@@ -97,11 +97,10 @@ public class StretchRendererController {
 
     StretchParameters stretchParameters;
     switch (stretchTypeComboBox.getSelectionModel().getSelectedItem()) {
-      case "MinMax":
-        stretchParameters = new MinMaxStretchParameters(Arrays.asList(min), Arrays.asList(max));
+      case "MinMax": stretchParameters = 
+            new MinMaxStretchParameters(Arrays.asList(min), Arrays.asList(max));
         break;
-      case "PercentClip":
-        stretchParameters = new PercentClipStretchParameters(min, max);
+      case "PercentClip": stretchParameters = new PercentClipStretchParameters(min, max);
         break;
       default:
         minSlider.setDisable(true);
