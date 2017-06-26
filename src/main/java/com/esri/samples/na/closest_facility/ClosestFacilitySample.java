@@ -16,6 +16,7 @@
 package com.esri.samples.na.closest_facility;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -170,7 +171,7 @@ public class ClosestFacilitySample extends Application {
     facilityParameters.clearIncidents();
     // set new parameters to find route
     facilityParameters.setFacilities(facilities);
-    facilityParameters.setIncidents(Arrays.asList(new Incident(incidentPoint)));
+    facilityParameters.setIncidents(Collections.singletonList(new Incident(incidentPoint)));
 
     // find closest route using parameters from above
     ListenableFuture<ClosestFacilityResult> result = task.solveClosestFacilityAsync(facilityParameters);
