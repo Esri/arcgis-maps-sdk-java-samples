@@ -77,8 +77,7 @@ public class SimpleFillSymbolSample extends Application {
 
       // set initial map view point
       Point initialPoint = new Point(-12000000, 5400000, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(initialPoint, 10000000); // point,
-                                                                  // scale
+      Viewpoint viewpoint = new Viewpoint(initialPoint, 10000000); // point, scale
       map.setInitialViewpoint(viewpoint);
 
       // create a view for this ArcGISMap and set ArcGISMap to it
