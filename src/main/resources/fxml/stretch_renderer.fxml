@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright 2017 Esri.
   ~
@@ -13,7 +14,6 @@
   ~ License for the specific language governing permissions and limitations under
   ~ the License.
   -->
- <?xml version="1.0" encoding="UTF-8"?>
   
 <?import javafx.scene.layout.StackPane?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
