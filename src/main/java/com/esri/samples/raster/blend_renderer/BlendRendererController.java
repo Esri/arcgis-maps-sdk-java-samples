@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -85,12 +85,12 @@ public class BlendRendererController {
    */
   public void updateRenderer() {
 
-    ColorRamp colorRamp = colorRampComboBox.getSelectionModel().getSelectedItem() != ColorRamp.PresetType.NONE ?
-        new ColorRamp(colorRampComboBox.getSelectionModel().getSelectedItem(), 800) : null;
+    ColorRamp colorRamp = colorRampComboBox.getSelectionModel().getSelectedItem() != ColorRamp.PresetType.NONE
+        ? new ColorRamp(colorRampComboBox.getSelectionModel().getSelectedItem(), 800) : null;
 
     // if color ramp is not NONE, color the hillshade elevation raster instead of using satellite imagery raster color
-    RasterLayer rasterLayer = colorRamp != null ?
-        new RasterLayer(new Raster(elevationRasterPath)) : new RasterLayer(new Raster(imageryRasterPath));
+    RasterLayer rasterLayer = colorRamp != null ? new RasterLayer(new Raster(elevationRasterPath))
+        : new RasterLayer(new Raster(imageryRasterPath));
 
     mapView.getMap().setBasemap(new Basemap(rasterLayer));
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,17 +19,22 @@ package com.esri.samples.raster.rgb_renderer;
 import java.io.File;
 import java.util.Arrays;
 
-import com.esri.arcgisruntime.layers.RasterLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.raster.*;
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
+
+import com.esri.arcgisruntime.layers.RasterLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.raster.MinMaxStretchParameters;
+import com.esri.arcgisruntime.raster.PercentClipStretchParameters;
+import com.esri.arcgisruntime.raster.RGBRenderer;
+import com.esri.arcgisruntime.raster.Raster;
+import com.esri.arcgisruntime.raster.StandardDeviationStretchParameters;
+import com.esri.arcgisruntime.raster.StretchParameters;
 
 public class RgbRendererController {
 
@@ -67,7 +72,7 @@ public class RgbRendererController {
     stretchTypeComboBox.getSelectionModel().select("MinMax");
 
     // bindings
-    BooleanBinding minMaxStretchBinding = Bindings.createBooleanBinding(() ->
+    BooleanBinding minMaxStretchBinding = Bindings.createBooleanBinding(() -> 
         !"MinMax".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
         .getSelectionModel().selectedItemProperty());
     minRedSpinner.disableProperty().bind(minMaxStretchBinding);
@@ -76,15 +81,15 @@ public class RgbRendererController {
     maxRedSpinner.disableProperty().bind(minMaxStretchBinding);
     maxGreenSpinner.disableProperty().bind(minMaxStretchBinding);
     maxBlueSpinner.disableProperty().bind(minMaxStretchBinding);
-    BooleanBinding percentClipStretchBinding = Bindings.createBooleanBinding(() ->
+    BooleanBinding percentClipStretchBinding = Bindings.createBooleanBinding(() -> 
         !"PercentClip".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
         .getSelectionModel().selectedItemProperty());
     minPercentSpinner.disableProperty().bind(percentClipStretchBinding);
     maxPercentSpinner.disableProperty().bind(percentClipStretchBinding);
-    BooleanBinding stdDeviationStretchBinding = Bindings.createBooleanBinding(() ->
+    BooleanBinding stdDeviationStretchBinding = Bindings.createBooleanBinding(() -> 
         !"StdDeviation".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
         .getSelectionModel().selectedItemProperty());
-   factorSpinner.disableProperty().bind(stdDeviationStretchBinding);
+    factorSpinner.disableProperty().bind(stdDeviationStretchBinding);
 
     // add listeners
     factorSpinner.valueProperty().addListener(o -> updateRenderer());
@@ -116,9 +121,12 @@ public class RgbRendererController {
 
     StretchParameters stretchParameters;
     switch (stretchTypeComboBox.getSelectionModel().getSelectedItem()) {
-      case "MinMax": stretchParameters = new MinMaxStretchParameters(Arrays.asList(minR, minG, minB), Arrays.asList
-          (maxR, maxG, maxB)); break;
-      case "PercentClip":stretchParameters = new PercentClipStretchParameters(minP, maxP); break;
+      case "MinMax": stretchParameters = 
+              new MinMaxStretchParameters(Arrays.asList(minR, minG, minB), Arrays.asList(maxR, maxG, maxB));
+        break;
+      case "PercentClip":
+        stretchParameters = new PercentClipStretchParameters(minP, maxP);
+        break;
       default:
         stretchParameters = new StandardDeviationStretchParameters(factorSpinner.getValue());
     }

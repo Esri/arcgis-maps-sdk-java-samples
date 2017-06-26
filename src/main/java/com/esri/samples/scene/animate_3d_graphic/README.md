@@ -23,7 +23,7 @@ position and orientation.</p>
 
 <h2>How it works</h2>
 
-<p>To animate a <code>Graphic</code> by updating it's <code>Geometry</code>, heading, pitch, and roll:</p>
+<p>To animate a <code>Graphic</code> by updating it's <code>Geometry</code>s, heading, pitch, and roll:</p>
 
 <ol>
   <li>Create a <code>GraphicsOverlay</code> and attach it to the <code>SceneView</code>.</li>
@@ -56,7 +56,7 @@ position and orientation.</p>
   <li>LayerSceneProperties.SurfacePlacement</li>
   <li>MapView</li>
   <li>ModelSceneSymbol</li>
-  <li>OrbitGeoElementCameraController</p>
+  <li>OrbitGeoElementCameraController</li>
   <li>Point</li>
   <li>Polyline</li>
   <li>Renderer</li>

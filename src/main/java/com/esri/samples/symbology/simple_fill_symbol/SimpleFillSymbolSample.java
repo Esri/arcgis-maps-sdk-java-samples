@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,6 +19,16 @@ package com.esri.samples.symbology.simple_fill_symbol;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polygon;
@@ -32,16 +42,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol.Style;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class SimpleFillSymbolSample extends Application {
 
@@ -77,8 +77,7 @@ public class SimpleFillSymbolSample extends Application {
 
       // set initial map view point
       Point initialPoint = new Point(-12000000, 5400000, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(initialPoint, 10000000); // point,
-                                                                   // scale
+      Viewpoint viewpoint = new Viewpoint(initialPoint, 10000000); // point, scale
       map.setInitialViewpoint(viewpoint);
 
       // create a view for this ArcGISMap and set ArcGISMap to it

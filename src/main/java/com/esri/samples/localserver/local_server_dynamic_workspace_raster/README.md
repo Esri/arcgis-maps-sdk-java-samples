@@ -18,16 +18,16 @@
 <li>Create and run a local server.
 <ul><li><code>LocalServer.INSTANCE</code> creates a local server</li></ul>
 <li><code>Server.startAsync()</code> starts the server asynchronously</li></ul>
-<li>Create a <code>LocalMapService</code> instance using an empty .MPK file (the sample uses one that is created for you). Don't start it yet.</li>
-<li>Create the <code>RasterWorkspace</code> and <code>RasterSublayerSource</code> instances.</li>
-<li>Add the <code>RasterWorkspace</code> the list of dynamic workspaces of the <code>LocalMapService</code>.</li>
-<li>Start the <code>LocalMapService</code>
+<li>Create a LocalMapService instance using an empty .MPK file (the sample uses one that is created for you). Don't start it yet.</li>
+<li>Create the RasterWorkspace and <code>RasterSublayerSource</code> instances.</li>
+<li>Add the RasterWorkspace the list of dynamic workspaces of the LocalMapService.</li>
+<li>Start the LocalMapService
 <ul><li><code>localMapService.startAsync()</code></li></ul>
 <ul><li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.</li></ul>
 <ul><li><code>localMapService.addStatusChangedListener()</code> fires whenever the status of the local server has changed.</li></ul></li>
-<li>Create a <code>ArcGISMapImageLayer</code> using the url from the <code>localMapService</code></li>
-<li>Add the ArcGISMapImageSublayer to it's list of sublayers. The ArcGISMapImageSublayer points to the raster file on disk.
-<li>Finally, add the <code>ArcGISMapImageLayer</code> to map's list of operational layers. The raster layer appears in the map.</li>
+<li>Create a <code>ArcGISMapImageLayer</code> using the url from the LocalMapService</li>
+<li>Add the <code>ArcGISMapImageSublayer</code> to it's list of sublayers. The ArcGISMapImageSublayer points to the raster file on disk.
+<li>Finally, add the ArcGISMapImageLayer to map's list of operational layers. The raster layer appears in the map.</li>
 </ol>
 
 <h2>Features</h2>

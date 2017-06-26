@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,16 +20,16 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
-import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
-import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
+import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
+import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 public class SymbolDictionaryController {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,6 +19,19 @@ package com.esri.samples.search.reverse_geocode_online;
 import java.util.HashMap;
 import java.util.List;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -32,19 +45,6 @@ import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.esri.arcgisruntime.tasks.geocode.GeocodeResult;
 import com.esri.arcgisruntime.tasks.geocode.LocatorTask;
 import com.esri.arcgisruntime.tasks.geocode.ReverseGeocodeParameters;
-
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class ReverseGeocodeOnlineSample extends Application {
 
