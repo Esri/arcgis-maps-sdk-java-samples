@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,18 +19,6 @@ package com.esri.samples.editing.edit_feature_attachments;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.data.ArcGISFeature;
-import com.esri.arcgisruntime.data.Attachment;
-import com.esri.arcgisruntime.data.FeatureEditResult;
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.GeoElement;
-import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -47,6 +35,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import org.apache.commons.io.IOUtils;
+
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.ArcGISFeature;
+import com.esri.arcgisruntime.data.Attachment;
+import com.esri.arcgisruntime.data.FeatureEditResult;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.GeoElement;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class EditFeatureAttachmentsSample extends Application {
 
@@ -90,9 +90,8 @@ public class EditFeatureAttachmentsSample extends Application {
       attachmentList = new ListView<>();
       attachmentsLabel = new Label("Attachments: ");
       attachmentsLabel.getStyleClass().add("panel-label");
-      attachmentList.getSelectionModel().selectedItemProperty().addListener((event) ->
-        deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1)
-      );
+      attachmentList.getSelectionModel().selectedItemProperty().addListener((event) -> 
+          deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1));
 
       // create add/delete buttons
       addAttachmentButton = new Button("Add Attachment");
@@ -104,7 +103,7 @@ public class EditFeatureAttachmentsSample extends Application {
       deleteAttachmentButton.setDisable(true);
 
       // get image attachment
-      byte[] image= IOUtils.toByteArray(getClass().getResourceAsStream("/symbols/destroyed.png"));
+      byte[] image = IOUtils.toByteArray(getClass().getResourceAsStream("/symbols/destroyed.png"));
 
       // button click to add image attachment to selected feature
       addAttachmentButton.setOnAction(e -> addAttachment(image));
@@ -213,20 +212,20 @@ public class EditFeatureAttachmentsSample extends Application {
    */
   private void addAttachment(byte[] attachment) {
 
-      if (selected.canEditAttachments()) {
-        ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(attachment, "image/png",
-            "symbols/destroyed.png");
-        addResult.addDoneListener(() -> {
-          // update feature table
-          ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);
+    if (selected.canEditAttachments()) {
+      ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(attachment, "image/png",
+          "symbols/destroyed.png");
+      addResult.addDoneListener(() -> {
+        // update feature table
+        ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);
 
-          // apply update to server when new feature is added, and update the
-          // displayed list of attachments
-          tableResult.addDoneListener(() -> applyEdits(featureTable));
-        });
-      } else {
-        displayMessage(null, "Cannot add attachment.");
-      }
+        // apply update to server when new feature is added, and update the
+        // displayed list of attachments
+        tableResult.addDoneListener(() -> applyEdits(featureTable));
+      });
+    } else {
+      displayMessage(null, "Cannot add attachment.");
+    }
   }
 
   /**

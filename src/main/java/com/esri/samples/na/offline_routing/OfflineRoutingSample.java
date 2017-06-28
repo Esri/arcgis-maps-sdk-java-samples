@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri. Licensed under the Apache License, Version 2.0 (the
+ * Copyright 2017 Esri. Licensed under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
@@ -11,10 +11,24 @@
 
 package com.esri.samples.na.offline_routing;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.TileCache;
@@ -37,19 +51,6 @@ import com.esri.arcgisruntime.tasks.networkanalysis.RouteTask;
 import com.esri.arcgisruntime.tasks.networkanalysis.Stop;
 import com.esri.arcgisruntime.tasks.networkanalysis.TravelMode;
 
-import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
-
 public class OfflineRoutingSample extends Application {
 
   private MapView mapView;
@@ -57,6 +58,7 @@ public class OfflineRoutingSample extends Application {
   private GraphicsOverlay routeOverlay;
   private RouteTask routeTask;
   private RouteParameters routeParameters;
+  private List<Graphic> stopGraphics;
   private LineSymbol lineSymbol;
 
   private EventHandler<MouseEvent> mouseMovedListener;
@@ -89,6 +91,7 @@ public class OfflineRoutingSample extends Application {
       stopsOverlay = new GraphicsOverlay();
       routeOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().addAll(Arrays.asList(routeOverlay, stopsOverlay));
+      stopGraphics = new ArrayList<>();
 
       // create an offline RouteTask
       routeTask = new RouteTask("./samples-data/san_diego/sandiego.geodatabase", "Streets_ND");
@@ -111,10 +114,6 @@ public class OfflineRoutingSample extends Application {
           // update the moving stop and graphic
           Graphic stopGraphic = stopsOverlay.getSelectedGraphics().get(0);
           stopGraphic.setGeometry(hoverPoint);
-          int stopIndex = (int) stopGraphic.getAttributes().get("stopIndex");
-          Stop newStop = new Stop(hoverPoint);
-          routeParameters.getStops().set(stopIndex, newStop);
-          stopGraphic.getAttributes().put("stopIndex", stopIndex);
 
           // update route
           if (stopsOverlay.getGraphics().size() > 1) {
@@ -136,21 +135,14 @@ public class OfflineRoutingSample extends Application {
           // left click adds a stop when not already moving a stop
           if (event.getButton() == MouseButton.PRIMARY && stopsOverlay.getSelectedGraphics().isEmpty()) {
 
-            // add stop to route parameters
-            Stop stop = new Stop(point);
-            routeParameters.getStops().add(stop);
-
             // create graphic for stop
             TextSymbol stopLabel = new TextSymbol(20, Integer.toString(stopsOverlay.getGraphics().size() + 1),
                 0xFFFF0000, TextSymbol.HorizontalAlignment.RIGHT, TextSymbol.VerticalAlignment.TOP);
 
-            // save the stop with the graphic
-            HashMap<String, Object> attributes = new HashMap<>();
-            attributes.put("stopIndex", routeParameters.getStops().size() - 1);
-
-            // create and add the stop graphic to the graphics overlay
-            Graphic stopGraphic = new Graphic(point, attributes, stopLabel);
+            // create and add the stop graphic to the graphics overlay and list
+            Graphic stopGraphic = new Graphic(point, stopLabel);
             stopsOverlay.getGraphics().add(stopGraphic);
+            stopGraphics.add(stopGraphic);
 
             // update the route
             updateRoute();
@@ -230,13 +222,17 @@ public class OfflineRoutingSample extends Application {
    */
   private void updateRoute() {
 
-    if (routeParameters.getStops().size() > 1) {
+    if (stopGraphics.size() > 1) {
       // remove listener until route task is solved
       if (!stopsOverlay.getSelectedGraphics().isEmpty()) {
         mapView.setOnMouseMoved(null);
       }
 
-      // solve route
+      // update stops and solve route
+      List<Stop> stops = stopGraphics.stream()
+          .map(g -> new Stop((Point) g.getGeometry()))
+          .collect(Collectors.toList());
+      routeParameters.setStops(stops);
       ListenableFuture<RouteResult> results = routeTask.solveRouteAsync(routeParameters);
       results.addDoneListener(() -> {
         try {
