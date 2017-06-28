@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.open_existing_map;
+package com.esri.samples.map.open_map_url;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -36,7 +36,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 
-public class OpenExistingMapSample extends Application {
+public class OpenMapURLSample extends Application {
 
   private MapView mapView;
   private ArcGISMap map;
