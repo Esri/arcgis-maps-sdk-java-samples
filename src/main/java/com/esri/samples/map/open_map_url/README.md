@@ -1,4 +1,4 @@
-<h1>Open an Existing Map</h1>
+<h1>Open Map (URL)</h1>
 
 <p>Demonstrates how to open an existing web map.</p>
 
