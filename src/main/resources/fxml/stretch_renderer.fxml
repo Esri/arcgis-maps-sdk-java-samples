@@ -22,23 +22,58 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.beans.property.SimpleBooleanProperty?>
+<?import javafx.scene.layout.HBox?>
 <StackPane fx:controller="com.esri.samples.raster.stretch_renderer.StretchRendererController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
+    <fx:define>
+        <SimpleBooleanProperty fx:id="minMaxActive"/>
+        <SimpleBooleanProperty fx:id="percentClipActive"/>
+        <SimpleBooleanProperty fx:id="stdDeviationActive"/>
+    </fx:define>
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="250" maxHeight="50" styleClass="panel-region">
-        <GridPane hgap="10" vgap="10">
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="50" styleClass="panel-region"
+          style="-fx-background-color: rgba(0,0,0, 0.8);">
+        <HBox spacing="10">
             <Label text="Stretch Type:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <ComboBox fx:id="stretchTypeComboBox" onAction="#updateRenderer"
-                      GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <ComboBox fx:id="stretchTypeComboBox" value="MinMax" onAction="#updateRenderer"
+                      GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="MinMax"/>
+                        <String fx:value="PercentClip"/>
+                        <String fx:value="StdDeviation"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </HBox>
+        <!--Standard Deviation -->
+        <HBox spacing="10" managed="${stdDeviationActive}" visible="${stdDeviationActive}">
             <Label text="Factor:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Slider fx:id="factorSlider" showTickLabels="true" max="3" value="1.0" GridPane.rowIndex="1"
+            <Slider fx:id="factorSlider" max="3" value="1.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="${factorSlider.value}" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+        </HBox>
+        <!--Min/Max-->
+        <GridPane managed="${minMaxActive}" visible="${minMaxActive}">
+            <Label text="Min:" GridPane.rowIndex="0"  GridPane.columnIndex="0"/>
+            <Slider fx:id="mmMinSlider" max="255.0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="${mmMinSlider.value}" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <Label text="Max:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <!--Note: Constraint Max > Min-->
+            <Slider fx:id="mmMaxSlider" min="${mmMinSlider.value}" value="100.0" GridPane.rowIndex="1"
                     GridPane.columnIndex="1"/>
-            <Label text="Min:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <Slider fx:id="minSlider" showTickLabels="true"
-                    majorTickUnit="20.0" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-            <Label text="Max:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <Slider fx:id="maxSlider" min="100" max="255.0" value="100.0" showTickLabels="true"
-                    majorTickUnit="30.0" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <Label text="${mmMaxSlider.value}" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+        </GridPane>
+         <!--Percent Clip-->
+        <GridPane managed="${percentClipActive}" visible="${percentClipActive}">
+            <Label text="Min:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Slider fx:id="pcMinSlider" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="${pcMinSlider.value}" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <Label text="Max:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Slider fx:id="pcMaxSlider" value="100.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="${pcMaxSlider.value}" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
         </GridPane>
     </VBox>
 </StackPane>
