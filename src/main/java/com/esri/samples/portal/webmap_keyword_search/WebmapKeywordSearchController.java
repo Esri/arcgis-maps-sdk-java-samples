@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,28 +18,22 @@ package com.esri.samples.portal.webmap_keyword_search;
 
 import java.util.List;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.portal.PortalQueryParameters;
 import com.esri.arcgisruntime.portal.PortalQueryResultSet;
-import com.esri.arcgisruntime.security.AuthenticationManager;
-import com.esri.arcgisruntime.security.OAuthConfiguration;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 
 public class WebmapKeywordSearchController {
-
 
   @FXML private TextField keyword;
   @FXML private MapView mapView;
@@ -112,7 +106,7 @@ public class WebmapKeywordSearchController {
         try {
           // replace the result set with the current set of results
           portalQueryResultSet = results.get();
-          List<PortalItem> portalItems =portalQueryResultSet.getResults();
+          List<PortalItem> portalItems = portalQueryResultSet.getResults();
 
           // add set of results to list view
           resultsList.getItems().addAll(portalItems);
@@ -130,6 +124,7 @@ public class WebmapKeywordSearchController {
    * Shows a Layer title in a ListView.
    */
   private class PortalItemCell extends ListCell<PortalItem> {
+
     @Override
     protected void updateItem(PortalItem portalItem, boolean empty) {
       super.updateItem(portalItem, empty);

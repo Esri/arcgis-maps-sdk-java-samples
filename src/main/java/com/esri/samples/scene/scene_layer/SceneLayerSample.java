@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,6 +16,11 @@
 
 package com.esri.samples.scene.scene_layer;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
@@ -24,18 +29,9 @@ import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 public class SceneLayerSample extends Application {
 
   private SceneView sceneView;
-  private static final String LOCAL_ELEVATION_IMAGE_SERVICE = "http://scene.arcgis" +
-      ".com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
-  private static final String BUILDINGS = "http://scene.arcgis" +
-      ".com/arcgis/rest/services/Hosted/Buildings_Brest/SceneServer/layers/0";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -64,15 +60,17 @@ public class SceneLayerSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(LOCAL_ELEVATION_IMAGE_SERVICE));
+      final String localEvelationImageService = "http://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
+      surface.getElevationSources().add(new ArcGISTiledElevationSource(localEvelationImageService));
       scene.setBaseSurface(surface);
 
       // add a scene layer
-      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(BUILDINGS);
+      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
+      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
       scene.getOperationalLayers().add(sceneLayer);
 
       // add a camera and initial camera position (Brest, France)
-      Camera camera = new Camera(48.37,-4.50, 1000.0, 10.0, 70, 0.0);
+      Camera camera = new Camera(48.37, -4.50, 1000.0, 10.0, 70, 0.0);
       sceneView.setViewpointCamera(camera);
 
     } catch (Exception e) {

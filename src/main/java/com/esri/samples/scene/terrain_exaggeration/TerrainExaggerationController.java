@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,7 +20,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -50,13 +49,6 @@ public class TerrainExaggerationController {
           "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
       surface.getElevationSources().add(new ArcGISTiledElevationSource(elevationImageService));
       scene.setBaseSurface(surface);
-
-      // add terrain layer to scene
-      final String imageLayer =
-          "https://gis.grantcountywa.gov:6443/arcgis/rest/services/EveryoneData/SlopePercent/MapServer";
-      ArcGISMapImageLayer layer = new ArcGISMapImageLayer(imageLayer);
-      layer.loadAsync();
-      scene.getOperationalLayers().add(layer);
 
       // set exaggeration of surface to the value the user selected
       exaggerationSlider.valueChangingProperty().addListener(o -> {

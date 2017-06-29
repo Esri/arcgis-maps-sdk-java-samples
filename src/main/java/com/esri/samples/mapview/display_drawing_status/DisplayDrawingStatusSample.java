@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Esri.
+ * Copyright 2017 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,6 +16,14 @@
 
 package com.esri.samples.mapview.display_drawing_status;
 
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
@@ -27,14 +35,6 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
-
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class DisplayDrawingStatusSample extends Application {
 
@@ -67,8 +67,8 @@ public class DisplayDrawingStatusSample extends Application {
 
       // create a starting viewpoint for the ArcGISMap
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
-      Point bottomLeftPoint = new Point(-13639984.0, 4537387.0, spatialReference);
-      Point topRightPoint = new Point(-13606734.0, 4558866, spatialReference);
+      Point bottomLeftPoint = new Point(-1.5054808160556655E7, 2718975.702666207, spatialReference);
+      Point topRightPoint = new Point(-6810317.90634398, 6850505.377826911, spatialReference);
       Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
       Viewpoint viewpoint = new Viewpoint(envelope);
 

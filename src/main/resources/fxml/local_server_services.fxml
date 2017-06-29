@@ -1,78 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2017 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
 
-<?import java.lang.*?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?language javascript?>
-
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <BorderPane fx:controller="com.esri.samples.localserver.local_server_services.LocalServerServicesController"
-           xmlns:fx="http://javafx.com/fxml">
-  <!-- Top Section -->
+            xmlns:fx="http://javafx.com/fxml">
+  <!-- Select and Start Service -->
   <top>
-    <HBox spacing="10">
-      <padding><Insets top="10" right="10" bottom="5" left="10"/></padding>
-    
-      <VBox spacing="3"> 
-        <Button fx:id="btnStartServer" text="Start Local Server" onAction="#handleStartLocalServer" minWidth="200"/>
-        <Button text="Stop Local Server"  onAction="#handleStopLocalServer" disable="${!btnStartServer.disable}"
-                minWidth="200"/>
-      </VBox>
-    
-      <VBox HBox.hgrow="ALWAYS" spacing="3"> 
-        <ComboBox fx:id="serviceOptions" maxWidth="Infinity" disable="${!btnStartServer.disable}">
-          
-          <value>
+    <GridPane hgap="5" vgap="5">
+      <padding><Insets left="10" top="10" right="10" bottom="10"/></padding>
+      <ComboBox fx:id="serviceOptions" GridPane.rowIndex="0" GridPane.columnIndex="0" maxWidth="Infinity">
+        <value>
+          <String fx:value="Map Service"/>
+        </value>
+        <items>
+          <FXCollections fx:factory="observableArrayList">
             <String fx:value="Map Service"/>
-          </value>
-          
-          <items>
-            <FXCollections fx:factory="observableArrayList">
-              <String fx:value="Map Service"/>
-              <String fx:value="Feature Service"/>
-              <String fx:value="Geoprocessing Service"/>
-            </FXCollections>
-          </items>
-        </ComboBox>
-        
-        <HBox spacing="3">
-          <Button HBox.hgrow="ALWAYS" text="Start Service" maxWidth="Infinity"
-            onAction="#handleStartSelectedService" disable="${!btnStartServer.disable}"/>
-          <Button fx:id="btnStopService" HBox.hgrow="ALWAYS" text="Stop Service" maxWidth="Infinity"
-            onAction="#handleStopSelectedService"/>
-        </HBox>
- 
-      </VBox>
-    </HBox>
+            <String fx:value="Feature Service"/>
+            <String fx:value="Geoprocessing Service"/>
+          </FXCollections>
+        </items>
+      </ComboBox>
+      <Button fx:id="startServiceButton" text="Start" onAction="#startSelectedService" GridPane.rowIndex="0"
+              GridPane.columnIndex="1" maxWidth="Infinity"/>
+      <TextField fx:id="packagePath" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS"/>
+      <Button onAction="#openPackage" text="Open" GridPane.rowIndex="1" GridPane.columnIndex="1">
+        <graphic>
+          <ImageView>
+            <Image url="/icons/files-48.png" requestedHeight="16" preserveRatio="true" smooth="true"/>
+          </ImageView>
+        </graphic>
+      </Button>
+    </GridPane>
   </top>
     
     <!-- Displays Sever/Service status to center text area -->
   <center>
     <HBox>
       <padding><Insets top="5" right="10" bottom="5" left="10"/></padding>
-      <TextArea fx:id="statusLog" HBox.hgrow="ALWAYS"  maxWidth="Infinity" editable="false"/>
+      <TextArea fx:id="statusLog" HBox.hgrow="ALWAYS" maxWidth="Infinity" editable="false"/>
     </HBox>
   </center>
     
-     <!-- List services that are currently running -->
-  <bottom> 
-   <VBox>
-      <padding><Insets top="5" right="10" bottom="10" left="10"/></padding>
+     <!-- Running services list and stop button -->
+  <bottom>
+    <VBox>
+      <padding><Insets top="5" right="10" bottom="5" left="10"/></padding>
       <Label text="List of Running Services"/>
-      <VBox spacing="3" alignment="center_right"> 
-        <ListView fx:id="runningServices" maxWidth="Infinity" maxHeight="100"/>
-          <fx:script>          
-            btnStopService.disableProperty().bind(runningServices.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
-          </fx:script> 
-        <Button text="Go to URL" disable="${btnStopService.disable}" onAction="#handleURL"/>
-      </VBox>
+      <ListView fx:id="runningServices" maxWidth="Infinity" maxHeight="100"/>
+      <HBox>
+        <padding><Insets top="5"/></padding>
+        <Button fx:id="stopServiceButton" text="Stop Service" onAction="#stopSelectedService"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="Go to URL" disable="${stopServiceButton.disable}" onAction="#openServiceURL"/>
+      </HBox>
     </VBox>
   </bottom>
     
