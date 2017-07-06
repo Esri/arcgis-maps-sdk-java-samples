@@ -62,7 +62,7 @@ public class ClosestFacilitySample extends Application {
   // solves task to find closest route between an incident and a facility
   private ClosestFacilityTask task;
   // parameters needed to solve for route
-  private ClosestFacilityParameters facilityParameters;
+  private ClosestFacilityParameters closestFacilityParameters;
   // used to display route between incident and facility to mapview
   private SimpleLineSymbol routeSymbol;
   // same spatial reference of the map
@@ -107,9 +107,9 @@ public class ClosestFacilitySample extends Application {
       task = new ClosestFacilityTask(sanDiegoRegion);
       task.addDoneLoadingListener(() -> {
         try {
-          facilityParameters = task.createDefaultParametersAsync().get();
+          closestFacilityParameters = task.createDefaultParametersAsync().get();
           // set new parameters to find route
-          facilityParameters.setFacilities(facilities);
+          closestFacilityParameters.setFacilities(facilities);
         } catch (ExecutionException | InterruptedException e) {
           e.printStackTrace();
         }
@@ -173,10 +173,10 @@ public class ClosestFacilitySample extends Application {
    * display the closest route from the user's incident to its' nearest facility.
    */
   private void populateParametersAndSolveRoute() {
-    facilityParameters.setIncidents(Collections.singletonList(new Incident(incidentPoint)));
+    closestFacilityParameters.setIncidents(Collections.singletonList(new Incident(incidentPoint)));
 
     // find closest route using parameters from above
-    ListenableFuture<ClosestFacilityResult> result = task.solveClosestFacilityAsync(facilityParameters);
+    ListenableFuture<ClosestFacilityResult> result = task.solveClosestFacilityAsync(closestFacilityParameters);
     result.addDoneListener(() -> {
       try {
         ClosestFacilityResult facilityResult = result.get();
