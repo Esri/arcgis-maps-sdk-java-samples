@@ -23,6 +23,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -34,6 +35,7 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
@@ -166,41 +168,45 @@ public class FindRouteSample extends Application {
         // load route task
         routeTask.loadAsync();
         routeTask.addDoneLoadingListener(() -> {
+          if (routeTask.getLoadStatus() == LoadStatus.LOADED) {
+            try {
+              // get default route parameters
+              routeParameters = routeTask.createDefaultParametersAsync().get();
+              routeParameters.setOutputSpatialReference(ESPG_3857);
 
-          try {
-            // get default route parameters
-            routeParameters = routeTask.createDefaultParametersAsync().get();
-            routeParameters.setOutputSpatialReference(ESPG_3857);
+              // set flags to return stops and directions
+              routeParameters.setReturnStops(true);
+              routeParameters.setReturnDirections(true);
 
-            // set flags to return stops and directions
-            routeParameters.setReturnStops(true);
-            routeParameters.setReturnDirections(true);
+              // set stop locations
+              Point stop1Loc = new Point(-1.3018598562659847E7, 3863191.8817135547, ESPG_3857);
+              Point stop2Loc = new Point(-1.3036911787723785E7, 3839935.706521739, ESPG_3857);
 
-            // set stop locations
-            Point stop1Loc = new Point(-1.3018598562659847E7, 3863191.8817135547, ESPG_3857);
-            Point stop2Loc = new Point(-1.3036911787723785E7, 3839935.706521739, ESPG_3857);
+              // add route stops
+              List<Stop> routeStops = new ArrayList<>();
+              routeStops.add(new Stop(stop1Loc));
+              routeStops.add(new Stop(stop2Loc));
+              routeParameters.setStops(routeStops);
 
-            // add route stops
-            List<Stop> routeStops = new ArrayList<>();
-            routeStops.add(new Stop(stop1Loc));
-            routeStops.add(new Stop(stop2Loc));
-            routeParameters.setStops(routeStops);
+              // add route stops to the stops overlay
+              SimpleMarkerSymbol stopMarker = new SimpleMarkerSymbol(Style.CIRCLE, BLUE_COLOR, 14);
+              routeGraphicsOverlay.getGraphics().add(new Graphic(stop1Loc, stopMarker));
+              routeGraphicsOverlay.getGraphics().add(new Graphic(stop2Loc, stopMarker));
 
-            // add route stops to the stops overlay
-            SimpleMarkerSymbol stopMarker = new SimpleMarkerSymbol(Style.CIRCLE, BLUE_COLOR, 14);
-            routeGraphicsOverlay.getGraphics().add(new Graphic(stop1Loc, stopMarker));
-            routeGraphicsOverlay.getGraphics().add(new Graphic(stop2Loc, stopMarker));
+              // add order text symbols to the stops
+              TextSymbol stop1Text = new TextSymbol(10, "1", WHITE_COLOR, HorizontalAlignment.CENTER,
+                  VerticalAlignment.MIDDLE);
+              TextSymbol stop2Text = new TextSymbol(10, "2", WHITE_COLOR, HorizontalAlignment.CENTER,
+                  VerticalAlignment.MIDDLE);
+              routeGraphicsOverlay.getGraphics().add(new Graphic(stop1Loc, stop1Text));
+              routeGraphicsOverlay.getGraphics().add(new Graphic(stop2Loc, stop2Text));
 
-            // add order text symbols to the stops
-            TextSymbol stop1Text = new TextSymbol(10, "1", WHITE_COLOR, HorizontalAlignment.CENTER,
-                VerticalAlignment.MIDDLE);
-            TextSymbol stop2Text = new TextSymbol(10, "2", WHITE_COLOR, HorizontalAlignment.CENTER,
-                VerticalAlignment.MIDDLE);
-            routeGraphicsOverlay.getGraphics().add(new Graphic(stop1Loc, stop1Text));
-            routeGraphicsOverlay.getGraphics().add(new Graphic(stop2Loc, stop2Text));
-
-          } catch (Exception ex) {
-            ex.printStackTrace();
+            } catch (Exception ex) {
+              ex.printStackTrace();
+            }
+          } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Route Task Failed to Load!");
+            alert.show();
           }
         });
 

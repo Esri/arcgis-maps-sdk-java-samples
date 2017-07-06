@@ -128,6 +128,9 @@ public class LocalServerFeatureLayerSample extends Application {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED && featureLayer.getFullExtent() != null) {
           mapView.setViewpoint(new Viewpoint(featureLayer.getFullExtent()));
           Platform.runLater(() -> featureLayerProgress.setVisible(false));
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!");
+          alert.show();
         }
       });
       featureLayer.loadAsync();

@@ -40,6 +40,7 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -129,7 +130,14 @@ public class FeatureLayerQuerySample extends Application {
       featureLayer.setOpacity(0.8f);
 
       // enable search once the feature layer is loaded
-      featureLayer.addDoneLoadingListener(() -> searchBox.setDisable(false));
+      featureLayer.addDoneLoadingListener(() -> {
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+          searchBox.setDisable(false);
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!");
+          alert.show();
+        }
+      });
 
       // set renderer for feature layer
       featureLayer.setRenderer(new SimpleRenderer(fillSymbol));

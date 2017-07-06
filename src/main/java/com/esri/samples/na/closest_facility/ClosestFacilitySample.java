@@ -34,6 +34,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -103,10 +104,15 @@ public class ClosestFacilitySample extends Application {
           "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility";
       task = new ClosestFacilityTask(sanDiegoRegion);
       task.addDoneLoadingListener(() -> {
-        try {
-          facilityParameters = task.createDefaultParametersAsync().get();
-        } catch (ExecutionException | InterruptedException e) {
-          e.printStackTrace();
+        if (task.getLoadStatus() == LoadStatus.LOADED) {
+          try {
+            facilityParameters = task.createDefaultParametersAsync().get();
+          } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+          }
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Closest Facility Task Failed to Load!");
+          alert.show();
         }
       });
       task.loadAsync();
