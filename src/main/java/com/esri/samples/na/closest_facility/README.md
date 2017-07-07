@@ -14,8 +14,8 @@
 <ol>
     <li>Create a <code>ClosestFacilityTask</code> using  an Url from an online service.</li>
     <li>Get <code>ClosestFacilityParameters</code> from task, <code>task.createDefaultParametersAsync().get()</code></li>
-    <li>Add incident to parameters, <code>facilityParameters.setFacilities().addAll(facilities)</code>.</li>
-    <li>Add facilities to parameters, <code>facilityParameters.setIncidents().add(Arrays.asList(new Incident(incidentPoint)))</code>.</li>
+    <li>Add facilities to parameters, <code>closestFacilityParameters.setFacilities().addAll(facilities)</code>.</li>
+    <li>Add incidents to parameters, <code>closestFacilityParameters.setIncidents().add(Arrays.asList(new Incident(incidentPoint)))</code>.</li>
     <li>Get <code>ClosestFacilityResult</code> from solving task with parameters, <code>task.solveClosestFacilityAsync(facilityParameters).get()</code></li>
     <li>Get index list of closet facilities to incident, <code>facilityResult.getRankedFacilities(0)</code></li>
     <li>Get index of closest facility, <code>rankedFacilitiesList.get(0)</code></li>
