@@ -11,11 +11,8 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.ogc.wmts.WmtsLayerInfo;
 import com.esri.arcgisruntime.ogc.wmts.WmtsService;
 import com.esri.arcgisruntime.ogc.wmts.WmtsServiceInfo;
-
-import java.util.List;
 
 public class WmtsLayerSample extends Application {
 
@@ -48,9 +45,9 @@ public class WmtsLayerSample extends Application {
         if (wmtsService.getLoadStatus() == LoadStatus.LOADED) {
           WmtsServiceInfo wmtsServiceInfo = wmtsService.getServiceInfo();
           // get the first layer's ID
-          List<WmtsLayerInfo> layerInfos = wmtsServiceInfo.getLayerInfos();
+          String layerID = wmtsServiceInfo.getLayerInfos().get(0).getId();
           // create the WMTS layer with the URL and ID
-          WmtsLayer wmtsLayer = new WmtsLayer(layerInfos.get(0));
+          WmtsLayer wmtsLayer = new WmtsLayer(serviceURL, layerID);
           map.setBasemap(new Basemap(wmtsLayer));
         } else {
           Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load WMTS layer");
