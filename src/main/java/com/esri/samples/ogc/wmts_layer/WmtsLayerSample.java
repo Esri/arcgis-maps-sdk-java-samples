@@ -45,9 +45,9 @@ public class WmtsLayerSample extends Application {
         if (wmtsService.getLoadStatus() == LoadStatus.LOADED) {
           WmtsServiceInfo wmtsServiceInfo = wmtsService.getServiceInfo();
           // get the first layer's ID
-          String layerID = wmtsServiceInfo.getLayerInfos().get(0).getId();
-          // create the WMTS layer with the URL and ID
-          WmtsLayer wmtsLayer = new WmtsLayer(serviceURL, layerID);
+          List<WmtsLayerInfo> layerInfos = wmtsServiceInfo.getLayerInfos();
+          // create the WMTS layer with the LayerInfo
+          WmtsLayer wmtsLayer = new WmtsLayer(layerInfos.get(0));
           map.setBasemap(new Basemap(wmtsLayer));
         } else {
           Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load WMTS layer");
