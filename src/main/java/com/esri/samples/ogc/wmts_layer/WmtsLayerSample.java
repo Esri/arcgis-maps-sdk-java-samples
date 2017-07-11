@@ -1,5 +1,6 @@
 package com.esri.samples.ogc.wmts_layer;
 
+import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,6 +12,7 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.ogc.wmts.WmtsLayerInfo;
 import com.esri.arcgisruntime.ogc.wmts.WmtsService;
 import com.esri.arcgisruntime.ogc.wmts.WmtsServiceInfo;
 
