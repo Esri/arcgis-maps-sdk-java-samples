@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -41,9 +42,12 @@ public class SymbolDictionaryController {
   @FXML private TextField categoryField;
   @FXML private TextField keyField;
   @FXML private Text searchResultsFound;
+  @FXML private Button resultsButton;
 
+  private List<SymbolStyleSearchResult> symbolResults;
   private DictionarySymbolStyle dictionarySymbol;
   private SymbolStyleSearchParameters searchParameters;
+  private static final int RESULT_SIZE = 100;
 
   /**
    * Initialize fields after FXML is loaded.
@@ -52,6 +56,7 @@ public class SymbolDictionaryController {
     // loads a specification for the symbol dictionary
     dictionarySymbol = new DictionarySymbolStyle("mil2525d");
     dictionarySymbol.loadAsync();
+    resultsButton.setText("Next " + RESULT_SIZE + " ->");
   }
 
   /**
@@ -74,14 +79,21 @@ public class SymbolDictionaryController {
     ListenableFuture<List<SymbolStyleSearchResult>> searchResult = dictionarySymbol.searchSymbolsAsync(searchParameters);
     searchResult.addDoneListener(() -> {
       try {
-        List<SymbolStyleSearchResult> symbolResults = searchResult.get();
+        symbolResults = searchResult.get();
 
         Platform.runLater(() -> {
-          // create and add results to listview
-          symbolResults.stream().map(SymbolView::new).collect(Collectors.toCollection(() -> resultList.getItems()));
+          int results = symbolResults.size();
+          if (results > 0) {
+            // create and add results to listview
+            symbolResults.subList(0, Math.min(results, RESULT_SIZE)).stream().map(SymbolView::new).collect(Collectors.toCollection(() -> resultList.getItems()));
+            if (Math.min(results, RESULT_SIZE) == RESULT_SIZE) {
+              resultsButton.setDisable(false);
+              symbolResults = symbolResults.subList(RESULT_SIZE, results);
+            }
+          }
 
           // show result count
-          searchResultsFound.setText(String.valueOf(resultList.getItems().size()));
+          searchResultsFound.setText(String.valueOf(results));
         });
 
       } catch (ExecutionException | InterruptedException e) {
@@ -105,5 +117,24 @@ public class SymbolDictionaryController {
     symbolClassField.clear();
     categoryField.clear();
     keyField.clear();
+    resultsButton.setDisable(true);
+  }
+
+  /**
+   * Clears search results and any text in the search fields.
+   */
+  @FXML
+  private void handleNextResults() {
+    Platform.runLater(() -> {
+      resultList.getItems().clear();
+      int results = symbolResults.size();
+      // create and add results to listview
+      symbolResults.subList(0, Math.min(results, RESULT_SIZE)).stream().map(SymbolView::new).collect(Collectors.toCollection(() -> resultList.getItems()));
+      if (Math.min(results, RESULT_SIZE) == RESULT_SIZE) {
+        symbolResults = symbolResults.subList(RESULT_SIZE, results);
+      } else {
+        resultsButton.setDisable(true);
+      }
+    });
   }
 }

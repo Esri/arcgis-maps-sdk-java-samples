@@ -50,6 +50,8 @@
         <!--  Displaying Results-->     
         <Label text="Result(s) Found: " GridPane.columnIndex="0" GridPane.rowIndex="6"/>
         <Text fx:id="searchResultsFound" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+        <Button fx:id="resultsButton" onAction="#handleNextResults" disable="true" 
+                GridPane.columnIndex="2" GridPane.rowIndex="6"/>
     </GridPane>
     
     <!--  Bottom Pane for Displaying Symbols -->
