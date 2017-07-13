@@ -33,6 +33,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureEditResult;
+import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -108,8 +109,11 @@ public class UpdateGeometriesSample extends Application {
                 featureLayer.clearSelection();
                 featureLayer.selectFeature(selected);
               } else {
-                // move selected features
-                moveSelected(mapPoint);
+                FeatureQueryResult result = featureLayer.getSelectedFeaturesAsync().get();
+                if (result.iterator().hasNext()) {
+                  // move selected features
+                  moveSelected(mapPoint);
+                }
               }
             } catch (InterruptedException | ExecutionException e) {
               displayMessage("Exception getting identify result", e.getCause().getMessage());
