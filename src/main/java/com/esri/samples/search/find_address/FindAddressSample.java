@@ -26,6 +26,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
@@ -38,6 +39,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Callout;
@@ -144,10 +146,17 @@ public class FindAddressSample extends Application {
       pinSymbol = new PictureMarkerSymbol(img);
       pinSymbol.loadAsync();
 
-      tiledLayer.addDoneLoadingListener(() -> Platform.runLater(() -> {
-        // center the view over the tiled layer's extent
-        mapView.setViewpointGeometryAsync(tiledLayer.getFullExtent());
-      }));
+      tiledLayer.addDoneLoadingListener(() -> {
+        if (tiledLayer.getLoadStatus() == LoadStatus.LOADED) {
+          Platform.runLater(() -> {
+            // center the view over the tiled layer's extent
+            mapView.setViewpointGeometryAsync(tiledLayer.getFullExtent());
+          });
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Tiled Layer Failed to Load!");
+          alert.show();
+        }
+      });
 
       // set the callout's default style
       Callout callout = mapView.getCallout();

@@ -31,6 +31,7 @@ import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
 import com.esri.arcgisruntime.localserver.LocalGeoprocessingService.ServiceType;
 import com.esri.arcgisruntime.localserver.LocalServer;
@@ -72,7 +73,14 @@ public class LocalServerGeoprocessingController {
       TileCache tileCache = new TileCache(rasterURL);
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
       tiledLayer.loadAsync();
-      tiledLayer.addDoneLoadingListener(() -> mapView.setViewpointGeometryAsync(tiledLayer.getFullExtent()));
+      tiledLayer.addDoneLoadingListener(() -> {
+        if (tiledLayer.getLoadStatus() == LoadStatus.LOADED) {
+          mapView.setViewpointGeometryAsync(tiledLayer.getFullExtent());
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Tiled Layer Failed to Load!");
+          alert.show();
+        }
+      });
       map.getOperationalLayers().add(tiledLayer);
 
       // check that local server install path can be accessed

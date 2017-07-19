@@ -151,9 +151,17 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
           if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
             imageLayer.getSublayers().add(imageSublayer);
             imageSublayer.addDoneLoadingListener(() -> {
-              mapView.setViewpoint(new Viewpoint(imageSublayer.getMapServiceSublayerInfo().getExtent()));
+              if (imageSublayer.getLoadStatus() == LoadStatus.LOADED) {
+                mapView.setViewpoint(new Viewpoint(imageSublayer.getMapServiceSublayerInfo().getExtent()));
+              } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Map Image Sublayer Failed to Load!");
+                alert.show();
+              }
             });
             imageSublayer.loadAsync();
+          } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Map Image Layer Failed to Load!");
+            alert.show();
           }
         });
         imageLayer.loadAsync();

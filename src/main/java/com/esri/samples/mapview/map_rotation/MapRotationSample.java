@@ -20,6 +20,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -28,6 +29,7 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -70,7 +72,14 @@ public class MapRotationSample extends Application {
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
 
       // enable slider when map view is done loading
-      map.addDoneLoadingListener(() -> slider.setDisable(false));
+      map.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          slider.setDisable(false);
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Map Failed to Load!");
+          alert.show();
+        }
+      });
 
       // create a view and add a ArcGISMap to it
       mapView = new MapView();

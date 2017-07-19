@@ -127,6 +127,9 @@ public class LocalServerMapImageLayerSample extends Application {
         if (imageLayer.getLoadStatus() == LoadStatus.LOADED && imageLayer.getFullExtent() != null) {
           mapView.setViewpoint(new Viewpoint(imageLayer.getFullExtent()));
           Platform.runLater(() -> imageLayerProgress.setVisible(false));
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Image Layer Failed to Load!");
+          alert.show();
         }
       });
       imageLayer.loadAsync();
