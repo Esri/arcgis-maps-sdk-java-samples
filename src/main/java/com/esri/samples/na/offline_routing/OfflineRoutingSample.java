@@ -32,7 +32,9 @@ import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.TileCache;
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -96,6 +98,15 @@ public class OfflineRoutingSample extends Application {
       // create an offline RouteTask
       routeTask = new RouteTask("./samples-data/san_diego/sandiego.geodatabase", "Streets_ND");
       routeTask.loadAsync();
+
+      // add a graphics overlay to show the boundary
+      Envelope envelope = new Envelope(new Point(-13045352.223196, 3864910.900750, 0, SpatialReferences
+      .getWebMercator()), new Point(-13024588.857198, 3838880.505604, 0, SpatialReferences.getWebMercator()));
+      SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF00FF00, 5);
+      Graphic boundary = new Graphic(envelope, boundarySymbol);
+      GraphicsOverlay boundaryOverlay = new GraphicsOverlay();
+      boundaryOverlay.getGraphics().add(boundary);
+      mapView.getGraphicsOverlays().add(boundaryOverlay);
 
       // create route parameters
       routeParameters = routeTask.createDefaultParametersAsync().get();
