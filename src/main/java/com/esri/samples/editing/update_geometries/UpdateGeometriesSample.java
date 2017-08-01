@@ -88,8 +88,7 @@ public class UpdateGeometriesSample extends Application {
           Point mapPoint = mapView.screenToLocation(point);
 
           // identify any clicked feature
-          ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false,
-           1);
+          ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false, 1);
           results.addDoneListener(() -> {
             try {
 
