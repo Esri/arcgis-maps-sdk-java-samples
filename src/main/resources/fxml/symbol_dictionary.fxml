@@ -24,8 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.ListView?>
-<VBox fx:controller="com.esri.samples.symbology.symbol_dictionary.SymbolDictionaryController"
+<VBox fx:id="displayPanel" fx:controller="com.esri.samples.symbology.symbol_dictionary.SymbolDictionaryController"
       xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
     <!-- Top Pane for Search Result -->
     <GridPane hgap="10" vgap="10"  prefHeight="200">
@@ -50,10 +49,5 @@
         <!--  Displaying Results-->     
         <Label text="Result(s) Found: " GridPane.columnIndex="0" GridPane.rowIndex="6"/>
         <Text fx:id="searchResultsFound" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-        <Button fx:id="resultsButton" onAction="#handleNextResults" disable="true" 
-                GridPane.columnIndex="2" GridPane.rowIndex="6"/>
     </GridPane>
-    
-    <!--  Bottom Pane for Displaying Symbols -->
-    <ListView fx:id="resultList" VBox.vgrow="ALWAYS"/>
 </VBox>
