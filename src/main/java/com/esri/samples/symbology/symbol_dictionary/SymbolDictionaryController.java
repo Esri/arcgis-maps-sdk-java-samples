@@ -18,15 +18,16 @@ package com.esri.samples.symbology.symbol_dictionary;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
@@ -35,28 +36,42 @@ import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 public class SymbolDictionaryController {
 
-  // injected elements from fxml
   @FXML private TextField nameField;
   @FXML private TextField tagField;
   @FXML private TextField symbolClassField;
   @FXML private TextField categoryField;
   @FXML private TextField keyField;
   @FXML private Text searchResultsFound;
-  @FXML private VBox displayPanel;
+  @FXML private Pagination resultPages;
 
-  private List<SymbolStyleSearchResult> symbolResults;
+  private ObservableList<SymbolStyleSearchResult> results;
   private DictionarySymbolStyle dictionarySymbol;
-  private SymbolStyleSearchParameters searchParameters;
-  private static final double MAX_RESULTS_PER_PAGE = 100.0;
-  private static final int SEARCH_RESULTS = 1;
+  private static final int MAX_RESULTS_PER_PAGE = 20;
 
-  /**
-   * Initialize fields after FXML is loaded.
-   */
   public void initialize() {
     // loads a specification for the symbol dictionary
     dictionarySymbol = new DictionarySymbolStyle("mil2525d");
     dictionarySymbol.loadAsync();
+
+    // initialize result list
+    results = FXCollections.observableArrayList();
+
+    // add listener to update pagination control when results change
+    results.addListener((ListChangeListener<SymbolStyleSearchResult>) e -> {
+      int resultSize = results.size();
+      resultPages.setPageCount(resultSize / MAX_RESULTS_PER_PAGE + 1);
+      resultPages.setCurrentPageIndex(0);
+      resultPages.setPageFactory(pageIndex -> {
+        ListView<SymbolView> resultsList = new ListView<>();
+        int start = pageIndex * MAX_RESULTS_PER_PAGE;
+        List<SymbolView> resultViews = results.subList(start, Math.min(start + MAX_RESULTS_PER_PAGE, results.size()))
+          .stream()
+          .map(SymbolView::new)
+          .collect(Collectors.toList());
+        resultsList.getItems().addAll(resultViews);
+        return resultsList;
+      });
+    });
   }
 
   /**
@@ -64,52 +79,23 @@ public class SymbolDictionaryController {
    */
   @FXML
   private void handleSearchAction() {
-    // if searched multiple times delete old search results
-    if (displayPanel.getChildren().size() > 1) {
-      displayPanel.getChildren().remove(SEARCH_RESULTS);
-    }
-
-    // accessing text from all search fields
-    searchParameters = new SymbolStyleSearchParameters();
+    // get parameters from input fields
+    SymbolStyleSearchParameters searchParameters = new SymbolStyleSearchParameters();
     searchParameters.getNames().add(nameField.getText());
     searchParameters.getTags().add(tagField.getText());
     searchParameters.getSymbolClasses().add(symbolClassField.getText());
     searchParameters.getCategories().add(categoryField.getText());
     searchParameters.getKeys().add(keyField.getText());
 
-    // search for any matches in dictionary
-    ListenableFuture<List<SymbolStyleSearchResult>> searchResult = dictionarySymbol.searchSymbolsAsync(searchParameters);
-    searchResult.addDoneListener(() -> {
+    // search for any matching symbols
+    ListenableFuture<List<SymbolStyleSearchResult>> search = dictionarySymbol.searchSymbolsAsync(searchParameters);
+    search.addDoneListener(() -> {
       try {
-        symbolResults = searchResult.get();
-        int searchResultSize = symbolResults.size();
-
-        // only display search result if one or more items were found
-        if (searchResultSize > 0) {
-          // makes sure that at least one page will be created
-          Pagination pagination = new Pagination((int) Math.ceil(symbolResults.size() / MAX_RESULTS_PER_PAGE), 0);
-          pagination.setPageFactory(new Callback<Integer, Node>() {
-
-            public ListView<SymbolView> call(Integer pageIndex) {
-              ListView<SymbolView> listView = new ListView<>();
-              double results = MAX_RESULTS_PER_PAGE;
-              // if last page only show remaining results
-              if (pagination.getPageCount() == (pageIndex + 1)) {
-                results = searchResultSize % MAX_RESULTS_PER_PAGE;
-              }
-
-              // cycle through results and display to panel
-              for (int i = 0; i < results; i++) {
-                SymbolView box = new SymbolView(symbolResults.get((pageIndex + 1) * i));
-                listView.getItems().add(box);
-              }
-              return listView;
-            }
-          });
-          displayPanel.getChildren().add(pagination);
-        }
-        searchResultsFound.setText(String.valueOf(searchResultSize));
-
+        // update the result list (triggering the listener)
+        List<SymbolStyleSearchResult> searchResults = search.get();
+        searchResultsFound.setText(String.valueOf(searchResults.size()));
+        results.clear();
+        results.addAll(searchResults);
       } catch (ExecutionException | InterruptedException e) {
         e.printStackTrace();
       }
@@ -121,14 +107,12 @@ public class SymbolDictionaryController {
    */
   @FXML
   private void handleClearAction() {
-    displayPanel.getChildren().remove(SEARCH_RESULTS);
-    searchResultsFound.setText(String.valueOf(0));
-
-    // clear all text from search fields
     nameField.clear();
     tagField.clear();
     symbolClassField.clear();
     categoryField.clear();
     keyField.clear();
+    results.clear();
+    searchResultsFound.setText("");
   }
 }
