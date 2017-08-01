@@ -20,9 +20,12 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -33,25 +36,42 @@ import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 public class SymbolDictionaryController {
 
-  // injected elements from fxml
-  @FXML private ListView<SymbolView> resultList;
   @FXML private TextField nameField;
   @FXML private TextField tagField;
   @FXML private TextField symbolClassField;
   @FXML private TextField categoryField;
   @FXML private TextField keyField;
   @FXML private Text searchResultsFound;
+  @FXML private Pagination resultPages;
 
+  private ObservableList<SymbolStyleSearchResult> results;
   private DictionarySymbolStyle dictionarySymbol;
-  private SymbolStyleSearchParameters searchParameters;
+  private static final int MAX_RESULTS_PER_PAGE = 20;
 
-  /**
-   * Initialize fields after FXML is loaded.
-   */
   public void initialize() {
     // loads a specification for the symbol dictionary
     dictionarySymbol = new DictionarySymbolStyle("mil2525d");
     dictionarySymbol.loadAsync();
+
+    // initialize result list
+    results = FXCollections.observableArrayList();
+
+    // add listener to update pagination control when results change
+    results.addListener((ListChangeListener<SymbolStyleSearchResult>) e -> {
+      int resultSize = results.size();
+      resultPages.setPageCount(resultSize / MAX_RESULTS_PER_PAGE + 1);
+      resultPages.setCurrentPageIndex(0);
+      resultPages.setPageFactory(pageIndex -> {
+        ListView<SymbolView> resultsList = new ListView<>();
+        int start = pageIndex * MAX_RESULTS_PER_PAGE;
+        List<SymbolView> resultViews = results.subList(start, Math.min(start + MAX_RESULTS_PER_PAGE, results.size()))
+          .stream()
+          .map(SymbolView::new)
+          .collect(Collectors.toList());
+        resultsList.getItems().addAll(resultViews);
+        return resultsList;
+      });
+    });
   }
 
   /**
@@ -59,31 +79,23 @@ public class SymbolDictionaryController {
    */
   @FXML
   private void handleSearchAction() {
-    // clear previous results
-    resultList.getItems().clear();
-
-    // accessing text from all search fields
-    searchParameters = new SymbolStyleSearchParameters();
+    // get parameters from input fields
+    SymbolStyleSearchParameters searchParameters = new SymbolStyleSearchParameters();
     searchParameters.getNames().add(nameField.getText());
     searchParameters.getTags().add(tagField.getText());
     searchParameters.getSymbolClasses().add(symbolClassField.getText());
     searchParameters.getCategories().add(categoryField.getText());
     searchParameters.getKeys().add(keyField.getText());
 
-    // search for any matches in dictionary
-    ListenableFuture<List<SymbolStyleSearchResult>> searchResult = dictionarySymbol.searchSymbolsAsync(searchParameters);
-    searchResult.addDoneListener(() -> {
+    // search for any matching symbols
+    ListenableFuture<List<SymbolStyleSearchResult>> search = dictionarySymbol.searchSymbolsAsync(searchParameters);
+    search.addDoneListener(() -> {
       try {
-        List<SymbolStyleSearchResult> symbolResults = searchResult.get();
-
-        Platform.runLater(() -> {
-          // create and add results to listview
-          symbolResults.stream().map(SymbolView::new).collect(Collectors.toCollection(() -> resultList.getItems()));
-
-          // show result count
-          searchResultsFound.setText(String.valueOf(resultList.getItems().size()));
-        });
-
+        // update the result list (triggering the listener)
+        List<SymbolStyleSearchResult> searchResults = search.get();
+        searchResultsFound.setText(String.valueOf(searchResults.size()));
+        results.clear();
+        results.addAll(searchResults);
       } catch (ExecutionException | InterruptedException e) {
         e.printStackTrace();
       }
@@ -95,15 +107,12 @@ public class SymbolDictionaryController {
    */
   @FXML
   private void handleClearAction() {
-    // clear search results
-    resultList.getItems().clear();
-    searchResultsFound.setText(String.valueOf(0));
-
-    // clear all text from search fields
     nameField.clear();
     tagField.clear();
     symbolClassField.clear();
     categoryField.clear();
     keyField.clear();
+    results.clear();
+    searchResultsFound.setText("");
   }
 }
