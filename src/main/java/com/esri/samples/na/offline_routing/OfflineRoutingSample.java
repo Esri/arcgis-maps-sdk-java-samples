@@ -18,11 +18,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -32,7 +34,9 @@ import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.TileCache;
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -97,8 +101,28 @@ public class OfflineRoutingSample extends Application {
       routeTask = new RouteTask("./samples-data/san_diego/sandiego.geodatabase", "Streets_ND");
       routeTask.loadAsync();
 
+      // add a graphics overlay to show the boundary
+      Envelope envelope = new Envelope(new Point(-13045352.223196, 3864910.900750, 0, SpatialReferences.getWebMercator()),
+        new Point(-13024588.857198, 3838880.505604, 0, SpatialReferences.getWebMercator()));
+      SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF00FF00, 5);
+      Graphic boundary = new Graphic(envelope, boundarySymbol);
+      GraphicsOverlay boundaryOverlay = new GraphicsOverlay();
+      boundaryOverlay.getGraphics().add(boundary);
+      mapView.getGraphicsOverlays().add(boundaryOverlay);
+
       // create route parameters
-      routeParameters = routeTask.createDefaultParametersAsync().get();
+      routeTask.addDoneLoadingListener(() -> {
+        if (routeTask.getLoadStatus() == LoadStatus.LOADED) {
+          try {
+            routeParameters = routeTask.createDefaultParametersAsync().get();
+          } catch (InterruptedException | ExecutionException e) {
+            displayMessage("Error getting default route parameters", e.getMessage());
+          }
+        } else {
+          displayMessage("Error loading route task", routeTask.getLoadError().getMessage());
+        }
+      });
+
 
       // create symbol for route
       lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
@@ -257,6 +281,22 @@ public class OfflineRoutingSample extends Application {
         }
       });
     }
+  }
+
+  /**
+   * Shows a message in an alert dialog.
+   *
+   * @param title title of alert
+   * @param message message to display
+   */
+  private void displayMessage(String title, String message) {
+
+    Platform.runLater(() -> {
+      Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+      dialog.setHeaderText(title);
+      dialog.setContentText(message);
+      dialog.showAndWait();
+    });
   }
 
   /**
