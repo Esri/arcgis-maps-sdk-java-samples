@@ -23,7 +23,7 @@ the geodatabase will be added to the map.</p>
   .generateGeodatabaseAsync(parameters, filePath)</code>. Start the job with <code>job.start()</code>.</li>
   <li>When the job is done, <code>job.getResult()</code> will return the geodatabase. Inside the geodatabase are
   feature tables that can be used to add feature layers to the map.</li>
-  </li>Lastly, it is good practice to call <code>syncTask.unregisterGeodatabaseAsync(geodatabase)</code> when
+  <li>Lastly, it is good practice to call <code>syncTask.unregisterGeodatabaseAsync(geodatabase)</code> when
   you're not planning on syncing changes to the service.</li>
 </ol>
 
