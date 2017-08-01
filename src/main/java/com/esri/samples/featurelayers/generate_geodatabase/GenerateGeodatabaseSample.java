@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,6 +24,7 @@ import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -36,11 +38,7 @@ import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
 public class GenerateGeodatabaseSample extends Application {
 
   private MapView mapView;
-  private GenerateGeodatabaseParameters generateGeodatabaseParameters;
   private AtomicInteger replica = new AtomicInteger();
-
-  private static final String FEATURE_SERVICE_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -75,10 +73,13 @@ public class GenerateGeodatabaseSample extends Application {
       Button generateButton = new Button("Generate Geodatabase");
       generateButton.setDisable(true); //wait until sync task loaded
       ProgressBar progressBar = new ProgressBar();
+      progressBar.visibleProperty().bind(Bindings.createBooleanBinding(() -> progressBar.getProgress() > 0,
+      progressBar.progressProperty()));
       progressBar.setProgress(0.0);
 
       // create a geodatabase sync task
-      GeodatabaseSyncTask syncTask = new GeodatabaseSyncTask(FEATURE_SERVICE_URL);
+      String featureServiceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer";
+      GeodatabaseSyncTask syncTask = new GeodatabaseSyncTask(featureServiceURL);
       syncTask.loadAsync();
       syncTask.addDoneLoadingListener(() -> generateButton.setDisable(false));
 
@@ -94,21 +95,20 @@ public class GenerateGeodatabaseSample extends Application {
         graphicsOverlay.getGraphics().add(boundary);
 
         // create generate geodatabase parameters for the current extent
-        ListenableFuture<GenerateGeodatabaseParameters> parameters = syncTask
-            .createDefaultGenerateGeodatabaseParametersAsync(extent);
-        parameters.addDoneListener(() -> {
+        ListenableFuture<GenerateGeodatabaseParameters> defaultParameters = syncTask
+        .createDefaultGenerateGeodatabaseParametersAsync(extent);
+        defaultParameters.addDoneListener(() -> {
           try {
             // set parameters
-            generateGeodatabaseParameters = parameters.get();
-            generateGeodatabaseParameters.setReturnAttachments(false);
+            GenerateGeodatabaseParameters parameters = defaultParameters.get();
+            parameters.setReturnAttachments(false);
 
             // temporary file for geodatabase
             File tempFile = File.createTempFile("gdb" + replica.getAndIncrement(), ".geodatabase");
             tempFile.deleteOnExit();
 
             // create and start the job
-            GenerateGeodatabaseJob job = syncTask.generateGeodatabaseAsync(generateGeodatabaseParameters, tempFile
-                .getAbsolutePath());
+            GenerateGeodatabaseJob job = syncTask.generateGeodatabaseAsync(parameters, tempFile.getAbsolutePath());
             job.start();
 
             // show progress
@@ -124,12 +124,16 @@ public class GenerateGeodatabaseSample extends Application {
                 displayMessage("Geodatabase successfully generated", "Unregistering geodatabase since we're not " +
                 "syncing it here");
                 geodatabase.loadAsync();
-                geodatabase.addDoneLoadingListener(() ->
-                  geodatabase.getGeodatabaseFeatureTables().forEach(ft -> {
-                    ft.loadAsync();
-                    map.getOperationalLayers().add(new FeatureLayer(ft));
-                  })
-                );
+                geodatabase.addDoneLoadingListener(() -> {
+                  if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
+                    geodatabase.getGeodatabaseFeatureTables().forEach(ft -> {
+                      ft.loadAsync();
+                      map.getOperationalLayers().add(new FeatureLayer(ft));
+                    });
+                  } else {
+                    displayMessage("Error loading geodatabase", geodatabase.getLoadError().getMessage());
+                  }
+                });
                 // unregister since we're not syncing
                 syncTask.unregisterGeodatabaseAsync(geodatabase);
               } else if (job.getError() != null) {
