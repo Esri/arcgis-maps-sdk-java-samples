@@ -11,7 +11,6 @@
 
 package com.esri.samples.na.offline_routing;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -62,7 +61,6 @@ public class OfflineRoutingSample extends Application {
   private GraphicsOverlay routeOverlay;
   private RouteTask routeTask;
   private RouteParameters routeParameters;
-  private List<Graphic> stopGraphics;
   private LineSymbol lineSymbol;
 
   private EventHandler<MouseEvent> mouseMovedListener;
@@ -90,18 +88,51 @@ public class OfflineRoutingSample extends Application {
       ArcGISMap map = new ArcGISMap(basemap);
       mapView = new MapView();
       mapView.setMap(map);
-      // display map view to application
-      stackPane.getChildren().add(mapView);
 
       // create graphics overlays for route and stops
       stopsOverlay = new GraphicsOverlay();
       routeOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().addAll(Arrays.asList(routeOverlay, stopsOverlay));
-      stopGraphics = new ArrayList<>();
+
+      ComboBox<TravelMode> travelModes = new ComboBox<>();
+      travelModes.getSelectionModel().selectedItemProperty().addListener(o -> {
+        routeParameters.setTravelMode(travelModes.getSelectionModel().getSelectedItem());
+        updateRoute();
+      });
+      // display travel mode name within combobox
+      travelModes.setConverter(new StringConverter<TravelMode>() {
+
+        @Override
+        public String toString(TravelMode travelMode) {
+
+          return travelMode.getName();
+        }
+
+        @Override
+        public TravelMode fromString(String fileName) {
+
+          return null;
+        }
+      });
 
       // create an offline RouteTask
       routeTask = new RouteTask("./samples-data/san_diego/sandiego.geodatabase", "Streets_ND");
       routeTask.loadAsync();
+      routeTask.addDoneLoadingListener(() -> {
+        if (routeTask.getLoadStatus() == LoadStatus.LOADED) {
+          try {
+            // create route parameters
+            routeParameters = routeTask.createDefaultParametersAsync().get();
+
+            travelModes.getItems().addAll(routeTask.getRouteTaskInfo().getTravelModes());
+            travelModes.getSelectionModel().select(0);
+          } catch (InterruptedException | ExecutionException e) {
+            displayMessage("Error getting default route parameters", e.getMessage());
+          }
+        } else {
+          displayMessage("Error loading route task", routeTask.getLoadError().getMessage());
+        }
+      });
 
       // add a graphics overlay to show the boundary
       Envelope envelope = new Envelope(new Point(-13045352.223196, 3864910.900750, 0, SpatialReferences.getWebMercator()),
@@ -111,49 +142,6 @@ public class OfflineRoutingSample extends Application {
       GraphicsOverlay boundaryOverlay = new GraphicsOverlay();
       boundaryOverlay.getGraphics().add(boundary);
       mapView.getGraphicsOverlays().add(boundaryOverlay);
-
-      routeTask.addDoneLoadingListener(() -> {
-        if (routeTask.getLoadStatus() == LoadStatus.LOADED) {
-          try {
-            // create route parameters
-            routeParameters = routeTask.createDefaultParametersAsync().get();
-
-            // create travel mode selector
-            List<TravelMode> travelModeList = routeTask.getRouteTaskInfo().getTravelModes();
-            ComboBox<TravelMode> travelModes = new ComboBox<>();
-            travelModes.getItems().addAll(travelModeList);
-            travelModes.getSelectionModel().selectedItemProperty().addListener(o -> {
-              routeParameters.setTravelMode(travelModes.getSelectionModel().getSelectedItem());
-              updateRoute();
-            });
-            // display travel mode name within combobox
-            travelModes.setConverter(new StringConverter<TravelMode>() {
-
-              @Override
-              public String toString(TravelMode travelMode) {
-
-                return travelMode.getName();
-              }
-
-              @Override
-              public TravelMode fromString(String fileName) {
-
-                return null;
-              }
-            });
-            travelModes.getSelectionModel().select(0);
-
-            // add travel mode selection to application
-            stackPane.getChildren().add(travelModes);
-            StackPane.setAlignment(travelModes, Pos.TOP_LEFT);
-            StackPane.setMargin(travelModes, new Insets(10, 0, 0, 10));
-          } catch (InterruptedException | ExecutionException e) {
-            displayMessage("Error getting default route parameters", e.getMessage());
-          }
-        } else {
-          displayMessage("Error loading route task", routeTask.getLoadError().getMessage());
-        }
-      });
 
       // create symbol for route
       lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
@@ -197,7 +185,6 @@ public class OfflineRoutingSample extends Application {
             // create and add the stop graphic to the graphics overlay and list
             Graphic stopGraphic = new Graphic(point, stopLabel);
             stopsOverlay.getGraphics().add(stopGraphic);
-            stopGraphics.add(stopGraphic);
 
             // update the route
             updateRoute();
@@ -236,6 +223,12 @@ public class OfflineRoutingSample extends Application {
           }
         }
       });
+
+      // add controls to stackpane
+      stackPane.getChildren().addAll(mapView, travelModes);
+      StackPane.setAlignment(travelModes, Pos.TOP_LEFT);
+      StackPane.setMargin(travelModes, new Insets(10, 0, 0, 10));
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -247,14 +240,14 @@ public class OfflineRoutingSample extends Application {
    */
   private void updateRoute() {
 
-    if (stopGraphics.size() > 1) {
+    if (stopsOverlay.getGraphics().size() > 1) {
       // remove listener until route task is solved
       if (!stopsOverlay.getSelectedGraphics().isEmpty()) {
         mapView.setOnMouseMoved(null);
       }
 
       // update stops and solve route
-      List<Stop> stops = stopGraphics.stream()
+      List<Stop> stops = stopsOverlay.getGraphics().stream()
           .map(g -> new Stop((Point) g.getGeometry()))
           .collect(Collectors.toList());
       routeParameters.setStops(stops);
