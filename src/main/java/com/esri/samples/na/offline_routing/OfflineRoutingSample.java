@@ -90,6 +90,8 @@ public class OfflineRoutingSample extends Application {
       ArcGISMap map = new ArcGISMap(basemap);
       mapView = new MapView();
       mapView.setMap(map);
+      // display map view to application
+      stackPane.getChildren().add(mapView);
 
       // create graphics overlays for route and stops
       stopsOverlay = new GraphicsOverlay();
@@ -103,18 +105,48 @@ public class OfflineRoutingSample extends Application {
 
       // add a graphics overlay to show the boundary
       Envelope envelope = new Envelope(new Point(-13045352.223196, 3864910.900750, 0, SpatialReferences.getWebMercator()),
-        new Point(-13024588.857198, 3838880.505604, 0, SpatialReferences.getWebMercator()));
+          new Point(-13024588.857198, 3838880.505604, 0, SpatialReferences.getWebMercator()));
       SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF00FF00, 5);
       Graphic boundary = new Graphic(envelope, boundarySymbol);
       GraphicsOverlay boundaryOverlay = new GraphicsOverlay();
       boundaryOverlay.getGraphics().add(boundary);
       mapView.getGraphicsOverlays().add(boundaryOverlay);
 
-      // create route parameters
       routeTask.addDoneLoadingListener(() -> {
         if (routeTask.getLoadStatus() == LoadStatus.LOADED) {
           try {
+            // create route parameters
             routeParameters = routeTask.createDefaultParametersAsync().get();
+
+            // create travel mode selector
+            List<TravelMode> travelModeList = routeTask.getRouteTaskInfo().getTravelModes();
+            ComboBox<TravelMode> travelModes = new ComboBox<>();
+            travelModes.getItems().addAll(travelModeList);
+            travelModes.getSelectionModel().selectedItemProperty().addListener(o -> {
+              routeParameters.setTravelMode(travelModes.getSelectionModel().getSelectedItem());
+              updateRoute();
+            });
+            // display travel mode name within combobox
+            travelModes.setConverter(new StringConverter<TravelMode>() {
+
+              @Override
+              public String toString(TravelMode travelMode) {
+
+                return travelMode.getName();
+              }
+
+              @Override
+              public TravelMode fromString(String fileName) {
+
+                return null;
+              }
+            });
+            travelModes.getSelectionModel().select(0);
+
+            // add travel mode selection to application
+            stackPane.getChildren().add(travelModes);
+            StackPane.setAlignment(travelModes, Pos.TOP_LEFT);
+            StackPane.setMargin(travelModes, new Insets(10, 0, 0, 10));
           } catch (InterruptedException | ExecutionException e) {
             displayMessage("Error getting default route parameters", e.getMessage());
           }
@@ -122,7 +154,6 @@ public class OfflineRoutingSample extends Application {
           displayMessage("Error loading route task", routeTask.getLoadError().getMessage());
         }
       });
-
 
       // create symbol for route
       lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
@@ -205,36 +236,6 @@ public class OfflineRoutingSample extends Application {
           }
         }
       });
-
-      // create travel mode selector
-      List<TravelMode> travelModeList = routeTask.getRouteTaskInfo().getTravelModes();
-      ComboBox<TravelMode> travelModes = new ComboBox<>();
-      travelModes.getItems().addAll(travelModeList);
-      travelModes.getSelectionModel().selectedItemProperty().addListener(o -> {
-        routeParameters.setTravelMode(travelModes.getSelectionModel().getSelectedItem());
-        updateRoute();
-      });
-      travelModes.setConverter(new StringConverter<TravelMode>() {
-
-        @Override
-        public String toString(TravelMode travelMode) {
-
-          return travelMode.getName();
-        }
-
-        @Override
-        public TravelMode fromString(String fileName) {
-
-          return null;
-        }
-      });
-      travelModes.getSelectionModel().select(0);
-
-      // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, travelModes);
-      StackPane.setAlignment(travelModes, Pos.TOP_LEFT);
-      StackPane.setMargin(travelModes, new Insets(10, 0, 0, 10));
-
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
