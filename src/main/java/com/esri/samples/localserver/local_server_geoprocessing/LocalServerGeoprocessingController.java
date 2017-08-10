@@ -111,7 +111,7 @@ public class LocalServerGeoprocessingController {
             });
             localGPService.startAsync();
           } else if (server.getStatus() == LocalServerStatus.FAILED) {
-            showMessage("Loval Geoprocessing Load Error", "Local Geoprocessing Failed to load.");
+            showMessage("Local Geoprocessing Load Error", "Local Geoprocessing Failed to load.");
           }
         });
         server.startAsync();
