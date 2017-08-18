@@ -42,6 +42,7 @@ import com.esri.arcgisruntime.data.Attachment;
 import com.esri.arcgisruntime.data.FeatureEditResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.GeoElement;
@@ -90,8 +91,7 @@ public class EditFeatureAttachmentsSample extends Application {
       attachmentList = new ListView<>();
       attachmentsLabel = new Label("Attachments: ");
       attachmentsLabel.getStyleClass().add("panel-label");
-      attachmentList.getSelectionModel().selectedItemProperty().addListener((event) -> 
-          deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1));
+      attachmentList.getSelectionModel().selectedItemProperty().addListener((event) -> deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1));
 
       // create add/delete buttons
       addAttachmentButton = new Button("Add Attachment");
@@ -159,7 +159,14 @@ public class EditFeatureAttachmentsSample extends Application {
                   selected = (ArcGISFeature) element;
                   featureLayer.selectFeature(selected);
                   selected.loadAsync();
-                  selected.addDoneLoadingListener(() -> fetchAttachments(selected));
+                  selected.addDoneLoadingListener(() -> {
+                    if (selected.getLoadStatus() == LoadStatus.LOADED) {
+                      fetchAttachments(selected);
+                    } else {
+                      Alert alert = new Alert(Alert.AlertType.ERROR, "Element Failed to Load!");
+                      alert.show();
+                    }
+                  });
                   addAttachmentButton.setDisable(false);
                 }
               }

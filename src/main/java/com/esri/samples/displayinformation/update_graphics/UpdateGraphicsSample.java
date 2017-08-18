@@ -25,6 +25,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -37,6 +38,7 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -147,9 +149,14 @@ public class UpdateGraphicsSample extends Application {
 
       // enable buttons when map view is done loading
       map.addDoneLoadingListener(() -> {
-        symbolBox.setDisable(false);
-        updateLocationButton.setDisable(false);
-        updateDescriptionButton.setDisable(false);
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          symbolBox.setDisable(false);
+          updateLocationButton.setDisable(false);
+          updateDescriptionButton.setDisable(false);
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Map Failed to Load!");
+          alert.show();
+        }
       });
 
       // create a map view and set the map to it

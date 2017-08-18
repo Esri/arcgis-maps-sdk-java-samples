@@ -24,6 +24,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -31,6 +32,7 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -96,7 +98,14 @@ public class PictureMarkerSymbolSample extends Application {
       PictureMarkerSymbol campsiteSymbol = new PictureMarkerSymbol(CAMPSITE_SYMBOL);
 
       // place campsite picture marker symbol on ArcGISMap
-      map.addDoneLoadingListener(() -> Platform.runLater(() -> placePictureMarkerSymbol(campsiteSymbol, rightPoint)));
+      map.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          Platform.runLater(() -> placePictureMarkerSymbol(campsiteSymbol, rightPoint));
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Map Failed to Load!");
+          alert.show();
+        }
+      });
 
       // set ArcGISMap to be displayed in mapview
       mapView.setMap(map);
@@ -130,8 +139,13 @@ public class PictureMarkerSymbolSample extends Application {
 
     // add to the graphic overlay once done loading
     markerSymbol.addDoneLoadingListener(() -> {
-      Graphic symbolGraphic = new Graphic(graphicPoint, markerSymbol);
-      graphicsOverlay.getGraphics().add(symbolGraphic);
+      if (markerSymbol.getLoadStatus() == LoadStatus.LOADED) {
+        Graphic symbolGraphic = new Graphic(graphicPoint, markerSymbol);
+        graphicsOverlay.getGraphics().add(symbolGraphic);
+      } else {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Picture Marker Symbol Failed to Load!");
+        alert.show();
+      }
     });
 
   }

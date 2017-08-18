@@ -21,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -36,6 +37,7 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -137,7 +139,14 @@ public class SpatialOperationsSample extends Application {
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
 
       // enable geometry operations when ArcGISMap is done loading
-      map.addDoneLoadingListener(() -> geomOperationBox.setDisable(false));
+      map.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          geomOperationBox.setDisable(false);
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Map Failed to Load!");
+          alert.show();
+        }
+      });
 
       mapView = new MapView();
       mapView.setMap(map);

@@ -25,6 +25,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -38,6 +39,7 @@ import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -98,7 +100,14 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       final FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
       // enable button when feature layer is done loading
-      featureLayer.addDoneLoadingListener(() -> requestCacheButton.setDisable(false));
+      featureLayer.addDoneLoadingListener(() -> {
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+          requestCacheButton.setDisable(false);
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!");
+          alert.show();
+        }
+      });
 
       // create a ArcGISMap with topographic basemap
       ArcGISMap map = new ArcGISMap(Basemap.createTopographic());

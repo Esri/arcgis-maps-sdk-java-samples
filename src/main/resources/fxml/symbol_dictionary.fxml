@@ -18,40 +18,42 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-
-<?import javafx.scene.control.ListView?>
-<VBox fx:controller="com.esri.samples.symbology.symbol_dictionary.SymbolDictionaryController"
-      xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
+<BorderPane fx:controller="com.esri.samples.symbology.symbol_dictionary.SymbolDictionaryController"
+            xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
+    <padding>
+        <Insets bottom="10"/>
+    </padding>
     <!-- Top Pane for Search Result -->
-    <GridPane hgap="10" vgap="10"  prefHeight="200">
-        <padding><Insets top="25" bottom="25" left="25"/></padding>
-        <Label text="Name: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <!-- Search Result Fields -->
-        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        <Label text="Tag: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="tagField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <Label text="Symbol Class: " GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextField fx:id="symbolClassField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Label text="Category: " GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <TextField fx:id="categoryField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-        <Label text="Key: " GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-        <TextField fx:id="keyField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-        <!--  Button Actions-->
-        <Button text="Search for Symbols" onAction="#handleSearchAction" 
-                GridPane.columnIndex="2" GridPane.rowIndex="5"/>
-        <HBox alignment="center_right"  GridPane.columnIndex="1" GridPane.rowIndex="5">
-            <Button text="Clear" onAction="#handleClearAction" alignment="bottom_right"/>
-        </HBox>
-        <!--  Displaying Results-->     
-        <Label text="Result(s) Found: " GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-        <Text fx:id="searchResultsFound" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-    </GridPane>
-    
-    <!--  Bottom Pane for Displaying Symbols -->
-    <ListView fx:id="resultList" VBox.vgrow="ALWAYS"/>
-</VBox>
+    <top>
+        <GridPane hgap="10" vgap="10"  prefHeight="200">
+            <padding><Insets top="25" bottom="25" left="25"/></padding>
+            <Label text="Name: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <!-- Search Result Fields -->
+            <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Label text="Tag: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="tagField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Symbol Class: " GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="symbolClassField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label text="Category: " GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="categoryField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label text="Key: " GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="keyField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <!--  Button Actions-->
+            <Button text="Search for Symbols" onAction="#handleSearchAction"
+                    GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+            <HBox alignment="center_right"  GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <Button text="Clear" onAction="#handleClearAction" alignment="bottom_right"/>
+            </HBox>
+            <!--  Displaying Results-->
+            <Label text="Result(s) Found: " GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <Text fx:id="searchResultsFound" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+        </GridPane>
+    </top>
+    <center>
+        <Pagination fx:id="resultPages" pageCount="1"/>
+    </center>
+</BorderPane>

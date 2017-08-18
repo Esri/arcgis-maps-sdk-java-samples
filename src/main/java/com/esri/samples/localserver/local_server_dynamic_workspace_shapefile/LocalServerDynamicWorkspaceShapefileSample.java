@@ -161,10 +161,18 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
             imageLayer.getSublayers().add(shapefileSublayer);
 
             shapefileSublayer.addDoneLoadingListener(() -> {
-              // zoom the map to the extent of the added shapefile layer
-              mapView.setViewpoint(new Viewpoint(shapefileSublayer.getMapServiceSublayerInfo().getExtent()));
+              if (shapefileSublayer.getLoadStatus() == LoadStatus.LOADED) {
+                // zoom the map to the extent of the added shapefile layer
+                mapView.setViewpoint(new Viewpoint(shapefileSublayer.getMapServiceSublayerInfo().getExtent()));
+              } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Map Image Sublayer Failed to Load!");
+                alert.show();
+              }
             });
             shapefileSublayer.loadAsync();
+          } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Map Image Layer Failed to Load!");
+            alert.show();
           }
         });
         imageLayer.loadAsync();

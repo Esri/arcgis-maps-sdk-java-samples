@@ -16,9 +16,9 @@
 
 package com.esri.samples.editing.update_geometries;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -26,6 +26,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -33,6 +34,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureEditResult;
+import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -47,7 +49,6 @@ public class UpdateGeometriesSample extends Application {
   private MapView mapView;
   private static ServiceFeatureTable featureTable;
   private static FeatureLayer featureLayer;
-  private static Feature selected;
 
   private static final String FEATURE_LAYER_URL =
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
@@ -67,55 +68,74 @@ public class UpdateGeometriesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with streets basemap
+      // create a map with streets basemap and set it to a map view
       ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
-
-      // create a view for this ArcGISMap
       mapView = new MapView();
-
-      // create service feature table from URL
-      featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
-
-      // create a feature layer from table
-      featureLayer = new FeatureLayer(featureTable);
-
-      // add the layer to the ArcGISMap
-      map.getOperationalLayers().add(featureLayer);
-
-      // set ArcGISMap to be displayed in view
       mapView.setMap(map);
 
-      mapView.setOnMouseClicked(event -> {
-        // check for primary or secondary mouse click
-        if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
+      // add features from a feature service
+      featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
+      featureLayer = new FeatureLayer(featureTable);
+      map.getOperationalLayers().add(featureLayer);
 
-          // create a point from where the user clicked
+      // handle clicks on the map view to select and move features
+      mapView.setOnMouseClicked((MouseEvent event) -> {
+        if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
+          // get screen point where user clicked
           Point2D point = new Point2D(event.getX(), event.getY());
 
-          // create map point from point
+          // get map location corresponding to screen point
           Point mapPoint = mapView.screenToLocation(point);
 
-          // identify the clicked feature
-          ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false);
+          // identify any clicked feature
+          ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false, 1);
           results.addDoneListener(() -> {
             try {
+
               // get selected feature
               List<GeoElement> elements = results.get().getElements();
-              if (elements.size() > 0 && elements.get(0) instanceof Feature) {
-                selected = (Feature) elements.get(0);
+              if (elements.size() > 0 && elements.get(0) instanceof ArcGISFeature) {
 
-                // replace the previous selection
-                featureLayer.clearSelection();
+                // clicked on a feature, select it
+                ArcGISFeature selected = (ArcGISFeature) elements.get(0);
+                featureLayer.clearSelection(); //clear previous selections
                 featureLayer.selectFeature(selected);
+
               } else {
-                // move selected features
-                moveSelected(mapPoint);
+
+                // didn't click on a feature
+                ListenableFuture<FeatureQueryResult> selectedQuery =  featureLayer.getSelectedFeaturesAsync();
+                selectedQuery.addDoneListener(() -> {
+                  try {
+                    // check if a feature is currently selected
+                    FeatureQueryResult selectedQueryResult = selectedQuery.get();
+                    Iterator<Feature> features = selectedQueryResult.iterator();
+                    if (features.hasNext()) {
+                      // move selected feature to clicked location
+                      ArcGISFeature selected = (ArcGISFeature) features.next();
+                      selected.loadAsync();
+                      selected.addDoneLoadingListener(() -> {
+                        if (selected.canUpdateGeometry()) {
+                          selected.setGeometry(mapPoint);
+                          ListenableFuture<Void> featureTableResult = featureTable.updateFeatureAsync(selected);
+                          // apply the edits to the service
+                          featureTableResult.addDoneListener(UpdateGeometriesSample::applyEdits);
+                        }
+                      });
+
+                    } // else nothing currently selected, do nothing
+
+                  } catch (InterruptedException | ExecutionException e) {
+                    displayMessage("Exception getting selected feature", e.getCause().getMessage());
+                  }
+                });
               }
             } catch (InterruptedException | ExecutionException e) {
-              displayMessage("Exception getting identify result", e.getCause().getMessage());
+              displayMessage("Exception getting clicked feature", e.getCause().getMessage());
             }
           });
-          // check for secondary mouse click
+
+          // on secondary mouse click, clear feature selection
         } else if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
           featureLayer.clearSelection();
         }
@@ -128,24 +148,6 @@ public class UpdateGeometriesSample extends Application {
       // on any error, display the stack trace
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Updates the location of the selected features.
-   * 
-   * @param newPoint new location to move selected feature
-   */
-  private void moveSelected(Point newPoint) {
-
-    // check if feature allows updating and move it
-    Stream.of(selected).map(f -> (ArcGISFeature) f).filter(ArcGISFeature::canUpdateGeometry).forEach(f -> {
-      // update position
-      f.setGeometry(newPoint);
-
-      // update the feature to display on map view
-      ListenableFuture<Void> featureTableResult = featureTable.updateFeatureAsync(f);
-      featureTableResult.addDoneListener(UpdateGeometriesSample::applyEdits);
-    });
   }
 
   /**
