@@ -26,7 +26,7 @@ public class RasterLayerURLSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Raster Layer URL");
+      stage.setTitle("Raster Layer URL Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -39,7 +39,7 @@ public class RasterLayerURLSample extends Application {
       // create a raster layer
       RasterLayer rasterLayer = new RasterLayer(imageServiceRaster);
 
-      // create a map with imagery basemap
+      // create a map with dark canvas vector basemap
       ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
 
       // add the map to a map view
