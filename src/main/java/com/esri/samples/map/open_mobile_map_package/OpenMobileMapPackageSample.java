@@ -66,7 +66,7 @@ public class OpenMobileMapPackageSample extends Application {
       });
 
       // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
+      stackPane.getChildren().add(mapView);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
