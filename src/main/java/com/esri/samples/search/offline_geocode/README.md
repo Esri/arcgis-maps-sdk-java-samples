@@ -6,7 +6,9 @@
 
 <h2>How to use the sample</h2>
 
-<p>For simplicity, the sample comes loaded with a set of addresses. You can select any address to perform geocoding and show it's location on map. To perform reverse geocoding in real-time, click on any location on the ArcGISMap to provide it's address.</p>
+<p>For simplicity, the sample comes loaded with a set of addresses. You can select any address to perform geocoding 
+and show it's location on map. You can select the pin and move the mouse to perform reverse geocoding in real-time.
+.</p>
 
 <h2>How it works</h2>
 
@@ -18,7 +20,8 @@
     <li>Add the map to the <code>MapView</code>, <code>MapView.setMap()</code>. </li>
     <li>Create a <code>LocatorTask</code> using a URI to the offline locator file and define the <code>ReverseGeocodeParameters</code>/<code>GeocodeParameters</code> for  the LocatorTask.</li>
     <li>To geocode an address, set the geocode parameters and use <code>LocatorTask.geocodeAsync(geocodeParameters)</code>.</li>
-    <li>To reverse geocode a location, get the <code>Point</code> location on the map view and use <code>LocatorTask.reverseGeocodeAsync(Point)</code>.</li>
+    <li>To reverse geocode a location, get the <code>Point</code> location on the map view and use <code>LocatorTask
+    .reverseGeocodeAsync(point, reverseGeocodeParameters)</code>.</li>
     <li>Show the retrieved results by creating a <code>PictureMarkerSymbol</code> with attributes from the result and add that symbol to a <code>Graphic</code>  in the <code>GraphicsOverlay</code>.</li>
 </ol>
 
