@@ -16,6 +16,7 @@
 
 package com.esri.samples.search.offline_geocode;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -124,8 +125,8 @@ public class OfflineGeocodeSample extends Application {
       });
 
       // create a basemap from a local tile package
-      TileCache tileCache = new TileCache(System.getProperty("user.dir") +
-          "/samples-data/sanfrancisco/SanFrancisco.tpk");
+      final String tileCachePath = new File("/samples-data/sanfrancisco/SanFrancisco.tpk").getAbsolutePath();
+      TileCache tileCache = new TileCache(tileCachePath);
       tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
 
@@ -163,8 +164,8 @@ public class OfflineGeocodeSample extends Application {
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
 
       // create a locator task
-      locatorTask = new LocatorTask(System.getProperty("user.dir") +
-          "/samples-data/sanfrancisco/SanFranciscoLocator.loc");
+      final String locatorPath = new File("/samples-data/sanfrancisco/SanFranciscoLocator.loc").getAbsolutePath();
+      locatorTask = new LocatorTask(locatorPath);
 
       // set geocode task parameters
       geocodeParameters = new GeocodeParameters();
@@ -173,8 +174,7 @@ public class OfflineGeocodeSample extends Application {
 
       // set reverse geocode task parameters
       reverseGeocodeParameters = new ReverseGeocodeParameters();
-      reverseGeocodeParameters.getResultAttributeNames().add("*"); // return all
-                                                                  // attributes
+      reverseGeocodeParameters.getResultAttributeNames().add("*");
       reverseGeocodeParameters.setOutputSpatialReference(mapView.getSpatialReference());
 
       // create mouse moved event handler
