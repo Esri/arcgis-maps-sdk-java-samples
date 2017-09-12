@@ -18,11 +18,13 @@ package com.esri.samples.featurelayers.feature_layer_dictionary_renderer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -59,23 +61,33 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     symbolDictionary.loadAsync();
 
     geodatabase.addDoneLoadingListener(() -> {
-      geodatabase.getGeodatabaseFeatureTables().forEach(table -> {
-        // add each layer to map
-        FeatureLayer featureLayer = new FeatureLayer(table);
-        featureLayer.loadAsync();
-        // Features no longer show after this scale
-        featureLayer.setMinScale(1000000);
-        map.getOperationalLayers().add(featureLayer);
+      if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
+        geodatabase.getGeodatabaseFeatureTables().forEach(table -> {
+          // add each layer to map
+          FeatureLayer featureLayer = new FeatureLayer(table);
+          featureLayer.loadAsync();
+          // Features no longer show after this scale
+          featureLayer.setMinScale(1000000);
+          map.getOperationalLayers().add(featureLayer);
 
-        // displays features from layer using mil2525d symbols
-        DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(symbolDictionary);
-        featureLayer.setRenderer(dictionaryRenderer);
+          // displays features from layer using mil2525d symbols
+          DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(symbolDictionary);
+          featureLayer.setRenderer(dictionaryRenderer);
 
-        featureLayer.addDoneLoadingListener(() -> {
-          // initial viewpoint to encompass all graphics displayed on the map view 
-          mapView.setViewpointGeometryAsync(featureLayer.getFullExtent());
+          featureLayer.addDoneLoadingListener(() -> {
+            if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+              // initial viewpoint to encompass all graphics displayed on the map view 
+              mapView.setViewpointGeometryAsync(featureLayer.getFullExtent());
+            } else {
+              Alert alert = new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!");
+              alert.show();
+            }
+          });
         });
-      });
+      } else {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Geodatabase Failed to Load!");
+        alert.show();
+      }
     });
   }
 

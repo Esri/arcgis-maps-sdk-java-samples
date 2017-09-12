@@ -20,12 +20,14 @@ import java.io.File;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -59,17 +61,27 @@ public class FeatureLayerGeodatabase extends Application {
       String geodatabaseUrl = new File("samples-data/los_angeles/LA_Trails.geodatabase").getAbsolutePath();
       Geodatabase geodatabase = new Geodatabase(geodatabaseUrl);
       geodatabase.addDoneLoadingListener(() -> {
-        // access the geodatabase's feature table Trailheads
-        GeodatabaseFeatureTable geodatabaseFeatureTable = geodatabase.getGeodatabaseFeatureTable("Trailheads");
-        geodatabaseFeatureTable.loadAsync();
-        // create a layer from the geodatabase feature table above and add to map
-        FeatureLayer featureLayer = new FeatureLayer(geodatabaseFeatureTable);
-        featureLayer.addDoneLoadingListener(() -> {
-          // set viewpoint to the location of feature layer's features
-          mapView.setViewpointCenterAsync(featureLayer.getFullExtent().getCenter(), 1000000);
-        });
-        // display feature layer to the map view
-        map.getOperationalLayers().add(featureLayer);
+        if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
+          // access the geodatabase's feature table Trailheads
+          GeodatabaseFeatureTable geodatabaseFeatureTable = geodatabase.getGeodatabaseFeatureTable("Trailheads");
+          geodatabaseFeatureTable.loadAsync();
+          // create a layer from the geodatabase feature table above and add to map
+          FeatureLayer featureLayer = new FeatureLayer(geodatabaseFeatureTable);
+          featureLayer.addDoneLoadingListener(() -> {
+            if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+              // set viewpoint to the location of feature layer's features
+              mapView.setViewpointCenterAsync(featureLayer.getFullExtent().getCenter(), 1000000);
+            } else {
+              Alert alert = new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!");
+              alert.show();
+            }
+          });
+          // display feature layer to the map view
+          map.getOperationalLayers().add(featureLayer);
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Geodatabase Failed to Load!");
+          alert.show();
+        }
       });
       // load geodatabase
       geodatabase.loadAsync();

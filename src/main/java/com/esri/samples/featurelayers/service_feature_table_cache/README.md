@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to use a feature service in in an on-interaction-cache mode. This is the default mode for a Service Feature Table.</p>
 
-<p>On-interaction-no-cache mode will always fetch Features from the server and doesn't cache any Features on the client's side. This means that Features will be fetched whenever the ArcGISMap pans, zooms, selects, or queries.</p>
+<p>On-interaction-cache mode will fetch Features within current extent when needed (performing a pan or zoom) from the server and caches those Features within a table on the client's side. Any queries performed on features within that table will be performed locally, otherwise they will be requested from the server.</p>
 
 <p><img src="ServiceFeatureTableCache.png"/></p>
 

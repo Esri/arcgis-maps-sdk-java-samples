@@ -41,6 +41,7 @@ import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.FeatureEditResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.GeoElement;
@@ -148,7 +149,14 @@ public class UpdateAttributesSample extends Application {
                   selected = (ArcGISFeature) element;
                   featureLayer.selectFeature(selected);
                   selected.loadAsync();
-                  selected.addDoneLoadingListener(() -> selectAttribute(selected));
+                  selected.addDoneLoadingListener(() -> {
+                    if (selected.getLoadStatus() == LoadStatus.LOADED) {
+                      selectAttribute(selected);
+                    } else {
+                      Alert alert = new Alert(Alert.AlertType.ERROR, "Element Failed to Load!");
+                      alert.show();
+                    }
+                  });
                   comboBox.setDisable(false);
                 }
               }

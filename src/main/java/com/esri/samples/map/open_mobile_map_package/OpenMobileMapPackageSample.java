@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.raster_layer_file;
+package com.esri.samples.map.open_mobile_map_package;
 
 import java.io.File;
 
@@ -24,14 +24,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.raster.Raster;
 
-public class RasterLayerFileSample extends Application {
+public class OpenMobileMapPackageSample extends Application {
 
   private MapView mapView;
 
@@ -44,40 +41,32 @@ public class RasterLayerFileSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Raster Layer File");
+      stage.setTitle("Open Mobile Map Package Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
 
-      // create a raster from a local raster file
-      Raster raster = new Raster(new File("./samples-data/raster/Shasta.tif").getAbsolutePath());
-
-      // create a raster layer
-      RasterLayer rasterLayer = new RasterLayer(raster);
-
-      // create a Map with imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
-
-      // add the map to a map view
+      // create a map view
       mapView = new MapView();
-      mapView.setMap(map);
 
-      // add the raster as an operational layer
-      map.getOperationalLayers().add(rasterLayer);
+      //load a mobile map package
+      final String mmpkPath = new File("samples-data/mmpk/Yellowstone.mmpk").getAbsolutePath();
+      MobileMapPackage mobileMapPackage = new MobileMapPackage(mmpkPath);
 
-      // set viewpoint on the raster
-      rasterLayer.addDoneLoadingListener(() -> {
-        if (rasterLayer.getLoadStatus() == LoadStatus.LOADED) {
-          mapView.setViewpointGeometryAsync(rasterLayer.getFullExtent(), 150);
+      mobileMapPackage.loadAsync();
+      mobileMapPackage.addDoneLoadingListener(() -> {
+        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && mobileMapPackage.getMaps().size() > 0) {
+          //add the map from the mobile map package to the map view
+          mapView.setMap(mobileMapPackage.getMaps().get(0));
         } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Raster Layer Failed to Load!");
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package");
           alert.show();
         }
       });
 
       // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
+      stackPane.getChildren().add(mapView);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();

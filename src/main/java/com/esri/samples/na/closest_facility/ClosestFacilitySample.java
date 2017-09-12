@@ -34,6 +34,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -54,14 +55,15 @@ public class ClosestFacilitySample extends Application {
 
   // black cross were user clicked
   private Point incidentPoint;
-  private GraphicsOverlay graphicsOverlay;
+  private GraphicsOverlay facilityGraphicsOverlay;
+  private GraphicsOverlay incidentGraphicsOverlay;
   // holds locations of hospitals around San Diego
   private List<Facility> facilities;
   private MapView mapView;
   // solves task to find closest route between an incident and a facility
   private ClosestFacilityTask task;
   // parameters needed to solve for route
-  private ClosestFacilityParameters facilityParameters;
+  private ClosestFacilityParameters closestFacilityParameters;
   // used to display route between incident and facility to mapview
   private SimpleLineSymbol routeSymbol;
   // same spatial reference of the map
@@ -93,20 +95,29 @@ public class ClosestFacilitySample extends Application {
       // set view to be over San Diego
       mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
-      graphicsOverlay = new GraphicsOverlay();
+      facilityGraphicsOverlay = new GraphicsOverlay();
+      incidentGraphicsOverlay = new GraphicsOverlay();
       createFacilitiesAndGraphics();
       // to load graphics faster, add graphics overlay to view once all graphics are in graphics overlay
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
+      mapView.getGraphicsOverlays().add(facilityGraphicsOverlay);
+      mapView.getGraphicsOverlays().add(incidentGraphicsOverlay);
 
       // task to find the closest route between an incident and a facility 
       final String sanDiegoRegion =
           "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility";
       task = new ClosestFacilityTask(sanDiegoRegion);
       task.addDoneLoadingListener(() -> {
-        try {
-          facilityParameters = task.createDefaultParametersAsync().get();
-        } catch (ExecutionException | InterruptedException e) {
-          e.printStackTrace();
+        if (task.getLoadStatus() == LoadStatus.LOADED) {
+          try {
+            closestFacilityParameters = task.createDefaultParametersAsync().get();
+            // set new parameters to find route
+            closestFacilityParameters.setFacilities(facilities);
+          } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+          }
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Closest Facility Task Failed to Load!");
+          alert.show();
         }
       });
       task.loadAsync();
@@ -119,11 +130,13 @@ public class ClosestFacilitySample extends Application {
       mapView.setOnMouseClicked(e -> {
         // check that the primary mouse button was clicked
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+          // remove last incident from view
+          incidentGraphicsOverlay.getGraphics().clear();
           // show incident to the mapview
           Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
           incidentPoint = new Point(mapPoint.getX(), mapPoint.getY(), spatialReference);
           Graphic graphic = new Graphic(incidentPoint, incidentSymbol);
-          graphicsOverlay.getGraphics().add(graphic);
+          incidentGraphicsOverlay.getGraphics().add(graphic);
 
           populateParametersAndSolveRoute();
         }
@@ -158,7 +171,7 @@ public class ClosestFacilitySample extends Application {
 
     // for each facility, create a graphic and add to graphics overlay
     facilities.stream().map(f -> new Graphic(f.getGeometry(), facilitySymbol))
-        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
+        .collect(Collectors.toCollection(() -> facilityGraphicsOverlay.getGraphics()));
   }
 
   /**
@@ -166,15 +179,10 @@ public class ClosestFacilitySample extends Application {
    * display the closest route from the user's incident to its' nearest facility.
    */
   private void populateParametersAndSolveRoute() {
-    // clear any parameters that were set
-    facilityParameters.clearFacilities();
-    facilityParameters.clearIncidents();
-    // set new parameters to find route
-    facilityParameters.setFacilities(facilities);
-    facilityParameters.setIncidents(Collections.singletonList(new Incident(incidentPoint)));
+    closestFacilityParameters.setIncidents(Collections.singletonList(new Incident(incidentPoint)));
 
     // find closest route using parameters from above
-    ListenableFuture<ClosestFacilityResult> result = task.solveClosestFacilityAsync(facilityParameters);
+    ListenableFuture<ClosestFacilityResult> result = task.solveClosestFacilityAsync(closestFacilityParameters);
     result.addDoneListener(() -> {
       try {
         ClosestFacilityResult facilityResult = result.get();
@@ -184,7 +192,7 @@ public class ClosestFacilitySample extends Application {
         int closestFacility = rankedList.get(0);
         // get route from incident to closest facility and display to mapview
         ClosestFacilityRoute route = facilityResult.getRoute(closestFacility, 0);
-        graphicsOverlay.getGraphics().add(new Graphic(route.getRouteGeometry(), routeSymbol));
+        incidentGraphicsOverlay.getGraphics().add(new Graphic(route.getRouteGeometry(), routeSymbol));
       } catch (ExecutionException e) {
         if (e.getMessage().contains("Unable to complete operation")) {
           Alert dialog = new Alert(AlertType.WARNING);

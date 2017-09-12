@@ -10,7 +10,7 @@
 adding at least 2 stops, a route will display. Use the combo box in the top left corner to choose between the travel 
 modes "Fastest" and "Shortest" (how the route is optimized). To move a stop, right-click the graphic to select it, 
 then move your mouse to reposition, and finally right-click again to set the new position. The route will update 
-on-the-fly while moving stops.</p>
+on-the-fly while moving stops. The green box marks the boundary of the route geodatabase.</p>
 
 <h2>How it works</h2>
 

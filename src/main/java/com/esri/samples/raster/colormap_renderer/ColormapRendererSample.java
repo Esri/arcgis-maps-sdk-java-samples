@@ -23,10 +23,12 @@ import java.util.stream.IntStream;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -81,7 +83,14 @@ public class ColormapRendererSample extends Application {
       rasterLayer.setRasterRenderer(colormapRenderer);
 
       // set viewpoint on the raster
-      rasterLayer.addDoneLoadingListener(() -> mapView.setViewpointGeometryAsync(rasterLayer.getFullExtent(), 150));
+      rasterLayer.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          mapView.setViewpointGeometryAsync(rasterLayer.getFullExtent(), 150);
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Raster Layer Failed to Load!");
+          alert.show();
+        }
+      });
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
