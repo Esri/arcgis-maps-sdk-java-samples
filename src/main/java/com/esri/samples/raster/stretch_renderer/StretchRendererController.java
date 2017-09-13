@@ -17,15 +17,15 @@
 package com.esri.samples.raster.stretch_renderer;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collections;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Spinner;
+import javafx.scene.layout.HBox;
+
+import org.controlsfx.control.RangeSlider;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -40,16 +40,15 @@ import com.esri.arcgisruntime.raster.StretchRenderer;
 
 public class StretchRendererController {
 
+  @FXML private HBox stdDeviationGroup;
+  @FXML private HBox minMaxGroup;
+  @FXML private HBox percentClipGroup;
   @FXML private MapView mapView;
   @FXML private ComboBox<String> stretchTypeComboBox;
-  @FXML private Slider factorSlider;
-  @FXML private Slider mmMinSlider;
-  @FXML private Slider mmMaxSlider;
-  @FXML private Slider pcMinSlider;
-  @FXML private Slider pcMaxSlider;
-  @FXML private SimpleBooleanProperty minMaxActive;
-  @FXML private SimpleBooleanProperty stdDeviationActive;
-  @FXML private SimpleBooleanProperty percentClipActive;
+  @FXML private Spinner<Integer> factorSpinner;
+  @FXML private Slider minPercentSlider;
+  @FXML private Slider maxPercentSlider;
+  @FXML private RangeSlider minMaxSlider;
 
   private RasterLayer rasterLayer;
 
@@ -68,35 +67,30 @@ public class StretchRendererController {
     // set the map to the map view
     mapView.setMap(map);
 
-    // disable controls for properties that don't apply to the current stretch type
-    minMaxActive.bind(Bindings.createBooleanBinding(() -> "MinMax".equals(stretchTypeComboBox
-        .getSelectionModel().getSelectedItem()), stretchTypeComboBox.getSelectionModel().selectedItemProperty()));
-    stdDeviationActive.bind(Bindings.createBooleanBinding(() -> "StdDeviation".equals(stretchTypeComboBox
-        .getSelectionModel().getSelectedItem()), stretchTypeComboBox.getSelectionModel().selectedItemProperty()));
-    percentClipActive.bind(Bindings.createBooleanBinding(() -> "PercentClip".equals(stretchTypeComboBox
-        .getSelectionModel().getSelectedItem()), stretchTypeComboBox.getSelectionModel().selectedItemProperty()));
+    // set stretch types
+    stretchTypeComboBox.getItems().addAll("Min Max", "Percent Clip", "Std Deviation");
 
-    // round slider values to nearest integer
-    factorSlider.valueProperty().addListener(o -> factorSlider.setValue(Math.round(factorSlider.getValue())));
-    mmMinSlider.valueProperty().addListener(o -> mmMinSlider.setValue(Math.round(mmMinSlider.getValue())));
-    mmMaxSlider.valueProperty().addListener(o -> mmMaxSlider.setValue(Math.round(mmMaxSlider.getValue())));
-    pcMinSlider.valueProperty().addListener(o -> pcMinSlider.setValue(Math.round(pcMinSlider.getValue())));
-    pcMaxSlider.valueProperty().addListener(o -> pcMaxSlider.setValue(Math.round(pcMaxSlider.getValue())));
+    // hide options based on selected stretch type
+    stretchTypeComboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+      String type = stretchTypeComboBox.getSelectionModel().getSelectedItem();
+      minMaxGroup.setVisible("Min Max".equals(type));
+      percentClipGroup.setVisible("Percent Clip".equals(type));
+      stdDeviationGroup.setVisible("Std Deviation".equals(type));
+    });
 
-    // add listeners to sliders to update rendering
-    ChangeListener<Boolean> sliderChangingListener = (obs, wasChanging, isChanging) -> {
-      if (!isChanging) updateRenderer();
-    };
-    factorSlider.valueChangingProperty().addListener(sliderChangingListener);
-    mmMinSlider.valueChangingProperty().addListener(sliderChangingListener);
-    mmMaxSlider.valueChangingProperty().addListener(sliderChangingListener);
-    pcMinSlider.valueChangingProperty().addListener(sliderChangingListener);
-    pcMaxSlider.valueChangingProperty().addListener(sliderChangingListener);
+    // set up sliders to match constraint min + max <= 100
+    minPercentSlider.valueProperty().addListener(e -> {
+      if (minPercentSlider.getValue() + maxPercentSlider.getValue() > 100) {
+        maxPercentSlider.setValue(100 - minPercentSlider.getValue());
+      }
+    });
+    maxPercentSlider.valueProperty().addListener(e -> {
+      if (minPercentSlider.getValue() + maxPercentSlider.getValue() > 100) {
+        minPercentSlider.setValue(100 - maxPercentSlider.getValue());
+      }
+    });
 
-    // constrain min + max <= 100 when type is Percent Clip
-    pcMaxSlider.maxProperty().bind(Bindings.createDoubleBinding(() -> "PercentClip".equals(stretchTypeComboBox
-            .getSelectionModel().getSelectedItem()) ? 100 - pcMinSlider.getValue() : 100, pcMinSlider.valueProperty(),
-        stretchTypeComboBox.getSelectionModel().selectedItemProperty()));
+    stretchTypeComboBox.getSelectionModel().select(0);
 
     updateRenderer();
   }
@@ -108,14 +102,15 @@ public class StretchRendererController {
 
     StretchParameters stretchParameters;
     switch (stretchTypeComboBox.getSelectionModel().getSelectedItem()) {
-      case "MinMax": stretchParameters = new MinMaxStretchParameters(Collections.singletonList(mmMinSlider.getValue()),
-          Collections.singletonList(mmMaxSlider.getValue()));
+      case "Min Max":
+        stretchParameters = new MinMaxStretchParameters(Collections.singletonList(minMaxSlider.getLowValue()),
+            Collections.singletonList(minMaxSlider.getHighValue()));
         break;
-      case "PercentClip":
-        stretchParameters = new PercentClipStretchParameters(pcMinSlider.getValue(), pcMaxSlider.getValue());
+      case "Percent Clip":
+        stretchParameters = new PercentClipStretchParameters(minPercentSlider.getValue(), maxPercentSlider.getValue());
         break;
       default:
-        stretchParameters = new StandardDeviationStretchParameters(factorSlider.getValue());
+        stretchParameters = new StandardDeviationStretchParameters(factorSpinner.getValue());
     }
 
     // create blend renderer

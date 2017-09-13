@@ -14,66 +14,42 @@
   ~ License for the specific language governing permissions and limitations under
   ~ the License.
   -->
-  
-<?import javafx.scene.layout.StackPane?>
-<?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<?import javafx.beans.property.SimpleBooleanProperty?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.RangeSlider?>
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
 <StackPane fx:controller="com.esri.samples.raster.stretch_renderer.StretchRendererController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
-    <fx:define>
-        <SimpleBooleanProperty fx:id="minMaxActive"/>
-        <SimpleBooleanProperty fx:id="percentClipActive"/>
-        <SimpleBooleanProperty fx:id="stdDeviationActive"/>
-    </fx:define>
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="50" styleClass="panel-region"
-          style="-fx-background-color: rgba(0,0,0, 0.8);">
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="450" maxHeight="50" styleClass="panel-region" spacing="10">
         <HBox spacing="10">
-            <Label text="Stretch Type:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <ComboBox fx:id="stretchTypeComboBox" value="MinMax" onAction="#updateRenderer"
-                      GridPane.rowIndex="0" GridPane.columnIndex="1">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="MinMax"/>
-                        <String fx:value="PercentClip"/>
-                        <String fx:value="StdDeviation"/>
-                    </FXCollections>
-                </items>
-            </ComboBox>
+            <Label text="Stretch type"/>
+            <ComboBox fx:id="stretchTypeComboBox"/>
         </HBox>
-        <!--Standard Deviation -->
-        <HBox spacing="10" managed="${stdDeviationActive}" visible="${stdDeviationActive}">
-            <Label text="Factor:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Slider fx:id="factorSlider" max="3" value="1.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-            <Label text="${factorSlider.value}" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+        <!--Standard Deviation-->
+        <HBox fx:id="stdDeviationGroup" spacing="10" managed="${stdDeviationGroup.visible}">
+            <Label text="Factor"/>
+            <Spinner fx:id="factorSpinner" min="0" max="3" initialValue="1" maxWidth="110" editable="true"/>
+        </HBox>
+        <!--Percent Clip-->
+        <HBox fx:id="percentClipGroup" spacing="10" managed="${percentClipGroup.visible}">
+            <Label text="Min/Max %"/>
+            <Slider fx:id="minPercentSlider" showTickMarks="true" showTickLabels="true"/>
+            <Slider fx:id="maxPercentSlider" showTickMarks="true" showTickLabels="true" value="100"/>
         </HBox>
         <!--Min/Max-->
-        <GridPane managed="${minMaxActive}" visible="${minMaxActive}">
-            <Label text="Min:" GridPane.rowIndex="0"  GridPane.columnIndex="0"/>
-            <Slider fx:id="mmMinSlider" max="255.0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-            <Label text="${mmMinSlider.value}" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-            <Label text="Max:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <!--Note: Constraint Max > Min-->
-            <Slider fx:id="mmMaxSlider" min="${mmMinSlider.value}" value="100.0" GridPane.rowIndex="1"
-                    GridPane.columnIndex="1"/>
-            <Label text="${mmMaxSlider.value}" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
-        </GridPane>
-         <!--Percent Clip-->
-        <GridPane managed="${percentClipActive}" visible="${percentClipActive}">
-            <Label text="Min:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <Slider fx:id="pcMinSlider" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-            <Label text="${pcMinSlider.value}" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-            <Label text="Max:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Slider fx:id="pcMaxSlider" value="100.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-            <Label text="${pcMaxSlider.value}" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
-        </GridPane>
+        <HBox fx:id="minMaxGroup" spacing="10" managed="${minMaxGroup.visible}">
+            <Label text="Min/Max"/>
+            <RangeSlider fx:id="minMaxSlider" min="0" max="255" lowValue="0" highValue="255" showTickLabels="true"
+                         blockIncrement="25"/>
+        </HBox>
+        <Button text="Update" onAction="#updateRenderer"/>
     </VBox>
 </StackPane>

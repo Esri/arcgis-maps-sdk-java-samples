@@ -7,7 +7,8 @@ image.</p>
 
 <h2>How to use the sample</h2>
 
-<p>Choose one of the stretch parameter types. The other options will adjust based on the chosen type.</p>
+<p>Choose one of the stretch parameter types. The other options will adjust based on the chosen type. Add your 
+inputs and press the Update button to update the renderer.</p>
 
 <h2>How it works</h2>
 
