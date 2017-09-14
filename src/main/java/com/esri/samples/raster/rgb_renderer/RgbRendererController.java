@@ -19,11 +19,14 @@ package com.esri.samples.raster.rgb_renderer;
 import java.io.File;
 import java.util.Arrays;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+
+import org.controlsfx.control.RangeSlider;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -38,17 +41,17 @@ import com.esri.arcgisruntime.raster.StretchParameters;
 
 public class RgbRendererController {
 
+  @FXML private HBox stdDeviationGroup;
+  @FXML private GridPane minMaxGroup;
+  @FXML private HBox percentClipGroup;
   @FXML private MapView mapView;
   @FXML private ComboBox<String> stretchTypeComboBox;
   @FXML private Spinner<Integer> factorSpinner;
-  @FXML private Spinner<Integer> minPercentSpinner;
-  @FXML private Spinner<Integer> maxPercentSpinner;
-  @FXML private Spinner<Integer> minRedSpinner;
-  @FXML private Spinner<Integer> minGreenSpinner;
-  @FXML private Spinner<Integer> minBlueSpinner;
-  @FXML private Spinner<Integer> maxRedSpinner;
-  @FXML private Spinner<Integer> maxGreenSpinner;
-  @FXML private Spinner<Integer> maxBlueSpinner;
+  @FXML private Slider minPercentSlider;
+  @FXML private Slider maxPercentSlider;
+  @FXML private RangeSlider redSlider;
+  @FXML private RangeSlider greenSlider;
+  @FXML private RangeSlider blueSlider;
 
   private RasterLayer rasterLayer;
 
@@ -67,40 +70,30 @@ public class RgbRendererController {
     // set the map to the map view
     mapView.setMap(map);
 
-    // set defaults
-    stretchTypeComboBox.getItems().setAll("MinMax", "PercentClip", "StdDeviation");
-    stretchTypeComboBox.getSelectionModel().select("MinMax");
+    // set stretch types
+    stretchTypeComboBox.getItems().addAll("Min Max", "Percent Clip", "Std Deviation");
 
-    // bindings
-    BooleanBinding minMaxStretchBinding = Bindings.createBooleanBinding(() -> 
-        !"MinMax".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
-        .getSelectionModel().selectedItemProperty());
-    minRedSpinner.disableProperty().bind(minMaxStretchBinding);
-    minGreenSpinner.disableProperty().bind(minMaxStretchBinding);
-    minBlueSpinner.disableProperty().bind(minMaxStretchBinding);
-    maxRedSpinner.disableProperty().bind(minMaxStretchBinding);
-    maxGreenSpinner.disableProperty().bind(minMaxStretchBinding);
-    maxBlueSpinner.disableProperty().bind(minMaxStretchBinding);
-    BooleanBinding percentClipStretchBinding = Bindings.createBooleanBinding(() -> 
-        !"PercentClip".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
-        .getSelectionModel().selectedItemProperty());
-    minPercentSpinner.disableProperty().bind(percentClipStretchBinding);
-    maxPercentSpinner.disableProperty().bind(percentClipStretchBinding);
-    BooleanBinding stdDeviationStretchBinding = Bindings.createBooleanBinding(() -> 
-        !"StdDeviation".equals(stretchTypeComboBox.getSelectionModel().getSelectedItem()), stretchTypeComboBox
-        .getSelectionModel().selectedItemProperty());
-    factorSpinner.disableProperty().bind(stdDeviationStretchBinding);
+    // hide options based on selected stretch type
+    stretchTypeComboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+      String type = stretchTypeComboBox.getSelectionModel().getSelectedItem();
+      minMaxGroup.setVisible("Min Max".equals(type));
+      percentClipGroup.setVisible("Percent Clip".equals(type));
+      stdDeviationGroup.setVisible("Std Deviation".equals(type));
+    });
 
-    // add listeners
-    factorSpinner.valueProperty().addListener(o -> updateRenderer());
-    minPercentSpinner.valueProperty().addListener(o -> updateRenderer());
-    maxPercentSpinner.valueProperty().addListener(o -> updateRenderer());
-    minRedSpinner.valueProperty().addListener(o -> updateRenderer());
-    minGreenSpinner.valueProperty().addListener(o -> updateRenderer());
-    minBlueSpinner.valueProperty().addListener(o -> updateRenderer());
-    maxRedSpinner.valueProperty().addListener(o -> updateRenderer());
-    maxGreenSpinner.valueProperty().addListener(o -> updateRenderer());
-    maxBlueSpinner.valueProperty().addListener(o -> updateRenderer());
+    // set up sliders to match constraint min + max <= 100
+    minPercentSlider.valueProperty().addListener(e -> {
+      if (minPercentSlider.getValue() + maxPercentSlider.getValue() > 100) {
+        maxPercentSlider.setValue(100 - minPercentSlider.getValue());
+      }
+    });
+    maxPercentSlider.valueProperty().addListener(e -> {
+      if (minPercentSlider.getValue() + maxPercentSlider.getValue() > 100) {
+        minPercentSlider.setValue(100 - maxPercentSlider.getValue());
+      }
+    });
+
+    stretchTypeComboBox.getSelectionModel().select(0);
 
     updateRenderer();
   }
@@ -110,22 +103,14 @@ public class RgbRendererController {
    */
   public void updateRenderer() {
 
-    double minP = minPercentSpinner.getValue();
-    double maxP = maxPercentSpinner.getValue();
-    double minR = minRedSpinner.getValue();
-    double minG = minGreenSpinner.getValue();
-    double minB = minBlueSpinner.getValue();
-    double maxR = maxRedSpinner.getValue();
-    double maxG = maxGreenSpinner.getValue();
-    double maxB = maxBlueSpinner.getValue();
-
     StretchParameters stretchParameters;
     switch (stretchTypeComboBox.getSelectionModel().getSelectedItem()) {
-      case "MinMax": stretchParameters = 
-              new MinMaxStretchParameters(Arrays.asList(minR, minG, minB), Arrays.asList(maxR, maxG, maxB));
+      case "Min Max":
+        stretchParameters = new MinMaxStretchParameters(Arrays.asList(redSlider.getLowValue(), greenSlider.getLowValue(),
+            blueSlider.getLowValue()), Arrays.asList(redSlider.getHighValue(), greenSlider.getHighValue(), blueSlider.getHighValue()));
         break;
-      case "PercentClip":
-        stretchParameters = new PercentClipStretchParameters(minP, maxP);
+      case "Percent Clip":
+        stretchParameters = new PercentClipStretchParameters(minPercentSlider.getValue(), maxPercentSlider.getValue());
         break;
       default:
         stretchParameters = new StandardDeviationStretchParameters(factorSpinner.getValue());
