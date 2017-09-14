@@ -15,15 +15,17 @@
   ~ the License.
   -->
 
-<?import javafx.beans.property.SimpleBooleanProperty?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.layout.*?>
-<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.RangeSlider?>
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
 <StackPane fx:controller="com.esri.samples.raster.rgb_renderer.RgbRendererController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
