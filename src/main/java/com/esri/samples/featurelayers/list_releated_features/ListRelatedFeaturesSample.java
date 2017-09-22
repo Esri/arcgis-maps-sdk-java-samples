@@ -50,7 +50,7 @@ public class ListRelatedFeaturesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a tree view for displaying the related features according to their feature table
+      // create an accordion view for displaying the related features according to their feature table
       Accordion accordion = new Accordion();
       accordion.setMaxSize(200, 300);
 
@@ -99,18 +99,17 @@ public class ListRelatedFeaturesSample extends Application {
                     try {
                       //clear previous results
                       accordion.getPanes().clear();
-                      // add all related features (grouped) into tree view
+                      // add all related features (grouped) in panes of the accordion
                       List<RelatedFeatureQueryResult> results = relatedFeatureQuery.get();
                       Map<String, List<RelatedFeatureQueryResult>> groups = results.stream()
                           .collect(Collectors.groupingBy(r -> r.getRelatedTable().getTableName()));
                       groups.keySet().forEach(k -> {
-                        // create node for the feature table
+                        // create a pane for the feature table with a list for its features
                         ListView<String> featureList = new ListView<>();
                         TitledPane tablePane = new TitledPane(k, featureList);
                         accordion.getPanes().add(tablePane);
-                        // create sub nodes for the related features
                         groups.get(k).forEach(r -> {
-                          // show the related feature with its display field value
+                          // show the related feature with its display field value in the list
                           ArcGISFeature feature = r.getFeature();
                           String displayFieldName = feature.getFeatureTable().getLayerInfo().getDisplayFieldName();
                           String displayFieldValue = feature.getAttributes().get(displayFieldName).toString();
@@ -134,7 +133,7 @@ public class ListRelatedFeaturesSample extends Application {
         });
       });
 
-      // add the map view and tree view to stack pane
+      // add the map view and accordion view to stack pane
       stackPane.getChildren().addAll(mapView, accordion);
       StackPane.setAlignment(accordion, Pos.TOP_LEFT);
 
