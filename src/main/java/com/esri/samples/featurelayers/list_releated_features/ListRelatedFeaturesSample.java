@@ -2,9 +2,7 @@ package com.esri.samples.featurelayers.list_releated_features;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -66,6 +64,10 @@ public class ListRelatedFeaturesSample extends Application {
         // get the first feature layer for querying
         FeatureLayer featureLayer = (FeatureLayer) map.getOperationalLayers().get(0);
 
+        // make selection outline yellow (0xFFFFFF00) and thick
+        featureLayer.setSelectionColor(0xFFFFFF00);
+        featureLayer.setSelectionWidth(5);
+
         mapView.setOnMouseClicked(event -> {
           // check for primary or secondary mouse click
           if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
@@ -101,22 +103,20 @@ public class ListRelatedFeaturesSample extends Application {
                       accordion.getPanes().clear();
                       // add all related features (grouped) in panes of the accordion
                       List<RelatedFeatureQueryResult> results = relatedFeatureQuery.get();
-                      Map<String, List<RelatedFeatureQueryResult>> groups = results.stream()
-                          .collect(Collectors.groupingBy(r -> r.getRelatedTable().getTableName()));
-                      groups.keySet().forEach(k -> {
-                        // create a pane for the feature table with a list for its features
+                      for(RelatedFeatureQueryResult relatedFeatureQueryResult : results){
                         ListView<String> featureList = new ListView<>();
-                        TitledPane tablePane = new TitledPane(k, featureList);
+                        String relatedTableName = relatedFeatureQueryResult.getRelatedTable().getTableName();
+                        // create a pane for the feature table with a list for its features
+                        TitledPane tablePane = new TitledPane(relatedTableName, featureList);
                         accordion.getPanes().add(tablePane);
-                        groups.get(k).forEach(r -> {
+                        for(Feature relatedFeature : relatedFeatureQueryResult) {
                           // show the related feature with its display field value in the list
-                          ArcGISFeature feature = r.getFeature();
+                          ArcGISFeature feature = (ArcGISFeature) relatedFeature;
                           String displayFieldName = feature.getFeatureTable().getLayerInfo().getDisplayFieldName();
                           String displayFieldValue = feature.getAttributes().get(displayFieldName).toString();
                           featureList.getItems().add(displayFieldValue);
-                        });
-                      });
-
+                        }
+                      }
                     } catch (InterruptedException | ExecutionException e) {
                       Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to get related features");
                       alert.show();
