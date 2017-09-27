@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.esri.samples.featurelayers.list_releated_features;
 
 import java.util.Iterator;
@@ -101,7 +117,7 @@ public class ListRelatedFeaturesSample extends Application {
                     try {
                       //clear previous results
                       accordion.getPanes().clear();
-                      // add all related features (grouped) in panes of the accordion
+                      // add all related features (grouped) into panes of the accordion
                       List<RelatedFeatureQueryResult> results = relatedFeatureQuery.get();
                       for(RelatedFeatureQueryResult relatedFeatureQueryResult : results){
                         ListView<String> featureList = new ListView<>();
@@ -117,6 +133,8 @@ public class ListRelatedFeaturesSample extends Application {
                           featureList.getItems().add(displayFieldValue);
                         }
                       }
+                      //expand the accordion's last pane to show the related features
+                      accordion.setExpandedPane(accordion.getPanes().get(accordion.getPanes().size() - 1));
                     } catch (InterruptedException | ExecutionException e) {
                       Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to get related features");
                       alert.show();
