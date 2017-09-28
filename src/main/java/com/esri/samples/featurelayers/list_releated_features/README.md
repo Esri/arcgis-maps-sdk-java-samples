@@ -24,13 +24,11 @@ grouped by feature table.</p>
   </li>
   <li>The <code>RelatedFeatureQueryResult</code> implements <code>Iterable&lt;Feature&gt;</code>. You can iterate over 
   the result to get the features:
-  
-       <code>
-         for (Feature feature: relatedFeatureQueryResult) {
-           //do something with the related feature...
-         }
-       </code>
-  </li>
+  <pre><code>
+  for (Feature feature: relatedFeatureQueryResult) {
+     //do something with the related feature...
+  }
+  </code></pre>
 </ol>
 
 <h2>Features</h2>
