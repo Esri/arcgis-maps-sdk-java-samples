@@ -97,8 +97,10 @@ public class ExportTilesSample extends Application {
           Point minPoint = mapView.screenToLocation(minScreenPoint);
           Point maxPoint = mapView.screenToLocation(maxScreenPoint);
           // use the points to define and return an envelope
-          Envelope envelope = new Envelope(minPoint, maxPoint);
-          downloadArea.setGeometry(envelope);
+          if (minPoint != null && maxPoint != null) {
+            Envelope envelope = new Envelope(minPoint, maxPoint);
+            downloadArea.setGeometry(envelope);
+          }
         }
       });
 
