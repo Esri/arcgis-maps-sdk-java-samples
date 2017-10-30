@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.RangeSlider?>
+<?import org.controlsfx.control.ToggleSwitch?>
+<?import com.esri.arcgisruntime.mapping.view.SceneView?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.esri.samples.analysis.viewshed_location.ViewshedLocationController"
+           prefHeight="400.0" prefWidth="600.0" stylesheets="/css/style.css">
+    <SceneView fx:id="sceneView"/>
+    <GridPane StackPane.alignment="TOP_LEFT" pickOnBounds="false" styleClass="panel-region" maxWidth="300"
+              maxHeight="300" hgap="10" vgap="10">
+        <Label text="Move with mouse" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <ToggleSwitch fx:id="moveWithMouseToggle" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Visible" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <ToggleSwitch fx:id="visibilityToggle" selected="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Frustum Outline" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <ToggleSwitch fx:id="frustumToggle" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Heading" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Slider fx:id="headingSlider" max="360" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Pitch" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <Slider fx:id="pitchSlider" max="90" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Horizontal Angle" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <Slider fx:id="horizontalAngleSlider" max="180" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <Label text="Vertical Angle" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <Slider fx:id="verticalAngleSlider" max="180" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+        <Label text="Distance" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+        <RangeSlider fx:id="distanceSlider" min="1.0" max="2000.0" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+        <Label text="Visible Color" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+        <ColorPicker fx:id="visibleColorPicker" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+        <Label text="Obstructed Color" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+        <ColorPicker fx:id="obstructedColorPicker" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+        <Label text="Frustum Color" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+        <ColorPicker fx:id="frustumColorPicker" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+    </GridPane>
+</StackPane>
