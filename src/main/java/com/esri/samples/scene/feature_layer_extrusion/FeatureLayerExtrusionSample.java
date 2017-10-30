@@ -19,9 +19,12 @@ package com.esri.samples.scene.feature_layer_extrusion;
 import java.util.Arrays;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.QueryParameters;
@@ -40,6 +43,7 @@ import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 public class FeatureLayerExtrusionSample extends Application {
 
+  private boolean showTotalPopulation = true;
   private SceneView sceneView;
 
   @Override
@@ -47,6 +51,8 @@ public class FeatureLayerExtrusionSample extends Application {
 
     StackPane stackPane = new StackPane();
     Scene fxScene = new Scene(stackPane);
+    // for adding styling to any controls that are added 
+    fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
     // set title, size, and add scene to stage
     stage.setTitle("Feature Layer Extrusion Sample");
@@ -89,17 +95,32 @@ public class FeatureLayerExtrusionSample extends Application {
     OrbitLocationCameraController orbitCamera = new OrbitLocationCameraController(lookAtPoint, 10000000);
     sceneView.setCameraController(orbitCamera);
 
-    // controls extruding by total population or population density
-    Button populationButton = new Button("Total Population");
-    populationButton.setOnAction(v -> {
-      // some feature's population is really big of need to sink it down
-      renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10");
+    // create a control panel
+    VBox vBoxControl = new VBox();
+    vBoxControl.setMaxSize(200, 40);
+    vBoxControl.getStyleClass().add("panel-region");
+    stackPane.getChildren().add(vBoxControl);
+    StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
+    StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+
+    // controls for extruding by total population or by population density
+    Button extrusionButton = new Button("Population Density");
+    extrusionButton.setOnAction(v -> {
+      if (showTotalPopulation) {
+        // some feature's population is really big of need to sink it down
+        renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10");
+        extrusionButton.setText("Population Density");
+        showTotalPopulation = false;
+      } else {
+        // density of population is a small value to need to increase it
+        renderer.getSceneProperties().setExtrusionExpression("[POP07_SQMI] * 5000");
+        extrusionButton.setText("Total Population");
+        showTotalPopulation = true;
+      }
     });
-    Button densityButton = new Button("Population Density");
-    densityButton.setOnAction(v -> {
-      // density of population is a small value to need to increase it
-      renderer.getSceneProperties().setExtrusionExpression("[POP07_SQMI] * 5000");
-    });
+    extrusionButton.setMaxWidth(Double.MAX_VALUE);
+    extrusionButton.fire();
+    vBoxControl.getChildren().add(extrusionButton);
   }
 
   /**
