@@ -21,7 +21,7 @@
     <li>Create <code>FeatureLayer</code> from table, <code>new FeatureLayer(poinServiceFeatureTable)</code>.</li>
     <li>Add layer to scene, <code>sceneBottom.getOperationalLayers().add(pointFeatureLayer.copy())</code>
       <ol>
-        <li>Now point layer will be rendered dynamically to scene view.</li>
+        <li>Now the point layer will be rendered dynamically to scene view.</li>
       </ol>
     </li>
 </ol>
