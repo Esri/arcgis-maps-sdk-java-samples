@@ -9,17 +9,17 @@
 <p>To change <code>FeatureLayer.RenderingMode</code> using <code>LoadSettings</code>:</p>
 
 <ol>
-    <li>Create a <code>ArcGISScene</code>.</li>
-    <li>Set preferred rendering mode to scene, <code>sceneBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)</code>.
+    <li>Create a <code>ArcGISMap</code>.</li>
+    <li>Set preferred rendering mode to map, <code>mapBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)</code>.
       <ol>
         <li>Can set preferred rendering mode for <code>Points</code>, <code>Polylines</code>, or <code>Polygons</code>.</li>
         <li><code>Multipoint</code> preferred rendering mode is the same as point.</li>
       </ol>
     </li>
-    <li>Set scene to <code>SceneView</code>, <code>sceneViewBottom.setArcGISScene(sceneBottom)</code>.</li>
+    <li>Set map to <code>MapView</code>, <code>mapViewBottom.setMap(mapBottom)</code>.</li>
     <li>Create a <code>ServiceFeatureTable</code> from a point service, <code>new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");</code>.</li>
     <li>Create <code>FeatureLayer</code> from table, <code>new FeatureLayer(poinServiceFeatureTable)</code>.</li>
-    <li>Add layer to scene, <code>sceneBottom.getOperationalLayers().add(pointFeatureLayer.copy())</code>
+    <li>Add layer to map, <code>mapBottom.getOperationalLayers().add(pointFeatureLayer.copy())</code>
       <ol>
         <li>Now the point layer will be rendered dynamically to scene view.</li>
       </ol>
@@ -29,8 +29,7 @@
 <h2>Features</h2>
 
 <ul>
-    <li>ArcGISScene</li>
-    <li>Camera</li>
+    <li>ArcGISMap</li>
     <li>FeatureLayer</li>
     <li>FeatureLayer.RenderingMode</li>
     <li>LoadSettings</li>
@@ -38,6 +37,7 @@
     <li>Polyline</li>
     <li>Polygon</li>
     <li>ServiceFeatureTable</li>
+    <li>Viewpoint</li>
 </ul>
 
 
