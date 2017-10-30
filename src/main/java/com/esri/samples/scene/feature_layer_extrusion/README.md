@@ -15,8 +15,8 @@
   <li>Create a feature layer from service feature table.
   <ol>Make sure to set rendering mode to dynamic, <code>statesFeatureLayer.setRenderingMode(RenderingMode.DYNAMIC)</code>.</ol></li>
   <li>Apply a <code>SimpleRenderer</code> to the feature layer.</li>
-  <li>Set <code>ExtrusionMode</code> of render, <code>renderer.getSceneProperties().setExtrusionMode(SceneProperties.ExtrusionMode.BASE_HEIGHT)</code></li>
-  <li>Set extrusion expression of renderer, <code>renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10")</code></li>
+  <li>Set <code>ExtrusionMode</code> of render, <code>renderer.getSceneProperties().setExtrusionMode(SceneProperties.ExtrusionMode.BASE_HEIGHT)</code>.</li>
+  <li>Set extrusion expression of renderer, <code>renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10")</code>.</li>
 </ol>
 
 <h2>Features</h2>
