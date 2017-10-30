@@ -9,11 +9,21 @@
 <p>To apply a <code>DictionaryRenderer</code> and display mil2525d graphics:</p>
 
 <ol>
-  <li></li>
+  <li>Create a <code>ServiceFeatureTable</code> from an URL.</li>
+  <li>Set request mode of table, <code>statesServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.MANUAL_CACHE)</code>.</li>
+  <li>Create an <code>QueryParameters</code> to select all features and load all fields (attributes).</li>
+  <li>Create a <code>FeatureLayer</code> from service feature table.
+  <ol>Make sure to set rendering mode to dynamic, <code>statesFeatureLayer.setRenderingMode(RenderingMode.DYNAMIC)</code>.</ol></li>
+  <li>Apply a <code>SimpleRenderer</code> to the feature layer.</li>
+  <li>Set <code>ExtrusionMode</code> to render, <code>renderer.getSceneProperties().setExtrusionMode(SceneProperties.ExtrusionMode.BASE_HEIGHT)</code></li>
+  <li>Set extrusion expression to renderer, <code>renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10")</code></li>
 </ol>
 
 <h2>Features</h2>
 
 <ul>
-  <li></li>
+  <li>FeatureLayer</li>
+  <li>SceneProperties</li>
+  <li>ServiceFeatureTable</li>
+  <li>FeatureLayer</li>
 </ul>
