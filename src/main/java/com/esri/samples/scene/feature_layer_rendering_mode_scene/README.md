@@ -17,7 +17,7 @@
       </ol>
     </li>
     <li>Set scene to <code>SceneView</code>, <code>sceneViewBottom.setArcGISScene(sceneBottom)</code>.</li>
-    <li>Create <code>ServiceFeatureTable</code> from a point service, <code>new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");</code>.</li>
+    <li>Create a <code>ServiceFeatureTable</code> from a point service, <code>new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");</code>.</li>
     <li>Create <code>FeatureLayer</code> from table, <code>new FeatureLayer(poinServiceFeatureTable)</code>.</li>
     <li>Add layer to scene, <code>sceneBottom.getOperationalLayers().add(pointFeatureLayer.copy())</code>
       <ol>
