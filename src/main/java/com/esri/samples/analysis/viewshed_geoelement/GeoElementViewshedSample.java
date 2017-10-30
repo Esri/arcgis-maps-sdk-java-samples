@@ -1,4 +1,4 @@
-package com.esri.samples.analysis;
+package com.esri.samples.analysis.viewshed_geoelement;
 
 import java.io.File;
 
@@ -72,8 +72,9 @@ public class GeoElementViewshedSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      final String localEvelationImageService = "http://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(localEvelationImageService));
+      final String localElevationImageService = "http://scene.arcgis" +
+          ".com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
+      surface.getElevationSources().add(new ArcGISTiledElevationSource(localElevationImageService));
       scene.setBaseSurface(surface);
 
       // add a scene layer
@@ -101,6 +102,17 @@ public class GeoElementViewshedSample extends Application {
       tank = new Graphic(new Point(-4.506390, 48.385624, 0, SpatialReferences.getWgs84()), tankSymbol);
       tank.getAttributes().put("HEADING", 0.0);
       graphicsOverlay.getGraphics().add(tank);
+/*
+      // create a viewshed to attach to the tank
+      GeoElementViewshed geoElementViewshed = new GeoElementViewshed(tank, 90.0, 25.0, 0.0, 250.0, 0.0, 0.0);
+      // offset viewshed observer location to tank's turret
+      geoElementViewshed.setOffsetX(5);
+      geoElementViewshed.setOffsetY(5);
+
+      // create an analysis overlay to add the viewshed to the scene view
+      AnalysisOverlay analysisOverlay = new AnalysisOverlay();
+      analysisOverlay.getAnalyses().add(geoElementViewshed);
+      //sceneView.getAnalysisOverlays().add(analysisOverlay);*/
 
       sceneView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
