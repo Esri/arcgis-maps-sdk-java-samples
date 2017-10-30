@@ -2,7 +2,7 @@
 
 <p>This sample demonstrates how to apply extrusion to a renderer on a feature layer.</p>
 
-<p><img src=""/></p>
+<p><img src="FeatureLayerExtrusion.png"/></p>
 
 <h2>How it works</h2>
 
