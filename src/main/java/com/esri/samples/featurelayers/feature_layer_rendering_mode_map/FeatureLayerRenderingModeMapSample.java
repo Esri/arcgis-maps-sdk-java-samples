@@ -49,6 +49,7 @@ public class FeatureLayerRenderingModeMapSample extends Application {
       stage.setTitle("Feature Layer Rendering Mode Map Sample");
       stage.setWidth(800);
       stage.setHeight(700);
+      stage.setResizable(false);
       stage.setScene(fxScene);
       stage.show();
 
@@ -66,12 +67,12 @@ public class FeatureLayerRenderingModeMapSample extends Application {
 
       // creating top map view
       mapViewTop = new MapView();
-      mapViewTop.setMinHeight(stage.getHeight() / 2);
+      mapViewTop.setPrefHeight(stage.getHeight() / 2);
       mapViewTop.setMap(mapTop);
       borderPane.setTop(mapViewTop);
       // creating bottom map view
       mapViewBottom = new MapView();
-      mapViewTop.setMinHeight(stage.getHeight() / 2);
+      mapViewTop.setPrefHeight(stage.getHeight() / 2);
       mapViewBottom.setMap(mapBottom);
       borderPane.setCenter(mapViewBottom);
 
