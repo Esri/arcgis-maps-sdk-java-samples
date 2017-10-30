@@ -49,6 +49,7 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
       stage.setTitle("Feature Layer Rendering Mode Scene Sample");
       stage.setWidth(800);
       stage.setHeight(700);
+      stage.setResizable(false);
       stage.setScene(fxScene);
       stage.show();
 
