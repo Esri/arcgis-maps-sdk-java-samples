@@ -2,7 +2,7 @@
 
 <p>This sample demonstrates how to use load settings to set preferred rendering mode for feature layers, specifically static or dynamic rendering modes..</p>
 
-<p><img src=""/></p>
+<p><img src="FeatureLayerRenderingModeMap.gif"/></p>
 
 <h2>How it works</h2>
 
