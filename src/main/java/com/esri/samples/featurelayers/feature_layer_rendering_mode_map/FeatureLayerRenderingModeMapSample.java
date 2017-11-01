@@ -16,13 +16,18 @@
 
 package com.esri.samples.featurelayers.feature_layer_rendering_mode_map;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
+import java.util.Arrays;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.geometry.Orientation;
+import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -41,15 +46,15 @@ public class FeatureLayerRenderingModeMapSample extends Application {
 
     try {
 
-      // create border pane and JavaFX app scene
-      BorderPane borderPane = new BorderPane();
-      Scene fxScene = new Scene(borderPane);
+      // create splitPane pane and JavaFX app scene
+      SplitPane splitPane = new SplitPane();
+      splitPane.setOrientation(Orientation.VERTICAL);
+      Scene fxScene = new Scene(splitPane);
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Feature Layer Rendering Mode Map Sample");
       stage.setWidth(800);
       stage.setHeight(700);
-      stage.setResizable(false);
       stage.setScene(fxScene);
       stage.show();
 
@@ -67,14 +72,12 @@ public class FeatureLayerRenderingModeMapSample extends Application {
 
       // creating top map view
       mapViewTop = new MapView();
-      mapViewTop.setPrefHeight(stage.getHeight() / 2);
       mapViewTop.setMap(mapTop);
-      borderPane.setTop(mapViewTop);
+      splitPane.getItems().add(mapViewTop);
       // creating bottom map view
       mapViewBottom = new MapView();
-      mapViewTop.setPrefHeight(stage.getHeight() / 2);
       mapViewBottom.setMap(mapBottom);
-      borderPane.setCenter(mapViewBottom);
+      splitPane.getItems().add(mapViewBottom);
 
       // create service feature table using a point, polyline, and polygon service
       ServiceFeatureTable poinServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");
@@ -87,12 +90,8 @@ public class FeatureLayerRenderingModeMapSample extends Application {
       FeatureLayer polygonFeatureLayer = new FeatureLayer(polygonServiceFeatureTable);
 
       // add each layer to top and bottom scene
-      mapTop.getOperationalLayers().add(pointFeatureLayer);
-      mapTop.getOperationalLayers().add(polylineFeatureLayer);
-      mapTop.getOperationalLayers().add(polygonFeatureLayer);
-      mapBottom.getOperationalLayers().add(pointFeatureLayer.copy());
-      mapBottom.getOperationalLayers().add(polylineFeatureLayer.copy());
-      mapBottom.getOperationalLayers().add(polygonFeatureLayer.copy());
+      mapTop.getOperationalLayers().addAll(Arrays.asList(pointFeatureLayer, polylineFeatureLayer, polygonFeatureLayer));
+      mapBottom.getOperationalLayers().addAll(Arrays.asList(pointFeatureLayer.copy(), polylineFeatureLayer.copy(), polygonFeatureLayer.copy()));
 
       // viewpoint locations for map view to zoom in and out to
       Viewpoint zoomOutPoint = new Viewpoint(new Point(-118.37, 34.46, SpatialReferences.getWgs84()), 650000, 0);
@@ -100,22 +99,12 @@ public class FeatureLayerRenderingModeMapSample extends Application {
       mapViewTop.setViewpoint(zoomOutPoint);
       mapViewBottom.setViewpoint(zoomOutPoint);
 
-      Button zoomButton = new Button("Start Zoom");
-      zoomButton.setOnAction(e -> {
-        zoomButton.setDisable(true);
-        // zoom in for five seconds
-        zoomTo(zoomInPoint, 5).addDoneListener(() -> {
-          // wait for three seconds before returning
-          zoomTo(zoomInPoint, 3).addDoneListener(() -> {
-            // zoom out for five seconds
-            zoomTo(zoomOutPoint, 5).addDoneListener(() -> {
-              zoomButton.setDisable(false);
-            });
-          });
-        });
-      });
-      zoomButton.setMaxWidth(Double.MAX_VALUE);
-      borderPane.setBottom(zoomButton);
+      //loop an animation into and out from the zoom in point (5 seconds each) with a 2 second gap between zooming
+      Timeline timeline = new Timeline();
+      timeline.setCycleCount(Animation.INDEFINITE);
+      timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(7), event -> zoomTo(zoomInPoint, 5)));
+      timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(14), event -> zoomTo(zoomOutPoint, 5)));
+      timeline.play();
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -128,13 +117,10 @@ public class FeatureLayerRenderingModeMapSample extends Application {
    *
    * @param viewpoint to which both MapViews should be set.
    * @param seconds over which the viewpoint is asynchronously set.
-   *
-   * @return a ListenableFuture representing the result of the Viewpoint change.
    */
-  private ListenableFuture<Boolean> zoomTo(Viewpoint viewpoint, int seconds) {
-    ListenableFuture<Boolean> setViewpointFuture = mapViewTop.setViewpointAsync(viewpoint, seconds);
+  private void zoomTo(Viewpoint viewpoint, int seconds) {
+    mapViewTop.setViewpointAsync(viewpoint, seconds);
     mapViewBottom.setViewpointAsync(viewpoint, seconds);
-    return setViewpointFuture;
   }
 
   /**
