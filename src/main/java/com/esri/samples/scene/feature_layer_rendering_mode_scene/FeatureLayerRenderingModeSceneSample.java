@@ -16,13 +16,18 @@
 
 package com.esri.samples.scene.feature_layer_rendering_mode_scene;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
+import java.util.Arrays;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.geometry.Orientation;
+import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -41,15 +46,15 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
 
     try {
 
-      // create border pane and JavaFX app scene
-      BorderPane borderPane = new BorderPane();
-      Scene fxScene = new Scene(borderPane);
+      // create splitPane pane and JavaFX app scene
+      SplitPane splitPane = new SplitPane();
+      splitPane.setOrientation(Orientation.VERTICAL);
+      Scene fxScene = new Scene(splitPane);
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Feature Layer Rendering Mode Scene Sample");
       stage.setWidth(800);
       stage.setHeight(700);
-      stage.setResizable(false);
       stage.setScene(fxScene);
       stage.show();
 
@@ -67,14 +72,12 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
 
       // creating top scene view
       sceneViewTop = new SceneView();
-      sceneViewTop.setMinHeight(stage.getHeight() / 2);
       sceneViewTop.setArcGISScene(sceneTop);
-      borderPane.setTop(sceneViewTop);
+      splitPane.getItems().add(sceneViewTop);
       // creating bottom scene view
       sceneViewBottom = new SceneView();
-      sceneViewTop.setMinHeight(stage.getHeight() / 2);
       sceneViewBottom.setArcGISScene(sceneBottom);
-      borderPane.setCenter(sceneViewBottom);
+      splitPane.getItems().add(sceneViewBottom);
 
       // create service feature table using a point, polyline, and polygon service
       ServiceFeatureTable poinServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");
@@ -87,12 +90,8 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
       FeatureLayer polygonFeatureLayer = new FeatureLayer(polygonServiceFeatureTable);
 
       // add each layer to top and bottom scene
-      sceneTop.getOperationalLayers().add(pointFeatureLayer);
-      sceneTop.getOperationalLayers().add(polylineFeatureLayer);
-      sceneTop.getOperationalLayers().add(polygonFeatureLayer);
-      sceneBottom.getOperationalLayers().add(pointFeatureLayer.copy());
-      sceneBottom.getOperationalLayers().add(polylineFeatureLayer.copy());
-      sceneBottom.getOperationalLayers().add(polygonFeatureLayer.copy());
+      sceneTop.getOperationalLayers().addAll(Arrays.asList(pointFeatureLayer, polylineFeatureLayer, polygonFeatureLayer));
+      sceneBottom.getOperationalLayers().addAll(Arrays.asList(pointFeatureLayer.copy(), polylineFeatureLayer.copy(), polygonFeatureLayer.copy()));
 
       // camera locations for camera to zoom in and out to
       Camera zoomOutCamera = new Camera(new Point(-118.37, 34.46, SpatialReferences.getWgs84()), 42000, 0, 0, 0);
@@ -100,22 +99,12 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
       sceneViewTop.setViewpointCamera(zoomOutCamera);
       sceneViewBottom.setViewpointCamera(zoomOutCamera);
 
-      Button zoomButton = new Button("Start Zoom");
-      zoomButton.setOnAction(e -> {
-        zoomButton.setDisable(true);
-        // zoom in for five seconds
-        zoomTo(zoomInCamera, 5).addDoneListener(() -> {
-          // wait for three seconds before returning
-          zoomTo(zoomInCamera, 3).addDoneListener(() -> {
-            // zoom out for five seconds
-            zoomTo(zoomOutCamera, 5).addDoneListener(() -> {
-              zoomButton.setDisable(false);
-            });
-          });
-        });
-      });
-      zoomButton.setMaxWidth(Double.MAX_VALUE);
-      borderPane.setBottom(zoomButton);
+      //loop an animation into and out from the zoom in point (5 seconds each) with a 2 second gap between zooming
+      Timeline timeline = new Timeline();
+      timeline.setCycleCount(Animation.INDEFINITE);
+      timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(7), event -> zoomTo(zoomOutCamera, 5)));
+      timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(14), event -> zoomTo(zoomInCamera, 5)));
+      timeline.play();
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -124,17 +113,14 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
   }
 
   /**
-   * Sets both Sceneviews to a ViewpointCamera over a number of seconds.
-   *
-   * @param camera to which both SceneViews should be set.
-   * @param seconds over which the viewpoint is asynchronously set.
-   *
-   * @return a ListenableFuture representing the result of the Viewpoint change.
-   */
-  private ListenableFuture<Boolean> zoomTo(Camera camera, int seconds) {
-    ListenableFuture<Boolean> setViewpointFuture = sceneViewTop.setViewpointCameraAsync(camera, seconds);
+    * Sets both Sceneviews to a ViewpointCamera over a number of seconds.
+    *
+    * @param camera to which both SceneViews should be set.
+    * @param seconds over which the viewpoint is asynchronously set.
+    */
+  private void zoomTo(Camera camera, int seconds) {
+    sceneViewTop.setViewpointCameraAsync(camera, seconds);
     sceneViewBottom.setViewpointCameraAsync(camera, seconds);
-    return setViewpointFuture;
   }
 
   /**
