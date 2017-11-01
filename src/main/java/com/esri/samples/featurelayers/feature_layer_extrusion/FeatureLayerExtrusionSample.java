@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.feature_layer_extrusion;
+package com.esri.samples.featurelayers.feature_layer_extrusion;
 
 import java.util.Arrays;
 
