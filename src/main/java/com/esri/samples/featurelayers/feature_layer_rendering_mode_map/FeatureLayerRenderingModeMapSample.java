@@ -89,7 +89,7 @@ public class FeatureLayerRenderingModeMapSample extends Application {
       FeatureLayer polylineFeatureLayer = new FeatureLayer(polylineServiceFeatureTable);
       FeatureLayer polygonFeatureLayer = new FeatureLayer(polygonServiceFeatureTable);
 
-      // add each layer to top and bottom scene
+      // add each layer to top and bottom map
       mapTop.getOperationalLayers().addAll(Arrays.asList(pointFeatureLayer, polylineFeatureLayer, polygonFeatureLayer));
       mapBottom.getOperationalLayers().addAll(Arrays.asList(pointFeatureLayer.copy(), polylineFeatureLayer.copy(), polygonFeatureLayer.copy()));
 
