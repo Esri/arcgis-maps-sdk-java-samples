@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import com.esri.arcgisruntime.analysis.GeoElementViewshed;
 import com.esri.arcgisruntime.geometry.AngularUnit;
 import com.esri.arcgisruntime.geometry.AngularUnitId;
 import com.esri.arcgisruntime.geometry.GeodeticCurveType;
@@ -26,6 +27,7 @@ import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
+import com.esri.arcgisruntime.mapping.view.AnalysisOverlay;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -36,7 +38,7 @@ import com.esri.arcgisruntime.symbology.Renderer;
 import com.esri.arcgisruntime.symbology.SceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
-public class GeoElementViewshedSample extends Application {
+public class ViewshedGeoElementSample extends Application {
 
   private SceneView sceneView;
   private Graphic tank;
@@ -102,17 +104,17 @@ public class GeoElementViewshedSample extends Application {
       tank = new Graphic(new Point(-4.506390, 48.385624, 0, SpatialReferences.getWgs84()), tankSymbol);
       tank.getAttributes().put("HEADING", 0.0);
       graphicsOverlay.getGraphics().add(tank);
-/*
+
       // create a viewshed to attach to the tank
-      GeoElementViewshed geoElementViewshed = new GeoElementViewshed(tank, 90.0, 25.0, 0.0, 250.0, 0.0, 0.0);
+      GeoElementViewshed geoElementViewshed = new GeoElementViewshed(tank, 90.0, 25.0, 1.0, 250.0, 0.0, 0.0);
       // offset viewshed observer location to tank's turret
-      geoElementViewshed.setOffsetX(5);
-      geoElementViewshed.setOffsetY(5);
+      geoElementViewshed.setOffsetY(0.5);
+      geoElementViewshed.setOffsetZ(0.5);
 
       // create an analysis overlay to add the viewshed to the scene view
       AnalysisOverlay analysisOverlay = new AnalysisOverlay();
       analysisOverlay.getAnalyses().add(geoElementViewshed);
-      //sceneView.getAnalysisOverlays().add(analysisOverlay);*/
+      sceneView.getAnalysisOverlays().add(analysisOverlay);
 
       sceneView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
