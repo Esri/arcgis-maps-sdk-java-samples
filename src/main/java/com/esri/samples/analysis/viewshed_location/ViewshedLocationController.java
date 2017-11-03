@@ -3,6 +3,8 @@ package com.esri.samples.analysis.viewshed_location;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.ToggleSwitch;
@@ -41,10 +43,6 @@ public class ViewshedLocationController {
     scene.setBasemap(Basemap.createImagery());
     sceneView.setArcGISScene(scene);
 
-    // set the camera
-    Camera camera = new Camera(48.4, -4.50, 100.0, 10.0, 70, 0.0);
-    sceneView.setViewpointCamera(camera);
-
     // add base surface for elevation data
     Surface surface = new Surface();
     final String localElevationImageService = "http://scene.arcgis" +
@@ -61,6 +59,10 @@ public class ViewshedLocationController {
     Point location = new Point(-4.50, 48.4,100.0);
     LocationViewshed viewshed = new LocationViewshed(location, 10.0, 70.0, 90.0, 30.0, 1.0, 500.0,
         LayerSceneProperties.SurfacePlacement.RELATIVE);
+
+    // set the camera
+    Camera camera = new Camera(location, 200.0, 20.0, 70.0, 0.0);
+    sceneView.setViewpointCamera(camera);
 
     // create an analysis overlay to add the viewshed to the scene view
     AnalysisOverlay analysisOverlay = new AnalysisOverlay();
@@ -82,7 +84,29 @@ public class ViewshedLocationController {
     // distance slider
     distanceSlider.lowValueProperty().addListener(e -> viewshed.setMinDistance(distanceSlider.getLowValue()));
     distanceSlider.highValueProperty().addListener(e -> viewshed.setMaxDistance(distanceSlider.getHighValue()));
-    // TODO: color pickers
+    // colors
+    visibleColorPicker.valueProperty().addListener(e -> Viewshed.setVisibleColor(colorToInt(visibleColorPicker
+        .getValue())));
+    obstructedColorPicker.valueProperty().addListener(e -> Viewshed.setObstructedColor(colorToInt(obstructedColorPicker
+        .getValue())));
+    frustumColorPicker.valueProperty().addListener(e -> Viewshed.setFrustumOutlineColor(colorToInt(frustumColorPicker
+        .getValue())));
+  }
+
+  /**
+   * Parses a Color into an ARGB "packed" integer.
+   *
+   * @param c color
+   * @return packed integer representation of the color
+   */
+  private int colorToInt(Color c) {
+    String hex = String.format("0x%02X%02X%02X%02X",
+        (int)(c.getOpacity() * 255),
+        (int)(c.getRed() * 255),
+        (int)(c.getGreen() * 255),
+        (int)(c.getBlue() * 255)
+    );
+    return Long.decode(hex).intValue();
   }
 
   /**
