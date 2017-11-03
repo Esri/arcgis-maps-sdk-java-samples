@@ -47,7 +47,7 @@ public class ViewshedCameraSample extends Application {
       sceneView.setArcGISScene(scene);
 
       // set the camera
-      Camera camera = new Camera(48.4, -4.50, 100.0, 10.0, 70, 0.0);
+      Camera camera = new Camera(48.3808, -4.49492, 48.2511, 344.488, 74.1212, 0.0);
       sceneView.setViewpointCamera(camera);
 
       // add base surface for elevation data
