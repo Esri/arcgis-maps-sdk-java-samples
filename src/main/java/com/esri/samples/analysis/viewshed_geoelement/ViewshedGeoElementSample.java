@@ -57,7 +57,7 @@ public class ViewshedGeoElementSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("GeoElement Viewshed Sample");
+      stage.setTitle("Viewshed GeoElement Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
@@ -106,10 +106,9 @@ public class ViewshedGeoElementSample extends Application {
       graphicsOverlay.getGraphics().add(tank);
 
       // create a viewshed to attach to the tank
-      GeoElementViewshed geoElementViewshed = new GeoElementViewshed(tank, 90.0, 25.0, 1.0, 250.0, 0.0, 0.0);
+      GeoElementViewshed geoElementViewshed = new GeoElementViewshed(tank, 90.0, 40.0, 1.0, 250.0, 0.0, 0.0);
       // offset viewshed observer location to tank's turret
-      geoElementViewshed.setOffsetY(0.5);
-      geoElementViewshed.setOffsetZ(0.5);
+      geoElementViewshed.setOffsetZ(3.0);
 
       // create an analysis overlay to add the viewshed to the scene view
       AnalysisOverlay analysisOverlay = new AnalysisOverlay();
