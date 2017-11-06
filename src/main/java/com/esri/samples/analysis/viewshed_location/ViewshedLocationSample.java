@@ -46,4 +46,3 @@ public class ViewshedLocationSample extends Application {
     Application.launch(args);
   }
 }
-
