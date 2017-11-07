@@ -107,7 +107,7 @@ public class ViewshedGeoElementSample extends Application {
 
       // create a viewshed to attach to the tank
       GeoElementViewshed geoElementViewshed = new GeoElementViewshed(tank, 90.0, 40.0, 0.1, 250.0, 0.0, 0.0);
-      // offset viewshed observer location to tank's turret
+      // offset viewshed observer location to top of tank
       geoElementViewshed.setOffsetZ(3.0);
 
       // create an analysis overlay to add the viewshed to the scene view
@@ -115,6 +115,7 @@ public class ViewshedGeoElementSample extends Application {
       analysisOverlay.getAnalyses().add(geoElementViewshed);
       sceneView.getAnalysisOverlays().add(analysisOverlay);
 
+      // set the waypoint where the user clicks
       sceneView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
           // create a point from where the user clicked
@@ -125,6 +126,7 @@ public class ViewshedGeoElementSample extends Application {
         }
       });
 
+      // initialize camera to look at tank
       Camera camera = new Camera((Point) tank.getGeometry(), 200, 0, 45, 0);
       sceneView.setViewpointCamera(camera);
 
@@ -140,6 +142,9 @@ public class ViewshedGeoElementSample extends Application {
     }
   }
 
+  /**
+   * Moves the tank toward the current waypoint a short distance.
+   */
   private void animate() {
     if (waypoint != null) {
       // get current location and distance from waypoint
@@ -147,15 +152,16 @@ public class ViewshedGeoElementSample extends Application {
       GeodeticDistanceResult distance = GeometryEngine.distanceGeodetic(location, waypoint, METERS, DEGREES,
           GeodeticCurveType.GEODESIC);
 
-      // move toward waypoint based on speed and update orientation
+      // move toward waypoint a short distance
       location = GeometryEngine.moveGeodetic(location, 1.0, METERS, distance.getAzimuth1(), DEGREES,
           GeodeticCurveType.GEODESIC);
       tank.setGeometry(location);
 
+      // rotate toward waypoint
       double heading = (double) tank.getAttributes().get("HEADING");
       tank.getAttributes().put("HEADING", heading + ((distance.getAzimuth1() - heading) / 10));
 
-      // reached waypoint
+      // reached waypoint, stop moving
       if (distance.getDistance() <= 5) {
         waypoint = null;
       }
