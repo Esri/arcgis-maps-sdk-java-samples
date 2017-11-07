@@ -106,7 +106,7 @@ public class ViewshedGeoElementSample extends Application {
       graphicsOverlay.getGraphics().add(tank);
 
       // create a viewshed to attach to the tank
-      GeoElementViewshed geoElementViewshed = new GeoElementViewshed(tank, 90.0, 40.0, 1.0, 250.0, 0.0, 0.0);
+      GeoElementViewshed geoElementViewshed = new GeoElementViewshed(tank, 90.0, 40.0, 0.1, 250.0, 0.0, 0.0);
       // offset viewshed observer location to tank's turret
       geoElementViewshed.setOffsetZ(3.0);
 

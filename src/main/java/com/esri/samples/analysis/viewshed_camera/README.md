@@ -24,6 +24,6 @@
   <li>ArcGISScene</li>
   <li>ArcGISSceneLayer</li>
   <li>Camera</li>
-  <li>LocationViewshed</code>
+  <li>LocationViewshed</li>
   <li>SceneView</li>
 </ul>
