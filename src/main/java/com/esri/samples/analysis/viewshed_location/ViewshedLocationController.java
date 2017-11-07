@@ -65,7 +65,7 @@ public class ViewshedLocationController {
     Point location = new Point(-4.50, 48.4,100.0);
     LocationViewshed viewshed = new LocationViewshed(location, headingSlider.getValue(), pitchSlider.getValue(),
         horizontalAngleSlider.getValue(), verticalAngleSlider.getValue(), distanceSlider.getLowValue(),
-        distanceSlider.getHighValue(), LayerSceneProperties.SurfacePlacement.RELATIVE);
+        distanceSlider.getHighValue());
 
     // set the camera
     Camera camera = new Camera(location, 200.0, 20.0, 70.0, 0.0);
@@ -82,8 +82,6 @@ public class ViewshedLocationController {
       public void handle(MouseEvent event) {
         Point2D point2D = new Point2D(event.getX(), event.getY());
         ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
-        // disable listener until location is updated (for performance)
-        sceneView.setOnMouseMoved(null);
         pointFuture.addDoneListener(() -> {
           try {
             Point point = pointFuture.get();
@@ -96,8 +94,11 @@ public class ViewshedLocationController {
             e.printStackTrace();
           }
         });
+        // disable listener until location is updated (for performance)
+        sceneView.setOnMouseMoved(null);
       }
     };
+    sceneView.setOnMouseMoved(null); //disable default interaction listener
 
     // click to start/stop moving viewshed with mouse
     sceneView.setOnMouseClicked(event -> {
@@ -109,6 +110,7 @@ public class ViewshedLocationController {
         }
       }
     });
+
     // toggle visibility
     visibilityToggle.selectedProperty().addListener(e -> viewshed.setVisible(visibilityToggle.isSelected()));
     // TODO: toggle frustum
