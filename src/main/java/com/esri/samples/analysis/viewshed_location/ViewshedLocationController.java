@@ -33,7 +33,7 @@ public class ViewshedLocationController {
 
   @FXML private SceneView sceneView;
   @FXML private ToggleSwitch visibilityToggle;
-  @FXML private ToggleSwitch frustumToggle;
+  //@FXML private ToggleSwitch frustumToggle;
   @FXML private Slider headingSlider;
   @FXML private Slider pitchSlider;
   @FXML private Slider horizontalAngleSlider;
@@ -41,7 +41,7 @@ public class ViewshedLocationController {
   @FXML private RangeSlider distanceSlider;
   @FXML private ColorPicker visibleColorPicker;
   @FXML private ColorPicker obstructedColorPicker;
-  @FXML private ColorPicker frustumColorPicker;
+  //@FXML private ColorPicker frustumColorPicker;
 
   public void initialize() {
     // create a scene and add a basemap to it
@@ -112,6 +112,7 @@ public class ViewshedLocationController {
     // toggle visibility
     visibilityToggle.selectedProperty().addListener(e -> viewshed.setVisible(visibilityToggle.isSelected()));
     // TODO: toggle frustum
+    //visibilityToggle.selectedProperty().addListener(e -> viewshed.setFrustumVisible(visibilityToggle.isSelected()));
     // heading slider
     headingSlider.valueProperty().addListener(e -> viewshed.setHeading(headingSlider.getValue()));
     // pitch slider
@@ -131,9 +132,10 @@ public class ViewshedLocationController {
     obstructedColorPicker.setValue(Color.rgb(255, 0, 0, 0.8));
     obstructedColorPicker.valueProperty().addListener(e -> Viewshed.setObstructedColor(colorToInt(obstructedColorPicker
         .getValue())));
-    frustumColorPicker.setValue(Color.rgb(0, 0, 255, 0.8));
+    // TODO: frustum colors
+    /*frustumColorPicker.setValue(Color.rgb(0, 0, 255, 0.8));
     frustumColorPicker.valueProperty().addListener(e -> Viewshed.setFrustumOutlineColor(colorToInt(frustumColorPicker
-        .getValue())));
+        .getValue())));*/
   }
 
   /**
