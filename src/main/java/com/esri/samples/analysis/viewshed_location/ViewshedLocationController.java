@@ -26,7 +26,6 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.AnalysisOverlay;
 import com.esri.arcgisruntime.mapping.view.Camera;
-import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
 public class ViewshedLocationController {
@@ -98,7 +97,8 @@ public class ViewshedLocationController {
         sceneView.setOnMouseMoved(null);
       }
     };
-    sceneView.setOnMouseMoved(null); //disable default interaction listener
+    // remove the default listener for mouse move events
+    sceneView.setOnMouseMoved(null);
 
     // click to start/stop moving viewshed with mouse
     sceneView.setOnMouseClicked(event -> {
