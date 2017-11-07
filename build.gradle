@@ -14,7 +14,7 @@ buildscript {
     }
 }
 
-arcgis.version = '100.2.0-1873'
+arcgis.version = '100.2.0-1877'
 arcgis.internal = true
 
 idea.module.downloadJavadoc = true
@@ -53,5 +53,3 @@ run {
 task wrapper(type: Wrapper) {
     gradleVersion = '3.0'
 }
-
-run.dependsOn downloadData
