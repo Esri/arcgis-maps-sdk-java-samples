@@ -32,6 +32,7 @@ import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
+import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 import com.esri.arcgisruntime.symbology.Renderer;
@@ -101,7 +102,7 @@ public class ViewshedGeoElementSample extends Application {
       tankSymbol.setHeading(90);
       tankSymbol.setAnchorPosition(SceneSymbol.AnchorPosition.BOTTOM);
       tankSymbol.loadAsync();
-      tank = new Graphic(new Point(-4.506390, 48.385624, 0, SpatialReferences.getWgs84()), tankSymbol);
+      tank = new Graphic(new Point(-4.506390, 48.385624, SpatialReferences.getWgs84()), tankSymbol);
       tank.getAttributes().put("HEADING", 0.0);
       graphicsOverlay.getGraphics().add(tank);
 
@@ -126,9 +127,10 @@ public class ViewshedGeoElementSample extends Application {
         }
       });
 
-      // initialize camera to look at tank
-      Camera camera = new Camera((Point) tank.getGeometry(), 200, 0, 45, 0);
-      sceneView.setViewpointCamera(camera);
+      // set camera controller to follow tank
+      OrbitGeoElementCameraController cameraController = new OrbitGeoElementCameraController(tank, 200.0);
+      cameraController.setCameraPitchOffset(45.0);
+      sceneView.setCameraController(cameraController);
 
       // create a timeline to animate the tank
       Timeline animation = new Timeline();
