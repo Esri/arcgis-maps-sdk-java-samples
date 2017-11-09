@@ -21,6 +21,7 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -72,6 +73,9 @@ public class FeatureLayerGeoPackageSample extends Application {
               mapView.setViewpointAsync(new Viewpoint(featureLayer.getFullExtent()))
             );
           }
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, geoPackage.getLoadError().getMessage());
+          alert.show();
         }
       });
 
