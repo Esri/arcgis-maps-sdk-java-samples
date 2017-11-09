@@ -65,7 +65,7 @@ public class DisplaySceneSample extends Application {
       scene.setBaseSurface(surface);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(28.4, 83.9, 10010.0, 10.0, 80.0, 00.0);
+      Camera camera = new Camera(28.4, 83.9, 10010.0, 10.0, 80.0, 300.0);
       sceneView.setViewpointCamera(camera);
     } catch (Exception e) {
       // on any error, display the stack trace.
