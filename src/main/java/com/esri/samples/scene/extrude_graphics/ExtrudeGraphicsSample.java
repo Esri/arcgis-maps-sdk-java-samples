@@ -75,8 +75,7 @@ public class ExtrudeGraphicsSample extends Application {
       sceneView.setArcGISScene(scene);
       stackPane.getChildren().add(sceneView);
 
-      // add a camera and initial camera position
-      Camera camera = new Camera(28.4, 83, 10000, 10.0, 80.0, 300.0);
+      Camera camera = new Camera(28.4, 83, 10000, 10.0, 80.0, 0);
       sceneView.setViewpointCamera(camera);
 
       // add base surface for elevation data
