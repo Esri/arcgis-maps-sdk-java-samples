@@ -21,11 +21,10 @@ import java.util.Collections;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
-import org.controlsfx.control.RangeSlider;
+import javafx.scene.layout.VBox;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -41,14 +40,15 @@ import com.esri.arcgisruntime.raster.StretchRenderer;
 public class StretchRendererController {
 
   @FXML private HBox stdDeviationGroup;
-  @FXML private HBox minMaxGroup;
-  @FXML private HBox percentClipGroup;
+  @FXML private GridPane minMaxGroup;
+  @FXML private VBox percentClipGroup;
   @FXML private MapView mapView;
   @FXML private ComboBox<String> stretchTypeComboBox;
   @FXML private Spinner<Integer> factorSpinner;
-  @FXML private Slider minPercentSlider;
-  @FXML private Slider maxPercentSlider;
-  @FXML private RangeSlider minMaxSlider;
+  @FXML private Spinner<Integer> minPercentSpinner;
+  @FXML private Spinner<Integer> maxPercentSpinner;
+  @FXML private Spinner<Integer> minSpinner;
+  @FXML private Spinner<Integer> maxSpinner;
 
   private RasterLayer rasterLayer;
 
@@ -79,14 +79,14 @@ public class StretchRendererController {
     });
 
     // set up sliders to match constraint min + max <= 100
-    minPercentSlider.valueProperty().addListener(e -> {
-      if (minPercentSlider.getValue() + maxPercentSlider.getValue() > 100) {
-        maxPercentSlider.setValue(100 - minPercentSlider.getValue());
+    minPercentSpinner.valueProperty().addListener(e -> {
+      if (minPercentSpinner.getValue() + maxPercentSpinner.getValue() > 100) {
+        maxPercentSpinner.getValueFactory().setValue(100 - minPercentSpinner.getValue());
       }
     });
-    maxPercentSlider.valueProperty().addListener(e -> {
-      if (minPercentSlider.getValue() + maxPercentSlider.getValue() > 100) {
-        minPercentSlider.setValue(100 - maxPercentSlider.getValue());
+    maxPercentSpinner.valueProperty().addListener(e -> {
+      if (minPercentSpinner.getValue() + maxPercentSpinner.getValue() > 100) {
+        minPercentSpinner.getValueFactory().setValue(100 - maxPercentSpinner.getValue());
       }
     });
 
@@ -103,11 +103,11 @@ public class StretchRendererController {
     StretchParameters stretchParameters;
     switch (stretchTypeComboBox.getSelectionModel().getSelectedItem()) {
       case "Min Max":
-        stretchParameters = new MinMaxStretchParameters(Collections.singletonList(minMaxSlider.getLowValue()),
-            Collections.singletonList(minMaxSlider.getHighValue()));
+        stretchParameters = new MinMaxStretchParameters(Collections.singletonList(minSpinner.getValue().doubleValue()),
+            Collections.singletonList(maxSpinner.getValue().doubleValue()));
         break;
       case "Percent Clip":
-        stretchParameters = new PercentClipStretchParameters(minPercentSlider.getValue(), maxPercentSlider.getValue());
+        stretchParameters = new PercentClipStretchParameters(minPercentSpinner.getValue(), maxPercentSpinner.getValue());
         break;
       default:
         stretchParameters = new StandardDeviationStretchParameters(factorSpinner.getValue());

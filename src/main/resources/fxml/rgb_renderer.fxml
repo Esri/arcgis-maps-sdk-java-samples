@@ -18,18 +18,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import org.controlsfx.control.RangeSlider?>
+<?import javafx.scene.layout.*?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <StackPane fx:controller="com.esri.samples.raster.rgb_renderer.RgbRendererController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="450" maxHeight="50" styleClass="panel-region" spacing="10">
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="50" styleClass="panel-region" spacing="10">
         <HBox spacing="10">
             <Label text="Stretch type"/>
             <ComboBox fx:id="stretchTypeComboBox"/>
@@ -40,22 +35,28 @@
             <Spinner fx:id="factorSpinner" min="0" max="3" initialValue="1" maxWidth="110" editable="true"/>
         </HBox>
         <!--Percent Clip-->
-        <HBox fx:id="percentClipGroup" spacing="10" managed="${percentClipGroup.visible}">
-            <Label text="Min/Max %"/>
-            <Slider fx:id="minPercentSlider" showTickMarks="true" showTickLabels="true"/>
-            <Slider fx:id="maxPercentSlider" showTickMarks="true" showTickLabels="true" value="100"/>
-        </HBox>
+        <VBox fx:id="percentClipGroup" spacing="10" managed="${percentClipGroup.visible}">
+            <Label text="Min + Max &#60;&#61; 100"/>
+            <Spinner fx:id="minPercentSpinner" min="0" max="100" initialValue="0" editable="true"/>
+            <Spinner fx:id="maxPercentSpinner" min="0" max="100" initialValue="100" editable="true"/>
+        </VBox>
         <!--Min/Max-->
         <GridPane fx:id="minMaxGroup" hgap="10" vgap="10" managed="${minMaxGroup.visible}">
             <Label text="R" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <RangeSlider fx:id="redSlider" min="0" max="255" lowValue="0" highValue="255" GridPane.rowIndex="0"
-                         GridPane.columnIndex="1" showTickLabels="true" blockIncrement="25"/>
+            <Spinner fx:id="minRedSpinner" min="0" max="255" initialValue="0" editable="true" GridPane.rowIndex="0"
+                     GridPane.columnIndex="1"/>
+            <Spinner fx:id="maxRedSpinner" max="255" initialValue="255" editable="true" GridPane.rowIndex="0"
+                     GridPane.columnIndex="2"/>
             <Label text="G" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <RangeSlider fx:id="greenSlider" min="0" max="255" lowValue="0" highValue="255" GridPane.rowIndex="1"
-                         GridPane.columnIndex="1" showTickLabels="true" blockIncrement="25"/>
+            <Spinner fx:id="minGreenSpinner" min="0" max="255" initialValue="0" editable="true" GridPane.rowIndex="1"
+                     GridPane.columnIndex="1"/>
+            <Spinner fx:id="maxGreenSpinner" max="255" initialValue="255" editable="true" GridPane.rowIndex="1"
+                     GridPane.columnIndex="2"/>
             <Label text="B" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <RangeSlider fx:id="blueSlider" min="0" max="255" lowValue="0" highValue="255" GridPane.rowIndex="2"
-                         GridPane.columnIndex="1" showTickLabels="true" blockIncrement="25"/>
+            <Spinner fx:id="minBlueSpinner" min="0" max="255" initialValue="0" editable="true" GridPane.rowIndex="2"
+                     GridPane.columnIndex="1"/>
+            <Spinner fx:id="maxBlueSpinner" max="255" initialValue="255" editable="true" GridPane.rowIndex="2"
+                     GridPane.columnIndex="2"/>
         </GridPane>
         <Button text="Update" onAction="#updateRenderer"/>
     </VBox>
