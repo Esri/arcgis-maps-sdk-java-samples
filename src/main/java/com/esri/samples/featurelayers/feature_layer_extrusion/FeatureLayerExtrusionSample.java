@@ -16,7 +16,7 @@
 
 package com.esri.samples.featurelayers.feature_layer_extrusion;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -74,7 +74,7 @@ public class FeatureLayerExtrusionSample extends Application {
     // load all features, with all fields (attributes), from service feature table
     QueryParameters queryParams = new QueryParameters();
     queryParams.setWhereClause("1=1");
-    statesServiceFeatureTable.populateFromServiceAsync(queryParams, true, Arrays.asList("*"));
+    statesServiceFeatureTable.populateFromServiceAsync(queryParams, true, Collections.singletonList("*"));
 
     // creates feature layer from table and add to scene
     final FeatureLayer statesFeatureLayer = new FeatureLayer(statesServiceFeatureTable);
