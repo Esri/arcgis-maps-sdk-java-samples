@@ -14,7 +14,7 @@ buildscript {
     }
 }
 
-arcgis.version = '100.2.0-1877'
+arcgis.version = '100.2.0-1887'
 arcgis.internal = true
 
 idea.module.downloadJavadoc = true
@@ -24,7 +24,6 @@ compileJava.options.encoding = 'UTF-8'
 
 dependencies {
     compile 'commons-io:commons-io:2.4'
-    compile 'org.controlsfx:controlsfx:8.40.13'
     compile 'org.jooq:joox:1.4.0'
 }
 
@@ -51,5 +50,5 @@ run {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.0'
+    gradleVersion = '4.3.1'
 }
