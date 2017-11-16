@@ -13,8 +13,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import com.esri.arcgisruntime.analysis.LocationViewshed;
-import com.esri.arcgisruntime.analysis.Viewshed;
+import com.esri.arcgisruntime.geoanalysis.LocationViewshed;
+import com.esri.arcgisruntime.geoanalysis.Viewshed;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointBuilder;
@@ -31,7 +31,7 @@ public class ViewshedLocationController {
 
   @FXML private SceneView sceneView;
   @FXML private ToggleButton visibilityToggle;
-  //@FXML private ToggleButton frustumToggle;
+  @FXML private ToggleButton frustumToggle;
   @FXML private Slider headingSlider;
   @FXML private Slider pitchSlider;
   @FXML private Slider horizontalAngleSlider;
@@ -40,7 +40,7 @@ public class ViewshedLocationController {
   @FXML private Slider maxDistanceSlider;
   @FXML private ColorPicker visibleColorPicker;
   @FXML private ColorPicker obstructedColorPicker;
-  //@FXML private ColorPicker frustumColorPicker;
+  @FXML private ColorPicker frustumColorPicker;
 
   public void initialize() {
     // create a scene and add a basemap to it
@@ -115,7 +115,9 @@ public class ViewshedLocationController {
     visibilityToggle.selectedProperty().addListener(e -> viewshed.setVisible(visibilityToggle.isSelected()));
     visibilityToggle.textProperty().bind(Bindings.createStringBinding(() -> visibilityToggle.isSelected() ? "ON" :
         "OFF", visibilityToggle.selectedProperty()));
-    //visibilityToggle.selectedProperty().addListener(e -> viewshed.setFrustumOutlineVisible(visibilityToggle.isSelected()));
+    frustumToggle.selectedProperty().addListener(e -> viewshed.setFrustumOutlineVisible(visibilityToggle.isSelected()));
+    frustumToggle.textProperty().bind(Bindings.createStringBinding(() -> frustumToggle.isSelected() ? "ON" :
+        "OFF", frustumToggle.selectedProperty()));
     // heading slider
     headingSlider.valueProperty().addListener(e -> viewshed.setHeading(headingSlider.getValue()));
     // pitch slider
@@ -135,10 +137,9 @@ public class ViewshedLocationController {
     obstructedColorPicker.setValue(Color.rgb(255, 0, 0, 0.8));
     obstructedColorPicker.valueProperty().addListener(e -> Viewshed.setObstructedColor(colorToInt(obstructedColorPicker
         .getValue())));
-    // TODO: frustum colors
-    /*frustumColorPicker.setValue(Color.rgb(0, 0, 255, 0.8));
+    frustumColorPicker.setValue(Color.rgb(0, 0, 255, 0.8));
     frustumColorPicker.valueProperty().addListener(e -> Viewshed.setFrustumOutlineColor(colorToInt(frustumColorPicker
-        .getValue())));*/
+        .getValue())));
   }
 
   /**

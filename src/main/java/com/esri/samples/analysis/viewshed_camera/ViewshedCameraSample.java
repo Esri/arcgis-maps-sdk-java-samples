@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.analysis.LocationViewshed;
+import com.esri.arcgisruntime.geoanalysis.LocationViewshed;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
@@ -64,6 +64,7 @@ public class ViewshedCameraSample extends Application {
 
       // create a viewshed from the camera
       LocationViewshed viewshed = new LocationViewshed(camera, 1.0, 500.0);
+      viewshed.setFrustumOutlineVisible(true);
 
       // create an analysis overlay to add the viewshed to the scene view
       AnalysisOverlay analysisOverlay = new AnalysisOverlay();
