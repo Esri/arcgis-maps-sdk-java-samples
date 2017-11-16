@@ -31,7 +31,7 @@ public class ViewshedLocationController {
 
   @FXML private SceneView sceneView;
   @FXML private ToggleButton visibilityToggle;
-  @FXML private ToggleButton frustumToggle;
+  //@FXML private ToggleButton frustumToggle;
   @FXML private Slider headingSlider;
   @FXML private Slider pitchSlider;
   @FXML private Slider horizontalAngleSlider;
@@ -115,7 +115,7 @@ public class ViewshedLocationController {
     visibilityToggle.selectedProperty().addListener(e -> viewshed.setVisible(visibilityToggle.isSelected()));
     visibilityToggle.textProperty().bind(Bindings.createStringBinding(() -> visibilityToggle.isSelected() ? "ON" :
         "OFF", visibilityToggle.selectedProperty()));
-    //visibilityToggle.selectedProperty().addListener(e -> viewshed.setFrustumVisible(visibilityToggle.isSelected()));
+    //visibilityToggle.selectedProperty().addListener(e -> viewshed.setFrustumOutlineVisible(visibilityToggle.isSelected()));
     // heading slider
     headingSlider.valueProperty().addListener(e -> viewshed.setHeading(headingSlider.getValue()));
     // pitch slider
