@@ -2,17 +2,16 @@ package com.esri.samples.analysis.viewshed_location;
 
 import java.util.concurrent.ExecutionException;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-
-import org.controlsfx.control.RangeSlider;
-import org.controlsfx.control.ToggleSwitch;
 
 import com.esri.arcgisruntime.analysis.LocationViewshed;
 import com.esri.arcgisruntime.analysis.Viewshed;
@@ -31,13 +30,14 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class ViewshedLocationController {
 
   @FXML private SceneView sceneView;
-  @FXML private ToggleSwitch visibilityToggle;
-  //@FXML private ToggleSwitch frustumToggle;
+  @FXML private ToggleButton visibilityToggle;
+  //@FXML private ToggleButton frustumToggle;
   @FXML private Slider headingSlider;
   @FXML private Slider pitchSlider;
   @FXML private Slider horizontalAngleSlider;
   @FXML private Slider verticalAngleSlider;
-  @FXML private RangeSlider distanceSlider;
+  @FXML private Slider minDistanceSlider;
+  @FXML private Slider maxDistanceSlider;
   @FXML private ColorPicker visibleColorPicker;
   @FXML private ColorPicker obstructedColorPicker;
   //@FXML private ColorPicker frustumColorPicker;
@@ -63,8 +63,8 @@ public class ViewshedLocationController {
     // create a viewshed from the camera
     Point location = new Point(-4.50, 48.4,100.0);
     LocationViewshed viewshed = new LocationViewshed(location, headingSlider.getValue(), pitchSlider.getValue(),
-        horizontalAngleSlider.getValue(), verticalAngleSlider.getValue(), distanceSlider.getLowValue(),
-        distanceSlider.getHighValue());
+        horizontalAngleSlider.getValue(), verticalAngleSlider.getValue(), minDistanceSlider.getValue(),
+        maxDistanceSlider.getValue());
 
     // set the camera
     Camera camera = new Camera(location, 200.0, 20.0, 70.0, 0.0);
@@ -76,7 +76,7 @@ public class ViewshedLocationController {
     sceneView.getAnalysisOverlays().add(analysisOverlay);
 
     // create a listener to update the viewshed location when the mouse moves
-    EventHandler<MouseEvent> mouseMoveEventHandler = new EventHandler<MouseEvent>() {
+    EventHandler<MouseEvent> mouseMoveEventHandler = new EventHandler<>() {
       @Override
       public void handle(MouseEvent event) {
         Point2D point2D = new Point2D(event.getX(), event.getY());
@@ -113,8 +113,9 @@ public class ViewshedLocationController {
 
     // toggle visibility
     visibilityToggle.selectedProperty().addListener(e -> viewshed.setVisible(visibilityToggle.isSelected()));
-    // TODO: toggle frustum
-    //visibilityToggle.selectedProperty().addListener(e -> viewshed.setFrustumVisible(visibilityToggle.isSelected()));
+    visibilityToggle.textProperty().bind(Bindings.createStringBinding(() -> visibilityToggle.isSelected() ? "ON" :
+        "OFF", visibilityToggle.selectedProperty()));
+    //visibilityToggle.selectedProperty().addListener(e -> viewshed.setFrustumOutlineVisible(visibilityToggle.isSelected()));
     // heading slider
     headingSlider.valueProperty().addListener(e -> viewshed.setHeading(headingSlider.getValue()));
     // pitch slider
@@ -124,9 +125,9 @@ public class ViewshedLocationController {
     // vertical angle slider
     verticalAngleSlider.valueProperty().addListener(e -> viewshed.setVerticalAngle(verticalAngleSlider
         .getValue()));
-    // distance slider
-    distanceSlider.lowValueProperty().addListener(e -> viewshed.setMinDistance(distanceSlider.getLowValue()));
-    distanceSlider.highValueProperty().addListener(e -> viewshed.setMaxDistance(distanceSlider.getHighValue()));
+    // distance sliders
+    minDistanceSlider.valueProperty().addListener(e -> viewshed.setMinDistance(minDistanceSlider.getValue()));
+    maxDistanceSlider.valueProperty().addListener(e -> viewshed.setMaxDistance(maxDistanceSlider.getValue()));
     // colors
     visibleColorPicker.setValue(Color.rgb(0, 255, 0, 0.8));
     visibleColorPicker.valueProperty().addListener(e -> Viewshed.setVisibleColor(colorToInt(visibleColorPicker

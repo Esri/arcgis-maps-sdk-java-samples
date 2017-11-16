@@ -20,11 +20,9 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import org.controlsfx.control.ToggleSwitch;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -63,17 +61,12 @@ public class ChangeFeatureLayerRendererSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(150, 40);
-      vBoxControl.getStyleClass().add("panel-region");
-
       // create a blue (0xFF0000FF) line symbol renderer
       SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2);
       SimpleRenderer blueRenderer = new SimpleRenderer(lineSymbol);
 
       // create renderer toggle switch
-      ToggleSwitch rendererSwitch = new ToggleSwitch();
+      ToggleButton rendererSwitch = new ToggleButton();
       rendererSwitch.setText("blue renderer");
 
       // set the render if the switch is selected
@@ -85,9 +78,6 @@ public class ChangeFeatureLayerRendererSample extends Application {
           featureLayer.resetRenderer();
         }
       });
-
-      // add buttons to the control panel
-      vBoxControl.getChildren().addAll(rendererSwitch);
 
       // create starting envelope for the ArcGISMap
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
@@ -115,9 +105,9 @@ public class ChangeFeatureLayerRendererSample extends Application {
       mapView.setMap(map);
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, rendererSwitch);
+      StackPane.setAlignment(rendererSwitch, Pos.TOP_LEFT);
+      StackPane.setMargin(rendererSwitch, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace
