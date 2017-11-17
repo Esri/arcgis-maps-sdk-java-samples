@@ -39,7 +39,7 @@
                 showTickLabels="true"/>
 
         <Label text="Pitch" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <Slider fx:id="pitchSlider" value="70" min="0.01" max="90" GridPane.rowIndex="3" GridPane.columnIndex="1"
+        <Slider fx:id="pitchSlider" value="70" max="90" GridPane.rowIndex="3" GridPane.columnIndex="1"
                 showTickLabels="true"/>
 
         <Label text="Horizontal Angle" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
@@ -52,7 +52,7 @@
                 GridPane.columnIndex="1" showTickLabels="true"/>
 
         <Label text="Min Distance" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-        <Slider fx:id="minDistanceSlider" min="1" max="${maxDistanceSlider.value}" value="1" GridPane.rowIndex="6"
+        <Slider fx:id="minDistanceSlider" max="${maxDistanceSlider.value}" value="1" GridPane.rowIndex="6"
                  GridPane.columnIndex="1" showTickLabels="true" majorTickUnit="Infinity"/>
 
         <Label text="Max Distance" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
