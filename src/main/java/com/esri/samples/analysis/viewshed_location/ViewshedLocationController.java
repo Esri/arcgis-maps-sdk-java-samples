@@ -76,7 +76,7 @@ public class ViewshedLocationController {
     sceneView.getAnalysisOverlays().add(analysisOverlay);
 
     // create a listener to update the viewshed location when the mouse moves
-    EventHandler<MouseEvent> mouseMoveEventHandler = new EventHandler<>() {
+    EventHandler<MouseEvent> mouseMoveEventHandler = new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
         Point2D point2D = new Point2D(event.getX(), event.getY());

@@ -44,8 +44,7 @@
 
         <Label text="Horizontal Angle" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
         <Slider fx:id="horizontalAngleSlider" value="90" min="0.01" max="120" GridPane.rowIndex="4"
-                GridPane.columnIndex="1"
-                showTickLabels="true"/>
+                GridPane.columnIndex="1" showTickLabels="true"/>
 
         <Label text="Vertical Angle" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
         <Slider fx:id="verticalAngleSlider" value="30" min="0.01" max="120" GridPane.rowIndex="5"
