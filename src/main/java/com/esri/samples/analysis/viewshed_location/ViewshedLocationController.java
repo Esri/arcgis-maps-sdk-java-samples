@@ -115,7 +115,7 @@ public class ViewshedLocationController {
     visibilityToggle.selectedProperty().addListener(e -> viewshed.setVisible(visibilityToggle.isSelected()));
     visibilityToggle.textProperty().bind(Bindings.createStringBinding(() -> visibilityToggle.isSelected() ? "ON" :
         "OFF", visibilityToggle.selectedProperty()));
-    frustumToggle.selectedProperty().addListener(e -> viewshed.setFrustumOutlineVisible(visibilityToggle.isSelected()));
+    frustumToggle.selectedProperty().addListener(e -> viewshed.setFrustumOutlineVisible(frustumToggle.isSelected()));
     frustumToggle.textProperty().bind(Bindings.createStringBinding(() -> frustumToggle.isSelected() ? "ON" :
         "OFF", frustumToggle.selectedProperty()));
     // heading slider
