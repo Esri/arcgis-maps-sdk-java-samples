@@ -10,8 +10,6 @@
 
 <ol>
   <li>Create a <code>ServiceFeatureTable</code> from an URL.</li>
-  <li>Set request mode of table, <code>statesServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.MANUAL_CACHE)</code>.</li>
-  <li>Create an <code>QueryParameters</code> to select all features and load all fields (attributes).</li>
   <li>Create a feature layer from service feature table.
   <ol>Make sure to set rendering mode to dynamic, <code>statesFeatureLayer.setRenderingMode(RenderingMode.DYNAMIC)</code>.</ol></li>
   <li>Apply a <code>SimpleRenderer</code> to the feature layer.</li>
