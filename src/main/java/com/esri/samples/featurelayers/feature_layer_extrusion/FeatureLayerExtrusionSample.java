@@ -16,8 +16,6 @@
 
 package com.esri.samples.featurelayers.feature_layer_extrusion;
 
-import java.util.Collections;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,7 +25,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -69,12 +66,6 @@ public class FeatureLayerExtrusionSample extends Application {
 
     // get us census data as a service feature table
     ServiceFeatureTable statesServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3");
-    statesServiceFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
-
-    // load all features, with all fields (attributes), from service feature table
-    QueryParameters queryParams = new QueryParameters();
-    queryParams.setWhereClause("1=1");
-    statesServiceFeatureTable.populateFromServiceAsync(queryParams, true, Collections.singletonList("*"));
 
     // creates feature layer from table and add to scene
     final FeatureLayer statesFeatureLayer = new FeatureLayer(statesServiceFeatureTable);
