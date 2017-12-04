@@ -2,10 +2,14 @@
 bin/
 tmp/
 build/
+out/
 
 # Local configuration file (sdk path, etc)
 local.properties
 .gradle/
+/samples-data/
+/jniLibs/
+/resources/
 
 # Intellij project files
 *.ipr
@@ -33,6 +37,3 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
-/samples-data/
-/jniLibs/
-/resources/
