@@ -50,7 +50,7 @@ public class LineOfSightLocationSample extends Application {
       // add the SceneView to the stack pane
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
-      stackPane.getChildren().addAll(sceneView);
+      stackPane.getChildren().add(sceneView);
 
       // add base surface for elevation data
       Surface surface = new Surface();
@@ -68,6 +68,7 @@ public class LineOfSightLocationSample extends Application {
       LocationLineOfSight lineOfSight = new LocationLineOfSight(observerLocation, targetLocation);
       analysisOverlay.getAnalyses().add(lineOfSight);
 
+      // initialize the viewpoint
       Camera camera = new Camera(new Point(-73.0815, -49.3272, 4059, SpatialReferences.getWgs84()), 11, 62, 0);
       sceneView.setViewpointCamera(camera);
 
@@ -77,10 +78,12 @@ public class LineOfSightLocationSample extends Application {
       // update the target location when the mouse moves
       EventHandler<MouseEvent> mouseMoveEventHandler = event -> {
         Point2D point2D = new Point2D(event.getX(), event.getY());
+        // get the scene location from the screen position
         ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
         pointFuture.addDoneListener(() -> {
           try {
             Point point = pointFuture.get();
+            // update the target location
             lineOfSight.setTargetLocation(point);
           } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
