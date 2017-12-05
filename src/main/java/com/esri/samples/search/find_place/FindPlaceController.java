@@ -155,6 +155,9 @@ public class FindPlaceController {
     });
   }
 
+  /**
+   * Searches for places near the chosen location when the "search" button is clicked.
+   */
   @FXML
   private void search() {
     String placeQuery = placeBox.getEditor().getText();
@@ -192,6 +195,9 @@ public class FindPlaceController {
     }
   }
 
+  /**
+   * Searches for places within the current map extent when the "redo search in this area" button is clicked.
+   */
   @FXML
   private void searchByCurrentViewpoint() {
       String placeQuery = placeBox.getEditor().getText();
