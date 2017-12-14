@@ -104,7 +104,7 @@ public class CreateAndSaveMapController {
 
       @Override
       public String toString(PortalFolder folder) {
-        return folder.getTitle();
+        return folder != null ? folder.getTitle() : "";
       }
 
       @Override

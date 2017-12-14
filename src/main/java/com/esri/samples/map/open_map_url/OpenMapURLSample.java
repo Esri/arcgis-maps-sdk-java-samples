@@ -87,7 +87,7 @@ public class OpenMapURLSample extends Application {
 
       @Override
       public String toString(ArcGISMap map) {
-        return map.getItem().getTitle();
+        return map != null ? map.getItem().getTitle() : "";
       }
 
       @Override

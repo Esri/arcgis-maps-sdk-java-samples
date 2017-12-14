@@ -105,7 +105,7 @@ public class OfflineRoutingSample extends Application {
         @Override
         public String toString(TravelMode travelMode) {
 
-          return travelMode.getName();
+          return travelMode != null ? travelMode.getName() : "";
         }
 
         @Override
