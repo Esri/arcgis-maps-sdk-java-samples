@@ -95,7 +95,7 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
 
       // camera locations for camera to zoom in and out to
       Camera zoomOutCamera = new Camera(new Point(-118.37, 34.46, SpatialReferences.getWgs84()), 42000, 0, 0, 0);
-      Camera zoomInCamera = new Camera(new Point(-118.45, 34.395, SpatialReferences.getWgs84()), 2500, 90, 75, 90);
+      Camera zoomInCamera = new Camera(new Point(-118.45, 34.395, SpatialReferences.getWgs84()), 2500, 90, 75, 0);
       sceneViewTop.setViewpointCamera(zoomOutCamera);
       sceneViewBottom.setViewpointCamera(zoomOutCamera);
 
