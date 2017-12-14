@@ -2,7 +2,7 @@
 
 <p>Demonstrates how to geocode an address query and display its location on the map.</p>
 
-<p><img src="FindAddress.png"/></p>
+<p><img src="FindAddress.gif"/></p>
 
 <h2>How to use the sample</h2>
 
