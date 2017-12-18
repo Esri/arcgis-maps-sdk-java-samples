@@ -51,7 +51,7 @@ public class OpenMobileMapPackageSample extends Application {
       mapView = new MapView();
 
       //load a mobile map package
-      final String mmpkPath = new File("samples-data/mmpk/Yellowstone.mmpk").getAbsolutePath();
+      final String mmpkPath = new File("./samples-data/mmpk/Yellowstone.mmpk").getAbsolutePath();
       MobileMapPackage mobileMapPackage = new MobileMapPackage(mmpkPath);
 
       mobileMapPackage.loadAsync();

@@ -39,8 +39,9 @@ public class OpenMapURLSample extends Application {
 
   private MapView mapView;
 
-  private static final String[] portalItemIDs = new String[]{ "2d6fa24b357d427f9c737774e7b0f977",
-  "01f052c8995e4b9e889d73c3e210ebe3", "0edea1c7bbb84ba5842d20483af11679"};
+  private static final String[] portalItemIDs = new String[] {
+      "01f052c8995e4b9e889d73c3e210ebe3", "0edea1c7bbb84ba5842d20483af11679"
+  };
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -65,9 +66,9 @@ public class OpenMapURLSample extends Application {
     // create maps using portal item IDs
     Portal portal = new Portal("http://www.arcgis.com/");
     List<ArcGISMap> webMaps = Stream.of(portalItemIDs)
-      .map(id -> new PortalItem(portal, id))
-      .map(ArcGISMap::new)
-      .collect(Collectors.toList());
+        .map(id -> new PortalItem(portal, id))
+        .map(ArcGISMap::new)
+        .collect(Collectors.toList());
 
     // load maps and add to combo box
     webMaps.forEach(map -> {
@@ -83,9 +84,10 @@ public class OpenMapURLSample extends Application {
 
     // show the name of the map in the combo box
     webMapComboBox.setConverter(new StringConverter<ArcGISMap>() {
+
       @Override
       public String toString(ArcGISMap map) {
-        return map.getItem().getTitle();
+        return map != null ? map.getItem().getTitle() : "";
       }
 
       @Override
@@ -94,13 +96,13 @@ public class OpenMapURLSample extends Application {
       }
     });
 
-    webMapComboBox.setCellFactory(comboBox ->
-      new ListCell<ArcGISMap>(){
-        @Override
-        protected void updateItem(ArcGISMap map, boolean empty) {
-          super.updateItem(map, empty);
-          setText(empty ? "" : map.getItem().getTitle());
-        }
+    webMapComboBox.setCellFactory(comboBox -> new ListCell<ArcGISMap>() {
+
+      @Override
+      protected void updateItem(ArcGISMap map, boolean empty) {
+        super.updateItem(map, empty);
+        setText(empty ? "" : map.getItem().getTitle());
+      }
     });
 
     // select the web map loaded first

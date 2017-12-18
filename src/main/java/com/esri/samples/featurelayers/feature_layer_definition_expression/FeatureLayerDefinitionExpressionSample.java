@@ -20,11 +20,10 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import org.controlsfx.control.ToggleSwitch;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
@@ -58,13 +57,8 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a control panel
-      VBox vBoxControl = new VBox();
-      vBoxControl.setMaxSize(150, 40);
-      vBoxControl.getStyleClass().add("panel-region");
-
       // create renderer toggle switch
-      ToggleSwitch definitionSwitch = new ToggleSwitch();
+      ToggleButton definitionSwitch = new ToggleButton();
       definitionSwitch.setText("expression");
 
       // set the definition expression
@@ -76,9 +70,6 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
           featureLayer.setDefinitionExpression("");
         }
       });
-
-      // add buttons to the control panel
-      vBoxControl.getChildren().addAll(definitionSwitch);
 
       // create service feature table
       final ServiceFeatureTable featureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);
@@ -103,9 +94,9 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
       mapView.setViewpointCenterAsync(startPoint, 150000);
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, definitionSwitch);
+      StackPane.setAlignment(definitionSwitch, Pos.TOP_LEFT);
+      StackPane.setMargin(definitionSwitch, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace

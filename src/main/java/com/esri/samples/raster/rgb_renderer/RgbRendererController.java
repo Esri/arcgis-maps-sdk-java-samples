@@ -18,6 +18,7 @@ package com.esri.samples.raster.rgb_renderer;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -25,8 +26,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
-import org.controlsfx.control.RangeSlider;
+import javafx.scene.layout.VBox;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -43,15 +43,18 @@ public class RgbRendererController {
 
   @FXML private HBox stdDeviationGroup;
   @FXML private GridPane minMaxGroup;
-  @FXML private HBox percentClipGroup;
+  @FXML private VBox percentClipGroup;
   @FXML private MapView mapView;
   @FXML private ComboBox<String> stretchTypeComboBox;
   @FXML private Spinner<Integer> factorSpinner;
-  @FXML private Slider minPercentSlider;
-  @FXML private Slider maxPercentSlider;
-  @FXML private RangeSlider redSlider;
-  @FXML private RangeSlider greenSlider;
-  @FXML private RangeSlider blueSlider;
+  @FXML private Spinner<Integer> minPercentSpinner;
+  @FXML private Spinner<Integer> maxPercentSpinner;
+  @FXML private Spinner<Integer> minRedSpinner;
+  @FXML private Spinner<Integer> minGreenSpinner;
+  @FXML private Spinner<Integer> minBlueSpinner;
+  @FXML private Spinner<Integer> maxRedSpinner;
+  @FXML private Spinner<Integer> maxGreenSpinner;
+  @FXML private Spinner<Integer> maxBlueSpinner;
 
   private RasterLayer rasterLayer;
 
@@ -82,14 +85,14 @@ public class RgbRendererController {
     });
 
     // set up sliders to match constraint min + max <= 100
-    minPercentSlider.valueProperty().addListener(e -> {
-      if (minPercentSlider.getValue() + maxPercentSlider.getValue() > 100) {
-        maxPercentSlider.setValue(100 - minPercentSlider.getValue());
+    minPercentSpinner.valueProperty().addListener(e -> {
+      if (minPercentSpinner.getValue() + maxPercentSpinner.getValue() > 100) {
+        maxPercentSpinner.getValueFactory().setValue(100 - minPercentSpinner.getValue());
       }
     });
-    maxPercentSlider.valueProperty().addListener(e -> {
-      if (minPercentSlider.getValue() + maxPercentSlider.getValue() > 100) {
-        minPercentSlider.setValue(100 - maxPercentSlider.getValue());
+    maxPercentSpinner.valueProperty().addListener(e -> {
+      if (minPercentSpinner.getValue() + maxPercentSpinner.getValue() > 100) {
+        minPercentSpinner.getValueFactory().setValue(100 - maxPercentSpinner.getValue());
       }
     });
 
@@ -106,11 +109,14 @@ public class RgbRendererController {
     StretchParameters stretchParameters;
     switch (stretchTypeComboBox.getSelectionModel().getSelectedItem()) {
       case "Min Max":
-        stretchParameters = new MinMaxStretchParameters(Arrays.asList(redSlider.getLowValue(), greenSlider.getLowValue(),
-            blueSlider.getLowValue()), Arrays.asList(redSlider.getHighValue(), greenSlider.getHighValue(), blueSlider.getHighValue()));
+        List<Double> minValues = Arrays.asList(minRedSpinner.getValue().doubleValue(), minGreenSpinner.getValue()
+                .doubleValue(), minBlueSpinner.getValue().doubleValue());
+        List<Double> maxValues = Arrays.asList(maxRedSpinner.getValue().doubleValue(), maxGreenSpinner.getValue()
+                .doubleValue(), maxBlueSpinner.getValue().doubleValue());
+        stretchParameters = new MinMaxStretchParameters(minValues, maxValues);
         break;
       case "Percent Clip":
-        stretchParameters = new PercentClipStretchParameters(minPercentSlider.getValue(), maxPercentSlider.getValue());
+        stretchParameters = new PercentClipStretchParameters(minPercentSpinner.getValue(), maxPercentSpinner.getValue());
         break;
       default:
         stretchParameters = new StandardDeviationStretchParameters(factorSpinner.getValue());
