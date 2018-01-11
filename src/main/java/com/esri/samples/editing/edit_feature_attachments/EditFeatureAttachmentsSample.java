@@ -266,8 +266,12 @@ public class EditFeatureAttachmentsSample extends Application {
       try {
         List<FeatureEditResult> edits = editResult.get();
         // check if the server edit was successful
-        if (edits != null && edits.size() > 0 && edits.get(0).hasCompletedWithErrors()) {
-          throw edits.get(0).getError();
+        if (edits != null && edits.size() > 0) {
+          if (!edits.get(0).hasCompletedWithErrors()) {
+            displayMessage(null, "Operation successfully");
+          } else {
+            throw edits.get(0).getError();
+          }
         }
         // update the displayed list of attachments
         fetchAttachments(selected);

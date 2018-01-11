@@ -130,9 +130,8 @@ public class AddFeaturesSample extends Application {
 
     // check if feature can be added to feature table
     if (featureTable.canAdd()) {
-      // add the new feature to the feature table
-      ListenableFuture<Void> addResult = featureTable.addFeatureAsync(feature);
-      addResult.addDoneListener(() -> applyEdits(featureTable));
+      // add the new feature to the feature table and to server
+      featureTable.addFeatureAsync(feature).addDoneListener(() -> applyEdits(featureTable));
     } else {
       displayMessage(null, "Cannot add a feature to this feature table");
     }
@@ -151,8 +150,12 @@ public class AddFeaturesSample extends Application {
       try {
         List<FeatureEditResult> edits = editResult.get();
         // check if the server edit was successful
-        if (edits != null && edits.size() > 0 && edits.get(0).hasCompletedWithErrors()) {
-          throw edits.get(0).getError();
+        if (edits != null && edits.size() > 0) {
+          if (!edits.get(0).hasCompletedWithErrors()) {
+            displayMessage(null, "Feature successfully added");
+          } else {
+            throw edits.get(0).getError();
+          }
         }
       } catch (InterruptedException | ExecutionException e) {
         displayMessage("Exception applying edits on server", e.getCause().getMessage());
