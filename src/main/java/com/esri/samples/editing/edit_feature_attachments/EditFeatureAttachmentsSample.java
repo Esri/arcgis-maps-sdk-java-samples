@@ -268,7 +268,7 @@ public class EditFeatureAttachmentsSample extends Application {
         // check if the server edit was successful
         if (edits != null && edits.size() > 0) {
           if (!edits.get(0).hasCompletedWithErrors()) {
-            displayMessage(null, "Operation successfully");
+            displayMessage(null, "Edited feature successfully");
           } else {
             throw edits.get(0).getError();
           }
