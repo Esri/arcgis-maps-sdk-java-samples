@@ -46,6 +46,8 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.OAuthConfiguration;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesJob;
 import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesParameters;
@@ -71,15 +73,39 @@ public class ExportVectorTilesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create an ArcGISTiledLayer to use as the basemap
-      Portal portal = new Portal("https://arcgisruntime.maps.arcgis.com");
-      PortalItem portalItem = new PortalItem(portal, "cb092249a9a942859bcf92c00bf420ba");
-      portalItem.loadAsync();
-      ArcGISMap map = new ArcGISMap(portalItem);
-
       // set the map to the map view
       mapView = new MapView();
-      mapView.setMap(map);
+
+      AuthenticationDialog authenticationDialog = new AuthenticationDialog();
+      authenticationDialog.show();
+      authenticationDialog.setOnCloseRequest(r -> {
+
+        OAuthConfiguration configuration = authenticationDialog.getResult();
+        // check that configuration was made
+        if (configuration != null) {
+          AuthenticationManager.addOAuthConfiguration(configuration);
+
+          // setup the handler that will prompt an authentication challenge to the user
+          AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
+
+          Portal portal = new Portal("http://" + configuration.getPortalUrl(), true);
+          portal.addDoneLoadingListener(() -> {
+            if (portal.getLoadStatus() == LoadStatus.LOADED) {
+              PortalItem portalItem = new PortalItem(portal, "8e848d9302e84dcba0de7aff8ac429dc");
+              ArcGISMap map = new ArcGISMap(portalItem);
+              mapView.setMap(map);
+
+            } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+
+              portal.getLoadError().getCause().printStackTrace();
+            }
+          });
+
+          // loading the portal info of a secured resource
+          // this will invoke the authentication challenge
+          portal.loadAsync();
+        }
+      });
 
       // create a graphics overlay for the map view
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
@@ -93,7 +119,7 @@ public class ExportVectorTilesSample extends Application {
 
       // update the box whenever the viewpoint changes
       mapView.addViewpointChangedListener(viewpointChangedEvent -> {
-        if (map.getLoadStatus() == LoadStatus.LOADED) {
+        if (mapView.getMap().getLoadStatus() == LoadStatus.LOADED) {
           // upper left corner of the downloaded tile cache area
           Point2D minScreenPoint = new Point2D(50, 50);
           // lower right corner of the downloaded tile cache area
@@ -122,7 +148,7 @@ public class ExportVectorTilesSample extends Application {
         try {
           File tempFile = File.createTempFile("tiles", ".vtpk");
           progressBar.setVisible(true);
-          Layer layer = map.getBasemap().getBaseLayers().get(0);
+          Layer layer = mapView.getMap().getBasemap().getBaseLayers().get(0);
           double maxScale = layer.getMaxScale();
           ExportVectorTilesTask task = new ExportVectorTilesTask((PortalItem) layer.getItem());
           ListenableFuture<ExportVectorTilesParameters> createParams = task.createDefaultExportVectorTilesParametersAsync(downloadArea
@@ -135,7 +161,7 @@ public class ExportVectorTilesSample extends Application {
               job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
               job.addJobDoneListener(() -> {
                 if (job.getStatus() == Job.Status.SUCCEEDED) {
-                  //show preview of exported tiles in alert
+                  // show preview of exported tiles in alert
                   ExportVectorTilesResult tilesResult = job.getResult();
                   VectorTileCache tileCache = tilesResult.getVectorTileCache();
                   Alert preview = new Alert(Alert.AlertType.INFORMATION);
