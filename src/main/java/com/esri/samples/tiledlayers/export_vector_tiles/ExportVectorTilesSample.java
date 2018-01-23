@@ -18,6 +18,7 @@ package com.esri.samples.tiledlayers.export_vector_tiles;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
@@ -67,7 +68,7 @@ public class ExportVectorTilesSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Export Tiles Sample");
+      stage.setTitle("Export Vector Tiles Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -85,25 +86,21 @@ public class ExportVectorTilesSample extends Application {
         if (configuration != null) {
           AuthenticationManager.addOAuthConfiguration(configuration);
 
-          // setup the handler that will prompt an authentication challenge to the user
-          AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
-
           Portal portal = new Portal("http://" + configuration.getPortalUrl(), true);
-          portal.addDoneLoadingListener(() -> {
-            if (portal.getLoadStatus() == LoadStatus.LOADED) {
-              PortalItem portalItem = new PortalItem(portal, "8e848d9302e84dcba0de7aff8ac429dc");
-              ArcGISMap map = new ArcGISMap(portalItem);
-              mapView.setMap(map);
 
-            } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+          // setup the handler that will prompt an authentication challenge to the user
+          OAuthChallengeHandler challengeHandler = new OAuthChallengeHandler(portal);
+          AuthenticationManager.setAuthenticationChallengeHandler(challengeHandler);
 
-              portal.getLoadError().getCause().printStackTrace();
-            }
-          });
+          PortalItem portalItem = new PortalItem(portal, "8e848d9302e84dcba0de7aff8ac429dc");
 
-          // loading the portal info of a secured resource
-          // this will invoke the authentication challenge
-          portal.loadAsync();
+          // loading the vector tiled layer will invoke the authentication challenge
+          ArcGISVectorTiledLayer vectorTiledLayer = new ArcGISVectorTiledLayer(portalItem);
+          vectorTiledLayer.loadAsync();
+
+          // set the layer as the map's basemap
+          ArcGISMap map = new ArcGISMap(new Basemap(vectorTiledLayer));
+          mapView.setMap(map);
         }
       });
 
@@ -136,7 +133,7 @@ public class ExportVectorTilesSample extends Application {
       });
 
       // create button to export tiles
-      Button exportTilesButton = new Button("Export Tiles");
+      Button exportTilesButton = new Button("Export Vector Tiles");
 
       // create progress bar to show task progress
       ProgressBar progressBar = new ProgressBar();
@@ -147,6 +144,7 @@ public class ExportVectorTilesSample extends Application {
       exportTilesButton.setOnAction(e -> {
         try {
           File tempFile = File.createTempFile("tiles", ".vtpk");
+          File styleDir = Files.createTempDirectory("StyleItemResources").toFile();
           progressBar.setVisible(true);
           Layer layer = mapView.getMap().getBasemap().getBaseLayers().get(0);
           double maxScale = layer.getMaxScale();
@@ -156,7 +154,7 @@ public class ExportVectorTilesSample extends Application {
           createParams.addDoneListener(() -> {
             try {
               ExportVectorTilesParameters params = createParams.get();
-              ExportVectorTilesJob job = task.exportVectorTiles(params, tempFile.getAbsolutePath());
+              ExportVectorTilesJob job = task.exportVectorTiles(params, tempFile.getAbsolutePath(), styleDir.getAbsolutePath());
               job.start();
               job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
               job.addJobDoneListener(() -> {
@@ -169,7 +167,7 @@ public class ExportVectorTilesSample extends Application {
                   preview.setHeaderText("Exported to " + tileCache.getPath());
                   MapView mapPreview = new MapView();
                   mapPreview.setMinSize(400, 400);
-                  ArcGISVectorTiledLayer tiledLayerPreview = new ArcGISVectorTiledLayer(tileCache);
+                  ArcGISVectorTiledLayer tiledLayerPreview = new ArcGISVectorTiledLayer(tileCache, tilesResult.getItemResourceCache());
                   ArcGISMap previewMap = new ArcGISMap(new Basemap(tiledLayerPreview));
                   mapPreview.setMap(previewMap);
                   preview.getDialogPane().setContent(mapPreview);

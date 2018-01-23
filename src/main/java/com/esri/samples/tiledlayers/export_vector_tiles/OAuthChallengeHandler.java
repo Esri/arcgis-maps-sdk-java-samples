@@ -25,6 +25,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.security.AuthenticationChallenge;
 import com.esri.arcgisruntime.security.AuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.AuthenticationChallengeResponse;
@@ -39,6 +40,12 @@ import com.esri.arcgisruntime.security.OAuthTokenCredentialRequest;
  */
 final class OAuthChallengeHandler implements AuthenticationChallengeHandler {
 
+  private final Portal portal;
+
+  public OAuthChallengeHandler(Portal portal) {
+    this.portal = portal;
+  }
+
   /**
    * Handles challenge before accessing a secured resource.
    *
@@ -48,6 +55,11 @@ final class OAuthChallengeHandler implements AuthenticationChallengeHandler {
   @Override
   public AuthenticationChallengeResponse handleChallenge(AuthenticationChallenge challenge) {
     try {
+      // use cached credential if there is one
+      if (portal.getCredential() != null) {
+        return new AuthenticationChallengeResponse(Action.CONTINUE_WITH_CREDENTIAL, portal.getCredential());
+      }
+
       // get config such as clientId from the authentication manager
       OAuthConfiguration config = AuthenticationManager.getOAuthConfiguration(challenge.getRemoteResource().getUri());
 
@@ -58,7 +70,7 @@ final class OAuthChallengeHandler implements AuthenticationChallengeHandler {
 
       // use the authorization code to get a token
       OAuthTokenCredentialRequest request = new OAuthTokenCredentialRequest(
-          config.getPortalUrl(), null, config.getClientId(), null, authorizationCode);
+          config.getPortalUrl(), null, config.getClientId(), config.getRedirectUri(), authorizationCode);
       OAuthTokenCredential credential = request.executeAsync().get();
       return new AuthenticationChallengeResponse(Action.CONTINUE_WITH_CREDENTIAL, credential);
     } catch (Exception e) {
