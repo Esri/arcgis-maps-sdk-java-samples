@@ -29,9 +29,9 @@ import com.esri.arcgisruntime.security.OAuthConfiguration;
 import com.esri.arcgisruntime.security.UserCredential;
 
 /**
- * Custom dialog for getting an OAuthConfiguration.
+ * Custom dialog for getting a UserCredential.
  */
-class AuthenticationDialog extends Dialog<Credential> {
+class AuthenticationDialog extends Dialog<UserCredential> {
 
   @FXML private TextField username;
   @FXML private PasswordField password;
