@@ -21,23 +21,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import com.esri.arcgisruntime.security.Credential;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
+import com.esri.arcgisruntime.security.UserCredential;
 
 /**
  * Custom dialog for getting an OAuthConfiguration.
  */
-class AuthenticationDialog extends Dialog<OAuthConfiguration> {
+class AuthenticationDialog extends Dialog<Credential> {
 
-  @FXML private TextField portalURL;
-  @FXML private TextField clientID;
-  @FXML private TextField redirectURI;
+  @FXML private TextField username;
+  @FXML private PasswordField password;
   @FXML private ButtonType cancelButton;
   @FXML private ButtonType continueButton;
 
   AuthenticationDialog() {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/oauth_auth_dialog.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/export_vector_tiles_auth_dialog.fxml"));
     loader.setRoot(this);
     loader.setController(this);
 
@@ -51,23 +53,15 @@ class AuthenticationDialog extends Dialog<OAuthConfiguration> {
 
     setResultConverter(dialogButton -> {
       if (dialogButton == continueButton) {
-        if (!portalURL.getText().equals("") && !clientID.getText().equals("") && !redirectURI.getText().equals("")) {
-          try {
-            return new OAuthConfiguration(portalURL.getText(), clientID.getText(), redirectURI.getText());
-          } catch (Exception e) {
-            showMessage(e.getMessage());
-          }
-        } else {
-          showMessage("missing credentials");
+        try {
+          return new UserCredential(username.getText(), password.getText());
+        } catch (Exception e) {
+          Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+          alert.show();
         }
       }
       return null;
     });
   }
 
-  private void showMessage(String message) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setContentText(message);
-    alert.show();
-  }
 }
