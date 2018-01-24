@@ -24,8 +24,6 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import com.esri.arcgisruntime.security.Credential;
-import com.esri.arcgisruntime.security.OAuthConfiguration;
 import com.esri.arcgisruntime.security.UserCredential;
 
 /**
