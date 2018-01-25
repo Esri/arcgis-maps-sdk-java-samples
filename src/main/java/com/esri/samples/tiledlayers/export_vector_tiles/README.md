@@ -6,11 +6,11 @@
 
 <h2>How to use the sample</h2>
 
-<p>First, a dialog will appear prompting for authentication credentials to arcgis.com. You must supply valid 
-credentials for an organization user to continue. When the vector tiled layer loads, zoom in to the extent you want 
-to export. The red box shows the extent that will be exported. Click the "Export Vector Tiles" 
-button to start the job. A progress indicator will show. The larger the extent, the longer it will take to export. When 
-finished, a dialog will show the exported result in a new map view.</p>
+<p>First, a dialog will appear prompting for authentication credentials to arcgis.com. When the vector tiled layer 
+loads, zoom in to the extent you want to export. The red box shows the extent that will be exported. Click the 
+"Export Vector Tiles" button to start the job. A progress indicator will show. The larger the extent, the longer it 
+will take to export. An error will show if the extent is larger than the maximum limit allowed. When finished, a 
+dialog will show the exported result in a new map view.</p>
 
 <h2>How it works</h2>
 
