@@ -48,7 +48,8 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import com.esri.arcgisruntime.security.Credential;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesJob;
 import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesParameters;
@@ -78,31 +79,23 @@ public class ExportVectorTilesSample extends Application {
       mapView = new MapView();
 
       // authenticate with an organization account on arcgis.com
-      AuthenticationDialog authenticationDialog = new AuthenticationDialog();
-      authenticationDialog.setOnCloseRequest(r -> {
+      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
 
-        Credential credential = authenticationDialog.getResult();
-        // check that configuration was made
-        if (credential != null) {
-
-          Portal portal = new Portal("http://www.arcgis.com", true);
-          portal.setCredential(credential);
-
-          PortalItem portalItem = new PortalItem(portal, "86f556a2d1fd468181855a35e344567f");
-
+      // get the portal item of the vector tile service
+      Portal portal = new Portal("http://www.arcgis.com", true);
+      PortalItem portalItem = new PortalItem(portal, "86f556a2d1fd468181855a35e344567f");
+      portalItem.addDoneLoadingListener(() -> {
+        if (portalItem.getLoadStatus() == LoadStatus.LOADED) {
           // loading the vector tiled layer will invoke the authentication challenge
           ArcGISVectorTiledLayer vectorTiledLayer = new ArcGISVectorTiledLayer(portalItem);
-          vectorTiledLayer.loadAsync();
-
-          // set the layer as the map's basemap
           ArcGISMap map = new ArcGISMap(new Basemap(vectorTiledLayer));
           mapView.setMap(map);
         } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Item requires authentication.");
+          Alert alert = new Alert(Alert.AlertType.ERROR, portalItem.getLoadError().getCause().getMessage());
           alert.show();
         }
       });
-      authenticationDialog.show();
+      portalItem.loadAsync();
 
       // create a graphics overlay for the map view
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
@@ -166,7 +159,7 @@ public class ExportVectorTilesSample extends Application {
                   ItemResourceCache resourceCache = tilesResult.getItemResourceCache();
                   Alert preview = new Alert(Alert.AlertType.INFORMATION);
                   preview.setTitle("Preview");
-                  preview.setHeaderText("Exported tiles to " + tileCache.getPath() + "\n Exported resources to " +
+                  preview.setHeaderText("Exported tiles to " + tileCache.getPath() + "\nExported resources to " +
                       resourceCache.getPath());
                   MapView mapPreview = new MapView();
                   mapPreview.setMinSize(400, 400);
