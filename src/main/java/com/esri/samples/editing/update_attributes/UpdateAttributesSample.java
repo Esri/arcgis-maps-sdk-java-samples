@@ -215,8 +215,12 @@ public class UpdateAttributesSample extends Application {
       try {
         List<FeatureEditResult> edits = editResult.get();
         // check if the server edit was successful
-        if (edits != null && edits.size() > 0 && edits.get(0).hasCompletedWithErrors()) {
-          throw edits.get(0).getError();
+        if (edits != null && edits.size() > 0) {
+          if (!edits.get(0).hasCompletedWithErrors()) {
+            displayMessage(null, "Attributes updated.");
+          } else {
+            throw edits.get(0).getError();
+          }
         }
       } catch (InterruptedException | ExecutionException e) {
         displayMessage("Error applying edits on server", e.getCause().getMessage());

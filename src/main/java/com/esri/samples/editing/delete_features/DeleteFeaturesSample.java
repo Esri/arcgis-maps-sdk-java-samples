@@ -150,12 +150,8 @@ public class DeleteFeaturesSample extends Application {
    */
   private void deleteFeatures(FeatureQueryResult features, ServiceFeatureTable featureTable) {
 
-    // delete feature from the feature table
-    featureTable.deleteFeaturesAsync(features).addDoneListener(() -> {
-      // apply changes to the server
-      ListenableFuture<List<FeatureEditResult>> editResult = featureTable.applyEditsAsync();
-      editResult.addDoneListener(() -> applyEdits(featureTable));
-    });
+    // delete feature from the feature table and apply edit to server
+    featureTable.deleteFeaturesAsync(features).addDoneListener(() -> applyEdits(featureTable));
   }
 
   /**
@@ -171,10 +167,12 @@ public class DeleteFeaturesSample extends Application {
       try {
         List<FeatureEditResult> edits = editResult.get();
         // check if the server edit was successful
-        if (edits != null && edits.size() > 0 && !edits.get(0).hasCompletedWithErrors()) {
-          displayMessage(null, "Feature successfully deleted");
-        } else if (edits != null && edits.size() > 0) {
-          throw edits.get(0).getError();
+        if (edits != null && edits.size() > 0) {
+          if (!edits.get(0).hasCompletedWithErrors()) {
+            displayMessage(null, "Feature successfully deleted");
+          } else {
+            throw edits.get(0).getError();
+          }
         }
       } catch (InterruptedException | ExecutionException e) {
         displayMessage("Exception applying edits on server", e.getCause().getMessage());
