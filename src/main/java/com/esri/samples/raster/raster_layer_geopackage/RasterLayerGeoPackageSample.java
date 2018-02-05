@@ -51,10 +51,9 @@ public class RasterLayerGeoPackageSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      mapView = new MapView();
-
       // create a map with light gray canvas vector basemap
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvasVector());
+      mapView = new MapView();
       mapView.setMap(map);
 
       // create a geopackage from a local gpkg file
@@ -87,7 +86,6 @@ public class RasterLayerGeoPackageSample extends Application {
         }
       });
 
-
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
     } catch (Exception e) {
@@ -100,7 +98,7 @@ public class RasterLayerGeoPackageSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();
