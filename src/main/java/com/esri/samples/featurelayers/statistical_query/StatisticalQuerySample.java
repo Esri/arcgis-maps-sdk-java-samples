@@ -73,7 +73,7 @@ public class StatisticalQuerySample extends Application {
 
       // create a service feature table using the URL
       String featureServiceURL = "https://sampleserver6.arcgisonline" +
-          ".com/arcgis/rest/services/SampleWorldCities/MapServer/0";
+        ".com/arcgis/rest/services/SampleWorldCities/MapServer/0";
       final ServiceFeatureTable featureTable = new ServiceFeatureTable(featureServiceURL);
 
       // create a feature layer from the service feature table and add it to the map
@@ -87,8 +87,8 @@ public class StatisticalQuerySample extends Application {
       // create static definitions for all the statistics we want to query on
       // here we specify all statistic types for the "POP" (population) field
       List<StatisticDefinition> statisticDefinitions = Stream.of(StatisticType.values())
-          .map(type -> new StatisticDefinition("POP", type, null))
-          .collect(Collectors.toList());
+        .map(type -> new StatisticDefinition("POP", type, null))
+        .collect(Collectors.toList());
 
       // create a button to perform the statistical query
       Button queryButton = new Button("Get Statistics");
@@ -114,11 +114,9 @@ public class StatisticalQuerySample extends Application {
           try {
             StatisticsQueryResult result = query.get();
             StringBuilder statistics = new StringBuilder();
-            for (Iterator<StatisticRecord> it = result.iterator(); it.hasNext(); ) {
+            for (Iterator<StatisticRecord> it = result.iterator(); it.hasNext();) {
               StatisticRecord record = it.next();
-              record.getStatistics().forEach((key, value) ->
-                statistics.append("\n").append(key).append(": ").append(value)
-              );
+              record.getStatistics().forEach((key, value) -> statistics.append("\n").append(key).append(": ").append(value));
             }
             Alert alert = new Alert(Alert.AlertType.INFORMATION, statistics.toString());
             alert.setHeaderText("Statistics");
@@ -133,8 +131,11 @@ public class StatisticalQuerySample extends Application {
       // layout the controls
       VBox controlsBox = new VBox(6);
       controlsBox.setAlignment(Pos.CENTER);
-      controlsBox.setMaxSize(200, 120);
+      controlsBox.setMaxSize(220, Double.MIN_VALUE);
       controlsBox.getStyleClass().add("panel-region");
+      currentExtentFilterToggle.setMaxWidth(Double.MAX_VALUE);
+      populationFilterToggle.setMaxWidth(Double.MAX_VALUE);
+      queryButton.setMaxWidth(Double.MAX_VALUE);
       controlsBox.getChildren().addAll(currentExtentFilterToggle, populationFilterToggle, queryButton);
 
       // add the map view and control panel to stack pane
@@ -152,7 +153,7 @@ public class StatisticalQuerySample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();
