@@ -1,6 +1,6 @@
 <h1>List Transformations By Suitability</h1>
 
-<p>This sample demonstrates how to use the TransformationCatalog to get a list of available DatumTransformations that
+<p>Demonstrates how to use the TransformationCatalog to get a list of available DatumTransformations that
  can be used to project a Geometry between two different SpatialReferences.</p>
 
 <p>Transformations (sometimes known as datum or geographic transformations) are used when projecting data from one 
@@ -14,7 +14,9 @@ control which transformation is used in an operation.</p>
 
 <h2>How to use the sample</h2>
 
-<p></p>
+<p>The list displays all suitable tranformations between the graphic and the map. Once the transform button is clicked a new red graphic will appear showing where the original graphic whould be placed if transformation was applied.</p>
+
+<p>Order by extent suitability, if checked, will find suitable transformations within the map's visible area. If not checked, will find suitable trnasformations using the whole map.</p>
 
 <h2>How it works</h2>
 
