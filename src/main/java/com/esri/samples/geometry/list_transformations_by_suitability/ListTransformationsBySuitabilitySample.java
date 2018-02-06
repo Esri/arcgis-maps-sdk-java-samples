@@ -64,8 +64,8 @@ public class ListTransformationsBySuitabilitySample extends Application {
       stage.show();
 
       // create a map with light gray canvas basemap and add it to the map view
-      mapView = new MapView();
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
+      mapView = new MapView();
       mapView.setMap(map);
 
       // create a graphics overlay to show the original graphic and the the transformed graphic
@@ -74,25 +74,25 @@ public class ListTransformationsBySuitabilitySample extends Application {
 
       // create a blue square graphic located in the Greenwich observatory courtyard in London, UK, the location of the
       // Greenwich prime meridian. This will be projected using the selected transformation.
-      Point point  = new Point(538985.355, 177329.516, SpatialReference.create(27700));
-      Graphic pointGraphic = new Graphic(point, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFF0000FF,
-          10));
-      graphicsOverlay.getGraphics().add(pointGraphic);
+      Point originalPoint = new Point(538985.355, 177329.516, SpatialReference.create(27700));
+      Graphic originalGraphic = new Graphic(originalPoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFF0000FF,
+        10));
+      graphicsOverlay.getGraphics().add(originalGraphic);
 
       // create red cross graphic for transformed point
-      Graphic transformedPointGraphic = new Graphic(point, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS,
-          0xFFFF0000, 10));
-      transformedPointGraphic.setVisible(false);
-      graphicsOverlay.getGraphics().add(transformedPointGraphic);
+      Graphic transformedGraphic = new Graphic();
+      transformedGraphic.setSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFFFF0000, 10));
+      transformedGraphic.setVisible(false);
+      graphicsOverlay.getGraphics().add(transformedGraphic);
 
-      // zoom to the initial point
-      mapView.setViewpointCenterAsync(point, 5000);
+      // zoom to the location of the original graphic
+      mapView.setViewpointCenterAsync(originalPoint, 5000);
 
       // create a list of transformations
       ListView<DatumTransformation> transformationsListView = new ListView<>();
 
       // show the transformation name in the list
-      transformationsListView.setCellFactory(list -> new ListCell<>() {
+      transformationsListView.setCellFactory(list -> new ListCell<DatumTransformation>() {
 
         @Override
         protected void updateItem(DatumTransformation transformation, boolean bln) {
@@ -112,11 +112,11 @@ public class ListTransformationsBySuitabilitySample extends Application {
         transformationsListView.getItems().clear();
         List<DatumTransformation> transformations;
         if (suitabilityCheckBox.isSelected()) {
-          transformations = TransformationCatalog.getTransformationsBySuitability(pointGraphic.getGeometry()
-                  .getSpatialReference(), map.getSpatialReference(), mapView.getVisibleArea().getExtent());
+          transformations = TransformationCatalog.getTransformationsBySuitability(
+            originalGraphic.getGeometry().getSpatialReference(), map.getSpatialReference(), mapView.getVisibleArea().getExtent());
         } else {
-          transformations = TransformationCatalog.getTransformationsBySuitability(pointGraphic.getGeometry()
-              .getSpatialReference(), map.getSpatialReference());
+          transformations = TransformationCatalog.getTransformationsBySuitability(
+            originalGraphic.getGeometry().getSpatialReference(), map.getSpatialReference());
         }
         transformationsListView.getItems().addAll(transformations);
       });
@@ -129,10 +129,10 @@ public class ListTransformationsBySuitabilitySample extends Application {
       transformButton.setOnAction(e -> {
         DatumTransformation transformation = transformationsListView.getSelectionModel().getSelectedItem();
         if (transformation != null) {
-          Point projectedPoint = (Point) GeometryEngine.project(pointGraphic.getGeometry(), mapView
-                  .getSpatialReference(), transformation);
-          transformedPointGraphic.setVisible(true);
-          transformedPointGraphic.setGeometry(projectedPoint);
+          Point projectedPoint = (Point) GeometryEngine.project(originalGraphic.getGeometry(), mapView.getSpatialReference(),
+            transformation);
+          transformedGraphic.setVisible(true);
+          transformedGraphic.setGeometry(projectedPoint);
         }
       });
 
@@ -156,7 +156,7 @@ public class ListTransformationsBySuitabilitySample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();
