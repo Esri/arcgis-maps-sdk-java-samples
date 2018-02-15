@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2018 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -97,8 +97,7 @@ public class ListRelatedFeaturesSample extends Application {
             // identify the clicked features
             QueryParameters queryParameters = new QueryParameters();
             queryParameters.setGeometry(GeometryEngine.buffer(mapPoint, 10));
-            final ListenableFuture<FeatureQueryResult> selectFeatureQuery = featureLayer.selectFeaturesAsync
-                (queryParameters, FeatureLayer.SelectionMode.NEW);
+            final ListenableFuture<FeatureQueryResult> selectFeatureQuery = featureLayer.selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW);
             selectFeatureQuery.addDoneListener(() -> {
 
               try {
@@ -119,13 +118,13 @@ public class ListRelatedFeaturesSample extends Application {
                       accordion.getPanes().clear();
                       // add all related features (grouped) into panes of the accordion
                       List<RelatedFeatureQueryResult> results = relatedFeatureQuery.get();
-                      for(RelatedFeatureQueryResult relatedFeatureQueryResult : results){
+                      for (RelatedFeatureQueryResult relatedFeatureQueryResult : results) {
                         ListView<String> featureList = new ListView<>();
                         String relatedTableName = relatedFeatureQueryResult.getRelatedTable().getTableName();
                         // create a pane for the feature table with a list for its features
                         TitledPane tablePane = new TitledPane(relatedTableName, featureList);
                         accordion.getPanes().add(tablePane);
-                        for(Feature relatedFeature : relatedFeatureQueryResult) {
+                        for (Feature relatedFeature : relatedFeatureQueryResult) {
                           // show the related feature with its display field value in the list
                           ArcGISFeature feature = (ArcGISFeature) relatedFeature;
                           String displayFieldName = feature.getFeatureTable().getLayerInfo().getDisplayFieldName();

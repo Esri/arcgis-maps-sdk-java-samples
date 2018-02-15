@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2018 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -69,9 +69,7 @@ public class FeatureLayerGeoPackageSample extends Application {
             FeatureLayer featureLayer = new FeatureLayer(featureTables.get(0));
             map.getOperationalLayers().add(featureLayer);
             // zoom to the layer
-            featureLayer.addDoneLoadingListener(() ->
-              mapView.setViewpointAsync(new Viewpoint(featureLayer.getFullExtent()))
-            );
+            featureLayer.addDoneLoadingListener(() -> mapView.setViewpointAsync(new Viewpoint(featureLayer.getFullExtent())));
           }
         } else {
           Alert alert = new Alert(Alert.AlertType.ERROR, geoPackage.getLoadError().getMessage());

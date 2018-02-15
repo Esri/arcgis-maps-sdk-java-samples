@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2018 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -68,39 +68,39 @@ public class RasterFunctionSample extends Application {
       imageServiceRaster.loadAsync();
       imageServiceRaster.addDoneLoadingListener(() -> {
 
-          if (imageServiceRaster.getLoadStatus() == LoadStatus.LOADED) {
-            // create raster function from local json file
-            File jsonFile = new File("./samples-data/raster/hillshade_simplified.json");
-            try (Scanner scanner = new Scanner(jsonFile)) {
-              // read in the complete file as a string
-              String json = scanner.useDelimiter("\\A").next();
-              RasterFunction rasterFunction = RasterFunction.fromJson(json);
-              RasterFunctionArguments arguments = rasterFunction.getArguments();
-              // apply the raster function
-              arguments.setRaster(arguments.getRasterNames().get(0), imageServiceRaster);
-              // create a new raster from the function definition
-              Raster raster = new Raster(rasterFunction);
-              // create raster layer and add to map as operational layer
-              RasterLayer hillshadeLayer = new RasterLayer(raster);
-              // add the hillshade raster layer to the map
-              map.getOperationalLayers().add(hillshadeLayer);
-              hillshadeLayer.addDoneLoadingListener(() -> {
-                if (hillshadeLayer.getLoadStatus() == LoadStatus.LOADED) {
-                  // set viewpoint on the raster
-                  mapView.setViewpointGeometryAsync(hillshadeLayer.getFullExtent(), 150);
-                } else {
-                  Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load the hillshade raster layer");
-                  alert.show();
-                }
-              });
-            } catch (FileNotFoundException e) {
-              Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to locate raster function json");
-              alert.show();
-            }
-          } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load image service raster");
+        if (imageServiceRaster.getLoadStatus() == LoadStatus.LOADED) {
+          // create raster function from local json file
+          File jsonFile = new File("./samples-data/raster/hillshade_simplified.json");
+          try (Scanner scanner = new Scanner(jsonFile)) {
+            // read in the complete file as a string
+            String json = scanner.useDelimiter("\\A").next();
+            RasterFunction rasterFunction = RasterFunction.fromJson(json);
+            RasterFunctionArguments arguments = rasterFunction.getArguments();
+            // apply the raster function
+            arguments.setRaster(arguments.getRasterNames().get(0), imageServiceRaster);
+            // create a new raster from the function definition
+            Raster raster = new Raster(rasterFunction);
+            // create raster layer and add to map as operational layer
+            RasterLayer hillshadeLayer = new RasterLayer(raster);
+            // add the hillshade raster layer to the map
+            map.getOperationalLayers().add(hillshadeLayer);
+            hillshadeLayer.addDoneLoadingListener(() -> {
+              if (hillshadeLayer.getLoadStatus() == LoadStatus.LOADED) {
+                // set viewpoint on the raster
+                mapView.setViewpointGeometryAsync(hillshadeLayer.getFullExtent(), 150);
+              } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load the hillshade raster layer");
+                alert.show();
+              }
+            });
+          } catch (FileNotFoundException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to locate raster function json");
             alert.show();
           }
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load image service raster");
+          alert.show();
+        }
 
       });
 
