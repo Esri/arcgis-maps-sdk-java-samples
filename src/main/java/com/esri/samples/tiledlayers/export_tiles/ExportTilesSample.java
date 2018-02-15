@@ -124,7 +124,8 @@ public class ExportTilesSample extends Application {
             minScale = maxScale + 1;
           }
           ExportTileCacheTask task = new ExportTileCacheTask(tiledLayer.getUri());
-          ListenableFuture<ExportTileCacheParameters> createParams = task.createDefaultExportTileCacheParametersAsync(downloadArea.getGeometry(), minScale, maxScale);
+          ListenableFuture<ExportTileCacheParameters> createParams =
+              task.createDefaultExportTileCacheParametersAsync(downloadArea.getGeometry(), minScale, maxScale);
           createParams.addDoneListener(() -> {
             try {
               ExportTileCacheParameters params = createParams.get();
