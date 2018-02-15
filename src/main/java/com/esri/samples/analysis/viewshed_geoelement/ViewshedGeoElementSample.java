@@ -58,6 +58,7 @@ public class ViewshedGeoElementSample extends Application {
 
   private SceneView sceneView;
   private Graphic tank;
+  private Timeline animation;
   private Point waypoint;
 
   private static final LinearUnit METERS = new LinearUnit(LinearUnitId.METERS);
@@ -148,7 +149,7 @@ public class ViewshedGeoElementSample extends Application {
       sceneView.setCameraController(cameraController);
 
       // create a timeline to animate the tank
-      Timeline animation = new Timeline();
+      animation = new Timeline();
       animation.setCycleCount(-1);
       animation.getKeyFrames().add(new KeyFrame(Duration.millis(100), e -> animate()));
       animation.play();
@@ -190,6 +191,9 @@ public class ViewshedGeoElementSample extends Application {
    */
   @Override
   public void stop() {
+
+    // stop the animation
+    animation.stop();
 
     if (sceneView != null) {
       sceneView.dispose();

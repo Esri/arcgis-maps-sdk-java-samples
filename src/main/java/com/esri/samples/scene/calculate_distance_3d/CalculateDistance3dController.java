@@ -228,6 +228,9 @@ public class CalculateDistance3dController {
    */
   void terminate() {
 
+    // stop the animation
+    animation.stop();
+
     if (sceneView != null) {
       sceneView.dispose();
     }

@@ -40,6 +40,7 @@ public class FeatureLayerRenderingModeMapSample extends Application {
 
   private MapView mapViewTop;
   private MapView mapViewBottom;
+  private Timeline timeline;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -100,7 +101,7 @@ public class FeatureLayerRenderingModeMapSample extends Application {
       mapViewBottom.setViewpoint(zoomOutPoint);
 
       //loop an animation into and out from the zoom in point (5 seconds each) with a 2 second gap between zooming
-      Timeline timeline = new Timeline();
+      timeline = new Timeline();
       timeline.setCycleCount(Animation.INDEFINITE);
       timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(7), event -> zoomTo(zoomInPoint, 5)));
       timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(14), event -> zoomTo(zoomOutPoint, 5)));
@@ -128,6 +129,9 @@ public class FeatureLayerRenderingModeMapSample extends Application {
    */
   @Override
   public void stop() {
+
+    // stop the timer
+    timeline.stop();
 
     if (mapViewTop != null) {
       mapViewTop.dispose();
