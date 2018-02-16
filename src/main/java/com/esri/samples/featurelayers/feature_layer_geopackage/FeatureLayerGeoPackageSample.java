@@ -69,8 +69,9 @@ public class FeatureLayerGeoPackageSample extends Application {
             FeatureLayer featureLayer = new FeatureLayer(featureTables.get(0));
             map.getOperationalLayers().add(featureLayer);
             // zoom to the layer
-            featureLayer
-                .addDoneLoadingListener(() -> mapView.setViewpointAsync(new Viewpoint(featureLayer.getFullExtent())));
+            featureLayer.addDoneLoadingListener(() ->
+ -              mapView.setViewpointAsync(new Viewpoint(featureLayer.getFullExtent()))
+ -          );
           }
         } else {
           Alert alert = new Alert(Alert.AlertType.ERROR, geoPackage.getLoadError().getMessage());
