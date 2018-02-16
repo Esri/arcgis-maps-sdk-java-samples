@@ -26,15 +26,11 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.layers.WmsLayer;
-import com.esri.arcgisruntime.layers.WmtsLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.ogc.wmts.WmtsLayerInfo;
-import com.esri.arcgisruntime.ogc.wmts.WmtsService;
-import com.esri.arcgisruntime.ogc.wmts.WmtsServiceInfo;
 
 public class WmsLayerUrlSample extends Application {
 

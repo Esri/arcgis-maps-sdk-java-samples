@@ -22,7 +22,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -45,7 +44,7 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
   public void start(Stage stage) throws Exception {
 
     try {
-      // create stack pane and application scene
+      // create stack pane and application scene 
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
       scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
