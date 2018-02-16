@@ -70,7 +70,7 @@ public class LineOfSightLocationSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource( "http://elevation3d.arcgis" +
+      surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
           ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
       scene.setBaseSurface(surface);
 
@@ -79,7 +79,7 @@ public class LineOfSightLocationSample extends Application {
       sceneView.getAnalysisOverlays().add(analysisOverlay);
 
       // initialize a line of sight analysis and add it to the analysis overlay
-      Point observerLocation = new Point(-73.06958032962375,-49.253112971555446,2000, SpatialReferences.getWgs84());
+      Point observerLocation = new Point(-73.06958032962375, -49.253112971555446, 2000, SpatialReferences.getWgs84());
       Point targetLocation = new Point(-73.079266999709162, -49.300457676730559, 1312, SpatialReferences.getWgs84());
       LocationLineOfSight lineOfSight = new LocationLineOfSight(observerLocation, targetLocation);
       analysisOverlay.getAnalyses().add(lineOfSight);

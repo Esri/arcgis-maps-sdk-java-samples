@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2018 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -124,8 +124,8 @@ public class ExportTilesSample extends Application {
             minScale = maxScale + 1;
           }
           ExportTileCacheTask task = new ExportTileCacheTask(tiledLayer.getUri());
-          ListenableFuture<ExportTileCacheParameters> createParams = task.createDefaultExportTileCacheParametersAsync
-              (downloadArea.getGeometry(), minScale, maxScale);
+          ListenableFuture<ExportTileCacheParameters> createParams =
+              task.createDefaultExportTileCacheParametersAsync(downloadArea.getGeometry(), minScale, maxScale);
           createParams.addDoneListener(() -> {
             try {
               ExportTileCacheParameters params = createParams.get();
