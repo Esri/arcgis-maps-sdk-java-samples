@@ -26,15 +26,11 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.layers.WmsLayer;
-import com.esri.arcgisruntime.layers.WmtsLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.ogc.wmts.WmtsLayerInfo;
-import com.esri.arcgisruntime.ogc.wmts.WmtsService;
-import com.esri.arcgisruntime.ogc.wmts.WmtsServiceInfo;
 
 public class WmsLayerUrlSample extends Application {
 
@@ -62,7 +58,8 @@ public class WmsLayerUrlSample extends Application {
 
       // create a WMS layer
       List<String> wmsLayerNames = Collections.singletonList("0");
-      String url = "https://certmapper.cr.usgs.gov/arcgis/services/geology/africa/MapServer/WMSServer?request=GetCapabilities&service=WMS";
+      String url =
+          "https://certmapper.cr.usgs.gov/arcgis/services/geology/africa/MapServer/WMSServer?request=GetCapabilities&service=WMS";
       WmsLayer wmsLayer = new WmsLayer(url, wmsLayerNames);
       // load the layer and add it as an operational layer
       wmsLayer.addDoneLoadingListener(() -> {
