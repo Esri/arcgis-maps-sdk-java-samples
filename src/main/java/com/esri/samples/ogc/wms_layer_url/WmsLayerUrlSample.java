@@ -58,8 +58,7 @@ public class WmsLayerUrlSample extends Application {
 
       // create a WMS layer
       List<String> wmsLayerNames = Collections.singletonList("0");
-      String url =
-          "https://certmapper.cr.usgs.gov/arcgis/services/geology/africa/MapServer/WMSServer?request=GetCapabilities&service=WMS";
+      String url = "https://certmapper.cr.usgs.gov/arcgis/services/geology/africa/MapServer/WMSServer?request=GetCapabilities&service=WMS";
       WmsLayer wmsLayer = new WmsLayer(url, wmsLayerNames);
       // load the layer and add it as an operational layer
       wmsLayer.addDoneLoadingListener(() -> {
