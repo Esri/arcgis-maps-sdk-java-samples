@@ -65,7 +65,7 @@ public class FeatureLayerShapefileSample extends Application {
       FeatureLayer featureLayer = new FeatureLayer(shapefileFeatureTable);
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
-          // zoom to the feature layer's extent
+          // zoom to the area containing the layer's features
           mapView.setViewpointGeometryAsync(featureLayer.getFullExtent());
         } else {
           Alert alert = new Alert(Alert.AlertType.ERROR, featureLayer.getLoadError().getMessage());
@@ -88,7 +88,7 @@ public class FeatureLayerShapefileSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

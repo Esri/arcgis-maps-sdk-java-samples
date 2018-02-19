@@ -9,7 +9,7 @@
 <p>To show a shapefile as a feature layer:</p>
 
 <ol>
-  <li>Create a <code>ShapefileFeatureTable</code> passing in the URL of a shapefile.</li>
+  <li>Create a <code>ShapefileFeatureTable</code> passing in the URI of a shapefile.</li>
   <li>Create a <code>FeatureLayer</code> using the <code>ShapefileFeatureTable</code>.</li>
   <li>Add the layer to the map with <code>map.getOperationalLayers().add(featureLayer)</code>.</li>
 </ol>
