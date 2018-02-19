@@ -10,6 +10,7 @@
 
 <ol>
     <li>Create a <code>ServiceFeatureTable</code> from the URL of a feature service.</li>
+    <li>Set the feature table's feature request mode to manual with <code>featureTable.setFeatureRequestMode(MANUAL_CACHE)</code>.</li>
     <li>After loading the service feature table, create <code>QueryParameters</code>.</li>
     <li>Create two <code>Calendar</code> objects with the beginning and ending timestamps and create a 
     <code>TimeExtent</code> with them.</li>
