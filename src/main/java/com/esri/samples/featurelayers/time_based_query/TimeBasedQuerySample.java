@@ -107,12 +107,9 @@ public class TimeBasedQuerySample extends Application {
 
   /**
    * Stops and releases all resources used in application.
-   *
-   * @throws Exception if security manager doesn't allow JVM to exit with
-   *           current status
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {
