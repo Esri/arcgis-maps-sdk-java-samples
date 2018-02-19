@@ -66,11 +66,6 @@ public class ReadGeoPackageSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(250, 260);
-      vBoxControl.getStyleClass().add("panel-region");
-
       // create two list views, one showing the layers in the map,
       // the other, showing the layers in the geoPackage not yet added to the map
       ListView<Layer> mapLayers = new ListView<>();
@@ -81,6 +76,11 @@ public class ReadGeoPackageSample extends Application {
       Label geoPackageLayersLabel = new Label("GeoPackage layers (not in the map)");
       mapLayersLabel.getStyleClass().add("panel-label");
       geoPackageLayersLabel.getStyleClass().add("panel-label");
+
+      // create a control panel
+      VBox vBoxControl = new VBox(6);
+      vBoxControl.setMaxSize(250, 260);
+      vBoxControl.getStyleClass().add("panel-region");
 
       // add labels and lists to the control panel
       vBoxControl.getChildren().addAll(mapLayersLabel, mapLayers, geoPackageLayersLabel, geoPackageLayers);
@@ -170,7 +170,7 @@ public class ReadGeoPackageSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();
