@@ -17,13 +17,12 @@ remove them from the map.</p>
 <ol>
     <li>Create a <code>GeoPackage</code> with the path to the local geoPackage file.</li>
     <li>Load the <code>GeoPackage</code> with <code>GeoPackage.loadAsync</code>.</li>
+    <li>Create raster layers for each of these with <code>new RasterLayer(geoPackageRaster)</code>.</li>
+        <li>Add each layer to the map as an operational layer with <code>map.getOperationalLayers().add(layer)</code>.</li>
     <li>When it's done loading, get the <code>GeoPackageFeatureTable</code>s inside with <code>geoPackage
     .getGeoPackageFeatureTables()</code>.</li>
     <li>For each feature table, create a feature layer with <code>new FeatureLayer(featureTable)</code>.</li>
-    <li>You can also get the <code>GeoPackageRaster</code>s inside using <code>GeoPackage.getGeoPackageRasters()</code>
-    .</li>
-    <li>Create raster layers for each of these with <code>new RasterLayer(geoPackageRaster)</code>.</li>
-    <li>Add each layer to the map as an operational layer with <code>map.getOperationalLayers().add(layer)</code>.</li>
+    <li>You can also get the <code>GeoPackageRaster</code>s inside using <code>GeoPackage.getGeoPackageRasters()</code>.</li>
 </ol>
 
 <h2>Features</h2>
