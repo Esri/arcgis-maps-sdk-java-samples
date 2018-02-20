@@ -1,5 +1,5 @@
 # ArcGIS Runtime Java SDK Samples
-### 100.2.0
+### 100.2.1
 This project includes a set of samples demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
 These samples are built with Gradle. If you want to learn more about Gradle, learn more from [Gradle's guide](https://docs.gradle.org/current/userguide/userguide.html).
@@ -71,7 +71,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 Find a bug or want a new feature? Please let us know by submitting an issue.
 
 ## Licensing
-Copyright 2017 Esri
+Copyright 2018 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not 
 use this file except in compliance with the License. You may obtain a copy 

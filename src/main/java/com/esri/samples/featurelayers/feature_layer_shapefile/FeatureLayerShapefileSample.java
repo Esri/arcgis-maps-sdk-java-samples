@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2018 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -14,10 +14,9 @@
  * the License.
  */
 
-package com.esri.samples.ogc.wms_layer_url;
+package com.esri.samples.featurelayers.feature_layer_shapefile;
 
-import java.util.Collections;
-import java.util.List;
+import java.io.File;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -25,14 +24,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.layers.WmsLayer;
+import com.esri.arcgisruntime.data.ShapefileFeatureTable;
+import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-public class WmsLayerUrlSample extends Application {
+public class FeatureLayerShapefileSample extends Application {
 
   private MapView mapView;
 
@@ -45,35 +44,40 @@ public class WmsLayerUrlSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("WMS Layer URL Sample");
+      stage.setTitle("Feature Layer Shapefile Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
 
-      // create a map and add it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      // create a map with a basemap
+      ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
+
+      // set the map to the map view
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a WMS layer
-      List<String> wmsLayerNames = Collections.singletonList("0");
-      String url = "https://certmapper.cr.usgs.gov/arcgis/services/geology/africa/MapServer/WMSServer?request=GetCapabilities&service=WMS";
-      WmsLayer wmsLayer = new WmsLayer(url, wmsLayerNames);
-      // load the layer and add it as an operational layer
-      wmsLayer.addDoneLoadingListener(() -> {
-        if (wmsLayer.getLoadStatus() == LoadStatus.LOADED) {
-          map.getOperationalLayers().add(wmsLayer);
-          mapView.setViewpoint(new Viewpoint(wmsLayer.getFullExtent()));
+      // create a shapefile feature table from the local file
+      File shapefile = new File("./samples-data/auroraCO/Public_Art.shp");
+      ShapefileFeatureTable shapefileFeatureTable = new ShapefileFeatureTable(shapefile.getAbsolutePath());
+
+      // use the shapefile feature table to create a feature layer
+      FeatureLayer featureLayer = new FeatureLayer(shapefileFeatureTable);
+      featureLayer.addDoneLoadingListener(() -> {
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+          // zoom to the area containing the layer's features
+          mapView.setViewpointGeometryAsync(featureLayer.getFullExtent());
         } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load WMS layer");
+          Alert alert = new Alert(Alert.AlertType.ERROR, featureLayer.getLoadError().getMessage());
           alert.show();
         }
       });
-      wmsLayer.loadAsync();
 
-      // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
+      // add the feature layer to the map
+      map.getOperationalLayers().add(featureLayer);
+
+      // add the map view to the stack pane
+      stackPane.getChildren().add(mapView);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -84,7 +88,7 @@ public class WmsLayerUrlSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();
