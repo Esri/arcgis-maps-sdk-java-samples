@@ -40,6 +40,7 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
 
   private SceneView sceneViewTop;
   private SceneView sceneViewBottom;
+  private Timeline timeline;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -100,7 +101,7 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
       sceneViewBottom.setViewpointCamera(zoomOutCamera);
 
       //loop an animation into and out from the zoom in point (5 seconds each) with a 2 second gap between zooming
-      Timeline timeline = new Timeline();
+      timeline = new Timeline();
       timeline.setCycleCount(Animation.INDEFINITE);
       timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(7), event -> zoomTo(zoomOutCamera, 5)));
       timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(14), event -> zoomTo(zoomInCamera, 5)));
@@ -128,6 +129,9 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
    */
   @Override
   public void stop() {
+
+    // stop the timer
+    timeline.stop();
 
     if (sceneViewTop != null) {
       sceneViewTop.dispose();
