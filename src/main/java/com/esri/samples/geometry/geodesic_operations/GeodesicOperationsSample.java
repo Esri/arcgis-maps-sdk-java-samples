@@ -16,13 +16,18 @@
 
 package com.esri.samples.geometry.geodesic_operations;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.GeodeticCurveType;
@@ -53,6 +58,7 @@ public class GeodesicOperationsSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
+      fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Geodesic Operations Sample");
@@ -88,6 +94,18 @@ public class GeodesicOperationsSample extends Application {
       path.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF0000FF, 5));
       graphicsOverlay.getGraphics().add(path);
 
+      // create a label to show the distance
+      VBox labelBox = new VBox();
+      labelBox.setMaxSize(90, 40);
+      labelBox.getStyleClass().add("panel-region");
+      Label distanceLabel = new Label();
+      labelBox.getChildren().add(distanceLabel);
+      DecimalFormat formatter = new DecimalFormat("#0.00 km");
+      distanceLabel.setText(formatter.format(0.0));
+
+      // create a linear unit for the distance
+      LinearUnit unit = new LinearUnit(LinearUnitId.KILOMETERS);
+
       // and a mouse click listener to get the user's input for the destination
       mapView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
@@ -100,14 +118,18 @@ public class GeodesicOperationsSample extends Application {
           PointCollection points = new PointCollection(Arrays.asList(start, destination), SpatialReferences.getWgs84());
           Polyline line = new Polyline(points, SpatialReferences.getWgs84());
           // densify the path as a geodesic curve and show it with the path graphic
-          Geometry pathGeometry = GeometryEngine.densifyGeodetic(line, 1, new LinearUnit(LinearUnitId.KILOMETERS),
-              GeodeticCurveType.GEODESIC);
+          Geometry pathGeometry = GeometryEngine.densifyGeodetic(line, 1, unit, GeodeticCurveType.GEODESIC);
           path.setGeometry(pathGeometry);
+          // calculate the path distance
+          double distance = GeometryEngine.lengthGeodetic(pathGeometry, unit, GeodeticCurveType.GEODESIC);
+          distanceLabel.setText(formatter.format(distance));
         }
       });
 
-      // add the scene view to the stack pane
-      stackPane.getChildren().add(mapView);
+      // add the scene view and label box to the stack pane
+      stackPane.getChildren().addAll(mapView, labelBox);
+      StackPane.setMargin(labelBox, new Insets(10, 0, 0, 10));
+      StackPane.setAlignment(labelBox, Pos.TOP_LEFT);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
