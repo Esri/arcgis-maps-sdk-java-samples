@@ -13,10 +13,10 @@
 <p>To create a geodesic path between two points:</p>
 
 <ol>
-    <li>Create a <code>Polyline</code> using the two points.</li>
+    <li>Create a <code>Polyline</code> using two points.</li>
     <li>Pass this polyline to: <code>GeometryEngine.densifyGeodetic(polyline, segmentLength, unitOfMeasurement, GeodeticCurveType
-    .GEODESIC)</code>. This will create a new polyline with segments of length <code>segmentLength</code> with 
-    <code>LinearUnit</code> <code>unitOfMeasurement</code>. The curve will be geodesic.</li>
+    .GEODESIC)</code>. This will create a new polyline with segments of length <code>segmentLength</code> and 
+    <code>LinearUnit</code> set to <code>unitOfMeasurement</code>. The curve will be geodesic.</li>
     <li>You can set this geometry to a <code>Graphic</code> to display the curve in a <code>GraphicsOverlay</code>.</li>
     <li>To get the distance, use <code>GeometryEngine.lengthGeodetic(pathGeometry, unitOfMeasurement, GeodeticCurveType.GEODESIC)</code></li> 
 </ol>
