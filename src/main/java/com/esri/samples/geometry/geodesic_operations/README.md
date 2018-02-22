@@ -1,4 +1,4 @@
-<h1>Geodesic Operationas</h1>
+<h1>Geodesic Operations</h1>
 
 <p>Demonstrates how to use the GeometryEngine to calculate a geodesic path between two points and measure its distance.</p>
 
