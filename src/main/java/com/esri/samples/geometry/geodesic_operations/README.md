@@ -14,12 +14,11 @@
 
 <ol>
     <li>Create a <code>Polyline</code> using the two points.</li>
-    <li>Pass this polyline to: <code>GeometryEngine.densifyGeodetic(line, segmentLength, unit, GeodeticCurveType
+    <li>Pass this polyline to: <code>GeometryEngine.densifyGeodetic(polyline, segmentLength, unitOfMeasurement, GeodeticCurveType
     .GEODESIC)</code>. This will create a new polyline with segments of length <code>segmentLength</code> with 
-    <code>LinearUnit</code> <code>unit</code>. The curve will be geodesic.</li>
+    <code>LinearUnit</code> <code>unitOfMeasurement</code>. The curve will be geodesic.</li>
     <li>You can set this geometry to a <code>Graphic</code> to display the curve in a <code>GraphicsOverlay</code>.</li>
-    <li>To get the distance, use <code>GeometryEngine.lengthGeodetic(returnedGeometry, unit, GeodeticCurveType
-    .GEODESIC)</li> 
+    <li>To get the distance, use <code>GeometryEngine.lengthGeodetic(pathGeometry, unitOfMeasurement, GeodeticCurveType.GEODESIC)</code></li> 
 </ol>
 
 <h2>Features</h2>
