@@ -38,6 +38,7 @@ import com.esri.arcgisruntime.geometry.LinearUnitId;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -50,6 +51,7 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 public class GeodesicOperationsSample extends Application {
 
   private MapView mapView;
+  private SpatialReference srWgs84 = SpatialReferences.getWgs84();
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -79,14 +81,14 @@ public class GeodesicOperationsSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // add a graphic at JFK airport to represent the flight start location
-      Point start = new Point(-73.7781, 40.6413, SpatialReferences.getWgs84());
-      Graphic startLocation = new Graphic(start, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF0000FF,
-          10));
+      Point start = new Point(-73.7781, 40.6413, srWgs84);
+      SimpleMarkerSymbol locationMarker = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF0000FF, 10);
+      Graphic startLocation = new Graphic(start, locationMarker);
       graphicsOverlay.getGraphics().add(startLocation);
 
       // create a graphic for the destination
       Graphic endLocation = new Graphic();
-      endLocation.setSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF0000FF, 10));
+      endLocation.setSymbol(locationMarker);
       graphicsOverlay.getGraphics().add(endLocation);
 
       // create a graphic representing the geodesic path between the two locations
@@ -95,33 +97,32 @@ public class GeodesicOperationsSample extends Application {
       graphicsOverlay.getGraphics().add(path);
 
       // create a label to show the distance
-      VBox labelBox = new VBox();
-      labelBox.setMaxSize(90, 40);
-      labelBox.getStyleClass().add("panel-region");
       Label distanceLabel = new Label();
-      labelBox.getChildren().add(distanceLabel);
       DecimalFormat formatter = new DecimalFormat("#0.00 km");
       distanceLabel.setText(formatter.format(0.0));
+      VBox labelBox = new VBox(distanceLabel);
+      labelBox.setMaxSize(110, 40);
+      labelBox.getStyleClass().add("panel-region");
 
-      // create a linear unit for the distance
-      LinearUnit unit = new LinearUnit(LinearUnitId.KILOMETERS);
+      // create a linear unit for measuring the distance
+      LinearUnit unitOfMeasurement = new LinearUnit(LinearUnitId.KILOMETERS);
 
       // and a mouse click listener to get the user's input for the destination
       mapView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
           // change the end location's geometry to the clicked location
           Point2D point2D = new Point2D(e.getX(), e.getY());
-          Point destination = (Point) GeometryEngine.project(mapView.screenToLocation(point2D), SpatialReferences
-              .getWgs84());
+          Point destination = (Point) GeometryEngine.project(mapView.screenToLocation(point2D), srWgs84);
           endLocation.setGeometry(destination);
           // create a straight line path between the start and end locations
-          PointCollection points = new PointCollection(Arrays.asList(start, destination), SpatialReferences.getWgs84());
-          Polyline line = new Polyline(points, SpatialReferences.getWgs84());
+          PointCollection points = new PointCollection(Arrays.asList(start, destination), srWgs84);
+          Polyline polyline = new Polyline(points);
           // densify the path as a geodesic curve and show it with the path graphic
-          Geometry pathGeometry = GeometryEngine.densifyGeodetic(line, 1, unit, GeodeticCurveType.GEODESIC);
+          Geometry pathGeometry =
+              GeometryEngine.densifyGeodetic(polyline, 1, unitOfMeasurement, GeodeticCurveType.GEODESIC);
           path.setGeometry(pathGeometry);
           // calculate the path distance
-          double distance = GeometryEngine.lengthGeodetic(pathGeometry, unit, GeodeticCurveType.GEODESIC);
+          double distance = GeometryEngine.lengthGeodetic(pathGeometry, unitOfMeasurement, GeodeticCurveType.GEODESIC);
           distanceLabel.setText(formatter.format(distance));
         }
       });
