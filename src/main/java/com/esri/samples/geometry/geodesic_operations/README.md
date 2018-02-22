@@ -32,6 +32,7 @@
     <li>Graphic</li>
     <li>GraphicsOverlay</li>
     <li>LinearUnit</li>
+    <li>LinearUnitId</li>
     <li>MapView</li>
     <li>Point</li>
     <li>PointCollection</li>
