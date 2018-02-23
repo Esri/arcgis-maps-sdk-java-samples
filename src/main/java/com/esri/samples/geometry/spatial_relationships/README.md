@@ -16,7 +16,7 @@ has to the other graphic geometries.</p>
 <ol>
     <li>Get two geometries, possibly by identifying them with a mouse click.</li>
     <li>Use the methods in <code>GeometryEngine</code> to check the relationship between the geometries, e.g. 
-    `contains`, `disjoint`, `intersects`, etc.</li>
+    <code>contains</code>, <code>disjoint</code>, <code>intersects</code>, etc.</li>
 </ol>
 
 <h2>Features</h2>
