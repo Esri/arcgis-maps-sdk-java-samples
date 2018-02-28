@@ -88,20 +88,20 @@ public class FormatCoordinatesSample extends Application {
             showCalloutWithLocationCoordinates(point);
             return;
           } catch (ArcGISRuntimeException ex) {
-            //ignore
+            // ignore, wrong format
           }
           try {
             Point point = CoordinateFormatter.fromUtm(inputText, map.getSpatialReference(), CoordinateFormatter.UtmConversionMode.LATITUDE_BAND_INDICATORS);
             showCalloutWithLocationCoordinates(point);
             return;
           } catch (ArcGISRuntimeException ex) {
-            //ignore
+            // ignore, wrong format
           }
           try {
             Point point = CoordinateFormatter.fromUsng(inputText, map.getSpatialReference());
             showCalloutWithLocationCoordinates(point);
           } catch (ArcGISRuntimeException ex) {
-            //ignore
+            // ignore, wrong format
           }
         }
       });
@@ -144,7 +144,7 @@ public class FormatCoordinatesSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {
