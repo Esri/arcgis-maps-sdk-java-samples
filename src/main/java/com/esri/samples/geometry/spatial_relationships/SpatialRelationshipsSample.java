@@ -152,16 +152,16 @@ public class SpatialRelationshipsSample extends Application {
                 // populate the tree view with the spatial relationships the selected graphic has to the other graphics
                 // ignore testing relationships between the geometry and itself
                 if (selectedGeometryType != GeometryType.POINT) {
-                  getSpatialRelationships(selectedGeometry, pointGraphic.getGeometry()).forEach(r ->
-                      pointRelationships.getChildren().add(new TreeItem<>(r.toString())));
+                  getSpatialRelationships(selectedGeometry, pointGraphic.getGeometry()).forEach(relationship ->
+                      pointRelationships.getChildren().add(new TreeItem<>(relationship.toString())));
                 }
                 if (selectedGeometryType != GeometryType.POLYLINE) {
-                  getSpatialRelationships(selectedGeometry, polylineGraphic.getGeometry()).forEach(r ->
-                      polylineRelationships.getChildren().add(new TreeItem<>(r.toString())));
+                  getSpatialRelationships(selectedGeometry, polylineGraphic.getGeometry()).forEach(relationship ->
+                      polylineRelationships.getChildren().add(new TreeItem<>(relationship.toString())));
                 }
                 if (selectedGeometryType != GeometryType.POLYGON) {
-                  getSpatialRelationships(selectedGeometry, polygonGraphic.getGeometry()).forEach(r ->
-                      polygonRelationships.getChildren().add(new TreeItem<>(r.toString())));
+                  getSpatialRelationships(selectedGeometry, polygonGraphic.getGeometry()).forEach(relationship ->
+                      polygonRelationships.getChildren().add(new TreeItem<>(relationship.toString())));
                 }
               }
             } catch (InterruptedException | ExecutionException ex) {

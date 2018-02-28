@@ -14,9 +14,11 @@ has to the other graphic geometries.</p>
 <p></p>
 
 <ol>
-    <li>Get two geometries, possibly by identifying them with a mouse click.</li>
+    <li>Get the geometry from two different graphics. In this example the geometry of the selected graphic is 
+    compared to the geometry of each graphic not selected.</li>
     <li>Use the methods in <code>GeometryEngine</code> to check the relationship between the geometries, e.g. 
-    <code>contains</code>, <code>disjoint</code>, <code>intersects</code>, etc.</li>
+    <code>contains</code>, <code>disjoint</code>, <code>intersects</code>, etc. If the method returns 
+    <code>true</code>, the relationship exists.</li>
 </ol>
 
 <h2>Features</h2>
