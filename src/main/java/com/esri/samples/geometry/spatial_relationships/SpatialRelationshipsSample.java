@@ -17,6 +17,7 @@
 package com.esri.samples.geometry.spatial_relationships;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -122,7 +123,7 @@ public class SpatialRelationshipsSample extends Application {
       TreeItem<String> pointRelationships = new TreeItem<>("Point");
       TreeItem<String> polylineRelationships = new TreeItem<>("Polyline");
       TreeItem<String> polygonRelationships = new TreeItem<>("Polygon");
-      rootItem.getChildren().addAll(pointRelationships, polylineRelationships, polygonRelationships);
+      rootItem.getChildren().addAll(Arrays.asList(pointRelationships, polylineRelationships, polygonRelationships));
 
       // and a mouse click listener to identify the selected graphic
       mapView.setOnMouseClicked(e -> {

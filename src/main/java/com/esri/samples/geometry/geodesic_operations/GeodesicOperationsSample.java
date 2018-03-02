@@ -118,8 +118,8 @@ public class GeodesicOperationsSample extends Application {
           PointCollection points = new PointCollection(Arrays.asList(start, destination), srWgs84);
           Polyline polyline = new Polyline(points);
           // densify the path as a geodesic curve and show it with the path graphic
-          Geometry pathGeometry =
-              GeometryEngine.densifyGeodetic(polyline, 1, unitOfMeasurement, GeodeticCurveType.GEODESIC);
+          Geometry pathGeometry = GeometryEngine.densifyGeodetic(polyline, 1, unitOfMeasurement, GeodeticCurveType
+              .GEODESIC);
           path.setGeometry(pathGeometry);
           // calculate the path distance
           double distance = GeometryEngine.lengthGeodetic(pathGeometry, unitOfMeasurement, GeodeticCurveType.GEODESIC);
