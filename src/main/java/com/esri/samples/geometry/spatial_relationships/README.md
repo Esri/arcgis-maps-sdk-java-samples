@@ -11,7 +11,7 @@ has to the other graphic geometries.</p>
 
 <h2>How it works</h2>
 
-<p></p>
+<p>To check the relationship between geometries.</p>
 
 <ol>
     <li>Get the geometry from two different graphics. In this example the geometry of the selected graphic is 
