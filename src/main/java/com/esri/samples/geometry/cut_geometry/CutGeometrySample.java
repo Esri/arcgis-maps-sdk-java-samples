@@ -47,7 +47,7 @@ public class CutGeometrySample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
