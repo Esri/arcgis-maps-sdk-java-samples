@@ -14,8 +14,8 @@
 
 <ol>
     <li>Use the static method <code>GeometryEngine.cut(geometry, polyline)</code>.</li>
-    <li>Loop through the <code>List&lt;Geometry&gt;</code>. Keep in mind that some of these geometries can be multi-part
-    .</code>
+    <li>Loop through the <code>List&lt;Geometry&gt;</code> of cut pieces. Keep in mind that some of these geometries may
+     be multi-part.</code>
 </ol>
 
 <h2>Features</h2>
