@@ -77,7 +77,7 @@ public class ManageBookmarksSample extends Application {
       // when user clicks on a bookmark change to that location
       bookmarkNames.getSelectionModel().selectedItemProperty().addListener((ov, old_val, new_val) -> {
         int index = bookmarkNames.getSelectionModel().getSelectedIndex();
-        mapView.setViewpoint(bookmarkList.get(index).getViewpoint());
+        mapView.setBookmarkAsync(bookmarkList.get(index));
       });
 
       // create button to add a bookmark
@@ -125,7 +125,7 @@ public class ManageBookmarksSample extends Application {
       bookmarkList.add(bookmark);
       bookmarkNames.getItems().add(bookmark.getName());
       // set this bookmark as the ArcGISMap's initial viewpoint
-      mapView.setViewpointAsync(viewpoint);
+      mapView.setBookmarkAsync(bookmarkList.get(0));
 
       viewpoint = new Viewpoint(37.401573, -116.867808, 6e3);
       bookmark = new Bookmark("Strange Symbol", viewpoint);
