@@ -67,10 +67,11 @@ public class ClipGeometrySample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a blue graphic of Colorado
-      Envelope colorado = new Envelope(new Point(-11362327.128340, 5012861.290274), new Point(-12138232.018408,
-          4441198.773776));
-      Graphic coloradoGraphic = new Graphic(colorado, new SimpleFillSymbol(SimpleFillSymbol.Style
-          .SOLID, 0x220000FF, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2)));
+      Envelope colorado = new Envelope(new Point(-11362327.128340, 5012861.290274),
+          new Point(-12138232.018408, 4441198.773776));
+      SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x220000FF,
+          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2));
+      Graphic coloradoGraphic = new Graphic(colorado, fillSymbol);
       graphicsOverlay.getGraphics().add(coloradoGraphic);
 
       // create a graphics overlay to contain the clipping envelopes
@@ -81,20 +82,20 @@ public class ClipGeometrySample extends Application {
       SimpleLineSymbol redOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, 0xFFFF0000, 3);
 
       // create a envelope outside Colorado
-      Envelope outsideEnvelope = new Envelope(new Point(-11858344.321294, 5147942.225174), new Point
-          (-12201990.219681, 5297071.577304));
+      Envelope outsideEnvelope =
+          new Envelope(new Point(-11858344.321294, 5147942.225174), new Point(-12201990.219681, 5297071.577304));
       Graphic outside = new Graphic(outsideEnvelope, redOutline);
       envelopesOverlay.getGraphics().add(outside);
 
       // create a envelope intersecting Colorado
-      Envelope intersectingEnvelope = new Envelope(new Point(-11962086.479298, 4566553.881363), new Point
-          (-12260345.183558, 4332053.378376));
+      Envelope intersectingEnvelope =
+          new Envelope(new Point(-11962086.479298, 4566553.881363), new Point(-12260345.183558, 4332053.378376));
       Graphic intersecting = new Graphic(intersectingEnvelope, redOutline);
       envelopesOverlay.getGraphics().add(intersecting);
 
       // create a envelope inside Colorado
-      Envelope containedEnvelope = new Envelope(new Point(-11655182.595204, 4741618.772994), new Point
-          (-11431488.567009, 4593570.068343));
+      Envelope containedEnvelope =
+          new Envelope(new Point(-11655182.595204, 4741618.772994), new Point(-11431488.567009, 4593570.068343));
       Graphic contained = new Graphic(containedEnvelope, redOutline);
       envelopesOverlay.getGraphics().add(contained);
 
@@ -109,9 +110,10 @@ public class ClipGeometrySample extends Application {
       Button clipButton = new Button("Clip");
       clipButton.setOnAction(e -> {
         // for each envelope, clip the Colorado geometry and show the result as a green graphic
-        SimpleFillSymbol clippedAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFF00FF00, null);
-        envelopesOverlay.getGraphics().forEach(g -> {
-          Geometry geometry = GeometryEngine.clip(coloradoGraphic.getGeometry(), (Envelope) g.getGeometry());
+        SimpleFillSymbol clippedAreaSymbol =
+            new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFF00FF00, null);
+        envelopesOverlay.getGraphics().forEach(graphic -> {
+          Geometry geometry = GeometryEngine.clip(coloradoGraphic.getGeometry(), (Envelope) graphic.getGeometry());
           if (geometry != null) {
             Graphic clippedGraphic = new Graphic(geometry, clippedAreaSymbol);
             clipAreasOverlay.getGraphics().add(clippedGraphic);
