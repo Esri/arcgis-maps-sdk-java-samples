@@ -1,6 +1,6 @@
 <h1>Clip Geometry</h1>
 
-<p>Demonstrates how to clip a geometry with an evelope using the GeometryEngine.</p>
+<p>Demonstrates how to clip a geometry with an envelope using the GeometryEngine.</p>
 
 <p><img src="ClipGeometry.png"/></p>
 
@@ -11,11 +11,11 @@ green graphics.</p>
 
 <h2>How it works</h2>
 
-<p>To clip a geometry with an envelope:</p>
+<p>To clip a <code>Geometry</code> with an <code>Envelope</code>:</p>
 
 <ol>
     <li>Use the static method <code>GeometryEngine.clip(geometry, envelope)</code>.</li>
-    <li>Keep in mind that the result <code>Geometry</code> may be null if the envelope does not intersect the 
+    <li>Keep in mind that the resulting <code>Geometry</code> may be null if the envelope does not intersect the 
     geometry you are clipping</li>.</code>
 </ol>
 
@@ -24,6 +24,7 @@ green graphics.</p>
 <ul>
     <li>ArcGISMap</li>
     <li>Basemap</li>
+    <li>Envelope</li>
     <li>Geometry</li>
     <li>GeometryEngine</li>
     <li>Graphic</li>
