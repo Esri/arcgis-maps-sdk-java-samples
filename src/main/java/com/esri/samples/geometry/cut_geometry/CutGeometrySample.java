@@ -75,7 +75,7 @@ public class CutGeometrySample extends Application {
           .SOLID, 0x220000FF, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2)));
       graphicsOverlay.getGraphics().add(polygonGraphic);
 
-      // create a red poyline graphic to cut the polygon
+      // create a red polyline graphic to cut the polygon
       Graphic polylineGraphic = new Graphic(createBorder(), new SimpleLineSymbol(SimpleLineSymbol.Style.DOT,
           0xFFFF0000, 3));
       graphicsOverlay.getGraphics().add(polylineGraphic);
