@@ -23,7 +23,8 @@ original by deselecting the "Show result" checkbox.</p>
     <li>Use the static method <code>GeometryEngine.generalize(polyline, maxDeviation, true)</code> to generalize the 
     polyline. The resulting polyline will have points or shifted from the line to simplify the shape. None of these points can 
     deviate farther from the original line than <code>maxDeviation</code>. The last parameter, 
-    <code>removeDegenerateParts</code>, will clean up extraneous parts if the geometry is multi-part.</li>
+    <code>removeDegenerateParts</code> , will clean up extraneous parts if the geometry is multi-part (it will have 
+    no effect in this sample.</li>
     <li>Note that <code>maxSegmentLength</code> and <code>maxDeviation</code> are in the units of geometry's 
     coordinate system. This could be in degrees in some coordinate systems. In this example, a cartesian coordinate 
     system is used and at a small enough scale that geodesic distances are not required.</li>
