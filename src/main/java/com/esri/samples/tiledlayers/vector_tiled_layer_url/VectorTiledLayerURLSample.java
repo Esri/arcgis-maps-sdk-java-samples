@@ -86,7 +86,9 @@ public class VectorTiledLayerURLSample extends Application {
       // set the layer as the map's basemap when selected
       layerList.getSelectionModel().selectedIndexProperty().addListener(e -> {
         ArcGISVectorTiledLayer layer = layerList.getSelectionModel().getSelectedItem();
-        map.setBasemap(new Basemap(layer));
+        // copy the layer so we know it hasn't already been used in a basemap
+        Basemap basemap = new Basemap(layer.copy());
+        map.setBasemap(basemap);
       });
 
       // select the first layer on start
