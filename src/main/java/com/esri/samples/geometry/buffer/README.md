@@ -16,7 +16,7 @@ buffer distance.</p>
 <h2>How it works</h2>
 <ol>
 <li>The static method, <code>GeometryEngine.buffer</code>, is called by passing in a <code>Point</code> and a distance
- in meters and returns a <code>Polygon</code>. You can create a <code>Graphic</code> with this polygon to display it.</li>
+ in meters. This returns a <code>Polygon</code> which can be displayed using a <code>Graphic</code>.</li>
 </ol>
 
 <h2>Features</h2>

@@ -72,7 +72,7 @@ public class BufferSample extends Application {
           SpatialReferences.getWebMercator());
       mapView.setViewpointGeometryAsync(startingEnvelope);
 
-      // create a graphics overlay to contain the geometry to clip
+      // create a graphics overlay to contain the buffered geometry graphics
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
