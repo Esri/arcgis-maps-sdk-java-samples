@@ -25,7 +25,3 @@
 <li>Polygon</li>
 <li>Polyline</li>
 </ul>
-
-<h2>Additional information</h2>
-<p>The <code>LocationDistanceMeasurement</code> analysis only performs planar distance calculations. This may not be 
-appropriate for large distances where the Earth's curvature needs to be taken into account.</p>
