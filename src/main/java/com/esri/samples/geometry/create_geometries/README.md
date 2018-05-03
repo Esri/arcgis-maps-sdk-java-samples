@@ -10,7 +10,7 @@
   <code>Polyline</code>, <code>Multipoint</code>, <code>Polygon</code>, and <code>Envelope</code>. Geometries made 
   of multiple points usually take a <code>PointCollection</code> as an argument.</li>
   <li>To display the geometry, create a <code>Graphic</code> passing in the geometry, and a <code>Symbol</code> 
-  appropriate for the geometry type</li>
+  appropriate for the geometry type.</li>
   <li>Add the <code>Graphic</code> to a <code>GraphicsOverlay</code> and add the overlay to the 
   <code>MapView</code>.</li>
 </ol>
@@ -18,6 +18,7 @@
 <h2>Features</h2>  
 <ul>
 <li>Envelope</li>
+<li>Graphic</li>
 <li>Multipoint</li>
 <li>Point</li>
 <li>PointCollection</li>
