@@ -6,7 +6,7 @@
 <h2>How it works</h2>
 <p>To create different geometries and show them as graphics:</p>
 <ol>
-  </li>Use the constructors for the various simple <code>Geometry</code> types including <code>Point</code>, 
+  <li>Use the constructors for the various simple <code>Geometry</code> types including <code>Point</code>, 
   <code>Polyline</code>, <code>Multipoint</code>, <code>Polygon</code>, and <code>Envelope</code>. Geometries made 
   of multiple points usually take a <code>PointCollection</code> as an argument.</li>
   <li>To display the geometry, create a <code>Graphic</code> passing in the geometry, and a <code>Symbol</code> 
