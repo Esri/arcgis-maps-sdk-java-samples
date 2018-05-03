@@ -63,14 +63,11 @@ public class CreateGeometriesSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a graphics overlay
+      // create a graphics overlay for displaying different geometries as graphics
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create envelope
-      Envelope envelope = new Envelope(-123.0, 33.5, -101.0, 48.0, SpatialReferences.getWgs84());
-
-      // create a point
+      // create a point geometry
       Point point = new Point(-117.195800, 34.056295, SpatialReferences.getWgs84());
       Graphic pointGraphic = new Graphic(point, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFF0000FF, 14));
 
@@ -84,7 +81,7 @@ public class CreateGeometriesSample extends Application {
       Graphic multipointGraphic = new Graphic(multipoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE,
           0xFFFF0000, 12));
 
-      // create a polyline
+      // create a polyline geometry
       PointCollection borderCAtoNV = new PointCollection(SpatialReferences.getWgs84());
       borderCAtoNV.add(-119.992, 41.989);
       borderCAtoNV.add(-119.994, 38.994);
@@ -93,7 +90,7 @@ public class CreateGeometriesSample extends Application {
       Graphic polylineGraphic = new Graphic(polyline, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF00FFFF,
           3));
 
-      // create a polygon
+      // create a polygon geometry
       PointCollection coloradoCorners = new PointCollection(SpatialReferences.getWgs84());
       coloradoCorners.add(-109.048, 40.998);
       coloradoCorners.add(-102.047, 40.998);
@@ -103,12 +100,15 @@ public class CreateGeometriesSample extends Application {
       Graphic polygonGraphic = new Graphic(polygon, new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0xFF00FF00,
           null));
 
-      // add all of the graphics to the graphics overlay
-      graphicsOverlay.getGraphics().addAll(Arrays.asList(multipointGraphic, polylineGraphic, polygonGraphic,
-          pointGraphic));
+      // create an envelope
+      Envelope envelope = new Envelope(-123.0, 33.5, -101.0, 48.0, SpatialReferences.getWgs84());
 
       // use the envelope to set the viewpoint
       mapView.setViewpointGeometryAsync(envelope);
+
+      // add all of the graphics to the graphics overlay
+      graphicsOverlay.getGraphics().addAll(Arrays.asList(multipointGraphic, polylineGraphic, polygonGraphic,
+          pointGraphic));
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView);
@@ -116,63 +116,6 @@ public class CreateGeometriesSample extends Application {
       // on any error, display the stack trace.
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Creates a polyline along the US/Canada border over Lake Superior.
-   *
-   * @return poyline
-   */
-  private Polyline createBorder() {
-    PointCollection points = new PointCollection(SpatialReferences.getWebMercator());
-    points.add(new Point(-9981328.687124, 6111053.281447));
-    points.add(new Point(-9946518.044066, 6102350.620682));
-    points.add(new Point(-9872545.427566, 6152390.920079));
-    points.add(new Point(-9838822.617103, 6157830.083057));
-    points.add(new Point(-9446115.050097, 5927209.572793));
-    points.add(new Point(-9430885.393759, 5876081.440801));
-    points.add(new Point(-9415655.737420, 5860851.784463));
-    return new Polyline(points);
-  }
-
-  /**
-   * Creates a polygon of points around Lake Superior.
-   *
-   * @return polygon
-   */
-  private Polygon createLakeSuperiorPolygon() {
-    PointCollection points = new PointCollection(SpatialReferences.getWebMercator());
-    points.add(new Point(-10254374.668616, 5908345.076380));
-    points.add(new Point(-10178382.525314, 5971402.386779));
-    points.add(new Point(-10118558.923141, 6034459.697178));
-    points.add(new Point(-9993252.729399, 6093474.872295));
-    points.add(new Point(-9882498.222673, 6209888.368416));
-    points.add(new Point(-9821057.766387, 6274562.532928));
-    points.add(new Point(-9690092.583250, 6241417.023616));
-    points.add(new Point(-9605207.742329, 6206654.660191));
-    points.add(new Point(-9564786.389509, 6108834.986367));
-    points.add(new Point(-9449989.747500, 6095091.726408));
-    points.add(new Point(-9462116.153346, 6044160.821855));
-    points.add(new Point(-9417652.665244, 5985145.646738));
-    points.add(new Point(-9438671.768711, 5946341.148031));
-    points.add(new Point(-9398250.415891, 5922088.336339));
-    points.add(new Point(-9419269.519357, 5855797.317714));
-    points.add(new Point(-9467775.142741, 5858222.598884));
-    points.add(new Point(-9462924.580403, 5902686.086985));
-    points.add(new Point(-9598740.325877, 5884092.264688));
-    points.add(new Point(-9643203.813979, 5845287.765981));
-    points.add(new Point(-9739406.633691, 5879241.702350));
-    points.add(new Point(-9783061.694736, 5922896.763395));
-    points.add(new Point(-9844502.151022, 5936640.023354));
-    points.add(new Point(-9773360.570059, 6019099.583107));
-    points.add(new Point(-9883306.649729, 5968977.105610));
-    points.add(new Point(-9957681.938918, 5912387.211662));
-    points.add(new Point(-10055501.612742, 5871965.858842));
-    points.add(new Point(-10116942.069028, 5884092.264688));
-    points.add(new Point(-10111283.079633, 5933406.315128));
-    points.add(new Point(-10214761.742852, 5888134.399970));
-    points.add(new Point(-10254374.668616, 5901877.659929));
-    return new Polygon(points);
   }
 
   /**
