@@ -81,7 +81,7 @@ public class DistanceMeasurementAnalysisController {
     analysisOverlay.getAnalyses().add(distanceMeasurement);
 
     // zoom to the initial measurement
-    sceneView.setViewpointCameraAsync(new Camera(start, 200.0, 0.0, 45.0, 0.0));
+    sceneView.setViewpointCamera(new Camera(start, 200.0, 0.0, 45.0, 0.0));
 
     // show the distances in the UI when the measurement changes
     DecimalFormat decimalFormat = new DecimalFormat("#.##");
