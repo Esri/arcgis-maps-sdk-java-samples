@@ -15,7 +15,7 @@ Click the compass to set the map's heading to north.</p>
 
 <ol>
     <li>Create an <code>ArcGISMap</code>.</li>
-    <li>Add the map to a <code>MapView</code></code>.</li>
+    <li>Add the map to a <code>MapView</code>.</li>
     <li>Use <code>MapView.setViewpointRotationAsync</code> to indicate the rotation angle.</li>
 </ol>
 
