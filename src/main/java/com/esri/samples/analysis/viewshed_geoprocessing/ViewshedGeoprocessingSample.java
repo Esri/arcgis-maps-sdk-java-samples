@@ -157,8 +157,7 @@ public class ViewshedGeoprocessingSample extends Application {
                         if (geoprocessingJob.getStatus() == Job.Status.SUCCEEDED) {
                           // get the viewshed from the job's result
                           GeoprocessingResult geoprocessingResult = geoprocessingJob.getResult();
-                          GeoprocessingFeatures resultFeatures = (GeoprocessingFeatures) geoprocessingResult.getOutputs()
-                              .get("Viewshed_Result");
+                          GeoprocessingFeatures resultFeatures = (GeoprocessingFeatures) geoprocessingResult.getOutputs().get("Viewshed_Result");
 
                           // loop through the result features to get the viewshed geometries
                           FeatureSet featureSet = resultFeatures.getFeatures();
@@ -206,7 +205,7 @@ public class ViewshedGeoprocessingSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();
