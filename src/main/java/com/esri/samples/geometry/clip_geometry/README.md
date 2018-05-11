@@ -2,12 +2,11 @@
 
 <p>Demonstrates how to clip a geometry with an envelope using the GeometryEngine.</p>
 
-<p><img src="ClipGeometry.png"/></p>
+<p><img src="ClipGeometry.gif"/></p>
 
 <h2>How to use the sample</h2>
 
-<p>Click the "Clip" button to clip the blue graphic with each of the red envelopes and see the resulting geometries as 
-green graphics.</p>
+<p>Click the "Clip" button to clip the blue graphic with the red envelopes.</p>
 
 <h2>How it works</h2>
 

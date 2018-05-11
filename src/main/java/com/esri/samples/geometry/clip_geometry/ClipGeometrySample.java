@@ -109,13 +109,12 @@ public class ClipGeometrySample extends Application {
       // create a button to perform the clip operation
       Button clipButton = new Button("Clip");
       clipButton.setOnAction(e -> {
-        // for each envelope, clip the Colorado geometry and show the result as a green graphic
-        SimpleFillSymbol clippedAreaSymbol =
-            new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFF00FF00, null);
+        // for each envelope, clip the Colorado geometry and show the result, replacing the original Colorado graphic
+        coloradoGraphic.setVisible(false);
         envelopesOverlay.getGraphics().forEach(graphic -> {
           Geometry geometry = GeometryEngine.clip(coloradoGraphic.getGeometry(), (Envelope) graphic.getGeometry());
           if (geometry != null) {
-            Graphic clippedGraphic = new Graphic(geometry, clippedAreaSymbol);
+            Graphic clippedGraphic = new Graphic(geometry, fillSymbol);
             clipAreasOverlay.getGraphics().add(clippedGraphic);
           }
         });
