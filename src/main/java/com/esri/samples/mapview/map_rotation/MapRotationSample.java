@@ -89,6 +89,10 @@ public class MapRotationSample extends Application {
       // create a compass to show the current heading when rotated
       Compass compass = new Compass(mapView);
 
+      // clicking the compass sets the map's heading to 0.0
+      // add a listener to reset the slider when this happens
+      compass.setOnMouseClicked(e -> slider.setValue(0.0));
+
       // create a starting viewpoint for the map view
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
       Point pointBottomLeft = new Point(-13639984.0, 4537387.0, spatialReference);
