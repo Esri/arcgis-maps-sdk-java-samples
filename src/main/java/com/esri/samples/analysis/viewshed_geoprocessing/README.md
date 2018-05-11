@@ -31,6 +31,7 @@ viewshed at that location. A viewshed will be calculated using the service's def
 
 <ul>
     <li>FeatureCollectionTable</li>
+    <li>GeoprocessingFeatures</li>
     <li>GeoprocessingJob</li>
     <li>GeoprocessingParameters</li>
     <li>GeoprocessingResult</li>
