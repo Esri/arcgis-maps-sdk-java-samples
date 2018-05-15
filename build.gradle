@@ -14,13 +14,22 @@ buildscript {
     }
 }
 
-arcgis.version = '100.3.0-2052'
+arcgis.version = '100.3.0-2056'
 arcgis.internal = true
 
 idea.module.downloadJavadoc = true
 eclipse.classpath.downloadJavadoc = true
 
 compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    maven {
+        url 'https://esri.bintray.com/arcgis'
+    }
+    maven {
+        url 'http://android:8080/artifactory/arcgis'
+    }
+}
 
 dependencies {
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
