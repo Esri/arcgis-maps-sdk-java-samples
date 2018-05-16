@@ -80,8 +80,8 @@ public class LocalServerServicesController {
     packageChooser.setInitialFileName(packageChooser.getInitialDirectory().getAbsolutePath() + "/PointsOfInterest.mpk");
 
     // create filters to choose files for specific services
-    ExtensionFilter mpkFilter = new ExtensionFilter("Map Packages (*.mpk)", "*.mpk");
-    ExtensionFilter gpkFilter = new ExtensionFilter("Geoprocessing Packages (*.gpk)", "*.gpk");
+    ExtensionFilter mpkFilter = new ExtensionFilter("Map Packages (*.mpk, *.mpkx)", "*.mpk", "*.mpkx");
+    ExtensionFilter gpkFilter = new ExtensionFilter("Geoprocessing Packages (*.gpk, *.gpkx)", "*.gpk", "*.gpkx");
     packageChooser.getExtensionFilters().add(mpkFilter);
 
     // use the combobox to select a filter
