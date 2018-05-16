@@ -22,15 +22,6 @@ eclipse.classpath.downloadJavadoc = true
 
 compileJava.options.encoding = 'UTF-8'
 
-repositories {
-    maven {
-        url 'https://esri.bintray.com/arcgis'
-    }
-    maven {
-        url 'http://android:8080/artifactory/arcgis'
-    }
-}
-
 dependencies {
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
     compile 'commons-io:commons-io:2.4'
