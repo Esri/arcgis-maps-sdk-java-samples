@@ -19,7 +19,7 @@ hotspots" button to start the geoprocessing job.</p>
     <li>Create a query string with the date range as an input of <code>GeoprocessingParameters</code>.</li>
     <li>Use the <code>GeoprocessingTask</code> to create a <code>GeoprocessingJob</code> with the parameters.</li>
     <li>Start the job and wait for it to complete and return a <code>GeoprocessingResult</code>.</li>
-    <li>Get the resulting <code>ArcGISMapImageLayer</code> using <code>geoprocessingResult.getMapImageLayer()</code></code>.</li>
+    <li>Get the resulting <code>ArcGISMapImageLayer</code> using <code>geoprocessingResult.getMapImageLayer()</code>.</li>
     <li>Add the layer to the map's operational layers.</li>
 </ol>
 
