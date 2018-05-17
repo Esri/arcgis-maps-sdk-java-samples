@@ -34,7 +34,6 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.toolkit.Compass;
 
 public class MapRotationSample extends Application {
 
@@ -86,13 +85,6 @@ public class MapRotationSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a compass to show the current heading when rotated
-      Compass compass = new Compass(mapView);
-
-      // clicking the compass sets the map's heading to 0.0
-      // add a listener to reset the slider when this happens
-      compass.setOnMouseClicked(e -> slider.setValue(0.0));
-
       // create a starting viewpoint for the map view
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
       Point pointBottomLeft = new Point(-13639984.0, 4537387.0, spatialReference);
@@ -104,11 +96,8 @@ public class MapRotationSample extends Application {
       mapView.setViewpointAsync(viewpoint);
 
       // add the map view, slider, and compass to the stack pane
-      stackPane.getChildren().addAll(mapView, slider, compass);
       StackPane.setAlignment(slider, Pos.TOP_LEFT);
-      StackPane.setAlignment(compass, Pos.TOP_RIGHT);
       StackPane.setMargin(slider, new Insets(10, 0, 0, 10));
-      StackPane.setMargin(compass, new Insets(10, 10, 0, 0));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
