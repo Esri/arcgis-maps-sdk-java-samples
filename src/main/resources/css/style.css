@@ -22,3 +22,7 @@
 .panel-region .check-box {
    -fx-text-fill: white;
 }
+
+.color-picker .color-picker-label {
+   -fx-text-fill: black;
+}
