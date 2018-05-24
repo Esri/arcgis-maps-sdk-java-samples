@@ -29,6 +29,7 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -58,7 +59,7 @@ public class ProjectSample extends Application {
       stage.show();
 
       // create a map with a web mercator basemap
-      ArcGISMap map = new ArcGISMap(SpatialReferences.getWebMercator());
+      ArcGISMap map = new ArcGISMap(SpatialReference.create(3857));
       map.setBasemap(Basemap.createNationalGeographic());
       mapView = new MapView();
       mapView.setMap(map);
@@ -87,11 +88,11 @@ public class ProjectSample extends Application {
           // show the clicked location on the map with a graphic
           Point originalPoint = mapView.screenToLocation(point2D);
           inputPointGraphic.setGeometry(originalPoint);
-          // project the web mercator point to WGS84
-          Point projectedPoint = (Point) GeometryEngine.project(originalPoint, SpatialReferences.getWgs84());
+          // project the web mercator point to WGS84 (WKID 4326)
+          Point projectedPoint = (Point) GeometryEngine.project(originalPoint, SpatialReference.create(4236));
           // show the original and projected point coordinates in a callout from the graphic
           Callout callout = mapView.getCallout();
-          callout.setTitle("Projection");
+          callout.setTitle("Coordinates");
           String ox = decimalFormat.format(originalPoint.getX());
           String oy = decimalFormat.format(originalPoint.getY());
           String px = decimalFormat.format(projectedPoint.getX());
