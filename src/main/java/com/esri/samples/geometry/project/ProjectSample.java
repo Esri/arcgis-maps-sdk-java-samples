@@ -59,7 +59,6 @@ public class ProjectSample extends Application {
       stage.show();
 
       // create a map with a web mercator basemap
-      System.out.println(SpatialReferences.getWebMercator().getWkid());
       ArcGISMap map = new ArcGISMap(SpatialReference.create(3857));
       map.setBasemap(Basemap.createNationalGeographic());
       mapView = new MapView();
