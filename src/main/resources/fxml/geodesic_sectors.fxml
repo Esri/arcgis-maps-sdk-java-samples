@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2018 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.*?>
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<StackPane fx:controller="com.esri.samples.geometry.geodesic_sectors.GeodesicSectorsController" xmlns:fx="http://javafx.com/fxml"
+           stylesheets="/css/style.css">
+    <MapView fx:id="mapView"/>
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="350" maxHeight="300" styleClass="panel-region" spacing="10"
+          alignment="CENTER">
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50"/>
+                <ColumnConstraints percentWidth="50"/>
+            </columnConstraints>
+            <Label text="Axis Direction" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Slider fx:id="axisDirectionSlider" max="360" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Max Point Count" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Spinner fx:id="maxPointCountSpinner" editable="true" max="20000" GridPane.rowIndex="1"
+                     GridPane.columnIndex="1"/>
+            <Label text="Max Segment Length" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Slider fx:id="maxSegmentLengthSlider" max="100000" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Output Geometry Type" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="outputGeometryTypeComboBox" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <Label text="Sector Angle" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Slider fx:id="sectorAngleSlider" max="360" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <Label text="Semi Axis 1 Length" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <Slider fx:id="semiAxis1LengthSlider" max="1000" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+            <Label text="Semi Axis 2 Length" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <Slider fx:id="semiAxis2LengthSlider" max="1000" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+            <Label text="Start Direction Angle" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+            <Slider fx:id="startDirectionSlider" max="360" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+        </GridPane>
+        <Button text="Update" onAction="#updateSectors"/>
+    </VBox>
+</StackPane>
