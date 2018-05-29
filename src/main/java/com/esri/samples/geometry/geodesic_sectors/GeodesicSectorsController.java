@@ -37,8 +37,11 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.FillSymbol;
+import com.esri.arcgisruntime.symbology.LineSymbol;
+import com.esri.arcgisruntime.symbology.MarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class GeodesicSectorsController {
 
@@ -55,6 +58,9 @@ public class GeodesicSectorsController {
   private Point center;
   private Graphic sectorsGraphic;
   private Graphic ellipseGraphic;
+  private FillSymbol sectorFillSymbol;
+  private LineSymbol sectorLineSymbol;
+  private MarkerSymbol sectorMarkerSymbol;
 
   public void initialize() {
     ArcGISMap map = new ArcGISMap(Basemap.createImagery());
@@ -66,10 +72,12 @@ public class GeodesicSectorsController {
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    FillSymbol sectorFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x8800FF00, null);
     sectorsGraphic = new Graphic();
-    sectorsGraphic.setSymbol(sectorFillSymbol);
     graphicsOverlay.getGraphics().add(sectorsGraphic);
+
+    sectorFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x8800FF00, null);
+    sectorLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x8800FF00, 3);
+    sectorMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0x8800FF00, 3);
 
     SimpleLineSymbol ellipseLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, 0xFFFF0000, 2);
     ellipseGraphic = new Graphic();
@@ -119,9 +127,19 @@ public class GeodesicSectorsController {
         .getValue(), semiAxis2LengthSlider.getValue());
     geodesicEllipseParameters.setAxisDirection(axisDirectionSlider.getValue());
 
-
     Geometry sectorGeometry = GeometryEngine.sectorGeodesic(geodesicSectorParameters);
     sectorsGraphic.setGeometry(sectorGeometry);
+    switch (sectorGeometry.getGeometryType()) {
+      case MULTIPOINT:
+        sectorsGraphic.setSymbol(sectorMarkerSymbol);
+        break;
+      case POLYGON:
+        sectorsGraphic.setSymbol(sectorFillSymbol);
+        break;
+      case POLYLINE:
+        sectorsGraphic.setSymbol(sectorLineSymbol);
+        break;
+    }
 
     Geometry ellipseGeometry = GeometryEngine.ellipseGeodesic(geodesicEllipseParameters);
     ellipseGraphic.setGeometry(ellipseGeometry);
