@@ -68,6 +68,7 @@ public class RasterLayerGeoPackageSample extends Application {
 
           // create a raster layer and add it to the map
           RasterLayer rasterLayer = new RasterLayer(raster);
+          rasterLayer.setOpacity(0.7f);
           map.getOperationalLayers().add(rasterLayer);
 
           // set viewpoint on the raster layer
