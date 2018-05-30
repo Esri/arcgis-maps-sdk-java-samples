@@ -96,6 +96,7 @@ public class MapRotationSample extends Application {
       mapView.setViewpointAsync(viewpoint);
 
       // add the map view, slider, and compass to the stack pane
+      stackPane.getChildren().addAll(mapView, slider);
       StackPane.setAlignment(slider, Pos.TOP_LEFT);
       StackPane.setMargin(slider, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
