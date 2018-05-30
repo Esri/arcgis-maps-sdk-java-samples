@@ -68,42 +68,49 @@ public class QueryMapImageSublayerSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with a basemap
+      // create a map with a basemap and set its initial viewpoint
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
       Point initialLocation = new Point(-12716000.00, 4170400.00, SpatialReferences.getWebMercator());
       Viewpoint viewpoint = new Viewpoint(initialLocation, 6000000);
       map.setInitialViewpoint(viewpoint);
 
+      // create and add a map image layer to the map
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
       map.getOperationalLayers().add(imageLayer);
 
-      // set the ArcGISMap to be displayed in this view
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
+      // create a graphics overlay to show the results in
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
+      // create symbols for showing the results of each sublayer
       SimpleMarkerSymbol citySymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 16);
       SimpleLineSymbol stateSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 6);
       SimpleLineSymbol countyLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF00FFFF, 2);
       SimpleFillSymbol countySymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFF00FFFF,
           countyLineSymbol);
 
-      // create a control panel
+      // create a vbox to hold the controls
       VBox vBoxControl = new VBox(6);
       vBoxControl.setMaxSize(160, 100);
       vBoxControl.getStyleClass().add("panel-region");
 
+      // create a spinner to input the population filter
       Label label = new Label("Population greater than");
       Spinner<Integer> populationSpinner = new Spinner<>(0, 100000000, 1800000);
       populationSpinner.setEditable(true);
 
+      // create a button to execute the query, disable initially
       Button queryButton = new Button("Query");
       queryButton.setDisable(true);
 
+      // add the controls to the vbox
       vBoxControl.getChildren().addAll(label, populationSpinner, queryButton);
 
+      // wait until the layer is loaded before enabling the query button
       imageLayer.addDoneLoadingListener(() -> {
         if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
           queryButton.setDisable(false);
@@ -116,21 +123,22 @@ public class QueryMapImageSublayerSample extends Application {
           statesSublayer.loadAsync();
           countiesSublayer.loadAsync();
 
+          // query the sublayers when the button is clicked
           queryButton.setOnAction(e -> {
 
-            // clear previous results
+            // clear any previous results
             graphicsOverlay.getGraphics().clear();
 
-            // Create the query parameters that will find features in the current extent with a population greater than the value entered.
+            // create query parameters filtering based on population and the map view's current viewpoint
             QueryParameters populationQuery = new QueryParameters();
             populationQuery.setWhereClause("POP2000 > " + populationSpinner.getValue());
             populationQuery.setGeometry(mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY)
                 .getTargetGeometry());
 
+            // query each sublayer's feature table with the query parameters and display the result features as graphics
             citiesSublayer.addDoneLoadingListener(() -> {
               if (citiesSublayer.getLoadStatus() == LoadStatus.LOADED) {
                 ServiceFeatureTable citiesTable = citiesSublayer.getTable();
-                // Query each of the sublayers with the query parameters.
                 ListenableFuture<FeatureQueryResult> citiesQuery = citiesTable.queryFeaturesAsync(populationQuery);
                 citiesQuery.addDoneListener(() -> {
                   try {
@@ -185,7 +193,7 @@ public class QueryMapImageSublayerSample extends Application {
         }
       });
 
-      // add the MapView and checkboxes
+      // add the mapview and controls to the stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);
       StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
       StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
