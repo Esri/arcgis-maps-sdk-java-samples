@@ -27,7 +27,7 @@
            prefHeight="450.0" prefWidth="600.0" stylesheets="/css/style.css">
     <SceneView fx:id="sceneView"/>
     <GridPane StackPane.alignment="TOP_LEFT" pickOnBounds="false" styleClass="panel-region" maxWidth="300"
-              maxHeight="300" hgap="10" vgap="10">
+              maxHeight="460" hgap="10" vgap="10">
         <Label text="Visible" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <ToggleButton fx:id="visibilityToggle" selected="true" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 

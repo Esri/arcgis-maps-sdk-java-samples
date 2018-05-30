@@ -32,14 +32,12 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import com.esri.arcgisruntime.data.GeoPackage;
-import com.esri.arcgisruntime.data.GeoPackageFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.raster.GeoPackageRaster;
 
 public class ReadGeoPackageSample extends Application {
 
@@ -85,7 +83,7 @@ public class ReadGeoPackageSample extends Application {
       // add labels and lists to the control panel
       vBoxControl.getChildren().addAll(mapLayersLabel, mapLayers, geoPackageLayersLabel, geoPackageLayers);
 
-      // create a cell factory to show the layer descriptions in the list view
+      // create a cell factory to show the layer names in the list view
       Callback<ListView<Layer>, ListCell<Layer>> cellFactory = list -> new ListCell<Layer>() {
 
         @Override
@@ -95,12 +93,12 @@ public class ReadGeoPackageSample extends Application {
           if (layer != null) {
             if (layer instanceof FeatureLayer) {
               FeatureLayer featureLayer = (FeatureLayer) layer;
-              GeoPackageFeatureTable featureTable = (GeoPackageFeatureTable) featureLayer.getFeatureTable();
-              setText(featureTable.getDescription());
+              setText(featureLayer.getName());
             } else if (layer instanceof RasterLayer) {
               RasterLayer rasterLayer = (RasterLayer) layer;
-              GeoPackageRaster raster = (GeoPackageRaster) rasterLayer.getRaster();
-              setText(raster.getDescription());
+              // use the raster file name if the raster layer name is empty
+              String path = rasterLayer.getRaster().getPath();
+              setText(rasterLayer.getName().isEmpty() ? path.substring(path.lastIndexOf('/') + 1) : rasterLayer.getName());
             }
           } else {
             setText(null);
@@ -147,13 +145,18 @@ public class ReadGeoPackageSample extends Application {
       GeoPackage geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
       geoPackage.loadAsync();
       geoPackage.addDoneLoadingListener(() -> {
-        geoPackage.getGeoPackageRasters().forEach(r -> {
-          RasterLayer rasterLayer = new RasterLayer(r);
+        geoPackage.getGeoPackageRasters().forEach(raster -> {
+          RasterLayer rasterLayer = new RasterLayer(raster);
+          rasterLayer.loadAsync();
           // make the raster layer semi-transparent so we can see layers below it
           rasterLayer.setOpacity(0.5f);
           geoPackageLayers.getItems().add(rasterLayer);
         });
-        geoPackage.getGeoPackageFeatureTables().forEach(t -> geoPackageLayers.getItems().add(new FeatureLayer(t)));
+        geoPackage.getGeoPackageFeatureTables().forEach(table -> {
+          FeatureLayer featureLayer = new FeatureLayer(table);
+          featureLayer.loadAsync();
+          geoPackageLayers.getItems().add(featureLayer);
+        });
       });
 
       // add the map view and control box to stack pane
