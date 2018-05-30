@@ -96,15 +96,16 @@ public class UpdateAttributesSample extends Application {
       // create combo box
       comboBox = new ComboBox<>(damageList);
       comboBox.setMaxWidth(Double.MAX_VALUE);
-      comboBox.setTooltip(new Tooltip("Type of Damage"));
       comboBox.setDisable(true);
 
       // handle type damage selection
-      comboBox.showingProperty().addListener((obs, wasShowing, isShowing) -> {
-        try {
-          updateAttributes(selected);
-        } catch (Exception e) {
-          displayMessage("Cannot update attributes", e.getCause().getMessage());
+      comboBox.getSelectionModel().selectedItemProperty().addListener((o, p, n) -> {
+        if (!selected.getAttributes().get("typdamage").equals(n)) {
+          try {
+            updateAttributes(selected);
+          } catch (Exception e) {
+            displayMessage("Cannot update attributes", e.getCause().getMessage());
+          }
         }
       });
 
@@ -151,7 +152,7 @@ public class UpdateAttributesSample extends Application {
                   selected.loadAsync();
                   selected.addDoneLoadingListener(() -> {
                     if (selected.getLoadStatus() == LoadStatus.LOADED) {
-                      selectAttribute(selected);
+                      comboBox.getSelectionModel().select((String) selected.getAttributes().get("typdamage"));
                     } else {
                       Alert alert = new Alert(Alert.AlertType.ERROR, "Element Failed to Load!");
                       alert.show();
@@ -178,11 +179,6 @@ public class UpdateAttributesSample extends Application {
       // on any error, display the stack trace
       e.printStackTrace();
     }
-  }
-
-  private void selectAttribute(ArcGISFeature feature) {
-
-    Platform.runLater(() -> comboBox.getSelectionModel().select((String) feature.getAttributes().get("typdamage")));
   }
 
   /**
