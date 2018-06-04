@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.geodesic_sectors;
+package com.esri.samples.geometry.geodesic_sector_and_ellipse;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -43,104 +43,128 @@ import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
-public class GeodesicSectorsController {
+public class GeodesicSectorAndEllipseController {
 
   @FXML private MapView mapView;
   @FXML private Slider axisDirectionSlider;
   @FXML private Spinner<Integer> maxPointCountSpinner;
   @FXML private Slider maxSegmentLengthSlider;
-  @FXML private ComboBox<GeometryType> outputGeometryTypeComboBox;
+  @FXML private ComboBox<GeometryType> geometryTypeComboBox;
   @FXML private Slider sectorAngleSlider;
   @FXML private Slider semiAxis1LengthSlider;
   @FXML private Slider semiAxis2LengthSlider;
   @FXML private Slider startDirectionSlider;
 
   private Point center;
-  private Graphic sectorsGraphic;
+  private Graphic sectorGraphic;
   private Graphic ellipseGraphic;
   private FillSymbol sectorFillSymbol;
   private LineSymbol sectorLineSymbol;
   private MarkerSymbol sectorMarkerSymbol;
 
   public void initialize() {
+    // initialize a map to a viewpoint and set it to the map view
     ArcGISMap map = new ArcGISMap(Basemap.createImagery());
     center = new Point(-13574921.207495, 4378809.903179, SpatialReference.create
         (3857));
     map.setInitialViewpoint(new Viewpoint(center, 10000));
     mapView.setMap(map);
 
+    // create a graphics overlay for showing the geometries as graphics
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    sectorsGraphic = new Graphic();
-    graphicsOverlay.getGraphics().add(sectorsGraphic);
+    // create a graphic to show the geodesic sector geometry
+    sectorGraphic = new Graphic();
+    graphicsOverlay.getGraphics().add(sectorGraphic);
 
+    // create green symbols for each sector output geometry type
     sectorFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x8800FF00, null);
     sectorLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x8800FF00, 3);
     sectorMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0x8800FF00, 3);
 
+    // create a red dotted outline symbol for showing the geodesic ellipse geometry
     SimpleLineSymbol ellipseLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, 0xFFFF0000, 2);
     ellipseGraphic = new Graphic();
     ellipseGraphic.setSymbol(ellipseLineSymbol);
     graphicsOverlay.getGraphics().add(ellipseGraphic);
 
+    // set the center of the sector and ellipse where the user clicks on the map
     mapView.setOnMouseClicked(e -> {
       if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
         Point2D point2D = new Point2D(e.getX(), e.getY());
         center = mapView.screenToLocation(point2D);
-        updateSectors();
+        updateSector();
       }
     });
 
+    // set up the controls with some default parameters
     GeodesicSectorParameters defaultParameters = new GeodesicSectorParameters(center, 100.0, 100.0, 15.0, 0.0);
     axisDirectionSlider.setValue(defaultParameters.getAxisDirection());
     maxPointCountSpinner.getValueFactory().setValue(Long.valueOf(defaultParameters.getMaxPointCount()).intValue());
     maxSegmentLengthSlider.setValue(defaultParameters.getMaxSegmentLength());
-    outputGeometryTypeComboBox.getItems().addAll(GeometryType.POLYGON, GeometryType.POLYLINE, GeometryType.MULTIPOINT);
-    outputGeometryTypeComboBox.getSelectionModel().select(GeometryType.POLYGON);
+    geometryTypeComboBox.getItems().addAll(GeometryType.POLYGON, GeometryType.POLYLINE, GeometryType.MULTIPOINT);
+    geometryTypeComboBox.getSelectionModel().select(GeometryType.POLYGON);
     sectorAngleSlider.setValue(defaultParameters.getSectorAngle());
     semiAxis1LengthSlider.setValue(defaultParameters.getSemiAxis1Length());
     semiAxis2LengthSlider.setValue(defaultParameters.getSemiAxis2Length());
     startDirectionSlider.setValue(defaultParameters.getStartDirection());
 
-    updateSectors();
+    // call updateSector when any of the controls change their value
+    axisDirectionSlider.valueProperty().addListener(e -> updateSector());
+    maxPointCountSpinner.valueProperty().addListener(e -> updateSector());
+    maxSegmentLengthSlider.valueProperty().addListener(e -> updateSector());
+    geometryTypeComboBox.valueProperty().addListener(e -> updateSector());
+    sectorAngleSlider.valueProperty().addListener(e -> updateSector());
+    semiAxis1LengthSlider.valueProperty().addListener(e -> updateSector());
+    semiAxis2LengthSlider.valueProperty().addListener(e -> updateSector());
+    startDirectionSlider.valueProperty().addListener(e -> updateSector());
+
+    // update the sector with the default parameters
+    updateSector();
   }
 
   /**
-   * Updates the map view's grid when the "Update" button is clicked.
+   * Updates the sector and ellipse graphics using the controls' values.
    */
   @FXML
-  private void updateSectors() {
+  private void updateSector() {
 
+    // create geodesic sector parameters
     GeodesicSectorParameters geodesicSectorParameters = new GeodesicSectorParameters();
     geodesicSectorParameters.setCenter(center);
     geodesicSectorParameters.setAxisDirection(axisDirectionSlider.getValue());
     geodesicSectorParameters.setMaxPointCount(maxPointCountSpinner.getValue());
     geodesicSectorParameters.setMaxSegmentLength(maxSegmentLengthSlider.getValue());
-    geodesicSectorParameters.setGeometryType(outputGeometryTypeComboBox.getSelectionModel().getSelectedItem());
+    geodesicSectorParameters.setGeometryType(geometryTypeComboBox.getSelectionModel().getSelectedItem());
     geodesicSectorParameters.setSectorAngle(sectorAngleSlider.getValue());
     geodesicSectorParameters.setSemiAxis1Length(semiAxis1LengthSlider.getValue());
     geodesicSectorParameters.setSemiAxis2Length(semiAxis2LengthSlider.getValue());
     geodesicSectorParameters.setStartDirection(startDirectionSlider.getValue());
 
-    GeodesicEllipseParameters geodesicEllipseParameters = new GeodesicEllipseParameters(center, semiAxis1LengthSlider
-        .getValue(), semiAxis2LengthSlider.getValue());
-    geodesicEllipseParameters.setAxisDirection(axisDirectionSlider.getValue());
-
+    // create the geodesic sector parameter
     Geometry sectorGeometry = GeometryEngine.sectorGeodesic(geodesicSectorParameters);
-    sectorsGraphic.setGeometry(sectorGeometry);
+    // set the sector graphic's geometry to the sector
+    sectorGraphic.setGeometry(sectorGeometry);
+    // update the graphic's symbol depending on the chosen output geometry type
     switch (sectorGeometry.getGeometryType()) {
       case MULTIPOINT:
-        sectorsGraphic.setSymbol(sectorMarkerSymbol);
+        sectorGraphic.setSymbol(sectorMarkerSymbol);
         break;
       case POLYGON:
-        sectorsGraphic.setSymbol(sectorFillSymbol);
+        sectorGraphic.setSymbol(sectorFillSymbol);
         break;
       case POLYLINE:
-        sectorsGraphic.setSymbol(sectorLineSymbol);
+        sectorGraphic.setSymbol(sectorLineSymbol);
         break;
     }
 
+    // create geodesic ellipse parameters using the same values from the geodesic sector parameters
+    // use of the constructors that sets some defaults for you
+    GeodesicEllipseParameters geodesicEllipseParameters = new GeodesicEllipseParameters(center, semiAxis1LengthSlider
+        .getValue(), semiAxis2LengthSlider.getValue());
+    geodesicEllipseParameters.setAxisDirection(axisDirectionSlider.getValue());
+    // show the geodesic ellipse that the sector is in
     Geometry ellipseGeometry = GeometryEngine.ellipseGeodesic(geodesicEllipseParameters);
     ellipseGraphic.setGeometry(ellipseGeometry);
   }

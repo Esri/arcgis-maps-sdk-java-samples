@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.geodesic_sectors;
+package com.esri.samples.geometry.geodesic_sector_and_ellipse;
 
 import java.io.IOException;
 
@@ -24,20 +24,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class GeodesicSectorsSample extends Application {
+public class GeodesicSectorAndEllipseSample extends Application {
 
-  private static GeodesicSectorsController controller;
+  private static GeodesicSectorAndEllipseController controller;
 
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/geodesic_sectors.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/geodesic_sector_and_ellipse.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
 
     // set up the stage
-    stage.setTitle("Geodesic Sectors Sample");
+    stage.setTitle("Geodesic Sector And Ellipse Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
