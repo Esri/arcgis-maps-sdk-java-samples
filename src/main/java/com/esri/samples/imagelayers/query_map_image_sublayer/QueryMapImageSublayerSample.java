@@ -56,7 +56,7 @@ public class QueryMapImageSublayerSample extends Application {
   public void start(Stage stage) throws Exception {
 
     try {
-      // create a border pane and application scene
+      // create a stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
       scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -95,7 +95,7 @@ public class QueryMapImageSublayerSample extends Application {
 
       // create a vbox to hold the controls
       VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(160, 100);
+      vBoxControl.setMaxSize(170, 100);
       vBoxControl.getStyleClass().add("panel-region");
 
       // create a spinner to input the population filter
@@ -136,60 +136,57 @@ public class QueryMapImageSublayerSample extends Application {
                 .getTargetGeometry());
 
             // query each sublayer's feature table with the query parameters and display the result features as graphics
-            citiesSublayer.addDoneLoadingListener(() -> {
-              if (citiesSublayer.getLoadStatus() == LoadStatus.LOADED) {
-                ServiceFeatureTable citiesTable = citiesSublayer.getTable();
-                ListenableFuture<FeatureQueryResult> citiesQuery = citiesTable.queryFeaturesAsync(populationQuery);
-                citiesQuery.addDoneListener(() -> {
-                  try {
-                    FeatureQueryResult result = citiesQuery.get();
-                    for (Feature feature : result) {
-                      Graphic cityGraphic = new Graphic(feature.getGeometry(), citySymbol);
-                      graphicsOverlay.getGraphics().add(cityGraphic);
-                    }
-                  } catch (Exception ex) {
-                    new Alert(Alert.AlertType.ERROR, "Failed to query cities").show();
+            if (citiesSublayer.getLoadStatus() == LoadStatus.LOADED) {
+              ServiceFeatureTable citiesTable = citiesSublayer.getTable();
+              ListenableFuture<FeatureQueryResult> citiesQuery = citiesTable.queryFeaturesAsync(populationQuery);
+              citiesQuery.addDoneListener(() -> {
+                try {
+                  FeatureQueryResult result = citiesQuery.get();
+                  for (Feature feature : result) {
+                    Graphic cityGraphic = new Graphic(feature.getGeometry(), citySymbol);
+                    graphicsOverlay.getGraphics().add(cityGraphic);
                   }
-                });
-              }
-            });
+                } catch (Exception ex) {
+                  new Alert(Alert.AlertType.ERROR, "Failed to query cities").show();
+                }
+              });
+            }
 
-            statesSublayer.addDoneLoadingListener(() -> {
-              if (statesSublayer.getLoadStatus() == LoadStatus.LOADED) {
-                ServiceFeatureTable statesTable = statesSublayer.getTable();
-                ListenableFuture<FeatureQueryResult> statesQuery = statesTable.queryFeaturesAsync(populationQuery);
-                statesQuery.addDoneListener(() -> {
-                  try {
-                    FeatureQueryResult result = statesQuery.get();
-                    for (Feature feature : result) {
-                      Graphic stateGraphic = new Graphic(feature.getGeometry(), stateSymbol);
-                      graphicsOverlay.getGraphics().add(stateGraphic);
-                    }
-                  } catch (Exception ex) {
-                    new Alert(Alert.AlertType.ERROR, "Failed to query states").show();
+            if (statesSublayer.getLoadStatus() == LoadStatus.LOADED) {
+              ServiceFeatureTable statesTable = statesSublayer.getTable();
+              ListenableFuture<FeatureQueryResult> statesQuery = statesTable.queryFeaturesAsync(populationQuery);
+              statesQuery.addDoneListener(() -> {
+                try {
+                  FeatureQueryResult result = statesQuery.get();
+                  for (Feature feature : result) {
+                    Graphic stateGraphic = new Graphic(feature.getGeometry(), stateSymbol);
+                    graphicsOverlay.getGraphics().add(stateGraphic);
                   }
-                });
-              }
-            });
+                } catch (Exception ex) {
+                  new Alert(Alert.AlertType.ERROR, "Failed to query states").show();
+                }
+              });
+            }
 
-            countiesSublayer.addDoneLoadingListener(() -> {
-              if (countiesSublayer.getLoadStatus() == LoadStatus.LOADED) {
-                ServiceFeatureTable countiesTable = countiesSublayer.getTable();
-                ListenableFuture<FeatureQueryResult> countiesQuery = countiesTable.queryFeaturesAsync(populationQuery);
-                countiesQuery.addDoneListener(() -> {
-                  try {
-                    FeatureQueryResult result = countiesQuery.get();
-                    for (Feature feature : result) {
-                      Graphic countyGraphic = new Graphic(feature.getGeometry(), countySymbol);
-                      graphicsOverlay.getGraphics().add(countyGraphic);
-                    }
-                  } catch (Exception ex) {
-                    new Alert(Alert.AlertType.ERROR, "Failed to query counties").show();
+            if (countiesSublayer.getLoadStatus() == LoadStatus.LOADED) {
+              ServiceFeatureTable countiesTable = countiesSublayer.getTable();
+              ListenableFuture<FeatureQueryResult> countiesQuery = countiesTable.queryFeaturesAsync(populationQuery);
+              countiesQuery.addDoneListener(() -> {
+                try {
+                  FeatureQueryResult result = countiesQuery.get();
+                  for (Feature feature : result) {
+                    Graphic countyGraphic = new Graphic(feature.getGeometry(), countySymbol);
+                    graphicsOverlay.getGraphics().add(countyGraphic);
                   }
-                });
-              }
-            });
+                } catch (Exception ex) {
+                  new Alert(Alert.AlertType.ERROR, "Failed to query counties").show();
+                }
+              });
+            }
+
           });
+        } else {
+          new Alert(Alert.AlertType.ERROR,  imageLayer.getLoadError().getMessage()).show();
         }
       });
 
