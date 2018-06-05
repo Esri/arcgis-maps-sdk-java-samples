@@ -27,5 +27,6 @@
 
 <ul>
     <li>ArcGISSceneLayer</li>
+    <li>GeoElement</li>
     <li>IdentifyLayerResult</li>
 </ul>
