@@ -111,10 +111,10 @@ public class SceneLayerSelectSample extends Application {
                   new Alert(Alert.AlertType.ERROR, "Error identifying features").show();
                 }
               });
-            } else {
-              new Alert(Alert.AlertType.ERROR, "Error loading scene layer").show();
             }
           });
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Error loading scene layer").show();
         }
       });
 
