@@ -31,9 +31,9 @@
 <h2>Features</h2>
 
 <ul>
-<li>GeodesicSectorParameters</li>
-
 <li>GeodesicEllipseParameters</li>
+  
+<li>GeodesicSectorParameters</li>
 
 <li>GeometryEngine</li>
 
