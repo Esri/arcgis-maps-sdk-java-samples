@@ -83,7 +83,7 @@ public class GeodesicSectorAndEllipseController {
     sectorLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x8800FF00, 3);
     sectorMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0x8800FF00, 3);
 
-    // create a red dotted outline symbol for showing the geodesic ellipse geometry
+    // create a red dotted outline graph for showing the geodesic ellipse geometry
     SimpleLineSymbol ellipseLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, 0xFFFF0000, 2);
     ellipseGraphic = new Graphic();
     ellipseGraphic.setSymbol(ellipseLineSymbol);
@@ -160,7 +160,7 @@ public class GeodesicSectorAndEllipseController {
     }
 
     // create geodesic ellipse parameters using the same values from the geodesic sector parameters
-    // use of the constructors that sets some defaults for you
+    // use one of the constructors that sets some defaults for you
     GeodesicEllipseParameters geodesicEllipseParameters = new GeodesicEllipseParameters(center, semiAxis1LengthSlider
         .getValue(), semiAxis2LengthSlider.getValue());
     geodesicEllipseParameters.setAxisDirection(axisDirectionSlider.getValue());
