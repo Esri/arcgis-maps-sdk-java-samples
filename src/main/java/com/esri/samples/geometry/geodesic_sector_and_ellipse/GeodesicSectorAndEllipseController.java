@@ -127,7 +127,6 @@ public class GeodesicSectorAndEllipseController {
   /**
    * Updates the sector and ellipse graphics using the controls' values.
    */
-  @FXML
   private void updateSector() {
 
     // create geodesic sector parameters
