@@ -120,7 +120,7 @@ public class StatisticalQueryGroupAndSortController {
 
   /**
    * Initializes the Order By table view. Configures the table columns to show the correct field values and allow the
-   * sort direction of each field to be changed with a ComboBox.
+   * sort order of each field to be changed with a ComboBox.
    */
   private void initializeOrderByTableView() {
     // make the table columns stretch to fill the width of the table
@@ -138,7 +138,7 @@ public class StatisticalQueryGroupAndSortController {
       return ct;
     });
 
-    // switch to edit mode when the user selects the Sort Direction column
+    // switch to edit mode when the user selects the Sort Order column
     orderByTableView.getSelectionModel().selectedItemProperty().addListener(e -> {
       List<TablePosition> tablePositions = orderByTableView.getSelectionModel().getSelectedCells();
       if (!tablePositions.isEmpty()) {

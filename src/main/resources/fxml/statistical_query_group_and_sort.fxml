@@ -81,7 +81,7 @@
                         <TableView fx:id="orderByTableView" editable="true">
                             <columns>
                                 <TableColumn fx:id="orderByFieldNameTableColumn" text="Field"/>
-                                <TableColumn fx:id="orderBySortOrderTableColumn" text="Sort Direction"/>
+                                <TableColumn fx:id="orderBySortOrderTableColumn" text="Sort Order"/>
                             </columns>
                         </TableView>
                     </VBox>
