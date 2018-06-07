@@ -32,19 +32,19 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 
 public class StatisticalQueryGroupAndSortController {
 
-  public ComboBox<String> fieldNameComboBox;
-  public ComboBox<String> statisticTypeComboBox;
-  public TableView<StatisticDefinition> statisticDefinitionsTableView;
-  public TreeView<String> statisticRecordTreeView;
-  public ListView<GroupField> groupFieldsListView;
-  public TableColumn<StatisticDefinition, String> statisticDefinitionFieldNameTableColumn;
-  public TableColumn<StatisticDefinition, StatisticType> statisticDefinitionStatisticTypeTableColumn;
-  public Button removeStatisticDefinitionButton;
-  public TableView<OrderByField> orderByTableView;
-  public TableColumn<OrderByField, String> orderByFieldNameTableColumn;
-  public TableColumn<OrderByField, QueryParameters.SortOrder> orderBySortOrderTableColumn;
-  public Button addOrderByFieldButton;
-  public Button removeOrderByFieldButton;
+  @FXML private ComboBox<String> fieldNameComboBox;
+  @FXML private ComboBox<String> statisticTypeComboBox;
+  @FXML private TableView<StatisticDefinition> statisticDefinitionsTableView;
+  @FXML private TreeView<String> statisticRecordTreeView;
+  @FXML private ListView<GroupField> groupFieldsListView;
+  @FXML private TableColumn<StatisticDefinition, String> statisticDefinitionFieldNameTableColumn;
+  @FXML private TableColumn<StatisticDefinition, StatisticType> statisticDefinitionStatisticTypeTableColumn;
+  @FXML private Button removeStatisticDefinitionButton;
+  @FXML private TableView<OrderByField> orderByTableView;
+  @FXML private TableColumn<OrderByField, String> orderByFieldNameTableColumn;
+  @FXML private TableColumn<OrderByField, QueryParameters.SortOrder> orderBySortOrderTableColumn;
+  @FXML private Button addOrderByFieldButton;
+  @FXML private Button removeOrderByFieldButton;
 
   private ServiceFeatureTable featureTable;
 
