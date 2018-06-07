@@ -84,6 +84,8 @@ public class StatisticalQueryGroupAndSortController {
             .toList()).get(0).setGrouping(true);
         orderByTableView.getItems().add(new OrderByField(new QueryParameters.OrderBy("SUB_REGION", QueryParameters.SortOrder
             .ASCENDING)));
+      } else {
+        new Alert(Alert.AlertType.ERROR, "Failed to load feature table").show();
       }
     });
   }
