@@ -1,4 +1,4 @@
-<h1>Project</h1>
+<h1>Geodesic Sector and Ellipse</h1>
 
 <p>This sample demonstrates how to create and display geodesic sectors and ellipses.</p>
 
