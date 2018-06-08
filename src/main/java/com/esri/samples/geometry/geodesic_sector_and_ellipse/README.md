@@ -43,11 +43,3 @@
 <h2 id="additionalinformation">Additional information</h2>
 
 <p>To create a circle instead of an ellipse, simply set <code>semiAxis2Length</code> to 0.0 and <code>semiAxis1Length</code> to the desired radius of the circle. This eliminates the need to update both parameters to the same value.</p>
-
-<h2>Tags</h2>
-
-<ul>
-
-<p>GeometryEngine</p>
-
-</ul>
