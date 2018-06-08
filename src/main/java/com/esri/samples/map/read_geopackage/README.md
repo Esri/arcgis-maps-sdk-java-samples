@@ -32,8 +32,6 @@ remove them from the map.</p>
 <li>Basemap</li>
 <li>FeatureLayer</li>
 <li>GeoPackage</li>
-<li>GeoPackageFeatureTable</li>
-<li>GeoPackageRaster</li>
 <li>Layer</li>
 <li>MapView</li>
 <li>RasterLayer</li>

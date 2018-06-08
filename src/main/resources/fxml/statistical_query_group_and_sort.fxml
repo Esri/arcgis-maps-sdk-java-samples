@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2018 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<StackPane fx:controller="com.esri.samples.featurelayers.statistical_query_group_and_sort.StatisticalQueryGroupAndSortController"
+           xmlns:fx="http://javafx.com/fxml">
+    <VBox alignment="BASELINE_CENTER" spacing="5">
+        <Label text="Statistics: US States"/>
+        <HBox spacing="15" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets topRightBottomLeft="15"/>
+            </padding>
+            <!-- Options (left side) -->
+            <VBox alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+                <!-- Statistics options -->
+                <VBox spacing="5" alignment="CENTER" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+                    <HBox spacing="10" alignment="CENTER" HBox.hgrow="ALWAYS">
+                        <ComboBox fx:id="fieldNameComboBox" promptText="Field">
+                            <tooltip>
+                                <Tooltip text="Field"/>
+                            </tooltip>
+                        </ComboBox>
+                        <ComboBox fx:id="statisticTypeComboBox" promptText="Statistic">
+                            <tooltip>
+                                <Tooltip text="Statistic"/>
+                            </tooltip>
+                        </ComboBox>
+                        <Button text="Add" onAction="#addSelectedStatisticDefinition"/>
+                        <HBox HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="removeStatisticDefinitionButton" text="Remove"
+                                onAction="#removeSelectedStatisticDefinition"/>
+                    </HBox>
+                    <TableView fx:id="statisticDefinitionsTableView">
+                        <columns>
+                            <TableColumn fx:id="statisticDefinitionFieldNameTableColumn" text="Field"/>
+                            <TableColumn fx:id="statisticDefinitionStatisticTypeTableColumn" text="Statistic"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+                <!-- Field options -->
+                <HBox spacing="5" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+                    <!-- Group fields -->
+                    <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                        <Label text="Group by fields:"/>
+                        <ListView fx:id="groupFieldsListView"/>
+                    </VBox>
+                    <!--Add/Remove fields from ordering -->
+                    <VBox alignment="CENTER" minWidth="50">
+                        <Button fx:id="addOrderByFieldButton" text="&#62;&#62;" onAction="#addSelectedOrderByField"/>
+                        <Button fx:id="removeOrderByFieldButton" text="&#60;&#60;" onAction="#removeSelectedOrderByField"/>
+                    </VBox>
+                    <!-- Field order -->
+                    <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                        <Label text="Order by fields:"/>
+                        <TableView fx:id="orderByTableView" editable="true">
+                            <columns>
+                                <TableColumn fx:id="orderByFieldNameTableColumn" text="Field"/>
+                                <TableColumn fx:id="orderBySortOrderTableColumn" text="Sort Order"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </HBox>
+            </VBox>
+            <Separator orientation="VERTICAL"/>
+            <!-- Results (right side) -->
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Button text="Get Statistics" onAction="#getStatistics" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                <TreeView fx:id="statisticRecordTreeView" showRoot="false" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</StackPane>
