@@ -61,9 +61,7 @@ public class DistanceMeasurementAnalysisController {
 
     // add base surface for elevation data
     Surface surface = new Surface();
-    surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
-        ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
-    surface.getElevationSources().add(new ArcGISTiledElevationSource("https://tiles.arcgis.com/tiles/d3voDfTFbHOCRwVR/arcgis/rest/services/MNT_IDF/ImageServer"));
+    surface.getElevationSources().add(new ArcGISTiledElevationSource("http://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer"));
     scene.setBaseSurface(surface);
 
     final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
