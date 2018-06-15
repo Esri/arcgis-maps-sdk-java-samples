@@ -1,8 +1,8 @@
-<h1>Scene Layer Select</h1>
+<h1>Scene Layer Selection</h1>
 
 <p>This sample demonstrates how to select geoelements in a scene layer.</p>
 
-<p><img src="SceneLayerSelect.png"></p>
+<p><img src="SceneLayerSelection.png"></p>
 
 <h2>How to use the sample</h2>
 

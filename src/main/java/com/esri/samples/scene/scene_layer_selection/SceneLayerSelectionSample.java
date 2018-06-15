@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.scene_layer_select;
+package com.esri.samples.scene.scene_layer_selection;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -36,12 +36,11 @@ import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-public class SceneLayerSelectSample extends Application {
+public class SceneLayerSelectionSample extends Application {
 
   private SceneView sceneView;
 
@@ -55,7 +54,7 @@ public class SceneLayerSelectSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Scene Layer Select Sample");
+      stage.setTitle("Scene Layer Selection Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
