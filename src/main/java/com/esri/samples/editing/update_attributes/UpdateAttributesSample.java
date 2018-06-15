@@ -30,7 +30,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -61,7 +60,7 @@ public class UpdateAttributesSample extends Application {
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -244,7 +243,7 @@ public class UpdateAttributesSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

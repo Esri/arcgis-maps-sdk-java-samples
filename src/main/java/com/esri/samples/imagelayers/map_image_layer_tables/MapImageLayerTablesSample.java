@@ -68,7 +68,7 @@ public class MapImageLayerTablesSample extends Application {
   }
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create a stack pane and application scene

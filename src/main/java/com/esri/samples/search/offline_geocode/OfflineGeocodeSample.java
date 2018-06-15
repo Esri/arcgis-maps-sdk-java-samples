@@ -58,7 +58,6 @@ import com.esri.arcgisruntime.tasks.geocode.ReverseGeocodeParameters;
 public class OfflineGeocodeSample extends Application {
 
   private MapView mapView;
-  private ArcGISMap map;
   private ArcGISTiledLayer tiledLayer;
   private LocatorTask locatorTask;
   private GeocodeParameters geocodeParameters;
@@ -70,7 +69,7 @@ public class OfflineGeocodeSample extends Application {
   private boolean realtimeMode = false;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -103,7 +102,7 @@ public class OfflineGeocodeSample extends Application {
       searchBox.setOnAction((e) -> {
 
         // get the user's query
-        String query = "";
+        String query;
         if (searchBox.getSelectionModel().getSelectedIndex() == -1) {
           // user supplied their own query
           query = searchBox.getEditor().getText();
@@ -131,7 +130,7 @@ public class OfflineGeocodeSample extends Application {
       Basemap basemap = new Basemap(tiledLayer);
 
       // create ArcGISMap with imagery basemap
-      map = new ArcGISMap(basemap);
+      ArcGISMap map = new ArcGISMap(basemap);
 
       // create a view and set ArcGISMap to it
       mapView = new MapView();
@@ -364,7 +363,7 @@ public class OfflineGeocodeSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

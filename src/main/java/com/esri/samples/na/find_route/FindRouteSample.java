@@ -60,10 +60,10 @@ public class FindRouteSample extends Application {
   private MapView mapView;
   private RouteTask routeTask;
   private RouteParameters routeParameters;
-  private ListView<String> directionsList = new ListView<>();
+  private final ListView<String> directionsList = new ListView<>();
 
   private Graphic routeGraphic;
-  private GraphicsOverlay routeGraphicsOverlay = new GraphicsOverlay();
+  private final GraphicsOverlay routeGraphicsOverlay = new GraphicsOverlay();
 
   private final SpatialReference ESPG_3857 = SpatialReference.create(102100);
   private static final int WHITE_COLOR = 0xffffffff;
@@ -73,7 +73,7 @@ public class FindRouteSample extends Application {
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route";
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -229,7 +229,7 @@ public class FindRouteSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

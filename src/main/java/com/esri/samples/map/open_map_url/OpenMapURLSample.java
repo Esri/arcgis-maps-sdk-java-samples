@@ -44,7 +44,7 @@ public class OpenMapURLSample extends Application {
   };
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     // create stack pane and application scene
     StackPane stackPane = new StackPane();
@@ -83,7 +83,7 @@ public class OpenMapURLSample extends Application {
     });
 
     // show the name of the map in the combo box
-    webMapComboBox.setConverter(new StringConverter<ArcGISMap>() {
+    webMapComboBox.setConverter(new StringConverter<>() {
 
       @Override
       public String toString(ArcGISMap map) {
@@ -96,7 +96,7 @@ public class OpenMapURLSample extends Application {
       }
     });
 
-    webMapComboBox.setCellFactory(comboBox -> new ListCell<ArcGISMap>() {
+    webMapComboBox.setCellFactory(comboBox -> new ListCell<>() {
 
       @Override
       protected void updateItem(ArcGISMap map, boolean empty) {
@@ -118,7 +118,7 @@ public class OpenMapURLSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

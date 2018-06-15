@@ -45,7 +45,7 @@ public class SimpleLineSymbolSample extends Application {
   private SimpleLineSymbol lineSymbol;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -65,7 +65,7 @@ public class SimpleLineSymbolSample extends Application {
       vBoxControl.setMaxSize(180, 200);
       vBoxControl.getStyleClass().add("panel-region");
 
-      createSymbolFuntionality(vBoxControl);
+      createSymbolFunctionality(vBoxControl);
 
       final ArcGISMap map = new ArcGISMap(Basemap.createImagery());
 
@@ -109,7 +109,7 @@ public class SimpleLineSymbolSample extends Application {
    * 
    * @param vBoxControl control pane for user interaction
    */
-  private void createSymbolFuntionality(VBox vBoxControl) {
+  private void createSymbolFunctionality(VBox vBoxControl) {
 
     // create functionality for selecting a color for the line symbol
     Label colorLabel = new Label("Change Line Color");
@@ -142,9 +142,7 @@ public class SimpleLineSymbolSample extends Application {
     widthBox.getItems().addAll(1f, 3f, 6f);
     widthBox.setMaxWidth(Double.MAX_VALUE);
 
-    widthBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-      lineSymbol.setWidth(newValue);
-    });
+    widthBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> lineSymbol.setWidth(newValue));
 
     // create functionality for selecting a style for the line symbol
     Label styleLabel = new Label("Change Line Style");
@@ -153,9 +151,7 @@ public class SimpleLineSymbolSample extends Application {
     styleBox.getItems().addAll(Style.DASH, Style.DASH_DOT, Style.DASH_DOT_DOT, Style.DOT, Style.SOLID, Style.NULL);
     styleBox.setMaxWidth(Double.MAX_VALUE);
 
-    styleBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-      lineSymbol.setStyle(newValue);
-    });
+    styleBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> lineSymbol.setStyle(newValue));
 
     // add functionality to the control pane
     vBoxControl.getChildren().addAll(colorLabel, colorBox, widthLabel, widthBox, styleLabel, styleBox);
@@ -165,7 +161,7 @@ public class SimpleLineSymbolSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

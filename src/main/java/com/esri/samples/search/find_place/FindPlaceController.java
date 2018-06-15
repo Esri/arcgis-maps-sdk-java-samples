@@ -220,7 +220,7 @@ public class FindPlaceController {
   private class SuggestionsLoadedListener implements Runnable {
 
     private final ListenableFuture<List<SuggestResult>> results;
-    private ComboBox<String> comboBox;
+    private final ComboBox<String> comboBox;
 
     /**
      * Constructs a listener to update an auto-complete list for geocode

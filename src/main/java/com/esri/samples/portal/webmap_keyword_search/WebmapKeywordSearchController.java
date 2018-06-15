@@ -51,7 +51,7 @@ public class WebmapKeywordSearchController {
 
     resultsList.setCellFactory(c -> new PortalItemCell());
 
-    // show the selected webmap in a mapview
+    // show the selected webmap in a map view
     resultsList.getSelectionModel().selectedItemProperty().addListener(o -> {
       PortalItem webmap = resultsList.getSelectionModel().getSelectedItem();
       if (webmap != null) {
@@ -68,7 +68,7 @@ public class WebmapKeywordSearchController {
   }
 
   /**
-   * Searches a portal for webmaps matching query string in keyword textfield. The list view is updated with
+   * Searches a portal for webmaps matching query string in the keyword text field. The list view is updated with
    * the results.
    */
   @FXML

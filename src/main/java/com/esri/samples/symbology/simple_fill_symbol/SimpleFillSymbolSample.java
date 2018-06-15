@@ -51,7 +51,7 @@ public class SimpleFillSymbolSample extends Application {
   private List<SimpleLineSymbol> lineSymbols;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -71,7 +71,7 @@ public class SimpleFillSymbolSample extends Application {
       vBoxControl.setMaxSize(180, 200);
       vBoxControl.getStyleClass().add("panel-region");
 
-      createSymbolFuntionality();
+      createSymbolFunctionality();
 
       final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
 
@@ -137,7 +137,7 @@ public class SimpleFillSymbolSample extends Application {
    * Creates the UI control pane for setting the SimpleFillSymbol properties:
    * color, outline and style.
    */
-  private void createSymbolFuntionality() {
+  private void createSymbolFunctionality() {
 
     // select a color for the fill symbol
     Label colorLabel = new Label("Change Fill Color");
@@ -170,9 +170,7 @@ public class SimpleFillSymbolSample extends Application {
     lineBox.getItems().addAll("Blue", "Green", "Red");
     lineBox.setMaxWidth(Double.MAX_VALUE);
 
-    lineBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-      fillSymbol.setOutline(lineSymbols.get(lineBox.getSelectionModel().getSelectedIndex()));
-    });
+    lineBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> fillSymbol.setOutline(lineSymbols.get(lineBox.getSelectionModel().getSelectedIndex())));
 
     // select a style for the fill symbol
     Label stlyeLabel = new Label("Change Fill Style");
@@ -182,9 +180,7 @@ public class SimpleFillSymbolSample extends Application {
         Style.VERTICAL, Style.CROSS, Style.SOLID, Style.NULL);
     styleBox.setMaxWidth(Double.MAX_VALUE);
 
-    styleBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-      fillSymbol.setStyle(newValue);
-    });
+    styleBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> fillSymbol.setStyle(newValue));
 
     // add functionality to the control pane
     vBoxControl.getChildren().addAll(colorLabel, colorBox, lineLabel, lineBox, stlyeLabel, styleBox);
@@ -194,7 +190,7 @@ public class SimpleFillSymbolSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

@@ -53,10 +53,10 @@ import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
 public class GenerateGeodatabaseSample extends Application {
 
   private MapView mapView;
-  private AtomicInteger replica = new AtomicInteger();
+  private final AtomicInteger replica = new AtomicInteger();
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -197,12 +197,9 @@ public class GenerateGeodatabaseSample extends Application {
 
   /**
    * Stops and releases all resources used in application.
-   *
-   * @throws Exception if security manager doesn't allow JVM to exit with
-   *           current status
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

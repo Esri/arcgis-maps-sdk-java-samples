@@ -64,7 +64,7 @@ public class ViewshedGeoprocessingSample extends Application {
   private GeoprocessingJob geoprocessingJob;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene

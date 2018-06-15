@@ -34,15 +34,10 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ServiceFeatureTableNoCacheSample extends Application {
 
-  private static final String SERVICE_FEATURE_URL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0";
-
   private MapView mapView;
 
-  private ServiceFeatureTable featureTable;
-
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -69,7 +64,8 @@ public class ServiceFeatureTableNoCacheSample extends Application {
       map.setInitialViewpoint(viewpoint);
 
       // create service feature table from URL
-      featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
+      final String serviceFeatureUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0";
+      ServiceFeatureTable featureTable = new ServiceFeatureTable(serviceFeatureUrl);
 
       // set cache mode for table to no caching
       featureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.ON_INTERACTION_NO_CACHE);
@@ -95,7 +91,7 @@ public class ServiceFeatureTableNoCacheSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

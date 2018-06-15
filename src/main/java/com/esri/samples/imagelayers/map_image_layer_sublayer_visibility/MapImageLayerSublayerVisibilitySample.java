@@ -40,7 +40,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create a border pane and application scene
@@ -68,7 +68,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       vBoxControl.getChildren().addAll(citiesBox, continentsBox, worldBox);
       vBoxControl.getChildren().forEach(c -> ((CheckBox) c).setSelected(true));
 
-      // create a ArcGISMap with the a BasemapTyppe Topographic
+      // create a ArcGISMap with the a BasemapType Topographic
       ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 48.354406, -99.998267, 2);
 
       // create a Image Layer with dynamically generated ArcGISMap images
@@ -102,7 +102,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
   }
 
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // releases resources when the application closes
     if (mapView != null) {

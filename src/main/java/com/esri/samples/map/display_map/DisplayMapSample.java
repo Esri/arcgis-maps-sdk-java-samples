@@ -30,7 +30,7 @@ public class DisplayMapSample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -64,7 +64,7 @@ public class DisplayMapSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

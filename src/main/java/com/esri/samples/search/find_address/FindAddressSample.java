@@ -56,7 +56,7 @@ public class FindAddressSample extends Application {
   private ComboBox<String> searchBox;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -116,7 +116,7 @@ public class FindAddressSample extends Application {
       searchBox.setOnAction((ActionEvent evt) -> {
 
         // get the user's query
-        String query = "";
+        String query;
         if (searchBox.getSelectionModel().getSelectedIndex() == -1) {
           // user supplied their own query
           query = searchBox.getEditor().getText();
@@ -245,7 +245,7 @@ public class FindAddressSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

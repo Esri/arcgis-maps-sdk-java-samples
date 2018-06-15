@@ -36,7 +36,7 @@ public class VectorTiledLayerURLSample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -60,7 +60,7 @@ public class VectorTiledLayerURLSample extends Application {
       layerList.setMaxSize(250, 150);
 
       // show the layer's name in the list after it's done loading
-      layerList.setCellFactory(comboBox -> new ListCell<ArcGISVectorTiledLayer>() {
+      layerList.setCellFactory(comboBox -> new ListCell<>() {
 
         @Override
         protected void updateItem(ArcGISVectorTiledLayer layer, boolean empty) {
@@ -109,7 +109,7 @@ public class VectorTiledLayerURLSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

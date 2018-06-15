@@ -53,7 +53,7 @@ public class QueryMapImageSublayerSample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create a stack pane and application scene
@@ -93,7 +93,7 @@ public class QueryMapImageSublayerSample extends Application {
       SimpleFillSymbol countySymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFF00FFFF,
           countyLineSymbol);
 
-      // create a vbox to hold the controls
+      // create a VBox to hold the controls
       VBox vBoxControl = new VBox(6);
       vBoxControl.setMaxSize(170, 100);
       vBoxControl.getStyleClass().add("panel-region");
@@ -107,7 +107,7 @@ public class QueryMapImageSublayerSample extends Application {
       Button queryButton = new Button("Query");
       queryButton.setDisable(true);
 
-      // add the controls to the vbox
+      // add the controls to the VBox
       vBoxControl.getChildren().addAll(label, populationSpinner, queryButton);
 
       // wait until the layer is loaded before enabling the query button
