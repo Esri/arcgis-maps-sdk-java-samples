@@ -10,7 +10,7 @@ import com.esri.arcgisruntime.data.QueryParameters;
  * Convenience bean class for representing OrderBy in a TableView row. The sortOrder property can be bound to a
  * ComboBoxTableCell for changing the sortOrder with a ComboBox.
  */
-public class OrderByField {
+class OrderByField {
 
   private final SimpleStringProperty fieldName;
   private final SimpleObjectProperty<QueryParameters.SortOrder> sortOrder;
@@ -24,11 +24,11 @@ public class OrderByField {
         .sortOrder.get()), this.fieldName, this.sortOrder));
   }
 
-  public String getFieldName() {
+  String getFieldName() {
     return fieldName.get();
   }
 
-  public SimpleStringProperty fieldNameProperty() {
+  SimpleStringProperty fieldNameProperty() {
     return fieldName;
   }
 
@@ -40,7 +40,7 @@ public class OrderByField {
     return sortOrder.get();
   }
 
-  public SimpleObjectProperty<QueryParameters.SortOrder> sortOrderProperty() {
+  SimpleObjectProperty<QueryParameters.SortOrder> sortOrderProperty() {
     return sortOrder;
   }
 
@@ -48,7 +48,7 @@ public class OrderByField {
     this.sortOrder.set(sortOrder);
   }
 
-  public QueryParameters.OrderBy getOrderBy() {
+  QueryParameters.OrderBy getOrderBy() {
     return orderBy.get();
   }
 

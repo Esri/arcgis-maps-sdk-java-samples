@@ -144,13 +144,11 @@ public class LocalServerGeoprocessingController {
     // adds contour lines to map
     GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
 
-    gpJob.addProgressChangedListener(() -> {
-      progressBar.setProgress(((double) gpJob.getProgress()) / 100);
-    });
+    gpJob.addProgressChangedListener(() -> progressBar.setProgress(((double) gpJob.getProgress()) / 100));
 
     gpJob.addJobDoneListener(() -> {
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
-        // creating map image url from local groprocessing service url
+        // creating map image url from local geoprocessing service url
         String serviceUrl = localGPService.getUrl();
         String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
         ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer(mapServerUrl);

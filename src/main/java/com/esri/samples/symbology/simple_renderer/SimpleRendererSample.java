@@ -38,7 +38,7 @@ public class SimpleRendererSample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -63,17 +63,17 @@ public class SimpleRendererSample extends Application {
       final SpatialReference spatialReference = SpatialReferences.getWgs84();
 
       // create points for displaying graphics
-      Point oldFaithfullPoint = new Point(-110.828140, 44.460458, spatialReference);
+      Point oldFaithfulPoint = new Point(-110.828140, 44.460458, spatialReference);
       Point cascadeGeyserPoint = new Point(-110.829004, 44.462438, spatialReference);
       Point plumeGeyserPoint = new Point(-110.829381, 44.462735, spatialReference);
 
       // create initial viewpoint using an envelope
-      Envelope envelope = new Envelope(oldFaithfullPoint, plumeGeyserPoint);
+      Envelope envelope = new Envelope(oldFaithfulPoint, plumeGeyserPoint);
 
-      // set viewpoint on mapview with padding
+      // set viewpoint on map view with padding
       mapView.setViewpointGeometryAsync(envelope, 100.0);
 
-      // create a graphics overlay and add it to the mapview
+      // create a graphics overlay and add it to the map view
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
@@ -85,11 +85,11 @@ public class SimpleRendererSample extends Application {
       graphicsOverlay.setRenderer(renderer);
 
       // create graphics from the location points.
-      Graphic oldFaithfullGraphic = new Graphic(oldFaithfullPoint);
+      Graphic oldFaithfulGraphic = new Graphic(oldFaithfulPoint);
 
       Graphic cascadeGeyserGraphic = new Graphic(cascadeGeyserPoint);
       Graphic plumeGeyserGraphic = new Graphic(plumeGeyserPoint);
-      graphicsOverlay.getGraphics().add(oldFaithfullGraphic);
+      graphicsOverlay.getGraphics().add(oldFaithfulGraphic);
       graphicsOverlay.getGraphics().add(cascadeGeyserGraphic);
       graphicsOverlay.getGraphics().add(plumeGeyserGraphic);
 
@@ -105,7 +105,7 @@ public class SimpleRendererSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

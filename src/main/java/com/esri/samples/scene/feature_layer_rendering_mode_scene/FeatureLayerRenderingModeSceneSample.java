@@ -43,7 +43,7 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
   private Timeline timeline;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
 
@@ -81,12 +81,12 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
       splitPane.getItems().add(sceneViewBottom);
 
       // create service feature table using a point, polyline, and polygon service
-      ServiceFeatureTable poinServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");
+      ServiceFeatureTable pointServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");
       ServiceFeatureTable polylineServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/8");
       ServiceFeatureTable polygonServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/9");
 
       // create feature layer from service feature tables
-      FeatureLayer pointFeatureLayer = new FeatureLayer(poinServiceFeatureTable);
+      FeatureLayer pointFeatureLayer = new FeatureLayer(pointServiceFeatureTable);
       FeatureLayer polylineFeatureLayer = new FeatureLayer(polylineServiceFeatureTable);
       FeatureLayer polygonFeatureLayer = new FeatureLayer(polygonServiceFeatureTable);
 
@@ -103,8 +103,8 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
       //loop an animation into and out from the zoom in point (5 seconds each) with a 2 second gap between zooming
       timeline = new Timeline();
       timeline.setCycleCount(Animation.INDEFINITE);
-      timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(7), event -> zoomTo(zoomOutCamera, 5)));
-      timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(14), event -> zoomTo(zoomInCamera, 5)));
+      timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(7), event -> zoomTo(zoomOutCamera)));
+      timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(14), event -> zoomTo(zoomInCamera)));
       timeline.play();
 
     } catch (Exception e) {
@@ -114,14 +114,13 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
   }
 
   /**
-    * Sets both Sceneviews to a ViewpointCamera over a number of seconds.
+    * Sets both SceneViews to a ViewpointCamera over a number of seconds.
+    *  @param camera to which both SceneViews should be set.
     *
-    * @param camera to which both SceneViews should be set.
-    * @param seconds over which the viewpoint is asynchronously set.
-    */
-  private void zoomTo(Camera camera, int seconds) {
-    sceneViewTop.setViewpointCameraAsync(camera, seconds);
-    sceneViewBottom.setViewpointCameraAsync(camera, seconds);
+   */
+  private void zoomTo(Camera camera) {
+    sceneViewTop.setViewpointCameraAsync(camera, 5);
+    sceneViewBottom.setViewpointCameraAsync(camera, 5);
   }
 
   /**

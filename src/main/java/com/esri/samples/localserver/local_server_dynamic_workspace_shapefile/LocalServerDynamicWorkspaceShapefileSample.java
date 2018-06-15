@@ -17,7 +17,7 @@
 package com.esri.samples.localserver.local_server_dynamic_workspace_shapefile;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -55,7 +55,7 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
   private static LocalServer server;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -129,8 +129,8 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
   /**
    * Start a LocalMapService and attaches a dynamic workspace shapefile.
    * 
-   * @param fileName
-   * @param path
+   * @param fileName mpk file name
+   * @param path path to mpk file
    */
   private void startLocalMapService(String fileName, String path) {
 
@@ -145,7 +145,7 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
     // create a sublayer instance from the source
     ArcGISMapImageSublayer shapefileSublayer = new ArcGISMapImageSublayer(0, source);
     // add the dynamic workspace to the localMapService
-    Iterable<DynamicWorkspace> dynamicWorkspaces = Arrays.asList(shapefileWorkspace);
+    Iterable<DynamicWorkspace> dynamicWorkspaces = Collections.singletonList(shapefileWorkspace);
     localMapService.setDynamicWorkspaces(dynamicWorkspaces);
     localMapService.addStatusChangedListener(event -> {
       if (event.getNewStatus() == LocalServerStatus.STARTED) {
@@ -189,7 +189,7 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

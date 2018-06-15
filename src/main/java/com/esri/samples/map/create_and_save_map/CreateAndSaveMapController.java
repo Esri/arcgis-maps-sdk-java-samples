@@ -100,7 +100,7 @@ public class CreateAndSaveMapController {
     layersList.setCellFactory(c -> new LayerCell());
 
     // set portal folder title converter
-    folderList.setConverter(new StringConverter<PortalFolder>() {
+    folderList.setConverter(new StringConverter<>() {
 
       @Override
       public String toString(PortalFolder folder) {

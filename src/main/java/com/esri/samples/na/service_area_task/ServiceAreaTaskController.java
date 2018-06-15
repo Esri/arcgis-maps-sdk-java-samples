@@ -18,6 +18,7 @@ package com.esri.samples.na.service_area_task;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -59,7 +60,7 @@ public class ServiceAreaTaskController {
   @FXML private ToggleButton btnAddBarrier;
   @FXML private ProgressIndicator progressIndicator;
 
-  // all location were serice areas will be found
+  // all location were service areas will be found
   private List<ServiceAreaFacility> serviceAreaFacilities;
 
   // task to find service area around a facility
@@ -77,7 +78,7 @@ public class ServiceAreaTaskController {
   // fills service areas with a color when displayed to mapview
   private List<SimpleFillSymbol> fillSymbols;
   // used for placing geometry on mapview
-  private SpatialReference spatialReference = SpatialReferences.getWebMercator();
+  private final SpatialReference spatialReference = SpatialReferences.getWebMercator();
 
   @FXML
   public void initialize() {
@@ -100,7 +101,7 @@ public class ServiceAreaTaskController {
         serviceAreaParameters.setReturnPolygons(true);
         // adding another service area of 2 minutes
         // default parameters have a default service area of 5 minutes
-        serviceAreaParameters.getDefaultImpedanceCutoffs().addAll(Arrays.asList(2.0));
+        serviceAreaParameters.getDefaultImpedanceCutoffs().addAll(Collections.singletonList(2.0));
       } catch (ExecutionException | InterruptedException e) {
         e.printStackTrace();
       }

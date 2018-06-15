@@ -44,7 +44,7 @@ public class ReadGeoPackageSample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -84,7 +84,7 @@ public class ReadGeoPackageSample extends Application {
       vBoxControl.getChildren().addAll(mapLayersLabel, mapLayers, geoPackageLayersLabel, geoPackageLayers);
 
       // create a cell factory to show the layer names in the list view
-      Callback<ListView<Layer>, ListCell<Layer>> cellFactory = list -> new ListCell<Layer>() {
+      Callback<ListView<Layer>, ListCell<Layer>> cellFactory = list -> new ListCell<>() {
 
         @Override
         protected void updateItem(Layer layer, boolean bln) {

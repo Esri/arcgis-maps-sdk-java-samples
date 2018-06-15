@@ -46,15 +46,14 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 public class GeometryEngineSimplifySample extends Application {
 
   private MapView mapView;
-  private GraphicsOverlay geomLayer;
-  private GraphicsOverlay resultGeomLayer;
+  private GraphicsOverlay resultGeomOverlay;
   private Graphic polygon;
 
   // simple black (0xFF000000) line symbol
-  private SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1);
+  private final SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1);
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -90,7 +89,7 @@ public class GeometryEngineSimplifySample extends Application {
 
         // update result as a red (0xFFE91F1F) geometry
         SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
-        resultGeomLayer.getGraphics().add(new Graphic(resultPolygon, redSymbol));
+        resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
 
         resetButton.setDisable(false);
         simplifyButton.setDisable(true);
@@ -98,7 +97,7 @@ public class GeometryEngineSimplifySample extends Application {
 
       // clear result layer
       resetButton.setOnAction(e -> {
-        resultGeomLayer.getGraphics().clear();
+        resultGeomOverlay.getGraphics().clear();
         simplifyButton.setDisable(false);
       });
 
@@ -125,15 +124,15 @@ public class GeometryEngineSimplifySample extends Application {
       mapView.setViewpointCenterAsync(viewPoint, 25000);
 
       // create geometry layers
-      geomLayer = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(geomLayer);
+      GraphicsOverlay geomOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(geomOverlay);
 
-      resultGeomLayer = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(resultGeomLayer);
+      resultGeomOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(resultGeomOverlay);
 
       // create sample polygon
       createPolygon();
-      geomLayer.getGraphics().add(polygon);
+      geomOverlay.getGraphics().add(polygon);
 
       // add the map view and control panel to stack pane
       stackPane.getChildren().addAll(mapView, vBoxControl);
@@ -192,7 +191,7 @@ public class GeometryEngineSimplifySample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

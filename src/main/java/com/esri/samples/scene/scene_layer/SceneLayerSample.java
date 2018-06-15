@@ -34,7 +34,7 @@ public class SceneLayerSample extends Application {
   private SceneView sceneView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
 
@@ -60,8 +60,8 @@ public class SceneLayerSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      final String localEvelationImageService = "http://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(localEvelationImageService));
+      final String localElevationImageService = "http://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
+      surface.getElevationSources().add(new ArcGISTiledElevationSource(localElevationImageService));
       scene.setBaseSurface(surface);
 
       // add a scene layer

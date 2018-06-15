@@ -48,7 +48,7 @@ public class ListTransformationsBySuitabilitySample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -92,7 +92,7 @@ public class ListTransformationsBySuitabilitySample extends Application {
       ListView<DatumTransformation> transformationsListView = new ListView<>();
 
       // show the transformation name in the list
-      transformationsListView.setCellFactory(list -> new ListCell<DatumTransformation>() {
+      transformationsListView.setCellFactory(list -> new ListCell<>() {
 
         @Override
         protected void updateItem(DatumTransformation transformation, boolean bln) {

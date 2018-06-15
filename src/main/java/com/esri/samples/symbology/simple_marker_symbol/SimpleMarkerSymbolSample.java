@@ -37,7 +37,7 @@ public class SimpleMarkerSymbolSample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -68,7 +68,7 @@ public class SimpleMarkerSymbolSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create new graphics overlay and add it to the mapview
+      // create new graphics overlay and add it to the map view
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
@@ -91,7 +91,7 @@ public class SimpleMarkerSymbolSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

@@ -111,7 +111,7 @@ public class CutGeometrySample extends Application {
   /**
    * Creates a polyline along the US/Canada border over Lake Superior.
    *
-   * @return poyline
+   * @return polyline
    */
   private Polyline createBorder() {
     PointCollection points = new PointCollection(SpatialReferences.getWebMercator());

@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
  * Convenience bean class for representing a group-by field. The grouping property can be bound to a CheckBoxListCell
  * to choose whether the field should be grouped by with a CheckBox.
  */
-public class GroupField {
+class GroupField {
 
   private final SimpleStringProperty fieldName;
   private final SimpleBooleanProperty grouping;
@@ -17,7 +17,7 @@ public class GroupField {
     this.grouping = new SimpleBooleanProperty(grouping);
   }
 
-  public String getFieldName() {
+  String getFieldName() {
     return fieldName.get();
   }
 
@@ -29,15 +29,15 @@ public class GroupField {
     this.fieldName.set(fieldName);
   }
 
-  public boolean isGrouping() {
+  boolean isGrouping() {
     return grouping.get();
   }
 
-  public SimpleBooleanProperty groupingProperty() {
+  SimpleBooleanProperty groupingProperty() {
     return grouping;
   }
 
-  public void setGrouping(boolean grouping) {
+  void setGrouping(boolean grouping) {
     this.grouping.set(grouping);
   }
 

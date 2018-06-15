@@ -39,7 +39,7 @@ public class ViewshedCameraSample extends Application {
   private SceneView sceneView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
 

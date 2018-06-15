@@ -58,7 +58,7 @@ public class CalculateDistance3dController {
   private SimpleMarkerSymbol greenSymbol;
   private Graphic redGraphic;
   private Graphic greenGraphic;
-  private SpatialReference sr = SpatialReferences.getWgs84();
+  private final SpatialReference sr = SpatialReferences.getWgs84();
 
   private static final String ELEVATION_IMAGE_SERVICE =
       "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";

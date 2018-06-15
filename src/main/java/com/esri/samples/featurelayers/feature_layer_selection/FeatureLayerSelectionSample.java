@@ -42,11 +42,8 @@ public class FeatureLayerSelectionSample extends Application {
 
   private MapView mapView;
 
-  private final String DAMAGE_ASSESSMENT_FEATURE_SERVICE =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
-
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -75,7 +72,8 @@ public class FeatureLayerSelectionSample extends Application {
 
       // create feature layer with its service feature table
       // create the service feature table
-      final ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(DAMAGE_ASSESSMENT_FEATURE_SERVICE);
+      String damageAssessmentFeatureService = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+      final ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(damageAssessmentFeatureService);
 
       // create the feature layer using the service feature table
       final FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
@@ -129,7 +127,7 @@ public class FeatureLayerSelectionSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

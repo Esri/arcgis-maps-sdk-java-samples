@@ -29,11 +29,8 @@ public class MapImageLayerSample extends Application {
 
   private MapView mapView;
 
-  private final String SERVICE_FEATURE_URL =
-      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
-
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -48,7 +45,8 @@ public class MapImageLayerSample extends Application {
       stage.show();
 
       // create new ArcGISMap image Layer from service url
-      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(SERVICE_FEATURE_URL);
+      String serviceFeatureUrl = "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
+      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(serviceFeatureUrl);
 
       final ArcGISMap map = new ArcGISMap();
       // add layer to ArcGISMap's layer list
@@ -68,12 +66,9 @@ public class MapImageLayerSample extends Application {
 
   /**
    * Stops and releases all resources used in application.
-   * 
-   * @throws Exception if security manager doesn't allow JVM to exit with
-   *           current status
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // releases resources when the application closes
     if (mapView != null) {
