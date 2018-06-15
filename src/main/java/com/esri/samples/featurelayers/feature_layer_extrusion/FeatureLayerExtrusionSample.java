@@ -77,8 +77,8 @@ public class FeatureLayerExtrusionSample extends Application {
     SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1.0f);
     SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFF0000FF, lineSymbol);
     final SimpleRenderer renderer = new SimpleRenderer(fillSymbol);
-    //  need to set an extrusion type, BASE HEIGHT extrudes each point from feature individually
-    renderer.getSceneProperties().setExtrusionMode(Renderer.SceneProperties.ExtrusionMode.BASE_HEIGHT);
+    // set the extrusion mode to absolute height
+    renderer.getSceneProperties().setExtrusionMode(Renderer.SceneProperties.ExtrusionMode.ABSOLUTE_HEIGHT);
     statesFeatureLayer.setRenderer(renderer);
 
     // set camera to focus on state features
@@ -98,13 +98,13 @@ public class FeatureLayerExtrusionSample extends Application {
     Button extrusionButton = new Button("Population Density");
     extrusionButton.setOnAction(v -> {
       if (showTotalPopulation) {
-        // some feature's population is really big of need to sink it down
+        // scale down outlier populations
         renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10");
         extrusionButton.setText("Population Density");
         showTotalPopulation = false;
       } else {
-        // density of population is a small value to need to increase it
-        renderer.getSceneProperties().setExtrusionExpression("[POP07_SQMI] * 5000");
+        // scale up density
+        renderer.getSceneProperties().setExtrusionExpression("[POP07_SQMI] * 5000 + 100000");
         extrusionButton.setText("Total Population");
         showTotalPopulation = true;
       }
