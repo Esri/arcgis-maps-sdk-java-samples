@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.scene_layer_select;
+package com.esri.samples.scene.scene_layer_selection;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -36,11 +36,11 @@ import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-public class SceneLayerSelectSample extends Application {
+public class SceneLayerSelectionSample extends Application {
 
   private SceneView sceneView;
 
@@ -54,7 +54,7 @@ public class SceneLayerSelectSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Scene Layer Select Sample");
+      stage.setTitle("Scene Layer Selection Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
@@ -68,6 +68,10 @@ public class SceneLayerSelectSample extends Application {
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
 
+      // set the initial viewpoint
+      Camera camera = new Camera(48.378, -4.494, 200, 345, 65, 0);
+      sceneView.setViewpointCamera(camera);
+
       // add the scene view to the stack pane
       stackPane.getChildren().add(sceneView);
 
@@ -77,15 +81,14 @@ public class SceneLayerSelectSample extends Application {
       surface.getElevationSources().add(new ArcGISTiledElevationSource(elevationService));
       scene.setBaseSurface(surface);
 
-      // add a scene layer of Harvard buildings to the scene
-      final String buildings = "https://tiles.arcgis.com/tiles/N82JbI5EYtAkuUKU/arcgis/rest/services/Buildings_Harvard/SceneServer";
+      // add a scene layer of buildings in Brest, France
+      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
       ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
       scene.getOperationalLayers().add(sceneLayer);
 
       // zoom to the layer's extent when loaded
       sceneLayer.addDoneLoadingListener(() -> {
         if (sceneLayer.getLoadStatus() == LoadStatus.LOADED) {
-          sceneView.setViewpoint(new Viewpoint(sceneLayer.getFullExtent()));
 
           // when the scene is clicked, identify the clicked feature and select it
           sceneView.setOnMouseClicked(e -> {
