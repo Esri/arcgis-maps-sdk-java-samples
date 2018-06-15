@@ -20,8 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -56,6 +58,10 @@ public class WmsLayerUrlSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+      ProgressIndicator progressIndicator = new ProgressIndicator();
+      progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+      progressIndicator.setMaxSize(25, 25);
+
       // create a WMS layer
       List<String> wmsLayerNames = Collections.singletonList("0");
       String url = "https://certmapper.cr.usgs.gov/arcgis/services/geology/africa/MapServer/WMSServer?request=GetCapabilities&service=WMS";
@@ -69,11 +75,13 @@ public class WmsLayerUrlSample extends Application {
           Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load WMS layer");
           alert.show();
         }
+        progressIndicator.setVisible(false);
       });
       wmsLayer.loadAsync();
 
       // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
+      stackPane.getChildren().addAll(mapView, progressIndicator);
+      StackPane.setAlignment(progressIndicator, Pos.CENTER);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
