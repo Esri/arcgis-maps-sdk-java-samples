@@ -109,7 +109,7 @@ public class MapImageLayerTablesSample extends Application {
       commentsListView = new ListView<>();
       commentsListView.setMaxSize(200.0, 150.0);
       // show the comments attribute of the feature in the list
-      commentsListView.setCellFactory(listView -> new ListCell<>() {
+      commentsListView.setCellFactory(listView -> new ListCell<Feature>() {
         @Override
         protected void updateItem(Feature item, boolean empty) {
           super.updateItem(item, empty);

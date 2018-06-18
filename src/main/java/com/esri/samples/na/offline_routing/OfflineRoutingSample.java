@@ -104,7 +104,7 @@ public class OfflineRoutingSample extends Application {
         updateRoute();
       });
       // display travel mode name within combobox
-      travelModes.setConverter(new StringConverter<>() {
+      travelModes.setConverter(new StringConverter<TravelMode>() {
 
         @Override
         public String toString(TravelMode travelMode) {

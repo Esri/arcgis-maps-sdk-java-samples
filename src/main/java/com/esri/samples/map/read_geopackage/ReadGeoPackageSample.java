@@ -84,7 +84,7 @@ public class ReadGeoPackageSample extends Application {
       vBoxControl.getChildren().addAll(mapLayersLabel, mapLayers, geoPackageLayersLabel, geoPackageLayers);
 
       // create a cell factory to show the layer names in the list view
-      Callback<ListView<Layer>, ListCell<Layer>> cellFactory = list -> new ListCell<>() {
+      Callback<ListView<Layer>, ListCell<Layer>> cellFactory = list -> new ListCell<Layer>() {
 
         @Override
         protected void updateItem(Layer layer, boolean bln) {

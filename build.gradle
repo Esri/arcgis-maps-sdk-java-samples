@@ -20,6 +20,7 @@ idea.module.downloadJavadoc = true
 eclipse.classpath.downloadJavadoc = true
 
 compileJava.options.encoding = 'UTF-8'
+compileJava.sourceCompatibility = '1.8'
 
 dependencies {
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'

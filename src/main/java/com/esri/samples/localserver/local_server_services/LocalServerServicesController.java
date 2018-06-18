@@ -96,7 +96,7 @@ public class LocalServerServicesController {
     });
 
     // create list view representation of running services
-    runningServices.setCellFactory(list -> new ListCell<>() {
+    runningServices.setCellFactory(list -> new ListCell<LocalService>() {
 
       @Override
       protected void updateItem(LocalService service, boolean bln) {
