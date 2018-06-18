@@ -83,7 +83,7 @@ public class OpenMapURLSample extends Application {
     });
 
     // show the name of the map in the combo box
-    webMapComboBox.setConverter(new StringConverter<>() {
+    webMapComboBox.setConverter(new StringConverter<ArcGISMap>() {
 
       @Override
       public String toString(ArcGISMap map) {
@@ -96,7 +96,7 @@ public class OpenMapURLSample extends Application {
       }
     });
 
-    webMapComboBox.setCellFactory(comboBox -> new ListCell<>() {
+    webMapComboBox.setCellFactory(comboBox -> new ListCell<ArcGISMap>() {
 
       @Override
       protected void updateItem(ArcGISMap map, boolean empty) {

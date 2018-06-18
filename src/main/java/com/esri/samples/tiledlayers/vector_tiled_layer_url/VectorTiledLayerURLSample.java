@@ -60,7 +60,7 @@ public class VectorTiledLayerURLSample extends Application {
       layerList.setMaxSize(250, 150);
 
       // show the layer's name in the list after it's done loading
-      layerList.setCellFactory(comboBox -> new ListCell<>() {
+      layerList.setCellFactory(comboBox -> new ListCell<ArcGISVectorTiledLayer>() {
 
         @Override
         protected void updateItem(ArcGISVectorTiledLayer layer, boolean empty) {

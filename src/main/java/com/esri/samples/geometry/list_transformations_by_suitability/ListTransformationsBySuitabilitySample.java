@@ -92,7 +92,7 @@ public class ListTransformationsBySuitabilitySample extends Application {
       ListView<DatumTransformation> transformationsListView = new ListView<>();
 
       // show the transformation name in the list
-      transformationsListView.setCellFactory(list -> new ListCell<>() {
+      transformationsListView.setCellFactory(list -> new ListCell<DatumTransformation>() {
 
         @Override
         protected void updateItem(DatumTransformation transformation, boolean bln) {
