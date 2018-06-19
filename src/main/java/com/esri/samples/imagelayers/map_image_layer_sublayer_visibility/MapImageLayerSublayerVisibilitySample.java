@@ -21,8 +21,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
@@ -56,17 +60,20 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(180, 130);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(180, 130);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // create checkboxes for each sublayer
       CheckBox citiesBox = new CheckBox("Cities");
       CheckBox continentsBox = new CheckBox("Continents");
       CheckBox worldBox = new CheckBox("World");
 
-      vBoxControl.getChildren().addAll(citiesBox, continentsBox, worldBox);
-      vBoxControl.getChildren().forEach(c -> ((CheckBox) c).setSelected(true));
+      controlsVBox.getChildren().addAll(citiesBox, continentsBox, worldBox);
+      controlsVBox.getChildren().forEach(c -> ((CheckBox) c).setSelected(true));
 
       // create a ArcGISMap with the a BasemapType Topographic
       ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 48.354406, -99.998267, 2);
@@ -91,9 +98,9 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       worldBox.selectedProperty().addListener(e -> layers.get(2).setVisible(worldBox.isSelected()));
 
       // add the MapView and checkboxes
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.

@@ -21,8 +21,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -87,12 +91,15 @@ public class FeatureLayerExtrusionSample extends Application {
     sceneView.setCameraController(orbitCamera);
 
     // create a control panel
-    VBox vBoxControl = new VBox();
-    vBoxControl.setMaxSize(200, 40);
-    vBoxControl.getStyleClass().add("panel-region");
-    stackPane.getChildren().add(vBoxControl);
-    StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-    StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+    VBox controlsVBox = new VBox();
+    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+        Insets.EMPTY)));
+    controlsVBox.setPadding(new Insets(10.0));
+    controlsVBox.setMaxSize(200, 40);
+    controlsVBox.getStyleClass().add("panel-region");
+    stackPane.getChildren().add(controlsVBox);
+    StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+    StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     // controls for extruding by total population or by population density
     Button extrusionButton = new Button("Population Density");
@@ -111,7 +118,7 @@ public class FeatureLayerExtrusionSample extends Application {
     });
     extrusionButton.setMaxWidth(Double.MAX_VALUE);
     extrusionButton.fire();
-    vBoxControl.getChildren().add(extrusionButton);
+    controlsVBox.getChildren().add(extrusionButton);
   }
 
   /**
