@@ -21,8 +21,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -69,9 +73,12 @@ public class DisplayLayerViewStateStatusSample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(220, 90);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(220, 90);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // create labels to display the view status of each layer
       Label worldTimeZonesLabel = new Label("World Time Zones: ");
@@ -83,7 +90,7 @@ public class DisplayLayerViewStateStatusSample extends Application {
       facilitiesLabel.getStyleClass().add("panel-label");
 
       // add labels to the control panel
-      vBoxControl.getChildren().addAll(worldTimeZonesLabel, censusLabel, facilitiesLabel);
+      controlsVBox.getChildren().addAll(worldTimeZonesLabel, censusLabel, facilitiesLabel);
 
       // create three layers to add to the ArcGISMap
       final ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(SERVICE_TIME_ZONES);
@@ -132,9 +139,9 @@ public class DisplayLayerViewStateStatusSample extends Application {
       });
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();

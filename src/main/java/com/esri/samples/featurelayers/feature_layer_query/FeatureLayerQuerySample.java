@@ -26,9 +26,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -79,9 +83,12 @@ public class FeatureLayerQuerySample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(250, 80);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(250, 80);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // create area for searching
       Label searchLabel = new Label("Search for a State:");
@@ -112,7 +119,7 @@ public class FeatureLayerQuerySample extends Application {
       });
 
       // add search label and box to the control panel
-      vBoxControl.getChildren().addAll(searchLabel, searchBox);
+      controlsVBox.getChildren().addAll(searchLabel, searchBox);
 
       // create a starting point for the view
       startPoint = new Point(-11000000, 5000000, SpatialReferences.getWebMercator());
@@ -156,9 +163,9 @@ public class FeatureLayerQuerySample extends Application {
       mapView.setViewpointCenterAsync(startPoint, SCALE);
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();

@@ -27,8 +27,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -89,9 +93,12 @@ public class FindRouteSample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(400, 300);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(400, 300);
+      controlsVBox.getStyleClass().add("panel-region");
 
       Label directionsLabel = new Label("Route directions:");
       directionsLabel.getStyleClass().add("panel-label");
@@ -139,7 +146,7 @@ public class FindRouteSample extends Application {
       });
 
       // add buttons and direction list and label to the control panel
-      vBoxControl.getChildren().addAll(directionsLabel, directionsList, findButton, resetButton);
+      controlsVBox.getChildren().addAll(directionsLabel, directionsList, findButton, resetButton);
 
       // create a ArcGISMap with a streets basemap
       ArcGISMap map = new ArcGISMap(Basemap.createStreets());
@@ -215,9 +222,9 @@ public class FindRouteSample extends Application {
       }
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.
