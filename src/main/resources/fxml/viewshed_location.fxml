@@ -21,6 +21,8 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.*?>
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.geometry.Insets?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.esri.samples.analysis.viewshed_location.ViewshedLocationController"
@@ -28,6 +30,20 @@
     <SceneView fx:id="sceneView"/>
     <GridPane StackPane.alignment="TOP_LEFT" pickOnBounds="false" styleClass="panel-region" maxWidth="300"
               maxHeight="460" hgap="10" vgap="10">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
         <Label text="Visible" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <ToggleButton fx:id="visibilityToggle" selected="true" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 

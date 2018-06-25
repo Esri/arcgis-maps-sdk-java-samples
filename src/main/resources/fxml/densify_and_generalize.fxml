@@ -21,10 +21,28 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.geometry.densify_and_generalize.DensifyAndGeneralizeController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" maxWidth="250" maxHeight="50" styleClass="panel-region" spacing="10">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
         <CheckBox fx:id="densifyCheckBox" text="Densify" selected="true" onAction="#updateGeometry"/>
         <Label text="Max Segment Length:"/>
         <Slider fx:id="maxSegmentLengthSlider" min="100" max="500" majorTickUnit="100" showTickLabels="true"/>

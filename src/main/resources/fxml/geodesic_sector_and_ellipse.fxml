@@ -21,11 +21,27 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.*?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.geometry.geodesic_sector_and_ellipse.GeodesicSectorAndEllipseController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" maxWidth="350" maxHeight="300" styleClass="panel-region" spacing="10"
           alignment="CENTER">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
         <GridPane hgap="10" vgap="10">
             <columnConstraints>
                 <ColumnConstraints percentWidth="50"/>

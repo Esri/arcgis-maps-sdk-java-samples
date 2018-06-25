@@ -24,10 +24,28 @@
 <?import javafx.scene.layout.VBox?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.raster.stretch_renderer.StretchRendererController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="50" styleClass="panel-region" spacing="10">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
         <HBox spacing="10">
             <Label text="Stretch type"/>
             <ComboBox fx:id="stretchTypeComboBox"/>
