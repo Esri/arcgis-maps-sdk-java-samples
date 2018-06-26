@@ -27,8 +27,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.DatumTransformation;
@@ -137,15 +141,18 @@ public class ListTransformationsBySuitabilitySample extends Application {
       });
 
       // add the controls to the view
-      VBox vBox = new VBox(6);
-      vBox.setMaxSize(300, 500);
-      vBox.getStyleClass().add("panel-region");
-      vBox.getChildren().addAll(suitabilityCheckBox, transformationsListView, transformButton);
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(300, 500);
+      controlsVBox.getStyleClass().add("panel-region");
+      controlsVBox.getChildren().addAll(suitabilityCheckBox, transformationsListView, transformButton);
 
       // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView, vBox);
-      StackPane.setAlignment(vBox, Pos.TOP_LEFT);
-      StackPane.setMargin(vBox, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
