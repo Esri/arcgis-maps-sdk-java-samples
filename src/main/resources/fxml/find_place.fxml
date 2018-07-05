@@ -23,12 +23,28 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
+<?import javafx.scene.paint.Color?>
 <StackPane fx:controller="com.esri.samples.search.find_place.FindPlaceController"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="250" maxHeight="50" styleClass="panel-region">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
         <StackPane.margin><Insets left="10" top="10"/></StackPane.margin>
-        <padding><Insets top="6" left="6" right="6" bottom="6"/></padding>
         <ComboBox fx:id="placeBox" promptText="Find a place" editable="true" maxWidth="Infinity">
             <items>
                 <FXCollections fx:factory="observableArrayList">

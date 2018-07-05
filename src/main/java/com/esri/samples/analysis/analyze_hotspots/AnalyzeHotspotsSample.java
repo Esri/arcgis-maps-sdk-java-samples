@@ -29,8 +29,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.Job;
@@ -55,7 +59,7 @@ public class AnalyzeHotspotsSample extends Application {
   private GeoprocessingJob geoprocessingJob;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -93,7 +97,10 @@ public class AnalyzeHotspotsSample extends Application {
       analyzeButton.setDisable(true);
 
       VBox controlsVBox = new VBox(6);
-      controlsVBox.setMaxSize(180, 250);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(180, 110);
       controlsVBox.getChildren().addAll(begDatePicker, endDatePicker, analyzeButton);
 
       // and the mapView, controls, and progress indicator to the stack pane

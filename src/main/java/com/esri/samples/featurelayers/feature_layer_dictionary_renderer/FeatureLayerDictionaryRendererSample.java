@@ -36,7 +36,7 @@ public class FeatureLayerDictionaryRendererSample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     mapView = new MapView();
     StackPane appWindow = new StackPane(mapView);

@@ -51,7 +51,7 @@ public class ExtrudeGraphicsSample extends Application {
       "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
 
@@ -90,7 +90,7 @@ public class ExtrudeGraphicsSample extends Application {
       // set renderer with extrusion property
       SimpleRenderer renderer = new SimpleRenderer();
       SceneProperties renderProperties = renderer.getSceneProperties();
-      renderProperties.setExtrusionMode(SceneProperties.ExtrusionMode.BASE_HEIGHT);
+      renderProperties.setExtrusionMode(SceneProperties.ExtrusionMode.ABSOLUTE_HEIGHT);
       renderProperties.setExtrusionExpression("[HEIGHT]");
       graphicsOverlay.setRenderer(renderer);
 

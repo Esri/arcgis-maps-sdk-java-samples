@@ -43,7 +43,7 @@ class SymbolView extends HBox implements Initializable {
   @FXML private Label category;
   @FXML private Label key;
 
-  private SymbolStyleSearchResult styleSymbolSearchResult;
+  private final SymbolStyleSearchResult styleSymbolSearchResult;
 
   /**
    * Creates a view of a symbol with a picture and description.

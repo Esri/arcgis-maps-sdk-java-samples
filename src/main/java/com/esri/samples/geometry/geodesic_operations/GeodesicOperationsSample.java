@@ -51,10 +51,10 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 public class GeodesicOperationsSample extends Application {
 
   private MapView mapView;
-  private SpatialReference srWgs84 = SpatialReferences.getWgs84();
+  private final SpatialReference srWgs84 = SpatialReferences.getWgs84();
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene

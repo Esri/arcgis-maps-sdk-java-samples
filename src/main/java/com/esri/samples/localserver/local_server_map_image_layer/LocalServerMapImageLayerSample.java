@@ -47,10 +47,8 @@ public class LocalServerMapImageLayerSample extends Application {
   private LocalMapService mapImageService;
   private ProgressIndicator imageLayerProgress;
 
-  private static LocalServer server;
-
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -75,7 +73,7 @@ public class LocalServerMapImageLayerSample extends Application {
 
       // check that local server install path can be accessed
       if (LocalServer.INSTANCE.checkInstallValid()) {
-        server = LocalServer.INSTANCE;
+        LocalServer server = LocalServer.INSTANCE;
         // start local server
         server.addStatusChangedListener(status -> {
           if (status.getNewStatus() == LocalServerStatus.STARTED) {
@@ -142,7 +140,7 @@ public class LocalServerMapImageLayerSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

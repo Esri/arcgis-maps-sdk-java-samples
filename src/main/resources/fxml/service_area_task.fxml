@@ -29,13 +29,13 @@
     <!--SDK SceneView-->
     <MapView fx:id="mapView"/>
     <!-- For loading service areas -->
-    <ProgressIndicator fx:id="progressIndicator" progress="-1.0" maxHeight="50.0" maxWidth="50.0" visible="false"/>
+    <ProgressIndicator fx:id="progressIndicator" maxHeight="50.0" maxWidth="50.0" visible="false"/>
     
     <!-- Top bar button select -->
     <HBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="50">
       <ToggleButton fx:id="btnAddFacility" text="Add Facilities" minWidth="200">
       <toggleGroup>
-        <ToggleGroup fx:id="toggleGroup" />
+        <ToggleGroup fx:id="toggleGroup"/>
         </toggleGroup>
       </ToggleButton>
       <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Add Barrier"  onAction="#createBarrier" minWidth="200"/>

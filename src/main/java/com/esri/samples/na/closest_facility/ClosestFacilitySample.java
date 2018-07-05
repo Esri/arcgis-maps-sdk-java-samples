@@ -68,10 +68,10 @@ public class ClosestFacilitySample extends Application {
   // used to display route between incident and facility to mapview
   private SimpleLineSymbol routeSymbol;
   // same spatial reference of the map
-  private SpatialReference spatialReference = SpatialReferences.getWebMercator();
+  private final SpatialReference spatialReference = SpatialReferences.getWebMercator();
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     // pane will hold mapview to be displayed on application 
     StackPane stackPane = new StackPane();
@@ -214,7 +214,7 @@ public class ClosestFacilitySample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

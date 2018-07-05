@@ -60,7 +60,7 @@ public class SpatialRelationshipsSample extends Application {
   }
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene

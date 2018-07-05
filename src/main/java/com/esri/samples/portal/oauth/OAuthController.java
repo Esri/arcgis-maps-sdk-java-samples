@@ -46,7 +46,7 @@ public class OAuthController {
     formatter = new SimpleDateFormat("MMM dd, yyyy");
   }
 
-  void authenticate() throws Exception {
+  void authenticate() {
 
     AuthenticationDialog authenticationDialog = new AuthenticationDialog();
     authenticationDialog.show();
@@ -74,7 +74,7 @@ public class OAuthController {
           } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
 
             // show alert message on error
-            showMessage("Authentication failed", portal.getLoadError().getMessage(), Alert.AlertType.ERROR);
+            new Alert(Alert.AlertType.ERROR, "Authentication failed: " + portal.getLoadError().getCause().getMessage()).show();
           }
         });
 
@@ -83,19 +83,6 @@ public class OAuthController {
         portal.loadAsync();
       }
     });
-  }
-
-  /**
-   * Display an alert to the user with the specified information.
-   * @param title alert title
-   * @param description alert content description
-   * @param type alert type
-   */
-  private void showMessage(String title, String description, Alert.AlertType type) {
-    Alert alert = new Alert(type);
-    alert.setTitle(title);
-    alert.setContentText(description);
-    alert.show();
   }
 
 }

@@ -28,8 +28,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -46,7 +50,7 @@ public class ManageBookmarksSample extends Application {
   private Bookmark bookmark;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -62,9 +66,12 @@ public class ManageBookmarksSample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(220, 240);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(220, 240);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // create label for bookmarks
       Label bookmarkLabel = new Label("Bookmarks");
@@ -77,7 +84,7 @@ public class ManageBookmarksSample extends Application {
       // when user clicks on a bookmark change to that location
       bookmarkNames.getSelectionModel().selectedItemProperty().addListener((ov, old_val, new_val) -> {
         int index = bookmarkNames.getSelectionModel().getSelectedIndex();
-        mapView.setViewpoint(bookmarkList.get(index).getViewpoint());
+        mapView.setBookmarkAsync(bookmarkList.get(index));
       });
 
       // create button to add a bookmark
@@ -106,7 +113,7 @@ public class ManageBookmarksSample extends Application {
       });
 
       // add label and bookmarks to the control panel
-      vBoxControl.getChildren().addAll(bookmarkLabel, bookmarkNames, addBookmarkButton);
+      controlsVBox.getChildren().addAll(bookmarkLabel, bookmarkNames, addBookmarkButton);
 
       ArcGISMap map = new ArcGISMap(Basemap.createImageryWithLabels());
 
@@ -125,7 +132,7 @@ public class ManageBookmarksSample extends Application {
       bookmarkList.add(bookmark);
       bookmarkNames.getItems().add(bookmark.getName());
       // set this bookmark as the ArcGISMap's initial viewpoint
-      mapView.setViewpointAsync(viewpoint);
+      mapView.setBookmarkAsync(bookmarkList.get(0));
 
       viewpoint = new Viewpoint(37.401573, -116.867808, 6e3);
       bookmark = new Bookmark("Strange Symbol", viewpoint);
@@ -143,9 +150,9 @@ public class ManageBookmarksSample extends Application {
       bookmarkList.add(bookmark);
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace
@@ -157,7 +164,7 @@ public class ManageBookmarksSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

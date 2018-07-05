@@ -21,8 +21,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -44,7 +48,7 @@ public class FeatureLayerExtrusionSample extends Application {
   private SceneView sceneView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     StackPane stackPane = new StackPane();
     Scene fxScene = new Scene(stackPane);
@@ -77,8 +81,8 @@ public class FeatureLayerExtrusionSample extends Application {
     SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1.0f);
     SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFF0000FF, lineSymbol);
     final SimpleRenderer renderer = new SimpleRenderer(fillSymbol);
-    //  need to set an extrusion type, BASE HEIGHT extrudes each point from feature individually
-    renderer.getSceneProperties().setExtrusionMode(Renderer.SceneProperties.ExtrusionMode.BASE_HEIGHT);
+    // set the extrusion mode to absolute height
+    renderer.getSceneProperties().setExtrusionMode(Renderer.SceneProperties.ExtrusionMode.ABSOLUTE_HEIGHT);
     statesFeatureLayer.setRenderer(renderer);
 
     // set camera to focus on state features
@@ -87,31 +91,34 @@ public class FeatureLayerExtrusionSample extends Application {
     sceneView.setCameraController(orbitCamera);
 
     // create a control panel
-    VBox vBoxControl = new VBox();
-    vBoxControl.setMaxSize(200, 40);
-    vBoxControl.getStyleClass().add("panel-region");
-    stackPane.getChildren().add(vBoxControl);
-    StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-    StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+    VBox controlsVBox = new VBox();
+    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+        Insets.EMPTY)));
+    controlsVBox.setPadding(new Insets(10.0));
+    controlsVBox.setMaxSize(200, 40);
+    controlsVBox.getStyleClass().add("panel-region");
+    stackPane.getChildren().add(controlsVBox);
+    StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+    StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     // controls for extruding by total population or by population density
     Button extrusionButton = new Button("Population Density");
     extrusionButton.setOnAction(v -> {
       if (showTotalPopulation) {
-        // some feature's population is really big of need to sink it down
+        // scale down outlier populations
         renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10");
         extrusionButton.setText("Population Density");
         showTotalPopulation = false;
       } else {
-        // density of population is a small value to need to increase it
-        renderer.getSceneProperties().setExtrusionExpression("[POP07_SQMI] * 5000");
+        // scale up density
+        renderer.getSceneProperties().setExtrusionExpression("[POP07_SQMI] * 5000 + 100000");
         extrusionButton.setText("Total Population");
         showTotalPopulation = true;
       }
     });
     extrusionButton.setMaxWidth(Double.MAX_VALUE);
     extrusionButton.fire();
-    vBoxControl.getChildren().add(extrusionButton);
+    controlsVBox.getChildren().add(extrusionButton);
   }
 
   /**

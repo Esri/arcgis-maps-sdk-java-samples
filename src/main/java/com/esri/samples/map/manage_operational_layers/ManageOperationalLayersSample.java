@@ -25,8 +25,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
@@ -49,7 +53,7 @@ public class ManageOperationalLayersSample extends Application {
       "http://sampleserver5.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer";
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -65,9 +69,12 @@ public class ManageOperationalLayersSample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(200, 260);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(200, 260);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // create labels for add/delete layers
       Label addLayersLabel = new Label("Layers on the ArcGISMap");
@@ -128,7 +135,7 @@ public class ManageOperationalLayersSample extends Application {
       });
 
       // add labels and lists to the control panel
-      vBoxControl.getChildren().addAll(addLayersLabel, addedLayerNames, deleteLayersLabel, deletedLayerNames);
+      controlsVBox.getChildren().addAll(addLayersLabel, addedLayerNames, deleteLayersLabel, deletedLayerNames);
 
       // create a ArcGISMap with the basemap Topographic
       final ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 34.056295, -117.195800, 14);
@@ -156,9 +163,9 @@ public class ManageOperationalLayersSample extends Application {
       addedLayerNames.getItems().add(mapAddedLayers.get(2).getName());
 
       // add the map view and control box to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
@@ -169,7 +176,7 @@ public class ManageOperationalLayersSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

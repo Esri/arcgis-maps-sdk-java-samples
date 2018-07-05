@@ -44,7 +44,7 @@ public class DisplayDrawingStatusSample extends Application {
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -76,10 +76,10 @@ public class DisplayDrawingStatusSample extends Application {
       map.setInitialViewpoint(viewpoint);
 
       // create a feature table from a service URL
-      final ServiceFeatureTable featuretable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
+      final ServiceFeatureTable featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
 
       // create a feature layer from service table
-      final FeatureLayer featureLayer = new FeatureLayer(featuretable);
+      final FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
       // add feature layer to ArcGISMap
       map.getOperationalLayers().add(featureLayer);
@@ -117,7 +117,7 @@ public class DisplayDrawingStatusSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

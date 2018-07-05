@@ -17,7 +17,7 @@
 package com.esri.samples.localserver.local_server_dynamic_workspace_raster;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -52,7 +52,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
   private static LocalServer server;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -126,8 +126,8 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
   /**
    * Start a LocalMapService and attaches a dynamic workspace raster.
    * 
-   * @param fileName
-   * @param path
+   * @param fileName mpk file name
+   * @param path path to mpk file
    */
   private void startLocalMapService(String fileName, String path) {
 
@@ -139,7 +139,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
     RasterWorkspace rasterWorkspace = new RasterWorkspace("raster_wkspc", path);
     RasterSublayerSource source = new RasterSublayerSource(rasterWorkspace.getId(), fileName);
     ArcGISMapImageSublayer imageSublayer = new ArcGISMapImageSublayer(0, source);
-    Iterable<DynamicWorkspace> dynamicWorkspaces = Arrays.asList(rasterWorkspace);
+    Iterable<DynamicWorkspace> dynamicWorkspaces = Collections.singletonList(rasterWorkspace);
     localMapService.setDynamicWorkspaces(dynamicWorkspaces);
     localMapService.addStatusChangedListener(event -> {
       if (event.getNewStatus() == LocalServerStatus.STARTED) {
@@ -178,7 +178,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

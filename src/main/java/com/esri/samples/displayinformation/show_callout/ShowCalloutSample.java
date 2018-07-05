@@ -38,7 +38,7 @@ public class ShowCalloutSample extends Application {
   private static final Duration DURATION = new Duration(500);
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -100,7 +100,7 @@ public class ShowCalloutSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

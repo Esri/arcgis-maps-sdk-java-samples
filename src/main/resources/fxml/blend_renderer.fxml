@@ -22,10 +22,28 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.raster.blend_renderer.BlendRendererController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" maxWidth="250" maxHeight="50" styleClass="panel-region">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
         <GridPane hgap="10" vgap="10">
             <Label text="Slope Type:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
             <ComboBox fx:id="slopeTypeComboBox" onAction="#updateRenderer" GridPane.rowIndex="0"

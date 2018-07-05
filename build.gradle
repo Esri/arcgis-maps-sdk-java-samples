@@ -6,7 +6,7 @@ apply plugin: 'com.esri.arcgisruntime.java'
 buildscript {
     repositories {
         maven {
-            url 'https://esri.bintray.com/arcgis'
+            url = 'https://esri.bintray.com/arcgis'
         }
     }
     dependencies {
@@ -14,18 +14,13 @@ buildscript {
     }
 }
 
-arcgis.version = '100.2.1'
+arcgis.version = '100.3.0'
 
 idea.module.downloadJavadoc = true
 eclipse.classpath.downloadJavadoc = true
 
 compileJava.options.encoding = 'UTF-8'
-
-repositories {
-    maven {
-        url 'https://esri.bintray.com/arcgis'
-    }
-}
+compileJava.sourceCompatibility = '1.8'
 
 dependencies {
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'

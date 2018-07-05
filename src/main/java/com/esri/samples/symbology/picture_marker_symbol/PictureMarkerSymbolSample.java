@@ -50,7 +50,7 @@ public class PictureMarkerSymbolSample extends Application {
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae";
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -64,7 +64,7 @@ public class PictureMarkerSymbolSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a ArcGISMap with the topograph basemap
+      // create a ArcGISMap with the topographic basemap
       final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
 
       // create view for this map
@@ -178,7 +178,7 @@ public class PictureMarkerSymbolSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

@@ -28,8 +28,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -56,7 +60,7 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -72,9 +76,12 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(200, 80);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(200, 80);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // create button to request the service table's cache
       Button requestCacheButton = new Button("Request Cache");
@@ -88,7 +95,7 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       featuresReturnLabel.getStyleClass().add("panel-label");
 
       // add label and button to the control panel
-      vBoxControl.getChildren().addAll(featuresReturnLabel, requestCacheButton);
+      controlsVBox.getChildren().addAll(featuresReturnLabel, requestCacheButton);
 
       // create service feature table from a url
       featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
@@ -123,9 +130,9 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       mapView.setViewpoint(new Viewpoint(new Point(-13630484, 4545415, SpatialReferences.getWebMercator()), 150000));
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
@@ -165,7 +172,7 @@ public class ServiceFeatureTableManualCacheSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

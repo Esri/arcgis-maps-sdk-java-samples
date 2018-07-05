@@ -65,7 +65,7 @@ public class ViewshedGeoElementSample extends Application {
   private static final AngularUnit DEGREES = new AngularUnit(AngularUnitId.DEGREES);
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
 

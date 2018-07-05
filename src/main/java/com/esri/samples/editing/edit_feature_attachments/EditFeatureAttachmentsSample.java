@@ -30,8 +30,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import org.apache.commons.io.IOUtils;
@@ -67,7 +71,7 @@ public class EditFeatureAttachmentsSample extends Application {
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -83,9 +87,12 @@ public class EditFeatureAttachmentsSample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(180, 250);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(180, 250);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // create a list to show selected feature's attachments
       attachmentList = new ListView<>();
@@ -112,7 +119,7 @@ public class EditFeatureAttachmentsSample extends Application {
       deleteAttachmentButton.setOnAction(e -> deleteAttachment(attachmentList.getSelectionModel().getSelectedIndex()));
 
       // add controls to the panel
-      vBoxControl.getChildren().addAll(addAttachmentButton, deleteAttachmentButton, attachmentsLabel, attachmentList);
+      controlsVBox.getChildren().addAll(addAttachmentButton, deleteAttachmentButton, attachmentsLabel, attachmentList);
 
       // create a map with streets basemap
       ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
@@ -178,9 +185,9 @@ public class EditFeatureAttachmentsSample extends Application {
       });
 
       // add map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -301,7 +308,7 @@ public class EditFeatureAttachmentsSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

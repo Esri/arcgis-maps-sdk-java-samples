@@ -26,8 +26,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -44,7 +48,7 @@ public class ReadGeoPackageSample extends Application {
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -76,12 +80,15 @@ public class ReadGeoPackageSample extends Application {
       geoPackageLayersLabel.getStyleClass().add("panel-label");
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(250, 260);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(250, 260);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // add labels and lists to the control panel
-      vBoxControl.getChildren().addAll(mapLayersLabel, mapLayers, geoPackageLayersLabel, geoPackageLayers);
+      controlsVBox.getChildren().addAll(mapLayersLabel, mapLayers, geoPackageLayersLabel, geoPackageLayers);
 
       // create a cell factory to show the layer names in the list view
       Callback<ListView<Layer>, ListCell<Layer>> cellFactory = list -> new ListCell<Layer>() {
@@ -160,9 +167,9 @@ public class ReadGeoPackageSample extends Application {
       });
 
       // add the map view and control box to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();

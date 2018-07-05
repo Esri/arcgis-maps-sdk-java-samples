@@ -41,9 +41,6 @@ public class UniqueValueRendererSample extends Application {
 
   private MapView mapView;
 
-  private final String SAMPLE_SERVICE_URL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3";
-
   // colors for symbols
   private static final int GRAY = 0xFFD3D3D3;
   private static final int RED = 0xFFFF0000;
@@ -51,7 +48,7 @@ public class UniqueValueRendererSample extends Application {
   private static final int BLUE = 0xFF0000FF;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -73,7 +70,8 @@ public class UniqueValueRendererSample extends Application {
       mapView.setMap(map);
 
       // create service feature table
-      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(SAMPLE_SERVICE_URL);
+      String sampleServiceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3";
+      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(sampleServiceUrl);
 
       // create the feature layer using the service feature table
       final FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
@@ -140,7 +138,7 @@ public class UniqueValueRendererSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     // release resources when the application closes
     if (mapView != null) {

@@ -22,8 +22,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Point;
@@ -45,7 +49,7 @@ public class SimpleLineSymbolSample extends Application {
   private SimpleLineSymbol lineSymbol;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -61,11 +65,14 @@ public class SimpleLineSymbolSample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(180, 200);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(180, 200);
+      controlsVBox.getStyleClass().add("panel-region");
 
-      createSymbolFuntionality(vBoxControl);
+      createSymbolFunctionality(controlsVBox);
 
       final ArcGISMap map = new ArcGISMap(Basemap.createImagery());
 
@@ -93,9 +100,9 @@ public class SimpleLineSymbolSample extends Application {
       graphicsOverlay.getGraphics().add(new Graphic(line, lineSymbol));
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
@@ -107,9 +114,9 @@ public class SimpleLineSymbolSample extends Application {
    * a SimpleLineSymbol. These labels and combo boxes are then added to the
    * control panel.
    * 
-   * @param vBoxControl control pane for user interaction
+   * @param controlsVBox control pane for user interaction
    */
-  private void createSymbolFuntionality(VBox vBoxControl) {
+  private void createSymbolFunctionality(VBox controlsVBox) {
 
     // create functionality for selecting a color for the line symbol
     Label colorLabel = new Label("Change Line Color");
@@ -142,9 +149,7 @@ public class SimpleLineSymbolSample extends Application {
     widthBox.getItems().addAll(1f, 3f, 6f);
     widthBox.setMaxWidth(Double.MAX_VALUE);
 
-    widthBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-      lineSymbol.setWidth(newValue);
-    });
+    widthBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> lineSymbol.setWidth(newValue));
 
     // create functionality for selecting a style for the line symbol
     Label styleLabel = new Label("Change Line Style");
@@ -153,19 +158,17 @@ public class SimpleLineSymbolSample extends Application {
     styleBox.getItems().addAll(Style.DASH, Style.DASH_DOT, Style.DASH_DOT_DOT, Style.DOT, Style.SOLID, Style.NULL);
     styleBox.setMaxWidth(Double.MAX_VALUE);
 
-    styleBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-      lineSymbol.setStyle(newValue);
-    });
+    styleBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> lineSymbol.setStyle(newValue));
 
     // add functionality to the control pane
-    vBoxControl.getChildren().addAll(colorLabel, colorBox, widthLabel, widthBox, styleLabel, styleBox);
+    controlsVBox.getChildren().addAll(colorLabel, colorBox, widthLabel, widthBox, styleLabel, styleBox);
   }
 
   /**
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

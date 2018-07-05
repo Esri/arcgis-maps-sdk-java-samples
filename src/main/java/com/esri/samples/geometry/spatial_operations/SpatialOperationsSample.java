@@ -25,8 +25,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -49,8 +53,7 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 public class SpatialOperationsSample extends Application {
 
   private MapView mapView;
-  private GraphicsOverlay geomLayer;
-  private GraphicsOverlay resultGeomLayer;
+  private GraphicsOverlay resultGeomOverlay;
   private Graphic polygon1;
   private Graphic polygon2;
 
@@ -60,10 +63,10 @@ public class SpatialOperationsSample extends Application {
   }
 
   // simple black (0xFF000000) line symbol
-  private SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1);
+  private final SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1);
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     try {
       // create stack pane and application scene
@@ -79,9 +82,12 @@ public class SpatialOperationsSample extends Application {
       stage.show();
 
       // create a control panel
-      VBox vBoxControl = new VBox(6);
-      vBoxControl.setMaxSize(180, 120);
-      vBoxControl.getStyleClass().add("panel-region");
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(180, 120);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // create section for combo box
       Label geomOperationLabel = new Label("Select operation:");
@@ -120,7 +126,7 @@ public class SpatialOperationsSample extends Application {
 
         // update result as a red (0xFFE91F1F) geometry
         SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
-        resultGeomLayer.getGraphics().add(new Graphic(resultPolygon, redSymbol));
+        resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
 
         resetButton.setDisable(false);
         geomOperationBox.setDisable(true);
@@ -128,14 +134,14 @@ public class SpatialOperationsSample extends Application {
 
       // clear result layer
       resetButton.setOnAction(e -> {
-        resultGeomLayer.getGraphics().clear();
+        resultGeomOverlay.getGraphics().clear();
         geomOperationBox.setDisable(false);
       });
 
       // add label and buttons to the control panel
-      vBoxControl.getChildren().addAll(geomOperationLabel, geomOperationBox, resetButton);
+      controlsVBox.getChildren().addAll(geomOperationLabel, geomOperationBox, resetButton);
 
-      // create ArcGISMap with topograohic basemap
+      // create ArcGISMap with topographic basemap
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
 
       // enable geometry operations when ArcGISMap is done loading
@@ -155,23 +161,23 @@ public class SpatialOperationsSample extends Application {
       Point viewPoint = new Point(-14153, 6710527, SpatialReferences.getWebMercator());
       mapView.setViewpointCenterAsync(viewPoint, 30000);
 
-      // create geometry layers
-      geomLayer = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(geomLayer);
+      // create geometry overlays
+      GraphicsOverlay geomOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(geomOverlay);
 
-      resultGeomLayer = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(resultGeomLayer);
+      resultGeomOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(resultGeomOverlay);
 
       // create sample polygons
       createPolygons();
 
-      geomLayer.getGraphics().add(polygon1);
-      geomLayer.getGraphics().add(polygon2);
+      geomOverlay.getGraphics().add(polygon1);
+      geomOverlay.getGraphics().add(polygon2);
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, vBoxControl);
-      StackPane.setAlignment(vBoxControl, Pos.TOP_LEFT);
-      StackPane.setMargin(vBoxControl, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace
@@ -223,7 +229,7 @@ public class SpatialOperationsSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() throws Exception {
+  public void stop() {
 
     if (mapView != null) {
       mapView.dispose();

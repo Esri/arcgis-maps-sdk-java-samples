@@ -51,13 +51,11 @@ public class LocalServerServicesController {
   private HostServices hostServices;
   private FileChooser packageChooser;
 
-  private static LocalServer server;
-
   @FXML
   private void initialize() {
 
     if (LocalServer.INSTANCE.checkInstallValid()) {
-      server = LocalServer.INSTANCE;
+      LocalServer server = LocalServer.INSTANCE;
       // log the server status
       server.addStatusChangedListener(status -> statusLog.appendText("Server Status: " + status.getNewStatus()
           .toString() + "\n"));
@@ -84,7 +82,7 @@ public class LocalServerServicesController {
     ExtensionFilter gpkFilter = new ExtensionFilter("Geoprocessing Packages (*.gpk, *.gpkx)", "*.gpk", "*.gpkx");
     packageChooser.getExtensionFilters().add(mpkFilter);
 
-    // use the combobox to select a filter
+    // use the ComboBox to select a filter
     serviceOptions.getSelectionModel().selectedItemProperty().addListener(o -> {
       packageChooser.setInitialFileName(null);
       packageChooser.getExtensionFilters().clear();
