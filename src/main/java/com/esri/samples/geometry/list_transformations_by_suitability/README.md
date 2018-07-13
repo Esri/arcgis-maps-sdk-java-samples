@@ -14,9 +14,9 @@ control which transformation is used in an operation.</p>
 
 <h2>How to use the sample</h2>
 
-<p>The list displays all suitable tranformations between the graphic and the map. Once the transform button is clicked a new red graphic will appear showing where the original graphic whould be placed if transformation was applied.</p>
+<p>The list displays all suitable tranformations between the graphic and the map. Once the transform button is clicked a new red graphic will appear showing where the original graphic would be placed if transformation was applied.</p>
 
-<p>Order by extent suitability, if checked, will find suitable transformations within the map's visible area. If not checked, will find suitable trnasformations using the whole map.</p>
+<p>Order by extent suitability, if checked, will find suitable transformations within the map's visible area. If not checked, will find suitable transformations using the whole map.</p>
 
 <h2>How it works</h2>
 
