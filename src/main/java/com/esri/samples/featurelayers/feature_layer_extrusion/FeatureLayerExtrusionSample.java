@@ -35,7 +35,7 @@ import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.OrbitLocationCameraController;
+import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.Renderer;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
@@ -87,8 +87,7 @@ public class FeatureLayerExtrusionSample extends Application {
 
     // set camera to focus on state features
     Point lookAtPoint = new Point(-10974490, 4814376, 0, SpatialReferences.getWebMercator());
-    OrbitLocationCameraController orbitCamera = new OrbitLocationCameraController(lookAtPoint, 10000000);
-    sceneView.setCameraController(orbitCamera);
+    sceneView.setViewpointCamera(new Camera(lookAtPoint, 10000000, 0, 20, 0));
 
     // create a control panel
     VBox controlsVBox = new VBox();
