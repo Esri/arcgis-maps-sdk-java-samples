@@ -18,6 +18,7 @@ package com.esri.samples.scene.distance_composite_symbol;
 
 import java.io.File;
 
+import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -103,9 +104,11 @@ public class DistanceCompositeSymbolSample extends Application {
       // add graphic to graphics overlay
       graphicsOverlay.getGraphics().add(aircraftGraphic);
 
-      // add a camera and initial camera position
-      Camera camera = new Camera(aircraftPosition, 20, 0, 70.0, 0.0);
-      sceneView.setViewpointCamera(camera);
+      // add an orbit camera controller to lock the camera to the graphic
+      OrbitGeoElementCameraController cameraController = new OrbitGeoElementCameraController(aircraftGraphic, 20);
+      cameraController.setCameraPitchOffset(80);
+      cameraController.setCameraHeadingOffset(-30);
+      sceneView.setCameraController(cameraController);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
