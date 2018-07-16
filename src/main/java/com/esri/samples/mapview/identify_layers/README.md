@@ -15,7 +15,7 @@
 <ol>
 <li>Get a <code>Point2D</code> with the screen location where the user clicked.</li>
 <li>Call <code>mapView.identifyLayersAsync(screenLocation, tolerance, returnPopupsOnly, maximumResults)</code>.</li>
-<li>Get the list of <li>IdentifyLayerResult</li>s from the result. You can get the identified <code>GeoElement</code>s in the layer with <code>identifyLayerResult.getElements()</code>.</li>
+<li>Get the list of <code>IdentifyLayerResult</code>s from the result. You can get the identified <code>GeoElement</code>s in the layer with <code>identifyLayerResult.getElements()</code>.</li>
 <li>To find identified GeoElements in sublayers, use <code>identifyLayerResult.getSublayerResults()</code> and repeat the last step.</li>
 </ol>
 
