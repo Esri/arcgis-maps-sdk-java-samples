@@ -32,7 +32,7 @@
   <li>Add graphic to graphics overlay to display it to the map view.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>Graphic</li>

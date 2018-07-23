@@ -15,7 +15,7 @@
     <li>Set request mode of table, <code>ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.ON_INTERACTION_NO_CAHCE)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

@@ -29,7 +29,7 @@
   <li>Create <code>DictionaryRenderer(SymbolDictionary)</code> and attach to feature layer, <code>FeatureLayer.setRenderer(DictionaryRenderer)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

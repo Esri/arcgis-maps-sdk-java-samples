@@ -32,7 +32,7 @@
 <li>Add map image layer to map, <code>Map.getOperationalLayers().add(ArcGISMapImageLayer)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
 <li>ArcGISMapImageLayer</li>
 <li>LocalMapService</li>

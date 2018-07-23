@@ -21,7 +21,7 @@ to see the different population ranges in the counties sublayer data.</p>
     <li>Set the renderer with <code>sublayer.setRenderer(renderer)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

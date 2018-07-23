@@ -21,7 +21,7 @@
 <li>Then get the distance between each of the JavaFX Point3Ds, <code>Point3D.distance(Point3D)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>ArcGISScene</li>

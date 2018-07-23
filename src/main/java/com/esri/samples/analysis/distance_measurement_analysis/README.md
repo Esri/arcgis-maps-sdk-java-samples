@@ -27,7 +27,7 @@ Move the mouse to an end location, and click to complete the measure. Clicking a
   and a unit of measurement.</li>
 </ol>
 
-<h2>Features</h2>  
+<h2>Relevant API</h2>  
 <ul>
 <li>AnalysisOverlay</li>
 <li>LocationDistanceMeasurement</li>

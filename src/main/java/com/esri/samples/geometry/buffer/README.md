@@ -20,7 +20,7 @@ buffer distance.</p>
  in meters. This returns a <code>Polygon</code> which can be displayed using a <code>Graphic</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
 <li>GeometryEngine.Buffer</li>
 <li>GraphicsOverlay</li>

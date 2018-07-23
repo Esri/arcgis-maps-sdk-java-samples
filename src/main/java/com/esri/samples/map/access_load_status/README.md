@@ -18,7 +18,7 @@
     <li>Set the ArcGIS map to the <code>MapView</code> to began loading.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap </li>

@@ -18,7 +18,7 @@ graphics that do not specify their own symbol.</p>
   <li>Set the renderer on the graphics overlay with <code>graphicsOverlay.setRenderer(renderer)</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

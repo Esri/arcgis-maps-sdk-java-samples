@@ -28,7 +28,7 @@
     <li>Add the <code>MapView.addLayerViewStateChangedListener()</code> property and listen when the <code>Layer.getLayerViewStatus()</code> changes.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

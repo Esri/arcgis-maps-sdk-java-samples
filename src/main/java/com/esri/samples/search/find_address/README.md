@@ -20,7 +20,7 @@
   the graphic's attributes so they can later be shown in a callout.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

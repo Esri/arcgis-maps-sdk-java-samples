@@ -21,7 +21,7 @@ spatial reference and in the projected spatial reference.</p>
 <code>SpatialReference</code> to project to.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
 <li>GeometryEngine</li>
 <li>Point</li>

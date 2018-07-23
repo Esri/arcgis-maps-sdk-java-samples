@@ -38,7 +38,7 @@ and "Add button". Select a table row and click "Remove" to remove the statistic 
     <code>StatisticRecord</code>s to loop through and display.</li>
  </ol>
  
- <h2>Features</h2>
+ <h2>Relevant API</h2>
  
  <ul>
     <li>Field</li>

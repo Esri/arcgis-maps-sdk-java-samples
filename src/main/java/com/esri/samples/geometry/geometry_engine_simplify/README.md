@@ -19,7 +19,7 @@
     <li>Determine the simplified geometry by using the <code>GeometryEngine.simplify(polygon.getGeometry()</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>Geometry</li>

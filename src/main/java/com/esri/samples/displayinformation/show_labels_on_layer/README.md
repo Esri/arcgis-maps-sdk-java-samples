@@ -25,7 +25,7 @@
  <li>Lastly, enable labels on the layer using <code>featureLayer.setLabelsEnabled()</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
  <li>FeatureLayer</li>

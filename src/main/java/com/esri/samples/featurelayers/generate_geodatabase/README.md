@@ -26,7 +26,7 @@ the geodatabase will be added to the map.</p>
   you're not planning on syncing changes to the service.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

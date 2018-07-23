@@ -23,7 +23,7 @@ hotspots" button to start the geoprocessing job.</p>
     <li>Add the layer to the map's operational layers.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMapImageLayer</li>

@@ -31,7 +31,7 @@
 <li>Once ArcGISMapImageLayer is done loading,  set ArcGISMapImageSublayer to <code>ArcGISMapImageLayer.getSublayers()</code>. The ArcGISMapImageSublayer points to the shapefile file on disk.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
 <li>ArcGISMapImageLayer</li>
 <li>ArcGISMapImageSublayer</li>

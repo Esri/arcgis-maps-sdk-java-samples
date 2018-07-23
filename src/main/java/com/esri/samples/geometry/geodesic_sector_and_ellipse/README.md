@@ -28,7 +28,7 @@
 <li>Pass the parameters to the related static methods: <code>GeometryEngine.ellipseGeodesic(geodesicEllipseParameters)</code> and <code>GeometryEngine.sectorGeodesic(geodesicSectorParameters)</code>. The returned value will be a <code>Geometry</code> of the type specified by the <code>geometryType</code> parameter.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>GeodesicEllipseParameters</li>

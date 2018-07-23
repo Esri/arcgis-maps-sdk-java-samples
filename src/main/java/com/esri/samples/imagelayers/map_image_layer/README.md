@@ -14,7 +14,7 @@
     <li>Display the ArcGIS map by adding it to the <code>MapView</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMapImageLayer</li>

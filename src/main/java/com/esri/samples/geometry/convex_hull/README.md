@@ -19,7 +19,7 @@
 <li>Call <code>GeometryEngine.convexHull(inputGeometry)</code>. The returned <code>Geometry</code> will either be a <code>Point</code>, <code>Polyline</code>, or <code>Polygon</code> based on the number of input points.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>GeometryEngine</li>

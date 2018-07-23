@@ -15,7 +15,7 @@
     <li>Set the surface as the scene's base surface: <code>ArcGIScene.setBaseSurface(surface)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISScene</li>

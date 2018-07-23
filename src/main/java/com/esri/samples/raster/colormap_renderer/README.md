@@ -16,7 +16,7 @@ with a color based on the original value brightness.</p>
   <li>Create a <code>ColormapRenderer</code> with the color list and apply it to the raster layer with <code>rasterLayer.setRasterRenderer(colormapRenderer)</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

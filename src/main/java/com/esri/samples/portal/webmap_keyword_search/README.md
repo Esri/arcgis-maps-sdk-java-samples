@@ -20,7 +20,7 @@ Click on the "Find More Results" button to add more results to the list.
   <li>Get more results with <code>portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters())</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

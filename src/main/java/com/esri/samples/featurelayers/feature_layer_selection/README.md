@@ -21,7 +21,7 @@
   <li>Select all features that were identified with <code>FeatureLayer.selectFeatures(features)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

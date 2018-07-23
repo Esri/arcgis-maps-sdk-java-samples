@@ -22,7 +22,7 @@
     <li>Add new feature to the table, <code>FeatureCollectionTable.addFeatureAsync(feature)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>FeatureCollection</li>

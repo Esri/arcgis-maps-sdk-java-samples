@@ -30,7 +30,7 @@ original by deselecting the "Show result" checkbox.</p>
     system is used and at a small enough scale that geodesic distances are not required.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
    <li>ArcGISMap</li>

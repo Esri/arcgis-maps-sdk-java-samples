@@ -14,7 +14,7 @@
   <li>To display it, add it to the map as an operational layer <code>map.getOperationalLayers().add(wmsLayer)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

@@ -32,7 +32,7 @@ one of the comments to query related spatial features and display the first resu
      features</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>ArcGISFeature</li>

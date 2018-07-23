@@ -25,7 +25,7 @@
       <li>add graphic to <code>GraphicsOverlay</code> which is attached to the mapview</li></ul></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
   <li>ClosestFacilityParameters</li>
   <li>ClosestFacilityResult</li>

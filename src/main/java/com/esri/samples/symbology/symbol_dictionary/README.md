@@ -44,7 +44,7 @@ display those symbols.</p>
       <li>use other get methods for the symbol's name, tags, symbolClass, category, and key, like  <code>StyleSymbolSearchResult.getName()</code></li></ul></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>CimSymbol</li>

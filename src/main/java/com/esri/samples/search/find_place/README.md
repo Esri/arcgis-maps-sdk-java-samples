@@ -22,7 +22,7 @@
     <li>Show the matching retrieved results from the <code>LocatorTask.geocodeAsync(String, GeocodeParameters)</code> via <code>PictureMarkerSymbol</code>s with a <code>Graphic</code> in a <code>GraphicsOverlay</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

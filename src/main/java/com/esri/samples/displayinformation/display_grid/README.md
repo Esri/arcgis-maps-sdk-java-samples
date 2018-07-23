@@ -22,7 +22,7 @@
    <li>To set the grid, use <code>mapView.setGrid(grid)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>Grid</li>

@@ -20,7 +20,7 @@ viewshed, click on the scene and move your mouse. Click again to stop moving the
   properties. The colors are global, so change them via the static properties on <code>Viewshed</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>3D</li>

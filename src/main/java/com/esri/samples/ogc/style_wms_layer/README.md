@@ -20,7 +20,7 @@ of the WMS layer.</p>
   <li>Set one of the styles using <code>wmsLayer.getSublayers().get(0).setCurrentStyle(styleString)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>WmsLayer</li>

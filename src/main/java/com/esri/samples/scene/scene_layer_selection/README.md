@@ -23,7 +23,7 @@
      (feature)</code> to select it.</li>
 </ol>
 
-<h2>Features</h2> 
+<h2>Relevant API</h2> 
 
 <ul>
     <li>ArcGISSceneLayer</li>

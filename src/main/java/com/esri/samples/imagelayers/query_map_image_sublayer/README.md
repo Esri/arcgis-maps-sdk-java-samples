@@ -30,7 +30,7 @@ layer.</p>
     <li>Iterate through the result features to use them however you wish.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMapImageLayer</li>

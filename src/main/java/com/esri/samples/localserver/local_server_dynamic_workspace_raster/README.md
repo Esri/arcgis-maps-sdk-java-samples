@@ -30,7 +30,7 @@
 <li>Finally, add the ArcGISMapImageLayer to map's list of operational layers. The raster layer appears in the map.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
 <li>ArcGISMapImageLayer</li>
 <li>ArcGISMapImageSublayer</li>

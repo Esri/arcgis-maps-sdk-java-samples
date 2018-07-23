@@ -20,7 +20,7 @@
   <li>Add the graphics overlay to the <code>SceneView</code>, <code>SceneView.getGraphicsOverlays().add(GraphicsOverlay)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISScene</li>

@@ -26,7 +26,7 @@ on-the-fly while moving stops. The green box marks the boundary of the route geo
   <code>GraphicsOverlay</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

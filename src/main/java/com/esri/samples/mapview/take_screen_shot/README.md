@@ -18,7 +18,7 @@ Click the Take Screenshot button to export the image. In the file chooser that o
     <li>Get the <code>Image</code> once export is done loading.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

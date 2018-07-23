@@ -31,7 +31,7 @@ control which transformation is used in an operation.</p>
     outputSR, datumTransformation)</code> to get the transformed geometry.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
     <li>ArcGISMap</li>
     <li>Basemap</li>

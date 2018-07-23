@@ -43,7 +43,7 @@ position and orientation.</p>
   <li>Update symbol's heading, pitch, and roll, <code>attributes.replace("[HEADING]", heading)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>3D</li>

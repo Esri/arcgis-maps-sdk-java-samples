@@ -18,7 +18,7 @@
   <li>Set exaggeration amount of the surface, <code>Surface.setElevationExaggeration(exaggeration)</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISScene</li>

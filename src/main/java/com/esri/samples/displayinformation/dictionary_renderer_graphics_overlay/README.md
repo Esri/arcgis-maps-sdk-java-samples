@@ -27,7 +27,7 @@ value attributes for each graphic.</p>
 <li>add graphic to <code>GraphicsOverlay.getGraphics().add(Graphic)</code></li></ul></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>ArcGISMap</li>

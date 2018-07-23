@@ -20,7 +20,7 @@
     <ul><li>the ArcGIS map image layer will now use the spatial reference set to the map and not it's default spatial reference</li></ul></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

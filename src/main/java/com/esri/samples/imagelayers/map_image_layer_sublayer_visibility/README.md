@@ -20,7 +20,7 @@
     <li>Determine if the layer is visible or not by turning on / off the ArcGIS sub layers visibility in the sub layer list.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

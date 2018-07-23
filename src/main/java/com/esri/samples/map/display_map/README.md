@@ -13,7 +13,7 @@
     <li>Set the map to the map view, <code>MapView.setMap()</code>. </li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

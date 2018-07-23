@@ -21,7 +21,7 @@
   <li>Lastly, to show the results using a <code>PictureMarkerSymbol</code> with attributes and add the symbol to a <code>Graphic</code> in the  <code>GraphicsOverlay</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

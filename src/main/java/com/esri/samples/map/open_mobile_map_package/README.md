@@ -15,7 +15,7 @@
     .getMaps().get(0))</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>MapView</li>

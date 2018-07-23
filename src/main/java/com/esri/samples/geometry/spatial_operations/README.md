@@ -22,7 +22,7 @@ geometries.</p>
     <li>Determine spatial relationships between polygons, e.g. union, difference, etc, by using the appropriate operation <code>GeometryEngine.operation(polygon.getGeometry(), polygon.getGeometry())</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
     <li>Geometry</li>
     <li>Graphic</li>

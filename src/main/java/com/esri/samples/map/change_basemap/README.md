@@ -21,7 +21,7 @@
   <li>Choose a new <code>Basemap.Type</code> and set it to the ArcGIS map to change it. </li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

@@ -26,7 +26,7 @@ converted to a map location which the callout will move to.</p>
     .LATITUDE_BAND_INDICATORS)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

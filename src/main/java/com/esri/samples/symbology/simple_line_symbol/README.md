@@ -31,7 +31,7 @@
   <li>Lately, create a <code>Graphic(Geometry, Symbol)</code> and add it to the graphics overlay.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

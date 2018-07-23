@@ -16,7 +16,7 @@ be stored in ArcGIS Online or Portal.</p>
 <li>Create an <code>ArcGISScene</code> passing in the portal item.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>ArcGISScene</li>

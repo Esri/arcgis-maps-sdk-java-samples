@@ -31,7 +31,7 @@ grouped by feature table.</p>
   </code></pre>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISFeature</li>

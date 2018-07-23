@@ -27,7 +27,7 @@ dialog will show the exported result in a new map view.</p>
   <li>You can load the result as a <code>ArcGISVectorTiledLayer</code> with <code>new ArcGISVectorTiledLayer(result.getVectorTileCache(), result.getItemResourceCache())</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISVectorTiledLayer</li>

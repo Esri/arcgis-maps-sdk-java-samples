@@ -15,7 +15,7 @@
     <li>Add the scene layer to the scene: <code>Scene.getOperationalLayers().add(sceneLayer)</code>;</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>3D</li>

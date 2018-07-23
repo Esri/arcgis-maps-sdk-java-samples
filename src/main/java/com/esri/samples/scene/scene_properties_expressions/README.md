@@ -22,7 +22,7 @@
         the expression and the value is the rotation angle.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISScene</li>

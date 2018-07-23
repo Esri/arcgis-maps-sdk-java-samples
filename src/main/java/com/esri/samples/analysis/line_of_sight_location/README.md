@@ -22,7 +22,7 @@ Click again to lock the target location.</p>
   <li>Update the target location with <code>lineOfSight.setTargetLocation(scenePoint)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>3D</li>

@@ -25,7 +25,7 @@ remove them from the map.</p>
     <li>You can also get the <code>GeoPackageRaster</code>s inside using <code>GeoPackage.getGeoPackageRasters()</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>ArcGISMap</li>

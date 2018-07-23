@@ -13,7 +13,7 @@
   <li>Add it as an operational layer with <code>map.getOperationalLayers().add(rasterLayer)</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

@@ -29,7 +29,7 @@
       <li>add new bookmark to book mark list, <code>BookmarkList.add()</code></li></ul></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

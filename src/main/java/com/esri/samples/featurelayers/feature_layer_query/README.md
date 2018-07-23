@@ -22,7 +22,7 @@
     <li>Once complete get the feature's from the <code>FeatureQueryResult</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

@@ -26,7 +26,7 @@ the "Get Statistics" button to execute the query. A dialog will open with the st
     a list view.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

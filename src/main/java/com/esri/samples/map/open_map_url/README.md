@@ -19,7 +19,7 @@
     <li>Set the map to the <code>MapView</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

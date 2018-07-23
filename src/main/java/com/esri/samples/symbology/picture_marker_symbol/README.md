@@ -24,7 +24,7 @@
     <li>Lastly once a symbol is created it will need to be added to a <code>Graphic</code>. Set the graphic to the graphics overlay using the <code>GraphicsOverlay.getGraphics().add()</code> method indicating the location <code>Point</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

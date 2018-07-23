@@ -19,7 +19,7 @@
     <li>Change the feature layer's renderer using <code>FeatureLayer.setRenderer(SimpleRenderer)</code>.</li>
 </ul>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

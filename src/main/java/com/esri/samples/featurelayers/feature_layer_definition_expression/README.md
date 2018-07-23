@@ -18,7 +18,7 @@
     <li>Set the limit of the features on your feature layer using <code>FeatureLayer.setDefinitionExpression(Expression)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

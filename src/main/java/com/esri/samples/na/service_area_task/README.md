@@ -28,7 +28,7 @@
 <li>Display services areas to MapView, <code>graphicsOverlay.getGraphics().add(new Graphic(serviceAreaPolygon.getGeometry(), fillSymbol))</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
     <li>ArcGISMap</li>
     <li>GraphicsOverlay</li>

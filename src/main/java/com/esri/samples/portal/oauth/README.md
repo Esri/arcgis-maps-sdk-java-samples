@@ -26,7 +26,7 @@ access token. This access token is used later to access user's profile.</p>
     to request an access token. The access token is then used to request a secured resource in the ArcGIS platform.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>AuthenticationChallengeHandler</li>

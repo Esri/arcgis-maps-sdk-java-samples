@@ -21,7 +21,7 @@ has to the other graphic geometries.</p>
     <code>true</code>, the relationship exists.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 <ul>
     <li>ArcGISMap</li>
     <li>Basemap</li>

@@ -41,7 +41,7 @@ californiaFillSymbol, californiaValue));
     <li>Add unique values to renderer, <code>UniqueValueRenderer.getUniqueValues().add(UniqueValue)</code>. </li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

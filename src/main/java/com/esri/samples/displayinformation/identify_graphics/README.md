@@ -19,7 +19,7 @@
     <li>Identify the graphics on the specified location, <code>MapView.identifyGraphicsOverlayAsync(graphicsOverlay, point, tolerance, max results)</code> method.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>Graphic</li>

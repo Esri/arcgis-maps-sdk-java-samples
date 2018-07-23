@@ -21,7 +21,7 @@ in dark images.</p>
   <li>Set the renderer on the raster layer with <code>rasterLayer.setRenderer(renderer)</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

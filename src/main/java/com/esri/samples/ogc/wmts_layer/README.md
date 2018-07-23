@@ -17,7 +17,7 @@
   <li>Set it as the maps' basemap with <code>map.setBasemap(new Basemap(wmtsLayer))</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

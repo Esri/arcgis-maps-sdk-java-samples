@@ -22,7 +22,7 @@
   <li>After a change, apply the changes on the server using <code>ServiceFeatureTable.applyEditsAsync()</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

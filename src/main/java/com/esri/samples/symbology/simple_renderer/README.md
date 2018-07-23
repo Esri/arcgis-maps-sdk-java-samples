@@ -20,7 +20,7 @@
  <li>Lately, set the renderer to graphics overlay using <code>GraphicsOverlay.setRenderer(Renderer)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
  <li>ArcGISMap</li>

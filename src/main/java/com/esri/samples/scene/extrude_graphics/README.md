@@ -23,7 +23,7 @@
   <li>Create graphics with their attribute set, <code>Graphic.getAttributes().put("HEIGHT", Z Value)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISScene</li>

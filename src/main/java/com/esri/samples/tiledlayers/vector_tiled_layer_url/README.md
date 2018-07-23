@@ -14,7 +14,7 @@
     <li>Set the basemap to the map with <code>map.setBasemap(basemap)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

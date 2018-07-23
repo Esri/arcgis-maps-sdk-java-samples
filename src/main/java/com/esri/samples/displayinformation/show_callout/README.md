@@ -21,7 +21,7 @@
  <li>Show the callout, <code>Callout.showCalloutAt(point)</code>, and dismiss on the next click with <code>Callout.dismiss()</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
  <li>ArcGISMap</li>

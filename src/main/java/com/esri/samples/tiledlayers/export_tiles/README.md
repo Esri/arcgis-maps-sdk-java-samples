@@ -17,7 +17,7 @@
   <li>When the job is done, use </code>job.getResult()</code> to get the resulting <code>TileCache</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

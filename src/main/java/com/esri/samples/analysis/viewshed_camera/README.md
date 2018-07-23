@@ -21,7 +21,7 @@ from Camera button to update the viewshed to the current camera position.</p>
   <li>To update the viewshed with a new camera, use <code>viewshed.updateFromCamera(camera)</code></li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>3D</li>

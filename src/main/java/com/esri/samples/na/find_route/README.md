@@ -23,7 +23,7 @@
   <li>Show the step by step <code>DirectionMessage</code>s using the <code>Route.getDirectionManeuvers()</code> method.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ArcGISMap</li>

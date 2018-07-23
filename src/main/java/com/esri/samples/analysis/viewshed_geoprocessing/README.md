@@ -27,7 +27,7 @@ viewshed at that location. A viewshed will be calculated using the service's def
     geometry or display the geometry in a graphic.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>FeatureCollectionTable</li>

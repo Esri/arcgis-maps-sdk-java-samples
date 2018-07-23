@@ -14,7 +14,7 @@
     <li>Set the feature layer to your ArcGISMap using <code>ArcGISMap.getOperationalLayers().add(FeatureLayer)</code>.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
     <li>ArcGISMap</li>

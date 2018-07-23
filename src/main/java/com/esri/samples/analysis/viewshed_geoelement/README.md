@@ -21,7 +21,7 @@ drive straight towards the clicked point. The viewshed will automatically move a
   <li>To offset the viewshed's observer location from the center of the graphic, use <code>viewshed.setOffsetX()</code>, etc.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>3D</li>
