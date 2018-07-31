@@ -16,6 +16,8 @@
 
 package com.esri.samples.geometry.buffer;
 
+import java.util.Arrays;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -26,8 +28,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeodeticCurveType;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.LinearUnit;
 import com.esri.arcgisruntime.geometry.LinearUnitId;
@@ -40,7 +41,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class BufferSample extends Application {
@@ -68,39 +68,41 @@ public class BufferSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      Geometry startingEnvelope = new Envelope(-10863035.97, 3838021.34, -10744801.344, 3887145.299,
-          SpatialReferences.getWebMercator());
-      mapView.setViewpointGeometryAsync(startingEnvelope);
-
       // create a graphics overlay to contain the buffered geometry graphics
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a spinner to set the buffer size (in miles)
-      Spinner<Integer> bufferSpinner = new Spinner<>(0, 100, 5);
+      Spinner<Integer> bufferSpinner = new Spinner<>(500, 2000, 1000);
       bufferSpinner.setEditable(true);
 
       // set up units to convert from miles to meters
       final LinearUnit miles = new LinearUnit(LinearUnitId.MILES);
       final LinearUnit meters = new LinearUnit(LinearUnitId.METERS);
 
-      // create a semi-transparent green fill symbol for the buffer regions
-      final SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x8800FF00, new
-          SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF057e15, 5));
+      // create a white cross marker symbol to show where the user clicked
+      final SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFFFFFFFF, 14);
 
-      // create a buffer around the clicked location
+      // create a semi-transparent purple fill symbol for the geodesic buffers
+      final SimpleFillSymbol geodesicFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x88FF00FF, null);
+
+      // create a semi-transparent green fill symbol for the planar buffers
+      final SimpleFillSymbol planarFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x8800FF00, null);
+
+      // create buffers around the clicked location
       mapView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
           Point2D point2D = new Point2D(e.getX(), e.getY());
           // buffer around the clicked point
           Point point = mapView.screenToLocation(point2D);
-          Polygon bufferGeometry = GeometryEngine.buffer(point, miles.convertTo(meters, bufferSpinner.getValue()));
-          // show the buffered region as a green graphic
-          Graphic bufferGraphic = new Graphic(bufferGeometry, fillSymbol);
-          graphicsOverlay.getGraphics().add(bufferGraphic);
-          // show a red marker where clicked
-          Graphic markerGraphic = new Graphic(point, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE,
-              0xFFFF0000, 5));
+          Polygon geodesicBufferGeometry = GeometryEngine.bufferGeodetic(point, miles.convertTo(meters, bufferSpinner.getValue()), meters, Double.NaN, GeodeticCurveType.GEODESIC);
+          Polygon planarBufferGeometry = GeometryEngine.buffer(point, miles.convertTo(meters, bufferSpinner.getValue()));
+          // show the buffered regions
+          Graphic geodesicBufferGraphic = new Graphic(geodesicBufferGeometry, geodesicFillSymbol);
+          Graphic planarBufferGraphic = new Graphic(planarBufferGeometry, planarFillSymbol);
+          graphicsOverlay.getGraphics().addAll(Arrays.asList(geodesicBufferGraphic, planarBufferGraphic));
+          // show a white marker where clicked
+          Graphic markerGraphic = new Graphic(point, markerSymbol);
           graphicsOverlay.getGraphics().add(markerGraphic);
         }
       });
