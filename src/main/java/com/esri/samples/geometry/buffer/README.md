@@ -15,7 +15,7 @@ buffer distance (this range is appropriate to show the difference between geodes
 <ol>
 <li>Call <code>GeometryEngine.buffer</code> passing in a <code>Point</code> and a distance
  in meters. This returns a <code>Polygon</code> which can be displayed using a <code>Graphic</code>.</li>
- <li>For the geodesic buffer, call <code>GeometryEngine.bufferGeodetic</code> passing in the point, distance, and <code>GeodeticCurveType.GEODESIC</code>.</li>
+ <li>For the geodesic buffer, call <code>GeometryEngine.bufferGeodetic</code> passing in the point, distance, linear unit, max deviation, and <code>GeodeticCurveType.GEODESIC</code>.</li>
 </ol>
 
 <h2>Relevant API</h2>
