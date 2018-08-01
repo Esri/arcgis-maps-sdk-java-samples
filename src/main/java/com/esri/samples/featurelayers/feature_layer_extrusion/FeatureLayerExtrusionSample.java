@@ -17,17 +17,15 @@
 package com.esri.samples.featurelayers.feature_layer_extrusion;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
@@ -44,7 +42,6 @@ import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 public class FeatureLayerExtrusionSample extends Application {
 
-  private boolean showTotalPopulation = true;
   private SceneView sceneView;
 
   @Override
@@ -89,35 +86,69 @@ public class FeatureLayerExtrusionSample extends Application {
     Point lookAtPoint = new Point(-10974490, 4814376, 0, SpatialReferences.getWebMercator());
     sceneView.setViewpointCamera(new Camera(lookAtPoint, 10000000, 0, 20, 0));
 
-    // create a control panel
-    VBox controlsVBox = new VBox();
-    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-        Insets.EMPTY)));
-    controlsVBox.setPadding(new Insets(10.0));
-    controlsVBox.setMaxSize(200, 40);
-    controlsVBox.getStyleClass().add("panel-region");
-    stackPane.getChildren().add(controlsVBox);
-    StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-    StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+    // create a combo box to choose between different expressions/attributes to extrude by
+    ComboBox<ExtrusionAttribute> attributeComboBox = new ComboBox<>();
+    attributeComboBox.setCellFactory(list -> new ListCell<ExtrusionAttribute> (){
+      @Override
+      protected void updateItem(ExtrusionAttribute attribute, boolean bln) {
 
-    // controls for extruding by total population or by population density
-    Button extrusionButton = new Button("Population Density");
-    extrusionButton.setOnAction(v -> {
-      if (showTotalPopulation) {
-        // scale down outlier populations
-        renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10");
-        extrusionButton.setText("Population Density");
-        showTotalPopulation = false;
-      } else {
-        // scale up density
-        renderer.getSceneProperties().setExtrusionExpression("[POP07_SQMI] * 5000 + 100000");
-        extrusionButton.setText("Total Population");
-        showTotalPopulation = true;
+        super.updateItem(attribute, bln);
+        if (attribute != null) {
+          setText(attribute.getName());
+        }
       }
     });
-    extrusionButton.setMaxWidth(Double.MAX_VALUE);
-    extrusionButton.fire();
-    controlsVBox.getChildren().add(extrusionButton);
+    attributeComboBox.setConverter(new StringConverter<ExtrusionAttribute>() {
+
+      @Override
+      public String toString(ExtrusionAttribute travelMode) {
+        return travelMode != null ? travelMode.getName() : "";
+      }
+
+      @Override
+      public ExtrusionAttribute fromString(String fileName) {
+        return null;
+      }
+    });
+    // scale down outlier populations
+    ExtrusionAttribute populationDensity = new ExtrusionAttribute("Population Density","[POP07_SQMI] * 5000 + 100000");
+    // scale up density
+    ExtrusionAttribute totalPopulation = new ExtrusionAttribute("Total Population", "[POP2007]/ 10");
+    attributeComboBox.setItems(FXCollections.observableArrayList(populationDensity, totalPopulation));
+    stackPane.getChildren().add(attributeComboBox);
+    StackPane.setAlignment(attributeComboBox, Pos.TOP_LEFT);
+    StackPane.setMargin(attributeComboBox, new Insets(10, 0, 0, 10));
+
+    // set the extrusion expression on the renderer when one is chosen in the combo box
+    attributeComboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+      ExtrusionAttribute selectedAttribute = attributeComboBox.getSelectionModel().getSelectedItem();
+      renderer.getSceneProperties().setExtrusionExpression(selectedAttribute.getExpression());
+    });
+
+    // start with total population selected
+    attributeComboBox.getSelectionModel().select(totalPopulation);
+  }
+
+  /**
+   * Create a helper class for showing the extrusion attribute name in a ComboBox.
+   */
+  private class ExtrusionAttribute {
+
+    private String name;
+    private String expression;
+
+    public ExtrusionAttribute(String name, String expression) {
+      this.name = name;
+      this.expression = expression;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public String getExpression() {
+      return expression;
+    }
   }
 
   /**
