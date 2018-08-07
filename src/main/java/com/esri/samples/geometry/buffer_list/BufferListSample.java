@@ -17,6 +17,7 @@
 package com.esri.samples.geometry.buffer_list;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.application.Application;
@@ -24,6 +25,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
@@ -41,10 +43,13 @@ import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.LinearUnit;
 import com.esri.arcgisruntime.geometry.LinearUnitId;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polygon;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -71,18 +76,43 @@ public class BufferListSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      SpatialReference statePlaneNorthCentralTexas = SpatialReference.create(32038);
+
+      // show a box where the spatial reference used is valid for planar buffers
+      List<Point> boundaryPoints = Arrays.asList(
+          new Point(-103.070, 31.720, SpatialReferences.getWgs84()),
+          new Point(-103.070, 34.580, SpatialReferences.getWgs84()),
+          new Point(-94.000, 34.580, SpatialReferences.getWgs84()),
+          new Point(-94.00, 31.720, SpatialReferences.getWgs84())
+      );
+      Polygon boundaryPolygon = (Polygon) GeometryEngine.project(new Polygon(new PointCollection(boundaryPoints)), statePlaneNorthCentralTexas);
+
       // create a map with a basemap and add it to the map view
-      ArcGISMap map = new ArcGISMap(SpatialReferences.getWebMercator());
-      map.setBasemap(Basemap.createTopographic());
+      ArcGISMap map = new ArcGISMap(statePlaneNorthCentralTexas);
+      map.setInitialViewpoint(new Viewpoint(boundaryPolygon.getExtent()));
+
+      // add some base layers (counties, cities, and highways)
+      String mapServiceURL = ("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
+      ArcGISMapImageLayer usaLayer = new ArcGISMapImageLayer(mapServiceURL);
+      map.getBasemap().getBaseLayers().add(usaLayer);
+
+      // set the map to the map view
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a graphics overlay to contain the buffered geometry graphics
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
+      // create a graphics overlay to show the spatial reference's valid area
+      GraphicsOverlay boundaryGraphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(boundaryGraphicsOverlay);
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFFFF0000, 5);
+      Graphic boundaryGraphic = new Graphic(boundaryPolygon, lineSymbol);
+      boundaryGraphicsOverlay.getGraphics().add(boundaryGraphic);
+
+      GraphicsOverlay bufferGraphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(bufferGraphicsOverlay);
 
       // create a white cross marker symbol to show where the user clicked
       final SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFFFFFFFF, 14);
+      // create a semi-transparent
       final SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x88FF00FF, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3));
 
       // create a box to hold the input controls
@@ -94,7 +124,7 @@ public class BufferListSample extends Application {
       controlsVBox.getStyleClass().add("panel-region");
 
       // create a spinner to set the buffer size (in miles)
-      Spinner<Integer> distanceSpinner = new Spinner<>(500, 2000, 1000);
+      Spinner<Integer> distanceSpinner = new Spinner<>(0, 300, 100);
       distanceSpinner.setEditable(true);
       controlsVBox.getChildren().add(distanceSpinner);
 
@@ -110,6 +140,10 @@ public class BufferListSample extends Application {
       Button createButton = new Button("Create Buffer(s)");
       controlsVBox.getChildren().add(createButton);
 
+      // create a button to clear the buffer(s)
+      Button clearButton = new Button("Clear");
+      controlsVBox.getChildren().add(clearButton);
+
       // when the user clicks the map, save the clicked location, along with the current distance value
       List<Geometry> geometries = new ArrayList<>();
       List<Double> distances = new ArrayList<>();
@@ -117,23 +151,35 @@ public class BufferListSample extends Application {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
           Point2D point2D = new Point2D(e.getX(), e.getY());
           Point point = mapView.screenToLocation(point2D);
-          geometries.add(point);
-          double distance = miles.convertTo(meters, distanceSpinner.getValue());
-          distances.add(distance);
-          // add a marker where the user clicked
-          Graphic clickedMarker = new Graphic(point, markerSymbol);
-          graphicsOverlay.getGraphics().add(clickedMarker);
+          if (GeometryEngine.contains(boundaryPolygon, point)) {
+            geometries.add(point);
+            double distance = miles.convertTo(meters, distanceSpinner.getValue());
+            distances.add(distance);
+            // add a marker where the user clicked
+            Graphic clickedMarker = new Graphic(point, markerSymbol);
+            bufferGraphicsOverlay.getGraphics().add(clickedMarker);
+          } else {
+            new Alert(Alert.AlertType.WARNING, "Location is not valid to buffer using the defined spatial reference.").show();
+          }
         }
       });
 
       // draw the buffer(s) when the button is clicked
       createButton.setOnAction(e -> {
         // if the buffers are unioned, only one polygon is returned
-        List<Polygon> buffers = GeometryEngine.buffer(geometries, distances, unionCheckBox.isSelected());
-        buffers.forEach(bufferGeometry -> {
-          Graphic bufferGraphic = new Graphic(bufferGeometry, fillSymbol);
-          graphicsOverlay.getGraphics().add(bufferGraphic);
-        });
+        if (!geometries.isEmpty() && !distances.isEmpty()) {
+          List<Polygon> buffers = GeometryEngine.buffer(geometries, distances, unionCheckBox.isSelected());
+          buffers.forEach(bufferGeometry -> {
+            Graphic bufferGraphic = new Graphic(bufferGeometry, fillSymbol);
+            bufferGraphicsOverlay.getGraphics().add(bufferGraphic);
+          });
+        }
+      });
+
+      clearButton.setOnAction(e -> {
+        bufferGraphicsOverlay.getGraphics().clear();
+        geometries.clear();
+        distances.clear();
       });
 
       // add the map view to the stack pane
