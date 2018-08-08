@@ -28,6 +28,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.localserver.LocalMapService;
@@ -90,9 +91,7 @@ public class LocalServerMapImageLayerSample extends Application {
           Alert dialog = new Alert(AlertType.INFORMATION);
           dialog.setHeaderText("Local Server Load Error");
           dialog.setContentText("Local Geoprocessing Failed to load.");
-          dialog.showAndWait();
-
-          Platform.exit();
+          dialog.show();
         });
       }
 
@@ -109,21 +108,22 @@ public class LocalServerMapImageLayerSample extends Application {
    * Once the map service starts, a map image layer is created from that service and added to the map.
    * <p>
    * When the map image layer is done loading, the view will zoom to the location of were the image has been added.
-   * 
+   *
    * @param status status of feature service
    */
   private void addLocalMapImageLayer(StatusChangedEvent status) {
 
     // check that the map service has started
-    if (status.getNewStatus() == LocalServerStatus.STARTED) {
+    if (status.getNewStatus() == LocalServerStatus.STARTED && mapView.getMap() != null) {
       // get the url of where map service is located
       String url = mapImageService.getUrl();
       // create a map image layer using url
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(url);
       // set viewpoint once layer has loaded
       imageLayer.addDoneLoadingListener(() -> {
-        if (imageLayer.getLoadStatus() == LoadStatus.LOADED && imageLayer.getFullExtent() != null) {
-          mapView.setViewpoint(new Viewpoint(imageLayer.getFullExtent()));
+        Envelope extent = imageLayer.getFullExtent();
+        if (imageLayer.getLoadStatus() == LoadStatus.LOADED && extent != null) {
+          mapView.setViewpoint(new Viewpoint(extent));
           Platform.runLater(() -> imageLayerProgress.setVisible(false));
         } else {
           Alert alert = new Alert(Alert.AlertType.ERROR, "Image Layer Failed to Load!");

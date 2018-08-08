@@ -29,6 +29,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.localserver.LocalFeatureService;
@@ -117,7 +118,7 @@ public class LocalServerFeatureLayerSample extends Application {
   private void addLocalFeatureLayer(StatusChangedEvent status) {
 
     // check that the feature service has started
-    if (status.getNewStatus() == LocalServerStatus.STARTED) {
+    if (status.getNewStatus() == LocalServerStatus.STARTED && mapView.getMap() != null) {
       // get the url of where feature service is located
       String url = featureService.getUrl() + "/0";
       // create a feature layer using the url
@@ -125,12 +126,12 @@ public class LocalServerFeatureLayerSample extends Application {
       featureTable.loadAsync();
       FeatureLayer featureLayer = new FeatureLayer(featureTable);
       featureLayer.addDoneLoadingListener(() -> {
-        if (featureLayer.getLoadStatus() == LoadStatus.LOADED && featureLayer.getFullExtent() != null) {
-          mapView.setViewpoint(new Viewpoint(featureLayer.getFullExtent()));
+        Envelope extent = featureLayer.getFullExtent();
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED && extent != null) {
+          mapView.setViewpoint(new Viewpoint(extent));
           Platform.runLater(() -> featureLayerProgress.setVisible(false));
         } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!");
-          alert.show();
+          new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!").show();
         }
       });
       featureLayer.loadAsync();
