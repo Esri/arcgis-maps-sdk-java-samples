@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2018 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import com.esri.arcgisruntime.geoanalysis.GeoElementLineOfSight;
+import com.esri.arcgisruntime.geoanalysis.LineOfSight;
 import com.esri.arcgisruntime.geometry.AngularUnit;
 import com.esri.arcgisruntime.geometry.AngularUnitId;
 import com.esri.arcgisruntime.geometry.GeodeticCurveType;
@@ -102,21 +103,42 @@ public class LineOfSightGeoElementSample extends Application {
           ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
       scene.setBaseSurface(surface);
 
+      // add buildings from New York City
       String buildingsURL = "https://tiles.arcgis.com/tiles/z2tnIkrLQ2BRzr6P/arcgis/rest/services/New_York_LoD2_3D_Buildings/SceneServer/layers/0";
       ArcGISSceneLayer buildings = new ArcGISSceneLayer(buildingsURL);
       scene.getOperationalLayers().add(buildings);
 
-      // create a graphics overlay for the taxi
+      // create a graphics overlay for the graphics
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // set up heading expression for taxi
+      // set up a heading expression to handle graphic rotation
       SimpleRenderer renderer3D = new SimpleRenderer();
       Renderer.SceneProperties renderProperties = renderer3D.getSceneProperties();
       renderProperties.setHeadingExpression("[HEADING]");
       graphicsOverlay.setRenderer(renderer3D);
 
+      // create a point graph near the Empire State Building to be the observer
+      Point observationPoint = new Point(-73.9853, 40.7484, 200, SpatialReferences.getWgs84());
+      Graphic observer = new Graphic(observationPoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 5));
+      graphicsOverlay.getGraphics().add(observer);
+
+      // create a slider to change the observer's Z value
+      Slider heightSlider = new Slider(150, 300, 200);
+      heightSlider.setMaxSize(30, 150);
+      heightSlider.setShowTickLabels(true);
+      heightSlider.setOrientation(Orientation.VERTICAL);
+      stackPane.getChildren().add(heightSlider);
+      StackPane.setAlignment(heightSlider, Pos.TOP_LEFT);
+      StackPane.setMargin(heightSlider, new Insets(10, 0, 0, 10));
+      heightSlider.valueProperty().addListener(e -> {
+        PointBuilder pointBuilder = new PointBuilder((Point) observer.getGeometry());
+        pointBuilder.setZ(heightSlider.getValue());
+        observer.setGeometry(pointBuilder.toGeometry());
+      });
+
+      // create waypoints around a block for the taxi to drive to
       waypoints = Arrays.asList(
           new Point(-73.984513, 40.748469, SpatialReferences.getWgs84()),
           new Point(-73.985068, 40.747786, SpatialReferences.getWgs84()),
@@ -124,7 +146,7 @@ public class LineOfSightGeoElementSample extends Application {
           new Point(-73.982961, 40.747762, SpatialReferences.getWgs84())
       );
 
-      // create a graphic of a taxi
+      // create a graphic of a taxi to be the target
       String modelURI = new File("./samples-data/dolmus_3ds/dolmus.3ds").getAbsolutePath();
       ModelSceneSymbol taxiSymbol = new ModelSceneSymbol(modelURI, 1.0);
       taxiSymbol.setAnchorPosition(SceneSymbol.AnchorPosition.BOTTOM);
@@ -133,35 +155,26 @@ public class LineOfSightGeoElementSample extends Application {
       taxi.getAttributes().put("HEADING", 0.0);
       graphicsOverlay.getGraphics().add(taxi);
 
-      Point observationPoint = new Point(-73.9853, 40.7484, 200, SpatialReferences.getWgs84());
-      Graphic observer = new Graphic(observationPoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 5));
-      graphicsOverlay.getGraphics().add(observer);
+      // create an analysis overlay to hold the line of sight
+      AnalysisOverlay analysisOverlay = new AnalysisOverlay();
+      sceneView.getAnalysisOverlays().add(analysisOverlay);
 
-      Slider heightSlider = new Slider(150, 300, 200);
-      heightSlider.setMaxSize(30, 150);
-      heightSlider.setShowTickLabels(true);
-      heightSlider.setOrientation(Orientation.VERTICAL);
-      stackPane.getChildren().add(heightSlider);
-      StackPane.setAlignment(heightSlider, Pos.TOP_LEFT);
-      StackPane.setMargin(heightSlider, new Insets(10, 0, 0, 10));
+      // create a line of sight between the two graphics and add it to the analysis overlay
+      GeoElementLineOfSight lineOfSight = new GeoElementLineOfSight(observer, taxi);
+      analysisOverlay.getAnalyses().add(lineOfSight);
 
-      heightSlider.valueProperty().addListener(e -> {
-        PointBuilder pointBuilder = new PointBuilder((Point) observer.getGeometry());
-        pointBuilder.setZ(heightSlider.getValue());
-        observer.setGeometry(pointBuilder.toGeometry());
-      });
+      // select (highlight) the taxi when the line of sight target visibility changes to visible
+      lineOfSight.addTargetVisibilityChangedListener(targetVisibilityChangedEvent ->
+        taxi.setSelected(targetVisibilityChangedEvent.getTargetVisibility() == LineOfSight.TargetVisibility.VISIBLE)
+      );
 
-      // create a timeline to animate the tank
+      // create a timeline to animate the taxi driving around the block
       animation = new Timeline();
       animation.setCycleCount(-1);
       animation.getKeyFrames().add(new KeyFrame(Duration.millis(100), e -> animate()));
       animation.play();
 
-      GeoElementLineOfSight lineOfSight = new GeoElementLineOfSight(observer, taxi);
-      AnalysisOverlay analysisOverlay = new AnalysisOverlay();
-      analysisOverlay.getAnalyses().add(lineOfSight);
-      sceneView.getAnalysisOverlays().add(analysisOverlay);
-
+      // zoom to show the observer
       Camera camera = new Camera((Point) observer.getGeometry(), 700, -30, 45, 0);
       sceneView.setViewpointCamera(camera);
 
