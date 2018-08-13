@@ -4,7 +4,7 @@
 
 <p>To determine if an observer can see a target, you can show a line of sight between them. The line will be green until it is obstructed, in which case it will turn red. By using the GeoElement variant of the line of sight, the line will automatically update when either GeoElement moves.</p>
 
-<p><img src="GeoElementLineOfSight.gif"/></p>
+<p><img src="LineOfSightGeoElement.gif"/></p>
 
 <h2>How to use the sample</h2>
 
