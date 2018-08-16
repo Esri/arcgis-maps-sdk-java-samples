@@ -68,21 +68,27 @@ public class GenerateOfflineMapSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // create a button to take the map offline
       Button offlineMapButton = new Button("Take Map Offline");
       offlineMapButton.setDisable(true);
 
+      // handle authentication with the portal
       AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
 
+      // create a portal item with the itemId of the web map
       Portal portal = new Portal("https://www.arcgis.com", true);
       PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
+      // create a map with the portal item
       ArcGISMap map = new ArcGISMap(portalItem);
       map.addDoneLoadingListener(() -> {
+        // enable the button when the map is loaded
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           offlineMapButton.setDisable(false);
         }
       });
 
+      // set the map to the map view
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -90,7 +96,7 @@ public class GenerateOfflineMapSample extends Application {
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create a graphic to show a box around the tiles we want to download
+      // create a graphic to show a box around the extent we want to download
       Graphic downloadArea = new Graphic();
       graphicsOverlay.getGraphics().add(downloadArea);
       SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
@@ -114,16 +120,18 @@ public class GenerateOfflineMapSample extends Application {
         }
       });
 
-      // create progress bar to show task progress
+      // create progress bar to show download progress
       ProgressBar progressBar = new ProgressBar();
       progressBar.setProgress(0.0);
       progressBar.setVisible(false);
 
-      // when the button is clicked, export the map to a temporary geodatabase file
+      // when the button is clicked, start the offline map task job
       offlineMapButton.setOnAction(e -> {
         try {
-          Path tempDirectory = Files.createTempDirectory("offline_map");
+          // show the progress bar
           progressBar.setVisible(true);
+
+          // specify the extent, min scale, and max scale as parameters
           double minScale = mapView.getMapScale();
           double maxScale = map.getMaxScale();
           // minScale must always be larger than maxScale
@@ -131,25 +139,30 @@ public class GenerateOfflineMapSample extends Application {
             minScale = maxScale + 1;
           }
           GenerateOfflineMapParameters params = new GenerateOfflineMapParameters(downloadArea.getGeometry(), minScale, maxScale);
+
+          // create an offline map task with the map
           OfflineMapTask task = new OfflineMapTask(map);
+
+          // create an offline map job with the download directory path and parameters and start the job
+          Path tempDirectory = Files.createTempDirectory("offline_map");
           GenerateOfflineMapJob job = task.generateOfflineMap(params, tempDirectory.toAbsolutePath().toString());
-          job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
           job.start();
           job.addJobDoneListener(() -> {
             if (job.getStatus() == Job.Status.SUCCEEDED) {
+              // replace the current map with the result offline map when the job finishes
               GenerateOfflineMapResult result = job.getResult();
               mapView.setMap(result.getOfflineMap());
               graphicsOverlay.getGraphics().clear();
               offlineMapButton.setDisable(true);
             } else {
-              Alert alert = new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage());
-              alert.show();
+              new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage()).show();
             }
             Platform.runLater(() -> progressBar.setVisible(false));
           });
+          // show the job's progress with the progress bar
+          job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
         } catch (IOException ex) {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to create temporary file");
-          alert.show();
+          new Alert(Alert.AlertType.ERROR, "Failed to create temporary directory").show();
         }
       });
 
