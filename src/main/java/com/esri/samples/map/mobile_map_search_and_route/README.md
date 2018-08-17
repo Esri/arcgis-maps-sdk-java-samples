@@ -19,7 +19,7 @@ If transportation networks are available, a route will be calculated between geo
 <ol>
     <li>Create a <code>MobileMapPackage</code> passing in the path to the local mmpk file.</li>
     <li>Load the mobile map package and get its maps with <code>mobileMapPackage.getMaps()</code>.</li>
-    <li>A <code>LocatorTask</code> can be retrieved from the mobileMapPackage with <code>mobileMapPackage.getLocatorTask()</code> if it has one.</li>
+    <li>A <code>LocatorTask</code> can be retrieved from the mobile map package with <code>mobileMapPackage.getLocatorTask()</code> if it has one.</li>
     <li>To see if a map has transportation networks saved with it call <code>map.getTransportationNetworks()</code>. Each <code>TransportationNetworkDataset</code> can be used to construct a <code>RouteTask</code>.</li>
 </ol>
 
