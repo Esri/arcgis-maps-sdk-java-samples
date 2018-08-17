@@ -49,6 +49,7 @@ public class OAuthController {
   void authenticate() {
 
     AuthenticationDialog authenticationDialog = new AuthenticationDialog();
+    authenticationDialog.initOwner(fullName.getScene().getWindow());
     authenticationDialog.show();
     authenticationDialog.setOnCloseRequest(r -> {
 

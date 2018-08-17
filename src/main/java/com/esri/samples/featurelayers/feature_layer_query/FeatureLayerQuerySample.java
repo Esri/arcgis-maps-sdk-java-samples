@@ -102,6 +102,7 @@ public class FeatureLayerQuerySample extends Application {
 
       // create dialog to display alert information
       dialog = new Alert(AlertType.WARNING);
+      dialog.initOwner(stackPane.getScene().getWindow());
 
       // search for the state that was entered
       searchButton.setOnAction(e -> {

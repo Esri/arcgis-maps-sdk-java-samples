@@ -94,6 +94,7 @@ public class ManageBookmarksSample extends Application {
       // show dialog to user and add a bookmark if text is entered
       addBookmarkButton.setOnAction(e -> {
         TextInputDialog dialog = new TextInputDialog();
+        dialog.initOwner(mapView.getScene().getWindow());
         dialog.setHeaderText("Add Bookmark");
         dialog.setContentText("Bookmark Name");
 
@@ -105,6 +106,7 @@ public class ManageBookmarksSample extends Application {
             bookmarkNames.getItems().add(bookmark.getName());
           } else {
             Alert alert = new Alert(AlertType.INFORMATION);
+            alert.initOwner(mapView.getScene().getWindow());
             alert.setHeaderText("Text Error");
             alert.setContentText("Text name already exist or no text was entered.");
             alert.showAndWait();

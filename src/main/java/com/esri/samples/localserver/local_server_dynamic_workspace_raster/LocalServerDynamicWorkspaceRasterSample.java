@@ -85,6 +85,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
       } else {
         Platform.runLater(() -> {
           Alert dialog = new Alert(AlertType.INFORMATION);
+          dialog.initOwner(mapView.getScene().getWindow());
           dialog.setHeaderText("Local Server Load Error");
           dialog.setContentText("Local Server install path couldn't be located.");
           dialog.showAndWait();

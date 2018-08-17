@@ -91,6 +91,7 @@ public class LocalServerFeatureLayerSample extends Application {
       } else {
         Platform.runLater(() -> {
           Alert dialog = new Alert(AlertType.INFORMATION);
+          dialog.initOwner(mapView.getScene().getWindow());
           dialog.setHeaderText("Local Server Load Error");
           dialog.setContentText("Local Geoprocessing Failed to load.");
           dialog.showAndWait();
