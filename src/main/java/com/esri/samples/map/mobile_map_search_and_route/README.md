@@ -6,7 +6,7 @@
 
 <h2>How to use the sample</h2>
 
-<p>Click the "Open mobile map package" button to bring up a file choosing dialog. Browse for and select a .mmpk file.
+<p>Click the "Open mobile map package" button to bring up a file choosing dialog. Browse to and select a .mmpk file.
 When chosen, the map's inside the mobile map package will be displayed in the list. If the mobile map package has a locator task,
 the list items will have a pin icon. If the map contains transportation networks, it will have a navigation icon.
 Click on a map in the list to open it. Click on the map to reverse geocode the clicked locations's address if a locator task is available.

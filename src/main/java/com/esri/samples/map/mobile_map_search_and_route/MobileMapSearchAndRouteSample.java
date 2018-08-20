@@ -91,10 +91,9 @@ public class MobileMapSearchAndRouteSample extends Application {
 
       // create a file chooser to find local mmpk files
       FileChooser fileChooser = new FileChooser();
-      fileChooser.setInitialDirectory(new File("./samples-data/mmpk"));
-      fileChooser.setInitialFileName(fileChooser.getInitialDirectory().getAbsolutePath() + "/SanFrancisco.mpk");
       FileChooser.ExtensionFilter mpkFilter = new FileChooser.ExtensionFilter("Map Packages (*.mmpk)", "*.mmpk");
       fileChooser.getExtensionFilters().add(mpkFilter);
+      fileChooser.setInitialDirectory(new File("./samples-data/mmpk"));
 
       // click a button to open the file chooser
       Button findMmpkButton = new Button("Open mobile map package");
@@ -115,10 +114,16 @@ public class MobileMapSearchAndRouteSample extends Application {
           mobileMapPackage.loadAsync();
           mobileMapPackage.addDoneLoadingListener(() -> {
             if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
-              // show the maps belonging to the mobile map package in the list view
-              mobileMapPackage.getMaps().forEach(map -> mapPackageListView.getItems().add(map));
-              // default to displaying the first map in the map view
-              mapPackageListView.getSelectionModel().select(mobileMapPackage.getMaps().get(0));
+              if (!mobileMapPackage.getMaps().isEmpty()) {
+                // show the maps belonging to the mobile map package in the list view
+                mobileMapPackage.getMaps().forEach(map -> mapPackageListView.getItems().add(map));
+                // default to displaying the first map in the map view
+                mapPackageListView.getSelectionModel().select(mobileMapPackage.getMaps().get(0));
+              } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Map package does not have any maps");
+                alert.initOwner(mapView.getScene().getWindow());
+                alert.show();
+              }
             } else {
               new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package").show();
             }
@@ -204,7 +209,7 @@ public class MobileMapSearchAndRouteSample extends Application {
 
       // perform a reverse geocode where the user clicks on the map view if the mobile map package has a locator task
       mapView.setOnMouseClicked(e -> {
-        if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY && mobileMapPackage.getLocatorTask() != null) {
+        if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY && mobileMapPackage != null && mobileMapPackage.getLocatorTask() != null) {
           Point2D point = new Point2D(e.getX(), e.getY());
           Point mapPoint = mapView.screenToLocation(point);
 
@@ -249,31 +254,34 @@ public class MobileMapSearchAndRouteSample extends Application {
                       .stream()
                       .map(g -> new Stop((Point) g.getGeometry()))
                       .collect(Collectors.toList());
-                  RouteParameters routeParameters = routeTask.createDefaultParametersAsync().get();
-                  routeParameters.setStops(stops);
-                  // solve the route and display the result graphic
-                  ListenableFuture<RouteResult> routeResults = routeTask.solveRouteAsync(routeParameters);
-                  routeResults.addDoneListener(() -> {
+                  ListenableFuture<RouteParameters> defaultParameters = routeTask.createDefaultParametersAsync();
+                  defaultParameters.addDoneListener(() -> {
                     try {
-                      RouteResult result = routeResults.get();
-                      Route route = result.getRoutes().get(0);
-                      Graphic routeGraphic = new Graphic(route.getRouteGeometry(), lineSymbol);
-                      routesGraphicsOverlay.getGraphics().add(routeGraphic);
+                      RouteParameters routeParameters = defaultParameters.get();
+                      routeParameters.setStops(stops);
+                      // solve the route and display the result graphic
+                      ListenableFuture<RouteResult> routeResults = routeTask.solveRouteAsync(routeParameters);
+                      routeResults.addDoneListener(() -> {
+                        try {
+                          RouteResult result = routeResults.get();
+                          Route route = result.getRoutes().get(0);
+                          Graphic routeGraphic = new Graphic(route.getRouteGeometry(), lineSymbol);
+                          routesGraphicsOverlay.getGraphics().add(routeGraphic);
+                        } catch (InterruptedException | ExecutionException ex) {
+                          Alert alert = new Alert(Alert.AlertType.WARNING, "No path found between stops");
+                          alert.initOwner(mapView.getScene().getWindow());
+                          alert.show();
+                        }
+                      });
                     } catch (InterruptedException | ExecutionException ex) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.initOwner(mapView.getScene().getWindow());
-                        alert.setHeaderText(null);
-                        alert.setContentText("No path found between stops");
-                        alert.show();
+                      new Alert(Alert.AlertType.ERROR, "Error getting route default parameters").show();
                     }
                   });
                 }
               }
             } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                Alert alert = new Alert(Alert.AlertType.WARNING, "No address found at this location");
                 alert.initOwner(mapView.getScene().getWindow());
-                alert.setHeaderText(null);
-                alert.setContentText("No address found at this location");
                 alert.show();
             }
           });
