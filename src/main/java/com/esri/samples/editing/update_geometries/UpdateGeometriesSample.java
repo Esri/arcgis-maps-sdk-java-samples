@@ -47,8 +47,8 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class UpdateGeometriesSample extends Application {
 
   private MapView mapView;
-  private static ServiceFeatureTable featureTable;
-  private static FeatureLayer featureLayer;
+  private ServiceFeatureTable featureTable;
+  private FeatureLayer featureLayer;
 
   private static final String FEATURE_LAYER_URL =
       "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
@@ -119,7 +119,7 @@ public class UpdateGeometriesSample extends Application {
                           selected.setGeometry(mapPoint);
                           ListenableFuture<Void> featureTableResult = featureTable.updateFeatureAsync(selected);
                           // apply the edits to the service
-                          featureTableResult.addDoneListener(UpdateGeometriesSample::applyEdits);
+                          featureTableResult.addDoneListener(this::applyEdits);
                         }
                       });
 
@@ -153,7 +153,7 @@ public class UpdateGeometriesSample extends Application {
   /**
    * Sends any edits on the ServiceFeatureTable to the server.
    */
-  private static void applyEdits() {
+  private void applyEdits() {
 
     // apply the changes to the server
     ListenableFuture<List<FeatureEditResult>> editResult = featureTable.applyEditsAsync();
@@ -180,10 +180,11 @@ public class UpdateGeometriesSample extends Application {
    * @param title title of alert
    * @param message message to display
    */
-  private static void displayMessage(String title, String message) {
+  private void displayMessage(String title, String message) {
 
     Platform.runLater(() -> {
       Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+      dialog.initOwner(mapView.getScene().getWindow());
       dialog.setHeaderText(title);
       dialog.setContentText(message);
       dialog.showAndWait();

@@ -219,6 +219,7 @@ public class CreateAndSaveMapController {
    */
   private void showMessage(String title, String description, Alert.AlertType type) {
     Alert alert = new Alert(type);
+    alert.initOwner(mapView.getScene().getWindow());
     alert.setTitle(title);
     alert.setContentText(description);
     alert.show();

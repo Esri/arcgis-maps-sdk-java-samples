@@ -137,6 +137,7 @@ public class ExportTilesSample extends Application {
                   //show preview of exported tiles in alert
                   TileCache tileCache = job.getResult();
                   Alert preview = new Alert(Alert.AlertType.INFORMATION);
+                  preview.initOwner(mapView.getScene().getWindow());
                   preview.setTitle("Preview");
                   preview.setHeaderText("Exported to " + tileCache.getPath());
                   MapView mapPreview = new MapView();

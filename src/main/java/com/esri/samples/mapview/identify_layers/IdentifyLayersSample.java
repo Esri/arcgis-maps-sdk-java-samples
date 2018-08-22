@@ -120,7 +120,9 @@ public class IdentifyLayersSample extends Application {
               }
               // show the result counts string in a dialog
               String resultString = resultsList.toString();
-              new Alert(Alert.AlertType.INFORMATION, resultString.equals("") ? "No Results" : resultString).show();
+              Alert alert = new Alert(Alert.AlertType.INFORMATION, resultString.equals("") ? "No Results" : resultString);
+              alert.initOwner(mapView.getScene().getWindow());
+              alert.show();
             } catch (InterruptedException | ExecutionException ex) {
               new Alert(Alert.AlertType.ERROR, "Failed to identify layers").show();
             }

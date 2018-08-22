@@ -240,6 +240,7 @@ public class UpdateAttributesSample extends Application {
 
     Platform.runLater(() -> {
       Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+      dialog.initOwner(mapView.getScene().getWindow());
       dialog.setHeaderText(title);
       dialog.setContentText(message);
       dialog.showAndWait();

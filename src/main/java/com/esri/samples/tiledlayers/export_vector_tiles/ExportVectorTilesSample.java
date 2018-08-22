@@ -158,6 +158,7 @@ public class ExportVectorTilesSample extends Application {
                   VectorTileCache tileCache = tilesResult.getVectorTileCache();
                   ItemResourceCache resourceCache = tilesResult.getItemResourceCache();
                   Alert preview = new Alert(Alert.AlertType.INFORMATION);
+                  preview.initOwner(mapView.getScene().getWindow());
                   preview.setTitle("Preview");
                   preview.setHeaderText("Exported tiles to " + tileCache.getPath() + "\nExported resources to " +
                       resourceCache.getPath());
