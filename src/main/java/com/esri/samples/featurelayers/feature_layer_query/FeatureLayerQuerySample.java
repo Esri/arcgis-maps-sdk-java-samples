@@ -62,9 +62,7 @@ public class FeatureLayerQuerySample extends Application {
   private Point startPoint;
   private ListenableFuture<FeatureQueryResult> tableQueryResult;
 
-  private static final String SERVICE_FEATURE_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2";
-  private static final int SCALE = 100000000;
+  private final int SCALE = 100000000;
 
   @Override
   public void start(Stage stage) {
@@ -131,11 +129,12 @@ public class FeatureLayerQuerySample extends Application {
       SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFFFCC00, lineSymbol);
 
       // create a service feature table
-      featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
+      featureTable = new ServiceFeatureTable("https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/USA_Daytime_Population_2016/FeatureServer/0");
 
       // create a feature layer from table
       featureLayer = new FeatureLayer(featureTable);
       featureLayer.setOpacity(0.8f);
+      featureLayer.setMaxScale(10000);
 
       // enable search once the feature layer is loaded
       featureLayer.addDoneLoadingListener(() -> {
