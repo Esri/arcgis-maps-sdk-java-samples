@@ -16,20 +16,21 @@
 
 package com.esri.samples.displayinformation.show_labels_on_layer;
 
+import java.util.Arrays;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -59,45 +60,57 @@ public class ShowLabelsOnLayerSample extends Application {
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
       mapView.setMap(map);
 
-      // create a feature layer from an online feature service of US Highways
-      String serviceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/1";
+      // set the initial viewpoint near the center of the US
+      mapView.setViewpointCenterAsync(new Point(-10846309.950860, 4683272.219411, SpatialReferences.getWebMercator()), 20000000);
+
+      // create a feature layer from an online feature service of US Congressional Districts
+      String serviceUrl = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Congressional_Districts_analysis/FeatureServer/0";
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceUrl);
       FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
       map.getOperationalLayers().add(featureLayer);
 
-      // zoom to the layer when it's done loading
-      featureLayer.addDoneLoadingListener(() -> {
-        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
-          mapView.setViewpointGeometryAsync(featureLayer.getFullExtent());
-        } else {
-          new Alert(Alert.AlertType.ERROR, featureLayer.getLoadError().getMessage()).show();
-        }
-      });
+      // use red text with white halo for republican district labels
+      TextSymbol republicanTextSymbol = new TextSymbol();
+      republicanTextSymbol.setSize(10);
+      republicanTextSymbol.setColor(0xFFFF0000);
+      republicanTextSymbol.setHaloColor(0xFFFFFFFF);
+      republicanTextSymbol.setHaloWidth(2);
 
-      // use large blue text with a yellow halo for the labels
-      TextSymbol textSymbol = new TextSymbol();
-      textSymbol.setSize(20);
-      textSymbol.setColor(0xFF0000FF);
-      textSymbol.setHaloColor(0xFFFFFF00);
-      textSymbol.setHaloWidth(2);
+      // use blue text with white halo for democrat district labels
+      TextSymbol democratTextSymbol = new TextSymbol();
+      democratTextSymbol.setSize(10);
+      democratTextSymbol.setColor(0xFF0000FF);
+      democratTextSymbol.setHaloColor(0xFFFFFFFF);
+      democratTextSymbol.setHaloWidth(2);
 
-      // construct the label definition json
+      // construct a json label definition
       JsonObject json = new JsonObject();
-      // prepend 'I - ' (for Interstate) to the route number for the label
+      // use a custom label expression combining some of the feature's fields
       JsonObject expressionInfo = new JsonObject();
-      expressionInfo.add("expression", new JsonPrimitive("'I -' + $feature.rte_num1"));
+      expressionInfo.add("expression", new JsonPrimitive("$feature.NAME + \" (\" + left($feature.PARTY,1) + \")\\nDistrict \" + $feature.CDFIPS"));
       json.add("labelExpressionInfo", expressionInfo);
-      // position the label above and along the direction of the road
-      json.add("labelPlacement", new JsonPrimitive("esriServerLinePlacementAboveAlong"));
-      // only show labels on the interstate highways (others have an empty rte_num1 attribute)
-      json.add("where", new JsonPrimitive("rte_num1 <> ' '"));
-      // set the text symbol as the label symbol
-      json.add("symbol", new JsonParser().parse(textSymbol.toJson()));
+      // position the label in the center of the feature
+      json.add("labelPlacement", new JsonPrimitive("esriServerPolygonPlacementAlwaysHorizontal"));
 
-      // create a label definition from the JSON string
-      LabelDefinition labelDefinition = LabelDefinition.fromJson(json.toString());
-      // add the definition to the feature layer and enable labels on it
-      featureLayer.getLabelDefinitions().add(labelDefinition);
+      // create a copy of the json with a custom where clause and symbol only for republican districts
+      JsonObject republicanJson = json.deepCopy();
+      republicanJson.add("where", new JsonPrimitive("PARTY = 'Republican'"));
+      republicanJson.add("symbol", new JsonParser().parse(republicanTextSymbol.toJson()));
+
+      // create a copy of the json with a custom where clause and symbol only for democrat districts
+      JsonObject democratJson = json.deepCopy();
+      democratJson.add("where", new JsonPrimitive("PARTY = 'Democrat'"));
+      democratJson.add("symbol", new JsonParser().parse(democratTextSymbol.toJson()));
+
+      // create label definitions from the JSON strings
+      LabelDefinition republicanLabelDefinition = LabelDefinition.fromJson(republicanJson.toString());
+      LabelDefinition democratLabelDefinition = LabelDefinition.fromJson(democratJson.toString());
+
+      // add the definitions to the feature layer
+      featureLayer.getLabelDefinitions().addAll(Arrays.asList(republicanLabelDefinition, democratLabelDefinition));
+      featureLayer.getLabelDefinitions().add(democratLabelDefinition);
+
+      // enable labels
       featureLayer.setLabelsEnabled(true);
 
       // add the map view to stack pane
