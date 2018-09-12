@@ -17,11 +17,14 @@
 package com.esri.samples.raster.raster_layer_url;
 
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -49,8 +52,7 @@ public class RasterLayerURLSample extends Application {
       stage.show();
 
       // create an image service raster from an online raster service
-      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline" +
-          ".com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
+      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://gis.ngdc.noaa.gov/arcgis/rest/services/bag_hillshades/ImageServer");
 
       // create a raster layer
       RasterLayer rasterLayer = new RasterLayer(imageServiceRaster);
@@ -62,18 +64,11 @@ public class RasterLayerURLSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+      // zoom in to the San Francisco Bay
+      mapView.setViewpointCenterAsync(new Point(-13643095.660131, 4550009.846004, SpatialReferences.getWebMercator()), 100000);
+
       // add the raster layer as an operational layer
       map.getOperationalLayers().add(rasterLayer);
-
-      // set viewpoint on the raster
-      rasterLayer.addDoneLoadingListener(() -> {
-        if (rasterLayer.getLoadStatus() == LoadStatus.LOADED) {
-          mapView.setViewpointGeometryAsync(rasterLayer.getFullExtent(), 150);
-        } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Raster Layer Failed to Load!");
-          alert.show();
-        }
-      });
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
