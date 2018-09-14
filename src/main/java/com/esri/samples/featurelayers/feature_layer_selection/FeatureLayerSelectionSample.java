@@ -61,21 +61,20 @@ public class FeatureLayerSelectionSample extends Application {
       mapView = new MapView();
 
       // create a ArcGISMap with the streets basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
 
       // set an initial viewpoint
-      map.setInitialViewpoint(new Viewpoint(new Envelope(-1131596.019761, 3893114.069099, 3926705.982140,
-          7977912.461790, 0, 0, SpatialReferences.getWebMercator())));
+      map.setInitialViewpoint(new Viewpoint(new Envelope(-6603299.491810, 1679677.742046, 9002253.947487,
+          8691318.054732, 0, 0, SpatialReferences.getWebMercator())));
 
-      // set the ArcGISMap to be displayed in the view
+      // set the map to the map view
       mapView.setMap(map);
 
-      // create feature layer with its service feature table
       // create the service feature table
-      String damageAssessmentFeatureService = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+      String damageAssessmentFeatureService = "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/GDP_per_capita_1960_2016/FeatureServer/0";
       final ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(damageAssessmentFeatureService);
 
-      // create the feature layer using the service feature table
+      // create the feature layer and set its selection color
       final FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
       featureLayer.setSelectionColor(0xFF00FFFF); // cyan color
       featureLayer.setSelectionWidth(3);
@@ -101,8 +100,10 @@ public class FeatureLayerSelectionSample extends Application {
               IdentifyLayerResult layer = results.get();
 
               // search the layers for identified features
-              List<Feature> features = layer.getElements().stream().filter(g -> g instanceof Feature).map(
-                  g -> (Feature) g).collect(Collectors.toList());
+              List<Feature> features = layer.getElements().stream()
+                  .filter(geoElement -> geoElement instanceof Feature)
+                  .map(g -> (Feature) g)
+                  .collect(Collectors.toList());
 
               // select features
               featureLayer.selectFeatures(features);
