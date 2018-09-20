@@ -1,6 +1,6 @@
 <h1>Statistical Query Group And Sort</h1>
 
-<p>Demonstrates how to query a feature table for statistics grouping and sorting by different fields.</p>
+<p>Demonstrates how to query a feature table for statistics, grouping and sorting by different fields.</p>
 
 <p><img src="StatisticalQueryGroupAndSort.png"></p>
 

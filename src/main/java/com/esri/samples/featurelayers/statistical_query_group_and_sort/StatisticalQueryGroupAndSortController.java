@@ -3,6 +3,7 @@ package com.esri.samples.featurelayers.statistical_query_group_and_sort;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
@@ -56,7 +57,7 @@ public class StatisticalQueryGroupAndSortController {
     initializeOrderByTableView();
 
     // load the service feature table
-    String USStatesServiceUri = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3";
+    String USStatesServiceUri = "https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/Counties_Obesity_Inactivity_Diabetes_2013/FeatureServer/0";
     featureTable = new ServiceFeatureTable(USStatesServiceUri);
     featureTable.loadAsync();
     featureTable.addDoneLoadingListener(() -> {
@@ -73,16 +74,16 @@ public class StatisticalQueryGroupAndSortController {
             (Collectors.toList()));
 
         // set some default selections
-        fieldNameComboBox.getSelectionModel().select("AGE_5_17");
+        fieldNameComboBox.getSelectionModel().select("Diabetes_Percent");
         statisticTypeComboBox.getSelectionModel().select("MINIMUM");
         statisticDefinitionsTableView.getItems().addAll(
-            new StatisticDefinition("POP2007", StatisticType.SUM),
-            new StatisticDefinition("POP2007", StatisticType.AVERAGE),
-            new StatisticDefinition("AGE_5_17", StatisticType.MINIMUM)
+            new StatisticDefinition("Diabetes_Percent", StatisticType.AVERAGE),
+            new StatisticDefinition("Diabetes_Percent", StatisticType.COUNT),
+            new StatisticDefinition("Diabetes_Percent", StatisticType.STANDARD_DEVIATION)
         );
-        groupFieldsListView.getItems().stream().filter(f -> f.getFieldName().equals("SUB_REGION")).collect(Collectors
+        groupFieldsListView.getItems().stream().filter(f -> f.getFieldName().equals("State")).collect(Collectors
             .toList()).get(0).setGrouping(true);
-        orderByTableView.getItems().add(new OrderByField(new QueryParameters.OrderBy("SUB_REGION", QueryParameters.SortOrder
+        orderByTableView.getItems().add(new OrderByField(new QueryParameters.OrderBy("State", QueryParameters.SortOrder
             .ASCENDING)));
       } else {
         new Alert(Alert.AlertType.ERROR, "Failed to load feature table").show();
@@ -244,6 +245,9 @@ public class StatisticalQueryGroupAndSortController {
 
     // add the fields from the Order By table into the parameters' order-by fields
     queryParameters.getOrderByFields().addAll(orderByTableView.getItems().stream().map(OrderByField::getOrderBy).collect(Collectors.toList()));
+
+    // ignore counties with missing data
+    queryParameters.setWhereClause("\"State\" IS NOT NULL");
 
     // execute the statistics query
     ListenableFuture<StatisticsQueryResult> statisticsQuery = featureTable.queryStatisticsAsync(queryParameters);
