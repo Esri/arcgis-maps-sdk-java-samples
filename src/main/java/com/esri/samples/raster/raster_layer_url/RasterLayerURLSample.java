@@ -18,12 +18,14 @@ package com.esri.samples.raster.raster_layer_url;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.RasterLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -53,6 +55,12 @@ public class RasterLayerURLSample extends Application {
 
       // create a raster layer
       RasterLayer rasterLayer = new RasterLayer(imageServiceRaster);
+
+      rasterLayer.addDoneLoadingListener(() -> {
+        if (rasterLayer.getLoadStatus() != LoadStatus.LOADED) {
+          new Alert(Alert.AlertType.ERROR, "Raster layer failed to load").show();
+        }
+      });
 
       // create a map with dark canvas vector basemap
       ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
