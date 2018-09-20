@@ -19,7 +19,7 @@
 <li>To find identified GeoElements in sublayers, use <code>identifyLayerResult.getSublayerResults()</code> and repeat the last step.</li>
 </ol>
 
-<h2>Features</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>ArcGISMapImageLayer</li>

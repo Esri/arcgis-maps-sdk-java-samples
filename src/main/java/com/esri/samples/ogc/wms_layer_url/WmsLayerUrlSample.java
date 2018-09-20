@@ -27,11 +27,12 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.WmsLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class WmsLayerUrlSample extends Application {
@@ -54,30 +55,31 @@ public class WmsLayerUrlSample extends Application {
       stage.show();
 
       // create a map and add it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
       mapView = new MapView();
       mapView.setMap(map);
 
+      // start zoomed in over the US
+      mapView.setViewpointGeometryAsync(new Envelope(-19195297.778679, 512343.939994, -3620418.579987, 8658913.035426, 0.0, 0.0, SpatialReferences.getWebMercator()));
+
+      // show a progress indicator while the layer loads
       ProgressIndicator progressIndicator = new ProgressIndicator();
       progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
       progressIndicator.setMaxSize(25, 25);
 
       // create a WMS layer
-      List<String> wmsLayerNames = Collections.singletonList("0");
-      String url = "https://certmapper.cr.usgs.gov/arcgis/services/geology/africa/MapServer/WMSServer?request=GetCapabilities&service=WMS";
+      List<String> wmsLayerNames = Collections.singletonList("1");
+      String url = "https://nowcoast.noaa.gov/arcgis/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer/WMSServer?request=GetCapabilities&service=WMS";
       WmsLayer wmsLayer = new WmsLayer(url, wmsLayerNames);
       // load the layer and add it as an operational layer
       wmsLayer.addDoneLoadingListener(() -> {
-        if (wmsLayer.getLoadStatus() == LoadStatus.LOADED) {
-          map.getOperationalLayers().add(wmsLayer);
-          mapView.setViewpoint(new Viewpoint(wmsLayer.getFullExtent()));
-        } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load WMS layer");
-          alert.show();
+        if (wmsLayer.getLoadStatus() != LoadStatus.LOADED) {
+          wmsLayer.getLoadError().printStackTrace();
+          new Alert(Alert.AlertType.ERROR, "Failed to load WMS layer").show();
         }
         progressIndicator.setVisible(false);
       });
-      wmsLayer.loadAsync();
+      map.getOperationalLayers().add(wmsLayer);
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView, progressIndicator);

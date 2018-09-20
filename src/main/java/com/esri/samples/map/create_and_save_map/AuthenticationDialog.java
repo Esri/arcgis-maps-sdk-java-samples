@@ -67,6 +67,7 @@ class AuthenticationDialog extends Dialog<OAuthConfiguration> {
 
   private void showMessage(String message) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.initOwner(this.getOwner());
     alert.setContentText(message);
     alert.show();
   }

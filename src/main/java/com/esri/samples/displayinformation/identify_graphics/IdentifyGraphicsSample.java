@@ -133,6 +133,7 @@ public class IdentifyGraphicsSample extends Application {
       if (!graphics.isEmpty()) {
         // show a alert dialog box if a graphic was returned
         Alert dialog = new Alert(AlertType.INFORMATION);
+        dialog.initOwner(mapView.getScene().getWindow());
         dialog.setHeaderText(null);
         dialog.setTitle("Information Dialog Sample");
         dialog.setContentText("Clicked on " + graphics.size() + " graphic");

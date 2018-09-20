@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2018 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,35 +16,32 @@
 
 package com.esri.samples.featurelayers.feature_layer_extrusion;
 
+import java.util.Arrays;
+
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.Surface;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.symbology.ClassBreaksRenderer;
+import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.Renderer;
+import com.esri.arcgisruntime.symbology.SceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
 
 public class FeatureLayerExtrusionSample extends Application {
 
-  private boolean showTotalPopulation = true;
   private SceneView sceneView;
 
   @Override
@@ -63,61 +60,61 @@ public class FeatureLayerExtrusionSample extends Application {
     stage.show();
 
     // so scene can be visible within application
-    ArcGISScene scene = new ArcGISScene(Basemap.createTopographic());
+    ArcGISScene scene = new ArcGISScene(Basemap.createImagery());
     sceneView = new SceneView();
     sceneView.setArcGISScene(scene);
     stackPane.getChildren().add(sceneView);
 
+    // add base surface for elevation data
+    Surface surface = new Surface();
+    surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
+    scene.setBaseSurface(surface);
+
     // get us census data as a service feature table
-    ServiceFeatureTable statesServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3");
+    ServiceFeatureTable enchantmentsFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/The_Enchantments/FeatureServer/0");
 
     // creates feature layer from table and add to scene
-    final FeatureLayer statesFeatureLayer = new FeatureLayer(statesServiceFeatureTable);
+    final FeatureLayer enchantmentsFeatureLayer = new FeatureLayer(enchantmentsFeatureTable);
     // feature layer must be rendered dynamically for extrusion to work
-    statesFeatureLayer.setRenderingMode(FeatureLayer.RenderingMode.DYNAMIC);
-    scene.getOperationalLayers().add(statesFeatureLayer);
+    enchantmentsFeatureLayer.setRenderingMode(FeatureLayer.RenderingMode.DYNAMIC);
+    scene.getOperationalLayers().add(enchantmentsFeatureLayer);
 
-    // symbols are used to display features (US states) from table
-    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1.0f);
-    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFF0000FF, lineSymbol);
-    final SimpleRenderer renderer = new SimpleRenderer(fillSymbol);
+    final Renderer renderer = createClassBreaksRenderer();
     // set the extrusion mode to absolute height
-    renderer.getSceneProperties().setExtrusionMode(Renderer.SceneProperties.ExtrusionMode.ABSOLUTE_HEIGHT);
-    statesFeatureLayer.setRenderer(renderer);
+    renderer.getSceneProperties().setExtrusionMode(Renderer.SceneProperties.ExtrusionMode.BASE_HEIGHT);
+    enchantmentsFeatureLayer.setRenderer(renderer);
 
     // set camera to focus on state features
-    Point lookAtPoint = new Point(-10974490, 4814376, 0, SpatialReferences.getWebMercator());
-    sceneView.setViewpointCamera(new Camera(lookAtPoint, 10000000, 0, 20, 0));
+    enchantmentsFeatureLayer.addDoneLoadingListener(() ->
+      sceneView.setViewpoint(new Viewpoint(enchantmentsFeatureLayer.getFullExtent()))
+    );
 
-    // create a control panel
-    VBox controlsVBox = new VBox();
-    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-        Insets.EMPTY)));
-    controlsVBox.setPadding(new Insets(10.0));
-    controlsVBox.setMaxSize(200, 40);
-    controlsVBox.getStyleClass().add("panel-region");
-    stackPane.getChildren().add(controlsVBox);
-    StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-    StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+    // scale down outlier populations
+    String extrusionExpression = "([Heartrate] - 86) * 5";
+    renderer.getSceneProperties().setExtrusionExpression(extrusionExpression);
+  }
 
-    // controls for extruding by total population or by population density
-    Button extrusionButton = new Button("Population Density");
-    extrusionButton.setOnAction(v -> {
-      if (showTotalPopulation) {
-        // scale down outlier populations
-        renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10");
-        extrusionButton.setText("Population Density");
-        showTotalPopulation = false;
-      } else {
-        // scale up density
-        renderer.getSceneProperties().setExtrusionExpression("[POP07_SQMI] * 5000 + 100000");
-        extrusionButton.setText("Total Population");
-        showTotalPopulation = true;
-      }
-    });
-    extrusionButton.setMaxWidth(Double.MAX_VALUE);
-    extrusionButton.fire();
-    controlsVBox.getChildren().add(extrusionButton);
+  private ClassBreaksRenderer createClassBreaksRenderer() {
+    final int gray = ColorUtil.colorToArgb(Color.color(0.0, 0.6, 0.0, 1.0));
+    final int blue1 = ColorUtil.colorToArgb(Color.color(0.6, 0.6, 0.0, 1.0));
+    final int blue2 = ColorUtil.colorToArgb(Color.color(0.8, 0.6, 0.0, 1.0));
+    final int blue3 = ColorUtil.colorToArgb(Color.color(0.9, 0.4, 0.0, 1.0));
+    final int blue4 = ColorUtil.colorToArgb(Color.color(1.0, 0.0, 0.0, 1.0));
+
+    // create 5 fill symbols with different shades of blue and a gray outline
+    SimpleLineSymbol outline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, gray, 1);
+    SimpleFillSymbol classSymbol1 = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, blue1, outline);
+    SimpleFillSymbol classSymbol2 = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, blue2, outline);
+    SimpleFillSymbol classSymbol3 = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, blue3, outline);
+    SimpleFillSymbol classSymbol4 = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, blue4, outline);
+
+    // create 5 classes for different population ranges
+    ClassBreaksRenderer.ClassBreak classBreak1 = new ClassBreaksRenderer.ClassBreak( "recovery", "80 to 130", 80, 130, classSymbol1);
+    ClassBreaksRenderer.ClassBreak classBreak2 = new ClassBreaksRenderer.ClassBreak("aerobic", "130 to 150", 130, 165, classSymbol2);
+    ClassBreaksRenderer.ClassBreak classBreak3 = new ClassBreaksRenderer.ClassBreak("endurance", "150 to 165", 165, 180, classSymbol3);
+    ClassBreaksRenderer.ClassBreak classBreak4 = new ClassBreaksRenderer.ClassBreak( "maximum aerobic", "165 to 180", 180, 200, classSymbol4);
+    // create the renderer for the POP2007 field
+    return new ClassBreaksRenderer("Heartrate", Arrays.asList(classBreak1, classBreak2, classBreak3, classBreak4));
   }
 
   /**

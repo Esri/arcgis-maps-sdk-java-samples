@@ -64,6 +64,7 @@ public class LocalServerServicesController {
     } else {
       Platform.runLater(() -> {
         Alert dialog = new Alert(AlertType.INFORMATION);
+        dialog.initOwner(stopServiceButton.getScene().getWindow());
         dialog.setHeaderText("Local Server Load Error");
         dialog.setContentText("Local Server install path couldn't be located.");
         dialog.showAndWait();

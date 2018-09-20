@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2018 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -14,11 +14,11 @@
  * the License.
  */
 
-package com.esri.samples.tiledlayers.export_tiles;
+package com.esri.samples.map.generate_offline_map;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -32,23 +32,24 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.Job;
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheJob;
-import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheParameters;
-import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheTask;
+import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapJob;
+import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameters;
+import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapResult;
+import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 
-public class ExportTilesSample extends Application {
+public class GenerateOfflineMapSample extends Application {
 
   private MapView mapView;
 
@@ -61,16 +62,31 @@ public class ExportTilesSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Export Tiles Sample");
+      stage.setTitle("Generate Offline Map Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
 
-      // create an ArcGISTiledLayer to use as the basemap
-      ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer("https://sampleserver6.arcgisonline" +
-          ".com/arcgis/rest/services/World_Street_Map/MapServer");
-      ArcGISMap map = new ArcGISMap(new Basemap(tiledLayer));
+      // create a button to take the map offline
+      Button offlineMapButton = new Button("Take Map Offline");
+      offlineMapButton.setDisable(true);
+
+      // handle authentication with the portal
+      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
+
+      // create a portal item with the itemId of the web map
+      Portal portal = new Portal("https://www.arcgis.com", true);
+      PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
+
+      // create a map with the portal item
+      ArcGISMap map = new ArcGISMap(portalItem);
+      map.addDoneLoadingListener(() -> {
+        // enable the button when the map is loaded
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          offlineMapButton.setDisable(false);
+        }
+      });
 
       // set the map to the map view
       mapView = new MapView();
@@ -80,7 +96,7 @@ public class ExportTilesSample extends Application {
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create a graphic to show a box around the tiles we want to download
+      // create a graphic to show a box around the extent we want to download
       Graphic downloadArea = new Graphic();
       graphicsOverlay.getGraphics().add(downloadArea);
       SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
@@ -89,9 +105,9 @@ public class ExportTilesSample extends Application {
       // update the box whenever the viewpoint changes
       mapView.addViewpointChangedListener(viewpointChangedEvent -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
-          // upper left corner of the downloaded tile cache area
+          // upper left corner of the area to take offline
           Point2D minScreenPoint = new Point2D(50, 50);
-          // lower right corner of the downloaded tile cache area
+          // lower right corner of the downloaded area
           Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
           // convert screen points to map points
           Point minPoint = mapView.screenToLocation(minScreenPoint);
@@ -104,71 +120,55 @@ public class ExportTilesSample extends Application {
         }
       });
 
-      // create button to export tiles
-      Button exportTilesButton = new Button("Export Tiles");
-
-      // create progress bar to show task progress
+      // create progress bar to show download progress
       ProgressBar progressBar = new ProgressBar();
       progressBar.setProgress(0.0);
       progressBar.setVisible(false);
 
-      // when the button is clicked, export the tiles to a temporary file
-      exportTilesButton.setOnAction(e -> {
+      // when the button is clicked, start the offline map task job
+      offlineMapButton.setOnAction(e -> {
         try {
-          File tempFile = File.createTempFile("tiles", ".tpk");
+          // show the progress bar
           progressBar.setVisible(true);
+
+          // specify the extent, min scale, and max scale as parameters
           double minScale = mapView.getMapScale();
-          double maxScale = tiledLayer.getMaxScale();
+          double maxScale = map.getMaxScale();
           // minScale must always be larger than maxScale
           if (minScale <= maxScale) {
             minScale = maxScale + 1;
           }
-          ExportTileCacheTask task = new ExportTileCacheTask(tiledLayer.getUri());
-          ListenableFuture<ExportTileCacheParameters> createParams = task.createDefaultExportTileCacheParametersAsync
-              (downloadArea.getGeometry(), minScale, maxScale);
-          createParams.addDoneListener(() -> {
-            try {
-              ExportTileCacheParameters params = createParams.get();
-              ExportTileCacheJob job = task.exportTileCacheAsync(params, tempFile.getAbsolutePath());
-              job.start();
-              job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
-              job.addJobDoneListener(() -> {
-                if (job.getStatus() == Job.Status.SUCCEEDED) {
-                  //show preview of exported tiles in alert
-                  TileCache tileCache = job.getResult();
-                  Alert preview = new Alert(Alert.AlertType.INFORMATION);
-                  preview.initOwner(mapView.getScene().getWindow());
-                  preview.setTitle("Preview");
-                  preview.setHeaderText("Exported to " + tileCache.getPath());
-                  MapView mapPreview = new MapView();
-                  mapPreview.setMinSize(400, 400);
-                  ArcGISTiledLayer tiledLayerPreview = new ArcGISTiledLayer(tileCache);
-                  ArcGISMap previewMap = new ArcGISMap(new Basemap(tiledLayerPreview));
-                  mapPreview.setMap(previewMap);
-                  preview.getDialogPane().setContent(mapPreview);
-                  preview.show();
-                } else {
-                  Alert alert = new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage());
-                  alert.show();
-                }
-                Platform.runLater(() -> progressBar.setVisible(false));
-              });
-            } catch (InterruptedException | ExecutionException ex) {
-              Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
-              alert.show();
-              progressBar.setVisible(false);
-              progressBar.setProgress(0);
+          GenerateOfflineMapParameters params = new GenerateOfflineMapParameters(downloadArea.getGeometry(), minScale, maxScale);
+
+          // create an offline map task with the map
+          OfflineMapTask task = new OfflineMapTask(map);
+
+          // create an offline map job with the download directory path and parameters and start the job
+          Path tempDirectory = Files.createTempDirectory("offline_map");
+          GenerateOfflineMapJob job = task.generateOfflineMap(params, tempDirectory.toAbsolutePath().toString());
+          job.start();
+          job.addJobDoneListener(() -> {
+            if (job.getStatus() == Job.Status.SUCCEEDED) {
+              // replace the current map with the result offline map when the job finishes
+              GenerateOfflineMapResult result = job.getResult();
+              mapView.setMap(result.getOfflineMap());
+              graphicsOverlay.getGraphics().clear();
+              offlineMapButton.setDisable(true);
+            } else {
+              new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage()).show();
             }
+            Platform.runLater(() -> progressBar.setVisible(false));
           });
+          // show the job's progress with the progress bar
+          job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
         } catch (IOException ex) {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to create temporary file");
-          alert.show();
+          new Alert(Alert.AlertType.ERROR, "Failed to create temporary directory").show();
         }
       });
 
       // add the map view, button, and progress bar to stack pane
-      stackPane.getChildren().addAll(mapView, exportTilesButton, progressBar);
-      StackPane.setAlignment(exportTilesButton, Pos.TOP_LEFT);
+      stackPane.getChildren().addAll(mapView, offlineMapButton, progressBar);
+      StackPane.setAlignment(offlineMapButton, Pos.TOP_LEFT);
       StackPane.setAlignment(progressBar, Pos.TOP_RIGHT);
     } catch (Exception e) {
       // on any error, display the stack trace.

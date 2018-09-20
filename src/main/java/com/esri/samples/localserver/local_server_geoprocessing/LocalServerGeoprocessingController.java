@@ -182,6 +182,7 @@ public class LocalServerGeoprocessingController {
 
     Platform.runLater(() -> {
       Alert dialog = new Alert(AlertType.INFORMATION);
+      dialog.initOwner(mapView.getScene().getWindow());
       dialog.setHeaderText(title);
       dialog.setContentText(message);
       dialog.showAndWait();
