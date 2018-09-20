@@ -64,7 +64,7 @@ public class ShowLabelsOnLayerSample extends Application {
       mapView.setViewpointCenterAsync(new Point(-10846309.950860, 4683272.219411, SpatialReferences.getWebMercator()), 20000000);
 
       // create a feature layer from an online feature service of US Congressional Districts
-      String serviceUrl = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Congressional_Districts_analysis/FeatureServer/0";
+      String serviceUrl = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_115th_Congressional_Districts/FeatureServer/0";
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceUrl);
       FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
       map.getOperationalLayers().add(featureLayer);
