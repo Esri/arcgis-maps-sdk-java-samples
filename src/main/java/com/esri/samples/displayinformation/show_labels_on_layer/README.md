@@ -1,6 +1,6 @@
 <h1>Show Labels on Layer</h1>
 
-<p>Demonstrates how to show labels on a feature layer.</p>
+<p>Showing labels on a feature layer.</p>
 
 <p><img src="ShowLabelsOnLayer.png"/></p>
 
