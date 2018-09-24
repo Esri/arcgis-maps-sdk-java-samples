@@ -85,7 +85,6 @@ public class DisplayKMLSample extends Application {
             case PORTAL_ITEM:
               Portal portal = new Portal("https://arcgisruntime.maps.arcgis.com");
               PortalItem portalItem = new PortalItem(portal, "9fe0b1bfdcd64c83bd77ea0452c76253");
-              portalItem.loadAsync();
               kmlLayer = new KmlLayer(portalItem);
               break;
             case LOCAL_FILE:
