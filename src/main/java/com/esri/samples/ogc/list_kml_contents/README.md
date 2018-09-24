@@ -33,3 +33,11 @@
   <li>KmlPlacemark</li>
   <li>KmlScreenOverlay</li>
 </ul>
+
+<h2>About the data</h2>
+
+<p>This is an example KML file meant to demonstrate how Runtime supports several common features.</p>
+
+<h2>Tags</h2>
+
+<p>KML, KMZ, OGC, Keyhole</p>
