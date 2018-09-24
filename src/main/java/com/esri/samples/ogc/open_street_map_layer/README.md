@@ -1,18 +1,26 @@
-# OpenStreetMap Layer
-Add the OpenStreetMap layer to a map as a Basemap.
+<h1>OpenStreetMap Layer</h1>
 
-![OpenStreetMap Layer App](openstreetmap-layer.png)
+<p>Add the OpenStreetMap layer to a map as a Basemap.</p>
 
-## How to use the sample
-Simply run the app.
+<img src="OpenStreetMapLayer.png"/>
+<figcaption>OpenStreetMap Layer App</figcaption>
+</figure>
 
-## How it works
-Instantiate an `ArcGISMap` with a `Basemap.Type.OPEN_STREET_MAP` and add it to a `MapView`. The attribution text that is required by OpenStreetMap is automatically added to the `MapView's` attributionText without any additional code.
+<h2>How to use the sample</h2>
 
-## Relevant API
-* ArcGISMap
-* Basemap
-* MapView
+<p>Simply run the app.</p>
 
-#### Tags
-Layers
+<h2>How it works</h2>
+
+<p>Instantiate an <code>ArcGISMap</code> with a <code>Basemap.Type.OPEN_STREET_MAP</code> and add it to a <code>MapView</code>. The attribution text that is required by OpenStreetMap is automatically added to the <code>MapView's</code> attributionText without any additional code.</p>
+
+<h2>Relevant API</h2>
+
+<ul>
+   <li>ArcGISMap</li>
+   <li>Basemap</li>
+   <li>MapView</li>
+</ul>
+
+<h4>Tags</h4>
+<p>Layers</p>
