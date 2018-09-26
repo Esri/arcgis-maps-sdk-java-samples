@@ -28,7 +28,12 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -80,6 +85,7 @@ public class LineOfSightGeoElementSample extends Application {
       // create stack pane and JavaFX app scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
+      fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Line of Sight GeoElement Sample");
@@ -129,14 +135,23 @@ public class LineOfSightGeoElementSample extends Application {
       heightSlider.setMaxSize(30, 150);
       heightSlider.setShowTickLabels(true);
       heightSlider.setOrientation(Orientation.VERTICAL);
-      stackPane.getChildren().add(heightSlider);
-      StackPane.setAlignment(heightSlider, Pos.TOP_LEFT);
-      StackPane.setMargin(heightSlider, new Insets(10, 0, 0, 10));
       heightSlider.valueProperty().addListener(e -> {
         PointBuilder pointBuilder = new PointBuilder((Point) observer.getGeometry());
         pointBuilder.setZ(heightSlider.getValue());
         observer.setGeometry(pointBuilder.toGeometry());
       });
+
+      // show a background behind the slider
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+          Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(50, 160);
+      controlsVBox.getStyleClass().add("panel-region");
+      controlsVBox.getChildren().add(heightSlider);
+      stackPane.getChildren().add(controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
       // create waypoints around a block for the taxi to drive to
       waypoints = Arrays.asList(

@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.portal.Portal;
@@ -30,9 +29,6 @@ import com.esri.arcgisruntime.security.OAuthConfiguration;
 
 public class OAuthController {
 
-  @FXML private TextField portalURL;
-  @FXML private TextField clientId;
-  @FXML private TextField redirectUri;
   @FXML private Label fullName;
   @FXML private Label username;
   @FXML private Label email;
