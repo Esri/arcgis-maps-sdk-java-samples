@@ -130,9 +130,8 @@ public class EditFeatureAttachmentsSample extends Application {
       // create a feature layer from service feature table
       featureLayer = new FeatureLayer(featureTable);
 
-      // selection options
-      featureLayer.setSelectionColor(0xff0000ff);
-      featureLayer.setSelectionWidth(10);
+      // set selection color
+      mapView.getSelectionProperties().setColor(0xff0000ff);
 
       // add the feature layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);

@@ -159,7 +159,9 @@ public class BufferListSample extends Application {
             Graphic clickedMarker = new Graphic(point, markerSymbol);
             bufferGraphicsOverlay.getGraphics().add(clickedMarker);
           } else {
-            new Alert(Alert.AlertType.WARNING, "Location is not valid to buffer using the defined spatial reference.").show();
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Location is not valid to buffer using the defined spatial reference.");
+            alert.initOwner(mapView.getScene().getWindow());
+            alert.show();
           }
         }
       });

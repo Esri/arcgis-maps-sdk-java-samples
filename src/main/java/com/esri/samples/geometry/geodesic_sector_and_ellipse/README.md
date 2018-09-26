@@ -10,7 +10,7 @@
 
 <p>The geodesic sector and ellipse will display with default parameters at the start. Click anywhere on the map to change the center of the geometries. Adjust any of the controls to see how they affect the sector and ellipse on the fly.</p>
 
-<h2 id="howitworks">How it works</h2>
+<h2>How it works</h2>
 
 <p>To create a geodesic sector and ellipse:</p>
 
@@ -40,6 +40,6 @@
 <li>GeometryType</li>
 </ul>
 
-<h2 id="additionalinformation">Additional information</h2>
+<h2>Additional information</h2>
 
 <p>To create a circle instead of an ellipse, simply set <code>semiAxis2Length</code> to 0.0 and <code>semiAxis1Length</code> to the desired radius of the circle. This eliminates the need to update both parameters to the same value.</p>

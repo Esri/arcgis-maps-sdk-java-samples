@@ -27,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
@@ -43,6 +44,7 @@ import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ListRelatedFeaturesSample extends Application {
@@ -64,6 +66,11 @@ public class ListRelatedFeaturesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // show a progress indicator while the map loads
+      ProgressIndicator progressIndicator = new ProgressIndicator();
+      progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+      progressIndicator.setMaxSize(25, 25);
+
       // create an accordion view for displaying the related features according to their feature table
       Accordion accordion = new Accordion();
       accordion.setMaxSize(200, 300);
@@ -75,14 +82,20 @@ public class ListRelatedFeaturesSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+      // make selection outline yellow (0xFFFFFF00)
+      mapView.getSelectionProperties().setColor(0xFFFFFF00);
+
+      // hide the progress indicator when the layer is done drawing
+      mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
+        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+          progressIndicator.setVisible(false);
+        }
+      });
+
       // wait until the map is done loading
       map.addDoneLoadingListener(() -> {
         // get the first feature layer for querying
         FeatureLayer featureLayer = (FeatureLayer) map.getOperationalLayers().get(0);
-
-        // make selection outline yellow (0xFFFFFF00) and thick
-        featureLayer.setSelectionColor(0xFFFFFF00);
-        featureLayer.setSelectionWidth(5);
 
         mapView.setOnMouseClicked(event -> {
           // check for primary or secondary mouse click
@@ -152,9 +165,9 @@ public class ListRelatedFeaturesSample extends Application {
       });
 
       // add the map view and accordion view to stack pane
-      stackPane.getChildren().addAll(mapView, accordion);
+      stackPane.getChildren().addAll(mapView, accordion, progressIndicator);
       StackPane.setAlignment(accordion, Pos.TOP_LEFT);
-
+      StackPane.setAlignment(progressIndicator, Pos.CENTER);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();

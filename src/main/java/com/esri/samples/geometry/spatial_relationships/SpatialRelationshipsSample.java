@@ -82,7 +82,9 @@ public class SpatialRelationshipsSample extends Application {
       // create a graphics overlay
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
-      graphicsOverlay.setSelectionColor(0xFFFFFF00);
+
+      // make selection outline yellow (0xFFFFFF00)
+      mapView.getSelectionProperties().setColor(0xFFFFFF00);
 
       // create a polygon graphic
       PointCollection polygonPoints = new PointCollection(SpatialReferences.getWebMercator());
@@ -121,8 +123,11 @@ public class SpatialRelationshipsSample extends Application {
       rootItem.setExpanded(true);
       relationships.setRoot(rootItem);
       TreeItem<String> pointRelationships = new TreeItem<>("Point");
+      pointRelationships.setExpanded(true);
       TreeItem<String> polylineRelationships = new TreeItem<>("Polyline");
+      polylineRelationships.setExpanded(true);
       TreeItem<String> polygonRelationships = new TreeItem<>("Polygon");
+      polygonRelationships.setExpanded(true);
       rootItem.getChildren().addAll(Arrays.asList(pointRelationships, polylineRelationships, polygonRelationships));
 
       // and a mouse click listener to identify the selected graphic
