@@ -124,7 +124,7 @@ public class GenerateGeodatabaseSample extends Application {
             tempFile.deleteOnExit();
 
             // create and start the job
-            GenerateGeodatabaseJob job = syncTask.generateGeodatabaseAsync(parameters, tempFile.getAbsolutePath());
+            GenerateGeodatabaseJob job = syncTask.generateGeodatabase(parameters, tempFile.getAbsolutePath());
             job.start();
 
             // show progress
