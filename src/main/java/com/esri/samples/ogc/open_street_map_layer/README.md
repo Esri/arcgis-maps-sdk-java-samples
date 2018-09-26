@@ -2,9 +2,8 @@
 
 <p>Add the OpenStreetMap layer to a map as a Basemap.</p>
 
-<img src="OpenStreetMapLayer.png"/>
-<figcaption>OpenStreetMap Layer App</figcaption>
-</figure>
+<p><img src="OpenStreetMapLayer.png"/></p>
+
 
 <h2>How to use the sample</h2>
 
