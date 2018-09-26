@@ -44,7 +44,7 @@ public class OpenStreetMapLayerSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create an ArcGISMap with an OPEN_STREET_MAP basemap
+      // create a map with an OpenSteetMap basemap
       ArcGISMap map = new ArcGISMap(Basemap.Type.OPEN_STREET_MAP, 34.056295, -117.195800, 10);
       
       // set the map to be displayed in this view
