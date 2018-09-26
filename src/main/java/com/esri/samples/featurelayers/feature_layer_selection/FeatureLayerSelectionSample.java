@@ -74,10 +74,8 @@ public class FeatureLayerSelectionSample extends Application {
       String damageAssessmentFeatureService = "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/GDP_per_capita_1960_2016/FeatureServer/0";
       final ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(damageAssessmentFeatureService);
 
-      // create the feature layer and set its selection color
+      // create the feature layer
       final FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
-      featureLayer.setSelectionColor(0xFF00FFFF); // cyan color
-      featureLayer.setSelectionWidth(3);
 
       // add the layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);

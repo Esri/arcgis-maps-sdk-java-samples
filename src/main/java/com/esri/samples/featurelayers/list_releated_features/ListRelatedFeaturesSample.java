@@ -75,14 +75,13 @@ public class ListRelatedFeaturesSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+      // make selection outline yellow (0xFFFFFF00)
+      mapView.getSelectionProperties().setColor(0xFFFFFF00);
+
       // wait until the map is done loading
       map.addDoneLoadingListener(() -> {
         // get the first feature layer for querying
         FeatureLayer featureLayer = (FeatureLayer) map.getOperationalLayers().get(0);
-
-        // make selection outline yellow (0xFFFFFF00) and thick
-        featureLayer.setSelectionColor(0xFFFFFF00);
-        featureLayer.setSelectionWidth(5);
 
         mapView.setOnMouseClicked(event -> {
           // check for primary or secondary mouse click

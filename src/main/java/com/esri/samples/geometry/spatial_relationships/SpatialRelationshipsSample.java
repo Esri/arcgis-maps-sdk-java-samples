@@ -82,7 +82,9 @@ public class SpatialRelationshipsSample extends Application {
       // create a graphics overlay
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
-      graphicsOverlay.setSelectionColor(0xFFFFFF00);
+
+      // make selection outline yellow (0xFFFFFF00)
+      mapView.getSelectionProperties().setColor(0xFFFFFF00);
 
       // create a polygon graphic
       PointCollection polygonPoints = new PointCollection(SpatialReferences.getWebMercator());
