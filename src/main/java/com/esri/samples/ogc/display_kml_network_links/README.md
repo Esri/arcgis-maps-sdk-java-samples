@@ -1,12 +1,12 @@
 <h1>Display KML Network Links</h1>
 
-<p>Display KML with a network link and show network messages as the data is automatically refreshed.</p>
+<p>Display KML with a network link and show network messages.</p>
 
 <p><img src="DisplayKMLNetworkLinks.png"/></p>
 
 <h2>How to use the sample</h2>
 
-<p>The data shown should refresh automatically every few seconds. Network messages will be displayed in the list view as they come in.</p>
+<p>The data shown should refresh automatically every few seconds. A network message will be displayed when the dataset is loaded.</p>
 
 <h2>How it works</h2>
 
