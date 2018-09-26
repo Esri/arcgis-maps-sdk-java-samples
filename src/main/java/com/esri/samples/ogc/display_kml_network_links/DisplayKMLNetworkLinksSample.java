@@ -17,18 +17,9 @@
 package com.esri.samples.ogc.display_kml_network_links;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Point;
@@ -55,26 +46,11 @@ public class DisplayKMLNetworkLinksSample extends Application {
       fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
-      stage.setTitle("Dislay KML Network Links Sample");
+      stage.setTitle("Display KML Network Links Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
       stage.show();
-
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-          Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(220, 240);
-      controlsVBox.getStyleClass().add("panel-region");
-
-      Label networkMessagesLabel = new Label("Network Link Messages:");
-
-      // create a list view to show KML network link messages
-      ListView<String> networkMessagesListView = new ListView<>();
-      networkMessagesListView.setMaxSize(300, 400);
-
-      controlsVBox.getChildren().addAll(networkMessagesLabel, networkMessagesListView);
 
       // create a map and add it to the map view
       ArcGISScene scene = new ArcGISScene(Basemap.createImageryWithLabels());
@@ -87,10 +63,13 @@ public class DisplayKMLNetworkLinksSample extends Application {
       // create a KML dataset from KML hosted at a URL
       KmlDataset kmlDataset = new KmlDataset("https://www.arcgis.com/sharing/rest/content/items/600748d4464442288f6db8a4ba27dc95/data");
 
-      // add network link messages to the list view when received
-      kmlDataset.addKmlNetworkLinkMessageReceivedListener(kmlNetworkLinkMessageReceivedEvent ->
-        networkMessagesListView.getItems().add(kmlNetworkLinkMessageReceivedEvent.getMessage())
-      );
+      // show an alert when any network link messages are received
+      kmlDataset.addKmlNetworkLinkMessageReceivedListener(kmlNetworkLinkMessageReceivedEvent -> {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, kmlNetworkLinkMessageReceivedEvent.getMessage());
+        alert.setHeaderText("KML Network Link Message");
+        alert.initOwner(sceneView.getScene().getWindow());
+        alert.show();
+      });
 
       // add the KML layer as an operational layer and zoom to it after it is loaded
       KmlLayer kmlLayer = new KmlLayer(kmlDataset);
@@ -102,9 +81,7 @@ public class DisplayKMLNetworkLinksSample extends Application {
       });
 
       // add the map view and list view to the stack pane
-      stackPane.getChildren().addAll(sceneView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(10));
+      stackPane.getChildren().add(sceneView);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
