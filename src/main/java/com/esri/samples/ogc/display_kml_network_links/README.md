@@ -13,7 +13,7 @@
 <p>To show KML with network links and display network messages:</p>
 
 <ol>
-    <li>Create a <code>KmlNetworkDataset</code> from a KML source which has network links.</li>
+    <li>Create a <code>KmlDataset</code> from a KML source which has network links.</li>
     <li>Construct a <code>KmlLayer</code> with the dataset and add the layer as an operational layer.</li>
     <li>To listen for network messages, add a <code>KmlNetworkLinkMessageReceivedListener</code> on the dataset.</li>
 </ol>

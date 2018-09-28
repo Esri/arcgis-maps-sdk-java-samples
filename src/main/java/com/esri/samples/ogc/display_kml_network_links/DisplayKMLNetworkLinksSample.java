@@ -71,7 +71,7 @@ public class DisplayKMLNetworkLinksSample extends Application {
         alert.show();
       });
 
-      // add the KML layer as an operational layer and zoom to it after it is loaded
+      // add the KML layer as an operational layer and check if it is loaded correctly
       KmlLayer kmlLayer = new KmlLayer(kmlDataset);
       scene.getOperationalLayers().add(kmlLayer);
       kmlLayer.addDoneLoadingListener(() -> {
