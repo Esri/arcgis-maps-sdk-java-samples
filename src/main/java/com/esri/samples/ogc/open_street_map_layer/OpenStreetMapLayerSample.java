@@ -44,15 +44,15 @@ public class OpenStreetMapLayerSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with an OpenSteetMap basemap
+      // create map with an OpenStreetMap basemap
       ArcGISMap map = new ArcGISMap(Basemap.Type.OPEN_STREET_MAP, 34.056295, -117.195800, 10);
       
-      // set the map to be displayed in this view
+      // set the map to a map view
       mapView = new MapView();
       mapView.setMap(map);
-	  	  
+
       // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
+      stackPane.getChildren().add(mapView);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();

@@ -4,22 +4,22 @@
 
 <p><img src="OpenStreetMapLayer.png"/></p>
 
-
-<h2>How to use the sample</h2>
-
-<p>Simply run the app.</p>
-
 <h2>How it works</h2>
-
-<p>Instantiate an <code>ArcGISMap</code> with a <code>Basemap.Type.OPEN_STREET_MAP</code> and add it to a <code>MapView</code>. The attribution text that is required by OpenStreetMap is automatically added to the <code>MapView's</code> attributionText without any additional code.</p>
+<p>To create a map with an OpenStreetMap basemap:</p>
+<ol>
+   <li>Create an <code>ArcGISMap</code> with a <code>Basemap.Type.OPEN_STREET_MAP</code>.</li>
+   <li>Set the map to a <code>MapView</code>.</li>
+</ol>
 
 <h2>Relevant API</h2>
 
 <ul>
    <li>ArcGISMap</li>
    <li>Basemap</li>
+   <li>Basemap.Type</li>
    <li>MapView</li>
 </ul>
 
 <h4>Tags</h4>
 <p>Layers</p>
+<p>OpenStreetMap</p>
