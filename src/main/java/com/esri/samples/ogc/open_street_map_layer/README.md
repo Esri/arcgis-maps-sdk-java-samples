@@ -20,6 +20,6 @@
    <li>MapView</li>
 </ul>
 
-<h4>Tags</h4>
+<h2>Tags</h2>
 <p>Layers</p>
 <p>OpenStreetMap</p>
