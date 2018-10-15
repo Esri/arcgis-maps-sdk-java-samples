@@ -130,9 +130,6 @@ public class EditFeatureAttachmentsSample extends Application {
       // create a feature layer from service feature table
       featureLayer = new FeatureLayer(featureTable);
 
-      // set selection color
-      mapView.getSelectionProperties().setColor(0xff0000ff);
-
       // add the feature layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);
 
@@ -141,6 +138,9 @@ public class EditFeatureAttachmentsSample extends Application {
 
       // set ArcGISMap to be displayed in the view
       mapView.setMap(map);
+
+      // set selection color
+      mapView.getSelectionProperties().setColor(0xff0000ff);
 
       mapView.setOnMouseClicked(event -> {
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
