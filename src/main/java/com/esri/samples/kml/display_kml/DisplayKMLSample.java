@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.ogc.display_kml;
+package com.esri.samples.kml.display_kml;
 
 import java.io.File;
 

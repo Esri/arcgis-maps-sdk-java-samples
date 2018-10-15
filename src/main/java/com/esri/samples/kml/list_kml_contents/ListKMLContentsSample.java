@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.ogc.list_kml_contents;
+package com.esri.samples.kml.list_kml_contents;
 
 import java.io.File;
 import java.util.ArrayList;
