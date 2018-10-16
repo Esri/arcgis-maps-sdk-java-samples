@@ -138,7 +138,6 @@ public class OfflineGeocodeSample extends Application {
 
       // add a graphics overlay
       graphicsOverlay = new GraphicsOverlay();
-      graphicsOverlay.setSelectionColor(0xFF00FFFF);
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a pin graphic

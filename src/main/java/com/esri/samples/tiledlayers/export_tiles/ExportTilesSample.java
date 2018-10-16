@@ -129,7 +129,7 @@ public class ExportTilesSample extends Application {
           createParams.addDoneListener(() -> {
             try {
               ExportTileCacheParameters params = createParams.get();
-              ExportTileCacheJob job = task.exportTileCacheAsync(params, tempFile.getAbsolutePath());
+              ExportTileCacheJob job = task.exportTileCache(params, tempFile.getAbsolutePath());
               job.start();
               job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
               job.addJobDoneListener(() -> {
