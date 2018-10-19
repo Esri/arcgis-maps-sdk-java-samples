@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.mapview.display_layer_view_state_status;
+package com.esri.samples.mapview.display_layer_view_state;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -40,7 +40,7 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-public class DisplayLayerViewStateStatusSample extends Application {
+public class DisplayLayerViewStateSample extends Application {
 
   private MapView mapView;
 
@@ -66,7 +66,7 @@ public class DisplayLayerViewStateStatusSample extends Application {
       scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
-      stage.setTitle("Display Layer View State Status Sample");
+      stage.setTitle("Display Layer View State Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
