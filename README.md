@@ -1,5 +1,5 @@
 # ArcGIS Runtime Java SDK Samples
-### 100.3.0
+### 100.5.0
 This project includes a set of samples demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
 Be sure to also check out our [toolkit on GitHub](https://github.com/Esri/arcgis-runtime-toolkit-java).
