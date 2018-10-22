@@ -20,7 +20,7 @@
 
 <h2>How it works</h2>
 
-<p>To use the <code>MapView</code>'s <code>DrawStatus</code>:</p>
+<p>To get a layer's view state:</p>
 
 <ol>
     <li>Create an <code>ArcGISMap</code>. </li>
