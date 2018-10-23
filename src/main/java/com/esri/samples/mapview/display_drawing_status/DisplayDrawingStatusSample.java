@@ -40,9 +40,6 @@ public class DisplayDrawingStatusSample extends Application {
 
   private MapView mapView;
 
-  private static final String SERVICE_FEATURE_URL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
-
   @Override
   public void start(Stage stage) {
 
@@ -76,7 +73,8 @@ public class DisplayDrawingStatusSample extends Application {
       map.setInitialViewpoint(viewpoint);
 
       // create a feature table from a service URL
-      final ServiceFeatureTable featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
+      final ServiceFeatureTable featureTable = new ServiceFeatureTable(
+          "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
 
       // create a feature layer from service table
       final FeatureLayer featureLayer = new FeatureLayer(featureTable);
