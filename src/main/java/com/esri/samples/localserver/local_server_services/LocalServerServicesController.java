@@ -105,6 +105,8 @@ public class LocalServerServicesController {
         super.updateItem(service, bln);
         if (service != null) {
           setText(service.getName() + "  :  " + service.getUrl());
+        } else {
+          setText(null);
         }
       }
 
