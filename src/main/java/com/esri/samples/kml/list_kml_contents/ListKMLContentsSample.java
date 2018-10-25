@@ -144,6 +144,7 @@ public class ListKMLContentsSample extends Application {
    */
   private TreeItem<KmlNode> buildTree(TreeItem<KmlNode> parent) {
     KmlNode node = parent.getValue();
+    node.setVisible(true);
     List<KmlNode> children = new ArrayList<>();
     if (parent.getValue() instanceof KmlContainer) {
       children.addAll(((KmlContainer) node).getChildNodes());
