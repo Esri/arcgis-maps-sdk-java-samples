@@ -1,12 +1,12 @@
-<h1>Display Layer View State Status</h1>
+<h1>Display Layer View State</h1>
 
-<p>Demonstrates how to get view status for layers in a ArcGISMap. </p>
+<p>Demonstrates how to get the view state for layers in a ArcGISMap. </p>
 
-<p><img src="DisplayLayerViewStateStatus.png"/></p>
+<p><img src="DisplayLayerViewState.png"/></p>
 
 <h2>How to use the sample</h2>
 
-<p>The view status of a layer changes while the layer is loading, like the start of the application. If you pan or zoom the map, the view status of some layers should also change.
+<p>The view state of a layer changes while the layer is loading, like the start of the application. If you pan or zoom the map, the view state of some layers should also change.
     The LayerViewStatus could be:
     <ul>
     <li>ACTIVE</li>
@@ -20,7 +20,7 @@
 
 <h2>How it works</h2>
 
-<p>To use the <code>MapView</code>'s <code>DrawStatus</code>:</p>
+<p>To get a layer's view state:</p>
 
 <ol>
     <li>Create an <code>ArcGISMap</code>. </li>
