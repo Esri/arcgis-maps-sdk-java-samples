@@ -17,11 +17,11 @@
 
 <li>Create a new <code>Map</code> and <code>MapView</code> to display a map, and pass these into a new <code>Scalebar</code> object.</li>
 
-<li>User can choose from one of 5 scale bar styles through <code>Scalebar.SkinStyle</code> (graduated line, line, bar, alternating bar and dual unit line). </li>
-
-<li>Scale bar units are set to Metric (metres and kilometres) by default: user can set units for Imperial (miles, feet) with <code>UnitSystem.IMPERIAL</code>.</li>
+<li>User can choose from one of 5 scale bar styles through <code>Scalebar.SkinStyle</code> (graduated line, line, bar, alternating bar and dual unit line). Scale bar skin style is set to alternating bar by default.</li>
 
 <p><img src="ScaleBarStyles.png" alt="Image" width= 60% /></p>
+
+<li>Scale bar units are set to Metric (metres and kilometres) by default: user can set units for Imperial (miles, feet) with <code>UnitSystem.IMPERIAL</code>.</li>
 
 <li>The position of the scale bar on the <code>MapView</code> can be customised.</li>
 
