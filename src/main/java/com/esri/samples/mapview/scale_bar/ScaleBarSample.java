@@ -20,9 +20,6 @@ public class ScaleBarSample extends Application {
 
     private MapView mapView;
 
-    private static final double LATITUDE = 64.1405;
-    private static final double LONGITUDE = -16.2426;
-
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -39,16 +36,16 @@ public class ScaleBarSample extends Application {
 
         // create a map view
         mapView = new MapView();
-        ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY, LATITUDE, LONGITUDE, 16);
+        ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY, 64.1405, -16.2426, 16);
         mapView.setMap(map);
 
-        // create a scale bar on the map
+        // create a scale bar for the map view
         Scalebar scaleBar = new Scalebar(mapView);
 
-        // specify skin style for the scale bar e.g. graduated line
+        // specify skin style for the scale bar
         scaleBar.setSkinStyle(Scalebar.SkinStyle.GRADUATED_LINE);
 
-        // scale bar default units are Metric (metres & kilometres), can set to Imperial (miles and feet)
+        // set the unit system (default is METRIC)
         scaleBar.setUnitSystem(UnitSystem.IMPERIAL);
 
         // to enhance visibility of the scale bar, by making background transparent
