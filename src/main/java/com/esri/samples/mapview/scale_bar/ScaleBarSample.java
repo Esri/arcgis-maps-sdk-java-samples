@@ -21,7 +21,7 @@ public class ScaleBarSample extends Application {
     private MapView mapView;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
 
         // create stack pane and application scene
         StackPane stackPane = new StackPane();
@@ -56,10 +56,9 @@ public class ScaleBarSample extends Application {
         stackPane.getChildren().addAll(mapView, scaleBar);
 
         // set position of scale bar
-        stackPane.setAlignment(scaleBar, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(scaleBar, Pos.BOTTOM_CENTER);
         // give padding to scale bar
-        stackPane.setMargin(scaleBar, new Insets(0, 0, 50, 0));
-
+        StackPane.setMargin(scaleBar, new Insets(0, 0, 50, 0));
     }
 
     // Stops and releases all resources used in application
@@ -69,6 +68,7 @@ public class ScaleBarSample extends Application {
             mapView.dispose();
         }
     }
+
     // Opens and runs application
     public static void main(String[] args) {
 
