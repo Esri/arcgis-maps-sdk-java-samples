@@ -1,31 +1,44 @@
-apply plugin: 'application'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply plugin: 'com.esri.arcgisruntime.java'
-
 buildscript {
     repositories {
         maven {
-            url = 'https://esri.bintray.com/arcgis'
+            url "https://plugins.gradle.org/m2/"
         }
     }
     dependencies {
-        classpath 'com.esri.arcgisruntime:gradle-arcgis-java-plugin:1.0.0'
+        classpath "gradle.plugin.com.zyxist:chainsaw:0.3.1"
     }
 }
 
-arcgis.version = '100.4.0'
+apply plugin: 'com.zyxist.chainsaw'
+apply plugin: 'application'
 
-idea.module.downloadJavadoc = true
-eclipse.classpath.downloadJavadoc = true
+group = 'com.esri.samples'
+version = '100.4.0'
 
 compileJava.options.encoding = 'UTF-8'
-compileJava.sourceCompatibility = '1.8'
+
+repositories {
+    jcenter()
+    maven {
+        url 'https://esri.bintray.com/arcgis'
+    }
+}
 
 dependencies {
+    compile 'com.esri.arcgisruntime:arcgis-java:100.4.0'
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
     compile 'commons-io:commons-io:2.4'
     compile 'org.jooq:joox:1.4.0'
+    if (System.env['OS'].contains('Windows')) {
+        def os = 'win'
+        compile "org.openjfx:javafx-base:11:$os"
+        compile "org.openjfx:javafx-graphics:11:$os"
+        compile "org.openjfx:javafx-controls:11:$os"
+        compile "org.openjfx:javafx-web:11:$os"
+        compile "org.openjfx:javafx-fxml:11:$os"
+        compile "org.openjfx:javafx-swing:11:$os"
+        compile "org.openjfx:javafx-media:11:$os"
+    }
 }
 
 task downloadData {
@@ -50,6 +63,11 @@ run {
     mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
 }
 
+jar {
+    // important to remove duplicates from each JavaFX platform dependency
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.3.1'
+    gradleVersion = '4.10'
 }
