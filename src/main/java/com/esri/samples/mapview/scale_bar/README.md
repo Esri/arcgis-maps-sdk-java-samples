@@ -2,7 +2,7 @@
 
 <p>Adds a scale bar to visually gauge distances on a map.</p>
 
-<p><img src="ScaleBar.png" alt="Image" /></p>
+<p><img src="ScaleBar.PNG" alt="Image" /></p>
 
 <h2>How to use the sample</h2>
 
