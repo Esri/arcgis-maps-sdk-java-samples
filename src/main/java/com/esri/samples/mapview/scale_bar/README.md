@@ -27,7 +27,9 @@
 <h2>Relevant API</h2>
 
 <ul>
-<li><code>Map</code></li>
+<li><code>ArcGISMap</code></li>
+
+<li><code>MapView</code></li>
 
 <li><code>Scalebar</code></li>
 
