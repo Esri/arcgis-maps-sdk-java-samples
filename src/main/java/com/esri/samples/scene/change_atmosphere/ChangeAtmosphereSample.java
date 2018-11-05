@@ -4,11 +4,14 @@ import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
+import com.esri.arcgisruntime.mapping.view.AtmosphereEffect;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import com.esri.arcgisruntime.mapping.view.Camera;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class ChangeAtmosphereSample extends Application {
@@ -32,6 +35,13 @@ public class ChangeAtmosphereSample extends Application {
             stage.setScene(fxScene);
             stage.show();
 
+            // create a control panel
+            VBox controlsVBox = new VBox(6);
+            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
+            controlsVBox.setPadding(new Insets(10.0));
+            controlsVBox.setMaxSize(260, 120);
+            controlsVBox.getStyleClass().add("panel-region");
+
             // create a ArcGIS scene and add a basemap to it
             ArcGISScene scene = new ArcGISScene();
             scene.setBasemap(Basemap.createImagery());
@@ -49,6 +59,9 @@ public class ChangeAtmosphereSample extends Application {
             Surface surface = new Surface();
             surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
             scene.setBaseSurface(surface);
+
+            // change the atmosphere effect
+            sceneView.setAtmosphereEffect(AtmosphereEffect.NONE);
 
         } catch (Exception e) {
             // on any error, display the stack trace.
