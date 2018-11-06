@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.change_atmosphere;
+package com.esri.samples.scene.change_atmosphere_effect;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -38,7 +38,7 @@ import com.esri.arcgisruntime.mapping.view.AtmosphereEffect;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.mapping.view.Camera;
 
-public class ChangeAtmosphereSample extends Application {
+public class ChangeAtmosphereEffectSample extends Application {
   private SceneView sceneView;
   private static final String ELEVATION_IMAGE_SERVICE =
       "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
@@ -50,9 +50,10 @@ public class ChangeAtmosphereSample extends Application {
       // create stack pane and JavaFX app scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
+      fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Change Atmosphere Sample");
+      stage.setTitle("Change Atmosphere Effect Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
@@ -66,12 +67,17 @@ public class ChangeAtmosphereSample extends Application {
       controlsVBox.getStyleClass().add("panel-region");
 
       // create buttons for interaction
+      Button noAtmosphereButton = new Button("No Atmosphere Effect");
       Button realisticAtmosphereButton = new Button ("Realistic Atmosphere Effect");
-      Button horizonAtmosphereButton = new Button ("Horizon Atmosphere Effect");
-      Button noAtmosphereButton = new Button("Night Sky Atmosphere Effect");
+      Button horizonAtmosphereButton = new Button ("Horizon Only Atmosphere Effect");
+      noAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
       realisticAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
       horizonAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
-      noAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
+
+      noAtmosphereButton.setOnAction(event -> {
+        // set atmosphere effect to none
+        sceneView.setAtmosphereEffect(AtmosphereEffect.NONE);
+      });
 
       realisticAtmosphereButton.setOnAction(event -> {
         // set atmosphere effect to realistic
@@ -79,17 +85,12 @@ public class ChangeAtmosphereSample extends Application {
       });
 
       horizonAtmosphereButton.setOnAction(event -> {
-        // set atmosphere effect to horizon
+        // set atmosphere effect to horizon only
         sceneView.setAtmosphereEffect(AtmosphereEffect.HORIZON_ONLY);
       });
 
-      noAtmosphereButton.setOnAction(event -> {
-        // set atmosphere effect to none (night sky effect)
-        sceneView.setAtmosphereEffect(AtmosphereEffect.NONE);
-      });
-
       // add controls to the user interface pane
-      controlsVBox.getChildren().addAll(realisticAtmosphereButton, horizonAtmosphereButton, noAtmosphereButton);
+      controlsVBox.getChildren().addAll(noAtmosphereButton, realisticAtmosphereButton, horizonAtmosphereButton);
 
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene();
@@ -108,8 +109,9 @@ public class ChangeAtmosphereSample extends Application {
       scene.setBaseSurface(surface);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(64.687362, -14.371570, 200, 305, 95, 0);
+      Camera camera = new Camera(64.416919, -14.483728, 100, 318, 105, 0);
       sceneView.setViewpointCamera(camera);
+
 
     } catch (Exception e) {
       // on any error, display the stack trace.
