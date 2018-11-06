@@ -1,10 +1,5 @@
 package com.esri.samples.mapview.scale_bar;
 
-import com.esri.arcgisruntime.UnitSystem;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.toolkit.Scalebar;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,62 +11,67 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.UnitSystem;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.toolkit.Scalebar;
+
 public class ScaleBarSample extends Application {
 
-    private MapView mapView;
+  private MapView mapView;
 
-    @Override
-    public void start(Stage stage) {
+  @Override
+  public void start(Stage stage) {
 
-        // create stack pane and application scene
-        StackPane stackPane = new StackPane();
-        Scene scene = new Scene(stackPane);
+    // create stack pane and application scene
+    StackPane stackPane = new StackPane();
+    Scene scene = new Scene(stackPane);
 
-        // set title, size and scene to stage
-        stage.setTitle("Scale Bar Sample");
-        stage.setWidth(800);
-        stage.setHeight(700);
-        stage.setScene(scene);
-        stage.show();
+    // set title, size and scene to stage
+    stage.setTitle("Scale Bar Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
 
-        // create a map view
-        mapView = new MapView();
-        ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY, 64.1405, -16.2426, 16);
-        mapView.setMap(map);
+    // create a map view
+    mapView = new MapView();
+    ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY, 64.1405, -16.2426, 16);
+    mapView.setMap(map);
 
-        // create a scale bar for the map view
-        Scalebar scaleBar = new Scalebar(mapView);
+    // create a scale bar for the map view
+    Scalebar scaleBar = new Scalebar(mapView);
 
-        // specify skin style for the scale bar
-        scaleBar.setSkinStyle(Scalebar.SkinStyle.GRADUATED_LINE);
+    // specify skin style for the scale bar
+    scaleBar.setSkinStyle(Scalebar.SkinStyle.GRADUATED_LINE);
 
-        // set the unit system (default is METRIC)
-        scaleBar.setUnitSystem(UnitSystem.IMPERIAL);
+    // set the unit system (default is METRIC)
+    scaleBar.setUnitSystem(UnitSystem.IMPERIAL);
 
-        // to enhance visibility of the scale bar, by making background transparent
-        Color transparentWhite = new Color(1, 1, 1, 0.7);
-        scaleBar.setBackground(new Background(new BackgroundFill(transparentWhite, new CornerRadii(5), Insets.EMPTY)));
+    // to enhance visibility of the scale bar, by making background transparent
+    Color transparentWhite = new Color(1, 1, 1, 0.7);
+    scaleBar.setBackground(new Background(new BackgroundFill(transparentWhite, new CornerRadii(5), Insets.EMPTY)));
 
-        // add the map view and scale bar to stack pane
-        stackPane.getChildren().addAll(mapView, scaleBar);
+    // add the map view and scale bar to stack pane
+    stackPane.getChildren().addAll(mapView, scaleBar);
 
-        // set position of scale bar
-        StackPane.setAlignment(scaleBar, Pos.BOTTOM_CENTER);
-        // give padding to scale bar
-        StackPane.setMargin(scaleBar, new Insets(0, 0, 50, 0));
+    // set position of scale bar
+    StackPane.setAlignment(scaleBar, Pos.BOTTOM_CENTER);
+    // give padding to scale bar
+    StackPane.setMargin(scaleBar, new Insets(0, 0, 50, 0));
+  }
+
+  // Stops and releases all resources used in application
+  @Override
+  public void stop() {
+    if (mapView != null) {
+      mapView.dispose();
     }
+  }
 
-    // Stops and releases all resources used in application
-    @Override
-    public void stop(){
-        if (mapView != null) {
-            mapView.dispose();
-        }
-    }
-
-    // Opens and runs application
-    public static void main(String[] args) {
-
-        Application.launch(args);
-    }
+  // Opens and runs application
+  public static void main(String[] args) {
+    Application.launch(args);
+  }
 }
