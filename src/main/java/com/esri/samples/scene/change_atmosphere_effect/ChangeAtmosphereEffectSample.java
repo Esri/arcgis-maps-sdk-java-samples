@@ -18,7 +18,6 @@ package com.esri.samples.scene.change_atmosphere_effect;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -39,6 +38,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.mapping.view.Camera;
 
 public class ChangeAtmosphereEffectSample extends Application {
+
   private SceneView sceneView;
   private static final String ELEVATION_IMAGE_SERVICE =
       "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
@@ -111,7 +111,6 @@ public class ChangeAtmosphereEffectSample extends Application {
       // add a camera and initial camera position
       Camera camera = new Camera(64.416919, -14.483728, 100, 318, 105, 0);
       sceneView.setViewpointCamera(camera);
-
 
     } catch (Exception e) {
       // on any error, display the stack trace.

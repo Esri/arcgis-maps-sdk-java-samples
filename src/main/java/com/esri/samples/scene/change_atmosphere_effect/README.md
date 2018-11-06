@@ -2,7 +2,7 @@
 
 <p>Define how the sky looks by changing the visual appearance of the atmosphere in a 3D map (scene).</p>
 
-<p><img src="ChangeAtmosphere.gif" alt="Image" /></p>
+<p><img src="ChangeAtmosphereEffect.gif" alt="Image" /></p>
 
 <h2>How to use the sample</h2>
 
