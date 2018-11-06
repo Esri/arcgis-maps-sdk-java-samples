@@ -1,25 +1,33 @@
-# Change Atmosphere
+<h1>Change Atmosphere</h1>
 
-Changes the visual appearance of the atmosphere in a 3D map (scene).
+<p>Changes the visual appearance of the atmosphere in a 3D map (scene).</p>
 
-![Image](ChangeAtmosphere.png)
+<p><img src="ChangeAtmosphere.gif" alt="Image" /></p>
 
-## How to use the sample
+<h2>How to use the sample</h2>
 
-Select one of the three available atmosphere effects. The atmosphere will change to display the selected atmosphere effect. 
+<p>Select one of the three available atmosphere effects. The atmosphere will change to display the selected atmosphere effect. </p>
 
-## How it works
+<h2>How it works</h2>
 
-To change the atmosphere effect:
+<p>To change the atmosphere effect:</p>
 
-1. Create an `ArcGISScene` and display it in a `SceneView`.
-2. Change the atmosphere effect with <code>SceneView.setAtmosphereEffect()</code>.
- 
-## Relevant API
-- `ArcGISScene`
-- `SceneView`
-- `AtmosphereEffect`
+<ol>
+<li>Create an <code>ArcGISScene</code> and display it in a <code>SceneView</code>.</li>
 
-## Tags
+<li>Change the atmosphere effect with <code>SceneView.setAtmosphereEffect()</code>.</li>
+</ol>
 
-3D, Scene, AtmosphereEffect. 
+<h2>Relevant API</h2>
+
+<ul>
+<li><code>ArcGISScene</code></li>
+
+<li><code>SceneView</code></li>
+
+<li><code>AtmosphereEffect</code></li>
+</ul>
+
+<h2>Tags</h2>
+
+<p>3D, Scene, AtmosphereEffect. </p>
