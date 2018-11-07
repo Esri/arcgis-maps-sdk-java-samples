@@ -32,10 +32,11 @@
 
 <p>3D, Scene, AtmosphereEffect. </p>
 
-<h2> Additional Information</h2>
-There are three effect options:
+<h2>Additional Information</h2>
+There are three atmosphere effect options:
 
 <ul>
-<li><strong> Realistic</strong> -
-<li><strong> Horizon only</strong -
-<li><strong> None</strong> - No atmosphere effect. The sky is rendered black with a starfield consisting of randomly placed white dots.
+<li><strong> Realistic</strong> - Atmosphere effect applied to both the sky and the surface as viewed from above.</li> 
+<li><strong> Horizon only</strong> - Atmosphere effect applied to the sky (horizon) only.</li>
+<li><strong> None</strong> - No atmosphere effect. The sky is rendered black with a starfield consisting of randomly placed white dots.</li>
+</ul>
