@@ -73,17 +73,14 @@ public class ChangeAtmosphereEffectSample extends Application {
       horizonAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
 
       noAtmosphereButton.setOnAction(event -> {
-        // set atmosphere effect to none
         sceneView.setAtmosphereEffect(AtmosphereEffect.NONE);
       });
 
       realisticAtmosphereButton.setOnAction(event -> {
-        // set atmosphere effect to realistic
         sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC);
       });
 
       horizonAtmosphereButton.setOnAction(event -> {
-        // set atmosphere effect to horizon only
         sceneView.setAtmosphereEffect(AtmosphereEffect.HORIZON_ONLY);
       });
 
