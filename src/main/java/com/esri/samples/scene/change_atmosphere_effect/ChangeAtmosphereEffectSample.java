@@ -57,33 +57,6 @@ public class ChangeAtmosphereEffectSample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // create a control panel
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(260, 110);
-      controlsVBox.getStyleClass().add("panel-region");
-
-      // create buttons for interaction
-      Button noAtmosphereButton = new Button("No Atmosphere Effect");
-      Button realisticAtmosphereButton = new Button ("Realistic Atmosphere Effect");
-      Button horizonAtmosphereButton = new Button ("Horizon Only Atmosphere Effect");
-      noAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
-      realisticAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
-      horizonAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
-
-      noAtmosphereButton.setOnAction(event -> {
-        sceneView.setAtmosphereEffect(AtmosphereEffect.NONE);
-      });
-
-      realisticAtmosphereButton.setOnAction(event -> {
-        sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC);
-      });
-
-      horizonAtmosphereButton.setOnAction(event -> {
-        sceneView.setAtmosphereEffect(AtmosphereEffect.HORIZON_ONLY);
-      });
-
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene();
       scene.setBasemap(Basemap.createImagery());
@@ -91,22 +64,45 @@ public class ChangeAtmosphereEffectSample extends Application {
       // add the scene view and control panel to stack pane
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
-      stackPane.getChildren().addAll(sceneView, controlsVBox);
-      stackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
-      stackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
+      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource( "http://elevation3d.arcgis" +
+          ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
+      surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 
       // add a camera and initial camera position
       Camera camera = new Camera(64.416919, -14.483728, 100, 318, 105, 0);
       sceneView.setViewpointCamera(camera);
 
-      // add controls to the user interface pane
+      // create a control panel
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
+          CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(260, 110);
+      controlsVBox.getStyleClass().add("panel-region");
+
+      // create buttons to set each atmosphere effect
+      Button noAtmosphereButton = new Button("No Atmosphere Effect");
+      Button realisticAtmosphereButton = new Button ("Realistic Atmosphere Effect");
+      Button horizonAtmosphereButton = new Button ("Horizon Only Atmosphere Effect");
+      noAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
+      realisticAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
+      horizonAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
+
+      noAtmosphereButton.setOnAction(event -> sceneView.setAtmosphereEffect(AtmosphereEffect.NONE));
+      realisticAtmosphereButton.setOnAction(event -> sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC));
+      horizonAtmosphereButton.setOnAction(event -> sceneView.setAtmosphereEffect(AtmosphereEffect.HORIZON_ONLY));
+
+      // add buttons to the control panel
       controlsVBox.getChildren().addAll(noAtmosphereButton, realisticAtmosphereButton, horizonAtmosphereButton);
 
+      // add scene view and control panel to the stack pane
+      stackPane.getChildren().addAll(sceneView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
