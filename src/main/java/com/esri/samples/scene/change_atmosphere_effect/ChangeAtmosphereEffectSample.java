@@ -84,9 +84,6 @@ public class ChangeAtmosphereEffectSample extends Application {
         sceneView.setAtmosphereEffect(AtmosphereEffect.HORIZON_ONLY);
       });
 
-      // add controls to the user interface pane
-      controlsVBox.getChildren().addAll(noAtmosphereButton, realisticAtmosphereButton, horizonAtmosphereButton);
-
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene();
       scene.setBasemap(Basemap.createImagery());
@@ -106,6 +103,9 @@ public class ChangeAtmosphereEffectSample extends Application {
       // add a camera and initial camera position
       Camera camera = new Camera(64.416919, -14.483728, 100, 318, 105, 0);
       sceneView.setViewpointCamera(camera);
+
+      // add controls to the user interface pane
+      controlsVBox.getChildren().addAll(noAtmosphereButton, realisticAtmosphereButton, horizonAtmosphereButton);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
