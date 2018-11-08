@@ -40,8 +40,6 @@ import com.esri.arcgisruntime.mapping.view.Camera;
 public class ChangeAtmosphereEffectSample extends Application {
 
   private SceneView sceneView;
-  private static final String ELEVATION_IMAGE_SERVICE =
-      "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
 
   @Override
   public void start(Stage stage) {
@@ -105,7 +103,7 @@ public class ChangeAtmosphereEffectSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
+      surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
       scene.setBaseSurface(surface);
 
       // add a camera and initial camera position
