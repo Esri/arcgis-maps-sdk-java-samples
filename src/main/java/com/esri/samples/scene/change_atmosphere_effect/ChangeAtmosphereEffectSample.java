@@ -61,7 +61,7 @@ public class ChangeAtmosphereEffectSample extends Application {
       ArcGISScene scene = new ArcGISScene();
       scene.setBasemap(Basemap.createImagery());
 
-      // add the scene view and control panel to stack pane
+      // set the scene to a scene view
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
 
