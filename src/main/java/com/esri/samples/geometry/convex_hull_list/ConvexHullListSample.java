@@ -71,10 +71,6 @@ public class ConvexHullListSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a graphics overlay for displaying polygon graphic and convex hull
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
-
       // create a simple line symbol for the outline of the two input polygon graphics
       SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
       // create a simple fill symbol for the two input polygon graphics
@@ -99,6 +95,8 @@ public class ConvexHullListSample extends Application {
       // set the Z index for the first polygon graphic so that it appears above the convex hull graphic added later
       firstPolygonGraphic.setZIndex(1);
       firstPolygonGraphicOverlay.getGraphics().add(firstPolygonGraphic);
+
+      System.out.println(firstPolygonGraphicOverlay.getGraphics().size());
 
       // render the first polygon
       SimpleRenderer firstPolygonRenderer = new SimpleRenderer(polygonFill);
@@ -127,17 +125,30 @@ public class ConvexHullListSample extends Application {
       secondPolygonGraphicOverlay.setRenderer(secondPolygonRenderer);
       mapView.getGraphicsOverlays().add(secondPolygonGraphicOverlay);
 
+      // create a graphics overlay for displaying convex hull polygon
+      GraphicsOverlay convexHullGraphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(convexHullGraphicsOverlay);
+
       // create a graphic to show the convex hull as a red outline
       SimpleLineSymbol convexHullLine = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 5 );
       SimpleFillSymbol convexHullFill = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, 0x00000000, convexHullLine);
       Graphic convexHullGraphic = new Graphic();
       convexHullGraphic.setSymbol(convexHullFill);
-      graphicsOverlay.getGraphics().add(convexHullGraphic);
+      convexHullGraphicsOverlay.getGraphics().add(convexHullGraphic);
+
+      // testing adding in nw graphics to see if it rendrs ok.
+      GraphicsOverlay testGraphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(testGraphicsOverlay);
+
+      Graphic testGraphic = new Graphic();
+      testGraphic.setSymbol(convexHullFill);
+      testGraphicsOverlay.getGraphics().add(testGraphic);
 
       // add graphics to a geometry list
-      List<Geometry> allPolygons = new ArrayList<>();
-      allPolygons.add(firstPolygonGraphic.getGeometry());
-      allPolygons.add(secondPolygonGraphic.getGeometry());
+      List<Geometry> allPolygonGeometries = new ArrayList<>();
+      allPolygonGeometries.add(secondPolygonGraphic.getGeometry());
+      allPolygonGeometries.add(firstPolygonGraphic.getGeometry());
+
 
       // create a button to create and show the convex hull
       Button convexHullButton = new Button("Create Convex Hull");
@@ -145,23 +156,33 @@ public class ConvexHullListSample extends Application {
       // create a button to clear the convex hull
       Button clearButton = new Button("Clear");
 
+      // create a check box for unioning the result TODO: change grammar
+      CheckBox checkBox = new CheckBox("Union");
+
       clearButton.setDisable(true);
       clearButton.setOnAction(e -> {
         convexHullGraphic.setGeometry(null);
+        testGraphic.setGeometry(null);
         clearButton.setDisable(true);
         convexHullButton.setDisable(false);
+        checkBox.setSelected(false);
       });
 
       convexHullButton.setOnAction(e -> {
-        // TODO: keep this ?
-        convexHullButton.setDisable(true);
-        Geometry convexHull = GeometryEngine.convexHull(firstPolygonGraphic.getGeometry());
-        convexHullGraphic.setGeometry(convexHull);
+
+        Geometry firstGeometry = GeometryEngine.convexHull(firstPolygonGraphic.getGeometry());
+        convexHullGraphic.setGeometry(firstGeometry);
+        Geometry secondGeometry = GeometryEngine.convexHull(secondPolygonGeometry.toGeometry());
+        testGraphic.setGeometry(secondGeometry);
+
+        List<Geometry> convexHullGeometries = GeometryEngine.convexHull(allPolygonGeometries, checkBox.isSelected());
+        convexHullGeometries
+
+        for (Geometry geometry: convexHullGeometries) {
+          convexHullGraphic.setGeometry(geometry);
+        }
         clearButton.setDisable(false);
       });
-
-      // create a check box for unioning the result TODO: change grammar
-      CheckBox checkBox = new CheckBox("Union");
 
 
       // create label
