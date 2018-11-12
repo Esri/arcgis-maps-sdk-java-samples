@@ -1,6 +1,6 @@
 <h1>Display KML Network Links</h1>
 
-<p>Display KML with a network link and show network messages.</p>
+<p>Display KML that automatically refreshes every few seconds.</p>
 
 <p><img src="DisplayKMLNetworkLinks.png"/></p>
 

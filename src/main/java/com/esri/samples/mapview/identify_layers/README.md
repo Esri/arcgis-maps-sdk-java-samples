@@ -1,6 +1,6 @@
 <h1>Identify Layers</h1>
 
-<p>Demonstrates how to identify clicked features from multiple layers.</p>
+<p>Get clicked features from multiple layers.</p>
 
 <p><img src="IdentifyLayers.png"/></p>
 

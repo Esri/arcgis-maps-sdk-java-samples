@@ -1,6 +1,6 @@
 <h1>Open Scene (Portal Item)</h1>
 
-<p>This sample demonstrates how to open a scene from a Portal item.</p>
+<p>Display a web scene.</p>
 
 <p>Just like Web Maps are the ArcGIS format for maps, Web Scenes are the ArcGIS format for scenes. These scenes can 
 be stored in ArcGIS Online or Portal.</p>

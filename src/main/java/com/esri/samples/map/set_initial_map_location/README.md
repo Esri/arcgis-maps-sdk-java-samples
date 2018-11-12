@@ -1,8 +1,8 @@
 <h1>Set Initial Map Location</h1>
 
-<p>Creates an ArcGISMap with a standard ESRI National Geographic basemap. This basemap is centred on a latitude and longitude coordinate location, which is zoomed to a specific level of detail.</p>
+<p>Display a map centered at a latitude and longitude plus zoom level.</p>
 
-<p><img src="SetInitialMapLocation.png" /></p>
+<p><img src="SetInitialMapLocation.png"/></p>
 
 <h2>How it works</h2>
 

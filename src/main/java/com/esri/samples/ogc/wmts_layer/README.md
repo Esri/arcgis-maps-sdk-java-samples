@@ -1,6 +1,6 @@
 <h1>WMTS Layer</h1>
 
-<p>Shows how to display a layer from a Web Map Tile Service.</p>
+<p>Dsiplay tiles from a Web Map Tile Service.</p>
 
 <p><img src="WmtsLayer.png"/></p>
 

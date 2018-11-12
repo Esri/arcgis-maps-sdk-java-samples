@@ -1,6 +1,6 @@
 <h2>Simple Marker Symbol</h2>
 
-<p>Demonstrates how to add a SimpleMarkerSymbol to your ArcGISMap.</p>
+<p>Show simple markers.</p>
 
 <p><img src="SimpleMarkerSymbol.png"/></p>
 

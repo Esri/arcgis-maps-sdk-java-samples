@@ -1,6 +1,6 @@
 <h1>Time Based Query</h1>
 
-<p>Demonstrates how to query a feature table to only show features in a specific time extent.</p>
+<p>Filter features within a time range.</p>
 
 <p><img src="TimeBasedQuery.png"/></p>
 

@@ -1,6 +1,9 @@
 <h1>Update Graphics</h1>
 
-<p>Demonstrates how to identify a Graphic and change it's symbol, attributes, and geometry. Geometry explains the  graphic's location on a map, a symbol controls how a graphic will be displayed to a map, and the attributes help store information about the graphic in a key value pair.</p>
+<p>Change a graphic's symbol, attributes, and geometry.</p>
+
+<p>A graphic's geometry is its location on a map. The symbol controls how a graphic will be displayed to a map. And the 
+attributes store information about the graphic in key value pairs.</p>
 
 <p><img src="UpdateGraphics.gif"/></p>
 

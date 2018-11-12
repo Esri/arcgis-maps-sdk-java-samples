@@ -1,6 +1,6 @@
 <h1>Feature Layer Shapefile</h1>
 
-<p>Demonstrates how display a shapefile as a feature layer.</p>
+<p>Display features from a local shapefile.</p>
   
 <p><img src="FeatureLayerShapefile.png"/></p>
 

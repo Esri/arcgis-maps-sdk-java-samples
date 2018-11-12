@@ -1,6 +1,6 @@
 <h1>Feature Layer Extrusion.</h1>
 
-<p>This sample demonstrates how to apply extrusion to a renderer on a feature layer.</p>
+<p>Extrude features based on their attributes.</p>
 
 <p><img src="FeatureLayerExtrusion.gif"/></p>
 

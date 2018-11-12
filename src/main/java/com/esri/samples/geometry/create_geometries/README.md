@@ -1,5 +1,6 @@
 <h1>Create Geometries</h2>
-<p>Demonstrates how to create simple geometry types.</p>
+
+<p>Create simple geometry types.</p>
 
 <p><img src="CreateGeometries.png"/></p>
 

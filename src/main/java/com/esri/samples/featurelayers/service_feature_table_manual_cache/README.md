@@ -1,6 +1,6 @@
 <h1>Service Feature Table (Manual Cache)</h1>
 
-<p>Demonstrates how to use a feature service in a manual-cache mode.</p>
+<p>Request features on demand.</p>
 
 <p><img src="ServiceFeatureTableManualCache.png"/></p>
 

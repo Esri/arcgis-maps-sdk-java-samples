@@ -1,7 +1,8 @@
 <h1>Add Graphics with Renderer</h1>
 
-<p>Demonstrates how to add graphics to a graphics overlay and display them with a renderer. A renderer allows you to 
-change the style of all graphics in an overlay by only changing one copy of the symbol. A renderer will only effect 
+<p>Specify a graphic's symbol with a renderer.</p>
+
+<p>A renderer allows you to change the style of all graphics in an overlay by only changing one copy of the symbol. A renderer will only effect 
 graphics that do not specify their own symbol.</p>
 
 <p><img src="AddGraphicsWithRenderer.png"/></p>

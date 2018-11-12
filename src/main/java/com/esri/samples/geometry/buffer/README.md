@@ -1,6 +1,6 @@
 <h1>Buffer</h1>
 
-<p>Shows how to create geodesic and planar buffers around a point.</p>
+<p>Create geodesic and planar buffers around a point.</p>
 
 <p>Buffers can be used to visually show the area within a certain distance of a geometry. For example, the Chernobyl exclusion zone is set up as a buffer around the failed nuclear power plant, indicating where there are unsafe levels of radioactive fallout.</p>
 

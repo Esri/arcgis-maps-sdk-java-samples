@@ -1,6 +1,6 @@
 <h1>Line of Sight Location</h1>
 
-<p>Demonstrates how to update a line of sight on-the-fly with the mouse.</p>
+<p>Perform line of sight analysis in real-time.</p>
 
 <h2>How to use the sample</h2>
 

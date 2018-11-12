@@ -1,6 +1,6 @@
 <h1>Geodesic Sector and Ellipse</h1>
 
-<p>This sample demonstrates how to create and display geodesic sectors and ellipses.</p>
+<p>Create geodesic sectors and ellipses.</p>
 
 <p>Geodesic sectors and ellipses can be used in a wide range of analyses ranging from antenna coverage to projectile landing zones.</p>
 

@@ -1,7 +1,8 @@
 <h1>Blend Renderer</h1>
 
-<p>Demonstrates how to use a blend renderer on a raster layer. Blend renderers can be used to blend elevation data with imagery, 
-creating a 3D effect.</p>
+<p>Apply a blend renderer to a raster.</p>
+
+<p>Blend renderers can be used to blend elevation data with imagery, creating a 3D effect.</p>
 
 <p><img src="BlendRenderer.png"/></p>
 

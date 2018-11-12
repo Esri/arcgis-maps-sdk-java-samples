@@ -1,6 +1,6 @@
 <h1>Find Place</h1>
 
-<p>Demonstrates how find places of interest (POIs) by geocoding near a location or within an specific area.</p>
+<p>Find places of interest near a location or within an specific area.</p>
 
 <p><img src="FindPlace.png"/></p>
 

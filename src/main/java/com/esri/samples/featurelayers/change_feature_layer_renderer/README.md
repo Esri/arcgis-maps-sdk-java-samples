@@ -1,6 +1,6 @@
 <h1>Change Feature Layer Renderer</h1>
 
-<p>Demonstrates how to change the Renderer of a FeatureLayer.</p>
+<p>Change how a feature layer looks with a renderer.</p>
 
 <p><img src="ChangeFeatureLayerRenderer.gif"/></p>
 

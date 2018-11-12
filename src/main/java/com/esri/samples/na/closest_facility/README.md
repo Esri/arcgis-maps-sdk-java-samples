@@ -1,6 +1,6 @@
 <h1>Closest Facility</h1>
 
-<p>Demonstrates how to solve a Closest Facility Task to find the closest route between a facility (hospital) and a incident (black cross).</p>
+<p>Find a route to the closest facility from a location.</p>
 
 <p><img src="ClosestFacility.png"/></p>
 

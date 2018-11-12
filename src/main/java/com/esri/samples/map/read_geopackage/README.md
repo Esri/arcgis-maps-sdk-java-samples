@@ -1,8 +1,8 @@
 <h1>Read GeoPackage</h1>
 
-<p>Demonstrates how to read rasters and feature tables from geoPackages to show them as layers in a map.</p>
+<p>Display rasters and features from local GeoPackages.</p>
 
-<p><img src="ReadGeoPackage.png" /></p>
+<p><img src="ReadGeoPackage.png"/></p>
 
 <h2>How to use the sample</h2>
 

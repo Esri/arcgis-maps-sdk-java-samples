@@ -1,6 +1,6 @@
 <h1>Manage Operational Layers</h1>
 
-<p>Demonstrates how to add, remove and reorder operational layers in an ArcGISMap.</p>
+<p>Add, remove and reorder operational layers in a map.</p>
 
 <p><img src="ManageOperationalLayers.png" /></p>
 

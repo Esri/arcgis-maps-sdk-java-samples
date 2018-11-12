@@ -1,6 +1,6 @@
 <h1>Service Feature Table (No Cache)</h1>
 
-<p>Demonstrates how to use a feature service in an on-interaction-no-cache mode.</p>
+<p>Show features without caching.</p>
 
 <p>On-interaction-no-cache mode will always fetch Features from the server and doesn't cache any Features on the client's side. This meaning that Features will be fetched whenever the ArcGISMap pans, zooms, selects, or queries.</p>
 

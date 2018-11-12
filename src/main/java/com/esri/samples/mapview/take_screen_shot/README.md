@@ -1,6 +1,6 @@
 <h1>Take Screen Shot</h1>
 
-<p>Demonstrates how to export a section of the ArcGISMap as an image file.</p>
+<p>Export an area of the map as an image.</p>
 
 <p><img src="TakeScreenShot.png"/></p>
 

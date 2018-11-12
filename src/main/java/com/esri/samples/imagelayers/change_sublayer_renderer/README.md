@@ -1,7 +1,8 @@
 <h1>Change Sublayer Renderer</h1>
 
-<p>Demonstrates how to change the renderer on a map image layer sublayer. In this example, a renderer is applied 
-to see the different population ranges in the counties sublayer data.</p>
+<p>Apply a renderer to a sublayer.</p>
+
+<p>In this example, a renderer is applied to see the different population ranges in the counties sublayer data.</p>
 
 <p><img src="ChangeSublayerRenderer.png"/></p>
 

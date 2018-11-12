@@ -1,6 +1,6 @@
 <h1>Edit Feature Attachments</h1>
 
-<p>Demonstrates how you can add, delete, and fetch an attachment from a Feature in a FeatureLayer. </p>
+<p>Add or remove feature attachments.</p>
 
 <p><img src="EditFeatureAttachments.gif"/></p>
 

@@ -1,6 +1,6 @@
 <h1>Display Drawing Status</h1>
 
-<p>Demonstrates how to display the current DrawStatus of the MapView.</p>
+<p>Determine if a layer is done drawing.</p>
 
 <p><img src="DisplayDrawingStatus.png"/></p>
 

@@ -1,6 +1,8 @@
 <h1>Add Features</h1>
 
-<p>Demonstrates how to add new Features to a ServiceFeatureTable and apply those Features to it's server. A FeatureLayer created using this SeviceFeatutreTable that is applied to the ArcGISMap will display any new Features automatically.</p>
+<p>Add new features to an online feature service.</p>
+
+<p>A FeatureLayer created using this SeviceFeatutreTable that is applied to the ArcGISMap will display any new Features automatically.</p>
 
 <p><img src="AddFeatures.gif"/></p>
 

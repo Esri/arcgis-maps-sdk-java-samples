@@ -1,6 +1,6 @@
 <h1>Symbolize Shapefile</h1>
 
-<p>Demonstrates how to override symbols of the default renderer for a shapefile.</p>
+<p>Override the default rendering of a shapefile.</p>
   
 <p><img src="SymbolizeShapefile.png"/></p>
 

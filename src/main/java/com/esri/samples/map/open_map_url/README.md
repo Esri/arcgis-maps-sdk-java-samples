@@ -1,6 +1,6 @@
 <h1>Open Map (URL)</h1>
 
-<p>Demonstrates how to show a web map using its URL.</p>
+<p>Display a web map.</p>
 
 <p><img src="OpenMapURL.png"/></p>
 
