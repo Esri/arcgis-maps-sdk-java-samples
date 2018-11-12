@@ -1,6 +1,6 @@
 <h1>Feature Layer Rendering Mode (Scene)</h1>
 
-<p>This sample demonstrates how to use load settings to set preferred rendering mode for feature layers, specifically static or dynamic rendering modes.</p>
+<p>Render features statically or dynamically in 3D.</p>
 
 <p><img src="FeatureLayerRenderingModeScene.gif"/></p>
 

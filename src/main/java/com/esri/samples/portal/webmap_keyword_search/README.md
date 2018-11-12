@@ -1,6 +1,6 @@
 <h1>Webmap Keyword Search</h1>
 
-<p>Shows how to search for webmaps within a portal using a keyword.</p>
+<p>Find webmaps within a portal using a keyword.</p>
 
 <p><img src="WebmapKeywordSearch.png"/></p>
 

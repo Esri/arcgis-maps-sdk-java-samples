@@ -1,6 +1,6 @@
 <h2>Simple Line Symbol</h2>
 
-<p>Demonstrates how to change a SimpleLineSymbol's color and style properties.</p>
+<p>Change a line graphic's color and style.</p>
 
 <p><img src="SimpleLineSymbol.png"/></p>
 

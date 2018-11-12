@@ -1,6 +1,6 @@
 <h1>Min Max Scale</h1>
 
-<p>Demonstrates how to set the minimum and maximum scale of an ArcGISMap.</p>
+<p>Restrict zooming to a specific scale range.</p>
 
 <p><img src="MinMaxScale.png"/></p>
 

@@ -1,6 +1,6 @@
 <h1>List Related Features</h1>
 
-<p>Demonstrates how to query for related features.</p>
+<p>Find features related to the selected feature.</p>
 
 <p><img src="ListRelatedFeatures.png"/></p>
 

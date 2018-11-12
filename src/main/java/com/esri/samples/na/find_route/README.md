@@ -1,6 +1,6 @@
 <h1>Find Route</h1>
 
-<p>Demonstrates how to get a route between two stops.</p>
+<p>Get a route between two stops with directions.</p>
 
 <p><img src="FindRoute.png"/></p>
 

@@ -1,5 +1,5 @@
 <h1>Distance Measurement Analysis</h2>
-<p>This sample demonstrates measuring 3D distances between two points in a scene.</p>
+<p>Measure distances within a scene.</p>
 
 <p>The distance measurement analysis allows you to add the same measuring experience found in ArcGIS Pro, City Engine, 
 and the ArcGIS API for JavaScript to your app. You can set the unit system of measurement (metric or imperial) and 

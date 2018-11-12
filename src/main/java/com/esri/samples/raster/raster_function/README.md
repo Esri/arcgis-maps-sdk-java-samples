@@ -1,7 +1,9 @@
 <h1>Raster Function</h1>
 
-<p>Raster functions are operations performed on a raster to apply on-the-fly processing. This sample demonstrates how
- to create an image service raster and apply a hillshade raster function to it.</p>
+<p>Apply a raster function to a raster.</p>
+
+<p>Raster functions are operations performed on a raster to apply on-the-fly processing. In this sample, a hillshade 
+raster function is applied to an online raster image service.</p>
 
 <p><img src="RasterFunction.png"/></p>
 

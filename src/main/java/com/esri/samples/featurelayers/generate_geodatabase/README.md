@@ -1,6 +1,6 @@
 <h1>Generate Geodatabase</h1>
 
-<p>How to generate a geodatabase from a feature service.</p>
+<p>Generate a local geodatabase from an online feature service.</p>
 
 <p><img src="GenerateGeodatabase.png"/></p>
 

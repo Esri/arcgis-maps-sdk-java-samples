@@ -1,6 +1,6 @@
 <h1>Feature Layer Definition Expression</h1>
 
-<p>Demonstrates how to set the limit of Features to display on the ArcGISMap.</p>
+<p>Filter which features are shown using an expression.</p>
 
 <p><img src="FeatureLayerDefinitionExpression.gif"/></p>
 

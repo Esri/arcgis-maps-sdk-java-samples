@@ -1,6 +1,6 @@
 <h1>Delete Features</h1>
 
-<p>Demonstrates how to delete a Feature from a FeatureLayer using a feature service. </p>
+<p>Delete features from an online feature service.</p>
 
 <h2>How to use the sample</h2>
 

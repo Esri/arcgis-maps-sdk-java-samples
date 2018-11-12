@@ -1,6 +1,6 @@
 <h1>Map Image Layer Tables</h1>
 
-<p>This sample demonstrates how to get a non-spatial table from an ArcGIS map image layer. It shows how to query such a table, as well as how to find related features in another table.</p>
+<p>Find features in a spatial table related to features in a non-spatial table.</p>
 
 <p>The non-spatial tables contained by a map service may contain additional information about sublayer features. Such information can be accessed by traversing table relationships defined in the service.</p>
 

@@ -1,6 +1,6 @@
 <h1>Feature Layer Selection</h1>
 
-<p>Demonstrates how to select Features from a FeatureLayer.</p>
+<p>Select clicked features.</p>
 
 <p><img src="FeatureLayerSelection.png"/></p>
 

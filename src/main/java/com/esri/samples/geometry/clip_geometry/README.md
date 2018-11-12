@@ -1,6 +1,6 @@
 <h1>Clip Geometry</h1>
 
-<p>Demonstrates how to clip a geometry with an envelope using the GeometryEngine.</p>
+<p>Clip a geometry to an envelope.</p>
 
 <p><img src="ClipGeometry.gif"/></p>
 

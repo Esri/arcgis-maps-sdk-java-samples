@@ -1,6 +1,6 @@
 <h1>Offline Geocode</h1>
 
-<p>Demonstrates how to perform geocoding and reverse geocoding with offline data.</p>
+<p>Geocode with offline data.</p>
 
 <p><img src="OfflineGeocode.png"/></p>
 

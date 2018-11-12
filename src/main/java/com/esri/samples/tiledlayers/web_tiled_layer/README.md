@@ -1,6 +1,6 @@
 <h1>Web Tiled Layer</h1>
 
-<p>Demonstrates how to display map tiles from a non-ArcGIS service as a layer in a map.</p>
+<p>Display map tiles from any custom (non-ArcGIS) service.</p>
 
 <p>WebTiledLayer provides a simple way to integrate non-ArcGIS Services as a layer in a map. In this case, map tiles
 from Stamen are added to the map. The template URI is specified by setting the subDomains, level, column, and row

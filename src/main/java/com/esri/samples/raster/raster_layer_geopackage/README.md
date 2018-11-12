@@ -1,6 +1,6 @@
 <h1>Raster Layer GeoPackage</h1>
 
-<p>Demonstrates how to show a raster layer using a geopackage.</p>
+<p>Display raster data from a geopackage.</p>
 
 <p><img src="RasterLayerGeoPackage.png"/></p>
 

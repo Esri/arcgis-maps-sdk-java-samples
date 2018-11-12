@@ -1,6 +1,8 @@
 <h1>Map Image Layer</h1>
 
-<p>Demonstrates how to display an ArcGISMapImageLayer on a ArcGISMap. Typically this type of content is known as operational data, an example would be business data that changes frequently, such as displaying a fleet of vehicles as they make deliveries.</p>
+<p>Display a layer from an ArcGIS map image layer service.</p>
+
+<p>Typically this type of content is known as operational data, an example would be business data that changes frequently, such as displaying a fleet of vehicles as they make deliveries.</p>
 
 <p><img src="MapImageLayer.png"/></p>
 

@@ -1,8 +1,10 @@
 <h1>Service Feature Table (Cache)</h1>
 
-<p>Demonstrates how to use a feature service in in an on-interaction-cache mode. This is the default mode for a Service Feature Table.</p>
+<p>Cache features on the client when the user interacts.</p>
 
-<p>On-interaction-cache mode will fetch Features within current extent when needed (performing a pan or zoom) from the server and caches those Features within a table on the client's side. Any queries performed on features within that table will be performed locally, otherwise they will be requested from the server.</p>
+<p>On-interaction-cache mode will fetch features within the current extent when needed (performing a pan or zoom) from 
+the server and caches those features within a table on the client's side. Any queries performed on features within 
+that table will be performed locally, otherwise they will be requested from the server.</p>
 
 <p><img src="ServiceFeatureTableCache.png"/></p>
 

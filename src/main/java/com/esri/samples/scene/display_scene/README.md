@@ -1,6 +1,6 @@
 <h1>Display Scene</h1>
 
-<p>Demonstrates how to display a scene with an elevation source. An elevation source allows objects to be viewed in 3D, like this picture of Mt. Everest.</p>
+<p>Display a 3D scene with terrain and imagery.</p>
 
 <p><img src="DisplayScene.png"/></p>
 

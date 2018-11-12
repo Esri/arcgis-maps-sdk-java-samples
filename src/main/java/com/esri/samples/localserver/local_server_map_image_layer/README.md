@@ -1,6 +1,6 @@
 <h1>Local Server Map Image Layer</h1>
 
-<p>Demonstrates how to start a Local Server and Local Map Service, then create a Map Image Layer from the Local Map Service and add it to a map. </p>
+<p>Create a local map imagery service and show its tiles in a map.</p>
 
 <p><b>Note:</b> Local Server is not supported on MacOS</p>
 

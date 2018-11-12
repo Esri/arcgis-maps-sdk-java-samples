@@ -1,8 +1,9 @@
 <h1>Dictionary Renderer with Feature Layer</h1>
 
-<p>Demonstrates how to apply a dictionary renderer to a feature layer and display mil2525d graphics.
-  The dictionary renderer creates these graphics using a mil2525d style file and the attributes attached to each
-  feature within the geodatabase.</p>
+<p>Convert features into graphics to show them with mil2525d symbols.</p>
+
+<p>The dictionary renderer creates these graphics using a mil2525d style file and the attributes attached to each 
+feature within the geodatabase.</p>
 
 <p><img src="FeatureLayerDictionaryRenderer.png"/></p>
 

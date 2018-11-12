@@ -1,6 +1,6 @@
 <h1>Terrain Exaggeration</h1>
 
-<p>Demonstrates how to add vertical exaggeration to a scene's surface.</p>
+<p>Vertically exaggerate terrain.</p>
 
 <p><img src="TerrainExaggeration.gif"/></p>
 

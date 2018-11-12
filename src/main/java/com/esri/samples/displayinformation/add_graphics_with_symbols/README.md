@@ -1,6 +1,6 @@
 <h1>Add Graphics with Symbols</h1>
 
-<p>Demonstrates how to display a Graphic using a SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, and a TextSymbol.</p>
+<p>Draw simple graphics with marker, line, polygon, and text symbols.</p>
 
 <p><img src="AddGraphicsWithSymbols.png"/></p>
 

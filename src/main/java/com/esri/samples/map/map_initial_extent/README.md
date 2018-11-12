@@ -1,6 +1,6 @@
 <h1>Map Initial Extent</h1>
 
-<p>Demonstrates how to display an ArcGISMap at a specific view point.</p>
+<p>Display the map at an initial viewpoint.</p>
 
 <p><img src="MapInitialExtent.png"/></p>
 

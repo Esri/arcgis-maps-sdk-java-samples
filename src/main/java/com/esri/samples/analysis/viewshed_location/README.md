@@ -1,6 +1,6 @@
 <h1>Viewshed Location</h1>
 
-<p>A viewshed shows the visible and obstructed areas from an observer's vantage point. This sample demonstrates all of the configurable properties of a viewshed.</p>
+<p>Adjust the position, angles, range, and style of a viewshed.</p>
 
 <p><img src="ViewshedLocation.png"/></p>
 

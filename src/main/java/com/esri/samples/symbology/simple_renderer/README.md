@@ -1,6 +1,9 @@
 <h2>Simple Renderer</h2>
 
-<p>Demonstrates how to create a SimpleRenderer and add it to a GraphicsOverlay. Renderers are used to display graphics that don't already have a symbol set. A renderer will not override a symbol that is manually set to a graphic.</p>
+<p>Set default symbols for all graphics in an overlay.</p>
+
+<p>Renderers are used to display graphics that don't already have a symbol set. A renderer will not override a symbol 
+that is manually set to a graphic.</p>
 
 <p><img src="SimpleRenderer.png"/></p>
 

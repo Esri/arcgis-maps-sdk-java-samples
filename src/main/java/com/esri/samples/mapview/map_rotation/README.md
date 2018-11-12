@@ -1,6 +1,6 @@
 <h1>Map Rotation</h1>
 
-<p>Demonstrates how to rotate a map.</p>
+<p>Rotate a map.</p>
 
 <p><img src="MapRotation.png"/></p>
 

@@ -1,6 +1,6 @@
 <h1>Open Mobile Map Package</h1>
 
-<p>Shows how to open and display a map from a mobile map package.</p>
+<p>Display a map from a mobile map package.</p>
 
 <p><img src="OpenMobileMapPackage.png"/></p>
 

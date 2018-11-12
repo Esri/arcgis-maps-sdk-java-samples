@@ -1,6 +1,6 @@
 <h1>Spatial Relationships</h1>
 
-<p>Shows how to use the GeometryEngine to determine spatial relationships between two geometries.</p>
+<p>Determine spatial relationships between two geometries.</p>
 
 <p><img src="SpatialRelationships.png"/></p>
 

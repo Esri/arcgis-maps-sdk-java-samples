@@ -1,7 +1,6 @@
 <h1>Symbol Dictionary</h1>
 
-<p>Demonstrates how to search for symbol primitives within a Symbol Dictionary using the mil2525d specification and 
-display those symbols.</p>
+<p>Find symbols within mil2525d specification that match a keyword.</p>
   
 <p><img src="SymbolDictionary.png"/></p>
   
@@ -18,7 +17,7 @@ display those symbols.</p>
 
 <p>To search for certain symbols:
   - enter text into one or multiple seach boxes and hit <code>search for symbols</code>
-  - this will seach for symbols containing the information that was entered </p>
+  - this will seach for symbols containing the information that was entered</p>
 
 <p>Clear button:
   - will clear any previous search results and start fresh</p>

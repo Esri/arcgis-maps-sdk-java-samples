@@ -1,6 +1,6 @@
 <h1>Identify Graphics</h1>
 
-<p>Demonstrates how to create a Graphic and add it to a GraphicOverlay where it can be identified from the MapView.</p>
+<p>Determine if a graphic was clicked.</p>
 
 <h2>How to use the sample</h2>
 

@@ -1,6 +1,6 @@
 <h1>Statistical Query</h1>
 
-<p>Demonstrates how to query a feature table to get aggregated statistics for a specified field.</p>
+<p>Get aggregated feature statistics for a specified field.</p>
 
 <p><img src="StatisticalQuery.png"/></p>
 
