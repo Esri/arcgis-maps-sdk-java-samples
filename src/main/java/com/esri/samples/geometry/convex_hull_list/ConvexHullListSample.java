@@ -141,15 +141,24 @@ public class ConvexHullListSample extends Application {
 
       // create a button to create and show the convex hull
       Button convexHullButton = new Button("Create Convex Hull");
+
+      // create a button to clear the convex hull
+      Button clearButton = new Button("Clear");
+
+      clearButton.setDisable(true);
+      clearButton.setOnAction(e -> {
+        convexHullGraphic.setGeometry(null);
+        clearButton.setDisable(true);
+        convexHullButton.setDisable(false);
+      });
+
       convexHullButton.setOnAction(e -> {
         // TODO: keep this ?
         convexHullButton.setDisable(true);
         Geometry convexHull = GeometryEngine.convexHull(firstPolygonGraphic.getGeometry());
         convexHullGraphic.setGeometry(convexHull);
+        clearButton.setDisable(false);
       });
-
-      // create a button to clear the convex hull
-      Button clearButton = new Button("Clear");
 
       // create a check box for unioning the result TODO: change grammar
       CheckBox checkBox = new CheckBox("Union");
