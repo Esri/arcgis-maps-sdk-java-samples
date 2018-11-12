@@ -16,6 +16,8 @@
 
 package com.esri.samples.geometry.convex_hull_list;
 
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.PolygonBuilder;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -41,11 +43,13 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ConvexHullListSample extends Application {
 
   private MapView mapView;
-  private GraphicsOverlay graphicsOverlay;
 
   @Override
   public void start(Stage stage) {
@@ -68,7 +72,8 @@ public class ConvexHullListSample extends Application {
       mapView.setMap(map);
 
       // create a graphics overlay for displaying polygon graphic and convex hull
-      graphicsOverlay = new GraphicsOverlay();
+      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a simple line symbol for the outline of the two input polygon graphics
       SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
@@ -122,16 +127,26 @@ public class ConvexHullListSample extends Application {
       secondPolygonGraphicOverlay.setRenderer(secondPolygonRenderer);
       mapView.getGraphicsOverlays().add(secondPolygonGraphicOverlay);
 
-
-      // Set the Z index for the polygon1 graphic so that it appears above the convex hull graphic(s) added later.
-
-
-
-
       // create a graphic to show the convex hull as a red outline
+      SimpleLineSymbol convexHullLine = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 5 );
+      SimpleFillSymbol convexHullFill = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, 0x00000000, convexHullLine);
+      Graphic convexHullGraphic = new Graphic();
+      convexHullGraphic.setSymbol(convexHullFill);
+      graphicsOverlay.getGraphics().add(convexHullGraphic);
+
+      // add graphics to a geometry list
+      List<Geometry> allPolygons = new ArrayList<>();
+      allPolygons.add(firstPolygonGraphic.getGeometry());
+      allPolygons.add(secondPolygonGraphic.getGeometry());
 
       // create a button to create and show the convex hull
       Button convexHullButton = new Button("Create Convex Hull");
+      convexHullButton.setOnAction(e -> {
+        // TODO: keep this ?
+        convexHullButton.setDisable(true);
+        Geometry convexHull = GeometryEngine.convexHull(firstPolygonGraphic.getGeometry());
+        convexHullGraphic.setGeometry(convexHull);
+      });
 
       // create a button to clear the convex hull
       Button clearButton = new Button("Clear");
