@@ -76,48 +76,66 @@ public class ConvexHullListSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // graphics overlay
+      // create a graphics overlay
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
+
+      // create a graphics overlay for displaying convex hull polygon
+      GraphicsOverlay convexHullGraphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(convexHullGraphicsOverlay);
 
       // create a simple line symbol for the outline of the two input polygon graphics
       SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
       // create a simple fill symbol for the two input polygon graphics
       SimpleFillSymbol polygonFill = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x300000FF, polygonOutline);
 
-      // TODO: ask about bneefits of Polygon Buildr ovr Polygon.
+      // create a point collection that represents polygon1. Use the same spatial reference as the underlying base map.
+      PointCollection pointCollection1 = new PointCollection(SpatialReferences.getWebMercator());
 
-      PointCollection firstPolygonPointCollection = new PointCollection(SpatialReferences.getWebMercator());
-      firstPolygonPointCollection.add(new Point(-4983189.15470412, 8679428.55774286));
-      firstPolygonPointCollection.add(new Point(-5222621.66664186, 5147799.00666126));
-      firstPolygonPointCollection.add(new Point(-13483043.3284937, 4728792.11077023));
-      firstPolygonPointCollection.add(new Point(-13273539.8805482, 2244679.79941622));
-      firstPolygonPointCollection.add(new Point(-5372266.98660294, 2035176.3514707));
-      firstPolygonPointCollection.add(new Point(-5432125.11458738, -4100281.76693377));
-      firstPolygonPointCollection.add(new Point(-2469147.7793579, -4160139.89491821));
-      firstPolygonPointCollection.add(new Point(-1900495.56350578, 2035176.3514707));
-      firstPolygonPointCollection.add(new Point(2768438.41928007, 1975318.22348627));
-      firstPolygonPointCollection.add(new Point(2409289.65137346, 5477018.71057565));
-      firstPolygonPointCollection.add(new Point(-2409289.65137346, 5387231.518599));
-      firstPolygonPointCollection.add(new Point(-2469147.7793579, 8709357.62173508));
-      Polygon firstPolygon = new Polygon(firstPolygonPointCollection);
-      Graphic firstPolygonGraphic = new Graphic (firstPolygon, polygonFill);
-      firstPolygonGraphic.setZIndex(1);
-      graphicsOverlay.getGraphics().add(firstPolygonGraphic);
+      // Add all of the polygon1 boundary map points to the point collection
+      pointCollection1.add(new Point(-4983189.15470412, 8679428.55774286));
+      pointCollection1.add(new Point(-5222621.66664186, 5147799.00666126));
+      pointCollection1.add(new Point(-13483043.3284937, 4728792.11077023));
+      pointCollection1.add(new Point(-13273539.8805482, 2244679.79941622));
+      pointCollection1.add(new Point(-5372266.98660294, 2035176.3514707));
+      pointCollection1.add(new Point(-5432125.11458738, -4100281.76693377));
+      pointCollection1.add(new Point(-2469147.7793579, -4160139.89491821));
+      pointCollection1.add(new Point(-1900495.56350578, 2035176.3514707));
+      pointCollection1.add(new Point(2768438.41928007, 1975318.22348627));
+      pointCollection1.add(new Point(2409289.65137346, 5477018.71057565));
+      pointCollection1.add(new Point(-2409289.65137346, 5387231.518599));
+      pointCollection1.add(new Point(-2469147.7793579, 8709357.62173508));
 
-      PointCollection secondPolygonPointCollection = new PointCollection(SpatialReferences.getWebMercator());
-      secondPolygonPointCollection.add(new Point(5993520.19456882, -1063938.49607736));
-      secondPolygonPointCollection.add(new Point(3085421.63862418, -1383120.04490055));
-      secondPolygonPointCollection.add(new Point(3794713.96934239, -2979027.78901651));
-      secondPolygonPointCollection.add(new Point(6880135.60796657, -4078430.90162972));
-      secondPolygonPointCollection.add(new Point(7092923.30718203, -2837169.32287287));
-      secondPolygonPointCollection.add(new Point(8617901.81822617, -2092412.37561875));
-      secondPolygonPointCollection.add(new Point(6986529.4575743, 354646.16535905));
-      secondPolygonPointCollection.add(new Point(5319692.48038653, 1205796.96222089));
-      Polygon secondPolygon = new Polygon(secondPolygonPointCollection);
-      Graphic secondPolygonGraphic = new Graphic(secondPolygon, polygonFill);
-      secondPolygonGraphic.setZIndex(1);
-      graphicsOverlay.getGraphics().add(secondPolygonGraphic);
+      // create a polyline geometry from the point collection
+      Polygon polygon1 = new Polygon(pointCollection1);
+      // create the graphic for polygon1
+      Graphic polygonGraphic1 = new Graphic(polygon1, polygonFill);
+      // set the Z index for the polygon1 graphic
+      polygonGraphic1.setZIndex(1);
+      // add the polygon1 graphic to the graphics overlay collection
+      graphicsOverlay.getGraphics().add(polygonGraphic1);
+
+      // create a point collection that represents polygon2. Use the same spatial reference as the underlying base map.
+      PointCollection pointCollection2 = new PointCollection(SpatialReferences.getWebMercator());
+
+      // Add all of the polygon2 boundary map points to the point collection
+      pointCollection2.add(new Point(5993520.19456882, -1063938.49607736));
+      pointCollection2.add(new Point(3085421.63862418, -1383120.04490055));
+      pointCollection2.add(new Point(3794713.96934239, -2979027.78901651));
+      pointCollection2.add(new Point(6880135.60796657, -4078430.90162972));
+      pointCollection2.add(new Point(7092923.30718203, -2837169.32287287));
+      pointCollection2.add(new Point(8617901.81822617, -2092412.37561875));
+      pointCollection2.add(new Point(6986529.4575743, 354646.16535905));
+      pointCollection2.add(new Point(5319692.48038653, 1205796.96222089));
+
+      // create a polyline geometry from the point collection
+      Polygon polygon2 = new Polygon(pointCollection2);
+      // create the graphic for polygon2
+      Graphic polygonGraphic2 = new Graphic(polygon2, polygonFill);
+      // set the Z index for the polygon2 graphic
+      polygonGraphic2.setZIndex(1);
+      // add the polygon2 graphic to the graphics overlay collection
+      graphicsOverlay.getGraphics().add(polygonGraphic2);
 
 //      // create the first polygon graphic, and add to the map view
 //      GraphicsOverlay firstPolygonGraphicOverlay = new GraphicsOverlay();
@@ -167,66 +185,68 @@ public class ConvexHullListSample extends Application {
 //      secondPolygonGraphicOverlay.setRenderer(secondPolygonRenderer);
 //      mapView.getGraphicsOverlays().add(secondPolygonGraphicOverlay);
 
-      // create a graphics overlay for displaying convex hull polygon
-      GraphicsOverlay convexHullGraphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(convexHullGraphicsOverlay);
 
-      // create a graphic to show the convex hull as a red outline
-//      Graphic convexHullGraphic = new Graphic();
-//      convexHullGraphic.setSymbol(convexHullFill);
-//      graphicsOverlay.getGraphics().add(convexHullGraphic);
-      
+
       // create a button to create and show the convex hull
       Button convexHullButton = new Button("Create Convex Hull");
 
       // create a button to clear the convex hull
       Button clearButton = new Button("Clear");
 
-      // create a check box for unioning the result TODO: change grammar
+      // create a check box for toggling union option on or off
       CheckBox checkBox = new CheckBox("Union");
 
-
       convexHullButton.setOnAction(e -> {
+        // reset the convex hull graphics over lay
+        convexHullGraphicsOverlay.getGraphics().clear();
 
-        // TODO: isn't this a little hacky? Only way I can think of to not have bug where the original hulls remain in place.
-        // TODO: add another graphics overlay (clear results graphic)
-        graphicsOverlay.getGraphics().clear();
-        graphicsOverlay.getGraphics().add(firstPolygonGraphic);
-        graphicsOverlay.getGraphics().add(secondPolygonGraphic);
-
+        // Get the boolean value of whether to create a single convex hull (true) or individual convex hulls (false).
         Boolean unionBool = checkBox.isSelected();
 
-        // add graphics to a geometry list TODO: should this be a new array list?
+        // add the geometries of the two polygon graphics to a list of geometries
         List<Geometry> allPolygonGeometries = new ArrayList<>();
-        allPolygonGeometries.add(secondPolygonGraphic.getGeometry());
-        allPolygonGeometries.add(firstPolygonGraphic.getGeometry());
+        allPolygonGeometries.add(polygonGraphic1.getGeometry());
+        allPolygonGeometries.add(polygonGraphic2.getGeometry());
 
+        // Retrieve the returned result from the convex hull operation.
+        // When unionBool = true there will be one returned convex hull geometry
+        // when false, one convex hull geometry per input geometry.
         List<Geometry> convexHullGeometries = GeometryEngine.convexHull(allPolygonGeometries, unionBool);
 
-        for (Geometry geometry: convexHullGeometries) {
+        // Loop through the returned geometries.
+        for (Geometry geometry : convexHullGeometries) {
 
+          // Create a simple line symbol for the outline of the convex hull graphic(s)
           SimpleLineSymbol convexHullLine = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 5);
+          // Create the simple fill symbol for the convex hull graphic(s)
           SimpleFillSymbol convexHullFill = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, 0x00000000, convexHullLine);
 
-          Graphic convexHullGraphicNew = new Graphic(geometry, convexHullFill);
-          convexHullGraphicNew.setZIndex(0);
+          // Create the graphic for the convex hull(s)
+          Graphic convexHullGraphic = new Graphic(geometry, convexHullFill);
+          // Set the Z index for the convex hull graphic(s) so that they appear below the initial input polygon graphics
+          convexHullGraphic.setZIndex(0);
 
-          graphicsOverlay.getGraphics().add(convexHullGraphicNew);
-
+          // Add the convex hull graphic to the graphics overlay collection
+          convexHullGraphicsOverlay.getGraphics().add(convexHullGraphic);
         }
 
+        // Enable clear button after convex hull button has been pressed.
         clearButton.setDisable(false);
+        // Reset check box after convex hull button has been pressed.
         checkBox.setSelected(false);
       });
 
-
+      // disable clear button from starting application (when nothing to clear)
       clearButton.setDisable(true);
+
       clearButton.setOnAction(e -> {
-        graphicsOverlay.getGraphics().clear();
-        graphicsOverlay.getGraphics().add(firstPolygonGraphic);
-        graphicsOverlay.getGraphics().add(secondPolygonGraphic);
+        // clear convex hull graphics from map view
+        convexHullGraphicsOverlay.getGraphics().clear();
+        // once cleared disable clear button
         clearButton.setDisable(true);
+        // enable convex hull button after clearing
         convexHullButton.setDisable(false);
+        // reset checkbox
         checkBox.setSelected(false);
       });
 
