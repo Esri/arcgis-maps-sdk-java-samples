@@ -40,9 +40,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -251,6 +256,9 @@ public class ConvexHullListSample extends Application {
       });
 
 
+      // create a control panel
+      VBox controlsVBox = new VBox(6);
+
       // create label
       // TODO: make all this text visible
       Label informationLabel = new Label("Click the 'ConvexHull' button to create convex hull(s) from the polygon\n" +
@@ -259,15 +267,16 @@ public class ConvexHullListSample extends Application {
               "                           'Union' checkbox is un-checked, the resulting output will have two convex\n" +
               "                           hull polygons - one for each of the two input polygons.");
       informationLabel.setWrapText(true); // this isn't wrapping the text.
+      informationLabel.prefWidthProperty().bind(controlsVBox.widthProperty());
+
       informationLabel.setTextAlignment(TextAlignment.JUSTIFY);
       informationLabel.setPadding(new Insets(10));
       informationLabel.getStyleClass().add("panel-label");
 
 
-      // create a control panel
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255, 1)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
       controlsVBox.setPadding(new Insets(10));
       controlsVBox.setMaxSize(260, 110);
       controlsVBox.getStyleClass().add("panel-region");
