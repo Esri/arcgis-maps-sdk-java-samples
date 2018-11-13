@@ -261,29 +261,28 @@ public class ConvexHullListSample extends Application {
 
       // create label
       // TODO: make all this text visible
-      Label informationLabel = new Label("Click the 'ConvexHull' button to create convex hull(s) from the polygon\n" +
-              "                           graphics. If the 'Union' checkbox is checked, the resulting output will\n" +
-              "                           be one polygon being the convex hull for the two input polygons. If the\n" +
-              "                           'Union' checkbox is un-checked, the resulting output will have two convex\n" +
-              "                           hull polygons - one for each of the two input polygons.");
+      Label informationLabel = new Label(
+              "Click the 'ConvexHull' button to create convex hull(s) from the polygon\n" +
+              "graphics. If the 'Union' checkbox is checked, the resulting output will\n" +
+              "be one polygon being the convex hull for the two input polygons. If the\n" +
+              "'Union' checkbox is un-checked, the resulting output will have two convex\n" +
+              "hull polygons - one for each of the two input polygons.");
       informationLabel.setWrapText(true); // this isn't wrapping the text.
-      informationLabel.prefWidthProperty().bind(controlsVBox.widthProperty());
-
-      informationLabel.setTextAlignment(TextAlignment.JUSTIFY);
-      informationLabel.setPadding(new Insets(10));
       informationLabel.getStyleClass().add("panel-label");
+      informationLabel.setPrefHeight(100);
 
 
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255, 1)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
       controlsVBox.setPadding(new Insets(10));
-      controlsVBox.setMaxSize(260, 110);
+      controlsVBox.setMaxSize(360, 300);
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren().addAll(informationLabel, convexHullButton, clearButton, checkBox);
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
+      stackPane.setPadding(new Insets(10));
       stackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
       stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
 
