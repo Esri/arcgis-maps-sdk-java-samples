@@ -44,6 +44,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
@@ -83,6 +84,8 @@ public class ConvexHullListSample extends Application {
       SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
       // create a simple fill symbol for the two input polygon graphics
       SimpleFillSymbol polygonFill = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x300000FF, polygonOutline);
+
+      // TODO: ask about bneefits of Polygon Buildr ovr Polygon.
 
       PointCollection firstPolygonPointCollection = new PointCollection(SpatialReferences.getWebMercator());
       firstPolygonPointCollection.add(new Point(-4983189.15470412, 8679428.55774286));
@@ -165,8 +168,8 @@ public class ConvexHullListSample extends Application {
 //      mapView.getGraphicsOverlays().add(secondPolygonGraphicOverlay);
 
       // create a graphics overlay for displaying convex hull polygon
-//      GraphicsOverlay convexHullGraphicsOverlay = new GraphicsOverlay();
-//      mapView.getGraphicsOverlays().add(convexHullGraphicsOverlay);
+      GraphicsOverlay convexHullGraphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(convexHullGraphicsOverlay);
 
       // create a graphic to show the convex hull as a red outline
 //      Graphic convexHullGraphic = new Graphic();
@@ -185,6 +188,12 @@ public class ConvexHullListSample extends Application {
 
       convexHullButton.setOnAction(e -> {
 
+        // TODO: isn't this a little hacky? Only way I can think of to not have bug where the original hulls remain in place.
+        // TODO: add another graphics overlay (clear results graphic)
+        graphicsOverlay.getGraphics().clear();
+        graphicsOverlay.getGraphics().add(firstPolygonGraphic);
+        graphicsOverlay.getGraphics().add(secondPolygonGraphic);
+
         Boolean unionBool = checkBox.isSelected();
 
         // add graphics to a geometry list TODO: should this be a new array list?
@@ -192,8 +201,7 @@ public class ConvexHullListSample extends Application {
         allPolygonGeometries.add(secondPolygonGraphic.getGeometry());
         allPolygonGeometries.add(firstPolygonGraphic.getGeometry());
 
-        // TODO: an iterable, why? This came from IEnumerable in the .net implementation.
-        Iterable<Geometry> convexHullGeometries = GeometryEngine.convexHull(allPolygonGeometries, unionBool);
+        List<Geometry> convexHullGeometries = GeometryEngine.convexHull(allPolygonGeometries, unionBool);
 
         for (Geometry geometry: convexHullGeometries) {
 
@@ -230,8 +238,11 @@ public class ConvexHullListSample extends Application {
               "                           be one polygon being the convex hull for the two input polygons. If the\n" +
               "                           'Union' checkbox is un-checked, the resulting output will have two convex\n" +
               "                           hull polygons - one for each of the two input polygons.");
+      informationLabel.setWrapText(true); // this isn't wrapping the text.
+      informationLabel.setTextAlignment(TextAlignment.JUSTIFY);
       informationLabel.setPadding(new Insets(10));
       informationLabel.getStyleClass().add("panel-label");
+
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
@@ -253,7 +264,6 @@ public class ConvexHullListSample extends Application {
       e.printStackTrace();
     }
   }
-
 
 
   /**
