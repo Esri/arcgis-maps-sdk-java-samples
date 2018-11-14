@@ -16,22 +16,6 @@
 
 package com.esri.samples.geometry.convex_hull_list;
 
-import com.esri.arcgisruntime.geometry.Geometry;
-import com.esri.arcgisruntime.geometry.GeometryEngine;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.PointCollection;
-import com.esri.arcgisruntime.geometry.Polygon;
-import com.esri.arcgisruntime.geometry.PolygonBuilder;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import com.sun.xml.internal.bind.v2.TODO;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -49,12 +33,26 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.Polygon;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 
 public class ConvexHullListSample extends Application {
@@ -77,7 +75,7 @@ public class ConvexHullListSample extends Application {
       stage.show();
 
       // create a map with a basemap and add it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 30.0, 0.0, 2);
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -142,64 +140,16 @@ public class ConvexHullListSample extends Application {
       // add the polygon2 graphic to the graphics overlay collection
       graphicsOverlay.getGraphics().add(polygonGraphic2);
 
-//      // create the first polygon graphic, and add to the map view
-//      GraphicsOverlay firstPolygonGraphicOverlay = new GraphicsOverlay();
-//      PolygonBuilder firstPolygonGeometry = new PolygonBuilder(SpatialReferences.getWebMercator());
-//      firstPolygonGeometry.addPoint(-4983189.15470412, 8679428.55774286);
-//      firstPolygonGeometry.addPoint(-5222621.66664186, 5147799.00666126);
-//      firstPolygonGeometry.addPoint(-13483043.3284937, 4728792.11077023);
-//      firstPolygonGeometry.addPoint(-13273539.8805482, 2244679.79941622);
-//      firstPolygonGeometry.addPoint(-5372266.98660294, 2035176.3514707);
-//      firstPolygonGeometry.addPoint(-5432125.11458738, -4100281.76693377);
-//      firstPolygonGeometry.addPoint(-2469147.7793579, -4160139.89491821);
-//      firstPolygonGeometry.addPoint(-1900495.56350578, 2035176.3514707);
-//      firstPolygonGeometry.addPoint(2768438.41928007, 1975318.22348627);
-//      firstPolygonGeometry.addPoint(2409289.65137346, 5477018.71057565);
-//      firstPolygonGeometry.addPoint(-2409289.65137346, 5387231.518599);
-//      firstPolygonGeometry.addPoint(-2469147.7793579, 8709357.62173508);
-//      Graphic firstPolygonGraphic = new Graphic(firstPolygonGeometry.toGeometry());
-//      // set the Z index for the first polygon graphic so that it appears above the convex hull graphic added later
-//      firstPolygonGraphic.setZIndex(1);
-//      firstPolygonGraphicOverlay.getGraphics().add(firstPolygonGraphic);
-
-
-//      // render the first polygon
-//      SimpleRenderer firstPolygonRenderer = new SimpleRenderer(polygonFill);
-//      firstPolygonGraphicOverlay.setRenderer(firstPolygonRenderer);
-//      // add first polygon to the map view
-//      mapView.getGraphicsOverlays().add(firstPolygonGraphicOverlay);
-
-      // create the second polygon graphic, and add to the map
-//      GraphicsOverlay secondPolygonGraphicOverlay = new GraphicsOverlay();
-//      PolygonBuilder secondPolygonGeometry = new PolygonBuilder(SpatialReferences.getWebMercator());
-//      secondPolygonGeometry.addPoint(5993520.19456882, -1063938.49607736);
-//      secondPolygonGeometry.addPoint(3085421.63862418, -1383120.04490055);
-//      secondPolygonGeometry.addPoint(3794713.96934239, -2979027.78901651);
-//      secondPolygonGeometry.addPoint(6880135.60796657, -4078430.90162972);
-//      secondPolygonGeometry.addPoint(7092923.30718203, -2837169.32287287);
-//      secondPolygonGeometry.addPoint(8617901.81822617, -2092412.37561875);
-//      secondPolygonGeometry.addPoint(6986529.4575743, 354646.16535905);
-//      secondPolygonGeometry.addPoint(5319692.48038653, 1205796.96222089);
-//      Graphic secondPolygonGraphic = new Graphic(secondPolygonGeometry.toGeometry());
-//      // set the Z index for the second polygon graphic so that it appears above the convex hull graphic added later
-//      secondPolygonGraphic.setZIndex(1);
-//      secondPolygonGraphicOverlay.getGraphics().add(secondPolygonGraphic);
-//
-//      // render the second polygon
-//      SimpleRenderer secondPolygonRenderer = new SimpleRenderer(polygonFill);
-//      secondPolygonGraphicOverlay.setRenderer(secondPolygonRenderer);
-//      mapView.getGraphicsOverlays().add(secondPolygonGraphicOverlay);
-
-
-
       // create a button to create and show the convex hull
       Button convexHullButton = new Button("Create Convex Hull");
+      convexHullButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a button to clear the convex hull
       Button clearButton = new Button("Clear");
+      clearButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a check box for toggling union option on or off
-      CheckBox checkBox = new CheckBox("Union");
+      CheckBox checkBox = new CheckBox("Union result");
 
       convexHullButton.setOnAction(e -> {
         // reset the convex hull graphics over lay
@@ -255,34 +205,30 @@ public class ConvexHullListSample extends Application {
         checkBox.setSelected(false);
       });
 
+      // create label
+      Label informationLabel = new Label(
+              "Click the 'ConvexHull' button to create convex hull(s) from the polygon " +
+                      "graphics. If the 'Union' checkbox is checked, the resulting output will " +
+                      "be one polygon being the convex hull for the two input polygons. If the " +
+                      "'Union' checkbox is un-checked, the resulting output will have two convex " +
+                      "hull polygons - one for each of the two input polygons.");
+      informationLabel.setWrapText(true);
+      informationLabel.setFont(new Font("System Regular", 11));
+      informationLabel.setTextAlignment(TextAlignment.JUSTIFY);
+      informationLabel.getStyleClass().add("panel-label");
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
-
-      // create label
-      // TODO: make all this text visible
-      Label informationLabel = new Label(
-              "Click the 'ConvexHull' button to create convex hull(s) from the polygon\n" +
-              "graphics. If the 'Union' checkbox is checked, the resulting output will\n" +
-              "be one polygon being the convex hull for the two input polygons. If the\n" +
-              "'Union' checkbox is un-checked, the resulting output will have two convex\n" +
-              "hull polygons - one for each of the two input polygons.");
-      informationLabel.setWrapText(true); // this isn't wrapping the text.
-      informationLabel.getStyleClass().add("panel-label");
-      informationLabel.setPrefHeight(100);
-
-
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255, 1)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
       controlsVBox.setPadding(new Insets(10));
-      controlsVBox.setMaxSize(360, 300);
+      controlsVBox.setMaxSize(370, 200);
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren().addAll(informationLabel, convexHullButton, clearButton, checkBox);
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
-      stackPane.setPadding(new Insets(10));
       stackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
       stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
 
