@@ -88,7 +88,6 @@ public class ConvexHullListSample extends Application {
       mapView.getGraphicsOverlays().add(convexHullGraphicsOverlay);
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-
       // create a simple line symbol for the outline of the two input polygon graphics
       SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
       // create a simple fill symbol for the two input polygon graphics
@@ -97,7 +96,7 @@ public class ConvexHullListSample extends Application {
       // create a point collection that represents polygon1. Use the same spatial reference as the underlying base map.
       PointCollection pointCollection1 = new PointCollection(SpatialReferences.getWebMercator());
 
-      // Add all of the polygon1 boundary map points to the point collection
+      // add polygon1 boundary map points to the point collection
       pointCollection1.add(new Point(-4983189.15470412, 8679428.55774286));
       pointCollection1.add(new Point(-5222621.66664186, 5147799.00666126));
       pointCollection1.add(new Point(-13483043.3284937, 4728792.11077023));
@@ -111,7 +110,7 @@ public class ConvexHullListSample extends Application {
       pointCollection1.add(new Point(-2409289.65137346, 5387231.518599));
       pointCollection1.add(new Point(-2469147.7793579, 8709357.62173508));
 
-      // create a polyline geometry from the point collection
+      // create a polygon geometry from the point collection
       Polygon polygon1 = new Polygon(pointCollection1);
       // create the graphic for polygon1
       Graphic polygonGraphic1 = new Graphic(polygon1, polygonFill);
@@ -121,7 +120,7 @@ public class ConvexHullListSample extends Application {
       // create a point collection that represents polygon2. Use the same spatial reference as the underlying base map.
       PointCollection pointCollection2 = new PointCollection(SpatialReferences.getWebMercator());
 
-      // Add all of the polygon2 boundary map points to the point collection
+      // add polygon2 boundary map points to the point collection
       pointCollection2.add(new Point(5993520.19456882, -1063938.49607736));
       pointCollection2.add(new Point(3085421.63862418, -1383120.04490055));
       pointCollection2.add(new Point(3794713.96934239, -2979027.78901651));
@@ -131,7 +130,7 @@ public class ConvexHullListSample extends Application {
       pointCollection2.add(new Point(6986529.4575743, 354646.16535905));
       pointCollection2.add(new Point(5319692.48038653, 1205796.96222089));
 
-      // create a polyline geometry from the point collection
+      // create a polygon geometry from the point collection
       Polygon polygon2 = new Polygon(pointCollection2);
       // create the graphic for polygon2
       Graphic polygonGraphic2 = new Graphic(polygon2, polygonFill);
@@ -150,10 +149,9 @@ public class ConvexHullListSample extends Application {
       CheckBox checkBox = new CheckBox("Union");
 
       convexHullButton.setOnAction(e -> {
-        // reset the convex hull graphics over lay
+        // reset the convex hull graphics overlay
         convexHullGraphicsOverlay.getGraphics().clear();
 
-        // Get the boolean value of whether to create a single convex hull (true) or individual convex hulls (false).
         Boolean unionBool = checkBox.isSelected();
 
         // add the geometries of the two polygon graphics to a list of geometries
@@ -161,27 +159,27 @@ public class ConvexHullListSample extends Application {
         allPolygonGeometries.add(polygonGraphic1.getGeometry());
         allPolygonGeometries.add(polygonGraphic2.getGeometry());
 
-        // Retrieve the returned result from the convex hull operation.
-        // When unionBool = true there will be one returned convex hull geometry
+        // retrieve the returned result from the convex hull operation.
+        // when unionBool = true there will be one returned convex hull geometry
         // when = false, one convex hull geometry per input geometry.
         List<Geometry> convexHullGeometries = GeometryEngine.convexHull(allPolygonGeometries, unionBool);
 
-        // Loop through the returned geometries.
+        // loop through the returned geometries.
         for (Geometry geometry : convexHullGeometries) {
 
-          // Create a simple line symbol for the outline of the convex hull graphic(s)
+          // create a simple line symbol for the outline of the convex hull graphic(s)
           SimpleLineSymbol convexHullLine = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 5);
           // Create the simple fill symbol for the convex hull graphic(s)
           SimpleFillSymbol convexHullFill = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, 0x00000000, convexHullLine);
 
-          // Create the graphic for the convex hull(s)
+          // create the graphic for the convex hull(s)
           Graphic convexHullGraphic = new Graphic(geometry, convexHullFill);
 
-          // Add the convex hull graphic to the graphics overlay collection
+          // add the convex hull(s) graphic to the convex hull graphics overlay
           convexHullGraphicsOverlay.getGraphics().add(convexHullGraphic);
         }
 
-        // Enable reset button after convex hull button has been pressed.
+        // enable reset button after convex hull button has been pressed.
         resetButton.setDisable(false);
         // Reset check box after convex hull button has been pressed.
         checkBox.setSelected(false);
@@ -226,7 +224,6 @@ public class ConvexHullListSample extends Application {
       stackPane.getChildren().addAll(mapView, controlsVBox);
       stackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
       stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
-
 
     } catch (Exception e) {
       // on any error, display the stack trace.
