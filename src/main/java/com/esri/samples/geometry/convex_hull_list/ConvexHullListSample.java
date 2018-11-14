@@ -79,13 +79,15 @@ public class ConvexHullListSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a graphics overlay
+      // create a graphics overlay for the two input polygons
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
-
       // create a graphics overlay for displaying convex hull polygon
       GraphicsOverlay convexHullGraphicsOverlay = new GraphicsOverlay();
+
+      // add the graphics overlays to the map view
       mapView.getGraphicsOverlays().add(convexHullGraphicsOverlay);
+      mapView.getGraphicsOverlays().add(graphicsOverlay);
+
 
       // create a simple line symbol for the outline of the two input polygon graphics
       SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
@@ -113,8 +115,6 @@ public class ConvexHullListSample extends Application {
       Polygon polygon1 = new Polygon(pointCollection1);
       // create the graphic for polygon1
       Graphic polygonGraphic1 = new Graphic(polygon1, polygonFill);
-      // set the Z index for the polygon1 graphic
-      polygonGraphic1.setZIndex(1);
       // add the polygon1 graphic to the graphics overlay collection
       graphicsOverlay.getGraphics().add(polygonGraphic1);
 
@@ -135,21 +135,19 @@ public class ConvexHullListSample extends Application {
       Polygon polygon2 = new Polygon(pointCollection2);
       // create the graphic for polygon2
       Graphic polygonGraphic2 = new Graphic(polygon2, polygonFill);
-      // set the Z index for the polygon2 graphic
-      polygonGraphic2.setZIndex(1);
       // add the polygon2 graphic to the graphics overlay collection
       graphicsOverlay.getGraphics().add(polygonGraphic2);
 
       // create a button to create and show the convex hull
-      Button convexHullButton = new Button("Create Convex Hull");
+      Button convexHullButton = new Button("Convex Hull");
       convexHullButton.setMaxWidth(Double.MAX_VALUE);
 
-      // create a button to clear the convex hull
-      Button clearButton = new Button("Clear");
-      clearButton.setMaxWidth(Double.MAX_VALUE);
+      // create a button to clear the convex hull results
+      Button resetButton = new Button("Reset");
+      resetButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a check box for toggling union option on or off
-      CheckBox checkBox = new CheckBox("Union result");
+      CheckBox checkBox = new CheckBox("Union");
 
       convexHullButton.setOnAction(e -> {
         // reset the convex hull graphics over lay
@@ -165,7 +163,7 @@ public class ConvexHullListSample extends Application {
 
         // Retrieve the returned result from the convex hull operation.
         // When unionBool = true there will be one returned convex hull geometry
-        // when false, one convex hull geometry per input geometry.
+        // when = false, one convex hull geometry per input geometry.
         List<Geometry> convexHullGeometries = GeometryEngine.convexHull(allPolygonGeometries, unionBool);
 
         // Loop through the returned geometries.
@@ -178,27 +176,25 @@ public class ConvexHullListSample extends Application {
 
           // Create the graphic for the convex hull(s)
           Graphic convexHullGraphic = new Graphic(geometry, convexHullFill);
-          // Set the Z index for the convex hull graphic(s) so that they appear below the initial input polygon graphics
-          convexHullGraphic.setZIndex(0);
 
           // Add the convex hull graphic to the graphics overlay collection
           convexHullGraphicsOverlay.getGraphics().add(convexHullGraphic);
         }
 
-        // Enable clear button after convex hull button has been pressed.
-        clearButton.setDisable(false);
+        // Enable reset button after convex hull button has been pressed.
+        resetButton.setDisable(false);
         // Reset check box after convex hull button has been pressed.
         checkBox.setSelected(false);
       });
 
       // disable clear button from starting application (when nothing to clear)
-      clearButton.setDisable(true);
+      resetButton.setDisable(true);
 
-      clearButton.setOnAction(e -> {
+      resetButton.setOnAction(e -> {
         // clear convex hull graphics from map view
         convexHullGraphicsOverlay.getGraphics().clear();
-        // once cleared disable clear button
-        clearButton.setDisable(true);
+        // once cleared disable reset button
+        resetButton.setDisable(true);
         // enable convex hull button after clearing
         convexHullButton.setDisable(false);
         // reset checkbox
@@ -207,25 +203,24 @@ public class ConvexHullListSample extends Application {
 
       // create label
       Label informationLabel = new Label(
-              "Click the 'ConvexHull' button to create convex hull(s) from the polygon " +
-                      "graphics. If the 'Union' checkbox is checked, the resulting output will " +
-                      "be one polygon being the convex hull for the two input polygons. If the " +
+              "Click the 'ConvexHull' button to create convex hull(s) from the polygon "      +
+                      "graphics. If the 'Union' checkbox is checked, the resulting output will "   +
+                      "be one polygon being the convex hull for the two input polygons. If the "   +
                       "'Union' checkbox is un-checked, the resulting output will have two convex " +
                       "hull polygons - one for each of the two input polygons.");
       informationLabel.setWrapText(true);
       informationLabel.setFont(new Font("System Regular", 11));
       informationLabel.setTextAlignment(TextAlignment.JUSTIFY);
-      informationLabel.getStyleClass().add("panel-label");
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255, 1)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
+      controlsVBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
       controlsVBox.setPadding(new Insets(10));
       controlsVBox.setMaxSize(370, 200);
       controlsVBox.getStyleClass().add("panel-region");
-      controlsVBox.getChildren().addAll(informationLabel, convexHullButton, clearButton, checkBox);
+      controlsVBox.getChildren().addAll(informationLabel, convexHullButton, resetButton, checkBox);
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
