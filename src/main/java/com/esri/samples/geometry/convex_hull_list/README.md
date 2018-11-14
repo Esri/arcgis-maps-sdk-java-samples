@@ -23,7 +23,7 @@
 <h2>Relevant API</h2>
 
 <ul>
-<li><code>GeometryEngine.ConvexHull</li>
+<li><code>GeometryEngine.ConvexHull</code></li>
 
 <li><code>GraphicsOverlay</code></li>
 
