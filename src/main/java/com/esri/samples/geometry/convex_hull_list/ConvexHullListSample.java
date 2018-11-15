@@ -193,7 +193,7 @@ public class ConvexHullListSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10));
-      controlsVBox.setMaxSize(370, 220);
+      controlsVBox.setMaxSize(260, 110);
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren().addAll(convexHullButton, clearButton, checkBox);
 
