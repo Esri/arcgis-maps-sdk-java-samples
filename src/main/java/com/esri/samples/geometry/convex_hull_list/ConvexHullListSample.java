@@ -169,8 +169,6 @@ public class ConvexHullListSample extends Application {
 
         // enable clear button after convex hull button has been pressed
         clearButton.setDisable(false);
-        // Reset check box after convex hull button has been pressed
-        checkBox.setSelected(false);
       });
 
       // disable clear button from starting application (when nothing to clear)
