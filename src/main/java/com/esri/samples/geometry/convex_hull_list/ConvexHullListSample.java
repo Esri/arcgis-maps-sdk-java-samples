@@ -66,6 +66,7 @@ public class ConvexHullListSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Convex Hull List Sample");
@@ -199,7 +200,6 @@ public class ConvexHullListSample extends Application {
         checkBox.setSelected(false);
       });
 
-      // create label
       Label informationLabel = new Label(
               "Click the 'ConvexHull' button to create convex hull(s) from the polygon "      +
                       "graphics. If the 'Union' checkbox is checked, the resulting output will "   +
@@ -207,16 +207,15 @@ public class ConvexHullListSample extends Application {
                       "'Union' checkbox is un-checked, the resulting output will have two convex " +
                       "hull polygons - one for each of the two input polygons.");
       informationLabel.setWrapText(true);
-      informationLabel.setFont(new Font("System Regular", 11));
       informationLabel.setTextAlignment(TextAlignment.JUSTIFY);
+      informationLabel.getStyleClass().add("panel-label");
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255, 1)"),
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
       controlsVBox.setPadding(new Insets(10));
-      controlsVBox.setMaxSize(370, 200);
+      controlsVBox.setMaxSize(370, 220);
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren().addAll(informationLabel, convexHullButton, resetButton, checkBox);
 
