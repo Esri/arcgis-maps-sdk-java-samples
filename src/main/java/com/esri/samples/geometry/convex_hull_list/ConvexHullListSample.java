@@ -200,16 +200,6 @@ public class ConvexHullListSample extends Application {
         checkBox.setSelected(false);
       });
 
-      Label informationLabel = new Label(
-              "Click the 'ConvexHull' button to create convex hull(s) from the polygon "      +
-                      "graphics. If the 'Union' checkbox is checked, the resulting output will "   +
-                      "be one polygon being the convex hull for the two input polygons. If the "   +
-                      "'Union' checkbox is un-checked, the resulting output will have two convex " +
-                      "hull polygons - one for each of the two input polygons.");
-      informationLabel.setWrapText(true);
-      informationLabel.setTextAlignment(TextAlignment.JUSTIFY);
-      informationLabel.getStyleClass().add("panel-label");
-
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
@@ -217,7 +207,7 @@ public class ConvexHullListSample extends Application {
       controlsVBox.setPadding(new Insets(10));
       controlsVBox.setMaxSize(370, 220);
       controlsVBox.getStyleClass().add("panel-region");
-      controlsVBox.getChildren().addAll(informationLabel, convexHullButton, resetButton, checkBox);
+      controlsVBox.getChildren().addAll(convexHullButton, resetButton, checkBox);
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
