@@ -21,23 +21,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -81,13 +74,13 @@ public class ConvexHullListSample extends Application {
       mapView.setMap(map);
 
       // create a graphics overlay for the two input polygons
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+      GraphicsOverlay polygonGraphicsOverlay = new GraphicsOverlay();
       // create a graphics overlay for displaying convex hull polygon
       GraphicsOverlay convexHullGraphicsOverlay = new GraphicsOverlay();
 
       // add the graphics overlays to the map view
       mapView.getGraphicsOverlays().add(convexHullGraphicsOverlay);
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
+      mapView.getGraphicsOverlays().add(polygonGraphicsOverlay);
 
       // create a simple line symbol for the outline of the two input polygon graphics
       SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
@@ -116,7 +109,7 @@ public class ConvexHullListSample extends Application {
       // create the graphic for polygon1
       Graphic polygonGraphic1 = new Graphic(polygon1, polygonFill);
       // add the polygon1 graphic to the graphics overlay collection
-      graphicsOverlay.getGraphics().add(polygonGraphic1);
+      polygonGraphicsOverlay.getGraphics().add(polygonGraphic1);
 
       // create a point collection that represents polygon2. Use the same spatial reference as the underlying base map.
       PointCollection pointCollection2 = new PointCollection(SpatialReferences.getWebMercator());
@@ -136,7 +129,7 @@ public class ConvexHullListSample extends Application {
       // create the graphic for polygon2
       Graphic polygonGraphic2 = new Graphic(polygon2, polygonFill);
       // add the polygon2 graphic to the graphics overlay collection
-      graphicsOverlay.getGraphics().add(polygonGraphic2);
+      polygonGraphicsOverlay.getGraphics().add(polygonGraphic2);
 
       // create a button to create and show the convex hull
       Button convexHullButton = new Button("Create Convex Hull");
@@ -154,13 +147,10 @@ public class ConvexHullListSample extends Application {
         convexHullGraphicsOverlay.getGraphics().clear();
 
         // add the geometries of the two polygon graphics to a list of geometries
-        List<Geometry> allPolygonGeometries = new ArrayList<>();
-        allPolygonGeometries.add(polygonGraphic1.getGeometry());
-        allPolygonGeometries.add(polygonGraphic2.getGeometry());
+        List<Geometry> allPolygonGeometries = Arrays.asList(polygonGraphic1.getGeometry(), polygonGraphic2.getGeometry());
 
-        // retrieve the returned result from the convex hull operation.
-        // when unionBool = true there will be one returned convex hull geometry
-        // when = false, one convex hull geometry per input geometry.
+        // retrieve the returned result from the convex hull operation
+        // if unioned, one geometry is returned, otherwise one convex hull geometry is returned per input geometry
         List<Geometry> convexHullGeometries = GeometryEngine.convexHull(allPolygonGeometries, checkBox.isSelected());
 
         // loop through the returned geometries.
@@ -178,9 +168,9 @@ public class ConvexHullListSample extends Application {
           convexHullGraphicsOverlay.getGraphics().add(convexHullGraphic);
         }
 
-        // enable clear button after convex hull button has been pressed.
+        // enable clear button after convex hull button has been pressed
         clearButton.setDisable(false);
-        // Reset check box after convex hull button has been pressed.
+        // Reset check box after convex hull button has been pressed
         checkBox.setSelected(false);
       });
 
@@ -213,14 +203,14 @@ public class ConvexHullListSample extends Application {
       stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
 
     } catch (Exception e) {
-      // on any error, display the stack trace.
+      // on any error, display the stack trace
       e.printStackTrace();
     }
   }
 
 
   /**
-   * Stops and releases all resources used in application.
+   * Stops and releases all resources used in application
    */
   @Override
   public void stop() {
