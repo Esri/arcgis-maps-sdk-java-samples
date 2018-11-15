@@ -139,7 +139,7 @@ public class ConvexHullListSample extends Application {
       graphicsOverlay.getGraphics().add(polygonGraphic2);
 
       // create a button to create and show the convex hull
-      Button convexHullButton = new Button("Convex Hull");
+      Button convexHullButton = new Button("Create Convex Hull");
       convexHullButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a button to clear the convex hull results
@@ -153,8 +153,6 @@ public class ConvexHullListSample extends Application {
         // reset the convex hull graphics overlay
         convexHullGraphicsOverlay.getGraphics().clear();
 
-        Boolean unionBool = checkBox.isSelected();
-
         // add the geometries of the two polygon graphics to a list of geometries
         List<Geometry> allPolygonGeometries = new ArrayList<>();
         allPolygonGeometries.add(polygonGraphic1.getGeometry());
@@ -163,7 +161,7 @@ public class ConvexHullListSample extends Application {
         // retrieve the returned result from the convex hull operation.
         // when unionBool = true there will be one returned convex hull geometry
         // when = false, one convex hull geometry per input geometry.
-        List<Geometry> convexHullGeometries = GeometryEngine.convexHull(allPolygonGeometries, unionBool);
+        List<Geometry> convexHullGeometries = GeometryEngine.convexHull(allPolygonGeometries, checkBox.isSelected());
 
         // loop through the returned geometries.
         for (Geometry geometry : convexHullGeometries) {
