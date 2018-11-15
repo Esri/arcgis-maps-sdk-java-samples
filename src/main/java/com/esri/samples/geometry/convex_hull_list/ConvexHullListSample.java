@@ -143,8 +143,8 @@ public class ConvexHullListSample extends Application {
       convexHullButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a button to clear the convex hull results
-      Button resetButton = new Button("Reset");
-      resetButton.setMaxWidth(Double.MAX_VALUE);
+      Button clearButton = new Button("Clear");
+      clearButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a check box for toggling union option on or off
       CheckBox checkBox = new CheckBox("Union");
@@ -180,20 +180,20 @@ public class ConvexHullListSample extends Application {
           convexHullGraphicsOverlay.getGraphics().add(convexHullGraphic);
         }
 
-        // enable reset button after convex hull button has been pressed.
-        resetButton.setDisable(false);
+        // enable clear button after convex hull button has been pressed.
+        clearButton.setDisable(false);
         // Reset check box after convex hull button has been pressed.
         checkBox.setSelected(false);
       });
 
       // disable clear button from starting application (when nothing to clear)
-      resetButton.setDisable(true);
+      clearButton.setDisable(true);
 
-      resetButton.setOnAction(e -> {
+      clearButton.setOnAction(e -> {
         // clear convex hull graphics from map view
         convexHullGraphicsOverlay.getGraphics().clear();
-        // once cleared disable reset button
-        resetButton.setDisable(true);
+        // once cleared disable clear button
+        clearButton.setDisable(true);
         // enable convex hull button after clearing
         convexHullButton.setDisable(false);
         // reset checkbox
@@ -207,7 +207,7 @@ public class ConvexHullListSample extends Application {
       controlsVBox.setPadding(new Insets(10));
       controlsVBox.setMaxSize(370, 220);
       controlsVBox.getStyleClass().add("panel-region");
-      controlsVBox.getChildren().addAll(convexHullButton, resetButton, checkBox);
+      controlsVBox.getChildren().addAll(convexHullButton, clearButton, checkBox);
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
