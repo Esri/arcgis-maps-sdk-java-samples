@@ -29,10 +29,6 @@
 
 </ul>
 
-<h2>Tags</h2>
-
-<p>3D, AtmosphereEffect, Scene </p>
-
 <h2>Additional Information</h2>
 There are three atmosphere effect options:
 
@@ -41,3 +37,8 @@ There are three atmosphere effect options:
 <li><strong> Horizon only</strong> - Atmosphere effect applied to the sky (horizon) only.</li>
 <li><strong> None</strong> - No atmosphere effect. The sky is rendered black with a starfield consisting of randomly placed white dots.</li>
 </ul>
+
+<h2>Tags</h2>
+
+<p>3D, AtmosphereEffect, Scene </p>
+
