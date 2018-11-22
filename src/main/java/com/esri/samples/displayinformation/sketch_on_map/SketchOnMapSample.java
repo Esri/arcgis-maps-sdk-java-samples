@@ -61,12 +61,12 @@ public class SketchOnMapSample extends Application {
   private Button doneButton;
   private Button editButton;
   private GraphicsOverlay graphicsOverlay;
-  private Graphic selectedGraphic;
+  // private Graphic selectedGraphic;
   private SimpleFillSymbol fillSymbol;
   private SimpleLineSymbol lineSymbol;
   private SimpleMarkerSymbol pointSymbol;
   private Graphic graphic;
-  private ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
+  //private ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
 
   @Override
   public void start(Stage stage) {
@@ -128,8 +128,9 @@ public class SketchOnMapSample extends Application {
 
       // save the sketch as a graphic, and store graphic to the graphics overlay
       doneButton.setOnAction(event -> {
-        storeGraphic();
+        storeGraphicInGraphicOverlay();
         selectGraphic();
+        graphicsOverlay.clearSelection();
         clearButton.setDisable(false);
         undoButton.setDisable(true);
         redoButton.setDisable(true);
@@ -139,6 +140,7 @@ public class SketchOnMapSample extends Application {
       // clear the graphics overlay, and disable the clear button
       clearButton.setOnAction(event -> {
         graphicsOverlay.getGraphics().clear();
+        sketchEditor.stop();
         resetButtons(true);
       });
 
@@ -149,33 +151,40 @@ public class SketchOnMapSample extends Application {
         };
       });
 
-      // redo the last change made whilst sketching raphic
+      // redo the last change made whilst sketching graphic
       redoButton.setOnAction(event -> {
         if (sketchEditor.canRedo()) {
           sketchEditor.redo();
         }
       });
 
-
-
-
-
-
-
-      //TODO: allow the user to edit the sketch
       editButton.setOnAction(event -> {
-        // select saved graphic on graphics overlay
-        //Graphic selectedGraphic = graphicsOverlay.get
-        // edit that
-        // save new geometry to that graphic
-        sketchEditor.start(graphic.getGeometry());
+        // this edits the feature
+        undoButton.setDisable(false);
+        redoButton.setDisable(false);
+
+        if (graphicsOverlay.getSelectedGraphics().size() > 0) {
+          Graphic selectedGraphic = graphicsOverlay.getSelectedGraphics().get(0);
+          sketchEditor.start(selectedGraphic.getGeometry());
+        }
+
+
+        // TODO: if sketch editor clear button is used, cancel the edit option
+        // when editing a feature, right click on the line and select clear
+        // Then click away from the feature and a graphic type the same as the one selected is chosen.
+        // It then makes a new graphic rather than editing old one: can't undo beyond the clear function within the sketch editor.
+        // Is this my code or an API bug?
+
       });
+
 
       sketchOptionsDropDown.getSelectionModel().selectedItemProperty().addListener(o -> {
 
+        graphicsOverlay.clearSelection();
+
         // create a graphics draw option based on source type
         resetButtons(false);
-        clearButton.setDisable(true);
+        editButton.setDisable(true);
         SketchCreationMode sketchCreationMode = sketchOptionsDropDown.getSelectionModel().getSelectedItem();
 
         try {
@@ -206,8 +215,6 @@ public class SketchOnMapSample extends Application {
 
       });
 
-
-
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
@@ -221,7 +228,6 @@ public class SketchOnMapSample extends Application {
       stackPane.getChildren().addAll(mapView, controlsVBox);
       stackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
       stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
-
 
     } catch (Exception e) {
 
@@ -241,11 +247,13 @@ public class SketchOnMapSample extends Application {
 
   private void createFreeHandPolygon() { sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON); }
 
+
   /**
    * When the done button is clicked, check that sketch is valid. If so, get the geometry from the sketch, set its
    * symbol and add it to the graphics overlay.
    */
-  private void storeGraphic() {
+
+  private void storeGraphicInGraphicOverlay() {
 
     if (!sketchEditor.isSketchValid()) {
       sketchEditor.stop();
@@ -257,6 +265,11 @@ public class SketchOnMapSample extends Application {
     sketchEditor.stop();
 
     if (sketchGeometry != null) {
+
+      if (graphicsOverlay.getSelectedGraphics().size() != 0) {
+        Graphic selectedGraphic = graphicsOverlay.getSelectedGraphics().get(0);
+        selectedGraphic.setGeometry(sketchGeometry);
+      } else {
 
       // create a graphic from the sketch editor geometry
       graphic = new Graphic(sketchGeometry);
@@ -273,10 +286,13 @@ public class SketchOnMapSample extends Application {
 
       // add the graphic to the graphics overlay
       graphicsOverlay.getGraphics().add(graphic);
-      //undoButton.setDisable(true);
 
-      selectGraphic();
+
+
+
+      }
     }
+
   }
 
   /**
@@ -287,24 +303,28 @@ public class SketchOnMapSample extends Application {
 
     mapView.setOnMouseClicked(e -> {
 
+      graphicsOverlay.clearSelection();
+
       Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
+      ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
+
       identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
-      System.out.println(identifyGraphics.toString());
 
       identifyGraphics.addDoneListener(() -> {
 
         try {
 
+          Graphic selectedGraphic = null;
+
           if (!identifyGraphics.get().getGraphics().isEmpty()) {
             // store the selected graphic
             selectedGraphic = identifyGraphics.get().getGraphics().get(0);
             selectedGraphic.setSelected(true);
-          } else
-            selectedGraphic.setSelected(false);
-
-          if (!selectedGraphic.isSelected()) {
+            editButton.setDisable(false);
+          } else if (identifyGraphics.get().getGraphics().isEmpty()){
             editButton.setDisable(true);
+
           }
 
         } catch (Exception x) {
@@ -312,9 +332,6 @@ public class SketchOnMapSample extends Application {
           x.printStackTrace();
         }
       });
-
-      editButton.setDisable(false);
-
     });
   }
 
@@ -329,8 +346,6 @@ public class SketchOnMapSample extends Application {
     editButton.setDisable(bool);
     doneButton.setDisable(bool);
   }
-
-
 
   /**
    * Stops and releases all resources used in application
