@@ -16,12 +16,15 @@
 
 package com.esri.samples.displayinformation.sketch_on_map;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryType;
+import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.IdentifyGraphicsOverlayResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
 import com.esri.arcgisruntime.mapping.view.SketchEditor;
@@ -30,6 +33,7 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -43,6 +47,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import java.security.Identity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,15 +55,18 @@ public class SketchOnMapSample extends Application {
 
   private MapView mapView;
   private SketchEditor sketchEditor;
-//  private Button redoButton;
-//  private Button undoButton;
-//  private Button clearButton;
-//  private Button doneButton;
-//  private Button editButton;
+  private Button redoButton;
+  private Button undoButton;
+  private Button clearButton;
+  private Button doneButton;
+  private Button editButton;
   private GraphicsOverlay graphicsOverlay;
+  private Graphic selectedGraphic;
   private SimpleFillSymbol fillSymbol;
   private SimpleLineSymbol lineSymbol;
   private SimpleMarkerSymbol pointSymbol;
+  private Graphic graphic;
+  private ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
 
   @Override
   public void start(Stage stage) {
@@ -102,11 +110,11 @@ public class SketchOnMapSample extends Application {
       sketchOptionsDropDown.setMaxWidth(Double.MAX_VALUE);
 
       // create buttons for user interaction
-      Button undoButton            = new Button("Undo changes to sketch");
-      Button redoButton            = new Button("Redo changes to sketch");
-      Button clearButton           = new Button("Clear graphics overlay");
-      Button doneButton            = new Button ("Save sketch to graphics overlay");
-      Button editButton            = new Button("Edit sketch");
+      undoButton            = new Button("Undo changes to sketch");
+      redoButton            = new Button("Redo changes to sketch");
+      clearButton           = new Button("Clear graphics overlay");
+      doneButton            = new Button ("Save sketch to graphics overlay");
+      editButton            = new Button("Edit sketch");
 
       undoButton.setMaxWidth(Double.MAX_VALUE);
       redoButton.setMaxWidth(Double.MAX_VALUE);
@@ -115,25 +123,23 @@ public class SketchOnMapSample extends Application {
       editButton.setMaxWidth(Double.MAX_VALUE);
 
       // disable clear, undo, redo and edit buttons when starting application
-      clearButton.setDisable(true);
-      redoButton.setDisable(true);
-      undoButton.setDisable(true);
-      editButton.setDisable(true);
+      resetButtons(true);
       sketchOptionsDropDown.setPromptText("    -- Select a graphic to sketch --");
 
       // save the sketch as a graphic, and store graphic to the graphics overlay
       doneButton.setOnAction(event -> {
         storeGraphic();
+        selectGraphic();
         clearButton.setDisable(false);
+        undoButton.setDisable(true);
+        redoButton.setDisable(true);
+        editButton.setDisable(true);
       });
 
       // clear the graphics overlay, and disable the clear button
       clearButton.setOnAction(event -> {
         graphicsOverlay.getGraphics().clear();
-        clearButton.setDisable(true);
-        redoButton.setDisable(true);
-        undoButton.setDisable(true);
-        editButton.setDisable(true);
+        resetButtons(true);
       });
 
       // undo the last change made whilst sketching graphic
@@ -143,9 +149,33 @@ public class SketchOnMapSample extends Application {
         };
       });
 
+      // redo the last change made whilst sketching raphic
+      redoButton.setOnAction(event -> {
+        if (sketchEditor.canRedo()) {
+          sketchEditor.redo();
+        }
+      });
+
+
+
+
+
+
+
+      //TODO: allow the user to edit the sketch
+      editButton.setOnAction(event -> {
+        // select saved graphic on graphics overlay
+        //Graphic selectedGraphic = graphicsOverlay.get
+        // edit that
+        // save new geometry to that graphic
+        sketchEditor.start(graphic.getGeometry());
+      });
+
       sketchOptionsDropDown.getSelectionModel().selectedItemProperty().addListener(o -> {
 
         // create a graphics draw option based on source type
+        resetButtons(false);
+        clearButton.setDisable(true);
         SketchCreationMode sketchCreationMode = sketchOptionsDropDown.getSelectionModel().getSelectedItem();
 
         try {
@@ -176,6 +206,8 @@ public class SketchOnMapSample extends Application {
 
       });
 
+
+
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
@@ -183,7 +215,7 @@ public class SketchOnMapSample extends Application {
       controlsVBox.setPadding(new Insets(10));
       controlsVBox.setMaxSize(240, 110);
       controlsVBox.getStyleClass().add("panel-region");
-      controlsVBox.getChildren().addAll(sketchOptionsDropDown, undoButton, redoButton, clearButton, doneButton, editButton);
+      controlsVBox.getChildren().addAll(sketchOptionsDropDown, undoButton, redoButton, doneButton, editButton, clearButton);
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
@@ -197,34 +229,24 @@ public class SketchOnMapSample extends Application {
     }
   }
 
-  private void createPolyline() {
-    sketchEditor.start(SketchCreationMode.POLYLINE);
-  }
+  private void createPolyline() { sketchEditor.start(SketchCreationMode.POLYLINE); }
 
-  private void createPolygon() { sketchEditor.start(SketchCreationMode.POLYGON);
-  }
+  private void createPolygon() { sketchEditor.start(SketchCreationMode.POLYGON); }
 
-  private void createPoint() {
-    sketchEditor.start(SketchCreationMode.POINT);
-  }
+  private void createPoint() { sketchEditor.start(SketchCreationMode.POINT); }
 
-  private void createMultiPoint() {
-    sketchEditor.start(SketchCreationMode.MULTIPOINT);
-  }
+  private void createMultiPoint() { sketchEditor.start(SketchCreationMode.MULTIPOINT); }
 
-  private void createFreeHandLine() {
-    sketchEditor.start(SketchCreationMode.FREEHAND_LINE);
-  }
+  private void createFreeHandLine() { sketchEditor.start(SketchCreationMode.FREEHAND_LINE); }
 
-  private void createFreeHandPolygon() {
-    sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
-  }
+  private void createFreeHandPolygon() { sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON); }
 
   /**
    * When the done button is clicked, check that sketch is valid. If so, get the geometry from the sketch, set its
    * symbol and add it to the graphics overlay.
    */
   private void storeGraphic() {
+
     if (!sketchEditor.isSketchValid()) {
       sketchEditor.stop();
       return;
@@ -237,7 +259,7 @@ public class SketchOnMapSample extends Application {
     if (sketchGeometry != null) {
 
       // create a graphic from the sketch editor geometry
-      Graphic graphic = new Graphic(sketchGeometry);
+      graphic = new Graphic(sketchGeometry);
 
       // assign a symbol based on geometry type
       if (graphic.getGeometry().getGeometryType() == GeometryType.POLYGON) {
@@ -251,9 +273,61 @@ public class SketchOnMapSample extends Application {
 
       // add the graphic to the graphics overlay
       graphicsOverlay.getGraphics().add(graphic);
-      undoButton.setDisable(false);
+      //undoButton.setDisable(true);
 
+      selectGraphic();
     }
+  }
+
+  /**
+   * Select a graphic from the graphics overlay
+   */
+  private void selectGraphic() {
+    // click on a graphic on the map view
+
+    mapView.setOnMouseClicked(e -> {
+
+      Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
+
+      identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
+      System.out.println(identifyGraphics.toString());
+
+      identifyGraphics.addDoneListener(() -> {
+
+        try {
+
+          if (!identifyGraphics.get().getGraphics().isEmpty()) {
+            // store the selected graphic
+            selectedGraphic = identifyGraphics.get().getGraphics().get(0);
+            selectedGraphic.setSelected(true);
+          } else
+            selectedGraphic.setSelected(false);
+
+          if (!selectedGraphic.isSelected()) {
+            editButton.setDisable(true);
+          }
+
+        } catch (Exception x) {
+          // on any error, display the stack trace
+          x.printStackTrace();
+        }
+      });
+
+      editButton.setDisable(false);
+
+    });
+  }
+
+  /**
+   * Reset all UI buttons to a chosen boolean value
+   */
+
+  private void resetButtons(Boolean bool) {
+    clearButton.setDisable(bool);
+    redoButton.setDisable(bool);
+    undoButton.setDisable(bool);
+    editButton.setDisable(bool);
+    doneButton.setDisable(bool);
   }
 
 
