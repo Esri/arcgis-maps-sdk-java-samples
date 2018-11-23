@@ -93,7 +93,7 @@ public class SketchOnMapSample extends Application {
       stage.show();
 
       // create a map with a basemap and add it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY, 64.3286, -15.5314, 13 );
+      ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY, 64.3286, -15.5314, 13);
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -108,7 +108,7 @@ public class SketchOnMapSample extends Application {
       mapView.setSketchEditor(sketchEditor);
 
       // define symbols
-      pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFFFF0000,20);
+      pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFFFF0000, 20);
       lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF8800, 4);
       fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, lineSymbol);
 
@@ -118,12 +118,12 @@ public class SketchOnMapSample extends Application {
       sketchOptionsDropDown.setMaxWidth(Double.MAX_VALUE);
 
       // create buttons for user interaction
-      undoButton            = new Button("Undo sketch");
-      redoButton            = new Button("Redo sketch");
-      clearButton           = new Button("Clear graphics overlay");
-      saveButton            = new Button ("Save sketch to graphics overlay");
-      editButton            = new Button("Edit sketch");
-      cancelButton          = new Button("Cancel sketch");
+      undoButton = new Button("Undo sketch");
+      redoButton = new Button("Redo sketch");
+      clearButton = new Button("Clear graphics overlay");
+      saveButton = new Button("Save sketch to graphics overlay");
+      editButton = new Button("Edit sketch");
+      cancelButton = new Button("Cancel sketch");
 
       clearButton.setMaxWidth(Double.MAX_VALUE);
       saveButton.setMaxWidth(Double.MAX_VALUE);
@@ -139,7 +139,6 @@ public class SketchOnMapSample extends Application {
         selectGraphic();
         graphicsOverlay.clearSelection();
         clearButton.setDisable(false);
-        undoButton.setDisable(true);
         redoButton.setDisable(true);
         editButton.setDisable(true);
         cancelButton.setDisable(true);
@@ -156,13 +155,16 @@ public class SketchOnMapSample extends Application {
       undoButton.setOnAction(event -> {
         if (sketchEditor.canUndo()) {
           sketchEditor.undo();
-        };
+          //undoButton.setDisable(false);
+        }
+        ;
       });
 
       // redo the last change made whilst sketching graphic
       redoButton.setOnAction(event -> {
         if (sketchEditor.canRedo()) {
           sketchEditor.redo();
+          //redoButton.setDisable(false);
         }
       });
 
@@ -178,8 +180,9 @@ public class SketchOnMapSample extends Application {
           sketchEditor.start(graphic.getGeometry());
           // remove the underlying graphic to live update. This clears the graphic.
           graphicsOverlay.getGraphics().remove(graphic);
-
         }
+
+
       });
 
       cancelButton.setOnAction(event -> {
@@ -206,9 +209,10 @@ public class SketchOnMapSample extends Application {
         graphicsOverlay.clearSelection();
 
         // create a graphics draw option based on source type
-        resetButtons(false);
-        editButton.setDisable(true);
-        cancelButton.setDisable(true);
+        resetButtons(true);
+
+        saveButton.setDisable(false);
+
         SketchCreationMode sketchCreationMode = sketchOptionsDropDown.getSelectionModel().getSelectedItem();
 
         try {
@@ -237,9 +241,21 @@ public class SketchOnMapSample extends Application {
           // add a listener for when geometry is changed, to enable cancelling the button
           sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
 
+            // if the geometry being listened to is not empty, then enable the cancel button
             if (!SketchGeometryChangedListener.getGeometry().isEmpty()) {
               cancelButton.setDisable(false);
             }
+
+            // if the sketch editor can undo, enable the undo button otherwise disable it
+            if (sketchEditor.canUndo()) {
+              undoButton.setDisable(false);
+            } else {undoButton.setDisable(true);}
+
+            // if the sketch editor can redo, enable the redo button otherwise disable it
+            if (sketchEditor.canRedo()) {
+              redoButton.setDisable(false);
+            } else {redoButton.setDisable(true);}
+
           });
 
         } catch (Exception e) {
@@ -278,15 +294,25 @@ public class SketchOnMapSample extends Application {
     sketchEditor.start(SketchCreationMode.POLYLINE);
   }
 
-  private void createPolygon() { sketchEditor.start(SketchCreationMode.POLYGON); }
+  private void createPolygon() {
+    sketchEditor.start(SketchCreationMode.POLYGON);
+  }
 
-  private void createPoint() { sketchEditor.start(SketchCreationMode.POINT); }
+  private void createPoint() {
+    sketchEditor.start(SketchCreationMode.POINT);
+  }
 
-  private void createMultiPoint() { sketchEditor.start(SketchCreationMode.MULTIPOINT); }
+  private void createMultiPoint() {
+    sketchEditor.start(SketchCreationMode.MULTIPOINT);
+  }
 
-  private void createFreeHandLine() { sketchEditor.start(SketchCreationMode.FREEHAND_LINE); }
+  private void createFreeHandLine() {
+    sketchEditor.start(SketchCreationMode.FREEHAND_LINE);
+  }
 
-  private void createFreeHandPolygon() { sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON); }
+  private void createFreeHandPolygon() {
+    sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
+  }
 
 
   /**
@@ -312,21 +338,21 @@ public class SketchOnMapSample extends Application {
         graphic.setGeometry(sketchGeometry);
       } else {
 
-      // create a graphic from the sketch editor geometry
-      graphic = new Graphic(sketchGeometry);
+        // create a graphic from the sketch editor geometry
+        graphic = new Graphic(sketchGeometry);
 
-      // assign a symbol based on geometry type
-      if (graphic.getGeometry().getGeometryType() == GeometryType.POLYGON) {
-        graphic.setSymbol(fillSymbol);
-      } else if (graphic.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
-        graphic.setSymbol(lineSymbol);
-      } else if (graphic.getGeometry().getGeometryType() == GeometryType.POINT ||
-          graphic.getGeometry().getGeometryType() == GeometryType.MULTIPOINT) {
-        graphic.setSymbol(pointSymbol);
-      }
+        // assign a symbol based on geometry type
+        if (graphic.getGeometry().getGeometryType() == GeometryType.POLYGON) {
+          graphic.setSymbol(fillSymbol);
+        } else if (graphic.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+          graphic.setSymbol(lineSymbol);
+        } else if (graphic.getGeometry().getGeometryType() == GeometryType.POINT ||
+                graphic.getGeometry().getGeometryType() == GeometryType.MULTIPOINT) {
+          graphic.setSymbol(pointSymbol);
+        }
 
-      // add the graphic to the graphics overlay
-      graphicsOverlay.getGraphics().add(graphic);
+        // add the graphic to the graphics overlay
+        graphicsOverlay.getGraphics().add(graphic);
 
       }
     }
@@ -360,7 +386,7 @@ public class SketchOnMapSample extends Application {
             graphic = identifyGraphics.get().getGraphics().get(0);
             graphic.setSelected(true);
             editButton.setDisable(false);
-          } else if (identifyGraphics.get().getGraphics().isEmpty()){
+          } else if (identifyGraphics.get().getGraphics().isEmpty()) {
             editButton.setDisable(true);
 
           }
