@@ -35,7 +35,6 @@ import com.esri.arcgisruntime.mapping.view.SketchGeometryChangedListener;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.sun.xml.internal.bind.v2.TODO;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -139,6 +138,7 @@ public class SketchOnMapSample extends Application {
         selectGraphic();
         graphicsOverlay.clearSelection();
         clearButton.setDisable(false);
+        undoButton.setDisable(false);
         redoButton.setDisable(true);
         editButton.setDisable(true);
         cancelButton.setDisable(true);
@@ -155,23 +155,19 @@ public class SketchOnMapSample extends Application {
       undoButton.setOnAction(event -> {
         if (sketchEditor.canUndo()) {
           sketchEditor.undo();
-          //undoButton.setDisable(false);
         }
-        ;
       });
 
       // redo the last change made whilst sketching graphic
       redoButton.setOnAction(event -> {
         if (sketchEditor.canRedo()) {
           sketchEditor.redo();
-          //redoButton.setDisable(false);
         }
       });
 
       editButton.setOnAction(event -> {
         // this edits the feature
-        undoButton.setDisable(false);
-        redoButton.setDisable(false);
+
         cancelButton.setDisable(false);
 
         if (graphicsOverlay.getSelectedGraphics().size() > 0) {
@@ -181,8 +177,6 @@ public class SketchOnMapSample extends Application {
           // remove the underlying graphic to live update. This clears the graphic.
           graphicsOverlay.getGraphics().remove(graphic);
         }
-
-
       });
 
       cancelButton.setOnAction(event -> {
@@ -197,7 +191,6 @@ public class SketchOnMapSample extends Application {
         } else {
           sketchEditor.stop();
           cancelButton.setDisable(true);
-
 
         }
         //  }
@@ -238,31 +231,35 @@ public class SketchOnMapSample extends Application {
 
           }
 
-          // add a listener for when geometry is changed, to enable cancelling the button
-          sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
-
-            // if the geometry being listened to is not empty, then enable the cancel button
-            if (!SketchGeometryChangedListener.getGeometry().isEmpty()) {
-              cancelButton.setDisable(false);
-            }
-
-            // if the sketch editor can undo, enable the undo button otherwise disable it
-            if (sketchEditor.canUndo()) {
-              undoButton.setDisable(false);
-            } else {undoButton.setDisable(true);}
-
-            // if the sketch editor can redo, enable the redo button otherwise disable it
-            if (sketchEditor.canRedo()) {
-              redoButton.setDisable(false);
-            } else {redoButton.setDisable(true);}
-
-          });
-
         } catch (Exception e) {
           new Alert(Alert.AlertType.ERROR, "Error finding draw style").show();
         }
 
       });
+
+      // add a listener for when geometry is changed, to enable cancelling the button
+      sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
+
+        System.out.println("Listened to geometry changed" + sketchEditor.canUndo());
+
+        // if the geometry being listened to is not empty, then enable the cancel button
+        if (!SketchGeometryChangedListener.getGeometry().isEmpty()) {
+          cancelButton.setDisable(false);
+        }
+
+        // if the sketch editor can undo, enable the undo button otherwise disable it
+        if (sketchEditor.canUndo()) {
+          undoButton.setDisable(false);
+          System.out.println("Listening for undo button");
+        } else {undoButton.setDisable(true);}
+
+        // if the sketch editor can redo, enable the redo button otherwise disable it
+        if (sketchEditor.canRedo()) {
+          redoButton.setDisable(false);
+        } else {redoButton.setDisable(true);}
+
+      });
+
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
