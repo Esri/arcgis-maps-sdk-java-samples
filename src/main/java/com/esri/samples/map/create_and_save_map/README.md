@@ -1,6 +1,6 @@
 <h1>Create and Save Map</h1>
 
-<p>How to create and save a map to your own portal.</p>
+<p>Create and save a map to your own portal.</p>
 
 <p><img src="CreateAndSaveMap.png"/></p>
 

@@ -1,6 +1,6 @@
 <h1>Display Grid</h1>
 
-<p>Demonstrates how to display and style different types of grids over a map.</p>
+<p>Display a variety of grids on a map.</p>
 
 <p><img src="DisplayGrid.png"/></p>
 

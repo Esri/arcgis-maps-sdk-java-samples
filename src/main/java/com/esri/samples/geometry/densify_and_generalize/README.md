@@ -1,6 +1,8 @@
 <h1>Densify and Generalize</h1>
 
-<p>Demonstrates how to densify or generalize a polyline geometry. In this example, points representing a ships 
+<p>Modify a polyline while preserving its general shape.</p>
+
+<p>In this example, points representing a ships 
 location are shown at irregular intervals. One can densify the polyline connecting these lines to interpolate points 
 along the line at regular intervals. Generalizing the polyline can also simplify the geometry while preserving its 
 general shape.</p>

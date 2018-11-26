@@ -1,6 +1,8 @@
 <h1>Format Coordinates</h1>
 
-<p>Demonstrates how to convert a map location Point in WGS84 to a String in a number of different 
+<p>Write coordinates in a variety of common formats.</p>
+
+<p>Convert a map location Point in WGS84 to a String in a number of different 
 coordinate notations (and vice versa) including decimal degrees; degrees, minutes, seconds; Universal Transverse 
 Mercator (UTM), and United States National Grid (USNG).</p>
  

@@ -1,5 +1,7 @@
 <h1>Unique Value Renderer</h1>
 
+<p>Symbolize features based on their unique attribute value.</p>
+
 <p>Demonstrates how to use an UniqueValueRenderer to display Features from a FeatureLayer using different symbols. An unique value renderer sets an attribute to look for any matches within it's unique values. If there is a match then the symbol assign to that unique value is use to display that feature with the same value.</p>
 
 <p><img src="UniqueValueRenderer.png"/></p>

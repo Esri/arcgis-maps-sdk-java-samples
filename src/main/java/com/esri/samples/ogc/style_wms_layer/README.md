@@ -1,6 +1,6 @@
 <h1>Style WMS Layer</h1>
 
-<p>Shows how to change the style of a WMS layer.</p>
+<p>Change the style of a WMS layer.</p>
 
 <p><img src="StyleWmsLayer.png"/></p>
 

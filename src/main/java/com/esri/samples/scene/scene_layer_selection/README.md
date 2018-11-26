@@ -1,6 +1,6 @@
 <h1>Scene Layer Selection</h1>
 
-<p>This sample demonstrates how to select geoelements in a scene layer.</p>
+<p>Select clicked features in a scene.</p>
 
 <p><img src="SceneLayerSelection.png"></p>
 

@@ -1,6 +1,6 @@
 <h1>Geometry Engine Simplify</h1>
 
-<p>Demonstrates how to use the GeometryEngine to perform the simplify geometry operation on a Polygon.</p>
+<p>Simplify a polygon that has multiple parts.</p>
 
 <p><img src="GeometryEngineSimplify.png"/></p>
 
@@ -16,7 +16,7 @@
     <li>Create a <code>GraphicsOverlay</code> and add it to the <code>MapView</code>.</li>
     <li>Define the <code>PointCollection</code> of the <code>Geometry</code>.</li>
     <li>Add the polygons to the GraphicsOverlay.</li>
-    <li>Determine the simplified geometry by using the <code>GeometryEngine.simplify(polygon.getGeometry()</code>.</li>
+    <li>Determine the simplified geometry by using the <code>GeometryEngine.simplify(polygon.getGeometry())</code>.</li>
 </ol>
 
 <h2>Relevant API</h2>

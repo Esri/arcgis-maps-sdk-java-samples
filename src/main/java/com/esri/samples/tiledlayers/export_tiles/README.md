@@ -1,6 +1,6 @@
 <h1>Export Tiles</h1>
 
-<p>Demonstrates how to export tiles from a tiled layer.</p>
+<p>Export tiles from an online tile service.</p>
 
 <p><img src="ExportTiles.png"/></p>
 

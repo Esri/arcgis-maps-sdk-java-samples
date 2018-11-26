@@ -1,6 +1,6 @@
 <h1>Show Callout</h1>
 
-<p>Demonstrates how to show coordinates for a clicked location on an ArcGISMap in a Callout.</p>
+<p>Show a callout at the clicked location.</p>
 
 <p><img src="ShowCallout.png"/></p>
 

@@ -1,6 +1,6 @@
 <h1>OpenStreetMap Layer</h1>
 
-<p>Add the OpenStreetMap layer to a map as a Basemap.</p>
+<p>Display tiles from OpenStreetMap.</p>
 
 <p><img src="OpenStreetMapLayer.png"/></p>
 

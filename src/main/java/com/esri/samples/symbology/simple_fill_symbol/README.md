@@ -1,6 +1,6 @@
 <h2>Simple Fill Symbol</h2>
 
-<p>Demonstrates how to change a SimpleFillSymbol color, outline (LineSymbol), and style properties.</p>
+<p>Change a graphic's fill color, outline, and style properties.</p>
 
 <p><img src="SimpleFillSymbol.png"/></p>
 

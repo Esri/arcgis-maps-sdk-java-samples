@@ -1,6 +1,6 @@
 <h1>Access Load Status</h1>
 
-<p>Demonstrates how to tell what the ArcGISMap's load status is. An ArcGISMap is considered loaded once it has a valid SpatialReference and it has been set to the MapView.</p>
+<p>Determine when a map has finished loading.</p>
 
 <p><img src="AccessLoadStatus.png"/></p>
 

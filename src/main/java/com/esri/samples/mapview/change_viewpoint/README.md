@@ -1,6 +1,6 @@
 <h1>Change Viewpoint</h1>
 
-<p>Demonstrates different ways in which you can change the Viewpoint, visible area, of an ArcGISMap.</p>
+<p>Set or animate to a new viewpoint.</p>
 
 <p><img src="ChangeViewpoint.png"/></p>
 

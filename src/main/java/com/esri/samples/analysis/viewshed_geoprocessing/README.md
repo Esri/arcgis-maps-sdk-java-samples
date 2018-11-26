@@ -1,6 +1,6 @@
 <h1>Viewshed Geoprocessing</h1>
 
-<p>Demonstrates how to calculate a viewshed for a given point using a geoprocessing service.</p>
+<p>Calculate a viewshed against terrain using a geoprocessing service.</p>
 
 <p><img src="ViewshedGeoprocessing.png"/></p>
 

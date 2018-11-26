@@ -1,6 +1,6 @@
 <h1>Project</h1>
 
-<p>This sample demonstrates how to project a point from one spatial reference to another.</p>
+<p>Project a point to another spatial reference.</p>
 
 <p>Being able to project between spatial references is fundamental to a GIS. An example of when you would need to 
 re-project data is if you had data in two different spatial references, but wanted to perform an intersect analysis 

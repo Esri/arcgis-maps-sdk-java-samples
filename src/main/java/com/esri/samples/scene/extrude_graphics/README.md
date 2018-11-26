@@ -1,6 +1,6 @@
 <h1>Extrude Graphics</h1>
 
-<p>Demonstrates how to render graphics extruded in their Z direction.</p>
+<p>Extrude graphics based on attributes.</p>
 
 <p><img src="ExtrudeGraphics.png"/></p>
 

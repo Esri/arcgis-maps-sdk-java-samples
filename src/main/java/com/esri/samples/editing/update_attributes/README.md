@@ -1,6 +1,6 @@
 <h1>Update Attributes</h1>
 
-<p>Demonstrates how update the attributes of a Feature from a ServiceFeatureTable.</p>
+<p>Update feature attributes in an online feature service.</p>
 
 <p><img src="UpdateAttributes.gif"/></p>
 

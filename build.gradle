@@ -16,7 +16,6 @@ arcgis.version = '100.5.0-2245'
 arcgis.internal = true
 
 group = 'com.esri.samples'
-version = '100.4.0'
 
 compileJava.options.encoding = 'UTF-8'
 

@@ -1,6 +1,6 @@
 <h1>Update Geometries</h1>
 
-<p>Demonstrates how to update the location of a Feature from a ServiceFeatureTable.</p>
+<p>Update a feature's location in an online feature service.</p>
 
 <p><img src="UpdateGeometries.gif"/></p>
 

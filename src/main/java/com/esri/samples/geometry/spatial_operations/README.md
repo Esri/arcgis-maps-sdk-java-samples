@@ -1,7 +1,6 @@
 <h1>Spatial Operations</h1>
 
-<p>Demonstrates how to use the GeometryEngine to perform geometry operations between overlapping polygons in a 
-GraphicsOverlay.</p>
+<p>Find the union, difference, or intersection of two geometries.</p>
 
 <p><img src="SpatialOperations.png"/></p>
 

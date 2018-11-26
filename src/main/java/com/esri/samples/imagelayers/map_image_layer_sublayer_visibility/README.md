@@ -1,6 +1,6 @@
 <h1>Map Image Layer Sublayer Visibility</h1>
 
-<p>Demonstrates how to add multiple layers to your ArcGISMap using a BasemapType and an ArcGISMapImageLayer which has multiple sub-layers.</p>
+<p>Change the visibility of sublayers.</p>
 
 <p><img src="MapImageLayerSublayerVisibility.png"/></p>
 

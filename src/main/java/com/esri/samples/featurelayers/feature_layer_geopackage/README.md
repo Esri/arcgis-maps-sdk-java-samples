@@ -1,6 +1,6 @@
 <h1>Feature Layer GeoPackage</h1>
 
-<p>Demonstrates how to create a feature layer from a local GeoPackage (.gpkg file).</p>
+<p>Display features from a local GeoPackage.</p>
 
 <p><img src="FeatureLayerGeoPackage.png"/></p>
 

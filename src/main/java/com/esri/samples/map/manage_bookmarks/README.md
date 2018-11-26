@@ -1,6 +1,6 @@
 <h1>Manage Bookmarks</h1>
 
-<p>Demonstrates how to access and add bookmarks to an ArcGISMap.</p>
+<p>Use bookmarks in a map.</p>
 
 <p><img src="ManageBookmarks.png"/></p>
 

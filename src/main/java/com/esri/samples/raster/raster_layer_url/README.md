@@ -1,6 +1,6 @@
 <h1>Raster Layer URL</h1>
 
-<p>Creates a raster layer made from a raster image service.</p>
+<p>Show raster data from an online raster image service.</p>
 
 <p><img src="RasterLayerURL.png"/></p>
 

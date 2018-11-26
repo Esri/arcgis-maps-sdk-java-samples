@@ -1,6 +1,6 @@
 <h1>WMS Layer URL</h1>
 
-<p>Display a WMS layer from a URL.</p>
+<p>Display a WMS layer.</p>
 
 <p><img src="WmsLayerUrl.png"/></p>
 

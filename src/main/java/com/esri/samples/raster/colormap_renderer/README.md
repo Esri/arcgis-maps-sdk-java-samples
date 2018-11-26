@@ -1,7 +1,8 @@
 <h1>Colormap Renderer</h1>
 
-<p>Demonstrates  how to use a colormap renderer on raster layer. Colormap renderers can be used to replace values on a raster layer 
-with a color based on the original value brightness.</p>
+<p>Apply a colormap renderer to a raster.</p>
+
+<p>Colormap renderers can be used to replace values on a raster layer with a color based on the original value brightness.</p>
 
 <p><img src="ColormapRenderer.png"/></p>
 

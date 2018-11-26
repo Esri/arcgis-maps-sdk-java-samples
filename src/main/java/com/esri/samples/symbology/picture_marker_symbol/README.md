@@ -1,6 +1,6 @@
 <h1>Picture Marker Symbol</h1>
 
-<p>Demonstrates how to create a PictureMarkerSymbol from different types of picture resources; an URL, locally on the device or in the app.</p>
+<p>Use pictures for markers.</p>
 
 <p><img src="PictureMarkerSymbol.png"/></p>
 

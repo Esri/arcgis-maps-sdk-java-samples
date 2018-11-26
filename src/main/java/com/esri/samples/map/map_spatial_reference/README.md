@@ -1,6 +1,8 @@
 <h1>Map Spatial Reference</h1>
 
-<p>Demonstrates how you can set the spatial reference on a ArcGISMap and all the operational layers will project accordingly.</p>
+<p>Specify a map's spatial reference.</p>
+
+<p>Operational layers will automatically project to this spatial reference if possible.</p>
 
 <p><img src="MapSpatialReference.png"/></p>
 

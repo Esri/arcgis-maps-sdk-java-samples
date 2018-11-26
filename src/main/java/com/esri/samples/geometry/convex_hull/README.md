@@ -1,6 +1,6 @@
 <h1>Convex Hull</h1>
 
-<p>Creates the convex hull for a set of points.</p>
+<p>Calculate the convex hull for a set of points.</p>
 
 <p>The convex hull is the polygon with shortest perimeter that encloses a set of points. As a visual analogy, consider a set of points as nails in a board. The convex hull of the points would be like a rubber band stretched around the outermost nails.</p>
 
