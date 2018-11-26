@@ -19,18 +19,16 @@ package com.esri.samples.displayinformation.sketch_on_map;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryType;
-import com.esri.arcgisruntime.geometry.Point;
+
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyGraphicsOverlayResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.SelectedVertexChangedEvent;
-import com.esri.arcgisruntime.mapping.view.SelectedVertexChangedListener;
+
 import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
 import com.esri.arcgisruntime.mapping.view.SketchEditor;
-import com.esri.arcgisruntime.mapping.view.SketchGeometryChangedEvent;
 import com.esri.arcgisruntime.mapping.view.SketchGeometryChangedListener;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
@@ -70,6 +68,7 @@ public class SketchOnMapSample extends Application {
   private SimpleLineSymbol lineSymbol;
   private SimpleMarkerSymbol pointSymbol;
   private Graphic graphic;
+  private ComboBox<SketchEditor> sketchOptionsDropDown;
 
   @Override
   public void start(Stage stage) {
@@ -103,7 +102,7 @@ public class SketchOnMapSample extends Application {
       mapView.setSketchEditor(sketchEditor);
 
       // define symbols
-      pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 20);
+      pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFFFF0000, 20);
       lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF8800, 4);
       fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, lineSymbol);
       editedLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0x40000000, 4);
@@ -132,12 +131,25 @@ public class SketchOnMapSample extends Application {
 
       // save the sketch as a graphic, and store graphic to the graphics overlay
       saveButton.setOnAction(event -> {
+        System.out.println(sketchEditor.isSketchValid());
+
         storeGraphicInGraphicOverlay();
         selectGraphic();
         graphicsOverlay.clearSelection();
         resetButtons(true);
         clearButton.setDisable(false);
         saveButton.setText("-- Select an available option --");
+
+        // logic to force the drop down box to change to the next item after save button has been clicked.
+
+        //sketchOptionsDropDown.getSelectionModel().selectNext();
+
+//
+//          if (sketchOptionsDropDown.getSelectionModel().getSelectedItem() == SketchCreationMode.FREEHAND_POLYGON) {
+//            sketchOptionsDropDown.getSelectionModel().select(0);
+//        }
+
+
       });
 
       // clear the graphics overlay, and disable the clear button
@@ -163,7 +175,7 @@ public class SketchOnMapSample extends Application {
 
       editButton.setOnAction(event -> {
         // this edits the feature
-        saveButton.setDisable(false);
+        saveButton.setDisable(true);
         saveButton.setText("Save edits to graphics overlay");
 
         cancelButton.setDisable(false);
@@ -177,39 +189,33 @@ public class SketchOnMapSample extends Application {
 
         }
 
-//        sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
-//          saveButton.setText("Save edits to graphics overlay");
-//        });
-
         // remove the underlying graphic to live update. This clears the graphic.
         // graphicsOverlay.getGraphics().remove(graphic);
-
 
 
       });
 
       cancelButton.setOnAction(event -> {
 
-          sketchEditor.stop();
-          selectGraphic();
-          graphicsOverlay.clearSelection();
-          cancelButton.setDisable(true);
-          undoButton.setDisable(true);
-          saveButton.setDisable(true);
-          saveButton.setText("-- Select an available option --");
-
+        sketchEditor.stop();
+        selectGraphic();
+        graphicsOverlay.clearSelection();
+        cancelButton.setDisable(true);
+        undoButton.setDisable(true);
+        saveButton.setDisable(true);
+        saveButton.setText("-- Select an available option --");
       });
 
       // when an item is selected from the drop down box
+
       sketchOptionsDropDown.getSelectionModel().selectedItemProperty().addListener(o -> {
 
         graphicsOverlay.clearSelection();
         saveButton.setText("Save sketch to graphics overlay");
+        System.out.println(sketchEditor.isSketchValid());
 
         // create a graphics draw option based on source type
         resetButtons(true);
-
-        saveButton.setDisable(false);
 
         SketchCreationMode sketchCreationMode = sketchOptionsDropDown.getSelectionModel().getSelectedItem();
 
@@ -233,29 +239,31 @@ public class SketchOnMapSample extends Application {
             case FREEHAND_POLYGON:
               createFreeHandPolygon();
               break;
-
           }
 
         } catch (Exception e) {
           new Alert(Alert.AlertType.ERROR, "Error finding draw style").show();
         }
 
+
       });
+
 
       // add a listener for when geometry is changed, to enable cancelling the button
       sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
-
-        System.out.println("Listened to geometry changed" + sketchEditor.canUndo());
 
         // if the geometry being listened to is not empty, then enable the cancel button
         if (!SketchGeometryChangedListener.getGeometry().isEmpty()) {
           cancelButton.setDisable(false);
         }
 
+        if (sketchEditor.isSketchValid()) {
+          saveButton.setDisable(false);
+        }
+
         // if the sketch editor can undo, enable the undo button otherwise disable it
         if (sketchEditor.canUndo()) {
           undoButton.setDisable(false);
-          System.out.println("Listening for undo button");
         } else {
           undoButton.setDisable(true);
         }
@@ -298,6 +306,11 @@ public class SketchOnMapSample extends Application {
 
   private void createPolyline() {
     sketchEditor.start(SketchCreationMode.POLYLINE);
+//    sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
+//      if (sketchEditor.isSketchValid()) {
+//        saveButton.setDisable(false);
+//      }
+//    });
   }
 
   private void createPolygon() {
@@ -319,7 +332,6 @@ public class SketchOnMapSample extends Application {
   private void createFreeHandPolygon() {
     sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
   }
-
 
   /**
    * When the done button is clicked, check that sketch is valid. If so, get the geometry from the sketch, set its
@@ -364,6 +376,7 @@ public class SketchOnMapSample extends Application {
         graphicsOverlay.getGraphics().add(graphic);
 
       }
+
     }
 
     sketchEditor.stop();
@@ -400,7 +413,6 @@ public class SketchOnMapSample extends Application {
             editButton.setDisable(false);
           } else if (identifyGraphics.get().getGraphics().isEmpty()) {
             editButton.setDisable(true);
-
           }
 
         } catch (Exception x) {
