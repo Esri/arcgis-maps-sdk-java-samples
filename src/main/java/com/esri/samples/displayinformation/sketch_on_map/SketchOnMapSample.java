@@ -173,26 +173,18 @@ public class SketchOnMapSample extends Application {
         }
       });
 
+      // use sketch editor to edit the geometry of the selected graphic
       editButton.setOnAction(event -> {
-        // this edits the feature
+        cancelButton.setDisable(false);
         saveButton.setDisable(true);
         saveButton.setText("Save edits to graphics overlay");
 
-        cancelButton.setDisable(false);
-
-        if (graphicsOverlay.getSelectedGraphics().size() > 0) {
-
+        // if the graphics overlay contains graphics, select the first graphic
+        // and start the sketch editor based on that graphic's geometry
+        if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
           graphic = graphicsOverlay.getSelectedGraphics().get(0);
           sketchEditor.start(graphic.getGeometry());
-
-          //graphic.setSymbol(editedFillSymbol);
-
         }
-
-        // remove the underlying graphic to live update. This clears the graphic.
-        // graphicsOverlay.getGraphics().remove(graphic);
-
-
       });
 
       cancelButton.setOnAction(event -> {
