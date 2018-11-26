@@ -1,16 +1,27 @@
 buildscript {
     repositories {
+        mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        maven { 
+            url 'https://esri.bintray.com/arcgis' 
+        }
     }
     dependencies {
-        classpath "gradle.plugin.com.zyxist:chainsaw:0.3.1"
+        classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
+        classpath 'com.esri.arcgisruntime:gradle-arcgis-java-plugin:1.0.0'
     }
 }
 
-apply plugin: 'com.zyxist.chainsaw'
 apply plugin: 'application'
+apply plugin: 'com.google.osdetector'
+apply plugin: 'com.esri.arcgisruntime.java'
+
+ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
+
+arcgis.version = '100.5.0-2245'
+arcgis.internal = true
 
 group = 'com.esri.samples'
 version = '100.4.0'
@@ -25,20 +36,16 @@ repositories {
 }
 
 dependencies {
-    compile 'com.esri.arcgisruntime:arcgis-java:100.4.0'
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
     compile 'commons-io:commons-io:2.4'
     compile 'org.jooq:joox:1.4.0'
-    if (System.env['OS'].contains('Windows')) {
-        def os = 'win'
-        compile "org.openjfx:javafx-base:11:$os"
-        compile "org.openjfx:javafx-graphics:11:$os"
-        compile "org.openjfx:javafx-controls:11:$os"
-        compile "org.openjfx:javafx-web:11:$os"
-        compile "org.openjfx:javafx-fxml:11:$os"
-        compile "org.openjfx:javafx-swing:11:$os"
-        compile "org.openjfx:javafx-media:11:$os"
-    }
+    compile "org.openjfx:javafx-base:11:$platform"
+    compile "org.openjfx:javafx-graphics:11:$platform"
+    compile "org.openjfx:javafx-controls:11:$platform"
+    compile "org.openjfx:javafx-web:11:$platform"
+    compile "org.openjfx:javafx-fxml:11:$platform"
+    compile "org.openjfx:javafx-swing:11:$platform"
+    compile "org.openjfx:javafx-media:11:$platform"
 }
 
 task downloadData {
@@ -59,8 +66,23 @@ task downloadData {
     }
 }
 
+compileJava {
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls'
+        ]
+    }
+}
+
 run {
     mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
+    doFirst {
+        jvmArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls,javafx.web,javafx.fxml'
+        ]
+    }
 }
 
 jar {
