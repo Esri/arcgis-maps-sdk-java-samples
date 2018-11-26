@@ -53,10 +53,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import java.security.Identity;
-import java.util.ArrayList;
-import java.util.List;
-
 public class SketchOnMapSample extends Application {
 
   private MapView mapView;
@@ -68,12 +64,12 @@ public class SketchOnMapSample extends Application {
   private Button editButton;
   private Button cancelButton;
   private GraphicsOverlay graphicsOverlay;
-  // private Graphic selectedGraphic;
   private SimpleFillSymbol fillSymbol;
+  private SimpleFillSymbol editedFillSymbol;
+  private SimpleLineSymbol editedLineSymbol;
   private SimpleLineSymbol lineSymbol;
   private SimpleMarkerSymbol pointSymbol;
   private Graphic graphic;
-  //private ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
 
   @Override
   public void start(Stage stage) {
@@ -107,9 +103,11 @@ public class SketchOnMapSample extends Application {
       mapView.setSketchEditor(sketchEditor);
 
       // define symbols
-      pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFFFF0000, 20);
+      pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 20);
       lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF8800, 4);
       fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, lineSymbol);
+      editedLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0x40000000, 4);
+      editedFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, editedLineSymbol);
 
       // create a combo box for graphic options
       ComboBox<SketchCreationMode> sketchOptionsDropDown = new ComboBox<>();
@@ -138,7 +136,7 @@ public class SketchOnMapSample extends Application {
         selectGraphic();
         graphicsOverlay.clearSelection();
         clearButton.setDisable(false);
-        undoButton.setDisable(false);
+        undoButton.setDisable(true);
         redoButton.setDisable(true);
         editButton.setDisable(true);
         cancelButton.setDisable(true);
@@ -174,26 +172,64 @@ public class SketchOnMapSample extends Application {
 
           graphic = graphicsOverlay.getSelectedGraphics().get(0);
           sketchEditor.start(graphic.getGeometry());
-          // remove the underlying graphic to live update. This clears the graphic.
-          graphicsOverlay.getGraphics().remove(graphic);
+
+          //graphic.setSymbol(editedFillSymbol);
+
         }
+
+        // remove the underlying graphic to live update. This clears the graphic.
+        // graphicsOverlay.getGraphics().remove(graphic);
+
+        //graphicsOverlay.clearSelection();
+
       });
+
 
       cancelButton.setOnAction(event -> {
 
-        if (!graphicsOverlay.getGraphics().isEmpty()) {
-
-          graphicsOverlay.clearSelection();
-          graphicsOverlay.getGraphics().add(graphic);
           sketchEditor.stop();
           selectGraphic();
-
-        } else {
-          sketchEditor.stop();
+          graphicsOverlay.clearSelection();
           cancelButton.setDisable(true);
+          undoButton.setDisable(true);
 
-        }
-        //  }
+
+//        if (!graphicsOverlay.getGraphics().isEmpty()) {
+//
+//          graphicsOverlay.clearSelection();
+//          graphicsOverlay.getGraphics().add(graphic);
+//          sketchEditor.stop();
+//          selectGraphic();
+//        } else {
+//          sketchEditor.stop();
+//          cancelButton.setDisable(true);
+//        }
+
+//        graphicsOverlay.getGraphics().add(graphic);
+//        graphicsOverlay.clearSelection();
+//        sketchEditor.stop();
+//        cancelButton.setDisable(true);
+//        selectGraphic();
+//
+//        undoButton.setDisable(true);
+//        cancelButton.setDisable(true);
+//        // selectGraphic();
+//
+//        if (!graphicsOverlay.getGraphics().isEmpty()) {
+//
+//          Graphic cancelledGraphic = graphicsOverlay.getGraphics().get(0);
+//          graphicsOverlay.getGraphics().remove(cancelledGraphic);
+//          graphicsOverlay.getGraphics().add(cancelledGraphic);
+//
+//          //graphicsOverlay.getGraphics().add(graphic);
+//          graphicsOverlay.clearSelection();
+//          sketchEditor.stop();
+//
+//        } else {
+//          graphicsOverlay.clearSelection();
+//          sketchEditor.stop();
+//        }
+
       });
 
       // when an item is selected from the drop down box
@@ -251,12 +287,16 @@ public class SketchOnMapSample extends Application {
         if (sketchEditor.canUndo()) {
           undoButton.setDisable(false);
           System.out.println("Listening for undo button");
-        } else {undoButton.setDisable(true);}
+        } else {
+          undoButton.setDisable(true);
+        }
 
         // if the sketch editor can redo, enable the redo button otherwise disable it
         if (sketchEditor.canRedo()) {
           redoButton.setDisable(false);
-        } else {redoButton.setDisable(true);}
+        } else {
+          redoButton.setDisable(true);
+        }
 
       });
 
@@ -319,6 +359,7 @@ public class SketchOnMapSample extends Application {
 
   private void storeGraphicInGraphicOverlay() {
 
+    // if the sketch isn't valid, stop the sketch editor.
     if (!sketchEditor.isSketchValid()) {
       sketchEditor.stop();
       return;
@@ -326,9 +367,12 @@ public class SketchOnMapSample extends Application {
 
     // get the geometry from sketch editor
     Geometry sketchGeometry = sketchEditor.getGeometry();
-    sketchEditor.stop();
 
+    // if there is something in the sketch geometry
     if (sketchGeometry != null) {
+
+      // and if there any number of graphics within the graphics overlay, get the first selected graphic, and set its geometry
+      // to that of the sketch geometry
 
       if (graphicsOverlay.getSelectedGraphics().size() != 0) {
         graphic = graphicsOverlay.getSelectedGraphics().get(0);
@@ -353,6 +397,9 @@ public class SketchOnMapSample extends Application {
 
       }
     }
+
+    sketchEditor.stop();
+//    selectGraphic();
 
   }
 
@@ -394,6 +441,7 @@ public class SketchOnMapSample extends Application {
         }
       });
     });
+
   }
 
   /**
