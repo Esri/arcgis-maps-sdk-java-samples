@@ -1,24 +1,16 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
         maven { 
             url 'https://esri.bintray.com/arcgis' 
         }
     }
     dependencies {
-        classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
         classpath 'com.esri.arcgisruntime:gradle-arcgis-java-plugin:1.0.0'
     }
 }
 
 apply plugin: 'application'
-apply plugin: 'com.google.osdetector'
 apply plugin: 'com.esri.arcgisruntime.java'
-
-ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
 
 arcgis.version = '100.5.0-2245'
 arcgis.internal = true
@@ -39,13 +31,15 @@ dependencies {
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
     compile 'commons-io:commons-io:2.4'
     compile 'org.jooq:joox:1.4.0'
-    compile "org.openjfx:javafx-base:11:$platform"
-    compile "org.openjfx:javafx-graphics:11:$platform"
-    compile "org.openjfx:javafx-controls:11:$platform"
-    compile "org.openjfx:javafx-web:11:$platform"
-    compile "org.openjfx:javafx-fxml:11:$platform"
-    compile "org.openjfx:javafx-swing:11:$platform"
-    compile "org.openjfx:javafx-media:11:$platform"
+    ["win", "mac", "linux"].forEach { platform ->
+        compile "org.openjfx:javafx-base:11:$platform"
+        compile "org.openjfx:javafx-graphics:11:$platform"
+        compile "org.openjfx:javafx-controls:11:$platform"
+        compile "org.openjfx:javafx-web:11:$platform"
+        compile "org.openjfx:javafx-fxml:11:$platform"
+        compile "org.openjfx:javafx-swing:11:$platform"
+        compile "org.openjfx:javafx-media:11:$platform"
+    }
 }
 
 task downloadData {
@@ -70,7 +64,7 @@ compileJava {
     doFirst {
         options.compilerArgs = [
                 '--module-path', classpath.asPath,
-                '--add-modules', 'javafx.controls'
+                '--add-modules', 'javafx.controls,javafx.web,javafx.fxml'
         ]
     }
 }
