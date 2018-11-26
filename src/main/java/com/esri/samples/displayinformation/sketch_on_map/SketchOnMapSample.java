@@ -216,6 +216,9 @@ public class SketchOnMapSample extends Application {
 
         // create a graphics draw option based on source type
         resetButtons(true);
+        if (!graphicsOverlay.getGraphics().isEmpty()){
+          clearButton.setDisable(false);
+        }
 
         SketchCreationMode sketchCreationMode = sketchOptionsDropDown.getSelectionModel().getSelectedItem();
 
