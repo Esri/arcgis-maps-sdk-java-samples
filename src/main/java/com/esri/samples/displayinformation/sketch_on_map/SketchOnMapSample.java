@@ -135,11 +135,9 @@ public class SketchOnMapSample extends Application {
         storeGraphicInGraphicOverlay();
         selectGraphic();
         graphicsOverlay.clearSelection();
+        resetButtons(true);
         clearButton.setDisable(false);
-        undoButton.setDisable(true);
-        redoButton.setDisable(true);
-        editButton.setDisable(true);
-        cancelButton.setDisable(true);
+        saveButton.setText("-- Select an available option --");
       });
 
       // clear the graphics overlay, and disable the clear button
@@ -165,6 +163,8 @@ public class SketchOnMapSample extends Application {
 
       editButton.setOnAction(event -> {
         // this edits the feature
+        saveButton.setDisable(false);
+        saveButton.setText("Save edits to graphics overlay");
 
         cancelButton.setDisable(false);
 
@@ -177,13 +177,16 @@ public class SketchOnMapSample extends Application {
 
         }
 
+//        sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
+//          saveButton.setText("Save edits to graphics overlay");
+//        });
+
         // remove the underlying graphic to live update. This clears the graphic.
         // graphicsOverlay.getGraphics().remove(graphic);
 
 
 
       });
-
 
       cancelButton.setOnAction(event -> {
 
@@ -192,6 +195,8 @@ public class SketchOnMapSample extends Application {
           graphicsOverlay.clearSelection();
           cancelButton.setDisable(true);
           undoButton.setDisable(true);
+          saveButton.setDisable(true);
+          saveButton.setText("-- Select an available option --");
 
       });
 
@@ -199,6 +204,7 @@ public class SketchOnMapSample extends Application {
       sketchOptionsDropDown.getSelectionModel().selectedItemProperty().addListener(o -> {
 
         graphicsOverlay.clearSelection();
+        saveButton.setText("Save sketch to graphics overlay");
 
         // create a graphics draw option based on source type
         resetButtons(true);
@@ -319,7 +325,6 @@ public class SketchOnMapSample extends Application {
    * When the done button is clicked, check that sketch is valid. If so, get the geometry from the sketch, set its
    * symbol and add it to the graphics overlay.
    */
-
   private void storeGraphicInGraphicOverlay() {
 
     // if the sketch isn't valid, stop the sketch editor.
