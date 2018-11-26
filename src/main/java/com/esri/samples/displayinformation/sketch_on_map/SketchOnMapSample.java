@@ -180,7 +180,7 @@ public class SketchOnMapSample extends Application {
         // remove the underlying graphic to live update. This clears the graphic.
         // graphicsOverlay.getGraphics().remove(graphic);
 
-        //graphicsOverlay.clearSelection();
+
 
       });
 
@@ -192,43 +192,6 @@ public class SketchOnMapSample extends Application {
           graphicsOverlay.clearSelection();
           cancelButton.setDisable(true);
           undoButton.setDisable(true);
-
-
-//        if (!graphicsOverlay.getGraphics().isEmpty()) {
-//
-//          graphicsOverlay.clearSelection();
-//          graphicsOverlay.getGraphics().add(graphic);
-//          sketchEditor.stop();
-//          selectGraphic();
-//        } else {
-//          sketchEditor.stop();
-//          cancelButton.setDisable(true);
-//        }
-
-//        graphicsOverlay.getGraphics().add(graphic);
-//        graphicsOverlay.clearSelection();
-//        sketchEditor.stop();
-//        cancelButton.setDisable(true);
-//        selectGraphic();
-//
-//        undoButton.setDisable(true);
-//        cancelButton.setDisable(true);
-//        // selectGraphic();
-//
-//        if (!graphicsOverlay.getGraphics().isEmpty()) {
-//
-//          Graphic cancelledGraphic = graphicsOverlay.getGraphics().get(0);
-//          graphicsOverlay.getGraphics().remove(cancelledGraphic);
-//          graphicsOverlay.getGraphics().add(cancelledGraphic);
-//
-//          //graphicsOverlay.getGraphics().add(graphic);
-//          graphicsOverlay.clearSelection();
-//          sketchEditor.stop();
-//
-//        } else {
-//          graphicsOverlay.clearSelection();
-//          sketchEditor.stop();
-//        }
 
       });
 
