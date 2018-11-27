@@ -119,13 +119,9 @@ public class SketchOnMapSample extends Application {
       editButton = new Button("Edit sketch");
       cancelButton = new Button("Sketch is disabled");
       cancelButton.setWrapText(true);
+      buttonsSetMaxWidth();
 
-      clearButton.setMaxWidth(Double.MAX_VALUE);
-      saveButton.setMaxWidth(Double.MAX_VALUE);
-      editButton.setMaxWidth(Double.MAX_VALUE);
-      cancelButton.setMaxWidth(Double.MAX_VALUE);
-      cancelButton.setMaxHeight(Double.MAX_VALUE);
-
+      // create label as user prompt for when to select a graphic to be edited
       clickToEditLabel = new Label("Select a graphic to edit it");
       clickToEditLabel.setVisible(false);
       clickToEditLabel.setStyle("-fx-text-fill: white");
@@ -183,7 +179,7 @@ public class SketchOnMapSample extends Application {
         cancelButton.setDisable(false);
         saveButton.setDisable(true);
         saveButton.setText("Save edits to graphics overlay");
-        cancelButton.setText("Sketch is enabled. Click to stop.");
+        cancelButton.setText("Stop sketching");
 
         // if the graphics overlay contains graphics, select the first graphic
         // and start the sketch editor based on that graphic's geometry
@@ -216,7 +212,7 @@ public class SketchOnMapSample extends Application {
         graphicsOverlay.clearSelection();
         disableButtons();
         cancelButton.setDisable(false);
-        cancelButton.setText("Sketching is enabled. Click to stop.");
+        cancelButton.setText("Stop sketching");
 
         // if the graphics overlay contains graphics, enable the clear button to clear the overlay.
         if (!graphicsOverlay.getGraphics().isEmpty()) {
@@ -290,7 +286,6 @@ public class SketchOnMapSample extends Application {
       // create a flow pane for placing buttons side by side within the control box
       FlowPane flowPaneUndoRedo = new FlowPane(Orientation.HORIZONTAL, 55, 10, undoButton, redoButton);
       flowPaneUndoRedo.setAlignment(Pos.CENTER);
-      //FlowPane flowPaneEditCancel = new FlowPane(Orientation.HORIZONTAL, 55, 10, editButton, cancelButton);
       controlsVBox.getChildren().addAll(sketchOptionsDropDown, cancelButton, flowPaneUndoRedo, saveButton, editButton, clearButton);
 
       // add the map view to the stack pane
@@ -381,7 +376,7 @@ public class SketchOnMapSample extends Application {
   }
 
   /**
-   * Reset all UI buttons to a chosen boolean value
+   * Disable all UI buttons
    */
 
   private void disableButtons() {
@@ -391,6 +386,17 @@ public class SketchOnMapSample extends Application {
     editButton.setDisable(true);
     saveButton.setDisable(true);
     cancelButton.setDisable(true);
+  }
+
+  /**
+   * Set the clear, save, edit and cancel buttons to max width
+   */
+
+  private void buttonsSetMaxWidth() {
+    clearButton.setMaxWidth(Double.MAX_VALUE);
+    saveButton.setMaxWidth(Double.MAX_VALUE);
+    editButton.setMaxWidth(Double.MAX_VALUE);
+    cancelButton.setMaxWidth(Double.MAX_VALUE);
   }
 
   /**
