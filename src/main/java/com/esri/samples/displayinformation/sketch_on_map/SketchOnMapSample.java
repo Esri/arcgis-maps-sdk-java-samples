@@ -64,7 +64,8 @@ public class SketchOnMapSample extends Application {
   private SimpleLineSymbol lineSymbol;
   private SimpleMarkerSymbol pointSymbol;
   private Graphic graphic;
-  private ComboBox<SketchEditor> sketchOptionsDropDown;
+  private ComboBox<SketchCreationMode> sketchOptionsDropDown;
+  private ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
 
   @Override
   public void start(Stage stage) {
@@ -103,7 +104,7 @@ public class SketchOnMapSample extends Application {
       fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, lineSymbol);
 
       // create a combo box for graphic options
-      ComboBox<SketchCreationMode> sketchOptionsDropDown = new ComboBox<>();
+      sketchOptionsDropDown = new ComboBox<>();
       sketchOptionsDropDown.getItems().setAll(SketchCreationMode.values());
       sketchOptionsDropDown.setMaxWidth(Double.MAX_VALUE);
 
@@ -113,7 +114,7 @@ public class SketchOnMapSample extends Application {
       clearButton = new Button("Clear graphics overlay");
       saveButton = new Button("Save sketch to graphics overlay");
       editButton = new Button("Edit sketch");
-      cancelButton = new Button("Cancel sketch");
+      cancelButton = new Button("Exit sketch mode");
 
       clearButton.setMaxWidth(Double.MAX_VALUE);
       saveButton.setMaxWidth(Double.MAX_VALUE);
@@ -125,14 +126,22 @@ public class SketchOnMapSample extends Application {
 
       // save the sketch as a graphic, and store graphic to the graphics overlay
       saveButton.setOnAction(event -> {
+        String activeMode = sketchOptionsDropDown.getSelectionModel().getSelectedItem().toString();
         storeGraphicInGraphicOverlay();
+
         // allow the user to select a graphic from the map view
         selectGraphic();
         graphicsOverlay.clearSelection();
         disableButtons();
         clearButton.setDisable(false);
+        cancelButton.setDisable(false);
         // set text on the disabled save button to hint to user next workflow
-        saveButton.setText("-- Select an available option --");
+        if (saveButton.isDisabled()) {
+          saveButton.setText("Geometry active = " + activeMode);
+        }
+
+        sketchEditor.start(sketchOptionsDropDown.getSelectionModel().getSelectedItem());
+
       });
 
       // clear the graphics overlay, and disable the clear button
@@ -178,7 +187,12 @@ public class SketchOnMapSample extends Application {
         undoButton.setDisable(true);
         saveButton.setDisable(true);
         editButton.setDisable(true);
-        saveButton.setText("-- Select an available option --");
+
+        if (!graphicsOverlay.getGraphics().isEmpty()){
+          saveButton.setText("Click a graphic to edit it");
+        } else
+          {saveButton.setText("-- Select an available option --");
+        }
         selectGraphic();
       });
 
@@ -186,16 +200,20 @@ public class SketchOnMapSample extends Application {
       sketchOptionsDropDown.getSelectionModel().selectedItemProperty().addListener(o -> {
 
         graphicsOverlay.clearSelection();
-        saveButton.setText("Save sketch to graphics overlay");
+        // saveButton.setText("Save sketch to graphics overlay");
         disableButtons();
+        cancelButton.setDisable(false);
 
         // if the graphics overlay contains graphics, enable the clear button to clear the overlay.
         if (!graphicsOverlay.getGraphics().isEmpty()){
           clearButton.setDisable(false);
         }
 
+        // if there's nothing in the sketch editor, default to select an option
+
         // get the selected item from the combo box to determine which sketch style to use
         SketchCreationMode sketchCreationMode = sketchOptionsDropDown.getSelectionModel().getSelectedItem();
+
         try {
           switch (sketchCreationMode) {
             case POLYLINE:
@@ -220,6 +238,7 @@ public class SketchOnMapSample extends Application {
         } catch (Exception e) {
           new Alert(Alert.AlertType.ERROR, "Can not find Sketch Creation Mode").show();
         }
+
       });
 
       // add a listener for when geometry is changed within the Sketch Editor
@@ -227,6 +246,7 @@ public class SketchOnMapSample extends Application {
 
         // if sketch is valid, enable save and cancel buttons
         if (sketchEditor.isSketchValid()) {
+          saveButton.setText("Save sketch to graphics overlay");
           saveButton.setDisable(false);
           cancelButton.setDisable(false);
         }
@@ -251,7 +271,7 @@ public class SketchOnMapSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10));
-      controlsVBox.setMaxSize(240, 110);
+      controlsVBox.setMaxSize(255, 110);
       controlsVBox.getStyleClass().add("panel-region");
 
       // create a flow pane for placing buttons side by side within the control box
@@ -306,7 +326,14 @@ public class SketchOnMapSample extends Application {
         graphicsOverlay.getGraphics().add(graphic);
       }
     }
+
     sketchEditor.stop();
+
+    //sketchEditor.start(sketchOptionsDropDown.getSelectionModel().getSelectedItem());
+    //sketchEditor.start(SketchCreationMode.POLYGON);
+
+
+
   }
 
   /**
@@ -320,7 +347,7 @@ public class SketchOnMapSample extends Application {
       Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
       // get graphics near the clicked location
-      ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
+      // ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
       identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
 
       identifyGraphics.addDoneListener(() -> {
@@ -333,6 +360,7 @@ public class SketchOnMapSample extends Application {
             editButton.setDisable(false);
           } else {
             editButton.setDisable(true);
+            System.out.println("No graphics selected");
           }
 
         } catch (Exception x) {
