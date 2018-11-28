@@ -40,7 +40,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -48,7 +47,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class SketchOnMapSample extends Application {
@@ -68,7 +66,6 @@ public class SketchOnMapSample extends Application {
   private SimpleMarkerSymbol pointSymbol;
   private Graphic graphic;
   private ComboBox<SketchCreationMode> sketchComboBox;
-  private Label promptLabel;
 
   @Override
   public void start(Stage stage) {
@@ -121,12 +118,6 @@ public class SketchOnMapSample extends Application {
       stopSketchButton = new Button("Sketch is disabled");
       buttonsSetMaxWidth();
 
-      // create prompt label for user for when a graphic can be selected to edit
-      promptLabel = new Label("Select a graphic to edit it");
-      promptLabel.setVisible(false);
-      promptLabel.setStyle("-fx-text-fill: white");
-      promptLabel.setFont(new Font(25));
-
       // disable all buttons when starting application
       disableButtons();
       // set prompt text on combobox when starting application
@@ -136,7 +127,6 @@ public class SketchOnMapSample extends Application {
       sketchComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
 
         // ensure no graphics are selected
-        promptLabel.setVisible(false);
         graphicsOverlay.clearSelection();
         disableButtons();
         // enable stop sketch button whilst in sketch mode
@@ -203,6 +193,7 @@ public class SketchOnMapSample extends Application {
         disableButtons();
         clearButton.setDisable(false);
         stopSketchButton.setDisable(false);
+        editButton.setText("Stop sketching to edit");
 
         // set text on the disabled save button to show user what geometry is active
         if (saveButton.isDisabled()) {
@@ -220,13 +211,13 @@ public class SketchOnMapSample extends Application {
         disableButtons();
         // set text to inform the user the sketch is disabled
         stopSketchButton.setText("Sketch is disabled");
+        saveButton.setText("Save sketch to graphics overlay");
 
-        if (graphicsOverlay.getGraphics().isEmpty()) {
-          promptLabel.setVisible(false);
-        } else {
+        if (!graphicsOverlay.getGraphics().isEmpty()) {
+          editButton.setText("Select graphic to edit");
           clearButton.setDisable(false);
-          promptLabel.setVisible(true);
         }
+
         // allow graphics to be selected after stopSketch button is used.
         selectGraphic();
       });
@@ -237,6 +228,8 @@ public class SketchOnMapSample extends Application {
         saveButton.setDisable(true);
         saveButton.setText("Save edits to graphics overlay");
         stopSketchButton.setText("Stop sketching");
+        editButton.setText("Edit Sketch (active)");
+        editButton.setBorder(null);
 
         // if the graphics overlay contains graphics, select the first graphic
         // and start the sketch editor based on that graphic's geometry
@@ -250,7 +243,6 @@ public class SketchOnMapSample extends Application {
       clearButton.setOnAction(event -> {
         graphicsOverlay.getGraphics().clear();
         sketchEditor.stop();
-        promptLabel.setVisible(false);
         disableButtons();
       });
 
@@ -283,16 +275,16 @@ public class SketchOnMapSample extends Application {
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10));
-      controlsVBox.setMaxSize(240, 110);
+      controlsVBox.setMaxSize(255, 110);
       controlsVBox.getStyleClass().add("panel-region");
 
       // create a flow pane for placing buttons side by side within the control box
-      FlowPane flowPaneUndoRedo = new FlowPane(Orientation.HORIZONTAL, 55, 10, undoButton, redoButton);
+      FlowPane flowPaneUndoRedo = new FlowPane(Orientation.HORIZONTAL, 70, 10, undoButton, redoButton);
       flowPaneUndoRedo.setAlignment(Pos.CENTER);
       controlsVBox.getChildren().addAll(sketchComboBox, stopSketchButton, flowPaneUndoRedo, saveButton, editButton, clearButton);
 
       // add the map view to the stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox, promptLabel);
+      stackPane.getChildren().addAll(mapView, controlsVBox);
       stackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
       stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
 
@@ -332,11 +324,10 @@ public class SketchOnMapSample extends Application {
                 graphic.getGeometry().getGeometryType() == GeometryType.MULTIPOINT) {
           graphic.setSymbol(pointSymbol);
         }
-
+        // add the graphic to the graphics overlay
         graphicsOverlay.getGraphics().add(graphic);
       }
     }
-
     sketchEditor.stop();
   }
 
@@ -346,8 +337,6 @@ public class SketchOnMapSample extends Application {
   private void selectGraphic() {
 
     mapView.setOnMouseClicked(e -> {
-
-      promptLabel.setVisible(false);
 
       graphicsOverlay.clearSelection();
       Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
@@ -364,6 +353,7 @@ public class SketchOnMapSample extends Application {
             graphic = identifyGraphics.get().getGraphics().get(0);
             graphic.setSelected(true);
             editButton.setDisable(false);
+            editButton.setText("Edit Sketch");
           } else {
             editButton.setDisable(true);
           }
