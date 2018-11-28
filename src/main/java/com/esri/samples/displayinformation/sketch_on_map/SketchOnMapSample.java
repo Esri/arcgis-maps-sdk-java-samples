@@ -47,7 +47,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -61,13 +60,13 @@ public class SketchOnMapSample extends Application {
   private Button clearButton;
   private Button saveButton;
   private Button editButton;
-  private Button cancelButton;
+  private Button stopSketchButton;
   private GraphicsOverlay graphicsOverlay;
   private SimpleFillSymbol fillSymbol;
   private SimpleLineSymbol lineSymbol;
   private SimpleMarkerSymbol pointSymbol;
   private Graphic graphic;
-  private ComboBox<SketchCreationMode> sketchOptionsDropDown;
+  private ComboBox<SketchCreationMode> sketchComboBox;
   private Label clickToEditLabel;
 
   @Override
@@ -101,15 +100,15 @@ public class SketchOnMapSample extends Application {
       sketchEditor = new SketchEditor();
       mapView.setSketchEditor(sketchEditor);
 
-      // define symbols
+      // define symbols for graphics
       pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFFFF0000, 20);
       lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF8800, 4);
       fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, lineSymbol);
 
-      // create a combo box for graphic options
-      sketchOptionsDropDown = new ComboBox<>();
-      sketchOptionsDropDown.getItems().setAll(SketchCreationMode.values());
-      sketchOptionsDropDown.setMaxWidth(Double.MAX_VALUE);
+      // create a combo box for selecting SketchCreationMode geometry options
+      sketchComboBox = new ComboBox<>();
+      sketchComboBox.getItems().setAll(SketchCreationMode.values());
+      sketchComboBox.setMaxWidth(Double.MAX_VALUE);
 
       // create buttons for user interaction
       undoButton = new Button("Undo sketch");
@@ -117,8 +116,7 @@ public class SketchOnMapSample extends Application {
       clearButton = new Button("Clear graphics overlay");
       saveButton = new Button("Save sketch to graphics overlay");
       editButton = new Button("Edit sketch");
-      cancelButton = new Button("Sketch is disabled");
-      cancelButton.setWrapText(true);
+      stopSketchButton = new Button("Sketch is disabled");
       buttonsSetMaxWidth();
 
       // create label as user prompt for when to select a graphic to be edited
@@ -127,100 +125,25 @@ public class SketchOnMapSample extends Application {
       clickToEditLabel.setStyle("-fx-text-fill: white");
       clickToEditLabel.setFont(new Font(25));
 
-
       // disable all buttons when starting application
       disableButtons();
-      sketchOptionsDropDown.setPromptText("    -- Select a graphic to sketch --");
+      // set prompt text on combobox when starting application
+      sketchComboBox.setPromptText("    -- Select a graphic to sketch --");
 
-      // save the sketch as a graphic, and store graphic to the graphics overlay
-      saveButton.setOnAction(event -> {
-        String activeMode = sketchOptionsDropDown.getSelectionModel().getSelectedItem().toString();
-        storeGraphicInGraphicOverlay();
+      // add a listener for when a geometry type is selected from the sketchComboBox
+      sketchComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
 
-        // allow the user to select a graphic from the map view
-        selectGraphic();
+        // ensure no graphics are selected
         graphicsOverlay.clearSelection();
         disableButtons();
-        clearButton.setDisable(false);
-        cancelButton.setDisable(false);
-        // set text on the disabled save button to hint to user next workflow
-        if (saveButton.isDisabled()) {
-          saveButton.setText("Geometry active = " + activeMode);
-        }
-
-        sketchEditor.start(sketchOptionsDropDown.getSelectionModel().getSelectedItem());
-
-      });
-
-      // clear the graphics overlay, and disable the clear button
-      clearButton.setOnAction(event -> {
-        graphicsOverlay.getGraphics().clear();
-        sketchEditor.stop();
-        clickToEditLabel.setVisible(false);
-        disableButtons();
-      });
-
-      // If possible, undo the last change made whilst sketching graphic
-      undoButton.setOnAction(event -> {
-        if (sketchEditor.canUndo()) {
-          sketchEditor.undo();
-        }
-      });
-
-      // If possible, redo the last change made whilst sketching graphic
-      redoButton.setOnAction(event -> {
-        if (sketchEditor.canRedo()) {
-          sketchEditor.redo();
-        }
-      });
-
-      // use sketch editor to edit the geometry of the selected graphic
-      editButton.setOnAction(event -> {
-        cancelButton.setDisable(false);
-        saveButton.setDisable(true);
-        saveButton.setText("Save edits to graphics overlay");
-        cancelButton.setText("Stop sketching");
-
-        // if the graphics overlay contains graphics, select the first graphic
-        // and start the sketch editor based on that graphic's geometry
-        if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
-          graphic = graphicsOverlay.getSelectedGraphics().get(0);
-          sketchEditor.start(graphic.getGeometry());
-        }
-      });
-
-      // cancel the sketch editor
-      cancelButton.setOnAction(event -> {
-        sketchEditor.stop();
-        graphicsOverlay.clearSelection();
-        disableButtons();
-        cancelButton.setText("Sketch is disabled");
-
-        if (graphicsOverlay.getGraphics().isEmpty()) {
-          clickToEditLabel.setVisible(false);
-        } else {
-          clearButton.setDisable(false);
-          clickToEditLabel.setVisible(true);
-        }
-
-        selectGraphic();
-      });
-
-      // For when an item is selected from the drop down box:
-      sketchOptionsDropDown.getSelectionModel().selectedItemProperty().addListener(o -> {
-
-        graphicsOverlay.clearSelection();
-        disableButtons();
-        cancelButton.setDisable(false);
-        cancelButton.setText("Stop sketching");
-
+        // enable stop sketch button whilst in sketch mode
+        stopSketchButton.setDisable(false);
+        stopSketchButton.setText("Stop sketching");
         // if the graphics overlay contains graphics, enable the clear button to clear the overlay.
-        if (!graphicsOverlay.getGraphics().isEmpty()) {
-          clearButton.setDisable(false);
-        }
+        if (!graphicsOverlay.getGraphics().isEmpty()) {clearButton.setDisable(false);}
 
-        // get the selected item from the combo box to determine which sketch style to use
-        SketchCreationMode sketchCreationMode = sketchOptionsDropDown.getSelectionModel().getSelectedItem();
+        // get the selected item from the sketchComboBox to determine which sketch style to use
+        SketchCreationMode sketchCreationMode = sketchComboBox.getSelectionModel().getSelectedItem();
 
         try {
           switch (sketchCreationMode) {
@@ -246,17 +169,96 @@ public class SketchOnMapSample extends Application {
         } catch (Exception e) {
           new Alert(Alert.AlertType.ERROR, "Can not find Sketch Creation Mode").show();
         }
-
       });
 
-      // add a listener for when geometry is changed within the Sketch Editor
+      // if possible, undo the last change made whilst sketching graphic
+      undoButton.setOnAction(event -> {
+        if (sketchEditor.canUndo()) {
+          sketchEditor.undo();
+        }
+      });
+
+      // if possible, redo the last change made whilst sketching graphic
+      redoButton.setOnAction(event -> {
+        if (sketchEditor.canRedo()) {
+          sketchEditor.redo();
+        }
+      });
+
+      // save the sketch as a graphic, and store graphic to the graphics overlay
+      saveButton.setOnAction(event -> {
+
+        // find the selected geometry and store it as a string
+        String activeGeometry = sketchComboBox.getSelectionModel().getSelectedItem().toString();
+
+        // save the graphic in to the graphics overlay
+        storeGraphicInGraphicOverlay();
+
+        // allow the user to select a graphic from the map view
+        selectGraphic();
+        graphicsOverlay.clearSelection();
+        disableButtons();
+        clearButton.setDisable(false);
+        stopSketchButton.setDisable(false);
+
+        // set text on the disabled save button to show user what geometry is active
+        if (saveButton.isDisabled()) {
+          saveButton.setText("Geometry active = " + activeGeometry);
+        }
+
+        // allow user to continue sketching with the selected sketch creation mode from the sketchComboBox
+        sketchEditor.start(sketchComboBox.getSelectionModel().getSelectedItem());
+      });
+
+      // stop the sketch editor
+      stopSketchButton.setOnAction(event -> {
+        sketchEditor.stop();
+        graphicsOverlay.clearSelection();
+        disableButtons();
+        // set text to inform the user the sketch is disabled
+        stopSketchButton.setText("Sketch is disabled");
+
+        if (graphicsOverlay.getGraphics().isEmpty()) {
+          clickToEditLabel.setVisible(false);
+        } else {
+          clearButton.setDisable(false);
+          clickToEditLabel.setVisible(true);
+        }
+        // allow graphics to be selected after stopSketch button is used.
+        selectGraphic();
+      });
+
+      // use sketch editor to edit the geometry of the selected graphic
+      editButton.setOnAction(event -> {
+        stopSketchButton.setDisable(false);
+        saveButton.setDisable(true);
+        saveButton.setText("Save edits to graphics overlay");
+        stopSketchButton.setText("Stop sketching");
+
+        // if the graphics overlay contains graphics, select the first graphic
+        // and start the sketch editor based on that graphic's geometry
+        if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
+          graphic = graphicsOverlay.getSelectedGraphics().get(0);
+          sketchEditor.start(graphic.getGeometry());
+        }
+      });
+
+      // clear the graphics overlay, and disable the clear button
+      clearButton.setOnAction(event -> {
+        graphicsOverlay.getGraphics().clear();
+        sketchEditor.stop();
+        clickToEditLabel.setVisible(false);
+        disableButtons();
+      });
+
+      // add a listener for when sketch geometry is changed
       sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
 
-        // if sketch is valid, enable save and cancel buttons
+        // if sketch is valid, enable save and stop sketch buttons
         if (sketchEditor.isSketchValid()) {
           saveButton.setText("Save sketch to graphics overlay");
           saveButton.setDisable(false);
-          cancelButton.setDisable(false);
+          stopSketchButton.setDisable(false);
         }
 
         // if the sketch editor can undo, enable the undo button otherwise disable it
@@ -276,17 +278,15 @@ public class SketchOnMapSample extends Application {
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-              CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10));
       controlsVBox.setMaxSize(240, 110);
       controlsVBox.getStyleClass().add("panel-region");
-      //controlsVBox.setSpacing(20);
 
       // create a flow pane for placing buttons side by side within the control box
       FlowPane flowPaneUndoRedo = new FlowPane(Orientation.HORIZONTAL, 55, 10, undoButton, redoButton);
       flowPaneUndoRedo.setAlignment(Pos.CENTER);
-      controlsVBox.getChildren().addAll(sketchOptionsDropDown, cancelButton, flowPaneUndoRedo, saveButton, editButton, clearButton);
+      controlsVBox.getChildren().addAll(sketchComboBox, stopSketchButton, flowPaneUndoRedo, saveButton, editButton, clearButton);
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox, clickToEditLabel);
@@ -294,7 +294,7 @@ public class SketchOnMapSample extends Application {
       stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
 
     } catch (Exception e) {
-
+      // on any error, display the stack trace
       e.printStackTrace();
     }
   }
@@ -340,7 +340,6 @@ public class SketchOnMapSample extends Application {
   /**
    * Allows the user to select a graphic from the graphics overlay
    */
-
   private void selectGraphic() {
 
     mapView.setOnMouseClicked(e -> {
@@ -364,7 +363,6 @@ public class SketchOnMapSample extends Application {
             editButton.setDisable(false);
           } else {
             editButton.setDisable(true);
-            System.out.println("No graphics selected");
           }
 
         } catch (Exception x) {
@@ -378,25 +376,23 @@ public class SketchOnMapSample extends Application {
   /**
    * Disable all UI buttons
    */
-
   private void disableButtons() {
     clearButton.setDisable(true);
     redoButton.setDisable(true);
     undoButton.setDisable(true);
     editButton.setDisable(true);
     saveButton.setDisable(true);
-    cancelButton.setDisable(true);
+    stopSketchButton.setDisable(true);
   }
 
   /**
-   * Set the clear, save, edit and cancel buttons to max width
+   * Set the clear, save, edit and stop sketch buttons to max width
    */
-
   private void buttonsSetMaxWidth() {
     clearButton.setMaxWidth(Double.MAX_VALUE);
     saveButton.setMaxWidth(Double.MAX_VALUE);
     editButton.setMaxWidth(Double.MAX_VALUE);
-    cancelButton.setMaxWidth(Double.MAX_VALUE);
+    stopSketchButton.setMaxWidth(Double.MAX_VALUE);
   }
 
   /**
