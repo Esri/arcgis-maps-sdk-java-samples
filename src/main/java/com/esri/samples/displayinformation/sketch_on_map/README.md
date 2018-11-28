@@ -2,6 +2,8 @@
 
 <p>Use the Sketch Editor to edit, or sketch a new point, line, or polygon geometry on to a map. </p>
 
+<p><img src="SketchOnMap.png"/></p>
+
 <h2>How to use the sample</h2>
 
 <p>Use the drop down menu to choose which geometry type to sketch. Choose from points, multipoints, polygons, freehand lines and freehand polgons.</p>
