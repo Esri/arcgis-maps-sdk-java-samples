@@ -244,8 +244,6 @@ public class SketchOnMapSample extends Application {
         graphicsOverlay.getGraphics().clear();
         sketchEditor.stop();
         disableButtons();
-        System.out.println(sketchEditor.isVisible());
-
       });
 
       // add a listener for when sketch geometry is changed
