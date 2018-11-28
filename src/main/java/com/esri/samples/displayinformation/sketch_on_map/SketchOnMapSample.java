@@ -64,10 +64,11 @@ public class SketchOnMapSample extends Application {
   private GraphicsOverlay graphicsOverlay;
   private SimpleFillSymbol fillSymbol;
   private SimpleLineSymbol lineSymbol;
+  private SimpleLineSymbol polygonLineSymbol;
   private SimpleMarkerSymbol pointSymbol;
   private Graphic graphic;
   private ComboBox<SketchCreationMode> sketchComboBox;
-  private Label clickToEditLabel;
+  private Label promptLabel;
 
   @Override
   public void start(Stage stage) {
@@ -102,8 +103,9 @@ public class SketchOnMapSample extends Application {
 
       // define symbols for graphics
       pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFFFF0000, 20);
-      lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF8800, 4);
-      fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, lineSymbol);
+      lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF64c113, 4);
+      polygonLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF1396c1, 4);
+      fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, polygonLineSymbol);
 
       // create a combo box for selecting SketchCreationMode geometry options
       sketchComboBox = new ComboBox<>();
@@ -119,11 +121,11 @@ public class SketchOnMapSample extends Application {
       stopSketchButton = new Button("Sketch is disabled");
       buttonsSetMaxWidth();
 
-      // create label as user prompt for when to select a graphic to be edited
-      clickToEditLabel = new Label("Select a graphic to edit it");
-      clickToEditLabel.setVisible(false);
-      clickToEditLabel.setStyle("-fx-text-fill: white");
-      clickToEditLabel.setFont(new Font(25));
+      // create prompt label for user for when a graphic can be selected to edit
+      promptLabel = new Label("Select a graphic to edit it");
+      promptLabel.setVisible(false);
+      promptLabel.setStyle("-fx-text-fill: white");
+      promptLabel.setFont(new Font(25));
 
       // disable all buttons when starting application
       disableButtons();
@@ -134,6 +136,7 @@ public class SketchOnMapSample extends Application {
       sketchComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
 
         // ensure no graphics are selected
+        promptLabel.setVisible(false);
         graphicsOverlay.clearSelection();
         disableButtons();
         // enable stop sketch button whilst in sketch mode
@@ -219,10 +222,10 @@ public class SketchOnMapSample extends Application {
         stopSketchButton.setText("Sketch is disabled");
 
         if (graphicsOverlay.getGraphics().isEmpty()) {
-          clickToEditLabel.setVisible(false);
+          promptLabel.setVisible(false);
         } else {
           clearButton.setDisable(false);
-          clickToEditLabel.setVisible(true);
+          promptLabel.setVisible(true);
         }
         // allow graphics to be selected after stopSketch button is used.
         selectGraphic();
@@ -247,7 +250,7 @@ public class SketchOnMapSample extends Application {
       clearButton.setOnAction(event -> {
         graphicsOverlay.getGraphics().clear();
         sketchEditor.stop();
-        clickToEditLabel.setVisible(false);
+        promptLabel.setVisible(false);
         disableButtons();
       });
 
@@ -289,7 +292,7 @@ public class SketchOnMapSample extends Application {
       controlsVBox.getChildren().addAll(sketchComboBox, stopSketchButton, flowPaneUndoRedo, saveButton, editButton, clearButton);
 
       // add the map view to the stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox, clickToEditLabel);
+      stackPane.getChildren().addAll(mapView, controlsVBox, promptLabel);
       stackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
       stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
 
@@ -344,7 +347,7 @@ public class SketchOnMapSample extends Application {
 
     mapView.setOnMouseClicked(e -> {
 
-      clickToEditLabel.setVisible(false);
+      promptLabel.setVisible(false);
 
       graphicsOverlay.clearSelection();
       Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
