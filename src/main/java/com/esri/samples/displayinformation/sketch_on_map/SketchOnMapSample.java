@@ -118,6 +118,7 @@ public class SketchOnMapSample extends Application {
       stopSketchButton = new Button("Sketch is disabled");
       buttonsSetMaxWidth();
 
+
       // disable all buttons when starting application
       disableButtons();
       // set prompt text on combobox when starting application
@@ -229,7 +230,6 @@ public class SketchOnMapSample extends Application {
         saveButton.setText("Save edits to graphics overlay");
         stopSketchButton.setText("Stop sketching");
         editButton.setText("Edit Sketch (active)");
-        editButton.setBorder(null);
 
         // if the graphics overlay contains graphics, select the first graphic
         // and start the sketch editor based on that graphic's geometry
@@ -244,6 +244,8 @@ public class SketchOnMapSample extends Application {
         graphicsOverlay.getGraphics().clear();
         sketchEditor.stop();
         disableButtons();
+        System.out.println(sketchEditor.isVisible());
+
       });
 
       // add a listener for when sketch geometry is changed
