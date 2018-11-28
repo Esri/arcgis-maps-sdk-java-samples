@@ -192,7 +192,11 @@ public class SketchOnMapSample extends Application {
         selectGraphic();
         graphicsOverlay.clearSelection();
         disableButtons();
-        clearButton.setDisable(false);
+
+        if (!graphicsOverlay.getGraphics().isEmpty()){
+          clearButton.setDisable(false);
+        }
+
         stopSketchButton.setDisable(false);
         editButton.setText("Stop sketching to edit");
 
@@ -254,7 +258,7 @@ public class SketchOnMapSample extends Application {
           saveButton.setText("Save sketch to graphics overlay");
           saveButton.setDisable(false);
           stopSketchButton.setDisable(false);
-        }
+        } else {saveButton.setDisable(true);}
 
         // if the sketch editor can undo, enable the undo button otherwise disable it
         if (sketchEditor.canUndo()) {
