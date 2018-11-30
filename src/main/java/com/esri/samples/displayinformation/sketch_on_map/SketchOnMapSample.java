@@ -112,8 +112,8 @@ public class SketchOnMapSample extends Application {
       // create buttons for user interaction
       undoButton = new Button("Undo sketch");
       redoButton = new Button("Redo sketch");
-      clearButton = new Button("Clear graphics overlay");
-      saveButton = new Button("Save sketch to graphics overlay");
+      clearButton = new Button("Clear saved sketches");
+      saveButton = new Button("Save sketch");
       editButton = new Button("Edit sketch");
       stopSketchButton = new Button("Sketch is disabled");
       buttonsSetMaxWidth();
@@ -122,7 +122,7 @@ public class SketchOnMapSample extends Application {
       // disable all buttons when starting application
       disableButtons();
       // set prompt text on combobox when starting application
-      sketchComboBox.setPromptText("    -- Select a graphic to sketch --");
+      sketchComboBox.setPromptText("    -- Select sketch mode --");
 
       // add a listener for when a geometry type is selected from the sketchComboBox
       sketchComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
@@ -195,7 +195,7 @@ public class SketchOnMapSample extends Application {
         // set text to inform the user the sketch is disabled
         stopSketchButton.setDisable(false);
         stopSketchButton.setText("Select sketch from drop down");
-        saveButton.setText("Save sketch to graphics overlay");
+        saveButton.setText("Save sketch");
 
         if (!graphicsOverlay.getGraphics().isEmpty()) {
           editButton.setText("Select graphic to edit");
@@ -211,7 +211,7 @@ public class SketchOnMapSample extends Application {
       editButton.setOnAction(event -> {
         stopSketchButton.setDisable(false);
         saveButton.setDisable(true);
-        saveButton.setText("Save edits to graphics overlay");
+        saveButton.setText("Save edits");
         stopSketchButton.setText("Stop sketching");
         editButton.setText("Edit Sketch (active)");
 
@@ -237,7 +237,7 @@ public class SketchOnMapSample extends Application {
         stopSketchButton.setText("Stop sketching");
 
         if (sketchEditor.isSketchValid()) {
-          saveButton.setText("Save sketch to graphics overlay");
+          saveButton.setText("Save sketch");
           saveButton.setDisable(false);
           stopSketchButton.setDisable(false);
         } else
@@ -302,15 +302,30 @@ public class SketchOnMapSample extends Application {
         graphic = graphicsOverlay.getSelectedGraphics().get(0);
         graphic.setGeometry(sketchGeometry);
       } else {
+
         graphic = new Graphic(sketchGeometry);
-        if (graphic.getGeometry().getGeometryType() == GeometryType.POLYGON) {
-          graphic.setSymbol(fillSymbol);
-        } else if (graphic.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
-          graphic.setSymbol(lineSymbol);
-        } else if (graphic.getGeometry().getGeometryType() == GeometryType.POINT ||
-                graphic.getGeometry().getGeometryType() == GeometryType.MULTIPOINT) {
-          graphic.setSymbol(pointSymbol);
+
+        switch (sketchGeometry.getGeometryType()) {
+          case POLYGON:
+            graphic.setSymbol(fillSymbol);
+            break;
+          case POLYLINE:
+            graphic.setSymbol(lineSymbol);
+            break;
+          case POINT:
+          case MULTIPOINT:
+            graphic.setSymbol(pointSymbol);
         }
+
+
+//        if (graphic.getGeometry().getGeometryType() == GeometryType.POLYGON) {
+//          graphic.setSymbol(fillSymbol);
+//        } else if (graphic.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+//          graphic.setSymbol(lineSymbol);
+//        } else if (graphic.getGeometry().getGeometryType() == GeometryType.POINT ||
+//                graphic.getGeometry().getGeometryType() == GeometryType.MULTIPOINT) {
+//          graphic.setSymbol(pointSymbol);
+//        }
         // add the graphic to the graphics overlay
         graphicsOverlay.getGraphics().add(graphic);
       }
