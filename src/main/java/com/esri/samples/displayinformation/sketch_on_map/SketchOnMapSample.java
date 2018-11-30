@@ -139,30 +139,8 @@ public class SketchOnMapSample extends Application {
         // get the selected item from the sketchComboBox to determine which sketch style to use
         SketchCreationMode sketchCreationMode = sketchComboBox.getSelectionModel().getSelectedItem();
 
-        try {
-          switch (sketchCreationMode) {
-            case POLYLINE:
-              sketchEditor.start(SketchCreationMode.POLYLINE);
-              break;
-            case POLYGON:
-              sketchEditor.start(SketchCreationMode.POLYGON);
-              break;
-            case POINT:
-              sketchEditor.start(SketchCreationMode.POINT);
-              break;
-            case MULTIPOINT:
-              sketchEditor.start(SketchCreationMode.MULTIPOINT);
-              break;
-            case FREEHAND_LINE:
-              sketchEditor.start(SketchCreationMode.FREEHAND_LINE);
-              break;
-            case FREEHAND_POLYGON:
-              sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
-              break;
-          }
-        } catch (Exception e) {
-          new Alert(Alert.AlertType.ERROR, "Can not find Sketch Creation Mode").show();
-        }
+        sketchEditor.start(sketchCreationMode);
+
       });
 
       // if possible, undo the last change made whilst sketching graphic
@@ -215,7 +193,8 @@ public class SketchOnMapSample extends Application {
         graphicsOverlay.clearSelection();
         disableButtons();
         // set text to inform the user the sketch is disabled
-        stopSketchButton.setText("Sketch is disabled");
+        stopSketchButton.setDisable(false);
+        stopSketchButton.setText("Select sketch from drop down");
         saveButton.setText("Save sketch to graphics overlay");
 
         if (!graphicsOverlay.getGraphics().isEmpty()) {
@@ -225,6 +204,7 @@ public class SketchOnMapSample extends Application {
 
         // allow graphics to be selected after stopSketch button is used.
         selectGraphic();
+
       });
 
       // use sketch editor to edit the geometry of the selected graphic
@@ -254,11 +234,14 @@ public class SketchOnMapSample extends Application {
       sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
 
         // if sketch is valid, enable save and stop sketch buttons
+        stopSketchButton.setText("Stop sketching");
+
         if (sketchEditor.isSketchValid()) {
           saveButton.setText("Save sketch to graphics overlay");
           saveButton.setDisable(false);
           stopSketchButton.setDisable(false);
-        } else {saveButton.setDisable(true);}
+        } else
+          {saveButton.setDisable(true);}
 
         // if the sketch editor can undo, enable the undo button otherwise disable it
         if (sketchEditor.canUndo()) {
