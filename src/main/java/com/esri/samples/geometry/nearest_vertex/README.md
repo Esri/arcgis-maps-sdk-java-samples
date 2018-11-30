@@ -1,6 +1,6 @@
 <h1>Nearest Vertex</h1>
 
-<p>Gets the vertex of a geometry closest to a point.</p>
+<p>Get the vertex of a geometry closest to a point.</p>
 
 <p><img src="NearestVertex.png"/></p>
 

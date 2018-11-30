@@ -1,6 +1,6 @@
 <h1>Feature Layer Feature Service</h1>
 
-<p>Demonstrates how to create a FeatureLayer from a ServiceFeatureTable and add it to an ArcGISMap.</p>
+<p>Show features from an online feature service.</p>
 
 <p><img src="FeatureLayerFeatureService.png"/></p>
 

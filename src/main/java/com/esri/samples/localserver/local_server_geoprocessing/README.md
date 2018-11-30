@@ -1,6 +1,8 @@
 <h1>Local Server Geoprocessing</h1>
 
-<p>Demonstrates how to create contour lines from local raster data using a local geoprocessing package (.gpk) and the contour geoprocessing tool.</p>
+<p>Create contour lines from local raster data and Local Server.</p>
+ 
+<p>This is accomplished using a local geoprocessing package (.gpk) and the contour geoprocessing tool.</p>
 
 <p><b>Note:</b> Local Server is not supported on MacOS</p>
 

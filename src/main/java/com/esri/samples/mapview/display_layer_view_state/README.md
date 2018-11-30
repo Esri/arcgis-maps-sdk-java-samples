@@ -1,6 +1,6 @@
 <h1>Display Layer View State</h1>
 
-<p>Demonstrates how to get the view state for layers in a ArcGISMap. </p>
+<p>Determine if a layer is currently visible.</p>
 
 <p><img src="DisplayLayerViewState.png"/></p>
 

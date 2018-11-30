@@ -1,6 +1,6 @@
 <h1>Generate Offline Map</h1>
 
-<p>Demonstrates how to take a web map offline</p>
+<p>Take an extent of a web map offline.</p>
 
 <p><img src="GenerateOfflineMap.png"/></p>
 

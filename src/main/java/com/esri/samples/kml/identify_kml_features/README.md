@@ -1,6 +1,6 @@
 <h1>Identify KML Features</h1>
 
-<p>Identify clicked features in a KML Layer.</p>
+<p>Get clicked features in a KML Layer.</p>
 
 <p><img src="IdentifyKMLFeatures.png"/></p>
 

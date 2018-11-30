@@ -1,6 +1,6 @@
 <h1>Viewshed GeoElement</h1>
 
-<p>A viewshed shows the visible and obstructed areas from an observer's vantage point. This sample demonstrates how to attach a viewshed to a moving GeoElement.</p>
+<p>Attach a viewshed to an object to visualize what it sees.</p>
 
 <p><img src="ViewshedGeoElement.gif"/></p>
 

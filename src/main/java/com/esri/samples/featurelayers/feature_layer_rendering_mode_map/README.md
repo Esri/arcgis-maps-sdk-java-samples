@@ -1,6 +1,6 @@
 <h1>Feature Layer Rendering Mode (Map)</h1>
 
-<p>This sample demonstrates how to use load settings to set preferred rendering mode for feature layers, specifically static or dynamic rendering modes..</p>
+<p>Render features statically or dynamically.</p>
 
 <p><img src="FeatureLayerRenderingModeMap.gif"/></p>
 

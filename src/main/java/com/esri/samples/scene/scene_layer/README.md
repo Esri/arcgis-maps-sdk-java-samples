@@ -1,6 +1,6 @@
 <h1>Scene Layer</h1>
 
-<p>Demonstrates how to add a scene layer to a scene.</p>
+<p>Display a scene layer with 3D buildings.</p>
     
 <p><img src="SceneLayer.png"/></p>
 

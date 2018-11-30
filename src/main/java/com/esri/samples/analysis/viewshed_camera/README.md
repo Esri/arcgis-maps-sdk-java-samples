@@ -1,6 +1,8 @@
 <h1>Viewshed Camera</h1>
 
-<p>A viewshed shows the visible and obstructed areas from an observer's vantage point. This sample demonstrates how to create and update a viewshed from a camera.</p>
+<p>Create a viewshed using the current camera viewpoint.</p>
+
+<p>A viewshed shows the visible and obstructed areas from an observer's vantage point.</p>
 
 <h2>How to use the sample</h2>
 

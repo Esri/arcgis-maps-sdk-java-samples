@@ -1,7 +1,6 @@
 <h1>Animate 3d Graphic</h1>
 
-<p>This MVC application demonstrates following a graphic with an OrbitGeoElementCameraControler while animating its 
-position and orientation.</p>
+<p>Animate a graphic's position and orientation and follow it with the camera.</p>
 
 <p><img src="Animate3dGraphic.png"/></p>
 

@@ -1,6 +1,6 @@
 <h1>Export Vector Tiles</h1>
 
-<p>Demonstrates how to export vector tiles with its style from a vector tiled layer.</p>
+<p>Export tiles from an online vector tile service.</p>
 
 <p><img src="ExportVectorTiles.png"/></p>
 

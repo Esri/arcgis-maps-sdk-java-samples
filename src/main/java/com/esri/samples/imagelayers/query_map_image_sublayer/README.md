@@ -1,7 +1,6 @@
 <h1>Query Map Image Sublayer</h1>
 
-<p>This sample demonstrates how to execute an attribute and spatial query on the sublayers of an ArcGIS map image 
-layer.</p>    
+<p>Find features in a sublayer based on attributes and location.</p>    
 
 <p>Sublayers of an <code>ArcGISMapImageLayer</code> may expose a <code>ServiceFeatureTable</code> through a 
 <code>Table</code> property. This allows you to perform the same queries available when working with a table from a 

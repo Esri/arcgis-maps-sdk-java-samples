@@ -1,6 +1,6 @@
 <h1>Feature Layer (Geodatabase)</h1>
 
-<p>Demonstrates how to consume an Esri Geodatabase by using a FeatureLayer and a GeodatabaseFeatureTable.</p>
+<p>Display features from a local geodatabase.</p>
 
 <p><img src="FeatureLayerGeodatabase.png"/></p>
 

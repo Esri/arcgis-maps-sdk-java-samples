@@ -1,6 +1,6 @@
 <h1>Feature Layer Query</h1>
 
-<p>Demonstrates how to query a FeatureLayer from a FeatureTable.</p>
+<p>Find features matching a SQL query.</p>
 
 <p><img src="FeatureLayerQuery.png"/></p>
 

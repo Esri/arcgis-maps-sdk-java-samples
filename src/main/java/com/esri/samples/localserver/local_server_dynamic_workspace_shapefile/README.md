@@ -1,6 +1,6 @@
 <h1>Local Server Dynamic Workspace Shapefile</h1>
 
-<p>Demonstrates how to dynamically add a local shapefile to a map using the Local Server. </p>
+<p>Dynamically add a local shapefile to a map using Local Server.</p>
 
 <p><b>Note:</b> Local Server is not supported on MacOS</p>
 

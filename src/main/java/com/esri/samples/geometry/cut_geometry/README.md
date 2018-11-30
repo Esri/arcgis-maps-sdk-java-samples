@@ -1,6 +1,6 @@
 <h1>Cut Geometry</h1>
 
-<p>Demonstrates how to cut a geometry with a polyline using the GeometryEngine.</p>
+<p>Cut a geometry along a polyline.</p>
 
 <p><img src="CutGeometry.png"/></p>
 

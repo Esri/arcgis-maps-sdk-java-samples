@@ -1,6 +1,6 @@
 <h1>Reverse Geocode Online</h1>
 
-<p>Demonstrates how to reverse geocode a location and find its nearest address.</p>
+<p>Find the address of a location.</p>
 
 <p><img src="ReverseGeocodeOnline.png"/></p>
 

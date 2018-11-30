@@ -1,6 +1,6 @@
 <h1>Mobile Map Search And Route</h1>
 
-<p>Demonstrates a mobile map workflow where you can use the locator task and networks saved in an offline map.</p>
+<p>Use locators and networks saved in an offline map.</p>
 
 <p><img src="MobileMapSearchAndRoute.png"/></p>
 

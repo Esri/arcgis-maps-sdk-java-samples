@@ -1,6 +1,6 @@
 <h1>Geodesic Operations</h1>
 
-<p>Demonstrates how to use the GeometryEngine to calculate a geodesic path between two points and measure its distance.</p>
+<p>Calculate the geodesic path and distance between two points.</p>
 
 <p><img src="GeodesicOperations.png"/></p>
 

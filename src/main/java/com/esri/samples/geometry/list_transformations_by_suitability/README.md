@@ -1,5 +1,7 @@
 <h1>List Transformations By Suitability</h1>
 
+<p>Find transformations to other spatial references suitable to the point's location.</p>
+
 <p>Demonstrates how to use the TransformationCatalog to get a list of available DatumTransformations that
  can be used to project a Geometry between two different SpatialReferences.</p>
 

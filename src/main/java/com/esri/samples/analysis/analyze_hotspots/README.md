@@ -1,7 +1,8 @@
 <h1>Analyze Hotspots</h1>
 
-<p>Shows how to perform hotspot analysis using a geoprocessing service. In this case, frequency of 911 calls in an 
-area are analyzed.</p>
+<p>Perform hotspot analysis using a geoprocessing service.</p>
+
+<p>In this case, frequency of 911 calls in an area are analyzed.</p>
 
 <p><img src="AnalyzeHotspots.png"/></p>
 

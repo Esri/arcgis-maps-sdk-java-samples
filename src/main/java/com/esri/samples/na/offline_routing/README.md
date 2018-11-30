@@ -1,6 +1,6 @@
 <h1>Offline Routing</h1>
 
-<p>Demonstrates how to solve a route on-the-fly using only offline data.</p>
+<p>Solve a route on-the-fly using only offline data.</p>
 
 <p><img src="OfflineRouting.gif"/></p>
 

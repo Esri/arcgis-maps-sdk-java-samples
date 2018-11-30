@@ -1,6 +1,6 @@
 <h1>Scene Properties Expressions</h1>
 
-<p>Demonstrates how to update the orientation of a graphic using scene property rotation expressions.</p>
+<p>Update the orientation of a graphic using scene property rotation expressions.</p>
 
 <p><img src="ScenePropertiesExpressions.gif"/></p>
 

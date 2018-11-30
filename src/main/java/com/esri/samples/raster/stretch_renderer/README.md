@@ -1,6 +1,8 @@
 <h1>Stretch Renderer</h1>
 
-<p>Demonstrates  how to use a stretch renderer on a raster layer. A stretch renderer can be used to stretch tightly grouped values 
+<p>Apply a stretch renderer to a raster.</p>
+
+<p>A stretch renderer can be used to stretch tightly grouped values 
 across the available value spectrum, creating more contrast between objects. This is useful for identifying objects 
 in dark images.</p>
 

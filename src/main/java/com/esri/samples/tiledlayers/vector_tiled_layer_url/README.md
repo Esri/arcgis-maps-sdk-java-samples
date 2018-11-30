@@ -1,6 +1,6 @@
 <h1>Vector Tiled Layer URL</h1>
 
-<p>Demonstrates how to display an ArcGIS vector tiled layer from an online vector tile service.</p>
+<p>Display tiles from an ArcGIS vector tile service.</p>
 
 <p><img src="VectorTiledLayerURL.png"/></p>
 

@@ -1,6 +1,6 @@
 <h1>Find Address</h1>
 
-<p>Demonstrates how to geocode an address query and display its location on the map.</p>
+<p>Find the location for an address.</p>
 
 <p><img src="FindAddress.gif"/></p>
 

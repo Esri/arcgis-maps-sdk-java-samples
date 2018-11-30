@@ -1,7 +1,8 @@
 <h1>Dictionary Renderer with Graphics Overlay</h1>
 
-<p>Demonstrates how to apply a dictionary renderer to a graphics overlay and display mil2525d graphics. 
-The dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key, 
+<p>Display mil2525d symbols.</p>
+
+<p>The dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key, 
 value attributes for each graphic.</p>
 
 <p><img src="DictionaryRendererGraphicsOverlay.png"/></p>

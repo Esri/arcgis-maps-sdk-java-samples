@@ -1,6 +1,6 @@
 <h1>Elevation Mode</h1>
 
-<p>Demonstrates how to position graphics using different elevation modes.</p>
+<p>Position graphics relative to terrain.</p>
 
 <p><img src="ElevationMode.png"/></p>
 

@@ -1,7 +1,9 @@
 <h1>Distance Composite Symbol</h1>
 
-<p>Demonstrates how to create a graphic using a distance composite scene symbol. Distance composite scene symbols can
-  render different symbols depending on the distance between the camera and the graphic.</p>
+<p>Change a graphic's symbol based on camera proximity.</p>
+
+<p>Distance composite scene symbols can render different symbols depending on the distance between the camera and the
+ graphic.</p>
 
 <p><img src="DistanceCompositeSymbol.gif"/></p>
 

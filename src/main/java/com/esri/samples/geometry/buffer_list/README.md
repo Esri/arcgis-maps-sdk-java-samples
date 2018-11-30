@@ -1,6 +1,6 @@
 <h1>Buffer list</h1>
 
-<p>This sample demonstrates how to union multiple planar buffers with individual buffer distances.</p>
+<p>Combine buffers from multiple points individual buffer distances.</p>
 
 <p><img src="BufferList.png"/></p>
 

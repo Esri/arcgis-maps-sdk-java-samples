@@ -1,6 +1,6 @@
 <h1>Feature Collection Layer</h1>
 
-<p>Demonstrates how to create a new Feature Collection with a Point, Polyline, and Polygon Feature Collection Table. The Feature Collection is then displayed on the ArcGISMap as a Layer.</p>
+<p>Combine feature tables with different geometries into a single layer.</p>
 
 <p><img src="FeatureCollectionLayer.png"/></p>
 

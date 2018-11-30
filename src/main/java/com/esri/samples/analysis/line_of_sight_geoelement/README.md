@@ -1,6 +1,6 @@
 <h1>Line of Sight GeoElement</h1>
 
-<p>Shows how to display a line of sight between two (possibly moving) graphics.</p>
+<p>Show a line of sight between two moving objects.</p>
 
 <p>To determine if an observer can see a target, you can show a line of sight between them. The line will be green until it is obstructed, in which case it will turn red. By using the GeoElement variant of the line of sight, the line will automatically update when either GeoElement moves.</p>
 

@@ -1,6 +1,6 @@
 <h1>Display a Map</h1>
 
-<p>Demonstrates how to create ArcGISMap using a basemap. A basemap is beneath all other layers on a ArcGISMap and provides visual reference to other layers.</p>
+<p>Display a map with some imagery.</p>
 
 <p><img src="DisplayMap.png"/></p>
 

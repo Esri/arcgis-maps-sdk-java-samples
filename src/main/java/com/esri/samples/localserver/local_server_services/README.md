@@ -1,6 +1,6 @@
 <h1>Local Server Services</h1>
 
-<p>Demonstrates how to start and stop a map, feature, and geoprocessing services on the Local Server.</p>
+<p>Manage multiple running services in Local Server.</p>
 
 <p><b>Note:</b> Local Server is not supported on MacOS</p>
 
