@@ -1,4 +1,4 @@
-<h1>Distance Measurement Analysis</h2>
+<h1>Distance Measurement Analysis</h1>
 <p>Measure distances within a scene.</p>
 
 <p>The distance measurement analysis allows you to add the same measuring experience found in ArcGIS Pro, City Engine, 
