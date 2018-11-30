@@ -1,12 +1,7 @@
-apply plugin: 'application'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply plugin: 'com.esri.arcgisruntime.java'
-
 buildscript {
     repositories {
-        maven {
-            url = 'https://esri.bintray.com/arcgis'
+        maven { 
+            url 'https://esri.bintray.com/arcgis' 
         }
     }
     dependencies {
@@ -14,18 +9,36 @@ buildscript {
     }
 }
 
-arcgis.version = '100.5.0'
+apply plugin: 'application'
+apply plugin: 'com.esri.arcgisruntime.java'
 
-idea.module.downloadJavadoc = true
-eclipse.classpath.downloadJavadoc = true
+arcgis.version = '100.5.0-2245'
+arcgis.internal = true
+
+group = 'com.esri.samples'
 
 compileJava.options.encoding = 'UTF-8'
-compileJava.sourceCompatibility = '1.8'
+
+repositories {
+    jcenter()
+    maven {
+        url 'https://esri.bintray.com/arcgis'
+    }
+}
 
 dependencies {
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
     compile 'commons-io:commons-io:2.4'
     compile 'org.jooq:joox:1.4.0'
+    ["win", "mac", "linux"].forEach { platform ->
+        compile "org.openjfx:javafx-base:11:$platform"
+        compile "org.openjfx:javafx-graphics:11:$platform"
+        compile "org.openjfx:javafx-controls:11:$platform"
+        compile "org.openjfx:javafx-web:11:$platform"
+        compile "org.openjfx:javafx-fxml:11:$platform"
+        compile "org.openjfx:javafx-swing:11:$platform"
+        compile "org.openjfx:javafx-media:11:$platform"
+    }
 }
 
 task downloadData {
@@ -46,8 +59,28 @@ task downloadData {
     }
 }
 
+compileJava {
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls,javafx.web,javafx.fxml'
+        ]
+    }
+}
+
 run {
     mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
+    doFirst {
+        jvmArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls,javafx.web,javafx.fxml'
+        ]
+    }
+}
+
+jar {
+    // important to remove duplicates from each JavaFX platform dependency
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 task wrapper(type: Wrapper) {
