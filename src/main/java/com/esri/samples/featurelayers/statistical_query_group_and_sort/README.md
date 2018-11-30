@@ -1,6 +1,6 @@
 <h1>Statistical Query Group And Sort</h1>
 
-<p>Groug and sort feature statistics by different fields.</p>
+<p>Group and sort feature statistics by different fields.</p>
 
 <p><img src="StatisticalQueryGroupAndSort.png"></p>
 
