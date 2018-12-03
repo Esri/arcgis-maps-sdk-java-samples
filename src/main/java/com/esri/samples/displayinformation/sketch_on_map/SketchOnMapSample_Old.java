@@ -18,7 +18,6 @@ package com.esri.samples.displayinformation.sketch_on_map;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
-import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -30,33 +29,25 @@ import com.esri.arcgisruntime.mapping.view.SketchEditor;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-public class SketchOnMapSample extends Application {
-
-  private static SketchOnMapController controller;
+public class SketchOnMapSample_Old extends Application {
 
   private MapView mapView;
   private SketchEditor sketchEditor;
@@ -88,16 +79,9 @@ public class SketchOnMapSample extends Application {
 
     try {
       // create stack pane and application scene
-
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/sketch_on_map.fxml"));
-      Parent root = loader.load();
-      controller = loader.getController();
-      Scene scene = new Scene(root);
-
-
-//      StackPane stackPane = new StackPane();
-//      Scene scene = new Scene(stackPane);
-//      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+      StackPane stackPane = new StackPane();
+      Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Sketch on Map Sample");
@@ -343,9 +327,9 @@ public class SketchOnMapSample extends Application {
       controlsVBox.getChildren().addAll(sketchHBox, stopSketchButton, undoRedoHBox, saveButton, editButton, clearButton);
 
       // add the map view to the stack pane
-//      stackPane.getChildren().addAll(mapView, controlsVBox);
-//      stackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
-//      stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      stackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
+      stackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace
@@ -456,7 +440,12 @@ public class SketchOnMapSample extends Application {
    * Stops and releases all resources used in application
    */
   @Override
-  public void stop() { controller.terminate(); }
+  public void stop() {
+    // release resources when the application closes
+    if (mapView != null) {
+      mapView.dispose();
+    }
+  }
 
   /**
    * Opens and runs application.
