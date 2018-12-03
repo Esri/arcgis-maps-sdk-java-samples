@@ -109,9 +109,13 @@ public class SketchOnMapSample extends Application {
       mapView.setSketchEditor(sketchEditor);
 
       // define symbols for graphics
+      // red square for points
       pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFFFF0000, 20);
+      // thin green line for polylines
       lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF64c113, 4);
+      // blue outline for polygons
       polygonLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF1396c1, 4);
+      // cross-hatched interior for polygons
       fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, polygonLineSymbol);
 
       // create buttons for user interaction
