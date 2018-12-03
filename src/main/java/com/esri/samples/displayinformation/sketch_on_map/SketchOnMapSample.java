@@ -37,13 +37,14 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
@@ -59,13 +60,22 @@ public class SketchOnMapSample extends Application {
   private Button saveButton;
   private Button editButton;
   private Button stopSketchButton;
+
+
+  private Button createPointButton;
+  private Button createMultiPointButton;
+  private Button createPolylineButton;
+  private Button createPolygonButton;
+  private Button createFreehandPolylineButton;
+  private Button createFreehandPolygonButton;
+
+
   private GraphicsOverlay graphicsOverlay;
   private SimpleFillSymbol fillSymbol;
   private SimpleLineSymbol lineSymbol;
   private SimpleLineSymbol polygonLineSymbol;
   private SimpleMarkerSymbol pointSymbol;
   private Graphic graphic;
-  private ComboBox<SketchCreationMode> sketchComboBox;
 
   @Override
   public void start(Stage stage) {
@@ -104,44 +114,75 @@ public class SketchOnMapSample extends Application {
       polygonLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF1396c1, 4);
       fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, polygonLineSymbol);
 
-      // create a combo box for selecting SketchCreationMode geometry options
-      sketchComboBox = new ComboBox<>();
-      sketchComboBox.getItems().setAll(SketchCreationMode.values());
-      sketchComboBox.setMaxWidth(Double.MAX_VALUE);
-
       // create buttons for user interaction
       undoButton = new Button("Undo sketch");
       redoButton = new Button("Redo sketch");
       clearButton = new Button("Clear saved sketches");
-      saveButton = new Button("Save sketch");
+      saveButton = new Button("Save sketch and stop sketching");
       editButton = new Button("Edit sketch");
       stopSketchButton = new Button("Sketch is disabled");
       buttonsSetMaxWidth();
 
+      // create buttons for creating sketches
+      createPointButton = new Button("");
+      createMultiPointButton = new Button("");
+      createPolylineButton = new Button("");
+      createPolygonButton = new Button("");
+      createFreehandPolylineButton = new Button("");
+      createFreehandPolygonButton = new Button("");
 
-      // disable all buttons when starting application
-      disableButtons();
-      // set prompt text on combobox when starting application
-      sketchComboBox.setPromptText("    -- Select sketch mode --");
+      // set icon for each sketch button
+      Image pointIcon = new Image(getClass().getResourceAsStream("/icons/pointSketch.png"));
+      createPointButton.setGraphic(new ImageView(pointIcon));
 
-      // add a listener for when a geometry type is selected from the sketchComboBox
-      sketchComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
+      Image multiPointIcon = new Image(getClass().getResourceAsStream("/icons/multiPointSketch.png"));
+      createMultiPointButton.setGraphic(new ImageView(multiPointIcon));
 
-        // ensure no graphics are selected
+      Image polylineIcon = new Image(getClass().getResourceAsStream("/icons/polylineSketch.png"));
+      createPolylineButton.setGraphic(new ImageView(polylineIcon));
+
+      Image polygonIcon = new Image(getClass().getResourceAsStream("/icons/polygonSketch.png"));
+      createPolygonButton.setGraphic(new ImageView(polygonIcon));
+
+      Image freehandLineIcon = new Image(getClass().getResourceAsStream("/icons/freehandPolylineSketch.png"));
+      createFreehandPolylineButton.setGraphic(new ImageView(freehandLineIcon));
+
+      Image freehandPolygonIcon = new Image(getClass().getResourceAsStream("/icons/freehandPolygonSketch.png"));
+      createFreehandPolygonButton.setGraphic(new ImageView(freehandPolygonIcon));
+
+      // start sketch editor with relevant mode for each sketch button
+      createPointButton.setOnAction(event -> {
         graphicsOverlay.clearSelection();
-        disableButtons();
-        // enable stop sketch button whilst in sketch mode
-        stopSketchButton.setDisable(false);
-        stopSketchButton.setText("Stop sketching");
-        // if the graphics overlay contains graphics, enable the clear button to clear the overlay.
-        if (!graphicsOverlay.getGraphics().isEmpty()) {clearButton.setDisable(false);}
-
-        // get the selected item from the sketchComboBox to determine which sketch style to use
-        SketchCreationMode sketchCreationMode = sketchComboBox.getSelectionModel().getSelectedItem();
-
-        sketchEditor.start(sketchCreationMode);
-
+        sketchEditor.start(SketchCreationMode.POINT);
       });
+
+      createMultiPointButton.setOnAction(event -> {
+        graphicsOverlay.clearSelection();
+        sketchEditor.start(SketchCreationMode.MULTIPOINT);
+      });
+
+      createPolylineButton.setOnAction(event -> {
+        graphicsOverlay.clearSelection();
+        sketchEditor.start(SketchCreationMode.POLYLINE);
+      });
+
+      createPolygonButton.setOnAction(event -> {
+        graphicsOverlay.clearSelection();
+        sketchEditor.start(SketchCreationMode.POLYGON);
+      });
+
+      createFreehandPolylineButton.setOnAction(event -> {
+        graphicsOverlay.clearSelection();
+        sketchEditor.start(SketchCreationMode.FREEHAND_LINE);
+      });
+
+      createFreehandPolygonButton.setOnAction(event -> {
+        graphicsOverlay.clearSelection();
+        sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
+      });
+
+      // disable all buttons except sketch buttons when starting application
+      disableButtons();
 
       // if possible, undo the last change made whilst sketching graphic
       undoButton.setOnAction(event -> {
@@ -160,9 +201,6 @@ public class SketchOnMapSample extends Application {
       // save the sketch as a graphic, and store graphic to the graphics overlay
       saveButton.setOnAction(event -> {
 
-        // find the selected geometry and store it as a string
-        String activeGeometry = sketchComboBox.getSelectionModel().getSelectedItem().toString();
-
         // save the graphic in to the graphics overlay
         storeGraphicInGraphicOverlay();
 
@@ -180,11 +218,12 @@ public class SketchOnMapSample extends Application {
 
         // set text on the disabled save button to show user what geometry is active
         if (saveButton.isDisabled()) {
-          saveButton.setText("Geometry active = " + activeGeometry);
+          saveButton.setText("Sketch saved ");
         }
 
-        // allow user to continue sketching with the selected sketch creation mode from the sketchComboBox
-        sketchEditor.start(sketchComboBox.getSelectionModel().getSelectedItem());
+        stopSketchButton.setText("Choose new sketch or select saved one to edit");
+        stopSketchButton.setDisable(false);
+
       });
 
       // stop the sketch editor
@@ -194,7 +233,7 @@ public class SketchOnMapSample extends Application {
         disableButtons();
         // set text to inform the user the sketch is disabled
         stopSketchButton.setDisable(false);
-        stopSketchButton.setText("Select sketch from drop down");
+        stopSketchButton.setText("Select a sketch geometry");
         saveButton.setText("Save sketch");
 
         if (!graphicsOverlay.getGraphics().isEmpty()) {
@@ -234,12 +273,12 @@ public class SketchOnMapSample extends Application {
       sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
 
         // if sketch is valid, enable save and stop sketch buttons
-        stopSketchButton.setText("Stop sketching");
+        stopSketchButton.setText("Cancel sketching");
+        stopSketchButton.setDisable(false);
 
         if (sketchEditor.isSketchValid()) {
-          saveButton.setText("Save sketch");
+          saveButton.setText("Save sketch and stop sketching");
           saveButton.setDisable(false);
-          stopSketchButton.setDisable(false);
         } else
           {saveButton.setDisable(true);}
 
@@ -265,10 +304,16 @@ public class SketchOnMapSample extends Application {
       controlsVBox.setMaxSize(255, 110);
       controlsVBox.getStyleClass().add("panel-region");
 
+      // create a HBox
+      HBox sketchHBox = new HBox(6);
+      sketchHBox.setMaxSize(200, 50);
+      sketchHBox.getChildren().addAll(createPointButton, createMultiPointButton, createPolylineButton, createPolygonButton, createFreehandPolylineButton, createFreehandPolygonButton);
+
       // create a flow pane for placing buttons side by side within the control box
       FlowPane flowPaneUndoRedo = new FlowPane(Orientation.HORIZONTAL, 70, 10, undoButton, redoButton);
       flowPaneUndoRedo.setAlignment(Pos.CENTER);
-      controlsVBox.getChildren().addAll(sketchComboBox, stopSketchButton, flowPaneUndoRedo, saveButton, editButton, clearButton);
+
+      controlsVBox.getChildren().addAll(sketchHBox, stopSketchButton, flowPaneUndoRedo, saveButton, editButton, clearButton);
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
@@ -317,16 +362,6 @@ public class SketchOnMapSample extends Application {
             graphic.setSymbol(pointSymbol);
         }
 
-
-//        if (graphic.getGeometry().getGeometryType() == GeometryType.POLYGON) {
-//          graphic.setSymbol(fillSymbol);
-//        } else if (graphic.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
-//          graphic.setSymbol(lineSymbol);
-//        } else if (graphic.getGeometry().getGeometryType() == GeometryType.POINT ||
-//                graphic.getGeometry().getGeometryType() == GeometryType.MULTIPOINT) {
-//          graphic.setSymbol(pointSymbol);
-//        }
-        // add the graphic to the graphics overlay
         graphicsOverlay.getGraphics().add(graphic);
       }
     }
