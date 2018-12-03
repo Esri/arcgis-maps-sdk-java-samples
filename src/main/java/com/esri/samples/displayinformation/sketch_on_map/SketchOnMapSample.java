@@ -38,6 +38,8 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -134,6 +136,14 @@ public class SketchOnMapSample extends Application {
       createPolygonButton = new Button("");
       createFreehandPolylineButton = new Button("");
       createFreehandPolygonButton = new Button("");
+
+      // create tooltips for sketch buttons
+      createPointButton.setTooltip(new Tooltip("Sketch single point"));
+      createMultiPointButton.setTooltip(new Tooltip("Sketch multipoints"));
+      createPolylineButton.setTooltip(new Tooltip("Sketch polyline"));
+      createPolygonButton.setTooltip(new Tooltip("Sketch Polygon"));
+      createFreehandPolylineButton.setTooltip(new Tooltip("Sketch freehand polyline"));
+      createFreehandPolygonButton.setTooltip(new Tooltip("Sketch freehand polygon"));
 
       // set icon for each sketch button
       Image pointIcon = new Image(getClass().getResourceAsStream("/icons/pointSketch.png"));
@@ -314,10 +324,11 @@ public class SketchOnMapSample extends Application {
       sketchHBox.getChildren().addAll(createPointButton, createMultiPointButton, createPolylineButton, createPolygonButton, createFreehandPolylineButton, createFreehandPolygonButton);
 
       // create a flow pane for placing buttons side by side within the control box
-      FlowPane flowPaneUndoRedo = new FlowPane(Orientation.HORIZONTAL, 70, 10, undoButton, redoButton);
-      flowPaneUndoRedo.setAlignment(Pos.CENTER);
+      HBox undoRedoHBox = new HBox(6);
+      undoRedoHBox.getChildren().addAll(undoButton, redoButton);
+      undoRedoHBox.setAlignment(Pos.CENTER);
 
-      controlsVBox.getChildren().addAll(sketchHBox, stopSketchButton, flowPaneUndoRedo, saveButton, editButton, clearButton);
+      controlsVBox.getChildren().addAll(sketchHBox, stopSketchButton, undoRedoHBox, saveButton, editButton, clearButton);
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
