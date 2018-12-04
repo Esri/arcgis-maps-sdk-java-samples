@@ -23,6 +23,7 @@
 <?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
 <StackPane fx:controller="com.esri.samples.map.generate_offline_map_overrides.GenerateOfflineMapOverridesController"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
     <!--SDK MapView-->
@@ -38,7 +39,7 @@
                 <fills>
                     <BackgroundFill>
                         <fill>
-                            <Color opacity="0.3"/>
+                            <Color opacity="0.5"/>
                         </fill>
                     </BackgroundFill>
                 </fills>
@@ -48,23 +49,33 @@
             <StackPane.margin><Insets topRightBottomLeft="16"/></StackPane.margin>
             <Label text="Adjust the Basemap" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold"/>
             <Label text="Min Scale Level:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <Spinner fx:id="minScaleLevelSpinner" min="0" max="23" initialValue="15" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Spinner fx:id="minScaleLevelSpinner" min="0" max="23" initialValue="0" editable="true"
+                     GridPane.columnIndex="1" GridPane.rowIndex="1"/>
             <Label text="Max Scale Level:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <Spinner fx:id="maxScaleLevelSpinner" min="0" max="23" initialValue="23" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Spinner fx:id="maxScaleLevelSpinner" min="0" max="23" initialValue="23" editable="true"
+                     GridPane.columnIndex="1" GridPane.rowIndex="2"/>
             <Label text="Extent Buffer Distance (m):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-            <Spinner fx:id="extentBufferDistanceSpinner" min="0" max="1000" initialValue="300" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-
+            <Spinner fx:id="extentBufferDistanceSpinner" min="0" max="500" initialValue="0" editable="true"
+                     GridPane.columnIndex="1" GridPane.rowIndex="3"/>
             <Label text="Include Layers" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold"/>
-            <CheckBox text="System Valves" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-            <CheckBox text="Service Connections" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-
+            <CheckBox fx:id="systemValvesCheckBox" text="System Valves" selected="true" GridPane.columnIndex="0"
+                      GridPane.rowIndex="5"/>
+            <CheckBox fx:id="serviceConnectionsCheckBox" text="Service Connections" selected="true"
+                      GridPane.columnIndex="0" GridPane.rowIndex="6"/>
             <Label text="Filter Feature Layer" GridPane.columnIndex="0" GridPane.rowIndex="7" style="-fx-font-weight: bold"/>
             <Label text="Min Hydrant Flow Rate (GPM):" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
-            <Spinner fx:id="minHydrantFlowRateSpinner" min="0" max="23" initialValue="15" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-
+            <Spinner fx:id="minHydrantFlowRateSpinner" min="0" max="1500" initialValue="0" editable="true"
+                     GridPane.columnIndex="1" GridPane.rowIndex="8"/>
             <Label text="Crop Layer to Extent" GridPane.columnIndex="0" GridPane.rowIndex="9" style="-fx-font-weight: bold"/>
-            <CheckBox text="Water Pipes" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+            <CheckBox fx:id="waterPipesCheckBox" text="Water Pipes" selected="true" GridPane.columnIndex="0"
+                      GridPane.rowIndex="10"/>
         </GridPane>
-        <Button fx:id="generateOfflineMapButton" text="Generate offline map" disable="true"/>
+        <Button fx:id="generateOfflineMapButton" text="Generate offline map" disable="true"
+                onAction="#generateOfflineMap"/>
     </VBox>
+    <ProgressBar fx:id="progressBar" visible="false" StackPane.alignment="TOP_RIGHT">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+    </ProgressBar>
 </StackPane>
