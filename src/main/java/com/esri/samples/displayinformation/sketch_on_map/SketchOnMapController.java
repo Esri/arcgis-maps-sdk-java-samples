@@ -130,72 +130,25 @@ public class SketchOnMapController {
       }
     });
 
-    // save the sketch as a graphic, and store graphic to the graphics overlay
-    saveButton.setOnAction(event -> {
-
-      // save the graphic in to the graphics overlay
-      storeGraphicInGraphicOverlay();
-
-      // allow the user to select a graphic from the map view
-      selectGraphic();
-      graphicsOverlay.clearSelection();
-      disableButtons();
-
-      if (!graphicsOverlay.getGraphics().isEmpty()){
-        clearButton.setDisable(false);
-      }
-
-      stopSketchButton.setDisable(false);
-      editButton.setText("Stop sketching to edit");
-
-      // set text on the disabled save button to show user what geometry is active
-      if (saveButton.isDisabled()) {
-        saveButton.setText("Sketch saved ");
-      }
-
-      stopSketchButton.setText("Choose new sketch or select saved one to edit");
-      stopSketchButton.setDisable(false);
-
-    });
-
-    // stop the sketch editor
-    stopSketchButton.setOnAction(event -> {
-      sketchEditor.stop();
-      graphicsOverlay.clearSelection();
-      disableButtons();
-      // set text to inform the user the sketch is disabled
-      stopSketchButton.setDisable(false);
-      stopSketchButton.setText("Select a sketch geometry");
-      saveButton.setText("Save sketch");
-
-      if (!graphicsOverlay.getGraphics().isEmpty()) {
-        editButton.setText("Select graphic to edit");
-        clearButton.setDisable(false);
-      }
-
-      // allow graphics to be selected after stopSketch button is used.
-      selectGraphic();
-
-    });
-
     // use sketch editor to edit the geometry of the selected graphic
-    editButton.setOnAction(event -> {
-      stopSketchButton.setDisable(false);
-      saveButton.setDisable(true);
-      saveButton.setText("Save edits");
-      stopSketchButton.setText("Stop sketching");
-      editButton.setText("Edit Sketch (active)");
-
-      // if the graphics overlay contains graphics, select the first graphic
-      // and start the sketch editor based on that graphic's geometry
-      if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
-        graphic = graphicsOverlay.getSelectedGraphics().get(0);
-        sketchEditor.start(graphic.getGeometry());
-      }
-    });
+//    editButton.setOnAction(event -> {
+//      stopSketchButton.setDisable(false);
+//      saveButton.setDisable(true);
+//      saveButton.setText("Save edits");
+//      stopSketchButton.setText("Stop sketching");
+//      editButton.setText("Edit Sketch (active)");
+//
+//      // if the graphics overlay contains graphics, select the first graphic
+//      // and start the sketch editor based on that graphic's geometry
+//      if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
+//        graphic = graphicsOverlay.getSelectedGraphics().get(0);
+//        sketchEditor.start(graphic.getGeometry());
+//      }
+//    });
 
     // clear the graphics overlay, and disable the clear button
     clearButton.setOnAction(event -> {
+
       graphicsOverlay.getGraphics().clear();
       sketchEditor.stop();
       disableButtons();
@@ -271,6 +224,101 @@ public class SketchOnMapController {
     }
     sketchEditor.stop();
   }
+
+
+  //
+//    editButton.setOnAction(event -> {
+//      stopSketchButton.setDisable(false);
+//      saveButton.setDisable(true);
+//      saveButton.setText("Save edits");
+//      stopSketchButton.setText("Stop sketching");
+//      editButton.setText("Edit Sketch (active)");
+//
+//      // if the graphics overlay contains graphics, select the first graphic
+//      // and start the sketch editor based on that graphic's geometry
+//      if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
+//        graphic = graphicsOverlay.getSelectedGraphics().get(0);
+//        sketchEditor.start(graphic.getGeometry());
+//      }
+//    });
+
+
+  /**
+   * use sketch editor to edit the geometry of the selected graphic
+   */
+  @FXML
+  private void editSketch() {
+
+    stopSketchButton.setDisable(false);
+    saveButton.setDisable(true);
+    saveButton.setText("Save edits");
+    stopSketchButton.setText("Stop sketching");
+    editButton.setText("Edit Sketch (active)");
+
+    // if the graphics overlay contains graphics, select the first graphic
+    // and start the sketch editor based on that graphic's geometry
+    if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
+      graphic = graphicsOverlay.getSelectedGraphics().get(0);
+      sketchEditor.start(graphic.getGeometry());
+    }
+
+  }
+
+
+  /**
+   * stop the sketch editor
+   */
+  @FXML
+  private void stopSketch () {
+
+    sketchEditor.stop();
+    graphicsOverlay.clearSelection();
+    disableButtons();
+    // set text to inform the user the sketch is disabled
+    stopSketchButton.setDisable(false);
+    stopSketchButton.setText("Select a sketch geometry");
+    saveButton.setText("Save sketch");
+
+    if (!graphicsOverlay.getGraphics().isEmpty()) {
+      editButton.setText("Select graphic to edit");
+      clearButton.setDisable(false);
+    }
+
+    // allow graphics to be selected after stopSketch button is used.
+    selectGraphic();
+  }
+
+
+  /**
+   * save the sketch as a graphic, and store graphic to the graphics overlay
+   */
+  @FXML
+  private void saveGraphic () {
+      // save the graphic in to the graphics overlay
+      storeGraphicInGraphicOverlay();
+
+      // allow the user to select a graphic from the map view
+      selectGraphic();
+      graphicsOverlay.clearSelection();
+      disableButtons();
+
+      if (!graphicsOverlay.getGraphics().isEmpty()){
+        clearButton.setDisable(false);
+      }
+
+      stopSketchButton.setDisable(false);
+      editButton.setText("Stop sketching to edit");
+
+      // set text on the disabled save button to show user what geometry is active
+      if (saveButton.isDisabled()) {
+        saveButton.setText("Sketch saved ");
+      }
+
+      stopSketchButton.setText("Choose new sketch or select saved one to edit");
+      stopSketchButton.setDisable(false);
+  }
+
+
 
   /**
    * Allows the user to select a graphic from the graphics overlay

@@ -77,15 +77,16 @@
                 </tooltip>
             </Button>
         </HBox>
-        <Button fx:id="stopSketchButton" text="Sketch is disabled" maxWidth="Infinity">
+        <Button fx:id="stopSketchButton" text="Sketch is disabled" maxWidth="Infinity" onAction="#stopSketch">
         </Button>
         <HBox spacing="6" alignment="CENTER">
             <Button fx:id="undoButton" text="Undo sketch"/>
             <Button fx:id="redoButton" text="Redo sketch"/>
         </HBox>
-        <Button fx:id="saveButton" text="Save sketch and stop sketching" maxWidth="Infinity"/>
-        <Button fx:id="editButton" text="Edit sketch" maxWidth="Infinity"/>
+        <Button fx:id="saveButton" text="Save sketch and stop sketching" maxWidth="Infinity" onAction="#saveGraphic"/>
+        <Button fx:id="editButton" text="Edit sketch" maxWidth="Infinity" onAction="#editSketch"/>
         <Button fx:id="clearButton" text="Clear saved sketches" maxWidth="Infinity"/>
+
 
 
     </VBox>
