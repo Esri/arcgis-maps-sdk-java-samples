@@ -1,4 +1,4 @@
-<h1>Create Geometries</h2>
+<h1>Create Geometries</h1>
 
 <p>Create simple geometry types.</p>
 

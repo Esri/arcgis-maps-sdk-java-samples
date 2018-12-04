@@ -21,11 +21,11 @@
 <h2>Relevant API</h2>
 
 <ul>
-<li><code>ArcGISScene</code></li>
+<li>ArcGISScene</li>
 
-<li><code>AtmosphereEffect</code></li>
+<li>AtmosphereEffect</li>
 
-<li><code>SceneView</code></li>
+<li>SceneView</li>
 
 </ul>
 
@@ -40,5 +40,5 @@ There are three atmosphere effect options:
 
 <h2>Tags</h2>
 
-<p>3D, AtmosphereEffect, Scene </p>
+<p>3D, AtmosphereEffect, Scene</p>
 

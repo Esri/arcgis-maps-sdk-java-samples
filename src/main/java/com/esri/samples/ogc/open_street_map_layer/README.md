@@ -21,5 +21,4 @@
 </ul>
 
 <h2>Tags</h2>
-<p>Layers</p>
-<p>OpenStreetMap</p>
+<p>Layers, OpenStreetMap</p>
