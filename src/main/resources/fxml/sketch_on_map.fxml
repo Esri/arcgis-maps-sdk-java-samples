@@ -17,9 +17,6 @@
   -->
 
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -86,10 +83,5 @@
         <Button fx:id="saveButton" text="Save sketch and stop sketching" maxWidth="Infinity" onAction="#saveGraphic"/>
         <Button fx:id="editButton" text="Edit sketch" maxWidth="Infinity" onAction="#editSketch"/>
         <Button fx:id="clearButton" text="Clear saved sketches" maxWidth="Infinity"/>
-
-
-
     </VBox>
-
-
 </StackPane>

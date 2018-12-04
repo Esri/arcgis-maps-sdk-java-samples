@@ -33,10 +33,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 
-
 public class SketchOnMapController {
 
-  @FXML private MapView mapView;
   private SketchEditor sketchEditor;
   private GraphicsOverlay graphicsOverlay;
   private Graphic graphic;
@@ -45,6 +43,7 @@ public class SketchOnMapController {
   private SimpleLineSymbol polygonLineSymbol;
   private SimpleMarkerSymbol pointSymbol;
 
+  @FXML private MapView mapView;
   @FXML private Button redoButton;
   @FXML private Button undoButton;
   @FXML private Button clearButton;
@@ -60,9 +59,12 @@ public class SketchOnMapController {
 
 
   public void initialize() {
+
+    // create a map with a basemap and add it to the map view
     ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY, 64.3286, -15.5314, 13);
     mapView.setMap(map);
 
+    // create a graphics overlay for the graphics
     graphicsOverlay = new GraphicsOverlay();
 
     // add the graphics overlay to the map view
@@ -71,6 +73,10 @@ public class SketchOnMapController {
     // create a new sketch editor and add it to the map view
     sketchEditor = new SketchEditor();
     mapView.setSketchEditor(sketchEditor);
+
+
+    // disable all buttons except sketch buttons when starting application
+    disableButtons();
 
     // define symbols for graphics
     // red square for points
@@ -113,8 +119,6 @@ public class SketchOnMapController {
       sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
     });
 
-    // disable all buttons except sketch buttons when starting application
-    disableButtons();
 
     // if possible, undo the last change made whilst sketching graphic
     undoButton.setOnAction(event -> {
@@ -130,25 +134,8 @@ public class SketchOnMapController {
       }
     });
 
-    // use sketch editor to edit the geometry of the selected graphic
-//    editButton.setOnAction(event -> {
-//      stopSketchButton.setDisable(false);
-//      saveButton.setDisable(true);
-//      saveButton.setText("Save edits");
-//      stopSketchButton.setText("Stop sketching");
-//      editButton.setText("Edit Sketch (active)");
-//
-//      // if the graphics overlay contains graphics, select the first graphic
-//      // and start the sketch editor based on that graphic's geometry
-//      if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
-//        graphic = graphicsOverlay.getSelectedGraphics().get(0);
-//        sketchEditor.start(graphic.getGeometry());
-//      }
-//    });
-
     // clear the graphics overlay, and disable the clear button
     clearButton.setOnAction(event -> {
-
       graphicsOverlay.getGraphics().clear();
       sketchEditor.stop();
       disableButtons();
@@ -225,24 +212,6 @@ public class SketchOnMapController {
     sketchEditor.stop();
   }
 
-
-  //
-//    editButton.setOnAction(event -> {
-//      stopSketchButton.setDisable(false);
-//      saveButton.setDisable(true);
-//      saveButton.setText("Save edits");
-//      stopSketchButton.setText("Stop sketching");
-//      editButton.setText("Edit Sketch (active)");
-//
-//      // if the graphics overlay contains graphics, select the first graphic
-//      // and start the sketch editor based on that graphic's geometry
-//      if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
-//        graphic = graphicsOverlay.getSelectedGraphics().get(0);
-//        sketchEditor.start(graphic.getGeometry());
-//      }
-//    });
-
-
   /**
    * use sketch editor to edit the geometry of the selected graphic
    */
@@ -261,9 +230,7 @@ public class SketchOnMapController {
       graphic = graphicsOverlay.getSelectedGraphics().get(0);
       sketchEditor.start(graphic.getGeometry());
     }
-
   }
-
 
   /**
    * stop the sketch editor
@@ -287,7 +254,6 @@ public class SketchOnMapController {
     // allow graphics to be selected after stopSketch button is used.
     selectGraphic();
   }
-
 
   /**
    * save the sketch as a graphic, and store graphic to the graphics overlay
@@ -317,8 +283,6 @@ public class SketchOnMapController {
       stopSketchButton.setText("Choose new sketch or select saved one to edit");
       stopSketchButton.setDisable(false);
   }
-
-
 
   /**
    * Allows the user to select a graphic from the graphics overlay
