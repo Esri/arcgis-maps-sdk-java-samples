@@ -16,15 +16,17 @@
 
 <ol>
 <li>Create and run a local server.
-<ul><li><code>LocalServer.INSTANCE</code> creates a local server</li></ul>
-<ul><li><code>Server.startAsync()</code> starts the server asynchronously</li></ul></li>
+<ul><li><code>LocalServer.INSTANCE</code> creates a local server</li>
+<li><code>Server.startAsync()</code> starts the server asynchronously</li></ul>
+</li>
 <li>Create a LocalMapService instance using an empty .MPK file (the sample uses one that is created for you). Don't start it yet.</li>
 <li>Create a ShapefileWorkspace  with id 'shp_wkspc' and absolute path to location of were shapefile is being stored.</li>
 <li>Create a <code>TableSublayerSource</code>  using  <code>shapefileWorkspace.getId()</code> and name of  shapefile with extension, example `mjrroads.shp`.</li>
 <li>Add ShapefileWorkspace to <code>LocalMapService.setDynamicWorkspaces()</code>.</li>
 <li>Start the LocalMapService
-<ul><li><code>localMapService.startAsync()</code></li></ul>
-<ul><li><code>localMapService.addStatusChangedListener()</code> fires whenever the status of the local server has changed.</li></ul></li>
+<ul><li><code>localMapService.startAsync()</code></li>
+<li><code>localMapService.addStatusChangedListener()</code> fires whenever the status of the local server has changed.</li></ul>
+</li>
 <li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.</li>
 <li>Create a <code>ArcGISMapImageLayer</code> using <code>localMapService.getUrl()</code></li>
 <li>Add the <code>ArcGISMapImageSublayer</code> to it's list of sublayers. The ArcGISMapImageSublayer points to the shapefile file on disk.
