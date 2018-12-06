@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.esri.samples.map.generate_offline_map_overrides;
 
 import java.io.IOException;
@@ -90,24 +106,10 @@ public class GenerateOfflineMapOverridesController {
     graphicsOverlay.getGraphics().add(downloadArea);
     SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
     downloadArea.setSymbol(simpleLineSymbol);
+    updateDownloadArea();
 
     // update the download area whenever the viewpoint changes
-    mapView.addViewpointChangedListener(viewpointChangedEvent -> {
-      if (map.getLoadStatus() == LoadStatus.LOADED) {
-        // upper left corner of the area to take offline
-        Point2D minScreenPoint = new Point2D(50, 50);
-        // lower right corner of the downloaded area
-        Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
-        // convert screen points to map points
-        Point minPoint = mapView.screenToLocation(minScreenPoint);
-        Point maxPoint = mapView.screenToLocation(maxScreenPoint);
-        // use the points to define and return an envelope
-        if (minPoint != null && maxPoint != null) {
-          Envelope envelope = new Envelope(minPoint, maxPoint);
-          downloadArea.setGeometry(envelope);
-        }
-      }
-    });
+    mapView.addViewpointChangedListener(viewpointChangedEvent -> updateDownloadArea());
   }
 
   /**
@@ -140,7 +142,8 @@ public class GenerateOfflineMapOverridesController {
               GenerateOfflineMapParameterOverrides overrides = parameterOverridesFuture.get();
 
               // get the export tile cache parameters for the base layer
-              OfflineMapParametersKey basemapParamKey = new OfflineMapParametersKey(mapView.getMap().getBasemap().getBaseLayers().get(0));
+              OfflineMapParametersKey basemapParamKey = new OfflineMapParametersKey(
+                  mapView.getMap().getBasemap().getBaseLayers().get(0));
               ExportTileCacheParameters exportTileCacheParameters =
                   overrides.getExportTileCacheParameters().get(basemapParamKey);
 
@@ -241,6 +244,27 @@ public class GenerateOfflineMapOverridesController {
       });
     } catch (Exception ex) {
       ex.printStackTrace();
+    }
+  }
+
+  /**
+   * Updates the download area graphic to show a red border around the current view extent that will be downloaded if
+   * taken offline.
+   */
+  private void updateDownloadArea() {
+    if (map.getLoadStatus() == LoadStatus.LOADED) {
+      // upper left corner of the area to take offline
+      Point2D minScreenPoint = new Point2D(50, 50);
+      // lower right corner of the downloaded area
+      Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
+      // convert screen points to map points
+      Point minPoint = mapView.screenToLocation(minScreenPoint);
+      Point maxPoint = mapView.screenToLocation(maxScreenPoint);
+      // use the points to define and return an envelope
+      if (minPoint != null && maxPoint != null) {
+        Envelope envelope = new Envelope(minPoint, maxPoint);
+        downloadArea.setGeometry(envelope);
+      }
     }
   }
 
