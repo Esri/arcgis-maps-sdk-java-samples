@@ -19,6 +19,7 @@ package com.esri.samples.map.generate_offline_map_overrides;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -31,7 +32,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Spinner;
 
-import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -70,11 +70,13 @@ public class GenerateOfflineMapOverridesController {
   @FXML private CheckBox serviceConnectionsCheckBox;
   @FXML private CheckBox waterPipesCheckBox;
   @FXML private Button generateOfflineMapButton;
+  @FXML private Button cancelJobButton;
   @FXML private ProgressBar progressBar;
 
   private ArcGISMap map;
   private GraphicsOverlay graphicsOverlay;
   private Graphic downloadArea;
+  private GenerateOfflineMapJob job;
 
   @FXML
   private void initialize() {
@@ -85,18 +87,6 @@ public class GenerateOfflineMapOverridesController {
     Portal portal = new Portal("https://www.arcgis.com", true);
     PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
-    // create a map with the portal item
-    map = new ArcGISMap(portalItem);
-    map.addDoneLoadingListener(() -> {
-      // enable the generate offline map button when the map is loaded
-      if (map.getLoadStatus() == LoadStatus.LOADED) {
-        generateOfflineMapButton.setDisable(false);
-      }
-    });
-
-    // set the map to the map view
-    mapView.setMap(map);
-
     // create a graphics overlay for display the download area
     graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
@@ -106,10 +96,22 @@ public class GenerateOfflineMapOverridesController {
     graphicsOverlay.getGraphics().add(downloadArea);
     SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
     downloadArea.setSymbol(simpleLineSymbol);
-    updateDownloadArea();
 
     // update the download area whenever the viewpoint changes
     mapView.addViewpointChangedListener(viewpointChangedEvent -> updateDownloadArea());
+
+    // create a map with the portal item
+    map = new ArcGISMap(portalItem);
+    map.addDoneLoadingListener(() -> {
+      // enable the generate offline map button when the map is loaded
+      if (map.getLoadStatus() == LoadStatus.LOADED) {
+        generateOfflineMapButton.setDisable(false);
+      }
+      updateDownloadArea();
+    });
+
+    // set the map to the map view
+    mapView.setMap(map);
   }
 
   /**
@@ -167,83 +169,72 @@ public class GenerateOfflineMapOverridesController {
                   GenerateGeodatabaseParameters generateGeodatabaseParameters =
                       overrides.getGenerateGeodatabaseParameters().get(key);
                   List<GenerateLayerOption> layerOptions = generateGeodatabaseParameters.getLayerOptions();
-                  switch (layer.getName()) {
-                    // remove the System Valve layer from the layer options if it should not be included
-                    case "System Valve":
-                      if (!systemValvesCheckBox.isSelected()) {
-                        System.out.println("Removing system valves");
-                        for (GenerateLayerOption layerOption : layerOptions) {
-                          if (layerOption.getLayerId() == layerId) {
-                            layerOptions.remove(layerOption);
+                  // use an iterator so we can remove layer options while looping over them
+                  Iterator<GenerateLayerOption> layerOptionsIterator = layerOptions.iterator();
+                  if (!layerOptions.isEmpty()) {
+                    while (layerOptionsIterator.hasNext()) {
+                      GenerateLayerOption layerOption = layerOptionsIterator.next();
+                      if (layerOption.getLayerId() == layerId) {
+                        switch (layer.getName()) {
+                          // remove the System Valve layer from the layer options if it should not be included
+                          case "System Valve":
+                            if (!systemValvesCheckBox.isSelected()) {
+                              layerOptionsIterator.remove();
+                            }
                             break;
-                          }
-                        }
-
-                      }
-                      break;
-                    case "Service Connection":
-                      // remove the Service Connection layer from the layer options if it should not be included
-                      if (!serviceConnectionsCheckBox.isSelected()) {
-                        System.out.println("Removing service connection");
-                        for (GenerateLayerOption layerOption : layerOptions) {
-                          if (layerOption.getLayerId() == layerId) {
-                            layerOptions.remove(layerOption);
+                          // remove the Service Connection layer from the layer options if it should not be included
+                          case "Service Connection":
+                            if (!serviceConnectionsCheckBox.isSelected()) {
+                              layerOptionsIterator.remove();
+                            }
                             break;
-                          }
+                          // only download hydrant features if their flow is above the minimum specified in the UI
+                          case "Hydrant":
+                            layerOption.setWhereClause("FLOW >= " + minHydrantFlowRateSpinner.getValue());
+                            layerOption.setQueryOption(GenerateLayerOption.QueryOption.USE_FILTER);
+                            break;
+                          //clip water main feature geometries to the extent if the checkbox is selected
+                          case "Main":
+                            layerOption.setUseGeometry(waterPipesCheckBox.isSelected());
                         }
                       }
-                      break;
-                    case "Main":
-                      //clip water main feature geometries to the extent if the checkbox is selected
-                      if (waterPipesCheckBox.isSelected()) {
-                        for (GenerateLayerOption layerOption : layerOptions) {
-                          if (layerOption.getLayerId() == layerId) {
-                            layerOption.setUseGeometry(true);
-                          }
-                        }
-                      }
-                      break;
-                    case "Hydrant":
-                      // only download hydrant features if their flow is above the minimum specified in the UI
-                      for (GenerateLayerOption layerOption : layerOptions) {
-                        if (layerOption.getLayerId() == layerId) {
-                          layerOption.setWhereClause("FLOW >= " + minHydrantFlowRateSpinner.getValue());
-                          layerOption.setQueryOption(GenerateLayerOption.QueryOption.USE_FILTER);
-                        }
-                      }
+                    }
                   }
                 }
               }
 
               // create an offline map job with the download directory path and parameters and start the job
               Path tempDirectory = Files.createTempDirectory("offline_map");
-              GenerateOfflineMapJob job = offlineMapTask.generateOfflineMap(parameters,
-                  tempDirectory.toAbsolutePath().toString(), overrides);
+              job = offlineMapTask.generateOfflineMap(parameters, tempDirectory.toAbsolutePath().toString(), overrides);
               job.start();
+              generateOfflineMapButton.setDisable(true);
+              cancelJobButton.setDisable(false);
               job.addJobDoneListener(() -> {
-                if (job.getStatus() == Job.Status.SUCCEEDED) {
+                if (job.getStatus() == GenerateOfflineMapJob.Status.SUCCEEDED) {
                   // replace the current map with the result offline map when the job finishes
                   GenerateOfflineMapResult result = job.getResult();
                   mapView.setMap(result.getOfflineMap());
                   graphicsOverlay.getGraphics().clear();
                   generateOfflineMapButton.setDisable(true);
-                } else {
+                } else if (!"Job canceled.".equals(job.getError().getAdditionalMessage())) {
                   new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage()).show();
                 }
                 Platform.runLater(() -> progressBar.setVisible(false));
+                generateOfflineMapButton.setDisable(false);
+                cancelJobButton.setDisable(true);
               });
               // show the job's progress with the progress bar
               job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
             } catch (ExecutionException | InterruptedException | IOException ex) {
-              ex.printStackTrace();
+              new Alert(Alert.AlertType.ERROR, "Error configuring the offline map task").show();
             }
           });
         } catch (Exception ex) {
-          ex.printStackTrace();
+          new Alert(Alert.AlertType.ERROR, "Error creating override parameters").show();
         }
       });
     } catch (Exception ex) {
-      ex.printStackTrace();
+      new Alert(Alert.AlertType.ERROR, "Error creating offline map task default parameters").show();
     }
   }
 
@@ -265,6 +256,16 @@ public class GenerateOfflineMapOverridesController {
         Envelope envelope = new Envelope(minPoint, maxPoint);
         downloadArea.setGeometry(envelope);
       }
+    }
+  }
+
+  /**
+   * Cancels the current offline map job.
+      */
+  @FXML
+  private void cancelJob() {
+    if (job != null) {
+      job.cancel();
     }
   }
 

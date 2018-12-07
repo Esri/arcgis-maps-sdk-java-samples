@@ -70,10 +70,14 @@
             <CheckBox fx:id="waterPipesCheckBox" text="Water Pipes" selected="true" GridPane.columnIndex="0"
                       GridPane.rowIndex="10"/>
         </GridPane>
-        <Button fx:id="generateOfflineMapButton" text="Generate offline map" disable="true"
-                onAction="#generateOfflineMap"/>
+        <HBox>
+            <Button fx:id="generateOfflineMapButton" text="Generate offline map" disable="true"
+                    onAction="#generateOfflineMap"/>
+            <Button fx:id="cancelJobButton" text="Cancel" disable="true" onAction="#cancelJob"/>
+        </HBox>
+
     </VBox>
-    <ProgressBar fx:id="progressBar" visible="false" StackPane.alignment="TOP_RIGHT">
+    <ProgressBar fx:id="progressBar" visible="false" progress="0" StackPane.alignment="TOP_RIGHT">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
