@@ -52,19 +52,6 @@ public class SketchOnMapController {
   @FXML
   private Button stopButton;
 
-  @FXML
-  private Button createPointButton;
-  @FXML
-  private Button createMultiPointButton;
-  @FXML
-  private Button createPolylineButton;
-  @FXML
-  private Button createPolygonButton;
-  @FXML
-  private Button createFreehandPolylineButton;
-  @FXML
-  private Button createFreehandPolygonButton;
-
   private SketchEditor sketchEditor;
   private GraphicsOverlay graphicsOverlay;
   private Graphic graphic;
@@ -72,7 +59,6 @@ public class SketchOnMapController {
   private SimpleLineSymbol lineSymbol;
   private SimpleLineSymbol polygonLineSymbol;
   private SimpleMarkerSymbol pointSymbol;
-
 
   public void initialize() {
 
@@ -139,43 +125,63 @@ public class SketchOnMapController {
     selectGraphic();
   }
 
-  // start sketch editor with relevant mode for each sketch button
+  /**
+   * Clear selection of any graphic in graphics overlay and start new point sketch
+   */
   @FXML
   private void handlePointButtonClicked() {
     graphicsOverlay.clearSelection();
     sketchEditor.start(SketchCreationMode.POINT);
   }
 
+  /**
+   * Clear selection of any graphic in graphics overlay and start new multipoint sketch
+   */
   @FXML
   private void handleMultipointButtonClicked() {
     graphicsOverlay.clearSelection();
     sketchEditor.start(SketchCreationMode.MULTIPOINT);
   }
 
+  /**
+   * Clear selection of any graphic in graphics overlay and start new polyline sketch
+   */
   @FXML
   private void handlePolylineButtonClicked() {
     graphicsOverlay.clearSelection();
     sketchEditor.start(SketchCreationMode.POLYLINE);
   }
 
+  /**
+   * Clear selection of any graphic in graphics overlay and start new polygon sketch
+   */
   @FXML
   private void handlePolygonButtonClicked() {
     graphicsOverlay.clearSelection();
     sketchEditor.start(SketchCreationMode.POLYGON);
   }
 
+  /**
+   * Clear selection of any graphic in graphics overlay and start new freehand polyline sketch
+   */
   @FXML
   private void handleFreehandPolylineButtonClicked() {
     graphicsOverlay.clearSelection();
     sketchEditor.start(SketchCreationMode.FREEHAND_LINE);
   }
 
+  /**
+   * Clear selection of any graphic in graphics overlay and start new freehand polygon sketch
+   */
   @FXML
   private void handleFreehandPolygonButtonClicked() {
     graphicsOverlay.clearSelection();
     sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
   }
 
+  /**
+   * Undo the last change made while sketching is active
+   */
   @FXML
   private void handleUndoButtonClicked() {
     if (sketchEditor.canUndo()) {
@@ -183,6 +189,9 @@ public class SketchOnMapController {
     }
   }
 
+  /**
+   * Redo the last change made while sketching is active
+   */
   @FXML
   private void handleRedoButtonClicked() {
     if (sketchEditor.canRedo()) {
@@ -191,29 +200,25 @@ public class SketchOnMapController {
   }
 
   /**
-   * When the done button is clicked, check that sketch is valid. If so, get the geometry from the sketch, set its
-   * symbol and add it to the graphics overlay.
+   * Save the sketched graphic to the graphics overlay, and set its symbol to the type relevant for the geometry.
    */
   @FXML
   private void handleSaveButtonClicked() {
-    // save the graphic in to the graphics overlay
     // if the sketch isn't valid, stop the sketch editor.
-
     if (!sketchEditor.isSketchValid()) {
       sketchEditor.stop();
       return;
     }
 
     Geometry sketchGeometry = sketchEditor.getGeometry();
-    // if the sketch geometry isn't null, and the graphics overlay isn't empty
-    // get the selected graphic, and set its geometry to that of the sketch editor geometry
-    // otherwise, create a new graphic based on the sketch editor geometry and give it a symbol
+
+    // if an existed graphic being edited: get the selected graphic, set its geometry to that of the sketch editor geometry
+    // if a new graphic: create a new graphic based on the sketch editor geometry and set symbol depending on geometry type
     if (sketchGeometry != null) {
       if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
         graphic = graphicsOverlay.getSelectedGraphics().get(0);
         graphic.setGeometry(sketchGeometry);
       } else {
-
         graphic = new Graphic(sketchGeometry);
 
         switch (sketchGeometry.getGeometryType()) {
@@ -237,12 +242,10 @@ public class SketchOnMapController {
     graphicsOverlay.clearSelection();
     disableButtons();
 
-    if (!graphicsOverlay.getGraphics().isEmpty()){
+    if (!graphicsOverlay.getGraphics().isEmpty()) {
       clearButton.setDisable(false);
     }
-
     stopButton.setDisable(true);
-
   }
 
   /**
@@ -250,6 +253,7 @@ public class SketchOnMapController {
    */
   @FXML
   private void handleClearButtonClicked() {
+
     graphicsOverlay.getGraphics().clear();
     sketchEditor.stop();
     disableButtons();
@@ -258,11 +262,9 @@ public class SketchOnMapController {
   /**
    * Allows the user to select a graphic from the graphics overlay
    */
-
   private void selectGraphic() {
 
     mapView.setOnMouseClicked(e -> {
-
       graphicsOverlay.clearSelection();
       Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
@@ -271,7 +273,6 @@ public class SketchOnMapController {
       identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
 
       identifyGraphics.addDoneListener(() -> {
-
         try {
           if (!identifyGraphics.get().getGraphics().isEmpty()) {
             // store the selected graphic
@@ -281,7 +282,6 @@ public class SketchOnMapController {
           } else {
             editButton.setDisable(true);
           }
-
         } catch (Exception x) {
           // on any error, display the stack trace
           x.printStackTrace();
@@ -294,6 +294,7 @@ public class SketchOnMapController {
    * Disable all UI buttons
    */
   private void disableButtons() {
+
     clearButton.setDisable(true);
     redoButton.setDisable(true);
     undoButton.setDisable(true);
