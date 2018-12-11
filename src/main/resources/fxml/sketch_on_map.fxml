@@ -19,15 +19,16 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <StackPane fx:controller="com.esri.samples.displayinformation.sketch_on_map.SketchOnMapController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="255" maxHeight="110" styleClass="panel-region" spacing="6"
-          alignment="CENTER">
+    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="100" maxHeight="110" styleClass="panel-region"
+          alignment="CENTER" spacing="6">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -42,46 +43,139 @@
                 </fills>
             </Background>
         </background>
-        <HBox maxWidth="200" maxHeight="50" spacing="6">
-            <Button fx:id="createPointButton" style="-fx-graphic: url('/icons/pointSketch.png')">
+        <GridPane vgap="6" hgap="6" alignment="CENTER">
+            <Button fx:id="editButton" disable="true" onAction="#handleEditButtonClicked" GridPane.rowIndex="0"
+                    GridPane.columnIndex="0">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/edit.png"/>
+                    </ImageView>
+                </graphic>
                 <tooltip>
-                    <Tooltip text="Sketch single point"></Tooltip>
+                    <Tooltip text="Edit"/>
                 </tooltip>
             </Button>
-            <Button fx:id="createMultiPointButton" style="-fx-graphic: url('/icons/multiPointSketch.png')">
+            <Button fx:id="stopButton" disable="true" onAction="#handleStopButtonClicked" GridPane.rowIndex="0"
+                    GridPane.columnIndex="1">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/clear.png"/>
+                    </ImageView>
+                </graphic>
                 <tooltip>
-                    <Tooltip text="Sketch multipoints"></Tooltip>
+                    <Tooltip text="Cancel"/>
                 </tooltip>
             </Button>
-            <Button fx:id="createPolylineButton" style="-fx-graphic: url('/icons/polylineSketch.png')">
+        </GridPane>
+        <Separator maxWidth="100"/>
+        <GridPane vgap="6" hgap="6" alignment="CENTER">
+            <Button onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/point.png"/>
+                    </ImageView>
+                </graphic>
                 <tooltip>
-                    <Tooltip text="Sketch polyline"></Tooltip>
+                    <Tooltip text="Point"/>
                 </tooltip>
             </Button>
-            <Button fx:id="createPolygonButton" style="-fx-graphic: url('/icons/polygonSketch.png')">
+            <Button onAction="#handleMultipointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/multipoint.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
+                    </ImageView>
+                </graphic>
                 <tooltip>
-                    <Tooltip text="Sketch Polygon"></Tooltip>
+                    <Tooltip text="Multipoint"/>
                 </tooltip>
             </Button>
-            <Button fx:id="createFreehandPolylineButton" style="-fx-graphic: url('/icons/freehandPolylineSketch.png')">
+            <Button onAction="#handlePolylineButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/polyline.png"/>
+                    </ImageView>
+                </graphic>
                 <tooltip>
-                    <Tooltip text="Sketch freehand polyline"></Tooltip>
+                    <Tooltip text="Polyline"/>
                 </tooltip>
             </Button>
-            <Button fx:id="createFreehandPolygonButton" style="-fx-graphic: url('/icons/freehandPolygonSketch.png')">
+            <Button onAction="#handlePolygonButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/polygon.png"/>
+                    </ImageView>
+                </graphic>
                 <tooltip>
-                    <Tooltip text="Sketch freehand polygon"></Tooltip>
+                    <Tooltip text="Polygon"/>
                 </tooltip>
             </Button>
-        </HBox>
-        <Button fx:id="stopButton" text="Sketch is disabled" maxWidth="Infinity" onAction="#stopSketch">
-        </Button>
-        <HBox spacing="6" alignment="CENTER">
-            <Button fx:id="undoButton" text="Undo sketch"/>
-            <Button fx:id="redoButton" text="Redo sketch"/>
-        </HBox>
-        <Button fx:id="saveButton" text="Save sketch and stop sketching" maxWidth="Infinity" onAction="#saveGraphic"/>
-        <Button fx:id="editButton" text="Edit sketch" maxWidth="Infinity" onAction="#editSketch"/>
-        <Button fx:id="clearButton" text="Clear saved sketches" maxWidth="Infinity"/>
+            <Button onAction="#handleFreehandPolylineButtonClicked" GridPane.rowIndex="2" GridPane.columnIndex="0">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/freehand-polyline.png"/>
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Freehand Polyline"/>
+                </tooltip>
+            </Button>
+            <Button onAction="#handleFreehandPolygonButtonClicked" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/brush.png"/>
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Freehand Polygon"/>
+                </tooltip>
+            </Button>
+        </GridPane>
+        <Separator maxWidth="100"/>
+        <GridPane vgap="6" hgap="6">
+            <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" disable="true" GridPane.rowIndex="0"
+                    GridPane.columnIndex="0">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/undo.png"/>
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Undo"/>
+                </tooltip>
+            </Button>
+            <Button fx:id="redoButton" onAction="#handleRedoButtonClicked" disable="true" GridPane.rowIndex="0"
+                    GridPane.columnIndex="1">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/redo.png"/>
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Redo"/>
+                </tooltip>
+            </Button>
+            <Button fx:id="saveButton" onAction="#handleSaveButtonClicked" disable="true" GridPane.rowIndex="1"
+                    GridPane.columnIndex="0">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/save.png"/>
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Save"/>
+                </tooltip>
+            </Button>
+            <Button fx:id="clearButton" onAction="#handleClearButtonClicked" disable="true" GridPane.rowIndex="1"
+                    GridPane.columnIndex="1">
+                <graphic>
+                    <ImageView>
+                        <Image url="/icons/trash-can-outline.png"/>
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Clear all"/>
+                </tooltip>
+            </Button>
+        </GridPane>
     </VBox>
 </StackPane>
