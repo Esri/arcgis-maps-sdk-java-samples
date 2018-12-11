@@ -37,20 +37,33 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class SketchOnMapController {
 
-  @FXML private MapView mapView;
-  @FXML private Button redoButton;
-  @FXML private Button undoButton;
-  @FXML private Button clearButton;
-  @FXML private Button saveButton;
-  @FXML private Button editButton;
-  @FXML private Button stopButton;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private Button redoButton;
+  @FXML
+  private Button undoButton;
+  @FXML
+  private Button clearButton;
+  @FXML
+  private Button saveButton;
+  @FXML
+  private Button editButton;
+  @FXML
+  private Button stopButton;
 
-  @FXML private Button createPointButton;
-  @FXML private Button createMultiPointButton;
-  @FXML private Button createPolylineButton;
-  @FXML private Button createPolygonButton;
-  @FXML private Button createFreehandPolylineButton;
-  @FXML private Button createFreehandPolygonButton;
+  @FXML
+  private Button createPointButton;
+  @FXML
+  private Button createMultiPointButton;
+  @FXML
+  private Button createPolylineButton;
+  @FXML
+  private Button createPolygonButton;
+  @FXML
+  private Button createFreehandPolylineButton;
+  @FXML
+  private Button createFreehandPolygonButton;
 
   private SketchEditor sketchEditor;
   private GraphicsOverlay graphicsOverlay;
@@ -77,11 +90,6 @@ public class SketchOnMapController {
     sketchEditor = new SketchEditor();
     mapView.setSketchEditor(sketchEditor);
 
-
-    // disable all buttons except sketch buttons when starting application
-    disableButtons();
-
-    // define symbols for graphics
     // red square for points
     pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFFFF0000, 20);
     // thin green line for polylines
@@ -89,96 +97,106 @@ public class SketchOnMapController {
     // blue outline for polygons
     polygonLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF1396c1, 4);
     // cross-hatched interior for polygons
-    fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9,polygonLineSymbol);
-
-    // start sketch editor with relevant mode for each sketch button
-    createPointButton.setOnAction(event -> {
-      graphicsOverlay.clearSelection();
-      sketchEditor.start(SketchCreationMode.POINT);
-    });
-
-    createMultiPointButton.setOnAction(event -> {
-      graphicsOverlay.clearSelection();
-      sketchEditor.start(SketchCreationMode.MULTIPOINT);
-    });
-
-    createPolylineButton.setOnAction(event -> {
-      graphicsOverlay.clearSelection();
-      sketchEditor.start(SketchCreationMode.POLYLINE);
-    });
-
-    createPolygonButton.setOnAction(event -> {
-      graphicsOverlay.clearSelection();
-      sketchEditor.start(SketchCreationMode.POLYGON);
-    });
-
-    createFreehandPolylineButton.setOnAction(event -> {
-      graphicsOverlay.clearSelection();
-      sketchEditor.start(SketchCreationMode.FREEHAND_LINE);
-    });
-
-    createFreehandPolygonButton.setOnAction(event -> {
-      graphicsOverlay.clearSelection();
-      sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
-    });
-
-
-    // if possible, undo the last change made whilst sketching graphic
-    undoButton.setOnAction(event -> {
-      if (sketchEditor.canUndo()) {
-        sketchEditor.undo();
-      }
-    });
-
-    // if possible, redo the last change made whilst sketching graphic
-    redoButton.setOnAction(event -> {
-      if (sketchEditor.canRedo()) {
-        sketchEditor.redo();
-      }
-    });
-
-    // clear the graphics overlay, and disable the clear button
-    clearButton.setOnAction(event -> {
-      graphicsOverlay.getGraphics().clear();
-      sketchEditor.stop();
-      disableButtons();
-    });
+    fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, polygonLineSymbol);
 
     // add a listener for when sketch geometry is changed
     sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
-
-      // if sketch is valid, enable save and stop sketch buttons
-      stopButton.setText("Cancel sketching");
       stopButton.setDisable(false);
-
-      if (sketchEditor.isSketchValid()) {
-        saveButton.setText("Save sketch and stop sketching");
-        saveButton.setDisable(false);
-      } else
-      {saveButton.setDisable(true);}
-
-      // if the sketch editor can undo, enable the undo button otherwise disable it
-      if (sketchEditor.canUndo()) {
-        undoButton.setDisable(false);
-      } else {
-        undoButton.setDisable(true);
-      }
-
-      // if the sketch editor can redo, enable the redo button otherwise disable it
-      if (sketchEditor.canRedo()) {
-        redoButton.setDisable(false);
-      } else {
-        redoButton.setDisable(true);
-      }
+      // save button enable depends on if the sketch is valid. If the sketch is valid then set disable opposite of true
+      saveButton.setDisable(!sketchEditor.isSketchValid());
+      undoButton.setDisable(!sketchEditor.canUndo());
+      redoButton.setDisable(!sketchEditor.canUndo());
     });
+  }
+
+  /**
+   * use sketch editor to edit the geometry of the selected graphic
+   */
+  @FXML
+  private void handleEditButtonClicked() {
+    stopButton.setDisable(false);
+    saveButton.setDisable(true);
+
+    // if the graphics overlay contains graphics, select the first graphic
+    // and start the sketch editor based on that graphic's geometry
+    if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
+      graphic = graphicsOverlay.getSelectedGraphics().get(0);
+      sketchEditor.start(graphic.getGeometry());
+    }
+  }
+
+  /**
+   * stop the sketch editor
+   */
+  @FXML
+  private void handleStopButtonClicked() {
+    sketchEditor.stop();
+    graphicsOverlay.clearSelection();
+    disableButtons();
+    // set text to inform the user the sketch is disabled
+    stopButton.setDisable(false);
+    // allow graphics to be selected after stopS button is used.
+    selectGraphic();
+  }
+
+  // start sketch editor with relevant mode for each sketch button
+  @FXML
+  private void handlePointButtonClicked() {
+    graphicsOverlay.clearSelection();
+    sketchEditor.start(SketchCreationMode.POINT);
+  }
+
+  @FXML
+  private void handleMultipointButtonClicked() {
+    graphicsOverlay.clearSelection();
+    sketchEditor.start(SketchCreationMode.MULTIPOINT);
+  }
+
+  @FXML
+  private void handlePolylineButtonClicked() {
+    graphicsOverlay.clearSelection();
+    sketchEditor.start(SketchCreationMode.POLYLINE);
+  }
+
+  @FXML
+  private void handlePolygonButtonClicked() {
+    graphicsOverlay.clearSelection();
+    sketchEditor.start(SketchCreationMode.POLYGON);
+  }
+
+  @FXML
+  private void handleFreehandPolylineButtonClicked() {
+    graphicsOverlay.clearSelection();
+    sketchEditor.start(SketchCreationMode.FREEHAND_LINE);
+  }
+
+  @FXML
+  private void handleFreehandPolygonButtonClicked() {
+    graphicsOverlay.clearSelection();
+    sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
+  }
+
+  @FXML
+  private void handleUndoButtonClicked() {
+    if (sketchEditor.canUndo()) {
+      sketchEditor.undo();
+    }
+  }
+
+  @FXML
+  private void handleRedoButtonClicked() {
+    if (sketchEditor.canRedo()) {
+      sketchEditor.redo();
+    }
   }
 
   /**
    * When the done button is clicked, check that sketch is valid. If so, get the geometry from the sketch, set its
    * symbol and add it to the graphics overlay.
    */
-  private void storeGraphicInGraphicOverlay() {
-
+  @FXML
+  private void handleSaveButtonClicked() {
+    // save the graphic in to the graphics overlay
     // if the sketch isn't valid, stop the sketch editor.
     if (!sketchEditor.isSketchValid()) {
       sketchEditor.stop();
@@ -208,88 +226,39 @@ public class SketchOnMapController {
           case MULTIPOINT:
             graphic.setSymbol(pointSymbol);
         }
-
         graphicsOverlay.getGraphics().add(graphic);
       }
     }
     sketchEditor.stop();
-  }
 
-  /**
-   * use sketch editor to edit the geometry of the selected graphic
-   */
-  @FXML
-  private void editSketch() {
-
-    stopButton.setDisable(false);
-    saveButton.setDisable(true);
-    saveButton.setText("Save edits");
-    stopButton.setText("Stop sketching");
-    editButton.setText("Edit Sketch (active)");
-
-    // if the graphics overlay contains graphics, select the first graphic
-    // and start the sketch editor based on that graphic's geometry
-    if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
-      graphic = graphicsOverlay.getSelectedGraphics().get(0);
-      sketchEditor.start(graphic.getGeometry());
-    }
-  }
-
-  /**
-   * stop the sketch editor
-   */
-  @FXML
-  private void stopSketch () {
-
-    sketchEditor.stop();
+    // allow the user to select a graphic from the map view
+    selectGraphic();
     graphicsOverlay.clearSelection();
     disableButtons();
-    // set text to inform the user the sketch is disabled
-    stopButton.setDisable(false);
-    stopButton.setText("Select a sketch geometry");
-    saveButton.setText("Save sketch");
 
-    if (!graphicsOverlay.getGraphics().isEmpty()) {
-      editButton.setText("Select graphic to edit");
+    if (!graphicsOverlay.getGraphics().isEmpty()){
       clearButton.setDisable(false);
     }
 
-    // allow graphics to be selected after stopSketch button is used.
-    selectGraphic();
+    stopButton.setDisable(true);
+
   }
 
   /**
-   * save the sketch as a graphic, and store graphic to the graphics overlay
+   * clear the graphics overlay of any saved graphics
    */
   @FXML
-  private void saveGraphic () {
-      // save the graphic in to the graphics overlay
-      storeGraphicInGraphicOverlay();
-
-      // allow the user to select a graphic from the map view
-      selectGraphic();
-      graphicsOverlay.clearSelection();
-      disableButtons();
-
-      if (!graphicsOverlay.getGraphics().isEmpty()){
-        clearButton.setDisable(false);
-      }
-
-      stopButton.setDisable(false);
-      editButton.setText("Stop sketching to edit");
-
-      // set text on the disabled save button to show user what geometry is active
-      if (saveButton.isDisabled()) {
-        saveButton.setText("Sketch saved ");
-      }
-
-      stopButton.setText("Choose new sketch or select saved one to edit");
-      stopButton.setDisable(false);
+  private void handleClearButtonClicked() {
+    graphicsOverlay.getGraphics().clear();
+    sketchEditor.stop();
+    disableButtons();
   }
+
 
   /**
    * Allows the user to select a graphic from the graphics overlay
    */
+
   private void selectGraphic() {
 
     mapView.setOnMouseClicked(e -> {
@@ -321,7 +290,7 @@ public class SketchOnMapController {
       });
     });
   }
-
+  
   /**
    * Disable all UI buttons
    */
