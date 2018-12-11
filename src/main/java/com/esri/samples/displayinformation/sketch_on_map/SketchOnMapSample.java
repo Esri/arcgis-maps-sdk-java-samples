@@ -16,13 +16,14 @@
 
 package com.esri.samples.displayinformation.sketch_on_map;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 public class SketchOnMapSample extends Application {
 
@@ -44,7 +45,6 @@ public class SketchOnMapSample extends Application {
     stage.setScene(scene);
     stage.show();
   }
-
 
   /**
    * Stops and releases all resources used in application

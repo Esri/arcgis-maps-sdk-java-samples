@@ -198,6 +198,7 @@ public class SketchOnMapController {
   private void handleSaveButtonClicked() {
     // save the graphic in to the graphics overlay
     // if the sketch isn't valid, stop the sketch editor.
+
     if (!sketchEditor.isSketchValid()) {
       sketchEditor.stop();
       return;
@@ -254,7 +255,6 @@ public class SketchOnMapController {
     disableButtons();
   }
 
-
   /**
    * Allows the user to select a graphic from the graphics overlay
    */
@@ -278,7 +278,6 @@ public class SketchOnMapController {
             graphic = identifyGraphics.get().getGraphics().get(0);
             graphic.setSelected(true);
             editButton.setDisable(false);
-            editButton.setText("Edit Sketch");
           } else {
             editButton.setDisable(true);
           }
@@ -290,7 +289,7 @@ public class SketchOnMapController {
       });
     });
   }
-  
+
   /**
    * Disable all UI buttons
    */
