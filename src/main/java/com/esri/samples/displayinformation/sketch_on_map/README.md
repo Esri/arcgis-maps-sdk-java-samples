@@ -6,7 +6,7 @@
 
 <h2>How to use the sample</h2>
 
-<p>Choose which geometry type to sketch from one of the available buttons. Choose from points, multipoints, polygons, freehand lines and freehand polgons.</p>
+<p>Choose which geometry type to sketch from one of the available buttons. Choose from points, multipoints, polylines, polygons, freehand polylines and freehand polgons.</p>
 
 <p>Use the control panel to cancel the sketch, undo or redo changes made to the sketch and to save the sketch to the graphics overlay. There is also the option to select a saved graphic and edit its geometry using the Sketch Editor. The graphics overlay can be cleared using the clear all button.</p>
 
