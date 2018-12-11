@@ -6,9 +6,9 @@
 
 <h2>How to use the sample</h2>
 
-<p>Use the drop down menu to choose which geometry type to sketch. Choose from points, multipoints, polygons, freehand lines and freehand polgons.</p>
+<p>Choose which geometry type to sketch from one of the available buttons. Choose from points, multipoints, polygons, freehand lines and freehand polgons.</p>
 
-<p>Use the control panel to cancel the sketch, undo or redo changes made to the sketch and to save the sketch to the graphics overlay. There is also the option to select a saved graphic and edit its geometry using the Sketch Editor. The graphics overlay can be cleared using the "Clear graphics overlay" button.</p>
+<p>Use the control panel to cancel the sketch, undo or redo changes made to the sketch and to save the sketch to the graphics overlay. There is also the option to select a saved graphic and edit its geometry using the Sketch Editor. The graphics overlay can be cleared using the clear all button.</p>
 
 
 <h2>How it works</h2>
@@ -43,5 +43,5 @@
 
 <h2>Tags</h2>
 
-<p>Graphics, Sketch, MapView</p>
+<p>draw, edit, Geometry, Graphic, GraphicsOverlay, SketchCreationMode, SketchEditor</p>
 
