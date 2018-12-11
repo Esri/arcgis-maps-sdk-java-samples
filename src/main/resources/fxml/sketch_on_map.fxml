@@ -74,7 +74,7 @@
                 </tooltip>
             </Button>
         </HBox>
-        <Button fx:id="stopSketchButton" text="Sketch is disabled" maxWidth="Infinity" onAction="#stopSketch">
+        <Button fx:id="stopButton" text="Sketch is disabled" maxWidth="Infinity" onAction="#stopSketch">
         </Button>
         <HBox spacing="6" alignment="CENTER">
             <Button fx:id="undoButton" text="Undo sketch"/>

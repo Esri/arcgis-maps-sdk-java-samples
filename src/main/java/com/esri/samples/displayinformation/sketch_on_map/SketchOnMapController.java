@@ -16,6 +16,10 @@
 
 package com.esri.samples.displayinformation.sketch_on_map;
 
+import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.control.Button;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -29,11 +33,24 @@ import com.esri.arcgisruntime.mapping.view.SketchEditor;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.scene.control.Button;
+
 
 public class SketchOnMapController {
+
+  @FXML private MapView mapView;
+  @FXML private Button redoButton;
+  @FXML private Button undoButton;
+  @FXML private Button clearButton;
+  @FXML private Button saveButton;
+  @FXML private Button editButton;
+  @FXML private Button stopButton;
+
+  @FXML private Button createPointButton;
+  @FXML private Button createMultiPointButton;
+  @FXML private Button createPolylineButton;
+  @FXML private Button createPolygonButton;
+  @FXML private Button createFreehandPolylineButton;
+  @FXML private Button createFreehandPolygonButton;
 
   private SketchEditor sketchEditor;
   private GraphicsOverlay graphicsOverlay;
@@ -42,20 +59,6 @@ public class SketchOnMapController {
   private SimpleLineSymbol lineSymbol;
   private SimpleLineSymbol polygonLineSymbol;
   private SimpleMarkerSymbol pointSymbol;
-
-  @FXML private MapView mapView;
-  @FXML private Button redoButton;
-  @FXML private Button undoButton;
-  @FXML private Button clearButton;
-  @FXML private Button saveButton;
-  @FXML private Button editButton;
-  @FXML private Button stopSketchButton;
-  @FXML private Button createPointButton;
-  @FXML private Button createMultiPointButton;
-  @FXML private Button createPolylineButton;
-  @FXML private Button createPolygonButton;
-  @FXML private Button createFreehandPolylineButton;
-  @FXML private Button createFreehandPolygonButton;
 
 
   public void initialize() {
@@ -145,8 +148,8 @@ public class SketchOnMapController {
     sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
 
       // if sketch is valid, enable save and stop sketch buttons
-      stopSketchButton.setText("Cancel sketching");
-      stopSketchButton.setDisable(false);
+      stopButton.setText("Cancel sketching");
+      stopButton.setDisable(false);
 
       if (sketchEditor.isSketchValid()) {
         saveButton.setText("Save sketch and stop sketching");
@@ -218,10 +221,10 @@ public class SketchOnMapController {
   @FXML
   private void editSketch() {
 
-    stopSketchButton.setDisable(false);
+    stopButton.setDisable(false);
     saveButton.setDisable(true);
     saveButton.setText("Save edits");
-    stopSketchButton.setText("Stop sketching");
+    stopButton.setText("Stop sketching");
     editButton.setText("Edit Sketch (active)");
 
     // if the graphics overlay contains graphics, select the first graphic
@@ -242,8 +245,8 @@ public class SketchOnMapController {
     graphicsOverlay.clearSelection();
     disableButtons();
     // set text to inform the user the sketch is disabled
-    stopSketchButton.setDisable(false);
-    stopSketchButton.setText("Select a sketch geometry");
+    stopButton.setDisable(false);
+    stopButton.setText("Select a sketch geometry");
     saveButton.setText("Save sketch");
 
     if (!graphicsOverlay.getGraphics().isEmpty()) {
@@ -272,7 +275,7 @@ public class SketchOnMapController {
         clearButton.setDisable(false);
       }
 
-      stopSketchButton.setDisable(false);
+      stopButton.setDisable(false);
       editButton.setText("Stop sketching to edit");
 
       // set text on the disabled save button to show user what geometry is active
@@ -280,8 +283,8 @@ public class SketchOnMapController {
         saveButton.setText("Sketch saved ");
       }
 
-      stopSketchButton.setText("Choose new sketch or select saved one to edit");
-      stopSketchButton.setDisable(false);
+      stopButton.setText("Choose new sketch or select saved one to edit");
+      stopButton.setDisable(false);
   }
 
   /**
@@ -328,7 +331,7 @@ public class SketchOnMapController {
     undoButton.setDisable(true);
     editButton.setDisable(true);
     saveButton.setDisable(true);
-    stopSketchButton.setDisable(true);
+    stopButton.setDisable(true);
   }
 
   /**
