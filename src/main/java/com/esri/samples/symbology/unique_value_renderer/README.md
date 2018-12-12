@@ -7,8 +7,7 @@
 <p><img src="UniqueValueRenderer.png"/></p>
 
 <p>In this sample the unique value renderer is looking for the "STATE_ABBR" attribute within each feature of the feature layer. For example we will have a unique value renderer that has a unique value set to the abbreviation for California.</p>
-<pre><code>
-SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, RED,
+<pre><code>SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, RED,
 new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, RED, 2));
 
 List&lt;Object&gt; californiaValue = new ArrayList&lt;&gt;();

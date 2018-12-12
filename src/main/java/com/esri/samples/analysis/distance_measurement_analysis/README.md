@@ -1,4 +1,4 @@
-<h1>Distance Measurement Analysis</h2>
+<h1>Distance Measurement Analysis</h1>
 <p>Measure distances within a scene.</p>
 
 <p>The distance measurement analysis allows you to add the same measuring experience found in ArcGIS Pro, City Engine, 
@@ -39,7 +39,5 @@ Move the mouse to an end location, and click to complete the measure. Clicking a
 appropriate for large distances where the Earth's curvature needs to be taken into account.</p>
 
 <h2>Tags</h2>
-<ul>
-<li>Analysis</li>
-<li>3D</li>
-</ul>
+<p>Analysis, 3D</p>
+

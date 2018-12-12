@@ -1,14 +1,14 @@
 <h1>Query Map Image Sublayer</h1>
 
-<p>Find features in a sublayer based on attributes and location.</p>    
+<p>Find features in a sublayer based on attributes and location.</p>
 
 <p>Sublayers of an <code>ArcGISMapImageLayer</code> may expose a <code>ServiceFeatureTable</code> through a 
 <code>Table</code> property. This allows you to perform the same queries available when working with a table from a 
-<code>FeatureLayer</code>: attribute query, spatial query, statistics query, query for related features, and so on.
+<code>FeatureLayer</code>: attribute query, spatial query, statistics query, query for related features, and so on.</p>
 
 <p><img src="QueryMapImageSublayer.png"></p>
 
-<h2>How to use the sample:</h2>
+<h2>How to use the sample</h2>
 
 <p>Specify a minimum population in the spinner and click the query button to query the sublayers. After a short time,
  the results for each sublayer will appear as graphics.</p>
