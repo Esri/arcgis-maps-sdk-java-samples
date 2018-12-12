@@ -18,6 +18,8 @@ sample. For more fine-grained control over the data you are taking offline, use 
 
 <h2>How to use the sample</h2>
 
+<p>Note: When manually inputting a value in the spinner controls, make sure to hit Enter to commit the value.</p>
+
 <p>Sign in with a free developer account when prompted for credentials (taking web maps offline requires an account).</p>
 
 <p>Use the min/max scale spinners to adjust the level IDs to be taken offline for the Streets basemap.</p>
