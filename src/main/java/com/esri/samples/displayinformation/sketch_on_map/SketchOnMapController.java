@@ -204,11 +204,6 @@ public class SketchOnMapController {
    */
   @FXML
   private void handleSaveButtonClicked() {
-    // if the sketch isn't valid, stop the sketch editor.
-    if (!sketchEditor.isSketchValid()) {
-      sketchEditor.stop();
-      return;
-    }
 
     Geometry sketchGeometry = sketchEditor.getGeometry();
 
