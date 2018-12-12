@@ -87,7 +87,7 @@ public class GenerateOfflineMapOverridesController {
     Portal portal = new Portal("https://www.arcgis.com", true);
     PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
-    // create a graphics overlay for display the download area
+    // create a graphics overlay for displaying the download area
     graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
@@ -96,9 +96,6 @@ public class GenerateOfflineMapOverridesController {
     graphicsOverlay.getGraphics().add(downloadArea);
     SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
     downloadArea.setSymbol(simpleLineSymbol);
-
-    // update the download area whenever the viewpoint changes
-    mapView.addViewpointChangedListener(viewpointChangedEvent -> updateDownloadArea());
 
     // create a map with the portal item
     map = new ArcGISMap(portalItem);
@@ -109,6 +106,9 @@ public class GenerateOfflineMapOverridesController {
       }
       updateDownloadArea();
     });
+
+    // update the download area whenever the viewpoint changes
+    mapView.addViewpointChangedListener(viewpointChangedEvent -> updateDownloadArea());
 
     // set the map to the map view
     mapView.setMap(map);
@@ -149,7 +149,7 @@ public class GenerateOfflineMapOverridesController {
               ExportTileCacheParameters exportTileCacheParameters =
                   overrides.getExportTileCacheParameters().get(basemapParamKey);
 
-              // create a new sublist of LODs in the range requested by the user
+              // create a new sublist of level IDs in the range requested by the user
               exportTileCacheParameters.getLevelIDs().clear();
               for (int i = minScaleLevelSpinner.getValue(); i < maxScaleLevelSpinner.getValue(); i++) {
                 exportTileCacheParameters.getLevelIDs().add(i);
@@ -215,12 +215,13 @@ public class GenerateOfflineMapOverridesController {
                   GenerateOfflineMapResult result = job.getResult();
                   mapView.setMap(result.getOfflineMap());
                   graphicsOverlay.getGraphics().clear();
+                  // disable button since the offline map is already generated
                   generateOfflineMapButton.setDisable(true);
-                } else if (!"Job canceled.".equals(job.getError().getAdditionalMessage())) {
-                  new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage()).show();
+                } else {
+                  new Alert(Alert.AlertType.WARNING, job.getError().getAdditionalMessage()).show();
+                  generateOfflineMapButton.setDisable(false);
                 }
                 Platform.runLater(() -> progressBar.setVisible(false));
-                generateOfflineMapButton.setDisable(false);
                 cancelJobButton.setDisable(true);
               });
               // show the job's progress with the progress bar
