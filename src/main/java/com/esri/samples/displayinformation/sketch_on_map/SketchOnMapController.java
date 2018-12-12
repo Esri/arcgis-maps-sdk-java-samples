@@ -96,7 +96,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * use sketch editor to edit the geometry of the selected graphic
+   * Use the sketch editor to edit the geometry of the selected graphic.
    */
   @FXML
   private void handleEditButtonClicked() {
@@ -112,7 +112,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * stop the sketch editor
+   * Stop the sketch editor, and allow a graphic to be selected from the map.
    */
   @FXML
   private void handleStopButtonClicked() {
@@ -121,12 +121,12 @@ public class SketchOnMapController {
     disableButtons();
     // set text to inform the user the sketch is disabled
     stopButton.setDisable(false);
-    // allow graphics to be selected after stopS button is used.
+    // allow graphics to be selected after stop button is used.
     selectGraphic();
   }
 
   /**
-   * Clear selection of any graphic in graphics overlay and start new point sketch
+   * Clear selection of any graphic in the graphics overlay and start a new point sketch.
    */
   @FXML
   private void handlePointButtonClicked() {
@@ -135,7 +135,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * Clear selection of any graphic in graphics overlay and start new multipoint sketch
+   * Clear selection of any graphic in the graphics overlay and start a new multipoint sketch.
    */
   @FXML
   private void handleMultipointButtonClicked() {
@@ -144,7 +144,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * Clear selection of any graphic in graphics overlay and start new polyline sketch
+   * Clear selection of any graphic in the graphics overlay and start a new polyline sketch.
    */
   @FXML
   private void handlePolylineButtonClicked() {
@@ -153,7 +153,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * Clear selection of any graphic in graphics overlay and start new polygon sketch
+   * Clear selection of any graphic in the graphics overlay and start a new polygon sketch.
    */
   @FXML
   private void handlePolygonButtonClicked() {
@@ -162,7 +162,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * Clear selection of any graphic in graphics overlay and start new freehand polyline sketch
+   * Clear selection of any graphic in the graphics overlay and start a  new freehand polyline sketch.
    */
   @FXML
   private void handleFreehandPolylineButtonClicked() {
@@ -171,7 +171,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * Clear selection of any graphic in graphics overlay and start new freehand polygon sketch
+   * Clear selection of any graphic in the graphics overlay and start a new freehand polygon sketch.
    */
   @FXML
   private void handleFreehandPolygonButtonClicked() {
@@ -180,7 +180,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * Undo the last change made while sketching is active
+   * Undo the last change made to the sketch, whilst sketching is active.
    */
   @FXML
   private void handleUndoButtonClicked() {
@@ -190,7 +190,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * Redo the last change made while sketching is active
+   * Redo the last change made to the sketch, whilst sketching is active.
    */
   @FXML
   private void handleRedoButtonClicked() {
@@ -212,7 +212,7 @@ public class SketchOnMapController {
 
     Geometry sketchGeometry = sketchEditor.getGeometry();
 
-    // if an existed graphic being edited: get the selected graphic, set its geometry to that of the sketch editor geometry
+    // if an existing graphic is being edited: get the selected graphic, set its geometry to that of the sketch editor geometry
     // if a new graphic: create a new graphic based on the sketch editor geometry and set symbol depending on geometry type
     if (sketchGeometry != null) {
       if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
@@ -249,7 +249,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * clear the graphics overlay of any saved graphics
+   * Clear the graphics overlay of any saved graphics.
    */
   @FXML
   private void handleClearButtonClicked() {
@@ -260,7 +260,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * Allows the user to select a graphic from the graphics overlay
+   * Allows the user to select a graphic from the graphics overlay.
    */
   private void selectGraphic() {
 
@@ -291,7 +291,7 @@ public class SketchOnMapController {
   }
 
   /**
-   * Disable all UI buttons
+   * Disable all UI buttons.
    */
   private void disableButtons() {
 
