@@ -57,7 +57,6 @@ public class SketchOnMapController {
   private Graphic graphic;
   private SimpleFillSymbol fillSymbol;
   private SimpleLineSymbol lineSymbol;
-  private SimpleLineSymbol polygonLineSymbol;
   private SimpleMarkerSymbol pointSymbol;
 
   public void initialize() {
@@ -81,7 +80,7 @@ public class SketchOnMapController {
     // thin green line for polylines
     lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF64c113, 4);
     // blue outline for polygons
-    polygonLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF1396c1, 4);
+    SimpleLineSymbol polygonLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF1396c1, 4);
     // cross-hatched interior for polygons
     fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, polygonLineSymbol);
 
