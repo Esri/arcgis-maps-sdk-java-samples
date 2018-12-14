@@ -18,8 +18,11 @@
 package com.esri.samples.scene.sync_map_and_scene_viewpoints;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Stack;
 
+import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -35,6 +38,7 @@ import javafx.application.Application;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -47,11 +51,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import sun.security.jca.GetInstance;
 
 public class SyncMapAndSceneViewpoints extends Application {
 
   private MapView mapView;
   private SceneView sceneView;
+  private Viewpoint sharedViewPoint;
+  private Viewpoint geoViewPoint;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -88,56 +95,45 @@ public class SyncMapAndSceneViewpoints extends Application {
     sceneView.setArcGISScene(scene);
     splitPane.getItems().add(sceneView);
 
-    ViewpointChangedListener theListener = new ViewpointChangedListener() {
-      @Override
-      public void viewpointChanged(ViewpointChangedEvent viewpointChangedEvent) {
+    mapView.addViewpointChangedListener(viewpointChangedEvent -> {
+      synchronizeViewpoints(mapView);
+    });
 
-        GeoView combinedview = new GeoView() {
-          @Override
-          public ReadOnlyDoubleProperty attributionTopProperty() {
-            return null;
-          }
-
-          @Override
-          public double getAttributionTop() {
-            return 0;
-          }
-
-          @Override
-          public SpatialReference getSpatialReference() {
-            return null;
-          }
-        };
-
-        Viewpoint sharedView = combinedview.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE);
-
-        System.out.println("The view point is on the move");
-        sceneView.setViewpoint(mapView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE));
-        if (scene.getLoadStatus() == LoadStatus.LOADED ){
-        mapView.setViewpoint(sceneView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE));
-        }
-
-      }
-    };
-
-//    ViewpointChangedListener changedListener = viewpointChangedEvent ->
-//            sceneView.setViewpoint(mapView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE));
-
-    mapView.addViewpointChangedListener(theListener);
-
-
+    sceneView.addViewpointChangedListener(viewpointChangedEvent -> {
+      synchronizeViewpoints(sceneView);
+    });
 
   }
 
 
+  private void synchronizeViewpoints(GeoView geoView) {
 
+    System.out.println(geoView.isNavigating());
+
+    if (geoView.isNavigating() == true) {
+      geoViewPoint = geoView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE);
+
+
+      ArrayList<GeoView> arrayListofGeoView = new ArrayList<>();
+      arrayListofGeoView.add(mapView);
+      arrayListofGeoView.add(sceneView);
+
+      for (GeoView anyGeoView : arrayListofGeoView) {
+
+        if (anyGeoView != geoView) {
+          anyGeoView.setViewpoint(geoViewPoint);
+        }
+      }
+    }
+  }
+  
   /**
    * Stops and releases all resources used in application.
    */
   @Override
   public void stop() {
 
-    if (mapView != null && sceneView !=null) {
+    if (mapView != null && sceneView != null) {
       mapView.dispose();
       sceneView.dispose();
     }
