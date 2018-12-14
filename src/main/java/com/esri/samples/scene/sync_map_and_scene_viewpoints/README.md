@@ -4,7 +4,7 @@
 
 <p>The two <code>GeoViews</code> share a common <code>ViewPoint</code>. When navigating in one view, the other view is immediately updated to display the same <code>ViewPoint</code>, resulting in a continuously updated and synchronized view.</p>
 
-<p><img src="SyncMapandSceneViewPoints.gif" /></p>
+<p><img src="SyncMapandSceneViewpoints.png" /></p>
 
 <h2>How to use the sample</h2>
 
