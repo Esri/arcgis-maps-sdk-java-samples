@@ -1,10 +1,10 @@
-<h1>Sync map and scene viewpoints</h1>
+<h1>Sync Map and Scene Viewpoints</h1>
 
 <p>Synchronize the viewpoints between a <code>MapView</code> and a <code>SceneView</code>.</p>
 
 <p>The two <code>GeoViews</code> share a common <code>ViewPoint</code>. When navigating in one view, the other view is immediately updated to display the same <code>ViewPoint</code>.</p>
 
-<p><img src="SyncMapandSceneViewpoints.png" /></p>
+<p><img src="SyncMapAndSceneViewpoints.png" /></p>
 
 <h2>How to use the sample</h2>
 
