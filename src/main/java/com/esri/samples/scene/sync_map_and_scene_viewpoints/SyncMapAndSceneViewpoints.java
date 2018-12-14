@@ -75,12 +75,12 @@ public class SyncMapAndSceneViewpoints extends Application {
       // add the map view and scene view to the split plane
       splitPane.getItems().addAll(mapView, sceneView);
 
-      // add a view point changed listener to the map view
+      // add a viewpoint changed listener to the map view
       mapView.addViewpointChangedListener(viewpointChangedEvent -> {
         synchronizeViewpoints(mapView);
       });
 
-      // add a view point changed listener to the scene view
+      // add a viewpoint changed listener to the scene view
       sceneView.addViewpointChangedListener(viewpointChangedEvent -> {
         synchronizeViewpoints(sceneView);
       });
@@ -97,11 +97,10 @@ public class SyncMapAndSceneViewpoints extends Application {
   }
 
   /**
-   * Synchronizes the viewpoint across Geoviews.
+   * Synchronizes the viewpoint across Geoviews when the user is navigating.
    */
   private void synchronizeViewpoints(GeoView geoView) {
 
-    // if the user is actively navigating the GeoView, get its current viewpoint and set the other view to the same viewpoint
     if (geoView.isNavigating()) {
 
       Viewpoint geoViewPoint = geoView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE);
