@@ -17,8 +17,6 @@
 package com.esri.samples.scene.create_terrain_surface_from_local_tile_package;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -28,8 +26,6 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.ElevationSource;
-import com.esri.arcgisruntime.mapping.RasterElevationSource;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
