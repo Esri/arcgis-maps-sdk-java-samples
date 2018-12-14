@@ -37,52 +37,58 @@ public class SyncMapAndSceneViewpoints extends Application {
 
   private MapView mapView;
   private SceneView sceneView;
+  private ArrayList<GeoView> geoViewList;
 
   @Override
   public void start(Stage stage) {
 
     try {
 
-    // create split pane and JavaFX app scene
-    SplitPane splitPane = new SplitPane();
-    splitPane.setOrientation(Orientation.HORIZONTAL);
-    Scene fxScene = new Scene(splitPane);
+      // create split pane and JavaFX app scene
+      SplitPane splitPane = new SplitPane();
+      splitPane.setOrientation(Orientation.HORIZONTAL);
+      Scene fxScene = new Scene(splitPane);
 
-    // set title, size, and add JavaFX scene to stage
-    stage.setTitle("Sync Map and Scene Viewpoints");
-    stage.setWidth(1000);
-    stage.setHeight(700);
-    stage.setScene(fxScene);
-    stage.show();
+      // set title, size, and add JavaFX scene to stage
+      stage.setTitle("Sync Map and Scene Viewpoints");
+      stage.setWidth(1000);
+      stage.setHeight(700);
+      stage.setScene(fxScene);
+      stage.show();
 
-    // create a map and add a basemap to it
-    ArcGISMap map = new ArcGISMap();
-    map.setBasemap(Basemap.createImagery());
+      // create a map and add a basemap to it
+      ArcGISMap map = new ArcGISMap();
+      map.setBasemap(Basemap.createImagery());
 
-    // create a scene and add a basemap to it
-    ArcGISScene scene = new ArcGISScene();
-    scene.setBasemap(Basemap.createImagery());
+      // create a scene and add a basemap to it
+      ArcGISScene scene = new ArcGISScene();
+      scene.setBasemap(Basemap.createImagery());
 
-    // set the map to a map view
-    mapView = new MapView();
-    mapView.setMap(map);
+      // set the map to a map view
+      mapView = new MapView();
+      mapView.setMap(map);
 
-    // set the scene to a scene view
-    sceneView = new SceneView();
-    sceneView.setArcGISScene(scene);
+      // set the scene to a scene view
+      sceneView = new SceneView();
+      sceneView.setArcGISScene(scene);
 
-    // add the map view and scene view to the split plane
-    splitPane.getItems().addAll(mapView, sceneView);
+      // add the map view and scene view to the split plane
+      splitPane.getItems().addAll(mapView, sceneView);
 
-    // add a view point changed listener to the map view
-    mapView.addViewpointChangedListener(viewpointChangedEvent -> {
-      synchronizeViewpoints(mapView);
-    });
+      // add a view point changed listener to the map view
+      mapView.addViewpointChangedListener(viewpointChangedEvent -> {
+        synchronizeViewpoints(mapView);
+      });
 
-    // add a view point changed listener to the scene view
-    sceneView.addViewpointChangedListener(viewpointChangedEvent -> {
-      synchronizeViewpoints(sceneView);
-    });
+      // add a view point changed listener to the scene view
+      sceneView.addViewpointChangedListener(viewpointChangedEvent -> {
+        synchronizeViewpoints(sceneView);
+      });
+
+      // create a list of geoviews being navigated
+      geoViewList = new ArrayList<>();
+      geoViewList.add(mapView);
+      geoViewList.add(sceneView);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -100,13 +106,8 @@ public class SyncMapAndSceneViewpoints extends Application {
 
       Viewpoint geoViewPoint = geoView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE);
 
-      // create a list of geoviews being navigated
-      ArrayList<GeoView> arrayListofGeoView = new ArrayList<>();
-      arrayListofGeoView.add(mapView);
-      arrayListofGeoView.add(sceneView);
-
       // loop through the available geoviews. If it doesn't match the given geoview, then set the geoview to the other's viewpoint
-      for (GeoView anyGeoView : arrayListofGeoView) {
+      for (GeoView anyGeoView : geoViewList) {
         if (anyGeoView != geoView) {
           anyGeoView.setViewpoint(geoViewPoint);
         }
