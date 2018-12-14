@@ -34,7 +34,7 @@ import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-public class CreateSurfaceTerrainFromLocalTilePackageSample extends Application {
+public class CreateTerrainSurfaceFromLocalTilePackageSample extends Application {
 
   private SceneView sceneView;
 
