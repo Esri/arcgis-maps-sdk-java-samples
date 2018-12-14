@@ -14,10 +14,10 @@
  * the License.
  */
 
-package com.esri.samples.scene.create_elevation_source_from_local_data;
+package com.esri.samples.scene.create_terrain_surface_from_local_raster;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javafx.application.Application;
@@ -26,7 +26,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.ElevationSource;
 import com.esri.arcgisruntime.mapping.RasterElevationSource;
@@ -34,7 +33,7 @@ import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-public class CreateElevationSourceFromLocalDataSample extends Application {
+public class CreateTerrainSurfaceFromLocalRasterSample extends Application {
 
   private SceneView sceneView;
 
@@ -47,7 +46,7 @@ public class CreateElevationSourceFromLocalDataSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Create Elevation Source from Local Data Sample");
+      stage.setTitle("Create Terrain Surface from Local Raster Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
@@ -60,18 +59,17 @@ public class CreateElevationSourceFromLocalDataSample extends Application {
       // add the SceneView to the stack pane
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
-      stackPane.getChildren().addAll(sceneView);
+      stackPane.getChildren().add(sceneView);
 
-      // list paths to local data files
-      List<String> localDataFilePaths = Arrays.asList(
-          new File("./samples-data" + "/monterey_elevation/MontereyElevation.tpk").getAbsolutePath(),
-          new File("./samples-data" + "/monterey_elevation/MontereyElevation.dt2").getAbsolutePath()
+      // list paths to local raster(s)
+      List<String> localDataFilePaths = Collections.singletonList(
+          new File("./samples-data/monterey_elevation/MontereyElevation.dt2").getAbsolutePath()
       );
 
-      // create an elevation source combining the data from these files
+      // create an elevation source from the raster collection
       ElevationSource elevationSource = new RasterElevationSource(localDataFilePaths);
 
-      // create a surface, adding the elvation source
+      // create a surface, adding the elevation source
       Surface surface = new Surface();
       surface.getElevationSources().add(elevationSource);
       // set the surface to the scene
