@@ -105,7 +105,7 @@ public class SyncMapAndSceneViewpoints extends Application {
       arrayListofGeoView.add(mapView);
       arrayListofGeoView.add(sceneView);
 
-      // loop through the available geoviews. If it doesn't match the given geoview, then set the geoview to the other's viewpoint.
+      // loop through the available geoviews. If it doesn't match the given geoview, then set the geoview to the other's viewpoint
       for (GeoView anyGeoView : arrayListofGeoView) {
         if (anyGeoView != geoView) {
           anyGeoView.setViewpoint(geoViewPoint);

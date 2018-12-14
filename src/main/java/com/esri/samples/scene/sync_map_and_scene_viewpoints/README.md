@@ -1,6 +1,6 @@
 <h1>Sync map and scene viewpoints</h1>
 
-<p>Synchronize the view points between a <code>MapView</code> and a <code>SceneView</code>.</p>
+<p>Synchronize the viewpoints between a <code>MapView</code> and a <code>SceneView</code>.</p>
 
 <p>The two <code>GeoViews</code> share a common <code>ViewPoint</code>. When navigating in one view, the other view is immediately updated to display the same <code>ViewPoint</code>, resulting in a continuously updated and synchronized view.</p>
 
@@ -12,15 +12,15 @@
 
 <h2>How it works</h2>
 
-<p><code>MapView</code> and <code>SceneView</code> inherit from the <code>GeoView</code> parent class. When the <code>GeoView</code>'s view point has changed, a listener can be added and allow the view point of the other <code>GeoView</code> to be set and synchronised.
+<p><code>MapView</code> and <code>SceneView</code> inherit from the <code>GeoView</code> parent class. When the <code>GeoView</code>'s viewpoint has changed, a listener can be added and allow the viewpoint of the other <code>GeoView</code> to be set and synchronized.
 
 
 <ol>
 <li>Create a <code>MapView</code> and a <code>SceneView</code>.</li>
-<li>Add a view point changed listener to each <code>GeoView</code> with <code>geoView.addViewpointChangedListener(viewpointChangedEvent)</code>.</li>
+<li>Add a viewpoint changed listener to each <code>GeoView</code> with <code>geoView.addViewpointChangedListener(viewpointChangedEvent)</code>.</li>
 <li>Check if the <code>GeoView</code> is being navigated with <code>geoView.isNavigating()</code>.</li>
-<li>Get the current view point of the active <code>GeoView</code> with <code>geoView.getcurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE)</code>.</li>
-<li>Set the view point of the other view to the active view's view point with <code>geoView.setViewpoint(Viewpoint)</code>.</li>
+<li>Get the current viewpoint of the active <code>GeoView</code> with <code>geoView.getcurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE)</code>.</li>
+<li>Set the viewpoint of the other view to the active view's viewpoint with <code>geoView.setViewpoint(Viewpoint)</code>.</li>
 </ol>
 
 <h2>Relevant API</h2>
@@ -28,9 +28,9 @@
 <ul>
 <li>GeoView</li>
 
-<li>CurrentViewpoint(Viewpoint.Type)</li>
+<li>Viewpoint</li>
 
-<li>ViewpointChangedListener(viewpointChangedEvent)</li>
+<li>ViewpointChangedEvent</li>
 
 </ul>
 
