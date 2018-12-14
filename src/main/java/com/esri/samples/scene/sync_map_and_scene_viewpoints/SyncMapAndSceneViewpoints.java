@@ -75,23 +75,19 @@ public class SyncMapAndSceneViewpoints extends Application {
       // add the map view and scene view to the split plane
       splitPane.getItems().addAll(mapView, sceneView);
 
-      // add a viewpoint changed listener to the map view
-      mapView.addViewpointChangedListener(viewpointChangedEvent -> {
-        synchronizeViewpoints(mapView);
-      });
+      // add a viewpoint changed listener to the map view. Access the GeoView class using the event's getSource method
+      mapView.addViewpointChangedListener(viewpointChangedEvent -> synchronizeViewpoints(viewpointChangedEvent.getSource()));
 
-      // add a viewpoint changed listener to the scene view
-      sceneView.addViewpointChangedListener(viewpointChangedEvent -> {
-        synchronizeViewpoints(sceneView);
-      });
+      // add a viewpoint changed listener to the scene view. Access the GeoView class using the event's getSource method
+      sceneView.addViewpointChangedListener(viewpointChangedEvent -> synchronizeViewpoints(viewpointChangedEvent.getSource()));
 
-      // create a list of geoviews being navigated
+      // create a list of GeoViews being navigated
       geoViewList = new ArrayList<>();
       geoViewList.add(mapView);
       geoViewList.add(sceneView);
 
     } catch (Exception e) {
-      // on any error, display the stack trace.
+      // on any error, display the stack trace
       e.printStackTrace();
     }
   }
@@ -105,7 +101,7 @@ public class SyncMapAndSceneViewpoints extends Application {
 
       Viewpoint geoViewPoint = geoView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE);
 
-      // loop through the available geoviews. If it doesn't match the given geoview, then set the geoview to the other's viewpoint
+      // loop through the available GeoViews. If it doesn't match the given GeoView, then set the GeoView to the other's viewpoint
       for (GeoView anyGeoView : geoViewList) {
         if (anyGeoView != geoView) {
           anyGeoView.setViewpoint(geoViewPoint);
