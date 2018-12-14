@@ -17,14 +17,8 @@
 
 package com.esri.samples.scene.sync_map_and_scene_viewpoints;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Stack;
 
-import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -32,47 +26,33 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.GeoView;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-import com.esri.arcgisruntime.mapping.view.ViewpointChangedEvent;
-import com.esri.arcgisruntime.mapping.view.ViewpointChangedListener;
+
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
+
 import javafx.stage.Stage;
-import sun.security.jca.GetInstance;
 
 public class SyncMapAndSceneViewpoints extends Application {
 
   private MapView mapView;
   private SceneView sceneView;
-  private Viewpoint sharedViewPoint;
-  private Viewpoint geoViewPoint;
 
   @Override
   public void start(Stage stage) throws Exception {
 
     // create split pane and JavaFX app scene
     SplitPane splitPane = new SplitPane();
-    splitPane.setOrientation(Orientation.VERTICAL);
+    splitPane.setOrientation(Orientation.HORIZONTAL);
     Scene fxScene = new Scene(splitPane);
 
-    fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+//    fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
     // set title, size, and add JavaFX scene to stage
     stage.setTitle("Sync Map and Scene Viewpoints");
-    stage.setWidth(800);
+    stage.setWidth(1000);
     stage.setHeight(700);
     stage.setScene(fxScene);
     stage.show();
@@ -85,15 +65,21 @@ public class SyncMapAndSceneViewpoints extends Application {
     ArcGISScene scene = new ArcGISScene();
     scene.setBasemap(Basemap.createImagery());
 
+    // Create labels to display on each pane
+    Label mapLabel = new Label("Map View");
+    Label sceneLabel = new Label("Scene View");
+
     // set the map to a map view
     mapView = new MapView();
     mapView.setMap(map);
-    splitPane.getItems().add(mapView);
+
 
     // set the scene to a scene view
     sceneView = new SceneView();
     sceneView.setArcGISScene(scene);
-    splitPane.getItems().add(sceneView);
+
+    splitPane.getItems().addAll(mapView, sceneView);
+
 
     mapView.addViewpointChangedListener(viewpointChangedEvent -> {
       synchronizeViewpoints(mapView);
@@ -108,25 +94,22 @@ public class SyncMapAndSceneViewpoints extends Application {
 
   private void synchronizeViewpoints(GeoView geoView) {
 
-    System.out.println(geoView.isNavigating());
-
-    if (geoView.isNavigating() == true) {
-      geoViewPoint = geoView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE);
-
+    if (geoView.isNavigating()) {
+      Viewpoint geoViewPoint = geoView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE);
 
       ArrayList<GeoView> arrayListofGeoView = new ArrayList<>();
       arrayListofGeoView.add(mapView);
       arrayListofGeoView.add(sceneView);
 
+      // loop through the available geoviews, and if there is one in there that doesn't match the given geoview, then set the geoview to the other's viewpoint.
       for (GeoView anyGeoView : arrayListofGeoView) {
-
         if (anyGeoView != geoView) {
           anyGeoView.setViewpoint(geoViewPoint);
         }
       }
     }
   }
-  
+
   /**
    * Stops and releases all resources used in application.
    */
@@ -137,7 +120,6 @@ public class SyncMapAndSceneViewpoints extends Application {
       mapView.dispose();
       sceneView.dispose();
     }
-
   }
 
   /**
