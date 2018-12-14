@@ -87,24 +87,25 @@ public class GenerateOfflineMapOverridesController {
     Portal portal = new Portal("https://www.arcgis.com", true);
     PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
-    // create a graphics overlay for displaying the download area
-    graphicsOverlay = new GraphicsOverlay();
-    mapView.getGraphicsOverlays().add(graphicsOverlay);
-
-    // show a red border around the download area
-    downloadArea = new Graphic();
-    graphicsOverlay.getGraphics().add(downloadArea);
-    SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
-    downloadArea.setSymbol(simpleLineSymbol);
-
     // create a map with the portal item
     map = new ArcGISMap(portalItem);
     map.addDoneLoadingListener(() -> {
       // enable the generate offline map button when the map is loaded
       if (map.getLoadStatus() == LoadStatus.LOADED) {
         generateOfflineMapButton.setDisable(false);
+
+        // create a graphics overlay for displaying the download area
+        graphicsOverlay = new GraphicsOverlay();
+        mapView.getGraphicsOverlays().add(graphicsOverlay);
+
+        // show a red border around the download area
+        downloadArea = new Graphic();
+        graphicsOverlay.getGraphics().add(downloadArea);
+        SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+        downloadArea.setSymbol(simpleLineSymbol);
+
+        updateDownloadArea();
       }
-      updateDownloadArea();
     });
 
     // update the download area whenever the viewpoint changes
