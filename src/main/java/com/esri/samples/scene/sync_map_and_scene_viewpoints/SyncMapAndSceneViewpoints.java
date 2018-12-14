@@ -19,6 +19,12 @@ package com.esri.samples.scene.sync_map_and_scene_viewpoints;
 
 import java.util.ArrayList;
 
+import javafx.application.Application;
+import javafx.geometry.Orientation;
+import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -27,28 +33,20 @@ import com.esri.arcgisruntime.mapping.view.GeoView;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-import javafx.application.Application;
-import javafx.geometry.Orientation;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-
-import javafx.stage.Stage;
-
 public class SyncMapAndSceneViewpoints extends Application {
 
   private MapView mapView;
   private SceneView sceneView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
+
+    try {
 
     // create split pane and JavaFX app scene
     SplitPane splitPane = new SplitPane();
     splitPane.setOrientation(Orientation.HORIZONTAL);
     Scene fxScene = new Scene(splitPane);
-
-//    fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
     // set title, size, and add JavaFX scene to stage
     stage.setTitle("Sync Map and Scene Viewpoints");
@@ -65,43 +63,49 @@ public class SyncMapAndSceneViewpoints extends Application {
     ArcGISScene scene = new ArcGISScene();
     scene.setBasemap(Basemap.createImagery());
 
-    // Create labels to display on each pane
-    Label mapLabel = new Label("Map View");
-    Label sceneLabel = new Label("Scene View");
-
     // set the map to a map view
     mapView = new MapView();
     mapView.setMap(map);
-
 
     // set the scene to a scene view
     sceneView = new SceneView();
     sceneView.setArcGISScene(scene);
 
+    // add the map view and scene view to the split plane
     splitPane.getItems().addAll(mapView, sceneView);
 
-
+    // add a view point changed listener to the map view
     mapView.addViewpointChangedListener(viewpointChangedEvent -> {
       synchronizeViewpoints(mapView);
     });
 
+    // add a view point changed listener to the scene view
     sceneView.addViewpointChangedListener(viewpointChangedEvent -> {
       synchronizeViewpoints(sceneView);
     });
 
+    } catch (Exception e) {
+      // on any error, display the stack trace.
+      e.printStackTrace();
+    }
   }
 
-
+  /**
+   * Synchronizes the viewpoint across Geoviews.
+   */
   private void synchronizeViewpoints(GeoView geoView) {
 
+    // if the user is actively navigating the GeoView, get its current viewpoint and set the other view to the same viewpoint
     if (geoView.isNavigating()) {
+
       Viewpoint geoViewPoint = geoView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE);
 
+      // create a list of geoviews being navigated
       ArrayList<GeoView> arrayListofGeoView = new ArrayList<>();
       arrayListofGeoView.add(mapView);
       arrayListofGeoView.add(sceneView);
 
-      // loop through the available geoviews, and if there is one in there that doesn't match the given geoview, then set the geoview to the other's viewpoint.
+      // loop through the available geoviews. If it doesn't match the given geoview, then set the geoview to the other's viewpoint.
       for (GeoView anyGeoView : arrayListofGeoView) {
         if (anyGeoView != geoView) {
           anyGeoView.setViewpoint(geoViewPoint);
