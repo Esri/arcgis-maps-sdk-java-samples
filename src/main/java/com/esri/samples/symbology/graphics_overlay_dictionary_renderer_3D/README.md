@@ -1,9 +1,9 @@
 <h1>Graphics Overlay Dictionary Renderer 3D</h1>
 
-<p>Display mil2525d symbols in 3D.</p>
+<p>Display MIL-STD-2525D military symbology in 3D.</p>
 
-<p>The dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key-value 
-attributes for each graphic.</p>
+<p>The dictionary renderer creates these graphics using a local mil2525d style file included in the SDK's 
+resources/symbols directory plus an XML file with key-value attributes for each graphic.</p>
 
 <p><img src="GraphicsOverlayDictionaryRenderer3D.png"/></p>
 
@@ -23,7 +23,7 @@ attributes for each graphic.</p>
             <li>Get the WKID and coordinates from the XML to create the graphic's geometry.</li>
         </ul>
     </li>
-    <li>The other attributes will describe the symbology for the graphic.</li>
+    <li>The other attributes such as "symbolentity" and "symbolset" will describe the symbology for the graphic.</li>
     <li>Create the graphic with the geometry and attributes and add it to the graphics overlay.</li>
 </ol>
 
@@ -36,4 +36,4 @@ attributes for each graphic.</p>
 </ul>
 
 <h2>Tags</h2>
-<p>Symbology, 3D</p>
+<p>Graphics, Symbology, 3D</p>
