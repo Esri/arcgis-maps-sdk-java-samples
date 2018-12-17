@@ -50,49 +50,61 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
   private GraphicsOverlay graphicsOverlay;
 
   @Override
-  public void start(Stage stage) throws Exception {
-    sceneView = new SceneView();
-    StackPane appWindow = new StackPane(sceneView);
-    Scene fxScene = new Scene(appWindow);
+  public void start(Stage stage) {
+    try {
+      // create stack pane and application scene
+      StackPane stackPane = new StackPane();
+      Scene fxScene = new Scene(stackPane);
 
-    // set title, size, and add scene to stage
-    stage.setTitle("Graphics Overlay Dictionary Renderer 3D Sample");
-    stage.setWidth(800);
-    stage.setHeight(700);
-    stage.setScene(fxScene);
-    stage.show();
+      // set title, size, and add scene to stage
+      stage.setTitle("Graphics Overlay Dictionary Renderer 3D Sample");
+      stage.setWidth(800);
+      stage.setHeight(700);
+      stage.setScene(fxScene);
+      stage.show();
 
-    ArcGISScene scene = new ArcGISScene(Basemap.Type.IMAGERY);
-    sceneView.setArcGISScene(scene);
+      // create a scene and add a basemap to it
+      sceneView = new SceneView();
+      ArcGISScene scene = new ArcGISScene(Basemap.Type.IMAGERY);
+      sceneView.setArcGISScene(scene);
 
-    graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
-    sceneView.getGraphicsOverlays().add(graphicsOverlay);
+      graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
+      sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
-    // create symbol dictionary from specification
-    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
+      // create symbol dictionary from specification
+      // the specification style file comes with the SDK in the resources/symbols directory
+      // see this directory for other specification types
+      DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
 
-    // tells graphics overlay how to render graphics with symbol dictionary attributes set
-    DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
-    graphicsOverlay.setRenderer(renderer);
+      // tells graphics overlay how to render graphics with symbol dictionary attributes set
+      DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
+      graphicsOverlay.setRenderer(renderer);
 
-    // parse graphic attributes from a XML file
-    List<Map<String, Object>> messages = parseMessages();
+      // parse graphic attributes from a XML file following the mil2525d specification
+      List<Map<String, Object>> messages = parseMessages();
 
-    // create graphics with attributes and add to graphics overlay
-    messages.stream()
-        .map(GraphicsOverlayDictionaryRenderer3DSample::createGraphic)
-        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
+      // create graphics with attributes and add to graphics overlay
+      messages.stream()
+          .map(GraphicsOverlayDictionaryRenderer3DSample::createGraphic)
+          .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
 
-    // once view has loaded
-    sceneView.addSpatialReferenceChangedListener(e -> {
-      if (sceneView.getSpatialReference() != null) {
-        sceneView.setViewpointCamera(new Camera(graphicsOverlay.getExtent().getCenter(), 15000, 0, 70, 0));
-      }
-    });
+      // when the scene loads and the sceneview has a spatial reference, move the camera to show the graphics
+      sceneView.addSpatialReferenceChangedListener(e -> {
+        if (sceneView.getSpatialReference() != null) {
+          sceneView.setViewpointCamera(new Camera(graphicsOverlay.getExtent().getCenter(), 15000, 0, 70, 0));
+        }
+      });
+
+      // add the scene view to the stack pane
+      stackPane.getChildren().add(sceneView);
+    } catch (Exception ex) {
+      // on any exception, print the stacktrace
+      ex.printStackTrace();
+    }
   }
 
   /**
-   * Parses a XML file and creates a message for each block of attributes found.
+   * Parses a XML file following the mil2525d specification and creates a message for each block of attributes found.
    */
   private List<Map<String, Object>> parseMessages() throws Exception {
     final List<Map<String, Object>> messages = new ArrayList<>();
@@ -114,26 +126,27 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
    * @param attributes tells symbol dictionary what symbol to apply to graphic
    */
   private static Graphic createGraphic(Map<String, Object> attributes) {
-
     // get spatial reference
     int wkid = Integer.parseInt((String) attributes.get("_wkid"));
     SpatialReference sr = SpatialReference.create(wkid);
 
-    // get points from coordinate string
-    PointCollection pointCollection = new PointCollection(SpatialReferences.getWgs84());
+    // get points from the coordinate string in the "_control_points" attribute (delimited with ';')
     String[] coordinates = ((String) attributes.get("_control_points")).split(";");
     List<Point> points = Stream.of(coordinates)
-        .map(cs -> cs.split(","))
-        .map(c -> new Point(Double.valueOf(c[0]), Double.valueOf(c[1]), sr))
-        .map(c -> (Point) GeometryEngine.project(c, SpatialReferences.getWgs84()))
+        .map(cs -> cs.split(",")) // get each ordinate
+        .map(c -> new Point(Double.valueOf(c[0]), Double.valueOf(c[1]), sr))// create a Point with the ordinates
+        .map(c -> (Point) GeometryEngine.project(c, SpatialReferences.getWgs84())) // project to display in scene
         .collect(Collectors.toList());
+
+    // create a point collection with the points
+    PointCollection pointCollection = new PointCollection(SpatialReferences.getWgs84());
     pointCollection.addAll(points);
 
     // remove unneeded attributes, use geometry for graphic positioning instead
     attributes.remove("_control_points");
     attributes.remove("_wkid");
 
-    // return a graphic with multipoint geometry
+    // return a graphic with a multipoint geometry (some have more than one point)
     return new Graphic(new Multipoint(pointCollection), attributes);
   }
 
