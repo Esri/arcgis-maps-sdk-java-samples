@@ -2,7 +2,7 @@
 
 <p>Create a feature collection layer which shows the result of a SQL query from a service feature table.</p>
 
-<p><img src="FeatureLayerCollectionQuery.png"/></p>
+<p><img src="FeatureCollectionLayerQuery.png"/></p>
 
 <h2>How to use the sample</h2>
 
