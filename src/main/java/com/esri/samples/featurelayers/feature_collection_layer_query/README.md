@@ -1,4 +1,4 @@
-<h1>Feature Layer Collection Query</h1>
+<h1>Feature Collection Layer Query</h1>
 
 <p>Create a feature collection layer which shows the result of a SQL query from a service feature table.</p>
 
@@ -7,31 +7,32 @@
 <h2>How to use the sample</h2>
 
 
-<p>Simply run the sample. The result of the SQL query from the service feature table (in this case wildfire response point data) feature collection is then displayed on a map with a feature collection layer.</p>
-
-<p>Input the name of a U.S. state into search bar. When you hit search the application performs a query on the feature table and based on the result either highlights the state geometry or provides an error.</p>
-
-<p>Note: The search is case sensitive.</p>
+<p>Simply run the sample. The result of the SQL query from the hard coded service feature table URL (in this example wildfire response point data hosted by ArcGIS) is then displayed on the map.</p>
 
 <h2>How it works</h2>
 
-<p>To query a <code>Feature</code> from your <code>FeatureLayer</code>:</p>
-
 <ol>
-    <li>Create a <code>ServiceFeatureTable</code> from a URL.</li>
-    <li>Create a feature layer from the service feature table.</li>
-    <li>Create a <code>QueryParameters</code> object and specified the where clause on it with <code>QueryParameters.setWhereClause()</code> from the text entered by the user. </li>
-    <li>Fire the query on the service feature table using <code>ServiceFeatureTable.queryFeaturesAsync(query)</code>.</li>
-    <li>Once complete get the feature's from the <code>FeatureQueryResult</code>.</li>
+    <li>Create a <code>ServiceFeatureTable</code> object from a URL, and store it as a <code>FeatureTable</code> object.</li>
+	<li>Create a <code>QueryParameters</code> object and specify the where clause with <code>QueryParameters.setWhereClause()</code> from the text entered by the user.</li>
+	<li>Query the features stored in the feature table with <code>FeatureTable.queryFeaturesAsync(query).</code></li>
+	<li>Once complete, instantiate a <code>FeatureCollectionTable</code> with the results of the query from the <code>FeatureQueryResult</code>.</li>
+	<li>Create a <code>FeatureCollection</code> object, and add the feature collection table to it.</li>
+	<li>Create a <code>FeatureCollectionLayer</code> from the feature collection.</li>
+	<li>Display the layer on the map by adding it to the map's operational layers with <code>mapView.getMap().getOperationalLayers().add(featureCollectionLayer).</code></li>
 </ol>
 
 <h2>Relevant API</h2>
 
 <ul>
-    <li>ArcGISMap</li>
+	<li>FeatureCollection</li>
+	<li>FeatureCollectionLayer</li>
+	<li>FeatureCollectionTable</li>
     <li>FeatureLayer</li>
+	<li>FeatureTable</li>
     <li>FeatureQueryResult</li>
-    <li>MapView</li>
     <li>QueryParameters</li>
     <li>ServiceFeatureTable</li>
 </ul>
+
+<h2>Tags</h2>
+<p>FeatureQueryResult, FeatureCollection, FeatureCollectionLayer, FeatureCollectionTable, query</p>
