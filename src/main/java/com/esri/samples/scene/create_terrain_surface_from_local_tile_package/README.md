@@ -4,7 +4,7 @@
 
 <p>The terrain surface is what the basemap, operational layers, and graphics are draped on. The tile package must be a LERC (limited error raster compression) encoded TPK. Details on creating these are in the <a href="https://pro.arcgis.com/en/pro-app/help/sharing/overview/tile-package.htm">ArcGIS Pro documentation</a>.</p>
 
-<p><img src="CreateSurfaceTerrainFromLocalTilePackage.png"/></p>
+<p><img src="CreateTerrainSurfaceFromLocalTilePackage.png"/></p>
 
 <h2>How it works</h2>
 <ol>
