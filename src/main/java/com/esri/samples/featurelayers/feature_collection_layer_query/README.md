@@ -8,7 +8,7 @@
 
 <ol>
     <li>Create a <code>ServiceFeatureTable</code> object from a URL, and store it as a <code>FeatureTable</code> object.</li>
-	<li>Create a <code>QueryParameters</code> object and specify the where clause with <code>QueryParameters.setWhereClause()</code> from the text entered by the user.</li>
+	<li>Create a <code>QueryParameters</code> object and specify the where clause with <code>QueryParameters.setWhereClause()</code>.</li>
 	<li>Query the features stored in the feature table with <code>FeatureTable.queryFeaturesAsync(query).</code></li>
 	<li>Once complete, instantiate a <code>FeatureCollectionTable</code> with the results of the query from the <code>FeatureQueryResult</code> object.</li>
 	<li>Create a <code>FeatureCollection</code> object, and add the feature collection table to it.</li>
