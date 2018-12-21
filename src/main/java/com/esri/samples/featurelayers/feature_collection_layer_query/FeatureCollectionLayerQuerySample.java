@@ -55,7 +55,7 @@ public class FeatureCollectionLayerQuerySample extends Application {
       ArcGISMap map = new ArcGISMap();
       map.setBasemap(Basemap.createTopographic());
 
-      // create a view for the ArcGISMap and set the ArcGISMap to it
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -91,7 +91,7 @@ public class FeatureCollectionLayerQuerySample extends Application {
       });
 
       // add the map view to the stack pane
-      stackPane.getChildren().addAll(mapView);
+      stackPane.getChildren().add(mapView);
 
     } catch (Exception e) {
       // on any error, display the stack trace

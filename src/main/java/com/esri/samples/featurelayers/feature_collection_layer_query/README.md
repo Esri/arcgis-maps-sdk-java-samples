@@ -4,11 +4,6 @@
 
 <p><img src="FeatureCollectionLayerQuery.png"/></p>
 
-<h2>How to use the sample</h2>
-
-
-<p>Simply run the sample. The result of the SQL query from the hard coded service feature table URL (in this example, wildfire response point data hosted by ArcGIS) is then displayed on the map.</p>
-
 <h2>How it works</h2>
 
 <ol>
