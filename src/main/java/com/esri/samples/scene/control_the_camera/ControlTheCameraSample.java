@@ -17,7 +17,10 @@
 package com.esri.samples.scene.control_the_camera;
 
 import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Surface;
+import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -50,7 +53,19 @@ public class ControlTheCameraSample extends Application {
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
 
-      
+      // add base surface for elevation data
+      Surface surface = new Surface();
+      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
+              ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
+      surface.getElevationSources().add(elevationSource);
+      scene.setBaseSurface(surface);
+
+      // add a camera
+
+      Camera camera = new Camera(64.416919, -14.483728, 100, 318, 105, 0);
+      sceneView.setViewpointCamera(camera);
+
+
 
 
       // add scene view to the stack pane
