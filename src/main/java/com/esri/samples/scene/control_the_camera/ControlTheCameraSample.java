@@ -140,7 +140,7 @@ public class ControlTheCameraSample extends Application {
       sceneView.setCameraController(orbitCameraController);
 
       // slider for controlling heading direction
-      Slider headingSlider = new Slider(0, 360, 1);
+      Slider headingSlider = new Slider(-180, 180, 1);
       headingSlider.setValue(120);
       headingSlider.setShowTickMarks(true);
       headingSlider.setMajorTickUnit(20);
@@ -150,7 +150,7 @@ public class ControlTheCameraSample extends Application {
         orbitCameraController.setCameraHeadingOffset(headingSlider.getValue());
       });
 
-      Slider pitchSlider = new Slider(-180, 180, 1);
+      Slider pitchSlider = new Slider(0, 180, 1);
       pitchSlider.setValue(85);
       pitchSlider.setOrientation(Orientation.VERTICAL);
       pitchSlider.setPrefHeight(100);
@@ -196,22 +196,14 @@ public class ControlTheCameraSample extends Application {
       Label setHeadingLabel = new Label("Camera Heading");
       Label setPitchLabel = new Label("Camera Pitch");
       Label setDistanceLabel = new Label("Distance from Camera");
-
-
-
-
+      
       sceneView.addViewpointChangedListener(event -> {
 
-        Double headingFromCamera = orbitCameraController.getCameraHeadingOffset();
-        Double pitchFromCamera = orbitCameraController.getCameraPitchOffset();
-        Double distanceFromCamera = orbitCameraController.getCameraDistance();
-
-        headingSlider.setValue(headingFromCamera);
-        pitchSlider.setValue(pitchFromCamera);
-        distanceSlider.setValue(distanceFromCamera);
+        headingSlider.setValue(orbitCameraController.getCameraHeadingOffset());
+        pitchSlider.setValue(orbitCameraController.getCameraPitchOffset());
+        distanceSlider.setValue(orbitCameraController.getCameraDistance());
 
       });
-
 
       controlsVBox.getChildren().addAll(activateCameraButton, label, setHeadingLabel, headingSlider, setPitchLabel, pitchSlider, setDistanceLabel, distanceSlider, activateGlobalViewButton);
 
