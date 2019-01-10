@@ -150,10 +150,11 @@ public class ControlTheCameraSample extends Application {
         orbitCameraController.setCameraHeadingOffset(headingSlider.getValue());
       });
 
-      Slider pitchSlider = new Slider(0, 180, 1);
+      Slider pitchSlider = new Slider(-180, 180, 1);
       pitchSlider.setValue(85);
       pitchSlider.setOrientation(Orientation.VERTICAL);
-      pitchSlider.setPrefHeight(5000);
+      pitchSlider.setPrefHeight(100);
+      pitchSlider.setPadding(new Insets(0, 75, 0, 75));
 
       pitchSlider.valueProperty().addListener( o -> {
         orbitCameraController.setCameraPitchOffset(pitchSlider.getValue());
@@ -178,7 +179,6 @@ public class ControlTheCameraSample extends Application {
         pitchSlider.setVisible(true);
       });
 
-
       activateGlobalViewButton.setOnAction(event -> {
         // create a globe camera controller to allow panning of the view across the scene
         sceneView.setCameraController(globeCameraController);
@@ -190,34 +190,42 @@ public class ControlTheCameraSample extends Application {
         label.setText("Active Camera: Free view");
         headingSlider.setVisible(false);
         pitchSlider.setVisible(false);
+
+      });
+
+      Label setHeadingLabel = new Label("Camera Heading");
+      Label setPitchLabel = new Label("Camera Pitch");
+      Label setDistanceLabel = new Label("Distance from Camera");
+
+
+
+
+      sceneView.addViewpointChangedListener(event -> {
+
+        Double headingFromCamera = orbitCameraController.getCameraHeadingOffset();
+        Double pitchFromCamera = orbitCameraController.getCameraPitchOffset();
+        Double distanceFromCamera = orbitCameraController.getCameraDistance();
+
+        headingSlider.setValue(headingFromCamera);
+        pitchSlider.setValue(pitchFromCamera);
+        distanceSlider.setValue(distanceFromCamera);
+
       });
 
 
-      controlsVBox.getChildren().addAll(activateCameraButton, label, headingSlider, pitchSlider, distanceSlider, activateGlobalViewButton);
+      controlsVBox.getChildren().addAll(activateCameraButton, label, setHeadingLabel, headingSlider, setPitchLabel, pitchSlider, setDistanceLabel, distanceSlider, activateGlobalViewButton);
 
       // add scene view to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
       StackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 0));
 
-
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
     }
-
-
   }
 
-  private Camera slowPan(Viewpoint viewpoint) {
-
-    Camera slowCamera = sceneView.getCurrentViewpointCamera();
-
-
-
-    return slowCamera;
-
-  }
 
   /**
    * Stops and releases all resources used in application.
@@ -239,5 +247,4 @@ public class ControlTheCameraSample extends Application {
 
     Application.launch(args);
   }
-
 }
