@@ -11,18 +11,18 @@
 <ol>
     <li>Create a <code>ArcGISScene</code>.</li>
     <li>Set preferred rendering mode to scene, <code>sceneBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)</code>.
-      <ol>
+      <ul>
         <li>Can set preferred rendering mode for <code>Points</code>, <code>Polylines</code>, or <code>Polygons</code>.</li>
         <li><code>Multipoint</code> preferred rendering mode is the same as point.</li>
-      </ol>
+      </ul>
     </li>
     <li>Set scene to <code>SceneView</code>, <code>sceneViewBottom.setArcGISScene(sceneBottom)</code>.</li>
     <li>Create a <code>ServiceFeatureTable</code> from a point service, <code>new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");</code>.</li>
     <li>Create <code>FeatureLayer</code> from table, <code>new FeatureLayer(poinServiceFeatureTable)</code>.</li>
     <li>Add layer to scene, <code>sceneBottom.getOperationalLayers().add(pointFeatureLayer.copy())</code>
-      <ol>
+      <ul>
         <li>Now the point layer will be rendered dynamically to scene view.</li>
-      </ol>
+      </ul>
     </li>
 </ol>
 
