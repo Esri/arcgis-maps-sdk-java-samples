@@ -32,6 +32,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -50,30 +51,18 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-public class ControlTheCameraController extends Application {
+public class ControlTheCameraController {
 
-  private OrbitGeoElementCameraController orbitCameraController;
-  private SceneView sceneView;
+  @FXML private OrbitGeoElementCameraController orbitCameraController;
+  @FXML private SceneView sceneView;
 
-  @Override
-  public void start(Stage stage) {
+  public void initialize() {
 
     try {
-      // create stack pane and JavaFX app scene
-      StackPane stackPane = new StackPane();
-      Scene fxScene = new Scene(stackPane);
-
-      // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Control the camera");
-      stage.setWidth(800);
-      stage.setHeight(700);
-      stage.setScene(fxScene);
-      stage.show();
 
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene();
       scene.setBasemap(Basemap.createImagery());
-      fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
 
@@ -209,37 +198,27 @@ public class ControlTheCameraController extends Application {
       buttonsVBox.getChildren().addAll(cameraModeLabel, fixCameraToPlaneButton, freeCameraModeButton);
 
       // add scene view to the stack pane
-      stackPane.getChildren().addAll(sceneView, controlsVBox, buttonsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.BOTTOM_RIGHT);
-      StackPane.setAlignment(buttonsVBox, Pos.BOTTOM_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(0, 10, 30, 0));
-      StackPane.setMargin(buttonsVBox, new Insets(0, 0, 30, 10));
+//      stackPane.getChildren().addAll(sceneView, controlsVBox, buttonsVBox);
+//      StackPane.setAlignment(controlsVBox, Pos.BOTTOM_RIGHT);
+//      StackPane.setAlignment(buttonsVBox, Pos.BOTTOM_LEFT);
+//      StackPane.setMargin(controlsVBox, new Insets(0, 10, 30, 0));
+//      StackPane.setMargin(buttonsVBox, new Insets(0, 0, 30, 10));
 
     } catch (Exception e) {
-      // on any error, display the stack trace.
+      // on any exception, print the stack trace
       e.printStackTrace();
     }
   }
-
+//  }
 
   /**
-   * Stops and releases all resources used in application.
+   * Disposes of application resources.
    */
-  @Override
-  public void stop() {
+  void terminate() {
+
     // release resources when the application closes
     if (sceneView != null) {
       sceneView.dispose();
     }
-  }
-
-  /**
-   * Opens and runs application.
-   *
-   * @param args arguments passed to this application
-   */
-  public static void main(String[] args) {
-
-    Application.launch(args);
   }
 }

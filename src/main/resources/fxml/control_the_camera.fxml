@@ -23,5 +23,31 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import com.esri.arcgisruntime.mapping.view.SceneView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.paint.Color?>
+<StackPane fx:controller="com.esri.samples.scene.control_the_camera.ControlTheCameraController"
+           xmlns:fx="http://javafx.com/fxml"
+           stylesheets="/css/style.css">
+    <SceneView fx:id="sceneView"/>
+    <VBox StackPane.alignment="BOTTOM_RIGHT" maxWidth="180" maxHeight="100" styleClass="panel-region"
+          spacing="6">
+        <padding>
+            <Insets topRightBottomLeft="10" />
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+    </VBox>
+</StackPane>
+
 
 
