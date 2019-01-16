@@ -17,14 +17,12 @@
 package com.esri.samples.scene.control_the_camera;
 
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
 
-import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.GlobeCameraController;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -52,15 +50,10 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-public class ControlTheCameraSample extends Application {
+public class ControlTheCameraController extends Application {
 
   private OrbitGeoElementCameraController orbitCameraController;
-  private GlobeCameraController globeCameraController;
   private SceneView sceneView;
-  private Graphic plane3D;
-  private static final SpatialReference WGS84 = SpatialReferences.getWgs84();
-  private Camera camera;
-
 
   @Override
   public void start(Stage stage) {
@@ -83,9 +76,6 @@ public class ControlTheCameraSample extends Application {
       fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
-
-      // create a new globe camera controller
-      globeCameraController = new GlobeCameraController();
 
       // add base surface for elevation data
       Surface surface = new Surface();
@@ -132,7 +122,7 @@ public class ControlTheCameraSample extends Application {
       ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
       plane3DSymbol.loadAsync();
       plane3DSymbol.setHeading(45);
-      plane3D = new Graphic(new Point(6.637, 45.399, 1955, WGS84), plane3DSymbol);
+      Graphic plane3D = new Graphic(new Point(6.637, 45.399, 1955, SpatialReferences.getWgs84()), plane3DSymbol);
       sceneGraphicsOverlay.getGraphics().add(plane3D);
 
       // instantiate a new camera controller which orbits a given geo element at a certain distance
@@ -196,7 +186,7 @@ public class ControlTheCameraSample extends Application {
 
       freeCameraModeButton.setOnAction(event -> {
         // create a globe camera controller to allow panning of the view across the scene
-        sceneView.setCameraController(globeCameraController);
+        sceneView.setCameraController(new GlobeCameraController());
         // set the viewpoint to the current camera
         sceneView.setViewpointCamera(sceneView.getCurrentViewpointCamera());
         freeCameraModeButton.setDisable(true);
