@@ -16,43 +16,12 @@
 
 package com.esri.samples.scene.control_the_camera;
 
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Surface;
-
-import com.esri.arcgisruntime.mapping.view.Camera;
-import com.esri.arcgisruntime.mapping.view.GlobeCameraController;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
-import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
-import com.esri.arcgisruntime.mapping.view.SceneView;
-import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 
 public class ControlTheCameraSample extends Application {

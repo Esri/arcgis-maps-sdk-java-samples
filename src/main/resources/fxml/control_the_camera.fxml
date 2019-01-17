@@ -30,23 +30,23 @@
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <SceneView fx:id="sceneView"/>
-    <VBox StackPane.alignment="BOTTOM_RIGHT" maxWidth="180" maxHeight="100" styleClass="panel-region"
-          spacing="6">
-        <padding>
-            <Insets topRightBottomLeft="10" />
-        </padding>
-        <background>
-            <Background>
-                <fills>
-                    <BackgroundFill>
-                        <fill>
-                            <Color opacity="0.3"/>
-                        </fill>
-                    </BackgroundFill>
-                </fills>
-            </Background>
-        </background>
-    </VBox>
+    <!--<VBox StackPane.alignment="BOTTOM_RIGHT" maxWidth="180" maxHeight="100" styleClass="panel-region"-->
+          <!--spacing="6">-->
+        <!--<padding>-->
+            <!--<Insets topRightBottomLeft="10" />-->
+        <!--</padding>-->
+        <!--<background>-->
+            <!--<Background>-->
+                <!--<fills>-->
+                    <!--<BackgroundFill>-->
+                        <!--<fill>-->
+                            <!--<Color opacity="0.3"/>-->
+                        <!--</fill>-->
+                    <!--</BackgroundFill>-->
+                <!--</fills>-->
+            <!--</Background>-->
+        <!--</background>-->
+    <!--</VBox>-->
 </StackPane>
 
 

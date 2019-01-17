@@ -31,23 +31,19 @@ import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.io.File;
 
@@ -63,7 +59,6 @@ public class ControlTheCameraController {
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene();
       scene.setBasemap(Basemap.createImagery());
-      sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
 
       // add base surface for elevation data
