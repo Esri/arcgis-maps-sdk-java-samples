@@ -22,7 +22,6 @@ import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
-
 import com.esri.arcgisruntime.mapping.view.GlobeCameraController;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -32,25 +31,32 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.TextAlignment;
+
 
 import java.io.File;
 
 public class ControlTheCameraController {
 
-  @FXML private OrbitGeoElementCameraController orbitCameraController;
-  @FXML private SceneView sceneView;
+  @FXML
+  private OrbitGeoElementCameraController orbitCameraController;
+  @FXML
+  private SceneView sceneView;
+  @FXML
+  private Slider headingSlider;
+  @FXML
+  private Slider pitchSlider;
+  @FXML
+  private Slider distanceSlider;
+  @FXML
+  private Label cameraModeLabel;
+  @FXML
+  private Button fixCameraToPlaneButton;
+  @FXML
+  private Button freeCameraModeButton;
 
   public void initialize() {
 
@@ -72,34 +78,6 @@ public class ControlTheCameraController {
       GraphicsOverlay sceneGraphicsOverlay = new GraphicsOverlay();
       sceneGraphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(sceneGraphicsOverlay);
-
-      // create a control panel for camera controls
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-              CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 250);
-      controlsVBox.getStyleClass().add("panel-region");
-
-      // create a control panel for camera type toggling
-      VBox buttonsVBox = new VBox(10);
-      buttonsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-              CornerRadii.EMPTY, Insets.EMPTY)));
-      buttonsVBox.setPadding(new Insets(10.0));
-      buttonsVBox.setMaxSize(180, 100);
-      buttonsVBox.getStyleClass().add("panel-region");
-
-      // label for displaying current active camera
-      Label cameraModeLabel = new Label("Active Camera: Fixed view");
-      cameraModeLabel.setTextAlignment(TextAlignment.CENTER);
-      cameraModeLabel.setPadding(new Insets(0, 0, 0, 10));
-      // set up labels for camera controls
-      Label cameraHeadingLabel = new Label("Camera Heading");
-      cameraHeadingLabel.setPadding(new Insets(0, 0, 0, 37));
-      Label cameraPitchLabel = new Label("Camera Pitch");
-      cameraPitchLabel.setPadding(new Insets(0, 0, 0, 42));
-      Label cameraDistanceLabel = new Label("Distance from Camera (m)");
-      cameraDistanceLabel.setPadding(new Insets(0, 0, 0, 15));
 
       // create a graphic with a ModelSceneSymbol of a plane to add to the scene
       String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
@@ -123,39 +101,17 @@ public class ControlTheCameraController {
       sceneView.setCameraController(orbitCameraController);
 
       // slider for controlling camera heading direction
-      Slider headingSlider = new Slider(-180, 180, 1);
-      headingSlider.setValue(120);
-      headingSlider.setShowTickMarks(true);
-      headingSlider.setMajorTickUnit(60);
-      headingSlider.setShowTickLabels(true);
-      headingSlider.valueProperty().addListener( o -> { orbitCameraController.setCameraHeadingOffset(headingSlider.getValue());});
+      headingSlider.valueProperty().addListener(o -> {
+        orbitCameraController.setCameraHeadingOffset(headingSlider.getValue());
+      });
 
-      // slider for controlling camera pitch direction
-      Slider pitchSlider = new Slider(0, 180, 1);
-      pitchSlider.setValue(85);
-      pitchSlider.setShowTickMarks(true);
-      pitchSlider.setShowTickLabels(true);
-      pitchSlider.setOrientation(Orientation.VERTICAL);
-      pitchSlider.setPrefHeight(100);
-      pitchSlider.setMajorTickUnit(60);
-      pitchSlider.setPadding(new Insets(0, 75, 0, 75));
-      pitchSlider.valueProperty().addListener( o -> { orbitCameraController.setCameraPitchOffset(pitchSlider.getValue()); });
+      pitchSlider.valueProperty().addListener(o -> {
+        orbitCameraController.setCameraPitchOffset(pitchSlider.getValue());
+      });
 
-      // slider for controlling camera distance
-      Slider distanceSlider = new Slider(10, 500, 1);
-      distanceSlider.setValue(orbitCameraController.getCameraDistance());
-      distanceSlider.setShowTickMarks(true);
-      distanceSlider.setMajorTickUnit(250);
-      distanceSlider.setShowTickLabels(true);
-      distanceSlider.valueProperty().addListener(o -> { orbitCameraController.setCameraDistance(distanceSlider.getValue()); });
-
-      // button for fixing camera to the aeroplane model
-      Button fixCameraToPlaneButton = new Button("Fix camera to plane");
-      fixCameraToPlaneButton.setMaxWidth(Double.MAX_VALUE);
-      fixCameraToPlaneButton.setDisable(true);
-      // button for free camera
-      Button freeCameraModeButton = new Button ("Free Camera Mode");
-      freeCameraModeButton.setMaxWidth(Double.MAX_VALUE);
+      distanceSlider.valueProperty().addListener(o -> {
+        orbitCameraController.setCameraDistance(distanceSlider.getValue());
+      });
 
       fixCameraToPlaneButton.setOnAction(event -> {
         // create an orbit camera controller to restrict the view to the graphic
@@ -187,17 +143,6 @@ public class ControlTheCameraController {
         pitchSlider.setValue(orbitCameraController.getCameraPitchOffset());
         distanceSlider.setValue(orbitCameraController.getCameraDistance());
       });
-
-      // add labels, sliders and buttons to appropriate VBox
-      controlsVBox.getChildren().addAll(cameraHeadingLabel, headingSlider, cameraPitchLabel, pitchSlider, cameraDistanceLabel, distanceSlider);
-      buttonsVBox.getChildren().addAll(cameraModeLabel, fixCameraToPlaneButton, freeCameraModeButton);
-
-      // add scene view to the stack pane
-//      stackPane.getChildren().addAll(sceneView, controlsVBox, buttonsVBox);
-//      StackPane.setAlignment(controlsVBox, Pos.BOTTOM_RIGHT);
-//      StackPane.setAlignment(buttonsVBox, Pos.BOTTOM_LEFT);
-//      StackPane.setMargin(controlsVBox, new Insets(0, 10, 30, 0));
-//      StackPane.setMargin(buttonsVBox, new Insets(0, 0, 30, 10));
 
     } catch (Exception e) {
       // on any exception, print the stack trace

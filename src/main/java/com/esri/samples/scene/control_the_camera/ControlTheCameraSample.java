@@ -47,12 +47,13 @@ public class ControlTheCameraSample extends Application {
   }
 
 
-
   /**
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() {controller.terminate();  }
+  public void stop() {
+    controller.terminate();
+  }
 
   /**
    * Opens and runs application.

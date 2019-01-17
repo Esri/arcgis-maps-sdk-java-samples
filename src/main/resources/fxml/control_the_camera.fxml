@@ -16,37 +16,72 @@
   ~ the License.
   -->
 
-
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import com.esri.arcgisruntime.mapping.view.SceneView?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.paint.Color?>
+
+<?import com.esri.arcgisruntime.mapping.view.SceneView?>
+
+<?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.scene.control_the_camera.ControlTheCameraController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
+
     <SceneView fx:id="sceneView"/>
-    <!--<VBox StackPane.alignment="BOTTOM_RIGHT" maxWidth="180" maxHeight="100" styleClass="panel-region"-->
-          <!--spacing="6">-->
-        <!--<padding>-->
-            <!--<Insets topRightBottomLeft="10" />-->
-        <!--</padding>-->
-        <!--<background>-->
-            <!--<Background>-->
-                <!--<fills>-->
-                    <!--<BackgroundFill>-->
-                        <!--<fill>-->
-                            <!--<Color opacity="0.3"/>-->
-                        <!--</fill>-->
-                    <!--</BackgroundFill>-->
-                <!--</fills>-->
-            <!--</Background>-->
-        <!--</background>-->
-    <!--</VBox>-->
+
+    <VBox StackPane.alignment="BOTTOM_RIGHT" maxWidth="180" maxHeight="250" styleClass="panel-region"
+          spacing="6">
+        <StackPane.margin>
+            <Insets right="10" bottom="30"/>
+        </StackPane.margin>
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+        <Label text="Camera Heading" maxWidth="Infinity" alignment="CENTER" underline="true"/>
+        <Slider fx:id="headingSlider" min="-180" max="180" value="120" majorTickUnit="60" showTickMarks="true"
+                showTickLabels="true"/>
+        <Label text="Camera Pitch" maxWidth="Infinity" alignment="CENTER" underline="true"/>
+        <Slider fx:id="pitchSlider" max="180" value="85" majorTickUnit="60" showTickMarks="true"
+                showTickLabels="true" orientation="VERTICAL" prefHeight="100" maxWidth="Infinity"/>
+        <Label text="Distance from Camera (m)" maxWidth="Infinity" alignment="CENTER" underline="true"/>
+        <Slider fx:id="distanceSlider" max="500" value="100" majorTickUnit="250" showTickMarks="true"
+                showTickLabels="true"/>
+    </VBox>
+    <VBox StackPane.alignment="BOTTOM_LEFT" maxWidth="180" maxHeight="100" styleClass="panel-region"
+          spacing="6">
+        <StackPane.margin>
+            <Insets bottom="30" left="10">
+            </Insets>
+        </StackPane.margin>
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+        <Label fx:id="cameraModeLabel" text="Active Camera: Fixed View" maxWidth="Infinity" alignment="CENTER"/>
+        <Button fx:id="fixCameraToPlaneButton" text="Fix camera to plane" maxWidth="Infinity" disable="true"/>
+        <Button fx:id="freeCameraModeButton" text="Free camera mode" maxWidth="Infinity"/>
+    </VBox>
 </StackPane>
 
 
