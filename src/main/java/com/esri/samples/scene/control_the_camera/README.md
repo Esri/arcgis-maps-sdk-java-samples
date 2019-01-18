@@ -6,6 +6,7 @@
 
 <h2>Use case</h2>
 
+The available scene view camera controllers allow for either free panning or orbiting an object. Free panning is useful for exploring the scene unhindered, however, there may be times when orbiting the camera is useful. For example, orbiting the camera round an object (e.g. a cable car at the top of a mountain range, a point on the scene, or a moving object) would allow not only for 3D viewing of that object from all angles, but also an accurate representation of the scene surrounding that e.g. terrain, aerial photography and any associated data. Orbit camera "pins" the camera to that object's location, ensuring the object of interest is never lost when navigating the map.
 
 <h2>How to use the sample</h2>
 
@@ -34,5 +35,9 @@
   <li>OrbitGeoElementCameraController</li>
   <li>SceneView</li>
 </ul>
+
+<h2>Tags</h2>
+
+OrbitGeoElementCameraController, GlobeCameraController, Camera, SceneView, 3D
 
 
