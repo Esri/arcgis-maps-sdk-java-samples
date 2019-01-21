@@ -101,7 +101,8 @@ public class ChooseCameraControllerSample extends Application {
       // create a graphic with a SimpleMarkerSceneSymbol to add to the scene
       SimpleMarkerSceneSymbol symbol = new SimpleMarkerSceneSymbol(SimpleMarkerSceneSymbol.Style.DIAMOND, 0xFFEFA70D, 50, 50, 50,
               SceneSymbol.AnchorPosition.CENTER);
-      Graphic floatingSymbol = new Graphic(new Point(-116.851151, 37.563910, SpatialReferences.getWgs84()), symbol);
+      Graphic floatingSymbol = new Graphic(new Point(-116.851151, 37.563910, 1635, SpatialReferences.getWgs84()), symbol);
+      sceneGraphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneGraphicsOverlay.getGraphics().add(floatingSymbol);
 
       // instantiate a new camera controller which orbits the graphic at a certain distance
