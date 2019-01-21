@@ -51,12 +51,6 @@ public class OrbitCameraControllerController {
   private Slider pitchSlider;
   @FXML
   private Slider distanceSlider;
-  @FXML
-  private Label cameraModeLabel;
-  @FXML
-  private Button fixCameraToPlaneButton;
-  @FXML
-  private Button freeCameraModeButton;
 
   public void initialize() {
 
@@ -111,30 +105,6 @@ public class OrbitCameraControllerController {
 
       distanceSlider.valueProperty().addListener(o -> {
         orbitCameraController.setCameraDistance(distanceSlider.getValue());
-      });
-
-      fixCameraToPlaneButton.setOnAction(event -> {
-        // create an orbit camera controller to restrict the view to the graphic
-        sceneView.setCameraController(orbitCameraController);
-        fixCameraToPlaneButton.setDisable(true);
-        freeCameraModeButton.setDisable(false);
-        cameraModeLabel.setText("Active Camera: Fixed view");
-        headingSlider.setDisable(false);
-        pitchSlider.setDisable(false);
-        distanceSlider.setDisable(false);
-      });
-
-      freeCameraModeButton.setOnAction(event -> {
-        // create a globe camera controller to allow panning of the view across the scene
-        sceneView.setCameraController(new GlobeCameraController());
-        // set the viewpoint to the current camera
-        sceneView.setViewpointCamera(sceneView.getCurrentViewpointCamera());
-        freeCameraModeButton.setDisable(true);
-        fixCameraToPlaneButton.setDisable(false);
-        cameraModeLabel.setText("Active Camera: Free view");
-        headingSlider.setDisable(true);
-        pitchSlider.setDisable(true);
-        distanceSlider.setDisable(true);
       });
 
       // update slider positions whilst interacting with the camera

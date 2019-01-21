@@ -78,9 +78,6 @@
                 </fills>
             </Background>
         </background>
-        <Label fx:id="cameraModeLabel" text="Active Camera: Fixed View" maxWidth="Infinity" alignment="CENTER"/>
-        <Button fx:id="fixCameraToPlaneButton" text="Fix camera to plane" maxWidth="Infinity" disable="true"/>
-        <Button fx:id="freeCameraModeButton" text="Free camera mode" maxWidth="Infinity"/>
     </VBox>
 </StackPane>
 
