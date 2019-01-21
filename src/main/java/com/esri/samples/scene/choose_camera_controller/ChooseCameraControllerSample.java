@@ -30,6 +30,9 @@ import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 
+import com.esri.arcgisruntime.symbology.SceneSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 
@@ -95,31 +98,41 @@ public class ChooseCameraControllerSample extends Application {
       sceneGraphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(sceneGraphicsOverlay);
 
-      // create a graphic with a ModelSceneSymbol of a plane to add to the scene
-      String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
-      ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
-      plane3DSymbol.loadAsync();
-      plane3DSymbol.setHeading(45);
-      Graphic plane3D = new Graphic(new Point(6.637, 45.399, 1955, SpatialReferences.getWgs84()), plane3DSymbol);
-      sceneGraphicsOverlay.getGraphics().add(plane3D);
+      // create a graphic with a SimpleMarkerSceneSymbol to add to the scene
+      SimpleMarkerSceneSymbol symbol = new SimpleMarkerSceneSymbol(SimpleMarkerSceneSymbol.Style.DIAMOND, 0xFFEFA70D, 50, 50, 50,
+              SceneSymbol.AnchorPosition.CENTER);
+      Graphic floatingSymbol = new Graphic(new Point(-116.851151, 37.563834, 1670, SpatialReferences.getWgs84()), symbol);
+      sceneGraphicsOverlay.getGraphics().add(floatingSymbol);
 
-      // instantiate a new camera controller which orbits a given geo element at a certain distance
-      orbitCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
+      // instantiate a new camera controller which orbits the graphic at a certain distance
+      orbitCameraController = new OrbitGeoElementCameraController(floatingSymbol, 500.0);
       orbitCameraController.setCameraPitchOffset(85);
       orbitCameraController.setCameraHeadingOffset(120);
-
       // set the orbit camera controller to the scene view
       sceneView.setCameraController(orbitCameraController);
 
+      // instantiate a new label to display what camera controller is active
       Label cameraModeLabel = new Label("Orbit Camera is active");
       cameraModeLabel.setPadding(new Insets(0, 0, 130, 0));
 
+      // instantiate control buttons to choose what camera controller is active
       Button orbitCameraControllerButton = new Button("Orbit Camera Controller");
       orbitCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
       orbitCameraControllerButton.setDisable(true);
       Button globeCameraControllerButton = new Button ("Globe Camera Controller");
       globeCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
 
+      // instantiate a control panel
+      VBox controlsVBox = new VBox();
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
+              CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(260, 75);
+      controlsVBox.getStyleClass().add("panel-region");
+      // add buttons to the control panel
+      controlsVBox.getChildren().addAll(orbitCameraControllerButton, globeCameraControllerButton);
+
+      // set the camera to OrbitGeoElementCameraController
       orbitCameraControllerButton.setOnAction(event -> {
         sceneView.setCameraController(orbitCameraController);
         orbitCameraControllerButton.setDisable(true);
@@ -127,6 +140,7 @@ public class ChooseCameraControllerSample extends Application {
         cameraModeLabel.setText("Orbit Camera is active");
       });
 
+      // set the camera to GlobeCameraController
       globeCameraControllerButton.setOnAction(event -> {
         sceneView.setCameraController(new GlobeCameraController());
         globeCameraControllerButton.setDisable(true);
@@ -134,14 +148,7 @@ public class ChooseCameraControllerSample extends Application {
         cameraModeLabel.setText("Globe Camera is active");
       });
 
-      VBox controlsVBox = new VBox();
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-              CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(260, 75);
-      controlsVBox.getStyleClass().add("panel-region");
-      controlsVBox.getChildren().addAll(orbitCameraControllerButton, globeCameraControllerButton);
-
+      // add scene view, label and control panel to the stack pane
       stackPane.getChildren().addAll(sceneView, cameraModeLabel, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.BOTTOM_CENTER);
       StackPane.setAlignment(cameraModeLabel, Pos.BOTTOM_CENTER);
