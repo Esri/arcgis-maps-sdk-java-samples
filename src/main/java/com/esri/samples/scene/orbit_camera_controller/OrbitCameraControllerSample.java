@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.control_the_camera;
+package com.esri.samples.scene.orbit_camera_controller;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,16 +24,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ControlTheCameraSample extends Application {
+public class OrbitCameraControllerSample extends Application {
 
-  private static ControlTheCameraController controller;
+  private static OrbitCameraControllerController controller;
 
 
   @Override
   public void start(Stage stage) throws IOException {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/control_the_camera.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/orbit_camera_controller.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

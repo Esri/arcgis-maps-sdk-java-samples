@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.control_the_camera;
+package com.esri.samples.scene.orbit_camera_controller;
 
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -39,7 +39,7 @@ import javafx.scene.control.Slider;
 
 import java.io.File;
 
-public class ControlTheCameraController {
+public class OrbitCameraControllerController {
 
   @FXML
   private OrbitGeoElementCameraController orbitCameraController;
