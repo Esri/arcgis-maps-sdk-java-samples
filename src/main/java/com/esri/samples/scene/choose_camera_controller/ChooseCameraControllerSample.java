@@ -48,6 +48,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
@@ -95,25 +96,25 @@ public class ChooseCameraControllerSample extends Application {
 
       // create a graphics overlay for the scene
       GraphicsOverlay sceneGraphicsOverlay = new GraphicsOverlay();
-      sceneGraphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(sceneGraphicsOverlay);
 
       // create a graphic with a SimpleMarkerSceneSymbol to add to the scene
       SimpleMarkerSceneSymbol symbol = new SimpleMarkerSceneSymbol(SimpleMarkerSceneSymbol.Style.DIAMOND, 0xFFEFA70D, 50, 50, 50,
               SceneSymbol.AnchorPosition.CENTER);
-      Graphic floatingSymbol = new Graphic(new Point(-116.851151, 37.563834, 1670, SpatialReferences.getWgs84()), symbol);
+      Graphic floatingSymbol = new Graphic(new Point(-116.851151, 37.563910, SpatialReferences.getWgs84()), symbol);
       sceneGraphicsOverlay.getGraphics().add(floatingSymbol);
 
       // instantiate a new camera controller which orbits the graphic at a certain distance
       orbitCameraController = new OrbitGeoElementCameraController(floatingSymbol, 500.0);
-      orbitCameraController.setCameraPitchOffset(85);
-      orbitCameraController.setCameraHeadingOffset(120);
-      // set the orbit camera controller to the scene view
+      // set the orbit camera controller to the sceneview upon loading the application
+      orbitCameraController.setCameraPitchOffset(65);
       sceneView.setCameraController(orbitCameraController);
 
       // instantiate a new label to display what camera controller is active
-      Label cameraModeLabel = new Label("Orbit Camera is active");
-      cameraModeLabel.setPadding(new Insets(0, 0, 130, 0));
+      Label cameraModeLabel = new Label("ORBIT camera controller is active");
+      cameraModeLabel.setPadding(new Insets(0, 0, 10, 0));
+      cameraModeLabel.setMaxWidth(Double.MAX_VALUE);
+      cameraModeLabel.setAlignment(Pos.CENTER);
 
       // instantiate control buttons to choose what camera controller is active
       Button orbitCameraControllerButton = new Button("Orbit Camera Controller");
@@ -121,6 +122,22 @@ public class ChooseCameraControllerSample extends Application {
       orbitCameraControllerButton.setDisable(true);
       Button globeCameraControllerButton = new Button ("Globe Camera Controller");
       globeCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
+
+      // set the camera to an OrbitGeoElementCameraController
+      orbitCameraControllerButton.setOnAction(event -> {
+        sceneView.setCameraController(orbitCameraController);
+        orbitCameraControllerButton.setDisable(true);
+        globeCameraControllerButton.setDisable(false);
+        cameraModeLabel.setText("ORBIT camera controller is active");
+      });
+
+      // set the camera to a newly instantiated GlobeCameraController
+      globeCameraControllerButton.setOnAction(event -> {
+        sceneView.setCameraController(new GlobeCameraController());
+        globeCameraControllerButton.setDisable(true);
+        orbitCameraControllerButton.setDisable(false);
+        cameraModeLabel.setText("GLOBE camera controller is active");
+      });
 
       // instantiate a control panel
       VBox controlsVBox = new VBox();
@@ -130,26 +147,10 @@ public class ChooseCameraControllerSample extends Application {
       controlsVBox.setMaxSize(260, 75);
       controlsVBox.getStyleClass().add("panel-region");
       // add buttons to the control panel
-      controlsVBox.getChildren().addAll(orbitCameraControllerButton, globeCameraControllerButton);
-
-      // set the camera to OrbitGeoElementCameraController
-      orbitCameraControllerButton.setOnAction(event -> {
-        sceneView.setCameraController(orbitCameraController);
-        orbitCameraControllerButton.setDisable(true);
-        globeCameraControllerButton.setDisable(false);
-        cameraModeLabel.setText("Orbit Camera is active");
-      });
-
-      // set the camera to GlobeCameraController
-      globeCameraControllerButton.setOnAction(event -> {
-        sceneView.setCameraController(new GlobeCameraController());
-        globeCameraControllerButton.setDisable(true);
-        orbitCameraControllerButton.setDisable(false);
-        cameraModeLabel.setText("Globe Camera is active");
-      });
+      controlsVBox.getChildren().addAll(cameraModeLabel, orbitCameraControllerButton, globeCameraControllerButton);
 
       // add scene view, label and control panel to the stack pane
-      stackPane.getChildren().addAll(sceneView, cameraModeLabel, controlsVBox);
+      stackPane.getChildren().addAll(sceneView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.BOTTOM_CENTER);
       StackPane.setAlignment(cameraModeLabel, Pos.BOTTOM_CENTER);
       StackPane.setMargin(controlsVBox, new Insets(0, 0, 50, 10));
