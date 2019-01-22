@@ -55,7 +55,6 @@
                         <Font size="15"/>
                     </font>
             </Label>
-            <CheckBox fx:id="cameraHeadingCheckbox" text="Allow pan interaction?" selected="true"/>
             <GridPane hgap="10" vgap="10" maxWidth="Infinity" alignment="CENTER">
                 <Label text="Min: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <Spinner fx:id="cameraMinHeadingSpinner" GridPane.rowIndex="0" GridPane.columnIndex="1"
@@ -68,6 +67,53 @@
                     showTickLabels="true" prefWidth="175"/>
         </VBox>
         <Separator orientation="VERTICAL" />
+
+        <VBox alignment="TOP_CENTER" spacing="6">
+            <Label text="Camera Pitch" underline="true">
+                <font>
+                    <Font size="15"/>
+                </font>
+            </Label>
+            <GridPane hgap="10" vgap="10" maxWidth="Infinity" alignment="CENTER">
+                <Label text="Min: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Spinner fx:id="cameraMinPitchSpinner" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                         min="0" max="90" initialValue="0" editable="true" prefWidth="80" />
+                <Label text="Max: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Spinner fx:id="cameraMaxPitchSpinner" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                         min="90" max="180" initialValue="180" editable="true" prefWidth="80"/>
+            </GridPane>
+            <Slider fx:id="pitchSlider" max="180" value="85" majorTickUnit="60" showTickMarks="true" showTickLabels="true" prefHeight="100" maxWidth="Infinity"/>
+        </VBox>
+        <Separator orientation="VERTICAL" />
+
+        <VBox alignment="TOP_CENTER" spacing="6">
+            <Label text="Camera Distance" underline="true">
+                <font>
+                    <Font size="15"/>
+                </font>
+            </Label>
+            <GridPane hgap="10" vgap="10" maxWidth="Infinity" alignment="CENTER">
+                <Label text="Min: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Spinner fx:id="cameraMinDistanceSpinner" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                         min="10" max="500" initialValue="10" editable="true" prefWidth="80" />
+                <Label text="Max: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Spinner fx:id="cameraMaxDistanceSpinner" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                         min="500" max="1000" initialValue="1000" editable="true" prefWidth="80"/>
+            </GridPane>
+            <Slider fx:id="distanceSlider" max="1000" min="10" majorTickUnit="250" showTickMarks="true" showTickLabels="true"/>
+        </VBox>
+        <Separator orientation="VERTICAL" />
+
+        <VBox spacing="6" >
+            <Label text="Interaction Options" underline="true" alignment="CENTER">
+                    <font>
+                        <Font size ="15"/>
+                    </font>
+            </Label>
+            <CheckBox fx:id="cameraHeadingCheckbox" text="Allow pan interaction for heading?" selected="true"/>
+            <CheckBox fx:id="cameraPitchCheckbox" text="Allow pan interaction for pitch?" selected="true"/>
+            <CheckBox fx:id="cameraDistanceCheckbox" text="Allow pan interaction for distance?" selected="true"/>
+        </VBox>
 
     </HBox>
 

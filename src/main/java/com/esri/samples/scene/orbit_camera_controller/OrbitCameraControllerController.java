@@ -55,6 +55,10 @@ public class OrbitCameraControllerController {
   @FXML private CheckBox cameraDistanceCheckbox;
   @FXML private Spinner<Integer> cameraMinHeadingSpinner;
   @FXML private Spinner<Integer> cameraMaxHeadingSpinner;
+  @FXML private Spinner<Integer> cameraMinPitchSpinner;
+  @FXML private Spinner<Integer> cameraMaxPitchSpinner;
+  @FXML private Spinner<Integer> cameraMinDistanceSpinner;
+  @FXML private Spinner<Integer> cameraMaxDistanceSpinner;
 
   public void initialize() {
 
@@ -98,15 +102,15 @@ public class OrbitCameraControllerController {
       cameraHeadingControllerOptions(cameraMinHeadingSpinner, cameraMaxHeadingSpinner, headingSlider);
 
       // set the maximum and minimum camera pitch offset, and choose if it is interactive.
-      cameraPitchControllerOptions(cameraMinHeadingSpinner, cameraMaxHeadingSpinner, headingSlider);
+      cameraPitchControllerOptions(cameraMinPitchSpinner, cameraMaxPitchSpinner, pitchSlider);
 
       // set the maximum and minimum camera distance, and choose if it is interactive.
-      cameraDistanceControllerOptions(cameraMinHeadingSpinner, cameraMaxHeadingSpinner, headingSlider);
+      cameraDistanceControllerOptions(cameraMinDistanceSpinner, cameraMaxDistanceSpinner, distanceSlider);
 
       // INTERACT WITH THE CAMERA OPTIONS: HEADING, PITCH AND DISTANCE
       // -------------------------------------------------------------
       cameraHeadingCheckbox.setOnAction(event -> {
-        orbitCameraController.setCameraDistanceInteractive(cameraHeadingCheckbox.isSelected());
+        orbitCameraController.setCameraHeadingOffsetInteractive(cameraHeadingCheckbox.isSelected());
       });
 
       cameraPitchCheckbox.setOnAction(event -> {
@@ -114,8 +118,10 @@ public class OrbitCameraControllerController {
       });
 
       cameraDistanceCheckbox.setOnAction(event -> {
-        orbitCameraController.setCameraHeadingOffsetInteractive(cameraDistanceCheckbox.isSelected());
+        orbitCameraController.setCameraDistanceInteractive(cameraDistanceCheckbox.isSelected());
       });
+
+
 
 
 
@@ -140,8 +146,8 @@ public class OrbitCameraControllerController {
       // update slider positions whilst interacting with the camera
       sceneView.addViewpointChangedListener(event -> {
         headingSlider.setValue(orbitCameraController.getCameraHeadingOffset());
-//        pitchSlider.setValue(orbitCameraController.getCameraPitchOffset());
-//        distanceSlider.setValue(orbitCameraController.getCameraDistance());
+        pitchSlider.setValue(orbitCameraController.getCameraPitchOffset());
+        distanceSlider.setValue(orbitCameraController.getCameraDistance());
       });
 
 
@@ -175,7 +181,7 @@ public class OrbitCameraControllerController {
     // set the heading of the camera
     orbitCameraController.setCameraHeadingOffset(120);
     // set the min max distance of orbit camera
-    orbitCameraController.setMaxCameraDistance(500);
+    orbitCameraController.setMaxCameraDistance(1000);
     orbitCameraController.setMinCameraDistance(10);
   }
 
@@ -216,6 +222,10 @@ public class OrbitCameraControllerController {
       orbitCameraController.setMinCameraPitchOffset(minSpinner.getValue());
       slider.setMin(minSpinner.getValue());
     });
+
+    slider.valueProperty().addListener(o -> {
+      orbitCameraController.setCameraPitchOffset(slider.getValue());
+    });
   }
 
   /**
@@ -230,8 +240,12 @@ public class OrbitCameraControllerController {
     });
 
     minSpinner.valueProperty().addListener(e -> {
-      orbitCameraController.setMaxCameraDistance(minSpinner.getValue());
+      orbitCameraController.setMinCameraDistance(minSpinner.getValue());
       slider.setMin(minSpinner.getValue());
+    });
+
+    slider.valueProperty().addListener(o -> {
+      orbitCameraController.setCameraDistance(slider.getValue());
     });
   }
 
