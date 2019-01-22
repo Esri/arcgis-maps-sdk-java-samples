@@ -48,7 +48,7 @@ public class OrbitCameraControllerController {
   @FXML private Slider headingSlider;
   @FXML private Slider pitchSlider;
   @FXML private Slider distanceSlider;
-  @FXML private Button asyncButton;
+  @FXML private Button travelAwayButton;
   @FXML private Button returnButton;
   @FXML private CheckBox cameraHeadingCheckbox;
   @FXML private CheckBox cameraPitchCheckbox;
@@ -59,6 +59,10 @@ public class OrbitCameraControllerController {
   @FXML private Spinner<Integer> cameraMaxPitchSpinner;
   @FXML private Spinner<Integer> cameraMinDistanceSpinner;
   @FXML private Spinner<Integer> cameraMaxDistanceSpinner;
+  @FXML private Spinner<Integer> targetXSpinner;
+  @FXML private Spinner<Integer> targetYSpinner;
+  @FXML private Spinner<Integer> targetZSpinner;
+  @FXML private Spinner<Integer> screenFactorSpinner;
 
   public void initialize() {
 
@@ -151,12 +155,11 @@ public class OrbitCameraControllerController {
       });
 
 
-      // these are always relative to the object
-//      asyncButton.setOnAction(event -> {
-//        orbitCameraController.setTargetOffsetsAsync(500, 550, 0, 6).addDoneListener(() -> {
-//          System.out.println("Done moving");
-//        });
-//      });
+//       these are always relative to the object
+      travelAwayButton.setOnAction(event -> {
+        orbitCameraController.setTargetOffsetsAsync(500, 550, 0, 6).addDoneListener(() -> {
+        });
+      });
 //
 //      returnButton.setOnAction(event -> {
 //        orbitCameraController.setTargetOffsetsAsync(0, 0, 0, 6).addDoneListener(() -> {
