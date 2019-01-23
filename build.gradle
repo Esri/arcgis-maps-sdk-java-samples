@@ -63,11 +63,6 @@ run {
     mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
 }
 
-jar {
-    // important to remove duplicates from each JavaFX platform dependency
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
 task wrapper(type: Wrapper) {
     gradleVersion = '4.10.2'
 }
