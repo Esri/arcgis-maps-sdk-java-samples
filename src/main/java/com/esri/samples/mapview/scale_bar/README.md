@@ -27,13 +27,13 @@
 <h2>Relevant API</h2>
 
 <ul>
-<li><code>ArcGISMap</code></li>
+<li>ArcGISMap</li>
 
-<li><code>MapView</code></li>
+<li>MapView</li>
 
-<li><code>Scalebar</code></li>
+<li>Scalebar</li>
 
-<li><code>UnitSystem</code></li>
+<li>UnitSystem</li>
 </ul>
 
 <h2>Tags</h2>
