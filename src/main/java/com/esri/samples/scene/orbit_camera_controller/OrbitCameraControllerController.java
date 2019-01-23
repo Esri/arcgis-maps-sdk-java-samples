@@ -30,6 +30,7 @@ import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
@@ -37,22 +38,31 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 
 
 import java.io.File;
 
 public class OrbitCameraControllerController {
 
-  @FXML private OrbitGeoElementCameraController orbitCameraController;
-  @FXML private SceneView sceneView;
-  @FXML private Slider headingSlider;
-  @FXML private Slider pitchSlider;
-  @FXML private Slider distanceSlider;
   @FXML private Button travelAwayButton;
   @FXML private Button returnButton;
   @FXML private CheckBox cameraHeadingCheckbox;
   @FXML private CheckBox cameraPitchCheckbox;
   @FXML private CheckBox cameraDistanceCheckbox;
+  @FXML private CheckBox planeAutoHeadingCheckbox;
+  @FXML private CheckBox planeAutoPitchCheckbox;
+  @FXML private CheckBox planeAutoRollCheckbox;
+
+  @FXML private OrbitGeoElementCameraController orbitCameraController;
+  @FXML private SceneView sceneView;
+  @FXML private Slider headingSlider;
+  @FXML private Slider pitchSlider;
+  @FXML private Slider distanceSlider;
+  @FXML private Slider planeHeadingSlider;
+  @FXML private Slider planePitchSlider;
+  @FXML private Slider planeRollSlider;
+
   @FXML private Spinner<Integer> cameraMinHeadingSpinner;
   @FXML private Spinner<Integer> cameraMaxHeadingSpinner;
   @FXML private Spinner<Integer> cameraMinPitchSpinner;
@@ -62,7 +72,10 @@ public class OrbitCameraControllerController {
   @FXML private Spinner<Integer> targetXSpinner;
   @FXML private Spinner<Integer> targetYSpinner;
   @FXML private Spinner<Integer> targetZSpinner;
-  @FXML private Spinner<Integer> screenFactorSpinner;
+  @FXML private Spinner<Double> screenFactorSpinner;
+
+
+
 
   public void initialize() {
 
@@ -84,6 +97,13 @@ public class OrbitCameraControllerController {
       GraphicsOverlay sceneGraphicsOverlay = new GraphicsOverlay();
       sceneGraphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(sceneGraphicsOverlay);
+
+      // add rendered using rotation expressions
+      SimpleRenderer renderer = new SimpleRenderer();
+      renderer.getSceneProperties().setHeadingExpression("[HEADING]");
+      renderer.getSceneProperties().setPitchExpression("[PITCH]");
+      renderer.getSceneProperties().setRollExpression("[ROLL]");
+      sceneGraphicsOverlay.setRenderer(renderer);
 
       // create a graphic with a ModelSceneSymbol of a plane to add to the scene
       String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
@@ -125,28 +145,6 @@ public class OrbitCameraControllerController {
         orbitCameraController.setCameraDistanceInteractive(cameraDistanceCheckbox.isSelected());
       });
 
-
-
-
-
-
-
-
-
-
-      // slider for controlling camera heading direction
-//      headingSlider.valueProperty().addListener(o -> {
-//        orbitCameraController.setCameraHeadingOffset(headingSlider.getValue());
-//      });
-
-//      pitchSlider.valueProperty().addListener(o -> {
-//        orbitCameraController.setCameraPitchOffset(pitchSlider.getValue());
-//      });
-//
-//      distanceSlider.valueProperty().addListener(o -> {
-//        orbitCameraController.setCameraDistance(distanceSlider.getValue());
-//      });
-
       // update slider positions whilst interacting with the camera
       sceneView.addViewpointChangedListener(event -> {
         headingSlider.setValue(orbitCameraController.getCameraHeadingOffset());
@@ -154,18 +152,55 @@ public class OrbitCameraControllerController {
         distanceSlider.setValue(orbitCameraController.getCameraDistance());
       });
 
-
-//       these are always relative to the object
+      // set async camera movement away from the plane
       travelAwayButton.setOnAction(event -> {
         orbitCameraController.setTargetOffsetsAsync(500, 550, 0, 6).addDoneListener(() -> {
         });
       });
-//
-//      returnButton.setOnAction(event -> {
-//        orbitCameraController.setTargetOffsetsAsync(0, 0, 0, 6).addDoneListener(() -> {
-//          System.out.println("Done moving");
-//        });
-//      });
+
+      // set async camera movement back to the plane
+      returnButton.setOnAction(event -> {
+        orbitCameraController.setTargetOffsetsAsync(0, 0, 0, 6).addDoneListener(() -> {
+        });
+      });
+
+      // use the relevant spinner to set the target offset x, y and z
+      targetXSpinner.valueProperty().addListener(e -> {
+        orbitCameraController.setTargetOffsetX(targetXSpinner.getValue());
+      });
+
+      targetYSpinner.valueProperty().addListener(e -> {
+        orbitCameraController.setTargetOffsetY(targetYSpinner.getValue());
+      });
+
+      targetZSpinner.valueProperty().addListener(e -> {
+        orbitCameraController.setTargetOffsetZ(targetZSpinner.getValue());
+      });
+
+      // set up plane heading, pitch and roll
+      planeHeadingSlider.valueProperty().addListener(o -> plane3D.getAttributes().put("HEADING", planeHeadingSlider.getValue()));
+      planePitchSlider.valueProperty().addListener(o -> plane3D.getAttributes().put("PITCH", planePitchSlider.getValue()));
+      planeRollSlider.valueProperty().addListener(o-> plane3D.getAttributes().put("ROLL", planeRollSlider.getValue()));
+
+      planeAutoHeadingCheckbox.setOnAction(event -> {
+        orbitCameraController.setAutoHeadingEnabled(planeAutoHeadingCheckbox.isSelected());
+      });
+
+      planeAutoPitchCheckbox.setOnAction(event -> {
+        orbitCameraController.setAutoPitchEnabled(planeAutoPitchCheckbox.isSelected());
+      });
+
+      planeAutoRollCheckbox.setOnAction(event -> {
+        orbitCameraController.setAutoRollEnabled(planeAutoRollCheckbox.isSelected());
+      });
+
+      // set up vertical screen factor
+      screenFactorSpinner.valueProperty().addListener( e -> {
+
+        double valuex = screenFactorSpinner.getValue();
+        float valuef = (float)valuex;
+        orbitCameraController.setTargetVerticalScreenFactor(valuef);
+      });
 
 
 

@@ -24,11 +24,49 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory?>
 <StackPane fx:controller="com.esri.samples.scene.orbit_camera_controller.OrbitCameraControllerController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
 
     <SceneView fx:id="sceneView"/>
+
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="100" styleClass="panel-region" spacing="2" alignment="TOP_CENTER">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+        <Label text="Plane Controls" underline="true">
+            <font>
+                <Font size="15"/>
+            </font>
+        </Label>
+        <Label text="Plane Heading"/>
+        <Slider fx:id="planeHeadingSlider" min="-180" max="180" value="120" majorTickUnit="90" showTickMarks="true"
+                showTickLabels="true" prefWidth="120"/>
+        <CheckBox fx:id="planeAutoHeadingCheckbox" text="Heading linked to camera?" selected="true" wrapText="true"/>
+        <Separator orientation="HORIZONTAL"/>
+        <Label text="Plane Pitch"/>
+        <Slider fx:id="planePitchSlider" max="180" value="85" majorTickUnit="60" showTickMarks="true"
+                showTickLabels="true" maxWidth="Infinity" prefWidth="120"/>
+        <CheckBox fx:id="planeAutoPitchCheckbox" text="Pitch linked to camera?" selected="true" wrapText="true"/>
+        <Separator orientation="HORIZONTAL"/>
+        <Label text="Plane Roll"/>
+        <Slider fx:id="planeRollSlider" min="-180" max="180" majorTickUnit="60" showTickMarks="true"
+                showTickLabels="true" maxWidth="Infinity" prefWidth="120"/>
+        <CheckBox fx:id="planeAutoRollCheckbox" text="Roll linked to camera?" selected="true" wrapText="true"/>
+
+    </VBox>
 
     <HBox StackPane.alignment="BOTTOM_CENTER" maxWidth="Infinity" maxHeight="100" styleClass="panel-region"
           spacing="2">
@@ -55,22 +93,22 @@
                 <Insets right="10"/>
             </padding>
             <Label text="Camera Heading" underline="true">
-                    <font>
-                        <Font size="15"/>
-                    </font>
+                <font>
+                    <Font size="15"/>
+                </font>
             </Label>
             <GridPane hgap="10" vgap="10" maxWidth="Infinity" alignment="CENTER">
                 <Label text="Min: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <Spinner fx:id="cameraMinHeadingSpinner" GridPane.rowIndex="0" GridPane.columnIndex="1"
-                min="-180" max="0" initialValue="-180" editable="true" prefWidth="80" />
+                         min="-180" max="0" initialValue="-180" editable="true" prefWidth="80"/>
                 <Label text="Max: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <Spinner fx:id="cameraMaxHeadingSpinner" GridPane.rowIndex="1" GridPane.columnIndex="1"
-                min="0" max="180" initialValue="180" editable="true" prefWidth="80"/>
+                         min="0" max="180" initialValue="180" editable="true" prefWidth="80"/>
             </GridPane>
             <Slider fx:id="headingSlider" min="-180" max="180" value="120" majorTickUnit="90" showTickMarks="true"
-                    showTickLabels="true" prefWidth="120"/>
+                    showTickLabels="true" prefWidth="140"/>
         </VBox>
-        <Separator orientation="VERTICAL" />
+        <Separator orientation="VERTICAL"/>
 
         <VBox alignment="TOP_CENTER" spacing="6">
             <padding>
@@ -84,14 +122,15 @@
             <GridPane hgap="10" vgap="10" maxWidth="Infinity" alignment="CENTER">
                 <Label text="Min: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <Spinner fx:id="cameraMinPitchSpinner" GridPane.rowIndex="0" GridPane.columnIndex="1"
-                         min="0" max="90" initialValue="0" editable="true" prefWidth="80" />
+                         min="0" max="90" initialValue="0" editable="true" prefWidth="80"/>
                 <Label text="Max: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <Spinner fx:id="cameraMaxPitchSpinner" GridPane.rowIndex="1" GridPane.columnIndex="1"
                          min="90" max="180" initialValue="180" editable="true" prefWidth="80"/>
             </GridPane>
-            <Slider fx:id="pitchSlider" max="180" value="85" majorTickUnit="60" showTickMarks="true" showTickLabels="true" maxWidth="Infinity" prefWidth="120"/>
+            <Slider fx:id="pitchSlider" max="180" value="85" majorTickUnit="60" showTickMarks="true"
+                    showTickLabels="true" maxWidth="Infinity" prefWidth="140"/>
         </VBox>
-        <Separator orientation="VERTICAL" />
+        <Separator orientation="VERTICAL"/>
 
         <VBox alignment="TOP_CENTER" spacing="6">
             <padding>
@@ -105,21 +144,19 @@
             <GridPane hgap="10" vgap="10" maxWidth="Infinity" alignment="CENTER">
                 <Label text="Min: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <Spinner fx:id="cameraMinDistanceSpinner" GridPane.rowIndex="0" GridPane.columnIndex="1"
-                         min="10" max="500" initialValue="10" editable="true" prefWidth="80" />
+                         min="10" max="500" initialValue="10" editable="true" prefWidth="80"/>
                 <Label text="Max: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <Spinner fx:id="cameraMaxDistanceSpinner" GridPane.rowIndex="1" GridPane.columnIndex="1"
                          min="500" max="1000" initialValue="1000" editable="true" prefWidth="80"/>
             </GridPane>
-            <Slider fx:id="distanceSlider" max="1000" min="10" majorTickUnit="500" showTickMarks="true" showTickLabels="true" prefWidth="120"/>
+            <Slider fx:id="distanceSlider" max="1000" min="10" majorTickUnit="500" showTickMarks="true"
+                    showTickLabels="true" prefWidth="140"/>
         </VBox>
-        <Separator orientation="VERTICAL" />
+        <Separator orientation="VERTICAL"/>
 
         <VBox spacing="6" alignment="TOP_CENTER">
-            <Label text="Target Options" underline="true">
-                <font>
-                    <Font size="15"/>
-                </font>
-            </Label>
+            <Label text="Drift camera"/>
+
             <HBox>
                 <padding>
                     <Insets left="5"/>
@@ -127,33 +164,35 @@
                 <Button fx:id="travelAwayButton" text="Travel from plane"/>
                 <Button fx:id="returnButton" text="Return to plane"/>
             </HBox>
-            <Label text="Shift camera from target"/>
+            <Separator/>
+            <Label text="Shift camera"/>
             <HBox>
                 <padding>
                     <Insets right="10"/>
                 </padding>
                 <Label text="X:  "/>
-                <Spinner fx:id="targetXSpinner" min="0" max="500" initialValue="0" editable="true" prefWidth="50"/>
+                <Spinner fx:id="targetXSpinner" min="0" max="500" initialValue="0" editable="true" prefWidth="60"/>
                 <Label text="  Y:  "/>
-                <Spinner fx:id="targetYSpinner" min="0" max="500" initialValue="0" editable="true" prefWidth="50"/>
+                <Spinner fx:id="targetYSpinner" min="0" max="500" initialValue="0" editable="true" prefWidth="60"/>
                 <Label text="  Z:  "/>
-                <Spinner fx:id="targetZSpinner" min="0" max="500" initialValue="0" editable="true" prefWidth="50"/>
+                <Spinner fx:id="targetZSpinner" min="0" max="500" initialValue="0" editable="true" prefWidth="60"/>
+
             </HBox>
-            <!--<Label text="Vertical Screen Factor"/>-->
-            <!--<Spinner fx:id="screenFactorSpinner" min="0" max="1" initialValue="0.5" editable="true" prefWidth="70"/>-->
         </VBox>
-        <Separator orientation="VERTICAL" />
+        <Separator orientation="VERTICAL"/>
 
 
-        <VBox spacing="6" >
+        <VBox spacing="6" alignment="CENTER">
             <padding>
                 <Insets left="10"/>
             </padding>
-            <Label text="Interaction Options" underline="true" alignment="CENTER">
-                <font>
-                    <Font size ="15"/>
-                </font>
-            </Label>
+            <Label text="Vertical Screen Factor" wrapText="true"/>
+            <Spinner fx:id="screenFactorSpinner" editable="true" prefWidth="60" >
+                <valueFactory>
+                    <SpinnerValueFactory.DoubleSpinnerValueFactory min="0.0" max="1.0" initialValue="0.5" amountToStepBy="0.1"/>
+                </valueFactory>
+            </Spinner>
+            <Separator/>
             <CheckBox fx:id="cameraHeadingCheckbox" text="Allow heading pan interaction?" selected="true"/>
             <CheckBox fx:id="cameraPitchCheckbox" text="Allow pitch pan interaction?" selected="true"/>
             <CheckBox fx:id="cameraDistanceCheckbox" text="Allow distance zoom interaction?" selected="true"/>
@@ -161,10 +200,6 @@
 
     </HBox>
 
-
-    <!--<Button fx:id="asyncButton" text="Async Button"></Button>-->
-    <!--<Button fx:id="returnButton" text="Return Button"></Button>-->
-    <!--</VBox>-->
 </StackPane>
 
 
