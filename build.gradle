@@ -1,12 +1,7 @@
-apply plugin: 'application'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply plugin: 'com.esri.arcgisruntime.java'
-
 buildscript {
     repositories {
         maven {
-            url = 'https://esri.bintray.com/arcgis'
+            url 'https://esri.bintray.com/arcgis'
         }
     }
     dependencies {
@@ -14,13 +9,31 @@ buildscript {
     }
 }
 
-arcgis.version = '100.5.0'
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.5'
+}
 
-idea.module.downloadJavadoc = true
-eclipse.classpath.downloadJavadoc = true
+apply plugin: 'com.esri.arcgisruntime.java'
+
+group = 'com.esri.samples'
+
+arcgis.version = '100.5.0-2307'
+arcgis.internal = true
+
+javafx {
+    version = "11.0.1"
+    modules = [ 'javafx.controls', 'javafx.web', 'javafx.fxml', 'javafx.swing' ]
+}
 
 compileJava.options.encoding = 'UTF-8'
-compileJava.sourceCompatibility = '1.8'
+
+repositories {
+    jcenter()
+    maven {
+        url 'https://esri.bintray.com/arcgis'
+    }
+}
 
 dependencies {
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
@@ -48,6 +61,11 @@ task downloadData {
 
 run {
     mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
+}
+
+jar {
+    // important to remove duplicates from each JavaFX platform dependency
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 task wrapper(type: Wrapper) {

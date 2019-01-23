@@ -24,11 +24,9 @@ grouped by feature table.</p>
   </li>
   <li>The <code>RelatedFeatureQueryResult</code> implements <code>Iterable&lt;Feature&gt;</code>. You can iterate over 
   the result to get the features:
-  <pre><code>
-  for (Feature feature: relatedFeatureQueryResult) {
-     //do something with the related feature...
-  }
-  </code></pre>
+  <pre><code>for (Feature feature: relatedFeatureQueryResult) {
+  //do something with the related feature...
+  }</code></pre>
 </ol>
 
 <h2>Relevant API</h2>

@@ -23,11 +23,11 @@
 <h2>Relevant API</h2>
 
 <ul>
-<li><code>GeometryEngine.ConvexHull</code></li>
+<li>GeometryEngine.ConvexHull</li>
 
-<li><code>GraphicsOverlay</code></li>
+<li>GraphicsOverlay</li>
 
-<li><code>PointCollection</code></li>
+<li>PointCollection</li>
 
 </ul>
 

@@ -7,18 +7,24 @@
 <h2>How to use the sample</h2>
 
 <p>Animation Controls (Top Left Corner):
-  - Select a mission -- selects a location with a route for plane to fly
-  - Mission progress -- shows how far along the route the plane is. Slide to change keyframe in animation
-  - Play -- toggles playing and stopping the animation
-  - Follow -- toggles camera following plane</p>
+<ul><li>Select a mission -- selects a location with a route for plane to fly.</li>
+<li>Mission progress -- shows how far along the route the plane is. Slide to change keyframe in animation.</li>
+<li>Play -- toggles playing and stopping the animation.</li>
+<li>Follow -- toggles camera following plane</li></ul>
+</p>
 
-<p>Speed Slider (Top Right Corner): controls speed of animation</p>
+<p>Speed Slider (Top Right Corner):
+<ul><li>controls speed of animation</li></ul>
+</p>
 
 <p>2D Map Controls (Bottom Left Corner):
-  - Plus and Minus -- controls distance of 2D view from ground level</p>
+<ul><li>Plus and Minus -- controls distance of 2D view from ground level</li></ul>
+</p>
   
-<p>Moving the Camera: Simply use regular zoom and pan interactions with the mouse. When in follow mode, the 
-<code>OrbitGeoElementCameraController</code> being used will keep the camera locked to the plane.</p>
+<p>Moving the Camera: 
+<ul><li>Simply use regular zoom and pan interactions with the mouse. When in follow mode, the 
+<code>OrbitGeoElementCameraController</code> being used will keep the camera locked to the plane.</li></ul>
+</p>
 
 <h2>How it works</h2>
 
