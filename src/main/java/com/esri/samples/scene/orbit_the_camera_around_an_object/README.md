@@ -1,8 +1,8 @@
-<h1>Control the Camera</h1>
+<h1>Orbit the camera around an object</h1>
 
 <p>Use the available camera types to navigate within the scene view.</p>
 
-<p><img src="ControlTheCamera.png"/></p>
+<p><img src="OrbitTheCameraAroundAnObject.png"/></p>
 
 <h2>Use case</h2>
 
