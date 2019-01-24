@@ -28,15 +28,13 @@ import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
-
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import javafx.fxml.FXML;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
-
 
 import java.io.File;
 
@@ -70,9 +68,6 @@ public class OrbitTheCameraAroundAnObjectController {
   @FXML private Spinner<Integer> targetYSpinner;
   @FXML private Spinner<Integer> targetZSpinner;
   @FXML private Spinner<Double> screenFactorSpinner;
-
-
-
 
   public void initialize() {
 
@@ -118,7 +113,7 @@ public class OrbitTheCameraAroundAnObjectController {
       initializeCameraController();
 
       // CAMERA CONTROLLER OPTIONS: HEADING, PITCH AND DISTANCE
-      // -------------------------------------------------------
+      // ------------------------------------------------------
       // set the maximum and minimum camera heading offset, and choose if it is interactive.
       cameraHeadingControllerOptions(cameraMinHeadingSpinner, cameraMaxHeadingSpinner, headingSlider);
 
@@ -149,6 +144,8 @@ public class OrbitTheCameraAroundAnObjectController {
         distanceSlider.setValue(orbitCameraController.getCameraDistance());
       });
 
+      // TRAVEL CAMERA TO AND FROM GEOELEMENT OPTIONS
+      // --------------------------------------------
       // set async camera movement away from the plane
       travelAwayButton.setOnAction(event -> {
         orbitCameraController.setTargetOffsetsAsync(500, 550, 0, 6).addDoneListener(() -> {
@@ -174,6 +171,16 @@ public class OrbitTheCameraAroundAnObjectController {
         orbitCameraController.setTargetOffsetZ(targetZSpinner.getValue());
       });
 
+      // set up vertical screen factor
+      screenFactorSpinner.valueProperty().addListener( e -> {
+
+        double inputValue = screenFactorSpinner.getValue();
+        float factorValue = (float)inputValue;
+        orbitCameraController.setTargetVerticalScreenFactor(factorValue);
+      });
+
+      // GEOELEMENT HEADING, PITCH AND ROLL OPTIONS
+      // ------------------------------------------
       // set up plane heading, pitch and roll
       planeHeadingSlider.valueProperty().addListener(o -> plane3D.getAttributes().put("HEADING", planeHeadingSlider.getValue()));
       planePitchSlider.valueProperty().addListener(o -> plane3D.getAttributes().put("PITCH", planePitchSlider.getValue()));
@@ -191,13 +198,6 @@ public class OrbitTheCameraAroundAnObjectController {
         orbitCameraController.setAutoRollEnabled(planeAutoRollCheckbox.isSelected());
       });
 
-      // set up vertical screen factor
-      screenFactorSpinner.valueProperty().addListener( e -> {
-
-        double valuex = screenFactorSpinner.getValue();
-        float valuef = (float)valuex;
-        orbitCameraController.setTargetVerticalScreenFactor(valuef);
-      });
 
 
 
