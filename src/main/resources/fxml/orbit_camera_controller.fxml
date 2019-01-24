@@ -24,8 +24,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory?>
-<StackPane fx:controller="com.esri.samples.scene.orbit_camera_controller.OrbitCameraControllerController"
+<StackPane fx:controller="com.esri.samples.scene.orbit_the_camera_around_an_object.OrbitTheCameraAroundAnObjectController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
 
