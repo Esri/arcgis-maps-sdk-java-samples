@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.orbit_camera_controller;
+package com.esri.samples.scene.orbit_the_camera_around_an_object;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +24,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class OrbitCameraControllerSample extends Application {
+public class OrbitTheCameraAroundAnObjectSample extends Application {
 
-  private static OrbitCameraControllerController controller;
+  private static OrbitTheCameraAroundAnObjectController controller;
 
 
   @Override
