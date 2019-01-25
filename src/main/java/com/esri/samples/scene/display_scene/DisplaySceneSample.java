@@ -67,6 +67,11 @@ public class DisplaySceneSample extends Application {
       // add a camera and initial camera position
       Camera camera = new Camera(28.4, 83.9, 10010.0, 10.0, 80.0, 0.0);
       sceneView.setViewpointCamera(camera);
+
+      sceneView.setOnMouseClicked(event -> {
+        System.out.println(camera.getHeading());
+      });
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
