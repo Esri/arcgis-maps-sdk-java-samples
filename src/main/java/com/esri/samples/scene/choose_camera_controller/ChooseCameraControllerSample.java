@@ -68,7 +68,7 @@ public class ChooseCameraControllerSample extends Application {
       fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Change Atmosphere Effect Sample");
+      stage.setTitle("Choose Camera Controller Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
