@@ -10,7 +10,7 @@
 
 <h2>How to use the sample</h2>
 
-<p> The application loads with the default globe camera controller. To rotate and fix the scene around the aeroplane, exit globe mode by hitting the "Orbit Aeroplane Camera Controller" button (i.e. camera will now be fixed to the aeroplane). Hit the "Orbit Location Camera Controller" button to rotate and centre the scene around a location in the scene, or hit the "Globe Camera Controller" button to return to default free navigation.</p>                                   
+<p> The application loads with the default globe camera controller. To rotate and fix the scene around the aeroplane, exit globe mode by hitting the "Orbit camera around aeroplane" button (i.e. camera will now be fixed to the aeroplane). Hit the "Orbit camera around location" button to rotate and centre the scene around a location in the scene, or hit the "Free pan round the globe" button to return to default free navigation.</p>                                   
 
 <h2>How it works</h2>
 
