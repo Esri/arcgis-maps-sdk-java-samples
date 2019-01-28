@@ -130,58 +130,51 @@ public class ChooseCameraControllerSample extends Application {
       orbitLocationCameraController.setCameraHeadingOffset(150);
 
       // instantiate a new label to display what camera controller is active
-      Label cameraModeLabel = new Label("Move freely round the scene");
-      cameraModeLabel.setPadding(new Insets(0, 0, 10, 0));
+      Label cameraModeLabel = new Label("MOVE FREELY ROUND THE SCENE");
       cameraModeLabel.setMaxWidth(Double.MAX_VALUE);
       cameraModeLabel.setAlignment(Pos.CENTER);
 
       // instantiate control buttons to choose what camera controller is active
-      Button orbitCameraControllerButton = new Button("Orbit GeoElement Camera Controller");
+      Button orbitCameraControllerButton = new Button("Orbit Aeroplane");
       orbitCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
       Button globeCameraControllerButton = new Button ("Globe Camera Controller");
       globeCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
       Button orbitLocationCameraControllerButton = new Button ("Orbit Location Camera Controller");
       orbitLocationCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
 
-      sceneView.setOnMouseClicked(event -> {
-        System.out.println(orbitCameraController.getCameraHeadingOffset());
-        System.out.println(sceneView.getScaleX());
-      });
-
       // set the camera to an OrbitGeoElementCameraController
       orbitCameraControllerButton.setOnAction(event -> {
         sceneView.setCameraController(orbitCameraController);
-        cameraModeLabel.setText("Move around an object");
+        cameraModeLabel.setText("MOVE AROUND AN OBJECT");
       });
 
       // set the camera to a OrbitLocationCameraController
       orbitLocationCameraControllerButton.setOnAction(event -> {
         sceneView.setCameraController(orbitLocationCameraController);
-        cameraModeLabel.setText("Move around a location");
+        cameraModeLabel.setText("MOVE AROUND A LOCATION");
       });
 
 
       // set the camera to a newly instantiated GlobeCameraController
       globeCameraControllerButton.setOnAction(event -> {
         sceneView.setCameraController(new GlobeCameraController());
-        cameraModeLabel.setText("Move freely round the scene");
+        cameraModeLabel.setText("MOVE FREELY ROUND THE SCENE");
       });
 
       // instantiate a control panel
-      VBox controlsVBox = new VBox();
+      VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(260, 75);
+      controlsVBox.setMaxSize(260, 110);
       controlsVBox.getStyleClass().add("panel-region");
       // add buttons to the control panel
-      controlsVBox.getChildren().addAll(cameraModeLabel, orbitCameraControllerButton, orbitLocationCameraControllerButton, globeCameraControllerButton);
+      controlsVBox.getChildren().addAll(orbitCameraControllerButton, orbitLocationCameraControllerButton, globeCameraControllerButton, cameraModeLabel);
 
       // add scene view, label and control panel to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setAlignment(cameraModeLabel, Pos.BOTTOM_CENTER);
-      StackPane.setMargin(controlsVBox, new Insets(0, 0, 50, 10));
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any exception, print the stack trace
