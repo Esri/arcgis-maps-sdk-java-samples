@@ -6,7 +6,7 @@
 
 <h2>Use case</h2>
 
-As a user I want to fixate the camera on a target, such as a model plane, and learn how to customise the camera to show exactly the scene I want by restricting orientation, distance from target and how the camera mimics the objects orientation, so that I can provide my customers with the most optimum experience for the data I want to show.
+Fixing the camera to a target object, such as a model plane, allows its interactions with the target to be customised by e.g. restricting orientation, distance from target and how the camera mimics the objects orientation. This gives complete control over how the target object is shown and interacted with in a scene view.
 
 <h2>How to use the sample</h2>
 
