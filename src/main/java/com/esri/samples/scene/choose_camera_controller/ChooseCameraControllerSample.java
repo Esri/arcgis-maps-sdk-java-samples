@@ -117,11 +117,6 @@ public class ChooseCameraControllerSample extends Application {
       orbitLocationCameraController.setCameraPitchOffset(3);
       orbitLocationCameraController.setCameraHeadingOffset(150);
 
-//      // instantiate a new label to display which camera controller is active
-//      Label cameraModeLabel = new Label("MOVE FREELY ROUND THE SCENE");
-//      cameraModeLabel.setMaxWidth(Double.MAX_VALUE);
-//      cameraModeLabel.setAlignment(Pos.CENTER);
-
       // instantiate control buttons to choose what camera controller is active
       Button orbitAeroplaneButton = new Button("Orbit Aeroplane Camera Controller");
       orbitAeroplaneButton.setMaxWidth(Double.MAX_VALUE);
@@ -132,21 +127,19 @@ public class ChooseCameraControllerSample extends Application {
       Button orbitLocationButton = new Button ("Orbit Location Camera Controller");
       orbitLocationButton.setMaxWidth(Double.MAX_VALUE);
 
-      // create a group of radio buttons
-
-      ToggleGroup toggleGroup = new ToggleGroup();
-
-      RadioButton orbitAeroplane = new RadioButton("Orbit Aeroplane Camera Controller");
-      orbitAeroplane.setToggleGroup(toggleGroup);
-
-      RadioButton orbitLocation = new RadioButton("Orbit Location Camera Controller");
-      orbitLocation.setToggleGroup(toggleGroup);
-
-      RadioButton globeCamera = new RadioButton("Globe Camera Controller");
-      globeCamera.setToggleGroup(toggleGroup);
+      // create a radio buttons for choosing camera controller
+      RadioButton orbitAeroplane = new RadioButton("ORBIT CAMERA AROUND AEROPLANE");
+      RadioButton orbitLocation = new RadioButton("ORBIT CAMERA AROUND LOCATION");
+      RadioButton globeCamera = new RadioButton("FREE PAN ROUND THE GLOBE");
       globeCamera.setSelected(true);
 
+      // set the buttons to a toggle group
+      ToggleGroup toggleGroup = new ToggleGroup();
+      orbitAeroplane.setToggleGroup(toggleGroup);
+      orbitLocation.setToggleGroup(toggleGroup);
+      globeCamera.setToggleGroup(toggleGroup);
 
+      // set the radio buttons to choose which camera controller is active
       orbitAeroplane.setOnAction(event -> {
         sceneView.setCameraController(orbitAeroplaneCameraController);
       });
@@ -160,18 +153,18 @@ public class ChooseCameraControllerSample extends Application {
       });
 
       // create a control panel
-      VBox controlsVBox = new VBox(6);
+      VBox controlsVBox = new VBox(10);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(260, 110);
+      controlsVBox.setMaxSize(250, 80);
       controlsVBox.getStyleClass().add("panel-region");
-      // add buttons to the control panel
+      // add radio buttons to the control panel
       controlsVBox.getChildren().addAll(orbitAeroplane, orbitLocation, globeCamera);
 
       // add scene view, label and control panel to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.BOTTOM_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(0, 0, 30, 10));
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(60, 0, 0, 20));
 
     } catch (Exception e) {
       // on any exception, print the stack trace
