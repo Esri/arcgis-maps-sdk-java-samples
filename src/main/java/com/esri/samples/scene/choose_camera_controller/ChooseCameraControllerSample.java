@@ -93,17 +93,7 @@ public class ChooseCameraControllerSample extends Application {
       GraphicsOverlay sceneGraphicsOverlay = new GraphicsOverlay();
       sceneView.getGraphicsOverlays().add(sceneGraphicsOverlay);
 
-      // create a graphic with a SimpleMarkerSceneSymbol to add to the scene
-      SimpleMarkerSceneSymbol symbol = new SimpleMarkerSceneSymbol(SimpleMarkerSceneSymbol.Style.DIAMOND, 0xFFEFA70D, 50, 50, 50,
-              SceneSymbol.AnchorPosition.CENTER);
-      // for the target in utah
-//      Graphic floatingSymbol = new Graphic(new Point(-116.851151, 37.563910, 1635, SpatialReferences.getWgs84()), symbol);
-
-//      Graphic floatingSymbol = new Graphic(new Point(-109.901519, 38.410304, 5000, SpatialReferences.getWgs84()), symbol);
-//      sceneGraphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
-//      sceneGraphicsOverlay.getGraphics().add(floatingSymbol);
-
-      // create a graphic with a ModelSceneSymbol of a plane to add to the scene
+      // create a graphic with a ModelSceneSymbol of an aeroplane to add to the scene
       String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
       ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
       plane3DSymbol.loadAsync();
@@ -112,24 +102,22 @@ public class ChooseCameraControllerSample extends Application {
       sceneGraphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneGraphicsOverlay.getGraphics().add(plane3D);
 
+      // create a camera and set it as the viewpoint for when the scene loads
       Camera camera = new Camera(38.459291, -109.937576, 5500, 150.0, 20.0, 0.0);
       sceneView.setViewpointCamera(camera);
 
-      // instantiate a new camera controller which orbits the graphic at a certain distance
+      // instantiate a new camera controller which orbits the aeroplane at a set distance
       orbitCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
-      // set the orbit camera controller to the sceneview upon loading the application
       orbitCameraController.setCameraPitchOffset(30);
       orbitCameraController.setCameraHeadingOffset(150);
 
-      // instantiate a new camera controller which orbits a target
+      // instantiate a new camera controller which orbits a target location
       Point locationPoint = new Point(-109.929589, 38.437304, 3500, SpatialReferences.getWgs84());
-      // target below
-//      Point locationPoint = new Point(-116.851151, 37.563910, 1655, SpatialReferences.getWgs84());
       orbitLocationCameraController = new OrbitLocationCameraController(locationPoint, 10);
       orbitLocationCameraController.setCameraPitchOffset(3);
       orbitLocationCameraController.setCameraHeadingOffset(150);
 
-      // instantiate a new label to display what camera controller is active
+      // instantiate a new label to display which camera controller is active
       Label cameraModeLabel = new Label("MOVE FREELY ROUND THE SCENE");
       cameraModeLabel.setMaxWidth(Double.MAX_VALUE);
       cameraModeLabel.setAlignment(Pos.CENTER);
@@ -137,34 +125,34 @@ public class ChooseCameraControllerSample extends Application {
       // instantiate control buttons to choose what camera controller is active
       Button orbitCameraControllerButton = new Button("Orbit Aeroplane Camera Controller");
       orbitCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
+
       Button globeCameraControllerButton = new Button ("Globe Camera Controller");
       globeCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
+
       Button orbitLocationCameraControllerButton = new Button ("Orbit Location Camera Controller");
       orbitLocationCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
 
       // set the camera to an OrbitGeoElementCameraController
       orbitCameraControllerButton.setOnAction(event -> {
         sceneView.setCameraController(orbitCameraController);
-        cameraModeLabel.setText("MOVE AROUND AN OBJECT");
+        cameraModeLabel.setText("CAMERA IS ORBITING AEROPLANE");
       });
 
       // set the camera to a OrbitLocationCameraController
       orbitLocationCameraControllerButton.setOnAction(event -> {
         sceneView.setCameraController(orbitLocationCameraController);
-        cameraModeLabel.setText("MOVE AROUND A LOCATION");
+        cameraModeLabel.setText("CAMERA IS ORBITING THE UPHEAVAL DOME");
       });
 
-
-      // set the camera to a newly instantiated GlobeCameraController
+      // set the camera to a newly created GlobeCameraController
       globeCameraControllerButton.setOnAction(event -> {
         sceneView.setCameraController(new GlobeCameraController());
-        cameraModeLabel.setText("MOVE FREELY ROUND THE SCENE");
+        cameraModeLabel.setText("CAMERA IS FREELY NAVIGATING");
       });
 
-      // instantiate a control panel
+      // create a control panel
       VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-              CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(260, 110);
       controlsVBox.getStyleClass().add("panel-region");
@@ -173,8 +161,8 @@ public class ChooseCameraControllerSample extends Application {
 
       // add scene view, label and control panel to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      StackPane.setAlignment(controlsVBox, Pos.BOTTOM_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(0, 0, 30, 10));
 
     } catch (Exception e) {
       // on any exception, print the stack trace
