@@ -16,7 +16,7 @@ Fixing the camera to a target object, such as a model plane, allows its interact
 
 <ul>
 <li>The heading, pitch and roll of the plane can be controlled: adjusting the sliders will update the plane's orientation accordingly.</li>
-<li>If the relevant "link camera to plane" checkbox is checked, the camera will follow the graphic as its orientation is adjusted. If unchecked it will not, and the camera will remain fixed whilst the plane heading, pitch or roll changes.</li>
+<li>If the relevant "link camera to plane" checkbox is checked, the camera will follow the plane as its orientation is adjusted. If unchecked it will not, and the camera will remain fixed whilst the plane heading, pitch or roll changes.</li>
 </ul>
 
 <p>For the camera controls (lower control panel):</p>
