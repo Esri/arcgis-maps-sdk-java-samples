@@ -53,12 +53,10 @@ import java.io.File;
 
 public class ChooseCameraControllerSample extends Application {
 
-  private OrbitGeoElementCameraController orbitCameraController;
-  private OrbitLocationCameraController orbitLocationCameraController;
   private SceneView sceneView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage){
 
     try {
 
@@ -107,13 +105,13 @@ public class ChooseCameraControllerSample extends Application {
       sceneView.setViewpointCamera(camera);
 
       // instantiate a new camera controller which orbits the aeroplane at a set distance
-      orbitCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
+      OrbitGeoElementCameraController orbitCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
       orbitCameraController.setCameraPitchOffset(30);
       orbitCameraController.setCameraHeadingOffset(150);
 
       // instantiate a new camera controller which orbits a target location
       Point locationPoint = new Point(-109.929589, 38.437304, 3500, SpatialReferences.getWgs84());
-      orbitLocationCameraController = new OrbitLocationCameraController(locationPoint, 10);
+      OrbitLocationCameraController orbitLocationCameraController = new OrbitLocationCameraController(locationPoint, 10);
       orbitLocationCameraController.setCameraPitchOffset(3);
       orbitLocationCameraController.setCameraHeadingOffset(150);
 
