@@ -117,17 +117,7 @@ public class ChooseCameraControllerSample extends Application {
       orbitLocationCameraController.setCameraPitchOffset(3);
       orbitLocationCameraController.setCameraHeadingOffset(150);
 
-      // instantiate control buttons to choose what camera controller is active
-      Button orbitAeroplaneButton = new Button("Orbit Aeroplane Camera Controller");
-      orbitAeroplaneButton.setMaxWidth(Double.MAX_VALUE);
-
-      Button globeCameraButton = new Button ("Globe Camera Controller");
-      globeCameraButton.setMaxWidth(Double.MAX_VALUE);
-
-      Button orbitLocationButton = new Button ("Orbit Location Camera Controller");
-      orbitLocationButton.setMaxWidth(Double.MAX_VALUE);
-
-      // create a radio buttons for choosing camera controller
+      // create radio buttons for choosing camera controller
       RadioButton orbitAeroplane = new RadioButton("ORBIT CAMERA AROUND AEROPLANE");
       RadioButton orbitLocation = new RadioButton("ORBIT CAMERA AROUND LOCATION");
       RadioButton globeCamera = new RadioButton("FREE PAN ROUND THE GLOBE");
