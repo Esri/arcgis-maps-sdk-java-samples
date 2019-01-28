@@ -135,7 +135,7 @@ public class ChooseCameraControllerSample extends Application {
       cameraModeLabel.setAlignment(Pos.CENTER);
 
       // instantiate control buttons to choose what camera controller is active
-      Button orbitCameraControllerButton = new Button("Orbit Aeroplane");
+      Button orbitCameraControllerButton = new Button("Orbit Aeroplane Camera Controller");
       orbitCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
       Button globeCameraControllerButton = new Button ("Globe Camera Controller");
       globeCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
