@@ -41,6 +41,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -105,9 +107,9 @@ public class ChooseCameraControllerSample extends Application {
       sceneView.setViewpointCamera(camera);
 
       // instantiate a new camera controller which orbits the aeroplane at a set distance
-      OrbitGeoElementCameraController orbitCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
-      orbitCameraController.setCameraPitchOffset(30);
-      orbitCameraController.setCameraHeadingOffset(150);
+      OrbitGeoElementCameraController orbitAeroplaneCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
+      orbitAeroplaneCameraController.setCameraPitchOffset(30);
+      orbitAeroplaneCameraController.setCameraHeadingOffset(150);
 
       // instantiate a new camera controller which orbits a target location
       Point locationPoint = new Point(-109.929589, 38.437304, 3500, SpatialReferences.getWgs84());
@@ -115,37 +117,46 @@ public class ChooseCameraControllerSample extends Application {
       orbitLocationCameraController.setCameraPitchOffset(3);
       orbitLocationCameraController.setCameraHeadingOffset(150);
 
-      // instantiate a new label to display which camera controller is active
-      Label cameraModeLabel = new Label("MOVE FREELY ROUND THE SCENE");
-      cameraModeLabel.setMaxWidth(Double.MAX_VALUE);
-      cameraModeLabel.setAlignment(Pos.CENTER);
+//      // instantiate a new label to display which camera controller is active
+//      Label cameraModeLabel = new Label("MOVE FREELY ROUND THE SCENE");
+//      cameraModeLabel.setMaxWidth(Double.MAX_VALUE);
+//      cameraModeLabel.setAlignment(Pos.CENTER);
 
       // instantiate control buttons to choose what camera controller is active
-      Button orbitCameraControllerButton = new Button("Orbit Aeroplane Camera Controller");
-      orbitCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
+      Button orbitAeroplaneButton = new Button("Orbit Aeroplane Camera Controller");
+      orbitAeroplaneButton.setMaxWidth(Double.MAX_VALUE);
 
-      Button globeCameraControllerButton = new Button ("Globe Camera Controller");
-      globeCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
+      Button globeCameraButton = new Button ("Globe Camera Controller");
+      globeCameraButton.setMaxWidth(Double.MAX_VALUE);
 
-      Button orbitLocationCameraControllerButton = new Button ("Orbit Location Camera Controller");
-      orbitLocationCameraControllerButton.setMaxWidth(Double.MAX_VALUE);
+      Button orbitLocationButton = new Button ("Orbit Location Camera Controller");
+      orbitLocationButton.setMaxWidth(Double.MAX_VALUE);
 
-      // set the camera to an OrbitGeoElementCameraController
-      orbitCameraControllerButton.setOnAction(event -> {
-        sceneView.setCameraController(orbitCameraController);
-        cameraModeLabel.setText("CAMERA IS ORBITING AEROPLANE");
+      // create a group of radio buttons
+
+      ToggleGroup toggleGroup = new ToggleGroup();
+
+      RadioButton orbitAeroplane = new RadioButton("Orbit Aeroplane Camera Controller");
+      orbitAeroplane.setToggleGroup(toggleGroup);
+
+      RadioButton orbitLocation = new RadioButton("Orbit Location Camera Controller");
+      orbitLocation.setToggleGroup(toggleGroup);
+
+      RadioButton globeCamera = new RadioButton("Globe Camera Controller");
+      globeCamera.setToggleGroup(toggleGroup);
+      globeCamera.setSelected(true);
+
+
+      orbitAeroplane.setOnAction(event -> {
+        sceneView.setCameraController(orbitAeroplaneCameraController);
       });
 
-      // set the camera to a OrbitLocationCameraController
-      orbitLocationCameraControllerButton.setOnAction(event -> {
+      orbitLocation.setOnAction(event -> {
         sceneView.setCameraController(orbitLocationCameraController);
-        cameraModeLabel.setText("CAMERA IS ORBITING THE UPHEAVAL DOME");
       });
 
-      // set the camera to a newly created GlobeCameraController
-      globeCameraControllerButton.setOnAction(event -> {
+      globeCamera.setOnAction(event -> {
         sceneView.setCameraController(new GlobeCameraController());
-        cameraModeLabel.setText("CAMERA IS FREELY NAVIGATING");
       });
 
       // create a control panel
@@ -155,7 +166,7 @@ public class ChooseCameraControllerSample extends Application {
       controlsVBox.setMaxSize(260, 110);
       controlsVBox.getStyleClass().add("panel-region");
       // add buttons to the control panel
-      controlsVBox.getChildren().addAll(orbitCameraControllerButton, orbitLocationCameraControllerButton, globeCameraControllerButton, cameraModeLabel);
+      controlsVBox.getChildren().addAll(orbitAeroplane, orbitLocation, globeCamera);
 
       // add scene view, label and control panel to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsVBox);
