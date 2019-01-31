@@ -43,12 +43,12 @@ public class AddAnIntegratedMeshLayerSample extends Application {
       stage.setTitle("Add An Integrated Mesh Layer Sample");
       stage.setWidth(800);
       stage.setHeight(700);
-      stage.show();
 
       // create a JavaFX scene with a stackpane and set it to the stage
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
       stage.setScene(fxScene);
+      stage.show();
 
       // create a scene view and add it to the stack pane
       sceneView = new SceneView();
