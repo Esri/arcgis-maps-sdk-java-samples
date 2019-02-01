@@ -112,8 +112,8 @@ public class ChooseCameraControllerSample extends Application {
       orbitAeroplaneCameraController.setCameraHeadingOffset(150);
 
       // instantiate a new camera controller which orbits a target location
-      Point locationPoint = new Point(-109.929589, 38.437304, 3500, SpatialReferences.getWgs84());
-      OrbitLocationCameraController orbitLocationCameraController = new OrbitLocationCameraController(locationPoint, 10);
+      Point locationPoint = new Point(-109.929589, 38.437304, 1700, SpatialReferences.getWgs84());
+      OrbitLocationCameraController orbitLocationCameraController = new OrbitLocationCameraController(locationPoint, 5000);
       orbitLocationCameraController.setCameraPitchOffset(3);
       orbitLocationCameraController.setCameraHeadingOffset(150);
 
@@ -130,17 +130,11 @@ public class ChooseCameraControllerSample extends Application {
       globeCamera.setToggleGroup(toggleGroup);
 
       // set the radio buttons to choose which camera controller is active
-      orbitAeroplane.setOnAction(event -> {
-        sceneView.setCameraController(orbitAeroplaneCameraController);
-      });
+      orbitAeroplane.setOnAction(event -> sceneView.setCameraController(orbitAeroplaneCameraController));
 
-      orbitLocation.setOnAction(event -> {
-        sceneView.setCameraController(orbitLocationCameraController);
-      });
+      orbitLocation.setOnAction(event -> sceneView.setCameraController(orbitLocationCameraController));
 
-      globeCamera.setOnAction(event -> {
-        sceneView.setCameraController(new GlobeCameraController());
-      });
+      globeCamera.setOnAction(event -> sceneView.setCameraController(new GlobeCameraController()));
 
       // create a control panel
       VBox controlsVBox = new VBox(10);
