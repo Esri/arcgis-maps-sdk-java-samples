@@ -6,21 +6,16 @@
 
 <h2>Use case</h2>
 
-<p>Maritime applications require conformity to strict specifications over how hydrographic data is displayed digitally to
-ensure the safety of traveling vessels.</p>
+<p>Maritime applications require conformity to strict specifications over how hydrographic data is displayed digitally to ensure the safety of traveling vessels.</p>
 
-<p>S57 is the IHO (International Hydrographic Organization) Transfer Standard for Digital Hydrographic Data. The symbology
-standard for this is called S52. There are different product specifications for this standard. ENC is one such
-specification developed by IHO.</p>
+<p>S-57 is the IHO (International Hydrographic Organization) Transfer Standard for digital hydrographic data. The symbology standard for this is called S-52. There are different product specifications for this standard. ENC (Electronic Navigational Charts) is one such specification developed by IHO.</p>
 
-<p>An ENC exchange set is a catalog of data files which can be loaded as cells. The cells contain information on how
-symbols should be displayed in relation to one another, so as to represent information such as depth and obstacles
-accurately.</p>
+<p>An ENC exchange set is a catalog of data files which can be loaded as cells. The cells contain information on how symbols should be displayed in relation to one another, so as to represent information such as depth and obstacles accurately.</p>
 
 <h2>How it works</h2>
 
 <ol>
-<li>Specify the path to a local CATALOG file to create an <code>EncExchangeSet</code>.</li>
+<li>Specify the path to a local CATALOG.031 file to create an <code>EncExchangeSet</code>.</li>
 
 <li>After loading the exchange set, loop through the <code>EncDataset</code> objects in <code>encExchangeSet.getDatasets()</code>.</li>
 
