@@ -73,7 +73,9 @@ public class AddEncExchangeSetSample extends Application {
 
       // hide progress indicator when map is done drawing
       mapView.addDrawStatusChangedListener(e -> {
-        if (e.getDrawStatus() == DrawStatus.COMPLETED) {
+        if (e.getDrawStatus() == DrawStatus.IN_PROGRESS) {
+          progressIndicator.setVisible(true);
+        } else if (e.getDrawStatus() == DrawStatus.COMPLETED) {
           progressIndicator.setVisible(false);
         }
       });
