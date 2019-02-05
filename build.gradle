@@ -18,7 +18,7 @@ apply plugin: 'com.esri.arcgisruntime.java'
 
 group = 'com.esri.samples'
 
-arcgis.version = '100.5.0-2317'
+arcgis.version = '100.5.0-2322'
 arcgis.internal = true
 
 javafx {
@@ -90,10 +90,13 @@ task downloadData {
     downloadSampleData(['567e14f3420d40c5a206e5c0284cf8fc'], 'san_diego')
 
     downloadSampleData(['5491f01d92554751902ecad85cc5d6ca'], 'dictionary')
+
+    downloadSampleData(['943285c21a8e4e1582f0af1101f87bdf'], 'slpks')
 }
 
 run {
-    mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
+    mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.scene' +
+            '.view_point_cloud_data_offline.ViewPointCloudDataOfflineSample'
 }
 
 task wrapper(type: Wrapper) {
