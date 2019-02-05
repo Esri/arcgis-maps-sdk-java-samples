@@ -129,7 +129,6 @@ public class OrbitTheCameraAroundAnObjectController {
       // set the maximum and minimum camera heading offset, and choose if it is interactive.
 //      cameraHeadingControllerOptions(cameraMinHeadingSpinner, cameraMaxHeadingSpinner, headingSlider);
 
-      headingSlider.setDisable(true);
       headingSlider.valueProperty().addListener(o -> {
       orbitCameraController.setCameraHeadingOffset(headingSlider.getValue());
     });

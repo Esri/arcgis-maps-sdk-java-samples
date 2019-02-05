@@ -30,7 +30,7 @@
     <SceneView fx:id="sceneView"/>
 
     <!--CONTROL PANEL-->
-    <VBox StackPane.alignment="CENTER_LEFT" maxWidth="250" maxHeight="500" styleClass="panel-region"
+    <VBox StackPane.alignment="CENTER_LEFT" maxWidth="200" maxHeight="500" styleClass="panel-region"
           spacing="2">
         <StackPane.margin>
             <Insets bottom="50"/>
@@ -53,7 +53,7 @@
         <!--CAMERA HEADING-->
         <VBox alignment="TOP_CENTER" spacing="6">
             <padding>
-                <Insets right="10" left="10"/>
+                <Insets top="10" bottom="10"/>
             </padding>
             <Label text="Camera Heading">
                 <font>
@@ -61,36 +61,34 @@
                 </font>
             </Label>
             <Slider fx:id="headingSlider" min="-180" max="180" value="120" majorTickUnit="90" showTickMarks="true"
-                    showTickLabels="true" prefWidth="140"/>
-            <CheckBox fx:id="cameraHeadingCheckbox" text="Allow keyboard/mouse interaction?" selected="true"/>
+                    showTickLabels="true" prefWidth="140" disable="true"/>
+            <CheckBox fx:id="cameraHeadingCheckbox" text="Allow keyboard/mouse interaction?" selected="true" wrapText="true"/>
 
         </VBox>
         <Separator/>
 
 
-        <!--MOVE CAMERA RELATIVE TO PLANE-->
+        <!--TRAVEL BUTTONS-->
         <VBox spacing="6" alignment="TOP_CENTER">
-            <Label text="Gradually travel relative to plane">
-                <font>
-                    <Font size="15"/>
-                </font>
-            </Label>
-            <HBox>
+            <VBox alignment="CENTER">
                 <padding>
-                    <Insets left="5"/>
+                    <Insets top="10" bottom="10"/>
                 </padding>
                 <Button fx:id="travelAwayButton" text="Travel away from plane"/>
+                
+
+
                 <Button fx:id="returnButton" text="Return to plane"/>
-            </HBox>
+            </VBox>
             <Separator/>
-            <Label text="Shift camera relative to plane (m)">
+            <Label text="Shift camera relative to plane (m)" wrapText="true">
                 <font>
                     <Font size="15"/>
                 </font>
             </Label>
-            <HBox>
+            <VBox>
                 <padding>
-                    <Insets right="10"/>
+                    <Insets bottom="10"/>
                 </padding>
                 <Label text="X:  "/>
                 <Spinner fx:id="targetXSpinner" min="0" max="500" initialValue="0" editable="true" prefWidth="60"/>
@@ -98,13 +96,13 @@
                 <Spinner fx:id="targetYSpinner" min="0" max="500" initialValue="0" editable="true" prefWidth="60"/>
                 <Label text="  Z:  "/>
                 <Spinner fx:id="targetZSpinner" min="0" max="500" initialValue="0" editable="true" prefWidth="60"/>
-            </HBox>
+            </VBox>
         </VBox>
         <Separator/>
-        
+
         <VBox spacing="6" alignment="TOP_CENTER">
             <padding>
-                <Insets left="10"/>
+                <Insets top="10" bottom="10"/>
             </padding>
         <Label text="Plane Heading">
             <font>
