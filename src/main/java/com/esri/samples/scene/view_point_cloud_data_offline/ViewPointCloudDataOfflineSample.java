@@ -78,7 +78,7 @@ public class ViewPointCloudDataOfflineSample extends Application {
       // zoom to the layer when it is done loading
       pointCloudLayer.addDoneLoadingListener(() -> {
         if (pointCloudLayer.getLoadStatus() == LoadStatus.LOADED) {
-          sceneView.setViewpointCamera(new Camera(pointCloudLayer.getFullExtent().getCenter(), 500, 30, 60, 0));
+          sceneView.setViewpointCamera(new Camera(pointCloudLayer.getFullExtent().getCenter(), 2000, 30, 60, 0));
         } else {
           new Alert(Alert.AlertType.ERROR, "Point cloud layer failed to load").show();
         }
