@@ -66,9 +66,12 @@ public class AddEncExchangeSetSample extends Application {
 
       // show progress indicator when map is drawing
       ProgressIndicator progressIndicator = new ProgressIndicator();
+      progressIndicator.setStyle("-fx-progress-color: white;");
       progressIndicator.setMaxSize(25, 25);
       progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
       stackPane.getChildren().add(progressIndicator);
+
+      // hide progress indicator when map is done drawing
       mapView.addDrawStatusChangedListener(e -> {
         if (e.getDrawStatus() == DrawStatus.COMPLETED) {
           progressIndicator.setVisible(false);
