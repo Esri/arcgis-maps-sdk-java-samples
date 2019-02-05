@@ -1,6 +1,6 @@
 <h1>Choose camera controller</h1>
 
-<p>Control the behaviour of the camera in a scene.</p>
+<p>Control the behavior of the camera in a scene.</p>
 
 <p><img src="ChooseCameraController.png"/></p>
 
