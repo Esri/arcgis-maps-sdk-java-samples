@@ -112,36 +112,55 @@ public class OrbitTheCameraAroundAnObjectController {
       // set up initial camera settings
       initializeCameraController();
 
+      orbitCameraController.setMaxCameraHeadingOffset(120);
+      orbitCameraController.setMinCameraHeadingOffset(-20);
+
+      orbitCameraController.setMaxCameraPitchOffset(80);
+      orbitCameraController.setMinCameraPitchOffset(60);
+
+      orbitCameraController.setMaxCameraDistance(100);
+      orbitCameraController.setMinCameraDistance(30);
+
+      orbitCameraController.setTargetVerticalScreenFactor(0.3f);
+
+
       // CAMERA CONTROLLER OPTIONS: HEADING, PITCH AND DISTANCE
       // ------------------------------------------------------
       // set the maximum and minimum camera heading offset, and choose if it is interactive.
-      cameraHeadingControllerOptions(cameraMinHeadingSpinner, cameraMaxHeadingSpinner, headingSlider);
+//      cameraHeadingControllerOptions(cameraMinHeadingSpinner, cameraMaxHeadingSpinner, headingSlider);
+
+      headingSlider.setDisable(true);
+      headingSlider.valueProperty().addListener(o -> {
+      orbitCameraController.setCameraHeadingOffset(headingSlider.getValue());
+    });
 
       // set the maximum and minimum camera pitch offset, and choose if it is interactive.
-      cameraPitchControllerOptions(cameraMinPitchSpinner, cameraMaxPitchSpinner, pitchSlider);
+//      cameraPitchControllerOptions(cameraMinPitchSpinner, cameraMaxPitchSpinner, pitchSlider);
 
       // set the maximum and minimum camera distance, and choose if it is interactive.
-      cameraDistanceControllerOptions(cameraMinDistanceSpinner, cameraMaxDistanceSpinner, distanceSlider);
+//      cameraDistanceControllerOptions(cameraMinDistanceSpinner, cameraMaxDistanceSpinner, distanceSlider);
 
       // INTERACT WITH THE CAMERA OPTIONS: HEADING, PITCH AND DISTANCE
       // -------------------------------------------------------------
       cameraHeadingCheckbox.setOnAction(event -> {
         orbitCameraController.setCameraHeadingOffsetInteractive(cameraHeadingCheckbox.isSelected());
+        headingSlider.setDisable(cameraHeadingCheckbox.isSelected());
+
       });
 
-      cameraPitchCheckbox.setOnAction(event -> {
-        orbitCameraController.setCameraPitchOffsetInteractive(cameraPitchCheckbox.isSelected());
-      });
-
-      cameraDistanceCheckbox.setOnAction(event -> {
-        orbitCameraController.setCameraDistanceInteractive(cameraDistanceCheckbox.isSelected());
-      });
+//      cameraPitchCheckbox.setOnAction(event -> {
+//        orbitCameraController.setCameraPitchOffsetInteractive(cameraPitchCheckbox.isSelected());
+//      });
+//
+//      cameraDistanceCheckbox.setOnAction(event -> {
+//        orbitCameraController.setCameraDistanceInteractive(cameraDistanceCheckbox.isSelected());
+//      });
 
       // update slider positions whilst interacting with the camera
       sceneView.addViewpointChangedListener(event -> {
         headingSlider.setValue(orbitCameraController.getCameraHeadingOffset());
-        pitchSlider.setValue(orbitCameraController.getCameraPitchOffset());
-        distanceSlider.setValue(orbitCameraController.getCameraDistance());
+//        pitchSlider.setValue(orbitCameraController.getCameraPitchOffset());
+//        distanceSlider.setValue(orbitCameraController.getCameraDistance());
       });
 
       // TRAVEL CAMERA TO AND FROM GEOELEMENT OPTIONS
@@ -172,31 +191,31 @@ public class OrbitTheCameraAroundAnObjectController {
       });
 
       // set up vertical screen factor
-      screenFactorSpinner.valueProperty().addListener( e -> {
-
-        double inputValue = screenFactorSpinner.getValue();
-        float factorValue = (float)inputValue;
-        orbitCameraController.setTargetVerticalScreenFactor(factorValue);
-      });
+//      screenFactorSpinner.valueProperty().addListener( e -> {
+//
+//        double inputValue = screenFactorSpinner.getValue();
+//        float factorValue = (float)inputValue;
+//        orbitCameraController.setTargetVerticalScreenFactor(factorValue);
+//      });
 
       // GEOELEMENT HEADING, PITCH AND ROLL OPTIONS
       // ------------------------------------------
       // set up plane heading, pitch and roll
       planeHeadingSlider.valueProperty().addListener(o -> plane3D.getAttributes().put("HEADING", planeHeadingSlider.getValue()));
-      planePitchSlider.valueProperty().addListener(o -> plane3D.getAttributes().put("PITCH", planePitchSlider.getValue()));
-      planeRollSlider.valueProperty().addListener(o-> plane3D.getAttributes().put("ROLL", planeRollSlider.getValue()));
+//      planePitchSlider.valueProperty().addListener(o -> plane3D.getAttributes().put("PITCH", planePitchSlider.getValue()));
+//      planeRollSlider.valueProperty().addListener(o-> plane3D.getAttributes().put("ROLL", planeRollSlider.getValue()));
 
       planeAutoHeadingCheckbox.setOnAction(event -> {
         orbitCameraController.setAutoHeadingEnabled(planeAutoHeadingCheckbox.isSelected());
       });
 
-      planeAutoPitchCheckbox.setOnAction(event -> {
-        orbitCameraController.setAutoPitchEnabled(planeAutoPitchCheckbox.isSelected());
-      });
-
-      planeAutoRollCheckbox.setOnAction(event -> {
-        orbitCameraController.setAutoRollEnabled(planeAutoRollCheckbox.isSelected());
-      });
+//      planeAutoPitchCheckbox.setOnAction(event -> {
+//        orbitCameraController.setAutoPitchEnabled(planeAutoPitchCheckbox.isSelected());
+//      });
+//
+//      planeAutoRollCheckbox.setOnAction(event -> {
+//        orbitCameraController.setAutoRollEnabled(planeAutoRollCheckbox.isSelected());
+//      });
 
 
 
@@ -225,64 +244,64 @@ public class OrbitTheCameraAroundAnObjectController {
    * Combines setting the maximum and minimum camera heading offset along with setting if
    * the camera heading offset is interactive.
    */
-  private void cameraHeadingControllerOptions(Spinner<Integer> minSpinner, Spinner<Integer> maxSpinner, Slider slider) {
-
-    maxSpinner.valueProperty().addListener(e -> {
-      orbitCameraController.setMaxCameraHeadingOffset(maxSpinner.getValue());
-      slider.setMax(maxSpinner.getValue());
-    });
-
-    minSpinner.valueProperty().addListener(e -> {
-      orbitCameraController.setMinCameraHeadingOffset(minSpinner.getValue());
-      slider.setMin(minSpinner.getValue());
-    });
-
-    slider.valueProperty().addListener(o -> {
-      orbitCameraController.setCameraHeadingOffset(slider.getValue());
-    });
-  }
+//  private void cameraHeadingControllerOptions(Spinner<Integer> minSpinner, Spinner<Integer> maxSpinner, Slider slider) {
+//
+//    maxSpinner.valueProperty().addListener(e -> {
+//      orbitCameraController.setMaxCameraHeadingOffset(maxSpinner.getValue());
+//      slider.setMax(maxSpinner.getValue());
+//    });
+//
+//    minSpinner.valueProperty().addListener(e -> {
+//      orbitCameraController.setMinCameraHeadingOffset(minSpinner.getValue());
+//      slider.setMin(minSpinner.getValue());
+//    });
+//
+//    slider.valueProperty().addListener(o -> {
+//      orbitCameraController.setCameraHeadingOffset(slider.getValue());
+//    });
+//  }
 
   /**
    * Combines setting the maximum and minimum camera pitch offset along with setting if
    * the camera pitch offset is interactive.
    */
-  private void cameraPitchControllerOptions(Spinner<Integer> minSpinner, Spinner<Integer> maxSpinner, Slider slider) {
-
-    maxSpinner.valueProperty().addListener(e -> {
-      orbitCameraController.setMaxCameraPitchOffset(maxSpinner.getValue());
-      slider.setMax(maxSpinner.getValue());
-    });
-
-    minSpinner.valueProperty().addListener(e -> {
-      orbitCameraController.setMinCameraPitchOffset(minSpinner.getValue());
-      slider.setMin(minSpinner.getValue());
-    });
-
-    slider.valueProperty().addListener(o -> {
-      orbitCameraController.setCameraPitchOffset(slider.getValue());
-    });
-  }
+//  private void cameraPitchControllerOptions(Spinner<Integer> minSpinner, Spinner<Integer> maxSpinner, Slider slider) {
+//
+//    maxSpinner.valueProperty().addListener(e -> {
+//      orbitCameraController.setMaxCameraPitchOffset(maxSpinner.getValue());
+//      slider.setMax(maxSpinner.getValue());
+//    });
+//
+//    minSpinner.valueProperty().addListener(e -> {
+//      orbitCameraController.setMinCameraPitchOffset(minSpinner.getValue());
+//      slider.setMin(minSpinner.getValue());
+//    });
+//
+//    slider.valueProperty().addListener(o -> {
+//      orbitCameraController.setCameraPitchOffset(slider.getValue());
+//    });
+//  }
 
   /**
    * Combines setting the maximum and minimum camera distance along with setting if
    * the camera distance is interactive.
    */
-  private void cameraDistanceControllerOptions(Spinner<Integer> minSpinner, Spinner<Integer> maxSpinner, Slider slider) {
-
-    maxSpinner.valueProperty().addListener(e -> {
-      orbitCameraController.setMaxCameraDistance(maxSpinner.getValue());
-      slider.setMax(maxSpinner.getValue());
-    });
-
-    minSpinner.valueProperty().addListener(e -> {
-      orbitCameraController.setMinCameraDistance(minSpinner.getValue());
-      slider.setMin(minSpinner.getValue());
-    });
-
-    slider.valueProperty().addListener(o -> {
-      orbitCameraController.setCameraDistance(slider.getValue());
-    });
-  }
+//  private void cameraDistanceControllerOptions(Spinner<Integer> minSpinner, Spinner<Integer> maxSpinner, Slider slider) {
+//
+//    maxSpinner.valueProperty().addListener(e -> {
+//      orbitCameraController.setMaxCameraDistance(maxSpinner.getValue());
+//      slider.setMax(maxSpinner.getValue());
+//    });
+//
+//    minSpinner.valueProperty().addListener(e -> {
+//      orbitCameraController.setMinCameraDistance(minSpinner.getValue());
+//      slider.setMin(minSpinner.getValue());
+//    });
+//
+//    slider.valueProperty().addListener(o -> {
+//      orbitCameraController.setCameraDistance(slider.getValue());
+//    });
+//  }
 
 
 
