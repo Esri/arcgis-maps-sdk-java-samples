@@ -95,8 +95,7 @@ task downloadData {
 }
 
 run {
-    mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.scene' +
-            '.view_point_cloud_data_offline.ViewPointCloudDataOfflineSample'
+    mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
 }
 
 task wrapper(type: Wrapper) {
