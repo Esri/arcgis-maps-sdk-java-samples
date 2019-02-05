@@ -140,7 +140,7 @@ public class ChooseCameraControllerSample extends Application {
       VBox controlsVBox = new VBox(10);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(250, 80);
+      controlsVBox.setMaxSize(300, 80);
       controlsVBox.getStyleClass().add("panel-region");
       // add radio buttons to the control panel
       controlsVBox.getChildren().addAll(orbitAeroplane, orbitLocation, globeCamera);
