@@ -23,6 +23,7 @@ import java.util.Collections;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -36,6 +37,7 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class AddEncExchangeSetSample extends Application {
@@ -62,6 +64,17 @@ public class AddEncExchangeSetSample extends Application {
       mapView = new MapView();
       stackPane.getChildren().add(mapView);
 
+      // show progress indicator when map is drawing
+      ProgressIndicator progressIndicator = new ProgressIndicator();
+      progressIndicator.setMaxSize(25, 25);
+      progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+      stackPane.getChildren().add(progressIndicator);
+      mapView.addDrawStatusChangedListener(e -> {
+        if (e.getDrawStatus() == DrawStatus.COMPLETED) {
+          progressIndicator.setVisible(false);
+        }
+      });
+
       // create a map with the Oceans basemap and set it on the map view
       ArcGISMap map = new ArcGISMap(Basemap.createOceans());
       mapView.setMap(map);
@@ -87,7 +100,7 @@ public class AddEncExchangeSetSample extends Application {
                 } else {
                   completeExtent = GeometryEngine.combineExtents(Arrays.asList(completeExtent, extent));
                 }
-                mapView.setViewpoint(new Viewpoint(completeExtent));
+                mapView.setViewpoint(new Viewpoint(completeExtent.getCenter(), 60000));
               } else {
                 new Alert(Alert.AlertType.ERROR, "Failed to load ENC layer.").show();
               }
