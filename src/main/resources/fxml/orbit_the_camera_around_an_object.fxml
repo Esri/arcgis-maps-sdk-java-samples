@@ -64,8 +64,8 @@
                     </padding>
                 </Label>
                 <Button fx:id="travelAwayButton" text="Animate camera away from plane" maxWidth="Infinity"/>
-                <Button fx:id="returnButton" text="Animate camera return to plane" maxWidth="Infinity"/>
-                <Button fx:id="offsetButton" text="Offset camera vertically from plane" maxWidth="Infinity"/>
+                <Button fx:id="returnButton" text="Animate camera to plane cockpit" maxWidth="Infinity"/>
+                <Button fx:id="offsetButton" text="Jump camera to plane tail" maxWidth="Infinity"/>
             </VBox>
         </VBox>
         <Separator/>

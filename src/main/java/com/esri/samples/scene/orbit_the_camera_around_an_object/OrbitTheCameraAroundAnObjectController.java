@@ -106,19 +106,20 @@ public class OrbitTheCameraAroundAnObjectController {
 
       // animate camera away from the plane to specified location over a period of 4 seconds
       travelAwayButton.setOnAction(event -> {
-        orbitCameraController.setTargetOffsetsAsync(-400, -400, 100, 4).addDoneListener(() -> {
-        });
+        orbitCameraController.setTargetOffsetsAsync(-400, -400, 100, 4);
       });
 
       // animate camera back to the plane over a period of 4 seconds
       returnButton.setOnAction(event -> {
-        orbitCameraController.setTargetOffsetsAsync(0, 0, 0, 4).addDoneListener(() -> {
-        });
+        orbitCameraController.setTargetOffsetsAsync(0, 0, 0, 4);
+        orbitCameraController.setCameraDistance(5);
       });
 
-      // set a target offset value for the camera for Y
+      // set a target offset value for the camera to orbit round the tail of the plane
       offsetButton.setOnAction(event -> {
-        orbitCameraController.setTargetOffsetY(40);
+        orbitCameraController.setTargetOffsetY(-5);
+        orbitCameraController.setTargetOffsetX(-5);
+        orbitCameraController.setCameraDistance(5);
       });
 
       // set the camera's heading using the heading slider
@@ -163,11 +164,11 @@ public class OrbitTheCameraAroundAnObjectController {
     // set the starter value, and min max pitch offset of the camera
     orbitCameraController.setCameraPitchOffset(85);
     orbitCameraController.setMaxCameraPitchOffset(80);
-    orbitCameraController.setMinCameraPitchOffset(60);
+    orbitCameraController.setMinCameraPitchOffset(10);
 
     // set the min and max camera distance to the plane
     orbitCameraController.setMaxCameraDistance(100);
-    orbitCameraController.setMinCameraDistance(30);
+    orbitCameraController.setMinCameraDistance(5);
 
     // set the where the plane is positioned on the screen
     orbitCameraController.setTargetVerticalScreenFactor(0.3f);
