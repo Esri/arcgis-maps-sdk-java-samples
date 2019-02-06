@@ -1,32 +1,41 @@
 <h1>Orbit the camera around an object</h1>
 
-<p>Use the available controls to navigate around an object within the scene view.</p>
+<p>Fix the camera to point at and rotate around a target object.</p>
 
 <p><img src="OrbitTheCameraAroundAnObject.png"/></p>
 
 <h2>Use case</h2>
 
-Fixing the camera to a target object, such as a model plane, allows its interactions with the target to be customised by e.g. restricting orientation, distance from target and how the camera mimics the objects orientation. This gives complete control over how the target object is shown and interacted with in a scene view.
+<p>The orbit geoelement camera controller provides control over the following camera behaviors:</p>
+
+<ul>
+<li>automatically track the target</li>
+
+
+<li>stay near the target by setting a minimum and maximum distance offset</li>
+
+<li>restrict where you can rotate around the target</li>
+
+<li>automatically rotate the camera when the target's heading and pitch changes</li>
+
+<li>disable user interactions for rotating the camera</li>
+
+<li>animate camera movement over a specified duration</li>
+
+<li>control the vertical positioning of the target on the screen</li>
+
+<li>set a target offset (e.g.to orbit around the tail of the plane) instead of defaulting to orbiting the center of the object</li>
+</ul>
 
 <h2>How to use the sample</h2>
 
-<p> The sample contains two main control panels: one for the plane and one for the camera.</p> 
+<p> The sample loads with the camera orbiting an aeroplane. The camera is preset with a restricted camera heading and pitch, and with a limited minimum and maximum camera distance set from the plane. The position of the plane on the screen is also set just below center.</p>
 
-<p>For the plane controls (top left control panel):</p>
+<p>The control panel contains three main sections. The first is for offsetting the camera from the plane. To animate to a point away from the plane, hit the "Animate camera away from plane" button and to return, hit the "Animate camera to plane cockpit". To jump the camera to the tail of plane, hit the "Jump camera to plane tail" button.</p>
 
-<ul>
-<li>The heading, pitch and roll of the plane can be controlled: adjusting the sliders will update the plane's orientation accordingly.</li>
-<li>If the relevant "link camera to plane" checkbox is checked, the camera will follow the plane as its orientation is adjusted. If unchecked it will not, and the camera will remain fixed whilst the plane heading, pitch or roll changes.</li>
-</ul>
+<p> The camera heading can be adjusted with the mouse or keyboard when the sample loads. Uncheck the "Allow keyboard/mouse interaction?" checkbox to allow adjustment of the camera heading only in the app (using the slider). When the checkbox is checked, the user can resume interaction with the camera using the keyboard/mouse.</p>
 
-<p>For the camera controls (lower control panel):</p>
-
-<ul>
-<li>The camera's heading, pitch and distance can be changed via a slider, and the minimum and maximum for each set using a spinner (remember to hit enter when changing a value). By setting these the camera will be restricted within the defined limits.</li>
-<li>To pan the camera smoothly away from the plane, use the buttons in the 'Gradually travel relative to plane' section, or to jump immediately to a particular distance away from the plane, use the X Y or Z offset spinners below.</li>
-<li>The plane's position relative to the screen can be set in the far right control panel, with 0.5 being the default option (the plane will be centred on the screen). 1 will move the plane to the top of the screen and 0 to the bottom.</li>
-<li>Finally there are options which will limit the camera navigation to using the control panel only i.e. mouse or keyboard interactions will not adjust the heading, pitch or distance zoom.</li>
-</ul>                               
+<p> The heading of the plane can be adjusted using the slider. If the "Link camera heading to plane" is checked then the camera will follow the heading of the plane. If unchecked, the plane will rotate freely in the view whilst the camera remains stationary. </p>                             
 
 <h2>How it works</h2>
 
@@ -41,9 +50,9 @@ Fixing the camera to a target object, such as a model plane, allows its interact
   </ul></li>
   <li>Set the minimum and maximum angle of heading and pitch, and minimum and maximum distance for the camera with:
   <ul>
-  <li><code>orbitCameraController.setMin/MaxCameraHeadingOffset()</code></li>
-  <li><code>orbitCameraController.setMin/MaxCameraPitchOffset()</code></li>
-  <li><code>orbitCameraController.setMin/MaxCameraDistance()</code></li>
+  <li><code>orbitCameraController.setMin</code> or <code>setMaxCameraHeadingOffset()</code>.</li>
+  <li><code>orbitCameraController.setMin</code> or <code>setMaxCameraPitchOffset()</code>.</li>
+  <li><code>orbitCameraController.setMin</code> or <code>setMaxCameraDistance()</code>.</li>
   </ul></li>
   <li>Set the distance from which the camera is offset from the plane with:
   <ul>
