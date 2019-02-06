@@ -45,37 +45,37 @@
   <li>Use <code>sceneView.setCameraController(OrbitCameraController)</code> to set the camera to the scene view.</li> 
   <li>Set the heading, pitch and distance camera properties with:
   <ul>
-  <li><code>orbitCameraController.setCameraHeadingOffset()</code></li> <li><code>orbitCameraController.setCameraPitchOffset()</code></li> 
-  <li><code>orbitCameraController.setCameraDistance()</code></li>
+  <li><code>orbitCameraController.setCameraHeadingOffset(double)</code></li> <li><code>orbitCameraController.setCameraPitchOffset(double)</code></li> 
+  <li><code>orbitCameraController.setCameraDistance(double)</code></li>
   </ul></li>
   <li>Set the minimum and maximum angle of heading and pitch, and minimum and maximum distance for the camera with:
   <ul>
-  <li><code>orbitCameraController.setMin</code> or <code>setMaxCameraHeadingOffset()</code>.</li>
-  <li><code>orbitCameraController.setMin</code> or <code>setMaxCameraPitchOffset()</code>.</li>
-  <li><code>orbitCameraController.setMin</code> or <code>setMaxCameraDistance()</code>.</li>
+  <li><code>orbitCameraController.setMin</code> or <code>setMaxCameraHeadingOffset(double)</code>.</li>
+  <li><code>orbitCameraController.setMin</code> or <code>setMaxCameraPitchOffset(double)</code>.</li>
+  <li><code>orbitCameraController.setMin</code> or <code>setMaxCameraDistance(double)</code>.</li>
   </ul></li>
   <li>Set the distance from which the camera is offset from the plane with:
   <ul>
-  <li><code>orbitCameraController.setTargetOffsetsAsync()</code></li>
-  <li><code>orbitCameraController.setTargetOffsetX()</code></li>
-  <li><code>orbitCameraController.setTargetOffsetY()</code></li>
-  <li><code>orbitCameraController.setTargetOffsetZ()</code></li>
+  <li><code>orbitCameraController.setTargetOffsetsAsync(x, y, z, duration)</code></li>
+  <li><code>orbitCameraController.setTargetOffsetX(double)</code></li>
+  <li><code>orbitCameraController.setTargetOffsetY(double)</code></li>
+  <li><code>orbitCameraController.setTargetOffsetZ(double)</code></li>
   </ul></li>
   <li>Set the vertical screen factor to set where the plane appears in the scene:
   <ul>
-  <li><code>orbitCameraController.setTargetVerticalScreenFactor()</code></li>
+  <li><code>orbitCameraController.setTargetVerticalScreenFactor(float)</code></li>
   </ul></li>
   <li>Set if the camera will interact with zooming or panning using mouse or keyboard (default is true):
   <ul>
-  <li><code>orbitCameraController.setCameraHeadingOffsetInteractive()</code></li>
-  <li><code>orbitCameraController.setCameraPitchOffsetInteractive()</code></li>
-  <li><code>orbitCameraController.setCameraDistanceInteractive()</code></li>
+  <li><code>orbitCameraController.setCameraHeadingOffsetInteractive(boolean)</code></li>
+  <li><code>orbitCameraController.setCameraPitchOffsetInteractive(boolean)</code></li>
+  <li><code>orbitCameraController.setCameraDistanceInteractive(boolean)</code></li>
   </ul></li>
   <li>Set if the camera will follow the heading, pitch and roll of the plane (default is true):
   <ul>
-  <li><code>orbitCameraController.setAutoHeadingEnabled()</code></li>
-  <li><code>orbitCameraController.setAutoPitchEnabled()</code></li>
-  <li><code>orbitCameraController.setAutoRollEnabled()</code></li>
+  <li><code>orbitCameraController.setAutoHeadingEnabled(boolean)</code></li>
+  <li><code>orbitCameraController.setAutoPitchEnabled(boolean)</code></li>
+  <li><code>orbitCameraController.setAutoRollEnabled(boolean)</code></li>
   </ul></li>
 
 
@@ -84,13 +84,7 @@
 <h2>Relevant API</h2>
 
 <ul>
-
-  <li>ArcGISScene</li>
-  <li>Camera</li>
-  <li>ModelSceneSymbol</li>
   <li>OrbitGeoElementCameraController</li>
-  <li>SceneView</li>
-  <li>Simple Renderer</li>
 </ul>
 
 <h2>Tags</h2>
