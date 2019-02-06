@@ -81,7 +81,7 @@
                 </font>
             </Label>
             <Slider fx:id="headingSlider" min="10" max="110" value="100" majorTickUnit="50" showTickMarks="true"
-                    showTickLabels="true" prefWidth="140"/>
+                    showTickLabels="true" prefWidth="140" disable="true"/>
             <CheckBox fx:id="cameraHeadingCheckbox" text="Allow keyboard/mouse interaction?" selected="true" wrapText="true" style="-fx-font-size: 13"/>
         </VBox>
         <Separator/>

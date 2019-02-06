@@ -130,6 +130,7 @@ public class OrbitTheCameraAroundAnObjectController {
       // set if the camera heading can be interacted with via external input (e.g. keyboard or mouse)
       cameraHeadingCheckbox.setOnAction(event -> {
         orbitCameraController.setCameraHeadingOffsetInteractive(cameraHeadingCheckbox.isSelected());
+        headingSlider.setDisable(cameraHeadingCheckbox.isSelected());
       });
 
       // update slider positions whilst interacting with the camera
