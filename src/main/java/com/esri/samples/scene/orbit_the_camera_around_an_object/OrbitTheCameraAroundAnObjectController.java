@@ -101,8 +101,19 @@ public class OrbitTheCameraAroundAnObjectController {
       orbitCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
       // set the orbit camera controller to the scene view
       sceneView.setCameraController(orbitCameraController);
-      // set up initial camera settings
-      initializeCameraController();
+      // set the starter value, and min max heading offset of the camera
+      orbitCameraController.setCameraHeadingOffset(100);
+      orbitCameraController.setMaxCameraHeadingOffset(110);
+      orbitCameraController.setMinCameraHeadingOffset(10);
+      // set the starter value, and min max pitch offset of the camera
+      orbitCameraController.setCameraPitchOffset(85);
+      orbitCameraController.setMaxCameraPitchOffset(80);
+      orbitCameraController.setMinCameraPitchOffset(10);
+      // set the min and max camera distance to the plane
+      orbitCameraController.setMaxCameraDistance(100);
+      orbitCameraController.setMinCameraDistance(5);
+      // set the where the plane is positioned on the screen
+      orbitCameraController.setTargetVerticalScreenFactor(0.3f);
 
       // animate camera away from the plane to specified location over a period of 4 seconds
       travelAwayButton.setOnAction(event -> {
@@ -150,29 +161,6 @@ public class OrbitTheCameraAroundAnObjectController {
       // on any exception, print the stack trace
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Initializes pitch, heading, and max/min distance of the camera.
-   */
-  private void initializeCameraController() {
-
-    // set the starter value, and min max heading offset of the camera
-    orbitCameraController.setCameraHeadingOffset(100);
-    orbitCameraController.setMaxCameraHeadingOffset(110);
-    orbitCameraController.setMinCameraHeadingOffset(10);
-
-    // set the starter value, and min max pitch offset of the camera
-    orbitCameraController.setCameraPitchOffset(85);
-    orbitCameraController.setMaxCameraPitchOffset(80);
-    orbitCameraController.setMinCameraPitchOffset(10);
-
-    // set the min and max camera distance to the plane
-    orbitCameraController.setMaxCameraDistance(100);
-    orbitCameraController.setMinCameraDistance(5);
-
-    // set the where the plane is positioned on the screen
-    orbitCameraController.setTargetVerticalScreenFactor(0.3f);
   }
 
   /**

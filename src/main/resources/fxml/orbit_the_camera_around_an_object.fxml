@@ -82,7 +82,7 @@
             </Label>
             <Slider fx:id="headingSlider" min="10" max="110" value="100" majorTickUnit="50" showTickMarks="true"
                     showTickLabels="true" prefWidth="140" disable="true"/>
-            <CheckBox fx:id="cameraHeadingCheckbox" text="Allow keyboard/mouse interaction?" selected="true" wrapText="true" style="-fx-font-size: 13"/>
+            <CheckBox fx:id="cameraHeadingCheckbox" text="Allow keyboard/mouse interaction" selected="true" wrapText="true" style="-fx-font-size: 13"/>
         </VBox>
         <Separator/>
 
@@ -98,7 +98,7 @@
         </Label>
         <Slider fx:id="planeHeadingSlider" min="-180" max="180" value="0" majorTickUnit="90" showTickMarks="true"
                 showTickLabels="true" prefWidth="120"/>
-        <CheckBox fx:id="planeAutoHeadingCheckbox" text="Link camera heading to plane" selected="true" wrapText="true" style="-fx-font-size: 13"/>
+        <CheckBox fx:id="planeAutoHeadingCheckbox" text="Rotate camera with plane" selected="true" wrapText="true" style="-fx-font-size: 13"/>
         </VBox>
     </VBox>
 </StackPane>
