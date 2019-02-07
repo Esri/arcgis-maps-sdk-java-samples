@@ -33,9 +33,9 @@
 
 <p>The control panel contains three main sections. The first is for offsetting the camera from the plane. To animate to a point away from the plane, hit the "Animate camera away from plane" button and to return, hit the "Animate camera to plane cockpit". To jump the camera to the tail of plane, hit the "Jump camera to plane tail" button.</p>
 
-<p> The camera heading can be adjusted with the mouse or keyboard when the sample loads. Uncheck the "Allow keyboard/mouse interaction?" checkbox to allow adjustment of the camera heading only in the app (using the slider). When the checkbox is checked, the user can resume interaction with the camera using the keyboard/mouse.</p>
+<p> The camera heading can be adjusted with the mouse or keyboard when the sample loads. Uncheck the "Allow keyboard/mouse interaction" checkbox to allow adjustment of the camera heading only in the app (using the slider). When the checkbox is checked, the user can resume interaction with the camera using the keyboard/mouse.</p>
 
-<p> The heading of the plane can be adjusted using the slider. If the "Link camera heading to plane" is checked then the camera will follow the heading of the plane. If unchecked, the plane will rotate freely in the view whilst the camera remains stationary. </p>                             
+<p> The heading of the plane can be adjusted using the slider. If the "Rotate camera with plane" is checked then the camera will follow the heading of the plane. If unchecked, the plane will rotate freely in the view whilst the camera remains stationary. </p>                             
 
 <h2>How it works</h2>
 

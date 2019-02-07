@@ -39,7 +39,7 @@ public class OrbitTheCameraAroundAnObjectSample extends Application {
     Scene scene = new Scene(root);
 
     // set up the stage
-    stage.setTitle("Orbit The Camera Around An Object Sample");
+    stage.setTitle("Orbit the camera around an object sample");
     stage.setWidth(1000);
     stage.setHeight(700);
     stage.setScene(scene);
