@@ -31,7 +31,7 @@
 
 <p> The sample loads with the camera orbiting an aeroplane. The camera is preset with a restricted camera heading and pitch, and with a limited minimum and maximum camera distance set from the plane. The position of the plane on the screen is also set just below center.</p>
 
-<p>The control panel contains three main sections. The first is for offsetting the camera from the plane. To animate to a point away from the plane, hit the "Animate camera away from plane" button and to return, hit the "Animate camera to plane cockpit". To jump the camera to the tail of plane, hit the "Jump camera to plane tail" button.</p>
+<p>The control panel contains three main sections. The first is for offsetting the camera from the plane. To animate to a point offset from the plane, hit the "Animate camera focus away from plane" button and to return the focus to the plane's center, hit the "Reset camera focus to cockpit". To jump the camera to the tail of plane (a point offset from the plane center), hit the "Offset camera focus to plane tail" button.</p>
 
 <p> The camera heading can be adjusted with the mouse or keyboard when the sample loads. Uncheck the "Allow keyboard/mouse interaction" checkbox to allow adjustment of the camera heading only in the app (using the slider). When the checkbox is checked, the user can resume interaction with the camera using the keyboard/mouse.</p>
 
