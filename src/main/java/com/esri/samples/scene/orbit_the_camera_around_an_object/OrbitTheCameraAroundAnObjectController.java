@@ -39,6 +39,8 @@ import java.io.File;
 
 public class OrbitTheCameraAroundAnObjectController {
 
+  private Graphic plane3D;
+
   @FXML
   private Button travelAwayButton;
   @FXML
@@ -93,7 +95,7 @@ public class OrbitTheCameraAroundAnObjectController {
       ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
       plane3DSymbol.loadAsync();
       plane3DSymbol.setHeading(45);
-      Graphic plane3D = new Graphic(new Point(6.637, 45.399, 1955, SpatialReferences.getWgs84()), plane3DSymbol);
+      plane3D = new Graphic(new Point(6.637, 45.399, 1955, SpatialReferences.getWgs84()), plane3DSymbol);
       sceneGraphicsOverlay.getGraphics().add(plane3D);
 
       // instantiate a new camera controller which orbits a given geo element at a certain distance
@@ -114,52 +116,65 @@ public class OrbitTheCameraAroundAnObjectController {
       // set the where the plane is positioned on the screen
       orbitCameraController.setTargetVerticalScreenFactor(0.3f);
 
-      // animate camera away from the plane to specified location over a period of 4 seconds
-      travelAwayButton.setOnAction(event -> {
-        orbitCameraController.setTargetOffsetsAsync(-400, -400, 100, 4);
-      });
-
-      // animate camera back to the plane over a period of 4 seconds
-      returnButton.setOnAction(event -> {
-        orbitCameraController.setTargetOffsetsAsync(0, 0, 0, 4);
-        orbitCameraController.setCameraDistance(5);
-      });
-
-      // set a target offset value for the camera to orbit round the tail of the plane
-      offsetButton.setOnAction(event -> {
-        orbitCameraController.setTargetOffsetY(-5);
-        orbitCameraController.setTargetOffsetX(-5);
-        orbitCameraController.setCameraDistance(5);
-      });
-
-      // set the camera's heading using the heading slider
-      headingSlider.valueProperty().addListener(o -> {
-        orbitCameraController.setCameraHeadingOffset(headingSlider.getValue());
-      });
-
-      // set if the camera heading can be interacted with via external input (e.g. keyboard or mouse)
-      cameraHeadingCheckbox.setOnAction(event -> {
-        orbitCameraController.setCameraHeadingOffsetInteractive(cameraHeadingCheckbox.isSelected());
-        headingSlider.setDisable(cameraHeadingCheckbox.isSelected());
-      });
-
       // update slider positions whilst interacting with the camera
-      sceneView.addViewpointChangedListener(event -> {
-        headingSlider.setValue(orbitCameraController.getCameraHeadingOffset());
-      });
+      sceneView.addViewpointChangedListener(event -> headingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
 
       // adjust the heading direction of the plane using the plane heading slider
       planeHeadingSlider.valueProperty().addListener(o -> plane3D.getAttributes().put("HEADING", planeHeadingSlider.getValue()));
 
-      // set if the camera will follow the plane heading
-      planeAutoHeadingCheckbox.setOnAction(event -> {
-        orbitCameraController.setAutoHeadingEnabled(planeAutoHeadingCheckbox.isSelected());
-      });
+      // set the camera's heading using the heading slider
+      headingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(headingSlider.getValue()));
+
+
 
     } catch (Exception e) {
       // on any exception, print the stack trace
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Animate the camera away from the plane to the specified location over a period of 4 seconds.
+   */
+  @FXML
+  private void handleTravelAwayButtonClicked() {
+    orbitCameraController.setTargetOffsetsAsync(-400, -400, 100, 4);
+  }
+
+  /**
+   * Animate the camera back to the plane over a period of 4 seconds.
+   */
+  @FXML
+  private void handleReturnButtonClicked() {
+      orbitCameraController.setTargetOffsetsAsync(0, 0, 0, 4);
+      orbitCameraController.setCameraDistance(5);
+  }
+
+  /**
+   * Set a target offset value for the camera to orbit round the tail of the plane.
+   */
+  @FXML
+  private void handleOffsetButtonClicked(){
+      orbitCameraController.setTargetOffsetY(-5);
+      orbitCameraController.setTargetOffsetX(-5);
+      orbitCameraController.setCameraDistance(5);
+  }
+
+  /**
+   * Set if the camera heading can be interacted with via external input (e.g. keyboard or mouse).
+   */
+  @FXML
+  private void handleHeadingInteractionCheckBoxChanged(){
+      orbitCameraController.setCameraHeadingOffsetInteractive(cameraHeadingCheckbox.isSelected());
+      headingSlider.setDisable(cameraHeadingCheckbox.isSelected());
+  }
+
+  /**
+   * Set if the camera will follow the plane heading.
+   */
+  @FXML
+  private void handleAutoHeadingCheckBox(){
+   orbitCameraController.setAutoHeadingEnabled(planeAutoHeadingCheckbox.isSelected());
   }
 
   /**

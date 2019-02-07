@@ -63,9 +63,9 @@
                         <Insets bottom="5"/>
                     </padding>
                 </Label>
-                <Button fx:id="travelAwayButton" text="Animate camera away from plane" maxWidth="Infinity"/>
-                <Button fx:id="returnButton" text="Animate camera to plane cockpit" maxWidth="Infinity"/>
-                <Button fx:id="offsetButton" text="Jump camera to plane tail" maxWidth="Infinity"/>
+                <Button fx:id="travelAwayButton" text="Animate camera away from plane" maxWidth="Infinity" onAction="#handleTravelAwayButtonClicked"/>
+                <Button fx:id="returnButton" text="Animate camera to plane cockpit" maxWidth="Infinity" onAction="#handleReturnButtonClicked"/>
+                <Button fx:id="offsetButton" text="Jump camera to plane tail" maxWidth="Infinity" onAction="#handleOffsetButtonClicked"/>
             </VBox>
         </VBox>
         <Separator/>
@@ -82,7 +82,7 @@
             </Label>
             <Slider fx:id="headingSlider" min="10" max="110" value="100" majorTickUnit="50" showTickMarks="true"
                     showTickLabels="true" prefWidth="140" disable="true"/>
-            <CheckBox fx:id="cameraHeadingCheckbox" text="Allow keyboard/mouse interaction" selected="true" wrapText="true" style="-fx-font-size: 13"/>
+            <CheckBox fx:id="cameraHeadingCheckbox" text="Allow keyboard/mouse interaction" selected="true" wrapText="true" style="-fx-font-size: 13" onAction="#handleHeadingInteractionCheckBoxChanged"/>
         </VBox>
         <Separator/>
 
@@ -98,7 +98,7 @@
         </Label>
         <Slider fx:id="planeHeadingSlider" min="-180" max="180" value="0" majorTickUnit="90" showTickMarks="true"
                 showTickLabels="true" prefWidth="120"/>
-        <CheckBox fx:id="planeAutoHeadingCheckbox" text="Rotate camera with plane" selected="true" wrapText="true" style="-fx-font-size: 13"/>
+        <CheckBox fx:id="planeAutoHeadingCheckbox" text="Rotate camera with plane" selected="true" wrapText="true" style="-fx-font-size: 13" onAction="#handleAutoHeadingCheckBox"/>
         </VBox>
     </VBox>
 </StackPane>
