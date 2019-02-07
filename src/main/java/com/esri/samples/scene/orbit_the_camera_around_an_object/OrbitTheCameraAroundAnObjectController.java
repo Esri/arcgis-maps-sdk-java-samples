@@ -110,11 +110,14 @@ public class OrbitTheCameraAroundAnObjectController {
       orbitCameraController.setCameraPitchOffset(85);
       orbitCameraController.setMaxCameraPitchOffset(80);
       orbitCameraController.setMinCameraPitchOffset(10);
-      // set the min and max camera distance to the plane
-      orbitCameraController.setMaxCameraDistance(100);
-      orbitCameraController.setMinCameraDistance(5);
+      // set the starter value, and min and max camera distance to the target
+      orbitCameraController.setCameraDistance(30);
+      orbitCameraController.setMaxCameraDistance(30);
+      orbitCameraController.setMinCameraDistance(10);
       // set the where the plane is positioned on the screen
       orbitCameraController.setTargetVerticalScreenFactor(0.3f);
+      // set the target offset of the plane to 0 (the plane will remain the center focus of the camera controller)
+      resetControllerTargetToPlane();
 
       // update slider positions whilst interacting with the camera
       sceneView.addViewpointChangedListener(event -> headingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
@@ -124,8 +127,6 @@ public class OrbitTheCameraAroundAnObjectController {
 
       // set the camera's heading using the heading slider
       headingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(headingSlider.getValue()));
-
-
 
     } catch (Exception e) {
       // on any exception, print the stack trace
@@ -138,7 +139,7 @@ public class OrbitTheCameraAroundAnObjectController {
    */
   @FXML
   private void handleTravelAwayButtonClicked() {
-    orbitCameraController.setTargetOffsetsAsync(-400, -400, 100, 4);
+    orbitCameraController.setTargetOffsetsAsync(-25, -25, 10, 3);
   }
 
   /**
@@ -146,35 +147,40 @@ public class OrbitTheCameraAroundAnObjectController {
    */
   @FXML
   private void handleReturnButtonClicked() {
-      orbitCameraController.setTargetOffsetsAsync(0, 0, 0, 4);
-      orbitCameraController.setCameraDistance(5);
+    resetControllerTargetToPlane();
   }
 
   /**
    * Set a target offset value for the camera to orbit round the tail of the plane.
    */
   @FXML
-  private void handleOffsetButtonClicked(){
-      orbitCameraController.setTargetOffsetY(-5);
-      orbitCameraController.setTargetOffsetX(-5);
-      orbitCameraController.setCameraDistance(5);
+  private void handleOffsetButtonClicked() {
+    orbitCameraController.setTargetOffsetY(-5);
+    orbitCameraController.setTargetOffsetX(-5);
+    orbitCameraController.setTargetOffsetZ(0);
   }
 
   /**
    * Set if the camera heading can be interacted with via external input (e.g. keyboard or mouse).
    */
   @FXML
-  private void handleHeadingInteractionCheckBoxChanged(){
-      orbitCameraController.setCameraHeadingOffsetInteractive(cameraHeadingCheckbox.isSelected());
-      headingSlider.setDisable(cameraHeadingCheckbox.isSelected());
+  private void handleHeadingInteractionCheckBoxChanged() {
+    orbitCameraController.setCameraHeadingOffsetInteractive(cameraHeadingCheckbox.isSelected());
+    headingSlider.setDisable(cameraHeadingCheckbox.isSelected());
   }
 
   /**
    * Set if the camera will follow the plane heading.
    */
   @FXML
-  private void handleAutoHeadingCheckBox(){
-   orbitCameraController.setAutoHeadingEnabled(planeAutoHeadingCheckbox.isSelected());
+  private void handleAutoHeadingCheckBox() {
+    orbitCameraController.setAutoHeadingEnabled(planeAutoHeadingCheckbox.isSelected());
+  }
+
+  private void resetControllerTargetToPlane() {
+    orbitCameraController.setTargetOffsetX(0);
+    orbitCameraController.setTargetOffsetY(0);
+    orbitCameraController.setTargetOffsetZ(0);
   }
 
   /**

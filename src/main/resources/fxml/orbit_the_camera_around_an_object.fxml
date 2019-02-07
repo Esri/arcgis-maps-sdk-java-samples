@@ -63,9 +63,9 @@
                         <Insets bottom="5"/>
                     </padding>
                 </Label>
-                <Button fx:id="travelAwayButton" text="Animate camera away from plane" maxWidth="Infinity" onAction="#handleTravelAwayButtonClicked"/>
-                <Button fx:id="returnButton" text="Animate camera to plane cockpit" maxWidth="Infinity" onAction="#handleReturnButtonClicked"/>
-                <Button fx:id="offsetButton" text="Jump camera to plane tail" maxWidth="Infinity" onAction="#handleOffsetButtonClicked"/>
+                <Button fx:id="travelAwayButton" text="Animate camera focus away from plane" maxWidth="Infinity" onAction="#handleTravelAwayButtonClicked"/>
+                <Button fx:id="returnButton" text="Reset camera focus to cockpit" maxWidth="Infinity" onAction="#handleReturnButtonClicked"/>
+                <Button fx:id="offsetButton" text="Offset camera focus to plane tail" maxWidth="Infinity" onAction="#handleOffsetButtonClicked"/>
             </VBox>
         </VBox>
         <Separator/>
