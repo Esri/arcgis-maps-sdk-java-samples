@@ -119,7 +119,7 @@ public class ChooseCameraControllerSample extends Application {
 
       // create radio buttons for choosing camera controller
       RadioButton orbitAeroplane = new RadioButton("ORBIT CAMERA AROUND AEROPLANE");
-      RadioButton orbitLocation = new RadioButton("ORBIT CAMERA AROUND LOCATION");
+      RadioButton orbitLocation = new RadioButton("ORBIT CAMERA AROUND CRATER");
       RadioButton globeCamera = new RadioButton("FREE PAN ROUND THE GLOBE");
       globeCamera.setSelected(true);
 
