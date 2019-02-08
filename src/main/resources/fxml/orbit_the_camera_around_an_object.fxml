@@ -16,27 +16,35 @@
   ~ the License.
   -->
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.Color?>
-
-<?import com.esri.arcgisruntime.mapping.view.SceneView?>
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import com.esri.arcgisruntime.mapping.view.SceneView?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.HBox?>
 <StackPane fx:controller="com.esri.samples.scene.orbit_the_camera_around_an_object.OrbitTheCameraAroundAnObjectController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
     <SceneView fx:id="sceneView"/>
 
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="250" maxHeight="300" styleClass="panel-region"
-          spacing="2">
+    <!--View buttons-->
+    <VBox StackPane.alignment="BOTTOM_RIGHT" maxWidth="200" maxHeight="50" styleClass="panel-region" spacing="11" alignment="TOP_CENTER">
         <StackPane.margin>
-            <Insets top="10" left="10"/>
+            <Insets bottom="20" right="10"/>
         </StackPane.margin>
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
+        <Button text="Cockpit view" maxWidth="Infinity" onAction="#handleCockpitViewButtonClicked"/>
+        <Button text="Center view" maxWidth="Infinity" onAction="#handleFollowViewButtonClicked"/>
+
         <background>
             <Background>
                 <fills>
@@ -48,58 +56,66 @@
                 </fills>
             </Background>
         </background>
+    </VBox>
 
-        <!--CAMERA OFFSET BUTTONS-->
-        <VBox spacing="6" alignment="TOP_CENTER">
-            <VBox alignment="CENTER">
-                <padding>
-                    <Insets bottom="10"/>
-                </padding>
-                <Label text="Camera Offset">
-                    <font>
-                        <Font size="15"/>
-                    </font>
-                    <padding>
-                        <Insets bottom="5"/>
-                    </padding>
-                </Label>
-                <Button fx:id="travelAwayButton" text="Animate camera focus away from plane" maxWidth="Infinity" onAction="#handleTravelAwayButtonClicked"/>
-                <Button fx:id="returnButton" text="Reset camera focus to cockpit" maxWidth="Infinity" onAction="#handleReturnButtonClicked"/>
-                <Button fx:id="offsetButton" text="Offset camera focus to plane tail" maxWidth="Infinity" onAction="#handleOffsetButtonClicked"/>
-            </VBox>
-        </VBox>
-        <Separator/>
-
-        <!--CAMERA HEADING-->
-        <VBox alignment="TOP_CENTER" spacing="6">
-            <padding>
-                <Insets top="10" bottom="10"/>
-            </padding>
+    <!--Camera heading-->
+    <VBox StackPane.alignment="BOTTOM_LEFT" maxWidth="500" maxHeight="50" styleClass="panel-region" spacing="6">
+        <StackPane.margin>
+            <Insets bottom="20" left="10"/>
+        </StackPane.margin>
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <HBox alignment="TOP_CENTER" maxWidth="Infinity">
             <Label text="Camera Heading">
-                <font>
-                    <Font size="15"/>
-                </font>
+                <padding>
+                    <Insets right="175"/>
+                </padding>
             </Label>
-            <Slider fx:id="headingSlider" min="10" max="110" value="100" majorTickUnit="50" showTickMarks="true"
-                    showTickLabels="true" prefWidth="140" disable="true"/>
-            <CheckBox fx:id="cameraHeadingCheckbox" text="Allow keyboard/mouse interaction" selected="true" wrapText="true" style="-fx-font-size: 13" onAction="#handleHeadingInteractionCheckBoxChanged"/>
-        </VBox>
-        <Separator/>
+            <CheckBox fx:id="allowDistanceInteractionCheckBox" text="Allow camera distance interaction" selected="true"
+                      onAction="#handleDistanceInteractionCheckBoxToggle"/>
 
-        <!--PLANE HEADING-->
-        <VBox spacing="6" alignment="TOP_CENTER">
-            <padding>
-                <Insets top="10" bottom="10"/>
-            </padding>
-        <Label text="Plane Heading">
-            <font>
-                <Font size="15"/>
-            </font>
-        </Label>
-        <Slider fx:id="planeHeadingSlider" min="-180" max="180" value="0" majorTickUnit="90" showTickMarks="true"
-                showTickLabels="true" prefWidth="120"/>
-        <CheckBox fx:id="planeAutoHeadingCheckbox" text="Rotate camera with plane" selected="true" wrapText="true" style="-fx-font-size: 13" onAction="#handleAutoHeadingCheckBox"/>
-        </VBox>
+
+        </HBox>
+
+        <Slider fx:id="cameraHeadingSlider" min="-180" max="180" majorTickUnit="90" showTickMarks="true"
+                showTickLabels="true" maxWidth="Infinity"/>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+    </VBox>
+
+    <!--Plane pitch-->
+    <VBox StackPane.alignment="CENTER_RIGHT" alignment="CENTER" maxWidth="100" maxHeight="300" styleClass="panel-region"
+          spacing="6">
+        <StackPane.margin>
+            <Insets right="10"/>
+        </StackPane.margin>
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <Label text="Plane Pitch"/>
+        <Slider fx:id="planePitchSlider" orientation="VERTICAL" min="-90" max="90" majorTickUnit="45" showTickMarks="true"
+                showTickLabels="true" maxHeight="Infinity" VBox.vgrow="ALWAYS"/>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
     </VBox>
 </StackPane>
 

@@ -16,6 +16,12 @@
 
 package com.esri.samples.scene.orbit_the_camera_around_an_object;
 
+import java.io.File;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Slider;
+
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
@@ -30,37 +36,19 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Slider;
-
-import java.io.File;
-
 public class OrbitTheCameraAroundAnObjectController {
 
-  private Graphic plane3D;
-
-  @FXML
-  private Button travelAwayButton;
-  @FXML
-  private Button returnButton;
-  @FXML
-  private Button offsetButton;
-
-  @FXML
-  private CheckBox cameraHeadingCheckbox;
-  @FXML
-  private CheckBox planeAutoHeadingCheckbox;
-
-  @FXML
-  private OrbitGeoElementCameraController orbitCameraController;
   @FXML
   private SceneView sceneView;
   @FXML
-  private Slider headingSlider;
+  private CheckBox allowDistanceInteractionCheckBox;
   @FXML
-  private Slider planeHeadingSlider;
+  private Slider cameraHeadingSlider;
+  @FXML
+  private Slider planePitchSlider;
+
+  private OrbitGeoElementCameraController orbitCameraController;
+
 
   public void initialize() {
 
@@ -71,7 +59,7 @@ public class OrbitTheCameraAroundAnObjectController {
       scene.setBasemap(Basemap.createImagery());
       sceneView.setArcGISScene(scene);
 
-      // add base surface for elevation data
+      // add a base surface with elevation data
       Surface surface = new Surface();
       ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
               ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
@@ -80,53 +68,58 @@ public class OrbitTheCameraAroundAnObjectController {
 
       // create a graphics overlay for the scene
       GraphicsOverlay sceneGraphicsOverlay = new GraphicsOverlay();
-      sceneGraphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
+      sceneGraphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
       sceneView.getGraphicsOverlays().add(sceneGraphicsOverlay);
 
-      // add rendered using rotation expressions
+      // create a renderer to control the plane's orientation by its attributes
       SimpleRenderer renderer = new SimpleRenderer();
       renderer.getSceneProperties().setHeadingExpression("[HEADING]");
       renderer.getSceneProperties().setPitchExpression("[PITCH]");
       renderer.getSceneProperties().setRollExpression("[ROLL]");
       sceneGraphicsOverlay.setRenderer(renderer);
 
-      // create a graphic with a ModelSceneSymbol of a plane to add to the scene
+      // create a graphic of a plane model
       String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
       ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
       plane3DSymbol.loadAsync();
-      plane3DSymbol.setHeading(45);
-      plane3D = new Graphic(new Point(6.637, 45.399, 1955, SpatialReferences.getWgs84()), plane3DSymbol);
-      sceneGraphicsOverlay.getGraphics().add(plane3D);
+      // position the plane over a runway
+      Graphic plane = new Graphic(new Point(6.637, 45.399, 100, SpatialReferences.getWgs84()), plane3DSymbol);
+      // initialize the plane's heading to line up with the runway
+      plane.getAttributes().put("HEADING", 45.0);
+      sceneGraphicsOverlay.getGraphics().add(plane);
 
-      // instantiate a new camera controller which orbits a given geo element at a certain distance
-      orbitCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
+      // control the plane's pitch with a slider
+      planePitchSlider.valueProperty().addListener(o -> plane.getAttributes().put("PITCH", planePitchSlider.getValue()));
+
+      // create an orbit geoelement camera controller with the plane as the target
+      orbitCameraController = new OrbitGeoElementCameraController(plane, 50.0);
+
+      // restrict the camera's heading to stay behind the plane
+      orbitCameraController.setMinCameraHeadingOffset(-45);
+      orbitCameraController.setMaxCameraHeadingOffset(45);
+
+      // restrict the camera's pitch so it doesn't go completely vertical or collide with the ground
+      orbitCameraController.setMinCameraPitchOffset(10);
+      orbitCameraController.setMaxCameraPitchOffset(100);
+
+      // restrict the camera to stay between 10 and 1000 meters from the plane
+      orbitCameraController.setMinCameraDistance(10);
+      orbitCameraController.setMaxCameraDistance(100);
+
+      // position the plane a third from the bottom of the screen
+      orbitCameraController.setTargetVerticalScreenFactor(0.33f);
+
+      // don't pitch the camera when the plane pitches
+      orbitCameraController.setAutoPitchEnabled(false);
+
       // set the orbit camera controller to the scene view
       sceneView.setCameraController(orbitCameraController);
-      // set the starter value, and min max heading offset of the camera
-      orbitCameraController.setCameraHeadingOffset(100);
-      orbitCameraController.setMaxCameraHeadingOffset(110);
-      orbitCameraController.setMinCameraHeadingOffset(10);
-      // set the starter value, and min max pitch offset of the camera
-      orbitCameraController.setCameraPitchOffset(85);
-      orbitCameraController.setMaxCameraPitchOffset(80);
-      orbitCameraController.setMinCameraPitchOffset(10);
-      // set the starter value, and min and max camera distance to the target
-      orbitCameraController.setCameraDistance(30);
-      orbitCameraController.setMaxCameraDistance(30);
-      orbitCameraController.setMinCameraDistance(10);
-      // set the where the plane is positioned on the screen
-      orbitCameraController.setTargetVerticalScreenFactor(0.3f);
-      // set the target offset of the plane to 0 (the plane will remain the center focus of the camera controller)
-      resetControllerTargetToPlane();
 
-      // update slider positions whilst interacting with the camera
-      sceneView.addViewpointChangedListener(event -> headingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
+      // set the camera's heading using a slider
+      cameraHeadingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(cameraHeadingSlider.getValue()));
 
-      // adjust the heading direction of the plane using the plane heading slider
-      planeHeadingSlider.valueProperty().addListener(o -> plane3D.getAttributes().put("HEADING", planeHeadingSlider.getValue()));
-
-      // set the camera's heading using the heading slider
-      headingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(headingSlider.getValue()));
+      // update slider positions whilst interacting with the camera heading
+      sceneView.addViewpointChangedListener( event -> cameraHeadingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
 
     } catch (Exception e) {
       // on any exception, print the stack trace
@@ -135,52 +128,61 @@ public class OrbitTheCameraAroundAnObjectController {
   }
 
   /**
-   * Animate the camera away from the plane to the specified location over a period of 4 seconds.
+   * Animates the camera to a cockpit view. The camera's target is offset to the cockpit (instead of the plane's
+   * center). The camera is moved onto the target position to create a swivelling camera effect. Auto pitch is
+   * enabled so the camera pitches when the plane pitches.
    */
   @FXML
-  private void handleTravelAwayButtonClicked() {
-    orbitCameraController.setTargetOffsetsAsync(-25, -25, 10, 3);
+  private void handleCockpitViewButtonClicked() {
+    // disable camera distance interaction checkbox
+    allowDistanceInteractionCheckBox.setDisable(true);
+
+    // allow the camera to get closer to the target
+    orbitCameraController.setMinCameraDistance(0);
+
+    // pitch the camera when the plane pitches
+    orbitCameraController.setAutoPitchEnabled(true);
+
+    // animate the camera target to the cockpit instead of the center of the plane
+    orbitCameraController.setTargetOffsetsAsync(0, -2, 1.1, 1);
+
+    // animate the camera so that it is 0.01m from the target (cockpit), facing forward (0 deg heading), and aligned
+    // with the horizon (90 deg pitch)
+    orbitCameraController.moveCameraAsync(0 - orbitCameraController.getCameraDistance(),
+        0 - orbitCameraController.getCameraHeadingOffset(), 90 - orbitCameraController.getCameraPitchOffset(), 1).addDoneListener(() -> {
+      // once the camera is in the cockpit, only allow the camera's heading to change
+      orbitCameraController.setMinCameraPitchOffset(90);
+      orbitCameraController.setMaxCameraPitchOffset(90);
+    });
   }
 
   /**
-   * Animate the camera back to the plane over a period of 4 seconds.
+   * Configures the camera controller for a "follow" view. The camera targets the center of the plane with a default
+   * position directly behind and slightly above the plane. Auto pitch is disabled so the camera does not pitch when
+   * the plane pitches.
    */
   @FXML
-  private void handleReturnButtonClicked() {
-    resetControllerTargetToPlane();
-  }
+  private void handleFollowViewButtonClicked() {
+    allowDistanceInteractionCheckBox.setDisable(false);
 
-  /**
-   * Set a target offset value for the camera to orbit round the tail of the plane.
-   */
-  @FXML
-  private void handleOffsetButtonClicked() {
-    orbitCameraController.setTargetOffsetY(-5);
-    orbitCameraController.setTargetOffsetX(-5);
-    orbitCameraController.setTargetOffsetZ(0);
-  }
-
-  /**
-   * Set if the camera heading can be interacted with via external input (e.g. keyboard or mouse).
-   */
-  @FXML
-  private void handleHeadingInteractionCheckBoxChanged() {
-    orbitCameraController.setCameraHeadingOffsetInteractive(cameraHeadingCheckbox.isSelected());
-    headingSlider.setDisable(cameraHeadingCheckbox.isSelected());
-  }
-
-  /**
-   * Set if the camera will follow the plane heading.
-   */
-  @FXML
-  private void handleAutoHeadingCheckBox() {
-    orbitCameraController.setAutoHeadingEnabled(planeAutoHeadingCheckbox.isSelected());
-  }
-
-  private void resetControllerTargetToPlane() {
+    orbitCameraController.setAutoPitchEnabled(false);
     orbitCameraController.setTargetOffsetX(0);
     orbitCameraController.setTargetOffsetY(0);
     orbitCameraController.setTargetOffsetZ(0);
+    orbitCameraController.setCameraHeadingOffset(0);
+    orbitCameraController.setCameraPitchOffset(45);
+    orbitCameraController.setMinCameraPitchOffset(10);
+    orbitCameraController.setMaxCameraPitchOffset(100);
+    orbitCameraController.setMinCameraDistance(10.0);
+    orbitCameraController.setCameraDistance(50.0);
+  }
+
+  /**
+   * Toggle interactive distance. When distance interaction is disabled, the user cannot zoom in with the mouse.
+   */
+  @FXML
+  private void handleDistanceInteractionCheckBoxToggle() {
+    orbitCameraController.setCameraDistanceInteractive(allowDistanceInteractionCheckBox.isSelected());
   }
 
   /**
@@ -193,4 +195,5 @@ public class OrbitTheCameraAroundAnObjectController {
       sceneView.dispose();
     }
   }
+
 }
