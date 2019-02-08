@@ -59,23 +59,21 @@
     </VBox>
 
     <!--Camera heading-->
-    <VBox StackPane.alignment="BOTTOM_LEFT" maxWidth="500" maxHeight="50" styleClass="panel-region" spacing="6">
+    <VBox StackPane.alignment="BOTTOM_CENTER" maxWidth="500" maxHeight="50" styleClass="panel-region" spacing="6">
         <StackPane.margin>
             <Insets bottom="20" left="10"/>
         </StackPane.margin>
         <padding>
-            <Insets topRightBottomLeft="10"/>
+            <Insets top="10" left="30" right="30" bottom="10"/>
         </padding>
-        <HBox alignment="TOP_CENTER" maxWidth="Infinity">
+        <HBox alignment="TOP_LEFT" maxWidth="Infinity">
             <Label text="Camera Heading">
                 <padding>
-                    <Insets right="175"/>
+                    <Insets left="10" right="130"/>
                 </padding>
             </Label>
             <CheckBox fx:id="allowDistanceInteractionCheckBox" text="Allow camera distance interaction" selected="true"
                       onAction="#handleDistanceInteractionCheckBoxToggle"/>
-
-
         </HBox>
 
         <Slider fx:id="cameraHeadingSlider" min="-180" max="180" majorTickUnit="90" showTickMarks="true"
@@ -97,7 +95,7 @@
     <VBox StackPane.alignment="CENTER_RIGHT" alignment="CENTER" maxWidth="100" maxHeight="300" styleClass="panel-region"
           spacing="6">
         <StackPane.margin>
-            <Insets right="10"/>
+            <Insets right="10" top="110"/>
         </StackPane.margin>
         <padding>
             <Insets topRightBottomLeft="10"/>
