@@ -118,6 +118,9 @@ public class OrbitTheCameraAroundAnObjectController {
       // set the camera's heading using a slider
       cameraHeadingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(cameraHeadingSlider.getValue()));
 
+      // update slider positions whilst interacting with the camera heading
+      sceneView.addViewpointChangedListener( event -> cameraHeadingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
+
     } catch (Exception e) {
       // on any exception, print the stack trace
       e.printStackTrace();
@@ -131,6 +134,9 @@ public class OrbitTheCameraAroundAnObjectController {
    */
   @FXML
   private void handleCockpitViewButtonClicked() {
+    // disable camera distance interaction checkbox
+    allowDistanceInteractionCheckBox.setDisable(true);
+
     // allow the camera to get closer to the target
     orbitCameraController.setMinCameraDistance(0);
 
@@ -157,6 +163,8 @@ public class OrbitTheCameraAroundAnObjectController {
    */
   @FXML
   private void handleFollowViewButtonClicked() {
+    allowDistanceInteractionCheckBox.setDisable(false);
+
     orbitCameraController.setAutoPitchEnabled(false);
     orbitCameraController.setTargetOffsetX(0);
     orbitCameraController.setTargetOffsetY(0);
