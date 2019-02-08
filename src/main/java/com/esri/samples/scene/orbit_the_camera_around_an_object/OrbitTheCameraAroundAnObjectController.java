@@ -118,7 +118,7 @@ public class OrbitTheCameraAroundAnObjectController {
       // set the camera's heading using a slider
       cameraHeadingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(cameraHeadingSlider.getValue()));
 
-      // update slider positions whilst interacting with the camera heading
+      // update camera heading slider position whilst interacting with the camera heading
       sceneView.addViewpointChangedListener( event -> cameraHeadingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
 
     } catch (Exception e) {
