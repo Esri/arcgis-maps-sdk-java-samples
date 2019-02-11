@@ -18,7 +18,7 @@ apply plugin: 'com.esri.arcgisruntime.java'
 
 group = 'com.esri.samples'
 
-arcgis.version = '100.5.0-2322'
+arcgis.version = '100.5.0-2328'
 arcgis.internal = true
 
 javafx {
