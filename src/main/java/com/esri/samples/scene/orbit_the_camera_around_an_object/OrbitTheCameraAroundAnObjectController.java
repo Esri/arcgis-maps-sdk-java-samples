@@ -18,6 +18,9 @@ package com.esri.samples.scene.orbit_the_camera_around_an_object;
 
 import java.io.File;
 
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
@@ -91,35 +94,50 @@ public class OrbitTheCameraAroundAnObjectController {
       // control the plane's pitch with a slider
       planePitchSlider.valueProperty().addListener(o -> plane.getAttributes().put("PITCH", planePitchSlider.getValue()));
 
-      // create an orbit geoelement camera controller with the plane as the target
-      orbitCameraController = new OrbitGeoElementCameraController(plane, 50.0);
+      // listener for the view to stop loading and to add the camera controller
+      DrawStatusChangedListener listener = new DrawStatusChangedListener() {
 
-      // restrict the camera's heading to stay behind the plane
-      orbitCameraController.setMinCameraHeadingOffset(-45);
-      orbitCameraController.setMaxCameraHeadingOffset(45);
+        @Override
+        public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
+          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
 
-      // restrict the camera's pitch so it doesn't go completely vertical or collide with the ground
-      orbitCameraController.setMinCameraPitchOffset(10);
-      orbitCameraController.setMaxCameraPitchOffset(100);
+              // create an orbit geoelement camera controller with the plane as the target
+              orbitCameraController = new OrbitGeoElementCameraController(plane, 50.0);
 
-      // restrict the camera to stay between 10 and 1000 meters from the plane
-      orbitCameraController.setMinCameraDistance(10);
-      orbitCameraController.setMaxCameraDistance(100);
+              // restrict the camera's heading to stay behind the plane
+              orbitCameraController.setMinCameraHeadingOffset(-45);
+              orbitCameraController.setMaxCameraHeadingOffset(45);
 
-      // position the plane a third from the bottom of the screen
-      orbitCameraController.setTargetVerticalScreenFactor(0.33f);
+              // restrict the camera's pitch so it doesn't go completely vertical or collide with the ground
+              orbitCameraController.setMinCameraPitchOffset(10);
+              orbitCameraController.setMaxCameraPitchOffset(100);
 
-      // don't pitch the camera when the plane pitches
-      orbitCameraController.setAutoPitchEnabled(false);
+              // restrict the camera to stay between 10 and 1000 meters from the plane
+              orbitCameraController.setMinCameraDistance(10);
+              orbitCameraController.setMaxCameraDistance(100);
 
-      // set the orbit camera controller to the scene view
-      sceneView.setCameraController(orbitCameraController);
+              // position the plane a third from the bottom of the screen
+              orbitCameraController.setTargetVerticalScreenFactor(0.33f);
 
-      // set the camera's heading using a slider
-      cameraHeadingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(cameraHeadingSlider.getValue()));
+              // don't pitch the camera when the plane pitches
+              orbitCameraController.setAutoPitchEnabled(false);
 
-      // update camera heading slider position whilst interacting with the camera heading
-      sceneView.addViewpointChangedListener( event -> cameraHeadingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
+              // set the orbit camera controller to the scene view
+              sceneView.setCameraController(orbitCameraController);
+
+              // set the camera's heading using a slider
+              cameraHeadingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(cameraHeadingSlider.getValue()));
+
+              // update camera heading slider position whilst interacting with the camera heading
+              sceneView.addViewpointChangedListener( event -> cameraHeadingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
+
+            // stop listening for the view to load
+            sceneView.removeDrawStatusChangedListener(this);
+          }
+        }
+      };
+
+      sceneView.addDrawStatusChangedListener(listener);
 
     } catch (Exception e) {
       // on any exception, print the stack trace
