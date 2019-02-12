@@ -181,7 +181,7 @@ public class OrbitTheCameraAroundAnObjectController {
    * the plane pitches.
    */
   @FXML
-  private void handleFollowViewButtonClicked() {
+  private void handleCenterViewButtonClicked() {
     allowDistanceInteractionCheckBox.setDisable(false);
 
     orbitCameraController.setAutoPitchEnabled(false);

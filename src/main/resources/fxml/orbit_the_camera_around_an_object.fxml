@@ -49,7 +49,7 @@
                     <Insets topRightBottomLeft="10"/>
                 </padding>
                 <Button text="Cockpit view" maxWidth="Infinity" onAction="#handleCockpitViewButtonClicked"/>
-                <Button text="Center view" maxWidth="Infinity" onAction="#handleFollowViewButtonClicked"/>
+                <Button text="Center view" maxWidth="Infinity" onAction="#handleCenterViewButtonClicked"/>
 
                 <background>
                     <Background>
