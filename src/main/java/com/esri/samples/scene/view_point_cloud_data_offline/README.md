@@ -8,8 +8,6 @@
 
 <p>Point clouds are often used to visualize massive sets of sensor data such as lidar. The point locations indicate where the sensor data was measured spatially, and the color or size of the points indicate the measured/derived value of the sensor reading. In the case of lidar, the color of the visualized point could be the color of the reflected light, so that the point cloud forms a true color 3D image of the area.</p>
 
-<p>.</p>
-
 <h2>How it works</h2>
 
 <ol>
