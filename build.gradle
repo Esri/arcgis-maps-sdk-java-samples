@@ -86,6 +86,8 @@ task downloadData {
                         'a9788a0e8ef241ec89182f87f6967ec9',
                         '91087f8d3e6e46b7a0c5987eac379452',
                         '5c10e6c0b8974d16b74d557568105b96'], 'local_server')
+
+    downloadSampleData(['cb1b20748a9f4d128dad8a87244e3e37'], 'los_angeles')
     
     downloadSampleData(['567e14f3420d40c5a206e5c0284cf8fc'], 'san_diego')
 
