@@ -67,7 +67,7 @@ public class ViewPointCloudDataOfflineSample extends Application {
       surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
       scene.setBaseSurface(surface);
 
-      // add a a point cloud layer with data from Balboa Park in San Diego
+      // add a point cloud layer from a scene layer package of Balboa Park in San Diego
       File pointCloudSLPK = new File("./samples-data/slpks/sandiego-north-balboa-pointcloud.slpk");
       PointCloudLayer pointCloudLayer = new PointCloudLayer(pointCloudSLPK.getAbsolutePath());
       scene.getOperationalLayers().add(pointCloudLayer);
