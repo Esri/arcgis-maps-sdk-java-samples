@@ -31,7 +31,6 @@
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
 <?import javafx.scene.layout.HBox?>
 <StackPane
-        fx:id="stackpane"
         fx:controller="com.esri.samples.scene.orbit_the_camera_around_an_object.OrbitTheCameraAroundAnObjectController"
         xmlns:fx="http://javafx.com/fxml"
         stylesheets="/css/style.css">
