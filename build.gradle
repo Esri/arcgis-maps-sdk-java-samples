@@ -94,6 +94,8 @@ task downloadData {
     downloadSampleData(['5491f01d92554751902ecad85cc5d6ca'], 'dictionary')
 
     downloadSampleData(['943285c21a8e4e1582f0af1101f87bdf'], 'slpks')
+
+    downloadSampleData(['0c6be619e65b435ebf835289f1d9fa6e'], 'mspk')
 }
 
 run {
