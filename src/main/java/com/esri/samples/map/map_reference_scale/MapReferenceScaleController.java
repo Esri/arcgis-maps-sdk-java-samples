@@ -5,10 +5,13 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
 
 public class MapReferenceScaleController {
 
   @FXML private MapView mapView;
+  @FXML private Label scaleLabel;
 
   private ArcGISMap map;
 
@@ -24,6 +27,25 @@ public class MapReferenceScaleController {
 
     // set the map to the map view
     mapView.setMap(map);
+
+    // create a label to display current scale of the map
+    mapView.addMapScaleChangedListener(event -> {
+      Long mapScale = Math.round(mapView.getMapScale());
+      String mapScaleString = mapScale.toString();
+      scaleLabel.setText("Current map scale 1:" + mapScaleString);
+    });
+
+    mapView.addMapScaleChangedListener(event -> {
+      System.out.println("1:" + Math.round(mapView.getMapScale()));
+    });
+
+
+
+  }
+
+  @FXML
+  private void updateLabel(){
+
 
 
 
