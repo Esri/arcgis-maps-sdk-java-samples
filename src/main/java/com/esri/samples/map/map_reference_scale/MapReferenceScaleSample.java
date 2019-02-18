@@ -19,21 +19,27 @@ package com.esri.samples.map.map_reference_scale;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MapReferenceScaleSample extends Application {
 
-  private MapView mapView;
+  private static MapReferenceScaleController controller;
 
   @Override
   public void start(Stage stage) throws Exception {
 
     // set up the scene
-    StackPane stackPane = new StackPane();
-    Scene scene = new Scene(stackPane);
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/map_reference_scale.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene scene = new Scene(root);
 
     // set up the stage
     stage.setTitle("Map Reference Scale Sample");
@@ -41,14 +47,23 @@ public class MapReferenceScaleSample extends Application {
     stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
+  }
 
-    ArcGISMap map = new ArcGISMap(Basemap.createNationalGeographic());
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
+    controller.terminate();
+  }
 
-    mapView = new MapView();
-    mapView.setMap(map);
+  /**
+   * Opens and runs application.
+   *
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
 
-    stackPane.getChildren().add(mapView);
-
-
+    Application.launch(args);
   }
 }
