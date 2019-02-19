@@ -1,24 +1,37 @@
 package com.esri.samples.map.map_reference_scale;
 
-import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.LayerList;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-
+import javafx.scene.layout.VBox;
 
 public class MapReferenceScaleController {
 
-  @FXML private MapView mapView;
-  @FXML private Label scaleLabel;
-  @FXML private ComboBox<Integer> scaleComboBox;
-  @FXML private Button setMapToRefScaleButton;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private Label scaleLabel;
+  @FXML
+  private Label loadingLabel;
+  @FXML
+  private ComboBox<Integer> scaleComboBox;
+  @FXML
+  private Button setMapToRefScaleButton;
+  @FXML
+  private CheckBox checkBox;
+  @FXML
+  private VBox vBox;
 
   private ArcGISMap map;
 
@@ -35,14 +48,14 @@ public class MapReferenceScaleController {
     // set the map to the map view
     mapView.setMap(map);
     map.setReferenceScale(250000);
-    scaleLabel.setText("Current Map Scale is loading");
+    scaleLabel.setText("LOADING...");
+    loadingLabel.setText("LOADING...");
 
     // create a label to display current scale of the map
     mapView.addMapScaleChangedListener(event -> {
       Long mapScale = Math.round(mapView.getMapScale());
       String mapScaleString = mapScale.toString();
       scaleLabel.setText("Current Map Scale 1:" + mapScaleString);
-      System.out.println("Reference scale is: " + map.getReferenceScale());
 
     });
 
@@ -59,31 +72,49 @@ public class MapReferenceScaleController {
       // get the current reference scale of the map
       double currentReferenceScale = mapView.getMap().getReferenceScale();
       // set a new view point passing in the center point and reference scale
-      Viewpoint newViewPoint = new Viewpoint(centerPoint, currentReferenceScale, 1);
+      Viewpoint newViewPoint = new Viewpoint(centerPoint, currentReferenceScale);
       // set new view point
       mapView.setViewpointAsync(newViewPoint);
 
-
-    });
-
-    scaleComboBox.getSelectionModel().selectedItemProperty().addListener(observable -> {
-
-
-    });
-
-    // 7 layers are residing in the map
-    map.addDoneLoadingListener(()->{
-      System.out.println(map.getOperationalLayers().size());
-      System.out.println(map.getOperationalLayers().toString());
-
     });
 
 
+    map.addDoneLoadingListener(() -> {
+      createNewCheckBox();
+      loadingLabel.setText("Apply Reference Scale");
 
 
+    });
 
   }
 
+  @FXML
+  private void createNewCheckBox() {
+
+    LayerList operationalLayers = map.getOperationalLayers();
+
+
+
+    for (Layer layer : operationalLayers) {
+      CheckBox layerInCheckBox = new CheckBox(layer.getName());
+      layerInCheckBox.setSelected(true);
+
+
+      for (int i = 0; i < operationalLayers.size(); i++){
+        FeatureLayer featureLayer = (FeatureLayer) operationalLayers.get(i);
+
+        layerInCheckBox.setOnAction(e->{
+          System.out.println(featureLayer.getName());
+          featureLayer.setScaleSymbols(layerInCheckBox.isSelected());
+        });
+
+      }
+
+      vBox.getChildren().add(layerInCheckBox);
+
+
+    }
+  }
 
 
   /**
