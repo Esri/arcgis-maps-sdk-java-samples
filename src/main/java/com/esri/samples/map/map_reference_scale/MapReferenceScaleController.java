@@ -81,7 +81,8 @@ public class MapReferenceScaleController {
 
 
     map.addDoneLoadingListener(() -> {
-      populateMapLayerCheckBoxes();
+      populateCheckBoxList();
+      setScaleSymbolsForMapLayers(layerInCheckBox);
       loadingLabel.setText("Apply Reference Scale");
 
 
@@ -89,8 +90,8 @@ public class MapReferenceScaleController {
 
   }
 
-  @FXML
-  private void populateMapLayerCheckBoxes() {
+  // populate a list of checkboxes based on layers in the map
+  private void populateCheckBoxList(){
 
     LayerList operationalLayers = map.getOperationalLayers();
 
@@ -99,23 +100,26 @@ public class MapReferenceScaleController {
       layerInCheckBox.setSelected(true);
       vBox.getChildren().add(layerInCheckBox);
     }
+  }
+
+  @FXML
+  private void setScaleSymbolsForMapLayers(CheckBox checkBox) {
+
+    LayerList operationalLayers = map.getOperationalLayers();
+
 
     for (int i = 0; i < operationalLayers.size(); i++) {
       featureLayer = (FeatureLayer) operationalLayers.get(i);
-
-//      layerInCheckBox = new CheckBox(featureLayer.getName());
-//      layerInCheckBox.setSelected(true);
-
       System.out.println("Get the feature layers name: " + featureLayer.getName());
 
-      layerInCheckBox.setOnAction(e -> {
+      checkBox.setOnAction(e -> {
         System.out.println("Checked item " + featureLayer.getName());
-        featureLayer.setScaleSymbols(layerInCheckBox.isSelected());
-
+        featureLayer.setScaleSymbols(checkBox.isSelected());
 
       });
 
-    }
+      }
+
   }
 
 
