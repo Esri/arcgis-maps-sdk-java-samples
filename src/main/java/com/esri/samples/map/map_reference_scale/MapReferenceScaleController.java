@@ -29,12 +29,9 @@ public class MapReferenceScaleController {
   @FXML
   private Button setMapToRefScaleButton;
   @FXML
-  private CheckBox layerInCheckBox;
-  @FXML
   private VBox vBox;
 
   private ArcGISMap map;
-  private FeatureLayer featureLayer;
 
   @FXML
   private void initialize() {
@@ -52,19 +49,45 @@ public class MapReferenceScaleController {
     scaleLabel.setText("LOADING...");
     loadingLabel.setText("LOADING...");
 
+    // set up the combobox to have 1:50k, 100k, 250k and 500k reference scales
+    scaleComboBox.getItems().addAll("1:50000", "1:100000", "1:250000", "1:500000");
+    scaleComboBox.getSelectionModel().select(2);
+
     // create a label to display current scale of the map
     mapView.addMapScaleChangedListener(event -> {
       Long mapScale = Math.round(mapView.getMapScale());
       String mapScaleString = mapScale.toString();
       scaleLabel.setText("Current Map Scale 1:" + mapScaleString);
-
     });
 
-    // set up the combobox to have 1:50k, 100k, 250k and 500k reference scales
-    scaleComboBox.getItems().addAll("1:50000", "1:100000", "1:250000", "1:500000");
-    scaleComboBox.getSelectionModel().select(2);
+    map.addDoneLoadingListener(() -> {
+      populateCheckBoxList();
+      loadingLabel.setText("Apply Reference Scale");
+    });
+  }
 
-    setMapToRefScaleButton.setOnAction(event -> {
+  // populate a list of checkboxes based on layers in the map
+  private void populateCheckBoxList(){
+
+    LayerList operationalLayers = map.getOperationalLayers();
+
+    for (Layer layer : operationalLayers) {
+      // create a checkbox per operational layer name
+      CheckBox checkBox = new CheckBox(layer.getName());
+      checkBox.setSelected(true);
+      // add the checkboxes to the VBox
+      vBox.getChildren().add(checkBox);
+
+      FeatureLayer featureLayer = (FeatureLayer) layer;
+      // set if the feature layer will honor the reference scale
+      checkBox.setOnAction(event -> {
+        featureLayer.setScaleSymbols(checkBox.isSelected());
+      });
+    }
+  }
+
+  @FXML
+  private void handleScaleButtonClicked() {
 
       // get string value from the combobox, convert to double
       String selectedString = scaleComboBox.getSelectionModel().getSelectedItem();
@@ -82,51 +105,7 @@ public class MapReferenceScaleController {
       Viewpoint newViewPoint = new Viewpoint(centerPoint, currentReferenceScale);
       // set new view point
       mapView.setViewpointAsync(newViewPoint);
-
-    });
-
-
-    map.addDoneLoadingListener(() -> {
-      populateCheckBoxList();
-      setScaleSymbolsForMapLayers(layerInCheckBox);
-      loadingLabel.setText("Apply Reference Scale");
-    });
-
   }
-
-  // populate a list of checkboxes based on layers in the map
-  private void populateCheckBoxList(){
-
-    LayerList operationalLayers = map.getOperationalLayers();
-
-    for (Layer layer : operationalLayers) {
-      layerInCheckBox = new CheckBox(layer.getName());
-      layerInCheckBox.setSelected(true);
-      vBox.getChildren().add(layerInCheckBox);
-    }
-  }
-
-  @FXML
-  private void setScaleSymbolsForMapLayers(CheckBox checkBox) {
-
-    LayerList operationalLayers = map.getOperationalLayers();
-
-
-    for (int i = 0; i < operationalLayers.size(); i++) {
-      featureLayer = (FeatureLayer) operationalLayers.get(i);
-      System.out.println("Get the feature layers name: " + featureLayer.getName());
-
-      checkBox.setOnAction(e -> {
-        System.out.println("Checked item " + featureLayer.getName());
-        featureLayer.setScaleSymbols(checkBox.isSelected());
-
-      });
-
-      }
-
-  }
-
-
 
   /**
    * Stops the animation and disposes of application resources.
