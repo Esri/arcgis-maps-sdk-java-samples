@@ -1,14 +1,14 @@
-<h1 id="openmobilescenepackage">Open mobile scene package</h1>
+<h1>Open mobile scene package</h1>
 
 <p>Open and display a scene from an offline Mobile Scene Package (.mspk).</p>
 
-<p><img src="OpenMobileScenePackage.png" alt="" /></p>
+<p><img src="OpenMobileScenePackage.png"/></p>
 
-<h2 id="usecase">Use Case</h2>
+<h2>Use Case</h2>
 
 <p>A .mspk file is an archive containing the data (specifically, basemaps and features) used to display an offline 3D scene.</p>
 
-<h2 id="howitworks">How it works</h2>
+<h2>How it works</h2>
 
 <ol>
 <li>Use the static method <code>MobileScenePackage.isDirectReadSupportedAsync(mspkData)</code> to check whether the package can be read in the archived form (.mspk) or whether it needs to be unpacked.</li>
@@ -22,16 +22,16 @@
 <li>Set the first scene in the object collection on the scene view with <code>sceneView.setArcGISScene(scene)</code>.</li>
 </ol>
 
-<h2 id="relevantapi">Relevant API</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>MobileScenePackage</li>
 </ul>
 
-<h2 id="additionalinformation">Additional information</h2>
+<h2>Additional information</h2>
 
 <p>Before loading the <code>MobileScenePackage</code>, it is important to first check if direct read is supported. The mobile scene package could contain certain data types that would require the data to be unpacked. For example, scenes containing raster data will need to be unpacked.</p>
 
-<h2 id="tags">Tags</h2>
+<h2>Tags</h2>
 
 <p>Offline, Scene, MobileScenePackage</p>
