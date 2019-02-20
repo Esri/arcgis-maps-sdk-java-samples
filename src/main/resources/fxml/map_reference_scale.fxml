@@ -16,9 +16,6 @@
   ~ the License.
   -->
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -50,7 +47,7 @@
         <Separator/>
         <Label text="Select a new reference scale"/>
         <ComboBox fx:id="scaleComboBox" maxWidth="Infinity" />
-        <Button fx:id="setMapToRefScaleButton" text="Set Map Scale to Reference Scale" maxWidth="Infinity" onAction="#handleScaleButtonClicked"/>
+        <Button text="Set Map Scale to Reference Scale" maxWidth="Infinity" onAction="#handleScaleButtonClicked"/>
     </VBox>
 
     <VBox fx:id="vBox" StackPane.alignment="TOP_RIGHT" maxWidth="165" maxHeight="50" spacing="6" styleClass="panel-region">
@@ -73,7 +70,5 @@
         </background>
         <Label fx:id="loadingLabel"/>
     </VBox>
-
-
-
+    
 </StackPane>

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.esri.samples.map.map_reference_scale;
 
 import com.esri.arcgisruntime.geometry.Point;
@@ -9,8 +25,8 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -26,8 +42,6 @@ public class MapReferenceScaleController {
   private Label loadingLabel;
   @FXML
   private ComboBox<String> scaleComboBox;
-  @FXML
-  private Button setMapToRefScaleButton;
   @FXML
   private VBox vBox;
 
@@ -61,13 +75,16 @@ public class MapReferenceScaleController {
     });
 
     map.addDoneLoadingListener(() -> {
-      populateCheckBoxList();
+      setScaleSymbolsOnSelectedLayers();
       loadingLabel.setText("Apply Reference Scale");
     });
   }
 
-  // populate a list of checkboxes based on layers in the map
-  private void populateCheckBoxList(){
+  /**
+   * Sets the scale symbols (i.e. if the layer will honor the reference scale or not)
+   * for each layer within the map
+   */
+  private void setScaleSymbolsOnSelectedLayers(){
 
     LayerList operationalLayers = map.getOperationalLayers();
 
@@ -86,6 +103,9 @@ public class MapReferenceScaleController {
     }
   }
 
+  /**
+   * Takes the reference scale from the combobox, and sets it as the map's reference scale.
+   */
   @FXML
   private void handleScaleButtonClicked() {
 
