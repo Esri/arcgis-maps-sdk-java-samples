@@ -25,7 +25,7 @@ public class MapReferenceScaleController {
   @FXML
   private Label loadingLabel;
   @FXML
-  private ComboBox<Integer> scaleComboBox;
+  private ComboBox<String> scaleComboBox;
   @FXML
   private Button setMapToRefScaleButton;
   @FXML
@@ -61,13 +61,19 @@ public class MapReferenceScaleController {
     });
 
     // set up the combobox to have 1:50k, 100k, 250k and 500k reference scales
-    scaleComboBox.getItems().addAll(50000, 100000, 250000, 500000);
+    scaleComboBox.getItems().addAll("1:50000", "1:100000", "1:250000", "1:500000");
     scaleComboBox.getSelectionModel().select(2);
 
     setMapToRefScaleButton.setOnAction(event -> {
 
+      // get string value from the combobox, convert to double
+      String selectedString = scaleComboBox.getSelectionModel().getSelectedItem();
+      String[] splitString = selectedString.split(":");
+      String stringMapRefScale = splitString[1];
+      double mapRefScale = Double.valueOf(stringMapRefScale);
+
       // set the reference scale to that selected from the combo box
-      map.setReferenceScale(scaleComboBox.getSelectionModel().getSelectedItem());
+      map.setReferenceScale(Math.round(mapRefScale));
       // get the center point of the current view
       Point centerPoint = mapView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE).getTargetGeometry().getExtent().getCenter();
       // get the current reference scale of the map
@@ -84,8 +90,6 @@ public class MapReferenceScaleController {
       populateCheckBoxList();
       setScaleSymbolsForMapLayers(layerInCheckBox);
       loadingLabel.setText("Apply Reference Scale");
-
-
     });
 
   }
