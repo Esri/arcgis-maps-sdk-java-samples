@@ -70,5 +70,5 @@
         </background>
         <Label fx:id="loadingLabel"/>
     </VBox>
-    
+
 </StackPane>

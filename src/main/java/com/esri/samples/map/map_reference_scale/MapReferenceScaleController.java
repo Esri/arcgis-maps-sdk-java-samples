@@ -84,7 +84,7 @@ public class MapReferenceScaleController {
    * Sets the scale symbols (i.e. if the layer will honor the reference scale or not)
    * for each layer within the map
    */
-  private void setScaleSymbolsOnSelectedLayers(){
+  private void setScaleSymbolsOnSelectedLayers() {
 
     LayerList operationalLayers = map.getOperationalLayers();
 
@@ -109,22 +109,22 @@ public class MapReferenceScaleController {
   @FXML
   private void handleScaleButtonClicked() {
 
-      // get string value from the combobox, convert to double
-      String selectedString = scaleComboBox.getSelectionModel().getSelectedItem();
-      String[] splitString = selectedString.split(":");
-      String stringMapRefScale = splitString[1];
-      double mapRefScale = Double.valueOf(stringMapRefScale);
+    // get string value from the combobox, convert to double
+    String selectedString = scaleComboBox.getSelectionModel().getSelectedItem();
+    String[] splitString = selectedString.split(":");
+    String stringMapRefScale = splitString[1];
+    double mapRefScale = Double.valueOf(stringMapRefScale);
 
-      // set the reference scale to that selected from the combo box
-      map.setReferenceScale(Math.round(mapRefScale));
-      // get the center point of the current view
-      Point centerPoint = mapView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE).getTargetGeometry().getExtent().getCenter();
-      // get the current reference scale of the map
-      double currentReferenceScale = mapView.getMap().getReferenceScale();
-      // set a new view point passing in the center point and reference scale
-      Viewpoint newViewPoint = new Viewpoint(centerPoint, currentReferenceScale);
-      // set new view point
-      mapView.setViewpointAsync(newViewPoint);
+    // set the reference scale to that selected from the combo box
+    map.setReferenceScale(Math.round(mapRefScale));
+    // get the center point of the current view
+    Point centerPoint = mapView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE).getTargetGeometry().getExtent().getCenter();
+    // get the current reference scale of the map
+    double currentReferenceScale = mapView.getMap().getReferenceScale();
+    // set a new view point passing in the center point and reference scale
+    Viewpoint newViewPoint = new Viewpoint(centerPoint, currentReferenceScale);
+    // set new view point
+    mapView.setViewpointAsync(newViewPoint);
   }
 
   /**
