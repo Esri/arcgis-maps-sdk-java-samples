@@ -31,6 +31,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
@@ -69,13 +70,6 @@ public class OpenMobileScenePackageSample extends Application {
 
     // load a mobile scene package
     final String mspkPath = new File("./samples-data/mspk/philadelphia.mspk").getAbsolutePath();
-    // create a temporary directory to store unpacked file if appropriate
-    Path tempDirectory = Files.createTempDirectory("offline_map");
-    final String tempUnpackedPath = tempDirectory.toString();
-
-    //instantiate mobile scene packages for direct read and unpacked options
-    MobileScenePackage directReadMSPK = new MobileScenePackage(mspkPath);
-    MobileScenePackage unpackedMSPK = new MobileScenePackage(tempUnpackedPath);
 
     // check if the mobile scene package can be read directly using a static method
     ListenableFuture<Boolean> isDirectReadSupported = MobileScenePackage.isDirectReadSupportedAsync(mspkPath);
@@ -84,17 +78,29 @@ public class OpenMobileScenePackageSample extends Application {
       try {
         // if the mobile scene package can be read directly, then load the mspk from the direct read path directory
         if (isDirectReadSupported.get()) {
+          //instantiate mobile scene package for direct read file
+          MobileScenePackage directReadMSPK = new MobileScenePackage(mspkPath);
           loadMobileScenePackage(directReadMSPK);
 
         } else {
+          // create a temporary directory to store unpacked file if appropriate
+          Path tempDirectory = Files.createTempDirectory("offline_map");
+          final String tempUnpackedPath = tempDirectory.toString();
+
           // if the mobile scene package has to be unpacked, then unpack the mobile scene package and store it in a local path
           MobileScenePackage.unpackAsync(mspkPath, tempUnpackedPath).addDoneListener(() -> {
+            //instantiate mobile scene package for unpacked file
+            MobileScenePackage unpackedMSPK = new MobileScenePackage(tempUnpackedPath);
             // load the mobile scene package from the unpacked path
             loadMobileScenePackage(unpackedMSPK);
           });
         }
 
       } catch (InterruptedException | ExecutionException e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Mobile Scene Package direct read could not be determined");
+        alert.show();
+
+      } catch (IOException e) {
         e.printStackTrace();
       }
 
@@ -104,11 +110,10 @@ public class OpenMobileScenePackageSample extends Application {
     stackPane.getChildren().add(sceneView);
   }
 
-
   /**
    * Loads the mobile scene package asynchronously, and once it has loaded, sets the first scene within the package to the scene view.
    */
-  public void loadMobileScenePackage(MobileScenePackage mobileScenePackage) {
+  private void loadMobileScenePackage(MobileScenePackage mobileScenePackage) {
 
     mobileScenePackage.loadAsync();
     mobileScenePackage.addDoneLoadingListener(() -> {
