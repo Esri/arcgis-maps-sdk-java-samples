@@ -23,7 +23,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <?import java.lang.Double?>
 <StackPane
     fx:controller="com.esri.samples.map.map_reference_scale.MapReferenceScaleController"
@@ -50,7 +49,7 @@
         <Label fx:id="scaleLabel" />
         <Separator/>
         <Label text="Select a new reference scale"/>
-        <ComboBox fx:id="scaleComboBox" maxWidth="Infinity">
+        <ComboBox fx:id="scaleComboBox" maxWidth="Infinity" onAction="#handleComboBoxSelection">
             <value>
                 <Double fx:value="250000"/>
             </value>

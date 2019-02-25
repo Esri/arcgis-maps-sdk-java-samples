@@ -116,13 +116,21 @@ public class MapReferenceScaleController {
   }
 
   /**
+   * Set the map reference scale when a selection is made using the combobox
+   */
+  @FXML
+  private void handleComboBoxSelection() {
+    setMapReferenceScale(scaleComboBox.getSelectionModel().getSelectedItem());
+  }
+
+  /**
    * Takes the reference scale from the combobox, and sets it as the map's reference scale.
    */
   @FXML
   private void handleScaleButtonClicked() {
 
     // set the reference scale to that selected from the combo box
-    map.setReferenceScale(scaleComboBox.getSelectionModel().getSelectedItem());
+    setMapReferenceScale(scaleComboBox.getSelectionModel().getSelectedItem());
     // get the center point of the current view
     Point centerPoint = mapView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE).getTargetGeometry().getExtent().getCenter();
     // get the current reference scale of the map
@@ -133,7 +141,14 @@ public class MapReferenceScaleController {
     mapView.setViewpointAsync(newViewPoint);
   }
 
-  
+  /**
+   * Sets the map's reference scale
+   *
+   * @param scaleValue reference scale as a double
+   */
+  private void setMapReferenceScale(Double scaleValue){
+    map.setReferenceScale(scaleValue);
+  }
 
   /**
    * Stops the animation and disposes of application resources.
