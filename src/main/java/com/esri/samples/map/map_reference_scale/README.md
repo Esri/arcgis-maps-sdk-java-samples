@@ -36,10 +36,10 @@
 <li>FeatureLayer</li>
 </ul>
 
-<h2 id="additionalinformation">Additional Information</h2>
+<h2>Additional Information</h2>
 
 <p>The map reference scale should normally be set by the map's author and not exposed to the end user like it is in this sample. </p>
 
 <h4>Tags</h4>
 
-<p>Maps &amp; Scenes, reference scale</p>
+<p>Maps & Scenes, reference scale</p>

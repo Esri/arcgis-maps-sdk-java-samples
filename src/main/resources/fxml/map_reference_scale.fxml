@@ -22,13 +22,17 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import java.lang.Double?>
 <StackPane
     fx:controller="com.esri.samples.map.map_reference_scale.MapReferenceScaleController"
     xmlns:fx="http://javafx.com/fxml"
     stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
+    <ProgressIndicator fx:id="progressIndicator" maxWidth="25" maxHeight="25"/>
 
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="220" maxHeight="50" spacing="6" styleClass="panel-region">
+    <VBox fx:id="scaleVBox" StackPane.alignment="TOP_LEFT" maxWidth="220" maxHeight="50" spacing="6" styleClass="panel-region" visible="false">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -46,11 +50,23 @@
         <Label fx:id="scaleLabel" />
         <Separator/>
         <Label text="Select a new reference scale"/>
-        <ComboBox fx:id="scaleComboBox" maxWidth="Infinity" />
+        <ComboBox fx:id="scaleComboBox" maxWidth="Infinity">
+            <value>
+                <Double fx:value="250000"/>
+            </value>
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <Double fx:value="50000"/>
+                <Double fx:value="100000"/>
+                <Double fx:value="250000"/>
+                <Double fx:value="500000"/>
+            </FXCollections>
+        </items>
+        </ComboBox>
         <Button text="Set Map Scale to Reference Scale" maxWidth="Infinity" onAction="#handleScaleButtonClicked"/>
     </VBox>
 
-    <VBox fx:id="vBox" StackPane.alignment="TOP_RIGHT" maxWidth="165" maxHeight="50" spacing="6" styleClass="panel-region">
+    <VBox fx:id="layerVBox" StackPane.alignment="TOP_RIGHT" maxWidth="165" maxHeight="50" spacing="6" styleClass="panel-region" visible="false">
         <StackPane.margin>
             <Insets bottom="15"/>
         </StackPane.margin>
