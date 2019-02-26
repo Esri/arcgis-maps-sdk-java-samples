@@ -96,14 +96,15 @@ public class MapReferenceScaleController {
         // get a list of operational layers from the loaded map
         LayerList operationalLayers = map.getOperationalLayers();
         for (Layer layer : operationalLayers) {
-          // create a checkbox per operational layer name
-          CheckBox checkBox = new CheckBox(layer.getName());
-          checkBox.setSelected(true);
-          // add the checkboxes to the VBox
-          layerVBox.getChildren().add(checkBox);
 
           if (layer instanceof FeatureLayer) {
+
             FeatureLayer featureLayer = (FeatureLayer) layer;
+            // create a checkbox per feature layer name
+            CheckBox checkBox = new CheckBox(featureLayer.getName());
+            checkBox.setSelected(true);
+            // add the checkboxes to the VBox
+            layerVBox.getChildren().add(checkBox);
             // set if the feature layer will honor the reference scale
             checkBox.setOnAction(event -> featureLayer.setScaleSymbols(checkBox.isSelected()));
           }
