@@ -19,6 +19,7 @@ package com.esri.samples.map.map_reference_scale;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.LayerList;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -27,6 +28,7 @@ import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -40,8 +42,6 @@ public class MapReferenceScaleController {
   private MapView mapView;
   @FXML
   private Label scaleLabel;
-  @FXML
-  private Label loadingLabel;
   @FXML
   private ComboBox<Double> scaleComboBox;
   @FXML
@@ -87,40 +87,44 @@ public class MapReferenceScaleController {
 
     map.addDoneLoadingListener(() -> {
 
-      progressIndicator.setVisible(false);
+      if (map.getLoadStatus() == LoadStatus.LOADED) {
 
-      LayerList operationalLayers = map.getOperationalLayers();
+        // remove progress indicator when the map has loaded
+        progressIndicator.setVisible(false);
 
-      for (Layer layer : operationalLayers) {
-        // create a checkbox per operational layer name
-        CheckBox checkBox = new CheckBox(layer.getName());
-        checkBox.setSelected(true);
-        // add the checkboxes to the VBox
-        layerVBox.getChildren().add(checkBox);
 
-        if (layer instanceof FeatureLayer) {
+        // get a list of operational layers from the loaded map
+        LayerList operationalLayers = map.getOperationalLayers();
+        for (Layer layer : operationalLayers) {
+          // create a checkbox per operational layer name
+          CheckBox checkBox = new CheckBox(layer.getName());
+          checkBox.setSelected(true);
+          // add the checkboxes to the VBox
+          layerVBox.getChildren().add(checkBox);
 
-          FeatureLayer featureLayer = (FeatureLayer) layer;
-          // set if the feature layer will honor the reference scale
-          checkBox.setOnAction(event -> {
-            featureLayer.setScaleSymbols(checkBox.isSelected());
-          });
+          if (layer instanceof FeatureLayer) {
+            FeatureLayer featureLayer = (FeatureLayer) layer;
+            // set if the feature layer will honor the reference scale
+            checkBox.setOnAction(event -> featureLayer.setScaleSymbols(checkBox.isSelected()));
+          }
         }
+        scaleVBox.setVisible(true);
+        layerVBox.setVisible(true);
+
+      } else {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Map Failed to Load!");
+        alert.show();
       }
-
-      scaleVBox.setVisible(true);
-      layerVBox.setVisible(true);
-
-      loadingLabel.setText("Apply Reference Scale");
     });
   }
 
   /**
-   * Set the map reference scale when a selection is made using the combobox
+   * Set the map's reference scale to the scale selected in the combo box.
    */
   @FXML
   private void handleComboBoxSelection() {
-    setMapReferenceScale(scaleComboBox.getSelectionModel().getSelectedItem());
+
+    map.setReferenceScale(scaleComboBox.getSelectionModel().getSelectedItem());
   }
 
   /**
@@ -129,25 +133,14 @@ public class MapReferenceScaleController {
   @FXML
   private void handleScaleButtonClicked() {
 
-    // set the reference scale to that selected from the combo box
-    setMapReferenceScale(scaleComboBox.getSelectionModel().getSelectedItem());
-    // get the center point of the current view
+    // get the center of the current viewpoint extent
     Point centerPoint = mapView.getCurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE).getTargetGeometry().getExtent().getCenter();
-    // get the current reference scale of the map
+    // get the map's current reference scale
     double currentReferenceScale = mapView.getMap().getReferenceScale();
-    // set a new view point passing in the center point and reference scale
+    // set a viewpoint with the scale at the map's reference scale
     Viewpoint newViewPoint = new Viewpoint(centerPoint, currentReferenceScale);
     // set new view point
     mapView.setViewpointAsync(newViewPoint);
-  }
-
-  /**
-   * Sets the map's reference scale
-   *
-   * @param scaleValue reference scale as a double
-   */
-  private void setMapReferenceScale(Double scaleValue){
-    map.setReferenceScale(scaleValue);
   }
 
   /**

@@ -13,9 +13,9 @@
 <h2>How to use the sample</h2>
 
 <ul>
-<li>Use the drop down menu at the top left to choose a reference scale.</li>
+<li>Use the drop down menu at the top left to set the map's reference scale.</li>
 
-<li>Click the "Set Map Scale to Reference Scale" button below the drop down menu to set the map scale to the reference scale.</li>
+<li>Click the "Set Map Scale to Reference Scale" button to set the map view scale to that of the map reference scale.</li>
 
 <li>Use the top right menu checkboxes to apply the map reference scale to the map's feature layers (which should scale according to the reference scale).</li>
 </ul>

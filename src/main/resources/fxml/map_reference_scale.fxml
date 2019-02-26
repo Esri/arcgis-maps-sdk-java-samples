@@ -83,7 +83,6 @@
                 </fills>
             </Background>
         </background>
-        <Label fx:id="loadingLabel"/>
+        <Label text="Apply Reference Scale"/>
     </VBox>
-
 </StackPane>
