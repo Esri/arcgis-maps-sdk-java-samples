@@ -81,31 +81,24 @@ public class MapReferenceScaleController {
     });
 
     // create a label to display current scale of the map
-    mapView.addMapScaleChangedListener(event -> {
-      scaleLabel.setText("Current Map Scale 1:" + Math.round(mapView.getMapScale()));
-    });
+    mapView.addMapScaleChangedListener(event ->
+      scaleLabel.setText("Current Map Scale 1:" + Math.round(mapView.getMapScale()))
+    );
 
     map.addDoneLoadingListener(() -> {
-
       if (map.getLoadStatus() == LoadStatus.LOADED) {
 
         // remove progress indicator when the map has loaded
         progressIndicator.setVisible(false);
 
-
-        // get a list of operational layers from the loaded map
-        LayerList operationalLayers = map.getOperationalLayers();
-        for (Layer layer : operationalLayers) {
-
+        // create a check box for each feature layer in the map
+        for (Layer layer : map.getOperationalLayers()) {
           if (layer instanceof FeatureLayer) {
-
             FeatureLayer featureLayer = (FeatureLayer) layer;
-            // create a checkbox per feature layer name
             CheckBox checkBox = new CheckBox(featureLayer.getName());
             checkBox.setSelected(true);
-            // add the checkboxes to the VBox
             layerVBox.getChildren().add(checkBox);
-            // set if the feature layer will honor the reference scale
+            // make the feature layer honor the reference scale if the check box is selected
             checkBox.setOnAction(event -> featureLayer.setScaleSymbols(checkBox.isSelected()));
           }
         }
