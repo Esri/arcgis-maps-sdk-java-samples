@@ -93,7 +93,7 @@ public class ChooseCameraControllerSample extends Application {
       GraphicsOverlay sceneGraphicsOverlay = new GraphicsOverlay();
       sceneView.getGraphicsOverlays().add(sceneGraphicsOverlay);
 
-      // create a graphic with a ModelSceneSymbol of an aeroplane to add to the scene
+      // create a graphic with a ModelSceneSymbol of a plane to add to the scene
       String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
       ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
       plane3DSymbol.loadAsync();
@@ -106,10 +106,10 @@ public class ChooseCameraControllerSample extends Application {
       Camera camera = new Camera(38.459291, -109.937576, 5500, 150.0, 20.0, 0.0);
       sceneView.setViewpointCamera(camera);
 
-      // instantiate a new camera controller which orbits the aeroplane at a set distance
-      OrbitGeoElementCameraController orbitAeroplaneCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
-      orbitAeroplaneCameraController.setCameraPitchOffset(30);
-      orbitAeroplaneCameraController.setCameraHeadingOffset(150);
+      // instantiate a new camera controller which orbits the plane at a set distance
+      OrbitGeoElementCameraController orbitPlaneCameraController = new OrbitGeoElementCameraController(plane3D, 100.0);
+      orbitPlaneCameraController.setCameraPitchOffset(30);
+      orbitPlaneCameraController.setCameraHeadingOffset(150);
 
       // instantiate a new camera controller which orbits a target location
       Point locationPoint = new Point(-109.929589, 38.437304, 1700, SpatialReferences.getWgs84());
@@ -118,19 +118,19 @@ public class ChooseCameraControllerSample extends Application {
       orbitLocationCameraController.setCameraHeadingOffset(150);
 
       // create radio buttons for choosing camera controller
-      RadioButton orbitAeroplane = new RadioButton("ORBIT CAMERA AROUND AEROPLANE");
+      RadioButton orbitPlane = new RadioButton("ORBIT CAMERA AROUND PLANE");
       RadioButton orbitLocation = new RadioButton("ORBIT CAMERA AROUND CRATER");
       RadioButton globeCamera = new RadioButton("FREE PAN ROUND THE GLOBE");
       globeCamera.setSelected(true);
 
       // set the buttons to a toggle group
       ToggleGroup toggleGroup = new ToggleGroup();
-      orbitAeroplane.setToggleGroup(toggleGroup);
+      orbitPlane.setToggleGroup(toggleGroup);
       orbitLocation.setToggleGroup(toggleGroup);
       globeCamera.setToggleGroup(toggleGroup);
 
       // set the radio buttons to choose which camera controller is active
-      orbitAeroplane.setOnAction(event -> sceneView.setCameraController(orbitAeroplaneCameraController));
+      orbitPlane.setOnAction(event -> sceneView.setCameraController(orbitPlaneCameraController));
 
       orbitLocation.setOnAction(event -> sceneView.setCameraController(orbitLocationCameraController));
 
@@ -143,7 +143,7 @@ public class ChooseCameraControllerSample extends Application {
       controlsVBox.setMaxSize(300, 80);
       controlsVBox.getStyleClass().add("panel-region");
       // add radio buttons to the control panel
-      controlsVBox.getChildren().addAll(orbitAeroplane, orbitLocation, globeCamera);
+      controlsVBox.getChildren().addAll(orbitPlane, orbitLocation, globeCamera);
 
       // add scene view, label and control panel to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsVBox);
