@@ -26,10 +26,7 @@
 
 <h2>Additional information</h2>
 
-
-
 <p>An <code>ArcGISTiledLayer</code> can also be added to the ArcGISMap as a layer, but it's best practice to use as a basemap since its purpose is to provide geographical context. Tiled Layer supports both .tpk and .tpkx file formats.</p>
-
 
 <h2>Tags</h2>
 
