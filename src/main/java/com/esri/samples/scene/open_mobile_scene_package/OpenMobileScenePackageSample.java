@@ -48,7 +48,7 @@ public class OpenMobileScenePackageSample extends Application {
     Scene fxScene = new Scene(stackPane);
 
     // set title, size, and add scene to stage
-    stage.setTitle("Open Mobile Map Package Sample");
+    stage.setTitle("Open Mobile Scene Package Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(fxScene);
