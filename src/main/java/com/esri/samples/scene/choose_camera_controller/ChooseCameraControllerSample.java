@@ -93,7 +93,7 @@ public class ChooseCameraControllerSample extends Application {
       GraphicsOverlay sceneGraphicsOverlay = new GraphicsOverlay();
       sceneView.getGraphicsOverlays().add(sceneGraphicsOverlay);
 
-      // create a graphic with a ModelSceneSymbol of an plane to add to the scene
+      // create a graphic with a ModelSceneSymbol of a plane to add to the scene
       String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
       ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
       plane3DSymbol.loadAsync();
