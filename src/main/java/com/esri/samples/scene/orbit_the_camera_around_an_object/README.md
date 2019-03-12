@@ -29,14 +29,14 @@
 
 <h2>How to use the sample</h2>
 
-<p> The sample loads with the camera orbiting an aeroplane model. The camera is preset with a restricted camera heading and pitch, and a limited minimum and maximum camera distance set from the plane. The position of the plane on the screen is also set just below center.</p>
+<p> The sample loads with the camera orbiting an plane model. The camera is preset with a restricted camera heading and pitch, and a limited minimum and maximum camera distance set from the plane. The position of the plane on the screen is also set just below center.</p>
 
 
 <p> Use the "Camera Heading" slider to adjust the camera heading. Select the "Allow camera distance interaction" checkbox to allow zooming in and out with the mouse/keyboard: when the checkbox is deselected the user will be unable to adjust with the camera distance.</p> 
 
 <p> Use the "Plane Pitch" slider to adjust the plane's pitch. When not in Cockpit view, the plane's pitch will change independently to that of the camera pitch.</p>
 
-<p>Use the "Cockpit view" button to offset and fix the camera into the cockpit of the aeroplane. Use the "Plane pitch" slider to control the pitch of aeroplane: the camera will follow the pitch of the plane in this mode.    In this view adjusting the camera distance is disabled. Hit the "Center view" button to exit cockpit view mode and fix the camera controller on the center of the plane.</p>                           
+<p>Use the "Cockpit view" button to offset and fix the camera into the cockpit of the plane. Use the "Plane pitch" slider to control the pitch of plane: the camera will follow the pitch of the plane in this mode.    In this view adjusting the camera distance is disabled. Hit the "Center view" button to exit cockpit view mode and fix the camera controller on the center of the plane.</p>                           
 
 <h2>How it works</h2>
 
