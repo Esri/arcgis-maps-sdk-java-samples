@@ -18,7 +18,7 @@ apply plugin: 'com.esri.arcgisruntime.java'
 
 group = 'com.esri.samples'
 
-arcgis.version = '100.5.0-2328'
+arcgis.version = '100.5.0-2355'
 arcgis.internal = true
 
 javafx {
@@ -48,54 +48,38 @@ task downloadData {
     if (!file(samplesData).exists()) {
         mkdir(samplesData)
     }
-    
-    downloadSampleData(["9d2987a825c646468b3ce7512fb76e2d"], 'enc')
-    
-    downloadSampleData(['cd61610c030446689991cc159d354e25', 
-                        '98092369c4ae4d549bbbd45dba993ebc'], 'monterey_elevation')
-    
-    downloadSampleData(['296269901180442a88a3351640ff2262'], 'bristol')
-    
-    downloadSampleData(['3af5cfec0fd24dac8d88aea679027cb9'], 'dolmus_3ds')
-    
-    downloadSampleData(['78847654fbe042e6af617ebbfbf985c7'], 'bradley_low_3ds')
-    
-    downloadSampleData(['9ebd467801244ad79920be3c27f774da',
-                        '3b279365273043ae90f09cb0b112d40d'], 'mmpk')
-
-    downloadSampleData(['793a4620fbba443a931ac1fa52ad7f45', 
-                        '1455c3dbfc43497983572117c7d6064c'], 'sanfrancisco')
-
-    downloadSampleData(['f3fd11e862694698bccec206bde3c934',
-                        'fef6001edc7a44f9932310d14682f1bc',
-                        'f31ea54e460e4439848557ab722baa0b'], 'shapefiles')
-
-    downloadSampleData(['80b43ba48f524a8eb0cb54f0f1ee9a5f',
-                        '00113a41bea0401290635f8503bb4acf',
-                        'df6f7fb0bf714e128cc3f919c126dd22'], 'raster')
-
-    downloadSampleData(['d98b3e5293834c5f852f13c569930caa',
-                        '68ec42517cdd439e81b036210483e8e7'], 'auroraCO')
-
-    downloadSampleData(['cdb15cd7cb624c2e9acb4af6c83d1fdd',
-                        '7a6c8309562149348d0e72b724c9eb4e'], 'kml')
-
-    downloadSampleData(['40e0d95e515745ee93b9d06cb75697bc',
-                        'b6f669b3b5b941fc8a3f7ac03efbd1a9',
-                        '9053a46b205142f0864682d5152642b5',
-                        'a9788a0e8ef241ec89182f87f6967ec9',
-                        '91087f8d3e6e46b7a0c5987eac379452',
-                        '5c10e6c0b8974d16b74d557568105b96'], 'local_server')
-
-    downloadSampleData(['cb1b20748a9f4d128dad8a87244e3e37'], 'los_angeles')
-    
-    downloadSampleData(['567e14f3420d40c5a206e5c0284cf8fc'], 'san_diego')
-
-    downloadSampleData(['5491f01d92554751902ecad85cc5d6ca'], 'dictionary')
-
-    downloadSampleData(['943285c21a8e4e1582f0af1101f87bdf'], 'slpks')
-
-    downloadSampleData(['c0f7b0466b9c492dbab408620af6d28f'], 'mspk')
+    downloadSampleData([new Download(id: "9d2987a825c646468b3ce7512fb76e2d")], 'enc')
+    downloadSampleData([new Download(id: 'cd61610c030446689991cc159d354e25'), 
+                        new Download(id: '98092369c4ae4d549bbbd45dba993ebc')], 'monterey_elevation')
+    downloadSampleData([new Download(id: '296269901180442a88a3351640ff2262')], 'bristol')
+    downloadSampleData([new Download(id: '3af5cfec0fd24dac8d88aea679027cb9')], 'dolmus_3ds')
+    downloadSampleData([new Download(id: '78847654fbe042e6af617ebbfbf985c7')], 'bradley_low_3ds')
+    downloadSampleData([new Download(id: '9ebd467801244ad79920be3c27f774da'), 
+                        new Download(id: '3b279365273043ae90f09cb0b112d40d')], 'mmpk')
+    downloadSampleData([new Download(id: '793a4620fbba443a931ac1fa52ad7f45'), 
+                        new Download(id: '1455c3dbfc43497983572117c7d6064c')], 'sanfrancisco')
+    downloadSampleData([new Download(id: 'f3fd11e862694698bccec206bde3c934'), 
+                        new Download(id: 'fef6001edc7a44f9932310d14682f1bc'),
+                        new Download(id: 'f31ea54e460e4439848557ab722baa0b')], 'shapefiles')
+    downloadSampleData([new Download(id: '80b43ba48f524a8eb0cb54f0f1ee9a5f'),
+                        new Download(id: '00113a41bea0401290635f8503bb4acf'), 
+                        new Download(id: 'df6f7fb0bf714e128cc3f919c126dd22')], 'raster')
+    downloadSampleData([new Download(id: 'd98b3e5293834c5f852f13c569930caa'),
+                        new Download(id: '68ec42517cdd439e81b036210483e8e7')], 'auroraCO')
+    downloadSampleData([new Download(id: 'cdb15cd7cb624c2e9acb4af6c83d1fdd'),
+                        new Download(id: '7a6c8309562149348d0e72b724c9eb4e'),
+                        new Download(id: 'f10b1d37fdd645c9bc9b189fb546307c', name: 'Esri_tour', ext: 'kmz')], 'kml')
+    downloadSampleData([new Download(id: '40e0d95e515745ee93b9d06cb75697bc'),
+                        new Download(id: 'b6f669b3b5b941fc8a3f7ac03efbd1a9'),
+                        new Download(id: '9053a46b205142f0864682d5152642b5'),
+                        new Download(id: 'a9788a0e8ef241ec89182f87f6967ec9'),
+                        new Download(id: '91087f8d3e6e46b7a0c5987eac379452'),
+                        new Download(id: '5c10e6c0b8974d16b74d557568105b96')], 'local_server')
+    downloadSampleData([new Download(id: 'cb1b20748a9f4d128dad8a87244e3e37')], 'los_angeles')
+    downloadSampleData([new Download(id: '567e14f3420d40c5a206e5c0284cf8fc')], 'san_diego')
+    downloadSampleData([new Download(id: '5491f01d92554751902ecad85cc5d6ca')], 'dictionary')
+    downloadSampleData([new Download(id: '943285c21a8e4e1582f0af1101f87bdf')], 'slpks')
+    downloadSampleData([new Download(id: 'c0f7b0466b9c492dbab408620af6d28f')], 'mspk')
 }
 
 run {
@@ -106,18 +90,33 @@ task wrapper(type: Wrapper) {
     gradleVersion = '4.10.2'
 }
 
-// downloads a list of portal item zips to a folder in samples-data
-void downloadSampleData(List<String> remotePaths, String copyPath) {
-    def zipFile = './data.zip'
-    if (!file('./samples-data/' + copyPath).exists()) {
-        remotePaths.forEach { path ->
-            ant.get(src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/${path}/data",
-                    dest: zipFile)
-            copy {
-                from zipTree(zipFile)
-                into('./samples-data/' + copyPath)
+// downloads a portal item's contents to a folder in samples-data
+void downloadSampleData(List<Download> downloads, folderName) {
+    def downloadFolder = "./samples-data/$folderName"
+    if (!file(downloadFolder).exists()) {
+        downloads.each { download ->
+            def downloadFileName = "${download.name}.${download.ext}"
+            ant.get(src: "https://arcgisruntime.maps.arcgis" +
+                    ".com/sharing/rest/content/items/${download.id}/data",
+                    dest: downloadFileName)
+            if (download.extension == "zip") {
+                copy {
+                    from zipTree(downloadFileName)
+                    into(downloadFolder)
+                }
+                delete(downloadFileName)
+            } else {
+                copy {
+                    from downloadFileName
+                    into downloadFolder
+                }
             }
-            delete(zipFile)
         }
     }
+}
+
+class Download {
+    String id
+    String name = "data"
+    String ext = "zip"
 }
