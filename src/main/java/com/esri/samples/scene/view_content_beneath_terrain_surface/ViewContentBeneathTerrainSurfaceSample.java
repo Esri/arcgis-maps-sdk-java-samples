@@ -50,8 +50,7 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     // add the scene view and progress indicator to the stack pane
     stackPane.getChildren().addAll(sceneView, progressIndicator);
   }
-
-
+  
   /**
    * Stops and releases all resources used in application.
    */
