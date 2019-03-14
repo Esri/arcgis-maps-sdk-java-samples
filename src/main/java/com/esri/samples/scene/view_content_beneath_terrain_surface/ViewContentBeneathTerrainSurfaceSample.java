@@ -4,8 +4,11 @@ import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.NavigationConstraint;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -25,21 +28,26 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     stage.setScene(fxScene);
     stage.show();
 
-    ArcGISScene scene = new ArcGISScene("https://www.arcgis.com/home/item.html?id=91a4fafd747a47c7bab7797066cb9272");
+    // create a scene from a web scene portal item and set it to the scene view
+    Portal portal = new Portal("http://www.arcgis.com/");
+    PortalItem webScene = new PortalItem(portal, "91a4fafd747a47c7bab7797066cb9272");
+
+    ArcGISScene scene = new ArcGISScene(webScene);
     sceneView = new SceneView();
     sceneView.setArcGISScene(scene);
 
+    ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
+
     scene.addDoneLoadingListener(() -> {
 
-      System.out.println(scene.getBaseSurface().getNavigationConstraint());
-      scene.getBaseSurface().setNavigationConstraint(NavigationConstraint.STAY_ABOVE);
-      System.out.println(scene.getBaseSurface().getNavigationConstraint());
+      progressIndicator.setVisible(false);
+      scene.getBaseSurface().setNavigationConstraint(NavigationConstraint.NONE);
       scene.getBaseSurface().setOpacity((float)0.1);
 
     });
 
 
-    stackPane.getChildren().add(sceneView);
+    stackPane.getChildren().addAll(sceneView, progressIndicator);
 
 
 
