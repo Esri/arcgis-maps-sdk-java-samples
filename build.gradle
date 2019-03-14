@@ -99,7 +99,7 @@ void downloadSampleData(List<Download> downloads, folderName) {
             ant.get(src: "https://arcgisruntime.maps.arcgis" +
                     ".com/sharing/rest/content/items/${download.id}/data",
                     dest: downloadFileName)
-            if (download.extension == "zip") {
+            if (download.ext == "zip") {
                 copy {
                     from zipTree(downloadFileName)
                     into(downloadFolder)
