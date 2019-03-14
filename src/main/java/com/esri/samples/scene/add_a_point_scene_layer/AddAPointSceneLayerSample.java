@@ -42,13 +42,13 @@ public class AddAPointSceneLayerSample extends Application {
     try {
 
       // set the title and size of the stage and show it
-      stage.setTitle("Add A Point Scene Layer Sample");
+      StackPane stackPane = new StackPane();
+      Scene fxScene = new Scene(stackPane);
+      stage.setTitle("Add a Point Scene Layer Sample");
       stage.setWidth(800);
       stage.setHeight(700);
 
       // create a JavaFX scene with a stackpane and set it to the stage
-      StackPane stackPane = new StackPane();
-      Scene fxScene = new Scene(stackPane);
       stage.setScene(fxScene);
       stage.show();
 
