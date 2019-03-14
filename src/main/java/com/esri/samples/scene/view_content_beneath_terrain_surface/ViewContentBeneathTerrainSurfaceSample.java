@@ -1,6 +1,8 @@
 package com.esri.samples.scene.view_content_beneath_terrain_surface;
 
+import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.NavigationConstraint;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -27,11 +29,15 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     sceneView = new SceneView();
     sceneView.setArcGISScene(scene);
 
-    System.out.println(scene.getBaseSurface().getName());
+    scene.addDoneLoadingListener(() -> {
 
-    scene.getBaseSurface().setOpacity((float)0.1);
+      System.out.println(scene.getBaseSurface().getNavigationConstraint());
+      scene.getBaseSurface().setNavigationConstraint(NavigationConstraint.STAY_ABOVE);
+      System.out.println(scene.getBaseSurface().getNavigationConstraint());
+      scene.getBaseSurface().setOpacity((float)0.1);
 
-    System.out.println(scene.getBaseSurface().getNavigationConstraint());
+    });
+
 
     stackPane.getChildren().add(sceneView);
 
