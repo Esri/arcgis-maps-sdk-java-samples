@@ -45,7 +45,12 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
       scene.getBaseSurface().setNavigationConstraint(NavigationConstraint.NONE);
       // set opacity to view content beneath the base surface
       scene.getBaseSurface().setOpacity(0.5f);
+
+      // this additional line allows microseismic points to render and occasionally well bores
+      sceneView.addLayerViewStateChangedListener(layerViewStateChangedEvent -> System.out.println(layerViewStateChangedEvent.getLayer().getName() + " " + layerViewStateChangedEvent.getLayerViewStatus()));
+
     });
+
 
     // add the scene view and progress indicator to the stack pane
     stackPane.getChildren().addAll(sceneView, progressIndicator);
