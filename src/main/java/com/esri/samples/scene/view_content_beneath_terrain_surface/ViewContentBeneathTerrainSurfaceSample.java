@@ -44,7 +44,7 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
       // ensure the navigation constraint is set to NONE
       scene.getBaseSurface().setNavigationConstraint(NavigationConstraint.NONE);
       // set opacity to view content beneath the base surface
-      scene.getBaseSurface().setOpacity((float)0.5);
+      scene.getBaseSurface().setOpacity(0.5f);
     });
 
     // add the scene view and progress indicator to the stack pane
