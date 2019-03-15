@@ -10,7 +10,7 @@
 
 <h2>How to use the sample</h2>
 
-<p> The application loads with the default globe camera controller. To rotate and fix the scene around the aeroplane, exit globe mode by choosing the "Orbit camera around aeroplane" option (i.e. camera will now be fixed to the aeroplane). Choose the "Orbit camera around crater" option to rotate and centre the scene around the location of the Upheaval Dome crater structure, or choose the "Free pan round the globe" option to return to default free navigation.</p>                                   
+<p> The application loads with the default globe camera controller. To rotate and fix the scene around the plane, exit globe mode by choosing the "Orbit camera around plane" option (i.e. camera will now be fixed to the plane). Choose the "Orbit camera around crater" option to rotate and centre the scene around the location of the Upheaval Dome crater structure, or choose the "Free pan round the globe" option to return to default free navigation.</p>                                   
 
 <h2>How it works</h2>
 
