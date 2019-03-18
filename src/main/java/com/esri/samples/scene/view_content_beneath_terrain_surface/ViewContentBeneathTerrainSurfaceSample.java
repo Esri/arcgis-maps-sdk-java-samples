@@ -3,6 +3,7 @@ package com.esri.samples.scene.view_content_beneath_terrain_surface;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.NavigationConstraint;
+import com.esri.arcgisruntime.mapping.view.LayerViewStateChangedEvent;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
@@ -11,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.util.function.ToDoubleBiFunction;
 
 public class ViewContentBeneathTerrainSurfaceSample extends Application {
 
@@ -46,16 +49,15 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
       // set opacity to view content beneath the base surface
       scene.getBaseSurface().setOpacity(0.5f);
 
-      // this additional line allows microseismic points to render and occasionally well bores
-      sceneView.addLayerViewStateChangedListener(layerViewStateChangedEvent -> System.out.println(layerViewStateChangedEvent.getLayer().getName() + " " + layerViewStateChangedEvent.getLayerViewStatus()));
-
+      // add a layer view state changed listener to monitor the layer's visibility
+      sceneView.addLayerViewStateChangedListener(layerViewStateChangedEvent ->
+              System.out.println(layerViewStateChangedEvent.getLayer().getName() + " " + layerViewStateChangedEvent.getLayerViewStatus()));
     });
-
 
     // add the scene view and progress indicator to the stack pane
     stackPane.getChildren().addAll(sceneView, progressIndicator);
   }
-  
+
   /**
    * Stops and releases all resources used in application.
    */
