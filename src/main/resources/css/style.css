@@ -18,6 +18,10 @@
    -fx-text-fill: white;
 }
 
+.panel-region .radio-button {
+   -fx-text-fill: white;
+}
+
 .color-picker .color-picker-label {
    -fx-text-fill: black;
 }
