@@ -45,6 +45,8 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
   private String localBasemapDirectory;
   private File localBasemapFile;
   private GraphicsOverlay graphicsOverlay;
+  private Graphic downloadArea;
+  private ArcGISMap map;
 
   private ProgressBar progressBar;
   private Button offlineMapButton;
@@ -80,44 +82,34 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
       PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
       // create a map with the portal item
-      ArcGISMap map = new ArcGISMap(portalItem);
+      map = new ArcGISMap(portalItem);
       map.addDoneLoadingListener(() -> {
         // enable the button when the map is loaded
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           offlineMapButton.setDisable(false);
+
+          // create a graphics overlay for the map view
+          graphicsOverlay = new GraphicsOverlay();
+          mapView.getGraphicsOverlays().add(graphicsOverlay);
+
+          // create a graphic to show a box around the extent we want to download
+          downloadArea = new Graphic();
+          graphicsOverlay.getGraphics().add(downloadArea);
+          SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+          downloadArea.setSymbol(simpleLineSymbol);
+
+          updateDownloadArea();
         }
+
       });
+
 
       // set the map to the map view
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a graphics overlay for the map view
-      graphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
-
-      // create a graphic to show a box around the extent we want to download
-      Graphic downloadArea = new Graphic();
-      graphicsOverlay.getGraphics().add(downloadArea);
-      SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
-      downloadArea.setSymbol(simpleLineSymbol);
-
       // update the download area box whenever the viewpoint changes
-      mapView.addViewpointChangedListener(viewpointChangedEvent -> {
-        if (map.getLoadStatus() == LoadStatus.LOADED) {
-          // upper left corner of the area to take offline
-          Point2D minScreenPoint = new Point2D(50, 50);
-          // lower right corner of the downloaded area
-          Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
-          // convert screen points to map points
-          Point minPoint = mapView.screenToLocation(minScreenPoint);
-          Point maxPoint = mapView.screenToLocation(maxScreenPoint);
-          // use the points to define and return an envelope
-          if (minPoint != null && maxPoint != null) {
-            Envelope envelope = new Envelope(minPoint, maxPoint);
-            downloadArea.setGeometry(envelope);
-          }
-        }
+      mapView.addViewpointChangedListener(viewpointChangedEvent -> { updateDownloadArea();
       });
 
       // create progress bar to show download progress
@@ -159,15 +151,13 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
             String localBasemapFileName = generateOfflineMapParameters.getReferenceBasemapFilename();
 
             // check if the offline map parameters include reference to a basemap file
-
             if (!localBasemapFileName.isEmpty()) {
-              // search for the given file name within the samples-data directory
 
+              // search for the given file name within the samples-data directory
               String localBasemapFileString = FilenameUtils.concat(downloadedBasemapNaperville, localBasemapFileName);
               localBasemapFile = new File(localBasemapFileString);
 
               if (localBasemapFile != null) {
-
                 // get the file's directory
                 localBasemapDirectory = localBasemapFile.getParent();
 
@@ -189,7 +179,6 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
               Alert alert = new Alert(Alert.AlertType.ERROR, "The map's author has not specified a local basemap");
               alert.show();
             }
-
           });
 
         } catch (InterruptedException e1) {
@@ -211,41 +200,63 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
   }
 
 
-
-
+  /**
+   * Launches a new alert for the user to choose which basemap to load on the machine
+   */
   private void dialogPopup() throws IOException {
 
+    // create a new alert
     Alert baseMapAlert = new Alert(Alert.AlertType.CONFIRMATION);
     baseMapAlert.setTitle("Basemap Options");
-    baseMapAlert.setHeaderText("Local basemap found on this device");
-    baseMapAlert.setContentText("The local basemap file " + generateOfflineMapParameters.getReferenceBasemapFilename() + " was found on the device. Would you like to use the local file instead of an online basemap?" );
+    baseMapAlert.setHeaderText("Local basemap found on this machine");
+    baseMapAlert.setContentText("The local basemap file " + generateOfflineMapParameters.getReferenceBasemapFilename() + " was found on the machine. Would you like to use the local file instead of an online basemap?" );
 
+    // add two buttons to the alert
     ButtonType buttonTypeYes = new ButtonType("Yes");
     ButtonType buttonTypeNo = new ButtonType("No");
-
     baseMapAlert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
 
     Optional<ButtonType> result = baseMapAlert.showAndWait();
-    if (result.get() == buttonTypeYes){onYesClick();}
-    else {generateOfflineMap();}
 
+    if (result.get() == buttonTypeYes){
+      // load the locally saved basemap to the machine
+      onYesClick();
+    } else {
+      generateOfflineMap();
+    }
   }
 
-
+  /**
+   * Set the reference basemap directory to the locally saved basemap on the machine, and then generate the offline map.
+   */
   private void onYesClick() throws IOException {
 
     generateOfflineMapParameters.setReferenceBasemapDirectory(localBasemapDirectory);
     generateOfflineMap();
   }
 
+
+
+  /**
+   * Called when the Generate offline map button is clicked. Builds parameters for the offline map task from the UI
+   * inputs and executes the task.
+   */
   private void generateOfflineMap() throws IOException {
 
     // create a temporary directory
     Path tempDirectory = Files.createTempDirectory("offline_map");
+    System.out.println(tempDirectory.toAbsolutePath());
 
     generateOfflineMapJob = task.generateOfflineMap(generateOfflineMapParameters, tempDirectory.toAbsolutePath().toString());
+
+
     // start the job
     generateOfflineMapJob.start();
+
+    generateOfflineMapJob.addJobChangedListener(() -> {
+      System.out.println(    generateOfflineMapJob.getMessages().get(generateOfflineMapJob.getMessages().size() -1 ).getMessage());
+
+    });
 
     // replace the current map with the result offline map when the job finishes
     generateOfflineMapJob.addJobDoneListener(() -> {
@@ -265,12 +276,38 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
       }
 
       Platform.runLater(() -> progressBar.setVisible(false));
+
+
     });
 
-    // show the job's progress with the progress bar
+//     show the job's progress with the progress bar
     generateOfflineMapJob.addProgressChangedListener(() -> progressBar.setProgress(generateOfflineMapJob.getProgress() / 100.0));
 
   }
+
+
+  /**
+   * Updates the download area graphic to show a red border around the current view extent that will be downloaded if
+   * taken offline.
+   */
+  private void updateDownloadArea() {
+    if (map.getLoadStatus() == LoadStatus.LOADED) {
+      // upper left corner of the area to take offline
+      Point2D minScreenPoint = new Point2D(50, 50);
+      // lower right corner of the downloaded area
+      Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
+      // convert screen points to map points
+      Point minPoint = mapView.screenToLocation(minScreenPoint);
+      Point maxPoint = mapView.screenToLocation(maxScreenPoint);
+      // use the points to define and return an envelope
+      if (minPoint != null && maxPoint != null) {
+        Envelope envelope = new Envelope(minPoint, maxPoint);
+        downloadArea.setGeometry(envelope);
+      }
+    }
+  }
+
+
 
 
   /**
