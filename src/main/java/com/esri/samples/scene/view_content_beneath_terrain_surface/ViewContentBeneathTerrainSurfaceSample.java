@@ -41,18 +41,15 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     // add a progress indicator to show the scene is loading
     ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
 
-    // when the scene has loaded, set navigation constraint and opacity to see below the surface
     scene.addDoneLoadingListener(() -> {
-      progressIndicator.setVisible(false);
       // ensure the navigation constraint is set to NONE
       scene.getBaseSurface().setNavigationConstraint(NavigationConstraint.NONE);
       // set opacity to view content beneath the base surface
-      scene.getBaseSurface().setOpacity(0.5f);
-
-      // add a layer view state changed listener to monitor the layer's visibility
-      sceneView.addLayerViewStateChangedListener(layerViewStateChangedEvent ->
-              System.out.println(layerViewStateChangedEvent.getLayer().getName() + " " + layerViewStateChangedEvent.getLayerViewStatus()));
+      scene.getBaseSurface().setOpacity(0.4f);
     });
+
+    // hide the progress indicator once the sceneview has completed drawing
+    sceneView.addDrawStatusChangedListener(event -> progressIndicator.setVisible(false));
 
     // add the scene view and progress indicator to the stack pane
     stackPane.getChildren().addAll(sceneView, progressIndicator);
