@@ -6,8 +6,10 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerViewStateChangedListener;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
@@ -41,7 +43,7 @@ import java.util.concurrent.ExecutionException;
 public class GenerateOfflineMapWithLocalBasemap extends Application {
 
   private MapView mapView;
-  private String downloadedBasemapNaperville;
+  private String downloadedBasemapSavedLocation;
   private String localBasemapDirectory;
   private File localBasemapFile;
   private GraphicsOverlay graphicsOverlay;
@@ -70,15 +72,15 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // create a map view
+      mapView = new MapView();
+
       // create a button to take the map offline
       offlineMapButton = new Button("Take Map Offline");
       offlineMapButton.setDisable(true);
 
-      // handle authentication with the portal
-      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
-
       // create a portal item with the itemId of the web map
-      Portal portal = new Portal("https://www.arcgis.com", true);
+      Portal portal = new Portal("https://www.arcgis.com");
       PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
       // create a map with the portal item
@@ -100,26 +102,22 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
 
           updateDownloadArea();
         }
-
       });
-
 
       // set the map to the map view
-      mapView = new MapView();
       mapView.setMap(map);
-
       // update the download area box whenever the viewpoint changes
-      mapView.addViewpointChangedListener(viewpointChangedEvent -> { updateDownloadArea();
-      });
+      mapView.addViewpointChangedListener(viewpointChangedEvent -> updateDownloadArea());
 
-      // create progress bar to show download progress
+
+      // create a progress bar to show download progress
       progressBar = new ProgressBar();
       progressBar.setProgress(0.0);
       progressBar.setVisible(false);
+      progressBar.setMaxSize(200, 200);
 
-      // when the button is clicked, start the offline map task job
+      // when the take map offline button is clicked, start the offline map task job
       offlineMapButton.setOnAction(e -> {
-
         try {
           // show the progress bar
           progressBar.setVisible(true);
@@ -135,29 +133,28 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
           // create an offline map task with the map
           task = new OfflineMapTask(map);
 
-          // ************************************************************************************************************************************************
           // create default generate offline map parameters
           ListenableFuture<GenerateOfflineMapParameters> generateOfflineMapParametersListenableFuture = task.createDefaultGenerateOfflineMapParametersAsync(downloadArea.getGeometry(), minScale, maxScale);
 
           // get the offline map parameters from the offline map task
           generateOfflineMapParameters = generateOfflineMapParametersListenableFuture.get();
-
           generateOfflineMapParametersListenableFuture.addDoneListener(() -> {
-
             // define the directory in which the downloaded .tpk file relevant to this offline map sits
-            downloadedBasemapNaperville = new File("./samples-data/naperville/").getAbsolutePath();
+            downloadedBasemapSavedLocation = new File("./samples-data/naperville/").getAbsolutePath();
 
             // get the name of the basemap file from the offline map as supplied by the map's author (in this instance naperville_imagery.tpk)
-            String localBasemapFileName = generateOfflineMapParameters.getReferenceBasemapFilename();
+            String referenceBasemapFileName = generateOfflineMapParameters.getReferenceBasemapFilename();
 
             // check if the offline map parameters include reference to a basemap file
-            if (!localBasemapFileName.isEmpty()) {
+
+            // if the basemap file name isn't empty, search for that file name within local computer
+            if (!referenceBasemapFileName.isEmpty()) {
 
               // search for the given file name within the samples-data directory
-              String localBasemapFileString = FilenameUtils.concat(downloadedBasemapNaperville, localBasemapFileName);
+              String localBasemapFileString = FilenameUtils.concat(downloadedBasemapSavedLocation, referenceBasemapFileName);
               localBasemapFile = new File(localBasemapFileString);
 
-              if (localBasemapFile != null) {
+              if (localBasemapFile.exists()) {
                 // get the file's directory
                 localBasemapDirectory = localBasemapFile.getParent();
 
@@ -170,11 +167,10 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
                 }
 
               } else {
-                String message = "Local basemap file " + localBasemapFileName + " not found!";
+                String message = "Local basemap file " + referenceBasemapFileName + " not found!";
                 Alert alert = new Alert(Alert.AlertType.ERROR, message);
                 alert.show();
               }
-
             } else {
               Alert alert = new Alert(Alert.AlertType.ERROR, "The map's author has not specified a local basemap");
               alert.show();
@@ -191,7 +187,7 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
       // add the map view, button, and progress bar to stack pane
       stackPane.getChildren().addAll(mapView, offlineMapButton, progressBar);
       StackPane.setAlignment(offlineMapButton, Pos.TOP_LEFT);
-      StackPane.setAlignment(progressBar, Pos.TOP_RIGHT);
+      StackPane.setAlignment(progressBar, Pos.CENTER);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -220,8 +216,10 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
 
     if (result.get() == buttonTypeYes){
       // load the locally saved basemap to the machine
-      onYesClick();
+      loadDownloadedOfflineMap();
     } else {
+      // handle authentication with the portal to access the basemap
+      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
       generateOfflineMap();
     }
   }
@@ -229,13 +227,10 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
   /**
    * Set the reference basemap directory to the locally saved basemap on the machine, and then generate the offline map.
    */
-  private void onYesClick() throws IOException {
-
+  private void loadDownloadedOfflineMap() throws IOException {
     generateOfflineMapParameters.setReferenceBasemapDirectory(localBasemapDirectory);
     generateOfflineMap();
   }
-
-
 
   /**
    * Called when the Generate offline map button is clicked. Builds parameters for the offline map task from the UI
@@ -243,48 +238,27 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
    */
   private void generateOfflineMap() throws IOException {
 
-    // create a temporary directory
+    // create an offline map job with the download directory path and parameters and start the job
     Path tempDirectory = Files.createTempDirectory("offline_map");
-    System.out.println(tempDirectory.toAbsolutePath());
-
     generateOfflineMapJob = task.generateOfflineMap(generateOfflineMapParameters, tempDirectory.toAbsolutePath().toString());
-
-
-    // start the job
     generateOfflineMapJob.start();
-
-    generateOfflineMapJob.addJobChangedListener(() -> {
-      System.out.println(    generateOfflineMapJob.getMessages().get(generateOfflineMapJob.getMessages().size() -1 ).getMessage());
-
-    });
 
     // replace the current map with the result offline map when the job finishes
     generateOfflineMapJob.addJobDoneListener(() -> {
-      System.out.println("Generate offline map job succeeded");
-
       if (generateOfflineMapJob.getStatus() == Job.Status.SUCCEEDED) {
-
         GenerateOfflineMapResult result = generateOfflineMapJob.getResult();
-
         mapView.setMap(result.getOfflineMap());
         graphicsOverlay.getGraphics().clear();
         offlineMapButton.setDisable(true);
-
       } else {
-
         new Alert(Alert.AlertType.ERROR, generateOfflineMapJob.getError().getAdditionalMessage()).show();
       }
-
       Platform.runLater(() -> progressBar.setVisible(false));
-
-
     });
 
-//     show the job's progress with the progress bar
+    // show the job's progress with the progress bar
     generateOfflineMapJob.addProgressChangedListener(() -> progressBar.setProgress(generateOfflineMapJob.getProgress() / 100.0));
-
   }
-
 
   /**
    * Updates the download area graphic to show a red border around the current view extent that will be downloaded if
@@ -307,15 +281,11 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
     }
   }
 
-
-
-
   /**
    * Stops and releases all resources used in application.
    */
   @Override
   public void stop() {
-
     if (mapView != null) {
       mapView.dispose();
     }
@@ -330,6 +300,4 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
 
     Application.launch(args);
   }
-
-
 }
