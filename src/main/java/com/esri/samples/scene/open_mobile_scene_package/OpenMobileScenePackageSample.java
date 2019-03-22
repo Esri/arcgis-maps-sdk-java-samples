@@ -54,10 +54,6 @@ public class OpenMobileScenePackageSample extends Application {
     stage.setScene(fxScene);
     stage.show();
 
-    // create a new ArcGIS scene and set its basemap
-    ArcGISScene scene = new ArcGISScene();
-    scene.setBasemap(Basemap.createImagery());
-
     // create a new scene view
     sceneView = new SceneView();
 
