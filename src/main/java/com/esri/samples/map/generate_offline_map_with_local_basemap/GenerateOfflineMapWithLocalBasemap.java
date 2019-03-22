@@ -109,12 +109,11 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
       // update the download area box whenever the viewpoint changes
       mapView.addViewpointChangedListener(viewpointChangedEvent -> updateDownloadArea());
 
-
       // create a progress bar to show download progress
       progressBar = new ProgressBar();
       progressBar.setProgress(0.0);
       progressBar.setVisible(false);
-      progressBar.setMaxSize(200, 200);
+      progressBar.setMaxSize(200, 25);
 
       // when the take map offline button is clicked, start the offline map task job
       offlineMapButton.setOnAction(e -> {
@@ -170,6 +169,7 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
                 String message = "Local basemap file " + referenceBasemapFileName + " not found!";
                 Alert alert = new Alert(Alert.AlertType.ERROR, message);
                 alert.show();
+                progressBar.setVisible(false);
               }
             } else {
               Alert alert = new Alert(Alert.AlertType.ERROR, "The map's author has not specified a local basemap");
@@ -194,38 +194,6 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
       e.printStackTrace();
     }
   }
-
-
-  /**
-   * Launches a new alert for the user to choose which basemap to load on the machine
-   */
-  private void determineIfBasemapIsAvailableOffline() throws IOException {
-
-    // create a new alert
-    Alert baseMapAlert = new Alert(Alert.AlertType.CONFIRMATION);
-    baseMapAlert.setTitle("Basemap Options");
-    baseMapAlert.setHeaderText("Local basemap found on this machine");
-    baseMapAlert.setContentText("The local basemap file " + generateOfflineMapParameters.getReferenceBasemapFilename() + " was found on the machine. Would you like to use the local file instead of an online basemap?" );
-
-    // add two buttons to the alert
-    ButtonType buttonTypeYes = new ButtonType("Yes");
-    ButtonType buttonTypeNo = new ButtonType("No");
-    baseMapAlert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-
-    Optional<ButtonType> result = baseMapAlert.showAndWait();
-
-    if (result.get() == buttonTypeYes){
-      // load the locally saved basemap to the machine
-      loadDownloadedOfflineMap();
-    } else {
-      // handle authentication with the portal to access the basemap
-      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
-      generateOfflineMap();
-    }
-  }
-
-
-
 
   /**
    * Launches a new alert for the user to choose which basemap to load on the machine
