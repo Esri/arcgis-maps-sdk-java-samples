@@ -2,7 +2,7 @@
 
 <p>See through terrain in a scene and move the camera underground.</p>
 
-<p><img src="ViewContentBeneathTerrainSurface.png" alt="" /></p>
+<p><img src="ViewContentBeneathTerrainSurface.png"/></p>
 
 <h2>Use case</h2>
 
