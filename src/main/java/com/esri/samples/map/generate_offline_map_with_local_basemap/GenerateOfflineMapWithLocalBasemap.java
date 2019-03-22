@@ -160,7 +160,7 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
 
                 try {
                   // open a new dialog box to alert user to the existence of the .tpk saved already on their machine
-                  dialogPopup();
+                  chooseWhichBasemapToLoad();
 
                 } catch (IOException e1) {
                   e1.printStackTrace();
@@ -199,7 +199,38 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
   /**
    * Launches a new alert for the user to choose which basemap to load on the machine
    */
-  private void dialogPopup() throws IOException {
+  private void determineIfBasemapIsAvailableOffline() throws IOException {
+
+    // create a new alert
+    Alert baseMapAlert = new Alert(Alert.AlertType.CONFIRMATION);
+    baseMapAlert.setTitle("Basemap Options");
+    baseMapAlert.setHeaderText("Local basemap found on this machine");
+    baseMapAlert.setContentText("The local basemap file " + generateOfflineMapParameters.getReferenceBasemapFilename() + " was found on the machine. Would you like to use the local file instead of an online basemap?" );
+
+    // add two buttons to the alert
+    ButtonType buttonTypeYes = new ButtonType("Yes");
+    ButtonType buttonTypeNo = new ButtonType("No");
+    baseMapAlert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+    Optional<ButtonType> result = baseMapAlert.showAndWait();
+
+    if (result.get() == buttonTypeYes){
+      // load the locally saved basemap to the machine
+      loadDownloadedOfflineMap();
+    } else {
+      // handle authentication with the portal to access the basemap
+      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
+      generateOfflineMap();
+    }
+  }
+
+
+
+
+  /**
+   * Launches a new alert for the user to choose which basemap to load on the machine
+   */
+  private void chooseWhichBasemapToLoad() throws IOException {
 
     // create a new alert
     Alert baseMapAlert = new Alert(Alert.AlertType.CONFIRMATION);
