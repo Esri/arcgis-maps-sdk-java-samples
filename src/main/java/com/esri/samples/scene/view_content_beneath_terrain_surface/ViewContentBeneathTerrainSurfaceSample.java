@@ -41,6 +41,7 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     // add a progress indicator to show the scene is loading
     ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
 
+    // once the scene has loaded, set the navigation constraint and opacity of the base surface
     scene.addDoneLoadingListener(() -> {
       // ensure the navigation constraint is set to NONE
       scene.getBaseSurface().setNavigationConstraint(NavigationConstraint.NONE);
