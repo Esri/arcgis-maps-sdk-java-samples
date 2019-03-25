@@ -1,19 +1,14 @@
 package com.esri.samples.scene.view_content_beneath_terrain_surface;
 
-import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
-import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.NavigationConstraint;
-import com.esri.arcgisruntime.mapping.view.LayerViewStateChangedEvent;
-import com.esri.arcgisruntime.mapping.view.SceneView;
-import com.esri.arcgisruntime.portal.Portal;
-import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.util.function.ToDoubleBiFunction;
+import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.NavigationConstraint;
+import com.esri.arcgisruntime.mapping.view.SceneView;
 
 public class ViewContentBeneathTerrainSurfaceSample extends Application {
 
@@ -43,7 +38,7 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
 
     // once the scene has loaded, set the navigation constraint and opacity of the base surface
     scene.addDoneLoadingListener(() -> {
-      // ensure the navigation constraint is set to NONE
+      // ensure the navigation constraint is set to NONE to view content beneath the terrain surface
       scene.getBaseSurface().setNavigationConstraint(NavigationConstraint.NONE);
       // set opacity to view content beneath the base surface
       scene.getBaseSurface().setOpacity(0.4f);
@@ -77,4 +72,3 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     Application.launch(args);
   }
 }
-
