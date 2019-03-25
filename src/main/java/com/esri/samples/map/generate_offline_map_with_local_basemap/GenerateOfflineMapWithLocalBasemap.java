@@ -6,10 +6,8 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.LayerViewStateChangedListener;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
@@ -20,8 +18,10 @@ import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapJob;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapResult;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
+
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,7 +29,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressBar;
+
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
 
@@ -64,6 +66,8 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+
 
       // set title, size, and add scene to stage
       stage.setTitle("Generate Offline Map With Local Basemap Sample");
@@ -76,8 +80,7 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
       mapView = new MapView();
 
       // create a button to take the map offline
-      offlineMapButton = new Button("Take Map Offline");
-      offlineMapButton.setDisable(true);
+      createTakeMapOfflineButton();
 
       // create a portal item with the itemId of the web map
       Portal portal = new Portal("https://www.arcgis.com");
@@ -85,40 +88,19 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
 
       // create a map with the portal item
       map = new ArcGISMap(portalItem);
-      map.addDoneLoadingListener(() -> {
-        // enable the button when the map is loaded
-        if (map.getLoadStatus() == LoadStatus.LOADED) {
-          offlineMapButton.setDisable(false);
-
-          // create a graphics overlay for the map view
-          graphicsOverlay = new GraphicsOverlay();
-          mapView.getGraphicsOverlays().add(graphicsOverlay);
-
-          // create a graphic to show a box around the extent we want to download
-          downloadArea = new Graphic();
-          graphicsOverlay.getGraphics().add(downloadArea);
-          SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
-          downloadArea.setSymbol(simpleLineSymbol);
-
-          updateDownloadArea();
-        }
-      });
-
+      addMapLoadedListener();
       // set the map to the map view
       mapView.setMap(map);
       // update the download area box whenever the viewpoint changes
       mapView.addViewpointChangedListener(viewpointChangedEvent -> updateDownloadArea());
 
       // create a progress bar to show download progress
-      progressBar = new ProgressBar();
-      progressBar.setProgress(0.0);
-      progressBar.setVisible(false);
-      progressBar.setMaxSize(200, 25);
+      createProgressIndicator();
 
       // when the take map offline button is clicked, start the offline map task job
       offlineMapButton.setOnAction(e -> {
         try {
-          // show the progress bar
+          offlineMapButton.setVisible(false);
           progressBar.setVisible(true);
 
           // specify the extent, min scale, and max scale as parameters
@@ -131,24 +113,19 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
 
           // create an offline map task with the map
           task = new OfflineMapTask(map);
-
           // create default generate offline map parameters
           ListenableFuture<GenerateOfflineMapParameters> generateOfflineMapParametersListenableFuture = task.createDefaultGenerateOfflineMapParametersAsync(downloadArea.getGeometry(), minScale, maxScale);
-
           // get the offline map parameters from the offline map task
           generateOfflineMapParameters = generateOfflineMapParametersListenableFuture.get();
           generateOfflineMapParametersListenableFuture.addDoneListener(() -> {
-            // define the directory in which the downloaded .tpk file relevant to this offline map sits
-            downloadedBasemapSavedLocation = new File("./samples-data/naperville/").getAbsolutePath();
 
+            // define the directory in which the downloaded .tpk file relevant to this offline map is saved
+            downloadedBasemapSavedLocation = new File("./samples-data/naperville/").getAbsolutePath();
             // get the name of the basemap file from the offline map as supplied by the map's author (in this instance naperville_imagery.tpk)
             String referenceBasemapFileName = generateOfflineMapParameters.getReferenceBasemapFilename();
 
-            // check if the offline map parameters include reference to a basemap file
-
             // if the basemap file name isn't empty, search for that file name within local computer
             if (!referenceBasemapFileName.isEmpty()) {
-
               // search for the given file name within the samples-data directory
               String localBasemapFileString = FilenameUtils.concat(downloadedBasemapSavedLocation, referenceBasemapFileName);
               localBasemapFile = new File(localBasemapFileString);
@@ -186,8 +163,9 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
 
       // add the map view, button, and progress bar to stack pane
       stackPane.getChildren().addAll(mapView, offlineMapButton, progressBar);
-      StackPane.setAlignment(offlineMapButton, Pos.TOP_LEFT);
+      StackPane.setAlignment(offlineMapButton, Pos.TOP_CENTER);
       StackPane.setAlignment(progressBar, Pos.CENTER);
+      StackPane.setMargin(offlineMapButton, new Insets(10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -196,43 +174,7 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
   }
 
   /**
-   * Launches a new alert for the user to choose which basemap to load on the machine
-   */
-  private void chooseWhichBasemapToLoad() throws IOException {
-
-    // create a new alert
-    Alert baseMapAlert = new Alert(Alert.AlertType.CONFIRMATION);
-    baseMapAlert.setTitle("Basemap Options");
-    baseMapAlert.setHeaderText("Local basemap found on this machine");
-    baseMapAlert.setContentText("The local basemap file " + generateOfflineMapParameters.getReferenceBasemapFilename() + " was found on the machine. Would you like to use the local file instead of an online basemap?" );
-
-    // add two buttons to the alert
-    ButtonType buttonTypeYes = new ButtonType("Yes");
-    ButtonType buttonTypeNo = new ButtonType("No");
-    baseMapAlert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-
-    Optional<ButtonType> result = baseMapAlert.showAndWait();
-
-    if (result.get() == buttonTypeYes){
-      // load the locally saved basemap to the machine
-      loadDownloadedOfflineMap();
-    } else {
-      // handle authentication with the portal to access the basemap
-      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
-      generateOfflineMap();
-    }
-  }
-
-  /**
-   * Set the reference basemap directory to the locally saved basemap on the machine, and then generate the offline map.
-   */
-  private void loadDownloadedOfflineMap() throws IOException {
-    generateOfflineMapParameters.setReferenceBasemapDirectory(localBasemapDirectory);
-    generateOfflineMap();
-  }
-
-  /**
-   * Called when the Generate offline map button is clicked. Builds parameters for the offline map task from the UI
+   * Called when the take map offline button is clicked. Builds parameters for the offline map task from the UI
    * inputs and executes the task.
    */
   private void generateOfflineMap() throws IOException {
@@ -260,6 +202,42 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
   }
 
   /**
+   * Set the reference basemap directory to the locally saved basemap on the machine, and then generate the offline map.
+   */
+  private void loadDownloadedOfflineMap() throws IOException {
+    generateOfflineMapParameters.setReferenceBasemapDirectory(localBasemapDirectory);
+    generateOfflineMap();
+  }
+
+  /**
+   * Launches a new alert for the user to choose if they want to use the locally stored basemap or download
+   * it from the server when taking the map offline.
+   */
+  private void chooseWhichBasemapToLoad() throws IOException {
+
+    // create a new alert
+    Alert baseMapAlert = new Alert(Alert.AlertType.CONFIRMATION);
+    baseMapAlert.setTitle("Basemap Options");
+    baseMapAlert.setHeaderText("Local basemap " + generateOfflineMapParameters.getReferenceBasemapFilename() + " found on this machine");
+
+    // add two buttons to the alert
+    ButtonType buttonTypeYes = new ButtonType("Take map offline using locally saved basemap");
+    ButtonType buttonTypeNo = new ButtonType("Take map offline and download basemap");
+    baseMapAlert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+    Optional<ButtonType> result = baseMapAlert.showAndWait();
+
+    if (result.get() == buttonTypeYes){
+      // load the locally saved basemap to the machine
+      loadDownloadedOfflineMap();
+    } else {
+      // handle authentication with the portal to access the basemap
+      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
+      generateOfflineMap();
+    }
+  }
+
+  /**
    * Updates the download area graphic to show a red border around the current view extent that will be downloaded if
    * taken offline.
    */
@@ -278,6 +256,57 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
         downloadArea.setGeometry(envelope);
       }
     }
+  }
+
+  /**
+   * Waits for the map to load before enabling interaction with the take map offline
+   * button, and adding a red square on to the map which defines the download area.
+   */
+  private void addMapLoadedListener(){
+
+    map.addDoneLoadingListener(() -> {
+      // enable the button when the map is loaded
+      if (map.getLoadStatus() == LoadStatus.LOADED) {
+        offlineMapButton.setDisable(false);
+
+        // create a graphics overlay for the map view
+        graphicsOverlay = new GraphicsOverlay();
+        mapView.getGraphicsOverlays().add(graphicsOverlay);
+
+        // create a graphic to show a box around the extent we want to download
+        downloadArea = new Graphic();
+        graphicsOverlay.getGraphics().add(downloadArea);
+        SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+        downloadArea.setSymbol(simpleLineSymbol);
+
+        updateDownloadArea();
+      }
+    });
+
+  }
+
+   /**
+   * Creates a button that allows the user to check if a locally saved basemap is available to use when taking the map offline.
+   */
+  private void createTakeMapOfflineButton(){
+    offlineMapButton = new Button("Check for locally saved basemap to take map offline");
+    offlineMapButton.setMaxWidth(175);
+    offlineMapButton.setDisable(true);
+    offlineMapButton.setWrapText(true);
+    offlineMapButton.setTextAlignment(TextAlignment.CENTER);
+    offlineMapButton.setPadding(new Insets(10));
+  }
+
+  /**
+   *  Creates a progress indicator which will update to show the progress of taking the map offline.
+   */
+  private void createProgressIndicator(){
+
+    progressBar = new ProgressBar();
+    progressBar.setProgress(0.0);
+    progressBar.setVisible(false);
+    progressBar.setMaxSize(200, 25);
+
   }
 
   /**
