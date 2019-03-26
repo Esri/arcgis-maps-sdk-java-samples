@@ -123,7 +123,7 @@ public class GroupLayersSample extends Application {
 
   /**
    * Recursively builds a tree from a parent tree item using a list of operational layers (including group layers).
-   * 
+   *
    * @param parentItem tree item to build tree from
    * @param operationalLayers a list of operational layers
    */
