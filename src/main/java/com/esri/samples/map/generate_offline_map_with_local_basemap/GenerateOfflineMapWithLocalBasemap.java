@@ -289,8 +289,8 @@ public class GenerateOfflineMapWithLocalBasemap extends Application {
    * Creates a button that allows the user to check if a locally saved basemap is available to use when taking the map offline.
    */
   private void createTakeMapOfflineButton(){
-    offlineMapButton = new Button("Check for locally saved basemap to take map offline");
-    offlineMapButton.setMaxWidth(175);
+    offlineMapButton = new Button("Check for locally saved basemap and generate offline map");
+    offlineMapButton.setMaxWidth(200);
     offlineMapButton.setDisable(true);
     offlineMapButton.setWrapText(true);
     offlineMapButton.setTextAlignment(TextAlignment.CENTER);
