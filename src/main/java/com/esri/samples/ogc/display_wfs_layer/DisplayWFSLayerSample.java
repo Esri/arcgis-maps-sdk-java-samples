@@ -1,9 +1,12 @@
 package com.esri.samples.ogc.display_wfs_layer;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.internal.jni.CoreWFSFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -12,23 +15,28 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.ogc.wfs.WfsFeatureTable;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.net.URL;
 
 public class DisplayWFSLayerSample extends Application {
 
   private MapView mapView;
-//  private Envelope currentExtent;
+  private Envelope extentEnvelope;
+  private WfsFeatureTable wfsFeatureTable;
+  private ProgressIndicator progressIndicator;
 
   @Override
   public void start(Stage stage) {
@@ -54,23 +62,20 @@ public class DisplayWFSLayerSample extends Application {
     // set the viewpoint on the map view
     Point topLeft = new Point(-122.341581, 47.617207, SpatialReferences.getWgs84());
     Point bottomRight = new Point(-122.332662, 47.613758, SpatialReferences.getWgs84());
-    mapView.setViewpointAsync(new Viewpoint(47.608013, -122.335167, 2000));
 
-
+    extentEnvelope = new Envelope(topLeft, bottomRight);
+    Viewpoint initialViewpoint = new Viewpoint(extentEnvelope);
+    mapView.setViewpoint(initialViewpoint);
 
     String serviceUrl = "https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities";
     String LayerName = "Seattle_Downtown_Features:Buildings";
 
     // create a FeatureTable from the WFS service URL and name of the layer
-    WfsFeatureTable wfsFeatureTable = new WfsFeatureTable(serviceUrl, LayerName);
+    wfsFeatureTable = new WfsFeatureTable(serviceUrl, LayerName);
 
     // set the feature request mode to manual - only manual is supported at v100.5
     // In this mode, you must manually populate the table - panning and zooming won't request features automatically.
     wfsFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
-
-    // load the table: not necessary because it loads by adding it into the operational layers.
-//    wfsFeatureTable.loadAsync();
-
 
     // create a feature layer to visualize the WFS features
     FeatureLayer wfsFeatureLayer = new FeatureLayer(wfsFeatureTable);
@@ -82,83 +87,61 @@ public class DisplayWFSLayerSample extends Application {
     // add the layer to the map's operational layers
     map.getOperationalLayers().add(wfsFeatureLayer);
 
-    map.getOperationalLayers().get(0).addDoneLoadingListener(()->{
-      System.out.println(map.getOperationalLayers().get(0).getLoadStatus());
+    wfsFeatureLayer.addDoneLoadingListener(()->{
 
+      if (wfsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
+        System.out.println("wfs feature layer has loaded!");
+        System.out.println((wfsFeatureTable.getTotalFeatureCount()));
+
+        queryParams(extentEnvelope);
+      }
 
     });
-    // show a progress indicator while the layer loads
-    ProgressIndicator progressIndicator = new ProgressIndicator();
-    progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-    progressIndicator.setMaxSize(25, 25);
-
-//    mapView.addDrawStatusChangedListener(e ->{
-//
-//      System.out.println(e.getDrawStatus());
-//
-//      if (e.getDrawStatus()== DrawStatus.COMPLETED){
-//
-//        Envelope currentExtent = mapView.getVisibleArea().getExtent();
-//
-//        // create a query based on the current visible extent
-//        QueryParameters visibleExtentQuery = new QueryParameters();
-//        visibleExtentQuery.setGeometry(currentExtent);
-//        visibleExtentQuery.setSpatialRelationship(QueryParameters.SpatialRelationship.INTERSECTS);
-//
-//        wfsFeatureTable.populateFromServiceAsync(visibleExtentQuery, false, null);
-//        progressIndicator.setVisible(false);
-//
-//
-//
-//      }
-//
-//    });
-
-
-//     use the navigation completed event to populate the table with the features needed for the current extent
 
     mapView.addNavigationChangedListener(navigationChangedEvent -> {
 
-      if (!navigationChangedEvent.isNavigating()){
+      System.out.println("Navigation changed listener firing! ");
+      extentEnvelope = mapView.getVisibleArea().getExtent();
+      queryParams(extentEnvelope);
+      System.out.println(extentEnvelope);
 
-//        Envelope currentExtent = mapView.getVisibleArea().getExtent();
+    });
 
-        // create a query based on the current visible extent
-        QueryParameters visibleExtentQuery = new QueryParameters();
-        visibleExtentQuery.setGeometry(mapView.getVisibleArea().getExtent());
-        visibleExtentQuery.setSpatialRelationship(QueryParameters.SpatialRelationship.INTERSECTS);
+    Button button = new Button("Test");
+    button.setOnAction(e -> {
+      // create a query based on the current visible extent
+      QueryParameters visibleExtentQuery = new QueryParameters();
+      visibleExtentQuery.setGeometry(mapView.getVisibleArea().getExtent());
+      visibleExtentQuery.setSpatialRelationship(QueryParameters.SpatialRelationship.INTERSECTS);
 
-        wfsFeatureTable.populateFromServiceAsync(visibleExtentQuery, false, null);
-        progressIndicator.setVisible(false);
+      wfsFeatureTable.populateFromServiceAsync(visibleExtentQuery, false, null);
+      
 
+    });
 
-      };
+    Button newButton = new Button ("How many features in table");
+    newButton.setOnAction(e->{
+
+      System.out.println((wfsFeatureTable.getTotalFeatureCount()));
+
 
     });
 
 
-//    // query for features whenever the map's viewpoint changes
-//    mapView.addViewpointChangedListener(e -> {
-//
-//        Envelope currentExtent = mapView.getVisibleArea().getExtent();
-//
-//        // create a query based on the current visible extent
-//        QueryParameters visibleExtentQuery = new QueryParameters();
-//        visibleExtentQuery.setGeometry(currentExtent);
-//        visibleExtentQuery.setSpatialRelationship(QueryParameters.SpatialRelationship.INTERSECTS);
-//
-//        wfsFeatureTable.populateFromServiceAsync(visibleExtentQuery, false, null);
-//        progressIndicator.setVisible(false);
-//
-//    });
-
-
-
-
-
     // add the mapview to the stackpane
-    stackPane.getChildren().addAll(mapView, progressIndicator);
+    stackPane.getChildren().addAll(mapView, button, newButton);
+    StackPane.setAlignment(newButton, Pos.BOTTOM_RIGHT);
 
+  }
+
+  private void queryParams(Geometry mapExtents){
+
+    // create a query based on the current visible extent
+    QueryParameters visibleExtentQuery = new QueryParameters();
+    visibleExtentQuery.setGeometry(mapExtents);
+    visibleExtentQuery.setSpatialRelationship(QueryParameters.SpatialRelationship.INTERSECTS);
+
+    wfsFeatureTable.populateFromServiceAsync(visibleExtentQuery, false, null);
   }
 
   /**
@@ -181,6 +164,8 @@ public class DisplayWFSLayerSample extends Application {
 
     Application.launch(args);
   }
+
+
 
 
 }
