@@ -18,7 +18,7 @@ apply plugin: 'com.esri.arcgisruntime.java'
 
 group = 'com.esri.samples'
 
-arcgis.version = '100.5.0-2365'
+arcgis.version = '100.5.0-2376'
 arcgis.internal = true
 
 javafx {
@@ -104,13 +104,13 @@ void downloadSampleData(List<Download> downloads, folderName) {
                     from zipTree(downloadFileName)
                     into(downloadFolder)
                 }
-                delete(downloadFileName)
             } else {
                 copy {
                     from downloadFileName
                     into downloadFolder
                 }
             }
+            delete(downloadFileName)
         }
     }
 }
