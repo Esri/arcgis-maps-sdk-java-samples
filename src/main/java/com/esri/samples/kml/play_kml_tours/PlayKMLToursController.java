@@ -36,6 +36,8 @@ import com.esri.arcgisruntime.ogc.kml.KmlContainer;
 import com.esri.arcgisruntime.ogc.kml.KmlDataset;
 import com.esri.arcgisruntime.ogc.kml.KmlNode;
 import com.esri.arcgisruntime.ogc.kml.KmlTour;
+import com.esri.arcgisruntime.ogc.kml.KmlTourController;
+import com.esri.arcgisruntime.ogc.kml.KmlTourStatus;
 
 public class PlayKMLToursController {
 
@@ -43,22 +45,15 @@ public class PlayKMLToursController {
   private SceneView sceneView;
   @FXML
   private Button playButton;
-  /*@FXML
-  private Button audioButton;*/
+  @FXML
+  private Button resetButton;
 
   private final ImageView playIcon = new ImageView(new Image(PlayKMLToursController.class.getResourceAsStream(
       "/icons/play.png")));
   private final ImageView pauseIcon = new ImageView(new Image(PlayKMLToursController.class.getResourceAsStream(
       "/icons/pause.png")));
-  private final ImageView audioIcon = new ImageView(new Image(PlayKMLToursController.class.getResourceAsStream(
-      "/icons/volume-high.png")));
-  private final ImageView audioOffIcon = new ImageView(new Image(PlayKMLToursController.class.getResourceAsStream(
-      "/icons/volume-off.png")));
 
-  private boolean playing = false;
-  private boolean audioOn = true;
-  //private KmlTourController kmlTourController;
-  private KmlTour kmlTour;
+  private KmlTourController kmlTourController = new KmlTourController();
 
   /**
    * Called after FXML loads. Sets up scene and map and configures property bindings.
@@ -87,11 +82,28 @@ public class PlayKMLToursController {
       kmlLayer.addDoneLoadingListener(() -> {
         if (kmlLayer.getLoadStatus() == LoadStatus.LOADED) {
           // find the first KML tour in the dataset when loaded
-          kmlTour = findFirstKMLTour(kmlDataset.getRootNodes());
+          KmlTour kmlTour = findFirstKMLTour(kmlDataset.getRootNodes());
           if (kmlTour != null) {
             // set the tour to the tour controller and enable UI controls
-            //kmlTourController.setTour(kmlTour);
-            playButton.setDisable(false);
+            kmlTourController.setTour(kmlTour);
+
+            kmlTour.addStatusChangedListener(kmlTourStatusChangedEvent -> {
+              switch (kmlTourStatusChangedEvent.getStatus()) {
+                case NOT_INITIALIZED:
+                case INITIALIZING:
+                  playButton.setDisable(true);
+                  resetButton.setDisable(true);
+                case INITIALIZED:
+                  playButton.setDisable(false);
+                  resetButton.setDisable(false);
+                case PAUSED:
+                  playButton.setGraphic(playIcon);
+                case PLAYING:
+                  playButton.setGraphic(pauseIcon);
+                case COMPLETED:
+                  playButton.setDisable(true);
+              }
+            });
           } else {
             new Alert(Alert.AlertType.WARNING, "No KML tour found in dataset").show();
           }
@@ -123,13 +135,16 @@ public class PlayKMLToursController {
 
   @FXML
   private void togglePlay() {
-    playing = !playing;
-    playButton.setGraphic(playing ? pauseIcon : playIcon);
-    if (playing) {
-      //kmlTourController.play();
+    if (kmlTourController.getTour().getTourStatus() == KmlTourStatus.PLAYING) {
+      kmlTourController.pause();
     } else {
-      //kmlTourController.pause();
+      kmlTourController.play();
     }
+  }
+
+  @FXML
+  private void resetTour() {
+    kmlTourController.reset();
   }
 
   /**
