@@ -99,7 +99,7 @@ public class GroupLayersSample extends Application {
         })
       );
 
-      // create a tree view to show the layers in the scene
+      // create a JavaFX tree view to show the layers in the scene
       TreeView<Layer> layerTreeView = new TreeView<>();
       layerTreeView.setMaxSize(250, 200);
       TreeItem<Layer> rootTreeItem = new TreeItem<>();
