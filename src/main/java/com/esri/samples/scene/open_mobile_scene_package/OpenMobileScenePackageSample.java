@@ -54,19 +54,8 @@ public class OpenMobileScenePackageSample extends Application {
     stage.setScene(fxScene);
     stage.show();
 
-    // create a new ArcGIS scene and set its basemap
-    ArcGISScene scene = new ArcGISScene();
-    scene.setBasemap(Basemap.createImagery());
-
     // create a new scene view
     sceneView = new SceneView();
-
-    // add base surface for elevation data
-    Surface surface = new Surface();
-    ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
-            ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
-    surface.getElevationSources().add(elevationSource);
-    scene.setBaseSurface(surface);
 
     // load a mobile scene package
     final String mspkPath = new File("./samples-data/mspk/philadelphia.mspk").getAbsolutePath();
