@@ -11,9 +11,9 @@
 <h2>How to use the sample</h2>
 
 <p>Click the play button to start the tour. The narration audio will start and then the viewpoint will animate. Press 
-the button again to pause the tour. 
+the button again to pause the tour.</p> 
 
-To start again from the beginning, click the reset button to reset the tour. Then press play.</p>
+<p>To start again from the beginning, click the reset button to reset the tour. Then press play.</p>
 
 <h2>How it works</h2>
 
