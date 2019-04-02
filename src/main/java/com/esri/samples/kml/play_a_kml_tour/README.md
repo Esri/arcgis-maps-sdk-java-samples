@@ -23,6 +23,7 @@ the beginning.</p>
 <li>Create a <code>KmlTourController</code> and set the tour with <code>kmlTourController.setTour(kmlTour)</code>.</li>
 <li>Use <code>kmltourController.play()</code>, <code>kmltourController.pause()</code>, and <code>kmltourController.reset
 ()</code> to control the tour.</li>
+</ol>
 
 <h2>Relevant API</h2>
 
