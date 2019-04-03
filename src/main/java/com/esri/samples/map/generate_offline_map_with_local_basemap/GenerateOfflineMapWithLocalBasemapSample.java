@@ -44,13 +44,8 @@ import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 public class GenerateOfflineMapWithLocalBasemapSample extends Application {
 
   private MapView mapView;
-  private GraphicsOverlay graphicsOverlay;
   private Graphic downloadArea;
   private ArcGISMap map;
-
-  private GenerateOfflineMapParameters generateOfflineMapParameters;
-  private GenerateOfflineMapJob generateOfflineMapJob;
-  private OfflineMapTask task;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -70,7 +65,7 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
       // create a map view
       mapView = new MapView();
       // create a graphics overlay to show the download area extent
-      graphicsOverlay = new GraphicsOverlay();
+      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a graphic to show a box around the extent we want to download
@@ -122,7 +117,7 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
         }
 
         // create an offline map task with the map
-        task = new OfflineMapTask(map);
+        OfflineMapTask task = new OfflineMapTask(map);
 
         // create default generate offline map parameters
         ListenableFuture<GenerateOfflineMapParameters> generateOfflineMapParametersListenableFuture =
@@ -130,7 +125,7 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
 
         generateOfflineMapParametersListenableFuture.addDoneListener(() -> {
           try {
-            generateOfflineMapParameters = generateOfflineMapParametersListenableFuture.get();
+            GenerateOfflineMapParameters generateOfflineMapParameters = generateOfflineMapParametersListenableFuture.get();
 
             GenerateOfflineMapDialog dialog = new GenerateOfflineMapDialog();
             dialog.setReferencedBasemapFileName(generateOfflineMapParameters.getReferenceBasemapFilename());
@@ -157,7 +152,8 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
 
               // create an offline map job with the download directory path and parameters and start the job
               Path tempDirectory = Files.createTempDirectory("offline_map");
-              generateOfflineMapJob = task.generateOfflineMap(generateOfflineMapParameters, tempDirectory.toAbsolutePath().toString());
+              GenerateOfflineMapJob generateOfflineMapJob = task.generateOfflineMap(generateOfflineMapParameters,
+                  tempDirectory.toAbsolutePath().toString());
               generateOfflineMapJob.start();
 
               offlineMapButton.setDisable(true);
