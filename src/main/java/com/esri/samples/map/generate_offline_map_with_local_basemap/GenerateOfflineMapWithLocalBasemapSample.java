@@ -85,7 +85,7 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
       map = new ArcGISMap(portalItem);
       mapView.setMap(map);
 
-      // draw the download extent area when the draw status is completed
+      // draw the download extent area as a red outline when the draw status is completed for the first time
       DrawStatusChangedListener drawStatusChangedListener = new DrawStatusChangedListener() {
         @Override
         public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
@@ -139,11 +139,13 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
             if (usingLocalBasemap.isPresent()) {
               // if the user chose to use a local basemap, this will be true, otherwise false
               if (usingLocalBasemap.get()) {
-                // open a directory chooser to select the directory with the referenced basemap
+                // open a directory chooser to select the directory containing the referenced basemap
                 DirectoryChooser directoryChooser = new DirectoryChooser();
-                directoryChooser.setInitialDirectory(new File("./samples-data/Naperville"));
-                directoryChooser.setTitle("Choose directory with local basemap");
+                // for this sample, the directory chosen should be "naperville"
+                directoryChooser.setInitialDirectory(new File("./samples-data"));
+                directoryChooser.setTitle("Choose directory containing local basemap");
                 File localBasemapDirectory = directoryChooser.showDialog(stage.getOwner());
+
                 if (localBasemapDirectory != null) {
                   // set the path to the references basemap directory
                   generateOfflineMapParameters.setReferenceBasemapDirectory(localBasemapDirectory.getAbsolutePath());
