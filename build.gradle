@@ -18,7 +18,7 @@ apply plugin: 'com.esri.arcgisruntime.java'
 
 group = 'com.esri.samples'
 
-arcgis.version = '100.5.0-2370'
+arcgis.version = '100.5.0-2376'
 arcgis.internal = true
 
 javafx {
@@ -43,26 +43,26 @@ dependencies {
 
 task downloadData {
     description = "Downloads data from AGOL for samples with offline data"
-    
+
     def samplesData = './samples-data'
     if (!file(samplesData).exists()) {
         mkdir(samplesData)
     }
     downloadSampleData([new Download(id: "9d2987a825c646468b3ce7512fb76e2d")], 'enc')
-    downloadSampleData([new Download(id: 'cd61610c030446689991cc159d354e25'), 
+    downloadSampleData([new Download(id: 'cd61610c030446689991cc159d354e25'),
                         new Download(id: '98092369c4ae4d549bbbd45dba993ebc')], 'monterey_elevation')
     downloadSampleData([new Download(id: '296269901180442a88a3351640ff2262')], 'bristol')
     downloadSampleData([new Download(id: '3af5cfec0fd24dac8d88aea679027cb9')], 'dolmus_3ds')
     downloadSampleData([new Download(id: '78847654fbe042e6af617ebbfbf985c7')], 'bradley_low_3ds')
-    downloadSampleData([new Download(id: '9ebd467801244ad79920be3c27f774da'), 
+    downloadSampleData([new Download(id: '9ebd467801244ad79920be3c27f774da'),
                         new Download(id: '3b279365273043ae90f09cb0b112d40d')], 'mmpk')
-    downloadSampleData([new Download(id: '793a4620fbba443a931ac1fa52ad7f45'), 
+    downloadSampleData([new Download(id: '793a4620fbba443a931ac1fa52ad7f45'),
                         new Download(id: '1455c3dbfc43497983572117c7d6064c')], 'sanfrancisco')
-    downloadSampleData([new Download(id: 'f3fd11e862694698bccec206bde3c934'), 
+    downloadSampleData([new Download(id: 'f3fd11e862694698bccec206bde3c934'),
                         new Download(id: 'fef6001edc7a44f9932310d14682f1bc'),
                         new Download(id: 'f31ea54e460e4439848557ab722baa0b')], 'shapefiles')
     downloadSampleData([new Download(id: '80b43ba48f524a8eb0cb54f0f1ee9a5f'),
-                        new Download(id: '00113a41bea0401290635f8503bb4acf'), 
+                        new Download(id: '00113a41bea0401290635f8503bb4acf'),
                         new Download(id: 'df6f7fb0bf714e128cc3f919c126dd22')], 'raster')
     downloadSampleData([new Download(id: 'd98b3e5293834c5f852f13c569930caa'),
                         new Download(id: '68ec42517cdd439e81b036210483e8e7')], 'auroraCO')
@@ -105,13 +105,13 @@ void downloadSampleData(List<Download> downloads, folderName) {
                     from zipTree(downloadFileName)
                     into(downloadFolder)
                 }
-                delete(downloadFileName)
             } else {
                 copy {
                     from downloadFileName
                     into downloadFolder
                 }
             }
+            delete(downloadFileName)
         }
     }
 }
