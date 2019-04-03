@@ -20,7 +20,7 @@ The author of a web map can support the use of basemaps which are already on a d
 
 ## How to use the sample
 
-1. Click on the "Check for locally saved basemap to take map offline" button.
+1. Click on the "Take Map Offline" button.
 1. You will be prompted to choose whether you wish to use the "naperville_imagery.tpk" basemap (already saved in the samples-data directory) or to download the online basemap.
 1. If you choose to download the online basemap, the offline map will be generated with the same (topographic) basemap as the online web map. To download the Esri basemap, you may be prompted to sign in to ArcGIS.com.
 1. If you choose to use the basemap from the device, the offline map will be generated with the local imagery basemap i.e. no tiles are exported or downloaded. Since the application is not exporting online ArcGIS Online basemaps you will not need to log-in.
