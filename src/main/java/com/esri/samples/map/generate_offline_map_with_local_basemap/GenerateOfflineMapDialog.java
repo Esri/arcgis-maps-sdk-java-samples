@@ -9,7 +9,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 
 /**
- * Custom dialog for
+ * Custom dialog for selection of local basemap or online base map when generating an offline map.
  */
 class GenerateOfflineMapDialog extends Dialog<Boolean> {
 
