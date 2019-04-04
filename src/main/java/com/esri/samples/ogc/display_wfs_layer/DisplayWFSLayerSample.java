@@ -1,42 +1,28 @@
 package com.esri.samples.ogc.display_wfs_layer;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.Polygon;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.internal.jni.CoreWFSFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.DrawStatus;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.ogc.wfs.WfsFeatureTable;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import java.net.URL;
 
 public class DisplayWFSLayerSample extends Application {
 
   private MapView mapView;
-  private Envelope extentEnvelope;
-  private WfsFeatureTable wfsFeatureTable;
-  private ProgressIndicator progressIndicator;
 
   @Override
   public void start(Stage stage) {
@@ -52,29 +38,24 @@ public class DisplayWFSLayerSample extends Application {
     stage.setScene(scene);
     stage.show();
 
-    // create an ArcGISMap with topographic basemap
+    // create an ArcGISMap with topographic basemap and set it to the map view
     ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
-
-    // create a map view and set the map to it
     mapView = new MapView();
     mapView.setMap(map);
 
-    // set the viewpoint on the map view
+    // create an initial extent to load
     Point topLeft = new Point(-122.341581, 47.617207, SpatialReferences.getWgs84());
-    Point bottomRight = new Point(-122.332662, 47.613758, SpatialReferences.getWgs84());
-
-    extentEnvelope = new Envelope(topLeft, bottomRight);
-    Viewpoint initialViewpoint = new Viewpoint(extentEnvelope);
-    mapView.setViewpoint(initialViewpoint);
+    Point bottomRight = new Point(-122.336662, 47.613758, SpatialReferences.getWgs84());
+    Envelope initialExtent = new Envelope(topLeft, bottomRight);
+    mapView.setViewpoint(new Viewpoint(initialExtent));
 
     String serviceUrl = "https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities";
     String LayerName = "Seattle_Downtown_Features:Buildings";
 
     // create a FeatureTable from the WFS service URL and name of the layer
-    wfsFeatureTable = new WfsFeatureTable(serviceUrl, LayerName);
+    WfsFeatureTable wfsFeatureTable = new WfsFeatureTable(serviceUrl, LayerName);
 
-    // set the feature request mode to manual - only manual is supported at v100.5
-    // In this mode, you must manually populate the table - panning and zooming won't request features automatically.
+    // set the feature request mode to manual. The table must be manually populated as panning and zooming won't request features automatically.
     wfsFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
     // create a feature layer to visualize the WFS features
@@ -87,61 +68,34 @@ public class DisplayWFSLayerSample extends Application {
     // add the layer to the map's operational layers
     map.getOperationalLayers().add(wfsFeatureLayer);
 
-    wfsFeatureLayer.addDoneLoadingListener(()->{
+    // make an initial call to load the initial extent's data from the WFS, using the WFS spatial reference
+    populateFromServer(wfsFeatureTable, (Envelope) GeometryEngine.project(initialExtent, SpatialReference.create(3857)));
 
-      if (wfsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
-        System.out.println("wfs feature layer has loaded!");
-        System.out.println((wfsFeatureTable.getTotalFeatureCount()));
-
-        queryParams(extentEnvelope);
-      }
-
-    });
-
+    // use the navigation completed event to populate the table with the features needed for the current extent
     mapView.addNavigationChangedListener(navigationChangedEvent -> {
-
-      System.out.println("Navigation changed listener firing! ");
-      extentEnvelope = mapView.getVisibleArea().getExtent();
-      queryParams(extentEnvelope);
-      System.out.println(extentEnvelope);
-
+      // once the map view has stopped navigating
+      if (!navigationChangedEvent.isNavigating()) {
+        populateFromServer(wfsFeatureTable, mapView.getVisibleArea().getExtent());
+      }
     });
-
-    Button button = new Button("Test");
-    button.setOnAction(e -> {
-      // create a query based on the current visible extent
-      QueryParameters visibleExtentQuery = new QueryParameters();
-      visibleExtentQuery.setGeometry(mapView.getVisibleArea().getExtent());
-      visibleExtentQuery.setSpatialRelationship(QueryParameters.SpatialRelationship.INTERSECTS);
-
-      wfsFeatureTable.populateFromServiceAsync(visibleExtentQuery, false, null);
-      
-
-    });
-
-    Button newButton = new Button ("How many features in table");
-    newButton.setOnAction(e->{
-
-      System.out.println((wfsFeatureTable.getTotalFeatureCount()));
-
-
-    });
-
 
     // add the mapview to the stackpane
-    stackPane.getChildren().addAll(mapView, button, newButton);
-    StackPane.setAlignment(newButton, Pos.BOTTOM_RIGHT);
-
+    stackPane.getChildren().addAll(mapView);
   }
 
-  private void queryParams(Geometry mapExtents){
+  /**
+   * Create query parameters using the given extent to populate the WFS table from the service
+   * @param wfsTable the WFS feature table to populate
+   * @param extent the extent used to define the QueryParameters' geometry
+   */
+  private void populateFromServer(WfsFeatureTable wfsTable, Envelope extent){
 
     // create a query based on the current visible extent
     QueryParameters visibleExtentQuery = new QueryParameters();
-    visibleExtentQuery.setGeometry(mapExtents);
+    visibleExtentQuery.setGeometry(extent);
     visibleExtentQuery.setSpatialRelationship(QueryParameters.SpatialRelationship.INTERSECTS);
-
-    wfsFeatureTable.populateFromServiceAsync(visibleExtentQuery, false, null);
+    // populate the WFS feature table based on the current extent
+    wfsTable.populateFromServiceAsync(visibleExtentQuery, false, null);
   }
 
   /**
@@ -164,8 +118,4 @@ public class DisplayWFSLayerSample extends Application {
 
     Application.launch(args);
   }
-
-
-
-
 }
