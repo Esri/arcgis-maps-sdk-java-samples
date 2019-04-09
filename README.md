@@ -1,5 +1,5 @@
 # ArcGIS Runtime Java SDK Samples
-### 100.4.0
+### 100.5.0
 This project includes a set of samples demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
 Be sure to also check out our [toolkit on GitHub](https://github.com/Esri/arcgis-runtime-toolkit-java).
@@ -31,6 +31,12 @@ There is no need to install Gradle to run the samples.
 The plugin provides the project with everything an ArcGIS runtime project needs to run. It adds the 
 arcgis api as a dependency and downloads the native libraries into `$USER_HOME/.arcgis`. This download occurs 
 automatically the first time you build the project and is only performed once.
+
+## Java 11
+Java 11 users may find exceptions when running the project if their library path is still set for Oracle JDK 1.8 (see the [OpenJavaFX docs](https://openjfx.io/openjfx-docs/) for more information). A workaround for this is to add the following argument in the `run` task of the Gradle buildscript:
+```
+systemProperty "java.library.path", "C:\tmp"
+```
 
 ## Offline sample data
 Some samples require offline data. A `samples-data` directory will automatically download to the project root the 
