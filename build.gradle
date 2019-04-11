@@ -18,8 +18,7 @@ apply plugin: 'com.esri.arcgisruntime.java'
 
 group = 'com.esri.samples'
 
-arcgis.version = '100.5.0-2380'
-arcgis.internal = true
+arcgis.version = '100.5.0'
 
 javafx {
     version = "11.0.1"
@@ -80,6 +79,7 @@ task downloadData {
     downloadSampleData([new Download(id: '5491f01d92554751902ecad85cc5d6ca')], 'dictionary')
     downloadSampleData([new Download(id: '943285c21a8e4e1582f0af1101f87bdf')], 'slpks')
     downloadSampleData([new Download(id: 'c0f7b0466b9c492dbab408620af6d28f')], 'mspk')
+    downloadSampleData([new Download(id: '628e8e3521cf45e9a28a12fe10c02c4d', name: 'naperville_imagery', ext: 'tpk')], 'naperville')
 }
 
 run {
@@ -104,13 +104,13 @@ void downloadSampleData(List<Download> downloads, folderName) {
                     from zipTree(downloadFileName)
                     into(downloadFolder)
                 }
-                delete(downloadFileName)
             } else {
                 copy {
                     from downloadFileName
                     into downloadFolder
                 }
             }
+            delete(downloadFileName)
         }
     }
 }
