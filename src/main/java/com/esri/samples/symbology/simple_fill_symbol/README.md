@@ -1,4 +1,4 @@
-<h2>Simple Fill Symbol</h2>
+<h1>Simple Fill Symbol</h1>
 
 <p>Change a graphic's fill color, outline, and style properties.</p>
 

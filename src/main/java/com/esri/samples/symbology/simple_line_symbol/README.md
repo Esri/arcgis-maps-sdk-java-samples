@@ -1,4 +1,4 @@
-<h2>Simple Line Symbol</h2>
+<h1>Simple Line Symbol</h1>
 
 <p>Change a line graphic's color and style.</p>
 

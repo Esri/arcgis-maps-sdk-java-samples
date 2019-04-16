@@ -1,4 +1,4 @@
-<h2>Simple Marker Symbol</h2>
+<h1>Simple Marker Symbol</h1>
 
 <p>Show simple markers.</p>
 
