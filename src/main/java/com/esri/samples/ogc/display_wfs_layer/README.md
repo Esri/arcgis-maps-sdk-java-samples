@@ -1,44 +1,56 @@
-# Display WFS layer
+<h1>Display WFS layer</h1>
 
-Display a layer from a WFS service, requesting only features for the current extent.
+<p>Display a layer from a WFS service, requesting only features for the current extent.</p>
 
-![](DisplayWFSLayer.png)
+<p><img src="DisplayWFSLayer.png"/></p>
 
-## Use case
+<h2>Use case</h2>
 
-WFS is an open standard with functionality similar to ArcGIS feature
+<p>WFS is an open standard with functionality similar to ArcGIS feature
 services. Runtime support for WFS allows you to interoperate with open
 systems, which are often used in inter-agency efforts, like those for
-disaster relief.
+disaster relief.</p>
 
-## How to use the sample
+<h2>How to use the sample</h2>
 
-Pan and zoom to see features within the current map extent.
+<p>Pan and zoom to see features within the current map extent.</p>
 
-## How it works
+<h2>How it works</h2>
 
-1. Create a `WfsFeatureTable` with a URL. 
-2. Create a `FeatureLayer` from the feature table and add it to the map.
-3. Add a `NavigationChangedListener` to the map view and listen for a
-   `NavigationChangedEvent`. Check if it `!isNavigating()` to detect
-   when the user has stopped navigating the map.
-4. When the user is finished navigating, use
-   `populateFromServiceAsync(...)` to load the table with data for the
-   current visible extent.
+<ol>
+<li>Create a <code>WfsFeatureTable</code> with a URL. </li>
 
-## Relevant API
+<li>Create a <code>FeatureLayer</code> from the feature table and add it to the map.</li>
 
-* FeatureLayer
-* MapView.addNavigationChangedListener
-* QueryParameters
-* WfsFeatureTable
-* WfsFeatureTable.populateFromServiceAsync
+<li>Add a <code>NavigationChangedListener</code> to the map view and listen for a
+<code>NavigationChangedEvent</code>. Check if it <code>!isNavigating()</code> to detect
+when the user has stopped navigating the map.</li>
 
-## About the data
+<li>When the user is finished navigating, use
+<code>populateFromServiceAsync(...)</code> to load the table with data for the
+current visible extent.</li>
+</ol>
 
-This service shows building footprints for downtown Seattle. For
+<h2>Relevant API</h2>
+
+<ul>
+<li>FeatureLayer</li>
+
+<li>MapView.addNavigationChangedListener</li>
+
+<li>QueryParameters</li>
+
+<li>WfsFeatureTable</li>
+
+<li>WfsFeatureTable.populateFromServiceAsync</li>
+</ul>
+
+<h2>About the data</h2>
+
+<p>This service shows building footprints for downtown Seattle. For
 additional information, see the underlying service on
-[ArcGIS Online](https://arcgisruntime.maps.arcgis.com/home/item.html?id=1b81d35c5b0942678140efc29bc25391).
+<a href="https://arcgisruntime.maps.arcgis.com/home/item.html?id=1b81d35c5b0942678140efc29bc25391">ArcGIS Online</a>.</p>
 
-## Tags
-OGC, WFS, layers,  feature, web, service, browse, catalog, interaction cache
+<h2>Tags</h2>
+
+<p>OGC, WFS, layers,  feature, web, service, browse, catalog, interaction cache</p>
