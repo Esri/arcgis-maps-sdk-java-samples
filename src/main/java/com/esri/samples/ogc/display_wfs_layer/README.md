@@ -36,7 +36,7 @@ current visible extent.</li>
 <ul>
 <li>FeatureLayer</li>
 
-<li>MapView.addNavigationChangedListener</li>
+<li>NavigationChangedEvent</li>
 
 <li>QueryParameters</li>
 
