@@ -79,7 +79,6 @@ public class OrbitTheCameraAroundAnObjectController {
       SimpleRenderer renderer = new SimpleRenderer();
       renderer.getSceneProperties().setHeadingExpression("[HEADING]");
       renderer.getSceneProperties().setPitchExpression("[PITCH]");
-      renderer.getSceneProperties().setRollExpression("[ROLL]");
       sceneGraphicsOverlay.setRenderer(renderer);
 
       // create a graphic of a plane model
