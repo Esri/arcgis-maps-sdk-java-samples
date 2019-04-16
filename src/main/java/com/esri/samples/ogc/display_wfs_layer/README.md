@@ -41,8 +41,6 @@ current visible extent.</li>
 <li>QueryParameters</li>
 
 <li>WfsFeatureTable</li>
-
-<li>WfsFeatureTable.populateFromServiceAsync</li>
 </ul>
 
 <h2>About the data</h2>
