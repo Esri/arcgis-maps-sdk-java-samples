@@ -82,13 +82,13 @@ public class DisplayWFSLayerSample extends Application {
     map.getOperationalLayers().add(wfsFeatureLayer);
 
     // make an initial call to load the initial extent's data from the WFS, using the WFS spatial reference
-    populateFromServer(wfsFeatureTable, initialExtent);
+    populateFeaturesFromServer(wfsFeatureTable, initialExtent);
 
     // use the navigation completed event to populate the table with the features needed for the current extent
     mapView.addNavigationChangedListener(navigationChangedEvent -> {
       // once the map view has stopped navigating
       if (!navigationChangedEvent.isNavigating()) {
-        populateFromServer(wfsFeatureTable, mapView.getVisibleArea().getExtent());
+        populateFeaturesFromServer(wfsFeatureTable, mapView.getVisibleArea().getExtent());
       }
     });
 
@@ -101,7 +101,7 @@ public class DisplayWFSLayerSample extends Application {
    * @param wfsTable the WFS feature table to populate
    * @param extent the extent used to define the QueryParameters' geometry
    */
-  private void populateFromServer(WfsFeatureTable wfsTable, Envelope extent){
+  private void populateFeaturesFromServer(WfsFeatureTable wfsTable, Envelope extent){
 
     // create a query based on the current visible extent
     QueryParameters visibleExtentQuery = new QueryParameters();
