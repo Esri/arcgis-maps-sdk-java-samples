@@ -32,13 +32,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class WfsXmlQuerySample extends Application {
 
   private MapView mapView;
 
   @Override
-  public void start(Stage stage) {
+  public void start(Stage stage) throws IOException {
 
     // create stack pane and JavaFX app scene
     StackPane stackPane = new StackPane();
@@ -77,21 +81,7 @@ public class WfsXmlQuerySample extends Application {
 
     // create an XML query to retrieve trees of genus Tilia.
     // To learn more about specifying filters in OGC technologies, see https://www.opengeospatial.org/standards/filter.
-    String xmlQuery = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
-            "<wfs:GetFeature service=\"WFS\" version=\"2.0.0\"\n" +
-            "    xmlns:Seattle_Downtown_Features=\"https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer\"\n" +
-            "    xmlns:wfs=\"http://www.opengis.net/wfs/2.0\"\n" +
-            "    xmlns:fes=\"http://www.opengis.net/fes/2.0\"\n" +
-            "    xmlns:gml=\"http://www.opengis.net/gml/3.2\">\n" +
-            "    <wfs:Query typeNames=\"Seattle_Downtown_Features:Trees\">\n" +
-            "        <fes:Filter>\n" +
-            "            <fes:PropertyIsLike wildCard=\"*\" escapeChar=\"\\\">\n" +
-            "                <fes:ValueReference>Trees:SCIENTIFIC</fes:ValueReference>\n" +
-            "                <fes:Literal>Tilia *</fes:Literal>\n" +
-            "            </fes:PropertyIsLike>\n" +
-            "        </fes:Filter>\n" +
-            "    </wfs:Query>\n" +
-            "</wfs:GetFeature>";
+    String xmlQuery = IOUtils.toString(WfsXmlQuerySample.class.getResourceAsStream("/xml/SeattleTreeQuery.xml"), StandardCharsets.UTF_8.name());
 
     // populate the WFS feature table with XML query
     wfsFeatureTable.populateFromServiceAsync(xmlQuery, true).addDoneListener(() -> {
