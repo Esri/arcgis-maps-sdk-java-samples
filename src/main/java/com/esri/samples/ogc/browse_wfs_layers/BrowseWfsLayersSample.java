@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.esri.samples.ogc.browse_wfs_layers;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -25,7 +41,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -71,10 +86,6 @@ public class BrowseWfsLayersSample extends Application {
     controlsVBox.setMaxSize(170, 220);
     controlsVBox.getStyleClass().add("panel-region");
 
-    // create a button to load selected layer
-    Button loadButton = new Button("Load selected layer");
-    loadButton.setMaxWidth(Double.MAX_VALUE);
-
     // create a check box to swap coordinate order
     checkBox = new CheckBox("Swap coordinate order");
     checkBox.setMaxWidth(Double.MAX_VALUE);
@@ -95,22 +106,24 @@ public class BrowseWfsLayersSample extends Application {
     // URL to the WFS service
     String serviceUrl = "https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities";
 
-    // create a WFS service
+    // create a WFS service and load it
     WfsService wfsService = new WfsService(serviceUrl);
     wfsService.loadAsync();
+
+    // when the WFS service has loaded, get its layer information, and add them to the list view for browsingI
     wfsService.addDoneLoadingListener(() -> {
       if (wfsService.getLoadStatus() == LoadStatus.LOADED) {
         // add the list of WFS layers to the list view
         List<WfsLayerInfo> wfsLayerInfos = wfsService.getServiceInfo().getLayerInfos();
-        for (WfsLayerInfo layerInfo : wfsLayerInfos) {
-          wfsLayerNamesListView.getItems().add(layerInfo);
-        }
+        wfsLayerNamesListView.getItems().addAll(wfsLayerInfos);
+        for (WfsLayerInfo info: wfsLayerInfos){
 
+          System.out.println(info.getExtent());
+        }
       } else {
         Alert alert = new Alert(Alert.AlertType.ERROR, "WFS Service Failed to Load!");
         alert.show();
       }
-
     });
 
     // populate the list view with layer names
@@ -128,14 +141,15 @@ public class BrowseWfsLayersSample extends Application {
       }
     });
 
-    // load the selected layer from the list view when load button is clicked
-    loadButton.setOnAction(e -> {
+    // load the selected layer from the list view when the layer is selected
+    wfsLayerNamesListView.getSelectionModel().selectedItemProperty().addListener(observable -> {
       updateMap(wfsLayerNamesListView.getSelectionModel().getSelectedItem());
-
     });
 
+
+
     // add the list view, button and check box to the control panel
-    controlsVBox.getChildren().addAll(wfsLayerNamesListView, loadButton, checkBox);
+    controlsVBox.getChildren().addAll(wfsLayerNamesListView, checkBox);
     // add the mapview to the stackpane
     stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
     StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
@@ -150,7 +164,7 @@ public class BrowseWfsLayersSample extends Application {
 
     progressIndicator.setVisible(true);
 
-    // clear existing WFSLayerInfos from the map's operational layers
+    // clear the map's operational layers
     map.getOperationalLayers().clear();
 
     // create a WFSFeatureTable from the WFSLayerInfo
@@ -158,27 +172,34 @@ public class BrowseWfsLayersSample extends Application {
 
     // set the feature request mode to manual. The table must be manually populated as panning and zooming won't request features automatically.
     wfsFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
+    // define the coordinate order for the WFS service.
+    // no swap will keep the co-ordinates in the order they are retrieved from the WFS service; swap will reverse the order.
     wfsFeatureTable.setAxisOrder(checkBox.isSelected() ? OgcAxisOrder.SWAP : OgcAxisOrder.NO_SWAP);
+    System.out.println("wfs layer info Extent " + wfsLayerInfo.getExtent());
+    System.out.println("wfs layer info Description " + wfsLayerInfo.getDescription());
 
     // create a feature layer to visualize the WFS features
     FeatureLayer wfsFeatureLayer = new FeatureLayer(wfsFeatureTable);
+    System.out.println("feature table get layer info " + wfsFeatureTable.getLayerInfo());
+    System.out.println("feature table get extent " + wfsFeatureTable.getExtent());
+    System.out.println("feature table get internal " + wfsFeatureTable.getInternal());
+
+    // populate the table and then remove progress indicator and set the viewpoint to that of the layer's full extent when done.
+    wfsFeatureTable.populateFromServiceAsync(new QueryParameters(), false, null ).addDoneListener(()->{
+      progressIndicator.setVisible(false);
+      mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
+    });
 
     // apply a renderer to the feature layer once the table is loaded (the renderer is based on the table's geometry type)
     wfsFeatureTable.addDoneLoadingListener(()->{
       wfsFeatureLayer.setRenderer(getRandomRendererForTable(wfsFeatureTable));
     });
 
+    System.out.println(wfsFeatureLayer.isVisible());
+
     // add the layer to the map's operational layers
     map.getOperationalLayers().add(wfsFeatureLayer);
 
-    // populate the table
-    ListenableFuture<FeatureQueryResult> featureQueryResultListenableFuture = wfsFeatureTable.populateFromServiceAsync(new QueryParameters(), false, null );
-
-    // run when the table has been populated remove progress indicator and set the viewpoint to that of the layer's full extent.
-    featureQueryResultListenableFuture.addDoneListener(()->{
-      progressIndicator.setVisible(false);
-      mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
-    });
   }
 
   /**
