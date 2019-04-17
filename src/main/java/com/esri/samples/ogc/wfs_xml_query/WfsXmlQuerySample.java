@@ -99,7 +99,7 @@ public class WfsXmlQuerySample extends Application {
       mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
       progressIndicator.setVisible(false);
     });
-    
+
     // add the mapview to the stackpane
     stackPane.getChildren().addAll(mapView, progressIndicator);
   }
