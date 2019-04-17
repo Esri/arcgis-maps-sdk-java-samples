@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.esri.samples.ogc.wfs_xml_query;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -44,11 +60,10 @@ public class WfsXmlQuerySample extends Application {
     mapView = new MapView();
     mapView.setMap(map);
 
-    // define the WFS service URL and layer name
-    String serviceUrl = "https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities";
-    String LayerName = "Seattle_Downtown_Features:Trees";
-    // create a FeatureTable from the WFS service URL and name of the layer
-    WfsFeatureTable wfsFeatureTable = new WfsFeatureTable(serviceUrl, LayerName);
+     // create a FeatureTable from the WFS service URL and layer name
+    WfsFeatureTable wfsFeatureTable = new WfsFeatureTable(
+            "https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities",
+            "Seattle_Downtown_Features:Trees");
 
     // set the feature request mode and axis order
     wfsFeatureTable.setAxisOrder(OgcAxisOrder.NO_SWAP);
@@ -79,18 +94,12 @@ public class WfsXmlQuerySample extends Application {
             "</wfs:GetFeature>";
 
     // populate the WFS feature table with XML query
-    ListenableFuture<FeatureQueryResult> featureQueryResultListenableFuture = wfsFeatureTable.populateFromServiceAsync(xmlQuery, true);
-    featureQueryResultListenableFuture.addDoneListener(() -> {
+    wfsFeatureTable.populateFromServiceAsync(xmlQuery, true).addDoneListener(() -> {
       // set the viewpoint of the map view to the extent reported by the feature layer
-      try {
-        mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
-        progressIndicator.setVisible(false);
-      } catch (Exception ex) {
-        new Alert(Alert.AlertType.ERROR, "Failed to populate table from XML query").show();
-      }
-
+      mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
+      progressIndicator.setVisible(false);
     });
-
+    
     // add the mapview to the stackpane
     stackPane.getChildren().addAll(mapView, progressIndicator);
   }
@@ -100,7 +109,6 @@ public class WfsXmlQuerySample extends Application {
    */
   @Override
   public void stop() {
-    // release resources when the application closes
     if (mapView != null) {
       mapView.dispose();
     }
