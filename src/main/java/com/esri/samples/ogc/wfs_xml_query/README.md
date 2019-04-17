@@ -17,7 +17,7 @@
 
 <li>Create a <code>FeatureLayer</code> from the feature table and add it to the map's operational layers.</li>
 
-<li>Call <code>populateFromServiceAsync</code> to populate the table with only those features returned by the XML query.</li>
+<li>Call <code>populateFromServiceAsync</code> on the feature table to populate it with only those features returned by the XML query.</li>
 </ol>
 
 <h2>Relevant API</h2>
@@ -27,9 +27,6 @@
 
 <li>WfsFeatureTable</li>
 
-<li>WfsFeatureTable.AxisOrder</li>
-
-<li>WfsFeatureTable.PopulateFromServiceAsync</li>
 </ul>
 
 <h2>About the data</h2>
