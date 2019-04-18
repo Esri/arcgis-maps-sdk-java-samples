@@ -10,9 +10,9 @@
 
 <h2>How to use the sample</h2>
 
-<p>A list of layers in the WFS service will be shown. Select a layer and then click the "Load selected layer" button to display it.</p>
+<p>A list of layers in the WFS service will be shown. Select a layer to display it.</p>
 
-<p>Some WFS services return coordinates in X,Y order, while others return coordinates in lat/long (Y,X) order. If you don't see features rendered or you see features in the wrong location, use the checkbox to swap the coordinate order and reload.</p>
+<p>Some WFS services return coordinates in X,Y order, while others return coordinates in lat/long (Y,X) order. If you don't see features rendered or you see features in the wrong location, use the checkbox to swap the coordinate order and reload. Note: the WFS service in this sample does not require coordinate swapping.</p>
 
 <h2>How it works</h2>
 
@@ -39,17 +39,17 @@
 <h2>Relevant API</h2>
 
 <ul>
+
+<li>FeatureLayer</li>
+
+<li>WfsFeatureTable</li>
+
+<li>WfsLayerInfo</li>
+
 <li>WfsService</li>
 
 <li>WfsServiceInfo</li>
 
-<li>WfsLayerInfo</li>
-
-<li>WfsFeatureTable</li>
-
-<li>FeatureLayer</li>
-
-<li>WfsFeatureTable.AxisOrder</li>
 </ul>
 
 <h2>About the data</h2>
