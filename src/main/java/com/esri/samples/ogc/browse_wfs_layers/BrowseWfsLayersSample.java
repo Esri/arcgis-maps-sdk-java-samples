@@ -16,11 +16,8 @@
 
 package com.esri.samples.ogc.browse_wfs_layers;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -30,7 +27,6 @@ import com.esri.arcgisruntime.ogc.wfs.OgcAxisOrder;
 import com.esri.arcgisruntime.ogc.wfs.WfsFeatureTable;
 import com.esri.arcgisruntime.ogc.wfs.WfsLayerInfo;
 import com.esri.arcgisruntime.ogc.wfs.WfsService;
-import com.esri.arcgisruntime.symbology.Renderer;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -53,7 +49,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -116,10 +112,6 @@ public class BrowseWfsLayersSample extends Application {
         // add the list of WFS layers to the list view
         List<WfsLayerInfo> wfsLayerInfos = wfsService.getServiceInfo().getLayerInfos();
         wfsLayerNamesListView.getItems().addAll(wfsLayerInfos);
-        for (WfsLayerInfo info: wfsLayerInfos){
-
-          System.out.println(info.getExtent());
-        }
       } else {
         Alert alert = new Alert(Alert.AlertType.ERROR, "WFS Service Failed to Load!");
         alert.show();
@@ -145,8 +137,6 @@ public class BrowseWfsLayersSample extends Application {
     wfsLayerNamesListView.getSelectionModel().selectedItemProperty().addListener(observable -> {
       updateMap(wfsLayerNamesListView.getSelectionModel().getSelectedItem());
     });
-
-
 
     // add the list view, button and check box to the control panel
     controlsVBox.getChildren().addAll(wfsLayerNamesListView, checkBox);
@@ -175,56 +165,52 @@ public class BrowseWfsLayersSample extends Application {
     // define the coordinate order for the WFS service.
     // no swap will keep the co-ordinates in the order they are retrieved from the WFS service; swap will reverse the order.
     wfsFeatureTable.setAxisOrder(checkBox.isSelected() ? OgcAxisOrder.SWAP : OgcAxisOrder.NO_SWAP);
-    System.out.println("wfs layer info Extent " + wfsLayerInfo.getExtent());
-    System.out.println("wfs layer info Description " + wfsLayerInfo.getDescription());
 
     // create a feature layer to visualize the WFS features
     FeatureLayer wfsFeatureLayer = new FeatureLayer(wfsFeatureTable);
-    System.out.println("feature table get layer info " + wfsFeatureTable.getLayerInfo());
-    System.out.println("feature table get extent " + wfsFeatureTable.getExtent());
-    System.out.println("feature table get internal " + wfsFeatureTable.getInternal());
 
     // populate the table and then remove progress indicator and set the viewpoint to that of the layer's full extent when done.
     wfsFeatureTable.populateFromServiceAsync(new QueryParameters(), false, null ).addDoneListener(()->{
       progressIndicator.setVisible(false);
       mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
+
     });
 
     // apply a renderer to the feature layer once the table is loaded (the renderer is based on the table's geometry type)
     wfsFeatureTable.addDoneLoadingListener(()->{
-      wfsFeatureLayer.setRenderer(getRandomRendererForTable(wfsFeatureTable));
+      switch (wfsFeatureTable.getGeometryType()) {
+        case POINT:
+          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, randomColor(), 4)));
+          break;
+        case POLYGON:
+          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, randomColor(), null)));
+          break;
+        case POLYLINE:
+          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, randomColor(), 2)));
+          break;
+      }
     });
-
-    System.out.println(wfsFeatureLayer.isVisible());
 
     // add the layer to the map's operational layers
     map.getOperationalLayers().add(wfsFeatureLayer);
-
   }
 
   /**
-   * Returns a simple renderer for a WfsFeatureTable based on its geometry type. A random color is assigned to the renderer.
-   * @param table the WfsFeatureTable the renderer is to be set on
-   * @return renderer
+   * Returns a random hexidecimal ARGB value from a preset list.
    */
-  private Renderer getRandomRendererForTable (WfsFeatureTable table) {
+  private Integer randomColor() {
+
+    ArrayList<Integer> colorList = new ArrayList<>();
+    colorList.add(0xff0000ff);
+    colorList.add(0xff00f5ff);
+    colorList.add(0xff00ff00);
+    colorList.add(0xfff8ff00);
+    colorList.add(0xffff0000);
+    colorList.add(0xffff00bd);
 
     Random random = new Random();
-    float r = random.nextFloat();
-    float g = random.nextFloat();
-    float b = random.nextFloat();
+    return colorList.get(random.nextInt(colorList.size()));
 
-    Color randomColor = new Color(r, g, b);
-
-    if (table.getGeometryType() == GeometryType.POINT || table.getGeometryType() == GeometryType.MULTIPOINT){
-      return new SimpleRenderer(
-              new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, randomColor.getRGB(), 3));
-    } else if (table.getGeometryType() == GeometryType.POLYGON || table.getGeometryType() == GeometryType.ENVELOPE){
-      return new SimpleRenderer(
-              new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, randomColor.getRGB(), null));
-    } else {
-      return new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, randomColor.getRGB(), 2));
-    }
   }
 
   /**
@@ -232,7 +218,6 @@ public class BrowseWfsLayersSample extends Application {
    */
   @Override
   public void stop() {
-    // release resources when the application closes
     if (mapView != null) {
       mapView.dispose();
     }
