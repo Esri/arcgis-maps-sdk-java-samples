@@ -181,7 +181,6 @@ public class BrowseWfsLayersSample extends Application {
     wfsFeatureTable.populateFromServiceAsync(new QueryParameters(), false, null ).addDoneListener(()->{
       progressIndicator.setVisible(false);
       mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
-
     });
 
     // apply a renderer to the feature layer once the table is loaded (the renderer is based on the table's geometry type)
@@ -197,7 +196,6 @@ public class BrowseWfsLayersSample extends Application {
           wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, randomColor(), 2)));
           break;
       }
-
     });
 
     // add the layer to the map's operational layers
