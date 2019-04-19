@@ -1,0 +1,21 @@
+{
+    "category": "Localserver",
+    "current_slug": "local-server-feature-layer.htm",
+    "description": "Start a local feature service and display its features in a map",
+    "images": [
+        "LocalServerFeatureLayer.png"
+    ],
+    "keywords": [],
+    "new_slug": "local-server-feature-layer.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "LocalFeatureService",
+        "LocalServer",
+        "LocalServerStatus",
+        "StatusChangedEvent"
+    ],
+    "snippets": [
+        "LocalServerFeatureLayerSample.java"
+    ],
+    "title": "Local Server Feature Layer"
+}

@@ -1,0 +1,20 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "change-feature-layer-renderer.htm",
+    "description": "Change how a feature layer looks with a renderer",
+    "images": [],
+    "keywords": [],
+    "new_slug": "change-feature-layer-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "Renderer",
+        "ServiceFeatureTable",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "ChangeFeatureLayerRendererSample.java"
+    ],
+    "title": "Change Feature Layer Renderer"
+}

@@ -1,0 +1,23 @@
+{
+    "category": "Map",
+    "current_slug": "read-geopackage.htm",
+    "description": "Display rasters and features from local GeoPackages",
+    "images": [
+        "ReadGeoPackage.png"
+    ],
+    "keywords": [],
+    "new_slug": "read-geopackage.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "GeoPackage",
+        "Layer",
+        "MapView",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "ReadGeoPackageSample.java"
+    ],
+    "title": "Read GeoPackage"
+}

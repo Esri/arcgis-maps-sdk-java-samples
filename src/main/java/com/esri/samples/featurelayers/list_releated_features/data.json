@@ -1,0 +1,25 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "list-related-features.htm",
+    "description": "Find features related to the selected feature",
+    "images": [
+        "ListRelatedFeatures.png"
+    ],
+    "keywords": [],
+    "new_slug": "list-related-features.htm",
+    "relevant_apis": [
+        "ArcGISFeature",
+        "ArcGISFeatureTable",
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "FeatureQueryResult",
+        "FeatureTable",
+        "MapView",
+        "RelatedFeatureQueryResult"
+    ],
+    "snippets": [
+        "ListRelatedFeaturesSample.java"
+    ],
+    "title": "List Related Features"
+}

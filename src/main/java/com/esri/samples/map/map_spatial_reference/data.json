@@ -1,0 +1,21 @@
+{
+    "category": "Map",
+    "current_slug": "map-spatial-reference.htm",
+    "description": "Specify a map\u2019s spatial reference",
+    "images": [
+        "MapSpatialReference.png"
+    ],
+    "keywords": [],
+    "new_slug": "map-spatial-reference.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "SpatialReference"
+    ],
+    "snippets": [
+        "MapSpatialReferenceSample.java"
+    ],
+    "title": "Map Spatial Reference"
+}

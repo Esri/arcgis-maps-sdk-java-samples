@@ -1,0 +1,22 @@
+{
+    "category": "Analysis",
+    "current_slug": "viewshed-camera.htm",
+    "description": "Create a viewshed using the current camera viewpoint",
+    "images": [],
+    "keywords": [],
+    "new_slug": "viewshed-camera.htm",
+    "relevant_apis": [
+        "3D",
+        "AnalysisOverlay",
+        "ArcGISTiledElevationSource",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "Camera",
+        "LocationViewshed",
+        "SceneView"
+    ],
+    "snippets": [
+        "ViewshedCameraSample.java"
+    ],
+    "title": "Viewshed Camera"
+}

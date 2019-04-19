@@ -1,0 +1,19 @@
+{
+    "category": "Analysis",
+    "current_slug": "line-of-sight-geoelement.htm",
+    "description": "Show a line of sight between two moving objects",
+    "images": [],
+    "keywords": [
+        "Analysis"
+    ],
+    "new_slug": "line-of-sight-geoelement.htm",
+    "relevant_apis": [
+        "AnalysisOverlay",
+        "GeoElementLineOfSight",
+        "LineOfSight.TargetVisibility"
+    ],
+    "snippets": [
+        "LineOfSightGeoElementSample.java"
+    ],
+    "title": "Line of Sight GeoElement"
+}

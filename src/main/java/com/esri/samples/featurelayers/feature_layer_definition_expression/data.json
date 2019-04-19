@@ -1,0 +1,18 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-layer-definition-expression.htm",
+    "description": "Filter which features are shown using an expression",
+    "images": [],
+    "keywords": [],
+    "new_slug": "feature-layer-definition-expression.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "FeatureLayerDefinitionExpressionSample.java"
+    ],
+    "title": "Feature Layer Definition Expression"
+}

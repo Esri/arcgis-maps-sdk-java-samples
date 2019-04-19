@@ -1,0 +1,23 @@
+{
+    "category": "Scene",
+    "current_slug": "feature-layer-rendering-mode-scene-.htm",
+    "description": "Render features statically or dynamically in 3D",
+    "images": [],
+    "keywords": [],
+    "new_slug": "feature-layer-rendering-mode-scene.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Camera",
+        "FeatureLayer",
+        "FeatureLayer.RenderingMode",
+        "LoadSettings",
+        "Point",
+        "Polyline",
+        "Polygon",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "FeatureLayerRenderingModeSceneSample.java"
+    ],
+    "title": "Feature Layer Rendering Mode (Scene)"
+}

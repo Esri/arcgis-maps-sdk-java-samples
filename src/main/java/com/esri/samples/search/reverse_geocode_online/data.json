@@ -1,0 +1,24 @@
+{
+    "category": "Search",
+    "current_slug": "reverse-geocode-online.htm",
+    "description": "Find the address of a location",
+    "images": [
+        "ReverseGeocodeOnline.png"
+    ],
+    "keywords": [],
+    "new_slug": "reverse-geocode-online.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "snippets": [
+        "ReverseGeocodeOnlineSample.java"
+    ],
+    "title": "Reverse Geocode Online"
+}

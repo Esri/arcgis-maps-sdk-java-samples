@@ -1,0 +1,28 @@
+{
+    "category": "Map",
+    "current_slug": "mobile-map-search-and-route.htm",
+    "description": "Use locators and networks saved in an offline map",
+    "images": [
+        "MobileMapSearchAndRoute.png"
+    ],
+    "keywords": [
+        "Offline,",
+        "Routing,",
+        "Search"
+    ],
+    "new_slug": "mobile-map-search-and-route.htm",
+    "relevant_apis": [
+        "GeocodeResult",
+        "MobileMapPackage",
+        "ReverseGeocodeParameters",
+        "Route",
+        "RouteParameters",
+        "RouteResult",
+        "RouteTask",
+        "TransportationNetworkDataset"
+    ],
+    "snippets": [
+        "MobileMapSearchAndRouteSample.java"
+    ],
+    "title": "Mobile Map Search And Route"
+}

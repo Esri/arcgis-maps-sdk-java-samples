@@ -1,0 +1,22 @@
+{
+    "category": "Grouplayers",
+    "current_slug": "group-layers.htm",
+    "description": "Group a collection of layers together and toggle their visibility as a group",
+    "images": [
+        "GroupLayers.png"
+    ],
+    "keywords": [
+        "Layers,",
+        "group",
+        "layer"
+    ],
+    "new_slug": "group-layers.htm",
+    "relevant_apis": [
+        "GroupLayer"
+    ],
+    "snippets": [
+        "GroupLayersSample.java",
+        "LayerTreeCell.java"
+    ],
+    "title": "Group layers"
+}

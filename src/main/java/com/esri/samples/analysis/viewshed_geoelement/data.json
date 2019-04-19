@@ -1,0 +1,22 @@
+{
+    "category": "Analysis",
+    "current_slug": "viewshed-geoelement.htm",
+    "description": "Attach a viewshed to an object to visualize what it sees",
+    "images": [],
+    "keywords": [],
+    "new_slug": "viewshed-geoelement.htm",
+    "relevant_apis": [
+        "3D",
+        "AnalysisOverlay",
+        "ArcGISTiledElevationSource",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "GeoElementViewshed",
+        "Graphic",
+        "SceneView"
+    ],
+    "snippets": [
+        "ViewshedGeoElementSample.java"
+    ],
+    "title": "Viewshed GeoElement"
+}

@@ -1,0 +1,19 @@
+{
+    "category": "Scene",
+    "current_slug": "scene-layer-selection.htm",
+    "description": "Select clicked features in a scene",
+    "images": [
+        "SceneLayerSelection.png"
+    ],
+    "keywords": [],
+    "new_slug": "scene-layer-selection.htm",
+    "relevant_apis": [
+        "ArcGISSceneLayer",
+        "GeoElement",
+        "IdentifyLayerResult"
+    ],
+    "snippets": [
+        "SceneLayerSelectionSample.java"
+    ],
+    "title": "Scene Layer Selection"
+}

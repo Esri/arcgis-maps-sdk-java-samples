@@ -1,0 +1,20 @@
+{
+    "category": "Displayinformation",
+    "current_slug": "show-callout.htm",
+    "description": "Show a callout at the clicked location",
+    "images": [
+        "ShowCallout.png"
+    ],
+    "keywords": [],
+    "new_slug": "show-callout.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Callout",
+        "MapView",
+        "Point"
+    ],
+    "snippets": [
+        "ShowCalloutSample.java"
+    ],
+    "title": "Show Callout"
+}

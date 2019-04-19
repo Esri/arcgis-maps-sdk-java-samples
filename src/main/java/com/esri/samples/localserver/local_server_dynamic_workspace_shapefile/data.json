@@ -1,0 +1,22 @@
+{
+    "category": "Localserver",
+    "current_slug": "local-server-dynamic-workspace-shapefile.htm",
+    "description": "Dynamically add a local shapefile to a map using Local Server",
+    "images": [
+        "LocalServerDynamicWorkspaceShapefile.png"
+    ],
+    "keywords": [],
+    "new_slug": "local-server-dynamic-workspace-shapefile.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "ArcGISMapImageSublayer",
+        "DynamicWorkspace",
+        "LocalServer",
+        "ShapefileWorkspace",
+        "TableSublayerSource"
+    ],
+    "snippets": [
+        "LocalServerDynamicWorkspaceShapefileSample.java"
+    ],
+    "title": "Local Server Dynamic Workspace Shapefile"
+}

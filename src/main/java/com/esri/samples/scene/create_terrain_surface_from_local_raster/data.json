@@ -1,0 +1,23 @@
+{
+    "category": "Scene",
+    "current_slug": "create-terrain-surface-from-a-local-raster.htm",
+    "description": "Set the terrain surface with elevation described by a raster file",
+    "images": [
+        "CreateTerrainSurfaceFromLocalRaster.png"
+    ],
+    "keywords": [
+        "3D,",
+        "Raster,",
+        "Elevation,",
+        "Surface"
+    ],
+    "new_slug": "create-terrain-surface-from-a-local-raster.htm",
+    "relevant_apis": [
+        "RasterElevationSource",
+        "Surface"
+    ],
+    "snippets": [
+        "CreateTerrainSurfaceFromLocalRasterSample.java"
+    ],
+    "title": "Create Terrain Surface from a Local Raster"
+}

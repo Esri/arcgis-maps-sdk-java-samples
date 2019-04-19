@@ -1,0 +1,21 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-layer-selection.htm",
+    "description": "Select clicked features",
+    "images": [
+        "FeatureLayerSelection.png"
+    ],
+    "keywords": [],
+    "new_slug": "feature-layer-selection.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "FeatureLayerSelectionSample.java"
+    ],
+    "title": "Feature Layer Selection"
+}

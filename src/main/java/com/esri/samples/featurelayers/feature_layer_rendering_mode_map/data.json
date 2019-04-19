@@ -1,0 +1,23 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-layer-rendering-mode-map-.htm",
+    "description": "Render features statically or dynamically",
+    "images": [],
+    "keywords": [],
+    "new_slug": "feature-layer-rendering-mode-map.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "FeatureLayer.RenderingMode",
+        "LoadSettings",
+        "Point",
+        "Polyline",
+        "Polygon",
+        "ServiceFeatureTable",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "FeatureLayerRenderingModeMapSample.java"
+    ],
+    "title": "Feature Layer Rendering Mode (Map)"
+}

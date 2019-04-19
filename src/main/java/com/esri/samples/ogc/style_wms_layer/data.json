@@ -1,0 +1,17 @@
+{
+    "category": "Ogc",
+    "current_slug": "style-wms-layer.htm",
+    "description": "Change the style of a WMS layer",
+    "images": [
+        "StyleWmsLayer.png"
+    ],
+    "keywords": [],
+    "new_slug": "style-wms-layer.htm",
+    "relevant_apis": [
+        "WmsLayer"
+    ],
+    "snippets": [
+        "StyleWmsLayerSample.java"
+    ],
+    "title": "Style WMS Layer"
+}

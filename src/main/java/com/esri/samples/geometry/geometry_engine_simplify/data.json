@@ -1,0 +1,24 @@
+{
+    "category": "Geometry",
+    "current_slug": "geometry-engine-simplify.htm",
+    "description": "Simplify a polygon that has multiple parts",
+    "images": [
+        "GeometryEngineSimplify.png"
+    ],
+    "keywords": [],
+    "new_slug": "geometry-engine-simplify.htm",
+    "relevant_apis": [
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleFillSymbol"
+    ],
+    "snippets": [
+        "GeometryEngineSimplifySample.java"
+    ],
+    "title": "Geometry Engine Simplify"
+}

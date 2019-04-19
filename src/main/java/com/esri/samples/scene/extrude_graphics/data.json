@@ -1,0 +1,21 @@
+{
+    "category": "Scene",
+    "current_slug": "extrude-graphics.htm",
+    "description": "Extrude graphics based on attributes",
+    "images": [
+        "ExtrudeGraphics.png"
+    ],
+    "keywords": [],
+    "new_slug": "extrude-graphics.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "Renderer",
+        "Renderer.SceneProperties"
+    ],
+    "snippets": [
+        "ExtrudeGraphicsSample.java"
+    ],
+    "title": "Extrude Graphics"
+}

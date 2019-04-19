@@ -1,0 +1,23 @@
+{
+    "category": "Symbology",
+    "current_slug": "simple-marker-symbol.htm",
+    "description": "Show simple markers",
+    "images": [
+        "SimpleMarkerSymbol.png"
+    ],
+    "keywords": [],
+    "new_slug": "simple-marker-symbol.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SimpleMarkerSymbol.Style"
+    ],
+    "snippets": [
+        "SimpleMarkerSymbolSample.java"
+    ],
+    "title": "Simple Marker Symbol"
+}

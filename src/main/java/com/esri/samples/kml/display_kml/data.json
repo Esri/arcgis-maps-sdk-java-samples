@@ -1,0 +1,20 @@
+{
+    "category": "Kml",
+    "current_slug": "display-kml.htm",
+    "description": "Display a KML layer from a URL, portal item, or local KML file",
+    "images": [
+        "DisplayKML.png"
+    ],
+    "keywords": [],
+    "new_slug": "display-kml.htm",
+    "relevant_apis": [
+        "KmlDataset",
+        "KmlLayer",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "DisplayKMLSample.java"
+    ],
+    "title": "Display KML"
+}

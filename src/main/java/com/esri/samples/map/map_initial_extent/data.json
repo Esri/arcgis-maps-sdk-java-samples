@@ -1,0 +1,21 @@
+{
+    "category": "Map",
+    "current_slug": "map-initial-extent.htm",
+    "description": "Display the map at an initial viewpoint",
+    "images": [
+        "MapInitialExtent.png"
+    ],
+    "keywords": [],
+    "new_slug": "map-initial-extent.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Envelope",
+        "MapView",
+        "Point",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "MapInitialExtentSample.java"
+    ],
+    "title": "Map Initial Extent"
+}

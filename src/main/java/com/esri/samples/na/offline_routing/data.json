@@ -1,0 +1,27 @@
+{
+    "category": "Na",
+    "current_slug": "offline-routing.htm",
+    "description": "Solve a route on-the-fly using only offline data",
+    "images": [],
+    "keywords": [],
+    "new_slug": "offline-routing.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Route",
+        "RouteTask",
+        "RouteParameters",
+        "RouteResult",
+        "SimpleLineSymbol",
+        "Stop",
+        "TextSymbol",
+        "TileCache"
+    ],
+    "snippets": [
+        "OfflineRoutingSample.java"
+    ],
+    "title": "Offline Routing"
+}

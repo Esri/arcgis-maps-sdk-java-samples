@@ -1,0 +1,21 @@
+{
+    "category": "Mapview",
+    "current_slug": "change-viewpoint.htm",
+    "description": "Set or animate to a new viewpoint",
+    "images": [
+        "ChangeViewpoint.png"
+    ],
+    "keywords": [],
+    "new_slug": "change-viewpoint.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Point",
+        "SpatialReference",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "ChangeViewpointSample.java"
+    ],
+    "title": "Change Viewpoint"
+}

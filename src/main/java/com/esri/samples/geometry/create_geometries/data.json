@@ -1,0 +1,23 @@
+{
+    "category": "Geometry",
+    "current_slug": "create-geometries.htm",
+    "description": "Create simple geometry types",
+    "images": [
+        "CreateGeometries.png"
+    ],
+    "keywords": [],
+    "new_slug": "create-geometries.htm",
+    "relevant_apis": [
+        "Envelope",
+        "Graphic",
+        "Multipoint",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline"
+    ],
+    "snippets": [
+        "CreateGeometriesSample.java"
+    ],
+    "title": "Create Geometries"
+}

@@ -1,0 +1,19 @@
+{
+    "category": "Ogc",
+    "current_slug": "wms-layer-url.htm",
+    "description": "Display a WMS layer",
+    "images": [
+        "WmsLayerUrl.png"
+    ],
+    "keywords": [],
+    "new_slug": "wms-layer-url.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView",
+        "WmsLayer"
+    ],
+    "snippets": [
+        "WmsLayerUrlSample.java"
+    ],
+    "title": "WMS Layer URL"
+}

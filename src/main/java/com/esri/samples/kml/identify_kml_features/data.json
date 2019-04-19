@@ -1,0 +1,20 @@
+{
+    "category": "Kml",
+    "current_slug": "identify-kml-features.htm",
+    "description": "Get clicked features in a KML Layer",
+    "images": [
+        "IdentifyKMLFeatures.png"
+    ],
+    "keywords": [],
+    "new_slug": "identify-kml-features.htm",
+    "relevant_apis": [
+        "IdentifyLayerResult",
+        "KmlDataset",
+        "KmlLayer",
+        "KmlPlacemark"
+    ],
+    "snippets": [
+        "IdentifyKMLFeaturesSample.java"
+    ],
+    "title": "Identify KML Features"
+}

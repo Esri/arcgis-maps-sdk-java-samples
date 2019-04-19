@@ -1,0 +1,19 @@
+{
+    "category": "Displayinformation",
+    "current_slug": "show-labels-on-layer.htm",
+    "description": "Add custom labels to a layer",
+    "images": [
+        "ShowLabelsOnLayer.png"
+    ],
+    "keywords": [],
+    "new_slug": "show-labels-on-layer.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "LabelDefinition",
+        "TextSymbol"
+    ],
+    "snippets": [
+        "ShowLabelsOnLayerSample.java"
+    ],
+    "title": "Show Labels on Layer"
+}

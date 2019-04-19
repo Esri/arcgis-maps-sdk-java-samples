@@ -1,0 +1,22 @@
+{
+    "category": "Scene",
+    "current_slug": "view-point-cloud-data-offline.htm",
+    "description": "Display local 3D point cloud data",
+    "images": [
+        "ViewPointCloudDataOffline.png"
+    ],
+    "keywords": [
+        "3D,",
+        "point",
+        "cloud,",
+        "lidar"
+    ],
+    "new_slug": "view-point-cloud-data-offline.htm",
+    "relevant_apis": [
+        "PointCloudLayer"
+    ],
+    "snippets": [
+        "ViewPointCloudDataOfflineSample.java"
+    ],
+    "title": "View point cloud data offline"
+}

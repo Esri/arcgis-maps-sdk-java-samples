@@ -1,0 +1,22 @@
+{
+    "category": "Symbology",
+    "current_slug": "symbol-dictionary.htm",
+    "description": "Find symbols within mil2525d specification that match a keyword",
+    "images": [
+        "SymbolDictionary.png"
+    ],
+    "keywords": [],
+    "new_slug": "symbol-dictionary.htm",
+    "relevant_apis": [
+        "CimSymbol",
+        "StyleSymbolSearchParameters",
+        "StyleSymbolSearchResult",
+        "SymbolDictionary"
+    ],
+    "snippets": [
+        "SymbolDictionaryController.java",
+        "SymbolView.java",
+        "SymbolDictionarySample.java"
+    ],
+    "title": "Symbol Dictionary"
+}

@@ -1,0 +1,20 @@
+{
+    "category": "Search",
+    "current_slug": "find-address.htm",
+    "description": "Find the location for an address",
+    "images": [],
+    "keywords": [],
+    "new_slug": "find-address.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView"
+    ],
+    "snippets": [
+        "FindAddressSample.java"
+    ],
+    "title": "Find Address"
+}

@@ -1,0 +1,25 @@
+{
+    "category": "Na",
+    "current_slug": "service-area-task.htm",
+    "description": "Find the service area for a point",
+    "images": [],
+    "keywords": [],
+    "new_slug": "service-area-task.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GraphicsOverlay",
+        "MapView",
+        "PolylineBarrier",
+        "ServiceAreaFacility",
+        "ServiceAreaParameters",
+        "ServiceAreaPolygon",
+        "ServiceAreaResult",
+        "ServiceAreaTask",
+        "PolylineBuilder"
+    ],
+    "snippets": [
+        "ServiceAreaTaskSample.java",
+        "ServiceAreaTaskController.java"
+    ],
+    "title": "Service Area Task"
+}

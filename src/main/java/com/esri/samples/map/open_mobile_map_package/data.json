@@ -1,0 +1,18 @@
+{
+    "category": "Map",
+    "current_slug": "open-mobile-map-package.htm",
+    "description": "Display a map from a mobile map package",
+    "images": [
+        "OpenMobileMapPackage.png"
+    ],
+    "keywords": [],
+    "new_slug": "open-mobile-map-package.htm",
+    "relevant_apis": [
+        "MapView",
+        "MobileMapPackage"
+    ],
+    "snippets": [
+        "OpenMobileMapPackageSample.java"
+    ],
+    "title": "Open Mobile Map Package"
+}

@@ -1,0 +1,23 @@
+{
+    "category": "Raster",
+    "current_slug": "raster-function.htm",
+    "description": "Apply a raster function to a raster",
+    "images": [
+        "RasterFunction.png"
+    ],
+    "keywords": [],
+    "new_slug": "raster-function.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "ImageServiceRaster",
+        "MapView",
+        "RasterFunction",
+        "RasterFunctionArguments",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "RasterFunctionSample.java"
+    ],
+    "title": "Raster Function"
+}

@@ -1,0 +1,28 @@
+{
+    "category": "Hydrography",
+    "current_slug": "add-enc-exchange-set.htm",
+    "description": "Display nautical charts conforming to the ENC specification",
+    "images": [
+        "AddEncExchangeSet.png"
+    ],
+    "keywords": [
+        "Data,",
+        "ENC,",
+        "maritime,",
+        "nautical",
+        "chart,",
+        "layers,",
+        "hydrographic"
+    ],
+    "new_slug": "add-enc-exchange-set.htm",
+    "relevant_apis": [
+        "EncCell",
+        "EncDataset",
+        "EncExchangeSet",
+        "EncLayer"
+    ],
+    "snippets": [
+        "AddEncExchangeSetSample.java"
+    ],
+    "title": "Add ENC exchange set"
+}

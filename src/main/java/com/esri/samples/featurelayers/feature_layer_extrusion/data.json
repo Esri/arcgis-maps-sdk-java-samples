@@ -1,0 +1,18 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-layer-extrusion..htm",
+    "description": "Extrude features based on their attributes",
+    "images": [],
+    "keywords": [],
+    "new_slug": "feature-layer-extrusion..htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "SceneProperties",
+        "ServiceFeatureTable",
+        "FeatureLayer"
+    ],
+    "snippets": [
+        "FeatureLayerExtrusionSample.java"
+    ],
+    "title": "Feature Layer Extrusion."
+}

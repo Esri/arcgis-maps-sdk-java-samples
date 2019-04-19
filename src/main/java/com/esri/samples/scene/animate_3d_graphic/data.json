@@ -1,0 +1,35 @@
+{
+    "category": "Scene",
+    "current_slug": "animate-3d-graphic.htm",
+    "description": "Animate a graphic\u2019s position and orientation and follow it with the camera",
+    "images": [
+        "Animate3dGraphic.png"
+    ],
+    "keywords": [],
+    "new_slug": "animate-3d-graphic.htm",
+    "relevant_apis": [
+        "3D",
+        "ArcGISMap",
+        "ArcGISScene",
+        "Camera",
+        "GlobeCameraController",
+        "Graphic",
+        "GraphicsOverlay",
+        "LayerSceneProperties.SurfacePlacement",
+        "MapView",
+        "ModelSceneSymbol",
+        "OrbitGeoElementCameraController",
+        "Point",
+        "Polyline",
+        "Renderer",
+        "Renderer.SceneProperties",
+        "SceneView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "AnimationModel.java",
+        "Animate3dGraphicSample.java",
+        "Animate3dGraphicController.java"
+    ],
+    "title": "Animate 3d Graphic"
+}

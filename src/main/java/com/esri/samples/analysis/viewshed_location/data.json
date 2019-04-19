@@ -1,0 +1,24 @@
+{
+    "category": "Analysis",
+    "current_slug": "viewshed-location.htm",
+    "description": "Adjust the position, angles, range, and style of a viewshed",
+    "images": [
+        "ViewshedLocation.png"
+    ],
+    "keywords": [],
+    "new_slug": "viewshed-location.htm",
+    "relevant_apis": [
+        "3D",
+        "AnalysisOverlay",
+        "ArcGISTiledElevationSource",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "LocationViewshed",
+        "SceneView"
+    ],
+    "snippets": [
+        "ViewshedLocationController.java",
+        "ViewshedLocationSample.java"
+    ],
+    "title": "Viewshed Location"
+}

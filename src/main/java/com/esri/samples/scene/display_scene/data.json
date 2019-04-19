@@ -1,0 +1,21 @@
+{
+    "category": "Scene",
+    "current_slug": "display-scene.htm",
+    "description": "Display a 3D scene with terrain and imagery",
+    "images": [
+        "DisplayScene.png"
+    ],
+    "keywords": [],
+    "new_slug": "display-scene.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "SceneView",
+        "Surface"
+    ],
+    "snippets": [
+        "DisplaySceneSample.java"
+    ],
+    "title": "Display Scene"
+}

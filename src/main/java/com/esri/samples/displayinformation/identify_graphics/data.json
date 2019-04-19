@@ -1,0 +1,22 @@
+{
+    "category": "Displayinformation",
+    "current_slug": "identify-graphics.htm",
+    "description": "Determine if a graphic was clicked",
+    "images": [
+        "IdentifyGraphics.png"
+    ],
+    "keywords": [],
+    "new_slug": "identify-graphics.htm",
+    "relevant_apis": [
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PointCollection",
+        "Polygon",
+        "SimpleFillSymbol"
+    ],
+    "snippets": [
+        "IdentifyGraphicsSample.java"
+    ],
+    "title": "Identify Graphics"
+}

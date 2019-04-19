@@ -1,0 +1,17 @@
+{
+    "category": "Geometry",
+    "current_slug": "convex-hull.htm",
+    "description": "Calculate the convex hull for a set of points",
+    "images": [
+        "ConvexHull.png"
+    ],
+    "keywords": [],
+    "new_slug": "convex-hull.htm",
+    "relevant_apis": [
+        "GeometryEngine"
+    ],
+    "snippets": [
+        "ConvexHullSample.java"
+    ],
+    "title": "Convex Hull"
+}

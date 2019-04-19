@@ -1,0 +1,21 @@
+{
+    "category": "Raster",
+    "current_slug": "raster-layer-file.htm",
+    "description": "Display raster data from a local file",
+    "images": [
+        "RasterLayerFile.png"
+    ],
+    "keywords": [],
+    "new_slug": "raster-layer-file.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "RasterLayerFileSample.java"
+    ],
+    "title": "Raster Layer File"
+}

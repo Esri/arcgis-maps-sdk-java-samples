@@ -1,0 +1,30 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-collection-layer-query.htm",
+    "description": "Create a feature collection layer which shows the result of a SQL query from a service feature table",
+    "images": [
+        "FeatureCollectionLayerQuery.png"
+    ],
+    "keywords": [
+        "FeatureQueryResult,",
+        "FeatureCollection,",
+        "FeatureCollectionLayer,",
+        "FeatureCollectionTable,",
+        "query"
+    ],
+    "new_slug": "feature-collection-layer-query.htm",
+    "relevant_apis": [
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "FeatureCollectionTable",
+        "FeatureLayer",
+        "FeatureTable",
+        "FeatureQueryResult",
+        "QueryParameters",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "FeatureCollectionLayerQuerySample.java"
+    ],
+    "title": "Feature Collection Layer Query"
+}

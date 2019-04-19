@@ -1,0 +1,24 @@
+{
+    "category": "Symbology",
+    "current_slug": "unique-value-renderer.htm",
+    "description": "Symbolize features based on their unique attribute value",
+    "images": [
+        "UniqueValueRenderer.png"
+    ],
+    "keywords": [],
+    "new_slug": "unique-value-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "UniqueValues",
+        "UniqueValueRenderer"
+    ],
+    "snippets": [
+        "UniqueValueRendererSample.java"
+    ],
+    "title": "Unique Value Renderer"
+}

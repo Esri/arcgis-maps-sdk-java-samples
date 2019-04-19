@@ -1,0 +1,21 @@
+{
+    "category": "Scene",
+    "current_slug": "open-mobile-scene-package.htm",
+    "description": "Open and display a scene from an offline Mobile Scene Package (",
+    "images": [
+        "OpenMobileScenePackage.png"
+    ],
+    "keywords": [
+        "Offline,",
+        "Scene,",
+        "MobileScenePackage"
+    ],
+    "new_slug": "open-mobile-scene-package.htm",
+    "relevant_apis": [
+        "MobileScenePackage"
+    ],
+    "snippets": [
+        "OpenMobileScenePackageSample.java"
+    ],
+    "title": "Open mobile scene package"
+}

@@ -1,0 +1,21 @@
+{
+    "category": "Imagelayers",
+    "current_slug": "map-image-layer-sublayer-visibility.htm",
+    "description": "Change the visibility of sublayers",
+    "images": [
+        "MapImageLayerSublayerVisibility.png"
+    ],
+    "keywords": [],
+    "new_slug": "map-image-layer-sublayer-visibility.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "SubLayerList"
+    ],
+    "snippets": [
+        "MapImageLayerSublayerVisibilitySample.java"
+    ],
+    "title": "Map Image Layer Sublayer Visibility"
+}

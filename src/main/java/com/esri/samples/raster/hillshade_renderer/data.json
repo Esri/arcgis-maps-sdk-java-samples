@@ -1,0 +1,23 @@
+{
+    "category": "Raster",
+    "current_slug": "hillshade-renderer.htm",
+    "description": "Apply a hillshade renderer to a raster",
+    "images": [
+        "HillshadeRenderer.png"
+    ],
+    "keywords": [],
+    "new_slug": "hillshade-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "HillshadeRenderer",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "HillshadeRendererController.java",
+        "HillshadeRendererSample.java"
+    ],
+    "title": "Hillshade Renderer"
+}

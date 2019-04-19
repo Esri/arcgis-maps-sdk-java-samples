@@ -1,0 +1,20 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-layer-feature-service.htm",
+    "description": "Show features from an online feature service",
+    "images": [
+        "FeatureLayerFeatureService.png"
+    ],
+    "keywords": [],
+    "new_slug": "feature-layer-feature-service.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "FeatureLayerFeatureServiceSample.java"
+    ],
+    "title": "Feature Layer Feature Service"
+}

@@ -1,0 +1,20 @@
+{
+    "category": "Scene",
+    "current_slug": "symbols.htm",
+    "description": "Create graphics with simple 3D shapes",
+    "images": [],
+    "keywords": [],
+    "new_slug": "symbols.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "SimpleMarkerSceneSymbol",
+        "SimpleMarkerSceneSymbol.STYLE",
+        "SceneSymbol.AnchorPosition"
+    ],
+    "snippets": [
+        "SymbolsSample.java"
+    ],
+    "title": "Symbols"
+}

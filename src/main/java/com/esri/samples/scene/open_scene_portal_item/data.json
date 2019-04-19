@@ -1,0 +1,19 @@
+{
+    "category": "Scene",
+    "current_slug": "open-scene-portal-item-.htm",
+    "description": "Display a web scene",
+    "images": [
+        "OpenScenePortalItem.png"
+    ],
+    "keywords": [],
+    "new_slug": "open-scene-portal-item.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "OpenScenePortalItemSample.java"
+    ],
+    "title": "Open Scene (Portal Item)"
+}

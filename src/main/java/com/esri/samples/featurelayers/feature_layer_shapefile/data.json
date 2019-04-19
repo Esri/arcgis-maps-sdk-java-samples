@@ -1,0 +1,18 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-layer-shapefile.htm",
+    "description": "Display features from a local shapefile",
+    "images": [
+        "FeatureLayerShapefile.png"
+    ],
+    "keywords": [],
+    "new_slug": "feature-layer-shapefile.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "ShapefileFeatureTable"
+    ],
+    "snippets": [
+        "FeatureLayerShapefileSample.java"
+    ],
+    "title": "Feature Layer Shapefile"
+}

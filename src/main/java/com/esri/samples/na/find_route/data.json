@@ -1,0 +1,27 @@
+{
+    "category": "Na",
+    "current_slug": "find-route.htm",
+    "description": "Get a route between two stops with directions",
+    "images": [
+        "FindRoute.png"
+    ],
+    "keywords": [],
+    "new_slug": "find-route.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "DirectionManeuver",
+        "DirectionMessage",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Route",
+        "RouteTask",
+        "RouteParameters",
+        "RouteResult",
+        "Stop"
+    ],
+    "snippets": [
+        "FindRouteSample.java"
+    ],
+    "title": "Find Route"
+}

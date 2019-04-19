@@ -1,0 +1,19 @@
+{
+    "category": "Displayinformation",
+    "current_slug": "update-graphics.htm",
+    "description": "Change a graphic\u2019s symbol, attributes, and geometry",
+    "images": [],
+    "keywords": [],
+    "new_slug": "update-graphics.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "SimpleMarkerSymbol"
+    ],
+    "snippets": [
+        "UpdateGraphicsSample.java"
+    ],
+    "title": "Update Graphics"
+}

@@ -1,0 +1,18 @@
+{
+    "category": "Mapview",
+    "current_slug": "take-screen-shot.htm",
+    "description": "Export an area of the map as an image",
+    "images": [
+        "TakeScreenShot.png"
+    ],
+    "keywords": [],
+    "new_slug": "take-screen-shot.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView"
+    ],
+    "snippets": [
+        "TakeScreenShotSample.java"
+    ],
+    "title": "Take Screen Shot"
+}

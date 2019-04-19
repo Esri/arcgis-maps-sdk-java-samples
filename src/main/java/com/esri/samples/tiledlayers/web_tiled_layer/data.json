@@ -1,0 +1,20 @@
+{
+    "category": "Tiledlayers",
+    "current_slug": "web-tiled-layer.htm",
+    "description": "Display map tiles from any custom (non-ArcGIS) service",
+    "images": [
+        "WebTiledLayer.png"
+    ],
+    "keywords": [],
+    "new_slug": "web-tiled-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "WebTiledLayer"
+    ],
+    "snippets": [
+        "WebTiledLayerSample.java"
+    ],
+    "title": "Web Tiled Layer"
+}

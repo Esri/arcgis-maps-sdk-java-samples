@@ -1,0 +1,19 @@
+{
+    "category": "Imagelayers",
+    "current_slug": "map-image-layer.htm",
+    "description": "Display a layer from an ArcGIS map image layer service",
+    "images": [
+        "MapImageLayer.png"
+    ],
+    "keywords": [],
+    "new_slug": "map-image-layer.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "ArcGISMap",
+        "MapView"
+    ],
+    "snippets": [
+        "MapImageLayerSample.java"
+    ],
+    "title": "Map Image Layer"
+}

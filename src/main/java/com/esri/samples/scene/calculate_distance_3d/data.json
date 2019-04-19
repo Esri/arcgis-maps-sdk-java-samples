@@ -1,0 +1,21 @@
+{
+    "category": "Scene",
+    "current_slug": "calculate-distance-3d.htm",
+    "description": "Calculate the 3D distance between two graphics",
+    "images": [
+        "CalculateDistance3d.png"
+    ],
+    "keywords": [],
+    "new_slug": "calculate-distance-3d.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "SceneView"
+    ],
+    "snippets": [
+        "CalculateDistance3dSample.java",
+        "CalculateDistance3dController.java"
+    ],
+    "title": "Calculate Distance 3d"
+}

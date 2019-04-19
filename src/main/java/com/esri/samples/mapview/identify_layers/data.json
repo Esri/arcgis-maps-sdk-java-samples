@@ -1,0 +1,21 @@
+{
+    "category": "Mapview",
+    "current_slug": "identify-layers.htm",
+    "description": "Get clicked features from multiple layers",
+    "images": [
+        "IdentifyLayers.png"
+    ],
+    "keywords": [],
+    "new_slug": "identify-layers.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "FeatureLayer",
+        "FeatureTable",
+        "IdentifyLayerResult",
+        "MapView"
+    ],
+    "snippets": [
+        "IdentifyLayersSample.java"
+    ],
+    "title": "Identify Layers"
+}

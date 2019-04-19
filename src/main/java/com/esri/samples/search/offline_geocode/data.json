@@ -1,0 +1,29 @@
+{
+    "category": "Search",
+    "current_slug": "offline-geocode.htm",
+    "description": "Geocode with offline data",
+    "images": [
+        "OfflineGeocode.png"
+    ],
+    "keywords": [],
+    "new_slug": "offline-geocode.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Callout",
+        "MapView",
+        "LocatorTask",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "snippets": [
+        "OfflineGeocodeSample.java"
+    ],
+    "title": "Offline Geocode"
+}

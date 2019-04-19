@@ -1,0 +1,23 @@
+{
+    "category": "Localserver",
+    "current_slug": "local-server-dynamic-workspace-raster.htm",
+    "description": "Dynamically add a local raster file to a map using Local Server",
+    "images": [
+        "LocalServerDynamicWorkspaceRaster.png"
+    ],
+    "keywords": [],
+    "new_slug": "local-server-dynamic-workspace-raster.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "ArcGISMapImageSublayer",
+        "DynamicWorkspace",
+        "LocalServer",
+        "RasterWorkspace",
+        "RasterSublayerSource",
+        "StatusChangedEvent"
+    ],
+    "snippets": [
+        "LocalServerDynamicWorkspaceRasterSample.java"
+    ],
+    "title": "Local Server Dynamic Workspace Raster"
+}

@@ -1,0 +1,21 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "service-feature-table-manual-cache-.htm",
+    "description": "Request features on demand",
+    "images": [
+        "ServiceFeatureTableManualCache.png"
+    ],
+    "keywords": [],
+    "new_slug": "service-feature-table-manual-cache.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "ServiceFeatureTable.FeatureRequestMode"
+    ],
+    "snippets": [
+        "ServiceFeatureTableManualCacheSample.java"
+    ],
+    "title": "Service Feature Table (Manual Cache)"
+}

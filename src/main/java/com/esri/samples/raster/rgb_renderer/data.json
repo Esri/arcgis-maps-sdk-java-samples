@@ -1,0 +1,24 @@
+{
+    "category": "Raster",
+    "current_slug": "rgb-renderer.htm",
+    "description": "Apply an RGB renderer to a raster",
+    "images": [
+        "RgbRenderer.png"
+    ],
+    "keywords": [],
+    "new_slug": "rgb-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer",
+        "RgbRenderer",
+        "StretchParameters"
+    ],
+    "snippets": [
+        "RgbRendererController.java",
+        "RgbRendererSample.java"
+    ],
+    "title": "Rgb Renderer"
+}

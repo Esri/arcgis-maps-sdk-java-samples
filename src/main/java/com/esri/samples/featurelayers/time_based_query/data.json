@@ -1,0 +1,23 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "time-based-query.htm",
+    "description": "Filter features within a time range",
+    "images": [
+        "TimeBasedQuery.png"
+    ],
+    "keywords": [],
+    "new_slug": "time-based-query.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "MapView",
+        "QueryParameters",
+        "ServiceFeatureTable",
+        "TimeExtent"
+    ],
+    "snippets": [
+        "TimeBasedQuerySample.java"
+    ],
+    "title": "Time Based Query"
+}

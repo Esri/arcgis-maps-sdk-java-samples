@@ -1,0 +1,24 @@
+{
+    "category": "Symbology",
+    "current_slug": "simple-line-symbol.htm",
+    "description": "Change a line graphic\u2019s color and style",
+    "images": [
+        "SimpleLineSymbol.png"
+    ],
+    "keywords": [],
+    "new_slug": "simple-line-symbol.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Polyline",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleLineSymbol.Style"
+    ],
+    "snippets": [
+        "SimpleLineSymbolSample.java"
+    ],
+    "title": "Simple Line Symbol"
+}

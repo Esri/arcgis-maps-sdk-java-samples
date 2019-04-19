@@ -1,0 +1,22 @@
+{
+    "category": "Analysis",
+    "current_slug": "analyze-hotspots.htm",
+    "description": "Perform hotspot analysis using a geoprocessing service",
+    "images": [
+        "AnalyzeHotspots.png"
+    ],
+    "keywords": [],
+    "new_slug": "analyze-hotspots.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "GeoprocessingJob",
+        "GeoprocessingParameters",
+        "GeoprocessingResult",
+        "GeoprocessingString",
+        "GeoprocessingTask"
+    ],
+    "snippets": [
+        "AnalyzeHotspotsSample.java"
+    ],
+    "title": "Analyze Hotspots"
+}

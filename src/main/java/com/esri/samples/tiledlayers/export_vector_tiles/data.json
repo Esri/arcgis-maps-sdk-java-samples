@@ -1,0 +1,26 @@
+{
+    "category": "Tiledlayers",
+    "current_slug": "export-vector-tiles.htm",
+    "description": "Export tiles from an online vector tile service",
+    "images": [
+        "ExportVectorTiles.png"
+    ],
+    "keywords": [],
+    "new_slug": "export-vector-tiles.htm",
+    "relevant_apis": [
+        "ArcGISVectorTiledLayer",
+        "ExportVectorTilesJob",
+        "ExportVectorTilesParamters",
+        "ExportVectorTilesResult",
+        "ExportVectorTilesTask",
+        "ItemResourceCache",
+        "Portal",
+        "PortalItem",
+        "UserCredential",
+        "VectorTileCache"
+    ],
+    "snippets": [
+        "ExportVectorTilesSample.java"
+    ],
+    "title": "Export Vector Tiles"
+}

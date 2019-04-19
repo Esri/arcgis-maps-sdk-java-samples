@@ -1,0 +1,23 @@
+{
+    "category": "Portal",
+    "current_slug": "webmap-keyword-search.htm",
+    "description": "Find webmaps within a portal using a keyword",
+    "images": [
+        "WebmapKeywordSearch.png"
+    ],
+    "keywords": [],
+    "new_slug": "webmap-keyword-search.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView",
+        "Portal",
+        "PortalItem",
+        "PortalQueryParameters",
+        "PortalQueryResultSet"
+    ],
+    "snippets": [
+        "WebmapKeywordSearchSample.java",
+        "WebmapKeywordSearchController.java"
+    ],
+    "title": "Webmap Keyword Search"
+}

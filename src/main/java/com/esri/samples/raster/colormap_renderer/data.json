@@ -1,0 +1,22 @@
+{
+    "category": "Raster",
+    "current_slug": "colormap-renderer.htm",
+    "description": "Apply a colormap renderer to a raster",
+    "images": [
+        "ColormapRenderer.png"
+    ],
+    "keywords": [],
+    "new_slug": "colormap-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "ColormapRenderer",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "ColormapRendererSample.java"
+    ],
+    "title": "Colormap Renderer"
+}

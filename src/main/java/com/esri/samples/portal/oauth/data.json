@@ -1,0 +1,25 @@
+{
+    "category": "Portal",
+    "current_slug": "oauth.htm",
+    "description": "Authenticate with OAuth 2",
+    "images": [
+        "OAuth.png"
+    ],
+    "keywords": [],
+    "new_slug": "oauth.htm",
+    "relevant_apis": [
+        "AuthenticationChallengeHandler",
+        "OAuthConfiguration",
+        "OAuthTokenCredential",
+        "OAuthTokenCredentialRequest",
+        "Portal",
+        "PortalUser"
+    ],
+    "snippets": [
+        "OAuthSample.java",
+        "AuthenticationDialog.java",
+        "OAuthChallengeHandler.java",
+        "OAuthController.java"
+    ],
+    "title": "OAuth"
+}

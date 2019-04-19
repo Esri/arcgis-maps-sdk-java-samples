@@ -1,0 +1,21 @@
+{
+    "category": "Raster",
+    "current_slug": "raster-layer-url.htm",
+    "description": "Show raster data from an online raster image service",
+    "images": [
+        "RasterLayerURL.png"
+    ],
+    "keywords": [],
+    "new_slug": "raster-layer-url.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "ImageServiceRaster",
+        "MapView",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "RasterLayerURLSample.java"
+    ],
+    "title": "Raster Layer URL"
+}

@@ -1,0 +1,20 @@
+{
+    "category": "Map",
+    "current_slug": "open-map-url-.htm",
+    "description": "Display a web map",
+    "images": [
+        "OpenMapURL.png"
+    ],
+    "keywords": [],
+    "new_slug": "open-map-url.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "OpenMapURLSample.java"
+    ],
+    "title": "Open Map (URL)"
+}

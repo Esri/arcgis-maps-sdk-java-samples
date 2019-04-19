@@ -1,0 +1,23 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "generate-geodatabase.htm",
+    "description": "Generate a local geodatabase from an online feature service",
+    "images": [
+        "GenerateGeodatabase.png"
+    ],
+    "keywords": [],
+    "new_slug": "generate-geodatabase.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "Geodatabase",
+        "GenerateGeodatabaseJob",
+        "GenerateGeodatabaseParameters",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "GenerateGeodatabaseSample.java"
+    ],
+    "title": "Generate Geodatabase"
+}

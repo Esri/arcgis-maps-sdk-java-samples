@@ -1,0 +1,22 @@
+{
+    "category": "Analysis",
+    "current_slug": "viewshed-geoprocessing.htm",
+    "description": "Calculate a viewshed against terrain using a geoprocessing service",
+    "images": [
+        "ViewshedGeoprocessing.png"
+    ],
+    "keywords": [],
+    "new_slug": "viewshed-geoprocessing.htm",
+    "relevant_apis": [
+        "FeatureCollectionTable",
+        "GeoprocessingFeatures",
+        "GeoprocessingJob",
+        "GeoprocessingParameters",
+        "GeoprocessingResult",
+        "GeoprocessingTask"
+    ],
+    "snippets": [
+        "ViewshedGeoprocessingSample.java"
+    ],
+    "title": "Viewshed Geoprocessing"
+}

@@ -1,0 +1,20 @@
+{
+    "category": "Imagelayers",
+    "current_slug": "query-map-image-sublayer.htm",
+    "description": "Find features in a sublayer based on attributes and location",
+    "images": [
+        "QueryMapImageSublayer.png"
+    ],
+    "keywords": [],
+    "new_slug": "query-map-image-sublayer.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "ArcGISMapImageSublayer",
+        "QueryParameters",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "QueryMapImageSublayerSample.java"
+    ],
+    "title": "Query Map Image Sublayer"
+}

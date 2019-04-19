@@ -1,0 +1,22 @@
+{
+    "category": "Symbology",
+    "current_slug": "picture-marker-symbol.htm",
+    "description": "Use pictures for markers",
+    "images": [
+        "PictureMarkerSymbol.png"
+    ],
+    "keywords": [],
+    "new_slug": "picture-marker-symbol.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PictureMarkerSymbol",
+        "Point"
+    ],
+    "snippets": [
+        "PictureMarkerSymbolSample.java"
+    ],
+    "title": "Picture Marker Symbol"
+}

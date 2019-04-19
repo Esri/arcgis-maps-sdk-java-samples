@@ -1,0 +1,21 @@
+{
+    "category": "Editing",
+    "current_slug": "edit-feature-attachments.htm",
+    "description": "Add or remove feature attachments",
+    "images": [],
+    "keywords": [],
+    "new_slug": "edit-feature-attachments.htm",
+    "relevant_apis": [
+        "ArcGISFeature",
+        "ArcGISMap",
+        "Attachment",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "EditFeatureAttachmentsSample.java"
+    ],
+    "title": "Edit Feature Attachments"
+}

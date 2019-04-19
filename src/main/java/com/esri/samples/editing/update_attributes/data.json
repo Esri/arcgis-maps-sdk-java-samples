@@ -1,0 +1,19 @@
+{
+    "category": "Editing",
+    "current_slug": "update-attributes.htm",
+    "description": "Update feature attributes in an online feature service",
+    "images": [],
+    "keywords": [],
+    "new_slug": "update-attributes.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "UpdateAttributesSample.java"
+    ],
+    "title": "Update Attributes"
+}

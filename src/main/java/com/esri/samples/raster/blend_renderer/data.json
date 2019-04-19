@@ -1,0 +1,24 @@
+{
+    "category": "Raster",
+    "current_slug": "blend-renderer.htm",
+    "description": "Apply a blend renderer to a raster",
+    "images": [
+        "BlendRenderer.png"
+    ],
+    "keywords": [],
+    "new_slug": "blend-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "BlendRenderer",
+        "ColorRamp",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "BlendRendererController.java",
+        "BlendRendererSample.java"
+    ],
+    "title": "Blend Renderer"
+}

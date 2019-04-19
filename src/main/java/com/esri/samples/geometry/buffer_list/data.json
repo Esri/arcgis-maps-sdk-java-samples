@@ -1,0 +1,21 @@
+{
+    "category": "Geometry",
+    "current_slug": "buffer-list.htm",
+    "description": "Combine buffers from multiple points individual buffer distances",
+    "images": [
+        "BufferList.png"
+    ],
+    "keywords": [
+        "Analysis,",
+        "Buffer,",
+        "GeometryEngine"
+    ],
+    "new_slug": "buffer-list.htm",
+    "relevant_apis": [
+        "GeometryEngine"
+    ],
+    "snippets": [
+        "BufferListSample.java"
+    ],
+    "title": "Buffer list"
+}

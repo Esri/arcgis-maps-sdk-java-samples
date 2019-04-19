@@ -1,0 +1,25 @@
+{
+    "category": "Map",
+    "current_slug": "map-reference-scale.htm",
+    "description": "Set the map\u2019s reference scale and choose which feature layers should honor the reference scale",
+    "images": [
+        "MapReferenceScale.png"
+    ],
+    "keywords": [
+        "Maps",
+        "&",
+        "Scenes,",
+        "reference",
+        "scale"
+    ],
+    "new_slug": "map-reference-scale.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer"
+    ],
+    "snippets": [
+        "MapReferenceScaleSample.java",
+        "MapReferenceScaleController.java"
+    ],
+    "title": "Map reference scale"
+}

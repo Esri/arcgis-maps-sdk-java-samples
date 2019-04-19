@@ -1,0 +1,21 @@
+{
+    "category": "Mapview",
+    "current_slug": "map-rotation.htm",
+    "description": "Rotate a map",
+    "images": [
+        "MapRotation.png"
+    ],
+    "keywords": [],
+    "new_slug": "map-rotation.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Compass",
+        "Envelope",
+        "MapView",
+        "Point"
+    ],
+    "snippets": [
+        "MapRotationSample.java"
+    ],
+    "title": "Map Rotation"
+}

@@ -1,0 +1,27 @@
+{
+    "category": "Map",
+    "current_slug": "generate-offline-map-with-local-basemap.htm",
+    "description": "Take a web map offline, but instead of downloading an online basemap, use one which is already on the device",
+    "images": [
+        "GenerateOfflineMapWithLocalBasemap.png"
+    ],
+    "keywords": [
+        "offline,",
+        "local",
+        "basemap,",
+        "OfflineMapTask"
+    ],
+    "new_slug": "generate-offline-map-with-local-basemap.htm",
+    "relevant_apis": [
+        "OfflineMapTask",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapParameterOverrides",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapResult"
+    ],
+    "snippets": [
+        "GenerateOfflineMapDialog.java",
+        "GenerateOfflineMapWithLocalBasemapSample.java"
+    ],
+    "title": "Generate offline map with local basemap"
+}

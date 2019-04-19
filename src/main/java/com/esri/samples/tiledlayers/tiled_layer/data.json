@@ -1,0 +1,23 @@
+{
+    "category": "Tiledlayers",
+    "current_slug": "tiled-layer.htm",
+    "description": "Display tiles from an ArcGIS tile service",
+    "images": [
+        "TiledLayer.png"
+    ],
+    "keywords": [
+        "layers,",
+        "tile,",
+        "ArcGISTiledLayer"
+    ],
+    "new_slug": "tiled-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "MapView"
+    ],
+    "snippets": [
+        "TiledLayerSample.java"
+    ],
+    "title": "Tiled layer"
+}

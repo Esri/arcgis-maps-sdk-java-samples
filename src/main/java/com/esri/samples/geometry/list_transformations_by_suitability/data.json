@@ -1,0 +1,26 @@
+{
+    "category": "Geometry",
+    "current_slug": "list-transformations-by-suitability.htm",
+    "description": "Find transformations to other spatial references suitable to the point\u2019s location",
+    "images": [
+        "ListTransformationsBySuitability.png"
+    ],
+    "keywords": [],
+    "new_slug": "list-transformations-by-suitability.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "DatumTransformation",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SpatialReference",
+        "TransformationCatalog"
+    ],
+    "snippets": [
+        "ListTransformationsBySuitabilitySample.java"
+    ],
+    "title": "List Transformations By Suitability"
+}

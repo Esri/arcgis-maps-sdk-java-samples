@@ -1,0 +1,24 @@
+{
+    "category": "Localserver",
+    "current_slug": "local-server-services.htm",
+    "description": "Manage multiple running services in Local Server",
+    "images": [
+        "LocalServerServices.png"
+    ],
+    "keywords": [],
+    "new_slug": "local-server-services.htm",
+    "relevant_apis": [
+        "LocalFeatureService",
+        "LocalGeoprocessingService",
+        "LocalMapService",
+        "LocalServer",
+        "StatusChangedEvent",
+        "LocalServerStatus",
+        "LocalService"
+    ],
+    "snippets": [
+        "LocalServerServicesSample.java",
+        "LocalServerServicesController.java"
+    ],
+    "title": "Local Server Services"
+}

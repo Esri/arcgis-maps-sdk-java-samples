@@ -1,0 +1,20 @@
+{
+    "category": "Map",
+    "current_slug": "access-load-status.htm",
+    "description": "Determine when a map has finished loading",
+    "images": [
+        "AccessLoadStatus.png"
+    ],
+    "keywords": [],
+    "new_slug": "access-load-status.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "LoadStatus"
+    ],
+    "snippets": [
+        "AccessLoadStatusSample.java"
+    ],
+    "title": "Access Load Status"
+}

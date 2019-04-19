@@ -1,0 +1,25 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "statistical-query.htm",
+    "description": "Get aggregated feature statistics for a specified field",
+    "images": [
+        "StatisticalQuery.png"
+    ],
+    "keywords": [],
+    "new_slug": "statistical-query.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "QueryParameters",
+        "ServiceFeatureTable",
+        "StatisticDefinition",
+        "StatisticRecord",
+        "StatisticType",
+        "StatisticsQueryParameters",
+        "StatisticsQueryResult"
+    ],
+    "snippets": [
+        "StatisticalQuerySample.java"
+    ],
+    "title": "Statistical Query"
+}

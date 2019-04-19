@@ -1,0 +1,29 @@
+{
+    "category": "Geometry",
+    "current_slug": "clip-geometry.htm",
+    "description": "Clip a geometry to an envelope",
+    "images": [],
+    "keywords": [],
+    "new_slug": "clip-geometry.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Envelope",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SpatialReferences"
+    ],
+    "snippets": [
+        "ClipGeometrySample.java"
+    ],
+    "title": "Clip Geometry"
+}

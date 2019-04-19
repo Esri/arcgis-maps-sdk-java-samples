@@ -1,0 +1,18 @@
+{
+    "category": "Scene",
+    "current_slug": "terrain-exaggeration.htm",
+    "description": "Vertically exaggerate terrain",
+    "images": [],
+    "keywords": [],
+    "new_slug": "terrain-exaggeration.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Surface",
+        "ArcGISTiledElevationSource"
+    ],
+    "snippets": [
+        "TerrainExaggerationSample.java",
+        "TerrainExaggerationController.java"
+    ],
+    "title": "Terrain Exaggeration"
+}

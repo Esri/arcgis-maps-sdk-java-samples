@@ -1,0 +1,27 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "statistical-query-group-and-sort.htm",
+    "description": "Group and sort feature statistics by different fields",
+    "images": [
+        "StatisticalQueryGroupAndSort.png"
+    ],
+    "keywords": [],
+    "new_slug": "statistical-query-group-and-sort.htm",
+    "relevant_apis": [
+        "Field",
+        "QueryParameters",
+        "ServiceFeatureTable",
+        "StatisticDefinition",
+        "StatisticRecord",
+        "StatisticType",
+        "StatisticsQueryParameters",
+        "StatisticsQueryResult"
+    ],
+    "snippets": [
+        "GroupField.java",
+        "StatisticalQueryGroupAndSortSample.java",
+        "OrderByField.java",
+        "StatisticalQueryGroupAndSortController.java"
+    ],
+    "title": "Statistical Query Group And Sort"
+}

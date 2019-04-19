@@ -1,0 +1,29 @@
+{
+    "category": "Map",
+    "current_slug": "create-and-save-map.htm",
+    "description": "Create and save a map to your own portal",
+    "images": [
+        "CreateAndSaveMap.png"
+    ],
+    "keywords": [],
+    "new_slug": "create-and-save-map.htm",
+    "relevant_apis": [
+        "AuthenticationChallengeHandler",
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "OAuthConfiguration",
+        "Portal",
+        "PortalFolder",
+        "PortalItem",
+        "PortalUserContent"
+    ],
+    "snippets": [
+        "CreateAndSaveMapController.java",
+        "AuthenticationDialog.java",
+        "CreateAndSaveMapSample.java",
+        "OAuthChallengeHandler.java"
+    ],
+    "title": "Create and Save Map"
+}

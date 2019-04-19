@@ -1,0 +1,24 @@
+{
+    "category": "Tiledlayers",
+    "current_slug": "tile-cache.htm",
+    "description": "Create a basemap from a local tile cache",
+    "images": [
+        "TileCache.png"
+    ],
+    "keywords": [
+        "layers,",
+        "tile,",
+        "TileCache,",
+        "ArcGISTiledLayer"
+    ],
+    "new_slug": "tile-cache.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "TileCache"
+    ],
+    "snippets": [
+        "TileCacheSample.java"
+    ],
+    "title": "Tile cache"
+}

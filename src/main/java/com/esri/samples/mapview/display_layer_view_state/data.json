@@ -1,0 +1,23 @@
+{
+    "category": "Mapview",
+    "current_slug": "display-layer-view-state.htm",
+    "description": "Determine if a layer is currently visible",
+    "images": [
+        "DisplayLayerViewState.png"
+    ],
+    "keywords": [],
+    "new_slug": "display-layer-view-state.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Layer",
+        "LayerViewStatus",
+        "LayerViewStateChangedEvent",
+        "MapView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "DisplayLayerViewStateSample.java"
+    ],
+    "title": "Display Layer View State"
+}

@@ -1,0 +1,20 @@
+{
+    "category": "Map",
+    "current_slug": "min-max-scale.htm",
+    "description": "Restrict zooming to a specific scale range",
+    "images": [
+        "MinMaxScale.png"
+    ],
+    "keywords": [],
+    "new_slug": "min-max-scale.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "MinMaxScaleSample.java"
+    ],
+    "title": "Min Max Scale"
+}

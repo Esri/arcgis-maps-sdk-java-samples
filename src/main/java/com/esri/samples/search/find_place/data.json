@@ -1,0 +1,27 @@
+{
+    "category": "Search",
+    "current_slug": "find-place.htm",
+    "description": "Find places of interest near a location or within an specific area",
+    "images": [
+        "FindPlace.png"
+    ],
+    "keywords": [],
+    "new_slug": "find-place.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "snippets": [
+        "FindPlaceController.java",
+        "FindPlaceSample.java"
+    ],
+    "title": "Find Place"
+}

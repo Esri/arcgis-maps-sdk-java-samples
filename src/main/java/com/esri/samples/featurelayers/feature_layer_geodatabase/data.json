@@ -1,0 +1,22 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-layer-geodatabase-.htm",
+    "description": "Display features from a local geodatabase",
+    "images": [
+        "FeatureLayerGeodatabase.png"
+    ],
+    "keywords": [],
+    "new_slug": "feature-layer-geodatabase.htm",
+    "relevant_apis": [
+        "Basemap",
+        "FeatureLayer",
+        "Geodatabase",
+        "GeodatabaseFeatureTable",
+        "Map",
+        "MapView"
+    ],
+    "snippets": [
+        "FeatureLayerGeodatabaseSample.java"
+    ],
+    "title": "Feature Layer (Geodatabase)"
+}

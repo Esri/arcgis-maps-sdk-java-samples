@@ -1,0 +1,24 @@
+{
+    "category": "Mapview",
+    "current_slug": "display-drawing-status.htm",
+    "description": "Determine if a layer is done drawing",
+    "images": [
+        "DisplayDrawingStatus.png"
+    ],
+    "keywords": [],
+    "new_slug": "display-drawing-status.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "DrawStatus",
+        "DrawStatusChangedEvent",
+        "Envelope",
+        "FeatureLayer",
+        "MapView",
+        "Point"
+    ],
+    "snippets": [
+        "DisplayDrawingStatusSample.java"
+    ],
+    "title": "Display Drawing Status"
+}

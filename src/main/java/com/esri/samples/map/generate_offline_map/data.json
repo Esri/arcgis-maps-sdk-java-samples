@@ -1,0 +1,20 @@
+{
+    "category": "Map",
+    "current_slug": "generate-offline-map.htm",
+    "description": "Take an extent of a web map offline",
+    "images": [
+        "GenerateOfflineMap.png"
+    ],
+    "keywords": [],
+    "new_slug": "generate-offline-map.htm",
+    "relevant_apis": [
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapResult",
+        "OfflineMapTask"
+    ],
+    "snippets": [
+        "GenerateOfflineMapSample.java"
+    ],
+    "title": "Generate Offline Map"
+}

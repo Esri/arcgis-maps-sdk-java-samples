@@ -1,0 +1,22 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-layer-query.htm",
+    "description": "Find features matching a SQL query",
+    "images": [
+        "FeatureLayerQuery.png"
+    ],
+    "keywords": [],
+    "new_slug": "feature-layer-query.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "FeatureQueryResult",
+        "MapView",
+        "QueryParameters",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "FeatureLayerQuerySample.java"
+    ],
+    "title": "Feature Layer Query"
+}

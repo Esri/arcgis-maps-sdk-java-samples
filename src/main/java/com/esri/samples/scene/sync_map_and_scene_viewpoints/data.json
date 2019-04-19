@@ -1,0 +1,27 @@
+{
+    "category": "Scene",
+    "current_slug": "sync-map-and-scene-viewpoints.htm",
+    "description": "Synchronize the viewpoints between a MapView and a SceneView",
+    "images": [
+        "SyncMapAndSceneViewpoints.png"
+    ],
+    "keywords": [
+        "2D,",
+        "3D,",
+        "view",
+        "synchronisation,",
+        "Viewpoint,",
+        "Scene,",
+        "Map"
+    ],
+    "new_slug": "sync-map-and-scene-viewpoints.htm",
+    "relevant_apis": [
+        "GeoView",
+        "Viewpoint",
+        "ViewpointChangedEvent"
+    ],
+    "snippets": [
+        "SyncMapAndSceneViewpoints.java"
+    ],
+    "title": "Sync Map and Scene Viewpoints"
+}

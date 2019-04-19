@@ -1,0 +1,18 @@
+{
+    "category": "Geometry",
+    "current_slug": "nearest-vertex.htm",
+    "description": "Get the vertex of a geometry closest to a point",
+    "images": [
+        "NearestVertex.png"
+    ],
+    "keywords": [],
+    "new_slug": "nearest-vertex.htm",
+    "relevant_apis": [
+        "GeometryEngine",
+        "ProximityResult"
+    ],
+    "snippets": [
+        "NearestVertexSample.java"
+    ],
+    "title": "Nearest Vertex"
+}

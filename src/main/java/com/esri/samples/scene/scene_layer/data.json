@@ -1,0 +1,23 @@
+{
+    "category": "Scene",
+    "current_slug": "scene-layer.htm",
+    "description": "Display a scene layer with 3D buildings",
+    "images": [
+        "SceneLayer.png"
+    ],
+    "keywords": [],
+    "new_slug": "scene-layer.htm",
+    "relevant_apis": [
+        "3D",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "SceneView",
+        "Surface"
+    ],
+    "snippets": [
+        "SceneLayerSample.java"
+    ],
+    "title": "Scene Layer"
+}

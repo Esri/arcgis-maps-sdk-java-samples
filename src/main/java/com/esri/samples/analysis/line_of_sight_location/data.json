@@ -1,0 +1,21 @@
+{
+    "category": "Analysis",
+    "current_slug": "line-of-sight-location.htm",
+    "description": "Perform line of sight analysis in real-time",
+    "images": [],
+    "keywords": [],
+    "new_slug": "line-of-sight-location.htm",
+    "relevant_apis": [
+        "3D",
+        "AnalysisOverlay",
+        "ArcGISTiledElevationSource",
+        "ArcGISScene",
+        "Camera",
+        "LocationLineOfSight",
+        "SceneView"
+    ],
+    "snippets": [
+        "LineOfSightLocationSample.java"
+    ],
+    "title": "Line of Sight Location"
+}

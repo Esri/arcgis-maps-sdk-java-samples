@@ -1,0 +1,21 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "service-feature-table-cache-.htm",
+    "description": "Cache features on the client when the user interacts",
+    "images": [
+        "ServiceFeatureTableCache.png"
+    ],
+    "keywords": [],
+    "new_slug": "service-feature-table-cache.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "ServiceFeatureTable.FeatureRequestMode"
+    ],
+    "snippets": [
+        "ServiceFeatureTableCacheSample.java"
+    ],
+    "title": "Service Feature Table (Cache)"
+}

@@ -1,0 +1,21 @@
+{
+    "category": "Map",
+    "current_slug": "manage-operational-layers.htm",
+    "description": "Add, remove and reorder operational layers in a map",
+    "images": [
+        "ManageOperationalLayers.png"
+    ],
+    "keywords": [],
+    "new_slug": "manage-operational-layers.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "LayerList",
+        "MapView"
+    ],
+    "snippets": [
+        "ManageOperationalLayersSample.java"
+    ],
+    "title": "Manage Operational Layers"
+}

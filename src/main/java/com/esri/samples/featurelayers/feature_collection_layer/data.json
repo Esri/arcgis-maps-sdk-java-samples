@@ -1,0 +1,25 @@
+{
+    "category": "Featurelayers",
+    "current_slug": "feature-collection-layer.htm",
+    "description": "Combine feature tables with different geometries into a single layer",
+    "images": [
+        "FeatureCollectionLayer.png"
+    ],
+    "keywords": [],
+    "new_slug": "feature-collection-layer.htm",
+    "relevant_apis": [
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "FeatureCollectionTable",
+        "Feature",
+        "Field",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "FeatureCollectionLayerSample.java"
+    ],
+    "title": "Feature Collection Layer"
+}

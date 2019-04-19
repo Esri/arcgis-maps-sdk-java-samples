@@ -1,0 +1,20 @@
+{
+    "category": "Tiledlayers",
+    "current_slug": "vector-tiled-layer-url.htm",
+    "description": "Display tiles from an ArcGIS vector tile service",
+    "images": [
+        "VectorTiledLayerURL.png"
+    ],
+    "keywords": [],
+    "new_slug": "vector-tiled-layer-url.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISVectorTiledLayer",
+        "Basemap",
+        "MapView"
+    ],
+    "snippets": [
+        "VectorTiledLayerURLSample.java"
+    ],
+    "title": "Vector Tiled Layer URL"
+}

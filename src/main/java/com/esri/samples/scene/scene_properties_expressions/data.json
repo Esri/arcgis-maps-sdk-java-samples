@@ -1,0 +1,22 @@
+{
+    "category": "Scene",
+    "current_slug": "scene-properties-expressions.htm",
+    "description": "Update the orientation of a graphic using scene property rotation expressions",
+    "images": [],
+    "keywords": [],
+    "new_slug": "scene-properties-expressions.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "Renderer",
+        "Renderer.SceneProperties",
+        "SceneView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "ScenePropertiesExpressionsController.java",
+        "ScenePropertiesExpressionsSample.java"
+    ],
+    "title": "Scene Properties Expressions"
+}

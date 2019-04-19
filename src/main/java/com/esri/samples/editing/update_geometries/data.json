@@ -1,0 +1,19 @@
+{
+    "category": "Editing",
+    "current_slug": "update-geometries.htm",
+    "description": "Update a feature\u2019s location in an online feature service",
+    "images": [],
+    "keywords": [],
+    "new_slug": "update-geometries.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "UpdateGeometriesSample.java"
+    ],
+    "title": "Update Geometries"
+}

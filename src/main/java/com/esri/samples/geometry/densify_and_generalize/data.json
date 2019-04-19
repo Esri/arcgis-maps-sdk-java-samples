@@ -1,0 +1,28 @@
+{
+    "category": "Geometry",
+    "current_slug": "densify-and-generalize.htm",
+    "description": "Modify a polyline while preserving its general shape",
+    "images": [],
+    "keywords": [],
+    "new_slug": "densify-and-generalize.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Multipoint",
+        "Point",
+        "PointCollection",
+        "Polyline",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SpatialReference"
+    ],
+    "snippets": [
+        "DensifyAndGeneralizeSample.java",
+        "DensifyAndGeneralizeController.java"
+    ],
+    "title": "Densify and Generalize"
+}

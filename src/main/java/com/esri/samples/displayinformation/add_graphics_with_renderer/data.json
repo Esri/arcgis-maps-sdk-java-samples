@@ -1,0 +1,25 @@
+{
+    "category": "Displayinformation",
+    "current_slug": "add-graphics-with-renderer.htm",
+    "description": "Specify a graphic\u2019s symbol with a renderer",
+    "images": [
+        "AddGraphicsWithRenderer.png"
+    ],
+    "keywords": [],
+    "new_slug": "add-graphics-with-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "AddGraphicsWithRendererSample.java"
+    ],
+    "title": "Add Graphics with Renderer"
+}

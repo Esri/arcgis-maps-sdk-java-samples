@@ -1,0 +1,22 @@
+{
+    "category": "Displayinformation",
+    "current_slug": "format-coordinates.htm",
+    "description": "Write coordinates in a variety of common formats",
+    "images": [
+        "FormatCoordinates.png"
+    ],
+    "keywords": [],
+    "new_slug": "format-coordinates.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Basemap",
+        "Callout",
+        "CoordinateFormatter",
+        "MapView"
+    ],
+    "snippets": [
+        "FormatCoordinatesSample.java"
+    ],
+    "title": "Format Coordinates"
+}

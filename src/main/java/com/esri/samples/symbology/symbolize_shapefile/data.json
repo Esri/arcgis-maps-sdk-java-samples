@@ -1,0 +1,21 @@
+{
+    "category": "Symbology",
+    "current_slug": "symbolize-shapefile.htm",
+    "description": "Override the default rendering of a shapefile",
+    "images": [
+        "SymbolizeShapefile.png"
+    ],
+    "keywords": [],
+    "new_slug": "symbolize-shapefile.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "ShapefileFeatureTable",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "SymbolizeShapefileSample.java"
+    ],
+    "title": "Symbolize Shapefile"
+}

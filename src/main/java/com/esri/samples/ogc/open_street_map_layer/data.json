@@ -1,0 +1,23 @@
+{
+    "category": "Ogc",
+    "current_slug": "openstreetmap-layer.htm",
+    "description": "Display tiles from OpenStreetMap",
+    "images": [
+        "OpenStreetMapLayer.png"
+    ],
+    "keywords": [
+        "Layers,",
+        "OpenStreetMap"
+    ],
+    "new_slug": "openstreetmap-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "snippets": [
+        "OpenStreetMapLayerSample.java"
+    ],
+    "title": "OpenStreetMap Layer"
+}

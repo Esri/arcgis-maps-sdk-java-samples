@@ -1,0 +1,31 @@
+{
+    "category": "Geometry",
+    "current_slug": "spatial-relationships.htm",
+    "description": "Determine spatial relationships between two geometries",
+    "images": [
+        "SpatialRelationships.png"
+    ],
+    "keywords": [],
+    "new_slug": "spatial-relationships.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Geometry",
+        "GeometryEngine",
+        "GeometryType",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
+    ],
+    "snippets": [
+        "SpatialRelationshipsSample.java"
+    ],
+    "title": "Spatial Relationships"
+}

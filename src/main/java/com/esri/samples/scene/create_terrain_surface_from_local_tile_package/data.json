@@ -1,0 +1,24 @@
+{
+    "category": "Scene",
+    "current_slug": "create-terrain-from-a-local-tile-package.htm",
+    "description": "Set the terrain surface with elevation described by a local tile package",
+    "images": [
+        "CreateTerrainSurfaceFromLocalTilePackage.png"
+    ],
+    "keywords": [
+        "3D,",
+        "Tile",
+        "Cache,",
+        "Elevation,",
+        "Surface"
+    ],
+    "new_slug": "create-terrain-from-a-local-tile-package.htm",
+    "relevant_apis": [
+        "ArcGISTiledElevationSource",
+        "Surface"
+    ],
+    "snippets": [
+        "CreateTerrainSurfaceFromLocalTilePackageSample.java"
+    ],
+    "title": "Create Terrain from a Local Tile Package"
+}

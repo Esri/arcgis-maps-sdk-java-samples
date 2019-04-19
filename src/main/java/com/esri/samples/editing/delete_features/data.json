@@ -1,0 +1,19 @@
+{
+    "category": "Editing",
+    "current_slug": "delete-features.htm",
+    "description": "Delete features from an online feature service",
+    "images": [],
+    "keywords": [],
+    "new_slug": "delete-features.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "DeleteFeaturesSample.java"
+    ],
+    "title": "Delete Features"
+}

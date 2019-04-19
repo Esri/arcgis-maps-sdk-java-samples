@@ -1,0 +1,27 @@
+{
+    "category": "Displayinformation",
+    "current_slug": "add-graphics-with-symbols.htm",
+    "description": "Draw simple graphics with marker, line, polygon, and text symbols",
+    "images": [
+        "AddGraphicsWithSymbols.png"
+    ],
+    "keywords": [],
+    "new_slug": "add-graphics-with-symbols.htm",
+    "relevant_apis": [
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimepleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "TextSymbol"
+    ],
+    "snippets": [
+        "AddGraphicsWithSymbolsSample.java"
+    ],
+    "title": "Add Graphics with Symbols"
+}

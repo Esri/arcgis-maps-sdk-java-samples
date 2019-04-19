@@ -1,0 +1,24 @@
+{
+    "category": "Tiledlayers",
+    "current_slug": "export-tiles.htm",
+    "description": "Export tiles from an online tile service",
+    "images": [
+        "ExportTiles.png"
+    ],
+    "keywords": [],
+    "new_slug": "export-tiles.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Basemap",
+        "ExportTileCacheJob",
+        "ExportTileCacheParamters",
+        "ExportTileCacheTask",
+        "MapView",
+        "TileCache"
+    ],
+    "snippets": [
+        "ExportTilesSample.java"
+    ],
+    "title": "Export Tiles"
+}

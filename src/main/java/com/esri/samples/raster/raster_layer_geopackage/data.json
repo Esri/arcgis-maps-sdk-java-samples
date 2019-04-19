@@ -1,0 +1,22 @@
+{
+    "category": "Raster",
+    "current_slug": "raster-layer-geopackage.htm",
+    "description": "Display raster data from a geopackage",
+    "images": [
+        "RasterLayerGeoPackage.png"
+    ],
+    "keywords": [],
+    "new_slug": "raster-layer-geopackage.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "GeoPackage",
+        "GeoPackageRaster",
+        "MapView",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "RasterLayerGeoPackageSample.java"
+    ],
+    "title": "Raster Layer GeoPackage"
+}

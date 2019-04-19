@@ -1,0 +1,20 @@
+{
+    "category": "Map",
+    "current_slug": "change-basemap.htm",
+    "description": "Change a map\u2019s basemap",
+    "images": [
+        "ChangeBasemap.png"
+    ],
+    "keywords": [],
+    "new_slug": "change-basemap.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "snippets": [
+        "ChangeBasemapSample.java"
+    ],
+    "title": "Change Basemap"
+}

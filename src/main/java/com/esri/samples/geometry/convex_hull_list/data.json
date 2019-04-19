@@ -1,0 +1,23 @@
+{
+    "category": "Geometry",
+    "current_slug": "convex-hull-list.htm",
+    "description": "Generate convex hull polygon(s) from multiple input geometries",
+    "images": [
+        "ConvexHullList.png"
+    ],
+    "keywords": [
+        "Analysis,",
+        "ConvexHull,",
+        "GeometryEngine"
+    ],
+    "new_slug": "convex-hull-list.htm",
+    "relevant_apis": [
+        "GeometryEngine.ConvexHull",
+        "GraphicsOverlay",
+        "PointCollection"
+    ],
+    "snippets": [
+        "ConvexHullListSample.java"
+    ],
+    "title": "Convex Hull List"
+}

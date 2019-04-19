@@ -1,0 +1,26 @@
+{
+    "category": "Ogc",
+    "current_slug": "\ufeffload-wfs-with-xml-query.htm",
+    "description": "Load a WFS feature table using an XML query",
+    "images": [
+        "WfsXmlQuery.png"
+    ],
+    "keywords": [
+        "OGC,",
+        "WFS,",
+        "feature,",
+        "web,",
+        "service,",
+        "XML,",
+        "query"
+    ],
+    "new_slug": "\ufeffload-wfs-with-xml-query.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "WfsFeatureTable"
+    ],
+    "snippets": [
+        "WfsXmlQuerySample.java"
+    ],
+    "title": "\ufeffLoad WFS with XML query"
+}

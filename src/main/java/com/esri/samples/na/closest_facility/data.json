@@ -1,0 +1,25 @@
+{
+    "category": "Na",
+    "current_slug": "closest-facility.htm",
+    "description": "Find a route to the closest facility from a location",
+    "images": [
+        "ClosestFacility.png"
+    ],
+    "keywords": [],
+    "new_slug": "closest-facility.htm",
+    "relevant_apis": [
+        "ClosestFacilityParameters",
+        "ClosestFacilityResult",
+        "ClosestFacilityRoute",
+        "ClosestFacilityTask",
+        "Facility",
+        "Graphic",
+        "GraphicsOverlay",
+        "Incident",
+        "MapView"
+    ],
+    "snippets": [
+        "ClosestFacilitySample.java"
+    ],
+    "title": "Closest Facility"
+}

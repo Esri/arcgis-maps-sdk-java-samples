@@ -1,0 +1,29 @@
+{
+    "category": "Kml",
+    "current_slug": "display-kml-network-links.htm",
+    "description": "Display KML that automatically refreshes every few seconds",
+    "images": [
+        "DisplayKMLNetworkLinks.png"
+    ],
+    "keywords": [
+        "KML,",
+        "KMZ,",
+        "OGC,",
+        "Keyhole,",
+        "Network",
+        "Link,",
+        "Network",
+        "Link",
+        "Control"
+    ],
+    "new_slug": "display-kml-network-links.htm",
+    "relevant_apis": [
+        "KmlDataset",
+        "KmlLayer",
+        "KmlNetworkLinkMessageReceivedEvent"
+    ],
+    "snippets": [
+        "DisplayKMLNetworkLinksSample.java"
+    ],
+    "title": "Display KML Network Links"
+}

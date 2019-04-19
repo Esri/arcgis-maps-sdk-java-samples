@@ -1,0 +1,19 @@
+{
+    "category": "Map",
+    "current_slug": "display-a-map.htm",
+    "description": "Display a map with some imagery",
+    "images": [
+        "DisplayMap.png"
+    ],
+    "keywords": [],
+    "new_slug": "display-a-map.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView"
+    ],
+    "snippets": [
+        "DisplayMapSample.java"
+    ],
+    "title": "Display a Map"
+}

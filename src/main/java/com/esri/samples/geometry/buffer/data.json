@@ -1,0 +1,20 @@
+{
+    "category": "Geometry",
+    "current_slug": "buffer.htm",
+    "description": "Create geodesic and planar buffers around a point",
+    "images": [
+        "Buffer.png"
+    ],
+    "keywords": [],
+    "new_slug": "buffer.htm",
+    "relevant_apis": [
+        "GeometryEngine",
+        "GraphicsOverlay",
+        "Point",
+        "Polygon"
+    ],
+    "snippets": [
+        "BufferSample.java"
+    ],
+    "title": "Buffer"
+}

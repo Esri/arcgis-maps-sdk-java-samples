@@ -1,0 +1,31 @@
+{
+    "category": "Ogc",
+    "current_slug": "display-wfs-layer.htm",
+    "description": "Display a layer from a WFS service, requesting only features for the current extent",
+    "images": [
+        "DisplayWFSLayer.png"
+    ],
+    "keywords": [
+        "OGC,",
+        "WFS,",
+        "layers,",
+        "feature,",
+        "web,",
+        "service,",
+        "browse,",
+        "catalog,",
+        "interaction",
+        "cache"
+    ],
+    "new_slug": "display-wfs-layer.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "NavigationChangedEvent",
+        "QueryParameters",
+        "WfsFeatureTable"
+    ],
+    "snippets": [
+        "DisplayWFSLayerSample.java"
+    ],
+    "title": "Display WFS layer"
+}
