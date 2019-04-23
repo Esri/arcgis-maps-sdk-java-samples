@@ -30,17 +30,11 @@ import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
 import com.esri.arcgisruntime.mapping.view.OrbitLocationCameraController;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
-import com.esri.arcgisruntime.symbology.SceneSymbol;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
 import javafx.application.Application;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Background;

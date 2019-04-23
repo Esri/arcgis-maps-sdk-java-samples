@@ -1,4 +1,4 @@
-<h1>Display WFS layer</h1>
+<h1>Display WFS Layer</h1>
 
 <p>Display a layer from a WFS service, requesting only features for the current extent.</p>
 
