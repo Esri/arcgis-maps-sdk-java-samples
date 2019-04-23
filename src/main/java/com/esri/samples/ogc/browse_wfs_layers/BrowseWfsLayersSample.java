@@ -93,9 +93,7 @@ public class BrowseWfsLayersSample extends Application {
     label.setStyle("-fx-font-size:14px; -fx-text-fill: white;");
     label.setVisible(false);
 
-    checkBox.setOnAction(event -> {
-      label.setVisible(checkBox.isSelected());
-    });
+    checkBox.setOnAction(event -> label.setVisible(checkBox.isSelected()));
 
     // create a list to hold the names of the bookmarks
     ListView<WfsLayerInfo> wfsLayerNamesListView = new ListView<>();
