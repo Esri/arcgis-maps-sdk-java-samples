@@ -37,8 +37,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
@@ -57,7 +55,6 @@ import java.util.Random;
 public class BrowseWfsLayersSample extends Application {
 
   private MapView mapView;
-  private CheckBox checkBox;
   private ArcGISMap map;
   private ProgressIndicator progressIndicator;
 
@@ -82,18 +79,6 @@ public class BrowseWfsLayersSample extends Application {
     controlsVBox.setPadding(new Insets(10.0));
     controlsVBox.setMaxSize(170, 200);
     controlsVBox.getStyleClass().add("panel-region");
-
-    // create a check box to swap coordinate order
-    checkBox = new CheckBox("Swap coordinate order");
-    checkBox.setMaxWidth(Double.MAX_VALUE);
-    checkBox.setWrapText(true);
-
-    // create a label to display when checkbox is active: the WFSLayerInfos in this sample do not require coordinate swapping to display
-    Label label = new Label("Data in this sample doesn't require coord swapping to display. Uncheck to display data.");
-    label.setStyle("-fx-font-size:14px; -fx-text-fill: white;");
-    label.setVisible(false);
-
-    checkBox.setOnAction(event -> label.setVisible(checkBox.isSelected()));
 
     // create a list to hold the names of the bookmarks
     ListView<WfsLayerInfo> wfsLayerNamesListView = new ListView<>();
@@ -144,10 +129,10 @@ public class BrowseWfsLayersSample extends Application {
       updateMap(wfsLayerNamesListView.getSelectionModel().getSelectedItem());
     });
 
-    // add the list view, button and check box to the control panel
-    controlsVBox.getChildren().addAll(wfsLayerNamesListView, checkBox);
+    // add the list view to the control panel
+    controlsVBox.getChildren().addAll(wfsLayerNamesListView);
     // add the mapview to the stackpane
-    stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator, label);
+    stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
     StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
     StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
   }
@@ -168,9 +153,8 @@ public class BrowseWfsLayersSample extends Application {
 
     // set the feature request mode to manual. The table must be manually populated as panning and zooming won't request features automatically.
     wfsFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
-    // define the coordinate order for the WFS service. NO_SWAP will keep the co-ordinates in the order they are retrieved from the WFS service; SWAP will reverse the order.
-    // note: the data in this sample does not need swapped, however, other WFS service data may require it.
-    wfsFeatureTable.setAxisOrder(checkBox.isSelected() ? OgcAxisOrder.SWAP : OgcAxisOrder.NO_SWAP);
+    // define the coordinate order for the WFS service
+    wfsFeatureTable.setAxisOrder(OgcAxisOrder.NO_SWAP);
 
     // create a feature layer to visualize the WFS features
     FeatureLayer wfsFeatureLayer = new FeatureLayer(wfsFeatureTable);
