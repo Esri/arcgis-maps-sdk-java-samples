@@ -1,4 +1,4 @@
-<h1>﻿Load WFS with XML query</h1>
+<h1>Load WFS with XML query</h1>
 
 <p>Load a WFS feature table using an XML query.</p>
 
