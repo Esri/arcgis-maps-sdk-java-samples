@@ -18,7 +18,6 @@ package com.esri.samples.scene.orbit_the_camera_around_an_object;
 
 import java.io.File;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
@@ -79,7 +78,6 @@ public class OrbitTheCameraAroundAnObjectController {
       SimpleRenderer renderer = new SimpleRenderer();
       renderer.getSceneProperties().setHeadingExpression("[HEADING]");
       renderer.getSceneProperties().setPitchExpression("[PITCH]");
-      renderer.getSceneProperties().setRollExpression("[ROLL]");
       sceneGraphicsOverlay.setRenderer(renderer);
 
       // create a graphic of a plane model

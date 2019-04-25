@@ -1,4 +1,4 @@
-<h2>Simple Renderer</h2>
+<h1>Simple Renderer</h1>
 
 <p>Set default symbols for all graphics in an overlay.</p>
 
