@@ -40,17 +40,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class BrowseWfsLayersSample extends Application {
 
@@ -73,16 +66,9 @@ public class BrowseWfsLayersSample extends Application {
     stage.setScene(scene);
     stage.show();
 
-    // create a control panel
-    VBox controlsVBox = new VBox(6);
-    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
-    controlsVBox.setPadding(new Insets(10.0));
-    controlsVBox.setMaxSize(170, 200);
-    controlsVBox.getStyleClass().add("panel-region");
-
-    // create a list to hold the names of the bookmarks
+    // create a list view to show all of the layers in a WFS service
     ListView<WfsLayerInfo> wfsLayerNamesListView = new ListView<>();
-    wfsLayerNamesListView.setMaxHeight(160);
+    wfsLayerNamesListView.setMaxSize(200, 160);
 
     // create a progress indicator
     progressIndicator = new ProgressIndicator();
@@ -125,16 +111,14 @@ public class BrowseWfsLayersSample extends Application {
     });
 
     // load the selected layer from the list view when the layer is selected
-    wfsLayerNamesListView.getSelectionModel().selectedItemProperty().addListener(observable -> {
-      updateMap(wfsLayerNamesListView.getSelectionModel().getSelectedItem());
-    });
+    wfsLayerNamesListView.getSelectionModel().selectedItemProperty().addListener(observable ->
+      updateMap(wfsLayerNamesListView.getSelectionModel().getSelectedItem())
+    );
 
-    // add the list view to the control panel
-    controlsVBox.getChildren().addAll(wfsLayerNamesListView);
-    // add the mapview to the stackpane
-    stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
-    StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-    StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+    // add the controls to the stack pane
+    stackPane.getChildren().addAll(mapView, wfsLayerNamesListView, progressIndicator);
+    StackPane.setAlignment(wfsLayerNamesListView, Pos.TOP_LEFT);
+    StackPane.setMargin(wfsLayerNamesListView, new Insets(10));
   }
 
   /**
@@ -169,38 +153,19 @@ public class BrowseWfsLayersSample extends Application {
     wfsFeatureTable.addDoneLoadingListener(()->{
       switch (wfsFeatureTable.getGeometryType()) {
         case POINT:
-          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, randomColor(), 4)));
+          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xff00f5ff, 4)));
           break;
         case POLYGON:
-          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, randomColor(), null)));
+          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xfff8ff00, null)));
           break;
         case POLYLINE:
-          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, randomColor(), 2)));
+          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xffff0000, 2)));
           break;
       }
     });
 
     // add the layer to the map's operational layers
     map.getOperationalLayers().add(wfsFeatureLayer);
-  }
-
-  /**
-   * Returns a random hex color code value from a preset list.
-   */
-  private Integer randomColor() {
-
-    ArrayList<Integer> colorList = new ArrayList<>();
-    colorList.add(0xff0000ff); // blue
-    colorList.add(0xff00f5ff); // light blue
-    colorList.add(0xff00ff00); // green
-    colorList.add(0xfff8ff00); // yellow
-    colorList.add(0xffffa600); // orange
-    colorList.add(0xffff0000); // red
-    colorList.add(0xffff00bd); // magenta
-    colorList.add(0xff9400ff); // purple
-
-    Random random = new Random();
-    return colorList.get(random.nextInt(colorList.size()));
   }
 
   /**
