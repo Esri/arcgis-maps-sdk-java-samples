@@ -25,6 +25,7 @@ import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
+import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
 public class GetElevationAtAPointSample extends Application {
@@ -63,6 +64,9 @@ public class GetElevationAtAPointSample extends Application {
             surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
             scene.setBaseSurface(surface);
 
+            // add a camera and initial camera position
+            Camera camera = new Camera(28.42, 83.9, 10000.0, 10.0, 80.0, 0.0);
+            sceneView.setViewpointCamera(camera);
         }
 
         catch (Exception e){
