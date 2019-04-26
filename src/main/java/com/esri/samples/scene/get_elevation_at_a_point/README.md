@@ -10,7 +10,7 @@ Knowing the elevation at a given point in a landscape can aid in navigation, pla
 
 ## How to use the sample
 
-Tap anywhere on the surface to get the elevation at that point. Elevation is reported in meters since the scene view is in WGS84.
+Click anywhere on the surface to get the elevation at that point. Elevation is reported in meters since the scene view is in WGS84.
 
 ## How it works
 
