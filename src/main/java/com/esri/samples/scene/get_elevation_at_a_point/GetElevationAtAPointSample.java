@@ -16,7 +16,10 @@
 
 package com.esri.samples.scene.get_elevation_at_a_point;
 
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -27,6 +30,7 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class GetElevationAtAPointSample extends Application {
 
@@ -64,9 +68,32 @@ public class GetElevationAtAPointSample extends Application {
             surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
             scene.setBaseSurface(surface);
 
+            // create a point symbol to mark where elevation is being measured
+            SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
+
+            // create a graphics overlay
+            GraphicsOverlay graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
+            sceneView.getGraphicsOverlays().add(graphicsOverlay);
+
             // add a camera and initial camera position
             Camera camera = new Camera(28.42, 83.9, 10000.0, 10.0, 80.0, 0.0);
             sceneView.setViewpointCamera(camera);
+
+            // create listener to handle clicked
+            sceneView.setOnMouseClicked(event -> {
+
+                // clear any existing graphics from the graphics overlay
+                graphicsOverlay.getGraphics().clear();
+
+                // get the clicked scene point
+                Point2D screenpoint = new Point2D(event.getX(), event.getY());
+
+                // convert the screen point to a point on the surface
+                Point surfacePoint = sceneView.screenToBaseSurface(screenpoint);
+
+                
+
+            });
         }
 
         catch (Exception e){
@@ -97,7 +124,5 @@ public class GetElevationAtAPointSample extends Application {
 
         Application.launch(args);
     }
-
-
 
 }
