@@ -17,10 +17,12 @@
 package com.esri.samples.scene.get_elevation_at_a_point;
 
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -82,16 +84,28 @@ public class GetElevationAtAPointSample extends Application {
             // create listener to handle clicked
             sceneView.setOnMouseClicked(event -> {
 
-                // clear any existing graphics from the graphics overlay
-                graphicsOverlay.getGraphics().clear();
-
                 // get the clicked scene point
                 Point2D screenpoint = new Point2D(event.getX(), event.getY());
 
                 // convert the screen point to a point on the surface
                 Point surfacePoint = sceneView.screenToBaseSurface(screenpoint);
 
-                
+                // check that the point is on the surface, and primary button was clicked
+                if (surfacePoint != null && event.getButton() == MouseButton.PRIMARY){
+
+                    // clear any existing graphics from the graphics overlay
+                    graphicsOverlay.getGraphics().clear();
+
+                    // create a new graphic at the surface point and add it to the graphics overlay
+
+                    Graphic surfacePointGraphic = new Graphic(surfacePoint, circleSymbol);
+                    graphicsOverlay.getGraphics().add(surfacePointGraphic);
+
+                    // get the surface elevation at the surface point
+
+
+                    // display a marker
+                }
 
             });
         }
