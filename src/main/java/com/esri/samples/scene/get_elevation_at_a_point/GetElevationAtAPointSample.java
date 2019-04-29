@@ -115,7 +115,7 @@ public class GetElevationAtAPointSample extends Application {
                 Point surfacePoint = sceneView.screenToBaseSurface(screenPoint);
 
                 // check that the point is on the surface, and primary button was clicked
-                if (surfacePoint != null && event.getButton() == MouseButton.PRIMARY) {
+                if (surfacePoint != null && event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
 
                     // clear any existing graphics from the graphics overlay
                     graphicsOverlay.getGraphics().clear();
