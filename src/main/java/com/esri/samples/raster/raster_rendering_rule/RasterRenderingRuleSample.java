@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -22,6 +23,7 @@ import java.util.List;
 public class RasterRenderingRuleSample extends Application {
 
     private MapView mapView;
+    private ComboBox<String> renderingRuleDropDownMenu;
 
     @Override
     public void start(Stage stage) {
@@ -30,16 +32,18 @@ public class RasterRenderingRuleSample extends Application {
             StackPane stackPane = new StackPane();
             Scene scene = new Scene(stackPane);
 
-            // create listview of rendering rules
-            ListView<String> renderingRuleInfoListView = new ListView<>(FXCollections.observableArrayList());
-            renderingRuleInfoListView.setMaxSize(250, 150);
-
             // set title, size, and add scene to stage
             stage.setTitle("Raster Rendering Rule Sample");
             stage.setWidth(800);
             stage.setHeight(700);
             stage.setScene(scene);
             stage.show();
+
+            // create drop down menu of Rendering Rules
+            renderingRuleDropDownMenu = new ComboBox<>();
+            renderingRuleDropDownMenu.setPromptText("Select a Raster Rendering Rule");
+            renderingRuleDropDownMenu.setEditable(false);
+            renderingRuleDropDownMenu.setMaxWidth(260.0);
 
             // create a Streets BaseMap
             ArcGISMap map = new ArcGISMap(Basemap.createStreets());
@@ -56,25 +60,30 @@ public class RasterRenderingRuleSample extends Application {
 
             imageServiceRaster.loadAsync();
 
-            // zoom to extent of the raster service
+            // add event listener to loading of Image Service Raster and wait until loaded
             imageRasterLayer.addDoneLoadingListener(() -> {
                     if (imageRasterLayer.getLoadStatus() == LoadStatus.LOADED){
                         // zoom to extent of the raster
                        mapView.setViewpointGeometryAsync(imageServiceRaster.getServiceInfo().getFullExtent());
-                        // get the predefined rendering rules added to the dropdown
 
+                       // get the predefined rendering rules added to the dropdown
                         List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
                         for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
-                            System.out.println("Description:" + renderingRuleInfo.getDescription());
-                            System.out.println("Name:" + renderingRuleInfo.getName());
-                            renderingRuleInfoListView.getItems().add(renderingRuleInfo.getName());
+                            String renderingRuleName = renderingRuleInfo.getName();
+                            renderingRuleDropDownMenu.getItems().add(renderingRuleName);
                         }
+
+                        // change the renderingRule when selected and render the raster
+                        renderingRuleDropDownMenu.getSelectionModel().selectedItemProperty().addListener(o -> {
+                            System.out.println(renderingRuleDropDownMenu.getSelectionModel().getSelectedItem());
+                        });
+
 
 
                         // clear all rasters
                         map.getOperationalLayers().clear();
                         // assume aenderingRuleName = RFTAspectColor [1]
-                        RenderingRuleInfo renderRuleInfo = imageServiceRaster.getServiceInfo().getRenderingRuleInfos().get(2);
+                        RenderingRuleInfo renderRuleInfo = imageServiceRaster.getServiceInfo().getRenderingRuleInfos().get(3);
                         // create a rendering rule object using the rendering rule info
                         RenderingRule renderingRule = new RenderingRule(renderRuleInfo);
                         // create a new image service raster
@@ -90,9 +99,9 @@ public class RasterRenderingRuleSample extends Application {
 
 
             // add the map view to the stack pane
-            stackPane.getChildren().addAll(mapView, renderingRuleInfoListView);
-            StackPane.setAlignment(renderingRuleInfoListView, Pos.TOP_LEFT);
-            StackPane.setMargin(renderingRuleInfoListView, new Insets(10, 0, 0, 10));
+            stackPane.getChildren().addAll(mapView, renderingRuleDropDownMenu);
+            StackPane.setAlignment(renderingRuleDropDownMenu, Pos.TOP_LEFT);
+            StackPane.setMargin(renderingRuleDropDownMenu, new Insets(10, 0, 0, 10));
         } catch (Exception e) {
             // on any error, display the stack trace.
             e.printStackTrace();
