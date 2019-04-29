@@ -90,7 +90,7 @@ public class RasterRenderingRuleSample extends Application {
 
                     // listen to selection in the drop-down menu
                     renderingRuleDropDownMenu.getSelectionModel().selectedItemProperty().addListener(o -> {
-                        // get the selected rendering rule
+                        // get the index of the selected rendering rule
                         int selectedRenderingRuleIndex = renderingRuleDropDownMenu.getSelectionModel().getSelectedIndex();
                         // apply the selected rendering rule
                         applyRenderingRule(renderingRuleInfos, selectedRenderingRuleIndex);
@@ -110,7 +110,7 @@ public class RasterRenderingRuleSample extends Application {
 
     /*
      * Populate the drop down menu with the rendering rule names
-     * @param renderingRuleInfos list of rendering rule infos to add to the drop-down
+     * @param renderingRuleInfos    list of rendering rule infos to add to the drop-down
      */
 
     private void populateDropDownMenu(List<RenderingRuleInfo> renderingRuleInfos){
@@ -124,7 +124,7 @@ public class RasterRenderingRuleSample extends Application {
 
     /*
      * Apply a rendering rule on a Raster and add it to the map
-     * @param renderingRuleInfos    list of rendering rule infos to select from
+     * @param renderingRuleInfos    list of rendering rule infos to select desired rule from from
      * @param index                 selected drop-down menu item representing the rule to apply
      */
 
