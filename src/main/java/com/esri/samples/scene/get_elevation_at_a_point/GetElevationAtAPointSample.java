@@ -18,11 +18,13 @@ package com.esri.samples.scene.get_elevation_at_a_point;
 
 import java.util.concurrent.ExecutionException;
 
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
@@ -68,8 +70,7 @@ public class GetElevationAtAPointSample extends Application {
 
             // create a control panel
             VBox controlsVBox = new VBox(6);
-            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY,
-                    Insets.EMPTY)));
+            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY, Insets.EMPTY)));
             controlsVBox.setPadding(new Insets(10.0));
             controlsVBox.setMaxSize(220, 90);
             controlsVBox.getStyleClass().add("panel-region");
@@ -134,7 +135,9 @@ public class GetElevationAtAPointSample extends Application {
                                 elevationLabel.setText("Elevation: " + Math.round(elevation) + " m");
 
                             } catch (InterruptedException | ExecutionException e) {
-                                e.printStackTrace();
+                                new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
+//                                Alert alert = new Alert(Alert.AlertType.ERROR, "Error: Could not retrieve elevation at this point. Please make sure you selected a valid surface.");
+//                                alert.show();
                             }
                         }
                     );

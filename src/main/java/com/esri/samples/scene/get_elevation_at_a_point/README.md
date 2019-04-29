@@ -2,7 +2,7 @@
 
 Get the elevation for a given point on a surface in a scene.
 
-![Elevation at point app](elevation-at-point.png)
+![Elevation at point app](GetElevationAtAPoint.png)
 
 ## Use case
 
