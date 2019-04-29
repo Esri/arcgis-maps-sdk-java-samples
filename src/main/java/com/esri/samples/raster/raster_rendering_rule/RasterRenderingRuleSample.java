@@ -9,7 +9,11 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
 import com.esri.arcgisruntime.raster.RenderingRule;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -27,6 +31,8 @@ public class RasterRenderingRuleSample extends Application {
             Scene scene = new Scene(stackPane);
 
             // create listview of rendering rules
+            ListView<String> renderingRuleInfoListView = new ListView<>(FXCollections.observableArrayList());
+            renderingRuleInfoListView.setMaxSize(250, 150);
 
             // set title, size, and add scene to stage
             stage.setTitle("Raster Rendering Rule Sample");
@@ -61,6 +67,7 @@ public class RasterRenderingRuleSample extends Application {
                         for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
                             System.out.println("Description:" + renderingRuleInfo.getDescription());
                             System.out.println("Name:" + renderingRuleInfo.getName());
+                            renderingRuleInfoListView.getItems().add(renderingRuleInfo.getName());
                         }
 
 
@@ -83,7 +90,9 @@ public class RasterRenderingRuleSample extends Application {
 
 
             // add the map view to the stack pane
-            stackPane.getChildren().addAll(mapView);
+            stackPane.getChildren().addAll(mapView, renderingRuleInfoListView);
+            StackPane.setAlignment(renderingRuleInfoListView, Pos.TOP_LEFT);
+            StackPane.setMargin(renderingRuleInfoListView, new Insets(10, 0, 0, 10));
         } catch (Exception e) {
             // on any error, display the stack trace.
             e.printStackTrace();
