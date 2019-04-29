@@ -127,16 +127,16 @@ public class GetElevationAtAPointSample extends Application {
                     // get the surface elevation at the surface point
                     ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(surfacePoint);
                     elevationFuture.addDoneListener(() -> {
-                                try {
-                                    Double elevation = elevationFuture.get();
+                            try {
+                                Double elevation = elevationFuture.get();
 
-                                    // update the label text with the new elevation
-                                    elevationLabel.setText("Elevation: " + Math.round(elevation) + " m");
+                                // update the label text with the new elevation
+                                elevationLabel.setText("Elevation: " + Math.round(elevation) + " m");
 
-                                } catch (InterruptedException | ExecutionException e) {
-                                    e.printStackTrace();
-                                }
+                            } catch (InterruptedException | ExecutionException e) {
+                                e.printStackTrace();
                             }
+                        }
                     );
                 }
             });
