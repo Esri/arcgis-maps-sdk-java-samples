@@ -108,11 +108,11 @@ public class GetElevationAtAPointSample extends Application {
             // create listener to handle clicked
             sceneView.setOnMouseClicked(event -> {
 
-                // get the clicked scene point
-                Point2D screenpoint = new Point2D(event.getX(), event.getY());
+                // get the clicked screenPoint
+                Point2D screenPoint = new Point2D(event.getX(), event.getY());
 
                 // convert the screen point to a point on the surface
-                Point surfacePoint = sceneView.screenToBaseSurface(screenpoint);
+                Point surfacePoint = sceneView.screenToBaseSurface(screenPoint);
 
                 // check that the point is on the surface, and primary button was clicked
                 if (surfacePoint != null && event.getButton() == MouseButton.PRIMARY) {
@@ -146,7 +146,6 @@ public class GetElevationAtAPointSample extends Application {
         }
 
     }
-
 
     /**
      * Stops and releases all resources used in application.
