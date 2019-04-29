@@ -1,6 +1,7 @@
 package com.esri.samples.raster.raster_rendering_rule;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -41,11 +42,19 @@ public class RasterRenderingRuleSample extends Application {
             final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
             map.getOperationalLayers().add(imageRasterLayer);
 
-//            imageServiceRaster.loadAsync();
-//            imageServiceRaster.addDoneLoadingListener(() -> {
-//            });
-//
-//
+            imageServiceRaster.loadAsync();
+
+            // zoom to extent of the raster service
+            imageRasterLayer.addDoneLoadingListener(() -> {
+                    if (imageRasterLayer.getLoadStatus() == LoadStatus.LOADED){
+                        // zoom to extent of the raster
+                       mapView.setViewpointGeometryAsync(imageServiceRaster.getServiceInfo().getFullExtent());
+                        // get the predefined rendering rules added to the dropdown
+                    }
+            });
+
+
+            // add the map view to the stack pane
             stackPane.getChildren().addAll(mapView);
         } catch (Exception e) {
             // on any error, display the stack trace.
