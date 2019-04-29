@@ -8,13 +8,12 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
 import com.esri.arcgisruntime.raster.RenderingRule;
+
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -25,6 +24,7 @@ public class RasterRenderingRuleSample extends Application {
 
     private MapView mapView;
     private ComboBox<String> renderingRuleDropDownMenu;
+    final String imageServiceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
 
     @Override
     public void start(Stage stage) {
@@ -54,8 +54,7 @@ public class RasterRenderingRuleSample extends Application {
             mapView.setMap(map);
 
             // create an Image Service Raster as a raster layer and add to map
-            final ImageServiceRaster imageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline" +
-                    ".com/arcgis/rest/services/CharlotteLAS/ImageServer");
+            final ImageServiceRaster imageServiceRaster = new ImageServiceRaster(imageServiceUrl);
             final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
             map.getOperationalLayers().add(imageRasterLayer);
 
@@ -72,14 +71,11 @@ public class RasterRenderingRuleSample extends Application {
 
                         // build a rendering rule hashmap and add the names of the rules to the drop down menu
                         HashMap<String, RenderingRuleInfo> renderingRuleInfoHashMap = new HashMap<>();
-
                         for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
                             // get the name of the rendering rule
                             String renderingRuleName = renderingRuleInfo.getName();
-
                             // add the rendering rule to the hash map with the name as key
                             renderingRuleInfoHashMap.put(renderingRuleName, renderingRuleInfo);
-
                             // add the name of the rendering rule to the drop-down menu
                             renderingRuleDropDownMenu.getItems().add(renderingRuleName);
                         }
@@ -95,8 +91,7 @@ public class RasterRenderingRuleSample extends Application {
                             // create a rendering rule object using the rendering rule info
                             RenderingRule renderingRule = new RenderingRule(selectedRenderingRuleInfo);
                             // create a new image service raster
-                            ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline" +
-                                    ".com/arcgis/rest/services/CharlotteLAS/ImageServer");
+                            ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster(imageServiceUrl);
                             // apply the rendering rule
                             appliedImageServiceRaster.setRenderingRule(renderingRule);
                             RasterLayer rasterLayer = new RasterLayer(appliedImageServiceRaster);
