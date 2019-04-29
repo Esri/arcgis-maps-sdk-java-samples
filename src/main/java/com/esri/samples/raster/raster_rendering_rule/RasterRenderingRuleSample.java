@@ -40,7 +40,7 @@ public class RasterRenderingRuleSample extends Application {
     private ComboBox<String> renderingRuleDropDownMenu;
     private MapView mapView;
     private ArcGISMap map;
-    final String imageServiceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
+    private final String imageServiceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
 
     @Override
     public void start(Stage stage) {
