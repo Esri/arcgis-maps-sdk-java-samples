@@ -18,6 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class RasterRenderingRuleSample extends Application {
@@ -66,37 +67,43 @@ public class RasterRenderingRuleSample extends Application {
                         // zoom to extent of the raster
                        mapView.setViewpointGeometryAsync(imageServiceRaster.getServiceInfo().getFullExtent());
 
-                       // get the predefined rendering rules added to the dropdown
+                        // get the predefined rendering rules
                         List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
+
+                        // build a rendering rule hashmap and add the names of the rules to the drop down menu
+                        HashMap<String, RenderingRuleInfo> renderingRuleInfoHashMap = new HashMap<>();
+
                         for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
+                            // get the name of the rendering rule
                             String renderingRuleName = renderingRuleInfo.getName();
+
+                            // add the rendering rule to the hash map with the name as key
+                            renderingRuleInfoHashMap.put(renderingRuleName, renderingRuleInfo);
+
+                            // add the name of the rendering rule to the drop-down menu
                             renderingRuleDropDownMenu.getItems().add(renderingRuleName);
                         }
 
                         // change the renderingRule when selected and render the raster
                         renderingRuleDropDownMenu.getSelectionModel().selectedItemProperty().addListener(o -> {
-                            System.out.println(renderingRuleDropDownMenu.getSelectionModel().getSelectedItem());
+                            // save the selected rendering rule name to a string
+                            String selectedRenderingRuleName = renderingRuleDropDownMenu.getSelectionModel().getSelectedItem();
+                            // find the appropriate rendering rule in the hash map of rendering rule infos
+                            RenderingRuleInfo selectedRenderingRuleInfo = renderingRuleInfoHashMap.get(selectedRenderingRuleName);
+                            // clear all rasters
+                            map.getOperationalLayers().clear();
+                            // create a rendering rule object using the rendering rule info
+                            RenderingRule renderingRule = new RenderingRule(selectedRenderingRuleInfo);
+                            // create a new image service raster
+                            ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline" +
+                                    ".com/arcgis/rest/services/CharlotteLAS/ImageServer");
+                            // apply the rendering rule
+                            appliedImageServiceRaster.setRenderingRule(renderingRule);
+                            RasterLayer rasterLayer = new RasterLayer(appliedImageServiceRaster);
+                            map.getOperationalLayers().add(rasterLayer);
                         });
-
-
-
-                        // clear all rasters
-                        map.getOperationalLayers().clear();
-                        // assume aenderingRuleName = RFTAspectColor [1]
-                        RenderingRuleInfo renderRuleInfo = imageServiceRaster.getServiceInfo().getRenderingRuleInfos().get(3);
-                        // create a rendering rule object using the rendering rule info
-                        RenderingRule renderingRule = new RenderingRule(renderRuleInfo);
-                        // create a new image service raster
-                        ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline" +
-                                ".com/arcgis/rest/services/CharlotteLAS/ImageServer");
-                        // apply the rendering rule
-                        appliedImageServiceRaster.setRenderingRule(renderingRule);
-                        RasterLayer rasterLayer = new RasterLayer(appliedImageServiceRaster);
-                        map.getOperationalLayers().add(rasterLayer);
-
                     }
             });
-
 
             // add the map view to the stack pane
             stackPane.getChildren().addAll(mapView, renderingRuleDropDownMenu);
