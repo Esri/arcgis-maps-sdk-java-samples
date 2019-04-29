@@ -22,9 +22,11 @@ import java.util.List;
 
 public class RasterRenderingRuleSample extends Application {
 
-    private MapView mapView;
     private ComboBox<String> renderingRuleDropDownMenu;
+    private MapView mapView;
+    private ArcGISMap map;
     final String imageServiceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
+    private HashMap<String, RenderingRuleInfo> renderingRuleInfoHashMap;
 
     @Override
     public void start(Stage stage) {
@@ -47,7 +49,7 @@ public class RasterRenderingRuleSample extends Application {
             renderingRuleDropDownMenu.setMaxWidth(260.0);
 
             // create a Streets BaseMap
-            ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+            map = new ArcGISMap(Basemap.createStreets());
 
             // add the map to a new map view
             mapView = new MapView();
@@ -70,7 +72,7 @@ public class RasterRenderingRuleSample extends Application {
                         List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
 
                         // build a rendering rule hashmap and add the names of the rules to the drop down menu
-                        HashMap<String, RenderingRuleInfo> renderingRuleInfoHashMap = new HashMap<>();
+                        renderingRuleInfoHashMap = new HashMap<>();
                         for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
                             // get the name of the rendering rule
                             String renderingRuleName = renderingRuleInfo.getName();
@@ -80,22 +82,12 @@ public class RasterRenderingRuleSample extends Application {
                             renderingRuleDropDownMenu.getItems().add(renderingRuleName);
                         }
 
-                        // change the renderingRule when selected and render the raster
+                        // listen to selection in the drop-down menu
                         renderingRuleDropDownMenu.getSelectionModel().selectedItemProperty().addListener(o -> {
                             // save the selected rendering rule name to a string
                             String selectedRenderingRuleName = renderingRuleDropDownMenu.getSelectionModel().getSelectedItem();
-                            // find the appropriate rendering rule in the hash map of rendering rule infos
-                            RenderingRuleInfo selectedRenderingRuleInfo = renderingRuleInfoHashMap.get(selectedRenderingRuleName);
-                            // clear all rasters
-                            map.getOperationalLayers().clear();
-                            // create a rendering rule object using the rendering rule info
-                            RenderingRule renderingRule = new RenderingRule(selectedRenderingRuleInfo);
-                            // create a new image service raster
-                            ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster(imageServiceUrl);
-                            // apply the rendering rule
-                            appliedImageServiceRaster.setRenderingRule(renderingRule);
-                            RasterLayer rasterLayer = new RasterLayer(appliedImageServiceRaster);
-                            map.getOperationalLayers().add(rasterLayer);
+                            // apply the selected rendering rule
+                            applyRenderingRule(selectedRenderingRuleName);
                         });
                     }
             });
@@ -108,6 +100,27 @@ public class RasterRenderingRuleSample extends Application {
             // on any error, display the stack trace.
             e.printStackTrace();
         }
+    }
+
+
+    /*
+    * Apply a rendering rule on a Raster and add it to the map
+    * @param renderingRuleName name
+     */
+
+    private void applyRenderingRule(String renderingRuleName){
+        // find the appropriate rendering rule info in the hash map of rendering rule infos
+        RenderingRuleInfo selectedRenderingRuleInfo = renderingRuleInfoHashMap.get(renderingRuleName);
+        // clear all rasters
+        map.getOperationalLayers().clear();
+        // create a rendering rule object using the rendering rule info
+        RenderingRule renderingRule = new RenderingRule(selectedRenderingRuleInfo);
+        // create a new image service raster
+        ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster(imageServiceUrl);
+        // apply the rendering rule
+        appliedImageServiceRaster.setRenderingRule(renderingRule);
+        RasterLayer rasterLayer = new RasterLayer(appliedImageServiceRaster);
+        map.getOperationalLayers().add(rasterLayer);
     }
 
     /**
