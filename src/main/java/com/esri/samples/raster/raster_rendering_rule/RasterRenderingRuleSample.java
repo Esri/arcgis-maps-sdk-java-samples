@@ -1,15 +1,19 @@
 package com.esri.samples.raster.raster_rendering_rule;
 
+import com.esri.arcgisruntime.arcgisservices.RenderingRuleInfo;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
+import com.esri.arcgisruntime.raster.RenderingRule;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class RasterRenderingRuleSample extends Application {
 
@@ -21,6 +25,8 @@ public class RasterRenderingRuleSample extends Application {
             // create stack pane and application scene
             StackPane stackPane = new StackPane();
             Scene scene = new Scene(stackPane);
+
+            // create listview of rendering rules
 
             // set title, size, and add scene to stage
             stage.setTitle("Raster Rendering Rule Sample");
@@ -38,7 +44,7 @@ public class RasterRenderingRuleSample extends Application {
 
             // create an Image Service Raster as a raster layer and add to map
             final ImageServiceRaster imageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline" +
-                    ".com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
+                    ".com/arcgis/rest/services/CharlotteLAS/ImageServer");
             final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
             map.getOperationalLayers().add(imageRasterLayer);
 
@@ -50,6 +56,28 @@ public class RasterRenderingRuleSample extends Application {
                         // zoom to extent of the raster
                        mapView.setViewpointGeometryAsync(imageServiceRaster.getServiceInfo().getFullExtent());
                         // get the predefined rendering rules added to the dropdown
+
+                        List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
+                        for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
+                            System.out.println("Description:" + renderingRuleInfo.getDescription());
+                            System.out.println("Name:" + renderingRuleInfo.getName());
+                        }
+
+
+                        // clear all rasters
+                        map.getOperationalLayers().clear();
+                        // assume aenderingRuleName = RFTAspectColor [1]
+                        RenderingRuleInfo renderRuleInfo = imageServiceRaster.getServiceInfo().getRenderingRuleInfos().get(2);
+                        // create a rendering rule object using the rendering rule info
+                        RenderingRule renderingRule = new RenderingRule(renderRuleInfo);
+                        // create a new image service raster
+                        ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline" +
+                                ".com/arcgis/rest/services/CharlotteLAS/ImageServer");
+                        // apply the rendering rule
+                        appliedImageServiceRaster.setRenderingRule(renderingRule);
+                        RasterLayer rasterLayer = new RasterLayer(appliedImageServiceRaster);
+                        map.getOperationalLayers().add(rasterLayer);
+
                     }
             });
 
