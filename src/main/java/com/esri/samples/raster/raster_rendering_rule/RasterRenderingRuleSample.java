@@ -64,32 +64,27 @@ public class RasterRenderingRuleSample extends Application {
 
             // add event listener to loading of Image Service Raster and wait until loaded
             imageRasterLayer.addDoneLoadingListener(() -> {
-                    if (imageRasterLayer.getLoadStatus() == LoadStatus.LOADED){
-                        // zoom to extent of the raster
-                       mapView.setViewpointGeometryAsync(imageServiceRaster.getServiceInfo().getFullExtent());
+                if (imageRasterLayer.getLoadStatus() == LoadStatus.LOADED){
+                    // zoom to extent of the raster
+                    mapView.setViewpointGeometryAsync(imageServiceRaster.getServiceInfo().getFullExtent());
 
-                        // get the predefined rendering rules
-                        List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
+                    // get the predefined rendering rules
+                    List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
 
-                        // build a rendering rule hashmap and add the names of the rules to the drop down menu
-                        renderingRuleInfoHashMap = new HashMap<>();
-                        for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
-                            // get the name of the rendering rule
-                            String renderingRuleName = renderingRuleInfo.getName();
-                            // add the rendering rule to the hash map with the name as key
-                            renderingRuleInfoHashMap.put(renderingRuleName, renderingRuleInfo);
-                            // add the name of the rendering rule to the drop-down menu
-                            renderingRuleDropDownMenu.getItems().add(renderingRuleName);
-                        }
+                    //populate the drop down menu with the rendering rule names
+                    populateDropDownMenu(renderingRuleInfos);
 
-                        // listen to selection in the drop-down menu
-                        renderingRuleDropDownMenu.getSelectionModel().selectedItemProperty().addListener(o -> {
-                            // save the selected rendering rule name to a string
-                            String selectedRenderingRuleName = renderingRuleDropDownMenu.getSelectionModel().getSelectedItem();
-                            // apply the selected rendering rule
-                            applyRenderingRule(selectedRenderingRuleName);
-                        });
-                    }
+                    // build a rendering rule hashmap and add the names of the rules to the drop down menu
+                    renderingRuleInfoHashMap = buildRenderingRuleInfoHashMap(renderingRuleInfos);
+
+                    // listen to selection in the drop-down menu
+                    renderingRuleDropDownMenu.getSelectionModel().selectedItemProperty().addListener(o -> {
+                        // save the selected rendering rule name to a string
+                        String selectedRenderingRuleName = renderingRuleDropDownMenu.getSelectionModel().getSelectedItem();
+                        // apply the selected rendering rule
+                        applyRenderingRule(selectedRenderingRuleName);
+                    });
+                }
             });
 
             // add the map view to the stack pane
@@ -102,10 +97,39 @@ public class RasterRenderingRuleSample extends Application {
         }
     }
 
+    /*
+     *   populate the drop down menu with the rendering rule names
+     *   @param renderingRuleInfos list of rendering rule infos to add to the drop-down
+     */
+
+    private void populateDropDownMenu(List<RenderingRuleInfo> renderingRuleInfos){
+        for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
+            // get the name of the rendering rule
+            String renderingRuleName = renderingRuleInfo.getName();
+            // add the name of the rendering rule to the drop-down menu
+            renderingRuleDropDownMenu.getItems().add(renderingRuleName);
+        }
+    }
 
     /*
-    * Apply a rendering rule on a Raster and add it to the map
-    * @param renderingRuleName name
+     * Build a HashMap of rendering rule infos
+     * @param renderingRuleInfos list of rendering rule infos
+     */
+
+    private HashMap<String, RenderingRuleInfo> buildRenderingRuleInfoHashMap(List<RenderingRuleInfo> renderingRuleInfos){
+        HashMap<String, RenderingRuleInfo> result = new HashMap<>();
+        for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
+            // get the name of the rendering rule
+            String renderingRuleName = renderingRuleInfo.getName();
+            // add the rendering rule to the hash map with the name as key
+            result.put(renderingRuleName, renderingRuleInfo);
+        }
+        return result;
+    }
+
+    /*
+     * Apply a rendering rule on a Raster and add it to the map
+     * @param renderingRuleName name
      */
 
     private void applyRenderingRule(String renderingRuleName){
