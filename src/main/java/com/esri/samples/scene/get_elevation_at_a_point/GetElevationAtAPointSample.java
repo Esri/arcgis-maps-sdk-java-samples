@@ -18,7 +18,9 @@ package com.esri.samples.scene.get_elevation_at_a_point;
 
 import java.util.concurrent.ExecutionException;
 
+import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.mapping.view.*;
 import com.esri.arcgisruntime.symbology.MarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
@@ -40,10 +42,6 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.SceneView;
-import com.esri.arcgisruntime.mapping.view.Camera;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
@@ -71,27 +69,10 @@ public class GetElevationAtAPointSample extends Application {
             ArcGISScene scene = new ArcGISScene();
             scene.setBasemap(Basemap.createImagery());
 
-            // create a control panel
-            VBox controlsVBox = new VBox(6);
-            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY, Insets.EMPTY)));
-            controlsVBox.setPadding(new Insets(10.0));
-            controlsVBox.setMaxSize(220, 90);
-            controlsVBox.getStyleClass().add("panel-region");
-
             // add the SceneView and controlsVBox to the stack pane
             sceneView = new SceneView();
             sceneView.setArcGISScene(scene);
-            stackPane.getChildren().addAll(sceneView, controlsVBox);
-            StackPane.setAlignment(controlsVBox, Pos.BOTTOM_CENTER);
-            StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
-
-            // create label to display the elevation
-            Label elevationLabel = new Label("Elevation:");
-            elevationLabel.setFont(new Font(22));
-            elevationLabel.getStyleClass().add("panel-label");
-
-            // add label to the control panel
-            controlsVBox.getChildren().add(elevationLabel);
+            stackPane.getChildren().add(sceneView);
 
             // add base surface for elevation data
             Surface surface = new Surface();
@@ -101,11 +82,12 @@ public class GetElevationAtAPointSample extends Application {
             // create a point symbol to mark where elevation is being measured
             SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
 
+            // create a text symbol to display the elevation of selected points
             TextSymbol elevationTextSymbol = new TextSymbol(20,"",0xFFFF0000,TextSymbol.HorizontalAlignment.CENTER,TextSymbol.VerticalAlignment.MIDDLE);
-            //public TextSymbol(float size, String text, int color, TextSymbol.HorizontalAlignment hAlign, TextSymbol.VerticalAlignment vAlign)
 
             // create a graphics overlay
             GraphicsOverlay graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
+            graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
             sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
             // add a camera and initial camera position
@@ -119,33 +101,45 @@ public class GetElevationAtAPointSample extends Application {
                 Point2D screenPoint = new Point2D(event.getX(), event.getY());
 
                 // convert the screen point to a point on the surface
-                Point surfacePoint = sceneView.screenToBaseSurface(screenPoint);
+                Point relativeSurfacePoint = sceneView.screenToBaseSurface(screenPoint);
 
                 // check that the point is on the surface, and primary button was clicked
-                if (surfacePoint != null && event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
+                if (relativeSurfacePoint != null && event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
 
                     // clear any existing graphics from the graphics overlay
                     graphicsOverlay.getGraphics().clear();
 
-                    // create a new graphic at the surface point and add it to the graphics overlay
-                    Graphic surfacePointGraphic = new Graphic(surfacePoint, circleSymbol);
-                    graphicsOverlay.getGraphics().add(surfacePointGraphic);
-
-
-
-
-
                     // get the surface elevation at the surface point
-                    ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(surfacePoint);
+                    ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(relativeSurfacePoint);
                     elevationFuture.addDoneListener(() -> {
                             try {
+                                // get the surface elevation
                                 Double elevation = elevationFuture.get();
 
-                                // update the label text with the new elevation
-                                elevationLabel.setText("Elevation: " + Math.round(elevation) + " m");
+                                Point trueSurfacePoint = new Point(relativeSurfacePoint.getX(),relativeSurfacePoint.getY(), relativeSurfacePoint.getZ()-elevation);
+                                // create a new graphic at the surface point and add it to the graphics overlay
+                                Graphic surfacePointGraphic = new Graphic(trueSurfacePoint, circleSymbol);
+                                graphicsOverlay.getGraphics().add(surfacePointGraphic);
 
-                                elevationTextSymbol.setText(elevation.toString());
-                                Graphic elevationTextGraphic = new Graphic(surfacePoint, elevationTextSymbol);
+                                // create a point of the end of the polyline
+                                Point endOfPolyline = new Point(trueSurfacePoint.getX(), trueSurfacePoint.getY(), (trueSurfacePoint.getZ()+500), trueSurfacePoint.getSpatialReference());
+
+                                Graphic eolPointGraphic = new Graphic(endOfPolyline, circleSymbol);
+                                graphicsOverlay.getGraphics().add(eolPointGraphic);
+
+                                // create a polyline symbol between the surface point and the end of the polyline
+                    //                PointCollection polyLineStartAndEnd = new PointCollection
+                    //                polyLineStartAndEnd.add(surfacePoint);
+                    //                polyLineStartAndEnd.add(endOfPolyline)
+                    //                Polyline markerPolyline = new Polyline(polyLineStartAndEnd);
+                    //                Graphic polyLineGraphic = new Graphic(markerPolyline);
+                    //                graphicsOverlay.getGraphics().add(polyLineGraphic);
+
+
+
+                                // prepare and place the marker text symbol
+                                elevationTextSymbol.setText((Math.round(elevation * 10d)/10d) + " m");
+                                Graphic elevationTextGraphic = new Graphic(endOfPolyline, elevationTextSymbol);
                                 graphicsOverlay.getGraphics().add(elevationTextGraphic);
 
                             } catch (InterruptedException | ExecutionException e) {
