@@ -16,20 +16,49 @@
 
 package com.esri.samples.editing.edit_and_sync_features;
 
+import com.esri.arcgisruntime.data.TileCache;
+import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.samples.tiledlayers.tile_cache.TileCacheSample;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class EditAndSyncFeaturesSample extends Application {
 
-    private MapView mapView;
+    private Button geodatabaseButton;
 
+    private MapView mapView;
+    private GraphicsOverlay graphicsOverlay;
 
     @Override
     public void start(Stage stage) {
 
         try{
+            // create stack pane and application scene
+            StackPane stackPane = new StackPane();
+            Scene scene = new Scene(stackPane);
 
+            // set title, size and add scene to stage
+            stage.setTitle("Edit and Sync Features Sample");
+            stage.setWidth(800);
+            stage.setHeight(700);
+            stage.setScene(scene);
+            stage.show();
+
+            // create a map view and add a map
+            mapView = new MapView();
+            // create a graphics overlay and symbol to mark the extent
+            graphicsOverlay = new GraphicsOverlay();
+            mapView.getGraphicsOverlays().add(graphicsOverlay);
+
+            // load cached tiles
+            loadTileCache();
 
 //            1. Create a `GeodatabaseSyncTask` from a URL.
 //            1. Use `createDefaultGenerateGeodatabaseParametersAsync(...)` to create `GenerateGeodatabaseParameters` from the `GeodatabaseSyncTask`, passing in an `Envelope` argument.
@@ -41,16 +70,31 @@ public class EditAndSyncFeaturesSample extends Application {
 //            1. Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)` passing the `SyncGeodatabaseParameters` and `Geodatabase` as arguments.
 //            1. Start the `SyncGeodatabaseJob`.
 
+            //
 
 
 
-
+            // add map view to stack pane
+            stackPane.getChildren().add(mapView);
 
         } catch (Exception e) {
             // on any error, display the stack trace
             e.printStackTrace();
         }
     }
+
+    /*
+     * Load local tile cache.
+     */
+    private void loadTileCache(){
+        // use local tile package for the base map
+        TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
+        ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
+        Basemap basemap = new Basemap(tiledLayer);
+        final ArcGISMap map = new ArcGISMap(basemap);
+        mapView.setMap(map);
+    }
+
 
     /**
      * Stops and releases all resources used in application.
