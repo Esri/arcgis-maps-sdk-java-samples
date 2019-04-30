@@ -136,8 +136,6 @@ public class GetElevationAtAPointSample extends Application {
 
                             } catch (InterruptedException | ExecutionException e) {
                                 new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
-//                                Alert alert = new Alert(Alert.AlertType.ERROR, "Error: Could not retrieve elevation at this point. Please make sure you selected a valid surface.");
-//                                alert.show();
                             }
                         }
                     );
