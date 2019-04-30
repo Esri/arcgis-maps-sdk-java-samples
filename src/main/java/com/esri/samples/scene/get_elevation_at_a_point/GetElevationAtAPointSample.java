@@ -18,7 +18,10 @@ package com.esri.samples.scene.get_elevation_at_a_point;
 
 import java.util.concurrent.ExecutionException;
 
+import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.symbology.MarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.TextSymbol;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -98,6 +101,9 @@ public class GetElevationAtAPointSample extends Application {
             // create a point symbol to mark where elevation is being measured
             SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
 
+            TextSymbol elevationTextSymbol = new TextSymbol(20,"",0xFFFF0000,TextSymbol.HorizontalAlignment.CENTER,TextSymbol.VerticalAlignment.MIDDLE);
+            //public TextSymbol(float size, String text, int color, TextSymbol.HorizontalAlignment hAlign, TextSymbol.VerticalAlignment vAlign)
+
             // create a graphics overlay
             GraphicsOverlay graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
             sceneView.getGraphicsOverlays().add(graphicsOverlay);
@@ -125,6 +131,10 @@ public class GetElevationAtAPointSample extends Application {
                     Graphic surfacePointGraphic = new Graphic(surfacePoint, circleSymbol);
                     graphicsOverlay.getGraphics().add(surfacePointGraphic);
 
+
+
+
+
                     // get the surface elevation at the surface point
                     ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(surfacePoint);
                     elevationFuture.addDoneListener(() -> {
@@ -133,6 +143,10 @@ public class GetElevationAtAPointSample extends Application {
 
                                 // update the label text with the new elevation
                                 elevationLabel.setText("Elevation: " + Math.round(elevation) + " m");
+
+                                elevationTextSymbol.setText(elevation.toString());
+                                Graphic elevationTextGraphic = new Graphic(surfacePoint, elevationTextSymbol);
+                                graphicsOverlay.getGraphics().add(elevationTextGraphic);
 
                             } catch (InterruptedException | ExecutionException e) {
                                 new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
