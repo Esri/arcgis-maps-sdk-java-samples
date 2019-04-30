@@ -16,25 +16,32 @@
 
 package com.esri.samples.editing.edit_and_sync_features;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.TileCache;
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
+import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
 import com.esri.samples.tiledlayers.tile_cache.TileCacheSample;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class EditAndSyncFeaturesSample extends Application {
 
-    private Button geodatabaseButton;
-
     private MapView mapView;
-    private GraphicsOverlay graphicsOverlay;
 
     @Override
     public void start(Stage stage) {
@@ -54,13 +61,57 @@ public class EditAndSyncFeaturesSample extends Application {
             // create a map view and add a map
             mapView = new MapView();
             // create a graphics overlay and symbol to mark the extent
-            graphicsOverlay = new GraphicsOverlay();
+            GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
             mapView.getGraphicsOverlays().add(graphicsOverlay);
 
             // load cached tiles
             loadTileCache();
 
-//            1. Create a `GeodatabaseSyncTask` from a URL.
+            // create a control panel
+            VBox controlsVBox = new VBox(6);
+            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+                    Insets.EMPTY)));
+            controlsVBox.setPadding(new Insets(10.0));
+            controlsVBox.setMaxSize(180,20);
+            controlsVBox.getStyleClass().add("panel-region");
+
+            // create button for user interaction
+            Button geodatabaseButton = new Button("Sync Geodatabase");
+            geodatabaseButton.setMaxWidth(Double.MAX_VALUE);
+
+            // add button to the controlsVBox
+            controlsVBox.getChildren().add(geodatabaseButton);
+
+            // set edit state to not ready until geodatabase job has completed successfuly
+
+
+            // add listener to handle generate/sync geodatabase button
+            geodatabaseButton.setOnAction(e -> {
+//                if (mCurrentEditState == EditState.NotReady) {
+//                    generateGeodatabase();
+//                } else if (mCurrentEditState == EditState.Ready) {
+//                    syncGeodatabase();
+//                }
+            });
+
+
+//          // define geodatabase sync task
+            GeodatabaseSyncTask geodatabaseSyncTask = new GeodatabaseSyncTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer");
+            geodatabaseSyncTask.loadAsync();
+            geodatabaseSyncTask.addDoneLoadingListener(() -> {
+                // show the extend to the geodatabase using a graphics
+                final SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
+                final Envelope extent = mapView.getVisibleArea().getExtent();
+                Graphic boundary = new Graphic(extent, boundarySymbol);
+                graphicsOverlay.getGraphics().add(boundary);
+
+                // create generate geodatabase parameters for the current extent
+                final ListenableFuture<GenerateGeodatabaseParameters> defaultParameters = geodatabaseSyncTask.createDefaultGenerateGeodatabaseParametersAsync(extent);
+                defaultParameters.addDoneListener(()->{
+                    System.out.println("default params created");
+                });
+            });
+
 //            1. Use `createDefaultGenerateGeodatabaseParametersAsync(...)` to create `GenerateGeodatabaseParameters` from the `GeodatabaseSyncTask`, passing in an `Envelope` argument.
 //            1. Create a `GenerateGeodatabaseJob` from the `GeodatabaseSyncTask` using `generateGeodatabaseAsync(...)` passing in parameters and a path to the local geodatabase.
 //            1. Start the `GenerateGeodatabaseJob` and, on success, load the `Geodatabase`.
@@ -73,9 +124,10 @@ public class EditAndSyncFeaturesSample extends Application {
             //
 
 
-
             // add map view to stack pane
-            stackPane.getChildren().add(mapView);
+            stackPane.getChildren().addAll(mapView, controlsVBox);
+            StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+            StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
         } catch (Exception e) {
             // on any error, display the stack trace
