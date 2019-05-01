@@ -18,6 +18,7 @@ package com.esri.samples.scene.get_elevation_at_a_point;
 
 import java.util.concurrent.ExecutionException;
 
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -39,7 +40,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 
 public class GetElevationAtAPointSample extends Application {
@@ -78,7 +78,7 @@ public class GetElevationAtAPointSample extends Application {
             scene.setBaseSurface(surface);
 
             // create a point symbol to mark where elevation is being measured
-            SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
+            SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3.0f);
 
             // create a text symbol to display the elevation of selected points
             TextSymbol elevationTextSymbol = new TextSymbol(20,null,0xFFFF0000,TextSymbol.HorizontalAlignment.CENTER,TextSymbol.VerticalAlignment.MIDDLE);
@@ -108,26 +108,16 @@ public class GetElevationAtAPointSample extends Application {
 
                     // construct a polyline to use as a marker
                     PolylineBuilder polylineBuilder = new PolylineBuilder(relativeSurfacePoint.getSpatialReference());
-
                     Point baseOfPolyline = new Point(relativeSurfacePoint.getX(), relativeSurfacePoint.getY(), 0);
                     polylineBuilder.addPoint(baseOfPolyline);
                     Point topOfPolyline = new Point(baseOfPolyline.getX(), baseOfPolyline.getY(), 750);
                     polylineBuilder.addPoint(topOfPolyline);
-
                     Polyline markerPolyline = polylineBuilder.toGeometry();
-                    Graphic polylineGraphic = new Graphic(markerPolyline);
+                    Graphic polylineGraphic = new Graphic(markerPolyline, lineSymbol);
                     graphicsOverlay.getGraphics().add(polylineGraphic);
 
                     // create a point to place the elevationTextSymbol above the polyline
                     Point textSymbolPosition = new Point(topOfPolyline.getX(), topOfPolyline.getY(), topOfPolyline.getZ()+100);
-
-                    // |||||||||||||||||||||||||||||||
-                    // TODO: delete once PolyLine displays properly
-                    Graphic surfacePointGraphic = new Graphic(baseOfPolyline, circleSymbol);
-                    graphicsOverlay.getGraphics().add(surfacePointGraphic);
-                    Graphic topOfMarkerGraphic = new Graphic(topOfPolyline, circleSymbol);
-                    graphicsOverlay.getGraphics().add(topOfMarkerGraphic);
-                    // |||||||||||||||||||||||||||||||
 
                     // get the surface elevation at the surface point
                     ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(relativeSurfacePoint);
