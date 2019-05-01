@@ -18,30 +18,29 @@ package com.esri.samples.scene.get_elevation_at_a_point;
 
 import java.util.concurrent.ExecutionException;
 
-import com.esri.arcgisruntime.geometry.PointCollection;
-import com.esri.arcgisruntime.geometry.Polyline;
-import com.esri.arcgisruntime.geometry.PolylineBuilder;
-import com.esri.arcgisruntime.mapping.view.*;
-import com.esri.arcgisruntime.symbology.*;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
+import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
+import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.TextSymbol;
 
 public class GetElevationAtAPointSample extends Application {
 
@@ -68,7 +67,7 @@ public class GetElevationAtAPointSample extends Application {
             ArcGISScene scene = new ArcGISScene();
             scene.setBasemap(Basemap.createImagery());
 
-            // add the SceneView and controlsVBox to the stack pane
+            // add the SceneView to the stack pane
             sceneView = new SceneView();
             sceneView.setArcGISScene(scene);
             stackPane.getChildren().add(sceneView);
@@ -82,8 +81,7 @@ public class GetElevationAtAPointSample extends Application {
             SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
 
             // create a text symbol to display the elevation of selected points
-            TextSymbol elevationTextSymbol = new TextSymbol(20,"",0xFFFF0000,TextSymbol.HorizontalAlignment.CENTER,TextSymbol.VerticalAlignment.MIDDLE);
-            elevationTextSymbol.setText(null);
+            TextSymbol elevationTextSymbol = new TextSymbol(20,null,0xFFFF0000,TextSymbol.HorizontalAlignment.CENTER,TextSymbol.VerticalAlignment.MIDDLE);
 
             // create a graphics overlay
             graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
@@ -120,7 +118,7 @@ public class GetElevationAtAPointSample extends Application {
                     Graphic polylineGraphic = new Graphic(markerPolyline);
                     graphicsOverlay.getGraphics().add(polylineGraphic);
 
-                    // create a point for the elevationTextSymbol above the polyline
+                    // create a point to place the elevationTextSymbol above the polyline
                     Point textSymbolPosition = new Point(topOfPolyline.getX(), topOfPolyline.getY(), topOfPolyline.getZ()+100);
 
                     // |||||||||||||||||||||||||||||||
