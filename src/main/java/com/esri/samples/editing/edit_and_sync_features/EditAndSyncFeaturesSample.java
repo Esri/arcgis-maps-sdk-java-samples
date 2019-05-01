@@ -55,6 +55,8 @@ public class EditAndSyncFeaturesSample extends Application {
     private MapView mapView;
     private ArcGISMap map;
     private final AtomicInteger replica = new AtomicInteger();
+    private EditAndSyncFeaturesSample.EditState currentEditState;
+    private GraphicsOverlay graphicsOverlay;
 
     @Override
     public void start(Stage stage) {
@@ -71,10 +73,13 @@ public class EditAndSyncFeaturesSample extends Application {
             stage.setScene(scene);
             stage.show();
 
+            // set edit state t not ready until geodatabase job has completed successfuly
+            currentEditState = EditState.NOTREADY;
+
             // create a map view and add a map
             mapView = new MapView();
             // create a graphics overlay and symbol to mark the extent
-            GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+            graphicsOverlay = new GraphicsOverlay();
             mapView.getGraphicsOverlays().add(graphicsOverlay);
 
             // load cached tiles
@@ -95,94 +100,18 @@ public class EditAndSyncFeaturesSample extends Application {
             // add button to the controlsVBox
             controlsVBox.getChildren().add(geodatabaseButton);
 
-            // set edit state to not ready until geodatabase job has completed successfuly
+            // set edit state to not ready until geodatabase job has completed successfully
 
 
             // TODO: make button generate or sync
             // add listener to handle generate/sync geodatabase button
             geodatabaseButton.setOnAction(e -> {
-//                if (mCurrentEditState == EditState.NotReady) {
-//                    generateGeodatabase();
-//                } else if (mCurrentEditState == EditState.Ready) {
-//                    syncGeodatabase();
-//                }
+                if (currentEditState == EditState.NOTREADY) {
+                    generateGeodatabase();
+                } else if (currentEditState == EditState.READY) {
+                 //   syncGeodatabase();
+                }
             });
-
-
-            // TODO: wrap this in a method generateGeodatabase() and call it on button press;
-//          // define geodatabase sync task
-            GeodatabaseSyncTask geodatabaseSyncTask = new GeodatabaseSyncTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer");
-            geodatabaseSyncTask.loadAsync();
-            geodatabaseSyncTask.addDoneLoadingListener(() -> {
-                // show the extend to the geodatabase using a graphics
-                final SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
-                final Envelope extent = mapView.getVisibleArea().getExtent();
-                Graphic boundary = new Graphic(extent, boundarySymbol);
-                graphicsOverlay.getGraphics().add(boundary);
-
-                // create generate geodatabase parameters for the current extent
-                final ListenableFuture<GenerateGeodatabaseParameters> defaultParameters = geodatabaseSyncTask
-                        .createDefaultGenerateGeodatabaseParametersAsync(extent);
-                defaultParameters.addDoneListener(()->{
-                    try {
-                        // set parameters and don't include attachments
-                        GenerateGeodatabaseParameters parameters = defaultParameters.get();
-                        parameters.setReturnAttachments(false);
-
-                        // create a temporary file for the geodatabase
-                        File tempFile = File.createTempFile("gdb" + replica.getAndIncrement(), ".geodatabase");
-                        tempFile.deleteOnExit();
-
-                        // create and start the job
-                        GenerateGeodatabaseJob geodatabaseJob = geodatabaseSyncTask.generateGeodatabase(parameters, tempFile.getAbsolutePath());
-                        geodatabaseJob.start();
-
-                        // TODO: make loading bar and show progress
-                        geodatabaseJob.addProgressChangedListener(() -> {
-                            int progress = geodatabaseJob.getProgress();
-                        });
-
-                        // get geodatabase when done
-                        geodatabaseJob.addJobDoneListener(() -> {
-                            if (geodatabaseJob.getStatus() == Job.Status.SUCCEEDED){
-                                Geodatabase geodatabase = geodatabaseJob.getResult();
-                                geodatabase.loadAsync();
-                                geodatabase.addDoneLoadingListener(()->{
-                                    if (geodatabase.getLoadStatus() == LoadStatus.LOADED){
-                                        // add the geodatabase FeatureTables to the map as a FeatureLayer
-                                        geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> {
-                                           // TODO: why is the adding of the FT to the map not within a done listener?
-                                            geodatabaseFeatureTable.loadAsync();
-                                           map.getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable));
-                                        });
-                                    } else {
-                                        displayMessage("Error loading geodatabase", geodatabase.getLoadError().getMessage());
-                                    }
-                                });
-                            } else if (geodatabaseJob.getError() != null) {
-                                displayMessage("Error generating geodatabase", geodatabaseJob.getError().getMessage());
-                            } else {
-                                displayMessage("Unknon Error generating geodatabase", null);
-                            }
-                        });
-
-                    } catch (InterruptedException| ExecutionException e) {
-                        displayMessage("Error generating geodatabase parameters", e.getMessage());
-                    } catch (IOException e) {
-                        displayMessage("Could not create file for geodatabase", e.getMessage());
-                    }
-                });
-            });
-
-
-
-            // TODO: write method syncGeodatabase()
-//            1. To sync changes between the local and web geodatabases:
-//            1. Define `SyncGeodatabaseParameters` including setting the `SyncGeodatabaseParameters.SyncDirection`.
-//            1. Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)` passing the `SyncGeodatabaseParameters` and `Geodatabase` as arguments.
-//            1. Start the `SyncGeodatabaseJob`.
-
-            //
 
 
             // add map view to stack pane
@@ -195,6 +124,83 @@ public class EditAndSyncFeaturesSample extends Application {
             e.printStackTrace();
         }
     }
+
+    public void generateGeodatabase(){
+         // define geodatabase sync task
+        GeodatabaseSyncTask geodatabaseSyncTask = new GeodatabaseSyncTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer");
+        geodatabaseSyncTask.loadAsync();
+        geodatabaseSyncTask.addDoneLoadingListener(() -> {
+            // show the extend to the geodatabase using a graphics
+            final SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
+            final Envelope extent = mapView.getVisibleArea().getExtent();
+            Graphic boundary = new Graphic(extent, boundarySymbol);
+            graphicsOverlay.getGraphics().add(boundary);
+
+            // create generate geodatabase parameters for the current extent
+            final ListenableFuture<GenerateGeodatabaseParameters> defaultParameters = geodatabaseSyncTask
+                    .createDefaultGenerateGeodatabaseParametersAsync(extent);
+            defaultParameters.addDoneListener(() -> {
+                try {
+                    // set parameters and don't include attachments
+                    GenerateGeodatabaseParameters parameters = defaultParameters.get();
+                    parameters.setReturnAttachments(false);
+
+                    // create a temporary file for the geodatabase
+                    File tempFile = File.createTempFile("gdb" + replica.getAndIncrement(), ".geodatabase");
+                    tempFile.deleteOnExit();
+
+                    // create and start the job
+                    GenerateGeodatabaseJob geodatabaseJob = geodatabaseSyncTask.generateGeodatabase(parameters, tempFile.getAbsolutePath());
+                    geodatabaseJob.start();
+
+                    // TODO: make loading bar and show progress
+                    geodatabaseJob.addProgressChangedListener(() -> {
+                        int progress = geodatabaseJob.getProgress();
+                    });
+
+                    // get geodatabase when done
+                    geodatabaseJob.addJobDoneListener(() -> {
+                        if (geodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
+                            Geodatabase geodatabase = geodatabaseJob.getResult();
+                            geodatabase.loadAsync();
+                            geodatabase.addDoneLoadingListener(() -> {
+                                if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
+                                    // add the geodatabase FeatureTables to the map as a FeatureLayer
+                                    geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> {
+                                        // TODO: why is the adding of the FT to the map not within a done listener?
+                                        geodatabaseFeatureTable.loadAsync();
+                                        map.getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable));
+                                    });
+                                    System.out.println("loaded");
+                                } else {
+                                    displayMessage("Error loading geodatabase", geodatabase.getLoadError().getMessage());
+                                }
+                            });
+                        } else if (geodatabaseJob.getError() != null) {
+                            displayMessage("Error generating geodatabase", geodatabaseJob.getError().getMessage());
+                        } else {
+                            displayMessage("Unknon Error generating geodatabase", null);
+                        }
+                    });
+
+                } catch (InterruptedException | ExecutionException e) {
+                    displayMessage("Error generating geodatabase parameters", e.getMessage());
+                } catch (IOException e) {
+                    displayMessage("Could not create file for geodatabase", e.getMessage());
+                }
+            });
+        });
+        System.out.println("button pressed");
+    }
+
+
+    // TODO: write method syncGeodatabase()
+//            1. To sync changes between the local and web geodatabases:
+//            1. Define `SyncGeodatabaseParameters` including setting the `SyncGeodatabaseParameters.SyncDirection`.
+//            1. Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)` passing the `SyncGeodatabaseParameters` and `Geodatabase` as arguments.
+//            1. Start the `SyncGeodatabaseJob`.
+
+    //
 
     /*
      * Load local tile cache.
@@ -243,5 +249,11 @@ public class EditAndSyncFeaturesSample extends Application {
     public static void main(String[] args) {
 
         Application.launch(args);
+    }
+
+    private enum EditState{ // enumeration to track editing of points
+        NOTREADY,           // Geodatabase has not yet been generated
+        EDITING,            // A feature is in the process of being moved
+        READY               // The Geodatabase is ready for synchronisation or further edits
     }
 }
