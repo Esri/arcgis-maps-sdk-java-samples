@@ -20,10 +20,9 @@ import java.util.concurrent.ExecutionException;
 
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.mapping.view.*;
-import com.esri.arcgisruntime.symbology.MarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.TextSymbol;
+import com.esri.arcgisruntime.symbology.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -43,11 +42,11 @@ import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class GetElevationAtAPointSample extends Application {
 
     private SceneView sceneView;
+    private GraphicsOverlay graphicsOverlay;
 
     @Override
     public void start(Stage stage) {
@@ -84,9 +83,10 @@ public class GetElevationAtAPointSample extends Application {
 
             // create a text symbol to display the elevation of selected points
             TextSymbol elevationTextSymbol = new TextSymbol(20,"",0xFFFF0000,TextSymbol.HorizontalAlignment.CENTER,TextSymbol.VerticalAlignment.MIDDLE);
+            elevationTextSymbol.setText(null);
 
             // create a graphics overlay
-            GraphicsOverlay graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
+            graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
             graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
             sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
@@ -99,7 +99,6 @@ public class GetElevationAtAPointSample extends Application {
 
                 // get the clicked screenPoint
                 Point2D screenPoint = new Point2D(event.getX(), event.getY());
-
                 // convert the screen point to a point on the surface
                 Point relativeSurfacePoint = sceneView.screenToBaseSurface(screenPoint);
 
@@ -109,6 +108,29 @@ public class GetElevationAtAPointSample extends Application {
                     // clear any existing graphics from the graphics overlay
                     graphicsOverlay.getGraphics().clear();
 
+                    // construct a polyline to use as a marker
+                    PolylineBuilder polylineBuilder = new PolylineBuilder(relativeSurfacePoint.getSpatialReference());
+
+                    Point baseOfPolyline = new Point(relativeSurfacePoint.getX(), relativeSurfacePoint.getY(), 0);
+                    polylineBuilder.addPoint(baseOfPolyline);
+                    Point topOfPolyline = new Point(baseOfPolyline.getX(), baseOfPolyline.getY(), 750);
+                    polylineBuilder.addPoint(topOfPolyline);
+
+                    Polyline markerPolyline = polylineBuilder.toGeometry();
+                    Graphic polylineGraphic = new Graphic(markerPolyline);
+                    graphicsOverlay.getGraphics().add(polylineGraphic);
+
+                    // create a point for the elevationTextSymbol above the polyline
+                    Point textSymbolPosition = new Point(topOfPolyline.getX(), topOfPolyline.getY(), topOfPolyline.getZ()+100);
+
+                    // |||||||||||||||||||||||||||||||
+                    // TODO: delete once PolyLine displays properly
+                    Graphic surfacePointGraphic = new Graphic(baseOfPolyline, circleSymbol);
+                    graphicsOverlay.getGraphics().add(surfacePointGraphic);
+                    Graphic topOfMarkerGraphic = new Graphic(topOfPolyline, circleSymbol);
+                    graphicsOverlay.getGraphics().add(topOfMarkerGraphic);
+                    // |||||||||||||||||||||||||||||||
+
                     // get the surface elevation at the surface point
                     ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(relativeSurfacePoint);
                     elevationFuture.addDoneListener(() -> {
@@ -116,31 +138,8 @@ public class GetElevationAtAPointSample extends Application {
                                 // get the surface elevation
                                 Double elevation = elevationFuture.get();
 
-                                Point trueSurfacePoint = new Point(relativeSurfacePoint.getX(),relativeSurfacePoint.getY(), relativeSurfacePoint.getZ()-elevation);
-                                // create a new graphic at the surface point and add it to the graphics overlay
-                                Graphic surfacePointGraphic = new Graphic(trueSurfacePoint, circleSymbol);
-                                graphicsOverlay.getGraphics().add(surfacePointGraphic);
-
-                                // create a point of the end of the polyline
-                                Point endOfPolyline = new Point(trueSurfacePoint.getX(), trueSurfacePoint.getY(), (trueSurfacePoint.getZ()+500), trueSurfacePoint.getSpatialReference());
-
-                                Graphic eolPointGraphic = new Graphic(endOfPolyline, circleSymbol);
-                                graphicsOverlay.getGraphics().add(eolPointGraphic);
-
-                                // create a polyline symbol between the surface point and the end of the polyline
-                    //                PointCollection polyLineStartAndEnd = new PointCollection
-                    //                polyLineStartAndEnd.add(surfacePoint);
-                    //                polyLineStartAndEnd.add(endOfPolyline)
-                    //                Polyline markerPolyline = new Polyline(polyLineStartAndEnd);
-                    //                Graphic polyLineGraphic = new Graphic(markerPolyline);
-                    //                graphicsOverlay.getGraphics().add(polyLineGraphic);
-
-
-
-                                // prepare and place the marker text symbol
-                                elevationTextSymbol.setText((Math.round(elevation * 10d)/10d) + " m");
-                                Graphic elevationTextGraphic = new Graphic(endOfPolyline, elevationTextSymbol);
-                                graphicsOverlay.getGraphics().add(elevationTextGraphic);
+                                // update the text in the elevation marker
+                                updateMarkerText(elevationTextSymbol,textSymbolPosition,elevation);
 
                             } catch (InterruptedException | ExecutionException e) {
                                 new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
@@ -154,6 +153,18 @@ public class GetElevationAtAPointSample extends Application {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Updates the elevationTextSymbol text
+     * @param elevationTextSymbol   The TextSymbol object to be updated
+     * @param position              The desired position of the TextSymbol Graphic
+     * @param elevation             The elevation to be inserted into the text;
+     */
+    private void updateMarkerText(TextSymbol elevationTextSymbol, Point position, double elevation){
+        elevationTextSymbol.setText((Math.round(elevation * 10d)/10d) + " m");
+        Graphic elevationTextGraphic = new Graphic(position, elevationTextSymbol);
+        graphicsOverlay.getGraphics().add(elevationTextGraphic);
     }
 
     /**
