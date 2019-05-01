@@ -16,32 +16,45 @@
 
 package com.esri.samples.editing.edit_and_sync_features;
 
+import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.Geodatabase;
+import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
 import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseJob;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
 import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
-import com.esri.samples.tiledlayers.tile_cache.TileCacheSample;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class EditAndSyncFeaturesSample extends Application {
 
     private MapView mapView;
+    private ArcGISMap map;
+    private final AtomicInteger replica = new AtomicInteger();
 
     @Override
     public void start(Stage stage) {
@@ -85,6 +98,7 @@ public class EditAndSyncFeaturesSample extends Application {
             // set edit state to not ready until geodatabase job has completed successfuly
 
 
+            // TODO: make button generate or sync
             // add listener to handle generate/sync geodatabase button
             geodatabaseButton.setOnAction(e -> {
 //                if (mCurrentEditState == EditState.NotReady) {
@@ -95,6 +109,7 @@ public class EditAndSyncFeaturesSample extends Application {
             });
 
 
+            // TODO: wrap this in a method generateGeodatabase() and call it on button press;
 //          // define geodatabase sync task
             GeodatabaseSyncTask geodatabaseSyncTask = new GeodatabaseSyncTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer");
             geodatabaseSyncTask.loadAsync();
@@ -106,16 +121,62 @@ public class EditAndSyncFeaturesSample extends Application {
                 graphicsOverlay.getGraphics().add(boundary);
 
                 // create generate geodatabase parameters for the current extent
-                final ListenableFuture<GenerateGeodatabaseParameters> defaultParameters = geodatabaseSyncTask.createDefaultGenerateGeodatabaseParametersAsync(extent);
+                final ListenableFuture<GenerateGeodatabaseParameters> defaultParameters = geodatabaseSyncTask
+                        .createDefaultGenerateGeodatabaseParametersAsync(extent);
                 defaultParameters.addDoneListener(()->{
-                    System.out.println("default params created");
+                    try {
+                        // set parameters and don't include attachments
+                        GenerateGeodatabaseParameters parameters = defaultParameters.get();
+                        parameters.setReturnAttachments(false);
+
+                        // create a temporary file for the geodatabase
+                        File tempFile = File.createTempFile("gdb" + replica.getAndIncrement(), ".geodatabase");
+                        tempFile.deleteOnExit();
+
+                        // create and start the job
+                        GenerateGeodatabaseJob geodatabaseJob = geodatabaseSyncTask.generateGeodatabase(parameters, tempFile.getAbsolutePath());
+                        geodatabaseJob.start();
+
+                        // TODO: make loading bar and show progress
+                        geodatabaseJob.addProgressChangedListener(() -> {
+                            int progress = geodatabaseJob.getProgress();
+                        });
+
+                        // get geodatabase when done
+                        geodatabaseJob.addJobDoneListener(() -> {
+                            if (geodatabaseJob.getStatus() == Job.Status.SUCCEEDED){
+                                Geodatabase geodatabase = geodatabaseJob.getResult();
+                                geodatabase.loadAsync();
+                                geodatabase.addDoneLoadingListener(()->{
+                                    if (geodatabase.getLoadStatus() == LoadStatus.LOADED){
+                                        // add the geodatabase FeatureTables to the map as a FeatureLayer
+                                        geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> {
+                                           // TODO: why is the adding of the FT to the map not within a done listener?
+                                            geodatabaseFeatureTable.loadAsync();
+                                           map.getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable));
+                                        });
+                                    } else {
+                                        displayMessage("Error loading geodatabase", geodatabase.getLoadError().getMessage());
+                                    }
+                                });
+                            } else if (geodatabaseJob.getError() != null) {
+                                displayMessage("Error generating geodatabase", geodatabaseJob.getError().getMessage());
+                            } else {
+                                displayMessage("Unknon Error generating geodatabase", null);
+                            }
+                        });
+
+                    } catch (InterruptedException| ExecutionException e) {
+                        displayMessage("Error generating geodatabase parameters", e.getMessage());
+                    } catch (IOException e) {
+                        displayMessage("Could not create file for geodatabase", e.getMessage());
+                    }
                 });
             });
 
-//            1. Use `createDefaultGenerateGeodatabaseParametersAsync(...)` to create `GenerateGeodatabaseParameters` from the `GeodatabaseSyncTask`, passing in an `Envelope` argument.
-//            1. Create a `GenerateGeodatabaseJob` from the `GeodatabaseSyncTask` using `generateGeodatabaseAsync(...)` passing in parameters and a path to the local geodatabase.
-//            1. Start the `GenerateGeodatabaseJob` and, on success, load the `Geodatabase`.
-//            1. On successful loading, call `getGeodatabaseFeatureTables()` on the `Geodatabase` and add it to the `ArcGISMap`'s operational layers.
+
+
+            // TODO: write method syncGeodatabase()
 //            1. To sync changes between the local and web geodatabases:
 //            1. Define `SyncGeodatabaseParameters` including setting the `SyncGeodatabaseParameters.SyncDirection`.
 //            1. Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)` passing the `SyncGeodatabaseParameters` and `Geodatabase` as arguments.
@@ -143,10 +204,25 @@ public class EditAndSyncFeaturesSample extends Application {
         TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
         ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
         Basemap basemap = new Basemap(tiledLayer);
-        final ArcGISMap map = new ArcGISMap(basemap);
+        map = new ArcGISMap(basemap);
         mapView.setMap(map);
     }
 
+    /**
+     * Shows a message in an alert dialog.
+     *
+     * @param title title of alert
+     * @param message message to display
+     */
+    private void displayMessage(String title, String message) {
+
+        Platform.runLater(() -> {
+            Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText(title);
+            dialog.setContentText(message);
+            dialog.showAndWait();
+        });
+    }
 
     /**
      * Stops and releases all resources used in application.
