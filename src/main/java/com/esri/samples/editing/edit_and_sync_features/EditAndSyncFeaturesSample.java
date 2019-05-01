@@ -36,11 +36,13 @@ import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
 import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -57,11 +59,12 @@ public class EditAndSyncFeaturesSample extends Application {
     private final AtomicInteger replica = new AtomicInteger();
     private EditAndSyncFeaturesSample.EditState currentEditState;
     private GraphicsOverlay graphicsOverlay;
+    private ProgressBar progressBar;
 
     @Override
     public void start(Stage stage) {
 
-        try{
+        try {
             // create stack pane and application scene
             StackPane stackPane = new StackPane();
             Scene scene = new Scene(stackPane);
@@ -73,7 +76,7 @@ public class EditAndSyncFeaturesSample extends Application {
             stage.setScene(scene);
             stage.show();
 
-            // set edit state t not ready until geodatabase job has completed successfuly
+            // set edit state t not ready until geodatabase job has completed successfully
             currentEditState = EditState.NOTREADY;
 
             // create a map view and add a map
@@ -90,18 +93,18 @@ public class EditAndSyncFeaturesSample extends Application {
             controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
                     Insets.EMPTY)));
             controlsVBox.setPadding(new Insets(10.0));
-            controlsVBox.setMaxSize(180,20);
+            controlsVBox.setMaxSize(180, 20);
             controlsVBox.getStyleClass().add("panel-region");
 
             // create button for user interaction
             Button geodatabaseButton = new Button("Sync Geodatabase");
             geodatabaseButton.setMaxWidth(Double.MAX_VALUE);
-
-            // add button to the controlsVBox
             controlsVBox.getChildren().add(geodatabaseButton);
 
-            // set edit state to not ready until geodatabase job has completed successfully
-
+            // create progress bar
+            progressBar = new ProgressBar();
+            progressBar.visibleProperty().bind(Bindings.createBooleanBinding(() -> progressBar.getProgress() > 0, progressBar.progressProperty()));
+            progressBar.setProgress(0.0);
 
             // TODO: make button generate or sync
             // add listener to handle generate/sync geodatabase button
@@ -109,15 +112,16 @@ public class EditAndSyncFeaturesSample extends Application {
                 if (currentEditState == EditState.NOTREADY) {
                     generateGeodatabase();
                 } else if (currentEditState == EditState.READY) {
-                 //   syncGeodatabase();
+                    //   syncGeodatabase();
                 }
             });
 
-
             // add map view to stack pane
-            stackPane.getChildren().addAll(mapView, controlsVBox);
+            stackPane.getChildren().addAll(mapView, controlsVBox, progressBar);
             StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
             StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+            StackPane.setAlignment(progressBar, Pos.BOTTOM_CENTER);
+            StackPane.setMargin(progressBar, new Insets(0,0,10,0));
 
         } catch (Exception e) {
             // on any error, display the stack trace
@@ -125,8 +129,8 @@ public class EditAndSyncFeaturesSample extends Application {
         }
     }
 
-    public void generateGeodatabase(){
-         // define geodatabase sync task
+    public void generateGeodatabase() {
+        // define geodatabase sync task
         GeodatabaseSyncTask geodatabaseSyncTask = new GeodatabaseSyncTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer");
         geodatabaseSyncTask.loadAsync();
         geodatabaseSyncTask.addDoneLoadingListener(() -> {
@@ -153,10 +157,8 @@ public class EditAndSyncFeaturesSample extends Application {
                     GenerateGeodatabaseJob geodatabaseJob = geodatabaseSyncTask.generateGeodatabase(parameters, tempFile.getAbsolutePath());
                     geodatabaseJob.start();
 
-                    // TODO: make loading bar and show progress
-                    geodatabaseJob.addProgressChangedListener(() -> {
-                        int progress = geodatabaseJob.getProgress();
-                    });
+                    // show progress
+                    showProgress(geodatabaseJob);
 
                     // get geodatabase when done
                     geodatabaseJob.addJobDoneListener(() -> {
@@ -202,16 +204,27 @@ public class EditAndSyncFeaturesSample extends Application {
 
     //
 
-    /*
+    /**
      * Load local tile cache.
      */
-    private void loadTileCache(){
+    private void loadTileCache() {
         // use local tile package for the base map
         TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
         ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
         Basemap basemap = new Basemap(tiledLayer);
         map = new ArcGISMap(basemap);
         mapView.setMap(map);
+    }
+
+    /**
+     * Show a progress bar
+     * @param geodatabaseJob the job to show progress of
+     */
+    private void showProgress(GenerateGeodatabaseJob geodatabaseJob) {
+        geodatabaseJob.addProgressChangedListener(() -> {
+            int progress = geodatabaseJob.getProgress();
+            progressBar.setProgress((double) progress / 100.0);
+        });
     }
 
     /**
