@@ -32,13 +32,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 public class RasterRenderingRuleSample extends Application {
 
-    private ComboBox<RenderingRuleInfo> renderingRuleDropDownMenu;
+    private ComboBox<RenderingRuleInfo> renderingRuleInfoComboBox;
     private MapView mapView;
     private ArcGISMap map;
 
@@ -56,12 +60,20 @@ public class RasterRenderingRuleSample extends Application {
             stage.setScene(scene);
             stage.show();
 
+            // create a control panel
+            VBox controlsVBox = new VBox();
+            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY, Insets.EMPTY)));
+            controlsVBox.setPadding(new Insets(10.0));
+            controlsVBox.setSpacing(8);
+            controlsVBox.setMaxSize(260, 150);
+            controlsVBox.getStyleClass().add("panel-region");
+
             // create drop down menu of Rendering Rules
-            renderingRuleDropDownMenu = new ComboBox<>();
-            renderingRuleDropDownMenu.setPromptText("Select a Raster Rendering Rule");
-            renderingRuleDropDownMenu.setEditable(false);
-            renderingRuleDropDownMenu.setMaxWidth(260.0);
-            renderingRuleDropDownMenu.setConverter(new StringConverter<RenderingRuleInfo>() {
+            renderingRuleInfoComboBox = new ComboBox<>();
+            renderingRuleInfoComboBox.setPromptText("Select a Raster Rendering Rule");
+            renderingRuleInfoComboBox.setEditable(false);
+            renderingRuleInfoComboBox.setMaxWidth(260.0);
+            renderingRuleInfoComboBox.setConverter(new StringConverter<RenderingRuleInfo>() {
                 @Override
                 public String toString(RenderingRuleInfo renderingRuleInfo) {
 
@@ -73,6 +85,16 @@ public class RasterRenderingRuleSample extends Application {
                     return null;
                 }
             });
+
+            // create a label for the Rendering Rule info
+            Label renderingRuleInfoLabel = new Label("");
+            renderingRuleInfoLabel.setFont(new Font(12));
+            renderingRuleInfoLabel.setTextFill(Color.WHITE);
+            renderingRuleInfoLabel.setMaxWidth(220);
+            renderingRuleInfoLabel.setWrapText(true);
+
+            // add the ComboBox and Label to the controlsVBox
+            controlsVBox.getChildren().addAll(renderingRuleInfoComboBox, renderingRuleInfoLabel);
 
             // create a Streets BaseMap
             map = new ArcGISMap(Basemap.createStreets());
@@ -100,14 +122,18 @@ public class RasterRenderingRuleSample extends Application {
                     //populate the drop down menu with the rendering rule names
                     for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
                         // add the name of the rendering rule to the drop-down menu
-                        renderingRuleDropDownMenu.getItems().add(renderingRuleInfo);
+                        renderingRuleInfoComboBox.getItems().add(renderingRuleInfo);
                     }
 
                     // listen to selection in the drop-down menu
-                    renderingRuleDropDownMenu.getSelectionModel().selectedItemProperty().addListener(o -> {
+                    renderingRuleInfoComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
 
                         // get the requested rendering rule info from the list
-                        RenderingRuleInfo selectedRenderingRuleInfo = renderingRuleDropDownMenu.getSelectionModel().getSelectedItem();
+                        RenderingRuleInfo selectedRenderingRuleInfo = renderingRuleInfoComboBox.getSelectionModel().getSelectedItem();
+
+                        // change the label text to the rendering rule info description
+                        String renderingRuleInfoDescription = selectedRenderingRuleInfo.getDescription();
+                        renderingRuleInfoLabel.setText("Rule Description: " + renderingRuleInfoDescription);
 
                         // clear all rasters
                         map.getOperationalLayers().clear();
@@ -128,9 +154,9 @@ public class RasterRenderingRuleSample extends Application {
             });
 
             // add the map view to the stack pane
-            stackPane.getChildren().addAll(mapView, renderingRuleDropDownMenu);
-            StackPane.setAlignment(renderingRuleDropDownMenu, Pos.TOP_LEFT);
-            StackPane.setMargin(renderingRuleDropDownMenu, new Insets(10, 0, 0, 10));
+            stackPane.getChildren().addAll(mapView, controlsVBox);
+            StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+            StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
         } catch (Exception e) {
             // on any error, display the stack trace.
             e.printStackTrace();
