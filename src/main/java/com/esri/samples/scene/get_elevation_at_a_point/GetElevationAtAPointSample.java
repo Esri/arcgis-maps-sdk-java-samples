@@ -124,7 +124,9 @@ public class GetElevationAtAPointSample extends Application {
                             Double elevation = elevationFuture.get();
 
                             // update the text in the elevation marker
-                            updateMarkerText(elevationTextSymbol,topOfPolyline,elevation);
+                            elevationTextSymbol.setText((Math.round(elevation * 10d)/10d) + " m");
+                            Graphic elevationTextGraphic = new Graphic(topOfPolyline, elevationTextSymbol);
+                            graphicsOverlay.getGraphics().add(elevationTextGraphic);
 
                         } catch (InterruptedException | ExecutionException e) {
                             new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
@@ -137,18 +139,6 @@ public class GetElevationAtAPointSample extends Application {
             e.printStackTrace();
         }
 
-    }
-
-    /**
-     * Updates the elevationTextSymbol text
-     * @param elevationTextSymbol   The TextSymbol object to be updated
-     * @param position              The desired position of the TextSymbol Graphic
-     * @param elevation             The elevation to be inserted into the text;
-     */
-    private void updateMarkerText(TextSymbol elevationTextSymbol, Point position, double elevation){
-        elevationTextSymbol.setText((Math.round(elevation * 10d)/10d) + " m");
-        Graphic elevationTextGraphic = new Graphic(position, elevationTextSymbol);
-        graphicsOverlay.getGraphics().add(elevationTextGraphic);
     }
 
     /**
