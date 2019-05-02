@@ -18,6 +18,23 @@ package com.esri.samples.raster.raster_rendering_rule;
 
 import java.util.List;
 
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
+
 import com.esri.arcgisruntime.arcgisservices.RenderingRuleInfo;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -27,18 +44,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
 import com.esri.arcgisruntime.raster.RenderingRule;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 public class RasterRenderingRuleSample extends Application {
 
@@ -119,7 +124,7 @@ public class RasterRenderingRuleSample extends Application {
                     // get the predefined rendering rules
                     List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
 
-                    //populate the drop down menu with the rendering rule names
+                    // populate the drop down menu with the rendering rule names
                     for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
                         // add the name of the rendering rule to the drop-down menu
                         renderingRuleInfoComboBox.getItems().add(renderingRuleInfo);
