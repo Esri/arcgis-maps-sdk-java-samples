@@ -40,7 +40,6 @@ public class RasterRenderingRuleSample extends Application {
     private ComboBox<String> renderingRuleDropDownMenu;
     private MapView mapView;
     private ArcGISMap map;
-    private final String imageServiceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
 
     @Override
     public void start(Stage stage) {
@@ -70,7 +69,7 @@ public class RasterRenderingRuleSample extends Application {
             mapView.setMap(map);
 
             // create an Image Service Raster as a raster layer and add to map
-            final ImageServiceRaster imageServiceRaster = new ImageServiceRaster(imageServiceUrl);
+            final ImageServiceRaster imageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer");
             final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
             map.getOperationalLayers().add(imageRasterLayer);
 
