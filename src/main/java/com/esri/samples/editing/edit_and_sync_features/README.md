@@ -1,54 +1,70 @@
-# Edit and sync features
-Synchronize offline edits with a feature service.
+<h1 id="editandsyncfeatures">Edit and sync features</h1>
 
-![Edit and sync features App](edit-and-sync-features.png)
+<p>Synchronize offline edits with a feature service.</p>
 
-## How to use the sample
-1. Pan and zoom into the desired area, making sure the area you want to take offline is within the current extent of the `MapView`. 
-1. Tap on the Generate Geodatabase button. This will call `generateGeodatabase()`, which will return a `GenerateGeodatabaseJob`. 
-1. Once the job completes successfully, a `GeodatabaseFeatureTable` and a `FeatureLayer` are created from the resulting `Geodatabase`. The `FeatureLayer` is then added to the `ArcGISMap`. 
-1. Once the `FeatureLayer` generated from the local `Geodatabase` is displayed, a `Feature` can be selected by tapping on it. The selected `Feature` can be moved to a new location by tapping anywhere on the map. 
-1. Once a successful edit has been made to the `FeatureLayer`, the Sync Geodatabase button is enabled. This button synchronizes local edits made to the local `GeoDatabase` with the remote feature service using `syncGeodatabase()` which generates `SyncGeodatbaseParameters` and passes them to a `SyncGeodatabaseJob`.
-1. Once the job successfully completes, the local edits are synchronized with the feature service.
+<p><img src="EditAndSyncFeatures.png" alt="Edit and Sync Features Sample" /></p>
 
-## How it works
-1. Create a `GeodatabaseSyncTask` from a URL.
-1. Use `createDefaultGenerateGeodatabaseParametersAsync(...)` to create `GenerateGeodatabaseParameters` from the `GeodatabaseSyncTask`, passing in an `Envelope` argument.
-1. Create a `GenerateGeodatabaseJob` from the `GeodatabaseSyncTask` using `generateGeodatabaseAsync(...)` passing in parameters and a path to the local geodatabase.
-1. Start the `GenerateGeodatabaseJob` and, on success, load the `Geodatabase`.
-1. On successful loading, call `getGeodatabaseFeatureTables()` on the `Geodatabase` and add it to the `ArcGISMap`'s operational layers.
-1. To sync changes between the local and web geodatabases:
-  1. Define `SyncGeodatabaseParameters` including setting the `SyncGeodatabaseParameters.SyncDirection`.
-  1. Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)` passing the `SyncGeodatabaseParameters` and `Geodatabase` as arguments.
-  1. Start the `SyncGeodatabaseJob`.
+<h2 id="howtousethesample">How to use the sample</h2>
 
+<ol>
+<li>Pan and zoom into the desired area, making sure the area you want to take offline is within the current extent of the <code>MapView</code>. </li>
 
-## Relevant API
-* FeatureLayer
-* FeatureTable
-* GeodatabaseSyncTask
-* GenerateGeodatabaseJob
-* GenerateGeodatabaseParameters
-* SyncGeodatabaseJob
-* SyncGeodatabaseParameters
-* SyncLayerOption
+<li>Click the Generate Geodatabase button. This will call <code>generateGeodatabase()</code>, which will return a <code>GenerateGeodatabaseJob</code>. </li>
 
-## Offline data
-1. Download the data from [ArcGIS Online](https://arcgisruntime.maps.arcgis.com/home/item.html?id=72e703cd01654e7796eb1ae75af1cb53).  
-2. Extract the contents of the downloaded zip file to disk.  
-3. Create an ArcGIS/samples/TileCache folder on your device. You can use the [Android Debug Bridge (adb)](https://developer.android.com/guide/developing/tools/adb.html) tool found in **<sdk-dir>/platform-tools**.
-4. Open up a command prompt and execute the ```adb shell``` command to start a remote shell on your target device.
-5. Navigate to your sdcard directory, e.g. ```cd /sdcard/```.  
-6. Create the ArcGIS/samples/TileCache directory, ```mkdir ArcGIS/samples/TileCache```.
-7. You should now have the following directory on your target device, ```/sdcard/ArcGIS/samples/TileCache```. We will copy the contents of the downloaded data into this directory. Note:  Directory may be slightly different on your device.
-8. Exit the shell with the, ```exit``` command.
-9. While still in your command prompt, navigate to the folder where you extracted the contents of the data from step 1 and execute the following command: 
-	* ```adb push SanFrancisco.tpk /sdcard/ArcGIS/samples/TileCache```
+<li>Once the job completes successfully, a <code>GeodatabaseFeatureTable</code> and a <code>FeatureLayer</code> are created from the resulting <code>Geodatabase</code>. The <code>FeatureLayer</code> is then added to the <code>ArcGISMap</code>. </li>
+
+<li>Once the <code>FeatureLayer</code> generated from the local <code>Geodatabase</code> is displayed, a <code>Feature</code> can be selected by clicking on it. The selected <code>Feature</code> can be moved to a new location by clicking anywhere on the map. </li>
+
+<li>Once a successful edit has been made to the <code>FeatureLayer</code>, the Sync Geodatabase button is enabled. This button synchronizes local edits made to the local <code>GeoDatabase</code> with the remote feature service using <code>syncGeodatabase()</code> which generates <code>SyncGeodatbaseParameters</code> and passes them to a <code>SyncGeodatabaseJob</code>.</li>
+
+<li>Once the job successfully completes, the local edits are synchronized with the feature service.</li>
+</ol>
+
+<h2 id="howitworks">How it works</h2>
+
+<ol>
+<li>Create a <code>GeodatabaseSyncTask</code> from a URL.</li>
+
+<li>Use <code>createDefaultGenerateGeodatabaseParametersAsync(...)</code> to create <code>GenerateGeodatabaseParameters</code> from the <code>GeodatabaseSyncTask</code>, passing in an <code>Envelope</code> argument.</li>
+
+<li>Create a <code>GenerateGeodatabaseJob</code> from the <code>GeodatabaseSyncTask</code> using <code>generateGeodatabaseAsync(...)</code> passing in parameters and a path to the local geodatabase.</li>
+
+<li>Start the <code>GenerateGeodatabaseJob</code> and, on success, load the <code>Geodatabase</code>.</li>
+
+<li>On successful loading, call <code>getGeodatabaseFeatureTables()</code> on the <code>Geodatabase</code> and add it to the <code>ArcGISMap</code>'s operational layers.</li>
+
+<li>To sync changes between the local and web geodatabases:
 
 
-Link | Local Location
----------|-------|
-|[San Francisco Tile Cache](https://arcgisruntime.maps.arcgis.com/home/item.html?id=72e703cd01654e7796eb1ae75af1cb53)| `<sdcard>`/ArcGIS/samples/TileCache/SanFrancisco.tpk |
+<ol>
+<li>Define <code>SyncGeodatabaseParameters</code> including setting the <code>SyncGeodatabaseParameters.SyncDirection</code>.</li>
 
-#### Tags
-Edit and Manage Data
+<li>Create a <code>SyncGeodatabaseJob</code> from <code>GeodatabaseSyncTask</code> using <code>.syncGeodatabaseAsync(...)</code> passing the <code>SyncGeodatabaseParameters</code> and <code>Geodatabase</code> as arguments.</li>
+
+<li>Start the <code>SyncGeodatabaseJob</code>.</li></ol>
+</li>
+</ol>
+
+<h2 id="relevantapi">Relevant API</h2>
+
+<ul>
+<li>FeatureLayer</li>
+
+<li>FeatureTable</li>
+
+<li>GeodatabaseSyncTask</li>
+
+<li>GenerateGeodatabaseJob</li>
+
+<li>GenerateGeodatabaseParameters</li>
+
+<li>SyncGeodatabaseJob</li>
+
+<li>SyncGeodatabaseParameters</li>
+
+<li>SyncLayerOption</li>
+</ul>
+
+<h4 id="tags">Tags</h4>
+
+<p>Edit and Manage Data</p>
