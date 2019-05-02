@@ -105,14 +105,24 @@ public class EditAndSyncFeaturesSample extends Application {
 
             // create progress bar
             progressBar = new ProgressBar();
-            progressBar.visibleProperty().bind(Bindings.createBooleanBinding(() -> progressBar.getProgress() > 0, progressBar.progressProperty()));
             progressBar.setProgress(0.0);
+            progressBar.setVisible(false);
 
-            // TODO: make button generate or sync
             // add listener to handle generate/sync geodatabase button
             geodatabaseButton.setOnAction(e -> {
                 if (currentEditState == EditState.NOTREADY) {
-                    generateGeodatabase();
+                    // update button text and disable button
+                    geodatabaseButton.setDisable(true);
+                    geodatabaseButton.setText("Generating Geodatabase...");
+                    
+                    // show the extent of the geodatabase using a graphics
+                    final SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
+                    final Envelope extent = mapView.getVisibleArea().getExtent();
+                    Graphic boundary = new Graphic(extent, boundarySymbol);
+                    graphicsOverlay.getGraphics().add(boundary);
+
+                    // generate Geodatabase for the chosen extent
+                    generateGeodatabase(extent);
                 } else if (currentEditState == EditState.READY) {
                     syncGeodatabase();
                 }
@@ -135,6 +145,7 @@ public class EditAndSyncFeaturesSample extends Application {
      * Load local tile cache.
      */
     private void loadTileCache() {
+
         // use local tile package for the base map
         TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
         ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
@@ -145,20 +156,14 @@ public class EditAndSyncFeaturesSample extends Application {
 
     /**
      * Generates a local geodatabase and sets it to the map.
+     * @args extent     the extent of the map from which a geodatabase is generated
      */
-    public void generateGeodatabase() {
-        // update button text
-        geodatabaseButton.setText("Generating Geodatabase...");
+    public void generateGeodatabase(Envelope extent) {
 
         // define geodatabase sync task
         geodatabaseSyncTask = new GeodatabaseSyncTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer");
         geodatabaseSyncTask.loadAsync();
         geodatabaseSyncTask.addDoneLoadingListener(() -> {
-            // show the extent of the geodatabase using a graphics
-            final SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
-            final Envelope extent = mapView.getVisibleArea().getExtent();
-            Graphic boundary = new Graphic(extent, boundarySymbol);
-            graphicsOverlay.getGraphics().add(boundary);
 
             // create generate geodatabase parameters for the current extent
             final ListenableFuture<GenerateGeodatabaseParameters> defaultParameters = geodatabaseSyncTask
@@ -192,7 +197,6 @@ public class EditAndSyncFeaturesSample extends Application {
                                         // TODO: why is the adding of the FT to the map not within a doneListener?
                                         geodatabaseFeatureTable.loadAsync();
                                         mapView.getMap().getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable));
-                                        geodatabaseButton.setDisable(true);
                                     });
                                     displayMessage("Geodatabase Loaded",null);
                                 } else {
@@ -216,13 +220,13 @@ public class EditAndSyncFeaturesSample extends Application {
                 }
             });
         });
-        System.out.println("button pressed");
     }
 
     /**
      * Syncs changes made on either the local or web service geodatabase with each other.
      */
     private void syncGeodatabase(){
+
         // create parameters for the sync task
         SyncGeodatabaseParameters syncGeodatabaseParameters = new SyncGeodatabaseParameters();
         syncGeodatabaseParameters.setSyncDirection(SyncGeodatabaseParameters.SyncDirection.BIDIRECTIONAL);
@@ -262,19 +266,21 @@ public class EditAndSyncFeaturesSample extends Application {
      * @param job the job to show progress of
      */
     private void showProgress(Job job) {
+
         // disable the button while the job runs
         geodatabaseButton.setDisable(true);
 
         // show progress
+        progressBar.setVisible(true);
         job.addProgressChangedListener(() -> {
             int progress = job.getProgress();
             progressBar.setProgress((double) progress / 100.0);
+        });
 
-            // re-enable button on complete
+        // re-enable button, hide progress bar on complete
+        job.addJobDoneListener(()->{
             if (job.getStatus() == Job.Status.SUCCEEDED){
                 geodatabaseButton.setDisable(false);
-
-                // hide progress bar on complete
                 Platform.runLater(() -> progressBar.setVisible(false));
             }
         });
