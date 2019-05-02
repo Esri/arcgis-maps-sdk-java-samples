@@ -18,17 +18,19 @@ package com.esri.samples.editing.edit_and_sync_features;
 
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.data.Geodatabase;
-import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
-import com.esri.arcgisruntime.data.TileCache;
+import com.esri.arcgisruntime.data.*;
 import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.tasks.geodatabase.*;
@@ -37,17 +39,23 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -114,8 +122,8 @@ public class EditAndSyncFeaturesSample extends Application {
                     // update button text and disable button
                     geodatabaseButton.setDisable(true);
                     geodatabaseButton.setText("Generating Geodatabase...");
-                    
-                    // show the extent of the geodatabase using a graphics
+
+                    // show the extent of the geodatabase to be generated
                     final SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
                     final Envelope extent = mapView.getVisibleArea().getExtent();
                     Graphic boundary = new Graphic(extent, boundarySymbol);
@@ -125,6 +133,73 @@ public class EditAndSyncFeaturesSample extends Application {
                     generateGeodatabase(extent);
                 } else if (currentEditState == EditState.READY) {
                     syncGeodatabase();
+                }
+            });
+
+            // handle clicks on the map view to select and move features
+            mapView.setOnMouseClicked((event)->{
+                if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
+                    // get screen point where user clicked
+                    Point2D screenPoint = new Point2D(event.getX(), event.getY());
+
+                    // get map location corresponding to screen point
+                    Point mapPoint = mapView.screenToLocation(screenPoint);
+
+                    // identify any clicked feature
+
+                    // features on the clicked location or all features on the map
+                    for (Layer layer : mapView.getMap().getOperationalLayers()) {
+                        final FeatureLayer featureLayer = (FeatureLayer) layer;
+
+                        // identify any clicked feature
+                        ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, screenPoint,1,false,1);
+                        results.addDoneListener(()->{
+                            try {
+                                // get selected feature
+                                List<GeoElement> elementList = results.get().getElements();
+                                if (elementList.size() > 0 && elementList.get(0) instanceof ArcGISFeature){
+
+                                    // clicked on a feature, select it
+                                    ArcGISFeature selectedFeature = (ArcGISFeature) elementList.get(0);
+                                    featureLayer.clearSelection();;
+                                    featureLayer.selectFeature(selectedFeature);
+                                } else {
+
+                                    // didn't click on a feature
+                                    ListenableFuture<FeatureQueryResult> selectedQuery = featureLayer.getSelectedFeaturesAsync();
+                                    selectedQuery.addDoneListener(()->{
+                                        try {
+                                            // check if a feature is currently selected
+                                            FeatureQueryResult selectedQueryResult = selectedQuery.get();
+                                            Iterator<Feature> features = selectedQueryResult.iterator();
+                                            if (features.hasNext()){
+                                                // move selected feature to clicked location
+                                                ArcGISFeature selectedFeature = (ArcGISFeature) features.next();
+                                                selectedFeature.loadAsync();
+                                                selectedFeature.addDoneLoadingListener(()->{
+                                                    if (selectedFeature.canUpdateGeometry()) {
+                                                        selectedFeature.setGeometry(mapPoint);
+                                                        ListenableFuture<Void> featureTableResult = selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
+                                                    }
+                                                });
+                                            } // else nothing currently selected, do nothing
+
+                                        } catch (InterruptedException | ExecutionException e) {
+                                            displayMessage("Exception getting selected feature", e.getCause().getMessage());
+                                        }
+                                    });
+                                }
+                            } catch (InterruptedException | ExecutionException e) {
+                                displayMessage("Exception getting clicked feature", e.getCause().getMessage());
+                            }
+                        });
+                    }
+                } else if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
+                    // on secondary mouse click, clear feature selection
+                    for (Layer layer : mapView.getMap().getOperationalLayers()) {
+                        final FeatureLayer featureLayer = (FeatureLayer) layer;
+                        featureLayer.clearSelection();
+                    }
                 }
             });
 
