@@ -77,11 +77,15 @@ public class GetElevationAtAPointSample extends Application {
             surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
             scene.setBaseSurface(surface);
 
-            // create a point symbol to mark where elevation is being measured
+            // create a point symbol and graphic to mark where elevation is being measured
             SimpleLineSymbol elevationLineSymbol  = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3.0f);
+            Graphic polylineGraphic = new Graphic();
+            polylineGraphic.setSymbol(elevationLineSymbol);
 
-            // create a text symbol to display the elevation of selected points
+            // create a text symbol and graphic to display the elevation of selected points
             TextSymbol elevationTextSymbol = new TextSymbol(20, null, 0xFFFF0000, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
+            Graphic elevationTextGraphic = new Graphic();
+            elevationTextGraphic.setSymbol(elevationTextSymbol);
 
             // create a graphics overlay
             graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
@@ -113,7 +117,7 @@ public class GetElevationAtAPointSample extends Application {
                     Point topOfPolyline = new Point(baseOfPolyline.getX(), baseOfPolyline.getY(), 750);
                     polylineBuilder.addPoint(topOfPolyline);
                     Polyline markerPolyline = polylineBuilder.toGeometry();
-                    Graphic polylineGraphic = new Graphic(markerPolyline, elevationLineSymbol);
+                    polylineGraphic.setGeometry(markerPolyline);
                     graphicsOverlay.getGraphics().add(polylineGraphic);
 
                     // get the surface elevation at the surface point
@@ -125,7 +129,7 @@ public class GetElevationAtAPointSample extends Application {
 
                             // update the text in the elevation marker
                             elevationTextSymbol.setText(Math.round(elevation) + " m");
-                            Graphic elevationTextGraphic = new Graphic(topOfPolyline, elevationTextSymbol);
+                            elevationTextGraphic.setGeometry(topOfPolyline);
                             graphicsOverlay.getGraphics().add(elevationTextGraphic);
 
                         } catch (InterruptedException | ExecutionException e) {
