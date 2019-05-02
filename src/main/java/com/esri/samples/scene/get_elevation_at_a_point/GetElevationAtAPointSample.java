@@ -124,7 +124,7 @@ public class GetElevationAtAPointSample extends Application {
                             Double elevation = elevationFuture.get();
 
                             // update the text in the elevation marker
-                            elevationTextSymbol.setText((Math.round(elevation * 10d)/10d) + " m");
+                            elevationTextSymbol.setText(Math.round(elevation) + " m");
                             Graphic elevationTextGraphic = new Graphic(topOfPolyline, elevationTextSymbol);
                             graphicsOverlay.getGraphics().add(elevationTextGraphic);
 
