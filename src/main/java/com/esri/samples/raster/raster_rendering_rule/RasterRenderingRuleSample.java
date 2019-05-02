@@ -70,7 +70,7 @@ public class RasterRenderingRuleSample extends Application {
             controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY, Insets.EMPTY)));
             controlsVBox.setPadding(new Insets(10.0));
             controlsVBox.setSpacing(8);
-            controlsVBox.setMaxSize(260, 150);
+            controlsVBox.setMaxSize(260, 160);
             controlsVBox.getStyleClass().add("panel-region");
 
             // create drop down menu of Rendering Rules
@@ -136,7 +136,7 @@ public class RasterRenderingRuleSample extends Application {
 
                         // change the label text to the rendering rule info description
                         String renderingRuleInfoDescription = selectedRenderingRuleInfo.getDescription();
-                        renderingRuleInfoLabel.setText("Rule Description: " + renderingRuleInfoDescription);
+                        renderingRuleInfoLabel.setText("Rule Description: \n" + renderingRuleInfoDescription);
 
                         // clear all rasters
                         map.getOperationalLayers().clear();
