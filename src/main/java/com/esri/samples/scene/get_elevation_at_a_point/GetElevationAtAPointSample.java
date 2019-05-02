@@ -18,7 +18,6 @@ package com.esri.samples.scene.get_elevation_at_a_point;
 
 import java.util.concurrent.ExecutionException;
 
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -41,6 +40,7 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.TextSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 public class GetElevationAtAPointSample extends Application {
 
@@ -78,10 +78,10 @@ public class GetElevationAtAPointSample extends Application {
             scene.setBaseSurface(surface);
 
             // create a point symbol to mark where elevation is being measured
-            SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3.0f);
+            SimpleLineSymbol elevationLineSymbol  = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3.0f);
 
             // create a text symbol to display the elevation of selected points
-            TextSymbol elevationTextSymbol = new TextSymbol(20,null,0xFFFF0000,TextSymbol.HorizontalAlignment.CENTER,TextSymbol.VerticalAlignment.BOTTOM);
+            TextSymbol elevationTextSymbol = new TextSymbol(20, null, 0xFFFF0000, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
 
             // create a graphics overlay
             graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
@@ -113,7 +113,7 @@ public class GetElevationAtAPointSample extends Application {
                     Point topOfPolyline = new Point(baseOfPolyline.getX(), baseOfPolyline.getY(), 750);
                     polylineBuilder.addPoint(topOfPolyline);
                     Polyline markerPolyline = polylineBuilder.toGeometry();
-                    Graphic polylineGraphic = new Graphic(markerPolyline, lineSymbol);
+                    Graphic polylineGraphic = new Graphic(markerPolyline, elevationLineSymbol);
                     graphicsOverlay.getGraphics().add(polylineGraphic);
 
                     // get the surface elevation at the surface point
@@ -138,7 +138,6 @@ public class GetElevationAtAPointSample extends Application {
             // on any error, display the stack trace.
             e.printStackTrace();
         }
-
     }
 
     /**
