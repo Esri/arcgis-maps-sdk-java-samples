@@ -113,8 +113,6 @@ public class RasterRenderingRuleSample extends Application {
             final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
             map.getOperationalLayers().add(imageRasterLayer);
 
-            imageServiceRaster.loadAsync();
-
             // add event listener to loading of Image Service Raster and wait until loaded
             imageRasterLayer.addDoneLoadingListener(() -> {
                 if (imageRasterLayer.getLoadStatus() == LoadStatus.LOADED){
