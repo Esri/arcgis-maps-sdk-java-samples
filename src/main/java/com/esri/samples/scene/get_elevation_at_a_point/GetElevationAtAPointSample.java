@@ -20,10 +20,10 @@ import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.geometry.Point2D;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
