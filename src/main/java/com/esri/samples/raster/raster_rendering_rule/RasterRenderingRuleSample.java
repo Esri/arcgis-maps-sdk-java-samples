@@ -34,10 +34,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 public class RasterRenderingRuleSample extends Application {
 
-    private ComboBox<String> renderingRuleDropDownMenu;
+    private ComboBox<RenderingRuleInfo> renderingRuleDropDownMenu;
     private MapView mapView;
     private ArcGISMap map;
 
@@ -60,6 +61,18 @@ public class RasterRenderingRuleSample extends Application {
             renderingRuleDropDownMenu.setPromptText("Select a Raster Rendering Rule");
             renderingRuleDropDownMenu.setEditable(false);
             renderingRuleDropDownMenu.setMaxWidth(260.0);
+            renderingRuleDropDownMenu.setConverter(new StringConverter<RenderingRuleInfo>() {
+                @Override
+                public String toString(RenderingRuleInfo renderingRuleInfo) {
+
+                    return renderingRuleInfo != null ? renderingRuleInfo.getName() : "";
+                }
+
+                @Override
+                public RenderingRuleInfo fromString(String string) {
+                    return null;
+                }
+            });
 
             // create a Streets BaseMap
             map = new ArcGISMap(Basemap.createStreets());
@@ -86,19 +99,15 @@ public class RasterRenderingRuleSample extends Application {
 
                     //populate the drop down menu with the rendering rule names
                     for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
-                        // get the name of the rendering rule
-                        String renderingRuleName = renderingRuleInfo.getName();
                         // add the name of the rendering rule to the drop-down menu
-                        renderingRuleDropDownMenu.getItems().add(renderingRuleName);
+                        renderingRuleDropDownMenu.getItems().add(renderingRuleInfo);
                     }
 
                     // listen to selection in the drop-down menu
                     renderingRuleDropDownMenu.getSelectionModel().selectedItemProperty().addListener(o -> {
-                        // get the index of the selected rendering rule
-                        int selectedRenderingRuleIndex = renderingRuleDropDownMenu.getSelectionModel().getSelectedIndex();
 
                         // get the requested rendering rule info from the list
-                        RenderingRuleInfo selectedRenderingRuleInfo = renderingRuleInfos.get(selectedRenderingRuleIndex);
+                        RenderingRuleInfo selectedRenderingRuleInfo = renderingRuleDropDownMenu.getSelectionModel().getSelectedItem();
 
                         // clear all rasters
                         map.getOperationalLayers().clear();
