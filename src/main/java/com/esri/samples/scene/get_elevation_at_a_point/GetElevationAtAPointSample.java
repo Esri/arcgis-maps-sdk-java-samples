@@ -81,7 +81,7 @@ public class GetElevationAtAPointSample extends Application {
             SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3.0f);
 
             // create a text symbol to display the elevation of selected points
-            TextSymbol elevationTextSymbol = new TextSymbol(20,null,0xFFFF0000,TextSymbol.HorizontalAlignment.CENTER,TextSymbol.VerticalAlignment.MIDDLE);
+            TextSymbol elevationTextSymbol = new TextSymbol(20,null,0xFFFF0000,TextSymbol.HorizontalAlignment.CENTER,TextSymbol.VerticalAlignment.BOTTOM);
 
             // create a graphics overlay
             graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
@@ -116,9 +116,6 @@ public class GetElevationAtAPointSample extends Application {
                     Graphic polylineGraphic = new Graphic(markerPolyline, lineSymbol);
                     graphicsOverlay.getGraphics().add(polylineGraphic);
 
-                    // create a point to place the elevationTextSymbol above the polyline
-                    Point textSymbolPosition = new Point(topOfPolyline.getX(), topOfPolyline.getY(), topOfPolyline.getZ()+100);
-
                     // get the surface elevation at the surface point
                     ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(relativeSurfacePoint);
                     elevationFuture.addDoneListener(() -> {
@@ -127,7 +124,7 @@ public class GetElevationAtAPointSample extends Application {
                                 Double elevation = elevationFuture.get();
 
                                 // update the text in the elevation marker
-                                updateMarkerText(elevationTextSymbol,textSymbolPosition,elevation);
+                                updateMarkerText(elevationTextSymbol,topOfPolyline,elevation);
 
                             } catch (InterruptedException | ExecutionException e) {
                                 new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
