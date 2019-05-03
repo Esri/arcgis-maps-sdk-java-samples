@@ -23,12 +23,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.esri.arcgisruntime.data.ArcGISFeature;
-import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.data.FeatureQueryResult;
-import com.esri.arcgisruntime.data.Geodatabase;
-import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
-import com.esri.arcgisruntime.data.TileCache;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -45,6 +39,12 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.ArcGISFeature;
+import com.esri.arcgisruntime.data.Feature;
+import com.esri.arcgisruntime.data.FeatureQueryResult;
+import com.esri.arcgisruntime.data.Geodatabase;
+import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
+import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
@@ -59,7 +59,13 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.tasks.geodatabase.*;
+import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseJob;
+import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
+import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
+import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseJob;
+import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseParameters;
+import com.esri.arcgisruntime.tasks.geodatabase.SyncLayerOption;
+
 
 public class EditAndSyncFeaturesSample extends Application {
 
@@ -88,7 +94,7 @@ public class EditAndSyncFeaturesSample extends Application {
             stage.setScene(scene);
             stage.show();
 
-            // set edit state t not ready until geodatabase job has completed successfully
+            // set edit state to not ready until geodatabase generation has completed successfully
             currentEditState = EditState.NOTREADY;
 
             // create a map view and add a map
@@ -97,13 +103,16 @@ public class EditAndSyncFeaturesSample extends Application {
             graphicsOverlay = new GraphicsOverlay();
             mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-            // load cached tiles
-            loadTileCache();
+            // use local tile package for the base map
+            TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
+            ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
+            Basemap basemap = new Basemap(tiledLayer);
+            map = new ArcGISMap(basemap);
+            mapView.setMap(map);
 
             // create a control panel
             VBox controlsVBox = new VBox(6);
-            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-                    Insets.EMPTY)));
+            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
             controlsVBox.setPadding(new Insets(10.0));
             controlsVBox.setMaxSize(180, 20);
             controlsVBox.getStyleClass().add("panel-region");
@@ -138,6 +147,10 @@ public class EditAndSyncFeaturesSample extends Application {
                 }
             });
 
+            // TODO: change state to EDITING once feature is selected
+            // which disables the button (and changes text to editing)
+
+
             // handle clicks on the map view to select and move features
             mapView.setOnMouseClicked((event)->{
                 if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
@@ -165,6 +178,7 @@ public class EditAndSyncFeaturesSample extends Application {
                                     ArcGISFeature selectedFeature = (ArcGISFeature) elementList.get(0);
                                     featureLayer.clearSelection();;
                                     featureLayer.selectFeature(selectedFeature);
+                                    // TODO: change state to editing
                                 } else {
 
                                     // didn't click on a feature
@@ -180,8 +194,14 @@ public class EditAndSyncFeaturesSample extends Application {
                                                 selectedFeature.loadAsync();
                                                 selectedFeature.addDoneLoadingListener(()->{
                                                     if (selectedFeature.canUpdateGeometry()) {
+                                                        // apply the edits
                                                         selectedFeature.setGeometry(mapPoint);
-                                                        ListenableFuture<Void> featureTableResult = selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
+                                                        selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
+
+                                                        // refresh ui to enable syncinc
+                                                        currentEditState = EditState.READY;
+                                                        geodatabaseButton.setText("Sync Geodatabase");
+                                                        geodatabaseButton.setDisable(false);
                                                     }
                                                 });
                                             } // else nothing currently selected, do nothing
@@ -216,19 +236,6 @@ public class EditAndSyncFeaturesSample extends Application {
             // on any error, display the stack trace
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Load local tile cache.
-     */
-    private void loadTileCache() {
-
-        // use local tile package for the base map
-        TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
-        ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
-        Basemap basemap = new Basemap(tiledLayer);
-        map = new ArcGISMap(basemap);
-        mapView.setMap(map);
     }
 
     /**
@@ -333,9 +340,6 @@ public class EditAndSyncFeaturesSample extends Application {
             }
         });
     }
-
-    // TODO: enable selecting/moving features
-
 
     /**
      * Show a progress bar
