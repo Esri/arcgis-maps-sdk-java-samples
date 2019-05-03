@@ -18,11 +18,11 @@ package com.esri.samples.editing.edit_and_sync_features;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -33,7 +33,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -46,6 +50,7 @@ import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
 import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -59,13 +64,7 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseJob;
-import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
-import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
-import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseJob;
-import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseParameters;
-import com.esri.arcgisruntime.tasks.geodatabase.SyncLayerOption;
-
+import com.esri.arcgisruntime.tasks.geodatabase.*;
 
 public class EditAndSyncFeaturesSample extends Application {
 
@@ -99,6 +98,7 @@ public class EditAndSyncFeaturesSample extends Application {
 
             // create a map view and add a map
             mapView = new MapView();
+
             // create a graphics overlay and symbol to mark the extent
             graphicsOverlay = new GraphicsOverlay();
             mapView.getGraphicsOverlays().add(graphicsOverlay);
@@ -147,10 +147,6 @@ public class EditAndSyncFeaturesSample extends Application {
                 }
             });
 
-            // TODO: change state to EDITING once feature is selected
-            // which disables the button (and changes text to editing)
-
-
             // handle clicks on the map view to select and move features
             mapView.setOnMouseClicked((event)->{
                 if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
@@ -161,8 +157,9 @@ public class EditAndSyncFeaturesSample extends Application {
                     Point mapPoint = mapView.screenToLocation(screenPoint);
 
                     // identify any clicked feature
+                    ArrayList<Feature> selectedFeatures = new ArrayList<>();
 
-                    // features on the clicked location or all features on the map
+                    // iterate through all feature layers in the map
                     for (Layer layer : mapView.getMap().getOperationalLayers()) {
                         final FeatureLayer featureLayer = (FeatureLayer) layer;
 
@@ -170,17 +167,20 @@ public class EditAndSyncFeaturesSample extends Application {
                         ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, screenPoint,1,false,1);
                         results.addDoneListener(()->{
                             try {
-                                // get selected feature
+                                // get selected feature, if it is a point
                                 List<GeoElement> elementList = results.get().getElements();
-                                if (elementList.size() > 0 && elementList.get(0) instanceof ArcGISFeature){
+                                if (elementList.size() > 0 && elementList.get(0) instanceof ArcGISFeature && elementList.get(0).getGeometry().getGeometryType() == GeometryType.POINT) {
 
                                     // clicked on a feature, select it
                                     ArcGISFeature selectedFeature = (ArcGISFeature) elementList.get(0);
-                                    featureLayer.clearSelection();;
+                                    // TODO: this doesn't clear the selection in all FL, hence some elements stay selected?
+                                    featureLayer.clearSelection(); // clear previous selection
                                     featureLayer.selectFeature(selectedFeature);
-                                    // TODO: change state to editing
-                                } else {
 
+                                    // change the state to editing
+                                    currentEditState = EditState.EDITING;
+
+                                } else {
                                     // didn't click on a feature
                                     ListenableFuture<FeatureQueryResult> selectedQuery = featureLayer.getSelectedFeaturesAsync();
                                     selectedQuery.addDoneListener(()->{
@@ -205,7 +205,6 @@ public class EditAndSyncFeaturesSample extends Application {
                                                     }
                                                 });
                                             } // else nothing currently selected, do nothing
-
                                         } catch (InterruptedException | ExecutionException e) {
                                             displayMessage("Exception getting selected feature", e.getCause().getMessage());
                                         }
@@ -282,7 +281,7 @@ public class EditAndSyncFeaturesSample extends Application {
                                         geodatabaseFeatureTable.loadAsync();
                                         mapView.getMap().getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable));
                                     });
-                                    displayMessage("Geodatabase Loaded",null);
+                                    displayMessage("Geodatabase loaded successfully",null);
                                 } else {
                                     displayMessage("Error loading geodatabase", geodatabase.getLoadError().getMessage());
                                 }
@@ -344,7 +343,7 @@ public class EditAndSyncFeaturesSample extends Application {
     /**
      * Show a progress bar
      *
-     * @param job the job to show progress of
+     * @param job the job to show progress for
      */
     private void showProgress(Job job) {
 
