@@ -32,7 +32,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -74,10 +74,10 @@ public class EditAndSyncFeaturesSample extends Application {
   private final AtomicInteger replica = new AtomicInteger();
   private EditAndSyncFeaturesSample.EditState currentEditState;
   private GraphicsOverlay graphicsOverlay;
-  private ProgressBar progressBar;
   private Geodatabase geodatabase;
   private GeodatabaseSyncTask geodatabaseSyncTask;
   private Button geodatabaseButton;
+  private ProgressIndicator progressIndicator;
 
   @Override
   public void start(Stage stage) {
@@ -123,10 +123,9 @@ public class EditAndSyncFeaturesSample extends Application {
       geodatabaseButton.setMaxWidth(Double.MAX_VALUE);
       controlsVBox.getChildren().add(geodatabaseButton);
 
-      // create progress bar
-      progressBar = new ProgressBar();
-      progressBar.setProgress(0.0);
-      progressBar.setVisible(false);
+      // create progress indicator
+      progressIndicator = new ProgressIndicator();
+      progressIndicator.setVisible(false);
 
       // add listener to handle generate/sync geodatabase button
       geodatabaseButton.setOnAction(e -> {
@@ -226,11 +225,11 @@ public class EditAndSyncFeaturesSample extends Application {
       });
 
       // add map view, controlsVBox and progressBar to stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox, progressBar);
+      stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
-      StackPane.setAlignment(progressBar, Pos.BOTTOM_CENTER);
-      StackPane.setMargin(progressBar, new Insets(0, 0, 50, 0));
+      StackPane.setAlignment(progressIndicator, Pos.BOTTOM_CENTER);
+      StackPane.setMargin(progressIndicator, new Insets(0, 0, 50, 0));
 
     } catch (Exception e) {
       // on any error, display the stack trace
@@ -352,18 +351,14 @@ public class EditAndSyncFeaturesSample extends Application {
     // disable the button while the job runs
     geodatabaseButton.setDisable(true);
 
-    // show progress
-    progressBar.setVisible(true);
-    job.addProgressChangedListener(() -> {
-      int progress = job.getProgress();
-      progressBar.setProgress((double) progress / 100.0);
-    });
+    //  show progress
+    job.addProgressChangedListener(() -> progressIndicator.setVisible(true));
 
-    // re-enable button, hide progress bar on complete
+    // re-enable button, hide progress indicator on complete
     job.addJobDoneListener(() -> {
       if (job.getStatus() == Job.Status.SUCCEEDED) {
         geodatabaseButton.setDisable(false);
-        Platform.runLater(() -> progressBar.setVisible(false));
+        Platform.runLater(() -> progressIndicator.setVisible(false));
       }
     });
   }
