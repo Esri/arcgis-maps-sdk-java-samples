@@ -195,7 +195,7 @@ public class EditAndSyncFeaturesSample extends Application {
                             selectedFeature.setGeometry(mapPoint);
                             selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
 
-                            // refresh ui to enable syncinc
+                            // refresh ui to enable syncing
                             currentEditState = EditState.READY;
                             geodatabaseButton.setText("Sync Geodatabase");
                             geodatabaseButton.setDisable(false);
