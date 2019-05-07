@@ -18,7 +18,6 @@ package com.esri.samples.raster.raster_rendering_rule;
 
 import java.util.List;
 
-import com.esri.arcgisruntime.concurrent.Job;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
