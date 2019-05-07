@@ -63,12 +63,12 @@ import com.esri.arcgisruntime.tasks.networkanalysis.Incident;
 public class ClosestFacilityStaticSample extends Application {
 
   private MapView mapView;
-  ClosestFacilityTask closestFacilityTask;
-  ArrayList<Incident> incidentsList = new ArrayList<>();
-  ArrayList<Facility> facilitiesList = new ArrayList<>();
-  SimpleLineSymbol simpleLineSymbol;
-  Button solveRoutesButton;
-  Button resetButton;
+  private ClosestFacilityTask closestFacilityTask;
+  private ArrayList<Incident> incidentsList = new ArrayList<>();
+  private ArrayList<Facility> facilitiesList = new ArrayList<>();
+  private SimpleLineSymbol simpleLineSymbol;
+  private Button solveRoutesButton;
+  private Button resetButton;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -149,6 +149,7 @@ public class ClosestFacilityStaticSample extends Application {
         incidentsFeatureLayer.addDoneLoadingListener(() -> {
           if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
+            // zoom to the extent of the combined feature layers
             Envelope fullFeatureLayerExtent = GeometryEngine.combineExtents(facilitiesFeatureLayer.getFullExtent(), incidentsFeatureLayer.getFullExtent());
             mapView.setViewpointGeometryAsync(fullFeatureLayerExtent, 90);
 
@@ -195,7 +196,7 @@ public class ClosestFacilityStaticSample extends Application {
               }
             });
 
-            // handle reset button presses
+            // handle reset button press
             resetButton.setOnAction(e -> {
               try {
                 resetRoutes();
