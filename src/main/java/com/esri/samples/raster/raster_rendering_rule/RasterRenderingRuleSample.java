@@ -44,146 +44,145 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
 import com.esri.arcgisruntime.raster.RenderingRule;
 
-
 public class RasterRenderingRuleSample extends Application {
 
-    private ComboBox<RenderingRuleInfo> renderingRuleInfoComboBox;
-    private MapView mapView;
-    private ArcGISMap map;
+  private ComboBox<RenderingRuleInfo> renderingRuleInfoComboBox;
+  private MapView mapView;
+  private ArcGISMap map;
 
-    @Override
-    public void start(Stage stage) {
-        try {
-            // create stack pane and application scene
-            StackPane stackPane = new StackPane();
-            Scene scene = new Scene(stackPane);
+  @Override
+  public void start(Stage stage) {
+    try {
+      // create stack pane and application scene
+      StackPane stackPane = new StackPane();
+      Scene scene = new Scene(stackPane);
 
-            // set title, size, and add scene to stage
-            stage.setTitle("Raster Rendering Rule Sample");
-            stage.setWidth(800);
-            stage.setHeight(700);
-            stage.setScene(scene);
-            stage.show();
+      // set title, size, and add scene to stage
+      stage.setTitle("Raster Rendering Rule Sample");
+      stage.setWidth(800);
+      stage.setHeight(700);
+      stage.setScene(scene);
+      stage.show();
 
-            // create a control panel
-            VBox controlsVBox = new VBox();
-            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY, Insets.EMPTY)));
-            controlsVBox.setPadding(new Insets(10.0));
-            controlsVBox.setSpacing(8);
-            controlsVBox.setMaxSize(260, 160);
-            controlsVBox.getStyleClass().add("panel-region");
+      // create a control panel
+      VBox controlsVBox = new VBox();
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setSpacing(8);
+      controlsVBox.setMaxSize(260, 160);
+      controlsVBox.getStyleClass().add("panel-region");
 
-            // create drop down menu of Rendering Rules
-            renderingRuleInfoComboBox = new ComboBox<>();
-            renderingRuleInfoComboBox.setPromptText("Select a Raster Rendering Rule");
-            renderingRuleInfoComboBox.setEditable(false);
-            renderingRuleInfoComboBox.setMaxWidth(260.0);
-            renderingRuleInfoComboBox.setConverter(new StringConverter<RenderingRuleInfo>() {
-                @Override
-                public String toString(RenderingRuleInfo renderingRuleInfo) {
+      // create drop down menu of Rendering Rules
+      renderingRuleInfoComboBox = new ComboBox<>();
+      renderingRuleInfoComboBox.setPromptText("Select a Raster Rendering Rule");
+      renderingRuleInfoComboBox.setEditable(false);
+      renderingRuleInfoComboBox.setMaxWidth(260.0);
+      renderingRuleInfoComboBox.setConverter(new StringConverter<RenderingRuleInfo>() {
+        @Override
+        public String toString(RenderingRuleInfo renderingRuleInfo) {
 
-                    return renderingRuleInfo != null ? renderingRuleInfo.getName() : "";
-                }
-
-                @Override
-                public RenderingRuleInfo fromString(String string) {
-                    return null;
-                }
-            });
-
-            // create a label for the Rendering Rule info
-            Label renderingRuleInfoLabel = new Label("");
-            renderingRuleInfoLabel.setFont(new Font(12));
-            renderingRuleInfoLabel.setTextFill(Color.WHITE);
-            renderingRuleInfoLabel.setMaxWidth(220);
-            renderingRuleInfoLabel.setWrapText(true);
-
-            // add the ComboBox and Label to the controlsVBox
-            controlsVBox.getChildren().addAll(renderingRuleInfoComboBox, renderingRuleInfoLabel);
-
-            // create a Streets BaseMap
-            map = new ArcGISMap(Basemap.createStreets());
-
-            // add the map to a new map view
-            mapView = new MapView();
-            mapView.setMap(map);
-
-            // create an Image Service Raster as a raster layer and add to map
-            final ImageServiceRaster imageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer");
-            final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
-            map.getOperationalLayers().add(imageRasterLayer);
-
-            // add event listener to loading of Image Service Raster and wait until loaded
-            imageRasterLayer.addDoneLoadingListener(() -> {
-                if (imageRasterLayer.getLoadStatus() == LoadStatus.LOADED){
-                    // zoom to extent of the raster
-                    mapView.setViewpointGeometryAsync(imageServiceRaster.getServiceInfo().getFullExtent());
-
-                    // get the predefined rendering rules
-                    List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
-
-                    // populate the drop down menu with the rendering rule names
-                    for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos){
-                        // add the name of the rendering rule to the drop-down menu
-                        renderingRuleInfoComboBox.getItems().add(renderingRuleInfo);
-                    }
-
-                    // listen to selection in the drop-down menu
-                    renderingRuleInfoComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
-
-                        // get the requested rendering rule info from the list
-                        RenderingRuleInfo selectedRenderingRuleInfo = renderingRuleInfoComboBox.getSelectionModel().getSelectedItem();
-
-                        // change the label text to the rendering rule info description
-                        String renderingRuleInfoDescription = selectedRenderingRuleInfo.getDescription();
-                        renderingRuleInfoLabel.setText("Rule Description: \n" + renderingRuleInfoDescription);
-
-                        // clear all rasters
-                        map.getOperationalLayers().clear();
-
-                        // create a rendering rule object using the rendering rule info
-                        RenderingRule renderingRule = new RenderingRule(selectedRenderingRuleInfo);
-
-                        // create a new image service raster
-                        ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer");
-
-                        // apply the rendering rule
-                        appliedImageServiceRaster.setRenderingRule(renderingRule);
-                        RasterLayer rasterLayer = new RasterLayer(appliedImageServiceRaster);
-                        map.getOperationalLayers().add(rasterLayer);
-
-                    });
-                }
-            });
-
-            // add the map view to the stack pane
-            stackPane.getChildren().addAll(mapView, controlsVBox);
-            StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-            StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
-        } catch (Exception e) {
-            // on any error, display the stack trace.
-            e.printStackTrace();
+          return renderingRuleInfo != null ? renderingRuleInfo.getName() : "";
         }
-    }
 
-    /**
-     * Stops and releases all resources used in application.
-     */
-    @Override
-    public void stop() {
-
-        if (mapView != null) {
-            mapView.dispose();
+        @Override
+        public RenderingRuleInfo fromString(String string) {
+          return null;
         }
-    }
+      });
 
-    /**
-     * Opens and runs application.
-     *
-     * @param args arguments passed to this application
-     */
-    public static void main(String[] args) {
+      // create a label for the Rendering Rule info
+      Label renderingRuleInfoLabel = new Label("");
+      renderingRuleInfoLabel.setFont(new Font(12));
+      renderingRuleInfoLabel.setTextFill(Color.WHITE);
+      renderingRuleInfoLabel.setMaxWidth(220);
+      renderingRuleInfoLabel.setWrapText(true);
 
-        Application.launch(args);
+      // add the ComboBox and Label to the controlsVBox
+      controlsVBox.getChildren().addAll(renderingRuleInfoComboBox, renderingRuleInfoLabel);
+
+      // create a Streets BaseMap
+      map = new ArcGISMap(Basemap.createStreets());
+
+      // add the map to a new map view
+      mapView = new MapView();
+      mapView.setMap(map);
+
+      // create an Image Service Raster as a raster layer and add to map
+      final ImageServiceRaster imageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer");
+      final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
+      map.getOperationalLayers().add(imageRasterLayer);
+
+      // add event listener to loading of Image Service Raster and wait until loaded
+      imageRasterLayer.addDoneLoadingListener(() -> {
+        if (imageRasterLayer.getLoadStatus() == LoadStatus.LOADED) {
+          // zoom to extent of the raster
+          mapView.setViewpointGeometryAsync(imageServiceRaster.getServiceInfo().getFullExtent());
+
+          // get the predefined rendering rules
+          List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
+
+          // populate the drop down menu with the rendering rule names
+          for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos) {
+            // add the name of the rendering rule to the drop-down menu
+            renderingRuleInfoComboBox.getItems().add(renderingRuleInfo);
+          }
+
+          // listen to selection in the drop-down menu
+          renderingRuleInfoComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
+
+            // get the requested rendering rule info from the list
+            RenderingRuleInfo selectedRenderingRuleInfo = renderingRuleInfoComboBox.getSelectionModel().getSelectedItem();
+
+            // change the label text to the rendering rule info description
+            String renderingRuleInfoDescription = selectedRenderingRuleInfo.getDescription();
+            renderingRuleInfoLabel.setText("Rule Description: \n" + renderingRuleInfoDescription);
+
+            // clear all rasters
+            map.getOperationalLayers().clear();
+
+            // create a rendering rule object using the rendering rule info
+            RenderingRule renderingRule = new RenderingRule(selectedRenderingRuleInfo);
+
+            // create a new image service raster
+            ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer");
+
+            // apply the rendering rule
+            appliedImageServiceRaster.setRenderingRule(renderingRule);
+            RasterLayer rasterLayer = new RasterLayer(appliedImageServiceRaster);
+            map.getOperationalLayers().add(rasterLayer);
+
+          });
+        }
+      });
+
+      // add the map view to the stack pane
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+    } catch (Exception e) {
+      // on any error, display the stack trace.
+      e.printStackTrace();
     }
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
+
+    if (mapView != null) {
+      mapView.dispose();
+    }
+  }
+
+  /**
+   * Opens and runs application.
+   *
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
+
+    Application.launch(args);
+  }
 }
