@@ -16,11 +16,33 @@
 
 package com.esri.samples.na.closest_facility_static;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.data.*;
+import com.esri.arcgisruntime.data.Feature;
+import com.esri.arcgisruntime.data.FeatureQueryResult;
+import com.esri.arcgisruntime.data.FeatureTable;
+import com.esri.arcgisruntime.data.QueryParameters;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
-import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -31,22 +53,12 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import com.esri.arcgisruntime.tasks.networkanalysis.*;
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.concurrent.ExecutionException;
+import com.esri.arcgisruntime.tasks.networkanalysis.ClosestFacilityParameters;
+import com.esri.arcgisruntime.tasks.networkanalysis.ClosestFacilityResult;
+import com.esri.arcgisruntime.tasks.networkanalysis.ClosestFacilityRoute;
+import com.esri.arcgisruntime.tasks.networkanalysis.ClosestFacilityTask;
+import com.esri.arcgisruntime.tasks.networkanalysis.Facility;
+import com.esri.arcgisruntime.tasks.networkanalysis.Incident;
 
 public class ClosestFacilityStaticSample extends Application {
 
@@ -98,7 +110,7 @@ public class ClosestFacilityStaticSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // Add a graphics overlay to the map (will be used later to display routes);
+      // Add a graphics overlay to the map (will be used later to display routes)
       mapView.getGraphicsOverlays().add(new GraphicsOverlay());
 
       // create Symbols for displaying facilities
@@ -111,24 +123,24 @@ public class ClosestFacilityStaticSample extends Application {
       // create a ClosestFacilityTask
       closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
 
-      // Create a table for facilities using the FeatureServer.
+      // Create a table for facilities using the FeatureServer
       FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
 
       // Create a feature layer from the table, apply facilities icon
       FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
       facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
-      // Create a table for incidents using the FeatureServer.
+      // Create a table for incidents using the FeatureServer
       FeatureTable incidentsFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Incidents/FeatureServer/0");
 
       // Create a feature layer from the table, apply incident icon
       FeatureLayer incidentsFeatureLayer = new FeatureLayer(incidentsFeatureTable);
       incidentsFeatureLayer.setRenderer(new SimpleRenderer(incidentSymbol));
 
-      // Add the layers to the map.
+      // Add the layers to the map
       map.getOperationalLayers().addAll(Arrays.asList(facilitiesFeatureLayer, incidentsFeatureLayer));
 
-      // Wait for both layers to load.
+      // Wait for both layers to load
       facilitiesFeatureLayer.loadAsync();
       incidentsFeatureLayer.loadAsync();
 
@@ -140,7 +152,7 @@ public class ClosestFacilityStaticSample extends Application {
             Envelope fullFeatureLayerExtent = GeometryEngine.combineExtents(facilitiesFeatureLayer.getFullExtent(), incidentsFeatureLayer.getFullExtent());
             mapView.setViewpointGeometryAsync(fullFeatureLayerExtent, 90);
 
-            // Create query parameters to select all features;
+            // Create query parameters to select all features
             QueryParameters queryParameters = new QueryParameters();
             queryParameters.setWhereClause("1=1");
 
@@ -153,8 +165,8 @@ public class ClosestFacilityStaticSample extends Application {
                   facilitiesList.add(new Facility(facilityFeature.getGeometry().getExtent().getCenter()));
                 }
 
-              } catch (Exception e) {
-                e.printStackTrace();
+              } catch (InterruptedException | ExecutionException e) {
+                displayMessage("Error retrieving list of facilities", e.getMessage());
               }
             });
 
@@ -168,8 +180,8 @@ public class ClosestFacilityStaticSample extends Application {
                   incidentsList.add(new Incident(incidentFeature.getGeometry().getExtent().getCenter()));
                 }
 
-              } catch (Exception e) {
-                e.printStackTrace();
+              } catch (InterruptedException | ExecutionException e) {
+                displayMessage("Error retrieving list of incidents", e.getMessage());
               }
             });
 
@@ -185,7 +197,7 @@ public class ClosestFacilityStaticSample extends Application {
 
             // handle reset button presses
             resetButton.setOnAction(e -> {
-              try{
+              try {
                 resetRoutes();
               } catch (Exception ex) {
                 ex.printStackTrace();
@@ -223,7 +235,7 @@ public class ClosestFacilityStaticSample extends Application {
                 try {
                   ClosestFacilityResult closestFacilityResult = closestFacilityTaskResult.get();
 
-                  // TODO: display each route
+                  // find the closest facility for each incident
                   for (int i = 0; i < incidentsList.size(); i++) {
 
                     // get the index of the closest facility to incident. (i) is the index of the incident, [0] is the index of the closest facility.
@@ -251,13 +263,12 @@ public class ClosestFacilityStaticSample extends Application {
               e.printStackTrace();
             }
 
-          } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+          } catch (InterruptedException | ExecutionException e) {
+            displayMessage("Error getting default route parameters", e.getMessage());
           }
 
         } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Closest Facility Task Failed to Load!");
-          alert.show();
+          displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
         }
       });
 
@@ -270,16 +281,17 @@ public class ClosestFacilityStaticSample extends Application {
 
   /**
    * Creates a PictureMarkerSymbol from a URI and sizes it appropriately
+   *
    * @param uri the URI of the picture to be used for the symbol
    */
-  private PictureMarkerSymbol createSymbol(String uri){
+  private PictureMarkerSymbol createSymbol(String uri) {
     PictureMarkerSymbol symbol = new PictureMarkerSymbol(uri);
     symbol.setHeight(30);
     symbol.setWidth(30);
     return symbol;
   }
 
-  private void resetRoutes(){
+  private void resetRoutes() {
     // clear the route graphics.
     mapView.getGraphicsOverlays().get(0).getGraphics().clear();
 
@@ -287,6 +299,23 @@ public class ClosestFacilityStaticSample extends Application {
     solveRoutesButton.setDisable(false);
     resetButton.setDisable(true);
   }
+
+  /**
+   * Shows a message in an alert dialog.
+   *
+   * @param title   title of alert
+   * @param message message to display
+   */
+  private void displayMessage(String title, String message) {
+
+    Platform.runLater(() -> {
+      Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+      dialog.setHeaderText(title);
+      dialog.setContentText(message);
+      dialog.showAndWait();
+    });
+  }
+
 
   /**
    * Stops and releases all resources used in application.
