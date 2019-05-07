@@ -317,7 +317,6 @@ public class ClosestFacilityStaticSample extends Application {
     });
   }
 
-
   /**
    * Stops and releases all resources used in application.
    */
