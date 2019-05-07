@@ -156,9 +156,6 @@ public class EditAndSyncFeaturesSample extends Application {
           // get map location corresponding to screen point
           Point mapPoint = mapView.screenToLocation(screenPoint);
 
-          // identify any clicked feature
-          ArrayList<Feature> selectedFeatures = new ArrayList<>();
-
           // iterate through all feature layers in the map
           for (Layer layer : mapView.getMap().getOperationalLayers()) {
             final FeatureLayer featureLayer = (FeatureLayer) layer;
