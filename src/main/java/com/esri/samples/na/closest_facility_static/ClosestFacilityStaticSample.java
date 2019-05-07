@@ -32,8 +32,12 @@ import com.esri.arcgisruntime.tasks.networkanalysis.ClosestFacilityTask;
 import com.esri.arcgisruntime.util.ListenableList;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.util.Arrays;
@@ -56,6 +60,21 @@ public class ClosestFacilityStaticSample extends Application {
             stage.setHeight(700);
             stage.setScene(scene);
             stage.show();
+
+            VBox controlsVBox = new VBox(6);
+            controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+                    Insets.EMPTY)));
+            controlsVBox.setPadding(new Insets(10.0));
+            controlsVBox.setMaxSize(150,50);
+            controlsVBox.getStyleClass().add("panel-region");
+
+            // create a button
+            Button solveRoutesButton = new Button("Solve Routes");
+            solveRoutesButton.setMaxWidth(Double.MAX_VALUE);
+            solveRoutesButton.setDisable(true);
+
+            // add button to the control panel
+            controlsVBox.getChildren().add(solveRoutesButton);
 
             // create a ArcGISMap with a Basemap instance with an Imagery base layer
             ArcGISMap map = new ArcGISMap(Basemap.createStreetsWithReliefVector());
@@ -92,32 +111,22 @@ public class ClosestFacilityStaticSample extends Application {
             incidentsFeatureLayer.loadAsync();
 
             // TODO: Is there any possibility to combine the two Tasks and only use one listener?
-            facilitiesFeatureLayer.addDoneLoadingListener(()->{
-                incidentsFeatureLayer.addDoneLoadingListener(()->{
-                    if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED){
-
-
+            facilitiesFeatureLayer.addDoneLoadingListener(() -> {
+                incidentsFeatureLayer.addDoneLoadingListener(() -> {
+                    if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
                         Envelope fullFeatureLayerExtent = GeometryEngine.combineExtents(facilitiesFeatureLayer.getFullExtent(), incidentsFeatureLayer.getFullExtent());
                         mapView.setViewpointGeometryAsync(fullFeatureLayerExtent, 90);
+
+                        solveRoutesButton.setDisable(false);
                     }
                 });
             });
 
-
-
-            // Zoom to the combined extent of both layers.
-//            Envelope fullExtent = incidentsFeatureLayer.getFullExtent();
-//            mapView.setViewpointGeometryAsync(fullExtent, 50);
-
-            // Enable the solve button.
-
-
-
-
-
-
-            stackPane.getChildren().add(mapView);
+            // add the map view and control panel to stack pane
+            stackPane.getChildren().addAll(mapView, controlsVBox);
+            StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+            StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
         } catch (Exception e){
             e.printStackTrace();
         }
