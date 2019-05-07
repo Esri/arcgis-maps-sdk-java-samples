@@ -55,6 +55,8 @@ public class ClosestFacilityStaticSample extends Application {
   ArrayList<Incident> incidentsList = new ArrayList<>();
   ArrayList<Facility> facilitiesList = new ArrayList<>();
   SimpleLineSymbol simpleLineSymbol;
+  Button solveRoutesButton;
+  Button resetButton;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -78,13 +80,16 @@ public class ClosestFacilityStaticSample extends Application {
       controlsVBox.setMaxSize(150, 50);
       controlsVBox.getStyleClass().add("panel-region");
 
-      // create a button
-      Button solveRoutesButton = new Button("Solve Routes");
+      // create buttons
+      solveRoutesButton = new Button("Solve Routes");
       solveRoutesButton.setMaxWidth(Double.MAX_VALUE);
       solveRoutesButton.setDisable(true);
+      resetButton = new Button("Reset");
+      resetButton.setMaxWidth(Double.MAX_VALUE);
+      resetButton.setDisable(true);
 
-      // add button to the control panel
-      controlsVBox.getChildren().add(solveRoutesButton);
+      // add buttons to the control panel
+      controlsVBox.getChildren().addAll(solveRoutesButton, resetButton);
 
       // create a ArcGISMap with a Basemap instance with an Imagery base layer
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsWithReliefVector());
@@ -100,8 +105,8 @@ public class ClosestFacilityStaticSample extends Application {
       PictureMarkerSymbol facilitySymbol = createSymbol("https://static.arcgis.com/images/Symbols/SafetyHealth/FireStation.png");
       PictureMarkerSymbol incidentSymbol = createSymbol("https://static.arcgis.com/images/Symbols/SafetyHealth/esriCrimeMarker_56_Gradient.png");
 
-      // create route symbol
-      simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5.0f);
+      // create a line symbol to mark the route
+      simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x4D0000FF, 5.0f);
 
       // create a ClosestFacilityTask
       closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
@@ -109,23 +114,23 @@ public class ClosestFacilityStaticSample extends Application {
       // Create a table for facilities using the FeatureServer.
       FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
 
-      // Create a feature layer from the table.
+      // Create a feature layer from the table, apply facilities icon
       FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
+      facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
       // Create a table for incidents using the FeatureServer.
       FeatureTable incidentsFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Incidents/FeatureServer/0");
 
-      // Create a feature layer from the table.
+      // Create a feature layer from the table, apply incident icon
       FeatureLayer incidentsFeatureLayer = new FeatureLayer(incidentsFeatureTable);
+      incidentsFeatureLayer.setRenderer(new SimpleRenderer(incidentSymbol));
 
       // Add the layers to the map.
       map.getOperationalLayers().addAll(Arrays.asList(facilitiesFeatureLayer, incidentsFeatureLayer));
 
       // Wait for both layers to load.
       facilitiesFeatureLayer.loadAsync();
-      facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
       incidentsFeatureLayer.loadAsync();
-      incidentsFeatureLayer.setRenderer(new SimpleRenderer(incidentSymbol));
 
       // TODO: Is there any possibility to combine the two Tasks and only use one listener?
       facilitiesFeatureLayer.addDoneLoadingListener(() -> {
@@ -148,13 +153,12 @@ public class ClosestFacilityStaticSample extends Application {
                   facilitiesList.add(new Facility(facilityFeature.getGeometry().getExtent().getCenter()));
                 }
 
-                System.out.println("Facilities list:" + facilitiesList);
               } catch (Exception e) {
                 e.printStackTrace();
               }
             });
 
-            // Retreive a list of all incidents
+            // Retrieve a list of all incidents
             ListenableFuture<FeatureQueryResult> incidentsQueryResult = incidentsFeatureTable.queryFeaturesAsync(queryParameters);
             incidentsQueryResult.addDoneListener(() -> {
               try {
@@ -164,7 +168,6 @@ public class ClosestFacilityStaticSample extends Application {
                   incidentsList.add(new Incident(incidentFeature.getGeometry().getExtent().getCenter()));
                 }
 
-                System.out.println("Incidents list:" + incidentsList);
               } catch (Exception e) {
                 e.printStackTrace();
               }
@@ -175,6 +178,15 @@ public class ClosestFacilityStaticSample extends Application {
             solveRoutesButton.setOnAction(e -> {
               try {
                 solveRoutes();
+              } catch (Exception ex) {
+                ex.printStackTrace();
+              }
+            });
+
+            // handle reset button presses
+            resetButton.setOnAction(e -> {
+              try{
+                resetRoutes();
               } catch (Exception ex) {
                 ex.printStackTrace();
               }
@@ -214,14 +226,20 @@ public class ClosestFacilityStaticSample extends Application {
                   // TODO: display each route
                   for (int i = 0; i < incidentsList.size(); i++) {
 
-                    // Get the index of the closest facility to incident. (i) is the index of the incident, [0] is the index of the closest facility.
+                    // get the index of the closest facility to incident. (i) is the index of the incident, [0] is the index of the closest facility.
                     Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(i).get(0);
 
-                    // Get the route to the closest facility.
+                    // get the route to the closest facility.
                     ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, i);
 
-                    // Display the route on the graphics overlay
+                    // display the route on the graphics overlay
                     mapView.getGraphicsOverlays().get(0).getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
+
+                    // disable the solve button
+                    solveRoutesButton.setDisable(true);
+
+                    // enable the reset button
+                    resetButton.setDisable(false);
                   }
 
                 } catch (ExecutionException | InterruptedException e) {
@@ -251,14 +269,23 @@ public class ClosestFacilityStaticSample extends Application {
   }
 
   /**
-   * Creates a PictureMarkerSymbol from a Uri and sizes it appropriately
-   * @param uri the uri of picture to be used for the symbol
+   * Creates a PictureMarkerSymbol from a URI and sizes it appropriately
+   * @param uri the URI of the picture to be used for the symbol
    */
   private PictureMarkerSymbol createSymbol(String uri){
     PictureMarkerSymbol symbol = new PictureMarkerSymbol(uri);
     symbol.setHeight(30);
     symbol.setWidth(30);
     return symbol;
+  }
+
+  private void resetRoutes(){
+    // clear the route graphics.
+    mapView.getGraphicsOverlays().get(0).getGraphics().clear();
+
+    // Reset the buttons
+    solveRoutesButton.setDisable(false);
+    resetButton.setDisable(true);
   }
 
   /**
