@@ -18,12 +18,14 @@ package com.esri.samples.raster.raster_rendering_rule;
 
 import java.util.List;
 
+import com.esri.arcgisruntime.concurrent.Job;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -71,6 +73,10 @@ public class RasterRenderingRuleSample extends Application {
       controlsVBox.setSpacing(8);
       controlsVBox.setMaxSize(260, 160);
       controlsVBox.getStyleClass().add("panel-region");
+
+      // create progress indicator
+      ProgressIndicator progressIndicator = new ProgressIndicator();
+      progressIndicator.setVisible(false);
 
       // create drop down menu of Rendering Rules
       renderingRuleInfoComboBox = new ComboBox<>();
@@ -146,6 +152,15 @@ public class RasterRenderingRuleSample extends Application {
             // create a new image service raster
             ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer");
 
+            // show progress indicator while rule is loading
+            appliedImageServiceRaster.addLoadStatusChangedListener((e)->{
+              if (e.getNewLoadStatus() == LoadStatus.LOADING){
+                progressIndicator.setVisible(true);
+              } else {
+                progressIndicator.setVisible(false);
+              }
+            });
+
             // apply the rendering rule
             appliedImageServiceRaster.setRenderingRule(renderingRule);
             RasterLayer rasterLayer = new RasterLayer(appliedImageServiceRaster);
@@ -156,9 +171,11 @@ public class RasterRenderingRuleSample extends Application {
       });
 
       // add the map view to the stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox);
+      stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      StackPane.setAlignment(progressIndicator, Pos.BOTTOM_CENTER);
+      StackPane.setMargin(progressIndicator, new Insets(10, 0, 50, 0));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
