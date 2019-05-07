@@ -1,10 +1,10 @@
-<h1 id="editandsyncfeatures">Edit and sync features</h1>
+<h1>Edit and sync features</h1>
 
 <p>Synchronize offline edits with a feature service.</p>
 
-<p><img src="EditAndSyncFeatures.png" alt="Edit and Sync Features Sample" /></p>
+<p><img src="EditAndSyncFeatures.png"/></p>
 
-<h2 id="howtousethesample">How to use the sample</h2>
+<h2>How to use the sample</h2>
 
 <ol>
 <li>Pan and zoom into the desired area, making sure the area you want to take offline is within the current extent of the <code>MapView</code>. </li>
@@ -20,7 +20,7 @@
 <li>Once the job successfully completes, the local edits are synchronized with the feature service.</li>
 </ol>
 
-<h2 id="howitworks">How it works</h2>
+<h2>How it works</h2>
 
 <ol>
 <li>Create a <code>GeodatabaseSyncTask</code> from a URL.</li>
@@ -35,7 +35,6 @@
 
 <li>To sync changes between the local and web geodatabases:
 
-
 <ol>
 <li>Define <code>SyncGeodatabaseParameters</code> including setting the <code>SyncGeodatabaseParameters.SyncDirection</code>.</li>
 
@@ -45,7 +44,7 @@
 </li>
 </ol>
 
-<h2 id="relevantapi">Relevant API</h2>
+<h2>Relevant API</h2>
 
 <ul>
 <li>FeatureLayer</li>
@@ -65,6 +64,6 @@
 <li>SyncLayerOption</li>
 </ul>
 
-<h4 id="tags">Tags</h4>
+<h4>Tags</h4>
 
 <p>Edit and Manage Data</p>
