@@ -44,125 +44,125 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 public class GetElevationAtAPointSample extends Application {
 
-    private SceneView sceneView;
-    private GraphicsOverlay graphicsOverlay;
+  private SceneView sceneView;
+  private GraphicsOverlay graphicsOverlay;
 
-    @Override
-    public void start(Stage stage) {
+  @Override
+  public void start(Stage stage) {
 
-        try {
-            // create stack pane and application scene
-            StackPane stackPane = new StackPane();
-            Scene fxScene = new Scene(stackPane);
-            fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+    try {
+      // create stack pane and application scene
+      StackPane stackPane = new StackPane();
+      Scene fxScene = new Scene(stackPane);
+      fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
-            // set title, size, and add JavaFX scene to stage
-            stage.setTitle("Get Elevation At A Point Sample");
-            stage.setWidth(800);
-            stage.setHeight(700);
-            stage.setScene(fxScene);
-            stage.show();
+      // set title, size, and add JavaFX scene to stage
+      stage.setTitle("Get Elevation At A Point Sample");
+      stage.setWidth(800);
+      stage.setHeight(700);
+      stage.setScene(fxScene);
+      stage.show();
 
-            // create a scene and add a basemap to it
-            ArcGISScene scene = new ArcGISScene();
-            scene.setBasemap(Basemap.createImagery());
+      // create a scene and add a basemap to it
+      ArcGISScene scene = new ArcGISScene();
+      scene.setBasemap(Basemap.createImagery());
 
-            // add the SceneView to the stack pane
-            sceneView = new SceneView();
-            sceneView.setArcGISScene(scene);
-            stackPane.getChildren().add(sceneView);
+      // add the SceneView to the stack pane
+      sceneView = new SceneView();
+      sceneView.setArcGISScene(scene);
+      stackPane.getChildren().add(sceneView);
 
-            // add base surface for elevation data
-            Surface surface = new Surface();
-            surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
-            scene.setBaseSurface(surface);
+      // add base surface for elevation data
+      Surface surface = new Surface();
+      surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
+      scene.setBaseSurface(surface);
 
-            // create a point symbol and graphic to mark where elevation is being measured
-            SimpleLineSymbol elevationLineSymbol  = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3.0f);
-            Graphic polylineGraphic = new Graphic();
-            polylineGraphic.setSymbol(elevationLineSymbol);
+      // create a point symbol and graphic to mark where elevation is being measured
+      SimpleLineSymbol elevationLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3.0f);
+      Graphic polylineGraphic = new Graphic();
+      polylineGraphic.setSymbol(elevationLineSymbol);
 
-            // create a text symbol and graphic to display the elevation of selected points
-            TextSymbol elevationTextSymbol = new TextSymbol(20, null, 0xFFFF0000, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
-            Graphic elevationTextGraphic = new Graphic();
-            elevationTextGraphic.setSymbol(elevationTextSymbol);
+      // create a text symbol and graphic to display the elevation of selected points
+      TextSymbol elevationTextSymbol = new TextSymbol(20, null, 0xFFFF0000, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
+      Graphic elevationTextGraphic = new Graphic();
+      elevationTextGraphic.setSymbol(elevationTextSymbol);
 
-            // create a graphics overlay
-            graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
-            graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
-            sceneView.getGraphicsOverlays().add(graphicsOverlay);
+      // create a graphics overlay
+      graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
+      graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
+      sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
-            // add a camera and initial camera position
-            Camera camera = new Camera(28.42, 83.9, 10000.0, 10.0, 80.0, 0.0);
-            sceneView.setViewpointCamera(camera);
+      // add a camera and initial camera position
+      Camera camera = new Camera(28.42, 83.9, 10000.0, 10.0, 80.0, 0.0);
+      sceneView.setViewpointCamera(camera);
 
-            // create listener to handle clicked
-            sceneView.setOnMouseClicked(event -> {
+      // create listener to handle clicked
+      sceneView.setOnMouseClicked(event -> {
 
-                // get the clicked screenPoint
-                Point2D screenPoint = new Point2D(event.getX(), event.getY());
-                // convert the screen point to a point on the surface
-                Point relativeSurfacePoint = sceneView.screenToBaseSurface(screenPoint);
+        // get the clicked screenPoint
+        Point2D screenPoint = new Point2D(event.getX(), event.getY());
+        // convert the screen point to a point on the surface
+        Point relativeSurfacePoint = sceneView.screenToBaseSurface(screenPoint);
 
-                // check that the point is on the surface, and primary button was clicked
-                if (relativeSurfacePoint != null && event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
+        // check that the point is on the surface, and primary button was clicked
+        if (relativeSurfacePoint != null && event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
 
-                    // clear any existing graphics from the graphics overlay
-                    graphicsOverlay.getGraphics().clear();
+          // clear any existing graphics from the graphics overlay
+          graphicsOverlay.getGraphics().clear();
 
-                    // construct a polyline to use as a marker
-                    PolylineBuilder polylineBuilder = new PolylineBuilder(relativeSurfacePoint.getSpatialReference());
-                    Point baseOfPolyline = new Point(relativeSurfacePoint.getX(), relativeSurfacePoint.getY(), 0);
-                    polylineBuilder.addPoint(baseOfPolyline);
-                    Point topOfPolyline = new Point(baseOfPolyline.getX(), baseOfPolyline.getY(), 750);
-                    polylineBuilder.addPoint(topOfPolyline);
-                    Polyline markerPolyline = polylineBuilder.toGeometry();
-                    polylineGraphic.setGeometry(markerPolyline);
-                    graphicsOverlay.getGraphics().add(polylineGraphic);
+          // construct a polyline to use as a marker
+          PolylineBuilder polylineBuilder = new PolylineBuilder(relativeSurfacePoint.getSpatialReference());
+          Point baseOfPolyline = new Point(relativeSurfacePoint.getX(), relativeSurfacePoint.getY(), 0);
+          polylineBuilder.addPoint(baseOfPolyline);
+          Point topOfPolyline = new Point(baseOfPolyline.getX(), baseOfPolyline.getY(), 750);
+          polylineBuilder.addPoint(topOfPolyline);
+          Polyline markerPolyline = polylineBuilder.toGeometry();
+          polylineGraphic.setGeometry(markerPolyline);
+          graphicsOverlay.getGraphics().add(polylineGraphic);
 
-                    // get the surface elevation at the surface point
-                    ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(relativeSurfacePoint);
-                    elevationFuture.addDoneListener(() -> {
-                        try {
-                            // get the surface elevation
-                            Double elevation = elevationFuture.get();
+          // get the surface elevation at the surface point
+          ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(relativeSurfacePoint);
+          elevationFuture.addDoneListener(() -> {
+            try {
+              // get the surface elevation
+              Double elevation = elevationFuture.get();
 
-                            // update the text in the elevation marker
-                            elevationTextSymbol.setText(Math.round(elevation) + " m");
-                            elevationTextGraphic.setGeometry(topOfPolyline);
-                            graphicsOverlay.getGraphics().add(elevationTextGraphic);
+              // update the text in the elevation marker
+              elevationTextSymbol.setText(Math.round(elevation) + " m");
+              elevationTextGraphic.setGeometry(topOfPolyline);
+              graphicsOverlay.getGraphics().add(elevationTextGraphic);
 
-                        } catch (InterruptedException | ExecutionException e) {
-                            new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
-                        }
-                    });
-                }
-            });
-        } catch (Exception e) {
-            // on any error, display the stack trace.
-            e.printStackTrace();
+            } catch (InterruptedException | ExecutionException e) {
+              new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
+            }
+          });
         }
+      });
+    } catch (Exception e) {
+      // on any error, display the stack trace.
+      e.printStackTrace();
     }
+  }
 
-    /**
-     * Stops and releases all resources used in application.
-     */
-    @Override
-    public void stop() {
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
 
-        if (sceneView != null) {
-            sceneView.dispose();
-        }
+    if (sceneView != null) {
+      sceneView.dispose();
     }
+  }
 
-    /**
-     * Opens and runs application.
-     *
-     * @param args arguments passed to this application
-     */
-    public static void main(String[] args) {
+  /**
+   * Opens and runs application.
+   *
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
 
-        Application.launch(args);
-    }
+    Application.launch(args);
+  }
 
 }
