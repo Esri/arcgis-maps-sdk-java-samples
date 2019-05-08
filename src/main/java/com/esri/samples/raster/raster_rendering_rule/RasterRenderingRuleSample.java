@@ -127,10 +127,7 @@ public class RasterRenderingRuleSample extends Application {
             // add the name of the rendering rule to the drop-down menu
             renderingRuleInfoComboBox.getItems().add(renderingRuleInfo);
           }
-
-          // automatically select the first rendering rule
-          renderingRuleInfoComboBox.getSelectionModel().selectFirst();
-
+          
           // listen to selection in the drop-down menu
           renderingRuleInfoComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
 
@@ -165,6 +162,9 @@ public class RasterRenderingRuleSample extends Application {
             map.getOperationalLayers().add(rasterLayer);
 
           });
+
+          // automatically select the first rendering rule
+          renderingRuleInfoComboBox.getSelectionModel().selectFirst();
         }
       });
 
