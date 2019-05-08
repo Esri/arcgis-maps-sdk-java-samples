@@ -1,27 +1,44 @@
 <h1>Raster Rendering Rule</h1>
 
-<p>Create an <code>ImageServiceRaster</code>, fetch the <code>RenderingRules</code> from the service info, and use a <code>RenderingRule</code> to create an <code>ImageServiceRaster</code> and add it to a raster layer. </p>
+<p>Display a raster on a map and apply different rendering rules to that raster.</p>
 
 <p><img src="RasterRenderingRule.png"/></p>
+
+<h2>Use case</h1>
+Image Service Rasters may provide several rendering rules options. When it is necessary to switch between rendering rules in order to display the desired data, the interface for the selection and application of the required rule can be used.
 
 <h2>How to use the sample</h2>
 
 <p>Run the sample and use the drop-down menu at the top to select a rendering rule.</p>
 
 <h2>How it works</h2>
-
-<p>When the sample starts, an <code>ImageServiceRaster</code> is created and added to a <code>RasterLayer</code>. The <code>RasterLayer</code> is then added to the map as an operational layer. Connect to the <code>loadStatusChanged</code> signal for the <code>ImageServiceRaster</code>. Once the <code>ImageServiceRaster</code> is loaded, the <code>RenderingRuleInfos</code> are fetched. Iterate over each item in the RenderingRuleInfos to get the rendering rule name and populate <code>List</code> using the names. This becomes the list for the <code>ComboBox</code>. When an item from the ComboBox is selected, the <code>RenderingRuleInfo</code> for the selected index is fetched from the service info. A <code>RenderingRule</code> object is created using the <code>RenderingRuleInfo</code> and applied to a newly created <code>ImageServiceRaster</code>. The <code>ImageServiceRaster</code> is then added to the <code>RasterLayer</code>.  </p>
+<ol>
+  <li> Create an <code>ImageServiceRaster</code> and add it to a <code>RasterLayer</code> and add the <code>RasterLayer</code> to the map as an operational layer. </li>
+  <li> Connect to the <code>loadStatusChanged</code> signal for the <code>ImageServiceRaster</code>.</li>
+  <li> Once the <code>ImageServiceRaster</code> is loaded, the <code>RenderingRuleInfos</code> are fetched: <code>imageServiceRaster.getServiceInfo().getRenderingRuleInfos()</code></li>
+  <li> Iterate over each item in the <code>RenderingRuleInfo</code>s to get the rendering rule name use these to populate a <code>ComboBox</code> for rule selection.</li>
+  <li> When an item from the <code>ComboBox</code> is selected, the <code>RenderingRuleInfo</code> for the selected index is fetched from the service info. A <code>RenderingRule</code> object is created using the <code>RenderingRuleInfo</code> and applied to a newly created <code>ImageServiceRaster</code>. The <code>ImageServiceRaster</code> is then added to the <code>RasterLayer</code>. </li>
+</ol>
 
 <h2>Relevant API</h2>
 
 <ul>
-<li>ImageServiceRaster</li>
+  <li>ImageServiceRaster</li>
 
-<li>RenderingRule</li>
+  <li>RasterLayer</li>
 
-<li>RasterLayer</li>
+  <li>RenderingRule</li>
 </ul>
 
-<h4>Tags</h4>
+<h2>About the data</h2>
+This raster image service contains 9 LAS files covering North Carolina’s, City of Charlotte downtown area. The lidar data was collected in 2007. Four Raster Rules are available for selection:
+<ul>
+  <li>None</li>
+  <li>RFTAspectColor</li>
+  <li>RFTHillshade</li>
+  <li>RFTShadedReliefElevationColorRamp</li>
+</ul>
 
-<p>Visualization</p>
+<h2>Tags</h2>
+
+<p>ImageServiceRaster, Raster, RasterLayer, RenderingRule, Visualization</p>

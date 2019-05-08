@@ -53,6 +53,8 @@ public class RasterRenderingRuleSample extends Application {
   @Override
   public void start(Stage stage) {
     try {
+      final String IMAGE_SERVICE_RASTER_URI = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
+
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
@@ -79,7 +81,6 @@ public class RasterRenderingRuleSample extends Application {
 
       // create drop down menu of Rendering Rules
       renderingRuleInfoComboBox = new ComboBox<>();
-      renderingRuleInfoComboBox.setPromptText("Select a Raster Rendering Rule");
       renderingRuleInfoComboBox.setMaxWidth(260.0);
       renderingRuleInfoComboBox.setConverter(new StringConverter<>() {
         @Override
@@ -110,7 +111,7 @@ public class RasterRenderingRuleSample extends Application {
       mapView.setMap(map);
 
       // create an Image Service Raster as a raster layer and add to map
-      final ImageServiceRaster imageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer");
+      final ImageServiceRaster imageServiceRaster = new ImageServiceRaster(IMAGE_SERVICE_RASTER_URI);
       final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
       map.getOperationalLayers().add(imageRasterLayer);
 
@@ -129,6 +130,8 @@ public class RasterRenderingRuleSample extends Application {
             renderingRuleInfoComboBox.getItems().add(renderingRuleInfo);
           }
 
+          renderingRuleInfoComboBox.getSelectionModel().selectFirst();
+
           // listen to selection in the drop-down menu
           renderingRuleInfoComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
 
@@ -146,7 +149,7 @@ public class RasterRenderingRuleSample extends Application {
             RenderingRule renderingRule = new RenderingRule(selectedRenderingRuleInfo);
 
             // create a new image service raster
-            ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer");
+            ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster(IMAGE_SERVICE_RASTER_URI);
 
             // show progress indicator while rule is loading
             appliedImageServiceRaster.addLoadStatusChangedListener((e)->{
