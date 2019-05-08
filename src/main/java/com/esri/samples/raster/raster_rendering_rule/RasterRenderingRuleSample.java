@@ -79,7 +79,6 @@ public class RasterRenderingRuleSample extends Application {
       // create drop down menu of Rendering Rules
       renderingRuleInfoComboBox = new ComboBox<>();
       renderingRuleInfoComboBox.setPromptText("Select a Raster Rendering Rule");
-      renderingRuleInfoComboBox.setEditable(false);
       renderingRuleInfoComboBox.setMaxWidth(260.0);
       renderingRuleInfoComboBox.setConverter(new StringConverter<RenderingRuleInfo>() {
         @Override
