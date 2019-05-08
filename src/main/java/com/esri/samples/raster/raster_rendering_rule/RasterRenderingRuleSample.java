@@ -128,6 +128,7 @@ public class RasterRenderingRuleSample extends Application {
             renderingRuleInfoComboBox.getItems().add(renderingRuleInfo);
           }
 
+          // automatically select the first rendering rule
           renderingRuleInfoComboBox.getSelectionModel().selectFirst();
 
           // listen to selection in the drop-down menu
