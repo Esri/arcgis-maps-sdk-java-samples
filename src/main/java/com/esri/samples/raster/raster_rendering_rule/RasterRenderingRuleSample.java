@@ -49,7 +49,6 @@ public class RasterRenderingRuleSample extends Application {
 
   private ComboBox<RenderingRuleInfo> renderingRuleInfoComboBox;
   private MapView mapView;
-  private ArcGISMap map;
 
   @Override
   public void start(Stage stage) {
@@ -106,7 +105,7 @@ public class RasterRenderingRuleSample extends Application {
       controlsVBox.getChildren().addAll(renderingRuleInfoComboBox, renderingRuleInfoLabel);
 
       // create a Streets BaseMap
-      map = new ArcGISMap(Basemap.createStreets());
+      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
 
       // add the map to a new map view
       mapView = new MapView();
