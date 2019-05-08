@@ -18,7 +18,6 @@ package com.esri.samples.editing.edit_and_sync_features;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -70,7 +69,6 @@ import com.esri.arcgisruntime.tasks.geodatabase.*;
 public class EditAndSyncFeaturesSample extends Application {
 
   private MapView mapView;
-  private ArcGISMap map;
   private final AtomicInteger replica = new AtomicInteger();
   private EditAndSyncFeaturesSample.EditState currentEditState;
   private GraphicsOverlay graphicsOverlay;
@@ -108,7 +106,7 @@ public class EditAndSyncFeaturesSample extends Application {
       TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
       Basemap basemap = new Basemap(tiledLayer);
-      map = new ArcGISMap(basemap);
+      ArcGISMap map = new ArcGISMap(basemap);
       mapView.setMap(map);
 
       // create a control panel
