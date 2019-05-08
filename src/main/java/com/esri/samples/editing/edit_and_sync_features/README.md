@@ -1,4 +1,4 @@
-<h1 id="editandsyncfeatures">Edit and sync features</h1>
+<h1>Edit and sync features</h1>
 
 <p>Synchronize offline edits with a feature service.</p>
 
