@@ -56,6 +56,7 @@ public class RasterRenderingRuleSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Raster Rendering Rule Sample");
@@ -80,7 +81,7 @@ public class RasterRenderingRuleSample extends Application {
       renderingRuleInfoComboBox = new ComboBox<>();
       renderingRuleInfoComboBox.setPromptText("Select a Raster Rendering Rule");
       renderingRuleInfoComboBox.setMaxWidth(260.0);
-      renderingRuleInfoComboBox.setConverter(new StringConverter<RenderingRuleInfo>() {
+      renderingRuleInfoComboBox.setConverter(new StringConverter<>() {
         @Override
         public String toString(RenderingRuleInfo renderingRuleInfo) {
 
@@ -95,8 +96,6 @@ public class RasterRenderingRuleSample extends Application {
 
       // create a label for the Rendering Rule info
       Label renderingRuleInfoLabel = new Label("");
-      renderingRuleInfoLabel.setFont(new Font(12));
-      renderingRuleInfoLabel.setTextFill(Color.WHITE);
       renderingRuleInfoLabel.setMaxWidth(220);
       renderingRuleInfoLabel.setWrapText(true);
 
