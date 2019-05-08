@@ -14,10 +14,10 @@ Image Service Rasters may provide several rendering rules options. When it is ne
 <h2>How it works</h2>
 <ol>
   <li> Create an <code>ImageServiceRaster</code> and add it to a <code>RasterLayer</code> and add the <code>RasterLayer</code> to the map as an operational layer. </li>
-  <li> Connect to the <code>loadStatusChanged</code> signal for the <code>ImageServiceRaster</code>.</li>
-  <li> Once the <code>ImageServiceRaster</code> is loaded, the <code>RenderingRuleInfos</code> are fetched: <code>imageServiceRaster.getServiceInfo().getRenderingRuleInfos()</code></li>
-  <li> Iterate over each item in the <code>RenderingRuleInfo</code>s to get the rendering rule name use these to populate a <code>ComboBox</code> for rule selection.</li>
-  <li> When an item from the <code>ComboBox</code> is selected, the <code>RenderingRuleInfo</code> for the selected index is fetched from the service info. A <code>RenderingRule</code> object is created using the <code>RenderingRuleInfo</code> and applied to a newly created <code>ImageServiceRaster</code>. The <code>ImageServiceRaster</code> is then added to the <code>RasterLayer</code>. </li>
+  <li> Connect to the <code>loadStatusChanged</code> signal for the image service raster.</li>
+  <li> Once the image service raster is loaded, the <code>RenderingRuleInfos</code> are fetched and saved to a <code>List</code>: <code>imageServiceRaster.getServiceInfo().getRenderingRuleInfos()</code></li>
+  <li> Iterate over each item in the list of rendering rule infos to get the rendering rule name, and use these to populate a <code>ComboBox</code> for rule selection.</li>
+  <li> When an item from the ComboBox is selected, the <code>RenderingRuleInfo</code> for the selected index is fetched from the service info. A <code>RenderingRule</code> object is created using the rendering rule info and applied to a newly created <code>ImageServiceRaster</code>. The image service raster is then added to the <code>RasterLayer</code>. </li>
 </ol>
 
 <h2>Relevant API</h2>
