@@ -143,7 +143,7 @@ public class ClosestFacilityStaticSample extends Application {
       // Wait for both layers to load
       facilitiesFeatureLayer.loadAsync();
       incidentsFeatureLayer.loadAsync();
-
+      
       facilitiesFeatureLayer.addDoneLoadingListener(() -> {
         incidentsFeatureLayer.addDoneLoadingListener(() -> {
           if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
