@@ -51,7 +51,7 @@ public class RasterRenderingRuleSample extends Application {
   @Override
   public void start(Stage stage) {
     try {
-      final String IMAGE_SERVICE_RASTER_URI = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
+      final String ImageServiceRasterUri = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
 
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
@@ -66,10 +66,9 @@ public class RasterRenderingRuleSample extends Application {
       stage.show();
 
       // create a control panel
-      VBox controlsVBox = new VBox();
+      VBox controlsVBox = new VBox(8);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setSpacing(8);
       controlsVBox.setMaxSize(260, 160);
       controlsVBox.getStyleClass().add("panel-region");
 
@@ -95,7 +94,6 @@ public class RasterRenderingRuleSample extends Application {
 
       // create a label for the Rendering Rule info
       Label renderingRuleInfoLabel = new Label("");
-      renderingRuleInfoLabel.setMaxWidth(220);
       renderingRuleInfoLabel.setWrapText(true);
 
       // add the ComboBox and Label to the controlsVBox
@@ -109,7 +107,7 @@ public class RasterRenderingRuleSample extends Application {
       mapView.setMap(map);
 
       // create an Image Service Raster as a raster layer and add to map
-      final ImageServiceRaster imageServiceRaster = new ImageServiceRaster(IMAGE_SERVICE_RASTER_URI);
+      final ImageServiceRaster imageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
       final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
       map.getOperationalLayers().add(imageRasterLayer);
 
@@ -123,10 +121,7 @@ public class RasterRenderingRuleSample extends Application {
           List<RenderingRuleInfo> renderingRuleInfos = imageServiceRaster.getServiceInfo().getRenderingRuleInfos();
 
           // populate the drop down menu with the rendering rule names
-          for (RenderingRuleInfo renderingRuleInfo : renderingRuleInfos) {
-            // add the name of the rendering rule to the drop-down menu
-            renderingRuleInfoComboBox.getItems().add(renderingRuleInfo);
-          }
+          renderingRuleInfoComboBox.getItems().addAll(renderingRuleInfos);
           
           // listen to selection in the drop-down menu
           renderingRuleInfoComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
@@ -138,14 +133,14 @@ public class RasterRenderingRuleSample extends Application {
             String renderingRuleInfoDescription = selectedRenderingRuleInfo.getDescription();
             renderingRuleInfoLabel.setText("Rule Description: \n" + renderingRuleInfoDescription);
 
-            // clear all rasters
+            // clear previous rendering rule from all operational layers
             map.getOperationalLayers().clear();
 
             // create a rendering rule object using the rendering rule info
             RenderingRule renderingRule = new RenderingRule(selectedRenderingRuleInfo);
 
             // create a new image service raster
-            ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster(IMAGE_SERVICE_RASTER_URI);
+            ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
 
             // show progress indicator while rule is loading
             appliedImageServiceRaster.addLoadStatusChangedListener((e)->{
