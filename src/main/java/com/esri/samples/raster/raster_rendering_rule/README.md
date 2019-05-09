@@ -15,11 +15,12 @@
 <h2>How it works</h2>
 
 <ol>
-  <li> Create an <code>ImageServiceRaster</code> and add it to a <code>RasterLayer</code> and add the <code>RasterLayer</code> to the map as an operational layer. </li>
-  <li> Connect to the <code>loadStatusChanged</code> signal for the image service raster.</li>
-  <li> Once the image service raster is loaded, the <code>RenderingRuleInfos</code> are fetched and saved to a <code>List</code>: <code>imageServiceRaster.getServiceInfo().getRenderingRuleInfos()</code></li>
-  <li> Iterate over each item in the list of rendering rule infos to get the rendering rule name, and use these to populate a <code>ComboBox</code> for rule selection.</li>
-  <li> When an item from the ComboBox is selected, the <code>RenderingRuleInfo</code> for the selected index is fetched from the service info. A <code>RenderingRule</code> object is created using the rendering rule info and applied to a newly created <code>ImageServiceRaster</code>. The image service raster is then added to the <code>RasterLayer</code>. </li>
+  <li> Create an <code>ImageServiceRaster</code> using a URL to an online image service. </li>
+  <li> After loading the raster, use <code>imageServiceRaster.getServiceInfo().getRenderingRuleInfos()</code> to get a list of RenderingRuleInfos supported by the service. </li>
+  <li> Choose a rendering rule info to apply and use it to create a <code>RenderingRule</code>. </li>
+  <li> Create a new <code>ImageServiceRaster</code> using the same URL. </li>
+  <li> Apply the rendering rule to the new raster using <code>imageServiceRaster.setRenderingRule(renderingRuleInfo)</code>. </li>
+  <li> Create a RasterLayer from the raster for display. </li>
 </ol>
 
 <h2>Relevant API</h2>
@@ -32,7 +33,7 @@
 
 <h2>About the data</h2>
 
-<p>This raster image service contains 9 LAS files covering North Carolina’s, City of Charlotte downtown area. The lidar data was collected in 2007. Four Raster Rules are available for selection: None, RFTAspectColor, RFTHillshade, and RFTShadedReliefElevationColorRamp</p>
+<p>This raster image service contains 9 LAS files coveringcovering Charlotte, North Carolina's downtown area. The lidar data was collected in 2007. Four Raster Rules are available for selection: None, RFTAspectColor, RFTHillshade, and RFTShadedReliefElevationColorRamp</p>
 
 <h2>Tags</h2>
 
