@@ -237,13 +237,13 @@ public class ClosestFacilityStaticSample extends Application {
                   ClosestFacilityResult closestFacilityResult = closestFacilityTaskResult.get();
 
                   // find the closest facility for each incident
-                  for (int i = 0; i < incidentsList.size(); i++) {
+                  for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
 
                     // get the index of the closest facility to incident. (i) is the index of the incident, [0] is the index of the closest facility.
-                    Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(i).get(0);
+                    Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
 
                     // get the route to the closest facility.
-                    ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, i);
+                    ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident);
 
                     // display the route on the graphics overlay
                     mapView.getGraphicsOverlays().get(0).getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
