@@ -33,8 +33,8 @@
 
 <h2>About the data</h2>
 
-<p>This raster image service contains 9 LAS files covering Charlotte, North Carolina's downtown area. The lidar data was collected in 2007. Four Raster Rules are available for selection: None, RFTAspectColor, RFTHillshade, and RFTShadedReliefElevationColorRamp</p>
+<p>This raster image service contains 9 LAS files covering Charlotte, North Carolina's downtown area. The lidar data was collected in 2007. Four Raster Rules are available for selection: None, RFTAspectColor, RFTHillshade, and RFTShadedReliefElevationColorRamp.</p>
 
 <h2>Tags</h2>
 
-<p>ImageServiceRaster, Raster, RasterLayer, RenderingRule, Visualization</p>
+<p>raster, rendering rules, visualization</p>
