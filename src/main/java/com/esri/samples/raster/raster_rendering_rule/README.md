@@ -6,7 +6,7 @@
 
 <h2>Use case</h1>
 
-<p>Image Service Rasters may provide several rendering rules options. When it is necessary to switch between rendering rules in order to display the desired data, the interface for the selection and application of the required rule can be used.</p>
+<p>A single raster image can be rendered in a number of different ways, including representation of slope aspect, hillshade and shaded relief. Applying these different renderers to the same raster allows for a powerful visual analysis of the data. For example, a geologist could interrogate the raster image using all available renderers to map subtle geological features on a landscape not apparent in a regular aerial photograph.</p>
 
 <h2>How to use the sample</h2>
 
