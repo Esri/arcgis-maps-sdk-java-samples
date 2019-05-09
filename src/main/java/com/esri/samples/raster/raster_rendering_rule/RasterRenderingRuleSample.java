@@ -51,7 +51,6 @@ public class RasterRenderingRuleSample extends Application {
   @Override
   public void start(Stage stage) {
     try {
-      final String ImageServiceRasterUri = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
 
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
@@ -107,6 +106,7 @@ public class RasterRenderingRuleSample extends Application {
       mapView.setMap(map);
 
       // create an Image Service Raster as a raster layer and add to map
+      final String ImageServiceRasterUri = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
       final ImageServiceRaster imageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
       final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
       map.getOperationalLayers().add(imageRasterLayer);
@@ -133,7 +133,7 @@ public class RasterRenderingRuleSample extends Application {
             String renderingRuleInfoDescription = selectedRenderingRuleInfo.getDescription();
             renderingRuleInfoLabel.setText("Rule Description: \n" + renderingRuleInfoDescription);
 
-            // clear previous rendering rule from all operational layers
+            // clear previous raster layer from the map's operational layers
             map.getOperationalLayers().clear();
 
             // create a rendering rule object using the rendering rule info
