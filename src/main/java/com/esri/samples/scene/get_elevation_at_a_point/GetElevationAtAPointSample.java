@@ -96,46 +96,47 @@ public class GetElevationAtAPointSample extends Application {
       Camera camera = new Camera(28.42, 83.9, 10000.0, 10.0, 80.0, 0.0);
       sceneView.setViewpointCamera(camera);
 
-      // create listener to handle clicked
+      // create listener to handle clicks
       sceneView.setOnMouseClicked(event -> {
+        if (event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
+          // get the clicked screenPoint
+          Point2D screenPoint = new Point2D(event.getX(), event.getY());
+          // convert the screen point to a point on the surface
+          Point relativeSurfacePoint = sceneView.screenToBaseSurface(screenPoint);
 
-        // get the clicked screenPoint
-        Point2D screenPoint = new Point2D(event.getX(), event.getY());
-        // convert the screen point to a point on the surface
-        Point relativeSurfacePoint = sceneView.screenToBaseSurface(screenPoint);
+          // check that the point is on the surface, and primary button was clicked
+          if (relativeSurfacePoint != null) {
 
-        // check that the point is on the surface, and primary button was clicked
-        if (relativeSurfacePoint != null && event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
+            // clear any existing graphics from the graphics overlay
+            graphicsOverlay.getGraphics().clear();
 
-          // clear any existing graphics from the graphics overlay
-          graphicsOverlay.getGraphics().clear();
+            // construct a polyline to use as a marker
+            PolylineBuilder polylineBuilder = new PolylineBuilder(relativeSurfacePoint.getSpatialReference());
+            Point baseOfPolyline = new Point(relativeSurfacePoint.getX(), relativeSurfacePoint.getY(), 0);
+            polylineBuilder.addPoint(baseOfPolyline);
+            Point topOfPolyline = new Point(baseOfPolyline.getX(), baseOfPolyline.getY(), 750);
+            polylineBuilder.addPoint(topOfPolyline);
+            Polyline markerPolyline = polylineBuilder.toGeometry();
+            polylineGraphic.setGeometry(markerPolyline);
+            graphicsOverlay.getGraphics().add(polylineGraphic);
 
-          // construct a polyline to use as a marker
-          PolylineBuilder polylineBuilder = new PolylineBuilder(relativeSurfacePoint.getSpatialReference());
-          Point baseOfPolyline = new Point(relativeSurfacePoint.getX(), relativeSurfacePoint.getY(), 0);
-          polylineBuilder.addPoint(baseOfPolyline);
-          Point topOfPolyline = new Point(baseOfPolyline.getX(), baseOfPolyline.getY(), 750);
-          polylineBuilder.addPoint(topOfPolyline);
-          Polyline markerPolyline = polylineBuilder.toGeometry();
-          polylineGraphic.setGeometry(markerPolyline);
-          graphicsOverlay.getGraphics().add(polylineGraphic);
+            // get the surface elevation at the surface point
+            ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(relativeSurfacePoint);
+            elevationFuture.addDoneListener(() -> {
+              try {
+                // get the surface elevation
+                Double elevation = elevationFuture.get();
 
-          // get the surface elevation at the surface point
-          ListenableFuture<Double> elevationFuture = scene.getBaseSurface().getElevationAsync(relativeSurfacePoint);
-          elevationFuture.addDoneListener(() -> {
-            try {
-              // get the surface elevation
-              Double elevation = elevationFuture.get();
+                // update the text in the elevation marker
+                elevationTextSymbol.setText(Math.round(elevation) + " m");
+                elevationTextGraphic.setGeometry(topOfPolyline);
+                graphicsOverlay.getGraphics().add(elevationTextGraphic);
 
-              // update the text in the elevation marker
-              elevationTextSymbol.setText(Math.round(elevation) + " m");
-              elevationTextGraphic.setGeometry(topOfPolyline);
-              graphicsOverlay.getGraphics().add(elevationTextGraphic);
-
-            } catch (InterruptedException | ExecutionException e) {
-              new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
-            }
-          });
+              } catch (InterruptedException | ExecutionException e) {
+                new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
+              }
+            });
+          }
         }
       });
     } catch (Exception e) {
