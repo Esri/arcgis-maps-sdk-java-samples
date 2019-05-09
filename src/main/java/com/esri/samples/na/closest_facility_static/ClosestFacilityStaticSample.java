@@ -144,7 +144,6 @@ public class ClosestFacilityStaticSample extends Application {
       facilitiesFeatureLayer.loadAsync();
       incidentsFeatureLayer.loadAsync();
 
-      // TODO: Is there any possibility to combine the two Tasks and only use one listener?
       facilitiesFeatureLayer.addDoneLoadingListener(() -> {
         incidentsFeatureLayer.addDoneLoadingListener(() -> {
           if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
