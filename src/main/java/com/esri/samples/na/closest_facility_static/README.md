@@ -10,7 +10,7 @@
 
 <h2>How to use the sample</h2>
 
-<p>Click the 'Solve Routes' button to determine and display the route from each incident ('Fire'-Icon) to the nearest facility ('Fire Station'-Icon). Click the reset button to remove the views.</p>
+<p>Click the 'Solve Routes' button to determine and display the route from each incident (<i>'Fire'</i>-Icon) to the nearest facility (<i>'Fire Station'</i>-Icon). Click the reset button to remove the views.</p>
 
 <h2>How it works</h2>
 
@@ -58,4 +58,4 @@
 
 <h2 id="tags">Tags</h2>
 
-<p>incident, network analysis, route, search</p>
+<p>facility, incident, network analysis, route, search</p>
