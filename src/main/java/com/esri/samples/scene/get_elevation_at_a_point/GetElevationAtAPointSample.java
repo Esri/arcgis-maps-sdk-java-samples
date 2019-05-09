@@ -104,7 +104,7 @@ public class GetElevationAtAPointSample extends Application {
           // convert the screen point to a point on the surface
           Point relativeSurfacePoint = sceneView.screenToBaseSurface(screenPoint);
 
-          // check that the point is on the surface, and primary button was clicked
+          // check that the point is on the surface
           if (relativeSurfacePoint != null) {
 
             // clear any existing graphics from the graphics overlay
