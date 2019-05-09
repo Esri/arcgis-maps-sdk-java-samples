@@ -162,6 +162,7 @@ public class ClosestFacilityStaticSample extends Application {
             result.addDoneListener(() -> {
               try {
                 FeatureQueryResult facilitiesResult = result.get();
+
                 for (Feature facilityFeature : facilitiesResult) {
                   facilitiesList.add(new Facility(facilityFeature.getGeometry().getExtent().getCenter()));
                 }
@@ -220,10 +221,15 @@ public class ClosestFacilityStaticSample extends Application {
 
   // task to find the closes route between an incident and a facility
   private void solveRoutes() {
+
+    // start the routing task
+    closestFacilityTask.loadAsync();
+
     try {
       closestFacilityTask.addDoneLoadingListener(() -> {
         if (closestFacilityTask.getLoadStatus() == LoadStatus.LOADED) {
           try {
+            // create default parameters for the task and add facilities and incidents to parameters
             ClosestFacilityParameters closestFacilityParameters = closestFacilityTask.createDefaultParametersAsync().get();
             closestFacilityParameters.setFacilities(facilitiesList);
             closestFacilityParameters.setIncidents(incidentsList);
@@ -256,12 +262,12 @@ public class ClosestFacilityStaticSample extends Application {
                   }
 
                 } catch (ExecutionException | InterruptedException e) {
-                  e.printStackTrace();
+                  displayMessage("Error getting the ClosestFacilityTask result", e.getMessage());
                 }
               });
 
             } catch (Exception e) {
-              e.printStackTrace();
+              displayMessage("Error solving the ClosestFacilityTask", e.getMessage());
             }
 
           } catch (InterruptedException | ExecutionException e) {
@@ -272,8 +278,6 @@ public class ClosestFacilityStaticSample extends Application {
           displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
         }
       });
-
-      closestFacilityTask.loadAsync();
 
     } catch (Exception e) {
       e.printStackTrace();
