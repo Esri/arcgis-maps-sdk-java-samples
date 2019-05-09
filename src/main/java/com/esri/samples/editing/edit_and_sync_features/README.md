@@ -25,10 +25,13 @@
   <li>Create a <code>GenerateGeodatabaseJob</code> from the <code>GeodatabaseSyncTask</code> using <code>generateGeodatabaseAsync(...)</code> passing in parameters and a path to the local geodatabase.</li>
   <li>Start the <code>GenerateGeodatabaseJob</code> and, on success, load the <code>Geodatabase</code>.</li>
   <li>On successful loading, call <code>getGeodatabaseFeatureTables()</code> on the <code>Geodatabase</code> and add it to the <code>ArcGISMap</code>'s operational layers.</li>
-  <li>To sync changes between the local and web geodatabases:</li>
-  <li>Define <code>SyncGeodatabaseParameters</code> including setting the SyncGeodatabaseParameters.SyncDirection`.</li>
-  <li>Create a <code>SyncGeodatabaseJob</code> from <code>GeodatabaseSyncTask</code> using <code>.syncGeodatabaseAsync(...)</code> passing the <code>SyncGeodatabaseParameters</code> and <code>Geodatabase</code> as arguments.</li>
-  <li>Start the <code>SyncGeodatabaseJob</code>.</li>
+  <li>To sync changes between the local and web geodatabases:
+    <ol>
+      <li>Define <code>SyncGeodatabaseParameters</code> including setting the SyncGeodatabaseParameters.SyncDirection`.</li>
+      <li>Create a <code>SyncGeodatabaseJob</code> from <code>GeodatabaseSyncTask</code> using <code>.syncGeodatabaseAsync(...)</code> passing the <code>SyncGeodatabaseParameters</code> and <code>Geodatabase</code> as arguments.</li>
+      <li>Start the <code>SyncGeodatabaseJob</code> to synchronise the edits.</li>
+    </ol>
+  </li>
 </ol>
 
 <h2>Relevant API</h2>
@@ -46,9 +49,8 @@
 
 <h2>About the data</h2>
 
-<p>The basemap for this sample is  a San Francisco offline tile package, provided by ESRI to support ArcGIS Runtime SDK Samples.
-The <i>WildfireSync</i> feature service elements illustrate a collection schema for wildlfire information.</p>
+<p>The basemap for this sample is  a San Francisco offline tile package, provided by ESRI to support ArcGIS Runtime SDK Samples. The <i>WildfireSync</i> feature service elements illustrate a collection schema for wildlfire information.</p>
 
 <h2>Tags</h2>
 
-<p>synchronize, GeodatabaseSyncTask, SyncGeodatabaseParameters, Geodatabase, GeodatabaseFeatureTable, GenerateGeodatabaseParameters, GenerateGeodatabaseJob</p>
+<p>feature service, geodatabase, offline, synchronize</p>
