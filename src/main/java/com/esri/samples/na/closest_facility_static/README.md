@@ -2,7 +2,7 @@
 
 <p>Find routes from several locations to the respective closest facility.</p>
 
-<p><img src="ClosestFacility.png"/></p>
+<p><img src="ClosestFacilityStatic.png"/></p>
 
 <h2>Use Case</h2>
 
