@@ -16,11 +16,11 @@
 
 <ol>
   <li> Create an <code>ImageServiceRaster</code> using a URL to an online image service. </li>
-  <li> After loading the raster, use <code>imageServiceRaster.getServiceInfo().getRenderingRuleInfos()</code> to get a list of RenderingRuleInfos supported by the service. </li>
+  <li> After loading the raster, use <code>imageServiceRaster.getServiceInfo().getRenderingRuleInfos()</code> to get a list of <code>RenderingRuleInfo</code> supported by the service. </li>
   <li> Choose a rendering rule info to apply and use it to create a <code>RenderingRule</code>. </li>
   <li> Create a new <code>ImageServiceRaster</code> using the same URL. </li>
   <li> Apply the rendering rule to the new raster using <code>imageServiceRaster.setRenderingRule(renderingRuleInfo)</code>. </li>
-  <li> Create a RasterLayer from the raster for display. </li>
+  <li> Create a <code>RasterLayer</code> from the raster for display. </li>
 </ol>
 
 <h2>Relevant API</h2>
@@ -33,7 +33,7 @@
 
 <h2>About the data</h2>
 
-<p>This raster image service contains 9 LAS files coveringcovering Charlotte, North Carolina's downtown area. The lidar data was collected in 2007. Four Raster Rules are available for selection: None, RFTAspectColor, RFTHillshade, and RFTShadedReliefElevationColorRamp</p>
+<p>This raster image service contains 9 LAS files covering Charlotte, North Carolina's downtown area. The lidar data was collected in 2007. Four Raster Rules are available for selection: None, RFTAspectColor, RFTHillshade, and RFTShadedReliefElevationColorRamp</p>
 
 <h2>Tags</h2>
 
