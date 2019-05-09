@@ -19,7 +19,7 @@
 
 <li>Set an <code>ArcGISTiledElevationService</code> as the elevation source of the scene's base surface.</li>
 
-<li>Use the <code>screenToBaseSurface(screenPoint)</code> method on the scene view to convert the tapped screen point into a point on surface.</li>
+<li>Use the <code>screenToBaseSurface(screenPoint)</code> method on the scene view to convert the selected screen point into a point on surface.</li>
 
 <li>Use the <code>getElevationAsync(surfacePoint)</code> method on the base surface to asynchronously get the elevation.</li>
 </ol>
@@ -44,4 +44,4 @@
 
 <h4>Tags</h4>
 
-<p>MapViews SceneViews and UI, elevation, surface</p>
+<p>elevation, point, surface</p>
