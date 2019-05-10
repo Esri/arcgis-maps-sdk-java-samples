@@ -55,7 +55,7 @@ public class TokenAuthenticationSample extends Application {
       // create a portal to ArcGIS Online
       Portal portal = new Portal("https://www.arcgis.com/");
 
-      // create a portal item using the portal and the idem id of a protected map service
+      // create a portal item using the portal and the item id of a protected map service
       PortalItem portalItem = new PortalItem(portal, "e5039444ef3c48b8a8fdc9227f9be7c1");
 
       // create a map with the portal item
