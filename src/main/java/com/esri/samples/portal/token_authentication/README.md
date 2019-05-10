@@ -1,32 +1,40 @@
-# Token authentication
+<h1>Token authentication</h1>
 
-This sample demonstrates how to access a map service that is secured with ArcGIS token-based authentication.
+<p>access a map service that is secured with ArcGIS token-based authentication</p>
 
-![](TokenAuthentication.png)
+<p><img src="TokenAuthentication.png"/></p>
 
-## Use case
+<h2>Use case</h2>
 
-Applications often require accessing data from private map services on secured remote servers. A token authentication system can be used to allow app users who hold a valid username and password to access the remote service. 
+<p>Applications often require accessing data from private map services on remote servers. A token authentication system can be used to allow app users who hold a valid username and password to access the remote service. </p>
 
-## How to use the sample
+<h2>How to use the sample</h2>
 
-When starting the sample, the user is presented with an authentication dialog for the ArcGIS Online map server. Upon successful authentication, access to the map server is granted and the data is displayed in the map view.
+<p>When starting the sample, the user is presented with an authentication dialog for the ArcGIS Online map server. Upon successful authentication, access to the map server is granted and the data is displayed in the map view.</p>
 
-## How it works
+<h2>How it works</h2>
 
-1. Create an `AuthenticationChallengeHandler`, and use this to set the handler for the `AuthenticationManager`: `.setAuthenticationChallengeHandler(authenticationChallengeHandler)`.
+<ol>
+  <li>Create an <code>AuthenticationChallengeHandler</code> using the <code>DefaultAuthenticationChallengeHandler</code> to handle the challenges sent by the protected map service.</li>
+  <li>Set the <code>AuthenticationChallengeHandler</code> used by the <code>AuthenticationManager</code>.</li>
+  <li>Create a <code>Portal</code> to ArcGIS Online.</li>
+  <li>Create a <code>PortalItem</code> for the protected web map using the <code>Portal</code> and Item ID of the protected map service.</li>
+  <li>Create a map to display in the <code>MapView</code> using the <code>PortalItem</code>.</li>
+  <li>Set the map to display in the <code>MapView</code>.</li>
+</ol>
 
-2. Create a `Portal` to ArcGIS Online. Use the `Portal` and the id of a protected map service to create a new `PortalItem`
+<h2>Relevant API</h2>
 
-3. Create a new `ArcGISMap` with the `PortalItem`, and display the map in the `MapView`.
+<ul>
+  <li>AuthenticationManager</li>
+  <li>AuthenticationChallengeHandler</li>
+  <li>DefaultAuthenticationChallengeHandler</li>
+  <li>Portal</li>
+  <li>PortalItem</li>
+  <li>Map</li>
+  <li>MapView</li>
+</ul>
 
-## Relevant API
+<h2>Tags</h2>
 
-- Portal
-- PortalItem
-- AuthenticationChallengeHandler
-- AuthenticationManager
-
-## Tags
-
-authentication, map service, token
+<p>authentication, map service, security, token</p>
