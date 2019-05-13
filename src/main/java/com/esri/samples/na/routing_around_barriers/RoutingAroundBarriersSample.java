@@ -20,10 +20,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
@@ -133,12 +130,19 @@ public class RoutingAroundBarriersSample extends Application {
       // set the mode to adding stops
       currentInsertMode = InsertMode.STOPS;
 
-      // listen to mouse clicks to add stops
+      // change to adding stops when button is pressed
+      addStopsButton.setOnAction(e -> currentInsertMode = InsertMode.STOPS);
+
+      // change to adding barriers when button is pressed
+      addBarriersButton.setOnAction(e -> currentInsertMode = InsertMode.BARRIERS);
+
+      // listen to mouse clicks to add stops or barriers
       mapView.setOnMouseClicked(e ->{
+        // convert clicked point to a map point
+        Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
+
         // check that the primary mouse button was clicked
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-          // convert clicked point to a map point
-          Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
           // check which insertion mode is active
           switch (currentInsertMode) {
@@ -151,17 +155,20 @@ public class RoutingAroundBarriersSample extends Application {
               addBarrier(mapPoint);
               break;
           }
+        } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
+
+          // check which insertion mode is active
+          switch (currentInsertMode) {
+            case STOPS:
+              // add the map point as a stop
+              removeLastStop();
+              break;
+            case BARRIERS:
+              // add the map point as a barrier
+              removeLastBarrier();
+              break;
+          }
         }
-      });
-
-      // change to adding stops when button is pressed
-      addStopsButton.setOnAction(e -> {
-        currentInsertMode = InsertMode.STOPS;
-      });
-
-      // change to adding barriers when button is pressed
-      addBarriersButton.setOnAction(e -> {
-        currentInsertMode = InsertMode.BARRIERS;
       });
 
       // solve the route task when button is pressed
@@ -217,14 +224,14 @@ public class RoutingAroundBarriersSample extends Application {
             routeParameters.setReturnDirections(true);
 
           } catch (InterruptedException | ExecutionException e){
-            // TODO:  create alert new Alert(Alert.AlertType.ERROR, "Cannot create RouteTask parameters " + e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, "Cannot create RouteTask parameters " + e.getMessage()).show();
           }
         });
         // solve the route and display it
         createRouteAndDisplay();
 
       } else {
-        // TODO: create alert new Alert(Alert.AlertType.ERROR, "Unable to load RouteTask " + solveRouteTask.getLoadStatus().toString()).show();
+        new Alert(Alert.AlertType.ERROR, "Unable to load RouteTask " + solveRouteTask.getLoadStatus().toString()).show();
       }
     });
   }
@@ -233,7 +240,7 @@ public class RoutingAroundBarriersSample extends Application {
    * Use the list of stops and the route task to determine the route and display it
    */
   private void createRouteAndDisplay(){
-    if (stopsList.size() > 2){
+    if (stopsList.size() >= 2){
       // add the existing stops and barriers to the route parameters
       routeParameters.setStops(stopsList);
       routeParameters.setPolygonBarriers(barriersList);
@@ -258,11 +265,11 @@ public class RoutingAroundBarriersSample extends Application {
             }
 
           } else {
-            // TODO: add alert "no routes found"
+            new Alert(Alert.AlertType.ERROR, "No possible routes found").show();
           }
 
         } catch (InterruptedException | ExecutionException e) {
-          // TODO: add alert new Alert(Alert.AlertType.ERROR, "Solve RouteTask failed " + e.getMessage() + e.getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Solve RouteTask failed " + e.getMessage() + e.getMessage()).show();
         }
       });
     } else {
@@ -285,6 +292,10 @@ public class RoutingAroundBarriersSample extends Application {
     stopsGraphicsOverlay.getGraphics().add(stopGraphic);
   }
 
+  /**
+   * Creates a barrier at the clicked point and adds it to the list of barriers
+   * @param mapPoint    The point on the map at which to create a barrier
+   */
   private void addBarrier(Point mapPoint){
     // create a buffered polygon around the mapPoint
     Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
@@ -318,6 +329,16 @@ public class RoutingAroundBarriersSample extends Application {
     // construct a composite symbol out of the pin and text symbols, and return it
     CompositeSymbol compositeSymbol = new CompositeSymbol(Arrays.asList(pinSymbol, stopTextSymbol));
     return compositeSymbol;
+  }
+
+  private void removeLastStop(){
+    stopsList.remove(stopsList.size() - 1);
+    stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
+  }
+
+  private void removeLastBarrier(){
+    barriersList.remove(barriersList.size() - 1);
+    stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
   }
 
   /**
