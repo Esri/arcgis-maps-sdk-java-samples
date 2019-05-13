@@ -1,19 +1,30 @@
 package com.esri.samples.na.routing_around_barriers;
 
+import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.TextSymbol;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class RoutingAroundBarriersSample extends Application {
 
@@ -63,6 +74,14 @@ public class RoutingAroundBarriersSample extends Application {
       // add buttons, checkboxes and directions list to the control panel
       controlsVBox.getChildren().addAll(addStopsButton, addBarriersButton, calculateRouteButton, resetButton, findBestSequenceCheckBox, preserveFirstStopCheckBox, preserveLastStopCheckBox, directionsLabel, directionsList);
 
+      // create symbols for stops and route
+      SimpleLineSymbol routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2.0f);
+
+      // create a graphics overlay for stops
+      GraphicsOverlay stopsGraphicsOverlay = new GraphicsOverlay();
+
+      // create a list of stops
+      ArrayList<Point> stopsList = new ArrayList<>();
 
       // create an ArcGISMap with a streets basemap
       ArcGISMap map = new ArcGISMap(Basemap.createStreets());
@@ -70,6 +89,36 @@ public class RoutingAroundBarriersSample extends Application {
       // set the ArcGISMap to be displayed in this view
       mapView = new MapView();
       mapView.setMap(map);
+
+      // zoom to viewpoint
+      mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
+
+      mapView.getGraphicsOverlays().add(stopsGraphicsOverlay);
+
+      // listen to mouse clicks to add stops
+      mapView.setOnMouseClicked(e ->{
+        // check that the primary mouse button was clicked
+        if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+
+          Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
+          Point stopPoint = new Point(mapPoint.getX(), mapPoint.getY(), map.getSpatialReference());
+
+
+          // add the new stop to the list of stops
+          stopsList.add(stopPoint);
+
+          // determine the stop number and create a new label
+          String stopNumberText = ((Integer) stopsList.size()).toString();
+          TextSymbol stopTextSymbol = new TextSymbol(12, stopNumberText, 0xFF0000FF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
+
+          // create a marker graphics and add it to the graphics overlay
+          Graphic stopGraphic = new Graphic(stopPoint, stopTextSymbol);
+          stopsGraphicsOverlay.getGraphics().add(stopGraphic);
+        }
+
+
+      });
+
 
       // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
