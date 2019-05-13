@@ -57,7 +57,7 @@ public class GetElevationAtAPointSample extends Application {
       fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Get Elevation At A Point Sample");
+      stage.setTitle("Get Elevation at a Point Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
