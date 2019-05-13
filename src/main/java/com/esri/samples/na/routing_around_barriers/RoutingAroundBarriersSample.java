@@ -241,6 +241,9 @@ public class RoutingAroundBarriersSample extends Application {
    */
   private void createRouteAndDisplay(){
     if (stopsList.size() >= 2){
+      // clear the previous route, if it exists
+      routeGraphicsOverlay.getGraphics().clear();
+
       // add the existing stops and barriers to the route parameters
       routeParameters.setStops(stopsList);
       routeParameters.setPolygonBarriers(barriersList);
