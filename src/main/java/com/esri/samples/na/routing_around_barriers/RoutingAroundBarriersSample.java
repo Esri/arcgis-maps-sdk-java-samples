@@ -7,6 +7,10 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -35,10 +39,29 @@ public class RoutingAroundBarriersSample extends Application {
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(400,300);
+      controlsVBox.setMaxSize(150,150);
       controlsVBox.getStyleClass().add("panel-region");
 
+      // create a list view and label for route directions
+      Label directionsLabel = new Label("Route directions:");
+      directionsLabel.getStyleClass().add("panel-label");
+      ListView<String> directionsList = new ListView<>();
 
+      // create buttons for user interaction
+      Button addStopsButton = new Button("Add Stops");
+      addStopsButton.setMaxWidth(Double.MAX_VALUE);
+      Button addBarriersButton = new Button("Add Barriers");
+      addBarriersButton.setMaxWidth(Double.MAX_VALUE);
+      Button calculateRouteButton = new Button("Calculate Route");
+      calculateRouteButton.setMaxWidth(Double.MAX_VALUE);
+      Button resetButton = new Button("Reset");
+      resetButton.setMaxWidth(Double.MAX_VALUE);
+      CheckBox findBestSequenceCheckBox = new CheckBox("Find best sequence");
+      CheckBox preserveFirstStopCheckBox = new CheckBox("Preserve first stop");
+      CheckBox preserveLastStopCheckBox = new CheckBox("Preserve last stop");
+
+      // add buttons, checkboxes and directions list to the control panel
+      controlsVBox.getChildren().addAll(addStopsButton, addBarriersButton, calculateRouteButton, resetButton, findBestSequenceCheckBox, preserveFirstStopCheckBox, preserveLastStopCheckBox, directionsLabel, directionsList);
 
 
       // create an ArcGISMap with a streets basemap
