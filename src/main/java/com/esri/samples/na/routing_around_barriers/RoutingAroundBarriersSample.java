@@ -8,9 +8,7 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.TextSymbol;
+import com.esri.arcgisruntime.symbology.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -20,18 +18,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RoutingAroundBarriersSample extends Application {
 
   MapView mapView;
   CheckBox preserveFirstStopCheckBox;
   CheckBox preserveLastStopCheckBox;
+  ArrayList<Point> stopsList;
 
   @Override
   public void start(Stage stage) {
@@ -86,7 +87,7 @@ public class RoutingAroundBarriersSample extends Application {
       GraphicsOverlay stopsGraphicsOverlay = new GraphicsOverlay();
 
       // create a list of stops
-      ArrayList<Point> stopsList = new ArrayList<>();
+      stopsList = new ArrayList<>();
 
       // create an ArcGISMap with a streets basemap
       ArcGISMap map = new ArcGISMap(Basemap.createStreets());
@@ -117,15 +118,11 @@ public class RoutingAroundBarriersSample extends Application {
           // add the new stop to the list of stops
           stopsList.add(stopPoint);
 
-          // determine the stop number and create a new label
-          String stopNumberText = ((Integer) stopsList.size()).toString();
-          TextSymbol stopTextSymbol = new TextSymbol(12, stopNumberText, 0xFF0000FF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
 
           // create a marker graphics and add it to the graphics overlay
-          Graphic stopGraphic = new Graphic(stopPoint, stopTextSymbol);
+          Graphic stopGraphic = new Graphic(stopPoint, createSymbolForStopGraphic(stopsList.size()));
           stopsGraphicsOverlay.getGraphics().add(stopGraphic);
         }
-
 
       });
 
@@ -141,6 +138,23 @@ public class RoutingAroundBarriersSample extends Application {
 
   }
 
+  private CompositeSymbol createSymbolForStopGraphic(int stopIndex){
+
+    // create a marker with a pin image and position it
+    Image pinImage = new Image(getClass().getResourceAsStream("/symbols/pin.png"), 0, 80, true, true);
+    PictureMarkerSymbol pinSymbol = new PictureMarkerSymbol(pinImage);
+    pinSymbol.loadAsync();
+
+    // determine the stop number and create a new label
+    String stopNumberText = ((Integer) stopsList.size()).toString();
+    TextSymbol stopTextSymbol = new TextSymbol(20, stopNumberText, 0xFF0000FF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.MIDDLE);
+    stopTextSymbol.setOffsetY((float) pinImage.getHeight()/2);
+
+    // construct a composite symbol out of the pin and text symbols, and return it
+    CompositeSymbol compositeSymbol = new CompositeSymbol(Arrays.asList(pinSymbol, stopTextSymbol));
+    return compositeSymbol;
+  }
+  
   /*
    * Toggles and resets preserve stops checkboxes
    */
