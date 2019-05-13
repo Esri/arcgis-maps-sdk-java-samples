@@ -2,6 +2,7 @@ package com.esri.samples.na.routing_around_barriers;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.internal.util.Check;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -39,13 +40,16 @@ public class RoutingAroundBarriersSample extends Application {
   private CheckBox preserveFirstStopCheckBox;
   private CheckBox preserveLastStopCheckBox;
   private ArrayList<Stop> stopsList;
+  private ArrayList<PolygonBarrier> barriersList;
   private GraphicsOverlay stopsGraphicsOverlay;
   private GraphicsOverlay routeGraphicsOverlay;
+  private GraphicsOverlay barriersGraphicsOverlay;
   private ArcGISMap map;
   private RouteTask solveRouteTask;
   private RouteParameters routeParameters;
   private SimpleLineSymbol routeLineSymbol;
   private ListView<String> directionsList;
+  private RoutingAroundBarriersSample.InsertMode currentInsertMode;
 
   @Override
   public void start(Stage stage) {
@@ -98,6 +102,7 @@ public class RoutingAroundBarriersSample extends Application {
 
       // create graphics overlays for stops and routes
       stopsGraphicsOverlay = new GraphicsOverlay();
+      barriersGraphicsOverlay = new GraphicsOverlay();
       routeGraphicsOverlay = new GraphicsOverlay();
 
       // create a list of stops
@@ -119,7 +124,7 @@ public class RoutingAroundBarriersSample extends Application {
       mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
       // add the graphics overlays to the map view
-      mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, routeGraphicsOverlay));
+      mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
 
       // TODO: add drawStatusListener to mapView and only then enable UI?
 
@@ -127,12 +132,31 @@ public class RoutingAroundBarriersSample extends Application {
       mapView.setOnMouseClicked(e ->{
         // check that the primary mouse button was clicked
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-
-          // convert clicked point to a map point and add it as a stop
+          // convert clicked point to a map point
           Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
-          addStop(mapPoint);
-        }
 
+          // check which insertion mode is active
+          switch (currentInsertMode) {
+            case STOPS:
+              // add the map point as a stop
+              addStop(mapPoint);
+              break;
+            case BARRIERS:
+              // add the map point as a barrier
+              addBarrier(mapPoint);
+              break;
+          }
+        }
+      });
+
+      // change to adding stops when button is pressed
+      addStopsButton.setOnAction(e -> {
+        currentInsertMode = InsertMode.STOPS;
+      });
+
+      // change to adding barriers when button is pressed
+      addBarriersButton.setOnAction(e -> {
+        currentInsertMode = InsertMode.BARRIERS;
       });
 
       // solve the route task when button is pressed
@@ -237,6 +261,19 @@ public class RoutingAroundBarriersSample extends Application {
     // create a marker graphics and add it to the graphics overlay
     Graphic stopGraphic = new Graphic(mapPoint, createSymbolForStopGraphic(stopsList.size()));
     stopsGraphicsOverlay.getGraphics().add(stopGraphic);
+  }
+
+  private void addBarrier(Point mapPoint){
+
+//    PolygonBarrier barrier = new PolygonBarrier();
+
+
+    // create a buffered barrier geometry and build a symbol
+    SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xff0000ff, null);
+    Geometry bufferedBarrierGeometry = GeometryEngine.buffer(mapPoint, 500);
+    Graphic barrierGraphic = new Graphic(bufferedBarrierGeometry, barrierSymbol);
+    barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
+
   }
 
   /**
