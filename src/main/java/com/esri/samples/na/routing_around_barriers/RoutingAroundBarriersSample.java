@@ -130,6 +130,9 @@ public class RoutingAroundBarriersSample extends Application {
 
       // TODO: add drawStatusListener to mapView and only then enable UI?
 
+      // set the mode to adding stops
+      currentInsertMode = InsertMode.STOPS;
+
       // listen to mouse clicks to add stops
       mapView.setOnMouseClicked(e ->{
         // check that the primary mouse button was clicked
@@ -192,7 +195,6 @@ public class RoutingAroundBarriersSample extends Application {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 
   /**
