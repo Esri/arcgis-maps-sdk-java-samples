@@ -42,7 +42,7 @@ public class TokenAuthenticationSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Display Map Sample");
+      stage.setTitle("Token Authentication Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -66,7 +66,8 @@ public class TokenAuthenticationSample extends Application {
       mapView.setMap(map);
 
       // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
+      stackPane.getChildren().add(mapView);
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -93,5 +94,4 @@ public class TokenAuthenticationSample extends Application {
 
     Application.launch(args);
   }
-
 }
