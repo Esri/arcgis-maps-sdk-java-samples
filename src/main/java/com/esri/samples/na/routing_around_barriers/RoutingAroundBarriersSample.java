@@ -4,6 +4,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.internal.util.Check;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -105,8 +106,9 @@ public class RoutingAroundBarriersSample extends Application {
       barriersGraphicsOverlay = new GraphicsOverlay();
       routeGraphicsOverlay = new GraphicsOverlay();
 
-      // create a list of stops
+      // create a list of stops and barriers
       stopsList = new ArrayList<>();
+      barriersList = new ArrayList<>();
 
       // create an ArcGISMap with a streets basemap
       map = new ArcGISMap(Basemap.createStreets());
@@ -165,6 +167,23 @@ public class RoutingAroundBarriersSample extends Application {
         setupRouteTask();
       });
 
+      // clear view and route parameters when button is pressed
+      resetButton.setOnAction(e -> {
+        // clear stops and barriers
+        routeParameters.clearStops();
+        stopsList.clear();
+        routeParameters.clearPointBarriers();
+        barriersList.clear();
+
+        // clear the directions list
+        directionsList.getItems().clear();
+
+        // clear all graphics overlays
+        for (GraphicsOverlay graphicsOverlay : mapView.getGraphicsOverlays()){
+          graphicsOverlay.getGraphics().clear();
+        }
+      });
+
       // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
@@ -213,8 +232,9 @@ public class RoutingAroundBarriersSample extends Application {
    */
   private void createRouteAndDisplay(){
     if (stopsList.size() > 2){
-      // add the existing stops to the route parameters
+      // add the existing stops and barriers to the route parameters
       routeParameters.setStops(stopsList);
+      routeParameters.setPolygonBarriers(barriersList);
 
       // solve the route task
       final ListenableFuture<RouteResult> routeResultFuture = solveRouteTask.solveRouteAsync(routeParameters);
@@ -264,16 +284,17 @@ public class RoutingAroundBarriersSample extends Application {
   }
 
   private void addBarrier(Point mapPoint){
+    // create a buffered polygon around the mapPoint
+    Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
 
-//    PolygonBarrier barrier = new PolygonBarrier();
+    // create a polygon barrier for the routing task
+    PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
+    barriersList.add(barrier);
 
-
-    // create a buffered barrier geometry and build a symbol
+    // build a symbol and graphics, and display it
     SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xff0000ff, null);
-    Geometry bufferedBarrierGeometry = GeometryEngine.buffer(mapPoint, 500);
-    Graphic barrierGraphic = new Graphic(bufferedBarrierGeometry, barrierSymbol);
+    Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
     barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
-
   }
 
   /**
