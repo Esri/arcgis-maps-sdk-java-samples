@@ -1,6 +1,7 @@
 package com.esri.samples.na.routing_around_barriers;
 
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.internal.util.Check;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 public class RoutingAroundBarriersSample extends Application {
 
   MapView mapView;
+  CheckBox preserveFirstStopCheckBox;
+  CheckBox preserveLastStopCheckBox;
 
   @Override
   public void start(Stage stage) {
@@ -68,8 +71,10 @@ public class RoutingAroundBarriersSample extends Application {
       Button resetButton = new Button("Reset");
       resetButton.setMaxWidth(Double.MAX_VALUE);
       CheckBox findBestSequenceCheckBox = new CheckBox("Find best sequence");
-      CheckBox preserveFirstStopCheckBox = new CheckBox("Preserve first stop");
-      CheckBox preserveLastStopCheckBox = new CheckBox("Preserve last stop");
+      preserveFirstStopCheckBox = new CheckBox("Preserve first stop");
+      preserveFirstStopCheckBox.setDisable(true);
+      preserveLastStopCheckBox = new CheckBox("Preserve last stop");
+      preserveLastStopCheckBox.setDisable(true);
 
       // add buttons, checkboxes and directions list to the control panel
       controlsVBox.getChildren().addAll(addStopsButton, addBarriersButton, calculateRouteButton, resetButton, findBestSequenceCheckBox, preserveFirstStopCheckBox, preserveLastStopCheckBox, directionsLabel, directionsList);
@@ -90,6 +95,11 @@ public class RoutingAroundBarriersSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+      // toggle preserve checkboxes on findBestSequenceCheckBox tick
+      findBestSequenceCheckBox.setOnAction(event -> {
+        togglePreserveStopsCheckBoxes();
+      });
+
       // zoom to viewpoint
       mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
@@ -100,9 +110,9 @@ public class RoutingAroundBarriersSample extends Application {
         // check that the primary mouse button was clicked
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
 
+          // retrieve the clicked point and convert it to a map point
           Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
           Point stopPoint = new Point(mapPoint.getX(), mapPoint.getY(), map.getSpatialReference());
-
 
           // add the new stop to the list of stops
           stopsList.add(stopPoint);
@@ -131,15 +141,25 @@ public class RoutingAroundBarriersSample extends Application {
 
   }
 
+  /*
+   * Toggles and resets preserve stops checkboxes
+   */
+  private void togglePreserveStopsCheckBoxes(){
+    preserveFirstStopCheckBox.setSelected(false);
+    preserveFirstStopCheckBox.setDisable(!preserveFirstStopCheckBox.isDisabled());
+    preserveLastStopCheckBox.setSelected(false);
+    preserveLastStopCheckBox.setDisable(!preserveLastStopCheckBox.isDisabled());
+  }
+
   /**
    * Stops and releases all resources used in application.
    */
   @Override
   public void stop() {
 
-//    if (mapView != null) {
-//      mapView.dispose();
-//    }
+    if (mapView != null) {
+      mapView.dispose();
+    }
   }
 
   /**
