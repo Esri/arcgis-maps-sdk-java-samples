@@ -5,7 +5,6 @@ import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polygon;
-import com.esri.arcgisruntime.internal.util.Check;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -29,7 +28,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class RoutingAroundBarriersSample extends Application {
@@ -203,6 +201,71 @@ public class RoutingAroundBarriersSample extends Application {
       e.printStackTrace();
     }
   }
+  
+  /**
+   * Creates a stop at the clicked point and adds it to the list of stops
+   * @param mapPoint    The point on the map at which to create a stop
+   */
+  private void addStop(Point mapPoint){
+    // use the clicked map point to construct a stop
+    Stop stopPoint = new Stop(new Point(mapPoint.getX(), mapPoint.getY(), map.getSpatialReference()));
+
+    // add the new stop to the list of stops
+    stopsList.add(stopPoint);
+
+    // create a marker graphics and add it to the graphics overlay
+    Graphic stopGraphic = new Graphic(mapPoint, createSymbolForStopGraphic(stopsList.size()));
+    stopsGraphicsOverlay.getGraphics().add(stopGraphic);
+  }
+
+  /**
+   * Build a composite symbol out of a pin symbol and a text symbol marking the stop number
+   * @param stopNumber   The number of the current stop being added
+   * @return            A composite symbol to mark the current stop
+   */
+  private CompositeSymbol createSymbolForStopGraphic(Integer stopNumber){
+    // create a marker with a pin image and position it
+    Image pinImage = new Image(getClass().getResourceAsStream("/symbols/pin.png"), 0, 80, true, true);
+    PictureMarkerSymbol pinSymbol = new PictureMarkerSymbol(pinImage);
+    pinSymbol.loadAsync();
+
+    // determine the stop number and create a new label
+    String stopNumberText = ((stopNumber).toString());
+    TextSymbol stopTextSymbol = new TextSymbol(20, stopNumberText, 0xFF0000FF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.MIDDLE);
+    stopTextSymbol.setOffsetY((float) pinImage.getHeight()/2);
+
+    // construct a composite symbol out of the pin and text symbols, and return it
+    CompositeSymbol compositeSymbol = new CompositeSymbol(Arrays.asList(pinSymbol, stopTextSymbol));
+    return compositeSymbol;
+  }
+
+  /**
+   * Creates a barrier at the clicked point and adds it to the list of barriers
+   * @param mapPoint    The point on the map at which to create a barrier
+   */
+  private void addBarrier(Point mapPoint){
+    // create a buffered polygon around the mapPoint
+    Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
+
+    // create a polygon barrier for the routing task
+    PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
+    barriersList.add(barrier);
+
+    // build a symbol and graphics, and display it
+    SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xff0000ff, null);
+    Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
+    barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
+  }
+
+  private void removeLastStop(){
+    stopsList.remove(stopsList.size() - 1);
+    stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
+  }
+
+  private void removeLastBarrier(){
+    barriersList.remove(barriersList.size() - 1);
+    stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
+  }
 
   /**
    * create a route task with the existing list of stops
@@ -278,70 +341,6 @@ public class RoutingAroundBarriersSample extends Application {
     } else {
       //TODO: alert for not enough stops
     }
-  }
-  /**
-   * Creates a stop at the clicked point and adds it to the list of stops
-   * @param mapPoint    The point on the map at which to create a stop
-   */
-  private void addStop(Point mapPoint){
-    // use the clicked map point to construct a stop
-    Stop stopPoint = new Stop(new Point(mapPoint.getX(), mapPoint.getY(), map.getSpatialReference()));
-
-    // add the new stop to the list of stops
-    stopsList.add(stopPoint);
-
-    // create a marker graphics and add it to the graphics overlay
-    Graphic stopGraphic = new Graphic(mapPoint, createSymbolForStopGraphic(stopsList.size()));
-    stopsGraphicsOverlay.getGraphics().add(stopGraphic);
-  }
-
-  /**
-   * Creates a barrier at the clicked point and adds it to the list of barriers
-   * @param mapPoint    The point on the map at which to create a barrier
-   */
-  private void addBarrier(Point mapPoint){
-    // create a buffered polygon around the mapPoint
-    Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
-
-    // create a polygon barrier for the routing task
-    PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
-    barriersList.add(barrier);
-
-    // build a symbol and graphics, and display it
-    SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xff0000ff, null);
-    Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
-    barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
-  }
-
-  /**
-   * Build a composite symbol out of a pin symbol and a text symbol marking the stop number
-   * @param stopNumber   The number of the current stop being added
-   * @return            A composite symbol to mark the current stop
-   */
-  private CompositeSymbol createSymbolForStopGraphic(Integer stopNumber){
-    // create a marker with a pin image and position it
-    Image pinImage = new Image(getClass().getResourceAsStream("/symbols/pin.png"), 0, 80, true, true);
-    PictureMarkerSymbol pinSymbol = new PictureMarkerSymbol(pinImage);
-    pinSymbol.loadAsync();
-
-    // determine the stop number and create a new label
-    String stopNumberText = ((stopNumber).toString());
-    TextSymbol stopTextSymbol = new TextSymbol(20, stopNumberText, 0xFF0000FF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.MIDDLE);
-    stopTextSymbol.setOffsetY((float) pinImage.getHeight()/2);
-
-    // construct a composite symbol out of the pin and text symbols, and return it
-    CompositeSymbol compositeSymbol = new CompositeSymbol(Arrays.asList(pinSymbol, stopTextSymbol));
-    return compositeSymbol;
-  }
-
-  private void removeLastStop(){
-    stopsList.remove(stopsList.size() - 1);
-    stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
-  }
-
-  private void removeLastBarrier(){
-    barriersList.remove(barriersList.size() - 1);
-    stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
   }
 
   /**
