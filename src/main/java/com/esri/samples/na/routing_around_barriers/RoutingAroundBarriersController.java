@@ -1,15 +1,5 @@
 package com.esri.samples.na.routing_around_barriers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-
-import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
-
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -22,30 +12,36 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.CompositeSymbol;
-import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.TextSymbol;
-import com.esri.arcgisruntime.tasks.networkanalysis.DirectionManeuver;
-import com.esri.arcgisruntime.tasks.networkanalysis.PolygonBarrier;
-import com.esri.arcgisruntime.tasks.networkanalysis.Route;
-import com.esri.arcgisruntime.tasks.networkanalysis.RouteParameters;
-import com.esri.arcgisruntime.tasks.networkanalysis.RouteResult;
-import com.esri.arcgisruntime.tasks.networkanalysis.RouteTask;
-import com.esri.arcgisruntime.tasks.networkanalysis.Stop;
+import com.esri.arcgisruntime.symbology.*;
+import com.esri.arcgisruntime.tasks.networkanalysis.*;
+import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 public class RoutingAroundBarriersController {
 
   @FXML
   private MapView mapView;
-  @FXML private ToggleButton btnAddStop;
-  @FXML private ToggleButton btnAddBarrier;
-  @FXML private CheckBox findBestSequenceCheckBox;
-  @FXML private CheckBox preserveFirstStopCheckBox;
-  @FXML private CheckBox preserveLastStopCheckBox;
-  @FXML private ListView<String> directionsList;
-  @FXML private TitledPane routeInformationTitledPane;
+  @FXML
+  private ToggleButton btnAddStop;
+  @FXML
+  private ToggleButton btnAddBarrier;
+  @FXML
+  private CheckBox findBestSequenceCheckBox;
+  @FXML
+  private CheckBox preserveFirstStopCheckBox;
+  @FXML
+  private CheckBox preserveLastStopCheckBox;
+  @FXML
+  private ListView<String> directionsList;
+  @FXML
+  private TitledPane routeInformationTitledPane;
   private ArrayList<Stop> stopsList;
   private ArrayList<PolygonBarrier> barriersList;
   private GraphicsOverlay stopsGraphicsOverlay;
@@ -88,15 +84,15 @@ public class RoutingAroundBarriersController {
     // TODO: add drawStatusListener to mapView and only then enable UI?
 
     // listen to mouse clicks to add/remove stops or barriers
-    mapView.setOnMouseClicked(e ->{
+    mapView.setOnMouseClicked(e -> {
       // convert clicked point to a map point
       Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
       // if the primary mouse button was clicked, add a stop or barrier, respectively
       if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-        if (btnAddStop.isSelected()){
+        if (btnAddStop.isSelected()) {
           addStop(mapPoint);
-        } else if (btnAddBarrier.isSelected()){ // TODO: check against this is unnecessary since it's either or
+        } else if (btnAddBarrier.isSelected()) { // TODO: check against this is unnecessary since it's either or
           addBarrier(mapPoint);
         }
 
@@ -104,9 +100,9 @@ public class RoutingAroundBarriersController {
       } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
         // clear the displayed route, if it exists, since it might not be up to date any more
         routeGraphicsOverlay.getGraphics().clear();
-        if (btnAddStop.isSelected()){
+        if (btnAddStop.isSelected()) {
           removeLastStop();
-        } else if (btnAddBarrier.isSelected()){ // TODO: check against this is unnecessary since it's either or
+        } else if (btnAddBarrier.isSelected()) { // TODO: check against this is unnecessary since it's either or
           removeLastBarrier();
         }
       }
@@ -115,7 +111,8 @@ public class RoutingAroundBarriersController {
 
   /**
    * Creates a stop at the clicked point and adds it to the list of stops
-   * @param mapPoint    The point on the map at which to create a stop
+   *
+   * @param mapPoint The point on the map at which to create a stop
    */
   private void addStop(Point mapPoint) {
     // use the clicked map point to construct a stop
@@ -132,8 +129,9 @@ public class RoutingAroundBarriersController {
 
   /**
    * Build a composite symbol out of a pin symbol and a text symbol marking the stop number
-   * @param stopNumber   The number of the current stop being added
-   * @return            A composite symbol to mark the current stop
+   *
+   * @param stopNumber The number of the current stop being added
+   * @return A composite symbol to mark the current stop
    */
   private CompositeSymbol createCompositeStopSymbol(Integer stopNumber) {
     // create a marker with a pin image and position it
@@ -145,7 +143,7 @@ public class RoutingAroundBarriersController {
     // determine the stop number and create a new label
     String stopNumberText = ((stopNumber).toString());
     TextSymbol stopTextSymbol = new TextSymbol(16, stopNumberText, 0xFFFFFFFF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
-    stopTextSymbol.setOffsetY((float) pinImage.getHeight()/2);
+    stopTextSymbol.setOffsetY((float) pinImage.getHeight() / 2);
 
     // construct a composite symbol out of the pin and text symbols, and return it
     CompositeSymbol compositeSymbol = new CompositeSymbol(Arrays.asList(pinSymbol, stopTextSymbol));
@@ -154,7 +152,8 @@ public class RoutingAroundBarriersController {
 
   /**
    * Creates a barrier at the clicked point and adds it to the list of barriers
-   * @param mapPoint    The point on the map at which to create a barrier
+   *
+   * @param mapPoint The point on the map at which to create a barrier
    */
   private void addBarrier(Point mapPoint) {
     // clear the displayed route, if it exists, since it might not be up to date any more
@@ -204,21 +203,21 @@ public class RoutingAroundBarriersController {
   @FXML
   private void setupRouteTask() {
     // create route task from San Diego service
-    solveRouteTask  = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
+    solveRouteTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
     solveRouteTask.loadAsync();
     solveRouteTask.addDoneLoadingListener(() -> {
-      if (solveRouteTask.getLoadStatus() == LoadStatus.LOADED){
+      if (solveRouteTask.getLoadStatus() == LoadStatus.LOADED) {
         // get default route parameters
         final ListenableFuture<RouteParameters> routeParametersFuture = solveRouteTask.createDefaultParametersAsync();
-        routeParametersFuture.addDoneListener(()->{
+        routeParametersFuture.addDoneListener(() -> {
 
-          try{
+          try {
             routeParameters = routeParametersFuture.get();
             // set flags to return stops and directions
             routeParameters.setReturnStops(true);
             routeParameters.setReturnDirections(true);
 
-          } catch (InterruptedException | ExecutionException e){
+          } catch (InterruptedException | ExecutionException e) {
             new Alert(Alert.AlertType.ERROR, "Cannot create RouteTask parameters " + e.getMessage()).show();
           }
         });
@@ -235,7 +234,7 @@ public class RoutingAroundBarriersController {
    * Use the list of stops and the route task to determine the route and display it
    */
   private void createRouteAndDisplay() {
-    if (stopsList.size() >= 2){
+    if (stopsList.size() >= 2) {
       // clear the previous route from the graphics overlay, if it exists
       routeGraphicsOverlay.getGraphics().clear();
 
@@ -251,7 +250,7 @@ public class RoutingAroundBarriersController {
       routeResultFuture.addDoneListener(() -> {
         try {
           RouteResult routeResult = routeResultFuture.get();
-          if (routeResult.getRoutes().size() > 0){
+          if (routeResult.getRoutes().size() > 0) {
             // get the first route result
             Route firstRoute = routeResult.getRoutes().get(0);
 
@@ -264,7 +263,7 @@ public class RoutingAroundBarriersController {
             retrieveAndDisplayRouteInformation(firstRoute);
 
             // get the direction text for each maneuver and display
-            for (DirectionManeuver step : firstRoute.getDirectionManeuvers()){
+            for (DirectionManeuver step : firstRoute.getDirectionManeuvers()) {
               directionsList.getItems().add(step.getDirectionText());
             }
 
@@ -284,7 +283,7 @@ public class RoutingAroundBarriersController {
   /**
    * Check the status of the route options checkboxes and apply the parameters accordingly
    */
-  private void checkAndApplyRouteOptions(){
+  private void checkAndApplyRouteOptions() {
     routeParameters.setFindBestSequence(findBestSequenceCheckBox.isSelected());
     routeParameters.setPreserveFirstStop(preserveFirstStopCheckBox.isSelected());
     routeParameters.setPreserveLastStop(preserveLastStopCheckBox.isSelected());
@@ -294,7 +293,7 @@ public class RoutingAroundBarriersController {
    * Toggle and reset preserve stops checkboxes
    */
   @FXML
-  private void togglePreserveStopsCheckBoxes(){
+  private void togglePreserveStopsCheckBoxes() {
     preserveFirstStopCheckBox.setSelected(false);
     preserveFirstStopCheckBox.setDisable(!preserveFirstStopCheckBox.isDisabled());
     preserveLastStopCheckBox.setSelected(false);
@@ -303,23 +302,24 @@ public class RoutingAroundBarriersController {
 
   /**
    * Retrieves the route information and updates the TitlePanel of the Accordion box
-   * @param route
+   *
+   * @param route  the route of which to retrieve the information
    */
-  private void retrieveAndDisplayRouteInformation(Route route){
+  private void retrieveAndDisplayRouteInformation(Route route) {
 
     // retrieve route travel time, rounded to the nearest minute
     String routeTravelTime = ((Long) Math.round(route.getTravelTime())).toString();
 
     // retrieve route length, convert it to km and round to tow decimal points
-    double routeLength =  route.getTotalLength()/1000;
-    double routeLengthRounded = Math.round(routeLength*100d)/100d;
+    double routeLength = route.getTotalLength() / 1000;
+    double routeLengthRounded = Math.round(routeLength * 100d) / 100d;
 
     // set the title of the Information panel
-    routeInformationTitledPane.setText("Route Directions: " + routeTravelTime + " min (" +routeLengthRounded+" km)");
+    routeInformationTitledPane.setText("Route Directions: " + routeTravelTime + " min (" + routeLengthRounded + " km)");
   }
 
   /**
-   *  Clear stops and barriers from the route parameters, clears direction list and graphics overlays
+   * Clear stops and barriers from the route parameters, clears direction list and graphics overlays
    */
   @FXML
   private void clearRouteAndGraphics() {

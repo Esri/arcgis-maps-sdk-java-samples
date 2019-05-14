@@ -20,7 +20,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
-
 <StackPane fx:controller="com.esri.samples.na.routing_around_barriers.RoutingAroundBarriersController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
@@ -38,6 +37,7 @@
       <padding>
         <Insets topRightBottomLeft="10"/>
       </padding>
+
       <background>
         <Background>
           <fills>
@@ -52,19 +52,22 @@
 
       <!--      Edit Mode Toggle Buttons-->
       <Label text="Edit Mode:"/>
-      <HBox minWidth="150" maxWidth="Infinity">
-        <ToggleButton fx:id="btnAddStop" text="Stops" selected="true" minWidth="75" maxWidth="Infinity">
+
+      <HBox minWidth="200" maxWidth="Infinity">
+        <ToggleButton fx:id="btnAddStop" text="Stops" selected="true" minWidth="100" maxWidth="Infinity">
           <toggleGroup>
             <ToggleGroup fx:id="toggleGroup"/>
           </toggleGroup>
         </ToggleButton>
-        <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Barriers" minWidth="75" maxWidth="Infinity"/>
+        <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Barriers" minWidth="100"
+                      maxWidth="Infinity"/>
       </HBox>
 
       <Separator/>
 
       <!--      Routing Options Checkboxes-->
       <Label text="Routing Options:"/>
+
       <CheckBox fx:id="findBestSequenceCheckBox" text="Find best sequence"
                 onAction="#togglePreserveStopsCheckBoxes"/>
 
@@ -75,18 +78,19 @@
         <CheckBox fx:id="preserveFirstStopCheckBox" text="Preserve first stop" disable="true"/>
         <CheckBox fx:id="preserveLastStopCheckBox" text="Preserve last stop" disable="true"/>
       </VBox>
+
       <Separator/>
 
       <!--      Action Buttons-->
       <Button text="Determine Route" onAction="#setupRouteTask" maxWidth="Infinity"/>
       <Button text="Reset" onAction="#clearRouteAndGraphics" maxWidth="Infinity"/>
+
     </VBox>
 
     <!--      Directions Accordion-->
     <VBox maxHeight="250" styleClass="panel-region" spacing="10">
       <Accordion layoutX="20.0" layoutY="100.0" prefHeight="400.0" prefWidth="680.0">
         <panes>
-
           <TitledPane fx:id="routeInformationTitledPane">
             <ListView fx:id="directionsList"/>
           </TitledPane>
