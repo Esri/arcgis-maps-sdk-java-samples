@@ -30,6 +30,7 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <StackPane fx:controller="com.esri.samples.na.routing_around_barriers.RoutingAroundBarriersController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/css/style.css">
 
@@ -60,17 +61,22 @@
         </ToggleButton>
         <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Add/Remove Barriers" minWidth="200"/>
 
+        <Separator orientation="HORIZONTAL"/>
+
         <Button text="Determine Route" onAction="#setupRouteTask" minWidth="200"/>
         <Button text="Reset" onAction="#clearRouteAndGraphics" minWidth="200"/>
 
+        <Label text="Routing options:"/>
         <CheckBox fx:id="findBestSequenceCheckBox" text="Find best sequence" onAction="#togglePreserveStopsCheckBoxes"/>
         <CheckBox fx:id="preserveFirstStopCheckBox" text="Preserve first stop" disable="true"/>
         <CheckBox fx:id="preserveLastStopCheckBox" text="Preserve last stop" disable="true"/>
 
+        <Separator orientation="HORIZONTAL"/>
+
+        <!-- label for direction list-->
         <Label text="Route directions:"/>
+        <!-- direction list-->
         <ListView fx:id="directionsList"/>
-<!--        // label for direction list-->
-<!--        // direction list-->
 
     </VBox>
 </StackPane>

@@ -48,55 +48,55 @@ public class RoutingAroundBarriersController {
 
   @FXML
   public void initialize() {
-      // create an ArcGISMap with a streets basemap
-      map = new ArcGISMap(Basemap.createStreets());
-      // set the ArcGISMap to be displayed in this view
-      mapView.setMap(map);
-      // zoom to viewpoint
-      mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
+    // create an ArcGISMap with a streets basemap
+    map = new ArcGISMap(Basemap.createStreets());
+    // set the ArcGISMap to be displayed in this view
+    mapView.setMap(map);
+    // zoom to viewpoint
+    mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
-      // create symbols for barriers and routes
-      routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
-      barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
+    // create symbols for barriers and routes
+    routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
+    barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
 
-      // create graphics overlays for stops, barriers and routes
-      stopsGraphicsOverlay = new GraphicsOverlay();
-      barriersGraphicsOverlay = new GraphicsOverlay();
-      routeGraphicsOverlay = new GraphicsOverlay();
+    // create graphics overlays for stops, barriers and routes
+    stopsGraphicsOverlay = new GraphicsOverlay();
+    barriersGraphicsOverlay = new GraphicsOverlay();
+    routeGraphicsOverlay = new GraphicsOverlay();
 
-      // create a list of stops and barriers
-      stopsList = new ArrayList<>();
-      barriersList = new ArrayList<>();
+    // create a list of stops and barriers
+    stopsList = new ArrayList<>();
+    barriersList = new ArrayList<>();
 
-      // add the graphics overlays to the map view
-      mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
+    // add the graphics overlays to the map view
+    mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
 
-      // TODO: add drawStatusListener to mapView and only then enable UI?
+    // TODO: add drawStatusListener to mapView and only then enable UI?
 
-      // listen to mouse clicks to add/remove stops or barriers
-      mapView.setOnMouseClicked(e ->{
-        // convert clicked point to a map point
-        Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
+    // listen to mouse clicks to add/remove stops or barriers
+    mapView.setOnMouseClicked(e ->{
+      // convert clicked point to a map point
+      Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
-        // if the primary mouse button was clicked, add a stop or barrier, respectively
-        if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-          if (btnAddStop.isSelected()){
-            addStop(mapPoint);
-          } else if (btnAddBarrier.isSelected()){
-            addBarrier(mapPoint);
-          }
-
-          // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
-        } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
-          // clear the displayed route, if it exists, since it might not be up to date any more
-          routeGraphicsOverlay.getGraphics().clear();
-          if (btnAddStop.isSelected()){
-            removeLastStop();
-          } else if (btnAddBarrier.isSelected()){
-            removeLastBarrier();
-          }
+      // if the primary mouse button was clicked, add a stop or barrier, respectively
+      if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+        if (btnAddStop.isSelected()){
+          addStop(mapPoint);
+        } else if (btnAddBarrier.isSelected()){ // TODO: check against this is unnecessary since it's either or
+          addBarrier(mapPoint);
         }
-      });
+
+        // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
+      } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
+        // clear the displayed route, if it exists, since it might not be up to date any more
+        routeGraphicsOverlay.getGraphics().clear();
+        if (btnAddStop.isSelected()){
+          removeLastStop();
+        } else if (btnAddBarrier.isSelected()){ // TODO: check against this is unnecessary since it's either or
+          removeLastBarrier();
+        }
+      }
+    });
   }
 
   /**
@@ -191,7 +191,7 @@ public class RoutingAroundBarriersController {
     solveRouteTask.loadAsync();
     solveRouteTask.addDoneLoadingListener(() -> {
       if (solveRouteTask.getLoadStatus() == LoadStatus.LOADED){
-// get default route parameters
+        // get default route parameters
         final ListenableFuture<RouteParameters> routeParametersFuture = solveRouteTask.createDefaultParametersAsync();
         routeParametersFuture.addDoneListener(()->{
 
@@ -229,7 +229,7 @@ public class RoutingAroundBarriersController {
       // apply the requested route finding parameters
       checkAndApplyRouteOptions();
 
-// solve the route task
+      // solve the route task
       final ListenableFuture<RouteResult> routeResultFuture = solveRouteTask.solveRouteAsync(routeParameters);
       routeResultFuture.addDoneListener(() -> {
         try {
