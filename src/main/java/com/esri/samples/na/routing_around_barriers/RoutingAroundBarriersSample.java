@@ -78,9 +78,9 @@ public class RoutingAroundBarriersSample extends Application {
       directionsList = new ListView<>();
 
       // create buttons for user interaction
-      Button addStopsButton = new Button("Add Stops");
+      Button addStopsButton = new Button("Add/Remove Stops");
       addStopsButton.setMaxWidth(Double.MAX_VALUE);
-      Button addBarriersButton = new Button("Add Barriers");
+      Button addBarriersButton = new Button("Add/Remove Barriers");
       addBarriersButton.setMaxWidth(Double.MAX_VALUE);
       Button calculateRouteButton = new Button("Calculate Route");
       calculateRouteButton.setMaxWidth(Double.MAX_VALUE);
@@ -137,7 +137,7 @@ public class RoutingAroundBarriersSample extends Application {
       // change to adding barriers when button is pressed
       addBarriersButton.setOnAction(e -> currentInsertMode = InsertMode.BARRIERS);
 
-      // listen to mouse clicks to add stops or barriers
+      // listen to mouse clicks to add/remove stops or barriers
       mapView.setOnMouseClicked(e ->{
         // convert clicked point to a map point
         Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
@@ -157,6 +157,9 @@ public class RoutingAroundBarriersSample extends Application {
               break;
           }
         } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
+
+          // clear the displayed route, if it exists, since it might not be up to date any more
+          routeGraphicsOverlay.getGraphics().clear();
 
           // check which insertion mode is active
           switch (currentInsertMode) {
@@ -180,9 +183,12 @@ public class RoutingAroundBarriersSample extends Application {
 
       // clear view and route parameters when button is pressed
       resetButton.setOnAction(e -> {
-        // clear stops and barriers
+
+        // clear stops from route parameters and stops list
         routeParameters.clearStops();
         stopsList.clear();
+
+        // clear barriers from route parameters and barriers list
         routeParameters.clearPointBarriers();
         barriersList.clear();
 
@@ -363,7 +369,7 @@ public class RoutingAroundBarriersSample extends Application {
         }
       });
     } else {
-      //TODO: alert for not enough stops
+      new Alert(Alert.AlertType.ERROR, "Cannot run the routing task, a minimum of two stops is required").show();
     }
   }
 
