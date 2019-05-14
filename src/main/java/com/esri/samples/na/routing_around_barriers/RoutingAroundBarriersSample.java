@@ -33,6 +33,7 @@ import java.util.concurrent.ExecutionException;
 public class RoutingAroundBarriersSample extends Application {
 
   private MapView mapView;
+  private CheckBox findBestSequenceCheckBox;
   private CheckBox preserveFirstStopCheckBox;
   private CheckBox preserveLastStopCheckBox;
   private ArrayList<Stop> stopsList;
@@ -46,6 +47,7 @@ public class RoutingAroundBarriersSample extends Application {
   private SimpleLineSymbol routeLineSymbol;
   private ListView<String> directionsList;
   private RoutingAroundBarriersSample.InsertMode currentInsertMode;
+  private SimpleFillSymbol barrierSymbol;
 
   @Override
   public void start(Stage stage) {
@@ -84,7 +86,7 @@ public class RoutingAroundBarriersSample extends Application {
       calculateRouteButton.setMaxWidth(Double.MAX_VALUE);
       Button resetButton = new Button("Reset");
       resetButton.setMaxWidth(Double.MAX_VALUE);
-      CheckBox findBestSequenceCheckBox = new CheckBox("Find best sequence");
+      findBestSequenceCheckBox = new CheckBox("Find best sequence");
       preserveFirstStopCheckBox = new CheckBox("Preserve first stop");
       preserveFirstStopCheckBox.setDisable(true);
       preserveLastStopCheckBox = new CheckBox("Preserve last stop");
@@ -94,7 +96,8 @@ public class RoutingAroundBarriersSample extends Application {
       controlsVBox.getChildren().addAll(addStopsButton, addBarriersButton, calculateRouteButton, resetButton, findBestSequenceCheckBox, preserveFirstStopCheckBox, preserveLastStopCheckBox, directionsLabel, directionsList);
 
       // create symbols for stops and route
-      routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2.0f);
+      routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
+      barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
 
       // create graphics overlays for stops and routes
       stopsGraphicsOverlay = new GraphicsOverlay();
@@ -201,7 +204,7 @@ public class RoutingAroundBarriersSample extends Application {
       e.printStackTrace();
     }
   }
-  
+
   /**
    * Creates a stop at the clicked point and adds it to the list of stops
    * @param mapPoint    The point on the map at which to create a stop
@@ -251,8 +254,7 @@ public class RoutingAroundBarriersSample extends Application {
     PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
     barriersList.add(barrier);
 
-    // build a symbol and graphics, and display it
-    SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xff0000ff, null);
+    // build graphics, and display it
     Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
     barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
   }
@@ -264,7 +266,7 @@ public class RoutingAroundBarriersSample extends Application {
 
   private void removeLastBarrier(){
     barriersList.remove(barriersList.size() - 1);
-    stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
+    barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
   }
 
   /**
@@ -300,6 +302,15 @@ public class RoutingAroundBarriersSample extends Application {
   }
 
   /**
+   * Check the status of the route options checkboxes and apply the parameters accordingly
+   */
+  private void checkAndApplyRouteOptions(){
+      routeParameters.setFindBestSequence(findBestSequenceCheckBox.isSelected());
+      routeParameters.setPreserveFirstStop(preserveFirstStopCheckBox.isSelected());
+      routeParameters.setPreserveLastStop(preserveLastStopCheckBox.isSelected());
+  }
+
+  /**
    * Use the list of stops and the route task to determine the route and display it
    */
   private void createRouteAndDisplay(){
@@ -310,6 +321,9 @@ public class RoutingAroundBarriersSample extends Application {
       // add the existing stops and barriers to the route parameters
       routeParameters.setStops(stopsList);
       routeParameters.setPolygonBarriers(barriersList);
+
+      // apply the requested route finding parameters
+      checkAndApplyRouteOptions();
 
       // solve the route task
       final ListenableFuture<RouteResult> routeResultFuture = solveRouteTask.solveRouteAsync(routeParameters);
