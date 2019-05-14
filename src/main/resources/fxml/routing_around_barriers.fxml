@@ -86,7 +86,8 @@
     <VBox maxHeight="250" styleClass="panel-region" spacing="10">
       <Accordion layoutX="20.0" layoutY="100.0" prefHeight="400.0" prefWidth="680.0">
         <panes>
-          <TitledPane text="Route Directions">
+
+          <TitledPane fx:id="routeInformationTitledPane">
             <ListView fx:id="directionsList"/>
           </TitledPane>
         </panes>

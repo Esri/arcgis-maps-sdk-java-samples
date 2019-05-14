@@ -1,5 +1,15 @@
 package com.esri.samples.na.routing_around_barriers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+
+import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -12,29 +22,30 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.*;
-import com.esri.arcgisruntime.tasks.networkanalysis.*;
-import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
+import com.esri.arcgisruntime.symbology.CompositeSymbol;
+import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.TextSymbol;
+import com.esri.arcgisruntime.tasks.networkanalysis.DirectionManeuver;
+import com.esri.arcgisruntime.tasks.networkanalysis.PolygonBarrier;
+import com.esri.arcgisruntime.tasks.networkanalysis.Route;
+import com.esri.arcgisruntime.tasks.networkanalysis.RouteParameters;
+import com.esri.arcgisruntime.tasks.networkanalysis.RouteResult;
+import com.esri.arcgisruntime.tasks.networkanalysis.RouteTask;
+import com.esri.arcgisruntime.tasks.networkanalysis.Stop;
 
 public class RoutingAroundBarriersController {
 
-  @FXML private MapView mapView;
+  @FXML
+  private MapView mapView;
   @FXML private ToggleButton btnAddStop;
   @FXML private ToggleButton btnAddBarrier;
   @FXML private CheckBox findBestSequenceCheckBox;
   @FXML private CheckBox preserveFirstStopCheckBox;
   @FXML private CheckBox preserveLastStopCheckBox;
   @FXML private ListView<String> directionsList;
+  @FXML private TitledPane routeInformationTitledPane;
   private ArrayList<Stop> stopsList;
   private ArrayList<PolygonBarrier> barriersList;
   private GraphicsOverlay stopsGraphicsOverlay;
@@ -70,6 +81,9 @@ public class RoutingAroundBarriersController {
     // create a list of stops and barriers
     stopsList = new ArrayList<>();
     barriersList = new ArrayList<>();
+
+    // Initialize the TitlePane of the Accordion box
+    routeInformationTitledPane.setText("No route to display");
 
     // TODO: add drawStatusListener to mapView and only then enable UI?
 
@@ -246,6 +260,9 @@ public class RoutingAroundBarriersController {
             Graphic routeGraphic = new Graphic(routeShape, routeLineSymbol);
             routeGraphicsOverlay.getGraphics().add(routeGraphic);
 
+            // update the route information on the TitlePanel of the Accordion
+            retrieveAndDisplayRouteInformation(firstRoute);
+
             // get the direction text for each maneuver and display
             for (DirectionManeuver step : firstRoute.getDirectionManeuvers()){
               directionsList.getItems().add(step.getDirectionText());
@@ -285,6 +302,23 @@ public class RoutingAroundBarriersController {
   }
 
   /**
+   * Retrieves the route information and updates the TitlePanel of the Accordion box
+   * @param route
+   */
+  private void retrieveAndDisplayRouteInformation(Route route){
+
+    // retrieve route travel time, rounded to the nearest minute
+    String routeTravelTime = ((Long) Math.round(route.getTravelTime())).toString();
+
+    // retrieve route length, convert it to km and round to tow decimal points
+    double routeLength =  route.getTotalLength()/1000;
+    double routeLengthRounded = Math.round(routeLength*100d)/100d;
+
+    // set the title of the Information panel
+    routeInformationTitledPane.setText("Route Directions: " + routeTravelTime + " min (" +routeLengthRounded+" km)");
+  }
+
+  /**
    *  Clear stops and barriers from the route parameters, clears direction list and graphics overlays
    */
   @FXML
@@ -299,6 +333,9 @@ public class RoutingAroundBarriersController {
 
     // clear the directions list
     directionsList.getItems().clear();
+
+    // clear route information from the TitlePane of the Accordion box
+    routeInformationTitledPane.setText("No route to display");
 
     // clear all graphics overlays
     for (GraphicsOverlay graphicsOverlay : mapView.getGraphicsOverlays()) {
