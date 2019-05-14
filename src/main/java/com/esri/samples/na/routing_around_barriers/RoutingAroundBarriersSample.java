@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.esri.samples.na.routing_around_barriers;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -92,14 +108,19 @@ public class RoutingAroundBarriersSample extends Application {
       preserveLastStopCheckBox = new CheckBox("Preserve last stop");
       preserveLastStopCheckBox.setDisable(true);
 
+      // toggle preserve checkboxes when findBestSequenceCheckBox is ticked
+      findBestSequenceCheckBox.setOnAction(event -> {
+        togglePreserveStopsCheckBoxes();
+      });
+
       // add buttons, checkboxes and directions list to the control panel
       controlsVBox.getChildren().addAll(addStopsButton, addBarriersButton, calculateRouteButton, resetButton, findBestSequenceCheckBox, preserveFirstStopCheckBox, preserveLastStopCheckBox, directionsLabel, directionsList);
 
-      // create symbols for stops and route
+      // create symbols for barriers and routes
       routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
       barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
 
-      // create graphics overlays for stops and routes
+      // create graphics overlays for stops, barriers and routes
       stopsGraphicsOverlay = new GraphicsOverlay();
       barriersGraphicsOverlay = new GraphicsOverlay();
       routeGraphicsOverlay = new GraphicsOverlay();
@@ -114,11 +135,6 @@ public class RoutingAroundBarriersSample extends Application {
       // set the ArcGISMap to be displayed in this view
       mapView = new MapView();
       mapView.setMap(map);
-
-      // toggle preserve checkboxes on findBestSequenceCheckBox tick
-      findBestSequenceCheckBox.setOnAction(event -> {
-        togglePreserveStopsCheckBoxes();
-      });
 
       // zoom to viewpoint
       mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
@@ -142,7 +158,7 @@ public class RoutingAroundBarriersSample extends Application {
         // convert clicked point to a map point
         Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
-        // check that the primary mouse button was clicked
+        // if the primary mouse button was clicked, add a stop or barrier, respectively
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
 
           // check which insertion mode is active
@@ -156,6 +172,8 @@ public class RoutingAroundBarriersSample extends Application {
               addBarrier(mapPoint);
               break;
           }
+
+        // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
         } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
 
           // clear the displayed route, if it exists, since it might not be up to date any more
@@ -175,13 +193,13 @@ public class RoutingAroundBarriersSample extends Application {
         }
       });
 
-      // solve the route task when button is pressed
+      // solve the route task when solve button is pressed
       calculateRouteButton.setOnAction(e-> {
         System.out.println("button press");
         setupRouteTask();
       });
 
-      // clear view and route parameters when button is pressed
+      // clear view and route parameters when reset button is pressed
       resetButton.setOnAction(e -> {
 
         // clear stops from route parameters and stops list
@@ -222,8 +240,9 @@ public class RoutingAroundBarriersSample extends Application {
     // add the new stop to the list of stops
     stopsList.add(stopPoint);
 
-    // create a marker graphics and add it to the graphics overlay
-    Graphic stopGraphic = new Graphic(mapPoint, createSymbolForStopGraphic(stopsList.size()));
+    // create a marker symbol and graphics, and add the graphics to the graphics overlay
+    CompositeSymbol newStopSymbol = createCompositeStopSymbol(stopsList.size());
+    Graphic stopGraphic = new Graphic(mapPoint, newStopSymbol);
     stopsGraphicsOverlay.getGraphics().add(stopGraphic);
   }
 
@@ -232,15 +251,16 @@ public class RoutingAroundBarriersSample extends Application {
    * @param stopNumber   The number of the current stop being added
    * @return            A composite symbol to mark the current stop
    */
-  private CompositeSymbol createSymbolForStopGraphic(Integer stopNumber){
+  private CompositeSymbol createCompositeStopSymbol(Integer stopNumber){
     // create a marker with a pin image and position it
-    Image pinImage = new Image(getClass().getResourceAsStream("/symbols/pin.png"), 0, 80, true, true);
+    Image pinImage = new Image(getClass().getResourceAsStream("/symbols/orange_symbol.png"), 0, 40, true, true);
     PictureMarkerSymbol pinSymbol = new PictureMarkerSymbol(pinImage);
+    pinSymbol.setOffsetY(20);
     pinSymbol.loadAsync();
 
     // determine the stop number and create a new label
     String stopNumberText = ((stopNumber).toString());
-    TextSymbol stopTextSymbol = new TextSymbol(20, stopNumberText, 0xFF0000FF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.MIDDLE);
+    TextSymbol stopTextSymbol = new TextSymbol(16, stopNumberText, 0xFFFFFFFF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
     stopTextSymbol.setOffsetY((float) pinImage.getHeight()/2);
 
     // construct a composite symbol out of the pin and text symbols, and return it
