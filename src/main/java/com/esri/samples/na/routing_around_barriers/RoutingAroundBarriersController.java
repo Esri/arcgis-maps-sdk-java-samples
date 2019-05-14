@@ -55,21 +55,21 @@ public class RoutingAroundBarriersController {
     // zoom to viewpoint
     mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
-    // create symbols for barriers and routes
-    routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
-    barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
-
     // create graphics overlays for stops, barriers and routes
     stopsGraphicsOverlay = new GraphicsOverlay();
     barriersGraphicsOverlay = new GraphicsOverlay();
     routeGraphicsOverlay = new GraphicsOverlay();
 
+    // add the graphics overlays to the map view
+    mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
+
+    // create symbols for barriers and routes
+    routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
+    barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
+
     // create a list of stops and barriers
     stopsList = new ArrayList<>();
     barriersList = new ArrayList<>();
-
-    // add the graphics overlays to the map view
-    mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
 
     // TODO: add drawStatusListener to mapView and only then enable UI?
 
@@ -143,6 +143,9 @@ public class RoutingAroundBarriersController {
    * @param mapPoint    The point on the map at which to create a barrier
    */
   private void addBarrier(Point mapPoint) {
+    // clear the displayed route, if it exists, since it might not be up to date any more
+    routeGraphicsOverlay.getGraphics().clear();
+
     // create a buffered polygon around the mapPoint
     Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
 
@@ -306,7 +309,7 @@ public class RoutingAroundBarriersController {
   /**
    * Stops and releases all resources used in application.
    */
-  void terminate() {
+  public void terminate() {
 
     if (mapView != null) {
       mapView.dispose();
