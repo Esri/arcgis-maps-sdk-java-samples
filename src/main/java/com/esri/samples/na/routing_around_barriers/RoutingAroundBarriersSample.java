@@ -259,14 +259,24 @@ public class RoutingAroundBarriersSample extends Application {
     barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
   }
 
+  /**
+   * Remove the last stop from the view and from the list of stops used in the routing task
+   */
   private void removeLastStop(){
-    stopsList.remove(stopsList.size() - 1);
-    stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
+    if (!stopsList.isEmpty()) {
+      stopsList.remove(stopsList.size() - 1);
+      stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
+    }
   }
 
+  /**
+   * Remove the last barrier from the view and from the list
+   */
   private void removeLastBarrier(){
-    barriersList.remove(barriersList.size() - 1);
-    barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
+    if (!barriersList.isEmpty()) {
+      barriersList.remove(barriersList.size() - 1);
+      barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
+    }
   }
 
   /**
