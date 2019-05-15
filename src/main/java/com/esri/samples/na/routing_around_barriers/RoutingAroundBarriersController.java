@@ -34,7 +34,7 @@ public class RoutingAroundBarriersController {
   @FXML private CheckBox preserveLastStopCheckBox;
   @FXML private ListView<String> directionsList;
   @FXML private TitledPane routeInformationTitledPane;
-  
+
   // for displaying stops to the mapview
   private GraphicsOverlay stopsGraphicsOverlay;
   // for displaying routes to the mapview
@@ -42,7 +42,7 @@ public class RoutingAroundBarriersController {
   // for displaying barriers to the mapview
   private GraphicsOverlay barriersGraphicsOverlay;
   // task to find route between stops
-  private RouteTask solveRouteTask;
+  private RouteTask routeTask;
   // used for solving task above
   private RouteParameters routeParameters;
   // for grouping stops to add to the routing task
@@ -199,12 +199,12 @@ public class RoutingAroundBarriersController {
   @FXML
   private void setupRouteTask() {
     // create route task from San Diego service
-    solveRouteTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
-    solveRouteTask.loadAsync();
-    solveRouteTask.addDoneLoadingListener(() -> {
-      if (solveRouteTask.getLoadStatus() == LoadStatus.LOADED) {
+    routeTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
+    routeTask.loadAsync();
+    routeTask.addDoneLoadingListener(() -> {
+      if (routeTask.getLoadStatus() == LoadStatus.LOADED) {
         // get default route parameters
-        final ListenableFuture<RouteParameters> routeParametersFuture = solveRouteTask.createDefaultParametersAsync();
+        final ListenableFuture<RouteParameters> routeParametersFuture = routeTask.createDefaultParametersAsync();
         routeParametersFuture.addDoneListener(() -> {
 
           try {
@@ -221,7 +221,7 @@ public class RoutingAroundBarriersController {
         createRouteAndDisplay();
 
       } else {
-        new Alert(Alert.AlertType.ERROR, "Unable to load RouteTask " + solveRouteTask.getLoadStatus().toString()).show();
+        new Alert(Alert.AlertType.ERROR, "Unable to load RouteTask " + routeTask.getLoadStatus().toString()).show();
       }
     });
   }
@@ -242,7 +242,7 @@ public class RoutingAroundBarriersController {
       checkAndApplyRouteOptions();
 
       // solve the route task
-      final ListenableFuture<RouteResult> routeResultFuture = solveRouteTask.solveRouteAsync(routeParameters);
+      final ListenableFuture<RouteResult> routeResultFuture = routeTask.solveRouteAsync(routeParameters);
       routeResultFuture.addDoneListener(() -> {
         try {
           RouteResult routeResult = routeResultFuture.get();
