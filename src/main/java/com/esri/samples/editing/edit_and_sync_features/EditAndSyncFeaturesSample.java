@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.esri.arcgisruntime.mapping.view.ViewpointChangedEvent;
-import com.esri.arcgisruntime.mapping.view.ViewpointChangedListener;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -68,6 +66,7 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.ViewpointChangedListener;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseJob;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
@@ -156,7 +155,7 @@ public class EditAndSyncFeaturesSample extends Application {
       DrawStatusChangedListener drawStatusChangedListener = new DrawStatusChangedListener() {
         @Override
         public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
-          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED){
+          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
             updateGeodatabaseExtentEnvelope();
             mapView.removeDrawStatusChangedListener(this);
           }
@@ -165,12 +164,7 @@ public class EditAndSyncFeaturesSample extends Application {
       mapView.addDrawStatusChangedListener(drawStatusChangedListener);
 
       // create a listener used to update the extent of the geodatabase area when the viewpoint changes
-      ViewpointChangedListener viewpointChangedListener = new ViewpointChangedListener() {
-        @Override
-        public void viewpointChanged(ViewpointChangedEvent viewpointChangedEvent) {
-          updateGeodatabaseExtentEnvelope();
-        }
-      };
+      ViewpointChangedListener viewpointChangedListener = (viewpointChangedEvent) -> updateGeodatabaseExtentEnvelope();
 
       // add the listener to the map view, to update the extent whenever the viewpoint changes
       mapView.addViewpointChangedListener(viewpointChangedListener);
@@ -391,17 +385,17 @@ public class EditAndSyncFeaturesSample extends Application {
   /**
    * Updates the extent of the area marked with a red border to be used for geodatabase generation
    */
-  private void updateGeodatabaseExtentEnvelope(){
-    if (map.getLoadStatus() == LoadStatus.LOADED){
+  private void updateGeodatabaseExtentEnvelope() {
+    if (map.getLoadStatus() == LoadStatus.LOADED) {
       // get the upper left corner of the view
-      Point2D minScreenPoint = new Point2D(50,50);
+      Point2D minScreenPoint = new Point2D(50, 50);
       // get the lower right corner of the view
-      Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50,mapView.getHeight() - 50);
+      Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
       // convert the screen points to map points
       Point minPoint = mapView.screenToLocation(minScreenPoint);
       Point maxPoint = mapView.screenToLocation(maxScreenPoint);
       // use these points to define and create an envelope
-      if (minPoint != null && maxPoint != null){
+      if (minPoint != null && maxPoint != null) {
         Envelope geodatabaseExtentEnvelope = new Envelope(minPoint, maxPoint);
         // update the graphics
         geodatabaseExtentGraphics.setGeometry(geodatabaseExtentEnvelope);
