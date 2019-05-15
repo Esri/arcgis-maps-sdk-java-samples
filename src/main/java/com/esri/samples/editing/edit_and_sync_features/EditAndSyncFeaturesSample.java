@@ -59,6 +59,9 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.GeoElement;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
@@ -73,10 +76,12 @@ import com.esri.arcgisruntime.tasks.geodatabase.SyncLayerOption;
 
 public class EditAndSyncFeaturesSample extends Application {
 
+  private ArcGISMap map;
   private MapView mapView;
   private EditAndSyncFeaturesSample.EditState currentEditState;
   private Geodatabase geodatabase;
   private GeodatabaseSyncTask geodatabaseSyncTask;
+  private Graphic geodatabaseExtentGraphics;
   private Button geodatabaseButton;
   private ProgressIndicator progressIndicator;
 
@@ -112,7 +117,7 @@ public class EditAndSyncFeaturesSample extends Application {
 
       // create a basemap from the tiled layer, and add it to a map
       Basemap basemap = new Basemap(tiledLayer);
-      ArcGISMap map = new ArcGISMap(basemap);
+      map = new ArcGISMap(basemap);
 
       // create a map view and add the map
       mapView = new MapView();
@@ -139,6 +144,27 @@ public class EditAndSyncFeaturesSample extends Application {
       progressIndicator = new ProgressIndicator();
       progressIndicator.setVisible(false);
 
+      // create a graphic (using a red line) to mark the extent of the geodatabase to be generated
+      geodatabaseExtentGraphics = new Graphic();
+      graphicsOverlay.getGraphics().add(geodatabaseExtentGraphics);
+      SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+      geodatabaseExtentGraphics.setSymbol(boundarySymbol);
+
+      // when the draw status is completed for the first time, draw the extent of the geodatabase to be generated
+      DrawStatusChangedListener drawStatusChangedListener = new DrawStatusChangedListener() {
+        @Override
+        public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
+          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED){
+            updateGeodatabaseExtentEnvelope();
+            mapView.removeDrawStatusChangedListener(this);
+          }
+        }
+      };
+      mapView.addDrawStatusChangedListener(drawStatusChangedListener);
+
+      // update the extent of the geodatabase to be generated whenever the viewpoint changes
+      mapView.addViewpointChangedListener(viewpointChangedEvent -> updateGeodatabaseExtentEnvelope());
+
       // add listener to handle generate/sync geodatabase button
       geodatabaseButton.setOnAction(e -> {
         if (currentEditState == EditState.NOTREADY) {
@@ -146,15 +172,10 @@ public class EditAndSyncFeaturesSample extends Application {
           geodatabaseButton.setDisable(true);
           geodatabaseButton.setText("Generating Geodatabase...");
 
-          // create a graphic (using a red line) to mark the extent of the geodatabase to be generated
-          SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 5);
-          Envelope extent = mapView.getVisibleArea().getExtent();
-          Graphic boundary = new Graphic(extent, boundarySymbol);
-          graphicsOverlay.getGraphics().add(boundary);
-
-          // generate Geodatabase for the chosen extent
-          generateGeodatabase(extent);
+          // generate a geodatabase for the chosen area
+          generateGeodatabase();
         } else if (currentEditState == EditState.READY) {
+          // sync the geodatabase
           syncGeodatabase();
         }
       });
@@ -254,10 +275,8 @@ public class EditAndSyncFeaturesSample extends Application {
 
   /**
    * Generates a local geodatabase and sets it to the map.
-   *
-   * @args extent     the extent of the map from which a geodatabase is generated
    */
-  public void generateGeodatabase(Envelope extent) {
+  private void generateGeodatabase() {
 
     // define geodatabase sync task
     geodatabaseSyncTask = new GeodatabaseSyncTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer");
@@ -266,7 +285,7 @@ public class EditAndSyncFeaturesSample extends Application {
 
       // create generate geodatabase parameters for the current extent
       final ListenableFuture<GenerateGeodatabaseParameters> defaultParameters = geodatabaseSyncTask
-              .createDefaultGenerateGeodatabaseParametersAsync(extent);
+              .createDefaultGenerateGeodatabaseParametersAsync(geodatabaseExtentGraphics.getGeometry());
       defaultParameters.addDoneListener(() -> {
         try {
           // set parameters and don't include attachments
@@ -354,6 +373,27 @@ public class EditAndSyncFeaturesSample extends Application {
         displayMessage("Database did not sync correctly!", syncGeodatabaseJob.getError().getMessage());
       }
     });
+  }
+
+  /**
+   * Updates the extent of the area marked with a red border to be used for geodatabase generation
+   */
+  private void updateGeodatabaseExtentEnvelope(){
+    if (map.getLoadStatus() == LoadStatus.LOADED){
+      // get the upper left corner of the view
+      Point2D minScreenPoint = new Point2D(50,50);
+      // get the lower right corner of the view
+      Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50,mapView.getHeight() - 50);
+      // convert the screen points to map points
+      Point minPoint = mapView.screenToLocation(minScreenPoint);
+      Point maxPoint = mapView.screenToLocation(maxScreenPoint);
+      // use these points to define and create an envelope
+      if (minPoint != null && maxPoint != null){
+        Envelope geodatabaseExtentEnvelope = new Envelope(minPoint, maxPoint);
+        // update the graphics
+        geodatabaseExtentGraphics.setGeometry(geodatabaseExtentEnvelope);
+      }
+    }
   }
 
   /**
