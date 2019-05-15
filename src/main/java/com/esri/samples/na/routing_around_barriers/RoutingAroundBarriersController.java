@@ -285,6 +285,7 @@ public class RoutingAroundBarriersController {
    * Check the status of the route options checkboxes and apply the parameters accordingly
    */
   private void checkAndApplyRouteOptions() {
+    // update the route parameters according to the checkboxes ticked
     routeParameters.setFindBestSequence(findBestSequenceCheckBox.isSelected());
     routeParameters.setPreserveFirstStop(preserveFirstStopCheckBox.isSelected());
     routeParameters.setPreserveLastStop(preserveLastStopCheckBox.isSelected());
@@ -295,6 +296,7 @@ public class RoutingAroundBarriersController {
    */
   @FXML
   private void togglePreserveStopsCheckBoxes() {
+    // un-tick and disable the second-tier checkboxes
     preserveFirstStopCheckBox.setSelected(false);
     preserveFirstStopCheckBox.setDisable(!preserveFirstStopCheckBox.isDisabled());
     preserveLastStopCheckBox.setSelected(false);
