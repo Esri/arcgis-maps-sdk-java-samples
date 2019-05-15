@@ -11,11 +11,7 @@
 <h2>How to use the sample</h2>
 
 <p>Click on the map to add any number of stops. Then select the Barriers ToggleButton and click on the map to add buffered polygons as barriers.
- The last stop/barrier can be removed using secondary-click when the appropriate ToggleButton is selected. Check the 'Find best sequence' CheckBox to enable targeting stops at the optimum order, and tick either 'Preserve first stop' and/or 'Preserve last stop', if these are desired. Now click on the Determine Route button to generate a route connecting all the stops, avoiding barriers. Once the route is computed details about the route, like route length and the travel time are displayed. To view the directions, expand the Route Directions accordion menu. </p>
-
-<p>(You can select each direction to highlight it on the map.)</p>
-
-<p>Click the reset button to remove all stops, barriers and routes and start over.</p>
+ The last stop/barrier can be removed at any time using secondary-click when the appropriate ToggleButton is selected. Check the 'Find best sequence' CheckBox to enable targeting stops at the optimum order, and tick either 'Preserve first stop' and/or 'Preserve last stop', if these are desired. Now click on the Determine Route button to generate a route connecting all the stops, avoiding barriers. Once the route is computed, details about the route such route length and the travel time are displayed. To view the directions, expand the Route Directions accordion menu.Click the reset button to remove all stops, barriers and routes and start over.</p>
 
 <h2>How it works</h2>
 
