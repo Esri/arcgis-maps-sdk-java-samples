@@ -64,18 +64,28 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.tasks.geodatabase.*;
+import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseJob;
+import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
+import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
+import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseJob;
+import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseParameters;
+import com.esri.arcgisruntime.tasks.geodatabase.SyncLayerOption;
 
 public class EditAndSyncFeaturesSample extends Application {
 
   private MapView mapView;
-  private final AtomicInteger replica = new AtomicInteger();
   private EditAndSyncFeaturesSample.EditState currentEditState;
-  private GraphicsOverlay graphicsOverlay;
   private Geodatabase geodatabase;
   private GeodatabaseSyncTask geodatabaseSyncTask;
   private Button geodatabaseButton;
   private ProgressIndicator progressIndicator;
+
+  // enumeration to track editing of points
+  private enum EditState {
+    NOTREADY,           // Geodatabase has not yet been generated
+    EDITING,            // A feature is in the process of being moved
+    READY               // The Geodatabase is ready for synchronisation or further edits
+  }
 
   @Override
   public void start(Stage stage) {
@@ -84,6 +94,7 @@ public class EditAndSyncFeaturesSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
       // set title, size and add scene to stage
       stage.setTitle("Edit and Sync Features Sample");
@@ -95,19 +106,22 @@ public class EditAndSyncFeaturesSample extends Application {
       // set edit state to not ready until geodatabase generation has completed successfully
       currentEditState = EditState.NOTREADY;
 
-      // create a map view and add a map
-      mapView = new MapView();
-
-      // create a graphics overlay and symbol to mark the extent
-      graphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
-
-      // use local tile package for the base map
+      // use local tile package to create a tiled layer
       TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
+
+      // create a basemap from the tiled layer, and add it to a map
       Basemap basemap = new Basemap(tiledLayer);
       ArcGISMap map = new ArcGISMap(basemap);
+
+      // create a map view and add the map
+      mapView = new MapView();
       mapView.setMap(map);
+
+      // create a graphics overlay to mark the extent
+      GraphicsOverlay graphicsOverlay;
+      graphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
@@ -132,9 +146,9 @@ public class EditAndSyncFeaturesSample extends Application {
           geodatabaseButton.setDisable(true);
           geodatabaseButton.setText("Generating Geodatabase...");
 
-          // show the extent of the geodatabase to be generated
-          final SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
-          final Envelope extent = mapView.getVisibleArea().getExtent();
+          // create a graphic (using a red line) to mark the extent of the geodatabase to be generated
+          SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 5);
+          Envelope extent = mapView.getVisibleArea().getExtent();
           Graphic boundary = new Graphic(extent, boundarySymbol);
           graphicsOverlay.getGraphics().add(boundary);
 
@@ -156,41 +170,47 @@ public class EditAndSyncFeaturesSample extends Application {
 
           // iterate through all feature layers in the map
           for (Layer layer : mapView.getMap().getOperationalLayers()) {
-            final FeatureLayer featureLayer = (FeatureLayer) layer;
+            FeatureLayer featureLayer = (FeatureLayer) layer;
 
-            // identify any clicked feature
+            // start a process to identify any features at the clicked screen point
             ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, screenPoint, 1, false, 1);
             results.addDoneListener(() -> {
               try {
-                // get selected feature, if it is a point
+                // get the results of the identification process to determine whether a feature was clicked on
                 List<GeoElement> elementList = results.get().getElements();
+                // determine whether the clicked feature represents a point that can be moved
                 if (elementList.size() > 0 && elementList.get(0) instanceof ArcGISFeature && elementList.get(0).getGeometry().getGeometryType() == GeometryType.POINT) {
 
-                  // clicked on a feature, select it
+                  // clear the previous selection (to avoid selecting multiple features at the same time)
+                  featureLayer.clearSelection();
+
+                  // grab the new feature and make it selected
                   ArcGISFeature selectedFeature = (ArcGISFeature) elementList.get(0);
-                  // TODO: this doesn't clear the selection in all FL, hence some elements stay selected?
-                  featureLayer.clearSelection(); // clear previous selection
                   featureLayer.selectFeature(selectedFeature);
 
                   // change the state to editing
                   currentEditState = EditState.EDITING;
 
                 } else {
-                  // didn't click on a feature
+                  // the user did not click on a feature (implying no selection was consciously made)
+                  // retrieve the selected features in the feature layer
                   ListenableFuture<FeatureQueryResult> selectedQuery = featureLayer.getSelectedFeaturesAsync();
                   selectedQuery.addDoneListener(() -> {
                     try {
-                      // check if a feature is currently selected
+                      // get the result of the query (a set of features)
                       FeatureQueryResult selectedQueryResult = selectedQuery.get();
+                      // create an iterator from the result
                       Iterator<Feature> features = selectedQueryResult.iterator();
+                      // check if there are elements in the iteration
                       if (features.hasNext()) {
-                        // move selected feature to clicked location
+                        // retrieve the currently selected feature
                         ArcGISFeature selectedFeature = (ArcGISFeature) features.next();
                         selectedFeature.loadAsync();
                         selectedFeature.addDoneLoadingListener(() -> {
                           if (selectedFeature.canUpdateGeometry()) {
-                            // apply the edits
+                            // move the selected feature to the clicked map point
                             selectedFeature.setGeometry(mapPoint);
+                            // update the feature table
                             selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
 
                             // refresh ui to enable syncing
@@ -199,7 +219,7 @@ public class EditAndSyncFeaturesSample extends Application {
                             geodatabaseButton.setDisable(false);
                           }
                         });
-                      } // else nothing currently selected, do nothing
+                      }
                     } catch (InterruptedException | ExecutionException e) {
                       displayMessage("Exception getting selected feature", e.getCause().getMessage());
                     }
@@ -213,7 +233,7 @@ public class EditAndSyncFeaturesSample extends Application {
         } else if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
           // on secondary mouse click, clear feature selection
           for (Layer layer : mapView.getMap().getOperationalLayers()) {
-            final FeatureLayer featureLayer = (FeatureLayer) layer;
+            FeatureLayer featureLayer = (FeatureLayer) layer;
             featureLayer.clearSelection();
           }
         }
@@ -254,6 +274,7 @@ public class EditAndSyncFeaturesSample extends Application {
           parameters.setReturnAttachments(false);
 
           // create a temporary file for the geodatabase
+          final AtomicInteger replica = new AtomicInteger();
           File tempFile = File.createTempFile("gdb" + replica.getAndIncrement(), ".geodatabase");
           tempFile.deleteOnExit();
 
@@ -273,7 +294,6 @@ public class EditAndSyncFeaturesSample extends Application {
                 if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
                   // add the geodatabase FeatureTables to the map as a FeatureLayer
                   geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> {
-                    // TODO: why is the adding of the FT to the map not within a doneListener?
                     geodatabaseFeatureTable.loadAsync();
                     mapView.getMap().getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable));
                   });
@@ -288,7 +308,7 @@ public class EditAndSyncFeaturesSample extends Application {
             } else if (geodatabaseJob.getError() != null) {
               displayMessage("Error generating geodatabase", geodatabaseJob.getError().getMessage());
             } else {
-              displayMessage("Unknon Error generating geodatabase", null);
+              displayMessage("Unknown Error generating geodatabase", null);
             }
           });
 
@@ -393,11 +413,5 @@ public class EditAndSyncFeaturesSample extends Application {
   public static void main(String[] args) {
 
     Application.launch(args);
-  }
-
-  private enum EditState { // enumeration to track editing of points
-    NOTREADY,           // Geodatabase has not yet been generated
-    EDITING,            // A feature is in the process of being moved
-    READY               // The Geodatabase is ready for synchronisation or further edits
   }
 }
