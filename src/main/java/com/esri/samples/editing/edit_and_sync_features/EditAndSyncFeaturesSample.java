@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.esri.arcgisruntime.mapping.view.ViewpointChangedEvent;
+import com.esri.arcgisruntime.mapping.view.ViewpointChangedListener;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -162,8 +164,16 @@ public class EditAndSyncFeaturesSample extends Application {
       };
       mapView.addDrawStatusChangedListener(drawStatusChangedListener);
 
-      // update the extent of the geodatabase to be generated whenever the viewpoint changes
-      mapView.addViewpointChangedListener(viewpointChangedEvent -> updateGeodatabaseExtentEnvelope());
+      // create a listener used to update the extent of the geodatabase area when the viewpoint changes
+      ViewpointChangedListener viewpointChangedListener = new ViewpointChangedListener() {
+        @Override
+        public void viewpointChanged(ViewpointChangedEvent viewpointChangedEvent) {
+          updateGeodatabaseExtentEnvelope();
+        }
+      };
+
+      // add the listener to the map view, to update the extent whenever the viewpoint changes
+      mapView.addViewpointChangedListener(viewpointChangedListener);
 
       // add listener to handle generate/sync geodatabase button
       geodatabaseButton.setOnAction(e -> {
@@ -171,6 +181,9 @@ public class EditAndSyncFeaturesSample extends Application {
           // update button text and disable button
           geodatabaseButton.setDisable(true);
           geodatabaseButton.setText("Generating Geodatabase...");
+
+          // disable updating the geodatabase extent
+          mapView.removeViewpointChangedListener(viewpointChangedListener);
 
           // generate a geodatabase for the chosen area
           generateGeodatabase();
