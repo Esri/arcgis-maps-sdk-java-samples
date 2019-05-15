@@ -26,37 +26,34 @@ import java.util.concurrent.ExecutionException;
 
 public class RoutingAroundBarriersController {
 
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ToggleButton btnAddStop;
-  @FXML
-  private ToggleButton btnAddBarrier;
-  @FXML
-  private CheckBox findBestSequenceCheckBox;
-  @FXML
-  private CheckBox preserveFirstStopCheckBox;
-  @FXML
-  private CheckBox preserveLastStopCheckBox;
-  @FXML
-  private ListView<String> directionsList;
-  @FXML
-  private TitledPane routeInformationTitledPane;
-  private ArrayList<Stop> stopsList;
-  private ArrayList<PolygonBarrier> barriersList;
+  @FXML private MapView mapView;
+  @FXML private ToggleButton btnAddStop;
+  @FXML private ToggleButton btnAddBarrier;
+  @FXML private CheckBox findBestSequenceCheckBox;
+  @FXML private CheckBox preserveFirstStopCheckBox;
+  @FXML private CheckBox preserveLastStopCheckBox;
+  @FXML private ListView<String> directionsList;
+  @FXML private TitledPane routeInformationTitledPane;
+  
+  // for displaying stops to the mapview
   private GraphicsOverlay stopsGraphicsOverlay;
+  // for displaying routes to the mapview
   private GraphicsOverlay routeGraphicsOverlay;
+  // for displaying barriers to the mapview
   private GraphicsOverlay barriersGraphicsOverlay;
-  private ArcGISMap map;
+  // task to find route between stops
   private RouteTask solveRouteTask;
+  // used for solving task above
   private RouteParameters routeParameters;
-  private SimpleLineSymbol routeLineSymbol;
-  private SimpleFillSymbol barrierSymbol;
+  // for grouping stops to add to the routing task
+  private ArrayList<Stop> stopsList;
+  // for grouping barriers to add to the routing task
+  private ArrayList<PolygonBarrier> barriersList;
 
   @FXML
   public void initialize() {
     // create an ArcGISMap with a streets basemap
-    map = new ArcGISMap(Basemap.createStreets());
+    ArcGISMap map = new ArcGISMap(Basemap.createStreets());
     // set the ArcGISMap to be displayed in this view
     mapView.setMap(map);
     // zoom to viewpoint
@@ -69,10 +66,6 @@ public class RoutingAroundBarriersController {
 
     // add the graphics overlays to the map view
     mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
-
-    // create symbols for barriers and routes
-    routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
-    barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
 
     // create a list of stops and barriers
     stopsList = new ArrayList<>();
@@ -116,7 +109,7 @@ public class RoutingAroundBarriersController {
    */
   private void addStop(Point mapPoint) {
     // use the clicked map point to construct a stop
-    Stop stopPoint = new Stop(new Point(mapPoint.getX(), mapPoint.getY(), map.getSpatialReference()));
+    Stop stopPoint = new Stop(new Point(mapPoint.getX(), mapPoint.getY(), mapPoint.getSpatialReference()));
 
     // add the new stop to the list of stops
     stopsList.add(stopPoint);
@@ -165,6 +158,9 @@ public class RoutingAroundBarriersController {
     // create a polygon barrier for the routing task
     PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
     barriersList.add(barrier);
+
+    // create a symbol for the barrier
+    SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
 
     // build graphics for the barrier and add it to the graphics overlay
     Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
@@ -256,6 +252,11 @@ public class RoutingAroundBarriersController {
 
             // add a graphics for this route to display it
             Geometry routeShape = firstRoute.getRouteGeometry();
+
+            // create symbol used to display the route
+            SimpleLineSymbol routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
+
+            // create a graphic for the route and display it
             Graphic routeGraphic = new Graphic(routeShape, routeLineSymbol);
             routeGraphicsOverlay.getGraphics().add(routeGraphic);
 
