@@ -327,8 +327,7 @@ public class RoutingAroundBarriersController {
 
     // retrieve route length (m), convert to miles, and round to two decimal points
     double routeLengthKm = route.getTotalLength() / 1000;
-    double routeLengthImperial = routeLengthKm / 1.609 ;
-    double routeLengthRounded = Math.round(routeLengthImperial * 100d) / 100d;
+    double routeLengthRounded = Math.round(routeLengthKm * 100d) / 100d;
 
     // set the title of the Information panel
     String output = String.format("Route directions: %s min (%s mi)", routeTravelTime, routeLengthRounded);
