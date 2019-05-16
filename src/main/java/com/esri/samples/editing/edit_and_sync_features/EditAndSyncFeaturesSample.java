@@ -375,6 +375,8 @@ public class EditAndSyncFeaturesSample extends Application {
     syncGeodatabaseJob.addJobDoneListener(() -> {
       if (syncGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
         displayMessage("Database Sync Complete", null);
+
+        // disable the button
         geodatabaseButton.setDisable(true);
       } else {
         displayMessage("Database did not sync correctly!", syncGeodatabaseJob.getError().getMessage());
@@ -410,10 +412,10 @@ public class EditAndSyncFeaturesSample extends Application {
    */
   private void showProgress(Job job) {
 
-    //  show progress
+    // show progress
     job.addProgressChangedListener(() -> progressIndicator.setVisible(true));
 
-    // re-enable button, hide progress indicator on complete
+    // hide progress indicator on complete
     job.addJobDoneListener(() -> {
       if (job.getStatus() == Job.Status.SUCCEEDED) {
         Platform.runLater(() -> progressIndicator.setVisible(false));
