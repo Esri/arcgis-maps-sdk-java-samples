@@ -220,7 +220,6 @@ public class EditAndSyncFeaturesSample extends Application {
                   currentEditState = EditState.EDITING;
 
                 } else {
-                  // the user did not click on a feature (implying no selection was consciously made)
                   // retrieve the selected features in the feature layer
                   ListenableFuture<FeatureQueryResult> selectedQuery = featureLayer.getSelectedFeaturesAsync();
                   selectedQuery.addDoneListener(() -> {
