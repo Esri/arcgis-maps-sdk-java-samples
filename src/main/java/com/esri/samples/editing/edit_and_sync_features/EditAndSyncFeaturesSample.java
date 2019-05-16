@@ -351,6 +351,9 @@ public class EditAndSyncFeaturesSample extends Application {
    * Syncs changes made on either the local or web service geodatabase with each other.
    */
   private void syncGeodatabase() {
+    // disable the button and update text
+    geodatabaseButton.setText("Syncing Geodatabase...");
+    geodatabaseButton.setDisable(true);
 
     // create parameters for the sync task
     SyncGeodatabaseParameters syncGeodatabaseParameters = new SyncGeodatabaseParameters();
@@ -376,7 +379,8 @@ public class EditAndSyncFeaturesSample extends Application {
       if (syncGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
         displayMessage("Database Sync Complete", null);
 
-        // disable the button
+        // update button text to signal we are ready to edit
+        geodatabaseButton.setText("Geodatabase Ready");
         geodatabaseButton.setDisable(true);
       } else {
         displayMessage("Database did not sync correctly!", syncGeodatabaseJob.getError().getMessage());
