@@ -328,12 +328,13 @@ public class RoutingAroundBarriersController {
     // retrieve route travel time, rounded to the nearest minute
     String routeTravelTime = ((Long) Math.round(route.getTravelTime())).toString();
 
-    // retrieve route length, convert it to km and round to tow decimal points
-    double routeLength = route.getTotalLength() / 1000;
-    double routeLengthRounded = Math.round(routeLength * 100d) / 100d;
-
+    // retrieve route length (m), convert to miles, and round to two decimal points
+    double routeLengthKm = route.getTotalLength() / 1000;
+    double routeLengthImperial = routeLengthKm / 1.609 ;
+    double routeLengthRounded = Math.round(routeLengthImperial * 100d) / 100d;
+    
     // set the title of the Information panel
-    routeInformationTitledPane.setText("Route Directions: " + routeTravelTime + " min (" + routeLengthRounded + " km)");
+    routeInformationTitledPane.setText("Route Directions: " + routeTravelTime + " min (" + routeLengthRounded + " mi)");
   }
 
   /**
