@@ -89,8 +89,6 @@ public class RoutingAroundBarriersController {
     // Initialize the TitlePane of the Accordion box
     routeInformationTitledPane.setText("No route to display");
 
-    // TODO: add drawStatusListener to mapView and only then enable UI?
-
     // listen to mouse clicks to add/remove stops or barriers
     mapView.setOnMouseClicked(e -> {
       // convert clicked point to a map point
