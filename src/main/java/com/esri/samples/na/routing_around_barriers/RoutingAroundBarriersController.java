@@ -154,8 +154,7 @@ public class RoutingAroundBarriersController {
     stopTextSymbol.setOffsetY((float) pinImage.getHeight() / 2);
 
     // construct a composite symbol out of the pin and text symbols, and return it
-    CompositeSymbol compositeSymbol = new CompositeSymbol(Arrays.asList(pinSymbol, stopTextSymbol));
-    return compositeSymbol;
+    return new CompositeSymbol(Arrays.asList(pinSymbol, stopTextSymbol));
   }
 
   /**
