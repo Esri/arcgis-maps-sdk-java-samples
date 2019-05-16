@@ -213,8 +213,8 @@ public class EditAndSyncFeaturesSample extends Application {
                   featureLayer.clearSelection();
 
                   // grab the new feature and make it selected
-                  ArcGISFeature selectedFeature = (ArcGISFeature) elementList.get(0);
-                  featureLayer.selectFeature(selectedFeature);
+                  ArcGISFeature newSelectedFeature = (ArcGISFeature) elementList.get(0);
+                  featureLayer.selectFeature(newSelectedFeature);
 
                   // change the state to editing
                   currentEditState = EditState.EDITING;
@@ -327,9 +327,9 @@ public class EditAndSyncFeaturesSample extends Application {
                 } else {
                   displayMessage("Error loading geodatabase", geodatabase.getLoadError().getMessage());
                 }
-                // set edit state to ready, update button text
-                currentEditState = EditState.READY;
-                geodatabaseButton.setText("Sync Geodatabase");
+                // update button text to signal we are ready to edit
+                geodatabaseButton.setText("Geodatabase Ready");
+                geodatabaseButton.setDisable(true);
               });
             } else if (geodatabaseJob.getError() != null) {
               displayMessage("Error generating geodatabase", geodatabaseJob.getError().getMessage());
@@ -410,16 +410,12 @@ public class EditAndSyncFeaturesSample extends Application {
    */
   private void showProgress(Job job) {
 
-    // disable the button while the job runs
-    geodatabaseButton.setDisable(true);
-
     //  show progress
     job.addProgressChangedListener(() -> progressIndicator.setVisible(true));
 
     // re-enable button, hide progress indicator on complete
     job.addJobDoneListener(() -> {
       if (job.getStatus() == Job.Status.SUCCEEDED) {
-        geodatabaseButton.setDisable(false);
         Platform.runLater(() -> progressIndicator.setVisible(false));
       }
     });
