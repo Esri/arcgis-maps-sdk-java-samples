@@ -333,7 +333,8 @@ public class RoutingAroundBarriersController {
     double routeLengthRounded = Math.round(routeLengthImperial * 100d) / 100d;
 
     // set the title of the Information panel
-    routeInformationTitledPane.setText("Route Directions: " + routeTravelTime + " min (" + routeLengthRounded + " mi)");
+    String output = String.format("Route directions: %s min (%s mi)", routeTravelTime, routeLengthRounded);
+    routeInformationTitledPane.setText(output);
   }
 
   /**
