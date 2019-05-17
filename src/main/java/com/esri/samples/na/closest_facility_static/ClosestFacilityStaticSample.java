@@ -85,6 +85,7 @@ public class ClosestFacilityStaticSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // create control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
