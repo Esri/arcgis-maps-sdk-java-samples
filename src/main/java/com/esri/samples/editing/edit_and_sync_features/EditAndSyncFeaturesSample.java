@@ -209,6 +209,7 @@ public class EditAndSyncFeaturesSample extends Application {
               try {
                 // get the results of the identification process to determine whether a feature was clicked on
                 List<GeoElement> elementList = results.get().getElements();
+
                 // determine whether the clicked feature represents a point that can be moved
                 if (elementList.size() > 0 && elementList.get(0) instanceof ArcGISFeature && elementList.get(0).getGeometry().getGeometryType() == GeometryType.POINT) {
 
@@ -227,19 +228,25 @@ public class EditAndSyncFeaturesSample extends Application {
                   ListenableFuture<FeatureQueryResult> selectedQuery = featureLayer.getSelectedFeaturesAsync();
                   selectedQuery.addDoneListener(() -> {
                     try {
+
                       // get the result of the query (a set of features)
                       FeatureQueryResult selectedQueryResult = selectedQuery.get();
+
                       // create an iterator from the result
                       Iterator<Feature> features = selectedQueryResult.iterator();
+
                       // check if there are elements in the iteration
                       if (features.hasNext()) {
+
                         // retrieve the currently selected feature
                         ArcGISFeature selectedFeature = (ArcGISFeature) features.next();
                         selectedFeature.loadAsync();
                         selectedFeature.addDoneLoadingListener(() -> {
                           if (selectedFeature.canUpdateGeometry()) {
+
                             // move the selected feature to the clicked map point
                             selectedFeature.setGeometry(mapPoint);
+
                             // update the feature table
                             selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
 
@@ -261,6 +268,7 @@ public class EditAndSyncFeaturesSample extends Application {
             });
           }
         } else if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
+
           // on secondary mouse click, clear feature selection
           for (Layer layer : mapView.getMap().getOperationalLayers()) {
             FeatureLayer featureLayer = (FeatureLayer) layer;
@@ -315,6 +323,7 @@ public class EditAndSyncFeaturesSample extends Application {
               geodatabase.loadAsync();
               geodatabase.addDoneLoadingListener(() -> {
                 if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
+
                   // add the geodatabase FeatureTables to the map as a FeatureLayer
                   geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> {
                     geodatabaseFeatureTable.loadAsync();
@@ -379,6 +388,7 @@ public class EditAndSyncFeaturesSample extends Application {
     // add a job done listener to the Sync Job
     syncGeodatabaseJob.addJobDoneListener(() -> {
       if (syncGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
+
         // hide progress indicator
         progressIndicator.setVisible(false);
 
@@ -399,16 +409,21 @@ public class EditAndSyncFeaturesSample extends Application {
    */
   private void updateGeodatabaseExtentEnvelope() {
     if (map.getLoadStatus() == LoadStatus.LOADED) {
+
       // get the upper left corner of the view
       Point2D minScreenPoint = new Point2D(50, 50);
+
       // get the lower right corner of the view
       Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
+
       // convert the screen points to map points
       Point minPoint = mapView.screenToLocation(minScreenPoint);
       Point maxPoint = mapView.screenToLocation(maxScreenPoint);
+
       // use these points to define and create an envelope
       if (minPoint != null && maxPoint != null) {
         Envelope geodatabaseExtentEnvelope = new Envelope(minPoint, maxPoint);
+
         // update the graphics
         geodatabaseExtentGraphics.setGeometry(geodatabaseExtentEnvelope);
       }
