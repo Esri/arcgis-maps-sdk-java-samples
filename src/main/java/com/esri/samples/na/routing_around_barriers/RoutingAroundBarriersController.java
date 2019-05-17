@@ -193,7 +193,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Removes the last barrier from the view and from the list.
+   * Removes the last barrier from the view and from the list of barriers used in the routing task.
    */
   private void removeLastBarrier() {
     // check if there are barriers to remove
@@ -206,7 +206,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Creates a route task with the existing list of stops.
+   * Creates a route task from a web service and creates route task parameters.
    */
   @FXML
   private void setupRouteTask() {
@@ -239,7 +239,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Uses the list of stops and the route task to determine the route and display it.
+   * Uses the route task with the lists of stops and barriers to determine the route and display it.
    */
   private void createRouteAndDisplay() {
     if (stopsList.size() >= 2) {
