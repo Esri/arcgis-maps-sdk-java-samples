@@ -176,6 +176,9 @@ public class EditAndSyncFeaturesSample extends Application {
           geodatabaseButton.setDisable(true);
           geodatabaseButton.setText("Generating Geodatabase...");
 
+          // show progress indicator
+          progressIndicator.setVisible(true);
+
           // disable updating the geodatabase extent
           mapView.removeViewpointChangedListener(viewpointChangedListener);
 
@@ -305,9 +308,6 @@ public class EditAndSyncFeaturesSample extends Application {
           GenerateGeodatabaseJob geodatabaseJob = geodatabaseSyncTask.generateGeodatabase(parameters, tempFile.getAbsolutePath());
           geodatabaseJob.start();
 
-          // show progress
-          showProgress(geodatabaseJob);
-
           // get geodatabase when done
           geodatabaseJob.addJobDoneListener(() -> {
             if (geodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
@@ -320,6 +320,11 @@ public class EditAndSyncFeaturesSample extends Application {
                     geodatabaseFeatureTable.loadAsync();
                     mapView.getMap().getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable));
                   });
+
+                  // hide progress indicator
+                  progressIndicator.setVisible(false);
+
+                  // show success message
                   displayMessage("Geodatabase loaded successfully", null);
                 } else {
                   displayMessage("Error loading geodatabase", geodatabase.getLoadError().getMessage());
@@ -352,6 +357,9 @@ public class EditAndSyncFeaturesSample extends Application {
     geodatabaseButton.setText("Syncing Geodatabase...");
     geodatabaseButton.setDisable(true);
 
+    // show progress indicator
+    progressIndicator.setVisible(true);
+
     // create parameters for the sync task
     SyncGeodatabaseParameters syncGeodatabaseParameters = new SyncGeodatabaseParameters();
     syncGeodatabaseParameters.setSyncDirection(SyncGeodatabaseParameters.SyncDirection.BIDIRECTIONAL);
@@ -368,12 +376,13 @@ public class EditAndSyncFeaturesSample extends Application {
     final SyncGeodatabaseJob syncGeodatabaseJob = geodatabaseSyncTask.syncGeodatabase(syncGeodatabaseParameters, geodatabase);
     syncGeodatabaseJob.start();
 
-    // show progress
-    showProgress(syncGeodatabaseJob);
-
     // add a job done listener to the Sync Job
     syncGeodatabaseJob.addJobDoneListener(() -> {
       if (syncGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
+        // hide progress indicator
+        progressIndicator.setVisible(false);
+
+        // show success message
         displayMessage("Database Sync Complete", null);
 
         // update button text to signal we are ready to edit
