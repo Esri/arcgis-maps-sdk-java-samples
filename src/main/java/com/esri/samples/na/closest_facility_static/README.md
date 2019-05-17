@@ -4,7 +4,7 @@
 
 <p><img src="ClosestFacilityStatic.png"/></p>
 
-<h2>Use Case</h2>
+<h2>Use case</h2>
 
 <p>Quickly and accurately determining the most efficient route between a location and a facility is a frequently encountered task (e.g. emergency services).</p>
 
@@ -43,7 +43,7 @@
   </li>
 </ol>
 
-<h2 id="relevantapi">Relevant API</h2>
+<h2>Relevant API</h2>
 
 <ul>
   <li>ClosestFacilityParameters</li>
@@ -56,6 +56,6 @@
   <li>Incident</li>
 </ul>
 
-<h2 id="tags">Tags</h2>
+<h2>Tags</h2>
 
 <p>facility, incident, network analysis, route, search</p>

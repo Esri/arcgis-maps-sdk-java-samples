@@ -90,7 +90,6 @@ public class ClosestFacilityStaticSample extends Application {
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(150, 50);
-      controlsVBox.getStyleClass().add("panel-region");
 
       // create buttons
       solveRoutesButton = new Button("Solve Routes");
@@ -110,8 +109,9 @@ public class ClosestFacilityStaticSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // Add a graphics overlay to the map (will be used later to display routes)
-      mapView.getGraphicsOverlays().add(new GraphicsOverlay());
+      // create a graphics overlay and add it to the map (will be used later to display routes)
+      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create Symbols for displaying facilities
       PictureMarkerSymbol facilitySymbol = createSymbol("https://static.arcgis.com/images/Symbols/SafetyHealth/FireStation.png");
@@ -123,27 +123,27 @@ public class ClosestFacilityStaticSample extends Application {
       // create a ClosestFacilityTask
       closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
 
-      // Create a table for facilities using the FeatureServer
+      // create a table for facilities using the FeatureServer
       FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
 
-      // Create a feature layer from the table, apply facilities icon
+      // create a feature layer from the table, apply facilities icon
       FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
       facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
-      // Create a table for incidents using the FeatureServer
+      // create a table for incidents using the FeatureServer
       FeatureTable incidentsFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Incidents/FeatureServer/0");
 
-      // Create a feature layer from the table, apply incident icon
+      // create a feature layer from the table, apply incident icon
       FeatureLayer incidentsFeatureLayer = new FeatureLayer(incidentsFeatureTable);
       incidentsFeatureLayer.setRenderer(new SimpleRenderer(incidentSymbol));
 
-      // Add the layers to the map
+      // add the layers to the map
       map.getOperationalLayers().addAll(Arrays.asList(facilitiesFeatureLayer, incidentsFeatureLayer));
 
-      // Wait for both layers to load
+      // wait for both layers to load
       facilitiesFeatureLayer.loadAsync();
       incidentsFeatureLayer.loadAsync();
-      
+
       facilitiesFeatureLayer.addDoneLoadingListener(() -> {
         incidentsFeatureLayer.addDoneLoadingListener(() -> {
           if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
@@ -152,11 +152,11 @@ public class ClosestFacilityStaticSample extends Application {
             Envelope fullFeatureLayerExtent = GeometryEngine.combineExtents(facilitiesFeatureLayer.getFullExtent(), incidentsFeatureLayer.getFullExtent());
             mapView.setViewpointGeometryAsync(fullFeatureLayerExtent, 90);
 
-            // Create query parameters to select all features
+            // create query parameters to select all features
             QueryParameters queryParameters = new QueryParameters();
             queryParameters.setWhereClause("1=1");
 
-            // Retrieve a list of all facilities
+            // retrieve a list of all facilities
             ListenableFuture<FeatureQueryResult> result = facilitiesFeatureTable.queryFeaturesAsync(queryParameters);
             result.addDoneListener(() -> {
               try {
@@ -171,7 +171,7 @@ public class ClosestFacilityStaticSample extends Application {
               }
             });
 
-            // Retrieve a list of all incidents
+            // retrieve a list of all incidents
             ListenableFuture<FeatureQueryResult> incidentsQueryResult = incidentsFeatureTable.queryFeaturesAsync(queryParameters);
             incidentsQueryResult.addDoneListener(() -> {
               try {
@@ -190,7 +190,68 @@ public class ClosestFacilityStaticSample extends Application {
             solveRoutesButton.setDisable(false);
             solveRoutesButton.setOnAction(e -> {
               try {
-                solveRoutes();
+
+                // start the routing task
+                closestFacilityTask.loadAsync();
+
+                try {
+                  closestFacilityTask.addDoneLoadingListener(() -> {
+                    if (closestFacilityTask.getLoadStatus() == LoadStatus.LOADED) {
+                      try {
+                        // create default parameters for the task and add facilities and incidents to parameters
+                        ClosestFacilityParameters closestFacilityParameters = closestFacilityTask.createDefaultParametersAsync().get();
+                        closestFacilityParameters.setFacilities(facilitiesList);
+                        closestFacilityParameters.setIncidents(incidentsList);
+
+                        // solve closest facilities
+                        try {
+                          // use the task to solve for the closest facility
+                          ListenableFuture<ClosestFacilityResult> closestFacilityTaskResult = closestFacilityTask.solveClosestFacilityAsync(closestFacilityParameters);
+                          closestFacilityTaskResult.addDoneListener(() -> {
+                            try {
+                              ClosestFacilityResult closestFacilityResult = closestFacilityTaskResult.get();
+
+                              // find the closest facility for each incident
+                              for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
+
+                                // get the index of the closest facility to incident. (i) is the index of the incident, [0] is the index of the closest facility
+                                Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
+
+                                // get the route to the closest facility
+                                ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident);
+
+                                // display the route on the graphics overlay
+                                mapView.getGraphicsOverlays().get(0).getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
+
+                                // disable the solve button
+                                solveRoutesButton.setDisable(true);
+
+                                // enable the reset button
+                                resetButton.setDisable(false);
+                              }
+
+                            } catch (ExecutionException | InterruptedException ex) {
+                              displayMessage("Error getting the ClosestFacilityTask result", ex.getMessage());
+                            }
+                          });
+
+                        } catch (Exception ex) {
+                          displayMessage("Error solving the ClosestFacilityTask", ex.getMessage());
+                        }
+
+                      } catch (InterruptedException | ExecutionException ex) {
+                        displayMessage("Error getting default route parameters", ex.getMessage());
+                      }
+
+                    } else {
+                      displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
+                    }
+                  });
+
+                } catch (Exception ex) {
+                  ex.printStackTrace();
+                }
+
               } catch (Exception ex) {
                 ex.printStackTrace();
               }
@@ -199,7 +260,12 @@ public class ClosestFacilityStaticSample extends Application {
             // handle reset button press
             resetButton.setOnAction(e -> {
               try {
-                resetRoutes();
+                // clear the route graphics
+                mapView.getGraphicsOverlays().get(0).getGraphics().clear();
+
+                // reset the buttons
+                solveRoutesButton.setDisable(false);
+                resetButton.setDisable(true);
               } catch (Exception ex) {
                 ex.printStackTrace();
               }
@@ -218,73 +284,8 @@ public class ClosestFacilityStaticSample extends Application {
     }
   }
 
-  // task to find the closes route between an incident and a facility
-  private void solveRoutes() {
-
-    // start the routing task
-    closestFacilityTask.loadAsync();
-
-    try {
-      closestFacilityTask.addDoneLoadingListener(() -> {
-        if (closestFacilityTask.getLoadStatus() == LoadStatus.LOADED) {
-          try {
-            // create default parameters for the task and add facilities and incidents to parameters
-            ClosestFacilityParameters closestFacilityParameters = closestFacilityTask.createDefaultParametersAsync().get();
-            closestFacilityParameters.setFacilities(facilitiesList);
-            closestFacilityParameters.setIncidents(incidentsList);
-
-            // solve closest facilities
-            try {
-              // use the task to solve for the closest facility
-              ListenableFuture<ClosestFacilityResult> closestFacilityTaskResult = closestFacilityTask.solveClosestFacilityAsync(closestFacilityParameters);
-              closestFacilityTaskResult.addDoneListener(() -> {
-                try {
-                  ClosestFacilityResult closestFacilityResult = closestFacilityTaskResult.get();
-
-                  // find the closest facility for each incident
-                  for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
-
-                    // get the index of the closest facility to incident. (i) is the index of the incident, [0] is the index of the closest facility.
-                    Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
-
-                    // get the route to the closest facility.
-                    ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident);
-
-                    // display the route on the graphics overlay
-                    mapView.getGraphicsOverlays().get(0).getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
-
-                    // disable the solve button
-                    solveRoutesButton.setDisable(true);
-
-                    // enable the reset button
-                    resetButton.setDisable(false);
-                  }
-
-                } catch (ExecutionException | InterruptedException e) {
-                  displayMessage("Error getting the ClosestFacilityTask result", e.getMessage());
-                }
-              });
-
-            } catch (Exception e) {
-              displayMessage("Error solving the ClosestFacilityTask", e.getMessage());
-            }
-
-          } catch (InterruptedException | ExecutionException e) {
-            displayMessage("Error getting default route parameters", e.getMessage());
-          }
-
-        } else {
-          displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
-        }
-      });
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   /**
-   * Creates a PictureMarkerSymbol from a URI and sizes it appropriately
+   * Creates a PictureMarkerSymbol from a URI and sizes it appropriately.
    *
    * @param uri the URI of the picture to be used for the symbol
    */
@@ -293,15 +294,6 @@ public class ClosestFacilityStaticSample extends Application {
     symbol.setHeight(30);
     symbol.setWidth(30);
     return symbol;
-  }
-
-  private void resetRoutes() {
-    // clear the route graphics.
-    mapView.getGraphicsOverlays().get(0).getGraphics().clear();
-
-    // Reset the buttons
-    solveRoutesButton.setDisable(false);
-    resetButton.setDisable(true);
   }
 
   /**
