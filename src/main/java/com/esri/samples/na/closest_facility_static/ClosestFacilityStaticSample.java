@@ -330,4 +330,3 @@ public class ClosestFacilityStaticSample extends Application {
     Application.launch(args);
   }
 }
-
