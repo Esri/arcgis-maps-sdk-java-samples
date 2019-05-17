@@ -270,8 +270,6 @@ public class EditAndSyncFeaturesSample extends Application {
       stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
-      StackPane.setAlignment(progressIndicator, Pos.BOTTOM_CENTER);
-      StackPane.setMargin(progressIndicator, new Insets(0, 0, 50, 0));
 
     } catch (Exception e) {
       // on any error, display the stack trace
