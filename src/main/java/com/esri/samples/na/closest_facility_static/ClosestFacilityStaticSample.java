@@ -63,12 +63,6 @@ import com.esri.arcgisruntime.tasks.networkanalysis.Incident;
 public class ClosestFacilityStaticSample extends Application {
 
   private MapView mapView;
-  private ClosestFacilityTask closestFacilityTask;
-  private ArrayList<Incident> incidentsList = new ArrayList<>();
-  private ArrayList<Facility> facilitiesList = new ArrayList<>();
-  private SimpleLineSymbol simpleLineSymbol;
-  private Button solveRoutesButton;
-  private Button resetButton;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -93,10 +87,10 @@ public class ClosestFacilityStaticSample extends Application {
       controlsVBox.setMaxSize(150, 50);
 
       // create buttons
-      solveRoutesButton = new Button("Solve Routes");
+      Button solveRoutesButton = new Button("Solve Routes");
       solveRoutesButton.setMaxWidth(Double.MAX_VALUE);
       solveRoutesButton.setDisable(true);
-      resetButton = new Button("Reset");
+      Button resetButton = new Button("Reset");
       resetButton.setMaxWidth(Double.MAX_VALUE);
       resetButton.setDisable(true);
 
@@ -119,10 +113,10 @@ public class ClosestFacilityStaticSample extends Application {
       PictureMarkerSymbol incidentSymbol = createSymbol("https://static.arcgis.com/images/Symbols/SafetyHealth/esriCrimeMarker_56_Gradient.png");
 
       // create a line symbol to mark the route
-      simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x4D0000FF, 5.0f);
+      SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x4D0000FF, 5.0f);
 
       // create a ClosestFacilityTask
-      closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
+      ClosestFacilityTask closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
 
       // create a table for facilities using the FeatureServer
       FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
@@ -158,6 +152,7 @@ public class ClosestFacilityStaticSample extends Application {
             queryParameters.setWhereClause("1=1");
 
             // retrieve a list of all facilities
+            ArrayList<Facility> facilitiesList = new ArrayList<>();
             ListenableFuture<FeatureQueryResult> result = facilitiesFeatureTable.queryFeaturesAsync(queryParameters);
             result.addDoneListener(() -> {
               try {
@@ -173,6 +168,7 @@ public class ClosestFacilityStaticSample extends Application {
             });
 
             // retrieve a list of all incidents
+            ArrayList<Incident> incidentsList = new ArrayList<>();
             ListenableFuture<FeatureQueryResult> incidentsQueryResult = incidentsFeatureTable.queryFeaturesAsync(queryParameters);
             incidentsQueryResult.addDoneListener(() -> {
               try {
