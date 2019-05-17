@@ -211,7 +211,7 @@ public class ClosestFacilityStaticSample extends Application {
                               // find the closest facility for each incident
                               for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
 
-                                // get the index of the closest facility to incident. (i) is the index of the incident, [0] is the index of the closest facility
+                                // get the index of the closest facility to incident (0 is the index of the closest facility)
                                 Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
 
                                 // get the route to the closest facility
