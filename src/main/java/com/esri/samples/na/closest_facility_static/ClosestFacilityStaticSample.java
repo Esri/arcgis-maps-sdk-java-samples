@@ -152,12 +152,13 @@ public class ClosestFacilityStaticSample extends Application {
             queryParameters.setWhereClause("1=1");
 
             // retrieve a list of all facilities
-            ArrayList<Facility> facilitiesList = new ArrayList<>();
             ListenableFuture<FeatureQueryResult> result = facilitiesFeatureTable.queryFeaturesAsync(queryParameters);
             result.addDoneListener(() -> {
               try {
                 FeatureQueryResult facilitiesResult = result.get();
 
+                // create the list and add the found facilities
+                ArrayList<Facility> facilitiesList = new ArrayList<>();
                 for (Feature facilityFeature : facilitiesResult) {
                   facilitiesList.add(new Facility(facilityFeature.getGeometry().getExtent().getCenter()));
                 }
@@ -168,12 +169,13 @@ public class ClosestFacilityStaticSample extends Application {
             });
 
             // retrieve a list of all incidents
-            ArrayList<Incident> incidentsList = new ArrayList<>();
             ListenableFuture<FeatureQueryResult> incidentsQueryResult = incidentsFeatureTable.queryFeaturesAsync(queryParameters);
             incidentsQueryResult.addDoneListener(() -> {
               try {
                 FeatureQueryResult incidentsResult = incidentsQueryResult.get();
 
+                // create the list and add the found incidents
+                ArrayList<Incident> incidentsList = new ArrayList<>();
                 for (Feature incidentFeature : incidentsResult) {
                   incidentsList.add(new Incident(incidentFeature.getGeometry().getExtent().getCenter()));
                 }
