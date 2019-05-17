@@ -86,7 +86,7 @@ public class RoutingAroundBarriersController {
     stopsList = new ArrayList<>();
     barriersList = new ArrayList<>();
 
-    // Initialize the TitlePane of the Accordion box
+    // initialize the TitlePane of the Accordion box
     routeInformationTitledPane.setText("No route to display");
 
     // listen to mouse clicks to add/remove stops or barriers
@@ -116,7 +116,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Creates a stop at the clicked point and adds it to the list of stops
+   * Creates a stop at the clicked point and adds it to the list of stops.
    *
    * @param mapPoint The point on the map at which to create a stop
    */
@@ -134,7 +134,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Build a composite symbol out of a pin symbol and a text symbol marking the stop number
+   * Builds a composite symbol out of a pin symbol and a text symbol marking the stop number.
    *
    * @param stopNumber The number of the current stop being added
    * @return A composite symbol to mark the current stop
@@ -156,7 +156,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Creates a barrier at the clicked point and adds it to the list of barriers
+   * Creates a barrier at the clicked point and adds it to the list of barriers.
    *
    * @param mapPoint The point on the map at which to create a barrier
    */
@@ -180,7 +180,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Remove the last stop from the view and from the list of stops used in the routing task
+   * Removes the last stop from the view and from the list of stops used in the routing task.
    */
   private void removeLastStop() {
     // check if there are stops to remove
@@ -193,10 +193,10 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Remove the last barrier from the view and from the list
+   * Removes the last barrier from the view and from the list.
    */
   private void removeLastBarrier() {
-    // chek if there are barriers to remove
+    // check if there are barriers to remove
     if (!barriersList.isEmpty()) {
 
       // remove the last barrier from the barrier list and the graphics overlay
@@ -206,7 +206,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Create a route task with the existing list of stops
+   * Creates a route task with the existing list of stops.
    */
   @FXML
   private void setupRouteTask() {
@@ -239,7 +239,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Use the list of stops and the route task to determine the route and display it
+   * Uses the list of stops and the route task to determine the route and display it.
    */
   private void createRouteAndDisplay() {
     if (stopsList.size() >= 2) {
@@ -294,7 +294,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Check the status of the route options checkboxes and apply the parameters accordingly
+   * Checks the status of the route options checkboxes and applies the parameters accordingly.
    */
   private void checkAndApplyRouteOptions() {
     // update the route parameters according to the checkboxes ticked
@@ -304,7 +304,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Toggle and reset preserve stops checkboxes
+   * Toggles and resets the preserve stops checkboxes.
    */
   @FXML
   private void togglePreserveStopsCheckBoxes() {
@@ -316,7 +316,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Retrieves the route information and updates the TitlePanel of the Accordion box
+   * Retrieves the route information and updates the TitlePanel of the accordion box.
    *
    * @param route  the route of which to retrieve the information
    */
@@ -335,7 +335,7 @@ public class RoutingAroundBarriersController {
   }
 
   /**
-   * Clear stops and barriers from the route parameters, clears direction list and graphics overlays
+   * Clears stops and barriers from the route parameters, clears direction list and graphics overlays.
    */
   @FXML
   private void clearRouteAndGraphics() {
