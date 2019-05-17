@@ -98,7 +98,7 @@ public class RoutingAroundBarriersController {
       if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
         if (btnAddStop.isSelected()) {
           addStop(mapPoint);
-        } else if (btnAddBarrier.isSelected()) { // TODO: check against this is unnecessary since it's either or
+        } else if (btnAddBarrier.isSelected()) {
           addBarrier(mapPoint);
         }
 
@@ -108,7 +108,7 @@ public class RoutingAroundBarriersController {
         routeGraphicsOverlay.getGraphics().clear();
         if (btnAddStop.isSelected()) {
           removeLastStop();
-        } else if (btnAddBarrier.isSelected()) { // TODO: check against this is unnecessary since it's either or
+        } else if (btnAddBarrier.isSelected()) {
           removeLastBarrier();
         }
       }
