@@ -1,4 +1,4 @@
-<h1>Closest Facility</h1>
+<h1>Closest facility</h1>
 
 <p>Find a route to the closest facility from a location.</p>
 
