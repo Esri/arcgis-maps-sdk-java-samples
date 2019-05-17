@@ -82,7 +82,7 @@ public class RoutingAroundBarriersController {
     // add the graphics overlays to the map view
     mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
 
-    // create a list of stops and barriers
+    // create a list of stops and a list of barriers
     stopsList = new ArrayList<>();
     barriersList = new ArrayList<>();
 
