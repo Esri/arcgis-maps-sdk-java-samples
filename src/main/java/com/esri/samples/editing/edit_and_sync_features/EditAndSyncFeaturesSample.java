@@ -416,24 +416,6 @@ public class EditAndSyncFeaturesSample extends Application {
   }
 
   /**
-   * Show a progress bar
-   *
-   * @param job the job to show progress for
-   */
-  private void showProgress(Job job) {
-
-    // show progress
-    job.addProgressChangedListener(() -> progressIndicator.setVisible(true));
-
-    // hide progress indicator on complete
-    job.addJobDoneListener(() -> {
-      if (job.getStatus() == Job.Status.SUCCEEDED) {
-        Platform.runLater(() -> progressIndicator.setVisible(false));
-      }
-    });
-  }
-
-  /**
    * Show a message in an alert dialog.
    *
    * @param title   title of alert
