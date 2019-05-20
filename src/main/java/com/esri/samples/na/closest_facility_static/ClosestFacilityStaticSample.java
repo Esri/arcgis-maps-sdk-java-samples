@@ -22,7 +22,6 @@ import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.binding.BooleanBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -190,8 +189,7 @@ public class ClosestFacilityStaticSample extends Application {
               }
             });
 
-            // enable button and resolve button press
-            solveRoutesButton.setDisable(false);
+            // resolve button press
             solveRoutesButton.setOnAction(e -> {
               try {
 
