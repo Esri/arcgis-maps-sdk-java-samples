@@ -21,10 +21,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -38,7 +36,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.Job;
@@ -77,14 +75,15 @@ import com.esri.arcgisruntime.tasks.geodatabase.SyncLayerOption;
 
 public class EditAndSyncFeaturesSample extends Application {
 
+  private Button geodatabaseButton;
+  private Graphic geodatabaseExtentGraphics;
+  private ProgressIndicator progressIndicator;
+
   private ArcGISMap map;
-  private MapView mapView;
-  private EditAndSyncFeaturesSample.EditState currentEditState;
+  private EditAndSyncFeaturesSample.EditState currentEditState = EditState.NOTREADY;
   private Geodatabase geodatabase;
   private GeodatabaseSyncTask geodatabaseSyncTask;
-  private Graphic geodatabaseExtentGraphics;
-  private Button geodatabaseButton;
-  private ProgressIndicator progressIndicator;
+  private MapView mapView;
 
   // enumeration to track editing of points
   private enum EditState {
@@ -109,9 +108,6 @@ public class EditAndSyncFeaturesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // set edit state to not ready until geodatabase generation has completed successfully
-      currentEditState = EditState.NOTREADY;
-
       // use local tile package to create a tiled layer
       TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
@@ -124,14 +120,9 @@ public class EditAndSyncFeaturesSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a graphics overlay to mark the extent
-      GraphicsOverlay graphicsOverlay;
-      graphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
-
       // create a control panel
       VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setBackground(new Background(new BackgroundFill(Color.color(0, 0, 0, 0.3), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 20);
       controlsVBox.getStyleClass().add("panel-region");
@@ -144,6 +135,11 @@ public class EditAndSyncFeaturesSample extends Application {
       // create progress indicator
       progressIndicator = new ProgressIndicator();
       progressIndicator.setVisible(false);
+
+      // create a graphics overlay
+      GraphicsOverlay graphicsOverlay;
+      graphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a graphic (using a red line) to mark the extent of the geodatabase to be generated
       geodatabaseExtentGraphics = new Graphic();
@@ -184,6 +180,7 @@ public class EditAndSyncFeaturesSample extends Application {
 
           // generate a geodatabase for the chosen area
           generateGeodatabase();
+
         } else if (currentEditState == EditState.READY) {
           // sync the geodatabase
           syncGeodatabase();
@@ -192,7 +189,13 @@ public class EditAndSyncFeaturesSample extends Application {
 
       // handle clicks on the map view to select and move features
       mapView.setOnMouseClicked((event) -> {
-        if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
+
+        // return on mouse movement during click (i.e. click and drag)
+        if (!event.isStillSincePress()){
+          return;
+        }
+
+        if (event.getButton() == MouseButton.PRIMARY) {
           // get screen point where user clicked
           Point2D screenPoint = new Point2D(event.getX(), event.getY());
 
@@ -200,7 +203,7 @@ public class EditAndSyncFeaturesSample extends Application {
           Point mapPoint = mapView.screenToLocation(screenPoint);
 
           // iterate through all feature layers in the map
-          for (Layer layer : mapView.getMap().getOperationalLayers()) {
+          mapView.getMap().getOperationalLayers().stream().filter(layer -> layer instanceof FeatureLayer).forEach(layer -> {
             FeatureLayer featureLayer = (FeatureLayer) layer;
 
             // start a process to identify any features at the clicked screen point
@@ -211,17 +214,19 @@ public class EditAndSyncFeaturesSample extends Application {
                 List<GeoElement> elementList = results.get().getElements();
 
                 // determine whether the clicked feature represents a point that can be moved
-                if (elementList.size() > 0 && elementList.get(0) instanceof ArcGISFeature && elementList.get(0).getGeometry().getGeometryType() == GeometryType.POINT) {
+                if (!elementList.isEmpty()){
+                  GeoElement geoElement = elementList.get(0);
+                  if (geoElement instanceof ArcGISFeature && geoElement.getGeometry().getGeometryType() == GeometryType.POINT) {
+                    // clear the previous selection (to avoid selecting multiple features at the same time)
+                    featureLayer.clearSelection();
 
-                  // clear the previous selection (to avoid selecting multiple features at the same time)
-                  featureLayer.clearSelection();
+                    // grab the new feature and make it selected
+                    ArcGISFeature newSelectedFeature = (ArcGISFeature) elementList.get(0);
+                    featureLayer.selectFeature(newSelectedFeature);
 
-                  // grab the new feature and make it selected
-                  ArcGISFeature newSelectedFeature = (ArcGISFeature) elementList.get(0);
-                  featureLayer.selectFeature(newSelectedFeature);
-
-                  // change the state to editing
-                  currentEditState = EditState.EDITING;
+                    // change the state to editing
+                    currentEditState = EditState.EDITING;
+                  }
 
                 } else {
                   // retrieve the selected features in the feature layer
@@ -258,16 +263,17 @@ public class EditAndSyncFeaturesSample extends Application {
                         });
                       }
                     } catch (InterruptedException | ExecutionException e) {
-                      displayMessage("Exception getting selected feature", e.getCause().getMessage());
+                      displayMessage("Exception getting selected feature", e.getMessage());
                     }
                   });
                 }
               } catch (InterruptedException | ExecutionException e) {
-                displayMessage("Exception getting clicked feature", e.getCause().getMessage());
+                displayMessage("Exception getting clicked feature", e.getMessage());
               }
             });
-          }
-        } else if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
+          });
+
+        } else if (event.getButton() == MouseButton.SECONDARY) {
 
           // on secondary mouse click, clear feature selection
           for (Layer layer : mapView.getMap().getOperationalLayers()) {
@@ -299,21 +305,20 @@ public class EditAndSyncFeaturesSample extends Application {
     geodatabaseSyncTask.addDoneLoadingListener(() -> {
 
       // create generate geodatabase parameters for the current extent
-      final ListenableFuture<GenerateGeodatabaseParameters> defaultParameters = geodatabaseSyncTask
+      final ListenableFuture<GenerateGeodatabaseParameters> defaultParametersFuture = geodatabaseSyncTask
               .createDefaultGenerateGeodatabaseParametersAsync(geodatabaseExtentGraphics.getGeometry());
-      defaultParameters.addDoneListener(() -> {
+      defaultParametersFuture.addDoneListener(() -> {
         try {
           // set parameters and don't include attachments
-          GenerateGeodatabaseParameters parameters = defaultParameters.get();
-          parameters.setReturnAttachments(false);
+          GenerateGeodatabaseParameters defaultParameters = defaultParametersFuture.get();
+          defaultParameters.setReturnAttachments(false);
 
           // create a temporary file for the geodatabase
-          final AtomicInteger replica = new AtomicInteger();
-          File tempFile = File.createTempFile("gdb" + replica.getAndIncrement(), ".geodatabase");
+          File tempFile = File.createTempFile("gdb",".geodatabase");
           tempFile.deleteOnExit();
 
           // create and start the job
-          GenerateGeodatabaseJob geodatabaseJob = geodatabaseSyncTask.generateGeodatabase(parameters, tempFile.getAbsolutePath());
+          GenerateGeodatabaseJob geodatabaseJob = geodatabaseSyncTask.generateGeodatabase(defaultParameters, tempFile.getAbsolutePath());
           geodatabaseJob.start();
 
           // get geodatabase when done
@@ -326,7 +331,6 @@ public class EditAndSyncFeaturesSample extends Application {
 
                   // add the geodatabase FeatureTables to the map as a FeatureLayer
                   geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> {
-                    geodatabaseFeatureTable.loadAsync();
                     mapView.getMap().getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable));
                   });
 
@@ -410,10 +414,10 @@ public class EditAndSyncFeaturesSample extends Application {
   private void updateGeodatabaseExtentEnvelope() {
     if (map.getLoadStatus() == LoadStatus.LOADED) {
 
-      // get the upper left corner of the view
+      // get the upper left corner of the extent
       Point2D minScreenPoint = new Point2D(50, 50);
 
-      // get the lower right corner of the view
+      // get the lower right corner of the extent
       Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
 
       // convert the screen points to map points
@@ -437,13 +441,10 @@ public class EditAndSyncFeaturesSample extends Application {
    * @param message message to display
    */
   private void displayMessage(String title, String message) {
-
-    Platform.runLater(() -> {
       Alert dialog = new Alert(Alert.AlertType.INFORMATION);
       dialog.setHeaderText(title);
       dialog.setContentText(message);
       dialog.showAndWait();
-    });
   }
 
   /**
