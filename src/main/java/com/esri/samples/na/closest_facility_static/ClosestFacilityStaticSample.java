@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.BooleanBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -89,10 +90,13 @@ public class ClosestFacilityStaticSample extends Application {
       // create buttons
       Button solveRoutesButton = new Button("Solve Routes");
       solveRoutesButton.setMaxWidth(Double.MAX_VALUE);
-      solveRoutesButton.setDisable(true);
+      solveRoutesButton.setDisable(false);
       Button resetButton = new Button("Reset");
       resetButton.setMaxWidth(Double.MAX_VALUE);
       resetButton.setDisable(true);
+
+      // bind the buttons to be oppositely disabled/enabled
+      resetButton.disableProperty().bind(solveRoutesButton.disableProperty().not());
 
       // add buttons to the control panel
       controlsVBox.getChildren().addAll(solveRoutesButton, resetButton);
@@ -135,10 +139,13 @@ public class ClosestFacilityStaticSample extends Application {
       // add the layers to the map
       map.getOperationalLayers().addAll(Arrays.asList(facilitiesFeatureLayer, incidentsFeatureLayer));
 
-      // wait for both layers to load
-      facilitiesFeatureLayer.loadAsync();
-      incidentsFeatureLayer.loadAsync();
+      // create the list to store the facilities
+      ArrayList<Facility> facilitiesList = new ArrayList<>();
 
+      // create the list to store the incidents
+      ArrayList<Incident> incidentsList = new ArrayList<>();
+
+      // wait fo the feature layers to load to retrieve the facilities and incidents
       facilitiesFeatureLayer.addDoneLoadingListener(() -> {
         incidentsFeatureLayer.addDoneLoadingListener(() -> {
           if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
@@ -157,8 +164,7 @@ public class ClosestFacilityStaticSample extends Application {
               try {
                 FeatureQueryResult facilitiesResult = result.get();
 
-                // create the list and add the found facilities
-                ArrayList<Facility> facilitiesList = new ArrayList<>();
+                // add the found facilities to the list
                 for (Feature facilityFeature : facilitiesResult) {
                   facilitiesList.add(new Facility(facilityFeature.getGeometry().getExtent().getCenter()));
                 }
@@ -174,8 +180,7 @@ public class ClosestFacilityStaticSample extends Application {
               try {
                 FeatureQueryResult incidentsResult = incidentsQueryResult.get();
 
-                // create the list and add the found incidents
-                ArrayList<Incident> incidentsList = new ArrayList<>();
+                // add the found incidents to the list
                 for (Feature incidentFeature : incidentsResult) {
                   incidentsList.add(new Incident(incidentFeature.getGeometry().getExtent().getCenter()));
                 }
@@ -220,13 +225,10 @@ public class ClosestFacilityStaticSample extends Application {
                                 ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident);
 
                                 // display the route on the graphics overlay
-                                mapView.getGraphicsOverlays().get(0).getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
+                                graphicsOverlay.getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
 
                                 // disable the solve button
                                 solveRoutesButton.setDisable(true);
-
-                                // enable the reset button
-                                resetButton.setDisable(false);
                               }
 
                             } catch (ExecutionException | InterruptedException ex) {
@@ -257,14 +259,14 @@ public class ClosestFacilityStaticSample extends Application {
             });
 
             // handle reset button press
-            resetButton.setOnAction(e -> {
+            resetButton.setOnAction(actionEvent -> {
               try {
                 // clear the route graphics
-                mapView.getGraphicsOverlays().get(0).getGraphics().clear();
+                graphicsOverlay.getGraphics().clear();
 
                 // reset the buttons
                 solveRoutesButton.setDisable(false);
-                resetButton.setDisable(true);
+
               } catch (Exception ex) {
                 ex.printStackTrace();
               }
