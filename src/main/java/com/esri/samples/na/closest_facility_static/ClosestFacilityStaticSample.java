@@ -195,10 +195,8 @@ public class ClosestFacilityStaticSample extends Application {
             // resolve button press
             solveRoutesButton.setOnAction(e -> {
 
-              // disable the 'solve routes' button
+              // disable the 'solve routes' button and show the progress indicator
               solveRoutesButton.setDisable(true);
-
-              // show the progress indicator
               progressIndicator.setVisible(true);
 
               // start the routing task
@@ -231,10 +229,8 @@ public class ClosestFacilityStaticSample extends Application {
                             // display the route on the graphics overlay
                             graphicsOverlay.getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
 
-                            // hide the progress indicator
+                            // hide the progress indicator and enable the reset button
                             progressIndicator.setVisible(false);
-
-                            // enable the reset button
                             resetButton.setDisable(false);
                           }
 
