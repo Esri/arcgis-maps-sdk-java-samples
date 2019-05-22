@@ -52,7 +52,7 @@ public class RoutingAroundBarriersController {
 
   // for displaying stops to the mapview
   private GraphicsOverlay stopsGraphicsOverlay;
-  // for displaying routes to the mapview
+  // for displaying the route to the mapview
   private GraphicsOverlay routeGraphicsOverlay;
   // for displaying barriers to the mapview
   private GraphicsOverlay barriersGraphicsOverlay;
@@ -74,7 +74,7 @@ public class RoutingAroundBarriersController {
     // zoom to viewpoint
     mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
-    // create graphics overlays for stops, barriers and routes
+    // create graphics overlays for stops, barriers and route
     stopsGraphicsOverlay = new GraphicsOverlay();
     barriersGraphicsOverlay = new GraphicsOverlay();
     routeGraphicsOverlay = new GraphicsOverlay();
@@ -221,6 +221,7 @@ public class RoutingAroundBarriersController {
 
           try {
             routeParameters = routeParametersFuture.get();
+
             // set flags to return stops and directions
             routeParameters.setReturnStops(true);
             routeParameters.setReturnDirections(true);
@@ -262,22 +263,22 @@ public class RoutingAroundBarriersController {
             // get the first route result
             Route firstRoute = routeResult.getRoutes().get(0);
 
-            // add a graphics for this route to display it
+            // create a geometry for this route
             Geometry routeGeometry = firstRoute.getRouteGeometry();
 
             // create symbol used to display the route
             SimpleLineSymbol routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
 
-            // create a graphic for the route and display it
+            // create a graphic for the route and add it to the graphics overlay
             Graphic routeGraphic = new Graphic(routeGeometry, routeLineSymbol);
             routeGraphicsOverlay.getGraphics().add(routeGraphic);
 
             // update the route information on the TitlePanel of the Accordion
-            retrieveAndDisplayRouteInformation(firstRoute);
+            updateRouteInformation(firstRoute);
 
-            // get the direction text for each maneuver and display
-            for (DirectionManeuver step : firstRoute.getDirectionManeuvers()) {
-              directionsList.getItems().add(step.getDirectionText());
+            // get the direction text for each maneuver and add them to the list to display
+            for (DirectionManeuver maneuver : firstRoute.getDirectionManeuvers()) {
+              directionsList.getItems().add(maneuver.getDirectionText());
             }
 
           } else {
@@ -320,17 +321,17 @@ public class RoutingAroundBarriersController {
    *
    * @param route  the route of which to retrieve the information
    */
-  private void retrieveAndDisplayRouteInformation(Route route) {
+  private void updateRouteInformation(Route route) {
 
     // retrieve route travel time, rounded to the nearest minute
     String routeTravelTime = ((Long) Math.round(route.getTravelTime())).toString();
 
-    // retrieve route length (m), convert to miles, and round to two decimal points
+    // retrieve route length (m), convert to km, and round to two decimal points
     double routeLengthKm = route.getTotalLength() / 1000;
-    double routeLengthRounded = Math.round(routeLengthKm * 100d) / 100d;
+    double routeLengthKmRounded = Math.round(routeLengthKm * 100d) / 100d;
 
-    // set the title of the Information panel
-    String output = String.format("Route directions: %s min (%s mi)", routeTravelTime, routeLengthRounded);
+    // set the title of the TitledPane to display the information
+    String output = String.format("Route directions: %s min (%s mi)", routeTravelTime, routeLengthKmRounded);
     routeInformationTitledPane.setText(output);
   }
 
@@ -354,9 +355,7 @@ public class RoutingAroundBarriersController {
     routeInformationTitledPane.setText("No route to display");
 
     // clear all graphics overlays
-    for (GraphicsOverlay graphicsOverlay : mapView.getGraphicsOverlays()) {
-      graphicsOverlay.getGraphics().clear();
-    }
+    mapView.getGraphicsOverlays().forEach(graphicsOverlay -> graphicsOverlay.getGraphics().clear());
   }
 
   /**
