@@ -258,7 +258,7 @@ public class RoutingAroundBarriersController {
       routeResultFuture.addDoneListener(() -> {
         try {
           RouteResult routeResult = routeResultFuture.get();
-          if (routeResult.getRoutes().isEmpty()) {
+          if (!routeResult.getRoutes().isEmpty()) {
             // get the first route result
             Route firstRoute = routeResult.getRoutes().get(0);
 
