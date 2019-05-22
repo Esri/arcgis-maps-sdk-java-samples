@@ -10,7 +10,7 @@
 
 <h2>How to use the sample</h2>
 
-<p>Click the 'Solve Routes' button to determine and display the route from each incident (<i>'Fire'</i>-Icon) to the nearest facility (<i>'Fire Station'</i>-Icon). Click the reset button to remove the views.</p>
+<p>Click the 'Solve Routes' button to determine and display the route from each incident (fire) to the nearest facility (fire station). Click the reset button to remove the views.</p>
 
 <h2>How it works</h2>
 
@@ -18,27 +18,27 @@
 
 <ol>
   <li>Create a <code>ClosestFacilityTask</code> using a Url from an online service.</li>
-  <li>Get the default set of <code>ClosestFacilityParameters</code> from the task: <code>closestFacilityTask.createDefaultParametersAsync().get()</code></li>
+  <li>Get the default set of <code>ClosestFacilityParameters</code> from the task: <code>closestFacilityTask.createDefaultParametersAsync().get()</code>.</li>
   <li>Build a list of all Facilities and Incidents:
     <ul>
-      <li>Create a <code>FeatureTable</code> using <code> ServiceFeatureTable(Uri) </code> </li>
-      <li>Query the <code>FeatureTable</code> for all <code>Feature</code>s using <code>..queryFeaturesAsync(queryParameters)</code>
-      <li>Iterate over the result and add each <code>Feature</code> to a <code>List</code>, instantiating the feature as a <code>Facility</code> or <code>Incident</code>, respectively.
+      <li>Create a <code>FeatureTable</code> using <code>ServiceFeatureTable(Uri)</code>.</li>
+      <li>Query the <code>FeatureTable</code> for all <code>Feature</code>s using <code>.queryFeaturesAsync(queryParameters)</code>.</li>
+      <li>Iterate over the result and add each <code>Feature</code> to a <code>List</code>, instantiating the feature as a <code>Facility</code> or <code>Incident</code>.</li>
     </ul>
   </li>
-  <li>Add a list of all facilities to the task parameters: <code>closestFacilityParameters.setFacilities(facilitiesList)</code></li>
-  <li>Add a list of all incidents to the task parameters: <code>closestFacilityParameters.setIncidents(incidentsList)</code></li>
-  <li>Get <code>ClosestFacilityResult</code> from solving the task with the provided parameters: <code>closestFacilityTask.solveClosestFacilityAsync(closestFacilityParameters)</code></li>
+  <li>Add a list of all facilities to the task parameters: <code>closestFacilityParameters.setFacilities(facilitiesList)</code>.</li>
+  <li>Add a list of all incidents to the task parameters: <code>closestFacilityParameters.setIncidents(incidentsList)</code>.</li>
+  <li>Get <code>ClosestFacilityResult</code> from solving the task with the provided parameters: <code>closestFacilityTask.solveClosestFacilityAsync(closestFacilityParameters)</code>.</li>
   <li>Find the closest facility for each incident by iterating over the previously created <code>incidentsList</code>:
     <ul>
-      <li>Get index list of closet facilities to the incident, <code>closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0)</code></li>
-      <li>Find closest facility route, <code>closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident)</code></li>
+      <li>Get index list of closet facilities to the incident, <code>closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0)</code>.</li>
+      <li>Find closest facility route, <code>closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident)</code>.</li>
     </ul>
   </li> 
   <li>Display the route to <code>MapView</code>:
     <ul>
-      <li>create <code>Graphic</code> from route geometry, <code>new Graphic(closestFacilityRoute.getRouteGeometry())</code></li>
-      <li>add graphic to <code>GraphicsOverlay</code> which is attached to the mapview</li>
+      <li>create a <code>Graphic</code> from route geometry, with <code>new Graphic(closestFacilityRoute.getRouteGeometry())</code>.</li>
+      <li>add graphic to <code>GraphicsOverlay</code> and set it to the mapview.</li>
     </ul>
   </li>
 </ol>
