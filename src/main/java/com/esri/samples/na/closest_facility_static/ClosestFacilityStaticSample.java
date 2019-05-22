@@ -27,6 +27,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -89,16 +90,17 @@ public class ClosestFacilityStaticSample extends Application {
       // create buttons
       Button solveRoutesButton = new Button("Solve Routes");
       solveRoutesButton.setMaxWidth(Double.MAX_VALUE);
-      solveRoutesButton.setDisable(false);
+      solveRoutesButton.setDisable(true);
       Button resetButton = new Button("Reset");
       resetButton.setMaxWidth(Double.MAX_VALUE);
       resetButton.setDisable(true);
 
-      // bind the buttons to be oppositely disabled/enabled
-      resetButton.disableProperty().bind(solveRoutesButton.disableProperty().not());
-
       // add buttons to the control panel
       controlsVBox.getChildren().addAll(solveRoutesButton, resetButton);
+
+      // create a progress indicator
+      ProgressIndicator progressIndicator = new ProgressIndicator();
+      progressIndicator.setVisible(false);
 
       // create a ArcGISMap with a Basemap instance with an Imagery base layer
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsWithReliefVector());
@@ -187,8 +189,17 @@ public class ClosestFacilityStaticSample extends Application {
               }
             });
 
+            // enable the 'solve routes' button
+            solveRoutesButton.setDisable(false);
+
             // resolve button press
             solveRoutesButton.setOnAction(e -> {
+
+              // disable the 'solve routes' button
+              solveRoutesButton.setDisable(true);
+
+              // show the progress indicator
+              progressIndicator.setVisible(true);
 
               // start the routing task
               closestFacilityTask.loadAsync();
@@ -220,8 +231,11 @@ public class ClosestFacilityStaticSample extends Application {
                             // display the route on the graphics overlay
                             graphicsOverlay.getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
 
-                            // disable the solve button
-                            solveRoutesButton.setDisable(true);
+                            // hide the progress indicator
+                            progressIndicator.setVisible(false);
+
+                            // enable the reset button
+                            resetButton.setDisable(false);
                           }
 
                         } catch (ExecutionException | InterruptedException ex) {
@@ -250,13 +264,14 @@ public class ClosestFacilityStaticSample extends Application {
 
               // reset the buttons
               solveRoutesButton.setDisable(false);
+              resetButton.setDisable(true);
             });
           }
         });
       });
 
-      // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox);
+      // add the map view, control panel and progress indicator to the stack pane
+      stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
