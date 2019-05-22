@@ -189,83 +189,67 @@ public class ClosestFacilityStaticSample extends Application {
 
             // resolve button press
             solveRoutesButton.setOnAction(e -> {
-              try {
 
-                // start the routing task
-                closestFacilityTask.loadAsync();
+              // start the routing task
+              closestFacilityTask.loadAsync();
+              closestFacilityTask.addDoneLoadingListener(() -> {
+                if (closestFacilityTask.getLoadStatus() == LoadStatus.LOADED) {
+                  try {
+                    // create default parameters for the task and add facilities and incidents to parameters
+                    ClosestFacilityParameters closestFacilityParameters = closestFacilityTask.createDefaultParametersAsync().get();
+                    closestFacilityParameters.setFacilities(facilitiesList);
+                    closestFacilityParameters.setIncidents(incidentsList);
 
-                try {
-                  closestFacilityTask.addDoneLoadingListener(() -> {
-                    if (closestFacilityTask.getLoadStatus() == LoadStatus.LOADED) {
-                      try {
-                        // create default parameters for the task and add facilities and incidents to parameters
-                        ClosestFacilityParameters closestFacilityParameters = closestFacilityTask.createDefaultParametersAsync().get();
-                        closestFacilityParameters.setFacilities(facilitiesList);
-                        closestFacilityParameters.setIncidents(incidentsList);
-
-                        // solve closest facilities
+                    // solve closest facilities
+                    try {
+                      // use the task to solve for the closest facility
+                      ListenableFuture<ClosestFacilityResult> closestFacilityTaskResult = closestFacilityTask.solveClosestFacilityAsync(closestFacilityParameters);
+                      closestFacilityTaskResult.addDoneListener(() -> {
                         try {
-                          // use the task to solve for the closest facility
-                          ListenableFuture<ClosestFacilityResult> closestFacilityTaskResult = closestFacilityTask.solveClosestFacilityAsync(closestFacilityParameters);
-                          closestFacilityTaskResult.addDoneListener(() -> {
-                            try {
-                              ClosestFacilityResult closestFacilityResult = closestFacilityTaskResult.get();
+                          ClosestFacilityResult closestFacilityResult = closestFacilityTaskResult.get();
 
-                              // find the closest facility for each incident
-                              for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
+                          // find the closest facility for each incident
+                          for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
 
-                                // get the index of the closest facility to incident
-                                Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
+                            // get the index of the closest facility to incident
+                            Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
 
-                                // get the route to the closest facility
-                                ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident);
+                            // get the route to the closest facility
+                            ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident);
 
-                                // display the route on the graphics overlay
-                                graphicsOverlay.getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
+                            // display the route on the graphics overlay
+                            graphicsOverlay.getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
 
-                                // disable the solve button
-                                solveRoutesButton.setDisable(true);
-                              }
+                            // disable the solve button
+                            solveRoutesButton.setDisable(true);
+                          }
 
-                            } catch (ExecutionException | InterruptedException ex) {
-                              displayMessage("Error getting the ClosestFacilityTask result", ex.getMessage());
-                            }
-                          });
-
-                        } catch (Exception ex) {
-                          displayMessage("Error solving the ClosestFacilityTask", ex.getMessage());
+                        } catch (ExecutionException | InterruptedException ex) {
+                          displayMessage("Error getting the ClosestFacilityTask result", ex.getMessage());
                         }
+                      });
 
-                      } catch (InterruptedException | ExecutionException ex) {
-                        displayMessage("Error getting default route parameters", ex.getMessage());
-                      }
-
-                    } else {
-                      displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
+                    } catch (Exception ex) {
+                      displayMessage("Error solving the ClosestFacilityTask", ex.getMessage());
                     }
-                  });
 
-                } catch (Exception ex) {
-                  ex.printStackTrace();
+                  } catch (InterruptedException | ExecutionException ex) {
+                    displayMessage("Error getting default route parameters", ex.getMessage());
+                  }
+
+                } else {
+                  displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
                 }
-
-              } catch (Exception ex) {
-                ex.printStackTrace();
-              }
+              });
             });
 
             // handle reset button press
             resetButton.setOnAction(actionEvent -> {
-              try {
-                // clear the route graphics
-                graphicsOverlay.getGraphics().clear();
+              // clear the route graphics
+              graphicsOverlay.getGraphics().clear();
 
-                // reset the buttons
-                solveRoutesButton.setDisable(false);
-
-              } catch (Exception ex) {
-                ex.printStackTrace();
-              }
+              // reset the buttons
+              solveRoutesButton.setDisable(false);
             });
           }
         });
