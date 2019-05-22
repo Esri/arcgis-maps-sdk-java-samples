@@ -123,14 +123,12 @@ public class ClosestFacilityStaticSample extends Application {
 
       // create a table for facilities using the FeatureServer
       FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
-
       // create a feature layer from the table, apply facilities icon
       FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
       facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
       // create a table for incidents using the FeatureServer
       FeatureTable incidentsFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Incidents/FeatureServer/0");
-
       // create a feature layer from the table, apply incident icon
       FeatureLayer incidentsFeatureLayer = new FeatureLayer(incidentsFeatureTable);
       incidentsFeatureLayer.setRenderer(new SimpleRenderer(incidentSymbol));
@@ -216,7 +214,7 @@ public class ClosestFacilityStaticSample extends Application {
                               // find the closest facility for each incident
                               for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
 
-                                // get the index of the closest facility to incident (0 is the index of the closest facility)
+                                // get the index of the closest facility to incident
                                 Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
 
                                 // get the route to the closest facility
