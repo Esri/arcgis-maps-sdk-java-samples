@@ -258,18 +258,18 @@ public class RoutingAroundBarriersController {
       routeResultFuture.addDoneListener(() -> {
         try {
           RouteResult routeResult = routeResultFuture.get();
-          if (routeResult.getRoutes().size() > 0) {
+          if (routeResult.getRoutes().isEmpty()) {
             // get the first route result
             Route firstRoute = routeResult.getRoutes().get(0);
 
             // add a graphics for this route to display it
-            Geometry routeShape = firstRoute.getRouteGeometry();
+            Geometry routeGeometry = firstRoute.getRouteGeometry();
 
             // create symbol used to display the route
             SimpleLineSymbol routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
 
             // create a graphic for the route and display it
-            Graphic routeGraphic = new Graphic(routeShape, routeLineSymbol);
+            Graphic routeGraphic = new Graphic(routeGeometry, routeLineSymbol);
             routeGraphicsOverlay.getGraphics().add(routeGraphic);
 
             // update the route information on the TitlePanel of the Accordion
