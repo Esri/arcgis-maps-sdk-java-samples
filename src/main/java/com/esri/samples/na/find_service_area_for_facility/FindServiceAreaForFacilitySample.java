@@ -10,6 +10,9 @@ import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -24,12 +27,18 @@ import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygonDetail;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -57,17 +66,23 @@ public class FindServiceAreaForFacilitySample extends Application {
     stage.setScene(scene);
     stage.show();
 
-    // create a control panel
-    VBox controlPanelVBox = new VBox();
+    // create control panel
+    VBox controlsVBox = new VBox(6);
+    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+            Insets.EMPTY)));
+    controlsVBox.setPadding(new Insets(10.0));
+    controlsVBox.setMaxSize(150, 50);
 
     // create buttons
     Button findServiceAreasButton = new Button("Find Service Areas");
+    findServiceAreasButton.setMaxWidth(Double.MAX_VALUE);
     findServiceAreasButton.setDisable(true);
     Button resetButton = new Button("Reset");
+    resetButton.setMaxWidth(Double.MAX_VALUE);
     resetButton.setDisable(true);
 
     // add the buttons to the control panel
-    controlPanelVBox.getChildren().addAll(findServiceAreasButton, resetButton);
+    controlsVBox.getChildren().addAll(findServiceAreasButton, resetButton);
 
     // create a progress indicator
     ProgressIndicator progressIndicator = new ProgressIndicator();
@@ -115,14 +130,19 @@ public class FindServiceAreaForFacilitySample extends Application {
     ArrayList<ServiceAreaFacility> serviceAreaFacilitiesArrayList = new ArrayList<>();
 
     // wait for the facilities feature table to load
-    facilitiesFeatureLayer.addDoneLoadingListener(()->{
-      if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED){
+    facilitiesFeatureLayer.addDoneLoadingListener(() -> {
+      if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
         // zoom to the extent of the feature layer
         mapView.setViewpointGeometryAsync(facilitiesFeatureLayer.getFullExtent(), 90);
 
-        // enable the 'find service areas' button
-        findServiceAreasButton.setDisable(false);
+        // wait for the view to zoom to enable the ui
+        mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
+          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+            // enable the 'find service areas' button
+            findServiceAreasButton.setDisable(false);
+          }
+        });
 
         // resolve 'find service areas' button click
         findServiceAreasButton.setOnAction(event -> {
@@ -151,7 +171,7 @@ public class FindServiceAreaForFacilitySample extends Application {
                   FeatureQueryResult featureQueryResult = featureQueryResultFuture.get();
 
                   // add the found facilities to the list
-                  for (Feature facilityFeature : featureQueryResult){
+                  for (Feature facilityFeature : featureQueryResult) {
                     serviceAreaFacilitiesArrayList.add(new ServiceAreaFacility(facilityFeature.getGeometry().getExtent().getCenter()));
                   }
 
@@ -160,17 +180,17 @@ public class FindServiceAreaForFacilitySample extends Application {
 
                   // find the service areas around the facilities using the parameters
                   ListenableFuture<ServiceAreaResult> serviceAreaResultFuture = serviceAreaTask.solveServiceAreaAsync(serviceAreaParameters);
-                  serviceAreaResultFuture.addDoneListener(()->{
+                  serviceAreaResultFuture.addDoneListener(() -> {
                     try {
                       // display all the service areas that were found to the map view
                       List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
                       ServiceAreaResult serviceAreaResult = serviceAreaResultFuture.get();
-                      for (int i = 0 ; i < serviceAreaFacilitiesArrayList.size(); i++) {
+                      for (int i = 0; i < serviceAreaFacilitiesArrayList.size(); i++) {
                         List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
 
                         // we may have more than one resulting service area, so create a graphics from each available polygon
-                        for (int j = 0; j < serviceAreaPolygonList.size(); j ++){
-                          serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(j).getGeometry(), fillSymbols.get(j%2)));
+                        for (int j = 0; j < serviceAreaPolygonList.size(); j++) {
+                          serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(j).getGeometry(), fillSymbols.get(j % 2)));
                         }
                       }
                       // enable the reset button
@@ -212,7 +232,9 @@ public class FindServiceAreaForFacilitySample extends Application {
     });
 
     // add the map view, control panel and progress indicator to stack pane
-    stackPane.getChildren().addAll(mapView, controlPanelVBox, progressIndicator);
+    stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
+    StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+    StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
   }
 
   /**
