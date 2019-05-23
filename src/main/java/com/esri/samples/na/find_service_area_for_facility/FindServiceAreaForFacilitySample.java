@@ -1,5 +1,10 @@
 package com.esri.samples.na.find_service_area_for_facility;
 
+import com.esri.arcgisruntime.data.FeatureTable;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -7,6 +12,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -85,15 +91,36 @@ public class FindServiceAreaForFacilitySample extends Application {
     ServiceAreaTask serviceAreaTask = new ServiceAreaTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ServiceArea");
     serviceAreaTask.loadAsync();
 
-    // resolve 'find service areas' button click
-    findServiceAreasButton.setOnAction(event -> {
+    // create a feature table of facilities using a FeatureServer
+    FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
+    // create a feature layer from the table, apply facilities icon
+    FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
+    facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
+    // add the feature layer to the map
+    map.getOperationalLayers().add(facilitiesFeatureLayer);
 
-    });
+    // wait for the facilities feature table to load
+    facilitiesFeatureLayer.addDoneLoadingListener(()->{
+      if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED){
 
-    // resolve 'reset button click'
-    resetButton.setOnAction(event -> {
+        // zoom to the extent of the feature layer
+        mapView.setViewpointGeometryAsync(facilitiesFeatureLayer.getFullExtent(), 90);
+
+        // enable the 'find service areas' button
+        findServiceAreasButton.setDisable(false);
+
+        // resolve 'find service areas' button click
+        findServiceAreasButton.setOnAction(event -> {
+
+
+        });
+      }
+      // resolve 'reset button click'
+      resetButton.setOnAction(event -> {
         facilitiesGraphicsOverlay.getGraphics().clear();
         serviceAreasGraphicsOverlay.getGraphics().clear();
+      });
+
     });
 
     // add the map view, control panel and progress indicator to stack pane
