@@ -1,21 +1,31 @@
 package com.esri.samples.na.find_service_area_for_facility;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.Feature;
+import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.FeatureTable;
+import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
+import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaFacility;
+import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaParameters;
+import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygon;
+import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygonDetail;
+import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
@@ -24,7 +34,9 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class FindServiceAreaForFacilitySample extends Application {
 
@@ -69,11 +81,11 @@ public class FindServiceAreaForFacilitySample extends Application {
     mapView.setMap(map);
 
     // create graphics overlays for facilities and service areas
-    GraphicsOverlay facilitiesGraphicsOverlay = new GraphicsOverlay();
     GraphicsOverlay serviceAreasGraphicsOverlay = new GraphicsOverlay();
+    GraphicsOverlay facilitiesGraphicsOverlay = new GraphicsOverlay();
 
     // add the graphics overlays to the map view
-    mapView.getGraphicsOverlays().addAll(Arrays.asList(facilitiesGraphicsOverlay, serviceAreasGraphicsOverlay));
+    mapView.getGraphicsOverlays().addAll(Arrays.asList(serviceAreasGraphicsOverlay, facilitiesGraphicsOverlay));
 
     // create a symbol to mark service area outline
     SimpleLineSymbol serviceAreaOutlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 3.0f);
@@ -99,6 +111,9 @@ public class FindServiceAreaForFacilitySample extends Application {
     // add the feature layer to the map
     map.getOperationalLayers().add(facilitiesFeatureLayer);
 
+    // create a list to hold all facilities
+    ArrayList<ServiceAreaFacility> serviceAreaFacilitiesArrayList = new ArrayList<>();
+
     // wait for the facilities feature table to load
     facilitiesFeatureLayer.addDoneLoadingListener(()->{
       if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED){
@@ -112,13 +127,86 @@ public class FindServiceAreaForFacilitySample extends Application {
         // resolve 'find service areas' button click
         findServiceAreasButton.setOnAction(event -> {
 
+          // show the progress indicator
+          progressIndicator.setVisible(true);
+
+          // create default service area task parameters
+          ListenableFuture<ServiceAreaParameters> serviceAreaTaskParametersFuture = serviceAreaTask.createDefaultParametersAsync();
+          serviceAreaTaskParametersFuture.addDoneListener(() -> {
+            try {
+              ServiceAreaParameters serviceAreaParameters = serviceAreaTaskParametersFuture.get();
+              serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
+              serviceAreaParameters.setReturnPolygons(true);
+              // add another service area of 2 minutes (default service area is 5 minutes)
+              serviceAreaParameters.getDefaultImpedanceCutoffs().addAll(Collections.singletonList(2.0));
+
+              // create query parameters to select all features
+              QueryParameters queryParameters = new QueryParameters();
+              queryParameters.setWhereClause("1=1");
+
+              // create a list of the facilities from the feature table
+              ListenableFuture<FeatureQueryResult> featureQueryResultFuture = facilitiesFeatureTable.queryFeaturesAsync(queryParameters);
+              featureQueryResultFuture.addDoneListener(() -> {
+                try {
+                  FeatureQueryResult featureQueryResult = featureQueryResultFuture.get();
+
+                  // add the found facilities to the list
+                  for (Feature facilityFeature : featureQueryResult){
+                    serviceAreaFacilitiesArrayList.add(new ServiceAreaFacility(facilityFeature.getGeometry().getExtent().getCenter()));
+                  }
+
+                  // add the facilities to the service area parameters
+                  serviceAreaParameters.setFacilities(serviceAreaFacilitiesArrayList);
+
+                  // find the service areas around the facilities using the parameters
+                  ListenableFuture<ServiceAreaResult> serviceAreaResultFuture = serviceAreaTask.solveServiceAreaAsync(serviceAreaParameters);
+                  serviceAreaResultFuture.addDoneListener(()->{
+                    try {
+                      // display all the service areas that were found to the map view
+                      List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
+                      ServiceAreaResult serviceAreaResult = serviceAreaResultFuture.get();
+                      for (int i = 0 ; i < serviceAreaFacilitiesArrayList.size(); i++) {
+                        List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
+
+                        // we may have more than one resulting service area, so create a graphics from each available polygon
+                        for (int j = 0; j < serviceAreaPolygonList.size(); j ++){
+                          serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(j).getGeometry(), fillSymbols.get(j%2)));
+                        }
+                      }
+                      // enable the reset button
+                      resetButton.setDisable(false);
+
+                    } catch (ExecutionException | InterruptedException e) {
+                      if (e.getMessage().contains("Unable to complete operation")) {
+                        new Alert(Alert.AlertType.ERROR, "Facility not within San Diego area!").show();
+                      } else {
+                        e.printStackTrace();
+                      }
+                    }
+                    // hide the progress indicator after the task is complete
+                    progressIndicator.setVisible(false);
+                  });
+                } catch (ExecutionException | InterruptedException e) {
+                  e.printStackTrace();
+                }
+              });
+
+            } catch (ExecutionException | InterruptedException e) {
+              e.printStackTrace();
+            }
+          });
 
         });
       }
       // resolve 'reset button click'
       resetButton.setOnAction(event -> {
+        // clear the graphics overlays
         facilitiesGraphicsOverlay.getGraphics().clear();
         serviceAreasGraphicsOverlay.getGraphics().clear();
+
+        // toggle the buttons
+        findServiceAreasButton.setDisable(false);
+        findServiceAreasButton.setDisable(true);
       });
 
     });
