@@ -123,9 +123,6 @@ public class FindServiceAreaForFacilitySample extends Application {
     // add the feature layer to the map
     map.getOperationalLayers().add(facilitiesFeatureLayer);
 
-    // create a list to hold all facilities
-    ArrayList<ServiceAreaFacility> serviceAreaFacilitiesArrayList = new ArrayList<>();
-
     // wait for the facilities feature table to load
     facilitiesFeatureLayer.addDoneLoadingListener(() -> {
       if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
@@ -161,35 +158,35 @@ public class FindServiceAreaForFacilitySample extends Application {
               QueryParameters queryParameters = new QueryParameters();
               queryParameters.setWhereClause("1=1");
 
-                  // add the facilities to the service area parameters
-                  serviceAreaParameters.setFacilities(facilitiesFeatureTable, queryParameters);
+              // add the facilities to the service area parameters
+              serviceAreaParameters.setFacilities(facilitiesFeatureTable, queryParameters);
 
-                  // find the service areas around the facilities using the parameters
-                  ListenableFuture<ServiceAreaResult> serviceAreaResultFuture = serviceAreaTask.solveServiceAreaAsync(serviceAreaParameters);
-                  serviceAreaResultFuture.addDoneListener(() -> {
-                    try {
-                      // display all the service areas that were found to the map view
-                      List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
-                      ServiceAreaResult serviceAreaResult = serviceAreaResultFuture.get();
-                      List<ServiceAreaFacility> serviceAreaFacilityList = serviceAreaResult.getFacilities();
+              // find the service areas around the facilities using the parameters
+              ListenableFuture<ServiceAreaResult> serviceAreaResultFuture = serviceAreaTask.solveServiceAreaAsync(serviceAreaParameters);
+              serviceAreaResultFuture.addDoneListener(() -> {
+                try {
+                  // display all the service areas that were found to the map view
+                  List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
+                  ServiceAreaResult serviceAreaResult = serviceAreaResultFuture.get();
+                  List<ServiceAreaFacility> serviceAreaFacilityList = serviceAreaResult.getFacilities();
 
-                      for (int i = 0; i < serviceAreaFacilityList.size(); i++) {
-                        List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
+                  for (int i = 0; i < serviceAreaFacilityList.size(); i++) {
+                    List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
 
-                        // we may have more than one resulting service area, so create a graphics from each available polygon
-                        for (int j = 0; j < serviceAreaPolygonList.size(); j++) {
-                          serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(j).getGeometry(), fillSymbols.get(j % 2)));
-                        }
-                      }
-                      // enable the reset button
-                      resetButton.setDisable(false);
-
-                    } catch (ExecutionException | InterruptedException e) {
-                        new Alert(Alert.AlertType.ERROR, "Error solving the service area task").show();
+                    // we may have more than one resulting service area, so create a graphics from each available polygon
+                    for (int j = 0; j < serviceAreaPolygonList.size(); j++) {
+                      serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(j).getGeometry(), fillSymbols.get(j % 2)));
                     }
-                    // hide the progress indicator after the task is complete
-                    progressIndicator.setVisible(false);
-                  });
+                  }
+                  // enable the reset button
+                  resetButton.setDisable(false);
+
+                } catch (ExecutionException | InterruptedException e) {
+                  new Alert(Alert.AlertType.ERROR, "Error solving the service area task").show();
+                }
+                // hide the progress indicator after the task is complete
+                progressIndicator.setVisible(false);
+              });
 
             } catch (ExecutionException | InterruptedException e) {
               e.printStackTrace();
