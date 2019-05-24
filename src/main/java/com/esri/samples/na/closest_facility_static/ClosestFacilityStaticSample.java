@@ -100,7 +100,7 @@ public class ClosestFacilityStaticSample extends Application {
 
       // create a progress indicator
       ProgressIndicator progressIndicator = new ProgressIndicator();
-      progressIndicator.setVisible(false);
+      progressIndicator.setVisible(true);
 
       // create a ArcGISMap with a Basemap instance with an Imagery base layer
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsWithReliefVector());
@@ -148,6 +148,9 @@ public class ClosestFacilityStaticSample extends Application {
       facilitiesFeatureLayer.addDoneLoadingListener(() -> {
         incidentsFeatureLayer.addDoneLoadingListener(() -> {
           if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
+
+            // hide the progress indicator
+            progressIndicator.setVisible(false);
 
             // zoom to the extent of the combined feature layers
             Envelope fullFeatureLayerExtent = GeometryEngine.combineExtents(facilitiesFeatureLayer.getFullExtent(), incidentsFeatureLayer.getFullExtent());
