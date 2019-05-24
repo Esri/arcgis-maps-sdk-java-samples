@@ -109,7 +109,7 @@ public class ClosestFacilityStaticSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a graphics overlay and add it to the map (will be used later to display routes)
+      // create a graphics overlay and add it to the map
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
@@ -120,7 +120,7 @@ public class ClosestFacilityStaticSample extends Application {
       // create a line symbol to mark the route
       SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x4D0000FF, 5.0f);
 
-      // create a ClosestFacilityTask
+      // create a closest facility task from a network analysis service
       ClosestFacilityTask closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
 
       // create a table for facilities using the FeatureServer
@@ -144,7 +144,7 @@ public class ClosestFacilityStaticSample extends Application {
       // create the list to store the incidents
       ArrayList<Incident> incidentsList = new ArrayList<>();
 
-      // wait fo the feature layers to load to retrieve the facilities and incidents
+      // wait for the feature layers to load to retrieve the facilities and incidents
       facilitiesFeatureLayer.addDoneLoadingListener(() -> {
         incidentsFeatureLayer.addDoneLoadingListener(() -> {
           if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
