@@ -145,7 +145,7 @@ public class ClosestFacilityStaticSample extends Application {
       ArrayList<Incident> incidentsList = new ArrayList<>();
 
       // wait for the feature layers to load to retrieve the facilities and incidents
-      facilitiesFeatureLayer.addDoneLoadingListener(() -> {
+      facilitiesFeatureLayer.addDoneLoadingListener(() ->
         incidentsFeatureLayer.addDoneLoadingListener(() -> {
           if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
@@ -266,8 +266,8 @@ public class ClosestFacilityStaticSample extends Application {
               resetButton.setDisable(true);
             });
           }
-        });
-      });
+        })
+      );
 
       // add the map view, control panel and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
