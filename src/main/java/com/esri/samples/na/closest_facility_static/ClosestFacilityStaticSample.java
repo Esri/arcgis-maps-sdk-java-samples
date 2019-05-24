@@ -145,128 +145,127 @@ public class ClosestFacilityStaticSample extends Application {
       ArrayList<Incident> incidentsList = new ArrayList<>();
 
       // wait for the feature layers to load to retrieve the facilities and incidents
-      facilitiesFeatureLayer.addDoneLoadingListener(() ->
-        incidentsFeatureLayer.addDoneLoadingListener(() -> {
-          if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
+      facilitiesFeatureLayer.addDoneLoadingListener(() -> incidentsFeatureLayer.addDoneLoadingListener(() -> {
+        if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED && incidentsFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
-            // hide the progress indicator
-            progressIndicator.setVisible(false);
+          // hide the progress indicator
+          progressIndicator.setVisible(false);
 
-            // zoom to the extent of the combined feature layers
-            Envelope fullFeatureLayerExtent = GeometryEngine.combineExtents(facilitiesFeatureLayer.getFullExtent(), incidentsFeatureLayer.getFullExtent());
-            mapView.setViewpointGeometryAsync(fullFeatureLayerExtent, 90);
+          // zoom to the extent of the combined feature layers
+          Envelope fullFeatureLayerExtent = GeometryEngine.combineExtents(facilitiesFeatureLayer.getFullExtent(), incidentsFeatureLayer.getFullExtent());
+          mapView.setViewpointGeometryAsync(fullFeatureLayerExtent, 90);
 
-            // create query parameters to select all features
-            QueryParameters queryParameters = new QueryParameters();
-            queryParameters.setWhereClause("1=1");
+          // create query parameters to select all features
+          QueryParameters queryParameters = new QueryParameters();
+          queryParameters.setWhereClause("1=1");
 
-            // retrieve a list of all facilities
-            ListenableFuture<FeatureQueryResult> result = facilitiesFeatureTable.queryFeaturesAsync(queryParameters);
-            result.addDoneListener(() -> {
-              try {
-                FeatureQueryResult facilitiesResult = result.get();
+          // retrieve a list of all facilities
+          ListenableFuture<FeatureQueryResult> result = facilitiesFeatureTable.queryFeaturesAsync(queryParameters);
+          result.addDoneListener(() -> {
+            try {
+              FeatureQueryResult facilitiesResult = result.get();
 
-                // add the found facilities to the list
-                for (Feature facilityFeature : facilitiesResult) {
-                  facilitiesList.add(new Facility(facilityFeature.getGeometry().getExtent().getCenter()));
-                }
-
-              } catch (InterruptedException | ExecutionException e) {
-                displayMessage("Error retrieving list of facilities", e.getMessage());
+              // add the found facilities to the list
+              for (Feature facilityFeature : facilitiesResult) {
+                facilitiesList.add(new Facility(facilityFeature.getGeometry().getExtent().getCenter()));
               }
-            });
 
-            // retrieve a list of all incidents
-            ListenableFuture<FeatureQueryResult> incidentsQueryResult = incidentsFeatureTable.queryFeaturesAsync(queryParameters);
-            incidentsQueryResult.addDoneListener(() -> {
-              try {
-                FeatureQueryResult incidentsResult = incidentsQueryResult.get();
+            } catch (InterruptedException | ExecutionException e) {
+              displayMessage("Error retrieving list of facilities", e.getMessage());
+            }
+          });
 
-                // add the found incidents to the list
-                for (Feature incidentFeature : incidentsResult) {
-                  incidentsList.add(new Incident(incidentFeature.getGeometry().getExtent().getCenter()));
-                }
+          // retrieve a list of all incidents
+          ListenableFuture<FeatureQueryResult> incidentsQueryResult = incidentsFeatureTable.queryFeaturesAsync(queryParameters);
+          incidentsQueryResult.addDoneListener(() -> {
+            try {
+              FeatureQueryResult incidentsResult = incidentsQueryResult.get();
 
-              } catch (InterruptedException | ExecutionException e) {
-                displayMessage("Error retrieving list of incidents", e.getMessage());
+              // add the found incidents to the list
+              for (Feature incidentFeature : incidentsResult) {
+                incidentsList.add(new Incident(incidentFeature.getGeometry().getExtent().getCenter()));
               }
-            });
 
-            // enable the 'solve routes' button
-            solveRoutesButton.setDisable(false);
+            } catch (InterruptedException | ExecutionException e) {
+              displayMessage("Error retrieving list of incidents", e.getMessage());
+            }
+          });
 
-            // resolve button press
-            solveRoutesButton.setOnAction(e -> {
+          // enable the 'solve routes' button
+          solveRoutesButton.setDisable(false);
 
-              // disable the 'solve routes' button and show the progress indicator
-              solveRoutesButton.setDisable(true);
-              progressIndicator.setVisible(true);
+          // resolve button press
+          solveRoutesButton.setOnAction(e -> {
 
-              // start the routing task
-              closestFacilityTask.loadAsync();
-              closestFacilityTask.addDoneLoadingListener(() -> {
-                if (closestFacilityTask.getLoadStatus() == LoadStatus.LOADED) {
+            // disable the 'solve routes' button and show the progress indicator
+            solveRoutesButton.setDisable(true);
+            progressIndicator.setVisible(true);
+
+            // start the routing task
+            closestFacilityTask.loadAsync();
+            closestFacilityTask.addDoneLoadingListener(() -> {
+              if (closestFacilityTask.getLoadStatus() == LoadStatus.LOADED) {
+                try {
+                  // create default parameters for the task and add facilities and incidents to parameters
+                  ClosestFacilityParameters closestFacilityParameters = closestFacilityTask.createDefaultParametersAsync().get();
+                  closestFacilityParameters.setFacilities(facilitiesList);
+                  closestFacilityParameters.setIncidents(incidentsList);
+
+                  // solve closest facilities
                   try {
-                    // create default parameters for the task and add facilities and incidents to parameters
-                    ClosestFacilityParameters closestFacilityParameters = closestFacilityTask.createDefaultParametersAsync().get();
-                    closestFacilityParameters.setFacilities(facilitiesList);
-                    closestFacilityParameters.setIncidents(incidentsList);
+                    // use the task to solve for the closest facility
+                    ListenableFuture<ClosestFacilityResult> closestFacilityTaskResult = closestFacilityTask.solveClosestFacilityAsync(closestFacilityParameters);
+                    closestFacilityTaskResult.addDoneListener(() -> {
+                      try {
+                        ClosestFacilityResult closestFacilityResult = closestFacilityTaskResult.get();
 
-                    // solve closest facilities
-                    try {
-                      // use the task to solve for the closest facility
-                      ListenableFuture<ClosestFacilityResult> closestFacilityTaskResult = closestFacilityTask.solveClosestFacilityAsync(closestFacilityParameters);
-                      closestFacilityTaskResult.addDoneListener(() -> {
-                        try {
-                          ClosestFacilityResult closestFacilityResult = closestFacilityTaskResult.get();
+                        // find the closest facility for each incident
+                        for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
 
-                          // find the closest facility for each incident
-                          for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
+                          // get the index of the closest facility to incident
+                          Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
 
-                            // get the index of the closest facility to incident
-                            Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
+                          // get the route to the closest facility
+                          ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident);
 
-                            // get the route to the closest facility
-                            ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident);
+                          // display the route on the graphics overlay
+                          graphicsOverlay.getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
 
-                            // display the route on the graphics overlay
-                            graphicsOverlay.getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
-
-                            // hide the progress indicator and enable the reset button
-                            progressIndicator.setVisible(false);
-                            resetButton.setDisable(false);
-                          }
-
-                        } catch (ExecutionException | InterruptedException ex) {
-                          displayMessage("Error getting the ClosestFacilityTask result", ex.getMessage());
+                          // hide the progress indicator and enable the reset button
+                          progressIndicator.setVisible(false);
+                          resetButton.setDisable(false);
                         }
-                      });
 
-                    } catch (Exception ex) {
-                      displayMessage("Error solving the ClosestFacilityTask", ex.getMessage());
-                    }
+                      } catch (ExecutionException | InterruptedException ex) {
+                        displayMessage("Error getting the ClosestFacilityTask result", ex.getMessage());
+                      }
+                    });
 
-                  } catch (InterruptedException | ExecutionException ex) {
-                    displayMessage("Error getting default route parameters", ex.getMessage());
+                  } catch (Exception ex) {
+                    displayMessage("Error solving the ClosestFacilityTask", ex.getMessage());
                   }
 
-                } else {
-                  displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
+                } catch (InterruptedException | ExecutionException ex) {
+                  displayMessage("Error getting default route parameters", ex.getMessage());
                 }
-              });
-            });
 
-            // handle reset button press
-            resetButton.setOnAction(actionEvent -> {
-              // clear the route graphics
-              graphicsOverlay.getGraphics().clear();
-
-              // reset the buttons
-              solveRoutesButton.setDisable(false);
-              resetButton.setDisable(true);
+              } else {
+                displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
+              }
             });
-          }
-        })
+          });
+
+          // handle reset button press
+          resetButton.setOnAction(actionEvent -> {
+            // clear the route graphics
+            graphicsOverlay.getGraphics().clear();
+
+            // reset the buttons
+            solveRoutesButton.setDisable(false);
+            resetButton.setDisable(true);
+          });
+        }
+      })
       );
 
       // add the map view, control panel and progress indicator to the stack pane
