@@ -1,4 +1,4 @@
-package com.esri.samples.na.find_service_area_for_facility;
+package com.esri.samples.na.find_service_area_for_facilities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +30,8 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -37,14 +39,13 @@ import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaFacility;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaParameters;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygon;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygonDetail;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 
-public class FindServiceAreaForFacilitySample extends Application {
+public class FindServiceAreaForFacilitiesSample extends Application {
 
   private MapView mapView;
 
@@ -116,9 +117,9 @@ public class FindServiceAreaForFacilitySample extends Application {
     serviceAreaTask.loadAsync();
 
     // create a feature table of facilities using a FeatureServer
-    ArcGISFeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
+    ArcGISFeatureTable facilitiesArcGISFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
     // create a feature layer from the table, apply facilities icon
-    FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
+    FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesArcGISFeatureTable);
     facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
     // add the feature layer to the map
     map.getOperationalLayers().add(facilitiesFeatureLayer);
@@ -131,15 +132,22 @@ public class FindServiceAreaForFacilitySample extends Application {
         mapView.setViewpointGeometryAsync(facilitiesFeatureLayer.getFullExtent(), 90);
 
         // wait for the view to zoom to enable the ui
-        mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
-          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
-            // enable the 'find service areas' button
-            findServiceAreasButton.setDisable(false);
+        mapView.addDrawStatusChangedListener(new DrawStatusChangedListener() {
+          @Override
+          public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
+            if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+              // enable the 'find service areas' button
+              findServiceAreasButton.setDisable(false);
+              mapView.removeDrawStatusChangedListener(this);
+            }
           }
         });
 
         // resolve 'find service areas' button click
         findServiceAreasButton.setOnAction(event -> {
+
+          // disable the find service areas button
+          findServiceAreasButton.setDisable(true);
 
           // show the progress indicator
           progressIndicator.setVisible(true);
@@ -159,7 +167,7 @@ public class FindServiceAreaForFacilitySample extends Application {
               queryParameters.setWhereClause("1=1");
 
               // add the facilities to the service area parameters
-              serviceAreaParameters.setFacilities(facilitiesFeatureTable, queryParameters);
+              serviceAreaParameters.setFacilities(facilitiesArcGISFeatureTable, queryParameters);
 
               // find the service areas around the facilities using the parameters
               ListenableFuture<ServiceAreaResult> serviceAreaResultFuture = serviceAreaTask.solveServiceAreaAsync(serviceAreaParameters);
@@ -168,16 +176,18 @@ public class FindServiceAreaForFacilitySample extends Application {
                   // display all the service areas that were found to the map view
                   List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
                   ServiceAreaResult serviceAreaResult = serviceAreaResultFuture.get();
-                  List<ServiceAreaFacility> serviceAreaFacilityList = serviceAreaResult.getFacilities();
 
-                  for (int i = 0; i < serviceAreaFacilityList.size(); i++) {
+                  // iterate through all the facilites to and service area polygons
+                  for (int i = 0; i < serviceAreaResult.getFacilities().size(); i++) {
                     List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
 
                     // we may have more than one resulting service area, so create a graphics from each available polygon
                     for (int j = 0; j < serviceAreaPolygonList.size(); j++) {
+                      // create and show a graphics for the service area
                       serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(j).getGeometry(), fillSymbols.get(j % 2)));
                     }
                   }
+
                   // enable the reset button
                   resetButton.setDisable(false);
 
@@ -203,7 +213,7 @@ public class FindServiceAreaForFacilitySample extends Application {
 
         // toggle the buttons
         findServiceAreasButton.setDisable(false);
-        findServiceAreasButton.setDisable(true);
+        resetButton.setDisable(true);
       });
 
     });
