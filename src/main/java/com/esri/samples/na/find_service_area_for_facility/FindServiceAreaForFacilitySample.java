@@ -1,9 +1,28 @@
 package com.esri.samples.na.find_service_area_for_facility;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.data.FeatureQueryResult;
-import com.esri.arcgisruntime.data.FeatureTable;
+import com.esri.arcgisruntime.data.ArcGISFeatureTable;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -24,26 +43,6 @@ import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygon;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygonDetail;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class FindServiceAreaForFacilitySample extends Application {
 
@@ -107,7 +106,7 @@ public class FindServiceAreaForFacilitySample extends Application {
     fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FF0000, serviceAreaOutlineSymbol));
     fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FFA500, serviceAreaOutlineSymbol));
 
-    // create an icon to display the facilites to the map view
+    // create an icon used to display the facilities
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
     facilitySymbol.setHeight(30);
     facilitySymbol.setWidth(30);
@@ -117,7 +116,7 @@ public class FindServiceAreaForFacilitySample extends Application {
     serviceAreaTask.loadAsync();
 
     // create a feature table of facilities using a FeatureServer
-    FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
+    ArcGISFeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
     // create a feature layer from the table, apply facilities icon
     FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
     facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
@@ -162,19 +161,8 @@ public class FindServiceAreaForFacilitySample extends Application {
               QueryParameters queryParameters = new QueryParameters();
               queryParameters.setWhereClause("1=1");
 
-              // create a list of the facilities from the feature table
-              ListenableFuture<FeatureQueryResult> featureQueryResultFuture = facilitiesFeatureTable.queryFeaturesAsync(queryParameters);
-              featureQueryResultFuture.addDoneListener(() -> {
-                try {
-                  FeatureQueryResult featureQueryResult = featureQueryResultFuture.get();
-
-                  // add the found facilities to the list
-                  for (Feature facilityFeature : featureQueryResult) {
-                    serviceAreaFacilitiesArrayList.add(new ServiceAreaFacility(facilityFeature.getGeometry().getExtent().getCenter()));
-                  }
-
                   // add the facilities to the service area parameters
-                  serviceAreaParameters.setFacilities(serviceAreaFacilitiesArrayList);
+                  serviceAreaParameters.setFacilities(facilitiesFeatureTable, queryParameters);
 
                   // find the service areas around the facilities using the parameters
                   ListenableFuture<ServiceAreaResult> serviceAreaResultFuture = serviceAreaTask.solveServiceAreaAsync(serviceAreaParameters);
@@ -183,7 +171,9 @@ public class FindServiceAreaForFacilitySample extends Application {
                       // display all the service areas that were found to the map view
                       List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
                       ServiceAreaResult serviceAreaResult = serviceAreaResultFuture.get();
-                      for (int i = 0; i < serviceAreaFacilitiesArrayList.size(); i++) {
+                      List<ServiceAreaFacility> serviceAreaFacilityList = serviceAreaResult.getFacilities();
+
+                      for (int i = 0; i < serviceAreaFacilityList.size(); i++) {
                         List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
 
                         // we may have more than one resulting service area, so create a graphics from each available polygon
@@ -195,19 +185,11 @@ public class FindServiceAreaForFacilitySample extends Application {
                       resetButton.setDisable(false);
 
                     } catch (ExecutionException | InterruptedException e) {
-                      if (e.getMessage().contains("Unable to complete operation")) {
-                        new Alert(Alert.AlertType.ERROR, "Facility not within San Diego area!").show();
-                      } else {
-                        e.printStackTrace();
-                      }
+                        new Alert(Alert.AlertType.ERROR, "Error solving the service area task").show();
                     }
                     // hide the progress indicator after the task is complete
                     progressIndicator.setVisible(false);
                   });
-                } catch (ExecutionException | InterruptedException e) {
-                  e.printStackTrace();
-                }
-              });
 
             } catch (ExecutionException | InterruptedException e) {
               e.printStackTrace();
