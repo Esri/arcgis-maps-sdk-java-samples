@@ -330,9 +330,7 @@ public class EditAndSyncFeaturesSample extends Application {
                 if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
 
                   // add the geodatabase FeatureTables to the map as a FeatureLayer
-                  geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> {
-                    mapView.getMap().getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable));
-                  });
+                  geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> map.getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable)));
 
                   // hide progress indicator
                   progressIndicator.setVisible(false);
