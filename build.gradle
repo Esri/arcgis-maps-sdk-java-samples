@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.6.0-2431'
+    arcgisVersion = '100.5.0'
 }
 
 javafx {
@@ -93,7 +93,7 @@ task copyNatives(type: Copy) {
 run {
     dependsOn copyNatives
     mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
-    environment "ARCGISRUNTIMESDKJAVA_100_6_0", "build/natives"
+    environment "ARCGISRUNTIMESDKJAVA_100_5_0", "build/natives"
 }
 
 task wrapper(type: Wrapper) {
