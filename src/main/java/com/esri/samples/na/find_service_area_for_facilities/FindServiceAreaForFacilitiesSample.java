@@ -58,7 +58,7 @@ public class FindServiceAreaForFacilitiesSample extends Application {
     scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
     // set title, size, and add scene to stage
-    stage.setTitle("Find Route Sample");
+    stage.setTitle("Find Service Area for Facilities Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
@@ -86,7 +86,7 @@ public class FindServiceAreaForFacilitiesSample extends Application {
     ProgressIndicator progressIndicator = new ProgressIndicator();
     progressIndicator.setVisible(false);
 
-    // create a ArcGISMap with a streets basemap
+    // create an ArcGISMap with a streets basemap
     ArcGISMap map = new ArcGISMap(Basemap.createStreets());
 
     // set the ArcGISMap to be displayed in the view
@@ -118,13 +118,13 @@ public class FindServiceAreaForFacilitiesSample extends Application {
 
     // create a feature table of facilities using a FeatureServer
     ArcGISFeatureTable facilitiesArcGISFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
-    // create a feature layer from the table, apply facilities icon
+    // create a feature layer from the table, set renderer with the facilities icon
     FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesArcGISFeatureTable);
     facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
     // add the feature layer to the map
     map.getOperationalLayers().add(facilitiesFeatureLayer);
 
-    // wait for the facilities feature table to load
+    // wait for the facilities feature layer to load
     facilitiesFeatureLayer.addDoneLoadingListener(() -> {
       if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
@@ -146,7 +146,7 @@ public class FindServiceAreaForFacilitiesSample extends Application {
         // resolve 'find service areas' button click
         findServiceAreasButton.setOnAction(event -> {
 
-          // disable the find service areas button
+          // disable the 'find service areas' button
           findServiceAreasButton.setDisable(true);
 
           // show the progress indicator
@@ -157,25 +157,30 @@ public class FindServiceAreaForFacilitiesSample extends Application {
           serviceAreaTaskParametersFuture.addDoneListener(() -> {
             try {
               ServiceAreaParameters serviceAreaParameters = serviceAreaTaskParametersFuture.get();
+              // set the task parameters to have the task result return polygons
               serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
               serviceAreaParameters.setReturnPolygons(true);
               // add another service area of 2 minutes (default service area is 5 minutes)
               serviceAreaParameters.getDefaultImpedanceCutoffs().addAll(Collections.singletonList(2.0));
 
-              // create query parameters to select all features
+              // create query parameters used to select all facilities from the feature table
               QueryParameters queryParameters = new QueryParameters();
               queryParameters.setWhereClause("1=1");
 
-              // add the facilities to the service area parameters
+              // add all facilities to the service area parameters
               serviceAreaParameters.setFacilities(facilitiesArcGISFeatureTable, queryParameters);
 
               // find the service areas around the facilities using the parameters
               ListenableFuture<ServiceAreaResult> serviceAreaResultFuture = serviceAreaTask.solveServiceAreaAsync(serviceAreaParameters);
               serviceAreaResultFuture.addDoneListener(() -> {
                 try {
+                  // get the task results
+                  ServiceAreaResult serviceAreaResult = serviceAreaResultFuture.get();
+
                   // display all the service areas that were found to the map view
                   List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
-                  ServiceAreaResult serviceAreaResult = serviceAreaResultFuture.get();
+
+                  // try and turn each polygon into a feature and then add it to a feature layer?
 
                   // iterate through all the facilites to and service area polygons
                   for (int i = 0; i < serviceAreaResult.getFacilities().size(); i++) {
