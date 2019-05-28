@@ -17,13 +17,9 @@ Click the 'find service areas' button to determine and display the service area 
 1. Create a new `ServiceAreaTask` from a network service.
 1. Create default `ServiceAreaParameters` from the service area task.
 1. Set the parameters `ServiceAreaParameters.setReturnPolygons(true)` to return polygons of all service areas.
-1. Add facilities of the `ServiceAreaParameters` in one of the following ways:
-    - Using a set of `QueryParameters` to select features from an `ArcGISFeatureTable`: `serviceAreaParameters.setFacilities(facilitiesArcGISFeatureTable, queryParameters)`.
-    - By providing a list of `Facilities`: `serviceAreaParameters.setFacilities(<Iterator> facilitiesList)`.
+1. Add facilities of the `ServiceAreaParameters`. For this, use a set of `QueryParameters` to select features from an `ArcGISFeatureTable`: `serviceAreaParameters.setFacilities(facilitiesArcGISFeatureTable, queryParameters)`.
 1. Get the `ServiceAreaResult` by solving the service area task using the parameters.
 1. For each facility, get any `ServiceAreaPolygons` that were returned, `serviceAreaResult.getResultPolygons(facilityIndex)`.
-
-    Note: If the facilities were added to the service area task directly from an ArcGIS feature table, retreive a list of the facilities from the task result using `serviceAreaResult.getFacilities()`.
 1. Display the service area polygons as `Graphics` in a `GraphicsOverlay` on the `MapView`.
 
 ## About the data

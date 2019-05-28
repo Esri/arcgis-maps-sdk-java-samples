@@ -180,7 +180,7 @@ public class FindServiceAreaForFacilitiesSample extends Application {
                   // display all the service areas that were found to the map view
                   List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
 
-                  // iterate through all the facilites to and service area polygons
+                  // iterate through all the facilities to get the service area polygons
                   for (int i = 0; i < serviceAreaResult.getFacilities().size(); i++) {
                     List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
 
