@@ -180,8 +180,6 @@ public class FindServiceAreaForFacilitiesSample extends Application {
                   // display all the service areas that were found to the map view
                   List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
 
-                  // try and turn each polygon into a feature and then add it to a feature layer?
-
                   // iterate through all the facilites to and service area polygons
                   for (int i = 0; i < serviceAreaResult.getFacilities().size(); i++) {
                     List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
