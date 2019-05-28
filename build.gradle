@@ -1,24 +1,13 @@
-buildscript {
-    repositories {
-        maven {
-            url 'https://esri.bintray.com/arcgis'
-        }
-    }
-    dependencies {
-        classpath 'com.esri.arcgisruntime:gradle-arcgis-java-plugin:1.0.0'
-    }
-}
-
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
 }
 
-apply plugin: 'com.esri.arcgisruntime.java'
-
 group = 'com.esri.samples'
 
-arcgis.version = '100.5.0'
+ext {
+    arcgisVersion = '100.6.0-2431'
+}
 
 javafx {
     version = "11.0.1"
@@ -32,9 +21,19 @@ repositories {
     maven {
         url 'https://esri.bintray.com/arcgis'
     }
+    maven {
+        url 'http://olympus.esri.com/artifactory/arcgisruntime-repo'
+    }
+}
+
+configurations {
+    natives
 }
 
 dependencies {
+    compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
+    natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
+    natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
     compile 'commons-io:commons-io:2.4'
     compile 'org.jooq:joox:1.4.0'
@@ -82,8 +81,19 @@ task downloadData {
     downloadSampleData([new Download(id: '628e8e3521cf45e9a28a12fe10c02c4d', name: 'naperville_imagery', ext: 'tpk')], 'naperville')
 }
 
+task copyNatives(type: Copy) {
+    description = "Copies the arcgis native libraries into the project build directory for development."
+    group = "build"
+    configurations.natives.asFileTree.each {
+        from(zipTree(it))
+    }
+    into "build/natives"
+}
+
 run {
+    dependsOn copyNatives
     mainClassName = project.hasProperty("mainClass") ? mainClass : 'com.esri.samples.map.display_map.DisplayMapSample'
+    environment "ARCGISRUNTIMESDKJAVA_100_6_0", "build/natives"
 }
 
 task wrapper(type: Wrapper) {
