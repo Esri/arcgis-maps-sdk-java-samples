@@ -27,11 +27,6 @@ If no `mainClass` property is supplied, the default sample (set in the build.gra
 
 There is no need to install Gradle to run the samples.
 
-## The ArcGIS Runtime Gradle Plugin
-The plugin provides the project with everything an ArcGIS runtime project needs to run. It adds the 
-arcgis api as a dependency and downloads the native libraries into `$USER_HOME/.arcgis`. This download occurs 
-automatically the first time you build the project and is only performed once.
-
 ## Java 11
 Java 11 users may find exceptions when running the project if their library path is still set for Oracle JDK 1.8 (see the [OpenJavaFX docs](https://openjfx.io/openjfx-docs/) for more information). A workaround for this is to add the following argument in the `run` task of the Gradle buildscript:
 ```
