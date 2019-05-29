@@ -79,6 +79,7 @@ task downloadData {
     downloadSampleData([new Download(id: '943285c21a8e4e1582f0af1101f87bdf')], 'slpks')
     downloadSampleData([new Download(id: 'c0f7b0466b9c492dbab408620af6d28f')], 'mspk')
     downloadSampleData([new Download(id: '628e8e3521cf45e9a28a12fe10c02c4d', name: 'naperville_imagery', ext: 'tpk')], 'naperville')
+    downloadSampleData([new Download(id: '1bd036f221f54a99abc9e46ff3511cbf', name: 'emoji-mobile', ext: 'stylx')], 'stylx')
 }
 
 task copyNatives(type: Copy) {
