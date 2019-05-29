@@ -28,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -44,6 +45,7 @@ import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
+import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -114,8 +116,8 @@ public class ClosestFacilityStaticSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create Symbols for displaying facilities
-      PictureMarkerSymbol facilitySymbol = createSymbol("https://static.arcgis.com/images/Symbols/SafetyHealth/FireStation.png");
-      PictureMarkerSymbol incidentSymbol = createSymbol("https://static.arcgis.com/images/Symbols/SafetyHealth/esriCrimeMarker_56_Gradient.png");
+      PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol(new Image("https://static.arcgis.com/images/Symbols/SafetyHealth/FireStation.png", 30, 30, true, false));
+      PictureMarkerSymbol incidentSymbol = new PictureMarkerSymbol(new Image("https://static.arcgis.com/images/Symbols/SafetyHealth/esriCrimeMarker_56_Gradient.png", 30, 30, true, false));
 
       // create a line symbol to mark the route
       SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x4D0000FF, 5.0f);
@@ -139,10 +141,10 @@ public class ClosestFacilityStaticSample extends Application {
       map.getOperationalLayers().addAll(Arrays.asList(facilitiesFeatureLayer, incidentsFeatureLayer));
 
       // create the list to store the facilities
-      ArrayList<Facility> facilitiesList = new ArrayList<>();
+      ArrayList<Facility> facilities = new ArrayList<>();
 
       // create the list to store the incidents
-      ArrayList<Incident> incidentsList = new ArrayList<>();
+      ArrayList<Incident> incidents = new ArrayList<>();
 
       // wait for the feature layers to load to retrieve the facilities and incidents
       facilitiesFeatureLayer.addDoneLoadingListener(() -> incidentsFeatureLayer.addDoneLoadingListener(() -> {
@@ -167,7 +169,7 @@ public class ClosestFacilityStaticSample extends Application {
 
               // add the found facilities to the list
               for (Feature facilityFeature : facilitiesResult) {
-                facilitiesList.add(new Facility(facilityFeature.getGeometry().getExtent().getCenter()));
+                facilities.add(new Facility((Point) facilityFeature.getGeometry()));
               }
 
             } catch (InterruptedException | ExecutionException e) {
@@ -183,7 +185,7 @@ public class ClosestFacilityStaticSample extends Application {
 
               // add the found incidents to the list
               for (Feature incidentFeature : incidentsResult) {
-                incidentsList.add(new Incident(incidentFeature.getGeometry().getExtent().getCenter()));
+                incidents.add(new Incident((Point) incidentFeature.getGeometry()));
               }
 
             } catch (InterruptedException | ExecutionException e) {
@@ -208,8 +210,8 @@ public class ClosestFacilityStaticSample extends Application {
                 try {
                   // create default parameters for the task and add facilities and incidents to parameters
                   ClosestFacilityParameters closestFacilityParameters = closestFacilityTask.createDefaultParametersAsync().get();
-                  closestFacilityParameters.setFacilities(facilitiesList);
-                  closestFacilityParameters.setIncidents(incidentsList);
+                  closestFacilityParameters.setFacilities(facilities);
+                  closestFacilityParameters.setIncidents(incidents);
 
                   // solve closest facilities
                   try {
@@ -220,13 +222,13 @@ public class ClosestFacilityStaticSample extends Application {
                         ClosestFacilityResult closestFacilityResult = closestFacilityTaskResult.get();
 
                         // find the closest facility for each incident
-                        for (int indexOfIncident = 0; indexOfIncident < incidentsList.size(); indexOfIncident++) {
+                        for (int incidentIndex = 0; incidentIndex < incidents.size(); incidentIndex++) {
 
                           // get the index of the closest facility to incident
-                          Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(indexOfIncident).get(0);
+                          Integer closestFacilityIndex = closestFacilityResult.getRankedFacilityIndexes(incidentIndex).get(0);
 
                           // get the route to the closest facility
-                          ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident);
+                          ClosestFacilityRoute closestFacilityRoute = closestFacilityResult.getRoute(closestFacilityIndex, incidentIndex);
 
                           // display the route on the graphics overlay
                           graphicsOverlay.getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
@@ -276,18 +278,6 @@ public class ClosestFacilityStaticSample extends Application {
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Creates a PictureMarkerSymbol from a URI and sizes it appropriately.
-   *
-   * @param uri the URI of the picture to be used for the symbol
-   */
-  private PictureMarkerSymbol createSymbol(String uri) {
-    PictureMarkerSymbol symbol = new PictureMarkerSymbol(uri);
-    symbol.setHeight(30);
-    symbol.setWidth(30);
-    return symbol;
   }
 
   /**
