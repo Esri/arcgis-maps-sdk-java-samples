@@ -15,11 +15,46 @@
   ~ the License.
   -->
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-
+<?import javafx.scene.layout.HBox?>
 <StackPane fx:controller="com.esri.samples.symbology.read_symbols_from_mobile_style_file.ReadSymbolsFromMobileStyleFileController" xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
   <!--SDK SceneView-->
   <MapView fx:id="mapView"/>
 
+  <!--      Control Panel-->
+  <VBox StackPane.alignment="TOP_LEFT" minHeight="400" minWidth="300" maxWidth="300" styleClass="panel-region" spacing="10">
+
+    <!--      Control Panel Styling-->
+    <padding>
+      <Insets topRightBottomLeft="10"/>
+    </padding>
+
+    <background>
+      <Background>
+        <fills>
+          <BackgroundFill>
+            <fill>
+              <Color opacity="0.5"/>
+            </fill>
+          </BackgroundFill>
+        </fills>
+      </Background>
+    </background>
+
+    <HBox fx:id="hatsContainer">
+
+    </HBox>
+
+
+    <HBox fx:id="eyesContainer"></HBox>
+
+    <HBox fx:id="mouthsContainer"></HBox>
+
+  </VBox>
 </StackPane>
