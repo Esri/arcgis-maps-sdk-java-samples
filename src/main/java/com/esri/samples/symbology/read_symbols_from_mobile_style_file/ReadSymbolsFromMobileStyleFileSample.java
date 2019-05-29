@@ -17,45 +17,30 @@
 package com.esri.samples.symbology.read_symbols_from_mobile_style_file;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ReadSymbolsFromMobileStyleFileSample extends Application {
 
-  private MapView mapView = new MapView();
+  private static ReadSymbolsFromMobileStyleFileController controller;
 
   @Override
-  public void start(Stage stage) {
-    try {
-      // create stack pane and application scene
-      StackPane stackPane = new StackPane();
-      Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+  public void start(Stage stage) throws Exception {
 
-      // set title, size, and add scene to stage
-      stage.setTitle("Read Symbols From Mobile Style File Sample");
-      stage.setWidth(800);
-      stage.setHeight(700);
-      stage.setScene(scene);
-      stage.show();
+    // set up the scene
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/read_symbols_from_mobile_style_file.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene scene = new Scene(root);
 
-      // create a map
-      ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
-      // add the map to the map view
-      mapView.setMap(map);
-
-      // add the map view to the stack pane
-      stackPane.getChildren().add(mapView);
-
-    } catch (Exception e) {
-      // on any error, display the stack trace
-      e.printStackTrace();
-    }
+    // set title, size, and add scene to stage
+    stage.setTitle("Read Symbols From Mobile Style File Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
   }
 
   /**
@@ -63,10 +48,7 @@ public class ReadSymbolsFromMobileStyleFileSample extends Application {
    */
   @Override
   public void stop() {
-
-    if (mapView != null) {
-      mapView.dispose();
-    }
+    controller.terminate();
   }
 
   /**
