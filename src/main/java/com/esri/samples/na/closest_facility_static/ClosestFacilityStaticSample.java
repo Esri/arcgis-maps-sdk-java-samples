@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -156,7 +155,7 @@ public class ClosestFacilityStaticSample extends Application {
               }
 
             } catch (InterruptedException | ExecutionException e) {
-              displayMessage("Error retrieving list of facilities", e.getMessage());
+              new Alert(Alert.AlertType.ERROR, "Error retrieving list of facilities.").show();
             }
           });
 
@@ -173,7 +172,7 @@ public class ClosestFacilityStaticSample extends Application {
               }
 
             } catch (InterruptedException | ExecutionException e) {
-              displayMessage("Error retrieving list of incidents", e.getMessage());
+              new Alert(Alert.AlertType.ERROR, "Error retrieving list of incidents.").show();
             }
           });
 
@@ -222,20 +221,20 @@ public class ClosestFacilityStaticSample extends Application {
                         }
 
                       } catch (ExecutionException | InterruptedException ex) {
-                        displayMessage("Error getting the ClosestFacilityTask result", ex.getMessage());
+                        new Alert(Alert.AlertType.ERROR, "Error getting the closest facility task result.").show();
                       }
                     });
 
                   } catch (Exception ex) {
-                    displayMessage("Error solving the ClosestFacilityTask", ex.getMessage());
+                    new Alert(Alert.AlertType.ERROR, "Error solving the closest facility task.").show();
                   }
 
                 } catch (InterruptedException | ExecutionException ex) {
-                  displayMessage("Error getting default route parameters", ex.getMessage());
+                  new Alert(Alert.AlertType.ERROR, "Error getting default route parameters.").show();
                 }
 
               } else {
-                displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
+                new Alert(Alert.AlertType.ERROR, "Error loading route task.").show();
               }
             });
           });
@@ -251,22 +250,6 @@ public class ClosestFacilityStaticSample extends Application {
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Shows a message in an alert dialog.
-   *
-   * @param title   title of alert
-   * @param message message to display
-   */
-  private void displayMessage(String title, String message) {
-
-    Platform.runLater(() -> {
-      Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-      dialog.setHeaderText(title);
-      dialog.setContentText(message);
-      dialog.showAndWait();
-    });
   }
 
   /**
