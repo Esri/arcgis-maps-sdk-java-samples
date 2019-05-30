@@ -35,7 +35,7 @@
       <li>Find closest facility route, <code>closestFacilityResult.getRoute(closestFacilityIndex, indexOfIncident)</code>.</li>
     </ul>
   </li> 
-  <li>Display the route to <code>MapView</code>:
+  <li>Display the route:
     <ul>
       <li>create a <code>Graphic</code> from route geometry, with <code>new Graphic(closestFacilityRoute.getRouteGeometry())</code>.</li>
       <li>add graphic to <code>GraphicsOverlay</code> and set it to the mapview.</li>
