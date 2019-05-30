@@ -93,12 +93,9 @@ public class ClosestFacilityStaticSample extends Application {
       Button solveRoutesButton = new Button("Solve Routes");
       solveRoutesButton.setMaxWidth(Double.MAX_VALUE);
       solveRoutesButton.setDisable(true);
-      Button resetButton = new Button("Reset");
-      resetButton.setMaxWidth(Double.MAX_VALUE);
-      resetButton.setDisable(true);
 
       // add buttons to the control panel
-      controlsVBox.getChildren().addAll(solveRoutesButton, resetButton);
+      controlsVBox.getChildren().add(solveRoutesButton);
 
       // create a progress indicator
       ProgressIndicator progressIndicator = new ProgressIndicator();
@@ -235,7 +232,6 @@ public class ClosestFacilityStaticSample extends Application {
 
                           // hide the progress indicator and enable the reset button
                           progressIndicator.setVisible(false);
-                          resetButton.setDisable(false);
                         }
 
                       } catch (ExecutionException | InterruptedException ex) {
@@ -255,16 +251,6 @@ public class ClosestFacilityStaticSample extends Application {
                 displayMessage("Error loading route task", closestFacilityTask.getLoadError().getMessage());
               }
             });
-          });
-
-          // handle reset button press
-          resetButton.setOnAction(actionEvent -> {
-            // clear the route graphics
-            graphicsOverlay.getGraphics().clear();
-
-            // reset the buttons
-            solveRoutesButton.setDisable(false);
-            resetButton.setDisable(true);
           });
         }
       })
