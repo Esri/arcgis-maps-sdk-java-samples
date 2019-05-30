@@ -424,7 +424,7 @@ public class EditAndSyncFeaturesSample extends Application {
   /**
    * Queries all feature layers to find features at a given screen point, and marks a feature as selected.
    *
-   * @param screenPoint
+   * @param screenPoint the screen point to query for existing features
    */
   private void findAndSelectFeature(Point2D screenPoint) {
     // query all layers for features at the clicked point
