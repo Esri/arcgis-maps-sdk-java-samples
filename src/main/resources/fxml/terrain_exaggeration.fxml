@@ -48,6 +48,6 @@
         </background>
         <Label text="Exaggeration"/>
         <Slider fx:id="exaggerationSlider" max="5" min="1" majorTickUnit="1" minorTickCount="0" showTickMarks="true"
-          showTickLabels="true" snapToTicks="true"/>
+          showTickLabels="true" snapToTicks="true" onMouseReleased="#changeElevationExaggeration"/>
     </VBox>
 </StackPane>
