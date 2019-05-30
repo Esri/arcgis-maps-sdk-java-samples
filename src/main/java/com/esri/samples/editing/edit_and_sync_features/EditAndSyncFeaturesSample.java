@@ -223,91 +223,18 @@ public class EditAndSyncFeaturesSample extends Application {
           // get map location corresponding to screen point
           Point mapPoint = mapView.screenToLocation(screenPoint);
 
+          // on primary click, move an already selected feature, or select a clicked feature
           if (event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
 
             // if an edit is in process (a feature is selected), finish the edit
             if (currentEditState == EditState.EDITING) {
 
-              // iterate through all feature layers in the map
-              mapView.getMap().getOperationalLayers().stream().filter(layer -> layer instanceof FeatureLayer).forEach(layer -> {
-                FeatureLayer featureLayer = (FeatureLayer) layer;
-                // retrieve the selected features in the feature layer
-                ListenableFuture<FeatureQueryResult> selectedQuery = featureLayer.getSelectedFeaturesAsync();
-                selectedQuery.addDoneListener(() -> {
-                  try {
-
-                    // get the result of the query (a set of features)
-                    FeatureQueryResult selectedQueryResult = selectedQuery.get();
-
-                    // create an iterator from the result
-                    Iterator<Feature> features = selectedQueryResult.iterator();
-
-                    // check if there are elements in the iteration
-                    if (features.hasNext()) {
-
-                      // retrieve the currently selected feature
-                      ArcGISFeature selectedFeature = (ArcGISFeature) features.next();
-                      selectedFeature.loadAsync();
-                      selectedFeature.addDoneLoadingListener(() -> {
-                        if (selectedFeature.canUpdateGeometry()) {
-
-                          // move the selected feature to the clicked map point
-                          selectedFeature.setGeometry(mapPoint);
-
-                          // update the feature table
-                          selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
-
-                          // deselect the feature
-                          featureLayer.clearSelection();
-
-                          // refresh ui to enable syncing
-                          currentEditState = EditState.READY;
-                          syncButton.setDisable(false);
-                        }
-                      });
-                    }
-                  } catch (InterruptedException | ExecutionException e) {
-                    displayMessage("Exception getting selected feature", e.getMessage());
-                  }
-                });
-
-              });
+              moveSelectedFeature(mapPoint);
 
               // else start an edit
             } else {
 
-              // query all layers for features at the clicked point
-              ListenableFuture<List<IdentifyLayerResult>> identifyLayersResultFuture = mapView.identifyLayersAsync(screenPoint, 1, false);
-              identifyLayersResultFuture.addDoneListener(() -> {
-                try {
-                  // get the result of the query
-                  List<IdentifyLayerResult> identifyLayerResults = identifyLayersResultFuture.get();
-                  identifyLayerResults.forEach(identifyLayerResult -> {
-
-                    // get the content of each layer result
-                    LayerContent layerContent = identifyLayerResult.getLayerContent();
-
-                    // check that the result is a feature layer
-                    if (layerContent instanceof FeatureLayer) {
-
-                      // retrieve the geoelements in the feature layer
-                      List<GeoElement> geoElements = identifyLayerResult.getElements();
-                      geoElements.forEach(geoElement -> {
-                        if (geoElement instanceof Feature) {
-
-                          // grab the new feature and make it selected
-                          ((FeatureLayer) layerContent).selectFeature((Feature) geoElement);
-
-                          // change the state to editing
-                          currentEditState = EditState.EDITING;
-                        }
-                      });
-                    }
-                  });
-                } catch (Exception e) {
-                  new Alert(Alert.AlertType.ERROR, "error finding selected features").show();
-                }
-              });
+              findAndSelectFeature(screenPoint);
 
             }
           } else if (event.getButton() == MouseButton.SECONDARY && event.isStillSincePress()) {
@@ -317,6 +244,9 @@ public class EditAndSyncFeaturesSample extends Application {
               FeatureLayer featureLayer = (FeatureLayer) layer;
               featureLayer.clearSelection();
             }
+
+            // set the edit state to ready
+            currentEditState = EditState.READY;
           }
         }
       });
@@ -375,7 +305,7 @@ public class EditAndSyncFeaturesSample extends Application {
   /**
    * Create feature layers from the geodatabase, adds these to the map view, and toggles UI
    *
-   * @param generateGeodatabaseJob
+   * @param generateGeodatabaseJob the generate geodatabase job that is handled
    */
   private void handleGenerationCompleted(GenerateGeodatabaseJob generateGeodatabaseJob) {
     // check whether the geodatabase generation is complete successfully
@@ -418,7 +348,6 @@ public class EditAndSyncFeaturesSample extends Application {
         // update button text to signal we are ready to edit
         geodatabaseButton.setText("Geodatabase Ready");
         geodatabaseButton.setDisable(true);
-        syncButton.setDisable(false);
       });
     } else if (generateGeodatabaseJob.getError() != null) {
       displayMessage("Error generating geodatabase", generateGeodatabaseJob.getError().getMessage());
@@ -457,11 +386,11 @@ public class EditAndSyncFeaturesSample extends Application {
     // add a job done listener to the Sync Job
     syncGeodatabaseJob.addJobDoneListener(() -> handleSyncCompleted(syncGeodatabaseJob));
   }
-
+  
   /**
-   * Handles the completion of the sync geodatabase job.
+   * Shows a success message and updates the UI when a geodatabase sync job is complete.
    *
-   * @param syncGeodatabaseJob
+   * @param syncGeodatabaseJob the sync geodatabase job that is handled
    */
   private void handleSyncCompleted(SyncGeodatabaseJob syncGeodatabaseJob) {
     if (syncGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
@@ -476,6 +405,97 @@ public class EditAndSyncFeaturesSample extends Application {
       displayMessage("Database did not sync correctly!", syncGeodatabaseJob.getError().getMessage());
     }
   }
+
+  /**
+   * Queries all available feature layers for a selected feature, then moves the feature to a map point.
+   * @param mapPoint the target point to which the feature is moved
+   */
+  private void moveSelectedFeature(Point mapPoint){
+    // iterate through all feature layers in the map
+    mapView.getMap().getOperationalLayers().stream().filter(layer -> layer instanceof FeatureLayer).forEach(layer -> {
+      FeatureLayer featureLayer = (FeatureLayer) layer;
+      // retrieve the selected features in the feature layer
+      ListenableFuture<FeatureQueryResult> selectedQuery = featureLayer.getSelectedFeaturesAsync();
+      selectedQuery.addDoneListener(() -> {
+        try {
+
+          // get the result of the query (a set of features)
+          FeatureQueryResult selectedQueryResult = selectedQuery.get();
+
+          // create an iterator from the result
+          Iterator<Feature> features = selectedQueryResult.iterator();
+
+          // check if there are elements in the iteration
+          if (features.hasNext()) {
+
+            // retrieve the currently selected feature
+            ArcGISFeature selectedFeature = (ArcGISFeature) features.next();
+            selectedFeature.loadAsync();
+            selectedFeature.addDoneLoadingListener(() -> {
+              if (selectedFeature.canUpdateGeometry()) {
+
+                // move the selected feature to the clicked map point
+                selectedFeature.setGeometry(mapPoint);
+
+                // update the feature table
+                selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
+
+                // deselect the feature
+                featureLayer.clearSelection();
+
+                // refresh ui to enable syncing
+                currentEditState = EditState.READY;
+                syncButton.setDisable(false);
+              }
+            });
+          }
+        } catch (InterruptedException | ExecutionException e) {
+          displayMessage("Exception getting selected feature", e.getMessage());
+        }
+      });
+
+    });
+  }
+
+  /**
+   * Queries all feature layers to find features at a given screen point, and marks a feature as selected
+   * @param screenPoint
+   */
+  private void findAndSelectFeature(Point2D screenPoint){
+    // query all layers for features at the clicked point
+    ListenableFuture<List<IdentifyLayerResult>> identifyLayersResultFuture = mapView.identifyLayersAsync(screenPoint, 10, false);
+    identifyLayersResultFuture.addDoneListener(() -> {
+      try {
+        // get the result of the query
+        List<IdentifyLayerResult> identifyLayerResults = identifyLayersResultFuture.get();
+        identifyLayerResults.forEach(identifyLayerResult -> {
+
+          // get the content of each layer result
+          LayerContent layerContent = identifyLayerResult.getLayerContent();
+
+          // check that the result is a feature layer
+          if (layerContent instanceof FeatureLayer) {
+
+            // retrieve the geoelements in the feature layer
+            List<GeoElement> geoElements = identifyLayerResult.getElements();
+            geoElements.forEach(geoElement -> {
+              if (geoElement instanceof Feature) {
+
+                // grab the new feature and make it selected
+                ((FeatureLayer) layerContent).selectFeature((Feature) geoElement);
+
+                // change the state to editing
+                currentEditState = EditState.EDITING;
+              }
+            });
+          }
+        });
+      } catch (Exception e) {
+        new Alert(Alert.AlertType.ERROR, "error finding selected features").show();
+      }
+    });
+  }
+
 
   /**
    * Adds listeners to the viewpoint to capture the extent of the geodatabase to be generated.
@@ -562,9 +582,7 @@ public class EditAndSyncFeaturesSample extends Application {
     });
 
     // hide the progress bar when the job is finished
-    job.addJobDoneListener(() -> {
-      progressBar.setVisible(false);
-    });
+    job.addJobDoneListener(() -> progressBar.setVisible(false));
   }
 
   /**
