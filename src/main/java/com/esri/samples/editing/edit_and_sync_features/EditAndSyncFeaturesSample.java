@@ -39,6 +39,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.arcgisservices.IdInfo;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
@@ -46,6 +47,7 @@ import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryType;
@@ -76,6 +78,7 @@ import com.esri.arcgisruntime.tasks.geodatabase.SyncLayerOption;
 public class EditAndSyncFeaturesSample extends Application {
 
   private Button geodatabaseButton;
+  private Button syncButton;
   private Graphic geodatabaseExtentGraphics;
   private ProgressIndicator progressIndicator;
 
@@ -127,10 +130,13 @@ public class EditAndSyncFeaturesSample extends Application {
       controlsVBox.setMaxSize(180, 20);
       controlsVBox.getStyleClass().add("panel-region");
 
-      // create button for user interaction
+      // create buttons for user interaction
       geodatabaseButton = new Button("Generate Geodatabase");
       geodatabaseButton.setMaxWidth(Double.MAX_VALUE);
-      controlsVBox.getChildren().add(geodatabaseButton);
+      syncButton = new Button("Sync Geodatabase");
+      syncButton.setMaxWidth(Double.MAX_VALUE);
+      syncButton.setDisable(true);
+      controlsVBox.getChildren().addAll(geodatabaseButton, syncButton);
 
       // create progress indicator
       progressIndicator = new ProgressIndicator();
@@ -160,12 +166,42 @@ public class EditAndSyncFeaturesSample extends Application {
       mapView.addDrawStatusChangedListener(drawStatusChangedListener);
 
       // create a listener used to update the extent of the geodatabase area when the viewpoint changes
-      ViewpointChangedListener viewpointChangedListener = (viewpointChangedEvent) -> updateGeodatabaseExtentEnvelope();
+      ViewpointChangedListener viewpointChangedListener = viewpointChangedEvent -> updateGeodatabaseExtentEnvelope();
 
       // add the listener to the map view, to update the extent whenever the viewpoint changes
       mapView.addViewpointChangedListener(viewpointChangedListener);
 
-      // add listener to handle generate/sync geodatabase button
+      // create a task for generating a geodatabase
+      String featureServiceUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer";
+      geodatabaseSyncTask = new GeodatabaseSyncTask(featureServiceUrl);
+      geodatabaseSyncTask.loadAsync();
+      geodatabaseSyncTask.addDoneLoadingListener(() -> {
+
+        // add all graphics from the service to the map.
+        for (IdInfo layer : geodatabaseSyncTask.getFeatureServiceInfo().getLayerInfos()) {
+          // get the URL for this particular layer
+          try {
+            String onlineTableUri = featureServiceUrl + "/" + layer.getId();
+
+            // create the service feature table
+            ServiceFeatureTable onlineFeatureTable = new ServiceFeatureTable(onlineTableUri);
+            onlineFeatureTable.loadAsync();
+            onlineFeatureTable.addDoneLoadingListener(()->{
+              // only add tables that contain point features to the map as feature layers
+              if (onlineFeatureTable.getLoadStatus() == LoadStatus.LOADED && onlineFeatureTable.getGeometryType() == GeometryType.POINT){
+                map.getOperationalLayers().add(new FeatureLayer(onlineFeatureTable));
+              }
+
+            });
+
+          } catch (Exception e) {
+
+          }
+        }
+        geodatabaseButton.setDisable(false);
+      });
+
+      // add listener to handle generate geodatabase button
       geodatabaseButton.setOnAction(e -> {
         if (currentEditState == EditState.NOTREADY) {
           // update button text and disable button
@@ -180,8 +216,11 @@ public class EditAndSyncFeaturesSample extends Application {
 
           // generate a geodatabase for the chosen area
           generateGeodatabase();
+        }
+      });
 
-        } else if (currentEditState == EditState.READY) {
+      syncButton.setOnAction(e -> {
+        if (currentEditState == EditState.READY){
           // sync the geodatabase
           syncGeodatabase();
         }
@@ -257,8 +296,7 @@ public class EditAndSyncFeaturesSample extends Application {
 
                             // refresh ui to enable syncing
                             currentEditState = EditState.READY;
-                            geodatabaseButton.setText("Sync Geodatabase");
-                            geodatabaseButton.setDisable(false);
+                            syncButton.setDisable(false);
                           }
                         });
                       }
@@ -343,6 +381,7 @@ public class EditAndSyncFeaturesSample extends Application {
                 // update button text to signal we are ready to edit
                 geodatabaseButton.setText("Geodatabase Ready");
                 geodatabaseButton.setDisable(true);
+                syncButton.setDisable(false);
               });
             } else if (geodatabaseJob.getError() != null) {
               displayMessage("Error generating geodatabase", geodatabaseJob.getError().getMessage());
@@ -365,8 +404,8 @@ public class EditAndSyncFeaturesSample extends Application {
    */
   private void syncGeodatabase() {
     // disable the button and update text
-    geodatabaseButton.setText("Syncing Geodatabase...");
-    geodatabaseButton.setDisable(true);
+    syncButton.setText("Syncing Geodatabase...");
+    syncButton.setDisable(true);
 
     // show progress indicator
     progressIndicator.setVisible(true);
@@ -398,8 +437,8 @@ public class EditAndSyncFeaturesSample extends Application {
         displayMessage("Database Sync Complete", null);
 
         // update button text to signal we are ready to edit
-        geodatabaseButton.setText("Geodatabase Ready");
-        geodatabaseButton.setDisable(true);
+        syncButton.setText("Sync Geodatabase");
+        syncButton.setDisable(false);
       } else {
         displayMessage("Database did not sync correctly!", syncGeodatabaseJob.getError().getMessage());
       }
