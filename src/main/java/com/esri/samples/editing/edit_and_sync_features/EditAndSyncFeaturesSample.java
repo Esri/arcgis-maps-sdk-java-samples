@@ -81,8 +81,8 @@ public class EditAndSyncFeaturesSample extends Application {
   private Button geodatabaseButton;
   private Button syncButton;
   private Graphic geodatabaseExtentGraphics;
-  private ProgressIndicator progressIndicator;
   private ProgressBar progressBar;
+  private ProgressIndicator progressIndicator;
 
   private ArcGISMap map;
   private EditAndSyncFeaturesSample.EditState currentEditState = EditState.NOTREADY;
@@ -380,6 +380,10 @@ public class EditAndSyncFeaturesSample extends Application {
     });
   }
 
+  /**
+   * Create feature layers from the geodatabase, adds these to the map view, and toggles UI
+   * @param generateGeodatabaseJob
+   */
   private void handleGenerationCompleted(GenerateGeodatabaseJob generateGeodatabaseJob) {
     if (generateGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
       geodatabase = generateGeodatabaseJob.getResult();
@@ -387,11 +391,24 @@ public class EditAndSyncFeaturesSample extends Application {
       geodatabase.addDoneLoadingListener(() -> {
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
 
-          // add the geodatabase FeatureTables to the map as a FeatureLayer
-          geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> map.getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable)));
+          // remove the existing layers from the map
+          map.getOperationalLayers().clear();
 
-          // hide progress indicator
-          progressIndicator.setVisible(false);
+          // iterate through the feature tables in the geodatabase and add new layers to the map
+          geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> {
+            geodatabaseFeatureTable.loadAsync();
+            geodatabaseFeatureTable.addDoneLoadingListener(()->{
+
+              // add only feature tables that have point data
+              if (geodatabaseFeatureTable.getGeometryType() == GeometryType.POINT) {
+                // create a new feature layer from the table
+                FeatureLayer featureLayer = new FeatureLayer(geodatabaseFeatureTable);
+
+                // add the feature layer to the map
+                map.getOperationalLayers().add(featureLayer);
+              }
+            });
+          });
 
           // show success message
           displayMessage("Geodatabase loaded successfully", null);
@@ -443,11 +460,12 @@ public class EditAndSyncFeaturesSample extends Application {
     });
   }
 
+  /**
+   *
+   * @param syncGeodatabaseJob
+   */
   private void handleSyncCompleted(SyncGeodatabaseJob syncGeodatabaseJob) {
     if (syncGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
-
-      // hide progress indicator
-      progressIndicator.setVisible(false);
 
       // show success message
       displayMessage("Database Sync Complete", null);
@@ -487,7 +505,7 @@ public class EditAndSyncFeaturesSample extends Application {
   }
 
   /**
-   * Show a message in an alert dialog.
+   * Shows a message in an alert dialog.
    *
    * @param title   title of alert
    * @param message message to display
