@@ -29,12 +29,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -82,20 +77,10 @@ public class ClosestFacilityStaticSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create control panel
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-              Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(150, 50);
-
       // create buttons
       Button solveRoutesButton = new Button("Solve Routes");
-      solveRoutesButton.setMaxWidth(Double.MAX_VALUE);
+      solveRoutesButton.setMaxWidth(150);
       solveRoutesButton.setDisable(true);
-
-      // add buttons to the control panel
-      controlsVBox.getChildren().add(solveRoutesButton);
 
       // create a progress indicator
       ProgressIndicator progressIndicator = new ProgressIndicator();
@@ -122,13 +107,13 @@ public class ClosestFacilityStaticSample extends Application {
       // create a closest facility task from a network analysis service
       ClosestFacilityTask closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
 
-      // create a table for facilities using the FeatureServer
+      // create a table for facilities using the feature service
       FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
       // create a feature layer from the table, apply facilities icon
       FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
       facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
-      // create a table for incidents using the FeatureServer
+      // create a table for incidents using the feature service
       FeatureTable incidentsFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Incidents/FeatureServer/0");
       // create a feature layer from the table, apply incident icon
       FeatureLayer incidentsFeatureLayer = new FeatureLayer(incidentsFeatureTable);
@@ -166,6 +151,7 @@ public class ClosestFacilityStaticSample extends Application {
 
               // add the found facilities to the list
               for (Feature facilityFeature : facilitiesResult) {
+                // since we know our feature layer only contains point features, we can cast them as Point in order to create a Facility
                 facilities.add(new Facility((Point) facilityFeature.getGeometry()));
               }
 
@@ -182,6 +168,7 @@ public class ClosestFacilityStaticSample extends Application {
 
               // add the found incidents to the list
               for (Feature incidentFeature : incidentsResult) {
+                // since we know our feature layer only contains point features, we can cast them as Point in order to create an Incident
                 incidents.add(new Incident((Point) incidentFeature.getGeometry()));
               }
 
@@ -257,9 +244,9 @@ public class ClosestFacilityStaticSample extends Application {
       );
 
       // add the map view, control panel and progress indicator to the stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, solveRoutesButton, progressIndicator);
+      StackPane.setAlignment(solveRoutesButton, Pos.TOP_LEFT);
+      StackPane.setMargin(solveRoutesButton, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       e.printStackTrace();
