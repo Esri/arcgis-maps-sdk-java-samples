@@ -89,6 +89,9 @@ public class EditAndSyncFeaturesSample extends Application {
   private Geodatabase geodatabase;
   private GeodatabaseSyncTask geodatabaseSyncTask;
   private MapView mapView;
+  private ViewpointChangedListener viewpointChangedListener;
+  private String featureServiceUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer";
+  private GraphicsOverlay graphicsOverlay;
 
   // enumeration to track editing of points
   private enum EditState {
@@ -143,44 +146,23 @@ public class EditAndSyncFeaturesSample extends Application {
       // create buttons for user interaction
       geodatabaseButton = new Button("Generate Geodatabase");
       geodatabaseButton.setMaxWidth(Double.MAX_VALUE);
+      geodatabaseButton.setDisable(true);
       syncButton = new Button("Sync Geodatabase");
       syncButton.setMaxWidth(Double.MAX_VALUE);
       syncButton.setDisable(true);
       controlsVBox.getChildren().addAll(geodatabaseButton, syncButton, progressBar);
 
       // create a graphics overlay
-      GraphicsOverlay graphicsOverlay;
       graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create a graphic (using a red line) to mark the extent of the geodatabase to be generated
-      geodatabaseExtentGraphics = new Graphic();
-      graphicsOverlay.getGraphics().add(geodatabaseExtentGraphics);
-      SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
-      geodatabaseExtentGraphics.setSymbol(boundarySymbol);
-
-      // when the draw status is completed for the first time, draw the extent of the geodatabase to be generated
-      DrawStatusChangedListener drawStatusChangedListener = new DrawStatusChangedListener() {
-        @Override
-        public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
-          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
-            updateGeodatabaseExtentEnvelope();
-            mapView.removeDrawStatusChangedListener(this);
-          }
-        }
-      };
-      mapView.addDrawStatusChangedListener(drawStatusChangedListener);
-
-      // create a listener used to update the extent of the geodatabase area when the viewpoint changes
-      ViewpointChangedListener viewpointChangedListener = viewpointChangedEvent -> updateGeodatabaseExtentEnvelope();
-
-      // add the listener to the map view, to update the extent whenever the viewpoint changes
-      mapView.addViewpointChangedListener(viewpointChangedListener);
+      monitorViewpointChanges();
 
       // create a task for generating a geodatabase
-      String featureServiceUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer";
       geodatabaseSyncTask = new GeodatabaseSyncTask(featureServiceUrl);
       geodatabaseSyncTask.loadAsync();
+
+      // show the contents of the feature service
       geodatabaseSyncTask.addDoneLoadingListener(() -> {
         if (geodatabaseSyncTask.getLoadStatus() == LoadStatus.LOADED) {
           // add all graphics from the service to the map.
@@ -191,6 +173,8 @@ public class EditAndSyncFeaturesSample extends Application {
             // create the service feature table
             ServiceFeatureTable onlineFeatureTable = new ServiceFeatureTable(onlineTableUri);
             onlineFeatureTable.loadAsync();
+
+            // add the features to the map view
             onlineFeatureTable.addDoneLoadingListener(() -> {
               // only add tables that contain point features to the map as feature layers
               if (onlineFeatureTable.getLoadStatus() == LoadStatus.LOADED && onlineFeatureTable.getGeometryType() == GeometryType.POINT) {
@@ -212,9 +196,6 @@ public class EditAndSyncFeaturesSample extends Application {
           geodatabaseButton.setDisable(true);
           geodatabaseButton.setText("Generating Geodatabase...");
 
-          // show progress indicator
-          progressIndicator.setVisible(true);
-
           // disable updating the geodatabase extent
           mapView.removeViewpointChangedListener(viewpointChangedListener);
 
@@ -223,6 +204,7 @@ public class EditAndSyncFeaturesSample extends Application {
         }
       });
 
+      // add listener to handle sync geodatabase button
       syncButton.setOnAction(e -> {
         if (currentEditState == EditState.READY){
           // sync the geodatabase
@@ -231,14 +213,8 @@ public class EditAndSyncFeaturesSample extends Application {
       });
 
       // handle clicks on the map view to select and move features
-      mapView.setOnMouseClicked((event) -> {
-
-        // return on mouse movement during click (i.e. click and drag)
-        if (!event.isStillSincePress()){
-          return;
-        }
-
-        if (event.getButton() == MouseButton.PRIMARY) {
+      mapView.setOnMouseClicked(event -> {
+        if (event.getButton() == MouseButton.PRIMARY && !event.isStillSincePress()) {
           // get screen point where user clicked
           Point2D screenPoint = new Point2D(event.getX(), event.getY());
 
@@ -315,7 +291,7 @@ public class EditAndSyncFeaturesSample extends Application {
             });
           });
 
-        } else if (event.getButton() == MouseButton.SECONDARY) {
+        } else if (event.getButton() == MouseButton.SECONDARY && !event.isStillSincePress()) {
 
           // on secondary mouse click, clear feature selection
           for (Layer layer : mapView.getMap().getOperationalLayers()) {
@@ -342,7 +318,7 @@ public class EditAndSyncFeaturesSample extends Application {
   private void generateGeodatabase() {
 
     // define geodatabase sync task
-    geodatabaseSyncTask = new GeodatabaseSyncTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer");
+    geodatabaseSyncTask = new GeodatabaseSyncTask(featureServiceUrl);
     geodatabaseSyncTask.loadAsync();
     geodatabaseSyncTask.addDoneLoadingListener(() -> {
 
@@ -366,10 +342,8 @@ public class EditAndSyncFeaturesSample extends Application {
           // show the job progress
           showJobProgress(geodatabaseJob);
 
-          // get geodatabase when done
-          geodatabaseJob.addJobDoneListener(() -> {
-            handleGenerationCompleted(geodatabaseJob);
-          });
+          // get the geodatabase when done
+          geodatabaseJob.addJobDoneListener(() -> handleGenerationCompleted(geodatabaseJob));
 
         } catch (InterruptedException | ExecutionException e) {
           displayMessage("Error generating geodatabase parameters", e.getMessage());
@@ -385,9 +359,13 @@ public class EditAndSyncFeaturesSample extends Application {
    * @param generateGeodatabaseJob
    */
   private void handleGenerationCompleted(GenerateGeodatabaseJob generateGeodatabaseJob) {
+    // check whether the geodatabase generation is complete successfully
     if (generateGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
+      // get the generated database
       geodatabase = generateGeodatabaseJob.getResult();
       geodatabase.loadAsync();
+
+      // display the contents of the geodatabase to the map
       geodatabase.addDoneLoadingListener(() -> {
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
 
@@ -435,9 +413,6 @@ public class EditAndSyncFeaturesSample extends Application {
     syncButton.setText("Syncing Geodatabase...");
     syncButton.setDisable(true);
 
-    // show progress indicator
-    progressIndicator.setVisible(true);
-
     // create parameters for the sync task
     SyncGeodatabaseParameters syncGeodatabaseParameters = new SyncGeodatabaseParameters();
     syncGeodatabaseParameters.setSyncDirection(SyncGeodatabaseParameters.SyncDirection.BIDIRECTIONAL);
@@ -454,14 +429,15 @@ public class EditAndSyncFeaturesSample extends Application {
     final SyncGeodatabaseJob syncGeodatabaseJob = geodatabaseSyncTask.syncGeodatabase(syncGeodatabaseParameters, geodatabase);
     syncGeodatabaseJob.start();
 
+    // show job progress
+    showJobProgress(syncGeodatabaseJob);
+
     // add a job done listener to the Sync Job
-    syncGeodatabaseJob.addJobDoneListener(() -> {
-      handleSyncCompleted(syncGeodatabaseJob);
-    });
+    syncGeodatabaseJob.addJobDoneListener(() -> handleSyncCompleted(syncGeodatabaseJob));
   }
 
   /**
-   *
+   * Handles the completion of the sync geodatabase job.
    * @param syncGeodatabaseJob
    */
   private void handleSyncCompleted(SyncGeodatabaseJob syncGeodatabaseJob) {
@@ -476,6 +452,33 @@ public class EditAndSyncFeaturesSample extends Application {
     } else {
       displayMessage("Database did not sync correctly!", syncGeodatabaseJob.getError().getMessage());
     }
+  }
+
+  private void monitorViewpointChanges(){
+    // create a graphic (using a red line) to mark the extent of the geodatabase to be generated
+    geodatabaseExtentGraphics = new Graphic();
+    graphicsOverlay.getGraphics().add(geodatabaseExtentGraphics);
+    SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+    geodatabaseExtentGraphics.setSymbol(boundarySymbol);
+
+    // when the draw status is completed for the first time, draw the extent of the geodatabase to be generated
+    DrawStatusChangedListener drawStatusChangedListener = new DrawStatusChangedListener() {
+      @Override
+      public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
+        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+          updateGeodatabaseExtentEnvelope();
+          mapView.removeDrawStatusChangedListener(this);
+        }
+      }
+    };
+    mapView.addDrawStatusChangedListener(drawStatusChangedListener);
+
+    // create a listener used to update the extent of the geodatabase area when the viewpoint changes
+    viewpointChangedListener = viewpointChangedEvent -> updateGeodatabaseExtentEnvelope();
+
+    // add the listener to the map view, to update the extent whenever the viewpoint changes
+    mapView.addViewpointChangedListener(viewpointChangedListener);
+
   }
 
   /**
