@@ -18,7 +18,6 @@ package com.esri.samples.editing.edit_and_sync_features;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -42,9 +41,7 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.arcgisservices.IdInfo;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -54,7 +51,6 @@ import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.layers.LayerContent;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -85,12 +81,13 @@ public class EditAndSyncFeaturesSample extends Application {
 
   private ArcGISMap map;
   private EditAndSyncFeaturesSample.EditState currentEditState = EditState.NOTREADY;
+  private Feature selectedFeature;
   private Geodatabase geodatabase;
   private GeodatabaseSyncTask geodatabaseSyncTask;
+  private GraphicsOverlay graphicsOverlay;
   private MapView mapView;
   private ViewpointChangedListener viewpointChangedListener;
   private String featureServiceUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer";
-  private GraphicsOverlay graphicsOverlay;
 
   // enumeration to track editing of points
   private enum EditState {
@@ -239,11 +236,8 @@ public class EditAndSyncFeaturesSample extends Application {
             }
           } else if (event.getButton() == MouseButton.SECONDARY && event.isStillSincePress()) {
 
-            // on secondary mouse click, clear feature selection
-            for (Layer layer : mapView.getMap().getOperationalLayers()) {
-              FeatureLayer featureLayer = (FeatureLayer) layer;
-              featureLayer.clearSelection();
-            }
+            // clear all selected features
+            clearSelectedFeature();
 
             // set the edit state to ready
             currentEditState = EditState.READY;
@@ -386,7 +380,7 @@ public class EditAndSyncFeaturesSample extends Application {
     // add a job done listener to the Sync Job
     syncGeodatabaseJob.addJobDoneListener(() -> handleSyncCompleted(syncGeodatabaseJob));
   }
-  
+
   /**
    * Shows a success message and updates the UI when a geodatabase sync job is complete.
    *
@@ -408,60 +402,31 @@ public class EditAndSyncFeaturesSample extends Application {
 
   /**
    * Queries all available feature layers for a selected feature, then moves the feature to a map point.
+   *
    * @param mapPoint the target point to which the feature is moved
    */
-  private void moveSelectedFeature(Point mapPoint){
-    // iterate through all feature layers in the map
-    mapView.getMap().getOperationalLayers().stream().filter(layer -> layer instanceof FeatureLayer).forEach(layer -> {
-      FeatureLayer featureLayer = (FeatureLayer) layer;
-      // retrieve the selected features in the feature layer
-      ListenableFuture<FeatureQueryResult> selectedQuery = featureLayer.getSelectedFeaturesAsync();
-      selectedQuery.addDoneListener(() -> {
-        try {
+  private void moveSelectedFeature(Point mapPoint) {
 
-          // get the result of the query (a set of features)
-          FeatureQueryResult selectedQueryResult = selectedQuery.get();
+    // move the selected feature to the clicked map point
+    selectedFeature.setGeometry(mapPoint);
 
-          // create an iterator from the result
-          Iterator<Feature> features = selectedQueryResult.iterator();
+    // update the feature table
+    selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
 
-          // check if there are elements in the iteration
-          if (features.hasNext()) {
+    // clear all selected features
+    clearSelectedFeature();
 
-            // retrieve the currently selected feature
-            ArcGISFeature selectedFeature = (ArcGISFeature) features.next();
-            selectedFeature.loadAsync();
-            selectedFeature.addDoneLoadingListener(() -> {
-              if (selectedFeature.canUpdateGeometry()) {
-
-                // move the selected feature to the clicked map point
-                selectedFeature.setGeometry(mapPoint);
-
-                // update the feature table
-                selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
-
-                // deselect the feature
-                featureLayer.clearSelection();
-
-                // refresh ui to enable syncing
-                currentEditState = EditState.READY;
-                syncButton.setDisable(false);
-              }
-            });
-          }
-        } catch (InterruptedException | ExecutionException e) {
-          displayMessage("Exception getting selected feature", e.getMessage());
-        }
-      });
-
-    });
+    // refresh ui to enable syncing
+    currentEditState = EditState.READY;
+    syncButton.setDisable(false);
   }
 
   /**
-   * Queries all feature layers to find features at a given screen point, and marks a feature as selected
+   * Queries all feature layers to find features at a given screen point, and marks a feature as selected.
+   *
    * @param screenPoint
    */
-  private void findAndSelectFeature(Point2D screenPoint){
+  private void findAndSelectFeature(Point2D screenPoint) {
     // query all layers for features at the clicked point
     ListenableFuture<List<IdentifyLayerResult>> identifyLayersResultFuture = mapView.identifyLayersAsync(screenPoint, 10, false);
     identifyLayersResultFuture.addDoneListener(() -> {
@@ -483,6 +448,7 @@ public class EditAndSyncFeaturesSample extends Application {
 
                 // grab the new feature and make it selected
                 ((FeatureLayer) layerContent).selectFeature((Feature) geoElement);
+                selectedFeature = (Feature) geoElement;
 
                 // change the state to editing
                 currentEditState = EditState.EDITING;
@@ -496,6 +462,17 @@ public class EditAndSyncFeaturesSample extends Application {
     });
   }
 
+  /**
+   * Iterates through all feature layers and clears any selected features.
+   */
+  private void clearSelectedFeature(){
+    mapView.getMap().getOperationalLayers().forEach(layer -> {
+      if (layer instanceof FeatureLayer) {
+        FeatureLayer featureLayer = (FeatureLayer) layer;
+        featureLayer.clearSelection();
+      }
+    });
+  }
 
   /**
    * Adds listeners to the viewpoint to capture the extent of the geodatabase to be generated.
