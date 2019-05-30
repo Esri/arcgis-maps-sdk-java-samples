@@ -29,6 +29,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
@@ -81,6 +82,7 @@ public class EditAndSyncFeaturesSample extends Application {
   private Button syncButton;
   private Graphic geodatabaseExtentGraphics;
   private ProgressIndicator progressIndicator;
+  private ProgressBar progressBar;
 
   private ArcGISMap map;
   private EditAndSyncFeaturesSample.EditState currentEditState = EditState.NOTREADY;
@@ -127,8 +129,16 @@ public class EditAndSyncFeaturesSample extends Application {
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 20);
+      controlsVBox.setMinSize(180, 100);
+      controlsVBox.setMaxSize(180, 100);
       controlsVBox.getStyleClass().add("panel-region");
+
+      // create progress bar and progress indicator
+      progressBar = new ProgressBar();
+      progressBar.setVisible(false);
+      progressBar.setMinWidth(160);
+      progressIndicator = new ProgressIndicator();
+      progressIndicator.setVisible(false);
 
       // create buttons for user interaction
       geodatabaseButton = new Button("Generate Geodatabase");
@@ -136,11 +146,7 @@ public class EditAndSyncFeaturesSample extends Application {
       syncButton = new Button("Sync Geodatabase");
       syncButton.setMaxWidth(Double.MAX_VALUE);
       syncButton.setDisable(true);
-      controlsVBox.getChildren().addAll(geodatabaseButton, syncButton);
-
-      // create progress indicator
-      progressIndicator = new ProgressIndicator();
-      progressIndicator.setVisible(false);
+      controlsVBox.getChildren().addAll(geodatabaseButton, syncButton, progressBar);
 
       // create a graphics overlay
       GraphicsOverlay graphicsOverlay;
@@ -176,29 +182,27 @@ public class EditAndSyncFeaturesSample extends Application {
       geodatabaseSyncTask = new GeodatabaseSyncTask(featureServiceUrl);
       geodatabaseSyncTask.loadAsync();
       geodatabaseSyncTask.addDoneLoadingListener(() -> {
-
-        // add all graphics from the service to the map.
-        for (IdInfo layer : geodatabaseSyncTask.getFeatureServiceInfo().getLayerInfos()) {
-          // get the URL for this particular layer
-          try {
+        if (geodatabaseSyncTask.getLoadStatus() == LoadStatus.LOADED) {
+          // add all graphics from the service to the map.
+          for (IdInfo layer : geodatabaseSyncTask.getFeatureServiceInfo().getLayerInfos()) {
+            // get the URL for this particular layer
             String onlineTableUri = featureServiceUrl + "/" + layer.getId();
 
             // create the service feature table
             ServiceFeatureTable onlineFeatureTable = new ServiceFeatureTable(onlineTableUri);
             onlineFeatureTable.loadAsync();
-            onlineFeatureTable.addDoneLoadingListener(()->{
+            onlineFeatureTable.addDoneLoadingListener(() -> {
               // only add tables that contain point features to the map as feature layers
-              if (onlineFeatureTable.getLoadStatus() == LoadStatus.LOADED && onlineFeatureTable.getGeometryType() == GeometryType.POINT){
+              if (onlineFeatureTable.getLoadStatus() == LoadStatus.LOADED && onlineFeatureTable.getGeometryType() == GeometryType.POINT) {
                 map.getOperationalLayers().add(new FeatureLayer(onlineFeatureTable));
               }
 
             });
-
-          } catch (Exception e) {
-
           }
+          geodatabaseButton.setDisable(false);
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Error initiating geodatabase task").show();
         }
-        geodatabaseButton.setDisable(false);
       });
 
       // add listener to handle generate geodatabase button
@@ -359,35 +363,12 @@ public class EditAndSyncFeaturesSample extends Application {
           GenerateGeodatabaseJob geodatabaseJob = geodatabaseSyncTask.generateGeodatabase(defaultParameters, tempFile.getAbsolutePath());
           geodatabaseJob.start();
 
+          // show the job progress
+          showJobProgress(geodatabaseJob);
+
           // get geodatabase when done
           geodatabaseJob.addJobDoneListener(() -> {
-            if (geodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
-              geodatabase = geodatabaseJob.getResult();
-              geodatabase.loadAsync();
-              geodatabase.addDoneLoadingListener(() -> {
-                if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
-
-                  // add the geodatabase FeatureTables to the map as a FeatureLayer
-                  geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> map.getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable)));
-
-                  // hide progress indicator
-                  progressIndicator.setVisible(false);
-
-                  // show success message
-                  displayMessage("Geodatabase loaded successfully", null);
-                } else {
-                  displayMessage("Error loading geodatabase", geodatabase.getLoadError().getMessage());
-                }
-                // update button text to signal we are ready to edit
-                geodatabaseButton.setText("Geodatabase Ready");
-                geodatabaseButton.setDisable(true);
-                syncButton.setDisable(false);
-              });
-            } else if (geodatabaseJob.getError() != null) {
-              displayMessage("Error generating geodatabase", geodatabaseJob.getError().getMessage());
-            } else {
-              displayMessage("Unknown Error generating geodatabase", null);
-            }
+            handleGenerationCompleted(geodatabaseJob);
           });
 
         } catch (InterruptedException | ExecutionException e) {
@@ -397,6 +378,36 @@ public class EditAndSyncFeaturesSample extends Application {
         }
       });
     });
+  }
+
+  private void handleGenerationCompleted(GenerateGeodatabaseJob generateGeodatabaseJob) {
+    if (generateGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
+      geodatabase = generateGeodatabaseJob.getResult();
+      geodatabase.loadAsync();
+      geodatabase.addDoneLoadingListener(() -> {
+        if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
+
+          // add the geodatabase FeatureTables to the map as a FeatureLayer
+          geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> map.getOperationalLayers().add(new FeatureLayer(geodatabaseFeatureTable)));
+
+          // hide progress indicator
+          progressIndicator.setVisible(false);
+
+          // show success message
+          displayMessage("Geodatabase loaded successfully", null);
+        } else {
+          displayMessage("Error loading geodatabase", geodatabase.getLoadError().getMessage());
+        }
+        // update button text to signal we are ready to edit
+        geodatabaseButton.setText("Geodatabase Ready");
+        geodatabaseButton.setDisable(true);
+        syncButton.setDisable(false);
+      });
+    } else if (generateGeodatabaseJob.getError() != null) {
+      displayMessage("Error generating geodatabase", generateGeodatabaseJob.getError().getMessage());
+    } else {
+      displayMessage("Unknown Error generating geodatabase", null);
+    }
   }
 
   /**
@@ -428,21 +439,25 @@ public class EditAndSyncFeaturesSample extends Application {
 
     // add a job done listener to the Sync Job
     syncGeodatabaseJob.addJobDoneListener(() -> {
-      if (syncGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
-
-        // hide progress indicator
-        progressIndicator.setVisible(false);
-
-        // show success message
-        displayMessage("Database Sync Complete", null);
-
-        // update button text to signal we are ready to edit
-        syncButton.setText("Sync Geodatabase");
-        syncButton.setDisable(false);
-      } else {
-        displayMessage("Database did not sync correctly!", syncGeodatabaseJob.getError().getMessage());
-      }
+      handleSyncCompleted(syncGeodatabaseJob);
     });
+  }
+
+  private void handleSyncCompleted(SyncGeodatabaseJob syncGeodatabaseJob) {
+    if (syncGeodatabaseJob.getStatus() == Job.Status.SUCCEEDED) {
+
+      // hide progress indicator
+      progressIndicator.setVisible(false);
+
+      // show success message
+      displayMessage("Database Sync Complete", null);
+
+      // update button text to signal we are ready to edit
+      syncButton.setText("Sync Geodatabase");
+      syncButton.setDisable(false);
+    } else {
+      displayMessage("Database did not sync correctly!", syncGeodatabaseJob.getError().getMessage());
+    }
   }
 
   /**
@@ -482,6 +497,30 @@ public class EditAndSyncFeaturesSample extends Application {
       dialog.setHeaderText(title);
       dialog.setContentText(message);
       dialog.showAndWait();
+  }
+
+  /**
+   * Shows the progress of a job.
+   *
+   * @param job the job of which to show the progress
+   */
+  private void showJobProgress(Job job){
+    // show the progress bar and indicator
+    progressBar.setProgress(0.0);
+    progressBar.setVisible(true);
+    progressIndicator.setVisible(true);
+
+    // update the progress bar as the job progresses
+    job.addProgressChangedListener(()->{
+      int progress = job.getProgress();
+      progressBar.setProgress((double) progress / 100.0);
+    });
+
+    // hide the progress bar and indicator when the job is finished
+    job.addJobDoneListener(()->{
+        progressBar.setVisible(false);
+        progressIndicator.setVisible(false);
+    });
   }
 
   /**
