@@ -88,15 +88,6 @@ public class RoutingAroundBarriersController {
     // add the graphics overlays to the map view
     mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
 
-    // disable the UI until ready
-    btnDetermineRoute.setDisable(true);
-    btnReset.setDisable(true);
-
-    // create route task from San Diego service
-    routeTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
-    routeTask.loadAsync();
-    setupRouteTask();
-
     // create a list of stops and a list of barriers
     stopsList = new ArrayList<>();
     barriersList = new ArrayList<>();
@@ -108,131 +99,20 @@ public class RoutingAroundBarriersController {
     barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
     routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
 
-    // listen to mouse clicks to add/remove stops or barriers
-    mapView.setOnMouseClicked(e -> {
-      // convert clicked point to a map point
-      Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
+    // disable the UI until ready
+    btnDetermineRoute.setDisable(true);
+    btnReset.setDisable(true);
 
-      // if the primary mouse button was clicked, add a stop or barrier, respectively
-      if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-        if (btnAddStop.isSelected()) {
-          addStop(mapPoint);
-        } else if (btnAddBarrier.isSelected()) {
-          addBarrier(mapPoint);
-        }
+    // create route task from San Diego service
+    routeTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
+    routeTask.loadAsync();
 
-        // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
-      } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
-        // clear the displayed route, if it exists, since it might not be up to date any more
-        routeGraphicsOverlay.getGraphics().clear();
-
-        if (btnAddStop.isSelected()) {
-          removeLastStop();
-        } else if (btnAddBarrier.isSelected()) {
-          removeLastBarrier();
-        }
-      }
-    });
-  }
-
-  /**
-   * Creates a stop at the clicked point and adds it to the list of stops.
-   *
-   * @param mapPoint The point on the map at which to create a stop
-   */
-  private void addStop(Point mapPoint) {
-    // use the clicked map point to construct a stop
-    Stop stopPoint = new Stop(new Point(mapPoint.getX(), mapPoint.getY(), mapPoint.getSpatialReference()));
-
-    // add the new stop to the list of stops
-    stopsList.add(stopPoint);
-
-    // create a marker symbol and graphics, and add the graphics to the graphics overlay
-    CompositeSymbol newStopSymbol = createCompositeStopSymbol(stopsList.size());
-    Graphic stopGraphic = new Graphic(mapPoint, newStopSymbol);
-    stopsGraphicsOverlay.getGraphics().add(stopGraphic);
-  }
-
-  /**
-   * Builds a composite symbol out of a pin symbol and a text symbol marking the stop number.
-   *
-   * @param stopNumber The number of the current stop being added
-   * @return A composite symbol to mark the current stop
-   */
-  private CompositeSymbol createCompositeStopSymbol(Integer stopNumber) {
-    // create a marker with a pin image and position it
-    Image pinImage = new Image(getClass().getResourceAsStream("/symbols/orange_symbol.png"), 0, 40, true, true);
-    PictureMarkerSymbol pinSymbol = new PictureMarkerSymbol(pinImage);
-    pinSymbol.setOffsetY(20);
-    pinSymbol.loadAsync();
-
-    // determine the stop number and create a new label
-    String stopNumberText = ((stopNumber).toString());
-    TextSymbol stopTextSymbol = new TextSymbol(16, stopNumberText, 0xFFFFFFFF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
-    stopTextSymbol.setOffsetY((float) pinImage.getHeight() / 2);
-
-    // construct a composite symbol out of the pin and text symbols, and return it
-    return new CompositeSymbol(Arrays.asList(pinSymbol, stopTextSymbol));
-  }
-
-  /**
-   * Creates a barrier at the clicked point and adds it to the list of barriers.
-   *
-   * @param mapPoint The point on the map at which to create a barrier
-   */
-  private void addBarrier(Point mapPoint) {
-    // clear the displayed route, if it exists, since it might not be up to date any more
-    routeGraphicsOverlay.getGraphics().clear();
-
-    // create a buffered polygon around the mapPoint
-    Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
-
-    // create a polygon barrier for the routing task
-    PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
-    barriersList.add(barrier);
-
-    // build graphics for the barrier and add it to the graphics overlay
-    Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
-    barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
-  }
-
-  /**
-   * Removes the last stop from the view and from the list of stops used in the routing task.
-   */
-  private void removeLastStop() {
-    // check if there are stops to remove
-    if (!stopsList.isEmpty()) {
-
-      // remove the last stop from the stop list and the graphics overlay
-      stopsList.remove(stopsList.size() - 1);
-      stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
-    }
-  }
-
-  /**
-   * Removes the last barrier from the view and from the list of barriers used in the routing task.
-   */
-  private void removeLastBarrier() {
-    // check if there are barriers to remove
-    if (!barriersList.isEmpty()) {
-
-      // remove the last barrier from the barrier list and the graphics overlay
-      barriersList.remove(barriersList.size() - 1);
-      barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
-    }
-  }
-
-  /**
-   * Creates a route task from a web service and creates route task parameters.
-   */
-  private void setupRouteTask() {
     // wait for the route task to load
     routeTask.addDoneLoadingListener(() -> {
       if (routeTask.getLoadStatus() == LoadStatus.LOADED) {
         // get default route parameters
         final ListenableFuture<RouteParameters> routeParametersFuture = routeTask.createDefaultParametersAsync();
         routeParametersFuture.addDoneListener(() -> {
-
           try {
             routeParameters = routeParametersFuture.get();
 
@@ -252,6 +132,66 @@ public class RoutingAroundBarriersController {
         new Alert(Alert.AlertType.ERROR, "Unable to load RouteTask " + routeTask.getLoadStatus().toString()).show();
       }
     });
+
+    // listen to mouse clicks to add/remove stops or barriers
+    mapView.setOnMouseClicked(e -> {
+      // convert clicked point to a map point
+      Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
+
+      // if the primary mouse button was clicked, add a stop or barrier, respectively
+      if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+        if (btnAddStop.isSelected()) {
+          // use the clicked map point to construct a stop
+          Stop stopPoint = new Stop(new Point(mapPoint.getX(), mapPoint.getY(), mapPoint.getSpatialReference()));
+
+          // add the new stop to the list of stops
+          stopsList.add(stopPoint);
+
+          // create a marker symbol and graphics, and add the graphics to the graphics overlay
+          CompositeSymbol newStopSymbol = createCompositeStopSymbol(stopsList.size());
+          Graphic stopGraphic = new Graphic(mapPoint, newStopSymbol);
+          stopsGraphicsOverlay.getGraphics().add(stopGraphic);
+
+        } else if (btnAddBarrier.isSelected()) {
+          // clear the displayed route, if it exists, since it might not be up to date any more
+          routeGraphicsOverlay.getGraphics().clear();
+
+          // create a buffered polygon around the mapPoint
+          Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
+
+          // create a polygon barrier for the routing task
+          PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
+          barriersList.add(barrier);
+
+          // build graphics for the barrier and add it to the graphics overlay
+          Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
+          barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
+        }
+
+        // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
+      } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
+        // clear the displayed route, if it exists, since it might not be up to date any more
+        routeGraphicsOverlay.getGraphics().clear();
+
+        if (btnAddStop.isSelected()) {
+          // check if there are stops to remove
+          if (!stopsList.isEmpty()) {
+
+            // remove the last stop from the stop list and the graphics overlay
+            stopsList.remove(stopsList.size() - 1);
+            stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
+          }
+        } else if (btnAddBarrier.isSelected()) {
+          // check if there are barriers to remove
+          if (!barriersList.isEmpty()) {
+
+            // remove the last barrier from the barrier list and the graphics overlay
+            barriersList.remove(barriersList.size() - 1);
+            barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
+          }
+        }
+      }
+    });
   }
 
   /**
@@ -268,7 +208,9 @@ public class RoutingAroundBarriersController {
       routeParameters.setPolygonBarriers(barriersList);
 
       // apply the requested route finding parameters
-      checkAndApplyRouteOptions();
+      routeParameters.setFindBestSequence(findBestSequenceCheckBox.isSelected());
+      routeParameters.setPreserveFirstStop(preserveFirstStopCheckBox.isSelected());
+      routeParameters.setPreserveLastStop(preserveLastStopCheckBox.isSelected());
 
       // solve the route task
       final ListenableFuture<RouteResult> routeResultFuture = routeTask.solveRouteAsync(routeParameters);
@@ -286,8 +228,16 @@ public class RoutingAroundBarriersController {
             Graphic routeGraphic = new Graphic(routeGeometry, routeLineSymbol);
             routeGraphicsOverlay.getGraphics().add(routeGraphic);
 
-            // update the route information on the TitlePanel of the Accordion
-            updateRouteInformation(firstRoute);
+            // retrieve route travel time, rounded to the nearest minute
+            String routeTravelTime = ((Long) Math.round(firstRoute.getTravelTime())).toString();
+
+            // retrieve route length (m), convert to km, and round to two decimal points
+            double routeLengthKm = firstRoute.getTotalLength() / 1000;
+            double routeLengthKmRounded = Math.round(routeLengthKm * 100d) / 100d;
+
+            // set the title of the TitledPane to display the information
+            String output = String.format("Route directions: %s min (%s mi)", routeTravelTime, routeLengthKmRounded);
+            routeInformationTitledPane.setText(output);
 
             // get the direction text for each maneuver and add them to the list to display
             for (DirectionManeuver maneuver : firstRoute.getDirectionManeuvers()) {
@@ -309,48 +259,7 @@ public class RoutingAroundBarriersController {
       new Alert(Alert.AlertType.ERROR, "Cannot run the routing task, a minimum of two stops is required").show();
     }
   }
-
-  /**
-   * Checks the status of the route options checkboxes and applies the parameters accordingly.
-   */
-  private void checkAndApplyRouteOptions() {
-    // update the route parameters according to the checkboxes ticked
-    routeParameters.setFindBestSequence(findBestSequenceCheckBox.isSelected());
-    routeParameters.setPreserveFirstStop(preserveFirstStopCheckBox.isSelected());
-    routeParameters.setPreserveLastStop(preserveLastStopCheckBox.isSelected());
-  }
-
-  /**
-   * Toggles and resets the preserve stops checkboxes.
-   */
-  @FXML
-  private void togglePreserveStopsCheckBoxes() {
-    // un-tick and disable the second-tier checkboxes
-    preserveFirstStopCheckBox.setSelected(false);
-    preserveFirstStopCheckBox.setDisable(!preserveFirstStopCheckBox.isDisabled());
-    preserveLastStopCheckBox.setSelected(false);
-    preserveLastStopCheckBox.setDisable(!preserveLastStopCheckBox.isDisabled());
-  }
-
-  /**
-   * Retrieves the route information and updates the TitlePanel of the accordion box.
-   *
-   * @param route  the route of which to retrieve the information
-   */
-  private void updateRouteInformation(Route route) {
-
-    // retrieve route travel time, rounded to the nearest minute
-    String routeTravelTime = ((Long) Math.round(route.getTravelTime())).toString();
-
-    // retrieve route length (m), convert to km, and round to two decimal points
-    double routeLengthKm = route.getTotalLength() / 1000;
-    double routeLengthKmRounded = Math.round(routeLengthKm * 100d) / 100d;
-
-    // set the title of the TitledPane to display the information
-    String output = String.format("Route directions: %s min (%s mi)", routeTravelTime, routeLengthKmRounded);
-    routeInformationTitledPane.setText(output);
-  }
-
+  
   /**
    * Clears stops and barriers from the route parameters, clears direction list and graphics overlays.
    */
@@ -376,6 +285,40 @@ public class RoutingAroundBarriersController {
     // enable/disable buttons
     btnDetermineRoute.setDisable(false);
     btnReset.setDisable(true);
+  }
+
+  /**
+   * Builds a composite symbol out of a pin symbol and a text symbol marking the stop number.
+   *
+   * @param stopNumber The number of the current stop being added
+   * @return A composite symbol to mark the current stop
+   */
+  private CompositeSymbol createCompositeStopSymbol(Integer stopNumber) {
+    // create a marker with a pin image and position it
+    Image pinImage = new Image(getClass().getResourceAsStream("/symbols/orange_symbol.png"), 0, 40, true, true);
+    PictureMarkerSymbol pinSymbol = new PictureMarkerSymbol(pinImage);
+    pinSymbol.setOffsetY(20);
+    pinSymbol.loadAsync();
+
+    // determine the stop number and create a new label
+    String stopNumberText = ((stopNumber).toString());
+    TextSymbol stopTextSymbol = new TextSymbol(16, stopNumberText, 0xFFFFFFFF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
+    stopTextSymbol.setOffsetY((float) pinImage.getHeight() / 2);
+
+    // construct a composite symbol out of the pin and text symbols, and return it
+    return new CompositeSymbol(Arrays.asList(pinSymbol, stopTextSymbol));
+  }
+
+  /**
+   * Toggles and resets the preserve stops checkboxes.
+   */
+  @FXML
+  private void togglePreserveStopsCheckBoxes() {
+    // un-tick and disable the second-tier checkboxes
+    preserveFirstStopCheckBox.setSelected(false);
+    preserveFirstStopCheckBox.setDisable(!preserveFirstStopCheckBox.isDisabled());
+    preserveLastStopCheckBox.setSelected(false);
+    preserveLastStopCheckBox.setDisable(!preserveLastStopCheckBox.isDisabled());
   }
 
   /**
