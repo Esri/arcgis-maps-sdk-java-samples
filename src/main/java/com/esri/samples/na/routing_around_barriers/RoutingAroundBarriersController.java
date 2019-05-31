@@ -56,6 +56,9 @@ public class RoutingAroundBarriersController {
   private GraphicsOverlay routeGraphicsOverlay;
   // for displaying barriers to the mapview
   private GraphicsOverlay barriersGraphicsOverlay;
+  // symbol for marking barriers and routes
+  private SimpleFillSymbol barrierSymbol;
+  private SimpleLineSymbol routeLineSymbol;
   // task to find route between stops
   private RouteTask routeTask;
   // used for solving task above
@@ -88,6 +91,10 @@ public class RoutingAroundBarriersController {
 
     // initialize the TitlePane of the Accordion box
     routeInformationTitledPane.setText("No route to display");
+
+    // create symbols for displaying the barriers and the route line
+    barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
+    routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
 
     // listen to mouse clicks to add/remove stops or barriers
     mapView.setOnMouseClicked(e -> {
@@ -170,9 +177,6 @@ public class RoutingAroundBarriersController {
     // create a polygon barrier for the routing task
     PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
     barriersList.add(barrier);
-
-    // create a symbol for the barrier
-    SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
 
     // build graphics for the barrier and add it to the graphics overlay
     Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
@@ -265,9 +269,6 @@ public class RoutingAroundBarriersController {
 
             // create a geometry for this route
             Geometry routeGeometry = firstRoute.getRouteGeometry();
-
-            // create symbol used to display the route
-            SimpleLineSymbol routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
 
             // create a graphic for the route and add it to the graphics overlay
             Graphic routeGraphic = new Graphic(routeGeometry, routeLineSymbol);
