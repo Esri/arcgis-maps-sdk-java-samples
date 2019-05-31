@@ -125,6 +125,7 @@ public class RoutingAroundBarriersController {
       } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
         // clear the displayed route, if it exists, since it might not be up to date any more
         routeGraphicsOverlay.getGraphics().clear();
+
         if (btnAddStop.isSelected()) {
           removeLastStop();
         } else if (btnAddBarrier.isSelected()) {
