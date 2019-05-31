@@ -259,7 +259,7 @@ public class RoutingAroundBarriersController {
       new Alert(Alert.AlertType.ERROR, "Cannot run the routing task, a minimum of two stops is required").show();
     }
   }
-  
+
   /**
    * Clears stops and barriers from the route parameters, clears direction list and graphics overlays.
    */
