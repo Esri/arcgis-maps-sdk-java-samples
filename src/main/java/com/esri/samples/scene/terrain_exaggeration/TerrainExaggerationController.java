@@ -51,13 +51,6 @@ public class TerrainExaggerationController {
       surface.getElevationSources().add(new ArcGISTiledElevationSource(elevationImageService));
       scene.setBaseSurface(surface);
 
-      // set exaggeration of surface to the value the user selected
-      exaggerationSlider.valueChangingProperty().addListener(o -> {
-        if (!exaggerationSlider.isValueChanging()) {
-          changeElevationExaggeration();
-        }
-      });
-
       // add a camera and initial camera position
       Point initialLocation = new Point(-119.94891542688772, 46.75792111605992, 0, sceneView.getSpatialReference());
       Camera camera = new Camera(initialLocation, 15000.0, 40.0, 60.0, 0.0);
@@ -68,12 +61,12 @@ public class TerrainExaggerationController {
       e.printStackTrace();
     }
   }
-
-  @FXML
+  
   /**
    * Sets the elevation exaggeration to the float chosen via the JavaFX slider.
    */
-  private void changeElevationExaggeration(){
+  @FXML
+  private void changeElevationExaggeration() {
     surface.setElevationExaggeration((float) exaggerationSlider.getValue());
   }
 
