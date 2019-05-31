@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
@@ -44,6 +45,8 @@ public class RoutingAroundBarriersController {
   @FXML private MapView mapView;
   @FXML private ToggleButton btnAddStop;
   @FXML private ToggleButton btnAddBarrier;
+  @FXML private Button btnDetermineRoute;
+  @FXML private Button btnReset;
   @FXML private CheckBox findBestSequenceCheckBox;
   @FXML private CheckBox preserveFirstStopCheckBox;
   @FXML private CheckBox preserveLastStopCheckBox;
@@ -85,9 +88,14 @@ public class RoutingAroundBarriersController {
     // add the graphics overlays to the map view
     mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
 
+    // disable the UI until ready
+    btnDetermineRoute.setDisable(true);
+    btnReset.setDisable(true);
+
     // create route task from San Diego service
     routeTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
     routeTask.loadAsync();
+    setupRouteTask();
 
     // create a list of stops and a list of barriers
     stopsList = new ArrayList<>();
@@ -216,7 +224,6 @@ public class RoutingAroundBarriersController {
   /**
    * Creates a route task from a web service and creates route task parameters.
    */
-  @FXML
   private void setupRouteTask() {
     // wait for the route task to load
     routeTask.addDoneLoadingListener(() -> {
@@ -232,12 +239,13 @@ public class RoutingAroundBarriersController {
             routeParameters.setReturnStops(true);
             routeParameters.setReturnDirections(true);
 
+            // enable the UI
+            btnDetermineRoute.setDisable(false);
+
           } catch (InterruptedException | ExecutionException e) {
             new Alert(Alert.AlertType.ERROR, "Cannot create RouteTask parameters " + e.getMessage()).show();
           }
         });
-        // solve the route task and display it
-        createRouteAndDisplay();
 
       } else {
         new Alert(Alert.AlertType.ERROR, "Unable to load RouteTask " + routeTask.getLoadStatus().toString()).show();
@@ -248,6 +256,7 @@ public class RoutingAroundBarriersController {
   /**
    * Uses the route task with the lists of stops and barriers to determine the route and display it.
    */
+  @FXML
   private void createRouteAndDisplay() {
     if (stopsList.size() >= 2) {
       // clear the previous route from the graphics overlay, if it exists
@@ -283,6 +292,9 @@ public class RoutingAroundBarriersController {
             for (DirectionManeuver maneuver : firstRoute.getDirectionManeuvers()) {
               directionsList.getItems().add(maneuver.getDirectionText());
             }
+
+            // enable the reset button
+            btnReset.setDisable(false);
 
           } else {
             new Alert(Alert.AlertType.ERROR, "No possible routes found").show();
@@ -359,6 +371,10 @@ public class RoutingAroundBarriersController {
 
     // clear all graphics overlays
     mapView.getGraphicsOverlays().forEach(graphicsOverlay -> graphicsOverlay.getGraphics().clear());
+
+    // enable/disable buttons
+    btnDetermineRoute.setDisable(false);
+    btnReset.setDisable(true);
   }
 
   /**

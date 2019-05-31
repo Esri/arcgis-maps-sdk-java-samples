@@ -82,8 +82,8 @@
       <Separator/>
 
       <!--      Action Buttons-->
-      <Button text="Determine Route" onAction="#setupRouteTask" maxWidth="Infinity"/>
-      <Button text="Reset" onAction="#clearRouteAndGraphics" maxWidth="Infinity"/>
+      <Button fx:id="btnDetermineRoute" text="Determine Route" onAction="#createRouteAndDisplay" maxWidth="Infinity"/>
+      <Button fx:id="btnReset" text="Reset" onAction="#clearRouteAndGraphics" maxWidth="Infinity"/>
 
     </VBox>
 
