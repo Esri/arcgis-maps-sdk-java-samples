@@ -85,6 +85,10 @@ public class RoutingAroundBarriersController {
     // add the graphics overlays to the map view
     mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
 
+    // create route task from San Diego service
+    routeTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
+    routeTask.loadAsync();
+
     // create a list of stops and a list of barriers
     stopsList = new ArrayList<>();
     barriersList = new ArrayList<>();
@@ -214,9 +218,7 @@ public class RoutingAroundBarriersController {
    */
   @FXML
   private void setupRouteTask() {
-    // create route task from San Diego service
-    routeTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
-    routeTask.loadAsync();
+    // wait for the route task to load
     routeTask.addDoneLoadingListener(() -> {
       if (routeTask.getLoadStatus() == LoadStatus.LOADED) {
         // get default route parameters
