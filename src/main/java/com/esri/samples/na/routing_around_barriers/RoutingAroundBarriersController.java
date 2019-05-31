@@ -53,14 +53,9 @@ public class RoutingAroundBarriersController {
   @FXML private ListView<String> directionsList;
   @FXML private TitledPane routeInformationTitledPane;
 
-  // for displaying stops to the mapview
-  private GraphicsOverlay stopsGraphicsOverlay;
   // for displaying the route to the mapview
   private GraphicsOverlay routeGraphicsOverlay;
-  // for displaying barriers to the mapview
-  private GraphicsOverlay barriersGraphicsOverlay;
-  // symbol for marking barriers and routes
-  private SimpleFillSymbol barrierSymbol;
+  // symbol for marking routes
   private SimpleLineSymbol routeLineSymbol;
   // task to find route between stops
   private RouteTask routeTask;
@@ -81,8 +76,8 @@ public class RoutingAroundBarriersController {
     mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
     // create graphics overlays for stops, barriers and route
-    stopsGraphicsOverlay = new GraphicsOverlay();
-    barriersGraphicsOverlay = new GraphicsOverlay();
+    GraphicsOverlay stopsGraphicsOverlay = new GraphicsOverlay();
+    GraphicsOverlay barriersGraphicsOverlay = new GraphicsOverlay();
     routeGraphicsOverlay = new GraphicsOverlay();
 
     // add the graphics overlays to the map view
@@ -96,7 +91,7 @@ public class RoutingAroundBarriersController {
     routeInformationTitledPane.setText("No route to display");
 
     // create symbols for displaying the barriers and the route line
-    barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
+    SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
     routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
 
     // disable the UI until ready
