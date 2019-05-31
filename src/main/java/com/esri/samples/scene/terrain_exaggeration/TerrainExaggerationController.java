@@ -1,12 +1,12 @@
 /*
  * Copyright 2017 Esri.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -31,6 +31,7 @@ public class TerrainExaggerationController {
 
   @FXML private SceneView sceneView;
   @FXML private Slider exaggerationSlider;
+  private Surface surface;
 
   public void initialize() {
 
@@ -44,18 +45,12 @@ public class TerrainExaggerationController {
       sceneView.setArcGISScene(scene);
 
       // add base surface for elevation data
-      Surface surface = new Surface();
+      surface = new Surface();
       final String elevationImageService =
-          "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
+              "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
       surface.getElevationSources().add(new ArcGISTiledElevationSource(elevationImageService));
       scene.setBaseSurface(surface);
 
-      // set exaggeration of surface to the value the user selected
-      exaggerationSlider.valueChangingProperty().addListener(o -> {
-        if (!exaggerationSlider.isValueChanging()) {
-          surface.setElevationExaggeration((float) exaggerationSlider.getValue());
-        }
-      });
       // add a camera and initial camera position
       Point initialLocation = new Point(-119.94891542688772, 46.75792111605992, 0, sceneView.getSpatialReference());
       Camera camera = new Camera(initialLocation, 15000.0, 40.0, 60.0, 0.0);
@@ -65,6 +60,14 @@ public class TerrainExaggerationController {
       // on any exception, print the stack trace
       e.printStackTrace();
     }
+  }
+  
+  /**
+   * Sets the elevation exaggeration to the float chosen via the JavaFX slider.
+   */
+  @FXML
+  private void changeElevationExaggeration() {
+    surface.setElevationExaggeration((float) exaggerationSlider.getValue());
   }
 
   /**
