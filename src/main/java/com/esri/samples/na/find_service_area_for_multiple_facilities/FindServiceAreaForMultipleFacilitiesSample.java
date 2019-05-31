@@ -1,4 +1,4 @@
-package com.esri.samples.na.find_service_area_for_facilities;
+package com.esri.samples.na.find_service_area_for_multiple_facilities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +45,7 @@ import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygonDetail;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 
-public class FindServiceAreaForFacilitiesSample extends Application {
+public class FindServiceAreaForMultipleFacilitiesSample extends Application {
 
   private MapView mapView;
 
@@ -73,14 +73,8 @@ public class FindServiceAreaForFacilitiesSample extends Application {
 
     // create buttons
     Button findServiceAreasButton = new Button("Find Service Areas");
-    findServiceAreasButton.setMaxWidth(Double.MAX_VALUE);
+    findServiceAreasButton.setMaxWidth(150);
     findServiceAreasButton.setDisable(true);
-    Button resetButton = new Button("Reset");
-    resetButton.setMaxWidth(Double.MAX_VALUE);
-    resetButton.setDisable(true);
-
-    // add the buttons to the control panel
-    controlsVBox.getChildren().addAll(findServiceAreasButton, resetButton);
 
     // create a progress indicator
     ProgressIndicator progressIndicator = new ProgressIndicator();
@@ -191,9 +185,6 @@ public class FindServiceAreaForFacilitiesSample extends Application {
                     }
                   }
 
-                  // enable the reset button
-                  resetButton.setDisable(false);
-
                 } catch (ExecutionException | InterruptedException e) {
                   new Alert(Alert.AlertType.ERROR, "Error solving the service area task").show();
                 }
@@ -205,26 +196,14 @@ public class FindServiceAreaForFacilitiesSample extends Application {
               e.printStackTrace();
             }
           });
-
         });
       }
-      // resolve 'reset button click'
-      resetButton.setOnAction(event -> {
-        // clear the graphics overlays
-        facilitiesGraphicsOverlay.getGraphics().clear();
-        serviceAreasGraphicsOverlay.getGraphics().clear();
-
-        // toggle the buttons
-        findServiceAreasButton.setDisable(false);
-        resetButton.setDisable(true);
-      });
-
     });
 
     // add the map view, control panel and progress indicator to stack pane
-    stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
-    StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-    StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+    stackPane.getChildren().addAll(mapView, findServiceAreasButton, progressIndicator);
+    StackPane.setAlignment(findServiceAreasButton, Pos.TOP_LEFT);
+    StackPane.setMargin(findServiceAreasButton, new Insets(10, 0, 0, 10));
   }
 
   /**
