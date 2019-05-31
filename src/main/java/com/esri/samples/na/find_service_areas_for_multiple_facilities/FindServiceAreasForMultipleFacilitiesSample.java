@@ -1,8 +1,7 @@
-package com.esri.samples.na.find_service_area_for_multiple_facilities;
+package com.esri.samples.na.find_service_areas_for_multiple_facilities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -45,7 +44,7 @@ import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygonDetail;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 
-public class FindServiceAreaForMultipleFacilitiesSample extends Application {
+public class FindServiceAreasForMultipleFacilitiesSample extends Application {
 
   private MapView mapView;
 
@@ -154,8 +153,8 @@ public class FindServiceAreaForMultipleFacilitiesSample extends Application {
               // set the task parameters to have the task result return polygons
               serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
               serviceAreaParameters.setReturnPolygons(true);
-              // add another service area of 2 minutes (default service area is 5 minutes)
-              serviceAreaParameters.getDefaultImpedanceCutoffs().addAll(Collections.singletonList(2.0));
+              // change the service area to 2 minutes (default service area is 5 minutes)
+              serviceAreaParameters.getDefaultImpedanceCutoffs().set(0, 3.0);
 
               // create query parameters used to select all facilities from the feature table
               QueryParameters queryParameters = new QueryParameters();
