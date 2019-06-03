@@ -41,7 +41,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
-import com.esri.arcgisruntime.symbology.MultilayerSymbol;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
@@ -61,9 +60,8 @@ public class ReadSymbolsFromMobileStyleFileController {
   private ComboBox mouthOptions = new ComboBox();
 
   private GraphicsOverlay graphicsOverlay;
-  private MultilayerSymbol currentMultilayerSymbol;
+  private Symbol currentSymbol;
   private SymbolStyle emojiStyle;
-  private ArrayList<String> symbolKeys = new ArrayList<>();
 
   @FXML
   public void initialize() {
@@ -85,24 +83,16 @@ public class ReadSymbolsFromMobileStyleFileController {
       Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
       // create a new graphic with the point and symbol
-      Graphic graphic = new Graphic(mapPoint, currentMultilayerSymbol);
+      Graphic graphic = new Graphic(mapPoint, currentSymbol);
       graphicsOverlay.getGraphics().add(graphic);
 
     });
 
-    ChangeListener comboBoxChangeListener = new ChangeListener() {
-      @Override
-      public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-        System.out.println("observable:" + observable);
-        System.out.println("oldValue:" + oldValue);
-        System.out.println("newValue:" + newValue);
-        buildCompositeSymbol();
-      }
-    };
+    ChangeListener comboBoxChangeListener = (ObservableValue observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
 
-      eyesOptions.valueProperty().addListener(comboBoxChangeListener);
-      hatOptions.valueProperty().addListener(comboBoxChangeListener);
-      mouthOptions.valueProperty().addListener(comboBoxChangeListener);
+    eyesOptions.valueProperty().addListener(comboBoxChangeListener);
+    hatOptions.valueProperty().addListener(comboBoxChangeListener);
+    mouthOptions.valueProperty().addListener(comboBoxChangeListener);
 
   }
 
@@ -177,12 +167,17 @@ public class ReadSymbolsFromMobileStyleFileController {
                         break;
                     }
 
+
+
                   } catch (InterruptedException | ExecutionException e){
 
                   }
                 });
 
               }
+
+              // create the symbol preview
+              buildCompositeSymbol();
 
             } catch (InterruptedException | ExecutionException e) {
               new Alert(Alert.AlertType.ERROR, "Error performing the symbol search"+ e.getMessage()).show();
@@ -197,14 +192,17 @@ public class ReadSymbolsFromMobileStyleFileController {
 
   private void buildCompositeSymbol(){
 
+    // remove the previously displayed image view
+    symbolPreview.getChildren().clear();
+
     SymbolLayerInfo requestedHat = (SymbolLayerInfo) hatOptions.getSelectionModel().getSelectedItem();
-    String hatKey = requestedHat.getKey();
+    String hatKey = requestedHat != null ? requestedHat.getKey() : "";
 
     SymbolLayerInfo requestedEyes = (SymbolLayerInfo) eyesOptions.getSelectionModel().getSelectedItem();
-    String eyesKey = requestedEyes.getKey();
+    String eyesKey = requestedEyes != null ? requestedEyes.getKey() : "";
 
     SymbolLayerInfo requestedMouth = (SymbolLayerInfo) mouthOptions.getSelectionModel().getSelectedItem();
-    String mouthKey = requestedMouth.getKey();
+    String mouthKey = requestedMouth != null ? requestedMouth.getKey() : "";
 
     List<String> symbolKeys = Arrays.asList("Face1",eyesKey, mouthKey, hatKey);
 
@@ -213,11 +211,12 @@ public class ReadSymbolsFromMobileStyleFileController {
       try {
         Symbol compositeSymbol = symbolListenableFuture.get();
 
-
         ListenableFuture<Image> symbolImageFuture = compositeSymbol.createSwatchAsync(0x00000000, 1);
         Image symbolImage = symbolImageFuture.get();
         ImageView symbolImageView = new ImageView(symbolImage);
         symbolPreview.getChildren().add(symbolImageView);
+
+        currentSymbol = compositeSymbol;
 
       } catch (ExecutionException | InterruptedException e){
 
