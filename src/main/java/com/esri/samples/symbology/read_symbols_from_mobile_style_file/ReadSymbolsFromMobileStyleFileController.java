@@ -17,13 +17,17 @@
 package com.esri.samples.symbology.read_symbols_from_mobile_style_file;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -38,6 +42,7 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
 import com.esri.arcgisruntime.symbology.MultilayerSymbol;
+import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
@@ -49,11 +54,11 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private HBox symbolPreview = new HBox();
   @FXML
-  private HBox hatsContainer = new HBox();
+  private ComboBox hatOptions = new ComboBox();
   @FXML
-  private HBox eyesContainer = new HBox();
+  private ComboBox eyesOptions = new ComboBox();
   @FXML
-  private HBox mouthsContainer = new HBox();
+  private ComboBox mouthOptions = new ComboBox();
 
   private GraphicsOverlay graphicsOverlay;
   private MultilayerSymbol currentMultilayerSymbol;
@@ -84,6 +89,20 @@ public class ReadSymbolsFromMobileStyleFileController {
       graphicsOverlay.getGraphics().add(graphic);
 
     });
+
+    ChangeListener comboBoxChangeListener = new ChangeListener() {
+      @Override
+      public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+        System.out.println("observable:" + observable);
+        System.out.println("oldValue:" + oldValue);
+        System.out.println("newValue:" + newValue);
+        buildCompositeSymbol();
+      }
+    };
+
+      eyesOptions.valueProperty().addListener(comboBoxChangeListener);
+      hatOptions.valueProperty().addListener(comboBoxChangeListener);
+      mouthOptions.valueProperty().addListener(comboBoxChangeListener);
 
   }
 
@@ -144,17 +163,17 @@ public class ReadSymbolsFromMobileStyleFileController {
                       case "eyes":
                         eyeSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
-                        eyesContainer.getChildren().add(symbolLayerInfo.getImagePreview());
+                        eyesOptions.getItems().add(symbolLayerInfo);
                         break;
                       case "mouth":
                         mouthSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
-                        mouthsContainer.getChildren().add(symbolLayerInfo.getImagePreview());
+                        mouthOptions.getItems().add(symbolLayerInfo);
                         break;
                       case "hat":
                         hatSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
-                        hatsContainer.getChildren().add(symbolLayerInfo.getImagePreview());
+                        hatOptions.getItems().add(symbolLayerInfo);
                         break;
                     }
 
@@ -175,6 +194,37 @@ public class ReadSymbolsFromMobileStyleFileController {
       });
     });
   }
+
+  private void buildCompositeSymbol(){
+
+    SymbolLayerInfo requestedHat = (SymbolLayerInfo) hatOptions.getSelectionModel().getSelectedItem();
+    String hatKey = requestedHat.getKey();
+
+    SymbolLayerInfo requestedEyes = (SymbolLayerInfo) eyesOptions.getSelectionModel().getSelectedItem();
+    String eyesKey = requestedEyes.getKey();
+
+    SymbolLayerInfo requestedMouth = (SymbolLayerInfo) mouthOptions.getSelectionModel().getSelectedItem();
+    String mouthKey = requestedMouth.getKey();
+
+    List<String> symbolKeys = Arrays.asList("Face1",eyesKey, mouthKey, hatKey);
+
+    ListenableFuture<Symbol> symbolListenableFuture = emojiStyle.getSymbolAsync(symbolKeys);
+    symbolListenableFuture.addDoneListener(()->{
+      try {
+        Symbol compositeSymbol = symbolListenableFuture.get();
+
+
+        ListenableFuture<Image> symbolImageFuture = compositeSymbol.createSwatchAsync(0x00000000, 1);
+        Image symbolImage = symbolImageFuture.get();
+        ImageView symbolImageView = new ImageView(symbolImage);
+        symbolPreview.getChildren().add(symbolImageView);
+
+      } catch (ExecutionException | InterruptedException e){
+
+      }
+    });
+  }
+
 
   // a class used to store the information about a symbol layer
   private class SymbolLayerInfo
