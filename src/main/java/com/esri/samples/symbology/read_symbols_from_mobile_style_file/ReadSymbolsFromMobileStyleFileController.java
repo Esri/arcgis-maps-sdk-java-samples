@@ -17,12 +17,16 @@
 package com.esri.samples.symbology.read_symbols_from_mobile_style_file;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
@@ -34,7 +38,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
 import com.esri.arcgisruntime.symbology.MultilayerSymbol;
-import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
@@ -43,14 +46,19 @@ public class ReadSymbolsFromMobileStyleFileController {
 
   @FXML
   private MapView mapView = new MapView();
+  @FXML
+  private HBox symbolPreview = new HBox();
+  @FXML
+  private HBox hatsContainer = new HBox();
+  @FXML
+  private HBox eyesContainer = new HBox();
+  @FXML
+  private HBox mouthsContainer = new HBox();
+
   private GraphicsOverlay graphicsOverlay;
   private MultilayerSymbol currentMultilayerSymbol;
   private SymbolStyle emojiStyle;
   private ArrayList<String> symbolKeys = new ArrayList<>();
-  private String faceSymbolKey;
-  private String hatSymbolKey;
-  private String eyesSymbolKey;
-  private String mouthSymbolKey;
 
   @FXML
   public void initialize() {
@@ -63,9 +71,6 @@ public class ReadSymbolsFromMobileStyleFileController {
     // create a graphics overlay and add it to the map
     graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
-
-    symbolKeys = new ArrayList<>();
-
 
     loadSymbolsFromStyleFile();
 
@@ -91,7 +96,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     emojiStyle = new SymbolStyle("./samples-data/stylx/emoji-mobile.stylx");
     emojiStyle.loadAsync();
 
-    // add a listener to run when the SymbolStyle has loaded
+    // add a listener to run when the symbol style has loaded
     emojiStyle.addDoneLoadingListener(() -> {
       if (emojiStyle.getLoadStatus() == LoadStatus.FAILED_TO_LOAD){
         new Alert(Alert.AlertType.ERROR, "Error: could not load .stylx file. Details: "+ emojiStyle.getLoadError().getMessage()).show();
@@ -108,29 +113,57 @@ public class ReadSymbolsFromMobileStyleFileController {
           ListenableFuture<List<SymbolStyleSearchResult>> symbolStyleSearchResultFuture = emojiStyle.searchSymbolsAsync(defaultSearchParameters);
           symbolStyleSearchResultFuture.addDoneListener(()->{
             try {
+
+              // create an empty placeholder image to represent "no symbol" for each category
+              ImageView emptyImage = null;
+
+              // create lists to contain the available symbol layers for each category of symbol and add an empty entry as default
+              ArrayList<SymbolLayerInfo> eyeSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "","", emptyImage)));
+              ArrayList<SymbolLayerInfo> mouthSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "","", emptyImage)));
+              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "","", emptyImage)));
+
+              // loop through the results and add symbols infos into the list according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
               for (SymbolStyleSearchResult symbolStyleSearchResult : symbolStyleSearchResults) {
-                switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
-                  case "eyes":
-                    eyesSymbolKey = symbolStyleSearchResult.getKey();
-                    break;
-                  case "mouth":
-                    mouthSymbolKey = symbolStyleSearchResult.getKey();
-                    break;
-                  case "hat":
-                    hatSymbolKey = symbolStyleSearchResult.getKey();
-                    break;
-                  case "face":
-                    faceSymbolKey = symbolStyleSearchResult.getKey();
-                    break;
-                }
+
+                // get the symbol for this result
+                MultilayerPointSymbol multilayerPointSymbol = (MultilayerPointSymbol) symbolStyleSearchResult.getSymbol();
+
+                // create a swatch image for the symbol (to be used for the preview)
+                ListenableFuture<Image> imageListenableFuture = multilayerPointSymbol.createSwatchAsync(0x00000000, 1);
+                imageListenableFuture.addDoneListener(()->{
+                  try {
+                    Image image = imageListenableFuture.get();
+                    ImageView imagePreview = new ImageView(image);
+
+                    // create a symbol layer info object to represent the found symbol in the list
+                    SymbolLayerInfo symbolLayerInfo = new SymbolLayerInfo(symbolStyleSearchResult.getName(), symbolStyleSearchResult.getKey(), imagePreview);
+
+                    // add the symbol layer info object to the correct list for its category
+                    switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
+                      case "eyes":
+                        eyeSymbolInfos.add(symbolLayerInfo);
+                        // add the preview of the symbol to the preview container
+                        eyesContainer.getChildren().add(symbolLayerInfo.getImagePreview());
+                        break;
+                      case "mouth":
+                        mouthSymbolInfos.add(symbolLayerInfo);
+                        // add the preview of the symbol to the preview container
+                        mouthsContainer.getChildren().add(symbolLayerInfo.getImagePreview());
+                        break;
+                      case "hat":
+                        hatSymbolInfos.add(symbolLayerInfo);
+                        // add the preview of the symbol to the preview container
+                        hatsContainer.getChildren().add(symbolLayerInfo.getImagePreview());
+                        break;
+                    }
+
+                  } catch (InterruptedException | ExecutionException e){
+
+                  }
+                });
 
               }
-              symbolKeys.add(faceSymbolKey);
-              symbolKeys.add(hatSymbolKey);
-              symbolKeys.add(eyesSymbolKey);
-              symbolKeys.add(mouthSymbolKey);
-              createSwatchAsync();
 
             } catch (InterruptedException | ExecutionException e) {
               new Alert(Alert.AlertType.ERROR, "Error performing the symbol search"+ e.getMessage()).show();
@@ -143,29 +176,48 @@ public class ReadSymbolsFromMobileStyleFileController {
     });
   }
 
+  // a class used to store the information about a symbol layer
+  private class SymbolLayerInfo
+  {
+    // an image view used to preview the symbol
+    private ImageView imagePreview;
 
-  /**
-   * Create a new multilayer point symbol based on selected symbol keys, size, and color.
-   */
-  private void createSwatchAsync() {
-    // create a future to preform the generation fo the multi layer symbol using the chosen keys
-    ListenableFuture<Symbol> symbolFuture = emojiStyle.getSymbolAsync(symbolKeys);
-    symbolFuture.addDoneListener(()->{
-      try {
-        // wait for the future to complete and get the result
-        MultilayerPointSymbol faceSymbol = (MultilayerPointSymbol) symbolFuture.get();
-        if (faceSymbol == null) {
-          return;
-        }
+    // the name of the symbol as it appreas in the mobile style
+    private String name;
 
-        currentMultilayerSymbol = faceSymbol;
-      }
-      catch (InterruptedException | ExecutionException e)  {
+    // a key that identifies the symbol within the style
+    private String key;
 
-      }
-    });
+    public SymbolLayerInfo(String name, String key, ImageView imagePreview) {
+      this.imagePreview = imagePreview;
+      this.name = name;
+      this.key = key;
+    }
+
+    public ImageView getImagePreview() {
+      return imagePreview;
+    }
+
+    public void setImagePreview(ImageView imagePreview) {
+      this.imagePreview = imagePreview;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public String getKey() {
+      return key;
+    }
+
+    public void setKey(String key) {
+      this.key = key;
+    }
   }
-
 
   /**
    * Stops and releases all resources used in application.

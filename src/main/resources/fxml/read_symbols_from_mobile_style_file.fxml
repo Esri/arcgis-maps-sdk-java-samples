@@ -47,10 +47,9 @@
       </Background>
     </background>
 
-    <HBox fx:id="hatsContainer">
+    <HBox fx:id="symbolPreview"></HBox>
 
-    </HBox>
-
+    <HBox fx:id="hatsContainer"></HBox>
 
     <HBox fx:id="eyesContainer"></HBox>
 
