@@ -26,12 +26,14 @@ import javafx.stage.Stage;
 
 public class LocalServerServicesSample extends Application {
 
+  private LocalServerServicesController controller;
+
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/local_server_services.fxml"));
     Parent root = loader.load();
-    LocalServerServicesController controller = loader.getController();
+    controller = loader.getController();
     controller.setHostServices(getHostServices());
     Scene scene = new Scene(root);
 
@@ -41,6 +43,14 @@ public class LocalServerServicesSample extends Application {
     stage.setHeight(400);
     stage.setScene(scene);
     stage.show();
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
+    controller.terminate();
   }
 
   /**
