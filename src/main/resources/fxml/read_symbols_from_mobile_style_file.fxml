@@ -24,6 +24,7 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Slider?>
 <StackPane fx:controller="com.esri.samples.symbology.read_symbols_from_mobile_style_file.ReadSymbolsFromMobileStyleFileController" xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
   <!--SDK SceneView-->
   <MapView fx:id="mapView"/>
@@ -53,6 +54,8 @@
     <ComboBox fx:id="mouthOptions"></ComboBox>
 
     <HBox fx:id="symbolPreview"></HBox>
+
+    <Slider fx:id="sizeSlider" showTickMarks="true" showTickLabels="true" majorTickUnit="1" minorTickCount="0" max="10" min="1" value="5" snapToTicks="true"></Slider>
 
 
   </VBox>

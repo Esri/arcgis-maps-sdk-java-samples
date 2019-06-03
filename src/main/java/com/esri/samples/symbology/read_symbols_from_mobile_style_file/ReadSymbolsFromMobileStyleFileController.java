@@ -28,6 +28,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -58,6 +59,8 @@ public class ReadSymbolsFromMobileStyleFileController {
   private ComboBox eyesOptions = new ComboBox();
   @FXML
   private ComboBox mouthOptions = new ComboBox();
+  @FXML
+  private Slider sizeSlider = new Slider();
 
   private GraphicsOverlay graphicsOverlay;
   private Symbol currentSymbol;
@@ -94,6 +97,12 @@ public class ReadSymbolsFromMobileStyleFileController {
     hatOptions.valueProperty().addListener(comboBoxChangeListener);
     mouthOptions.valueProperty().addListener(comboBoxChangeListener);
 
+    // set exaggeration of surface to the value the user selected
+    sizeSlider.valueProperty().addListener(o -> {
+      if (!sizeSlider.isValueChanging()) {
+        buildCompositeSymbol();
+      }
+    });
   }
 
   /**
@@ -167,13 +176,10 @@ public class ReadSymbolsFromMobileStyleFileController {
                         break;
                     }
 
-
-
                   } catch (InterruptedException | ExecutionException e){
 
                   }
                 });
-
               }
 
               // create the symbol preview
@@ -211,7 +217,7 @@ public class ReadSymbolsFromMobileStyleFileController {
       try {
         Symbol compositeSymbol = symbolListenableFuture.get();
 
-        ListenableFuture<Image> symbolImageFuture = compositeSymbol.createSwatchAsync(0x00000000, 1);
+        ListenableFuture<Image> symbolImageFuture = compositeSymbol.createSwatchAsync(0x00000000, (float) sizeSlider.getValue());
         Image symbolImage = symbolImageFuture.get();
         ImageView symbolImageView = new ImageView(symbolImage);
         symbolPreview.getChildren().add(symbolImageView);
@@ -223,7 +229,6 @@ public class ReadSymbolsFromMobileStyleFileController {
       }
     });
   }
-
 
   // a class used to store the information about a symbol layer
   private class SymbolLayerInfo
