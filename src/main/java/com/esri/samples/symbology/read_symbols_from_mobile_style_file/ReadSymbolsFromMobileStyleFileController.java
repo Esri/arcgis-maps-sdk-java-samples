@@ -249,12 +249,6 @@ public class ReadSymbolsFromMobileStyleFileController {
                   }
                 });
               }
-
-              // select the first option
-              eyesSelectionComboBox.getSelectionModel().select(1);
-              hatSelectionComboBox.getSelectionModel().select(1);
-              mouthSelectionComboBox.getSelectionModel().select(1);
-
               // create the symbol preview
               buildCompositeSymbol();
 
@@ -298,7 +292,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         }
 
         // set the size of the symbol
-        faceSymbol.setSize((float) sizeSlider.getValue());
+        faceSymbol.setSize((float) sizeSlider.getValue() * 10 );
 
         // loop through all the symbol layers and lock the color
         faceSymbol.getSymbolLayers().forEach(symbolLayer -> symbolLayer.setColorLocked(true));
@@ -309,9 +303,11 @@ public class ReadSymbolsFromMobileStyleFileController {
         // set the color of the symbol
         faceSymbol.setColor((Integer) colorSelectionComboBox.getValue());
 
-        ListenableFuture<Image> symbolImageFuture = faceSymbol.createSwatchAsync(0x00000000, (float) sizeSlider.getValue());
+        // create an image and image view from the symbol
+        ListenableFuture<Image> symbolImageFuture = faceSymbol.createSwatchAsync(0x00000000, 1);
         Image symbolImage = symbolImageFuture.get();
         ImageView symbolImageView = new ImageView(symbolImage);
+        // display the image view in the preview area
         symbolPreview.getChildren().add(symbolImageView);
 
         currentSymbol = faceSymbol;
