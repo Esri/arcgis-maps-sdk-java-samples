@@ -27,6 +27,8 @@
 <?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <StackPane fx:controller="com.esri.samples.symbology.read_symbols_from_mobile_style_file.ReadSymbolsFromMobileStyleFileController" xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
   <!--SDK SceneView-->
   <MapView fx:id="mapView"/>
@@ -58,9 +60,14 @@
       <ListView fx:id="colorSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
     </HBox>
 
-    <Slider fx:id="sizeSlider" showTickMarks="true" showTickLabels="true" majorTickUnit="1" minorTickCount="0" max="10" min="1" value="5" snapToTicks="true" minWidth="280" maxWidth="280"/>
-
-    <HBox fx:id="symbolPreview" centerShape="true"/>
+    <HBox>
+      <Label>Size: </Label>
+    <Slider fx:id="sizeSlider" showTickMarks="true" showTickLabels="true" majorTickUnit="1" minorTickCount="0" max="10" min="1" value="5" snapToTicks="true" minWidth="200" maxWidth="200"/>
+    </HBox>
+    <HBox>
+      <Label>Preview: </Label>
+      <HBox fx:id="symbolPreviewHBox"></HBox>
+    </HBox>
 
   </VBox>
 </StackPane>

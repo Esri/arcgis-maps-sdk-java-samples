@@ -45,6 +45,7 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
@@ -56,8 +57,6 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private MapView mapView = new MapView();
   @FXML
-  private HBox symbolPreview = new HBox();
-  @FXML
   private ListView hatSelectionListView = new ListView<SymbolLayerInfo>();
   @FXML
   private ListView eyesSelectionListView = new ListView<SymbolLayerInfo>();
@@ -67,6 +66,8 @@ public class ReadSymbolsFromMobileStyleFileController {
   private ListView colorSelectionListView = new ListView<Rectangle>();
   @FXML
   private Slider sizeSlider = new Slider();
+  @FXML
+  private HBox symbolPreviewHBox = new HBox();
 
   private MultilayerPointSymbol faceSymbol;
   private SymbolStyle emojiStyle;
@@ -83,7 +84,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    //  add colors to the color selection list view
+    //  add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols.
     colorSelectionListView.getItems().addAll(0xFFffff00, 0xFF00FF00, 0xFF0000FF);
 
     // create a cell factory to show the colors in the list view
@@ -101,17 +102,8 @@ public class ReadSymbolsFromMobileStyleFileController {
         if (item == null || empty) {
           setGraphic(null);
         } else {
-          switch (item) {
-            case (0xFFFFFF00):
-              rectangle.setFill(Color.YELLOW);
-              break;
-            case (0xFF00FF00):
-              rectangle.setFill(Color.GREEN);
-              break;
-            case (0xFF0000FF):
-              rectangle.setFill(Color.BLUE);
-              break;
-          }
+          // convert the 0xAARRGGBB format to color and apply it to the rectangle
+          rectangle.setFill(ColorUtil.argbToColor(item));
           setGraphic(rectangle);
         }
       }
@@ -151,9 +143,9 @@ public class ReadSymbolsFromMobileStyleFileController {
 
     // create a listener that builds the composite symbol when an item from the list view is selected
     ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
-    // create a list of the ListView objects
+    // create an array of the ListView objects
     ListView[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView, colorSelectionListView};
-    // iterate through the list to add the listener to each ListView
+    // add the listener to each ListView in the array
     for (int i = 0; i < listViews.length; i++) {
       listViews[i].getSelectionModel().selectedItemProperty().addListener(changeListener);
     }
@@ -274,7 +266,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   private void buildCompositeSymbol() {
 
     // remove the previously displayed image view
-    symbolPreview.getChildren().clear();
+    symbolPreviewHBox.getChildren().clear();
 
     // retrieve the requested key for the requested hat symbol
     SymbolLayerInfo requestedHat = (SymbolLayerInfo) hatSelectionListView.getSelectionModel().getSelectedItem();
@@ -310,17 +302,32 @@ public class ReadSymbolsFromMobileStyleFileController {
         // set the color of the symbol
         faceSymbol.setColor((Integer) colorSelectionListView.getSelectionModel().getSelectedItem());
 
-        // create an image and image view from the symbol
-        ListenableFuture<Image> symbolImageFuture = faceSymbol.createSwatchAsync(0x00000000, 1);
-        Image symbolImage = symbolImageFuture.get();
-        ImageView symbolImageView = new ImageView(symbolImage);
-        // display the image view in the preview area
-        symbolPreview.getChildren().add(symbolImageView);
+        // update the symbol preview
+        updateSymbolPreview(faceSymbol);
 
       } catch (ExecutionException | InterruptedException e) {
         new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + e.getMessage()).show();
       }
     });
+  }
+
+  /**
+   * Creates an ImageView object from a provided symbol and displays it in the preview area
+   * @param multilayerPointSymbol the symbol used to create the image view
+   */
+  private void updateSymbolPreview(MultilayerPointSymbol multilayerPointSymbol){
+
+      // create an image and image view from the symbol
+      ListenableFuture<Image> symbolImageFuture = multilayerPointSymbol.createSwatchAsync(0x00000000, 1);
+    try {
+      Image symbolImage = symbolImageFuture.get();
+      ImageView symbolImageView = new ImageView(symbolImage);
+      // display the image view in the preview area
+      symbolPreviewHBox.getChildren().add(symbolImageView);
+
+    } catch (InterruptedException | ExecutionException e) {
+      new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided MultilayerPointSymbol" + e.getMessage()).show();
+    }
   }
 
   /**
