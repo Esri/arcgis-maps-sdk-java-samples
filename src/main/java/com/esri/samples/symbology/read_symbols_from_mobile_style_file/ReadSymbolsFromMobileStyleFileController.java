@@ -85,6 +85,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     // add colors to the color selection combo box
     class ColorListCell extends ListCell<Integer> {
       private final Rectangle rectangle;
+
       {
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         rectangle = new Rectangle(10, 10);
@@ -97,8 +98,8 @@ public class ReadSymbolsFromMobileStyleFileController {
           setGraphic(null);
         } else {
           switch (item) {
-            case (0xFFFF0000): {
-              rectangle.setFill(Color.RED);
+            case (0xFFFFFF00): {
+              rectangle.setFill(Color.YELLOW);
               break;
             }
             case (0xFF00FF00): {
@@ -115,7 +116,7 @@ public class ReadSymbolsFromMobileStyleFileController {
       }
     }
 
-    colorSelectionComboBox.getItems().addAll(0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
+    colorSelectionComboBox.getItems().addAll(0xFFffff00, 0xFF00FF00, 0xFF0000FF);
     colorSelectionComboBox.setCellFactory(c -> new ColorListCell());
     colorSelectionComboBox.setButtonCell(new ColorListCell());
 
@@ -127,6 +128,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     // add symbols to the symbol selection combo box
     class SymbolLayerInfoListCell extends ListCell<SymbolLayerInfo> {
       private ImageView imageView;
+
       {
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         imageView = new ImageView();
@@ -152,7 +154,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     mouthSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
 
     // listen to mouse clicks to add the desired multi layer symbol
-    mapView.setOnMouseClicked( e -> {
+    mapView.setOnMouseClicked(e -> {
       // convert clicked point to a map point
       Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
@@ -175,36 +177,36 @@ public class ReadSymbolsFromMobileStyleFileController {
    * Loads the stylx file and searches for all symbols contained within. Put the resulting symbols into the GUI
    * based on their category (eyes, mouth, hat, face).
    */
-  private void loadSymbolsFromStyleFile(){
+  private void loadSymbolsFromStyleFile() {
     // create a SymbolStyle by passing the location of the .stylx file in the constructor
     emojiStyle = new SymbolStyle("./samples-data/stylx/emoji-mobile.stylx");
     emojiStyle.loadAsync();
 
     // add a listener to run when the symbol style has loaded
     emojiStyle.addDoneLoadingListener(() -> {
-      if (emojiStyle.getLoadStatus() == LoadStatus.FAILED_TO_LOAD){
-        new Alert(Alert.AlertType.ERROR, "Error: could not load .stylx file. Details: "+ emojiStyle.getLoadError().getMessage()).show();
+      if (emojiStyle.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+        new Alert(Alert.AlertType.ERROR, "Error: could not load .stylx file. Details: " + emojiStyle.getLoadError().getMessage()).show();
         return;
       }
 
       // load the default search parameters
       ListenableFuture<SymbolStyleSearchParameters> defaultSearchParametersFuture = emojiStyle.getDefaultSearchParametersAsync();
-      defaultSearchParametersFuture.addDoneListener(()->{
+      defaultSearchParametersFuture.addDoneListener(() -> {
         try {
           SymbolStyleSearchParameters defaultSearchParameters = defaultSearchParametersFuture.get();
 
           // use the default parameters to perform the search
           ListenableFuture<List<SymbolStyleSearchResult>> symbolStyleSearchResultFuture = emojiStyle.searchSymbolsAsync(defaultSearchParameters);
-          symbolStyleSearchResultFuture.addDoneListener(()->{
+          symbolStyleSearchResultFuture.addDoneListener(() -> {
             try {
 
               // create an empty placeholder image to represent "no symbol" for each category
               ImageView emptyImage = null;
 
               // create lists to contain the available symbol layers for each category of symbol and add an empty entry as default
-              ArrayList<SymbolLayerInfo> eyeSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "","", emptyImage)));
-              ArrayList<SymbolLayerInfo> mouthSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "","", emptyImage)));
-              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "","", emptyImage)));
+              ArrayList<SymbolLayerInfo> eyeSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", "", emptyImage)));
+              ArrayList<SymbolLayerInfo> mouthSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", "", emptyImage)));
+              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", "", emptyImage)));
 
               // loop through the results and add symbols infos into the list according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
@@ -215,7 +217,7 @@ public class ReadSymbolsFromMobileStyleFileController {
 
                 // create a swatch image for the symbol (to be used for the preview)
                 ListenableFuture<Image> imageListenableFuture = multilayerPointSymbol.createSwatchAsync(0x00000000, 1);
-                imageListenableFuture.addDoneListener(()->{
+                imageListenableFuture.addDoneListener(() -> {
                   try {
                     Image image = imageListenableFuture.get();
                     ImageView imagePreview = new ImageView(image);
@@ -242,7 +244,7 @@ public class ReadSymbolsFromMobileStyleFileController {
                         break;
                     }
 
-                  } catch (InterruptedException | ExecutionException e){
+                  } catch (InterruptedException | ExecutionException e) {
 
                   }
                 });
@@ -257,18 +259,18 @@ public class ReadSymbolsFromMobileStyleFileController {
               buildCompositeSymbol();
 
             } catch (InterruptedException | ExecutionException e) {
-              new Alert(Alert.AlertType.ERROR, "Error performing the symbol search"+ e.getMessage()).show();
+              new Alert(Alert.AlertType.ERROR, "Error performing the symbol search" + e.getMessage()).show();
             }
           });
         } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Error retrieving default search parameters for symbol search"+ e.getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Error retrieving default search parameters for symbol search" + e.getMessage()).show();
         }
       });
     });
   }
 
   @FXML
-  private void buildCompositeSymbol(){
+  private void buildCompositeSymbol() {
 
     // remove the previously displayed image view
     symbolPreview.getChildren().clear();
@@ -285,19 +287,21 @@ public class ReadSymbolsFromMobileStyleFileController {
     SymbolLayerInfo requestedMouth = (SymbolLayerInfo) mouthSelectionComboBox.getSelectionModel().getSelectedItem();
     String mouthKey = requestedMouth != null ? requestedMouth.getKey() : "";
 
-    List<String> symbolKeys = Arrays.asList("Face1",eyesKey, mouthKey, hatKey);
+    List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
 
     ListenableFuture<Symbol> symbolFuture = emojiStyle.getSymbolAsync(symbolKeys);
-    symbolFuture.addDoneListener(()->{
+    symbolFuture.addDoneListener(() -> {
       try {
         MultilayerPointSymbol faceSymbol = (MultilayerPointSymbol) symbolFuture.get();
-        if (faceSymbol == null) {return;}
+        if (faceSymbol == null) {
+          return;
+        }
 
         // set the size of the symbol
         faceSymbol.setSize((float) sizeSlider.getValue());
 
         // loop through all the symbol layers and lock the color
-        faceSymbol.getSymbolLayers().forEach( symbolLayer -> symbolLayer.setColorLocked(true) );
+        faceSymbol.getSymbolLayers().forEach(symbolLayer -> symbolLayer.setColorLocked(true));
 
         // unlock the color of the base layer. Changing the symbol layer will now only change this layer's color
         faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
@@ -312,15 +316,14 @@ public class ReadSymbolsFromMobileStyleFileController {
 
         currentSymbol = faceSymbol;
 
-      } catch (ExecutionException | InterruptedException e){
+      } catch (ExecutionException | InterruptedException e) {
 
       }
     });
   }
 
   // a class used to store the information about a symbol layer
-  private class SymbolLayerInfo
-  {
+  private class SymbolLayerInfo {
     // an image view used to preview the symbol
     private ImageView imagePreview;
 
