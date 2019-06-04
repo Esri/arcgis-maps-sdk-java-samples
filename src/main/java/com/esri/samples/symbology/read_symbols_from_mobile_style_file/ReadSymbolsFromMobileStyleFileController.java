@@ -58,13 +58,13 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private HBox symbolPreview = new HBox();
   @FXML
-  private ListView hatSelectionComboBox = new ListView<SymbolLayerInfo>();
+  private ListView hatSelectionListView = new ListView<SymbolLayerInfo>();
   @FXML
-  private ListView eyesSelectionComboBox = new ListView<SymbolLayerInfo>();
+  private ListView eyesSelectionListView = new ListView<SymbolLayerInfo>();
   @FXML
-  private ListView mouthSelectionComboBox = new ListView<SymbolLayerInfo>();
+  private ListView mouthSelectionListView = new ListView<SymbolLayerInfo>();
   @FXML
-  private ListView colorSelectionComboBox = new ListView<Rectangle>();
+  private ListView colorSelectionListView = new ListView<Rectangle>();
   @FXML
   private Slider sizeSlider = new Slider();
 
@@ -83,7 +83,10 @@ public class ReadSymbolsFromMobileStyleFileController {
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    // add colors to the color selection combo box
+    //  add colors to the color selection list view
+    colorSelectionListView.getItems().addAll(0xFFffff00, 0xFF00FF00, 0xFF0000FF);
+
+    // create a cell factory to show the colors in the list view
     class ColorListCell extends ListCell<Integer> {
       private final Rectangle rectangle;
 
@@ -113,17 +116,15 @@ public class ReadSymbolsFromMobileStyleFileController {
         }
       }
     }
-
-    colorSelectionComboBox.getItems().addAll(0xFFffff00, 0xFF00FF00, 0xFF0000FF);
-    colorSelectionComboBox.setCellFactory(c -> new ColorListCell());
-//    colorSelectionComboBox.setButtonCell(new ColorListCell());
-
-    colorSelectionComboBox.getSelectionModel().select(0);
+    // add the cell factory to the color selection list view
+    colorSelectionListView.setCellFactory(c -> new ColorListCell());
+    // make the first item in the list view selected by default
+    colorSelectionListView.getSelectionModel().select(0);
 
     // load the available symbols from the style file
     loadSymbolsFromStyleFile();
 
-    // add symbols to the symbol selection combo box
+    // create a cell factory to show the available symbols in the respective list view
     class SymbolLayerInfoListCell extends ListCell<SymbolLayerInfo> {
       private ImageView imageView;
 
@@ -143,21 +144,19 @@ public class ReadSymbolsFromMobileStyleFileController {
         }
       }
     }
+    // add the cell factory to each of the symbol list views
+    hatSelectionListView.setCellFactory(c -> new SymbolLayerInfoListCell());
+    eyesSelectionListView.setCellFactory(c -> new SymbolLayerInfoListCell());
+    mouthSelectionListView.setCellFactory(c -> new SymbolLayerInfoListCell());
 
+    // create a listener that builds the composite symbol when an item from the list view is selected
     ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
-
-    ListView[] listViews = new ListView[]{hatSelectionComboBox, eyesSelectionComboBox, mouthSelectionComboBox, colorSelectionComboBox};
-
+    // create a list of the ListView objects
+    ListView[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView, colorSelectionListView};
+    // iterate through the list to add the listener to each ListView
     for (int i = 0; i < listViews.length; i++) {
       listViews[i].getSelectionModel().selectedItemProperty().addListener(changeListener);
     }
-
-    hatSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
-//    hatSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
-    eyesSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
-//    eyesSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
-    mouthSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
-//    mouthSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
 
     // listen to mouse clicks to add the desired multi layer symbol
     mapView.setOnMouseClicked(e -> {
@@ -167,7 +166,6 @@ public class ReadSymbolsFromMobileStyleFileController {
       // create a new graphic with the point and symbol
       Graphic graphic = new Graphic(mapPoint, faceSymbol);
       graphicsOverlay.getGraphics().add(graphic);
-
     });
 
     // add a listener to the slider to update the preview when the size is changed
@@ -176,7 +174,6 @@ public class ReadSymbolsFromMobileStyleFileController {
         buildCompositeSymbol();
       }
     });
-
   }
 
   /**
@@ -236,17 +233,17 @@ public class ReadSymbolsFromMobileStyleFileController {
                       case "eyes":
                         eyeSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
-                        eyesSelectionComboBox.getItems().add(symbolLayerInfo);
+                        eyesSelectionListView.getItems().add(symbolLayerInfo);
                         break;
                       case "mouth":
                         mouthSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
-                        mouthSelectionComboBox.getItems().add(symbolLayerInfo);
+                        mouthSelectionListView.getItems().add(symbolLayerInfo);
                         break;
                       case "hat":
                         hatSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
-                        hatSelectionComboBox.getItems().add(symbolLayerInfo);
+                        hatSelectionListView.getItems().add(symbolLayerInfo);
                         break;
                     }
 
@@ -255,11 +252,8 @@ public class ReadSymbolsFromMobileStyleFileController {
                   }
                 });
               }
-              // create the symbol preview
 
-              hatSelectionComboBox.getSelectionModel().select(1);
-              mouthSelectionComboBox.getSelectionModel().select(1);
-              eyesSelectionComboBox.getSelectionModel().select(1);
+              // create the symbol to populate the preview
               buildCompositeSymbol();
 
             } catch (InterruptedException | ExecutionException e) {
@@ -273,6 +267,9 @@ public class ReadSymbolsFromMobileStyleFileController {
     });
   }
 
+  /**
+   * Gets the keys of the selected symbol components, and constructs a multilayer point symbol
+   */
   @FXML
   private void buildCompositeSymbol() {
 
@@ -280,15 +277,15 @@ public class ReadSymbolsFromMobileStyleFileController {
     symbolPreview.getChildren().clear();
 
     // retrieve the requested key for the requested hat symbol
-    SymbolLayerInfo requestedHat = (SymbolLayerInfo) hatSelectionComboBox.getSelectionModel().getSelectedItem();
+    SymbolLayerInfo requestedHat = (SymbolLayerInfo) hatSelectionListView.getSelectionModel().getSelectedItem();
     String hatKey = requestedHat != null ? requestedHat.getKey() : "";
 
     // retrieve the requested key for the requested eyes symbol
-    SymbolLayerInfo requestedEyes = (SymbolLayerInfo) eyesSelectionComboBox.getSelectionModel().getSelectedItem();
+    SymbolLayerInfo requestedEyes = (SymbolLayerInfo) eyesSelectionListView.getSelectionModel().getSelectedItem();
     String eyesKey = requestedEyes != null ? requestedEyes.getKey() : "";
 
     // retrieve the requested key for the requested mouth symbol
-    SymbolLayerInfo requestedMouth = (SymbolLayerInfo) mouthSelectionComboBox.getSelectionModel().getSelectedItem();
+    SymbolLayerInfo requestedMouth = (SymbolLayerInfo) mouthSelectionListView.getSelectionModel().getSelectedItem();
     String mouthKey = requestedMouth != null ? requestedMouth.getKey() : "";
 
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
@@ -311,7 +308,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
 
         // set the color of the symbol
-        faceSymbol.setColor((Integer) colorSelectionComboBox.getSelectionModel().getSelectedItem());
+        faceSymbol.setColor((Integer) colorSelectionListView.getSelectionModel().getSelectedItem());
 
         // create an image and image view from the symbol
         ListenableFuture<Image> symbolImageFuture = faceSymbol.createSwatchAsync(0x00000000, 1);
@@ -326,7 +323,9 @@ public class ReadSymbolsFromMobileStyleFileController {
     });
   }
 
-  // a class used to store the information about a symbol layer
+  /**
+   *   a helper class used to store the information about a symbol layer
+   */
   private class SymbolLayerInfo {
     // an image view used to preview the symbol
     private ImageView imagePreview;
