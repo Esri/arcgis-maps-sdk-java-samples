@@ -67,7 +67,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   private Slider sizeSlider = new Slider();
 
   private GraphicsOverlay graphicsOverlay;
-  private Symbol currentSymbol;
+  private MultilayerPointSymbol faceSymbol;
   private SymbolStyle emojiStyle;
 
   @FXML
@@ -159,7 +159,7 @@ public class ReadSymbolsFromMobileStyleFileController {
       Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
       // create a new graphic with the point and symbol
-      Graphic graphic = new Graphic(mapPoint, currentSymbol);
+      Graphic graphic = new Graphic(mapPoint, faceSymbol);
       graphicsOverlay.getGraphics().add(graphic);
 
     });
@@ -286,13 +286,13 @@ public class ReadSymbolsFromMobileStyleFileController {
     ListenableFuture<Symbol> symbolFuture = emojiStyle.getSymbolAsync(symbolKeys);
     symbolFuture.addDoneListener(() -> {
       try {
-        MultilayerPointSymbol faceSymbol = (MultilayerPointSymbol) symbolFuture.get();
+        faceSymbol = (MultilayerPointSymbol) symbolFuture.get();
         if (faceSymbol == null) {
           return;
         }
 
         // set the size of the symbol
-        faceSymbol.setSize((float) sizeSlider.getValue() * 10 );
+        faceSymbol.setSize((float) sizeSlider.getValue() * 10);
 
         // loop through all the symbol layers and lock the color
         faceSymbol.getSymbolLayers().forEach(symbolLayer -> symbolLayer.setColorLocked(true));
@@ -309,8 +309,6 @@ public class ReadSymbolsFromMobileStyleFileController {
         ImageView symbolImageView = new ImageView(symbolImage);
         // display the image view in the preview area
         symbolPreview.getChildren().add(symbolImageView);
-
-        currentSymbol = faceSymbol;
 
       } catch (ExecutionException | InterruptedException e) {
 
