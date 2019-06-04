@@ -22,12 +22,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,17 +58,16 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private HBox symbolPreview = new HBox();
   @FXML
-  private ComboBox hatSelectionComboBox = new ComboBox<SymbolLayerInfo>();
+  private ListView hatSelectionComboBox = new ListView<SymbolLayerInfo>();
   @FXML
-  private ComboBox eyesSelectionComboBox = new ComboBox<SymbolLayerInfo>();
+  private ListView eyesSelectionComboBox = new ListView<SymbolLayerInfo>();
   @FXML
-  private ComboBox mouthSelectionComboBox = new ComboBox<SymbolLayerInfo>();
+  private ListView mouthSelectionComboBox = new ListView<SymbolLayerInfo>();
   @FXML
-  private ComboBox colorSelectionComboBox = new ComboBox<Rectangle>();
+  private ListView colorSelectionComboBox = new ListView<Rectangle>();
   @FXML
   private Slider sizeSlider = new Slider();
 
-  private GraphicsOverlay graphicsOverlay;
   private MultilayerPointSymbol faceSymbol;
   private SymbolStyle emojiStyle;
 
@@ -79,7 +80,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     mapView.setMap(map);
 
     // create a graphics overlay and add it to the map
-    graphicsOverlay = new GraphicsOverlay();
+    GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // add colors to the color selection combo box
@@ -98,18 +99,15 @@ public class ReadSymbolsFromMobileStyleFileController {
           setGraphic(null);
         } else {
           switch (item) {
-            case (0xFFFFFF00): {
+            case (0xFFFFFF00):
               rectangle.setFill(Color.YELLOW);
               break;
-            }
-            case (0xFF00FF00): {
+            case (0xFF00FF00):
               rectangle.setFill(Color.GREEN);
               break;
-            }
-            case (0xFF0000FF): {
+            case (0xFF0000FF):
               rectangle.setFill(Color.BLUE);
               break;
-            }
           }
           setGraphic(rectangle);
         }
@@ -118,7 +116,7 @@ public class ReadSymbolsFromMobileStyleFileController {
 
     colorSelectionComboBox.getItems().addAll(0xFFffff00, 0xFF00FF00, 0xFF0000FF);
     colorSelectionComboBox.setCellFactory(c -> new ColorListCell());
-    colorSelectionComboBox.setButtonCell(new ColorListCell());
+//    colorSelectionComboBox.setButtonCell(new ColorListCell());
 
     colorSelectionComboBox.getSelectionModel().select(0);
 
@@ -146,12 +144,20 @@ public class ReadSymbolsFromMobileStyleFileController {
       }
     }
 
+    ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
+
+    ListView[] listViews = new ListView[]{hatSelectionComboBox, eyesSelectionComboBox, mouthSelectionComboBox, colorSelectionComboBox};
+
+    for (int i = 0; i < listViews.length; i++) {
+      listViews[i].getSelectionModel().selectedItemProperty().addListener(changeListener);
+    }
+
     hatSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
-    hatSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
+//    hatSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
     eyesSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
-    eyesSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
+//    eyesSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
     mouthSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
-    mouthSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
+//    mouthSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
 
     // listen to mouse clicks to add the desired multi layer symbol
     mapView.setOnMouseClicked(e -> {
@@ -204,9 +210,9 @@ public class ReadSymbolsFromMobileStyleFileController {
               ImageView emptyImage = null;
 
               // create lists to contain the available symbol layers for each category of symbol and add an empty entry as default
-              ArrayList<SymbolLayerInfo> eyeSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", "", emptyImage)));
-              ArrayList<SymbolLayerInfo> mouthSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", "", emptyImage)));
-              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", "", emptyImage)));
+              ArrayList<SymbolLayerInfo> eyeSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "", emptyImage)));
+              ArrayList<SymbolLayerInfo> mouthSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "", emptyImage)));
+              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", emptyImage)));
 
               // loop through the results and add symbols infos into the list according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
@@ -223,7 +229,7 @@ public class ReadSymbolsFromMobileStyleFileController {
                     ImageView imagePreview = new ImageView(image);
 
                     // create a symbol layer info object to represent the found symbol in the list
-                    SymbolLayerInfo symbolLayerInfo = new SymbolLayerInfo(symbolStyleSearchResult.getName(), symbolStyleSearchResult.getKey(), imagePreview);
+                    SymbolLayerInfo symbolLayerInfo = new SymbolLayerInfo(symbolStyleSearchResult.getKey(), imagePreview);
 
                     // add the symbol layer info object to the correct list for its category
                     switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
@@ -245,11 +251,15 @@ public class ReadSymbolsFromMobileStyleFileController {
                     }
 
                   } catch (InterruptedException | ExecutionException e) {
-
+                    new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
                   }
                 });
               }
               // create the symbol preview
+
+              hatSelectionComboBox.getSelectionModel().select(1);
+              mouthSelectionComboBox.getSelectionModel().select(1);
+              eyesSelectionComboBox.getSelectionModel().select(1);
               buildCompositeSymbol();
 
             } catch (InterruptedException | ExecutionException e) {
@@ -301,7 +311,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
 
         // set the color of the symbol
-        faceSymbol.setColor((Integer) colorSelectionComboBox.getValue());
+        faceSymbol.setColor((Integer) colorSelectionComboBox.getSelectionModel().getSelectedItem());
 
         // create an image and image view from the symbol
         ListenableFuture<Image> symbolImageFuture = faceSymbol.createSwatchAsync(0x00000000, 1);
@@ -311,7 +321,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         symbolPreview.getChildren().add(symbolImageView);
 
       } catch (ExecutionException | InterruptedException e) {
-
+        new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + e.getMessage()).show();
       }
     });
   }
@@ -321,27 +331,19 @@ public class ReadSymbolsFromMobileStyleFileController {
     // an image view used to preview the symbol
     private ImageView imagePreview;
 
-    // the name of the symbol as it appreas in the mobile style
-    private String name;
-
     // a key that identifies the symbol within the style
     private String key;
 
-    public SymbolLayerInfo(String name, String key, ImageView imagePreview) {
+    private SymbolLayerInfo(String key, ImageView imagePreview) {
       this.imagePreview = imagePreview;
-      this.name = name;
       this.key = key;
     }
 
-    public String getName() {
-      return name;
-    }
-
-    public String getKey() {
+    private String getKey() {
       return key;
     }
 
-    public ImageView getImagePreview() {
+    private ImageView getImagePreview() {
       return imagePreview;
     }
   }

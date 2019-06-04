@@ -16,8 +16,8 @@
   -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.Background?>
 <?import javafx.scene.layout.BackgroundFill?>
@@ -26,8 +26,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import java.lang.Integer?>
-<?import java.lang.String?>
 <StackPane fx:controller="com.esri.samples.symbology.read_symbols_from_mobile_style_file.ReadSymbolsFromMobileStyleFileController" xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
   <!--SDK SceneView-->
   <MapView fx:id="mapView"/>
@@ -52,14 +50,10 @@
       </Background>
     </background>
 
-    <ComboBox fx:id="hatSelectionComboBox" onAction="#buildCompositeSymbol">
-      <items>
-
-      </items>
-    </ComboBox>
-    <ComboBox fx:id="eyesSelectionComboBox" onAction="#buildCompositeSymbol"></ComboBox>
-    <ComboBox fx:id="mouthSelectionComboBox" onAction="#buildCompositeSymbol"></ComboBox>
-    <ComboBox fx:id="colorSelectionComboBox" onAction="#buildCompositeSymbol"></ComboBox>
+    <ListView fx:id="hatSelectionComboBox"></ListView>
+    <ListView fx:id="eyesSelectionComboBox" ></ListView>
+    <ListView fx:id="mouthSelectionComboBox" ></ListView>
+    <ListView fx:id="colorSelectionComboBox" prefHeight="150"></ListView>
 
     <Slider fx:id="sizeSlider" showTickMarks="true" showTickLabels="true" majorTickUnit="1" minorTickCount="0" max="10" min="1" value="5" snapToTicks="true"></Slider>
     <HBox fx:id="symbolPreview"></HBox>
