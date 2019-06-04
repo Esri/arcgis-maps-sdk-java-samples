@@ -22,16 +22,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
@@ -54,11 +56,13 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private HBox symbolPreview = new HBox();
   @FXML
-  private ComboBox hatOptions = new ComboBox();
+  private ComboBox hatSelectionComboBox = new ComboBox<SymbolLayerInfo>();
   @FXML
-  private ComboBox eyesOptions = new ComboBox();
+  private ComboBox eyesSelectionComboBox = new ComboBox<SymbolLayerInfo>();
   @FXML
-  private ComboBox mouthOptions = new ComboBox();
+  private ComboBox mouthSelectionComboBox = new ComboBox<SymbolLayerInfo>();
+  @FXML
+  private ComboBox colorSelectionComboBox = new ComboBox<Rectangle>();
   @FXML
   private Slider sizeSlider = new Slider();
 
@@ -78,7 +82,57 @@ public class ReadSymbolsFromMobileStyleFileController {
     graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
+    // add colors to the color selection combo box
+    class ColorListCell extends ListCell<Color> {
+      private final Rectangle rectangle;
+      {
+        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        rectangle = new Rectangle(10, 10);
+      }
+
+      protected void updateItem(Color item, boolean empty) {
+        super.updateItem(item, empty);
+
+        if (item == null || empty) {
+          setGraphic(null);
+        } else {
+          rectangle.setFill(item);
+          setGraphic(rectangle);
+        }
+      }
+    }
+
+    colorSelectionComboBox.getItems().addAll(Color.RED, Color.GREEN, Color.BLUE);
+    colorSelectionComboBox.setCellFactory(c -> new ColorListCell());
+    colorSelectionComboBox.setButtonCell(new ColorListCell());
+
+    colorSelectionComboBox.getSelectionModel().select(0);
+
+    // load the available symbols from the style file
     loadSymbolsFromStyleFile();
+
+//    // add colors to the color selection combo box
+//    class SymbolLayerInfoListCell extends ListCell<SymbolLayerInfo> {
+//      private ImageView imageView;
+//      {
+//        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+//        imageView = new ImageView();
+//      }
+//
+//      protected void updateItem(SymbolLayerInfo item, boolean empty) {
+//        super.updateItem(item, empty);
+//
+//        if (item == null || empty) {
+//          setGraphic(null);
+//        } else {
+//          imageView = item.getImagePreview();
+//          setGraphic(imageView);
+//        }
+//      }
+//    }
+//
+//    colorSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
+//    colorSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
 
     // listen to mouse clicks to add the desired multi layer symbol
     mapView.setOnMouseClicked( e -> {
@@ -91,18 +145,13 @@ public class ReadSymbolsFromMobileStyleFileController {
 
     });
 
-    ChangeListener comboBoxChangeListener = (ObservableValue observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
-
-    eyesOptions.valueProperty().addListener(comboBoxChangeListener);
-    hatOptions.valueProperty().addListener(comboBoxChangeListener);
-    mouthOptions.valueProperty().addListener(comboBoxChangeListener);
-
-    // set exaggeration of surface to the value the user selected
+    // add a listener to the slider to update the preview when the size is changed
     sizeSlider.valueProperty().addListener(o -> {
       if (!sizeSlider.isValueChanging()) {
         buildCompositeSymbol();
       }
     });
+
   }
 
   /**
@@ -162,17 +211,17 @@ public class ReadSymbolsFromMobileStyleFileController {
                       case "eyes":
                         eyeSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
-                        eyesOptions.getItems().add(symbolLayerInfo);
+                        eyesSelectionComboBox.getItems().add(symbolLayerInfo);
                         break;
                       case "mouth":
                         mouthSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
-                        mouthOptions.getItems().add(symbolLayerInfo);
+                        mouthSelectionComboBox.getItems().add(symbolLayerInfo);
                         break;
                       case "hat":
                         hatSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
-                        hatOptions.getItems().add(symbolLayerInfo);
+                        hatSelectionComboBox.getItems().add(symbolLayerInfo);
                         break;
                     }
 
@@ -181,6 +230,11 @@ public class ReadSymbolsFromMobileStyleFileController {
                   }
                 });
               }
+
+              // select the first option
+              eyesSelectionComboBox.getSelectionModel().select(1);
+              hatSelectionComboBox.getSelectionModel().select(1);
+              mouthSelectionComboBox.getSelectionModel().select(1);
 
               // create the symbol preview
               buildCompositeSymbol();
@@ -196,33 +250,44 @@ public class ReadSymbolsFromMobileStyleFileController {
     });
   }
 
+  @FXML
   private void buildCompositeSymbol(){
 
     // remove the previously displayed image view
     symbolPreview.getChildren().clear();
 
-    SymbolLayerInfo requestedHat = (SymbolLayerInfo) hatOptions.getSelectionModel().getSelectedItem();
+    // retrieve the requested key for the requested hat symbol
+    SymbolLayerInfo requestedHat = (SymbolLayerInfo) hatSelectionComboBox.getSelectionModel().getSelectedItem();
     String hatKey = requestedHat != null ? requestedHat.getKey() : "";
 
-    SymbolLayerInfo requestedEyes = (SymbolLayerInfo) eyesOptions.getSelectionModel().getSelectedItem();
+    // retrieve the requested key for the requested eyes symbol
+    SymbolLayerInfo requestedEyes = (SymbolLayerInfo) eyesSelectionComboBox.getSelectionModel().getSelectedItem();
     String eyesKey = requestedEyes != null ? requestedEyes.getKey() : "";
 
-    SymbolLayerInfo requestedMouth = (SymbolLayerInfo) mouthOptions.getSelectionModel().getSelectedItem();
+    // retrieve the requested key for the requested mouth symbol
+    SymbolLayerInfo requestedMouth = (SymbolLayerInfo) mouthSelectionComboBox.getSelectionModel().getSelectedItem();
     String mouthKey = requestedMouth != null ? requestedMouth.getKey() : "";
 
     List<String> symbolKeys = Arrays.asList("Face1",eyesKey, mouthKey, hatKey);
 
-    ListenableFuture<Symbol> symbolListenableFuture = emojiStyle.getSymbolAsync(symbolKeys);
-    symbolListenableFuture.addDoneListener(()->{
+    ListenableFuture<Symbol> symbolFuture = emojiStyle.getSymbolAsync(symbolKeys);
+    symbolFuture.addDoneListener(()->{
       try {
-        Symbol compositeSymbol = symbolListenableFuture.get();
+        MultilayerPointSymbol faceSymbol = (MultilayerPointSymbol) symbolFuture.get();
+        if (faceSymbol == null) {return;}
 
-        ListenableFuture<Image> symbolImageFuture = compositeSymbol.createSwatchAsync(0x00000000, (float) sizeSlider.getValue());
+        // set the size of the symbol
+        faceSymbol.setSize((float) sizeSlider.getValue());
+
+        // set the color of the symbol
+        System.out.println(colorSelectionComboBox.getSelectionModel().getSelectedItem().toString());
+
+        ListenableFuture<Image> symbolImageFuture = faceSymbol.createSwatchAsync(0x00000000, (float) sizeSlider.getValue());
         Image symbolImage = symbolImageFuture.get();
         ImageView symbolImageView = new ImageView(symbolImage);
         symbolPreview.getChildren().add(symbolImageView);
 
-        currentSymbol = compositeSymbol;
+        currentSymbol = faceSymbol;
 
       } catch (ExecutionException | InterruptedException e){
 
@@ -248,28 +313,16 @@ public class ReadSymbolsFromMobileStyleFileController {
       this.key = key;
     }
 
-    public ImageView getImagePreview() {
-      return imagePreview;
-    }
-
-    public void setImagePreview(ImageView imagePreview) {
-      this.imagePreview = imagePreview;
-    }
-
     public String getName() {
       return name;
-    }
-
-    public void setName(String name) {
-      this.name = name;
     }
 
     public String getKey() {
       return key;
     }
 
-    public void setKey(String key) {
-      this.key = key;
+    public ImageView getImagePreview() {
+      return imagePreview;
     }
   }
 
