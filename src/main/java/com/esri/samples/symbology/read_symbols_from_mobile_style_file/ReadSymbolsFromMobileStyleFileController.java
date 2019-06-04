@@ -111,28 +111,32 @@ public class ReadSymbolsFromMobileStyleFileController {
     // load the available symbols from the style file
     loadSymbolsFromStyleFile();
 
-//    // add colors to the color selection combo box
-//    class SymbolLayerInfoListCell extends ListCell<SymbolLayerInfo> {
-//      private ImageView imageView;
-//      {
-//        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-//        imageView = new ImageView();
-//      }
-//
-//      protected void updateItem(SymbolLayerInfo item, boolean empty) {
-//        super.updateItem(item, empty);
-//
-//        if (item == null || empty) {
-//          setGraphic(null);
-//        } else {
-//          imageView = item.getImagePreview();
-//          setGraphic(imageView);
-//        }
-//      }
-//    }
-//
-//    colorSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
-//    colorSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
+    // add symbols to the symbol selection combo box
+    class SymbolLayerInfoListCell extends ListCell<SymbolLayerInfo> {
+      private ImageView imageView;
+      {
+        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        imageView = new ImageView();
+      }
+
+      protected void updateItem(SymbolLayerInfo item, boolean empty) {
+        super.updateItem(item, empty);
+
+        if (item == null || empty) {
+          setGraphic(null);
+        } else {
+          imageView = item.getImagePreview();
+          setGraphic(imageView);
+        }
+      }
+    }
+
+    hatSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
+    hatSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
+    eyesSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
+    eyesSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
+    mouthSelectionComboBox.setCellFactory(c -> new SymbolLayerInfoListCell());
+    mouthSelectionComboBox.setButtonCell(new SymbolLayerInfoListCell());
 
     // listen to mouse clicks to add the desired multi layer symbol
     mapView.setOnMouseClicked( e -> {
