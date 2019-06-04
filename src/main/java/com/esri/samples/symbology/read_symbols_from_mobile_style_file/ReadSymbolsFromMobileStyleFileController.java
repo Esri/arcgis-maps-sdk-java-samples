@@ -83,26 +83,39 @@ public class ReadSymbolsFromMobileStyleFileController {
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // add colors to the color selection combo box
-    class ColorListCell extends ListCell<Color> {
+    class ColorListCell extends ListCell<Integer> {
       private final Rectangle rectangle;
       {
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         rectangle = new Rectangle(10, 10);
       }
 
-      protected void updateItem(Color item, boolean empty) {
+      protected void updateItem(Integer item, boolean empty) {
         super.updateItem(item, empty);
 
         if (item == null || empty) {
           setGraphic(null);
         } else {
-          rectangle.setFill(item);
+          switch (item) {
+            case (0xFFFF0000): {
+              rectangle.setFill(Color.RED);
+              break;
+            }
+            case (0xFF00FF00): {
+              rectangle.setFill(Color.GREEN);
+              break;
+            }
+            case (0xFF0000FF): {
+              rectangle.setFill(Color.BLUE);
+              break;
+            }
+          }
           setGraphic(rectangle);
         }
       }
     }
 
-    colorSelectionComboBox.getItems().addAll(Color.RED, Color.GREEN, Color.BLUE);
+    colorSelectionComboBox.getItems().addAll(0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
     colorSelectionComboBox.setCellFactory(c -> new ColorListCell());
     colorSelectionComboBox.setButtonCell(new ColorListCell());
 
@@ -283,8 +296,14 @@ public class ReadSymbolsFromMobileStyleFileController {
         // set the size of the symbol
         faceSymbol.setSize((float) sizeSlider.getValue());
 
+        // loop through all the symbol layers and lock the color
+        faceSymbol.getSymbolLayers().forEach( symbolLayer -> symbolLayer.setColorLocked(true) );
+
+        // unlock the color of the base layer. Changing the symbol layer will now only change this layer's color
+        faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
+
         // set the color of the symbol
-        System.out.println(colorSelectionComboBox.getSelectionModel().getSelectedItem().toString());
+        faceSymbol.setColor((Integer) colorSelectionComboBox.getValue());
 
         ListenableFuture<Image> symbolImageFuture = faceSymbol.createSwatchAsync(0x00000000, (float) sizeSlider.getValue());
         Image symbolImage = symbolImageFuture.get();
