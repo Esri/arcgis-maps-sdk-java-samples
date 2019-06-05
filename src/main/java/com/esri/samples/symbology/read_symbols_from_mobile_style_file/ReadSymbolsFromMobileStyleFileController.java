@@ -126,7 +126,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     }
 
     // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols
-    colorSelectionListView.getItems().addAll( 0xFFFFFF00, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
+    colorSelectionListView.getItems().addAll(0xFFFFFF00, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
     // add the change listener to the color selection list view, making a selection update the preview image
     colorSelectionListView.getSelectionModel().selectedItemProperty().addListener(changeListener);
     // create a cell factory to show the colors in the list view
@@ -206,9 +206,9 @@ public class ReadSymbolsFromMobileStyleFileController {
             try {
 
               // create lists to contain the available symbol layers for each category of symbol and add an empty entry as default
+              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
               ArrayList<SymbolLayerInfo> eyeSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
               ArrayList<SymbolLayerInfo> mouthSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
-              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
 
               // loop through the results and add symbols infos into the list according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
@@ -230,6 +230,11 @@ public class ReadSymbolsFromMobileStyleFileController {
 
                     // add the symbol layer info object to the correct list for its category
                     switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
+                      case "hat":
+                        hatSymbolInfos.add(symbolLayerInfo);
+                        // add the preview of the symbol to the preview container
+                        hatSelectionListView.getItems().add(symbolLayerInfo);
+                        break;
                       case "eyes":
                         eyeSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
@@ -239,11 +244,6 @@ public class ReadSymbolsFromMobileStyleFileController {
                         mouthSymbolInfos.add(symbolLayerInfo);
                         // add the preview of the symbol to the preview container
                         mouthSelectionListView.getItems().add(symbolLayerInfo);
-                        break;
-                      case "hat":
-                        hatSymbolInfos.add(symbolLayerInfo);
-                        // add the preview of the symbol to the preview container
-                        hatSelectionListView.getItems().add(symbolLayerInfo);
                         break;
                     }
 
@@ -342,14 +342,14 @@ public class ReadSymbolsFromMobileStyleFileController {
    * Clears all the graphics from the graphics overlay.
    */
   @FXML
-  private void resetView(){
+  private void resetView() {
     mapView.getGraphicsOverlays().get(0).getGraphics().clear();
   }
 
   /**
    * Gets the value of the size slider and updates the size label accordingly.
    */
-  private void updateSizeLabel(){
+  private void updateSizeLabel() {
     // get the slider value and convert to a string
     String sizeValue = Integer.toString((int) sizeSlider.getValue());
     // display the value in the label
