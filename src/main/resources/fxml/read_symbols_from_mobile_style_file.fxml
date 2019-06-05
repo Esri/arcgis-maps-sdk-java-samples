@@ -33,8 +33,7 @@
     <!--SDK SceneView-->
     <MapView fx:id="mapView"/>
     <!--Control Panel-->
-    <VBox StackPane.alignment="TOP_LEFT" minHeight="380" maxHeight="380" minWidth="310" maxWidth="310"
-          styleClass="panel-region" spacing="10">
+    <VBox StackPane.alignment="TOP_LEFT" maxHeight="380" maxWidth="310" styleClass="panel-region" spacing="10">
         <!--Control Panel Styling-->
         <padding>
             <Insets topRightBottomLeft="10"/>
@@ -53,31 +52,30 @@
         <HBox spacing="10" alignment="CENTER">
             <VBox>
                 <Label>Hat:</Label>
-                <ListView fx:id="hatSelectionListView" minHeight="120" maxHeight="120" minWidth="75" maxWidth="75"/>
+                <ListView fx:id="hatSelectionListView" maxHeight="120" maxWidth="75"/>
             </VBox>
             <VBox>
                 <Label>Eyes:</Label>
-                <ListView fx:id="eyesSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
+                <ListView fx:id="eyesSelectionListView" maxHeight="120" maxWidth="60"/>
             </VBox>
             <VBox>
                 <Label>Mouth:</Label>
-                <ListView fx:id="mouthSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
+                <ListView fx:id="mouthSelectionListView" maxHeight="120" maxWidth="60"/>
             </VBox>
             <VBox>
                 <Label>Color:</Label>
-                <ListView fx:id="colorSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
+                <ListView fx:id="colorSelectionListView" maxHeight="120" maxWidth="60"/>
             </VBox>
         </HBox>
         <HBox>
             <Label>Size:</Label>
-            <Slider fx:id="sizeSlider" max="100" min="10" value="50" snapToTicks="true" majorTickUnit="1" minWidth="200"
-                    maxWidth="200"/>
+            <Slider fx:id="sizeSlider" min="10" value="50" snapToTicks="true" majorTickUnit="1" minWidth="200"/>
             <Label fx:id="sizeLabel"/>
         </HBox>
         <HBox alignment="CENTER_LEFT">
             <Label>Preview:</Label>
             <HBox alignment="CENTER" fx:id="symbolPreviewHBox" minHeight="140" minWidth="140"/>
         </HBox>
-        <Button text="Reset" onAction="#resetView"/>
+        <Button text="Reset" onAction="#resetView" minWidth="80"/>
     </VBox>
 </StackPane>
