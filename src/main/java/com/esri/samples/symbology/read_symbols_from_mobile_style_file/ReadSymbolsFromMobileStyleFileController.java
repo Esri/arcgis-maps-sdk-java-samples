@@ -166,12 +166,13 @@ public class ReadSymbolsFromMobileStyleFileController {
       }
     });
 
+    // initiate the size label to show the default value
+    updateSizeLabel();
+
     // add a listener to the slider to update the preview when the size is changed
     sizeSlider.valueProperty().addListener(o -> {
-      // get the slider value and convert to a string
-      String sizeValue = Integer.toString((int) sizeSlider.getValue());
-      // display the value in the label
-      sizeLabel.setText(sizeValue + " px");
+      // update size label
+      updateSizeLabel();
       // update the preview
       buildCompositeSymbol();
     });
@@ -340,6 +341,13 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private void resetView(){
     mapView.getGraphicsOverlays().get(0).getGraphics().clear();
+  }
+
+  private void updateSizeLabel(){
+    // get the slider value and convert to a string
+    String sizeValue = Integer.toString((int) sizeSlider.getValue());
+    // display the value in the label
+    sizeLabel.setText(sizeValue + " px");
   }
 
   /**
