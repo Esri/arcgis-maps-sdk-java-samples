@@ -16,7 +16,6 @@
   -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.Background?>
@@ -26,9 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
 <StackPane fx:controller="com.esri.samples.symbology.read_symbols_from_mobile_style_file.ReadSymbolsFromMobileStyleFileController" xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
   <!--SDK SceneView-->
   <MapView fx:id="mapView"/>
@@ -62,11 +59,11 @@
 
     <HBox>
       <Label>Size: </Label>
-    <Slider fx:id="sizeSlider" showTickMarks="true" showTickLabels="true" majorTickUnit="1" minorTickCount="0" max="10" min="1" value="5" snapToTicks="true" minWidth="200" maxWidth="200"/>
+    <Slider fx:id="sizeSlider" max="10" min="1" value="5" minWidth="200" maxWidth="200"/>
     </HBox>
     <HBox>
       <Label>Preview: </Label>
-      <HBox fx:id="symbolPreviewHBox"></HBox>
+      <HBox fx:id="symbolPreviewHBox"/>
     </HBox>
 
   </VBox>

@@ -63,7 +63,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private ListView mouthSelectionListView = new ListView<SymbolLayerInfo>();
   @FXML
-  private ListView colorSelectionListView = new ListView<Rectangle>();
+  private ListView colorSelectionListView = new ListView<Integer>();
   @FXML
   private Slider sizeSlider = new Slider();
   @FXML
@@ -84,7 +84,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    //  add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols.
+    // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols.
     colorSelectionListView.getItems().addAll(0xFFffff00, 0xFF00FF00, 0xFF0000FF);
 
     // create a cell factory to show the colors in the list view
@@ -102,7 +102,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         if (item == null || empty) {
           setGraphic(null);
         } else {
-          // convert the 0xAARRGGBB format to color and apply it to the rectangle
+          // convert the 0xAARRGGBB format to a Color object and apply it to the rectangle fill
           rectangle.setFill(ColorUtil.argbToColor(item));
           setGraphic(rectangle);
         }
@@ -146,8 +146,8 @@ public class ReadSymbolsFromMobileStyleFileController {
     // create an array of the ListView objects
     ListView[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView, colorSelectionListView};
     // add the listener to each ListView in the array
-    for (int i = 0; i < listViews.length; i++) {
-      listViews[i].getSelectionModel().selectedItemProperty().addListener(changeListener);
+    for (ListView listView : listViews) {
+      listView.getSelectionModel().selectedItemProperty().addListener(changeListener);
     }
 
     // listen to mouse clicks to add the desired multi layer symbol
@@ -195,13 +195,10 @@ public class ReadSymbolsFromMobileStyleFileController {
           symbolStyleSearchResultFuture.addDoneListener(() -> {
             try {
 
-              // create an empty placeholder image to represent "no symbol" for each category
-              ImageView emptyImage = null;
-
               // create lists to contain the available symbol layers for each category of symbol and add an empty entry as default
-              ArrayList<SymbolLayerInfo> eyeSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "", emptyImage)));
-              ArrayList<SymbolLayerInfo> mouthSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo( "", emptyImage)));
-              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", emptyImage)));
+              ArrayList<SymbolLayerInfo> eyeSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
+              ArrayList<SymbolLayerInfo> mouthSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
+              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
 
               // loop through the results and add symbols infos into the list according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
@@ -214,6 +211,7 @@ public class ReadSymbolsFromMobileStyleFileController {
                 ListenableFuture<Image> imageListenableFuture = multilayerPointSymbol.createSwatchAsync(0x00000000, 1);
                 imageListenableFuture.addDoneListener(() -> {
                   try {
+                    // get the resulting image from the future and convert to an image view
                     Image image = imageListenableFuture.get();
                     ImageView imagePreview = new ImageView(image);
 
@@ -265,9 +263,6 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private void buildCompositeSymbol() {
 
-    // remove the previously displayed image view
-    symbolPreviewHBox.getChildren().clear();
-
     // retrieve the requested key for the requested hat symbol
     SymbolLayerInfo requestedHat = (SymbolLayerInfo) hatSelectionListView.getSelectionModel().getSelectedItem();
     String hatKey = requestedHat != null ? requestedHat.getKey() : "";
@@ -290,9 +285,6 @@ public class ReadSymbolsFromMobileStyleFileController {
           return;
         }
 
-        // set the size of the symbol
-        faceSymbol.setSize((float) sizeSlider.getValue() * 10);
-
         // loop through all the symbol layers and lock the color
         faceSymbol.getSymbolLayers().forEach(symbolLayer -> symbolLayer.setColorLocked(true));
 
@@ -305,6 +297,9 @@ public class ReadSymbolsFromMobileStyleFileController {
         // update the symbol preview
         updateSymbolPreview(faceSymbol);
 
+        // set the size of the symbol
+        faceSymbol.setSize((float) sizeSlider.getValue() * 10);
+
       } catch (ExecutionException | InterruptedException e) {
         new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + e.getMessage()).show();
       }
@@ -313,12 +308,15 @@ public class ReadSymbolsFromMobileStyleFileController {
 
   /**
    * Creates an ImageView object from a provided symbol and displays it in the preview area
+   *
    * @param multilayerPointSymbol the symbol used to create the image view
    */
-  private void updateSymbolPreview(MultilayerPointSymbol multilayerPointSymbol){
+  private void updateSymbolPreview(MultilayerPointSymbol multilayerPointSymbol) {
+    // remove the previously displayed image view
+    symbolPreviewHBox.getChildren().clear();
 
-      // create an image and image view from the symbol
-      ListenableFuture<Image> symbolImageFuture = multilayerPointSymbol.createSwatchAsync(0x00000000, 1);
+    // create an image and image view from the symbol
+    ListenableFuture<Image> symbolImageFuture = multilayerPointSymbol.createSwatchAsync(0x00000000, 1);
     try {
       Image symbolImage = symbolImageFuture.get();
       ImageView symbolImageView = new ImageView(symbolImage);
@@ -331,7 +329,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   }
 
   /**
-   *   a helper class used to store the information about a symbol layer
+   * a helper class used to store the information about a symbol layer
    */
   private class SymbolLayerInfo {
     // an image view used to preview the symbol
