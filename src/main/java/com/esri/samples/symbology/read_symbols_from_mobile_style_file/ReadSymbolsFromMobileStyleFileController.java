@@ -165,9 +165,7 @@ public class ReadSymbolsFromMobileStyleFileController {
 
     // add a listener to the slider to update the preview when the size is changed
     sizeSlider.valueProperty().addListener(o -> {
-      if (!sizeSlider.isValueChanging()) {
         buildCompositeSymbol();
-      }
     });
   }
 
