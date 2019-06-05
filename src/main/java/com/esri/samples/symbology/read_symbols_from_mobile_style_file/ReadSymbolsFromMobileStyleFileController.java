@@ -16,9 +16,7 @@
 
 package com.esri.samples.symbology.read_symbols_from_mobile_style_file;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -58,13 +56,13 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private MapView mapView = new MapView();
   @FXML
-  private ListView hatSelectionListView = new ListView<SymbolLayerInfo>();
+  private ListView<SymbolLayerInfo> hatSelectionListView = new ListView<>();
   @FXML
-  private ListView eyesSelectionListView = new ListView<SymbolLayerInfo>();
+  private ListView<SymbolLayerInfo> eyesSelectionListView = new ListView<>();
   @FXML
-  private ListView mouthSelectionListView = new ListView<SymbolLayerInfo>();
+  private ListView<SymbolLayerInfo> mouthSelectionListView = new ListView<>();
   @FXML
-  private ListView colorSelectionListView = new ListView<Integer>();
+  private ListView<Integer> colorSelectionListView = new ListView<>();
   @FXML
   private Slider sizeSlider = new Slider();
   @FXML
@@ -115,8 +113,8 @@ public class ReadSymbolsFromMobileStyleFileController {
     ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
 
     // create an array of the ListView objects for choosing the symbols, and iterate over it
-    ListView[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
-    for (ListView listView : listViews) {
+    ListView<SymbolLayerInfo>[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
+    for (ListView<SymbolLayerInfo> listView : listViews) {
       // add the cell factory to show the symbol within the list view
       listView.setCellFactory(c -> new SymbolLayerInfoListCell());
       // add the change listener to rebuild the preview when a selection is made
@@ -205,11 +203,6 @@ public class ReadSymbolsFromMobileStyleFileController {
           symbolStyleSearchResultFuture.addDoneListener(() -> {
             try {
 
-              // create lists to contain the available symbol layers for each category of symbol and add an empty entry as default
-              ArrayList<SymbolLayerInfo> hatSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
-              ArrayList<SymbolLayerInfo> eyeSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
-              ArrayList<SymbolLayerInfo> mouthSymbolInfos = new ArrayList<>(Collections.singletonList(new SymbolLayerInfo("", null)));
-
               // loop through the results and add symbols infos into the list according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
               for (SymbolStyleSearchResult symbolStyleSearchResult : symbolStyleSearchResults) {
@@ -231,18 +224,15 @@ public class ReadSymbolsFromMobileStyleFileController {
                     // add the symbol layer info object to the correct list for its category
                     switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
                       case "hat":
-                        hatSymbolInfos.add(symbolLayerInfo);
-                        // add the preview of the symbol to the preview container
+                        // add the preview of the symbol to the list view
                         hatSelectionListView.getItems().add(symbolLayerInfo);
                         break;
                       case "eyes":
-                        eyeSymbolInfos.add(symbolLayerInfo);
-                        // add the preview of the symbol to the preview container
+                        // add the preview of the symbol to the list view
                         eyesSelectionListView.getItems().add(symbolLayerInfo);
                         break;
                       case "mouth":
-                        mouthSymbolInfos.add(symbolLayerInfo);
-                        // add the preview of the symbol to the preview container
+                        // add the preview of the symbol to the list view
                         mouthSelectionListView.getItems().add(symbolLayerInfo);
                         break;
                     }
@@ -274,15 +264,15 @@ public class ReadSymbolsFromMobileStyleFileController {
   private void buildCompositeSymbol() {
 
     // retrieve the requested key for the requested hat symbol
-    SymbolLayerInfo requestedHat = (SymbolLayerInfo) hatSelectionListView.getSelectionModel().getSelectedItem();
+    SymbolLayerInfo requestedHat = hatSelectionListView.getSelectionModel().getSelectedItem();
     String hatKey = requestedHat != null ? requestedHat.getKey() : "";
 
     // retrieve the requested key for the requested eyes symbol
-    SymbolLayerInfo requestedEyes = (SymbolLayerInfo) eyesSelectionListView.getSelectionModel().getSelectedItem();
+    SymbolLayerInfo requestedEyes = eyesSelectionListView.getSelectionModel().getSelectedItem();
     String eyesKey = requestedEyes != null ? requestedEyes.getKey() : "";
 
     // retrieve the requested key for the requested mouth symbol
-    SymbolLayerInfo requestedMouth = (SymbolLayerInfo) mouthSelectionListView.getSelectionModel().getSelectedItem();
+    SymbolLayerInfo requestedMouth = mouthSelectionListView.getSelectionModel().getSelectedItem();
     String mouthKey = requestedMouth != null ? requestedMouth.getKey() : "";
 
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
@@ -302,7 +292,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
 
         // set the color of the symbol
-        faceSymbol.setColor((Integer) colorSelectionListView.getSelectionModel().getSelectedItem());
+        faceSymbol.setColor(colorSelectionListView.getSelectionModel().getSelectedItem());
 
         // set the size of the symbol
         faceSymbol.setSize((float) sizeSlider.getValue());
