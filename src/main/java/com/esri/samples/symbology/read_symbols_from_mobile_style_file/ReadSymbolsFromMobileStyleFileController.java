@@ -92,7 +92,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     class SymbolLayerInfoListCell extends ListCell<SymbolLayerInfo> {
       private ImageView imageView;
 
-      private SymbolLayerInfoListCell(){
+      private SymbolLayerInfoListCell() {
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         imageView = new ImageView();
       }
@@ -133,7 +133,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     class ColorListCell extends ListCell<Integer> {
       private final Rectangle rectangle;
 
-      private ColorListCell(){
+      private ColorListCell() {
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         rectangle = new Rectangle(10, 10);
       }
