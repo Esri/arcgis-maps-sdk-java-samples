@@ -139,6 +139,9 @@ public class RoutingAroundBarriersController {
       // convert clicked point to a map point
       Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
+      // Normalize geometry - important for geometries that will be sent to a server for processing.
+      mapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
+
       // if the primary mouse button was clicked, add a stop or barrier  to the clicked map point
       if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
         if (btnAddStop.isSelected()) {
