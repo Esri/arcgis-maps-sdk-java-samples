@@ -93,7 +93,9 @@ public class ReadSymbolsFromMobileStyleFileController {
       private ImageView imageView;
 
       private SymbolLayerInfoListCell() {
+        // set the cell to display only a graphic
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        // create an image view to display in the cell
         imageView = new ImageView();
       }
 
@@ -101,8 +103,10 @@ public class ReadSymbolsFromMobileStyleFileController {
         super.updateItem(item, empty);
 
         if (item == null || empty) {
+          // if the item in the list view is an empty item, show nothing
           setGraphic(null);
         } else {
+          // set the image view to the item's image preview and display it
           imageView = item.getImagePreview();
           setGraphic(imageView);
         }
@@ -134,7 +138,9 @@ public class ReadSymbolsFromMobileStyleFileController {
       private final Rectangle rectangle;
 
       private ColorListCell() {
+        // set the cell to display only a graphic
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        // create a rectangle to display in the cell
         rectangle = new Rectangle(10, 10);
       }
 
@@ -142,10 +148,12 @@ public class ReadSymbolsFromMobileStyleFileController {
         super.updateItem(item, empty);
 
         if (item == null || empty) {
+          // if the item in the list view is an empty item, show nothing
           setGraphic(null);
         } else {
           // convert the 0xAARRGGBB format to a Color object and apply it to the rectangle fill
           rectangle.setFill(ColorUtil.argbToColor(item));
+          // set the rectangle to be displayed in the cell
           setGraphic(rectangle);
         }
       }
@@ -153,12 +161,13 @@ public class ReadSymbolsFromMobileStyleFileController {
     // add the cell factory to the color selection list view
     colorSelectionListView.setCellFactory(c -> new ColorListCell());
 
-    // initiate the size label to show the default value
-    updateSizeLabel();
-    // add a listener to the slider to update the preview when the size is changed
+    // add a listener to the slider to update label and the preview when the size is changed
     sizeSlider.valueProperty().addListener(o -> {
-      // update size label
-      updateSizeLabel();
+      // get the slider value and convert to a string
+      String sizeValue = Integer.toString((int) sizeSlider.getValue());
+      // display the value in the label
+      sizeLabel.setText(sizeValue + " px");
+
       // update the preview
       buildCompositeSymbol();
     });
@@ -334,16 +343,6 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private void resetView() {
     mapView.getGraphicsOverlays().get(0).getGraphics().clear();
-  }
-
-  /**
-   * Gets the value of the size slider and updates the size label accordingly.
-   */
-  private void updateSizeLabel() {
-    // get the slider value and convert to a string
-    String sizeValue = Integer.toString((int) sizeSlider.getValue());
-    // display the value in the label
-    sizeLabel.setText(sizeValue + " px");
   }
 
   /**

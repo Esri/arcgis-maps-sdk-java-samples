@@ -70,7 +70,7 @@
         <HBox>
             <Label>Size:</Label>
             <Slider fx:id="sizeSlider" min="10" value="50" snapToTicks="true" majorTickUnit="1" minWidth="200"/>
-            <Label fx:id="sizeLabel"/>
+            <Label fx:id="sizeLabel" text="50 px"/>
         </HBox>
         <HBox alignment="CENTER_LEFT">
             <Label>Preview:</Label>
