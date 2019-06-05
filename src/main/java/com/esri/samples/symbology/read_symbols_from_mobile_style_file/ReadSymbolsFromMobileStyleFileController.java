@@ -126,7 +126,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     }
 
     // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols
-    colorSelectionListView.getItems().addAll( 0xFFffff00, 0xFF00FF00, 0xFF0000FF);
+    colorSelectionListView.getItems().addAll( 0xFFFFFF00, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
     // add the change listener to the color selection list view, making a selection update the preview image
     colorSelectionListView.getSelectionModel().selectedItemProperty().addListener(changeListener);
     // create a cell factory to show the colors in the list view

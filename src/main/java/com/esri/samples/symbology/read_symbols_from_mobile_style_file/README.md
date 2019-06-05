@@ -2,7 +2,7 @@
 
 Open a mobile style (.stylx) and read its contents. Combine several symbols from the style into a single multilayer point symbol, then use it to display graphics in the map view.
 
-![](ReadSymbolsFromMobileStyleFileSample.png)
+![](ReadSymbolsFromMobileStyleFile.png)
 
 ## Use case
 
