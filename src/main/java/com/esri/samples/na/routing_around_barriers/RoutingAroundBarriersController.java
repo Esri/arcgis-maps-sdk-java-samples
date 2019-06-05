@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.esri.samples.na.routing_around_barriers;
 
 import java.util.ArrayList;
@@ -53,17 +69,11 @@ public class RoutingAroundBarriersController {
   @FXML private ListView<String> directionsList;
   @FXML private TitledPane routeInformationTitledPane;
 
-  // for displaying the route to the mapview
   private GraphicsOverlay routeGraphicsOverlay;
-  // symbol for marking routes
   private SimpleLineSymbol routeLineSymbol;
-  // task to find route between stops
   private RouteTask routeTask;
-  // used for solving task above
   private RouteParameters routeParameters;
-  // for grouping stops to add to the routing task
   private ArrayList<Stop> stopsList;
-  // for grouping barriers to add to the routing task
   private ArrayList<PolygonBarrier> barriersList;
 
   @FXML
@@ -93,10 +103,6 @@ public class RoutingAroundBarriersController {
     // create symbols for displaying the barriers and the route line
     SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
     routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
-
-    // disable the UI until ready
-    btnDetermineRoute.setDisable(true);
-    btnReset.setDisable(true);
 
     // create route task from San Diego service
     routeTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
@@ -133,7 +139,7 @@ public class RoutingAroundBarriersController {
       // convert clicked point to a map point
       Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
-      // if the primary mouse button was clicked, add a stop or barrier, respectively
+      // if the primary mouse button was clicked, add a stop or barrier  to the clicked map point
       if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
         if (btnAddStop.isSelected()) {
           // use the clicked map point to construct a stop
@@ -239,9 +245,6 @@ public class RoutingAroundBarriersController {
               directionsList.getItems().add(maneuver.getDirectionText());
             }
 
-            // enable the reset button
-            btnReset.setDisable(false);
-
           } else {
             new Alert(Alert.AlertType.ERROR, "No possible routes found").show();
           }
@@ -249,6 +252,10 @@ public class RoutingAroundBarriersController {
         } catch (InterruptedException | ExecutionException e) {
           new Alert(Alert.AlertType.ERROR, "Solve RouteTask failed " + e.getMessage() + e.getMessage()).show();
         }
+
+        // enable the reset button
+        btnReset.setDisable(false);
+
       });
     } else {
       new Alert(Alert.AlertType.ERROR, "Cannot run the routing task, a minimum of two stops is required").show();
@@ -270,9 +277,6 @@ public class RoutingAroundBarriersController {
 
     // clear the directions list
     directionsList.getItems().clear();
-
-    // clear route information from the TitlePane of the Accordion box
-    routeInformationTitledPane.setText("No route to display");
 
     // clear all graphics overlays
     mapView.getGraphicsOverlays().forEach(graphicsOverlay -> graphicsOverlay.getGraphics().clear());

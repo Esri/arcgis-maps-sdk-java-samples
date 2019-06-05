@@ -17,13 +17,13 @@
 <h2>How it works</h2>
 
 <ol>
-  <li>Create the route task by calling <code>RouteTask.CreateAsync(_serviceUrl)</code> with the URL to a Network Analysis route service.</li>
-  <li>Get the default route parameters for the service by calling <code>_routeTask.CreateDefaultParametersAsync</code>.</li>
+  <li>Create the route task by calling <code>RouteTask.CreateAsync(serviceUrl)</code> with the URL to a Network Analysis route service.</li>
+  <li>Get the default route parameters for the service by calling <code>routeTask.CreateDefaultParametersAsync</code>.</li>
 
   <li>When the user adds a stop, add it to the route parameters.
     <ol>
       <li>Normalize the geometry; otherwise the route job would fail if the user included any stops over the 180th degree meridian.</li>
-      <li>Get the name of the stop by counting the existing stops - <code>_stepsOverlay.Graphics.Count + 1</code>.</li>
+      <li>Get the name of the stop by counting the existing stops - <code>stepsOverlay.Graphics.Count + 1</code>.</li>
       <li>Create a composite symbol for the stop. This sample uses a pushpin marker and a text symbol.</li>
       <li>Create the graphic from the geometry and the symbol.</li>
       <li>Add the graphic to the stops graphics overlay.</li>
@@ -42,8 +42,8 @@
   <li>When ready to find the route, configure the route parameters.
     <ol>
       <li>Set the <code>ReturnStops</code> and <code>ReturnDirections</code> to <code>true</code>.</li>
-      <li>Create a <code>Stop</code> for each graphic in the stops graphics overlay. Add that stop to a list, then call <code>_routeParameters.SetStops(routeStops)</code>.</li>
-      <li>Create a <code>PolygonBarrier</code> for each graphic in the barriers graphics overlay. Add that barrier to a list, then call <code>_routeParameters.SetPolygonBarriers(routeBarriers)</code>.</li>
+      <li>Create a <code>Stop</code> for each graphic in the stops graphics overlay. Add that stop to a list, then call <code>routeParameters.SetStops(routeStops)</code>.</li>
+      <li>Create a <code>PolygonBarrier</code> for each graphic in the barriers graphics overlay. Add that barrier to a list, then call <code>routeParameters.SetPolygonBarriers(routeBarriers)</code>.</li>
       <li>If the user will accept routes with the stops in any order, set <code>FindBestSequence</code> to <code>true</code> to find the most optimal route.</li>
       <li>If the user has a definite start point, set <code>PreserveFirstStop</code> to <code>true</code>.</li>
       <li>If the user has a definite final destination, set <code>PreserveLastStop</code> to <code>true</code>.</li>
@@ -52,7 +52,7 @@
 
   <li>Calculate and display the route.
     <ol>
-      <li>Call <code>_routeTask.SolveRouteAsync(_routeParameters)</code> to get a <code>RouteResult</code>.</li>
+      <li>Call <code>routeTask.SolveRouteAsync(routeParameters)</code> to get a <code>RouteResult</code>.</li>
       <li>Get the first returned route by calling <code>calculatedRoute.Routes.First()</code>.</li>
       <li>Get the geometry from the route as a polyline by accessing the <code>firstResult.RouteGeometry</code> property.</li>
       <li>Create a graphic from the polyline and a simple line symbol.</li>
@@ -88,4 +88,4 @@
 
 <h2>Tags</h2>
 
-<p>network analysis, routing, barriers, directions, sequence, best sequence, stops, stop order, maneuver</p>
+<p>barriers, best sequence, directions, maneuver, network analysis, routing, sequence, stop order, stops</p>
