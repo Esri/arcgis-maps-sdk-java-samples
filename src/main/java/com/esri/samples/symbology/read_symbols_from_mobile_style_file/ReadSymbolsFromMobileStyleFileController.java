@@ -92,7 +92,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     class SymbolLayerInfoListCell extends ListCell<SymbolLayerInfo> {
       private ImageView imageView;
 
-      {
+      private SymbolLayerInfoListCell(){
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         imageView = new ImageView();
       }
@@ -133,7 +133,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     class ColorListCell extends ListCell<Integer> {
       private final Rectangle rectangle;
 
-      {
+      private ColorListCell(){
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         rectangle = new Rectangle(10, 10);
       }
@@ -177,7 +177,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   }
 
   /**
-   * Loads the stylx file and searches for all symbols contained within. Put the resulting symbols into the GUI
+   * Loads the stylx file and searches for all symbols contained within. Puts the resulting symbols into the GUI
    * based on their category (eyes, mouth, hat, face).
    */
   private void loadSymbolsFromStyleFile() {
@@ -347,7 +347,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   }
 
   /**
-   * a helper class used to store the information about a symbol layer
+   * a helper class used to store the key and an image preview of a symbol layer
    */
   private class SymbolLayerInfo {
     // an image view used to preview the symbol
