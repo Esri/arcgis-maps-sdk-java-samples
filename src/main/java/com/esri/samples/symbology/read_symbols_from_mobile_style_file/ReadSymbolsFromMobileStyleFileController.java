@@ -87,35 +87,6 @@ public class ReadSymbolsFromMobileStyleFileController {
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols.
-    colorSelectionListView.getItems().addAll( 0xFFffff00, 0xFF00FF00, 0xFF0000FF);
-
-    // create a cell factory to show the colors in the list view
-    class ColorListCell extends ListCell<Integer> {
-      private final Rectangle rectangle;
-
-      {
-        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        rectangle = new Rectangle(10, 10);
-      }
-
-      protected void updateItem(Integer item, boolean empty) {
-        super.updateItem(item, empty);
-
-        if (item == null || empty) {
-          setGraphic(null);
-        } else {
-          // convert the 0xAARRGGBB format to a Color object and apply it to the rectangle fill
-          rectangle.setFill(ColorUtil.argbToColor(item));
-          setGraphic(rectangle);
-        }
-      }
-    }
-    // add the cell factory to the color selection list view
-    colorSelectionListView.setCellFactory(c -> new ColorListCell());
-    // make the first item in the list view selected by default
-    colorSelectionListView.getSelectionModel().select(0);
-
     // load the available symbols from the style file
     loadSymbolsFromStyleFile();
 
@@ -146,13 +117,53 @@ public class ReadSymbolsFromMobileStyleFileController {
     // create an array of the ListView objects for choosing the symbols, and iterate over it
     ListView[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
     for (ListView listView : listViews) {
-      // add the cell factory to each of the symbol list views
+      // add the cell factory to show the symbol within the list view
       listView.setCellFactory(c -> new SymbolLayerInfoListCell());
-      // add the listener to each ListView in the array
+      // add the change listener to rebuild the preview when a selection is made
       listView.getSelectionModel().selectedItemProperty().addListener(changeListener);
       // add an empty SymbolLayerInfo to allow selecting 'nothing'
       listView.getItems().add(new SymbolLayerInfo("", null));
     }
+
+    // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols
+    colorSelectionListView.getItems().addAll( 0xFFffff00, 0xFF00FF00, 0xFF0000FF);
+    // add the change listener to the color selection list view, making a selection update the preview image
+    colorSelectionListView.getSelectionModel().selectedItemProperty().addListener(changeListener);
+    // create a cell factory to show the colors in the list view
+    class ColorListCell extends ListCell<Integer> {
+      private final Rectangle rectangle;
+
+      {
+        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        rectangle = new Rectangle(10, 10);
+      }
+
+      protected void updateItem(Integer item, boolean empty) {
+        super.updateItem(item, empty);
+
+        if (item == null || empty) {
+          setGraphic(null);
+        } else {
+          // convert the 0xAARRGGBB format to a Color object and apply it to the rectangle fill
+          rectangle.setFill(ColorUtil.argbToColor(item));
+          setGraphic(rectangle);
+        }
+      }
+    }
+    // add the cell factory to the color selection list view
+    colorSelectionListView.setCellFactory(c -> new ColorListCell());
+    // make the first item in the list view selected by default
+    colorSelectionListView.getSelectionModel().select(0);
+
+    // initiate the size label to show the default value
+    updateSizeLabel();
+    // add a listener to the slider to update the preview when the size is changed
+    sizeSlider.valueProperty().addListener(o -> {
+      // update size label
+      updateSizeLabel();
+      // update the preview
+      buildCompositeSymbol();
+    });
 
     // listen to mouse clicks to add the desired multi layer symbol
     mapView.setOnMouseClicked(e -> {
@@ -164,17 +175,6 @@ public class ReadSymbolsFromMobileStyleFileController {
         Graphic graphic = new Graphic(mapPoint, faceSymbol);
         graphicsOverlay.getGraphics().add(graphic);
       }
-    });
-
-    // initiate the size label to show the default value
-    updateSizeLabel();
-
-    // add a listener to the slider to update the preview when the size is changed
-    sizeSlider.valueProperty().addListener(o -> {
-      // update size label
-      updateSizeLabel();
-      // update the preview
-      buildCompositeSymbol();
     });
   }
 
@@ -338,11 +338,17 @@ public class ReadSymbolsFromMobileStyleFileController {
     }
   }
 
+  /**
+   * Clears all the graphics from the graphics overlay.
+   */
   @FXML
   private void resetView(){
     mapView.getGraphicsOverlays().get(0).getGraphics().clear();
   }
 
+  /**
+   * Gets the value of the size slider and updates the size label accordingly.
+   */
   private void updateSizeLabel(){
     // get the slider value and convert to a string
     String sizeValue = Integer.toString((int) sizeSlider.getValue());
