@@ -28,6 +28,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
@@ -66,6 +67,8 @@ public class ReadSymbolsFromMobileStyleFileController {
   private ListView colorSelectionListView = new ListView<Integer>();
   @FXML
   private Slider sizeSlider = new Slider();
+  @FXML
+  private Label sizeLabel = new Label();
   @FXML
   private HBox symbolPreviewHBox = new HBox();
 
@@ -165,7 +168,12 @@ public class ReadSymbolsFromMobileStyleFileController {
 
     // add a listener to the slider to update the preview when the size is changed
     sizeSlider.valueProperty().addListener(o -> {
-        buildCompositeSymbol();
+      // get the slider value and convert to a string
+      String sizeValue = Integer.toString((int) sizeSlider.getValue());
+      // display the value in the label
+      sizeLabel.setText(sizeValue + " px");
+      // update the preview
+      buildCompositeSymbol();
     });
   }
 
@@ -296,7 +304,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         faceSymbol.setColor((Integer) colorSelectionListView.getSelectionModel().getSelectedItem());
 
         // set the size of the symbol
-        faceSymbol.setSize((float) sizeSlider.getValue() * 10);
+        faceSymbol.setSize((float) sizeSlider.getValue());
 
         // update the symbol preview
         updateSymbolPreview(faceSymbol);
@@ -327,6 +335,11 @@ public class ReadSymbolsFromMobileStyleFileController {
     } catch (InterruptedException | ExecutionException e) {
       new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided MultilayerPointSymbol" + e.getMessage()).show();
     }
+  }
+
+  @FXML
+  private void resetView(){
+    mapView.getGraphicsOverlays().get(0).getGraphics().clear();
   }
 
   /**

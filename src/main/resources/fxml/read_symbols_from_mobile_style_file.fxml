@@ -26,6 +26,7 @@
 <?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
 <StackPane fx:controller="com.esri.samples.symbology.read_symbols_from_mobile_style_file.ReadSymbolsFromMobileStyleFileController" xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
   <!--SDK SceneView-->
   <MapView fx:id="mapView"/>
@@ -51,20 +52,35 @@
     </background>
 
     <HBox spacing="10">
-      <ListView fx:id="hatSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
-      <ListView fx:id="eyesSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
-      <ListView fx:id="mouthSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
-      <ListView fx:id="colorSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
+      <VBox>
+        <Label>Hat:</Label>
+        <ListView fx:id="hatSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
+      </VBox>
+      <VBox>
+        <Label>Eyes:</Label>
+        <ListView fx:id="eyesSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
+      </VBox>
+      <VBox>
+        <Label>Mouth:</Label>
+        <ListView fx:id="mouthSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
+      </VBox>
+      <VBox>
+        <Label>Color:</Label>
+        <ListView fx:id="colorSelectionListView" minHeight="120" maxHeight="120" minWidth="60" maxWidth="60"/>
+      </VBox>
     </HBox>
 
     <HBox>
       <Label>Size: </Label>
-    <Slider fx:id="sizeSlider" max="10" min="1" value="5" minWidth="200" maxWidth="200"/>
+      <Slider fx:id="sizeSlider" max="100" min="10" value="50" snapToTicks="true" majorTickUnit="1" minWidth="200" maxWidth="200"/>
+      <Label fx:id="sizeLabel"/>
     </HBox>
     <HBox>
       <Label>Preview: </Label>
-      <HBox fx:id="symbolPreviewHBox"/>
+      <HBox fx:id="symbolPreviewHBox" minHeight="150" minWidth="150" centerShape="true"/>
     </HBox>
+
+    <Button text="Reset" onAction="#resetView"></Button>
 
   </VBox>
 </StackPane>
