@@ -21,43 +21,43 @@
   <li>Get the default route parameters for the service by calling <code>routeTask.CreateDefaultParametersAsync</code>.</li>
 
   <li>When the user adds a stop, add it to the route parameters.
-    <ol>
+    <ul>
       <li>Normalize the geometry; otherwise the route job would fail if the user included any stops over the 180th degree meridian.</li>
       <li>Get the name of the stop by counting the existing stops - <code>stepsOverlay.Graphics.Count + 1</code>.</li>
       <li>Create a composite symbol for the stop. This sample uses a pushpin marker and a text symbol.</li>
       <li>Create the graphic from the geometry and the symbol.</li>
       <li>Add the graphic to the stops graphics overlay.</li>
-    </ol>
+    </ul>
   </li>
 
   <li>When the user adds a barrier, create a polygon barrier and add it to the route parameters.
-    <ol>
-      <li>Normalize the geometry (see <strong>3i</strong> above).</li>
+    <ul>
+      <li>Normalize the geometry as in step 3.</li>
       <li>Buffer the geometry to create a larger barrier from the tapped point by calling <code>GeometryEngine.BufferGeodetic(mapLocation, 500, LinearUnits.Meters)</code>.</li>
       <li>Create the graphic from the geometry and the symbol.</li>
       <li>Add the graphic to the barriers overlay.</li>
-    </ol>
+    </ul>
   </li>
 
   <li>When ready to find the route, configure the route parameters.
-    <ol>
+    <ul>
       <li>Set the <code>ReturnStops</code> and <code>ReturnDirections</code> to <code>true</code>.</li>
       <li>Create a <code>Stop</code> for each graphic in the stops graphics overlay. Add that stop to a list, then call <code>routeParameters.SetStops(routeStops)</code>.</li>
       <li>Create a <code>PolygonBarrier</code> for each graphic in the barriers graphics overlay. Add that barrier to a list, then call <code>routeParameters.SetPolygonBarriers(routeBarriers)</code>.</li>
       <li>If the user will accept routes with the stops in any order, set <code>FindBestSequence</code> to <code>true</code> to find the most optimal route.</li>
       <li>If the user has a definite start point, set <code>PreserveFirstStop</code> to <code>true</code>.</li>
       <li>If the user has a definite final destination, set <code>PreserveLastStop</code> to <code>true</code>.</li>
-    </ol>
+    </ul>
   </li>
 
   <li>Calculate and display the route.
-    <ol>
+    <ul>
       <li>Call <code>routeTask.SolveRouteAsync(routeParameters)</code> to get a <code>RouteResult</code>.</li>
       <li>Get the first returned route by calling <code>calculatedRoute.Routes.First()</code>.</li>
       <li>Get the geometry from the route as a polyline by accessing the <code>firstResult.RouteGeometry</code> property.</li>
       <li>Create a graphic from the polyline and a simple line symbol.</li>
       <li>Display the steps on the route, available from <code>firstResult.DirectionManeuvers</code>.</li>
-    </ol>
+    </ul>
   </li>
 </ol>
 
