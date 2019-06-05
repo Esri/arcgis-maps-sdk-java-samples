@@ -46,13 +46,12 @@
             <!--Edit Mode Toggle Buttons-->
             <Label text="Edit Mode:"/>
             <HBox minWidth="200" maxWidth="Infinity">
-                <ToggleButton fx:id="btnAddStop" text="Stops" selected="true" minWidth="100" maxWidth="Infinity">
+                <ToggleButton fx:id="btnAddStop" text="Stops" selected="true" minWidth="100">
                     <toggleGroup>
                         <ToggleGroup fx:id="toggleGroup"/>
                     </toggleGroup>
                 </ToggleButton>
-                <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Barriers" minWidth="100"
-                              maxWidth="Infinity"/>
+                <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Barriers" minWidth="100"/>
             </HBox>
             <Separator/>
             <!--Routing Options Checkboxes-->
