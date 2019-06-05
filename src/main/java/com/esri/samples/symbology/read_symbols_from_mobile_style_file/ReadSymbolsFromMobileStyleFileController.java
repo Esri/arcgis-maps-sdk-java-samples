@@ -33,6 +33,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
@@ -84,7 +85,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols.
-    colorSelectionListView.getItems().addAll(0xFFffff00, 0xFF00FF00, 0xFF0000FF);
+    colorSelectionListView.getItems().addAll( 0xFFffff00, 0xFF00FF00, 0xFF0000FF);
 
     // create a cell factory to show the colors in the list view
     class ColorListCell extends ListCell<Integer> {
@@ -135,28 +136,31 @@ public class ReadSymbolsFromMobileStyleFileController {
         }
       }
     }
-    // add the cell factory to each of the symbol list views
-    hatSelectionListView.setCellFactory(c -> new SymbolLayerInfoListCell());
-    eyesSelectionListView.setCellFactory(c -> new SymbolLayerInfoListCell());
-    mouthSelectionListView.setCellFactory(c -> new SymbolLayerInfoListCell());
 
     // create a listener that builds the composite symbol when an item from the list view is selected
     ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
-    // create an array of the ListView objects
-    ListView[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView, colorSelectionListView};
-    // add the listener to each ListView in the array
+
+    // create an array of the ListView objects for choosing the symbols, and iterate over it
+    ListView[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
     for (ListView listView : listViews) {
+      // add the cell factory to each of the symbol list views
+      listView.setCellFactory(c -> new SymbolLayerInfoListCell());
+      // add the listener to each ListView in the array
       listView.getSelectionModel().selectedItemProperty().addListener(changeListener);
+      // add an empty SymbolLayerInfo to allow selecting 'nothing'
+      listView.getItems().add(new SymbolLayerInfo("", null));
     }
 
     // listen to mouse clicks to add the desired multi layer symbol
     mapView.setOnMouseClicked(e -> {
-      // convert clicked point to a map point
-      Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
+      if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+        // convert clicked point to a map point
+        Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
-      // create a new graphic with the point and symbol
-      Graphic graphic = new Graphic(mapPoint, faceSymbol);
-      graphicsOverlay.getGraphics().add(graphic);
+        // create a new graphic with the point and symbol
+        Graphic graphic = new Graphic(mapPoint, faceSymbol);
+        graphicsOverlay.getGraphics().add(graphic);
+      }
     });
 
     // add a listener to the slider to update the preview when the size is changed
@@ -293,11 +297,11 @@ public class ReadSymbolsFromMobileStyleFileController {
         // set the color of the symbol
         faceSymbol.setColor((Integer) colorSelectionListView.getSelectionModel().getSelectedItem());
 
-        // update the symbol preview
-        updateSymbolPreview(faceSymbol);
-
         // set the size of the symbol
         faceSymbol.setSize((float) sizeSlider.getValue() * 10);
+
+        // update the symbol preview
+        updateSymbolPreview(faceSymbol);
 
       } catch (ExecutionException | InterruptedException e) {
         new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + e.getMessage()).show();
