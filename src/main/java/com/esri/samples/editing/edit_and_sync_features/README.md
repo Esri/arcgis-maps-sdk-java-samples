@@ -26,11 +26,11 @@
   <li>Start the <code>GenerateGeodatabaseJob</code> and, on success, load the <code>Geodatabase</code>.</li>
   <li>On successful loading, call <code>getGeodatabaseFeatureTables()</code> on the <code>Geodatabase</code> and add it to the <code>ArcGISMap</code>'s operational layers.</li>
   <li>To sync changes between the local and web geodatabases:
-    <ol>
+    <ul>
       <li>Create a <code>SyncGeodatabaseParameters</code> object, and set it's sync direction with <code>syncGeodatabaseParameters.SyncDirection()</code>.</li>
       <li>Create a <code>SyncGeodatabaseJob</code> from <code>GeodatabaseSyncTask</code> using <code>.syncGeodatabaseAsync(...)</code> passing the <code>SyncGeodatabaseParameters</code> and <code>Geodatabase</code> as arguments.</li>
       <li>Start the <code>SyncGeodatabaseJob</code> to synchronize the edits.</li>
-    </ol>
+    </ul>
   </li>
 </ol>
 
