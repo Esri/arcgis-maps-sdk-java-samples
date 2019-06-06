@@ -6,7 +6,7 @@
 
 <h2>Use case</h2>
 
-<p>By generating a local geodatabase, a user can take an offline copy of a feature service, make changes to it while still offline, and later synchronize their edits to the online feature service. This is useful in cases where a network connection is not available (e.g. working in remote areas), but users still need to be able to make changes to features.</p>
+<p>By generating a local geodatabase, a user can take an offline copy of a feature service, make changes to it while still offline, and later synchronize their edits to the online feature service. For example, an infrastructure survey worker could use this functionality to save an up-to-date geodatabase to their device, perform their survey work in a remote area without internet connection, and later sync their results to an online geodatabase when regaining internet access.</p>
 
 <h2>How to use the sample</h2>
 
@@ -29,7 +29,7 @@
     <ol>
       <li>Create a <code>SyncGeodatabaseParameters</code> object, and set it's sync direction with <code>syncGeodatabaseParameters.SyncDirection()</code>.</li>
       <li>Create a <code>SyncGeodatabaseJob</code> from <code>GeodatabaseSyncTask</code> using <code>.syncGeodatabaseAsync(...)</code> passing the <code>SyncGeodatabaseParameters</code> and <code>Geodatabase</code> as arguments.</li>
-      <li>Start the <code>SyncGeodatabaseJob</code> to synchronise the edits.</li>
+      <li>Start the <code>SyncGeodatabaseJob</code> to synchronize the edits.</li>
     </ol>
   </li>
 </ol>
