@@ -98,7 +98,6 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     // create a fill symbols to fill the service area outline with a color
     List<SimpleFillSymbol> fillSymbols = new ArrayList<>();
     fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FF0000, serviceAreaOutlineSymbol));
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FFA500, serviceAreaOutlineSymbol));
 
     // create an icon used to display the facilities
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
