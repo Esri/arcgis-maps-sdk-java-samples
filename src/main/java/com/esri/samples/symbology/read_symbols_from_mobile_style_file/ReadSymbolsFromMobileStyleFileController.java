@@ -90,10 +90,10 @@ public class ReadSymbolsFromMobileStyleFileController {
     loadSymbolsFromStyleFile();
 
     // create a cell factory to show the available symbols in the respective list view
-    class SymbolLayerInfoListCell extends ListCell<HashMap<String, ImageView>> {
+    class SymbolLayerHashMapListCell extends ListCell<HashMap<String, ImageView>> {
       private ImageView imageView;
 
-      private SymbolLayerInfoListCell() {
+      private SymbolLayerHashMapListCell() {
         // set the cell to display only a graphic
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         // create an image view to display in the cell
@@ -121,11 +121,11 @@ public class ReadSymbolsFromMobileStyleFileController {
     ListView<HashMap<String, ImageView>>[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
     for (ListView<HashMap<String, ImageView>> listView : listViews) {
       // add the cell factory to show the symbol within the list view
-      listView.setCellFactory(c -> new SymbolLayerInfoListCell());
+      listView.setCellFactory(c -> new SymbolLayerHashMapListCell());
       // add the change listener to rebuild the preview when a selection is made
       listView.getSelectionModel().selectedItemProperty().addListener(changeListener);
-      // add an empty SymbolLayerInfo to allow selecting 'nothing'
-      listView.getItems().add(new HashMap<String, ImageView>() {{
+      // add an empty hashmap to the list view to allow selecting 'nothing'
+      listView.getItems().add(new HashMap<>() {{
         put("", null);
       }});
     }
@@ -215,7 +215,7 @@ public class ReadSymbolsFromMobileStyleFileController {
           symbolStyleSearchResultFuture.addDoneListener(() -> {
             try {
 
-              // loop through the results and add symbols infos into the list according to category
+              // loop through the results and add symbols into the list according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
               for (SymbolStyleSearchResult symbolStyleSearchResult : symbolStyleSearchResults) {
 
@@ -230,23 +230,23 @@ public class ReadSymbolsFromMobileStyleFileController {
                     Image image = imageListenableFuture.get();
                     ImageView imagePreview = new ImageView(image);
 
-                    // create a symbol layer info object to represent the found symbol in the list
-                    HashMap<String, ImageView> symbolLayerInfo = new HashMap<>();
-                    symbolLayerInfo.put(symbolStyleSearchResult.getKey(), imagePreview);
+                    // create a hashmap to store the symbol key and image view, and add the values
+                    HashMap<String, ImageView> symbolLayerHashMap = new HashMap<>();
+                    symbolLayerHashMap.put(symbolStyleSearchResult.getKey(), imagePreview);
 
-                    // add the symbol layer info object to the correct list for its category
+                    // add the symbol layer hashmap to the correct list for its category
                     switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
                       case "hat":
                         // add the preview of the symbol to the list view
-                        hatSelectionListView.getItems().add(symbolLayerInfo);
+                        hatSelectionListView.getItems().add(symbolLayerHashMap);
                         break;
                       case "eyes":
                         // add the preview of the symbol to the list view
-                        eyesSelectionListView.getItems().add(symbolLayerInfo);
+                        eyesSelectionListView.getItems().add(symbolLayerHashMap);
                         break;
                       case "mouth":
                         // add the preview of the symbol to the list view
-                        mouthSelectionListView.getItems().add(symbolLayerInfo);
+                        mouthSelectionListView.getItems().add(symbolLayerHashMap);
                         break;
                     }
 
