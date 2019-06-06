@@ -90,13 +90,10 @@ public class ReadSymbolsFromMobileStyleFileController {
 
     // create a cell factory to show the available symbols in the respective list view
     class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
-      private ImageView imageView;
 
       private SymbolLayerInfoListCell() {
         // set the cell to display only a graphic
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        // create an image view to display in the cell
-        imageView = new ImageView();
       }
 
       protected void updateItem(SymbolStyleSearchResult item, boolean empty) {
@@ -106,10 +103,12 @@ public class ReadSymbolsFromMobileStyleFileController {
           // if the item in the list view is an empty item, show nothing
           setGraphic(null);
         } else {
-          // set the image view to the item's image preview and display it
+          // get the symbol from the list view entry, and create an image from it
           ListenableFuture<Image> symbolImageFuture = item.getSymbol().createSwatchAsync(0x00000000, 1);
           try{
+            // get the resulting image
             Image symbolImage = symbolImageFuture.get();
+            // create and image view and display it in the cell
             ImageView symbolImageView = new ImageView(symbolImage);
             setGraphic(symbolImageView);
           } catch (InterruptedException | ExecutionException e) {
@@ -122,14 +121,14 @@ public class ReadSymbolsFromMobileStyleFileController {
     // create a listener that builds the composite symbol when an item from the list view is selected
     ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
 
-    // create an array of the ListView objects for choosing the symbols, and iterate over it
+    // create an array of the ListView objects and iterate over it. This is for adding cell factories, listeners, and an empty entry
     ListView<SymbolStyleSearchResult>[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
     for (ListView<SymbolStyleSearchResult> listView : listViews) {
       // add the cell factory to show the symbol within the list view
       listView.setCellFactory(c -> new SymbolLayerInfoListCell());
       // add the change listener to rebuild the preview when a selection is made
       listView.getSelectionModel().selectedItemProperty().addListener(changeListener);
-      // add an empty SymbolLayerInfo to allow selecting 'nothing'
+      // add an empty entry to the list view to allow selecting 'nothing'
       listView.getItems().add(null);
     }
 
@@ -196,11 +195,11 @@ public class ReadSymbolsFromMobileStyleFileController {
    * based on their category (eyes, mouth, hat, face).
    */
   private void loadSymbolsFromStyleFile() {
-    // create a SymbolStyle by passing the location of the .stylx file in the constructor
+    // create a SymbolStyle with the .stylx file
     emojiStyle = new SymbolStyle("./samples-data/stylx/emoji-mobile.stylx");
     emojiStyle.loadAsync();
 
-    // add a listener to run when the symbol style has loaded
+    // wait for the symbol style to load
     emojiStyle.addDoneLoadingListener(() -> {
       if (emojiStyle.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
         new Alert(Alert.AlertType.ERROR, "Error: could not load .stylx file. Details: " + emojiStyle.getLoadError().getMessage()).show();
@@ -213,31 +212,31 @@ public class ReadSymbolsFromMobileStyleFileController {
         try {
           SymbolStyleSearchParameters defaultSearchParameters = defaultSearchParametersFuture.get();
 
-          // use the default parameters to perform the search
+          // use the default parameters to perform the search, getting all the available symbols within the file
           ListenableFuture<List<SymbolStyleSearchResult>> symbolStyleSearchResultFuture = emojiStyle.searchSymbolsAsync(defaultSearchParameters);
           symbolStyleSearchResultFuture.addDoneListener(() -> {
             try {
 
-              // loop through the results and add symbols infos into the list according to category
+              // loop through the results and add each item to a list view according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
-              for (SymbolStyleSearchResult symbolStyleSearchResult : symbolStyleSearchResults) {
+              symbolStyleSearchResults.forEach (symbolStyleSearchResult -> {
 
-                // add the symbol layer info object to the correct list for its category
+                // add the SymbolStyleSearchResult object to the correct list for its category
                 switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
                   case "hat":
-                    // add the preview of the symbol to the list view
+                    // add the SymbolStyleSearchResult to the list view
                     hatSelectionListView.getItems().add(symbolStyleSearchResult);
                     break;
                   case "eyes":
-                    // add the preview of the symbol to the list view
+                    // add the SymbolStyleSearchResult to the list view
                     eyesSelectionListView.getItems().add(symbolStyleSearchResult);
                     break;
                   case "mouth":
-                    // add the preview of the symbol to the list view
+                    // add the SymbolStyleSearchResult to the list view
                     mouthSelectionListView.getItems().add(symbolStyleSearchResult);
                     break;
                 }
-              }
+              });
 
               // create the symbol to populate the preview
               buildCompositeSymbol();
@@ -271,8 +270,10 @@ public class ReadSymbolsFromMobileStyleFileController {
     SymbolStyleSearchResult requestedMouth = mouthSelectionListView.getSelectionModel().getSelectedItem();
     String mouthKey = requestedMouth != null ? requestedMouth.getKey() : "";
 
+    // create a list of keys to use for getting the requested symbol.
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
 
+    // get the symbol from the SymbolStyle
     ListenableFuture<Symbol> symbolFuture = emojiStyle.getSymbolAsync(symbolKeys);
     symbolFuture.addDoneListener(() -> {
       try {
