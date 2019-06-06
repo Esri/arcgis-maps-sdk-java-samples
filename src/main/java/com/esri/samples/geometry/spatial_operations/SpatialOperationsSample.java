@@ -59,7 +59,7 @@ public class SpatialOperationsSample extends Application {
 
   // geometry operations
   private enum OPERATION_TYPE {
-    UNION, DIFFERENCE, SYMMETRIC_DIFFERENCE, INTERSECTION
+    NONE, UNION, DIFFERENCE, SYMMETRIC_DIFFERENCE, INTERSECTION
   }
 
   // simple black (0xFF000000) line symbol
@@ -96,7 +96,7 @@ public class SpatialOperationsSample extends Application {
       // initialise comboBox items
       ComboBox<OPERATION_TYPE> geomOperationBox = new ComboBox<>(FXCollections.observableArrayList(OPERATION_TYPE
           .values()));
-      geomOperationBox.getSelectionModel().selectLast();
+      geomOperationBox.getSelectionModel().select(OPERATION_TYPE.NONE);
       geomOperationBox.setMaxWidth(Double.MAX_VALUE);
       geomOperationBox.setDisable(true);
 
@@ -120,8 +120,11 @@ public class SpatialOperationsSample extends Application {
             resultPolygon = GeometryEngine.symmetricDifference(polygon1.getGeometry(), polygon2.getGeometry());
             break;
           case INTERSECTION:
-          default:
             resultPolygon = GeometryEngine.intersection(polygon1.getGeometry(), polygon2.getGeometry());
+            break;
+          case NONE:
+          default:
+            return;
         }
 
         // update result as a red (0xFFE91F1F) geometry
@@ -135,6 +138,7 @@ public class SpatialOperationsSample extends Application {
       // clear result layer
       resetButton.setOnAction(e -> {
         resultGeomOverlay.getGraphics().clear();
+        geomOperationBox.getSelectionModel().select(OPERATION_TYPE.NONE);
         geomOperationBox.setDisable(false);
       });
 
