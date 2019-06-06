@@ -17,7 +17,6 @@
 package com.esri.samples.symbology.read_symbols_from_mobile_style_file;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -57,11 +56,11 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private MapView mapView = new MapView();
   @FXML
-  private ListView<HashMap<String, ImageView>> hatSelectionListView = new ListView<>();
+  private ListView<SymbolStyleSearchResult> hatSelectionListView = new ListView<>();
   @FXML
-  private ListView<HashMap<String, ImageView>> eyesSelectionListView = new ListView<>();
+  private ListView<SymbolStyleSearchResult> eyesSelectionListView = new ListView<>();
   @FXML
-  private ListView<HashMap<String, ImageView>> mouthSelectionListView = new ListView<>();
+  private ListView<SymbolStyleSearchResult> mouthSelectionListView = new ListView<>();
   @FXML
   private ListView<Integer> colorSelectionListView = new ListView<>();
   @FXML
@@ -90,17 +89,17 @@ public class ReadSymbolsFromMobileStyleFileController {
     loadSymbolsFromStyleFile();
 
     // create a cell factory to show the available symbols in the respective list view
-    class SymbolLayerHashMapListCell extends ListCell<HashMap<String, ImageView>> {
+    class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
       private ImageView imageView;
 
-      private SymbolLayerHashMapListCell() {
+      private SymbolLayerInfoListCell() {
         // set the cell to display only a graphic
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         // create an image view to display in the cell
         imageView = new ImageView();
       }
 
-      protected void updateItem(HashMap<String, ImageView> item, boolean empty) {
+      protected void updateItem(SymbolStyleSearchResult item, boolean empty) {
         super.updateItem(item, empty);
 
         if (item == null || empty) {
@@ -108,8 +107,14 @@ public class ReadSymbolsFromMobileStyleFileController {
           setGraphic(null);
         } else {
           // set the image view to the item's image preview and display it
-          imageView = (ImageView) item.values().toArray()[0];
-          setGraphic(imageView);
+          ListenableFuture<Image> symbolImageFuture = item.getSymbol().createSwatchAsync(0x00000000, 1);
+          try{
+            Image symbolImage = symbolImageFuture.get();
+            ImageView symbolImageView = new ImageView(symbolImage);
+            setGraphic(symbolImageView);
+          } catch (InterruptedException | ExecutionException e) {
+            new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
+          }
         }
       }
     }
@@ -118,16 +123,14 @@ public class ReadSymbolsFromMobileStyleFileController {
     ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
 
     // create an array of the ListView objects for choosing the symbols, and iterate over it
-    ListView<HashMap<String, ImageView>>[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
-    for (ListView<HashMap<String, ImageView>> listView : listViews) {
+    ListView<SymbolStyleSearchResult>[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
+    for (ListView<SymbolStyleSearchResult> listView : listViews) {
       // add the cell factory to show the symbol within the list view
-      listView.setCellFactory(c -> new SymbolLayerHashMapListCell());
+      listView.setCellFactory(c -> new SymbolLayerInfoListCell());
       // add the change listener to rebuild the preview when a selection is made
       listView.getSelectionModel().selectedItemProperty().addListener(changeListener);
-      // add an empty hashmap to the list view to allow selecting 'nothing'
-      listView.getItems().add(new HashMap<>() {{
-        put("", null);
-      }});
+      // add an empty SymbolLayerInfo to allow selecting 'nothing'
+      listView.getItems().add(null);
     }
 
     // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols
@@ -215,45 +218,25 @@ public class ReadSymbolsFromMobileStyleFileController {
           symbolStyleSearchResultFuture.addDoneListener(() -> {
             try {
 
-              // loop through the results and add symbols into the list according to category
+              // loop through the results and add symbols infos into the list according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
               for (SymbolStyleSearchResult symbolStyleSearchResult : symbolStyleSearchResults) {
 
-                // get the symbol for this result
-                MultilayerPointSymbol multilayerPointSymbol = (MultilayerPointSymbol) symbolStyleSearchResult.getSymbol();
-
-                // create a swatch image for the symbol (to be used for the preview)
-                ListenableFuture<Image> imageListenableFuture = multilayerPointSymbol.createSwatchAsync(0x00000000, 1);
-                imageListenableFuture.addDoneListener(() -> {
-                  try {
-                    // get the resulting image from the future and convert to an image view
-                    Image image = imageListenableFuture.get();
-                    ImageView imagePreview = new ImageView(image);
-
-                    // create a hashmap to store the symbol key and image view, and add the values
-                    HashMap<String, ImageView> symbolLayerHashMap = new HashMap<>();
-                    symbolLayerHashMap.put(symbolStyleSearchResult.getKey(), imagePreview);
-
-                    // add the symbol layer hashmap to the correct list for its category
-                    switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
-                      case "hat":
-                        // add the preview of the symbol to the list view
-                        hatSelectionListView.getItems().add(symbolLayerHashMap);
-                        break;
-                      case "eyes":
-                        // add the preview of the symbol to the list view
-                        eyesSelectionListView.getItems().add(symbolLayerHashMap);
-                        break;
-                      case "mouth":
-                        // add the preview of the symbol to the list view
-                        mouthSelectionListView.getItems().add(symbolLayerHashMap);
-                        break;
-                    }
-
-                  } catch (InterruptedException | ExecutionException e) {
-                    new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
-                  }
-                });
+                // add the symbol layer info object to the correct list for its category
+                switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
+                  case "hat":
+                    // add the preview of the symbol to the list view
+                    hatSelectionListView.getItems().add(symbolStyleSearchResult);
+                    break;
+                  case "eyes":
+                    // add the preview of the symbol to the list view
+                    eyesSelectionListView.getItems().add(symbolStyleSearchResult);
+                    break;
+                  case "mouth":
+                    // add the preview of the symbol to the list view
+                    mouthSelectionListView.getItems().add(symbolStyleSearchResult);
+                    break;
+                }
               }
 
               // create the symbol to populate the preview
@@ -277,16 +260,16 @@ public class ReadSymbolsFromMobileStyleFileController {
   private void buildCompositeSymbol() {
 
     // retrieve the requested key for the requested hat symbol
-    HashMap<String, ImageView> requestedHat = hatSelectionListView.getSelectionModel().getSelectedItem();
-    String hatKey = requestedHat != null ? requestedHat.keySet().toArray()[0].toString() : "";
+    SymbolStyleSearchResult requestedHat = hatSelectionListView.getSelectionModel().getSelectedItem();
+    String hatKey = requestedHat != null ? requestedHat.getKey() : "";
 
     // retrieve the requested key for the requested eyes symbol
-    HashMap<String, ImageView> requestedEyes = eyesSelectionListView.getSelectionModel().getSelectedItem();
-    String eyesKey = requestedEyes != null ? requestedEyes.keySet().toArray()[0].toString() : "";
+    SymbolStyleSearchResult requestedEyes = eyesSelectionListView.getSelectionModel().getSelectedItem();
+    String eyesKey = requestedEyes != null ? requestedEyes.getKey() : "";
 
     // retrieve the requested key for the requested mouth symbol
-    HashMap<String, ImageView> requestedMouth = mouthSelectionListView.getSelectionModel().getSelectedItem();
-    String mouthKey = requestedMouth != null ? requestedMouth.keySet().toArray()[0].toString() : "";
+    SymbolStyleSearchResult requestedMouth = mouthSelectionListView.getSelectionModel().getSelectedItem();
+    String mouthKey = requestedMouth != null ? requestedMouth.getKey() : "";
 
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
 
