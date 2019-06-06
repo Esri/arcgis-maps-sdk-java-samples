@@ -36,7 +36,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaParameters;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygon;
@@ -93,11 +92,9 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     // add the graphics overlays to the map view
     mapView.getGraphicsOverlays().addAll(Arrays.asList(serviceAreasGraphicsOverlay, facilitiesGraphicsOverlay));
 
-    // create a symbol to mark service area outline
-    SimpleLineSymbol serviceAreaOutlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 3.0f);
     // create a fill symbols to fill the service area outline with a color
     List<SimpleFillSymbol> fillSymbols = new ArrayList<>();
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FF0000, serviceAreaOutlineSymbol));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x660000FF, null));
 
     // create an icon used to display the facilities
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
@@ -121,7 +118,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
       if (facilitiesFeatureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
         // zoom to the extent of the feature layer
-        mapView.setViewpointGeometryAsync(facilitiesFeatureLayer.getFullExtent(), 90);
+        mapView.setViewpointGeometryAsync(facilitiesFeatureLayer.getFullExtent(), 130);
 
         // wait for the view to zoom to enable the ui
         mapView.addDrawStatusChangedListener(new DrawStatusChangedListener() {
