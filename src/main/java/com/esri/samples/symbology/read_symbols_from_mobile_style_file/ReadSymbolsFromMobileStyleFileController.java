@@ -17,6 +17,7 @@
 package com.esri.samples.symbology.read_symbols_from_mobile_style_file;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -56,11 +57,11 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private MapView mapView = new MapView();
   @FXML
-  private ListView<SymbolLayerInfo> hatSelectionListView = new ListView<>();
+  private ListView<HashMap<String, ImageView>> hatSelectionListView = new ListView<>();
   @FXML
-  private ListView<SymbolLayerInfo> eyesSelectionListView = new ListView<>();
+  private ListView<HashMap<String, ImageView>> eyesSelectionListView = new ListView<>();
   @FXML
-  private ListView<SymbolLayerInfo> mouthSelectionListView = new ListView<>();
+  private ListView<HashMap<String, ImageView>> mouthSelectionListView = new ListView<>();
   @FXML
   private ListView<Integer> colorSelectionListView = new ListView<>();
   @FXML
@@ -89,7 +90,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     loadSymbolsFromStyleFile();
 
     // create a cell factory to show the available symbols in the respective list view
-    class SymbolLayerInfoListCell extends ListCell<SymbolLayerInfo> {
+    class SymbolLayerInfoListCell extends ListCell<HashMap<String, ImageView>> {
       private ImageView imageView;
 
       private SymbolLayerInfoListCell() {
@@ -99,7 +100,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         imageView = new ImageView();
       }
 
-      protected void updateItem(SymbolLayerInfo item, boolean empty) {
+      protected void updateItem(HashMap<String, ImageView> item, boolean empty) {
         super.updateItem(item, empty);
 
         if (item == null || empty) {
@@ -107,7 +108,7 @@ public class ReadSymbolsFromMobileStyleFileController {
           setGraphic(null);
         } else {
           // set the image view to the item's image preview and display it
-          imageView = item.getImagePreview();
+          imageView = (ImageView) item.values().toArray()[0];
           setGraphic(imageView);
         }
       }
@@ -117,14 +118,16 @@ public class ReadSymbolsFromMobileStyleFileController {
     ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
 
     // create an array of the ListView objects for choosing the symbols, and iterate over it
-    ListView<SymbolLayerInfo>[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
-    for (ListView<SymbolLayerInfo> listView : listViews) {
+    ListView<HashMap<String, ImageView>>[] listViews = new ListView[]{hatSelectionListView, eyesSelectionListView, mouthSelectionListView};
+    for (ListView<HashMap<String, ImageView>> listView : listViews) {
       // add the cell factory to show the symbol within the list view
       listView.setCellFactory(c -> new SymbolLayerInfoListCell());
       // add the change listener to rebuild the preview when a selection is made
       listView.getSelectionModel().selectedItemProperty().addListener(changeListener);
       // add an empty SymbolLayerInfo to allow selecting 'nothing'
-      listView.getItems().add(new SymbolLayerInfo("", null));
+      listView.getItems().add(new HashMap<String, ImageView>() {{
+        put("", null);
+      }});
     }
 
     // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols
@@ -228,7 +231,8 @@ public class ReadSymbolsFromMobileStyleFileController {
                     ImageView imagePreview = new ImageView(image);
 
                     // create a symbol layer info object to represent the found symbol in the list
-                    SymbolLayerInfo symbolLayerInfo = new SymbolLayerInfo(symbolStyleSearchResult.getKey(), imagePreview);
+                    HashMap<String, ImageView> symbolLayerInfo = new HashMap<>();
+                    symbolLayerInfo.put(symbolStyleSearchResult.getKey(), imagePreview);
 
                     // add the symbol layer info object to the correct list for its category
                     switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
@@ -273,16 +277,16 @@ public class ReadSymbolsFromMobileStyleFileController {
   private void buildCompositeSymbol() {
 
     // retrieve the requested key for the requested hat symbol
-    SymbolLayerInfo requestedHat = hatSelectionListView.getSelectionModel().getSelectedItem();
-    String hatKey = requestedHat != null ? requestedHat.getKey() : "";
+    HashMap<String, ImageView> requestedHat = hatSelectionListView.getSelectionModel().getSelectedItem();
+    String hatKey = requestedHat != null ? requestedHat.keySet().toArray()[0].toString() : "";
 
     // retrieve the requested key for the requested eyes symbol
-    SymbolLayerInfo requestedEyes = eyesSelectionListView.getSelectionModel().getSelectedItem();
-    String eyesKey = requestedEyes != null ? requestedEyes.getKey() : "";
+    HashMap<String, ImageView> requestedEyes = eyesSelectionListView.getSelectionModel().getSelectedItem();
+    String eyesKey = requestedEyes != null ? requestedEyes.keySet().toArray()[0].toString() : "";
 
     // retrieve the requested key for the requested mouth symbol
-    SymbolLayerInfo requestedMouth = mouthSelectionListView.getSelectionModel().getSelectedItem();
-    String mouthKey = requestedMouth != null ? requestedMouth.getKey() : "";
+    HashMap<String, ImageView> requestedMouth = mouthSelectionListView.getSelectionModel().getSelectedItem();
+    String mouthKey = requestedMouth != null ? requestedMouth.keySet().toArray()[0].toString() : "";
 
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
 
@@ -343,30 +347,6 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private void resetView() {
     mapView.getGraphicsOverlays().get(0).getGraphics().clear();
-  }
-
-  /**
-   * a helper class used to store the key and an image preview of a symbol layer
-   */
-  private class SymbolLayerInfo {
-    // an image view used to preview the symbol
-    private ImageView imagePreview;
-
-    // a key that identifies the symbol within the style
-    private String key;
-
-    private SymbolLayerInfo(String key, ImageView imagePreview) {
-      this.imagePreview = imagePreview;
-      this.key = key;
-    }
-
-    private String getKey() {
-      return key;
-    }
-
-    private ImageView getImagePreview() {
-      return imagePreview;
-    }
   }
 
   /**
