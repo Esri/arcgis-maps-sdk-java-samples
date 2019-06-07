@@ -35,6 +35,7 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
     compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
+    compile "com.google.code.gson:gson:2.8.5"
     compile 'commons-io:commons-io:2.4'
     compile 'org.jooq:joox:1.4.0'
 }
@@ -96,8 +97,8 @@ run {
     environment "ARCGISRUNTIMESDKJAVA_100_5_0", "build/natives"
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.10.2'
+wrapper {
+    gradleVersion = '5.0'
 }
 
 // downloads a portal item's contents to a folder in samples-data
