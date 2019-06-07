@@ -105,7 +105,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         } else {
           // get the symbol from the list view entry, and create an image from it
           ListenableFuture<Image> symbolImageFuture = item.getSymbol().createSwatchAsync(0x00000000, 1);
-          try{
+          try {
             // get the resulting image
             Image symbolImage = symbolImageFuture.get();
             // create and image view and display it in the cell
@@ -208,7 +208,7 @@ public class ReadSymbolsFromMobileStyleFileController {
 
               // loop through the results and add each item to a list view according to category
               List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
-              symbolStyleSearchResults.forEach (symbolStyleSearchResult -> {
+              symbolStyleSearchResults.forEach(symbolStyleSearchResult -> {
 
                 // add the SymbolStyleSearchResult object to the correct list for its category
                 switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
@@ -318,16 +318,15 @@ public class ReadSymbolsFromMobileStyleFileController {
    * Updates the size of the symbol preview and the label when the size bar is interacted with.
    */
   @FXML
-  private void updateSymbolSize(){
-      // get the slider value and convert to a string
-      String sizeValue = Integer.toString((int) sizeSlider.getValue());
-      // display the value in the label
-      sizeLabel.setText(sizeValue + " px");
+  private void updateSymbolSize() {
+    // get the slider value and convert to a string
+    String sizeValue = Integer.toString((int) sizeSlider.getValue());
+    // display the value in the label
+    sizeLabel.setText(sizeValue + " px");
 
-      // update the preview
-      buildCompositeSymbol();
+    // update the preview
+    buildCompositeSymbol();
   }
-
 
   /**
    * Clears all the graphics from the graphics overlay.
