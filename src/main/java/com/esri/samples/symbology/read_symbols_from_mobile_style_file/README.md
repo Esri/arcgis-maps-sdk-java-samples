@@ -6,7 +6,9 @@ Open a mobile style (.stylx) and read its contents. Combine several symbols from
 
 ## Use case
 
-Multilayer symbols provide the ability to create much more complex and interesting symbology for geoelements. While these symbols can be created from scratch, a more convenient workflow is to author them using ArcGIS Pro and store them in a mobile style file (.stylx). ArcGIS Runtime can read symbols from a mobile style, and you can modify and combine them as needed in your app.
+In many applications, geoelements are represented by a symbol composed of a number of components. For example, individual elements of a water infrastructure network, such as valves, nodes, or endpoints, will be represented on the map as symbols of the same base shape, with additional components to represent their characteristics, such as technical specifications. 
+
+While each of these symbols can be created from scratch, a more convenient workflow is to author them using ArcGIS Pro and store them in a mobile style file (.stylx). ArcGIS Runtime can read symbols from a mobile style, and you can modify and combine them as needed in your app.
 
 ## How to use the sample
 
