@@ -118,9 +118,10 @@ public class EditAndSyncFeaturesController {
       geodatabaseSyncTask = new GeodatabaseSyncTask(featureServiceUrl);
       geodatabaseSyncTask.loadAsync();
 
-      // show the contents of the feature service
+      // load the geodatabase sync task to get its contents
       geodatabaseSyncTask.addDoneLoadingListener(() -> {
         if (geodatabaseSyncTask.getLoadStatus() == LoadStatus.LOADED) {
+          // look through the feature service layers
           geodatabaseSyncTask.getFeatureServiceInfo().getLayerInfos().forEach(layerInfo -> {
             // get the URL for this particular layer
             String featureLayerURL = featureServiceUrl + "/" + layerInfo.getId();
@@ -129,9 +130,8 @@ public class EditAndSyncFeaturesController {
             ServiceFeatureTable onlineFeatureTable = new ServiceFeatureTable(featureLayerURL);
             onlineFeatureTable.loadAsync();
 
-            // add the features to the map view
+            // add feature layers to the map from feature tables with point geometries (to make editing easier)
             onlineFeatureTable.addDoneLoadingListener(() -> {
-              // only add tables that contain point features to the map as feature layers
               if (onlineFeatureTable.getLoadStatus() == LoadStatus.LOADED &&
                   onlineFeatureTable.getGeometryType() == GeometryType.POINT) {
                 map.getOperationalLayers().add(new FeatureLayer(onlineFeatureTable));
@@ -158,14 +158,15 @@ public class EditAndSyncFeaturesController {
   private void generateGeodatabase() {
     // only allow geodatabase generation once
     generateButton.setDisable(true);
+    // stop updating the download area when changing the viewpoint
     mapView.removeViewpointChangedListener(viewpointChangedListener);
 
-    // create generate geodatabase parameters for the current extent
+    // create generate geodatabase parameters for the download area
     final ListenableFuture<GenerateGeodatabaseParameters> generateGeodatabaseParametersFuture = geodatabaseSyncTask
         .createDefaultGenerateGeodatabaseParametersAsync(downloadAreaGraphic.getGeometry());
     generateGeodatabaseParametersFuture.addDoneListener(() -> {
       try {
-        // set parameters and don't include attachments
+        // create generate geodatabase parameters not returning attachments
         GenerateGeodatabaseParameters generateGeodatabaseParameters = generateGeodatabaseParametersFuture.get();
         generateGeodatabaseParameters.setReturnAttachments(false);
 
@@ -173,7 +174,7 @@ public class EditAndSyncFeaturesController {
         File tempFile = File.createTempFile("gdb", ".geodatabase");
         tempFile.deleteOnExit();
 
-        // create and start the job
+        // create and start the generate job
         GenerateGeodatabaseJob generateGeodatabaseJob = geodatabaseSyncTask.generateGeodatabase(generateGeodatabaseParameters, tempFile.getAbsolutePath());
         generateGeodatabaseJob.start();
 
@@ -192,7 +193,6 @@ public class EditAndSyncFeaturesController {
             // display the contents of the geodatabase to the map
             geodatabase.addDoneLoadingListener(() -> {
               progressBar.setVisible(false);
-
               if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
 
                 // remove the existing layers from the map
@@ -203,16 +203,14 @@ public class EditAndSyncFeaturesController {
                   geodatabaseFeatureTable.loadAsync();
                   geodatabaseFeatureTable.addDoneLoadingListener(() -> {
                     if (geodatabaseFeatureTable.getGeometryType() == GeometryType.POINT) {
-                      // create a new feature layer from the table
+                      // create a new feature layer from the table and add it to the map
                       FeatureLayer featureLayer = new FeatureLayer(geodatabaseFeatureTable);
-                      // add the feature layer to the map
                       map.getOperationalLayers().add(featureLayer);
                     }
                   });
                 });
 
                 generateButton.setDisable(true);
-
                 allowEditing();
               } else {
                 new Alert(Alert.AlertType.ERROR, "Error loading geodatabase").show();
@@ -239,10 +237,9 @@ public class EditAndSyncFeaturesController {
   private void allowEditing() {
     mapView.setOnMouseClicked(e -> {
       if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
-        // create a point from where the user clicked
         Point2D screenPoint = new Point2D(e.getX(), e.getY());
-        // identify the clicked feature
         if (selectedFeature != null) {
+          // move the selected feature to the clicked location and update it in the feature table
           Point point = mapView.screenToLocation(screenPoint);
           if (GeometryEngine.intersects(point, downloadAreaGraphic.getGeometry())) {
             selectedFeature.setGeometry(point);
@@ -253,6 +250,7 @@ public class EditAndSyncFeaturesController {
             new Alert(Alert.AlertType.WARNING, "Cannot move feature outside downloaded area.").show();
           }
         } else {
+          // identify which feature was clicked and select it
           ListenableFuture<List<IdentifyLayerResult>> identifyLayersFuture = mapView.identifyLayersAsync(screenPoint, 1,
               false);
           identifyLayersFuture.addDoneListener(() -> {
@@ -267,6 +265,7 @@ public class EditAndSyncFeaturesController {
                   if (identifiedElement instanceof Feature) {
                     Feature feature = (Feature) identifiedElement;
                     featureLayer.selectFeature(feature);
+                    // keep track of the selected feature to move it
                     selectedFeature = feature;
                   }
                 }
@@ -277,6 +276,7 @@ public class EditAndSyncFeaturesController {
           });
         }
       } else if (e.isStillSincePress() && e.getButton() == MouseButton.SECONDARY) {
+        // clear the selection on a right-click
         clearSelection();
         selectedFeature = null;
       }
@@ -298,14 +298,14 @@ public class EditAndSyncFeaturesController {
     syncGeodatabaseParameters.setSyncDirection(SyncGeodatabaseParameters.SyncDirection.BIDIRECTIONAL);
     syncGeodatabaseParameters.setRollbackOnFailure(false);
 
-    // get the layer ID for each feature table in the geodatabase, then add to the sync job
+    // specify the layer IDs of the feature tables to sync (all in this case)
     geodatabase.getGeodatabaseFeatureTables().forEach(geodatabaseFeatureTable -> {
       long serviceLayerId = geodatabaseFeatureTable.getServiceLayerId();
       SyncLayerOption syncLayerOption = new SyncLayerOption(serviceLayerId);
       syncGeodatabaseParameters.getLayerOptions().add(syncLayerOption);
     });
 
-    // create a Sync Job and start it.
+    // create a sync job with the parameters and start it
     final SyncGeodatabaseJob syncGeodatabaseJob = geodatabaseSyncTask.syncGeodatabase(syncGeodatabaseParameters, geodatabase);
     syncGeodatabaseJob.start();
 
