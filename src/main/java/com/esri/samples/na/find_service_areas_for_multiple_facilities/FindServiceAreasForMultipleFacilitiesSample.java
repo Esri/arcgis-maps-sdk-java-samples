@@ -79,7 +79,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     progressIndicator.setVisible(false);
 
     // create an ArcGISMap with a streets basemap
-    ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+    ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
 
     // set the ArcGISMap to be displayed in the view
     mapView = new MapView();
