@@ -166,17 +166,6 @@ public class ReadSymbolsFromMobileStyleFileController {
     // add the cell factory to the color selection list view
     colorSelectionListView.setCellFactory(c -> new ColorListCell());
 
-    // add a listener to the slider to update label and the preview when the size is changed
-    sizeSlider.valueProperty().addListener(o -> {
-      // get the slider value and convert to a string
-      String sizeValue = Integer.toString((int) sizeSlider.getValue());
-      // display the value in the label
-      sizeLabel.setText(sizeValue + " px");
-
-      // update the preview
-      buildCompositeSymbol();
-    });
-
     // listen to mouse clicks to add the desired multi layer symbol
     mapView.setOnMouseClicked(e -> {
       if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
@@ -324,6 +313,21 @@ public class ReadSymbolsFromMobileStyleFileController {
       new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided MultilayerPointSymbol" + e.getMessage()).show();
     }
   }
+
+  /**
+   * Updates the size of the symbol preview and the label when the size bar is interacted with.
+   */
+  @FXML
+  private void updateSymbolSize(){
+      // get the slider value and convert to a string
+      String sizeValue = Integer.toString((int) sizeSlider.getValue());
+      // display the value in the label
+      sizeLabel.setText(sizeValue + " px");
+
+      // update the preview
+      buildCompositeSymbol();
+  }
+
 
   /**
    * Clears all the graphics from the graphics overlay.

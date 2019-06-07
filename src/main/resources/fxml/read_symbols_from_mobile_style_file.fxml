@@ -69,7 +69,7 @@
         </HBox>
         <HBox>
             <Label>Size:</Label>
-            <Slider fx:id="sizeSlider" min="10" value="50" snapToTicks="true" majorTickUnit="1" minWidth="200"/>
+            <Slider fx:id="sizeSlider" min="10" value="50" snapToTicks="true" majorTickUnit="1" minWidth="200" onMouseReleased="#updateSymbolSize"/>
             <Label fx:id="sizeLabel" text="50 px"/>
         </HBox>
         <HBox alignment="CENTER_LEFT">
