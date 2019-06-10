@@ -217,13 +217,16 @@ public class LocalServerServicesController {
    */
   void terminate() {
 
-    if (appDataPath != null) {
-      try {
-        // delete the temporary app data path
-        FileUtils.deleteDirectory(appDataPath.toFile());
-      } catch (IOException ex) {
-        ex.printStackTrace();
+    // make sure all services are stopped before deleting app data
+    LocalServer.INSTANCE.stopAsync().addDoneListener(() -> {
+      if (appDataPath != null) {
+        try {
+          // delete the app data
+          FileUtils.deleteDirectory(appDataPath.toFile());
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
       }
-    }
+    });
   }
 }
