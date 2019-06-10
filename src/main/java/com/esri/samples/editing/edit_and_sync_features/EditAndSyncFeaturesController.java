@@ -243,9 +243,7 @@ public class EditAndSyncFeaturesController {
           Point point = mapView.screenToLocation(screenPoint);
           if (GeometryEngine.intersects(point, downloadAreaGraphic.getGeometry())) {
             selectedFeature.setGeometry(point);
-            selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature).addDoneListener(() -> {
-              syncButton.setDisable(false);
-            });
+            selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature).addDoneListener(() -> syncButton.setDisable(false));
           } else {
             new Alert(Alert.AlertType.WARNING, "Cannot move feature outside downloaded area.").show();
           }
@@ -255,12 +253,16 @@ public class EditAndSyncFeaturesController {
               false);
           identifyLayersFuture.addDoneListener(() -> {
             try {
+              // get the result of the query
               List<IdentifyLayerResult> identifyLayerResults = identifyLayersFuture.get();
               if (!identifyLayerResults.isEmpty()) {
+                // retrieve the first result and get it's contents
                 IdentifyLayerResult firstResult = identifyLayerResults.get(0);
                 LayerContent layerContent = firstResult.getLayerContent();
+                // check that the result is a feature layer and has elements
                 if (layerContent instanceof FeatureLayer && !firstResult.getElements().isEmpty()) {
                   FeatureLayer featureLayer = (FeatureLayer) layerContent;
+                  // retrieve the geoelements in the feature layer
                   GeoElement identifiedElement = firstResult.getElements().get(0);
                   if (identifiedElement instanceof Feature) {
                     Feature feature = (Feature) identifiedElement;
