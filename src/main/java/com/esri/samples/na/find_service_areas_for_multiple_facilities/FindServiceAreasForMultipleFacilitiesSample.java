@@ -93,8 +93,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     mapView.getGraphicsOverlays().addAll(Arrays.asList(serviceAreasGraphicsOverlay, facilitiesGraphicsOverlay));
 
     // create a fill symbols to fill the service area outline with a color
-    List<SimpleFillSymbol> fillSymbols = new ArrayList<>();
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x660000FF, null));
+    SimpleFillSymbol simpleFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x660000FF, null);
 
     // create an icon used to display the facilities
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
@@ -170,13 +169,12 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
                   List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
 
                   // iterate through all the facilities to get the service area polygons
-                  for (int i = 0; i < serviceAreaResult.getFacilities().size(); i++) {
-                    List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
-
+                  for (int facilityIndex = 0; facilityIndex < serviceAreaResult.getFacilities().size(); facilityIndex++) {
+                    List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(facilityIndex);
                     // we may have more than one resulting service area, so create a graphics from each available polygon
-                    for (int j = 0; j < serviceAreaPolygonList.size(); j++) {
+                    for (int polygonIndex = 0; polygonIndex < serviceAreaPolygonList.size(); polygonIndex++) {
                       // create and show a graphics for the service area
-                      serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(j).getGeometry(), fillSymbols.get(j % 2)));
+                      serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(polygonIndex).getGeometry(), simpleFillSymbol));
                     }
                   }
 
