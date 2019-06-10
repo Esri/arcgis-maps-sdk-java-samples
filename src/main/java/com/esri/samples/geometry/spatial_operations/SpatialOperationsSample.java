@@ -22,7 +22,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -86,7 +85,7 @@ public class SpatialOperationsSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
           Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 120);
+      controlsVBox.setMaxSize(180, 60);
       controlsVBox.getStyleClass().add("panel-region");
 
       // create section for combo box
@@ -100,16 +99,11 @@ public class SpatialOperationsSample extends Application {
       geomOperationBox.setMaxWidth(Double.MAX_VALUE);
       geomOperationBox.setDisable(true);
 
-      // create button for reset the sample
-      Button resetButton = new Button("Reset operation");
-      resetButton.setMaxWidth(Double.MAX_VALUE);
-      resetButton.setDisable(true);
-
       // handle ComboBox event to perform the selected geometry operation
       geomOperationBox.setOnAction(e -> {
+        resultGeomOverlay.getGraphics().clear();
         Geometry resultPolygon;
-        OPERATION_TYPE operation = geomOperationBox.getSelectionModel().getSelectedItem();
-        switch (operation) {
+        switch (geomOperationBox.getSelectionModel().getSelectedItem()) {
           case UNION:
             resultPolygon = GeometryEngine.union(polygon1.getGeometry(), polygon2.getGeometry());
             break;
@@ -130,20 +124,10 @@ public class SpatialOperationsSample extends Application {
         // update result as a red (0xFFE91F1F) geometry
         SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
         resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
-
-        resetButton.setDisable(false);
-        geomOperationBox.setDisable(true);
-      });
-
-      // clear result layer
-      resetButton.setOnAction(e -> {
-        resultGeomOverlay.getGraphics().clear();
-        geomOperationBox.getSelectionModel().select(OPERATION_TYPE.NONE);
-        geomOperationBox.setDisable(false);
       });
 
       // add label and buttons to the control panel
-      controlsVBox.getChildren().addAll(geomOperationLabel, geomOperationBox, resetButton);
+      controlsVBox.getChildren().addAll(geomOperationLabel, geomOperationBox);
 
       // create ArcGISMap with topographic basemap
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
