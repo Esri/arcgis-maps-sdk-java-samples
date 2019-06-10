@@ -324,10 +324,8 @@ public class ReadSymbolsFromMobileStyleFileController {
     // display the value in the label
     sizeLabel.setText(sizeValue + " px");
 
-    // set the size of the symbol
-    faceSymbol.setSize((float) sizeSlider.getValue());
-    // update the symbol preview
-    updateSymbolPreview(faceSymbol);
+    // update the preview
+    buildCompositeSymbol();
   }
 
   /**
