@@ -23,13 +23,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -80,23 +74,11 @@ public class SpatialOperationsSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a control panel
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-          Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 60);
-      controlsVBox.getStyleClass().add("panel-region");
-
-      // create section for combo box
-      Label geomOperationLabel = new Label("Select operation:");
-      geomOperationLabel.getStyleClass().add("panel-label");
-
       // initialise comboBox items
       ComboBox<OPERATION_TYPE> geomOperationBox = new ComboBox<>(FXCollections.observableArrayList(OPERATION_TYPE
           .values()));
       geomOperationBox.getSelectionModel().select(OPERATION_TYPE.NONE);
-      geomOperationBox.setMaxWidth(Double.MAX_VALUE);
+      geomOperationBox.setMaxWidth(180);
       geomOperationBox.setDisable(true);
 
       // handle ComboBox event to perform the selected geometry operation
@@ -125,9 +107,6 @@ public class SpatialOperationsSample extends Application {
         SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
         resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
       });
-
-      // add label and buttons to the control panel
-      controlsVBox.getChildren().addAll(geomOperationLabel, geomOperationBox);
 
       // create ArcGISMap with topographic basemap
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
@@ -163,9 +142,9 @@ public class SpatialOperationsSample extends Application {
       geomOverlay.getGraphics().add(polygon2);
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, geomOperationBox);
+      StackPane.setAlignment(geomOperationBox, Pos.TOP_LEFT);
+      StackPane.setMargin(geomOperationBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace
