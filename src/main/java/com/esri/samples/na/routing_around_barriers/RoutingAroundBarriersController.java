@@ -93,7 +93,7 @@ public class RoutingAroundBarriersController {
 
     // add the graphics overlays to the map view
     mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
-    
+
     // initialize the TitlePane of the Accordion box
     routeInformationTitledPane.setText("No route to display");
 
