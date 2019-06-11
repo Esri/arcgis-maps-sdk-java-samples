@@ -1,56 +1,43 @@
 <h1>Symbol Dictionary</h1>
 
-<p>Find symbols within mil2525d specification that match a keyword.</p>
+<p>Find symbols within the mil2525d specification that match a keyword.</p>
   
 <p><img src="SymbolDictionary.png"/></p>
-  
-<p>There are five ways to search through a Symbol Dictionary:
-  - Name
-  - Tags
-  - Symbol Class
-  - Category
-  - Key</p>
+
+<h2>Use case</h2>
+
+<p>You can use support for military symbology to allow users to report changes in the field using the correct military symbols.</p>
 
 <h2>How to use the sample</h2>
 
-<p>By default, leaving the fields blank and hitting search will find all symbols.</p>
+<p>By default, leaving the fields blank and searching will return all symbols.</p>
 
-<p>To search for certain symbols:
-  - enter text into one or multiple seach boxes and hit <code>search for symbols</code>
-  - this will seach for symbols containing the information that was entered</p>
+<p>To filter symbols, enter text into one or multiple seach boxes and click the Search for Symbols button.</p>
 
-<p>Clear button:
-  - will clear any previous search results and start fresh</p>
+<p>Click the Clear button to clear previous search results.</p>
 
 <h2>How it works</h2>
 
-<p>How to search through a <code>SymbolDictionary</code>:</p>
-
 <ol>
-  <li>Create a symbol dictionary with the mil2525d specification, <code>SymbolDictionary("mil2525d")</code></li>
-  <li>Load the dictionary asynchronously, <code>DictionarySymbol.loadAsync()</code>
-    <ul><li>this will allows the application to continue working while the dictionary loads all symbol primitives found within the mil2525d specification</li></ul></li>
-  <li>Create search parameters for the dictionary, <code>StyleSymbolSearchParameters()</code>.</li>
-  <li>Set the parameters to search through the dictionary.
-    <ul><li>Name, <code>StyleSymbolSearchParameters.getNames().add()</code></li>
-      <li>Tag, <code>StyleSymbolSearchParameters.getTags().add()</code></li>
-      <li>Symbol Class, <code>StyleSymbolSearchParameters.getSymbolClasses().add()</code></li>
-      <li>Category, <code>StyleSymbolSearchParameters.getCategories().add()</code></li>
-      <li>Key, <code>StyleSymbolSearchParameters.getKeys().add()</code></li></ul></li>
-  <li>Search through dictionary using parameters, <code>DictionarySymbol.searchSymbolsAsync(StyleSymbolSearchParameters)</code>.</li>
-  <li>Cycle through the <code>StyleSymbolSearchResult</code> list that was returned and display it to screen.
-    <ul><li>get <code>CimSymbol</code>,<code>StyleSymbolSearchResult.getSymbol()</code>, and create an image from it, <code>CimSymbol.createSwatchAsync()</code></li>
-      <li>use other get methods for the symbol's name, tags, symbolClass, category, and key, like  <code>StyleSymbolSearchResult.getName()</code></li></ul></li>
+  <li>Create a symbol dictionary with the mil2525d specification by passing the string "mil2525d" to the 
+  <code>SymbolDictionary</code> constructor.</li>
+  <li>Create <code>StyleSymbolSearchParameters</code>.</li>
+  <li>Add members to the names, tags, symbolClasses, categories, and keys list fields of the search parameters.</li>
+  <li>Search for symbols using the parameters with <code>symbolDictionary.searchSymbolsAsync(styleSymbolSearchParameters)</code>.</li>
+  <li>Get the <code>Symbol</code> from the list of returned <code>StyleSymbolSearchResult</code>.</li>
 </ol>
 
 <h2>Relevant API</h2>
 
 <ul>
-  <li>CimSymbol</li>
   <li>StyleSymbolSearchParameters</li>
   <li>StyleSymbolSearchResult</li>
+  <li>Symbol</li>
   <li>SymbolDictionary</li>
 </ul>
 
+<h2>Tags</h2>
 
+<p>CIM, MIL-STD-2525B, MIL-STD-2525C, MIL-STD-2525D, defense, look up, mil2525b, mil2525c, mil2525d, military, military
+ symbology, symbology</p>
 

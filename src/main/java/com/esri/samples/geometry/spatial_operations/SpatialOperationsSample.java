@@ -22,15 +22,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -59,7 +52,7 @@ public class SpatialOperationsSample extends Application {
 
   // geometry operations
   private enum OPERATION_TYPE {
-    UNION, DIFFERENCE, SYMMETRIC_DIFFERENCE, INTERSECTION
+    NONE, UNION, DIFFERENCE, SYMMETRIC_DIFFERENCE, INTERSECTION
   }
 
   // simple black (0xFF000000) line symbol
@@ -81,35 +74,18 @@ public class SpatialOperationsSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a control panel
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-          Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 120);
-      controlsVBox.getStyleClass().add("panel-region");
-
-      // create section for combo box
-      Label geomOperationLabel = new Label("Select operation:");
-      geomOperationLabel.getStyleClass().add("panel-label");
-
       // initialise comboBox items
       ComboBox<OPERATION_TYPE> geomOperationBox = new ComboBox<>(FXCollections.observableArrayList(OPERATION_TYPE
           .values()));
-      geomOperationBox.getSelectionModel().selectLast();
-      geomOperationBox.setMaxWidth(Double.MAX_VALUE);
+      geomOperationBox.getSelectionModel().select(OPERATION_TYPE.NONE);
+      geomOperationBox.setMaxWidth(180);
       geomOperationBox.setDisable(true);
-
-      // create button for reset the sample
-      Button resetButton = new Button("Reset operation");
-      resetButton.setMaxWidth(Double.MAX_VALUE);
-      resetButton.setDisable(true);
 
       // handle ComboBox event to perform the selected geometry operation
       geomOperationBox.setOnAction(e -> {
+        resultGeomOverlay.getGraphics().clear();
         Geometry resultPolygon;
-        OPERATION_TYPE operation = geomOperationBox.getSelectionModel().getSelectedItem();
-        switch (operation) {
+        switch (geomOperationBox.getSelectionModel().getSelectedItem()) {
           case UNION:
             resultPolygon = GeometryEngine.union(polygon1.getGeometry(), polygon2.getGeometry());
             break;
@@ -120,26 +96,17 @@ public class SpatialOperationsSample extends Application {
             resultPolygon = GeometryEngine.symmetricDifference(polygon1.getGeometry(), polygon2.getGeometry());
             break;
           case INTERSECTION:
-          default:
             resultPolygon = GeometryEngine.intersection(polygon1.getGeometry(), polygon2.getGeometry());
+            break;
+          case NONE:
+          default:
+            return;
         }
 
         // update result as a red (0xFFE91F1F) geometry
         SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
         resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
-
-        resetButton.setDisable(false);
-        geomOperationBox.setDisable(true);
       });
-
-      // clear result layer
-      resetButton.setOnAction(e -> {
-        resultGeomOverlay.getGraphics().clear();
-        geomOperationBox.setDisable(false);
-      });
-
-      // add label and buttons to the control panel
-      controlsVBox.getChildren().addAll(geomOperationLabel, geomOperationBox, resetButton);
 
       // create ArcGISMap with topographic basemap
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
@@ -175,9 +142,9 @@ public class SpatialOperationsSample extends Application {
       geomOverlay.getGraphics().add(polygon2);
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, geomOperationBox);
+      StackPane.setAlignment(geomOperationBox, Pos.TOP_LEFT);
+      StackPane.setMargin(geomOperationBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace
