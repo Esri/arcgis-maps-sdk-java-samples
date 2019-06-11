@@ -185,22 +185,17 @@ public class RoutingAroundBarriersController {
         // clear the displayed route, if it exists, since it might not be up to date any more
         routeGraphicsOverlay.getGraphics().clear();
 
-        if (btnAddStop.isSelected()) {
-          // check if there are stops to remove
-          if (!stopsList.isEmpty()) {
-
+        // check if we can remove stops
+        if (btnAddStop.isSelected() && !stopsList.isEmpty()) {
             // remove the last stop from the stop list and the graphics overlay
             stopsList.removeLast();
             stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
-          }
-        } else if (btnAddBarrier.isSelected()) {
-          // check if there are barriers to remove
-          if (!barriersList.isEmpty()) {
 
+        // check if we can remove barriers
+        } else if (btnAddBarrier.isSelected() && !barriersList.isEmpty()) {
             // remove the last barrier from the barrier list and the graphics overlay
             barriersList.removeLast();
             barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
-          }
         }
       }
     });
