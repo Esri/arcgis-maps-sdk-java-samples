@@ -16,8 +16,8 @@
 
 package com.esri.samples.na.routing_around_barriers;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.concurrent.ExecutionException;
 
 import javafx.fxml.FXML;
@@ -73,8 +73,8 @@ public class RoutingAroundBarriersController {
   private SimpleLineSymbol routeLineSymbol;
   private RouteTask routeTask;
   private RouteParameters routeParameters;
-  private ArrayList<Stop> stopsList;
-  private ArrayList<PolygonBarrier> barriersList;
+  private LinkedList<Stop> stopsList;
+  private LinkedList<PolygonBarrier> barriersList;
   private Image pinImage;
   private PictureMarkerSymbol pinSymbol;
 
@@ -96,8 +96,8 @@ public class RoutingAroundBarriersController {
     mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
 
     // create a list of stops and a list of barriers
-    stopsList = new ArrayList<>();
-    barriersList = new ArrayList<>();
+    stopsList = new LinkedList<>();
+    barriersList = new LinkedList<>();
 
     // initialize the TitlePane of the Accordion box
     routeInformationTitledPane.setText("No route to display");
@@ -190,7 +190,7 @@ public class RoutingAroundBarriersController {
           if (!stopsList.isEmpty()) {
 
             // remove the last stop from the stop list and the graphics overlay
-            stopsList.remove(stopsList.size() - 1);
+            stopsList.removeLast();
             stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
           }
         } else if (btnAddBarrier.isSelected()) {
@@ -198,7 +198,7 @@ public class RoutingAroundBarriersController {
           if (!barriersList.isEmpty()) {
 
             // remove the last barrier from the barrier list and the graphics overlay
-            barriersList.remove(barriersList.size() - 1);
+            barriersList.removeLast();
             barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
           }
         }
