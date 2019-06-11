@@ -75,6 +75,8 @@ public class RoutingAroundBarriersController {
   private RouteParameters routeParameters;
   private ArrayList<Stop> stopsList;
   private ArrayList<PolygonBarrier> barriersList;
+  private Image pinImage;
+  private PictureMarkerSymbol pinSymbol;
 
   @FXML
   public void initialize() {
@@ -103,6 +105,12 @@ public class RoutingAroundBarriersController {
     // create symbols for displaying the barriers and the route line
     SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
     routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
+
+    // create a marker with a pin image and position it
+    pinImage = new Image(getClass().getResourceAsStream("/symbols/orange_symbol.png"), 0, 40, true, true);
+    pinSymbol = new PictureMarkerSymbol(pinImage);
+    pinSymbol.setOffsetY(20);
+    pinSymbol.loadAsync();
 
     // create route task from San Diego service
     routeTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
@@ -278,6 +286,9 @@ public class RoutingAroundBarriersController {
     routeParameters.clearPointBarriers();
     barriersList.clear();
 
+    // reset the route information title pane
+    routeInformationTitledPane.setText("No route to display");
+
     // clear the directions list
     directionsList.getItems().clear();
 
@@ -296,15 +307,8 @@ public class RoutingAroundBarriersController {
    * @return A composite symbol to mark the current stop
    */
   private CompositeSymbol createCompositeStopSymbol(Integer stopNumber) {
-    // create a marker with a pin image and position it
-    Image pinImage = new Image(getClass().getResourceAsStream("/symbols/orange_symbol.png"), 0, 40, true, true);
-    PictureMarkerSymbol pinSymbol = new PictureMarkerSymbol(pinImage);
-    pinSymbol.setOffsetY(20);
-    pinSymbol.loadAsync();
-
     // determine the stop number and create a new label
-    String stopNumberText = ((stopNumber).toString());
-    TextSymbol stopTextSymbol = new TextSymbol(16, stopNumberText, 0xFFFFFFFF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
+    TextSymbol stopTextSymbol = new TextSymbol(16, (stopNumber).toString(), 0xFFFFFFFF, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
     stopTextSymbol.setOffsetY((float) pinImage.getHeight() / 2);
 
     // construct a composite symbol out of the pin and text symbols, and return it
