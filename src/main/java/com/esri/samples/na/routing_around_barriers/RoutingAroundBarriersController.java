@@ -240,15 +240,8 @@ public class RoutingAroundBarriersController {
             Graphic routeGraphic = new Graphic(routeGeometry, routeLineSymbol);
             routeGraphicsOverlay.getGraphics().add(routeGraphic);
 
-            // retrieve route travel time, rounded to the nearest minute
-            String routeTravelTime = ((Long) Math.round(firstRoute.getTravelTime())).toString();
-
-            // retrieve route length (m), convert to km, and round to two decimal points
-            double routeLengthKm = firstRoute.getTotalLength() / 1000;
-            double routeLengthKmRounded = Math.round(routeLengthKm * 100d) / 100d;
-
             // set the title of the TitledPane to display the information
-            String output = String.format("Route directions: %s min (%s mi)", routeTravelTime, routeLengthKmRounded);
+            String output = String.format("Route directions: %d min (%.2f km)", Math.round(firstRoute.getTravelTime()), firstRoute.getTotalLength() / 1000);
             routeInformationTitledPane.setText(output);
 
             // get the direction text for each maneuver and add them to the list to display
