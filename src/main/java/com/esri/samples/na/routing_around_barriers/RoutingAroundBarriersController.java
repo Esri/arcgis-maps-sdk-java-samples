@@ -30,6 +30,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -69,14 +70,17 @@ public class RoutingAroundBarriersController {
   @FXML private ListView<String> directionsList;
   @FXML private TitledPane routeInformationTitledPane;
 
-  private GraphicsOverlay routeGraphicsOverlay;
-  private SimpleLineSymbol routeLineSymbol;
+  private GraphicsOverlay routeGraphicsOverlay = new GraphicsOverlay();
+  private GraphicsOverlay stopsGraphicsOverlay = new GraphicsOverlay();
+  private GraphicsOverlay barriersGraphicsOverlay = new GraphicsOverlay();
+  private Image pinImage;
+  private LinkedList<Stop> stopsList = new LinkedList<>();
+  private LinkedList<PolygonBarrier> barriersList = new LinkedList<>();
+  private PictureMarkerSymbol pinSymbol;
   private RouteTask routeTask;
   private RouteParameters routeParameters;
-  private LinkedList<Stop> stopsList;
-  private LinkedList<PolygonBarrier> barriersList;
-  private Image pinImage;
-  private PictureMarkerSymbol pinSymbol;
+  private SimpleFillSymbol barrierSymbol;
+  private SimpleLineSymbol routeLineSymbol;
 
   @FXML
   public void initialize() {
@@ -87,23 +91,14 @@ public class RoutingAroundBarriersController {
     // zoom to viewpoint
     mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
-    // create graphics overlays for stops, barriers and route
-    GraphicsOverlay stopsGraphicsOverlay = new GraphicsOverlay();
-    GraphicsOverlay barriersGraphicsOverlay = new GraphicsOverlay();
-    routeGraphicsOverlay = new GraphicsOverlay();
-
     // add the graphics overlays to the map view
     mapView.getGraphicsOverlays().addAll(Arrays.asList(stopsGraphicsOverlay, barriersGraphicsOverlay, routeGraphicsOverlay));
-
-    // create a list of stops and a list of barriers
-    stopsList = new LinkedList<>();
-    barriersList = new LinkedList<>();
-
+    
     // initialize the TitlePane of the Accordion box
     routeInformationTitledPane.setText("No route to display");
 
     // create symbols for displaying the barriers and the route line
-    SimpleFillSymbol barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
+    barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
     routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
 
     // create a marker with a pin image and position it
@@ -141,64 +136,69 @@ public class RoutingAroundBarriersController {
         new Alert(Alert.AlertType.ERROR, "Unable to load RouteTask " + routeTask.getLoadStatus().toString()).show();
       }
     });
+  }
 
-    // listen to mouse clicks to add/remove stops or barriers
-    mapView.setOnMouseClicked(e -> {
-      // convert clicked point to a map point
-      Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
+  /**
+   * Handles clicks on the map view to add/remove stops and barriers.
+   *
+   * @param e mouse click event
+   */
+  @FXML
+  private void handleMapViewClicked(MouseEvent e) {
+    // convert clicked point to a map point
+    Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
-      // Normalize geometry - important for geometries that will be sent to a server for processing.
-      mapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
+    // Normalize geometry - important for geometries that will be sent to a server for processing.
+    mapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
 
-      // if the primary mouse button was clicked, add a stop or barrier  to the clicked map point
-      if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-        if (btnAddStop.isSelected()) {
-          // use the clicked map point to construct a stop
-          Stop stopPoint = new Stop(new Point(mapPoint.getX(), mapPoint.getY(), mapPoint.getSpatialReference()));
+    // if the primary mouse button was clicked, add a stop or barrier  to the clicked map point
+    if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+      if (btnAddStop.isSelected()) {
+        // use the clicked map point to construct a stop
+        Stop stopPoint = new Stop(new Point(mapPoint.getX(), mapPoint.getY(), mapPoint.getSpatialReference()));
 
-          // add the new stop to the list of stops
-          stopsList.add(stopPoint);
+        // add the new stop to the list of stops
+        stopsList.add(stopPoint);
 
-          // create a marker symbol and graphics, and add the graphics to the graphics overlay
-          CompositeSymbol newStopSymbol = createCompositeStopSymbol(stopsList.size());
-          Graphic stopGraphic = new Graphic(mapPoint, newStopSymbol);
-          stopsGraphicsOverlay.getGraphics().add(stopGraphic);
+        // create a marker symbol and graphics, and add the graphics to the graphics overlay
+        CompositeSymbol newStopSymbol = createCompositeStopSymbol(stopsList.size());
+        Graphic stopGraphic = new Graphic(mapPoint, newStopSymbol);
+        stopsGraphicsOverlay.getGraphics().add(stopGraphic);
 
-        } else if (btnAddBarrier.isSelected()) {
-          // clear the displayed route, if it exists, since it might not be up to date any more
-          routeGraphicsOverlay.getGraphics().clear();
-
-          // create a buffered polygon around the mapPoint
-          Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
-
-          // create a polygon barrier for the routing task
-          PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
-          barriersList.add(barrier);
-
-          // build graphics for the barrier and add it to the graphics overlay
-          Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
-          barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
-        }
-
-        // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
-      } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
+      } else if (btnAddBarrier.isSelected()) {
         // clear the displayed route, if it exists, since it might not be up to date any more
         routeGraphicsOverlay.getGraphics().clear();
 
-        // check if we can remove stops
-        if (btnAddStop.isSelected() && !stopsList.isEmpty()) {
-            // remove the last stop from the stop list and the graphics overlay
-            stopsList.removeLast();
-            stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
+        // create a buffered polygon around the mapPoint
+        Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
+
+        // create a polygon barrier for the routing task
+        PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
+        barriersList.add(barrier);
+
+        // build graphics for the barrier and add it to the graphics overlay
+        Graphic barrierGraphic = new Graphic(bufferedBarrierPolygon, barrierSymbol);
+        barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
+      }
+
+      // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
+    } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
+      // clear the displayed route, if it exists, since it might not be up to date any more
+      routeGraphicsOverlay.getGraphics().clear();
+
+      // check if we can remove stops
+      if (btnAddStop.isSelected() && !stopsList.isEmpty()) {
+        // remove the last stop from the stop list and the graphics overlay
+        stopsList.removeLast();
+        stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
 
         // check if we can remove barriers
-        } else if (btnAddBarrier.isSelected() && !barriersList.isEmpty()) {
-            // remove the last barrier from the barrier list and the graphics overlay
-            barriersList.removeLast();
-            barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
-        }
+      } else if (btnAddBarrier.isSelected() && !barriersList.isEmpty()) {
+        // remove the last barrier from the barrier list and the graphics overlay
+        barriersList.removeLast();
+        barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
       }
-    });
+    }
   }
 
   /**

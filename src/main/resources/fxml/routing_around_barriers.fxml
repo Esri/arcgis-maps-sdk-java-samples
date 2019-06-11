@@ -23,7 +23,7 @@
 <StackPane fx:controller="com.esri.samples.na.routing_around_barriers.RoutingAroundBarriersController"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/css/style.css">
     <!--SDK SceneView-->
-    <MapView fx:id="mapView"/>
+    <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"/>
     <!--Controls Area-->
     <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" styleClass="panel-region">
         <!--Control Panel-->
