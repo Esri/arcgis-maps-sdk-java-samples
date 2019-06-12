@@ -17,6 +17,9 @@
 package com.esri.samples.localserver.local_server_services;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
@@ -31,6 +34,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import org.apache.commons.io.FileUtils;
 
 import com.esri.arcgisruntime.localserver.LocalFeatureService;
 import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
@@ -50,12 +54,25 @@ public class LocalServerServicesController {
 
   private HostServices hostServices;
   private FileChooser packageChooser;
+  private Path appDataPath;
 
   @FXML
   private void initialize() {
 
     if (LocalServer.INSTANCE.checkInstallValid()) {
       LocalServer server = LocalServer.INSTANCE;
+
+      // configure app data path (path length must be short for some services)
+      appDataPath = Path.of(System.getProperty("user.home"), "EsriSamples");
+      if (!appDataPath.toFile().exists()) {
+        try {
+          Files.createDirectory(appDataPath);
+        } catch (IOException ex) {
+          new Alert(AlertType.ERROR, "Failed to set local server app data path. Some processes may not work.").show();
+        }
+      }
+      LocalServer.INSTANCE.setAppDataPath(appDataPath.toFile().getAbsolutePath());
+
       // log the server status
       server.addStatusChangedListener(status -> statusLog.appendText("Server Status: " + status.getNewStatus()
           .toString() + "\n"));
@@ -87,17 +104,15 @@ public class LocalServerServicesController {
     serviceOptions.getSelectionModel().selectedItemProperty().addListener(o -> {
       packageChooser.setInitialFileName(null);
       packageChooser.getExtensionFilters().clear();
-      switch (serviceOptions.getSelectionModel().getSelectedItem()) {
-        case "Geoprocessing Service":
-          packageChooser.getExtensionFilters().add(gpkFilter);
-          break;
-        default:
-          packageChooser.getExtensionFilters().add(mpkFilter);
+      if ("Geoprocessing Service".equals(serviceOptions.getSelectionModel().getSelectedItem())) {
+        packageChooser.getExtensionFilters().add(gpkFilter);
+      } else {
+        packageChooser.getExtensionFilters().add(mpkFilter);
       }
     });
 
     // create list view representation of running services
-    runningServices.setCellFactory(list -> new ListCell<LocalService>() {
+    runningServices.setCellFactory(list -> new ListCell<>() {
 
       @Override
       protected void updateItem(LocalService service, boolean bln) {
@@ -195,5 +210,23 @@ public class LocalServerServicesController {
   void setHostServices(HostServices hostServices) {
 
     this.hostServices = hostServices;
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   */
+  void terminate() {
+
+    // make sure all services are stopped before deleting app data
+    LocalServer.INSTANCE.stopAsync().addDoneListener(() -> {
+      if (appDataPath != null) {
+        try {
+          // delete the app data
+          FileUtils.deleteDirectory(appDataPath.toFile());
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
   }
 }
