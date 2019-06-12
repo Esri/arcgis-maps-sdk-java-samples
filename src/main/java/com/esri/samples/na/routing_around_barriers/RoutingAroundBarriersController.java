@@ -148,11 +148,14 @@ public class RoutingAroundBarriersController {
     // convert clicked point to a map point
     Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
-    // Normalize geometry - important for geometries that will be sent to a server for processing.
+    // normalize geometry - important for geometries that will be sent to a server for processing.
     mapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
 
     // if the primary mouse button was clicked, add a stop or barrier  to the clicked map point
     if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+      // clear the displayed route, if it exists, since it might not be up to date any more
+      routeGraphicsOverlay.getGraphics().clear();
+
       if (btnAddStop.isSelected()) {
         // use the clicked map point to construct a stop
         Stop stopPoint = new Stop(new Point(mapPoint.getX(), mapPoint.getY(), mapPoint.getSpatialReference()));
@@ -166,9 +169,6 @@ public class RoutingAroundBarriersController {
         stopsGraphicsOverlay.getGraphics().add(stopGraphic);
 
       } else if (btnAddBarrier.isSelected()) {
-        // clear the displayed route, if it exists, since it might not be up to date any more
-        routeGraphicsOverlay.getGraphics().clear();
-
         // create a buffered polygon around the mapPoint
         Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
 
@@ -184,20 +184,17 @@ public class RoutingAroundBarriersController {
       // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
     } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
 
+      // clear the displayed route, if it exists, since it might not be up to date any more
+      routeGraphicsOverlay.getGraphics().clear();
+
       // check if we can remove stops
       if (btnAddStop.isSelected() && !stopsList.isEmpty()) {
-        // clear the displayed route, if it exists, since it might not be up to date any more
-        routeGraphicsOverlay.getGraphics().clear();
-
         // remove the last stop from the stop list and the graphics overlay
         stopsList.removeLast();
         stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
 
         // check if we can remove barriers
       } else if (btnAddBarrier.isSelected() && !barriersList.isEmpty()) {
-        // clear the displayed route, if it exists, since it might not be up to date any more
-        routeGraphicsOverlay.getGraphics().clear();
-
         // remove the last barrier from the barrier list and the graphics overlay
         barriersList.removeLast();
         barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
