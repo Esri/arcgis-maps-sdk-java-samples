@@ -92,8 +92,9 @@ public class ReadSymbolsFromMobileStyleFileController {
       listView.setCellFactory(c -> new SymbolLayerInfoListCell());
       // add the change listener to rebuild the preview when a selection is made
       listView.getSelectionModel().selectedItemProperty().addListener(changeListener);
-      // add an empty entry to the list view to allow selecting 'nothing'
+      // add an empty entry to the list view to allow selecting 'nothing', and make it selected by default
       listView.getItems().add(null);
+      listView.getSelectionModel().select(0);
     }
 
     // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols
