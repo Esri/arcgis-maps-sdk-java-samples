@@ -184,17 +184,20 @@ public class RoutingAroundBarriersController {
       // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
     } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
 
-      // clear the displayed route, if it exists, since it might not be up to date any more
-      routeGraphicsOverlay.getGraphics().clear();
-
       // check if we can remove stops
       if (btnAddStop.isSelected() && !stopsList.isEmpty()) {
+        // clear the displayed route, if it exists, since it might not be up to date any more
+        routeGraphicsOverlay.getGraphics().clear();
+
         // remove the last stop from the stop list and the graphics overlay
         stopsList.removeLast();
         stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
 
         // check if we can remove barriers
       } else if (btnAddBarrier.isSelected() && !barriersList.isEmpty()) {
+        // clear the displayed route, if it exists, since it might not be up to date any more
+        routeGraphicsOverlay.getGraphics().clear();
+
         // remove the last barrier from the barrier list and the graphics overlay
         barriersList.removeLast();
         barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
