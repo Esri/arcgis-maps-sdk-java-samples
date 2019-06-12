@@ -290,7 +290,7 @@ public class ReadSymbolsFromMobileStyleFileController {
       mapView.dispose();
     }
   }
-  
+
   /**
    * Shows the available symbol of the SymbolStyleSearchResult in the symbol selection list view.
    */
