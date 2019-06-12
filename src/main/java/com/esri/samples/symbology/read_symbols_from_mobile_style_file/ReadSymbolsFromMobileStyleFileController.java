@@ -54,22 +54,14 @@ import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 public class ReadSymbolsFromMobileStyleFileController {
 
-  @FXML
-  private MapView mapView = new MapView();
-  @FXML
-  private ListView<SymbolStyleSearchResult> hatSelectionListView = new ListView<>();
-  @FXML
-  private ListView<SymbolStyleSearchResult> eyesSelectionListView = new ListView<>();
-  @FXML
-  private ListView<SymbolStyleSearchResult> mouthSelectionListView = new ListView<>();
-  @FXML
-  private ListView<Integer> colorSelectionListView = new ListView<>();
-  @FXML
-  private Slider sizeSlider = new Slider();
-  @FXML
-  private Label sizeLabel = new Label();
-  @FXML
-  private HBox symbolPreviewHBox = new HBox();
+  @FXML private MapView mapView = new MapView();
+  @FXML private ListView<SymbolStyleSearchResult> hatSelectionListView = new ListView<>();
+  @FXML private ListView<SymbolStyleSearchResult> eyesSelectionListView = new ListView<>();
+  @FXML private ListView<SymbolStyleSearchResult> mouthSelectionListView = new ListView<>();
+  @FXML private ListView<Integer> colorSelectionListView = new ListView<>();
+  @FXML private Slider sizeSlider = new Slider();
+  @FXML private Label sizeLabel = new Label();
+  @FXML private HBox symbolPreviewHBox = new HBox();
 
   private GraphicsOverlay graphicsOverlay;
   private MultilayerPointSymbol faceSymbol;
@@ -89,36 +81,6 @@ public class ReadSymbolsFromMobileStyleFileController {
 
     // load the available symbols from the style file
     loadSymbolsFromStyleFile();
-
-    // create a cell factory to show the available symbols in the respective list view
-    class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
-
-      private SymbolLayerInfoListCell() {
-        // set the cell to display only a graphic
-        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-      }
-
-      protected void updateItem(SymbolStyleSearchResult item, boolean empty) {
-        super.updateItem(item, empty);
-
-        if (item == null || empty) {
-          // if the item in the list view is an empty item, show nothing
-          setGraphic(null);
-        } else {
-          // get the symbol from the list view entry, and create an image from it
-          ListenableFuture<Image> symbolImageFuture = item.getSymbol().createSwatchAsync(0x00000000, 1);
-          try {
-            // get the resulting image
-            Image symbolImage = symbolImageFuture.get();
-            // create and image view and display it in the cell
-            ImageView symbolImageView = new ImageView(symbolImage);
-            setGraphic(symbolImageView);
-          } catch (InterruptedException | ExecutionException e) {
-            new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
-          }
-        }
-      }
-    }
 
     // create a listener that builds the composite symbol when an item from the list view is selected
     ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
@@ -140,31 +102,6 @@ public class ReadSymbolsFromMobileStyleFileController {
     colorSelectionListView.getSelectionModel().select(0);
     // add the change listener to the color selection list view, making a selection update the preview image
     colorSelectionListView.getSelectionModel().selectedItemProperty().addListener(changeListener);
-    // create a cell factory to show the colors in the list view
-    class ColorListCell extends ListCell<Integer> {
-      private final Rectangle rectangle;
-
-      private ColorListCell() {
-        // set the cell to display only a graphic
-        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        // create a rectangle to display in the cell
-        rectangle = new Rectangle(10, 10);
-      }
-
-      protected void updateItem(Integer item, boolean empty) {
-        super.updateItem(item, empty);
-
-        if (item == null || empty) {
-          // if the item in the list view is an empty item, show nothing
-          setGraphic(null);
-        } else {
-          // convert the 0xAARRGGBB format to a Color object and apply it to the rectangle fill
-          rectangle.setFill(ColorUtil.argbToColor(item));
-          // set the rectangle to be displayed in the cell
-          setGraphic(rectangle);
-        }
-      }
-    }
     // add the cell factory to the color selection list view
     colorSelectionListView.setCellFactory(c -> new ColorListCell());
   }
@@ -333,6 +270,66 @@ public class ReadSymbolsFromMobileStyleFileController {
       // create a new graphic with the point and symbol
       Graphic graphic = new Graphic(mapPoint, faceSymbol);
       graphicsOverlay.getGraphics().add(graphic);
+    }
+  }
+
+  /**
+   * Shows the available symbol of the SymbolStyleSearchResult in the symbol selection list view.
+   */
+  class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
+
+    private SymbolLayerInfoListCell() {
+      // set the cell to display only a graphic
+      setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+    }
+
+    protected void updateItem(SymbolStyleSearchResult item, boolean empty) {
+      super.updateItem(item, empty);
+
+      if (item == null || empty) {
+        // if the item in the list view is an empty item, show nothing
+        setGraphic(null);
+      } else {
+        // get the symbol from the list view entry, and create an image from it
+        ListenableFuture<Image> symbolImageFuture = item.getSymbol().createSwatchAsync(0x00000000, 1);
+        try {
+          // get the resulting image
+          Image symbolImage = symbolImageFuture.get();
+          // create and image view and display it in the cell
+          ImageView symbolImageView = new ImageView(symbolImage);
+          setGraphic(symbolImageView);
+        } catch (InterruptedException | ExecutionException e) {
+          new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
+        }
+      }
+    }
+  }
+
+  /**
+   * Shows the colors in the color selection list view.
+   */
+  class ColorListCell extends ListCell<Integer> {
+    private final Rectangle rectangle;
+
+    private ColorListCell() {
+      // set the cell to display only a graphic
+      setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+      // create a rectangle to display in the cell
+      rectangle = new Rectangle(10, 10);
+    }
+
+    protected void updateItem(Integer item, boolean empty) {
+      super.updateItem(item, empty);
+
+      if (item == null || empty) {
+        // if the item in the list view is an empty item, show nothing
+        setGraphic(null);
+      } else {
+        // convert the 0xAARRGGBB format to a Color object and apply it to the rectangle fill
+        rectangle.setFill(ColorUtil.argbToColor(item));
+        // set the rectangle to be displayed in the cell
+        setGraphic(rectangle);
+      }
     }
   }
 
