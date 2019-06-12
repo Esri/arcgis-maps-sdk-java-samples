@@ -274,6 +274,24 @@ public class ReadSymbolsFromMobileStyleFileController {
   }
 
   /**
+   * Clears all the graphics from the graphics overlay.
+   */
+  @FXML
+  private void resetView() {
+    mapView.getGraphicsOverlays().get(0).getGraphics().clear();
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   */
+  public void terminate() {
+
+    if (mapView != null) {
+      mapView.dispose();
+    }
+  }
+  
+  /**
    * Shows the available symbol of the SymbolStyleSearchResult in the symbol selection list view.
    */
   class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
@@ -330,24 +348,6 @@ public class ReadSymbolsFromMobileStyleFileController {
         // set the rectangle to be displayed in the cell
         setGraphic(rectangle);
       }
-    }
-  }
-
-  /**
-   * Clears all the graphics from the graphics overlay.
-   */
-  @FXML
-  private void resetView() {
-    mapView.getGraphicsOverlays().get(0).getGraphics().clear();
-  }
-
-  /**
-   * Stops and releases all resources used in application.
-   */
-  public void terminate() {
-
-    if (mapView != null) {
-      mapView.dispose();
     }
   }
 }
