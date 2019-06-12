@@ -148,10 +148,10 @@ public class RoutingAroundBarriersController {
     // convert clicked point to a map point
     Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
-    // normalize geometry - important for geometries that will be sent to a server for processing.
+    // normalize geometry - important for geometries that will be sent to a server for processing
     mapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
 
-    // if the primary mouse button was clicked, add a stop or barrier  to the clicked map point
+    // if the primary mouse button was clicked, add a stop or barrier to the clicked map point
     if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
       // clear the displayed route, if it exists, since it might not be up to date any more
       routeGraphicsOverlay.getGraphics().clear();
@@ -169,10 +169,10 @@ public class RoutingAroundBarriersController {
         stopsGraphicsOverlay.getGraphics().add(stopGraphic);
 
       } else if (btnAddBarrier.isSelected()) {
-        // create a buffered polygon around the mapPoint
+        // create a buffered polygon around the clicked point
         Polygon bufferedBarrierPolygon = GeometryEngine.buffer(mapPoint, 500);
 
-        // create a polygon barrier for the routing task
+        // create a polygon barrier for the routing task, and add it to the list of barriers
         PolygonBarrier barrier = new PolygonBarrier(bufferedBarrierPolygon);
         barriersList.add(barrier);
 
@@ -181,7 +181,7 @@ public class RoutingAroundBarriersController {
         barriersGraphicsOverlay.getGraphics().add(barrierGraphic);
       }
 
-      // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
+    // if the secondary mouse button was clicked, delete the last stop or barrier, respectively
     } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
 
       // check if we can remove stops
@@ -193,7 +193,7 @@ public class RoutingAroundBarriersController {
         stopsList.removeLast();
         stopsGraphicsOverlay.getGraphics().remove(stopsGraphicsOverlay.getGraphics().size() - 1);
 
-        // check if we can remove barriers
+      // check if we can remove barriers
       } else if (btnAddBarrier.isSelected() && !barriersList.isEmpty()) {
         // clear the displayed route, if it exists, since it might not be up to date any more
         routeGraphicsOverlay.getGraphics().clear();
