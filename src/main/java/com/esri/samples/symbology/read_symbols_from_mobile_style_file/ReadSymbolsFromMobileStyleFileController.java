@@ -33,6 +33,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
@@ -70,6 +71,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML
   private HBox symbolPreviewHBox = new HBox();
 
+  private GraphicsOverlay graphicsOverlay;
   private MultilayerPointSymbol faceSymbol;
   private SymbolStyle emojiStyle;
 
@@ -82,7 +84,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     mapView.setMap(map);
 
     // create a graphics overlay and add it to the map
-    GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+    graphicsOverlay = new GraphicsOverlay();
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // load the available symbols from the style file
@@ -165,18 +167,6 @@ public class ReadSymbolsFromMobileStyleFileController {
     }
     // add the cell factory to the color selection list view
     colorSelectionListView.setCellFactory(c -> new ColorListCell());
-
-    // listen to mouse clicks to add the desired multi layer symbol
-    mapView.setOnMouseClicked(e -> {
-      if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-        // convert clicked point to a map point
-        Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
-
-        // create a new graphic with the point and symbol
-        Graphic graphic = new Graphic(mapPoint, faceSymbol);
-        graphicsOverlay.getGraphics().add(graphic);
-      }
-    });
   }
 
   /**
@@ -326,6 +316,22 @@ public class ReadSymbolsFromMobileStyleFileController {
 
     // update the preview
     buildCompositeSymbol();
+  }
+
+  /**
+   * Adds graphics to the map view on mouse clicks.
+   * @param e mouse button click event
+   */
+  @FXML
+  private void handleMouseClicked(MouseEvent e){
+    if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+      // convert clicked point to a map point
+      Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
+
+      // create a new graphic with the point and symbol
+      Graphic graphic = new Graphic(mapPoint, faceSymbol);
+      graphicsOverlay.getGraphics().add(graphic);
+    }
   }
 
   /**
