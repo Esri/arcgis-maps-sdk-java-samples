@@ -83,7 +83,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     loadSymbolsFromStyleFile();
 
     // create a listener that builds the composite symbol when an item from the list view is selected
-    ChangeListener<Object> changeListener = (ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
+    ChangeListener<Object> changeListener = (ObservableValue<?> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
 
     // create an list of the ListView objects and iterate over it. This is for adding cell factories, listeners, and an empty entry
     List<ListView<SymbolStyleSearchResult>> listViews = Arrays.asList(hatSelectionListView, eyesSelectionListView, mouthSelectionListView);
