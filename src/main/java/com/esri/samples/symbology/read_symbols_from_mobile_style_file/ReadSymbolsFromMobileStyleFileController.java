@@ -214,6 +214,8 @@ public class ReadSymbolsFromMobileStyleFileController {
                     // add the SymbolStyleSearchResult to the list view
                     mouthSelectionListView.getItems().add(symbolStyleSearchResult);
                     break;
+                  default:
+                    break;
                 }
               });
 
