@@ -216,7 +216,7 @@ public class ClosestFacilityStaticSample extends Application {
                           // display the route on the graphics overlay
                           graphicsOverlay.getGraphics().add(new Graphic(closestFacilityRoute.getRouteGeometry(), simpleLineSymbol));
 
-                          // hide the progress indicator and enable the reset button
+                          // hide the progress indicator
                           progressIndicator.setVisible(false);
                         }
 
