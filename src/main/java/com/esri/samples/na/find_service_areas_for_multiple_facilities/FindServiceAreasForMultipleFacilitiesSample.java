@@ -83,13 +83,13 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     mapView = new MapView();
     mapView.setMap(map);
 
-    // create graphics overlays for service areas
+    // create a graphics overlay for service areas
     GraphicsOverlay serviceAreasGraphicsOverlay = new GraphicsOverlay();
 
-    // add the graphics overlays to the map view
+    // add the graphics overlay to the map view
     mapView.getGraphicsOverlays().add(serviceAreasGraphicsOverlay);
 
-    // create a fill symbols to fill the service area outline with a color
+    // create a fill symbol for rendering the result
     SimpleFillSymbol simpleFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x660000FF, null);
 
     // create a feature table of facilities using a FeatureServer
@@ -97,14 +97,14 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     // create a feature layer from the table
     FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesTable);
 
-    // create an icon used to display the facilities
+    // create an symbol used to display the facilities
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
     facilitySymbol.setHeight(30);
     facilitySymbol.setWidth(30);
-    // set the renderer of the facilities feature layer to use the facilities icon
+    // set the renderer of the facilities feature layer to use the facilities symbol
     facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
-    // add the feature layer to the map
+    // add the facilities feature layer to the map
     map.getOperationalLayers().add(facilitiesFeatureLayer);
 
     // wait for the facilities feature layer to load
@@ -129,7 +129,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
         // resolve 'find service areas' button click
         findServiceAreasButton.setOnAction(event -> {
 
-          // disable the 'find service areas' button
+          // disable the button
           findServiceAreasButton.setDisable(true);
 
           // show the progress indicator
@@ -144,7 +144,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
           serviceAreaTaskParametersFuture.addDoneListener(() -> {
             try {
               ServiceAreaParameters serviceAreaParameters = serviceAreaTaskParametersFuture.get();
-              // set the task parameters to have the task result return polygons
+              // set the task parameters to have the task return polygons
               serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
               serviceAreaParameters.setReturnPolygons(true);
               // change the service area to 3 minutes (default service area is 5 minutes)
