@@ -1,6 +1,6 @@
 # Read symbols from a mobile style
 
-Open a mobile style (.stylx) and read its contents. Combine several symbols from the style into a single multilayer point symbol, then use it to display graphics in the map view.
+Read symbols from a mobile style file and combine them to make customized symbology for geoelements.
 
 ![](ReadSymbolsFromMobileStyleFile.png)
 
@@ -12,10 +12,7 @@ While each of these symbols can be created from scratch, a more convenient workf
 
 ## How to use the sample
 
-- Select symbols from each list box to create a face emoji. A preview of the symbol is updated as you make selections.
-- You can optionally select a new color and set the symbol size using the slider.
-- Tap the map to create a point graphic that uses the current face symbol.
-- Tap the `Clear` button to clear all graphics from the display.
+Select a symbol and a color from each of the category lists to create an emoji. A preview of the symbol is updated as selections are made. The size of the symbol can be set using the slider. Click the map to create a point graphic using the customized emoji symbol, and click "Reset" to clear all graphics from the display.
 
 ## How it works
 
@@ -34,12 +31,10 @@ While each of these symbols can be created from scratch, a more convenient workf
 * SymbolStyle.GetSymbolAsync
 * SymbolStyleSearchParameters
 
-## Offline Data
+## About the data
 
-A mobile style file (created using ArcGIS Pro) provides the symbols used by the sample.
-
-[Emoji mobile style](https://www.arcgis.com/home/item.html?id=1bd036f221f54a99abc9e46ff3511cbf)
+The mobile style file used in this sample was created using ArcGIS Pro, and is hosted on [ArcGIS Online](https://www.arcgis.com/home/item.html?id=1bd036f221f54a99abc9e46ff3511cbf). It contains symbol layers that can be combined to create emojis.
 
 ## Tags
 
-advanced symbology, multilayer, mobile style, stylx
+advanced symbology, mobile style, multilayer, stylx
