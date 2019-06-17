@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
@@ -54,14 +53,14 @@ import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 public class ReadSymbolsFromMobileStyleFileController {
 
-  @FXML private MapView mapView = new MapView();
-  @FXML private ListView<SymbolStyleSearchResult> hatSelectionListView = new ListView<>();
-  @FXML private ListView<SymbolStyleSearchResult> eyesSelectionListView = new ListView<>();
-  @FXML private ListView<SymbolStyleSearchResult> mouthSelectionListView = new ListView<>();
-  @FXML private ListView<Integer> colorSelectionListView = new ListView<>();
-  @FXML private Slider sizeSlider = new Slider();
-  @FXML private Label sizeLabel = new Label();
-  @FXML private HBox symbolPreviewHBox = new HBox();
+  @FXML private MapView mapView;
+  @FXML private ListView<SymbolStyleSearchResult> hatSelectionListView;
+  @FXML private ListView<SymbolStyleSearchResult> eyesSelectionListView;
+  @FXML private ListView<SymbolStyleSearchResult> mouthSelectionListView;
+  @FXML private ListView<Integer> colorSelectionListView;
+  @FXML private Slider sizeSlider;
+  @FXML private Label sizeLabel;
+  @FXML private HBox symbolPreviewHBox;
 
   private GraphicsOverlay graphicsOverlay;
   private MultilayerPointSymbol faceSymbol;
@@ -83,9 +82,9 @@ public class ReadSymbolsFromMobileStyleFileController {
     loadSymbolsFromStyleFile();
 
     // create a listener that builds the composite symbol when an item from the list view is selected
-    ChangeListener<Object> changeListener = (ObservableValue<?> observable, Object oldValue, Object newValue) -> buildCompositeSymbol();
+    ChangeListener<Object> changeListener = (obs, oldValue, newValue) -> buildCompositeSymbol();
 
-    // create an list of the ListView objects and iterate over it. This is for adding cell factories, listeners, and an empty entry
+    // create an list of the ListView objects and iterate over it
     List<ListView<SymbolStyleSearchResult>> listViews = Arrays.asList(hatSelectionListView, eyesSelectionListView, mouthSelectionListView);
     for (ListView<SymbolStyleSearchResult> listView : listViews) {
       // add the cell factory to show the symbol within the list view
@@ -97,7 +96,7 @@ public class ReadSymbolsFromMobileStyleFileController {
       listView.getSelectionModel().select(0);
     }
 
-    // add colors to the color selection list view. We require the 0xAARRGGBB format to color the symbols
+    // add colors to the color selection list view
     colorSelectionListView.getItems().addAll(0xFFFFFF00, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
     // make the first item in the list view selected by default
     colorSelectionListView.getSelectionModel().select(0);
@@ -139,17 +138,14 @@ public class ReadSymbolsFromMobileStyleFileController {
               symbolStyleSearchResults.forEach(symbolStyleSearchResult -> {
 
                 // add the SymbolStyleSearchResult object to the correct list for its category
-                switch (symbolStyleSearchResult.getCategory().toLowerCase()) {
-                  case "hat":
-                    // add the SymbolStyleSearchResult to the list view
+                switch (symbolStyleSearchResult.getCategory()) {
+                  case "Hat":
                     hatSelectionListView.getItems().add(symbolStyleSearchResult);
                     break;
-                  case "eyes":
-                    // add the SymbolStyleSearchResult to the list view
+                  case "Eyes":
                     eyesSelectionListView.getItems().add(symbolStyleSearchResult);
                     break;
-                  case "mouth":
-                    // add the SymbolStyleSearchResult to the list view
+                  case "Mouth":
                     mouthSelectionListView.getItems().add(symbolStyleSearchResult);
                     break;
                   default:
@@ -172,22 +168,15 @@ public class ReadSymbolsFromMobileStyleFileController {
   }
 
   /**
-   * Gets the keys of the selected symbol components, and constructs a multilayer point symbol
+   * Gets the keys of the selected symbol components, and constructs a multilayer point symbol.
    */
   @FXML
   private void buildCompositeSymbol() {
 
-    // retrieve the requested key for the requested hat symbol
-    SymbolStyleSearchResult requestedHat = hatSelectionListView.getSelectionModel().getSelectedItem();
-    String hatKey = requestedHat != null ? requestedHat.getKey() : "";
-
-    // retrieve the requested key for the requested eyes symbol
-    SymbolStyleSearchResult requestedEyes = eyesSelectionListView.getSelectionModel().getSelectedItem();
-    String eyesKey = requestedEyes != null ? requestedEyes.getKey() : "";
-
-    // retrieve the requested key for the requested mouth symbol
-    SymbolStyleSearchResult requestedMouth = mouthSelectionListView.getSelectionModel().getSelectedItem();
-    String mouthKey = requestedMouth != null ? requestedMouth.getKey() : "";
+    // retrieve the requested keys for the selected hat, eyes and mouth symbols
+    String hatKey = getRequestedSymbolKey(hatSelectionListView);
+    String eyesKey = getRequestedSymbolKey(eyesSelectionListView);
+    String mouthKey = getRequestedSymbolKey(mouthSelectionListView);
 
     // create a list of keys to use for getting the requested symbol.
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
@@ -223,7 +212,17 @@ public class ReadSymbolsFromMobileStyleFileController {
   }
 
   /**
-   * Creates an ImageView object from a provided symbol and displays it in the preview area
+   * Returns the symbol key of the symbol style search result that is currently selected in the list view.
+   * @param listView the list view of which to query the selected item
+   * @return String representing the key of the selected symbol style
+   */
+  private String getRequestedSymbolKey(ListView<SymbolStyleSearchResult> listView) {
+    SymbolStyleSearchResult requestedSymbol = listView.getSelectionModel().getSelectedItem();
+    return (requestedSymbol != null ? requestedSymbol.getKey() : "");
+  }
+
+  /**
+   * Creates an ImageView object from a provided symbol and displays it in the preview area.
    *
    * @param multilayerPointSymbol the symbol used to create the image view
    */
@@ -245,7 +244,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   }
 
   /**
-   * Updates the size of the symbol preview and the label when the size bar is interacted with.
+   * Updates the size of the symbol preview and the label when the slider is interacted with.
    */
   @FXML
   private void updateSymbolSize() {
@@ -279,7 +278,7 @@ public class ReadSymbolsFromMobileStyleFileController {
    */
   @FXML
   private void resetView() {
-    mapView.getGraphicsOverlays().get(0).getGraphics().clear();
+    graphicsOverlay.getGraphics().clear();
   }
 
   /**
