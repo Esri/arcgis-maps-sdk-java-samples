@@ -97,7 +97,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     }
 
     // add colors to the color selection list view
-    colorSelectionListView.getItems().addAll(0xFFFFFF00, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
+    colorSelectionListView.getItems().addAll(0xFFFFFF00, 0xFF00FF00, 0xFFFFB6C1);
     // make the first item in the list view selected by default
     colorSelectionListView.getSelectionModel().select(0);
     // add the change listener to the color selection list view, making a selection update the preview image
