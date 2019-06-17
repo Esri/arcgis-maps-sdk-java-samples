@@ -84,7 +84,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     // create a listener that builds the composite symbol when an item from the list view is selected
     ChangeListener<Object> changeListener = (obs, oldValue, newValue) -> buildCompositeSymbol();
 
-    // create an list of the ListView objects and iterate over it
+    // create a list of the ListView objects and iterate over it
     List<ListView<SymbolStyleSearchResult>> listViews = Arrays.asList(hatSelectionListView, eyesSelectionListView, mouthSelectionListView);
     for (ListView<SymbolStyleSearchResult> listView : listViews) {
       // add the cell factory to show the symbol within the list view
