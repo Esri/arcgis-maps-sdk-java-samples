@@ -1,7 +1,5 @@
 package com.esri.samples.na.find_service_areas_for_multiple_facilities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -85,30 +83,27 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     mapView = new MapView();
     mapView.setMap(map);
 
-    // create graphics overlays for facilities and service areas
+    // create graphics overlays for service areas
     GraphicsOverlay serviceAreasGraphicsOverlay = new GraphicsOverlay();
-    GraphicsOverlay facilitiesGraphicsOverlay = new GraphicsOverlay();
 
     // add the graphics overlays to the map view
-    mapView.getGraphicsOverlays().addAll(Arrays.asList(serviceAreasGraphicsOverlay, facilitiesGraphicsOverlay));
+    mapView.getGraphicsOverlays().add(serviceAreasGraphicsOverlay);
 
     // create a fill symbols to fill the service area outline with a color
     SimpleFillSymbol simpleFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x660000FF, null);
+
+    // create a feature table of facilities using a FeatureServer
+    ArcGISFeatureTable facilitiesTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
+    // create a feature layer from the table
+    FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesTable);
 
     // create an icon used to display the facilities
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
     facilitySymbol.setHeight(30);
     facilitySymbol.setWidth(30);
-
-    // create a service area task from URL
-    ServiceAreaTask serviceAreaTask = new ServiceAreaTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ServiceArea");
-    serviceAreaTask.loadAsync();
-
-    // create a feature table of facilities using a FeatureServer
-    ArcGISFeatureTable facilitiesArcGISFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
-    // create a feature layer from the table, set renderer with the facilities icon
-    FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesArcGISFeatureTable);
+    // set the renderer of the facilities feature layer to use the facilities icon
     facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
+
     // add the feature layer to the map
     map.getOperationalLayers().add(facilitiesFeatureLayer);
 
@@ -140,6 +135,10 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
           // show the progress indicator
           progressIndicator.setVisible(true);
 
+          // create a service area task from URL
+          ServiceAreaTask serviceAreaTask = new ServiceAreaTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ServiceArea");
+          serviceAreaTask.loadAsync();
+
           // create default service area task parameters
           ListenableFuture<ServiceAreaParameters> serviceAreaTaskParametersFuture = serviceAreaTask.createDefaultParametersAsync();
           serviceAreaTaskParametersFuture.addDoneListener(() -> {
@@ -156,7 +155,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
               queryParameters.setWhereClause("1=1");
 
               // add all facilities to the service area parameters
-              serviceAreaParameters.setFacilities(facilitiesArcGISFeatureTable, queryParameters);
+              serviceAreaParameters.setFacilities(facilitiesTable, queryParameters);
 
               // find the service areas around the facilities using the parameters
               ListenableFuture<ServiceAreaResult> serviceAreaResultFuture = serviceAreaTask.solveServiceAreaAsync(serviceAreaParameters);
