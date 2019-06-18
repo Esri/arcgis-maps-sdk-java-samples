@@ -54,7 +54,7 @@ final class OAuthChallengeHandler implements AuthenticationChallengeHandler {
       // get the authorization code by sending user to the authorization screen
       String authorizationUrl = OAuthTokenCredentialRequest.getAuthorizationUrl(
           config.getPortalUrl(), config.getClientId(), config.getRedirectUri(), 0);
-      String authorizationCode = OAuthChallenge.getAuthorizationCode(authorizationUrl);
+      String authorizationCode = OAuthChallenge.getAuthorizationCode(authorizationUrl + "&display=classic");
 
       // use the authorization code to get a token
       OAuthTokenCredentialRequest request = new OAuthTokenCredentialRequest(
