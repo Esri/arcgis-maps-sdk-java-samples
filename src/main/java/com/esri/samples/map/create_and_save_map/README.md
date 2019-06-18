@@ -44,4 +44,4 @@ chosen folder.</p>
 
 <h2>Additional information</h2>
 
-<p>The JavaFX <code>WebEngine</code> used in the `OAuthChallengeHandler` in this sample may not support rendering of some modern web elements returned by the <code>AuthorizationURL</code>. For this reason, we append <code>&display=classic</code> to the authorization URL, to ensure it renders properly.</p>
+<p>The JavaFX <code>WebEngine</code> used in the <code>OAuthChallengeHandler</code> in this sample may not support rendering of some modern web elements returned by the <code>AuthorizationURL</code>. For this reason, we append <code>&display=classic</code> to the authorization URL, to ensure it renders properly.</p>
