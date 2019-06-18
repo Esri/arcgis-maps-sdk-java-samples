@@ -10,7 +10,7 @@
 
 <h2>How to use the sample</h2>
 
-<p>Click the 'Solve Routes' button to determine and display the route from each incident (fire) to the nearest facility (fire station). Click the reset button to remove the views.</p>
+<p>Click the 'Solve Routes' button to determine and display the route from each incident (fire) to the nearest facility (fire station).</p>
 
 <h2>How it works</h2>
 
