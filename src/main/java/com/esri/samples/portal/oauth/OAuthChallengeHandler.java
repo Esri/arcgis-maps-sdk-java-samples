@@ -91,7 +91,7 @@ final class OAuthChallenge {
       dialog.setScene(new Scene(browser, 450, 450));
       dialog.show();
       WebEngine webEngine = browser.getEngine();
-      webEngine.load(authorizationUrl);
+      webEngine.load(authorizationUrl + "&display=classic");
 
       // read the HTTP response to user action
       webEngine.setOnStatusChanged(event -> {
