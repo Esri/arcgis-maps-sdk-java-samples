@@ -90,7 +90,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     // add the graphics overlay to the map view
     mapView.getGraphicsOverlays().add(serviceAreasGraphicsOverlay);
 
-    // create a fill symbol for rendering the result
+    // create fill symbols for rendering the result
     ArrayList<SimpleFillSymbol> fillSymbols = new ArrayList<>();
     fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FFA500, null));
     fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FF0000, null));
@@ -100,10 +100,10 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     // create a feature layer from the table
     FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesTable);
 
-    // create an symbol used to display the facilities
+    // create a symbol used to display the facilities
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
-    facilitySymbol.setHeight(30);
-    facilitySymbol.setWidth(30);
+    facilitySymbol.setHeight(50);
+    facilitySymbol.setWidth(50);
     // set the renderer of the facilities feature layer to use the facilities symbol
     facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
