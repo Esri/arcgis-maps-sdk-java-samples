@@ -1,5 +1,6 @@
 package com.esri.samples.na.find_service_areas_for_multiple_facilities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -90,7 +91,9 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     mapView.getGraphicsOverlays().add(serviceAreasGraphicsOverlay);
 
     // create a fill symbol for rendering the result
-    SimpleFillSymbol simpleFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x660000FF, null);
+    ArrayList<SimpleFillSymbol> fillSymbols = new ArrayList<>();
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FFA500, null));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FF0000, null));
 
     // create a feature table of facilities using a FeatureServer
     ArcGISFeatureTable facilitiesTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
@@ -147,8 +150,8 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
               // set the task parameters to have the task return polygons
               serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
               serviceAreaParameters.setReturnPolygons(true);
-              // change the service area to 3 minutes (default service area is 5 minutes)
-              serviceAreaParameters.getDefaultImpedanceCutoffs().set(0, 3.0);
+              // add a service area of 3 minutes in addition to the default service area of 5 minutes
+              serviceAreaParameters.getDefaultImpedanceCutoffs().add(3.0);
 
               // create query parameters used to select all facilities from the feature table
               QueryParameters queryParameters = new QueryParameters();
@@ -173,7 +176,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
                     // we may have more than one resulting service area, so create a graphics from each available polygon
                     for (int polygonIndex = 0; polygonIndex < serviceAreaPolygonList.size(); polygonIndex++) {
                       // create and show a graphics for the service area
-                      serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(polygonIndex).getGeometry(), simpleFillSymbol));
+                      serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(polygonIndex).getGeometry(), fillSymbols.get(polygonIndex % fillSymbols.size())));
                     }
                   }
 
