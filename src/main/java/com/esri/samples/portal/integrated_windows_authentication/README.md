@@ -37,14 +37,12 @@ This sample searches for web map portal items on a secure portal. To successfull
  * Access to a portal secured with Integrated Windows Authentication that contains one or more web map items.
  * A login that grants you access to the portal.
  
- ## Additional Information
+## Additional Information
  
  More information about IWA and it's use with ArcGIS can be found at the following links:
   - [Use Integrated Windows Authentication with your portal](http://enterprise.arcgis.com/en/portal/latest/administer/windows/use-integrated-windows-authentication-with-your-portal.htm)
   - [IWA - Wikipedia](https://en.wikipedia.org/wiki/Integrated_Windows_Authentication)
   
-
-
 ## Tags
 
 Authentication, Security, Windows, Portal
