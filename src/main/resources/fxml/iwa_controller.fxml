@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2017 Esri.
+  ~ Copyright 2019 Esri.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
   ~ use this file except in compliance with the License. You may obtain a copy of
@@ -26,10 +26,13 @@
 <?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ProgressIndicator?>
 <StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.esri.samples.portal.integrated_windows_authentication.IntegratedWindowsAuthenticationController"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="320" maxHeight="50" styleClass="panel-region" spacing="10">
+    <ProgressIndicator fx:id="progressIndicator" visible="false"/>
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="320" styleClass="panel-region" spacing="10">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -38,19 +41,18 @@
                 <fills>
                     <BackgroundFill>
                         <fill>
-                            <Color opacity="0.3"/>
+                            <Color opacity="0.5"/>
                         </fill>
                     </BackgroundFill>
                 </fills>
             </Background>
         </background>
-
-        <Label text="Portal URL:"/>
-        <TextField fx:id="portalUrlTextField" promptText="Portal URL"/>
-        <Button fx:id="searchPublicButton" text="Search Public" onAction="#handleSearchPublicPress"/>
-        <Button fx:id="searchSecureButton" text="Search Secure" onAction="#handleSearchSecurePress"/>
-
-        <ListView fx:id="resultsListView" minHeight="300"/>
-        <Label fx:id="loadStateTextView" text="status goes here"/>
+        <Button fx:id="searchPublicButton" text="Search Public Maps" onAction="#handleSearchPublicPress" maxWidth="Infinity"/>
+        <TextField fx:id="portalUrlTextField" promptText="Enter the URL to your secured portal"/>
+        <Button fx:id="searchSecureButton" text="Search IWA Secured Map" onAction="#handleSearchSecurePress" maxWidth="Infinity"/>
+        <Label text="Available Maps:"/>
+        <ListView fx:id="resultsListView" minHeight="200"/>
+        <Text fx:id="loadStateTextView" wrappingWidth="300" fill="white"/>
+        <Text fx:id="loadWebMapTextView" wrappingWidth="300" fill="white"/>
     </VBox>
 </StackPane>
