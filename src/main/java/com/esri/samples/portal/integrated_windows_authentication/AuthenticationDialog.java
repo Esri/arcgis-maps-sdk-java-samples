@@ -47,9 +47,9 @@ class AuthenticationDialog extends Dialog {
       e.printStackTrace();
     }
 
-    setResultConverter(dialogButton->{
+    setResultConverter(dialogButton -> {
       if (dialogButton == continueButton) {
-        if (!user_domain.getText().equals("") && !password.getText().equals("")){
+        if (!user_domain.getText().equals("") && !password.getText().equals("")) {
           try {
             return new UserCredential(user_domain.getText(), password.getText());
           } catch (Exception e) {

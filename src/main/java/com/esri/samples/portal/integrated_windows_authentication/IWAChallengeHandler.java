@@ -37,6 +37,7 @@ final class IWAChallengeHandler implements AuthenticationChallengeHandler {
 
   /**
    * Handles challenge before accessing a secured resource.
+   *
    * @param authenticationChallenge the authentication challenge to handle
    * @return the AuthenticationChallengeResponse indicating which action to take
    */
@@ -62,7 +63,7 @@ final class IWAChallengeHandler implements AuthenticationChallengeHandler {
       // create a countdown latch with a count of one to synchronize the authentication dialog
       CountDownLatch authenticationCountDownLatch = new CountDownLatch(1);
       // show the authentication dialog and capture the user credentials
-      Platform.runLater(()->{
+      Platform.runLater(() -> {
         AuthenticationDialog authenticationDialog = new AuthenticationDialog();
         authenticationDialog.show();
         authenticationDialog.setOnCloseRequest(r -> {
@@ -73,8 +74,8 @@ final class IWAChallengeHandler implements AuthenticationChallengeHandler {
 
       try {
         authenticationCountDownLatch.await();
-      }catch (InterruptedException e) {
-        new Alert(Alert.AlertType.ERROR, "Interruption handling AuthenticationChallengeResponse: " +  e.getMessage()).show();
+      } catch (InterruptedException e) {
+        new Alert(Alert.AlertType.ERROR, "Interruption handling AuthenticationChallengeResponse: " + e.getMessage()).show();
       }
 
       // if credentials were set, return a new auth challenge response with them. otherwise, act like it was a cancel

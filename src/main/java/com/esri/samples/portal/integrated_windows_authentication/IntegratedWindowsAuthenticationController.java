@@ -53,7 +53,7 @@ public class IntegratedWindowsAuthenticationController {
   @FXML private Text loadStateTextView;
   @FXML private Text loadWebMapTextView;
 
-  public void initialize()  {
+  public void initialize() {
     try {
 
       // create a streets base map
@@ -81,7 +81,7 @@ public class IntegratedWindowsAuthenticationController {
    * Handles searching a public portal
    */
   @FXML
-  private void handleSearchPublicPress(){
+  private void handleSearchPublicPress() {
     searchPortal(new Portal("http://www.arcgis.com"));
   }
 
@@ -89,7 +89,7 @@ public class IntegratedWindowsAuthenticationController {
    * Handles searching a secure portal
    */
   @FXML
-  private void handleSearchSecurePress(){
+  private void handleSearchSecurePress() {
     // check for a url in the URL field
     if (!portalUrlTextField.getText().isEmpty()) {
       // search an instance of the IWA-secured portal, the user may be challenged for access
@@ -101,9 +101,10 @@ public class IntegratedWindowsAuthenticationController {
 
   /**
    * Search the given portal for its portal items and display them in a list view.
+   *
    * @param portal
    */
-  private void searchPortal(Portal portal){
+  private void searchPortal(Portal portal) {
 
     // check if the portal is null
     if (portal == null) {
@@ -120,7 +121,7 @@ public class IntegratedWindowsAuthenticationController {
 
     // load the portal items
     portal.loadAsync();
-    portal.addDoneLoadingListener(()->{
+    portal.addDoneLoadingListener(() -> {
       if (portal.getLoadStatus() == LoadStatus.LOADED) {
         try {
           // update load state in UI with the portal URI
@@ -130,7 +131,7 @@ public class IntegratedWindowsAuthenticationController {
         }
 
         // report the user name used for this connection
-        if (portal.getUser() != null){
+        if (portal.getUser() != null) {
           loadStateTextView.setText("Connected as: " + portal.getUser().getUsername());
         } else {
           // for a secure portal, the user should never be anonymous
@@ -139,7 +140,7 @@ public class IntegratedWindowsAuthenticationController {
 
         // search the portal for web maps
         ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = portal.findItemsAsync(new PortalQueryParameters("type:(\"web map\" NOT \"web mapping application\")"));
-        portalItemResultFuture.addDoneListener(()->{
+        portalItemResultFuture.addDoneListener(() -> {
           try {
             // get the result
             PortalQueryResultSet<PortalItem> portalItemSet = portalItemResultFuture.get();
@@ -147,7 +148,7 @@ public class IntegratedWindowsAuthenticationController {
             // add the items to the list view
             portalItems.forEach(portalItem -> resultsListView.getItems().add(portalItem));
           } catch (ExecutionException | InterruptedException e) {
-            new Alert(Alert.AlertType.ERROR,  "Error getting portal item set from portal: " + e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, "Error getting portal item set from portal: " + e.getMessage()).show();
           }
           // hide the progress indicator
           progressIndicator.setVisible(false);
@@ -165,7 +166,7 @@ public class IntegratedWindowsAuthenticationController {
   /**
    * Gets the selected Portal item from the list view, creates a new map from it and displays it in the map biew
    */
-  private void displayMap(){
+  private void displayMap() {
     if (resultsListView.getSelectionModel().getSelectedItem() != null) {
       PortalItem selectedItem = resultsListView.getSelectionModel().getSelectedItem();
       ArcGISMap webMap = new ArcGISMap(selectedItem);
