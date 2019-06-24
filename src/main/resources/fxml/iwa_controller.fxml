@@ -47,9 +47,9 @@
                 </fills>
             </Background>
         </background>
-        <Button fx:id="searchPublicButton" text="Search Public Maps" onAction="#handleSearchPublicPress" maxWidth="Infinity"/>
+        <Button fx:id="searchPublicButton" text="Search Public Portal" onAction="#handleSearchPublicPress" maxWidth="Infinity"/>
         <TextField fx:id="portalUrlTextField" promptText="Enter the URL to your secured portal"/>
-        <Button fx:id="searchSecureButton" text="Search IWA Secured Map" onAction="#handleSearchSecurePress" maxWidth="Infinity"/>
+        <Button fx:id="searchSecureButton" text="Search IWA Secured Portal" onAction="#handleSearchSecurePress" maxWidth="Infinity"/>
         <Label text="Available Maps:"/>
         <ListView fx:id="resultsListView" minHeight="200"/>
         <Text fx:id="loadStateTextView" wrappingWidth="300" fill="white"/>
