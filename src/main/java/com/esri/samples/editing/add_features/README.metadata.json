@@ -1,0 +1,29 @@
+{
+    "category": "Editing",
+    "description": "@@TODO: Add new features to an online feature service.",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Feature",
+        "FeatureEditResult",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "/java/latest/sample-code/add-features.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureEditResult",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "AddFeaturesSample.java"
+    ],
+    "title": "@@TODO: Add Features"
+}
