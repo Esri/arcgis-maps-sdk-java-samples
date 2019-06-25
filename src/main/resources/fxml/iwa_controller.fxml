@@ -28,6 +28,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Separator?>
 <StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.esri.samples.portal.integrated_windows_authentication.IntegratedWindowsAuthenticationController"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
@@ -47,11 +48,13 @@
                 </fills>
             </Background>
         </background>
-        <Button fx:id="searchPublicButton" text="Search Public Portal" onAction="#handleSearchPublicPress" maxWidth="Infinity"/>
+        <Button text="Search Public Portal" onAction="#handleSearchPublicPress" maxWidth="Infinity"/>
+        <Separator/>
         <TextField fx:id="portalUrlTextField" promptText="Enter the URL to your secured portal"/>
-        <Button fx:id="searchSecureButton" text="Search IWA Secured Portal" onAction="#handleSearchSecurePress" maxWidth="Infinity"/>
+        <Button text="Search IWA Secured Portal" onAction="#handleSearchSecurePress" maxWidth="Infinity"/>
+        <Separator/>
         <Label text="Available Maps:"/>
-        <ListView fx:id="resultsListView" minHeight="200"/>
+        <ListView fx:id="resultsListView" minHeight="300"/>
         <Text fx:id="loadStateTextView" wrappingWidth="300" fill="white"/>
         <Text fx:id="loadWebMapTextView" wrappingWidth="300" fill="white"/>
     </VBox>

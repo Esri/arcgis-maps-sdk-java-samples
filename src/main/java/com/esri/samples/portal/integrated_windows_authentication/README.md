@@ -19,7 +19,7 @@ Integrated Windows Authentication, which is built into Microsoft Internet Inform
 ## How it works
 
 1. The `AuthenticationManager` object is configured with a challenge handler that will prompt for a Windows login (username@domain and password) if a secure resource is encountered.
-2. When a search for portal items is performed against an IWA-secured portal, the challenge handler creates an `UserCredential` object from the information entered by the user.
+2. When a search for portal items is performed against an IWA-secured portal, the challenge handler creates a `UserCredential` object from the information entered by the user.
 3. If the user authenticates, the search returns a list of web maps (`ArcGISPortalItem`) and the user can select one to display as a `Map`.
 
 ## Relevant API
