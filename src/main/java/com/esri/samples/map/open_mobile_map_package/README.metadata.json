@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "OpenMobileMapPackage.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "MapView",
+        "MobileMapPackage"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/open-mobile-map-package.htm",
+    "relevant_apis": [
+        "MapView",
+        "MobileMapPackage"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "OpenMobileMapPackageSample.java"
+    ],
+    "title": "@@TODO: Open Mobile Map Package"
+}

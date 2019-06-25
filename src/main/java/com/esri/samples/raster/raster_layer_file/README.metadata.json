@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Raster",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "RasterLayerFile.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/raster-layer-file.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "RasterLayerFileSample.java"
+    ],
+    "title": "@@TODO: Raster Layer File"
+}

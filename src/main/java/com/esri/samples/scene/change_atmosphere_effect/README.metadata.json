@@ -1,0 +1,25 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Change",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "3D",
+        " AtmosphereEffect",
+        " Scene",
+        "ArcGISScene",
+        "AtmosphereEffect",
+        "SceneView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/change-atmosphere-effect.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "AtmosphereEffect",
+        "SceneView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ChangeAtmosphereEffectSample.java"
+    ],
+    "title": "@@TODO: Change Atmosphere Effect"
+}

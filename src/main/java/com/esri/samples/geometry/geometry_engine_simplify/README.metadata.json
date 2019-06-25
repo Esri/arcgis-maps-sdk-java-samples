@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Simplify",
+    "ignore": false,
+    "images": [
+        "GeometryEngineSimplify.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleFillSymbol"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/geometry-engine-simplify.htm",
+    "relevant_apis": [
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleFillSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GeometryEngineSimplifySample.java"
+    ],
+    "title": "@@TODO: Geometry Engine Simplify"
+}

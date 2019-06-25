@@ -1,0 +1,33 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Generate",
+    "ignore": false,
+    "images": [
+        "GenerateGeodatabase.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "Geodatabase",
+        "GenerateGeodatabaseJob",
+        "GenerateGeodatabaseParameters",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/generate-geodatabase.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "Geodatabase",
+        "GenerateGeodatabaseJob",
+        "GenerateGeodatabaseParameters",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GenerateGeodatabaseSample.java"
+    ],
+    "title": "@@TODO: Generate Geodatabase"
+}

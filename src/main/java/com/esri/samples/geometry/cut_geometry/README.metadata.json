@@ -1,0 +1,47 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Cut",
+    "ignore": false,
+    "images": [
+        "CutGeometry.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SpatialReferences"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/cut-geometry.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SpatialReferences"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "CutGeometrySample.java"
+    ],
+    "title": "@@TODO: Cut Geometry"
+}

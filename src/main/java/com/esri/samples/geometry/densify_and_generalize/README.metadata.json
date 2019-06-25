@@ -1,0 +1,44 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Modify",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Multipoint",
+        "Point",
+        "PointCollection",
+        "Polyline",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SpatialReference"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/densify-and-generalize.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Multipoint",
+        "Point",
+        "PointCollection",
+        "Polyline",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SpatialReference"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DensifyAndGeneralizeSample.java",
+        "DensifyAndGeneralizeController.java"
+    ],
+    "title": "@@TODO: Densify and Generalize"
+}

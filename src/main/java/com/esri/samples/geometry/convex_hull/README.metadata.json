@@ -1,0 +1,21 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Calculate",
+    "ignore": false,
+    "images": [
+        "ConvexHull.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "GeometryEngine"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/convex-hull.htm",
+    "relevant_apis": [
+        "GeometryEngine"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ConvexHullSample.java"
+    ],
+    "title": "@@TODO: Convex Hull"
+}

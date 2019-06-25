@@ -1,0 +1,37 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Convert",
+    "ignore": false,
+    "images": [
+        "FeatureLayerDictionaryRenderer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "DictionaryRenderer",
+        "Envelope",
+        "FeatureLayer",
+        "Geodatabase",
+        "GeometryEngine",
+        "MapView",
+        "SymbolDictionary"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/dictionary-renderer-with-feature-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "DictionaryRenderer",
+        "Envelope",
+        "FeatureLayer",
+        "Geodatabase",
+        "GeometryEngine",
+        "MapView",
+        "SymbolDictionary"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureLayerDictionaryRendererSample.java"
+    ],
+    "title": "@@TODO: Dictionary Renderer with Feature Layer"
+}

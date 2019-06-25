@@ -1,0 +1,32 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Take",
+    "ignore": false,
+    "images": [
+        "GenerateOfflineMapWithLocalBasemap.png"
+    ],
+    "keywords": [
+        "offline",
+        " local basemap",
+        " OfflineMapTask",
+        "OfflineMapTask",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapParameterOverrides",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapResult"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/generate-offline-map-with-local-basemap.htm",
+    "relevant_apis": [
+        "OfflineMapTask",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapParameterOverrides",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapResult"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GenerateOfflineMapDialog.java",
+        "GenerateOfflineMapWithLocalBasemapSample.java"
+    ],
+    "title": "@@TODO: Generate offline map with local basemap"
+}

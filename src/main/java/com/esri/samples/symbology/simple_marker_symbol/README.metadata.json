@@ -1,0 +1,33 @@
+{
+    "category": "@@TODO: Symbology",
+    "description": "@@TODO: Show",
+    "ignore": false,
+    "images": [
+        "SimpleMarkerSymbol.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SimpleMarkerSymbol.Style"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/simple-marker-symbol.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SimpleMarkerSymbol.Style"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SimpleMarkerSymbolSample.java"
+    ],
+    "title": "@@TODO: Simple Marker Symbol"
+}

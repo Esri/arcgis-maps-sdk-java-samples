@@ -1,0 +1,25 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Set",
+    "ignore": false,
+    "images": [
+        "MapReferenceScale.png"
+    ],
+    "keywords": [
+        "Maps & Scenes",
+        " reference scale",
+        "ArcGISMap",
+        "FeatureLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/map-reference-scale.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "MapReferenceScaleSample.java",
+        "MapReferenceScaleController.java"
+    ],
+    "title": "@@TODO: Map reference scale"
+}

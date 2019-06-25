@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Render",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "FeatureLayer.RenderingMode",
+        "LoadSettings",
+        "Point",
+        "Polyline",
+        "Polygon",
+        "ServiceFeatureTable",
+        "Viewpoint"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-layer-rendering-mode-map-.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "FeatureLayer.RenderingMode",
+        "LoadSettings",
+        "Point",
+        "Polyline",
+        "Polygon",
+        "ServiceFeatureTable",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureLayerRenderingModeMapSample.java"
+    ],
+    "title": "@@TODO: Feature Layer Rendering Mode (Map)"
+}

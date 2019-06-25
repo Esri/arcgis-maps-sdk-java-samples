@@ -1,0 +1,26 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Set",
+    "ignore": false,
+    "images": [
+        "CreateTerrainSurfaceFromLocalTilePackage.png"
+    ],
+    "keywords": [
+        "3D",
+        " Tile Cache",
+        " Elevation",
+        " Surface",
+        "ArcGISTiledElevationSource",
+        "Surface"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/create-terrain-from-a-local-tile-package.htm",
+    "relevant_apis": [
+        "ArcGISTiledElevationSource",
+        "Surface"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "CreateTerrainSurfaceFromLocalTilePackageSample.java"
+    ],
+    "title": "@@TODO: Create Terrain from a Local Tile Package"
+}

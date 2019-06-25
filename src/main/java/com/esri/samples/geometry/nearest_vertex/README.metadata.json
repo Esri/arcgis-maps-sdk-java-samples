@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Get",
+    "ignore": false,
+    "images": [
+        "NearestVertex.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "GeometryEngine",
+        "ProximityResult"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/nearest-vertex.htm",
+    "relevant_apis": [
+        "GeometryEngine",
+        "ProximityResult"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "NearestVertexSample.java"
+    ],
+    "title": "@@TODO: Nearest Vertex"
+}

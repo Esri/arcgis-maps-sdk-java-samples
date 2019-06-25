@@ -1,0 +1,27 @@
+{
+    "category": "Analysis",
+    "description": "@@TODO: Measure distances within a scene.",
+    "ignore": false,
+    "images": [
+        "DistanceMeasurementAnalysis.png"
+    ],
+    "keywords": [
+        "Analysis",
+        "3D",
+        "AnalysisOverlay",
+        "LocationDistanceMeasurement",
+        "UnitSystem"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/distance-measurement-analysis.htm",
+    "relevant_apis": [
+        "AnalysisOverlay",
+        "LocationDistanceMeasurement",
+        "UnitSystem"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DistanceMeasurementAnalysisController.java",
+        "DistanceMeasurementAnalysisSample.java"
+    ],
+    "title": "@@TODO: Distance Measurement Analysis"
+}

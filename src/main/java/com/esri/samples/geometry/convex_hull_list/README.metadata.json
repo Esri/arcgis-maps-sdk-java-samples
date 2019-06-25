@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Generate",
+    "ignore": false,
+    "images": [
+        "ConvexHullList.png"
+    ],
+    "keywords": [
+        "Analysis",
+        " ConvexHull",
+        " GeometryEngine",
+        "GeometryEngine.ConvexHull",
+        "GraphicsOverlay",
+        "PointCollection"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/convex-hull-list.htm",
+    "relevant_apis": [
+        "GeometryEngine.ConvexHull",
+        "GraphicsOverlay",
+        "PointCollection"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ConvexHullListSample.java"
+    ],
+    "title": "@@TODO: Convex Hull List"
+}

@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Symbology",
+    "description": "@@TODO: Symbolize",
+    "ignore": false,
+    "images": [
+        "UniqueValueRenderer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "UniqueValues",
+        "UniqueValueRenderer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/unique-value-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "UniqueValues",
+        "UniqueValueRenderer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "UniqueValueRendererSample.java"
+    ],
+    "title": "@@TODO: Unique Value Renderer"
+}

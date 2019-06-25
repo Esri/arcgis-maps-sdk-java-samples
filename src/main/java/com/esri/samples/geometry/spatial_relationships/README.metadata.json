@@ -1,0 +1,49 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Determine",
+    "ignore": false,
+    "images": [
+        "SpatialRelationships.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "Geometry",
+        "GeometryEngine",
+        "GeometryType",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/spatial-relationships.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Geometry",
+        "GeometryEngine",
+        "GeometryType",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SpatialRelationshipsSample.java"
+    ],
+    "title": "@@TODO: Spatial Relationships"
+}

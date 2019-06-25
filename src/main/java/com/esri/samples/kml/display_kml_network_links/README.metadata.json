@@ -1,0 +1,30 @@
+{
+    "category": "@@TODO: Kml",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "DisplayKMLNetworkLinks.png"
+    ],
+    "keywords": [
+        "KML",
+        " KMZ",
+        " OGC",
+        " Keyhole",
+        " Network Link",
+        " Network Link Control",
+        "KmlDataset",
+        "KmlLayer",
+        "KmlNetworkLinkMessageReceivedEvent"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/display-kml-network-links.htm",
+    "relevant_apis": [
+        "KmlDataset",
+        "KmlLayer",
+        "KmlNetworkLinkMessageReceivedEvent"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DisplayKMLNetworkLinksSample.java"
+    ],
+    "title": "@@TODO: Display KML Network Links"
+}

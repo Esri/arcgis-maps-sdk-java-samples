@@ -1,0 +1,47 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Calculate",
+    "ignore": false,
+    "images": [
+        "GeodesicOperations.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "GeodeticCurveType",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "LinearUnit",
+        "LinearUnitId",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polyline",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/geodesic-operations.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeodeticCurveType",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "LinearUnit",
+        "LinearUnitId",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polyline",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GeodesicOperationsSample.java"
+    ],
+    "title": "@@TODO: Geodesic Operations"
+}

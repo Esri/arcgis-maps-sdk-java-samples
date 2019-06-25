@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "MapInitialExtent.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Envelope",
+        "MapView",
+        "Point",
+        "Viewpoint"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/map-initial-extent.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Envelope",
+        "MapView",
+        "Point",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "MapInitialExtentSample.java"
+    ],
+    "title": "@@TODO: Map Initial Extent"
+}

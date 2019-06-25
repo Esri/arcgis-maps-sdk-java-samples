@@ -1,0 +1,39 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Create",
+    "ignore": false,
+    "images": [
+        "FeatureCollectionLayerQuery.png"
+    ],
+    "keywords": [
+        "FeatureQueryResult",
+        " FeatureCollection",
+        " FeatureCollectionLayer",
+        " FeatureCollectionTable",
+        " query",
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "FeatureCollectionTable",
+        "FeatureLayer",
+        "FeatureTable",
+        "FeatureQueryResult",
+        "QueryParameters",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-collection-layer-query.htm",
+    "relevant_apis": [
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "FeatureCollectionTable",
+        "FeatureLayer",
+        "FeatureTable",
+        "FeatureQueryResult",
+        "QueryParameters",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureCollectionLayerQuerySample.java"
+    ],
+    "title": "@@TODO: Feature Collection Layer Query"
+}

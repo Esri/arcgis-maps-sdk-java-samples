@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Symbology",
+    "description": "@@TODO: Change",
+    "ignore": false,
+    "images": [
+        "SimpleLineSymbol.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Polyline",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleLineSymbol.Style"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/simple-line-symbol.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Polyline",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleLineSymbol.Style"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SimpleLineSymbolSample.java"
+    ],
+    "title": "@@TODO: Simple Line Symbol"
+}

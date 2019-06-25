@@ -1,0 +1,37 @@
+{
+    "category": "@@TODO: Displayinformation",
+    "description": "@@TODO: Specify",
+    "ignore": false,
+    "images": [
+        "AddGraphicsWithRenderer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SimpleRenderer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/add-graphics-with-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "AddGraphicsWithRendererSample.java"
+    ],
+    "title": "@@TODO: Add Graphics with Renderer"
+}

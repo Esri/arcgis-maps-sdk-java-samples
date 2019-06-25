@@ -1,0 +1,38 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Group",
+    "ignore": false,
+    "images": [
+        "StatisticalQueryGroupAndSort.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Field",
+        "QueryParameters",
+        "ServiceFeatureTable",
+        "StatisticDefinition",
+        "StatisticRecord",
+        "StatisticType",
+        "StatisticsQueryParameters",
+        "StatisticsQueryResult"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/statistical-query-group-and-sort.htm",
+    "relevant_apis": [
+        "Field",
+        "QueryParameters",
+        "ServiceFeatureTable",
+        "StatisticDefinition",
+        "StatisticRecord",
+        "StatisticType",
+        "StatisticsQueryParameters",
+        "StatisticsQueryResult"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GroupField.java",
+        "StatisticalQueryGroupAndSortSample.java",
+        "OrderByField.java",
+        "StatisticalQueryGroupAndSortController.java"
+    ],
+    "title": "@@TODO: Statistical Query Group And Sort"
+}

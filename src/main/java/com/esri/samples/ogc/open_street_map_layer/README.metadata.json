@@ -1,0 +1,28 @@
+{
+    "category": "@@TODO: Ogc",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "OpenStreetMapLayer.png"
+    ],
+    "keywords": [
+        "Layers",
+        " OpenStreetMap",
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/openstreetmap-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "OpenStreetMapLayerSample.java"
+    ],
+    "title": "@@TODO: OpenStreetMap Layer"
+}

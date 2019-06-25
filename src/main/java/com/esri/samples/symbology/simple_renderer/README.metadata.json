@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Symbology",
+    "description": "@@TODO: Set",
+    "ignore": false,
+    "images": [
+        "SimpleRenderer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SimpleMarkerSymbol.Style",
+        "SimpleRenderer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/simple-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SimpleMarkerSymbol.Style",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SimpleRendererSample.java"
+    ],
+    "title": "@@TODO: Simple Renderer"
+}

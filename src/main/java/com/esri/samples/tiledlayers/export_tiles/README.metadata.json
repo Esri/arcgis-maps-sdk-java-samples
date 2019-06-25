@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Tiledlayers",
+    "description": "@@TODO: Export",
+    "ignore": false,
+    "images": [
+        "ExportTiles.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Basemap",
+        "ExportTileCacheJob",
+        "ExportTileCacheParamters",
+        "ExportTileCacheTask",
+        "MapView",
+        "TileCache"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/export-tiles.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Basemap",
+        "ExportTileCacheJob",
+        "ExportTileCacheParamters",
+        "ExportTileCacheTask",
+        "MapView",
+        "TileCache"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ExportTilesSample.java"
+    ],
+    "title": "@@TODO: Export Tiles"
+}

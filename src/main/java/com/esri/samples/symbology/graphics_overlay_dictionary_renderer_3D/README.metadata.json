@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Symbology",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "GraphicsOverlayDictionaryRenderer3D.png"
+    ],
+    "keywords": [
+        "Graphics",
+        " Symbology",
+        " 3D",
+        "GraphicsOverlay",
+        "DictionaryRenderer",
+        "DictionarySymbolStyle"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/graphics-overlay-dictionary-renderer-3d.htm",
+    "relevant_apis": [
+        "GraphicsOverlay",
+        "DictionaryRenderer",
+        "DictionarySymbolStyle"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GraphicsOverlayDictionaryRenderer3DSample.java"
+    ],
+    "title": "@@TODO: Graphics Overlay Dictionary Renderer 3D"
+}

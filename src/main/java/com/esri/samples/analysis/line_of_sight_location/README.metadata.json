@@ -1,0 +1,31 @@
+{
+    "category": "Analysis",
+    "description": "@@TODO: Perform line of sight analysis in real-time.",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "3D",
+        "AnalysisOverlay",
+        "ArcGISTiledElevationSource",
+        "ArcGISScene",
+        "Camera",
+        "LocationLineOfSight",
+        "SceneView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/line-of-sight-location.htm",
+    "relevant_apis": [
+        "3D",
+        "AnalysisOverlay",
+        "ArcGISTiledElevationSource",
+        "ArcGISScene",
+        "Camera",
+        "LocationLineOfSight",
+        "SceneView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "LineOfSightLocationSample.java"
+    ],
+    "title": "@@TODO: Line of Sight Location"
+}

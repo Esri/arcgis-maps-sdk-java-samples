@@ -1,0 +1,33 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Filter",
+    "ignore": false,
+    "images": [
+        "TimeBasedQuery.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "MapView",
+        "QueryParameters",
+        "ServiceFeatureTable",
+        "TimeExtent"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/time-based-query.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "MapView",
+        "QueryParameters",
+        "ServiceFeatureTable",
+        "TimeExtent"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "TimeBasedQuerySample.java"
+    ],
+    "title": "@@TODO: Time Based Query"
+}

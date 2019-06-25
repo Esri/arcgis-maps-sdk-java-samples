@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Imagelayers",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "QueryMapImageSublayer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMapImageLayer",
+        "ArcGISMapImageSublayer",
+        "QueryParameters",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/query-map-image-sublayer.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "ArcGISMapImageSublayer",
+        "QueryParameters",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "QueryMapImageSublayerSample.java"
+    ],
+    "title": "@@TODO: Query Map Image Sublayer"
+}

@@ -1,0 +1,26 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: See",
+    "ignore": false,
+    "images": [
+        "ViewContentBeneathTerrainSurface.png"
+    ],
+    "keywords": [
+        "3D",
+        " subsurface",
+        " underground",
+        " utilities",
+        "Surface",
+        "Surface.NavigationConstraint"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/view-content-beneath-terrain-surface.htm",
+    "relevant_apis": [
+        "Surface",
+        "Surface.NavigationConstraint"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ViewContentBeneathTerrainSurfaceSample.java"
+    ],
+    "title": "@@TODO: View content beneath terrain surface"
+}

@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Combine",
+    "ignore": false,
+    "images": [
+        "BufferList.png"
+    ],
+    "keywords": [
+        "Analysis",
+        " Buffer",
+        " GeometryEngine",
+        "GeometryEngine"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/buffer-list.htm",
+    "relevant_apis": [
+        "GeometryEngine"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "BufferListSample.java"
+    ],
+    "title": "@@TODO: Buffer list"
+}

@@ -1,0 +1,28 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Calculate",
+    "ignore": false,
+    "images": [
+        "CalculateDistance3d.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "SceneView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/calculate-distance-3d.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "SceneView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "CalculateDistance3dSample.java",
+        "CalculateDistance3dController.java"
+    ],
+    "title": "@@TODO: Calculate Distance 3d"
+}

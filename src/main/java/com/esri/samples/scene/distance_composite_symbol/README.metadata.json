@@ -1,0 +1,41 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Change",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISScene",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "DistanceCompositeSceneSymbol",
+        "DistanceCompositeSceneSymbol.Range",
+        "Graphic",
+        "GraphicsOverlay",
+        "ModelSceneSymbol",
+        "Range",
+        "RangeCollection",
+        "SceneView",
+        "SimpleMarkerSceneSymbol"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/distance-composite-symbol.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "DistanceCompositeSceneSymbol",
+        "DistanceCompositeSceneSymbol.Range",
+        "Graphic",
+        "GraphicsOverlay",
+        "ModelSceneSymbol",
+        "Range",
+        "RangeCollection",
+        "SceneView",
+        "SimpleMarkerSceneSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DistanceCompositeSymbolSample.java"
+    ],
+    "title": "@@TODO: Distance Composite Symbol"
+}

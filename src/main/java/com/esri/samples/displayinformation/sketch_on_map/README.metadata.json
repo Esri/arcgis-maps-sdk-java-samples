@@ -1,0 +1,38 @@
+{
+    "category": "@@TODO: Displayinformation",
+    "description": "@@TODO: Use",
+    "ignore": false,
+    "images": [
+        "SketchOnMap.png"
+    ],
+    "keywords": [
+        "draw",
+        " edit",
+        " Geometry",
+        " Graphic",
+        " GraphicsOverlay",
+        " SketchCreationMode",
+        " SketchEditor",
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "SketchCreationMode",
+        "SketchEditor"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/sketch-on-map.htm",
+    "relevant_apis": [
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "SketchCreationMode",
+        "SketchEditor"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SketchOnMapSample.java",
+        "SketchOnMapController.java"
+    ],
+    "title": "@@TODO: Sketch on Map"
+}

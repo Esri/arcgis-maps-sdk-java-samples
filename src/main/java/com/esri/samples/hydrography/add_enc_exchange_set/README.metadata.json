@@ -1,0 +1,32 @@
+{
+    "category": "@@TODO: Hydrography",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "AddEncExchangeSet.png"
+    ],
+    "keywords": [
+        "Data",
+        " ENC",
+        " maritime",
+        " nautical chart",
+        " layers",
+        " hydrographic",
+        "EncCell",
+        "EncDataset",
+        "EncExchangeSet",
+        "EncLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/add-enc-exchange-set.htm",
+    "relevant_apis": [
+        "EncCell",
+        "EncDataset",
+        "EncExchangeSet",
+        "EncLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "AddEncExchangeSetSample.java"
+    ],
+    "title": "@@TODO: Add ENC exchange set"
+}

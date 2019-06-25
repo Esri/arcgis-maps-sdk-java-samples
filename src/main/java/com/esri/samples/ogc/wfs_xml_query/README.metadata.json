@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Ogc",
+    "description": "@@TODO: Load",
+    "ignore": false,
+    "images": [
+        "WfsXmlQuery.png"
+    ],
+    "keywords": [
+        "OGC",
+        " WFS",
+        " feature",
+        " web",
+        " service",
+        " XML",
+        " query",
+        "FeatureLayer",
+        "WfsFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/\ufeffload-wfs-with-xml-query.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "WfsFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "WfsXmlQuerySample.java"
+    ],
+    "title": "@@TODO: \ufeffLoad WFS with XML query"
+}

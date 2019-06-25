@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Tiledlayers",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "TiledLayer.png"
+    ],
+    "keywords": [
+        "layers",
+        " tile",
+        " ArcGISTiledLayer",
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/tiled-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "TiledLayerSample.java"
+    ],
+    "title": "@@TODO: Tiled layer"
+}

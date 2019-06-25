@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Mapview",
+    "description": "@@TODO: Determine",
+    "ignore": false,
+    "images": [
+        "DisplayDrawingStatus.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "DrawStatus",
+        "DrawStatusChangedEvent",
+        "Envelope",
+        "FeatureLayer",
+        "MapView",
+        "Point"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/display-drawing-status.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "DrawStatus",
+        "DrawStatusChangedEvent",
+        "Envelope",
+        "FeatureLayer",
+        "MapView",
+        "Point"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DisplayDrawingStatusSample.java"
+    ],
+    "title": "@@TODO: Display Drawing Status"
+}

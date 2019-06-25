@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Position",
+    "ignore": false,
+    "images": [
+        "ElevationMode.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISScene",
+        "Camera",
+        "Graphic",
+        "GraphicsOverlay",
+        "LayerSceneProperties.SurfacePlacement",
+        "SceneProperties",
+        "SceneView",
+        "Surface"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/elevation-mode.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Camera",
+        "Graphic",
+        "GraphicsOverlay",
+        "LayerSceneProperties.SurfacePlacement",
+        "SceneProperties",
+        "SceneView",
+        "Surface"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ElevationModeSample.java"
+    ],
+    "title": "@@TODO: Elevation Mode"
+}

@@ -1,0 +1,33 @@
+{
+    "category": "@@TODO: Mapview",
+    "description": "@@TODO: Determine",
+    "ignore": false,
+    "images": [
+        "DisplayLayerViewState.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Layer",
+        "LayerViewStatus",
+        "LayerViewStateChangedEvent",
+        "MapView",
+        "Viewpoint"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/display-layer-view-state.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Layer",
+        "LayerViewStatus",
+        "LayerViewStateChangedEvent",
+        "MapView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DisplayLayerViewStateSample.java"
+    ],
+    "title": "@@TODO: Display Layer View State"
+}

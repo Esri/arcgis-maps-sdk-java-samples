@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Symbology",
+    "description": "@@TODO: Override",
+    "ignore": false,
+    "images": [
+        "SymbolizeShapefile.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "FeatureLayer",
+        "ShapefileFeatureTable",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleRenderer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/symbolize-shapefile.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "ShapefileFeatureTable",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SymbolizeShapefileSample.java"
+    ],
+    "title": "@@TODO: Symbolize Shapefile"
+}

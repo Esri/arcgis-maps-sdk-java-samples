@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Mapview",
+    "description": "@@TODO: Set",
+    "ignore": false,
+    "images": [
+        "ChangeViewpoint.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "Point",
+        "SpatialReference",
+        "Viewpoint"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/change-viewpoint.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Point",
+        "SpatialReference",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ChangeViewpointSample.java"
+    ],
+    "title": "@@TODO: Change Viewpoint"
+}

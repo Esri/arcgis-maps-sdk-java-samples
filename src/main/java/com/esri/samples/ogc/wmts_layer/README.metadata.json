@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Ogc",
+    "description": "@@TODO: Dsiplay",
+    "ignore": false,
+    "images": [
+        "WmtsLayer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "WmtsLayer",
+        "WmtsService"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/wmts-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "WmtsLayer",
+        "WmtsService"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "WmtsLayerSample.java"
+    ],
+    "title": "@@TODO: WMTS Layer"
+}

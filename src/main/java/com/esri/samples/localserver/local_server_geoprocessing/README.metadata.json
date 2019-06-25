@@ -1,0 +1,38 @@
+{
+    "category": "@@TODO: Localserver",
+    "description": "@@TODO: Create",
+    "ignore": false,
+    "images": [
+        "LocalServerGeoprocessing.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "GeoprocessingDouble",
+        "GeoprocessingJob",
+        "GeoprocessingParameter",
+        "GeoprocessingParameters",
+        "GeoprocessingTask",
+        "LocalGeoprocessingService",
+        "LocalGeoprocessingService.ServiceType",
+        "LocalServer",
+        "LocalServerStatus"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/local-server-geoprocessing.htm",
+    "relevant_apis": [
+        "GeoprocessingDouble",
+        "GeoprocessingJob",
+        "GeoprocessingParameter",
+        "GeoprocessingParameters",
+        "GeoprocessingTask",
+        "LocalGeoprocessingService",
+        "LocalGeoprocessingService.ServiceType",
+        "LocalServer",
+        "LocalServerStatus"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "LocalServerGeoprocessingController.java",
+        "LocalServerGeoprocessingSample.java"
+    ],
+    "title": "@@TODO: Local Server Geoprocessing"
+}

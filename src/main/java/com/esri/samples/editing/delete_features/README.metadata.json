@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Editing",
+    "description": "@@TODO: Delete",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/delete-features.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DeleteFeaturesSample.java"
+    ],
+    "title": "@@TODO: Delete Features"
+}

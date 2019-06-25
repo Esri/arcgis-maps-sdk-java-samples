@@ -1,0 +1,28 @@
+{
+    "category": "@@TODO: Tiledlayers",
+    "description": "@@TODO: Create",
+    "ignore": false,
+    "images": [
+        "TileCache.png"
+    ],
+    "keywords": [
+        "layers",
+        " tile",
+        " TileCache",
+        " ArcGISTiledLayer",
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "TileCache"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/tile-cache.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "TileCache"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "TileCacheSample.java"
+    ],
+    "title": "@@TODO: Tile cache"
+}

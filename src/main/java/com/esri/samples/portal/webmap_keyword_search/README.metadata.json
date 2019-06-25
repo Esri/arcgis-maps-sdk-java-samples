@@ -1,0 +1,32 @@
+{
+    "category": "@@TODO: Portal",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "WebmapKeywordSearch.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "MapView",
+        "Portal",
+        "PortalItem",
+        "PortalQueryParameters",
+        "PortalQueryResultSet"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/webmap-keyword-search.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView",
+        "Portal",
+        "PortalItem",
+        "PortalQueryParameters",
+        "PortalQueryResultSet"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "WebmapKeywordSearchSample.java",
+        "WebmapKeywordSearchController.java"
+    ],
+    "title": "@@TODO: Webmap Keyword Search"
+}

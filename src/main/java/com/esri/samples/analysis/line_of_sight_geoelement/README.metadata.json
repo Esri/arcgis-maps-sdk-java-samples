@@ -1,0 +1,23 @@
+{
+    "category": "Analysis",
+    "description": "@@TODO: Show a line of sight between two moving objects.",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "Analysis",
+        "AnalysisOverlay",
+        "GeoElementLineOfSight",
+        "LineOfSight.TargetVisibility"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/line-of-sight-geoelement.htm",
+    "relevant_apis": [
+        "AnalysisOverlay",
+        "GeoElementLineOfSight",
+        "LineOfSight.TargetVisibility"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "LineOfSightGeoElementSample.java"
+    ],
+    "title": "@@TODO: Line of Sight GeoElement"
+}

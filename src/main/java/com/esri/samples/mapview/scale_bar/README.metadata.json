@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Mapview",
+    "description": "@@TODO: Adds",
+    "ignore": false,
+    "images": [
+        "ScaleBar.png"
+    ],
+    "keywords": [
+        "Map",
+        " Scale Bar",
+        " Toolkit",
+        "ArcGISMap",
+        "MapView",
+        "Scalebar",
+        "UnitSystem"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/scale-bar.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView",
+        "Scalebar",
+        "UnitSystem"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ScaleBarSample.java"
+    ],
+    "title": "@@TODO: Scale Bar"
+}

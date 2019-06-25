@@ -1,0 +1,28 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Create",
+    "ignore": false,
+    "images": [
+        "GeodesicSectorAndEllipse.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "GeodesicEllipseParameters",
+        "GeodesicSectorParameters",
+        "GeometryEngine",
+        "GeometryType"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/geodesic-sector-and-ellipse.htm",
+    "relevant_apis": [
+        "GeodesicEllipseParameters",
+        "GeodesicSectorParameters",
+        "GeometryEngine",
+        "GeometryType"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GeodesicSectorAndEllipseSample.java",
+        "GeodesicSectorAndEllipseController.java"
+    ],
+    "title": "@@TODO: Geodesic Sector and Ellipse"
+}

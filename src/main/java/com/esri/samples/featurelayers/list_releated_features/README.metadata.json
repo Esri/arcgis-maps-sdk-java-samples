@@ -1,0 +1,37 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "ListRelatedFeatures.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISFeature",
+        "ArcGISFeatureTable",
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "FeatureQueryResult",
+        "FeatureTable",
+        "MapView",
+        "RelatedFeatureQueryResult"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/list-related-features.htm",
+    "relevant_apis": [
+        "ArcGISFeature",
+        "ArcGISFeatureTable",
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "FeatureQueryResult",
+        "FeatureTable",
+        "MapView",
+        "RelatedFeatureQueryResult"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ListRelatedFeaturesSample.java"
+    ],
+    "title": "@@TODO: List Related Features"
+}

@@ -1,0 +1,34 @@
+{
+    "category": "@@TODO: Raster",
+    "description": "@@TODO: Apply",
+    "ignore": false,
+    "images": [
+        "StretchRenderer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer",
+        "StretchParameters",
+        "StretchRenderer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/stretch-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer",
+        "StretchParameters",
+        "StretchRenderer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "StretchRendererSample.java",
+        "StretchRendererController.java"
+    ],
+    "title": "@@TODO: Stretch Renderer"
+}

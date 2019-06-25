@@ -1,0 +1,39 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "ListTransformationsBySuitability.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "DatumTransformation",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SpatialReference",
+        "TransformationCatalog"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/list-transformations-by-suitability.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "DatumTransformation",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SpatialReference",
+        "TransformationCatalog"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ListTransformationsBySuitabilitySample.java"
+    ],
+    "title": "@@TODO: List Transformations By Suitability"
+}

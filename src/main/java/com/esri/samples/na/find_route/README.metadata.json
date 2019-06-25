@@ -1,0 +1,41 @@
+{
+    "category": "@@TODO: Na",
+    "description": "@@TODO: Get",
+    "ignore": false,
+    "images": [
+        "FindRoute.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "DirectionManeuver",
+        "DirectionMessage",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Route",
+        "RouteTask",
+        "RouteParameters",
+        "RouteResult",
+        "Stop"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/find-route.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "DirectionManeuver",
+        "DirectionMessage",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Route",
+        "RouteTask",
+        "RouteParameters",
+        "RouteResult",
+        "Stop"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FindRouteSample.java"
+    ],
+    "title": "@@TODO: Find Route"
+}

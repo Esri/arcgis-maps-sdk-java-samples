@@ -1,0 +1,34 @@
+{
+    "category": "@@TODO: Kml",
+    "description": "@@TODO: Play",
+    "ignore": false,
+    "images": [
+        "PlayAKMLTour.png"
+    ],
+    "keywords": [
+        "KML",
+        " tour",
+        " story",
+        " interactive",
+        " narration",
+        " play",
+        " pause",
+        " animation",
+        "KmlDataset",
+        "KmlTour",
+        "KmlTourController",
+        "KmlTourStatus"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/play-a-kml-tour.htm",
+    "relevant_apis": [
+        "KmlDataset",
+        "KmlTour",
+        "KmlTourController",
+        "KmlTourStatus"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "PlayAKMLTourSample.java"
+    ],
+    "title": "@@TODO: Play a KML Tour"
+}

@@ -1,0 +1,25 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Select",
+    "ignore": false,
+    "images": [
+        "SceneLayerSelection.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISSceneLayer",
+        "GeoElement",
+        "IdentifyLayerResult"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/scene-layer-selection.htm",
+    "relevant_apis": [
+        "ArcGISSceneLayer",
+        "GeoElement",
+        "IdentifyLayerResult"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SceneLayerSelectionSample.java"
+    ],
+    "title": "@@TODO: Scene Layer Selection"
+}

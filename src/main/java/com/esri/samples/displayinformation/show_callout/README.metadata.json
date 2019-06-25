@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Displayinformation",
+    "description": "@@TODO: Show",
+    "ignore": false,
+    "images": [
+        "ShowCallout.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Callout",
+        "MapView",
+        "Point"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/show-callout.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Callout",
+        "MapView",
+        "Point"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ShowCalloutSample.java"
+    ],
+    "title": "@@TODO: Show Callout"
+}

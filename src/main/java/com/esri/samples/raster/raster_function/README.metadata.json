@@ -1,0 +1,33 @@
+{
+    "category": "@@TODO: Raster",
+    "description": "@@TODO: Apply",
+    "ignore": false,
+    "images": [
+        "RasterFunction.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "ImageServiceRaster",
+        "MapView",
+        "RasterFunction",
+        "RasterFunctionArguments",
+        "RasterLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/raster-function.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "ImageServiceRaster",
+        "MapView",
+        "RasterFunction",
+        "RasterFunctionArguments",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "RasterFunctionSample.java"
+    ],
+    "title": "@@TODO: Raster Function"
+}

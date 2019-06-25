@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Grouplayers",
+    "description": "@@TODO: Group",
+    "ignore": false,
+    "images": [
+        "GroupLayers.png"
+    ],
+    "keywords": [
+        "Layers",
+        " group layer",
+        "GroupLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/group-layers.htm",
+    "relevant_apis": [
+        "GroupLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GroupLayersSample.java",
+        "LayerTreeCell.java"
+    ],
+    "title": "@@TODO: Group layers"
+}

@@ -1,0 +1,25 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "OpenScenePortalItem.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISScene",
+        "Portal",
+        "PortalItem"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/open-scene-portal-item-.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "OpenScenePortalItemSample.java"
+    ],
+    "title": "@@TODO: Open Scene (Portal Item)"
+}

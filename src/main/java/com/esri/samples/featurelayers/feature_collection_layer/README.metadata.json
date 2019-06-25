@@ -1,0 +1,37 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Combine",
+    "ignore": false,
+    "images": [
+        "FeatureCollectionLayer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "FeatureCollectionTable",
+        "Feature",
+        "Field",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SimpleRenderer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-collection-layer.htm",
+    "relevant_apis": [
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "FeatureCollectionTable",
+        "Feature",
+        "Field",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureCollectionLayerSample.java"
+    ],
+    "title": "@@TODO: Feature Collection Layer"
+}

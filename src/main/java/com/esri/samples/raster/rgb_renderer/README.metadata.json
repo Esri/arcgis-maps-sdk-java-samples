@@ -1,0 +1,34 @@
+{
+    "category": "@@TODO: Raster",
+    "description": "@@TODO: Apply",
+    "ignore": false,
+    "images": [
+        "RgbRenderer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer",
+        "RgbRenderer",
+        "StretchParameters"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/rgb-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer",
+        "RgbRenderer",
+        "StretchParameters"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "RgbRendererController.java",
+        "RgbRendererSample.java"
+    ],
+    "title": "@@TODO: Rgb Renderer"
+}

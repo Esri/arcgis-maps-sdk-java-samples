@@ -1,0 +1,37 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Get",
+    "ignore": false,
+    "images": [
+        "StatisticalQuery.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "QueryParameters",
+        "ServiceFeatureTable",
+        "StatisticDefinition",
+        "StatisticRecord",
+        "StatisticType",
+        "StatisticsQueryParameters",
+        "StatisticsQueryResult"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/statistical-query.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "QueryParameters",
+        "ServiceFeatureTable",
+        "StatisticDefinition",
+        "StatisticRecord",
+        "StatisticType",
+        "StatisticsQueryParameters",
+        "StatisticsQueryResult"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "StatisticalQuerySample.java"
+    ],
+    "title": "@@TODO: Statistical Query"
+}

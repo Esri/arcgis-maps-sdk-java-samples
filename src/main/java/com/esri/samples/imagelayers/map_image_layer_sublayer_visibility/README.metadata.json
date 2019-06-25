@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Imagelayers",
+    "description": "@@TODO: Change",
+    "ignore": false,
+    "images": [
+        "MapImageLayerSublayerVisibility.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "SubLayerList"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/map-image-layer-sublayer-visibility.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "SubLayerList"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "MapImageLayerSublayerVisibilitySample.java"
+    ],
+    "title": "@@TODO: Map Image Layer Sublayer Visibility"
+}

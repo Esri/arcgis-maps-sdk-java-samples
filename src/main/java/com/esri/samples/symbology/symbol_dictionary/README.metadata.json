@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Symbology",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "SymbolDictionary.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "CimSymbol",
+        "StyleSymbolSearchParameters",
+        "StyleSymbolSearchResult",
+        "SymbolDictionary"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/symbol-dictionary.htm",
+    "relevant_apis": [
+        "CimSymbol",
+        "StyleSymbolSearchParameters",
+        "StyleSymbolSearchResult",
+        "SymbolDictionary"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SymbolDictionaryController.java",
+        "SymbolView.java",
+        "SymbolDictionarySample.java"
+    ],
+    "title": "@@TODO: Symbol Dictionary"
+}

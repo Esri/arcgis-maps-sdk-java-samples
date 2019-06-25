@@ -1,0 +1,31 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Use",
+    "ignore": false,
+    "images": [
+        "ManageBookmarks.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "Bookmark",
+        "BookmarkList",
+        "MapView",
+        "Viewpoint"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/manage-bookmarks.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Bookmark",
+        "BookmarkList",
+        "MapView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ManageBookmarksSample.java"
+    ],
+    "title": "@@TODO: Manage Bookmarks"
+}

@@ -1,0 +1,37 @@
+{
+    "category": "@@TODO: Na",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "ClosestFacility.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ClosestFacilityParameters",
+        "ClosestFacilityResult",
+        "ClosestFacilityRoute",
+        "ClosestFacilityTask",
+        "Facility",
+        "Graphic",
+        "GraphicsOverlay",
+        "Incident",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/closest-facility.htm",
+    "relevant_apis": [
+        "ClosestFacilityParameters",
+        "ClosestFacilityResult",
+        "ClosestFacilityRoute",
+        "ClosestFacilityTask",
+        "Facility",
+        "Graphic",
+        "GraphicsOverlay",
+        "Incident",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ClosestFacilitySample.java"
+    ],
+    "title": "@@TODO: Closest Facility"
+}

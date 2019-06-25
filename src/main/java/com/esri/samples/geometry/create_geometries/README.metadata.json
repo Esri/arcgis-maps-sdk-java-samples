@@ -1,0 +1,33 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Create",
+    "ignore": false,
+    "images": [
+        "CreateGeometries.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Envelope",
+        "Graphic",
+        "Multipoint",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/create-geometries.htm",
+    "relevant_apis": [
+        "Envelope",
+        "Graphic",
+        "Multipoint",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "CreateGeometriesSample.java"
+    ],
+    "title": "@@TODO: Create Geometries"
+}

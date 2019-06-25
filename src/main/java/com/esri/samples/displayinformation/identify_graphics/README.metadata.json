@@ -1,0 +1,31 @@
+{
+    "category": "@@TODO: Displayinformation",
+    "description": "@@TODO: Determine",
+    "ignore": false,
+    "images": [
+        "IdentifyGraphics.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PointCollection",
+        "Polygon",
+        "SimpleFillSymbol"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/identify-graphics.htm",
+    "relevant_apis": [
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PointCollection",
+        "Polygon",
+        "SimpleFillSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "IdentifyGraphicsSample.java"
+    ],
+    "title": "@@TODO: Identify Graphics"
+}

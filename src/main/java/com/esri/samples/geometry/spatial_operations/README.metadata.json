@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "SpatialOperations.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleFillSymbol"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/spatial-operations.htm",
+    "relevant_apis": [
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleFillSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SpatialOperationsSample.java"
+    ],
+    "title": "@@TODO: Spatial Operations"
+}

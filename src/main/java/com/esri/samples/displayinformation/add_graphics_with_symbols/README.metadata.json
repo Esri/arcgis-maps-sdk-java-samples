@@ -1,0 +1,41 @@
+{
+    "category": "@@TODO: Displayinformation",
+    "description": "@@TODO: Draw",
+    "ignore": false,
+    "images": [
+        "AddGraphicsWithSymbols.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimepleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "TextSymbol"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/add-graphics-with-symbols.htm",
+    "relevant_apis": [
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimepleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "TextSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "AddGraphicsWithSymbolsSample.java"
+    ],
+    "title": "@@TODO: Add Graphics with Symbols"
+}

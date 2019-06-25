@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Displayinformation",
+    "description": "@@TODO: Change",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "SimpleMarkerSymbol"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/update-graphics.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "SimpleMarkerSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "UpdateGraphicsSample.java"
+    ],
+    "title": "@@TODO: Update Graphics"
+}

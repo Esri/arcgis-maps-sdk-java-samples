@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Show",
+    "ignore": false,
+    "images": [
+        "FeatureLayerFeatureService.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-layer-feature-service.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureLayerFeatureServiceSample.java"
+    ],
+    "title": "@@TODO: Feature Layer Feature Service"
+}

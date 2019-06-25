@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Kml",
+    "description": "@@TODO: Get",
+    "ignore": false,
+    "images": [
+        "IdentifyKMLFeatures.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "IdentifyLayerResult",
+        "KmlDataset",
+        "KmlLayer",
+        "KmlPlacemark"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/identify-kml-features.htm",
+    "relevant_apis": [
+        "IdentifyLayerResult",
+        "KmlDataset",
+        "KmlLayer",
+        "KmlPlacemark"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "IdentifyKMLFeaturesSample.java"
+    ],
+    "title": "@@TODO: Identify KML Features"
+}

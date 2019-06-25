@@ -1,0 +1,30 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Synchronize",
+    "ignore": false,
+    "images": [
+        "SyncMapAndSceneViewpoints.png"
+    ],
+    "keywords": [
+        "2D",
+        " 3D",
+        " view synchronisation",
+        " Viewpoint",
+        " Scene",
+        " Map",
+        "GeoView",
+        "Viewpoint",
+        "ViewpointChangedEvent"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/sync-map-and-scene-viewpoints.htm",
+    "relevant_apis": [
+        "GeoView",
+        "Viewpoint",
+        "ViewpointChangedEvent"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SyncMapAndSceneViewpoints.java"
+    ],
+    "title": "@@TODO: Sync Map and Scene Viewpoints"
+}

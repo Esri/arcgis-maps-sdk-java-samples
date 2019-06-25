@@ -1,0 +1,34 @@
+{
+    "category": "@@TODO: Localserver",
+    "description": "@@TODO: Manage",
+    "ignore": false,
+    "images": [
+        "LocalServerServices.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "LocalFeatureService",
+        "LocalGeoprocessingService",
+        "LocalMapService",
+        "LocalServer",
+        "StatusChangedEvent",
+        "LocalServerStatus",
+        "LocalService"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/local-server-services.htm",
+    "relevant_apis": [
+        "LocalFeatureService",
+        "LocalGeoprocessingService",
+        "LocalMapService",
+        "LocalServer",
+        "StatusChangedEvent",
+        "LocalServerStatus",
+        "LocalService"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "LocalServerServicesSample.java",
+        "LocalServerServicesController.java"
+    ],
+    "title": "@@TODO: Local Server Services"
+}

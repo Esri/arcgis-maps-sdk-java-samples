@@ -1,0 +1,32 @@
+{
+    "category": "@@TODO: Raster",
+    "description": "@@TODO: Apply",
+    "ignore": false,
+    "images": [
+        "HillshadeRenderer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "HillshadeRenderer",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/hillshade-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "HillshadeRenderer",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "HillshadeRendererController.java",
+        "HillshadeRendererSample.java"
+    ],
+    "title": "@@TODO: Hillshade Renderer"
+}

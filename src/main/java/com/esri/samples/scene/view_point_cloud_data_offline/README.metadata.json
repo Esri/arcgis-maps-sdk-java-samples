@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "ViewPointCloudDataOffline.png"
+    ],
+    "keywords": [
+        "3D",
+        " point cloud",
+        " lidar",
+        "PointCloudLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/view-point-cloud-data-offline.htm",
+    "relevant_apis": [
+        "PointCloudLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ViewPointCloudDataOfflineSample.java"
+    ],
+    "title": "@@TODO: View point cloud data offline"
+}

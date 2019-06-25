@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Change",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "Renderer",
+        "ServiceFeatureTable",
+        "SimpleRenderer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/change-feature-layer-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "Renderer",
+        "ServiceFeatureTable",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ChangeFeatureLayerRendererSample.java"
+    ],
+    "title": "@@TODO: Change Feature Layer Renderer"
+}

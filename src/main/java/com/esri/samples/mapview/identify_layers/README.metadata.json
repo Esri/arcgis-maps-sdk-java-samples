@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Mapview",
+    "description": "@@TODO: Get",
+    "ignore": false,
+    "images": [
+        "IdentifyLayers.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMapImageLayer",
+        "FeatureLayer",
+        "FeatureTable",
+        "IdentifyLayerResult",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/identify-layers.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "FeatureLayer",
+        "FeatureTable",
+        "IdentifyLayerResult",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "IdentifyLayersSample.java"
+    ],
+    "title": "@@TODO: Identify Layers"
+}

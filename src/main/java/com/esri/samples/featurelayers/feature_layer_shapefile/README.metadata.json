@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "FeatureLayerShapefile.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "FeatureLayer",
+        "ShapefileFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-layer-shapefile.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "ShapefileFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureLayerShapefileSample.java"
+    ],
+    "title": "@@TODO: Feature Layer Shapefile"
+}

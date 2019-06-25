@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Localserver",
+    "description": "@@TODO: Start",
+    "ignore": false,
+    "images": [
+        "LocalServerFeatureLayer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "FeatureLayer",
+        "LocalFeatureService",
+        "LocalServer",
+        "LocalServerStatus",
+        "StatusChangedEvent"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/local-server-feature-layer.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "LocalFeatureService",
+        "LocalServer",
+        "LocalServerStatus",
+        "StatusChangedEvent"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "LocalServerFeatureLayerSample.java"
+    ],
+    "title": "@@TODO: Local Server Feature Layer"
+}

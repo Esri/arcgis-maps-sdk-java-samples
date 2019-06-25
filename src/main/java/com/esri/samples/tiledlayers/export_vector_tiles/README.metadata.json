@@ -1,0 +1,39 @@
+{
+    "category": "@@TODO: Tiledlayers",
+    "description": "@@TODO: Export",
+    "ignore": false,
+    "images": [
+        "ExportVectorTiles.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISVectorTiledLayer",
+        "ExportVectorTilesJob",
+        "ExportVectorTilesParamters",
+        "ExportVectorTilesResult",
+        "ExportVectorTilesTask",
+        "ItemResourceCache",
+        "Portal",
+        "PortalItem",
+        "UserCredential",
+        "VectorTileCache"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/export-vector-tiles.htm",
+    "relevant_apis": [
+        "ArcGISVectorTiledLayer",
+        "ExportVectorTilesJob",
+        "ExportVectorTilesParamters",
+        "ExportVectorTilesResult",
+        "ExportVectorTilesTask",
+        "ItemResourceCache",
+        "Portal",
+        "PortalItem",
+        "UserCredential",
+        "VectorTileCache"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ExportVectorTilesSample.java"
+    ],
+    "title": "@@TODO: Export Vector Tiles"
+}

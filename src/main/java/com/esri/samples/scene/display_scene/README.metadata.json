@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "DisplayScene.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISScene",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "SceneView",
+        "Surface"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/display-scene.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "SceneView",
+        "Surface"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DisplaySceneSample.java"
+    ],
+    "title": "@@TODO: Display Scene"
+}

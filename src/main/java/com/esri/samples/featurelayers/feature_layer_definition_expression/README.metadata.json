@@ -1,0 +1,25 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Filter",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-layer-definition-expression.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureLayerDefinitionExpressionSample.java"
+    ],
+    "title": "@@TODO: Feature Layer Definition Expression"
+}

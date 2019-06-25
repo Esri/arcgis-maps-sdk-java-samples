@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Tiledlayers",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "WebTiledLayer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "WebTiledLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/web-tiled-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "WebTiledLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "WebTiledLayerSample.java"
+    ],
+    "title": "@@TODO: Web Tiled Layer"
+}

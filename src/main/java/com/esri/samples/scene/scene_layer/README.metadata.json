@@ -1,0 +1,33 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "SceneLayer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "3D",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "SceneView",
+        "Surface"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/scene-layer.htm",
+    "relevant_apis": [
+        "3D",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "SceneView",
+        "Surface"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SceneLayerSample.java"
+    ],
+    "title": "@@TODO: Scene Layer"
+}

@@ -1,0 +1,33 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "ReadGeoPackage.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "GeoPackage",
+        "Layer",
+        "MapView",
+        "RasterLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/read-geopackage.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "GeoPackage",
+        "Layer",
+        "MapView",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ReadGeoPackageSample.java"
+    ],
+    "title": "@@TODO: Read GeoPackage"
+}

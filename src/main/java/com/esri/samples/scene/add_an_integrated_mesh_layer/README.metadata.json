@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: View",
+    "ignore": false,
+    "images": [
+        "AddAnIntegratedMeshLayer.png"
+    ],
+    "keywords": [
+        "3D",
+        " integrated mesh",
+        " layers",
+        "IntegratedMeshLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/add-an-integrated-mesh-layer.htm",
+    "relevant_apis": [
+        "IntegratedMeshLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "AddAnIntegratedMeshLayerSample.java"
+    ],
+    "title": "@@TODO: Add an integrated mesh layer"
+}

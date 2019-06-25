@@ -1,0 +1,31 @@
+{
+    "category": "Analysis",
+    "description": "@@TODO: Calculate a viewshed against terrain using a geoprocessing service.",
+    "ignore": false,
+    "images": [
+        "ViewshedGeoprocessing.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "FeatureCollectionTable",
+        "GeoprocessingFeatures",
+        "GeoprocessingJob",
+        "GeoprocessingParameters",
+        "GeoprocessingResult",
+        "GeoprocessingTask"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/viewshed-geoprocessing.htm",
+    "relevant_apis": [
+        "FeatureCollectionTable",
+        "GeoprocessingFeatures",
+        "GeoprocessingJob",
+        "GeoprocessingParameters",
+        "GeoprocessingResult",
+        "GeoprocessingTask"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ViewshedGeoprocessingSample.java"
+    ],
+    "title": "@@TODO: Viewshed Geoprocessing"
+}

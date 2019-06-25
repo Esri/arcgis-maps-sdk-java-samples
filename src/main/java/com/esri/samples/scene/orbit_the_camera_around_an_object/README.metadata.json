@@ -1,0 +1,25 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Fix",
+    "ignore": false,
+    "images": [
+        "OrbitTheCameraAroundAnObject.png"
+    ],
+    "keywords": [
+        "OrbitGeoElementCameraController",
+        " Camera",
+        " SceneView",
+        " 3D",
+        "OrbitGeoElementCameraController"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/orbit-the-camera-around-an-object.htm",
+    "relevant_apis": [
+        "OrbitGeoElementCameraController"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "OrbitTheCameraAroundAnObjectController.java",
+        "OrbitTheCameraAroundAnObjectSample.java"
+    ],
+    "title": "@@TODO: Orbit the camera around an object"
+}

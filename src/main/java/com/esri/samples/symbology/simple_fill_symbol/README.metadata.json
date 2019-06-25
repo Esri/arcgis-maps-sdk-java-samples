@@ -1,0 +1,37 @@
+{
+    "category": "@@TODO: Symbology",
+    "description": "@@TODO: Change",
+    "ignore": false,
+    "images": [
+        "SimpleFillSymbol.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Polygon",
+        "PointCollection",
+        "SimpleFillSymbol",
+        "SimpleFillSymbol.Style",
+        "SimpleLineSymbol"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/simple-fill-symbol.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Polygon",
+        "PointCollection",
+        "SimpleFillSymbol",
+        "SimpleFillSymbol.Style",
+        "SimpleLineSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SimpleFillSymbolSample.java"
+    ],
+    "title": "@@TODO: Simple Fill Symbol"
+}

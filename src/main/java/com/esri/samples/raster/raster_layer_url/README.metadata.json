@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Raster",
+    "description": "@@TODO: Show",
+    "ignore": false,
+    "images": [
+        "RasterLayerURL.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "ImageServiceRaster",
+        "MapView",
+        "RasterLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/raster-layer-url.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "ImageServiceRaster",
+        "MapView",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "RasterLayerURLSample.java"
+    ],
+    "title": "@@TODO: Raster Layer URL"
+}

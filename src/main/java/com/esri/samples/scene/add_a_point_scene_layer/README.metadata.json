@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: View",
+    "ignore": false,
+    "images": [
+        "AddAPointSceneLayer.png"
+    ],
+    "keywords": [
+        "3D",
+        " point scene layer",
+        " layers",
+        "ArcGISSceneLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/add-a-point-scene-layer.htm",
+    "relevant_apis": [
+        "ArcGISSceneLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "AddAPointSceneLayerSample.java"
+    ],
+    "title": "@@TODO: Add a point scene layer"
+}

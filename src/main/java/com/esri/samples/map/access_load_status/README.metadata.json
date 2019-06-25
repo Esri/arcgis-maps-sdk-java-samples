@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Determine",
+    "ignore": false,
+    "images": [
+        "AccessLoadStatus.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "LoadStatus"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/access-load-status.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "LoadStatus"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "AccessLoadStatusSample.java"
+    ],
+    "title": "@@TODO: Access Load Status"
+}

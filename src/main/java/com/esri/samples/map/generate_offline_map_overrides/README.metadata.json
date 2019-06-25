@@ -1,0 +1,38 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Take",
+    "ignore": false,
+    "images": [
+        "GenerateOfflineMapOverrides.png"
+    ],
+    "keywords": [
+        "Offline",
+        "ExportTileCacheParameters",
+        "GenerateGeodatabaseParameters",
+        "GenerateLayerOption",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapParameterOverrides",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapResult",
+        "OfflineMapParametersKey",
+        "OfflineMapTask"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/generate-offline-map-overrides-.htm",
+    "relevant_apis": [
+        "ExportTileCacheParameters",
+        "GenerateGeodatabaseParameters",
+        "GenerateLayerOption",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapParameterOverrides",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapResult",
+        "OfflineMapParametersKey",
+        "OfflineMapTask"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GenerateOfflineMapOverridesSample.java",
+        "GenerateOfflineMapOverridesController.java"
+    ],
+    "title": "@@TODO: Generate Offline Map (Overrides)"
+}

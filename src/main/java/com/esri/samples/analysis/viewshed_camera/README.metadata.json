@@ -1,0 +1,33 @@
+{
+    "category": "Analysis",
+    "description": "@@TODO: Create a viewshed using the current camera viewpoint.",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "3D",
+        "AnalysisOverlay",
+        "ArcGISTiledElevationSource",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "Camera",
+        "LocationViewshed",
+        "SceneView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/viewshed-camera.htm",
+    "relevant_apis": [
+        "3D",
+        "AnalysisOverlay",
+        "ArcGISTiledElevationSource",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "Camera",
+        "LocationViewshed",
+        "SceneView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ViewshedCameraSample.java"
+    ],
+    "title": "@@TODO: Viewshed Camera"
+}

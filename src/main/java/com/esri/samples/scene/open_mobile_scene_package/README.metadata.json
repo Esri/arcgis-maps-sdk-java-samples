@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Open",
+    "ignore": false,
+    "images": [
+        "OpenMobileScenePackage.png"
+    ],
+    "keywords": [
+        "Offline",
+        " Scene",
+        " MobileScenePackage",
+        "MobileScenePackage"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/open-mobile-scene-package.htm",
+    "relevant_apis": [
+        "MobileScenePackage"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "OpenMobileScenePackageSample.java"
+    ],
+    "title": "@@TODO: Open mobile scene package"
+}

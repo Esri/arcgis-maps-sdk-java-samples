@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Extrude",
+    "ignore": false,
+    "images": [
+        "ExtrudeGraphics.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "Renderer",
+        "Renderer.SceneProperties"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/extrude-graphics.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "Renderer",
+        "Renderer.SceneProperties"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ExtrudeGraphicsSample.java"
+    ],
+    "title": "@@TODO: Extrude Graphics"
+}

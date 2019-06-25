@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "OpenMapURL.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "MapView",
+        "Portal",
+        "PortalItem"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/open-map-url-.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "OpenMapURLSample.java"
+    ],
+    "title": "@@TODO: Open Map (URL)"
+}

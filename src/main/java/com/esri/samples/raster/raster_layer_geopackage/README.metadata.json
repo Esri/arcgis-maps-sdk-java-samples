@@ -1,0 +1,31 @@
+{
+    "category": "@@TODO: Raster",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "RasterLayerGeoPackage.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "GeoPackage",
+        "GeoPackageRaster",
+        "MapView",
+        "RasterLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/raster-layer-geopackage.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "GeoPackage",
+        "GeoPackageRaster",
+        "MapView",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "RasterLayerGeoPackageSample.java"
+    ],
+    "title": "@@TODO: Raster Layer GeoPackage"
+}

@@ -1,0 +1,31 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "FeatureLayerQuery.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "FeatureQueryResult",
+        "MapView",
+        "QueryParameters",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-layer-query.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "FeatureQueryResult",
+        "MapView",
+        "QueryParameters",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureLayerQuerySample.java"
+    ],
+    "title": "@@TODO: Feature Layer Query"
+}

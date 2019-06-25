@@ -1,0 +1,37 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Use",
+    "ignore": false,
+    "images": [
+        "MobileMapSearchAndRoute.png"
+    ],
+    "keywords": [
+        "Offline",
+        " Routing",
+        " Search",
+        "GeocodeResult",
+        "MobileMapPackage",
+        "ReverseGeocodeParameters",
+        "Route",
+        "RouteParameters",
+        "RouteResult",
+        "RouteTask",
+        "TransportationNetworkDataset"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/mobile-map-search-and-route.htm",
+    "relevant_apis": [
+        "GeocodeResult",
+        "MobileMapPackage",
+        "ReverseGeocodeParameters",
+        "Route",
+        "RouteParameters",
+        "RouteResult",
+        "RouteTask",
+        "TransportationNetworkDataset"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "MobileMapSearchAndRouteSample.java"
+    ],
+    "title": "@@TODO: Mobile Map Search And Route"
+}

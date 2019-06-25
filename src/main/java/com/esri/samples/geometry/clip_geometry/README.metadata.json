@@ -1,0 +1,47 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Clip",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "Envelope",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SpatialReferences"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/clip-geometry.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Envelope",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SpatialReferences"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ClipGeometrySample.java"
+    ],
+    "title": "@@TODO: Clip Geometry"
+}

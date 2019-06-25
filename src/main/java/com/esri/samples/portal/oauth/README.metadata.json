@@ -1,0 +1,34 @@
+{
+    "category": "@@TODO: Portal",
+    "description": "@@TODO: Authenticate",
+    "ignore": false,
+    "images": [
+        "OAuth.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "AuthenticationChallengeHandler",
+        "OAuthConfiguration",
+        "OAuthTokenCredential",
+        "OAuthTokenCredentialRequest",
+        "Portal",
+        "PortalUser"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/oauth.htm",
+    "relevant_apis": [
+        "AuthenticationChallengeHandler",
+        "OAuthConfiguration",
+        "OAuthTokenCredential",
+        "OAuthTokenCredentialRequest",
+        "Portal",
+        "PortalUser"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "OAuthSample.java",
+        "AuthenticationDialog.java",
+        "OAuthChallengeHandler.java",
+        "OAuthController.java"
+    ],
+    "title": "@@TODO: OAuth"
+}

@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Ogc",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "DisplayWFSLayer.png"
+    ],
+    "keywords": [
+        "OGC",
+        " WFS",
+        " layers",
+        " feature",
+        " web",
+        " service",
+        " browse",
+        " catalog",
+        " interaction cache",
+        "FeatureLayer",
+        "NavigationChangedEvent",
+        "QueryParameters",
+        "WfsFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/display-wfs-layer.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "NavigationChangedEvent",
+        "QueryParameters",
+        "WfsFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DisplayWFSLayerSample.java"
+    ],
+    "title": "@@TODO: Display WFS layer"
+}

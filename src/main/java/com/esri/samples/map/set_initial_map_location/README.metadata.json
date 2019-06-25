@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "SetInitialMapLocation.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/set-initial-map-location.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SetInitialMapLocationSample.java"
+    ],
+    "title": "@@TODO: Set Initial Map Location"
+}

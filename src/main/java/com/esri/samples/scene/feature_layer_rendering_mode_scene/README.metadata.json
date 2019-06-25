@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Render",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISScene",
+        "Camera",
+        "FeatureLayer",
+        "FeatureLayer.RenderingMode",
+        "LoadSettings",
+        "Point",
+        "Polyline",
+        "Polygon",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-layer-rendering-mode-scene-.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Camera",
+        "FeatureLayer",
+        "FeatureLayer.RenderingMode",
+        "LoadSettings",
+        "Point",
+        "Polyline",
+        "Polygon",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureLayerRenderingModeSceneSample.java"
+    ],
+    "title": "@@TODO: Feature Layer Rendering Mode (Scene)"
+}

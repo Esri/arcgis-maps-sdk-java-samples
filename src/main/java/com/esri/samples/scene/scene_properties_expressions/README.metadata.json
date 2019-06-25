@@ -1,0 +1,32 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Update",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "Renderer",
+        "Renderer.SceneProperties",
+        "SceneView",
+        "Viewpoint"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/scene-properties-expressions.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "Renderer",
+        "Renderer.SceneProperties",
+        "SceneView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ScenePropertiesExpressionsController.java",
+        "ScenePropertiesExpressionsSample.java"
+    ],
+    "title": "@@TODO: Scene Properties Expressions"
+}

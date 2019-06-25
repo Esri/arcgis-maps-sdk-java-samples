@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Localserver",
+    "description": "@@TODO: Create",
+    "ignore": false,
+    "images": [
+        "LocalServerMapImageLayer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMapImageLayer",
+        "LocalMapService",
+        "LocalServer",
+        "LocalServerStatus",
+        "StatusChangedEvent"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/local-server-map-image-layer.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "LocalMapService",
+        "LocalServer",
+        "LocalServerStatus",
+        "StatusChangedEvent"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "LocalServerMapImageLayerSample.java"
+    ],
+    "title": "@@TODO: Local Server Map Image Layer"
+}

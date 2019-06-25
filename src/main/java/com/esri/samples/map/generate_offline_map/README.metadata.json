@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Take",
+    "ignore": false,
+    "images": [
+        "GenerateOfflineMap.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapResult",
+        "OfflineMapTask"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/generate-offline-map.htm",
+    "relevant_apis": [
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapResult",
+        "OfflineMapTask"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "GenerateOfflineMapSample.java"
+    ],
+    "title": "@@TODO: Generate Offline Map"
+}

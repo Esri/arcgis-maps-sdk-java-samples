@@ -1,0 +1,31 @@
+{
+    "category": "@@TODO: Displayinformation",
+    "description": "@@TODO: Write",
+    "ignore": false,
+    "images": [
+        "FormatCoordinates.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Basemap",
+        "Callout",
+        "CoordinateFormatter",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/format-coordinates.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Basemap",
+        "Callout",
+        "CoordinateFormatter",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FormatCoordinatesSample.java"
+    ],
+    "title": "@@TODO: Format Coordinates"
+}

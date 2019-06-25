@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Cache",
+    "ignore": false,
+    "images": [
+        "ServiceFeatureTableCache.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "ServiceFeatureTable.FeatureRequestMode"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/service-feature-table-cache-.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "ServiceFeatureTable.FeatureRequestMode"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ServiceFeatureTableCacheSample.java"
+    ],
+    "title": "@@TODO: Service Feature Table (Cache)"
+}

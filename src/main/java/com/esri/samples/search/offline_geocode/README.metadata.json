@@ -1,0 +1,45 @@
+{
+    "category": "@@TODO: Search",
+    "description": "@@TODO: Geocode",
+    "ignore": false,
+    "images": [
+        "OfflineGeocode.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Callout",
+        "MapView",
+        "LocatorTask",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/offline-geocode.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Callout",
+        "MapView",
+        "LocatorTask",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "OfflineGeocodeSample.java"
+    ],
+    "title": "@@TODO: Offline Geocode"
+}

@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Create",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "SimpleMarkerSceneSymbol",
+        "SimpleMarkerSceneSymbol.STYLE",
+        "SceneSymbol.AnchorPosition"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/symbols.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "SimpleMarkerSceneSymbol",
+        "SimpleMarkerSceneSymbol.STYLE",
+        "SceneSymbol.AnchorPosition"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SymbolsSample.java"
+    ],
+    "title": "@@TODO: Symbols"
+}

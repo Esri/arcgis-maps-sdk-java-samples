@@ -1,0 +1,42 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Create",
+    "ignore": false,
+    "images": [
+        "CreateAndSaveMap.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "AuthenticationChallengeHandler",
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "OAuthConfiguration",
+        "Portal",
+        "PortalFolder",
+        "PortalItem",
+        "PortalUserContent"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/create-and-save-map.htm",
+    "relevant_apis": [
+        "AuthenticationChallengeHandler",
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "OAuthConfiguration",
+        "Portal",
+        "PortalFolder",
+        "PortalItem",
+        "PortalUserContent"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "CreateAndSaveMapController.java",
+        "AuthenticationDialog.java",
+        "CreateAndSaveMapSample.java",
+        "OAuthChallengeHandler.java"
+    ],
+    "title": "@@TODO: Create and Save Map"
+}

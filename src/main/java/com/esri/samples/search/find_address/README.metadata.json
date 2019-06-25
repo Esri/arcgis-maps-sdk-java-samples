@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Search",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/find-address.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FindAddressSample.java"
+    ],
+    "title": "@@TODO: Find Address"
+}

@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Select",
+    "ignore": false,
+    "images": [
+        "FeatureLayerSelection.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-layer-selection.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureLayerSelectionSample.java"
+    ],
+    "title": "@@TODO: Feature Layer Selection"
+}

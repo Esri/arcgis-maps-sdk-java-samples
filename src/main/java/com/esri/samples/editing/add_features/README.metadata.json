@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Editing",
+    "description": "@@TODO: Add",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Feature",
+        "FeatureEditResult",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/add-features.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureEditResult",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "AddFeaturesSample.java"
+    ],
+    "title": "@@TODO: Add Features"
+}

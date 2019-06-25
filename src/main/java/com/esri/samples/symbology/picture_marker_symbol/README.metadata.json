@@ -1,0 +1,31 @@
+{
+    "category": "@@TODO: Symbology",
+    "description": "@@TODO: Use",
+    "ignore": false,
+    "images": [
+        "PictureMarkerSymbol.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PictureMarkerSymbol",
+        "Point"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/picture-marker-symbol.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PictureMarkerSymbol",
+        "Point"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "PictureMarkerSymbolSample.java"
+    ],
+    "title": "@@TODO: Picture Marker Symbol"
+}

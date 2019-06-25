@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Kml",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "DisplayKML.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "KmlDataset",
+        "KmlLayer",
+        "Portal",
+        "PortalItem"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/display-kml.htm",
+    "relevant_apis": [
+        "KmlDataset",
+        "KmlLayer",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DisplayKMLSample.java"
+    ],
+    "title": "@@TODO: Display KML"
+}

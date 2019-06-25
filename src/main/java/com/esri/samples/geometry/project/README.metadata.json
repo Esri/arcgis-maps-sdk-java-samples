@@ -1,0 +1,25 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Project",
+    "ignore": false,
+    "images": [
+        "Project.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "GeometryEngine",
+        "Point",
+        "SpatialReference"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/project.htm",
+    "relevant_apis": [
+        "GeometryEngine",
+        "Point",
+        "SpatialReference"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ProjectSample.java"
+    ],
+    "title": "@@TODO: Project"
+}

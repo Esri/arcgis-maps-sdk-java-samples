@@ -1,0 +1,29 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Add,",
+    "ignore": false,
+    "images": [
+        "ManageOperationalLayers.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "LayerList",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/manage-operational-layers.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "LayerList",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ManageOperationalLayersSample.java"
+    ],
+    "title": "@@TODO: Manage Operational Layers"
+}

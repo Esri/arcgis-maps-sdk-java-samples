@@ -1,0 +1,31 @@
+{
+    "category": "@@TODO: Editing",
+    "description": "@@TODO: Add",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISFeature",
+        "ArcGISMap",
+        "Attachment",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/edit-feature-attachments.htm",
+    "relevant_apis": [
+        "ArcGISFeature",
+        "ArcGISMap",
+        "Attachment",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "EditFeatureAttachmentsSample.java"
+    ],
+    "title": "@@TODO: Edit Feature Attachments"
+}

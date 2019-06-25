@@ -1,0 +1,43 @@
+{
+    "category": "@@TODO: Na",
+    "description": "@@TODO: Solve",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Route",
+        "RouteTask",
+        "RouteParameters",
+        "RouteResult",
+        "SimpleLineSymbol",
+        "Stop",
+        "TextSymbol",
+        "TileCache"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/offline-routing.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Route",
+        "RouteTask",
+        "RouteParameters",
+        "RouteResult",
+        "SimpleLineSymbol",
+        "Stop",
+        "TextSymbol",
+        "TileCache"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "OfflineRoutingSample.java"
+    ],
+    "title": "@@TODO: Offline Routing"
+}

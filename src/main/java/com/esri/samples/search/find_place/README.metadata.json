@@ -1,0 +1,40 @@
+{
+    "category": "@@TODO: Search",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "FindPlace.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/find-place.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FindPlaceController.java",
+        "FindPlaceSample.java"
+    ],
+    "title": "@@TODO: Find Place"
+}

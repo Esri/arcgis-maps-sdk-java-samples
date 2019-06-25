@@ -1,0 +1,34 @@
+{
+    "category": "@@TODO: Scene",
+    "description": "@@TODO: Control",
+    "ignore": false,
+    "images": [
+        "ChooseCameraController.png"
+    ],
+    "keywords": [
+        "camera controller",
+        " Camera",
+        " SceneView",
+        " 3D",
+        "ArcGISScene",
+        "Camera",
+        "GlobeCameraController",
+        "OrbitGeoElementCameraController",
+        "OrbitLocationCameraController",
+        "SceneView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/choose-camera-controller.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Camera",
+        "GlobeCameraController",
+        "OrbitGeoElementCameraController",
+        "OrbitLocationCameraController",
+        "SceneView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ChooseCameraControllerSample.java"
+    ],
+    "title": "@@TODO: Choose camera controller"
+}

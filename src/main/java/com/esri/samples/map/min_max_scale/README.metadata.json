@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Map",
+    "description": "@@TODO: Restrict",
+    "ignore": false,
+    "images": [
+        "MinMaxScale.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Viewpoint"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/min-max-scale.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "MinMaxScaleSample.java"
+    ],
+    "title": "@@TODO: Min Max Scale"
+}

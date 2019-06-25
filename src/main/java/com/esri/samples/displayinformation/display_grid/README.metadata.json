@@ -1,0 +1,38 @@
+{
+    "category": "@@TODO: Displayinformation",
+    "description": "@@TODO: Display",
+    "ignore": false,
+    "images": [
+        "DisplayGrid.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Grid",
+        "LatitudeLongitudeGrid",
+        "LineSymbol",
+        "MapView",
+        "MgrsGrid",
+        "SimpleLineSymbol",
+        "TextSymbol",
+        "UsngGrid",
+        "UtmGrid"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/display-grid.htm",
+    "relevant_apis": [
+        "Grid",
+        "LatitudeLongitudeGrid",
+        "LineSymbol",
+        "MapView",
+        "MgrsGrid",
+        "SimpleLineSymbol",
+        "TextSymbol",
+        "UsngGrid",
+        "UtmGrid"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "DisplayGridController.java",
+        "DisplayGridSample.java"
+    ],
+    "title": "@@TODO: Display Grid"
+}

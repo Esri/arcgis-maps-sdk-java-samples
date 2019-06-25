@@ -1,0 +1,27 @@
+{
+    "category": "@@TODO: Geometry",
+    "description": "@@TODO: Create",
+    "ignore": false,
+    "images": [
+        "Buffer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "GeometryEngine",
+        "GraphicsOverlay",
+        "Point",
+        "Polygon"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/buffer.htm",
+    "relevant_apis": [
+        "GeometryEngine",
+        "GraphicsOverlay",
+        "Point",
+        "Polygon"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "BufferSample.java"
+    ],
+    "title": "@@TODO: Buffer"
+}

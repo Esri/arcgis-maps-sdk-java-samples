@@ -1,0 +1,23 @@
+{
+    "category": "@@TODO: Mapview",
+    "description": "@@TODO: Export",
+    "ignore": false,
+    "images": [
+        "TakeScreenShot.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/take-screen-shot.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "TakeScreenShotSample.java"
+    ],
+    "title": "@@TODO: Take Screen Shot"
+}

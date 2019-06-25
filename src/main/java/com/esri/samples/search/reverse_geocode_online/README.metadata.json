@@ -1,0 +1,35 @@
+{
+    "category": "@@TODO: Search",
+    "description": "@@TODO: Find",
+    "ignore": false,
+    "images": [
+        "ReverseGeocodeOnline.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/reverse-geocode-online.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "ReverseGeocodeOnlineSample.java"
+    ],
+    "title": "@@TODO: Reverse Geocode Online"
+}

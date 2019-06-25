@@ -1,0 +1,25 @@
+{
+    "category": "@@TODO: Featurelayers",
+    "description": "@@TODO: Extrude",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "FeatureLayer",
+        "SceneProperties",
+        "ServiceFeatureTable",
+        "FeatureLayer"
+    ],
+    "redirect_from": "@@TODO: /java/latest/java/sample-code/feature-layer-extrusion..htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "SceneProperties",
+        "ServiceFeatureTable",
+        "FeatureLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "FeatureLayerExtrusionSample.java"
+    ],
+    "title": "@@TODO: Feature Layer Extrusion."
+}
