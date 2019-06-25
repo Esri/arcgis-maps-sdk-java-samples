@@ -78,7 +78,7 @@ public class IntegratedWindowsAuthenticationController {
   }
 
   /**
-   * Handles searching a public portal
+   * Handles searching a public portal.
    */
   @FXML
   private void handleSearchPublicPress() {
@@ -86,7 +86,7 @@ public class IntegratedWindowsAuthenticationController {
   }
 
   /**
-   * Handles searching a secure portal
+   * Handles searching a secure portal.
    */
   @FXML
   private void handleSearchSecurePress() {
