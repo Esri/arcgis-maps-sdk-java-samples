@@ -13,7 +13,7 @@
         "LocationLineOfSight",
         "SceneView"
     ],
-    "redirect_from": "@@TODO: /java/latest/java/sample-code/line-of-sight-location.htm",
+    "redirect_from": "@@TODO: /java/latest/sample-code/line-of-sight-location.htm",
     "relevant_apis": [
         "3D",
         "AnalysisOverlay",

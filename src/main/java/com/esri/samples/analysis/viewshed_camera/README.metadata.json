@@ -14,7 +14,7 @@
         "LocationViewshed",
         "SceneView"
     ],
-    "redirect_from": "@@TODO: /java/latest/java/sample-code/viewshed-camera.htm",
+    "redirect_from": "/java/latest/sample-code/viewshed-camera.htm",
     "relevant_apis": [
         "3D",
         "AnalysisOverlay",

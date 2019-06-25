@@ -14,7 +14,7 @@
         "GeoprocessingString",
         "GeoprocessingTask"
     ],
-    "redirect_from": "@@TODO: /java/latest/java/sample-code/analyze-hotspots.htm",
+    "redirect_from": "/java/latest/sample-code/analyze-hotspots.htm",
     "relevant_apis": [
         "ArcGISMapImageLayer",
         "GeoprocessingJob",

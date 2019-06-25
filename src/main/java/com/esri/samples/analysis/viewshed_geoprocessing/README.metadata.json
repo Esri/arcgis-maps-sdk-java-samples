@@ -14,7 +14,7 @@
         "GeoprocessingResult",
         "GeoprocessingTask"
     ],
-    "redirect_from": "@@TODO: /java/latest/java/sample-code/viewshed-geoprocessing.htm",
+    "redirect_from": "/java/latest/sample-code/viewshed-geoprocessing.htm",
     "relevant_apis": [
         "FeatureCollectionTable",
         "GeoprocessingFeatures",

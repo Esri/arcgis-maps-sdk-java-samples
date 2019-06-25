@@ -12,7 +12,7 @@
         "LocationDistanceMeasurement",
         "UnitSystem"
     ],
-    "redirect_from": "@@TODO: /java/latest/java/sample-code/distance-measurement-analysis.htm",
+    "redirect_from": "/java/latest/sample-code/distance-measurement-analysis.htm",
     "relevant_apis": [
         "AnalysisOverlay",
         "LocationDistanceMeasurement",

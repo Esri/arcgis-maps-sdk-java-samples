@@ -9,7 +9,7 @@
         "GeoElementLineOfSight",
         "LineOfSight.TargetVisibility"
     ],
-    "redirect_from": "@@TODO: /java/latest/java/sample-code/line-of-sight-geoelement.htm",
+    "redirect_from": "/java/latest/sample-code/line-of-sight-geoelement.htm",
     "relevant_apis": [
         "AnalysisOverlay",
         "GeoElementLineOfSight",
