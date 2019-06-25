@@ -102,7 +102,7 @@ public class IntegratedWindowsAuthenticationController {
   /**
    * Search the given portal for its portal items and display them in a list view.
    *
-   * @param portal
+   * @param portal to search
    */
   private void searchPortal(Portal portal) {
 
@@ -164,7 +164,7 @@ public class IntegratedWindowsAuthenticationController {
   }
 
   /**
-   * Gets the selected Portal item from the list view, creates a new map from it and displays it in the map biew
+   * Gets the selected PortalItem from the list view, creates a new map from it and displays it in the map view.
    */
   private void displayMap() {
     if (resultsListView.getSelectionModel().getSelectedItem() != null) {

@@ -29,7 +29,8 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Separator?>
-<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.esri.samples.portal.integrated_windows_authentication.IntegratedWindowsAuthenticationController"
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.esri.samples.portal.integrated_windows_authentication.IntegratedWindowsAuthenticationController"
            stylesheets="/css/style.css">
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator" visible="false"/>
