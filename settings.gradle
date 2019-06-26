@@ -1,4 +1,4 @@
-final excludedDirs = ['.git', '.gradle', '.idea', 'wrapper', 'gradle']
+final excludedDirs = ['.git', '.gradle', '.idea', 'wrapper', 'gradle', '.settings']
 
 file("./").listFiles().each { f ->
     if (f.isDirectory() && !(f.name in excludedDirs)) {
