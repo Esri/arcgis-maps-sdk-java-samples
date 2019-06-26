@@ -1,33 +1,29 @@
-<h1>Line of Sight GeoElement</h1>
+# Line of Sight GeoElement
 
-<p>Show a line of sight between two moving objects.</p>
+Show a line of sight between two moving objects.
 
-<p>To determine if an observer can see a target, you can show a line of sight between them. The line will be green until it is obstructed, in which case it will turn red. By using the GeoElement variant of the line of sight, the line will automatically update when either GeoElement moves.</p>
+To determine if an observer can see a target, you can show a line of sight between them. The line will be green until it is obstructed, in which case it will turn red. By using the GeoElement variant of the line of sight, the line will automatically update when either GeoElement moves.
 
-<p><img src="LineOfSightGeoElement.gif"/></p>
+![](LineOfSightGeoElement.gif)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>A line of sight will display between a point on the Empire State Building (observer) and a taxi (target). The taxi will drive around a block and the line of sight should automatically update. The taxi will be highlighted when it is visibile. You can change the observer height with the slider to see how it affects the target's visibility.</p>
+A line of sight will display between a point on the Empire State Building (observer) and a taxi (target). The taxi will drive around a block and the line of sight should automatically update. The taxi will be highlighted when it is visibile. You can change the observer height with the slider to see how it affects the target's visibility.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To show a line of sight between two graphics:</p>
+To show a line of sight between two graphics:
 
-<ol>
-    <li>Create an <code>AnalysisOverlay</code> and add it to the <code>SceneView</code>'s analysis overlays collection.</li>
-    <li>Create a <code>GeoElementLineOfSight</code>, passing in observer and target <code>GeoElement</code>s (feautures or graphics). Add the line of sight to the analysis overlay's analyses collection</code>.</li>
-    <li>To get the target visibility when it changes, add a <code>TargetVisibilityChangedListener</code> to the line of sight. The changed event will give the <code>TargetVisibility</code>.</li>
-</ol>
+1.  Create an `AnalysisOverlay` and add it to the `SceneView`'s analysis overlays collection.
+2.  Create a `GeoElementLineOfSight`, passing in observer and target `GeoElement`s (feautures or graphics). Add the line of sight to the analysis overlay's analyses collection.
+3.  To get the target visibility when it changes, add a `TargetVisibilityChangedListener` to the line of sight. The changed event will give the `TargetVisibility`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>AnalysisOverlay</li>
-    <li>GeoElementLineOfSight</li>
-    <li>LineOfSight.TargetVisibility</li>
-</ul>
+*   AnalysisOverlay
+*   GeoElementLineOfSight
+*   LineOfSight.TargetVisibility
 
-<h2>Tags</h2>
+## Tags
 
-<p>Analysis</p>
+Analysis

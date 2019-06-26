@@ -1,35 +1,28 @@
-<h1>Line of Sight Location</h1>
+# Line of Sight Location
 
-<p>Perform line of sight analysis in real-time.</p>
+Perform line of sight analysis in real-time.
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click to turn on the mouse move event listener. Then move the mouse where you want the target location to be. 
-Click again to lock the target location.</p>
+Click to turn on the mouse move event listener. Then move the mouse where you want the target location to be. Click again to lock the target location.
 
-<p><img src="LineOfSightLocation.gif"/></p>
+![](LineOfSightLocation.gif)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create a line of sight and update it with the mouse:</p>
+To create a line of sight and update it with the mouse:
 
-<ol>
-  <li>Create an <code>AnalysisOverlay</code> and add it to the scene view.</li>
-  <li>Create a <code>LocationLineOfSight</code> with initial observer and target locations and add it to the analysis
-   overlay.</li>
-  <li>Make an <code>EventHandler&lt;MouseEvent&gt;</code> to capture mouse movement. Turn the screen point into a scene 
-  point with <code>sceneView.screenToLocationAsync(screenPoint)</code>.</li>
-  <li>Update the target location with <code>lineOfSight.setTargetLocation(scenePoint)</code>.</li>
-</ol>
+1.  Create an `AnalysisOverlay` and add it to the scene view.
+2.  Create a `LocationLineOfSight` with initial observer and target locations and add it to the analysis overlay.
+3.  Make an `EventHandler<MouseEvent>` to capture mouse movement. Turn the screen point into a scene point with `sceneView.screenToLocationAsync(screenPoint)`.
+4.  Update the target location with `lineOfSight.setTargetLocation(scenePoint)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>3D</li>
-  <li>AnalysisOverlay</li>
-  <li>ArcGISTiledElevationSource</li>
-  <li>ArcGISScene</li>
-  <li>Camera</li>
-  <li>LocationLineOfSight</li>
-  <li>SceneView</li>
-</ul>
+*   3D
+*   AnalysisOverlay
+*   ArcGISTiledElevationSource
+*   ArcGISScene
+*   Camera
+*   LocationLineOfSight
+*   SceneView

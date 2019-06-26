@@ -1,0 +1,30 @@
+{
+  "category": "Analysis",
+  "description": "Adjust the position, angles, range, and style of a viewshed.",
+  "ignore": false,
+  "images": [
+    "ViewshedLocation.png"
+  ],
+  "keywords": [
+    "Geoprocessing",
+    "GeoprocessingJob",
+    "GeoprocessingParameters",
+    "GeoprocessingResult"
+  ],
+  "redirect_from": "/java/latest/sample-code/viewshed-location.htm",
+  "relevant_apis": [
+    "ArcGISMapImageLayer",
+    "GeoprocessingJob",
+    "GeoprocessingParameters",
+    "GeoprocessingResult",
+    "GeoprocessingString",
+    "GeoprocessingTask"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/viewshed_location/ViewshedLocationLauncher.java",
+    "src/main/java/com/esri/samples/viewshed_location/ViewshedLocationSample.java",
+    "src/main/java/com/esri/samples/viewshed_location/ViewshedLocationController.java",
+    "src/main/resources/viewshed_location.fxml"
+  ],
+  "title": "Viewshed Location"
+}

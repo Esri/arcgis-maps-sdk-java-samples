@@ -1,37 +1,30 @@
-<h1>Viewshed Camera</h1>
+# Viewshed Camera
 
-<p>Create a viewshed using the current camera viewpoint.</p>
+Create a viewshed using the current camera viewpoint.
 
-<p>A viewshed shows the visible and obstructed areas from an observer's vantage point.</p>
+A viewshed shows the visible and obstructed areas from an observer's vantage point.
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The sample will start with a viewshed created from the initial camera location, so only the visible (green) 
-portion of the viewshed will be visible. Move around the scene to see the obstructed (red) portion. Click the Update 
-from Camera button to update the viewshed to the current camera position.</p>
+The sample will start with a viewshed created from the initial camera location, so only the visible (green) portion of the viewshed will be visible. Move around the scene to see the obstructed (red) portion. Click the Update from Camera button to update the viewshed to the current camera position.
 
-<p><img src="ViewshedCamera.gif"/></p>
+![](ViewshedCamera.gif)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create and update a viewshed from a camera:</p>
+To create and update a viewshed from a camera:
 
-<ol>
-  <li>Get a <code>Camera</code> either by creating it, or by getting the current camera from the scene with 
-  <code>sceneView.getCurrentViewpointCamera()</code>.</li>
-  <li>Create a <code>LocationViewshed</code> passing in the <code>Camera</code> plus a min/max distance.</li>
-  <li>To update the viewshed with a new camera, use <code>viewshed.updateFromCamera(camera)</code></li>
-</ol>
+1.  Get a `Camera` either by creating it, or by getting the current camera from the scene with `sceneView.getCurrentViewpointCamera()`.
+2.  Create a `LocationViewshed` passing in the `Camera` plus a min/max distance.
+3.  To update the viewshed with a new camera, use `viewshed.updateFromCamera(camera)`
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>3D</li>
-  <li>AnalysisOverlay</li>
-  <li>ArcGISTiledElevationSource</li>
-  <li>ArcGISScene</li>
-  <li>ArcGISSceneLayer</li>
-  <li>Camera</li>
-  <li>LocationViewshed</li>
-  <li>SceneView</li>
-</ul>
+*   3D
+*   AnalysisOverlay
+*   ArcGISTiledElevationSource
+*   ArcGISScene
+*   ArcGISSceneLayer
+*   Camera
+*   LocationViewshed
+*   SceneView

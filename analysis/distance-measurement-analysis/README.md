@@ -1,43 +1,33 @@
-<h1>Distance Measurement Analysis</h1>
-<p>Measure distances within a scene.</p>
+# Distance Measurement Analysis
 
-<p>The distance measurement analysis allows you to add the same measuring experience found in ArcGIS Pro, City Engine, 
-and the ArcGIS API for JavaScript to your app. You can set the unit system of measurement (metric or imperial) and 
-have the units automatically switch to one appropriate for the current scale. The rendering is handled internally so 
-it doesn't interfere with other analyses like viewsheds.</p>
+Measure distances within a scene.
 
-<p><img src="DistanceMeasurementAnalysis.png"/></p>
+The distance measurement analysis allows you to add the same measuring experience found in ArcGIS Pro, City Engine, and the ArcGIS API for JavaScript to your app. You can set the unit system of measurement (metric or imperial) and have the units automatically switch to one appropriate for the current scale. The rendering is handled internally so it doesn't interfere with other analyses like viewsheds.
 
-<h2>How to use the sample</h2>
-<p>Choose a unit system for the measurement in the UI dropdown. Click any location in the scene to start measuring. 
-Move the mouse to an end location, and click to complete the measure. Clicking any new location after this will start a new measurement.</p>
+![](DistanceMeasurementAnalysis.png)
 
-<h2>How it works</h2>
-<p>To measure distances with the <code>LocationDistanceMeasurement</code> analysis:</p>
-<ol>
-  <li>Create an <code>AnalysisOverlay</code> and add it to your scene view's analysis overlay collection: 
-  <code>sceneView.getAnalysisOverlays().add(analysisOverlay)</code>.</li>
-  <li>Create a <code>LocationDistanceMeasurement</code>, specifying the <code>startLocation</code> and 
-  <code>endLocation</code>. These can be the same point to start with. Add the analysis to the analysis overlay: 
-  <code>analysisOverlay.getAnalyses().add(LocationDistanceMeasurement)</code>. The measuring line will be drawn for 
-  you between the two points.</li>
-  <li>The <code>measurementChanged</code> callback will fire if the distances change. You can get the new values for 
-  the <code>directDistance</code>, <code>horizontalDistance</code>, and <code>verticalDistance</code> from the 
-  <code>MeasurementChangedEvent</code> returned by the callback. The distance objects contain both a scalar value 
-  and a unit of measurement.</li>
-</ol>
+## How to use the sample
 
-<h2>Relevant API</h2>  
-<ul>
-<li>AnalysisOverlay</li>
-<li>LocationDistanceMeasurement</li>
-<li>UnitSystem</li>
-</ul>
+Choose a unit system for the measurement in the UI dropdown. Click any location in the scene to start measuring. Move the mouse to an end location, and click to complete the measure. Clicking any new location after this will start a new measurement.
 
-<h2>Additional information</h2>
-<p>The <code>LocationDistanceMeasurement</code> analysis only performs planar distance calculations. This may not be 
-appropriate for large distances where the Earth's curvature needs to be taken into account.</p>
+## How it works
 
-<h2>Tags</h2>
-<p>Analysis, 3D</p>
+To measure distances with the `LocationDistanceMeasurement` analysis:
 
+1.  Create an `AnalysisOverlay` and add it to your scene view's analysis overlay collection: `sceneView.getAnalysisOverlays().add(analysisOverlay)`.
+2.  Create a `LocationDistanceMeasurement`, specifying the `startLocation` and `endLocation`. These can be the same point to start with. Add the analysis to the analysis overlay: `analysisOverlay.getAnalyses().add(LocationDistanceMeasurement)`. The measuring line will be drawn for you between the two points.
+3.  The `measurementChanged` callback will fire if the distances change. You can get the new values for the `directDistance`, `horizontalDistance`, and `verticalDistance` from the `MeasurementChangedEvent` returned by the callback. The distance objects contain both a scalar value and a unit of measurement.
+
+## Relevant API
+
+*   AnalysisOverlay
+*   LocationDistanceMeasurement
+*   UnitSystem
+
+## Additional information
+
+The `LocationDistanceMeasurement` analysis only performs planar distance calculations. This may not be appropriate for large distances where the Earth's curvature needs to be taken into account.
+
+## Tags
+
+Analysis, 3D

@@ -1,39 +1,30 @@
-<h1>Viewshed Geoprocessing</h1>
+# Viewshed Geoprocessing
 
-<p>Calculate a viewshed against terrain using a geoprocessing service.</p>
+Calculate a viewshed against terrain using a geoprocessing service.
 
-<p><img src="ViewshedGeoprocessing.png"/></p>
+![](ViewshedGeoprocessing.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>After the geoprocessing task finishes loading (the spinner will stop), click anywhere on the map to generate a 
-viewshed at that location. A viewshed will be calculated using the service's default distance of 15km.</p>
+After the geoprocessing task finishes loading (the spinner will stop), click anywhere on the map to generate a viewshed at that location. A viewshed will be calculated using the service's default distance of 15km.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create a viewshed from a geoprocessing service:</p>
+To create a viewshed from a geoprocessing service:
 
-<ol>
-    <li>Create a <code>GeoprocessingTask</code> with the URL set to the viewshed endpoint of a geoprocessing service
-    .</li>
-    <li>Create a <code>FeatureCollectionTable</code> and add a new <code>Feature</code> whose geometry is the 
-    <code>Point</code> 
-    where you want to create the viewshed.</li>
-    <li>Make <code>GeoprocessingParameters</code> with an input for the viewshed operation <code>parameters.getInputs().put("Input_Observation_Point", new GeoprocessingFeatures(featureCollectionTable))</code>.</li>
-    <li>Use the <code>GeoprocessingTask</code> to create a <code>GeoprocessingJob</code> with the parameters.</li>
-    <li>Start the job and wait for it to complete and return a <code>GeoprocessingResult</code>.</li>
-    <li>Get the resulting <code>GeoprocessingFeatures</code> using <code>geoprocessingResult.getOutputs().get("Viewshed_Result")</code>.</li>
-    <li>Iterate through the viewshed features in <code>geoprocessingFeatures.getFeatures()</code> to use their 
-    geometry or display the geometry in a graphic.</li>
-</ol>
+1.  Create a `GeoprocessingTask` with the URL set to the viewshed endpoint of a geoprocessing service .
+2.  Create a `FeatureCollectionTable` and add a new `Feature` whose geometry is the `Point` where you want to create the viewshed.
+3.  Make `GeoprocessingParameters` with an input for the viewshed operation `parameters.getInputs().put("Input_Observation_Point", new GeoprocessingFeatures(featureCollectionTable))`.
+4.  Use the `GeoprocessingTask` to create a `GeoprocessingJob` with the parameters.
+5.  Start the job and wait for it to complete and return a `GeoprocessingResult`.
+6.  Get the resulting `GeoprocessingFeatures` using `geoprocessingResult.getOutputs().get("Viewshed_Result")`.
+7.  Iterate through the viewshed features in `geoprocessingFeatures.getFeatures()` to use their geometry or display the geometry in a graphic.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>FeatureCollectionTable</li>
-    <li>GeoprocessingFeatures</li>
-    <li>GeoprocessingJob</li>
-    <li>GeoprocessingParameters</li>
-    <li>GeoprocessingResult</li>
-    <li>GeoprocessingTask</li>
-</ul>
+*   FeatureCollectionTable
+*   GeoprocessingFeatures
+*   GeoprocessingJob
+*   GeoprocessingParameters
+*   GeoprocessingResult
+*   GeoprocessingTask
