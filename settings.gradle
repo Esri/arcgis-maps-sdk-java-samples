@@ -1,0 +1,13 @@
+final excludedDirs = ['.git', '.gradle', '.idea', 'wrapper']
+
+file("./").listFiles().each { f ->
+    if (f.isDirectory() && !(f.name in excludedDirs)) {
+        println(f.name)
+        f.listFiles().each { f2 ->
+            if (f2.isDirectory()) {
+                println("->${f2.name}")
+                includeBuild "./${f.name}/${f2.name}"
+            }
+        }
+    }
+}
