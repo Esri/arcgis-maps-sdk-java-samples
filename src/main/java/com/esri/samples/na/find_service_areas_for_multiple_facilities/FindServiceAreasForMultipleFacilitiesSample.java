@@ -154,7 +154,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
               // set the task parameters to have the task return polygons
               serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
               serviceAreaParameters.setReturnPolygons(true);
-              // add a service area of 3 minutes in addition to the default service area of 5 minutes
+              // add a service area of 3 minutes travel time by car in addition to the default of 5 minutes travel time
               serviceAreaParameters.getDefaultImpedanceCutoffs().add(3.0);
 
               // create query parameters used to select all facilities from the feature table
