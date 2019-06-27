@@ -1,4 +1,4 @@
-package com.esri.samples.spatial_reference;
+package com.esri.samples.map_spatial_reference;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.

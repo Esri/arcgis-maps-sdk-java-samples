@@ -1,4 +1,4 @@
-package com.esri.samples.image_layer_sublayer_visibility;
+package com.esri.samples.map_image_layer_sublayer_visibility;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
