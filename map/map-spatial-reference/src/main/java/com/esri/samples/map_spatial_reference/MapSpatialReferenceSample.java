@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.map_spatial_reference;
+package com.esri.samples.map_spatial_reference;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

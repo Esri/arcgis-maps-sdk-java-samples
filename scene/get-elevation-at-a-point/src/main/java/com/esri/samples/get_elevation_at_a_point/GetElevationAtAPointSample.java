@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.get_elevation_at_a_point;
+package com.esri.samples.get_elevation_at_a_point;
 
 import java.util.concurrent.ExecutionException;
 

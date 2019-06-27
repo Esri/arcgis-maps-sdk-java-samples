@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.symbology.graphics_overlay_dictionary_renderer_3D;
+package com.esri.samples.graphics_overlay_dictionary_renderer_3D;
 
 import java.util.ArrayList;
 import java.util.HashMap;

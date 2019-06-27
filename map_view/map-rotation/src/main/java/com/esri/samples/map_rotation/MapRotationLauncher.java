@@ -1,4 +1,4 @@
-package com.esri.samples.map_rotation;
+package com.esri.samples.rotation;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.

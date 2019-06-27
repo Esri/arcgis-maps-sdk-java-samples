@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.animate_3d_graphic;
+package com.esri.samples.animate_3d_graphic;
 
 import java.io.BufferedReader;
 import java.io.File;

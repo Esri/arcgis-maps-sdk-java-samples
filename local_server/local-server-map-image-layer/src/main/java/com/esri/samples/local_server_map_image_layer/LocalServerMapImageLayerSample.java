@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.localserver.local_server_map_image_layer;
+package com.esri.samples.local_server_map_image_layer;
 
 import java.io.File;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.symbology.symbol_dictionary;
+package com.esri.samples.symbol_dictionary;
 
 import java.io.IOException;
 import java.net.URL;

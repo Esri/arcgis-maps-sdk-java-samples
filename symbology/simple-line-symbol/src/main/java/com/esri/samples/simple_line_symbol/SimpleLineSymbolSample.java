@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.symbology.simple_line_symbol;
+package com.esri.samples.simple_line_symbol;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

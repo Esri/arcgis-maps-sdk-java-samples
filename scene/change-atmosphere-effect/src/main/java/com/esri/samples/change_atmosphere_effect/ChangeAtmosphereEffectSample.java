@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.change_atmosphere_effect;
+package com.esri.samples.change_atmosphere_effect;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

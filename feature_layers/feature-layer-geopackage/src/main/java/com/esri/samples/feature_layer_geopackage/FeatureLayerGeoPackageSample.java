@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.feature_layer_geopackage;
+package com.esri.samples.feature_layer_geopackage;
 
 import java.io.File;
 import java.util.List;

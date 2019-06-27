@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.feature_layer_definition_expression;
+package com.esri.samples.feature_layer_definition_expression;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

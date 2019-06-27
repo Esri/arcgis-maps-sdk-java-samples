@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.search.find_address;
+package com.esri.samples.find_address;
 
 import java.util.HashMap;
 import java.util.List;

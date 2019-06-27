@@ -1,4 +1,4 @@
-package com.esri.samples.map.generate_offline_map_with_local_basemap;
+package com.esri.samples.generate_offline_map_with_local_basemap;
 
 import java.io.File;
 import java.io.IOException;

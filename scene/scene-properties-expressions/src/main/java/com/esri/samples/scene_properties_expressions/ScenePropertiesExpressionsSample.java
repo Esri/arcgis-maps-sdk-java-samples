@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.scene_properties_expressions;
+package com.esri.samples.scene_properties_expressions;
 
 import java.io.IOException;
 

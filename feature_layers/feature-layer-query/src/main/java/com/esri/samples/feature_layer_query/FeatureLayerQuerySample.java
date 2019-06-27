@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.feature_layer_query;
+package com.esri.samples.feature_layer_query;
 
 import javafx.application.Application;
 import javafx.application.Platform;

@@ -1,4 +1,4 @@
-package com.esri.samples.grouplayers.group_layers;
+package com.esri.samples.group_layers;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TreeCell;

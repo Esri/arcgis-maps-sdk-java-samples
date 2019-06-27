@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.read_geopackage;
+package com.esri.samples.read_geopackage;
 
 import java.io.File;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.ogc.wms_layer_url;
+package com.esri.samples.wms_layer_url;
 
 import java.util.Collections;
 import java.util.List;

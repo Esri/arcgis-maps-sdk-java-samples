@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.symbology.picture_marker_symbol;
+package com.esri.samples.picture_marker_symbol;
 
 import java.io.File;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.list_transformations_by_suitability;
+package com.esri.samples.list_transformations_by_suitability;
 
 import java.util.List;
 

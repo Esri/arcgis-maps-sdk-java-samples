@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.grouplayers.group_layers;
+package com.esri.samples.group_layers;
 
 import java.util.Arrays;
 import java.util.List;

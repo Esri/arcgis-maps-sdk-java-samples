@@ -1,4 +1,4 @@
-package com.esri.samples.map_reference_scale;
+package com.esri.samples.reference_scale;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.

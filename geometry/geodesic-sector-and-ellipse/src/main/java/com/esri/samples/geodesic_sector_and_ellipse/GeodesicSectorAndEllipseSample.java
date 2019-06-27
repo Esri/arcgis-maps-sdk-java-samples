@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.geodesic_sector_and_ellipse;
+package com.esri.samples.geodesic_sector_and_ellipse;
 
 import java.io.IOException;
 

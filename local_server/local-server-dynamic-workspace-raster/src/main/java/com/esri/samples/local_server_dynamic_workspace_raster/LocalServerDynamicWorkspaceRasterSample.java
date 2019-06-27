@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.localserver.local_server_dynamic_workspace_raster;
+package com.esri.samples.local_server_dynamic_workspace_raster;
 
 import java.io.File;
 import java.util.Collections;

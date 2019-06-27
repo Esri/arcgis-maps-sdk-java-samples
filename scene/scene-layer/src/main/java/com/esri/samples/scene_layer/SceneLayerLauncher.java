@@ -1,4 +1,4 @@
-package com.esri.samples.scene_layer;
+package com.esri.samples.layer;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.feature_layer_selection;
+package com.esri.samples.feature_layer_selection;
 
 import java.util.List;
 import java.util.stream.Collectors;

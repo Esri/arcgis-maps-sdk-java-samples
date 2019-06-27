@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.imagelayers.map_image_layer_tables;
+package com.esri.samples.map_image_layer_tables;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.portal.oauth;
+package com.esri.samples.oauth;
 
 import java.util.concurrent.CountDownLatch;
 

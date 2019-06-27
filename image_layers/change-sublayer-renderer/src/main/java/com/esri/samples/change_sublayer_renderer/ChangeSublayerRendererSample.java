@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.imagelayers.change_sublayer_renderer;
+package com.esri.samples.change_sublayer_renderer;
 
 import java.util.Arrays;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.geodesic_operations;
+package com.esri.samples.geodesic_operations;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;

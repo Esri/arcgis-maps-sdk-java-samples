@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.spatial_operations;
+package com.esri.samples.spatial_operations;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;

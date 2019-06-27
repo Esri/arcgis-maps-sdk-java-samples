@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.create_and_save_map;
+package com.esri.samples.create_and_save_map;
 
 import java.util.Arrays;
 import java.util.List;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.kml.display_kml_network_links;
+package com.esri.samples.display_kml_network_links;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

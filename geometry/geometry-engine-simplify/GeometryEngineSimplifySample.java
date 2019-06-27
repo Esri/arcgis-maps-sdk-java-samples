@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.geometry_engine_simplify;
+package com.esri.samples.geometry_engine_simplify;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

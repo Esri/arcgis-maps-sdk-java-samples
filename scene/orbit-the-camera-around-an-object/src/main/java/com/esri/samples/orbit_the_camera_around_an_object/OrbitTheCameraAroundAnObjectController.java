@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.orbit_the_camera_around_an_object;
+package com.esri.samples.orbit_the_camera_around_an_object;
 
 import java.io.File;
 

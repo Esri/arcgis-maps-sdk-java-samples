@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.manage_bookmarks;
+package com.esri.samples.manage_bookmarks;
 
 import java.util.Optional;
 

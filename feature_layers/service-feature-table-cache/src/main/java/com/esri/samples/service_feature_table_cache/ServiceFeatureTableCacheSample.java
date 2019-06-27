@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.service_feature_table_cache;
+package com.esri.samples.service_feature_table_cache;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

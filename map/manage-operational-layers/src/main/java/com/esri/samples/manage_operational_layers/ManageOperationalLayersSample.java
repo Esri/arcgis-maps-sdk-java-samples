@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.manage_operational_layers;
+package com.esri.samples.manage_operational_layers;
 
 import java.util.ArrayList;
 

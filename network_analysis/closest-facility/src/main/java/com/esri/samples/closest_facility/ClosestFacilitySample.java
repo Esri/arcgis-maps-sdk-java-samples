@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.na.closest_facility;
+package com.esri.samples.closest_facility;
 
 import java.util.Arrays;
 import java.util.Collections;

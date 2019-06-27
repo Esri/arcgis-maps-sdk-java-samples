@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.symbology.simple_marker_symbol;
+package com.esri.samples.simple_marker_symbol;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

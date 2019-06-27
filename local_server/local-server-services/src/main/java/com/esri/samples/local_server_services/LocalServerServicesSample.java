@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.localserver.local_server_services;
+package com.esri.samples.local_server_services;
 
 import java.io.IOException;
 

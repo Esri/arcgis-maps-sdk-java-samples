@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.map_initial_extent;
+package com.esri.samples.map_initial_extent;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

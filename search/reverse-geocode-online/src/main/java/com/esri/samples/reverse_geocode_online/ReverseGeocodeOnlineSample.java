@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.search.reverse_geocode_online;
+package com.esri.samples.reverse_geocode_online;
 
 import java.util.HashMap;
 import java.util.List;

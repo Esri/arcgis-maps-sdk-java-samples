@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.symbology.unique_value_renderer;
+package com.esri.samples.unique_value_renderer;
 
 import java.util.ArrayList;
 import java.util.List;

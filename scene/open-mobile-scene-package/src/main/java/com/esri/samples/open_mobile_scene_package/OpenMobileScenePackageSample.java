@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.open_mobile_scene_package;
+package com.esri.samples.open_mobile_scene_package;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.loadable.LoadStatus;

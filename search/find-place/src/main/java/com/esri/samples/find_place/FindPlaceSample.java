@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.search.find_place;
+package com.esri.samples.find_place;
 
 import java.io.IOException;
 

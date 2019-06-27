@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.portal.webmap_keyword_search;
+package com.esri.samples.webmap_keyword_search;
 
 import java.io.IOException;
 

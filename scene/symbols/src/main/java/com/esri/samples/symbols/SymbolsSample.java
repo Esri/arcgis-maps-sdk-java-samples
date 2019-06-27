@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.symbols;
+package com.esri.samples.symbols;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.choose_camera_controller;
+package com.esri.samples.choose_camera_controller;
 
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;

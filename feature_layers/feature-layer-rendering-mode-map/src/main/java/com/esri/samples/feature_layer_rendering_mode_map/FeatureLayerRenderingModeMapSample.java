@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.feature_layer_rendering_mode_map;
+package com.esri.samples.feature_layer_rendering_mode_map;
 
 import java.util.Arrays;
 

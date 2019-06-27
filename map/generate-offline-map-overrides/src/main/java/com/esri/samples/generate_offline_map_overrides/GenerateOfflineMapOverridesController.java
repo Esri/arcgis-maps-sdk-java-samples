@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.generate_offline_map_overrides;
+package com.esri.samples.generate_offline_map_overrides;
 
 import java.io.IOException;
 import java.nio.file.Files;

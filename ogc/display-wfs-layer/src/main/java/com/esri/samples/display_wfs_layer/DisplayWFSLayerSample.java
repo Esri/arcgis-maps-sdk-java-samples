@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.ogc.display_wfs_layer;
+package com.esri.samples.display_wfs_layer;
 
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;

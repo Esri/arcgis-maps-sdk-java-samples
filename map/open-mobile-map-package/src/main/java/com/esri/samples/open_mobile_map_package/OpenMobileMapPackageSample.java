@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.open_mobile_map_package;
+package com.esri.samples.open_mobile_map_package;
 
 import java.io.File;
 

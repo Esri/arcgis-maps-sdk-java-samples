@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.feature_layer_extrusion;
+package com.esri.samples.feature_layer_extrusion;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;

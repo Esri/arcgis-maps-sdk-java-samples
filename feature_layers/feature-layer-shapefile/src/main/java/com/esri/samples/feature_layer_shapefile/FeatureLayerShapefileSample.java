@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.feature_layer_shapefile;
+package com.esri.samples.feature_layer_shapefile;
 
 import java.io.File;
 

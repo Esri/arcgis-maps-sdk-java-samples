@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.statistical_query;
+package com.esri.samples.statistical_query;
 
 import java.util.Iterator;
 import java.util.List;

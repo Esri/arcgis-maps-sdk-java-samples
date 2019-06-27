@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.add_an_integrated_mesh_layer;
+package com.esri.samples.add_an_integrated_mesh_layer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

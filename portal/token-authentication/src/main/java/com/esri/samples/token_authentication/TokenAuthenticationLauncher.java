@@ -7,6 +7,6 @@ public class TokenAuthenticationLauncher {
 
   public static void main(String[] args) {
 
-    com.esri.samples.portal.token_authentication.TokenAuthenticationSample.main(args);
+    com.esri.samples.token_authentication.TokenAuthenticationSample.main(args);
   }
 }

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.project;
+package com.esri.samples.project;
 
 import java.text.DecimalFormat;
 

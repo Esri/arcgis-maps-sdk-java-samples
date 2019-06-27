@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.portal.oauth;
+package com.esri.samples.oauth;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

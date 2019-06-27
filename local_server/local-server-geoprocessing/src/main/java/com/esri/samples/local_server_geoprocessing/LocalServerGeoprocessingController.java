@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.localserver.local_server_geoprocessing;
+package com.esri.samples.local_server_geoprocessing;
 
 import java.io.File;
 import java.util.Map;

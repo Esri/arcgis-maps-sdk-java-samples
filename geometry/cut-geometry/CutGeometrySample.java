@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.cut_geometry;
+package com.esri.samples.cut_geometry;
 
 import java.util.Arrays;
 import java.util.List;

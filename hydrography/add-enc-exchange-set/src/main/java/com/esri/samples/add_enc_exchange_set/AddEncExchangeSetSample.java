@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.hydrography.add_enc_exchange_set;
+package com.esri.samples.add_enc_exchange_set;
 
 import java.io.File;
 import java.util.Arrays;

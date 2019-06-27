@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.kml.identify_kml_features;
+package com.esri.samples.identify_kml_features;
 
 import java.util.concurrent.ExecutionException;
 

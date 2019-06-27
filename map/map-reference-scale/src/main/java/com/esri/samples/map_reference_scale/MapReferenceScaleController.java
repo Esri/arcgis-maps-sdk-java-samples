@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.map_reference_scale;
+package com.esri.samples.map_reference_scale;
 
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;

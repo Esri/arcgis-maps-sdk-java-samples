@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.mobile_map_search_and_route;
+package com.esri.samples.mobile_map_search_and_route;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

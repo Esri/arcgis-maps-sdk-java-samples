@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.feature_layer_dictionary_renderer;
+package com.esri.samples.feature_layer_dictionary_renderer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

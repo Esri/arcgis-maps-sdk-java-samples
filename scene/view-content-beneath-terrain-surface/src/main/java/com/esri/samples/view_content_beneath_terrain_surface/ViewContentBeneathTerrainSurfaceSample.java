@@ -1,4 +1,4 @@
-package com.esri.samples.scene.view_content_beneath_terrain_surface;
+package com.esri.samples.view_content_beneath_terrain_surface;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

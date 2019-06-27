@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.spatial_relationships;
+package com.esri.samples.spatial_relationships;
 
 import java.util.ArrayList;
 import java.util.Arrays;

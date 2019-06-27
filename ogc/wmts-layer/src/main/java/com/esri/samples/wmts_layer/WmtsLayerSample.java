@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.ogc.wmts_layer;
+package com.esri.samples.wmts_layer;
 
 import java.util.List;
 import javafx.application.Application;

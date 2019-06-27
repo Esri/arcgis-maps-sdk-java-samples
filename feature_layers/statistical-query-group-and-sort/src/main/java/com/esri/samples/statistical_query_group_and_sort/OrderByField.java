@@ -1,4 +1,4 @@
-package com.esri.samples.featurelayers.statistical_query_group_and_sort;
+package com.esri.samples.statistical_query_group_and_sort;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;

@@ -1,4 +1,4 @@
-package com.esri.samples.map_image_layer;
+package com.esri.samples.image_layer;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.

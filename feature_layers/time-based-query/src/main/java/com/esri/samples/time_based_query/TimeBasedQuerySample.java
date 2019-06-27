@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.time_based_query;
+package com.esri.samples.time_based_query;
 
 import java.util.Calendar;
 import java.util.Collections;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.ogc.open_street_map_layer;
+package com.esri.samples.open_street_map_layer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

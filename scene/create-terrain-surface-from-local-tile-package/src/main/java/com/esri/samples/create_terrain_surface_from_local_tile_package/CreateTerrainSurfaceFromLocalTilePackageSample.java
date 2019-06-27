@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.create_terrain_surface_from_local_tile_package;
+package com.esri.samples.create_terrain_surface_from_local_tile_package;
 
 import java.io.File;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.symbology.simple_fill_symbol;
+package com.esri.samples.simple_fill_symbol;
 
 import java.util.ArrayList;
 import java.util.List;

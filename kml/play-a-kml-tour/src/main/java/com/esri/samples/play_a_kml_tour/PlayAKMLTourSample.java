@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.kml.play_a_kml_tour;
+package com.esri.samples.play_a_kml_tour;
 
 import java.io.File;
 import java.io.IOException;

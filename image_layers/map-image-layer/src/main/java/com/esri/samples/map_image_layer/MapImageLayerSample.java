@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.imagelayers.map_image_layer;
+package com.esri.samples.map_image_layer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.imagelayers.map_image_layer_sublayer_visibility;
+package com.esri.samples.map_image_layer_sublayer_visibility;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

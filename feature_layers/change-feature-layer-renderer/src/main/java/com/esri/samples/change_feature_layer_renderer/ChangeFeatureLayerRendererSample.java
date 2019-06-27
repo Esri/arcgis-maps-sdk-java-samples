@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.change_feature_layer_renderer;
+package com.esri.samples.change_feature_layer_renderer;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.terrain_exaggeration;
+package com.esri.samples.terrain_exaggeration;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;

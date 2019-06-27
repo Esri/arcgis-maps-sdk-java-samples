@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.service_feature_table_manual_cache;
+package com.esri.samples.service_feature_table_manual_cache;
 
 import java.util.Collections;
 import java.util.List;

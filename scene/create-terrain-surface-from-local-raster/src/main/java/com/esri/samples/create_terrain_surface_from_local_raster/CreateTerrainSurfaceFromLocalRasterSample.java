@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.create_terrain_surface_from_local_raster;
+package com.esri.samples.create_terrain_surface_from_local_raster;
 
 import java.io.File;
 import java.util.Collections;

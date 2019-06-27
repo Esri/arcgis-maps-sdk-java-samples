@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.elevation_mode;
+package com.esri.samples.elevation_mode;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

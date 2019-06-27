@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.nearest_vertex;
+package com.esri.samples.nearest_vertex;
 
 import java.util.Arrays;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.change_basemap;
+package com.esri.samples.change_basemap;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;

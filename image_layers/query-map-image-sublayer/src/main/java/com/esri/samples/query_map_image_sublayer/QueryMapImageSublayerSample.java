@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.imagelayers.query_map_image_sublayer;
+package com.esri.samples.query_map_image_sublayer;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

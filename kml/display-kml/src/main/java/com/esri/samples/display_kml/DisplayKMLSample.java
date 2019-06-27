@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.kml.display_kml;
+package com.esri.samples.display_kml;
 
 import java.io.File;
 

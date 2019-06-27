@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.esri.samples.portal.token_authentication;
+package com.esri.samples.token_authentication;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

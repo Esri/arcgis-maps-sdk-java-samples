@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.add_a_point_scene_layer;
+package com.esri.samples.add_a_point_scene_layer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

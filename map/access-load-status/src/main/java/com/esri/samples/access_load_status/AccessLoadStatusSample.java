@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.access_load_status;
+package com.esri.samples.access_load_status;
 
 import javafx.application.Application;
 import javafx.application.Platform;

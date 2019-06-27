@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.open_scene_portal_item;
+package com.esri.samples.open_scene_portal_item;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.search.offline_geocode;
+package com.esri.samples.offline_geocode;
 
 import java.io.File;
 import java.util.HashMap;

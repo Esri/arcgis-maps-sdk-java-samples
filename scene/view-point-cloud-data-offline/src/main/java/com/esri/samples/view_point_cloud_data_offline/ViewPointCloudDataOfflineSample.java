@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.view_point_cloud_data_offline;
+package com.esri.samples.view_point_cloud_data_offline;
 
 import java.io.File;
 

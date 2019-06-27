@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.list_releated_features;
+package com.esri.samples.list_releated_features;
 
 import java.util.Iterator;
 import java.util.List;

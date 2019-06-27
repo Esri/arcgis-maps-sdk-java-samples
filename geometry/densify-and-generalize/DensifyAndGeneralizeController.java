@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.densify_and_generalize;
+package com.esri.samples.densify_and_generalize;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;

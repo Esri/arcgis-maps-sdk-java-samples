@@ -1,4 +1,4 @@
-package com.esri.samples.map_initial_extent;
+package com.esri.samples.initial_extent;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.mapview.map_rotation;
+package com.esri.samples.iew.map_rotation;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

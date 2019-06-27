@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.mapview.display_layer_view_state;
+package com.esri.samples.iew.display_layer_view_state;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

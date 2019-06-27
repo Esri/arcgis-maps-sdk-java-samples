@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.set_initial_map_location;
+package com.esri.samples.set_initial_map_location;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

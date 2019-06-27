@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.na.service_area_task;
+package com.esri.samples.service_area_task;
 
 import java.util.ArrayList;
 import java.util.Arrays;

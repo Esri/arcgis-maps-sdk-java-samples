@@ -6,6 +6,6 @@ package com.esri.samples.add_enc_exchange_set;
 public class AddEncExchangeSetLauncher {
 
   public static void main(String[] args) {
-    com.esri.samples.hydrography.add_enc_exchange_set.AddEncExchangeSetSample.main(args);
+    com.esri.samples.add_enc_exchange_set.AddEncExchangeSetSample.main(args);
   }
 }

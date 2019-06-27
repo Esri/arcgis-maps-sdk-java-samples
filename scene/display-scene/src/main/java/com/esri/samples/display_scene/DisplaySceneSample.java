@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.display_scene;
+package com.esri.samples.display_scene;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

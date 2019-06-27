@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.na.service_area_task;
+package com.esri.samples.service_area_task;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

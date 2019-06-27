@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.symbology.simple_renderer;
+package com.esri.samples.simple_renderer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

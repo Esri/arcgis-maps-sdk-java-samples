@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.symbology.symbolize_shapefile;
+package com.esri.samples.symbolize_shapefile;
 
 import java.io.File;
 

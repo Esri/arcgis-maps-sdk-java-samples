@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.featurelayers.feature_collection_layer;
+package com.esri.samples.feature_collection_layer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

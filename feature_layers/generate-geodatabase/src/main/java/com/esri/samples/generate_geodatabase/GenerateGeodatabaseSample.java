@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.esri.samples.featurelayers.generate_geodatabase;
+package com.esri.samples.generate_geodatabase;
 
 import java.io.File;
 import java.io.IOException;

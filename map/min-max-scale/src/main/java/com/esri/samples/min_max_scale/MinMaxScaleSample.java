@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.min_max_scale;
+package com.esri.samples.min_max_scale;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

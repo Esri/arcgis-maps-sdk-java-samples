@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.feature_layer_rendering_mode_scene;
+package com.esri.samples.feature_layer_rendering_mode_scene;
 
 import java.util.Arrays;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.distance_composite_symbol;
+package com.esri.samples.distance_composite_symbol;
 
 import java.io.File;
 

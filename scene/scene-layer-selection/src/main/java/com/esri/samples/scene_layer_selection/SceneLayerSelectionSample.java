@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.scene_layer_selection;
+package com.esri.samples.scene_layer_selection;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

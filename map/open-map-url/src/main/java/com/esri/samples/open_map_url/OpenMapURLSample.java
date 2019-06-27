@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.open_map_url;
+package com.esri.samples.open_map_url;
 
 import java.util.List;
 import java.util.stream.Collectors;

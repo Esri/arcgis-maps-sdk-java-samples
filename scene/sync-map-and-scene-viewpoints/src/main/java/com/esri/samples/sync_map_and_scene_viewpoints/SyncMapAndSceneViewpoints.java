@@ -15,7 +15,7 @@
  */
 
 
-package com.esri.samples.scene.sync_map_and_scene_viewpoints;
+package com.esri.samples.sync_map_and_scene_viewpoints;
 
 import java.util.ArrayList;
 

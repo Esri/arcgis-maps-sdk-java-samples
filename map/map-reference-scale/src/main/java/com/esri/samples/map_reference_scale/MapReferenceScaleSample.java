@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.map.map_reference_scale;
+package com.esri.samples.map_reference_scale;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

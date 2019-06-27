@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.scene.extrude_graphics;
+package com.esri.samples.extrude_graphics;
 
 import java.util.Arrays;
 import java.util.List;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.na.find_route;
+package com.esri.samples.find_route;
 
 import java.util.ArrayList;
 import java.util.List;
