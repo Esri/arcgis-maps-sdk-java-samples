@@ -67,7 +67,7 @@ public class ReadGeoPackageSample extends Application {
           rasterLayer.loadAsync();
           // make the layer semi-transparent so we can see layers below it
           rasterLayer.setOpacity(0.5f);
-          // add the layer to the map
+          
           map.getOperationalLayers().add(rasterLayer);
         });
 
@@ -75,7 +75,7 @@ public class ReadGeoPackageSample extends Application {
         geoPackage.getGeoPackageFeatureTables().forEach(table -> {
           FeatureLayer featureLayer = new FeatureLayer(table);
           featureLayer.loadAsync();
-          // add the layer to the map
+
           map.getOperationalLayers().add(featureLayer);
         });
       });
