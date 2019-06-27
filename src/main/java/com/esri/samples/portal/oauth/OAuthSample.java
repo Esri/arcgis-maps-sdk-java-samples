@@ -17,28 +17,97 @@
 package com.esri.samples.portal.oauth;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
+import com.esri.arcgisruntime.security.OAuthConfiguration;
 
 public class OAuthSample extends Application {
 
+  private MapView mapView;
+
   @Override
-  public void start(Stage stage) throws Exception {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/oauth_controller.fxml"));
-    Parent root = loader.load();
-    OAuthController controller = loader.getController();
-    Scene scene = new Scene(root);
+  public void start(Stage stage) {
 
-    // set title, size, and add scene to stage
-    stage.setTitle("OAuth Sample");
-    stage.setWidth(800);
-    stage.setHeight(700);
-    stage.setScene(scene);
-    stage.show();
+    try {
+      // create stack pane and application scene
+      BorderPane stackPane = new BorderPane();
+      Scene scene = new Scene(stackPane);
 
-    controller.authenticate();
+      // set title, size, and add scene to stage
+      stage.setTitle("oAuth test app");
+      stage.setWidth(800);
+      stage.setHeight(700);
+      stage.setScene(scene);
+      stage.show();
+
+      // create a ArcGISMap with the a Basemap instance with an Imagery base
+      // layer
+      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+
+      // set the map to be displayed in this view
+      mapView = new MapView();
+      mapView.setMap(map);
+
+      OAuthConfiguration oAuthConfiguration =
+              new OAuthConfiguration(
+                      "https://www.arcgis.com/",
+                      "lgAdHkYZYlwwfAhC",
+                      "authenticate-with-oauth");
+
+      DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler =
+              new DefaultAuthenticationChallengeHandler();
+
+      AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
+      AuthenticationManager.addOAuthConfiguration(oAuthConfiguration);
+      AuthenticationManager.setTrustAllSigners(true);
+
+      Portal portal = new Portal("https://www.arcgis.com/", true);
+
+      portal.loadAsync();
+      portal.addDoneLoadingListener(() -> {
+        System.out.println("portal loaded " + portal.getLoadStatus().toString());
+
+        if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+          System.out.println("load error :" + portal.getLoadError().getCause().toString());
+        }
+
+        System.out.println("login required " + portal.isLoginRequired());
+
+        portal.getPortalInfo();
+        PortalItem portalItem = new PortalItem(portal,"e5039444ef3c48b8a8fdc9227f9be7c1");
+        portalItem.loadAsync();
+      });
+
+
+      // add the map view to stack pane
+
+      stackPane.setCenter(mapView);
+
+    } catch (Exception e) {
+      // on any error, display the stack trace.
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
+
+    if (mapView != null) {
+      mapView.dispose();
+    }
   }
 
   /**
@@ -47,7 +116,7 @@ public class OAuthSample extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
+
     Application.launch(args);
   }
-
 }
