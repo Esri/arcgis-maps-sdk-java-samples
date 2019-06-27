@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.esri.samples.na.find_service_areas_for_multiple_facilities;
 
 import java.util.ArrayList;
@@ -11,12 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -61,14 +72,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     stage.setScene(scene);
     stage.show();
 
-    // create control panel
-    VBox controlsVBox = new VBox(6);
-    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-            Insets.EMPTY)));
-    controlsVBox.setPadding(new Insets(10.0));
-    controlsVBox.setMaxSize(150, 50);
-
-    // create buttons
+    // create button
     Button findServiceAreasButton = new Button("Find Service Areas");
     findServiceAreasButton.setMaxWidth(150);
     findServiceAreasButton.setDisable(true);
@@ -80,11 +84,11 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     // create an ArcGISMap with a streets basemap
     ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
 
-    // set the ArcGISMap to be displayed in the view
+    // set the ArcGISMap to be displayed in the map view
     mapView = new MapView();
     mapView.setMap(map);
 
-    // create a graphics overlay for service areas
+    // create a graphics overlay for displaying service areas
     GraphicsOverlay serviceAreasGraphicsOverlay = new GraphicsOverlay();
 
     // add the graphics overlay to the map view
@@ -117,7 +121,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
         // zoom to the extent of the feature layer
         mapView.setViewpointGeometryAsync(facilitiesFeatureLayer.getFullExtent(), 130);
 
-        // wait for the view to zoom to enable the ui
+        // enable the find service areas button when the draw status is completed for the first time
         mapView.addDrawStatusChangedListener(new DrawStatusChangedListener() {
           @Override
           public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
@@ -129,7 +133,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
           }
         });
 
-        // resolve 'find service areas' button click
+        // determine the service areas and display them when the button is clicked
         findServiceAreasButton.setOnAction(event -> {
 
           // disable the button
@@ -171,12 +175,12 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
                   List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
 
                   // iterate through all the facilities to get the service area polygons
-                  for (int facilityIndex = 0; facilityIndex < serviceAreaResult.getFacilities().size(); facilityIndex++) {
-                    List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(facilityIndex);
-                    // we may have more than one resulting service area, so create a graphics from each available polygon
-                    for (int polygonIndex = 0; polygonIndex < serviceAreaPolygonList.size(); polygonIndex++) {
+                  for (int i = 0; i < serviceAreaResult.getFacilities().size(); i++) {
+                    List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
+                    // create a graphic for each available polygon, as there may be more than one for each service area
+                    for (int j = 0; j < serviceAreaPolygonList.size(); j++) {
                       // create and show a graphics for the service area
-                      serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(polygonIndex).getGeometry(), fillSymbols.get(polygonIndex % fillSymbols.size())));
+                      serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(j).getGeometry(), fillSymbols.get(j % fillSymbols.size())));
                     }
                   }
 
@@ -195,7 +199,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
       }
     });
 
-    // add the map view, control panel and progress indicator to stack pane
+    // add the map view, find service area button, and progress indicator to stack pane
     stackPane.getChildren().addAll(mapView, findServiceAreasButton, progressIndicator);
     StackPane.setAlignment(findServiceAreasButton, Pos.TOP_LEFT);
     StackPane.setMargin(findServiceAreasButton, new Insets(10, 0, 0, 10));
