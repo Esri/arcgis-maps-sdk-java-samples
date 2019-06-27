@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.tiledlayers.web_tiled_layer;
+package com.esri.samples.web_tiled_layer;
 
 import java.util.Arrays;
 import java.util.List;

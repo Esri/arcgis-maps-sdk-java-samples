@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.tiledlayers.tile_cache;
+package com.esri.samples.tile_cache;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

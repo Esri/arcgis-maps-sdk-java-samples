@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.tiledlayers.export_tiles;
+package com.esri.samples.export_tiles;
 
 import java.io.File;
 import java.io.IOException;

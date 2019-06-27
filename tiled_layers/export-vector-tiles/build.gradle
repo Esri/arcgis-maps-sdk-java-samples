@@ -11,7 +11,7 @@ ext {
 
 javafx {
     version = "11.0.1"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.analyze_hotspots.AnalyzeHotspotsLauncher'
+    mainClassName = 'com.esri.samples.export_vector_tiles.ExportVectorTilesLauncher'
 }
 
 jar {

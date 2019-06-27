@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.tiledlayers.tiled_layer;
+package com.esri.samples.tiled_layer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.tiledlayers.vector_tiled_layer_url;
+package com.esri.samples.vector_tiled_layer_url;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
