@@ -16,12 +16,12 @@
 
 <ol>
   <li>Open the GeoPackage using <code>GeoPackage.openAsync(path)</code>.</li>
-  <li>Iterate through available rasters, exposed by <code>geopackage.geoPackageRasters</code>.
+  <li>Iterate through available rasters, exposed by <code>geopackage.getGeoPackageRasters()</code>.
   <ul>
-    <li>For each raster, create a raster layer using <code>new Rasterlayer(geopackageRaster)</code>, then add it to the map.</li>
+    <li>For each raster, create a raster layer using <code>new RasterLayer(geopackageRaster)</code>, then add it to the map.</li>
   </ul>
   </li>
-  <li>Iterate through available feature tables, exposed by <code>geopackage.geoPackageFeatureTables</code>.
+  <li>Iterate through available feature tables, exposed by <code>geopackage.getGeoPackageFeatureTables()</code>.
   <ul>
     <li>For each feature table, create a feature layer using <code>new FeatureLayer(geopackageFeatureTable)</code>, then add it to the map.</li>
   </ul>
