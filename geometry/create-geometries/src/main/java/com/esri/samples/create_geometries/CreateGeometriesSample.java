@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.create_geometries;
+package com.esri.samples.create_geometries;
 
 import java.util.Arrays;
 

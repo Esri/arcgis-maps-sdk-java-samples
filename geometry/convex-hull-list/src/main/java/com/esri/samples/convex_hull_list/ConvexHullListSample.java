@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.geometry.convex_hull_list;
+package com.esri.samples.convex_hull_list;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -58,7 +58,7 @@ public class ConvexHullListSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Convex Hull List Sample");
