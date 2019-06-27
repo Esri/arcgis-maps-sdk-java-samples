@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.buffer;
+package com.esri.samples.geometry.buffer;
 
 import java.util.Arrays;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.convex_hull;
+package com.esri.samples.geometry.convex_hull;
 
 import java.util.ArrayList;
 import java.util.List;

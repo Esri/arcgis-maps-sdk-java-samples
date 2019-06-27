@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.clip_geometry;
+package com.esri.samples.geometry.clip_geometry;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

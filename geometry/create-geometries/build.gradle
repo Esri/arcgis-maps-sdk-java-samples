@@ -48,13 +48,13 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.create_geometries.CreateGeometriesLauncher'
+    mainClassName = 'com.esri.samples.analyze_hotspots.AnalyzeHotspotsLauncher'
 }
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest { 
-        attributes("Main-Class": "$mainClassName") 
+    manifest {
+        attributes("Main-Class": "$mainClassName")
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
