@@ -61,20 +61,18 @@ public class ReadGeoPackageSample extends Application {
       geoPackage.loadAsync();
       geoPackage.addDoneLoadingListener(() -> {
 
-        // get the read only list of GeoPackageRasters from the GeoPackage and loop through each GeoPackageRaster
+        // get the Rasters from the GeoPackage, and add them to the map as a layer
         geoPackage.getGeoPackageRasters().forEach(raster -> {
-          // create a RasterLayer from the GeoPackageRaster
           RasterLayer rasterLayer = new RasterLayer(raster);
           rasterLayer.loadAsync();
-          // make the raster layer semi-transparent so we can see layers below it
+          // make the layer semi-transparent so we can see layers below it
           rasterLayer.setOpacity(0.5f);
           // add the layer to the map
           map.getOperationalLayers().add(rasterLayer);
         });
 
-        // get the read only list of GeoPackageFeatureTables from the GeoPackage and loop through each GeoPackageFeatureTable
+        // get the FeatureTables from the GeoPackage, and add them to the map as a layer
         geoPackage.getGeoPackageFeatureTables().forEach(table -> {
-          // create a feature layer from the GeoPackageFeatureTable
           FeatureLayer featureLayer = new FeatureLayer(table);
           featureLayer.loadAsync();
           // add the layer to the map
