@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2019 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -43,7 +43,7 @@ public class OAuthSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("oAuth test app");
+      stage.setTitle("OAuth Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
