@@ -31,7 +31,7 @@ public class FindPlaceSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/find_place.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/find_place.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

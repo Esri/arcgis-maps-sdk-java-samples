@@ -31,7 +31,7 @@ public class WebmapKeywordSearchSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/webmap_keyword_search.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/webmap_keyword_search.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

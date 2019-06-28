@@ -31,7 +31,7 @@ public class DensifyAndGeneralizeSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/densify_and_generalize.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/densify_and_generalize.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

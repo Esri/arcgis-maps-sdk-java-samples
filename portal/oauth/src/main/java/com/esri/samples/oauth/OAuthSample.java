@@ -26,7 +26,7 @@ public class OAuthSample extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/oauth_controller.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/oauth_controller.fxml"));
     Parent root = loader.load();
     OAuthController controller = loader.getController();
     Scene scene = new Scene(root);

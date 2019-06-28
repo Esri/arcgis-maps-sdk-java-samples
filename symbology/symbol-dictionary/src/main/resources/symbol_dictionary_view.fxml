@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2017 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" spacing="10">
+    <ImageView fx:id="imageView" fitWidth="40"/>
+    <GridPane hgap="10" vgap="3">
+        <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="name" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label text="Tags:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label fx:id="tags" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Label text="Symbol Class:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="symbolClass" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label text="Category:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Label fx:id="category" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <Label text="Key:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <Label fx:id="key" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    </GridPane>
+</fx:root>

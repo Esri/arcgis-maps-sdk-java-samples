@@ -33,7 +33,7 @@ public class OrbitTheCameraAroundAnObjectSample extends Application {
   public void start(Stage stage) throws IOException {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/orbit_the_camera_around_an_object.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/orbit_the_camera_around_an_object.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

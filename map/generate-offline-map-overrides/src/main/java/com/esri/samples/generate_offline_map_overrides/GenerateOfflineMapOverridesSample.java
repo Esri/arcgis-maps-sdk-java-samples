@@ -31,7 +31,7 @@ public class GenerateOfflineMapOverridesSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/generate_offline_map_overrides.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/generate_offline_map_overrides.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

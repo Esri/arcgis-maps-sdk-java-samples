@@ -31,7 +31,7 @@ public class LocalServerServicesSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/local_server_services.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/local_server_services.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     controller.setHostServices(getHostServices());
