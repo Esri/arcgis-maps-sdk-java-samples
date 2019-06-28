@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.blend_renderer;
+package com.esri.samples.blend_renderer;
 
 import java.io.IOException;
 

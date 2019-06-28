@@ -1,11 +1,11 @@
-package com.esri.samples.identify_kml_features;
+package com.esri.samples.play_a_kml_tour;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
 */
-public class IdentifyKmlFeaturesLauncher {
+public class PlayAKMLTourLauncher {
 
   public static void main(String[] args) {
-    IdentifyKmlFeaturesSample.main(args); 
+    PlayAKMLTourSample.main(args);
   }
 }

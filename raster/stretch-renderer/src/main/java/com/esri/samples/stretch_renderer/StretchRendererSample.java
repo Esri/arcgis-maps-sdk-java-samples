@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.stretch_renderer;
+package com.esri.samples.stretch_renderer;
 
 import java.io.IOException;
 

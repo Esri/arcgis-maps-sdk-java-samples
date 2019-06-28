@@ -1,3 +1,7 @@
+task compile {
+    dependsOn gradle.includedBuilds*.task(':compileJava')
+}
+
 wrapper {
     gradleVersion = '5.0'
 }

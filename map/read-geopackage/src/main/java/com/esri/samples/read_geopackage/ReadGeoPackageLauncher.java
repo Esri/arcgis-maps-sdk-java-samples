@@ -1,11 +1,11 @@
-package com.esri.samples.list_kml_contents;
+package com.esri.samples.read_geopackage;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
 */
-public class ListKmlContentsLauncher {
+public class ReadGeoPackageLauncher {
 
   public static void main(String[] args) {
-    ListKmlContentsSample.main(args); 
+    ReadGeoPackageSample.main(args);
   }
 }

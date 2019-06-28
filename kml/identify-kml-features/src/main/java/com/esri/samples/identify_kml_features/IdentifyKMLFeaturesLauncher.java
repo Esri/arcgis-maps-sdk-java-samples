@@ -1,11 +1,11 @@
-package com.esri.samples.list_releated_features;
+package com.esri.samples.identify_kml_features;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
 */
-public class ListReleatedFeaturesLauncher {
+public class IdentifyKMLFeaturesLauncher {
 
   public static void main(String[] args) {
-    ListReleatedFeaturesSample.main(args); 
+    IdentifyKMLFeaturesSample.main(args);
   }
 }

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.hillshade_renderer;
+package com.esri.samples.hillshade_renderer;
 
 import java.io.IOException;
 

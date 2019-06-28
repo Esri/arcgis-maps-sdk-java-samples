@@ -1,4 +1,4 @@
-package com.esri.samples.engine_simplify;
+package com.esri.samples.geometry_engine_simplify;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.iew.change_viewpoint;
+package com.esri.samples.change_viewpoint;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

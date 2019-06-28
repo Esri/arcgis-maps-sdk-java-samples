@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.iew.scale_bar;
+package com.esri.samples.scale_bar;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

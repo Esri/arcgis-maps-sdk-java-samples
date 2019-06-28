@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.rgb_renderer;
+package com.esri.samples.rgb_renderer;
 
 import java.io.File;
 import java.util.Arrays;

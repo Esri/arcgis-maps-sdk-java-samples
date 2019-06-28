@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.colormap_renderer;
+package com.esri.samples.colormap_renderer;
 
 import java.io.File;
 import java.util.List;

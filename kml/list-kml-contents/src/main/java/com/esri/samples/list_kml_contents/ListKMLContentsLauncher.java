@@ -1,11 +1,11 @@
-package com.esri.samples.open_map_url;
+package com.esri.samples.list_kml_contents;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
 */
-public class OpenMapUrlLauncher {
+public class ListKMLContentsLauncher {
 
   public static void main(String[] args) {
-    OpenMapUrlSample.main(args); 
+    ListKMLContentsSample.main(args);
   }
 }

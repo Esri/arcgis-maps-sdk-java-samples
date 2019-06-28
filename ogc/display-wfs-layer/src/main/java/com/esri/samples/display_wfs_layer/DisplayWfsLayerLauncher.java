@@ -6,6 +6,6 @@ package com.esri.samples.display_wfs_layer;
 public class DisplayWfsLayerLauncher {
 
   public static void main(String[] args) {
-    DisplayWfsLayerSample.main(args); 
+    DisplayWFSLayerSample.main(args);
   }
 }

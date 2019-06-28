@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.iew.identify_layers;
+package com.esri.samples.identify_layers;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

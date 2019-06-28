@@ -33,7 +33,7 @@ import com.esri.arcgisruntime.mapping.view.GeoView;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-public class SyncMapAndSceneViewpoints extends Application {
+public class SyncMapAndSceneViewpointsSample extends Application {
 
   private MapView mapView;
   private SceneView sceneView;

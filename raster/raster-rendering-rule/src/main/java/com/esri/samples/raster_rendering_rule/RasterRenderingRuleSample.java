@@ -14,7 +14,7 @@
  *
  */
 
-package com.esri.samples.raster.raster_rendering_rule;
+package com.esri.samples.raster_rendering_rule;
 
 import java.util.List;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.raster_layer_url;
+package com.esri.samples.raster_layer_url;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

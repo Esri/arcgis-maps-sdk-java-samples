@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.raster_layer_geopackage;
+package com.esri.samples.raster_layer_geopackage;
 
 import java.io.File;
 
@@ -32,7 +32,7 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.GeoPackageRaster;
 
-public class RasterLayerGeoPackageSample extends Application {
+public class RasterLayerGeopackageSample extends Application {
 
   private MapView mapView;
 

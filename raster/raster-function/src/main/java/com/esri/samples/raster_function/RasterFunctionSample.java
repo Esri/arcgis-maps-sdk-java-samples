@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.raster_function;
+package com.esri.samples.raster_function;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,11 +1,11 @@
-package com.esri.samples.animate_3d_graphic;
+package com.esri.samples.display_kml;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
 */
-public class Animate3DGraphicLauncher {
+public class DisplayKMLLauncher {
 
   public static void main(String[] args) {
-    Animate3DGraphicSample.main(args); 
+    DisplayKMLSample.main(args);
   }
 }

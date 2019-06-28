@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.raster.raster_layer_file;
+package com.esri.samples.raster_layer_file;
 
 import java.io.File;
 

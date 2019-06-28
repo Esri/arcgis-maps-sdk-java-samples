@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.iew.take_screen_shot;
+package com.esri.samples.take_screen_shot;
 
 import java.io.File;
 
