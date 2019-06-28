@@ -21,7 +21,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -58,39 +57,24 @@ public class OAuthSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      OAuthConfiguration oAuthConfiguration =
-              new OAuthConfiguration(
-                      "https://www.arcgis.com/",
-                      "lgAdHkYZYlwwfAhC",
-                      "authenticate-with-oauth");
+      // set up an oauth config with url to portal, a client id and a re-direct url
+      // a custom client id for your app can be set on the ArcGIS for Developers dashboard under
+      // Authentication --> Redirect URIs
+      OAuthConfiguration oAuthConfiguration = new OAuthConfiguration("https://www.arcgis.com/", "lgAdHkYZYlwwfAhC", "authenticate-with-oauth://auth");
 
-      DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler =
-              new DefaultAuthenticationChallengeHandler();
-
+      // setup AuthenticationManager to handle auth challenges
+      DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
       AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
+      // add an OAuth configuration
       AuthenticationManager.addOAuthConfiguration(oAuthConfiguration);
-      AuthenticationManager.setTrustAllSigners(true);
 
+      // load the portal and add the portal item as a map to the map view
       Portal portal = new Portal("https://www.arcgis.com/", true);
-
-      portal.loadAsync();
-      portal.addDoneLoadingListener(() -> {
-        System.out.println("portal loaded " + portal.getLoadStatus().toString());
-
-        if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-          System.out.println("load error :" + portal.getLoadError().getCause().toString());
-        }
-
-        System.out.println("login required " + portal.isLoginRequired());
-
-        portal.getPortalInfo();
-        PortalItem portalItem = new PortalItem(portal,"e5039444ef3c48b8a8fdc9227f9be7c1");
-        portalItem.loadAsync();
-      });
-
+      PortalItem portalItem = new PortalItem(portal, "e5039444ef3c48b8a8fdc9227f9be7c1");
+      ArcGISMap portalMap = new ArcGISMap(portalItem);
+      mapView.setMap(portalMap);
 
       // add the map view to stack pane
-
       stackPane.setCenter(mapView);
 
     } catch (Exception e) {
