@@ -60,7 +60,7 @@ public class OAuthSample extends Application {
       // set up an oauth config with url to portal, a client id and a re-direct url
       // a custom client id for your app can be set on the ArcGIS for Developers dashboard under
       // Authentication --> Redirect URIs
-      OAuthConfiguration oAuthConfiguration = new OAuthConfiguration("https://www.arcgis.com/", "lgAdHkYZYlwwfAhC", "authenticate-with-oauth://auth");
+      OAuthConfiguration oAuthConfiguration = new OAuthConfiguration("https://www.arcgis.com/", "lgAdHkYZYlwwfAhC", "urn:ietf:wg:oauth:2.0:oob");
 
       // setup AuthenticationManager to handle auth challenges
       DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
