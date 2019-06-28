@@ -37,6 +37,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
@@ -46,12 +47,18 @@ import com.esri.arcgisruntime.security.AuthenticationManager;
 
 public class IntegratedWindowsAuthenticationController {
 
-  @FXML private MapView mapView;
-  @FXML private ListView<PortalItem> resultsListView;
-  @FXML private TextField portalUrlTextField;
-  @FXML private ProgressIndicator progressIndicator;
-  @FXML private Text loadStateTextView;
-  @FXML private Text loadWebMapTextView;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private ListView<PortalItem> resultsListView;
+  @FXML
+  private TextField portalUrlTextField;
+  @FXML
+  private ProgressIndicator progressIndicator;
+  @FXML
+  private Text loadStateTextView;
+  @FXML
+  private Text loadWebMapTextView;
 
   public void initialize() {
     try {
@@ -115,6 +122,9 @@ public class IntegratedWindowsAuthenticationController {
     // clear any existing items in the list view
     resultsListView.getItems().clear();
 
+    // clear the information about the previously loaded map
+    loadWebMapTextView.setText("");
+
     // show portal load state
     progressIndicator.setVisible(true);
     loadStateTextView.setText("Searching for web map items on the portal at " + portal.getUri());
@@ -168,9 +178,21 @@ public class IntegratedWindowsAuthenticationController {
    */
   private void displayMap() {
     if (resultsListView.getSelectionModel().getSelectedItem() != null) {
+      // create a portal item from the selecttion in the list view
       PortalItem selectedItem = resultsListView.getSelectionModel().getSelectedItem();
+
+      // set the map to the map view
       ArcGISMap webMap = new ArcGISMap(selectedItem);
       mapView.setMap(webMap);
+
+      // show progress indicator while map is drawing
+      progressIndicator.setVisible(true);
+      mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
+        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+          progressIndicator.setVisible(false);
+        }
+      });
+
       loadWebMapTextView.setText("Loaded web map from item " + selectedItem.getItemId());
     }
   }
