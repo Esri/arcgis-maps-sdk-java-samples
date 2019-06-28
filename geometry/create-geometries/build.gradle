@@ -53,8 +53,8 @@ run {
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest { 
-        attributes("Main-Class": "$mainClassName") 
+    manifest {
+        attributes("Main-Class": "$mainClassName")
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }

@@ -49,7 +49,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.analyze_hotspots.AnalyzeHotspotsLauncher'
+    mainClassName = 'com.esri.samples.local_server_services.LocalServerServicesLauncher'
 }
 
 jar {
