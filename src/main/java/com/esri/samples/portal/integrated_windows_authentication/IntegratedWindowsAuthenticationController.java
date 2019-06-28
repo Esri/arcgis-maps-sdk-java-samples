@@ -78,6 +78,7 @@ public class IntegratedWindowsAuthenticationController {
       // make the list view show a preview of the portal items' map area
       resultsListView.setCellFactory(c -> new PortalItemListCell());
 
+      // hide the progress indicator when the map is finished drawing
       mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
         if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
           progressIndicator.setVisible(false);
