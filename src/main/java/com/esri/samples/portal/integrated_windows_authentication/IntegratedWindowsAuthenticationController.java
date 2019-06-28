@@ -78,6 +78,12 @@ public class IntegratedWindowsAuthenticationController {
       // make the list view show a preview of the portal items' map area
       resultsListView.setCellFactory(c -> new PortalItemListCell());
 
+      mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
+        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+          progressIndicator.setVisible(false);
+        }
+      });
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -187,11 +193,6 @@ public class IntegratedWindowsAuthenticationController {
 
       // show progress indicator while map is drawing
       progressIndicator.setVisible(true);
-      mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
-        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
-          progressIndicator.setVisible(false);
-        }
-      });
 
       loadWebMapTextView.setText("Loaded web map from item " + selectedItem.getItemId());
     }
