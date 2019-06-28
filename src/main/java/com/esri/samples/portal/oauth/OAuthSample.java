@@ -62,10 +62,10 @@ public class OAuthSample extends Application {
       // Authentication --> Redirect URIs
       OAuthConfiguration oAuthConfiguration = new OAuthConfiguration("https://www.arcgis.com/", "lgAdHkYZYlwwfAhC", "urn:ietf:wg:oauth:2.0:oob");
 
-      // setup AuthenticationManager to handle auth challenges
+      // set up the AuthenticationManager to handle auth challenges
       DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
       AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
-      // add an OAuth configuration
+      // add the OAuth configuration
       AuthenticationManager.addOAuthConfiguration(oAuthConfiguration);
 
       // load the portal and add the portal item as a map to the map view
