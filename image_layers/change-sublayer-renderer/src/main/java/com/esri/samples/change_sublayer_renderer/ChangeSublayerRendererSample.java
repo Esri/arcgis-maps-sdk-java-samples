@@ -53,7 +53,7 @@ public class ChangeSublayerRendererSample extends Application {
       // create a border pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // size the stage and add a title
       stage.setTitle("Change Sublayer Renderer Sample");

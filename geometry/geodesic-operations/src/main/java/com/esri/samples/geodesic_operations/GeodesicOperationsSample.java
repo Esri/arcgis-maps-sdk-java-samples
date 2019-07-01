@@ -60,7 +60,7 @@ public class GeodesicOperationsSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Geodesic Operations Sample");

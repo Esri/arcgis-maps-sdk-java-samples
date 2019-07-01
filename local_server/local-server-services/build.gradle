@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
+    id "de.undercouch.download" version "3.4.3"
 }
 
 group = 'com.esri.samples'
@@ -37,6 +38,47 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
 }
 
+task downloadData() {
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/40e0d95e515745ee93b9d06cb75697bc/data"
+        dest 'build/data/local_server/a.zip'
+        overwrite false
+    }
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/b6f669b3b5b941fc8a3f7ac03efbd1a9/data"
+        dest 'build/data/local_server/b.zip'
+        overwrite false
+    }
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/5c10e6c0b8974d16b74d557568105b96/data"
+        dest 'build/data/local_server/c.zip'
+        overwrite false
+    }
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/9053a46b205142f0864682d5152642b5/data"
+        dest 'build/data/local_server/d.zip'
+        overwrite false
+    }
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a9788a0e8ef241ec89182f87f6967ec9/data"
+        dest 'build/data/local_server/e.zip'
+        overwrite false
+    }
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/91087f8d3e6e46b7a0c5987eac379452/data"
+        dest 'build/data/local_server/f.zip'
+        overwrite false
+    }
+}
+
+task unpackData(type: Copy) {
+    dependsOn downloadData
+    from (file("build/data/local_server").listFiles().findAll { f -> f.name.endsWith(".zip") }.collect { f -> zipTree(f) }) {
+        into 'local_server'
+    }
+    into 'samples-data'
+}
+
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -48,7 +90,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives
+    dependsOn copyNatives, unpackData
     mainClassName = 'com.esri.samples.local_server_services.LocalServerServicesLauncher'
 }
 
@@ -64,6 +106,9 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
+    from (unpackData) {
+        into "samples-data"
+    }
     from copyNatives
     from jar.destinationDir
     into (project.name)

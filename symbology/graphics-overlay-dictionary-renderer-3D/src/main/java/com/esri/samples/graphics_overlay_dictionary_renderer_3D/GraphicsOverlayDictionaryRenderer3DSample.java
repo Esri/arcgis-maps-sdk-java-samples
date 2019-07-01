@@ -47,7 +47,6 @@ import static org.joox.JOOX.$;
 public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
 
   private SceneView sceneView;
-  private GraphicsOverlay graphicsOverlay;
 
   @Override
   public void start(Stage stage) {
@@ -68,7 +67,9 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
       ArcGISScene scene = new ArcGISScene(Basemap.Type.IMAGERY);
       sceneView.setArcGISScene(scene);
 
-      graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
+      stackPane.getChildren().add(sceneView);
+
+      GraphicsOverlay graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create symbol dictionary from specification
@@ -84,19 +85,16 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
       List<Map<String, Object>> messages = parseMessages();
 
       // create graphics with attributes and add to graphics overlay
-      messages.stream()
+      List<Graphic> graphics = messages.stream()
           .map(GraphicsOverlayDictionaryRenderer3DSample::createGraphic)
-          .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
+          .collect(Collectors.toList());
+
+      graphicsOverlay.getGraphics().addAll(graphics);
 
       // when the scene loads and the sceneview has a spatial reference, move the camera to show the graphics
-      sceneView.addSpatialReferenceChangedListener(e -> {
-        if (sceneView.getSpatialReference() != null) {
-          sceneView.setViewpointCamera(new Camera(graphicsOverlay.getExtent().getCenter(), 15000, 0, 70, 0));
-        }
-      });
+      sceneView.setViewpointCamera(new Camera((graphicsOverlay.getGraphics().get(0).getGeometry()).getExtent().getCenter(), 15000, 0, 70, 0));
 
       // add the scene view to the stack pane
-      stackPane.getChildren().add(sceneView);
     } catch (Exception ex) {
       // on any exception, print the stacktrace
       ex.printStackTrace();
@@ -108,7 +106,7 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
    */
   private List<Map<String, Object>> parseMessages() throws Exception {
     final List<Map<String, Object>> messages = new ArrayList<>();
-    $(getClass().getResourceAsStream("/symbols/Mil2525DMessages.xml")) // $ reads the file
+    $(getClass().getResourceAsStream("/Mil2525DMessages.xml")) // $ reads the file
         .find("message")
         .each()
         .forEach(message -> {

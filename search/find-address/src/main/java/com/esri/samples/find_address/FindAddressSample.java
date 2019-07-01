@@ -108,7 +108,7 @@ public class FindAddressSample extends Application {
       geocodeParameters.setOutputSpatialReference(mapView.getSpatialReference());
 
       // create a pin graphic
-      Image img = new Image(getClass().getResourceAsStream("/symbols/pin.png"), 0, 80, true, true);
+      Image img = new Image(getClass().getResourceAsStream("/pin.png"), 0, 80, true, true);
       pinSymbol = new PictureMarkerSymbol(img);
       pinSymbol.loadAsync();
 

@@ -50,7 +50,7 @@ public class FeatureLayerExtrusionSample extends Application {
     StackPane stackPane = new StackPane();
     Scene fxScene = new Scene(stackPane);
     // for adding styling to any controls that are added
-    fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+    fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
     // set title, size, and add scene to stage
     stage.setTitle("Feature Layer Extrusion Sample");

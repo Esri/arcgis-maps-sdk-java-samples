@@ -1,7 +1,10 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
+    id "de.undercouch.download" version "3.4.3"
 }
+
+import de.undercouch.gradle.tasks.download.Download
 
 group = 'com.esri.samples'
 
@@ -11,7 +14,7 @@ ext {
 
 javafx {
     version = "11.0.1"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -36,6 +39,18 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
+task downloadData(type: Download) {
+    src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/d98b3e5293834c5f852f13c569930caa/data"
+    dest 'build/data.zip'
+    overwrite false
+}
+
+task unpackData(type: Copy) {
+    dependsOn downloadData
+    from zipTree(downloadData.dest)
+    into './samples-data/auroraCO'
+}
+
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -47,8 +62,8 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives
-    mainClassName = 'com.esri.samples.analyze_hotspots.AnalyzeHotspotsLauncher'
+    dependsOn copyNatives, unpackData
+    mainClassName = 'com.esri.samples.feature_layer_shapefile.FeatureLayerShapefileLauncher'
 }
 
 jar {
@@ -63,6 +78,9 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
+    from (unpackData) {
+        into "samples-data"
+    }
     from copyNatives
     from jar.destinationDir
     into (project.name)

@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.browse_wfs_layers.BrowseWfsLayerLauncher'
+    mainClassName = 'com.esri.samples.browse_wfs_layers.BrowseWfsLayersLauncher'
 }
 
 jar {

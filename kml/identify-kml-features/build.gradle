@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.identify_kml_features.IdentifyKmlFeaturesLauncher'
+    mainClassName = 'com.esri.samples.identify_kml_features.IdentifyKMLFeaturesLauncher'
 }
 
 jar {

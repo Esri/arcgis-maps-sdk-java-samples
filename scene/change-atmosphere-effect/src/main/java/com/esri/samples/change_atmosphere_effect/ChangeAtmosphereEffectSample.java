@@ -48,7 +48,7 @@ public class ChangeAtmosphereEffectSample extends Application {
       // create stack pane and JavaFX app scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Change Atmosphere Effect Sample");

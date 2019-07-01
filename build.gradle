@@ -1,5 +1,5 @@
-task compile {
-    dependsOn gradle.includedBuilds*.task(':compileJava')
+task run {
+    dependsOn gradle.includedBuilds*.task(':run')
 }
 
 wrapper {

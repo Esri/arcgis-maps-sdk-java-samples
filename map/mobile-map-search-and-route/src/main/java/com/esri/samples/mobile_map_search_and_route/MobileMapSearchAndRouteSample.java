@@ -160,7 +160,7 @@ public class MobileMapSearchAndRouteSample extends Application {
               ImageView locatorImageView = new ImageView();
               locatorImageView.setFitHeight(20);
               locatorImageView.setPreserveRatio(true);
-              locatorImageView.setImage(new Image(getClass().getResourceAsStream("/icons/pinOutlineSymbol.png")));
+              locatorImageView.setImage(new Image(getClass().getResourceAsStream("/pinOutlineSymbol.png")));
               hBox.getChildren().add(locatorImageView);
             }
 
@@ -169,7 +169,7 @@ public class MobileMapSearchAndRouteSample extends Application {
               ImageView routingImageView = new ImageView();
               routingImageView.setFitHeight(20);
               routingImageView.setPreserveRatio(true);
-              routingImageView.setImage(new Image(getClass().getResourceAsStream("/icons/routingSymbol.png")));
+              routingImageView.setImage(new Image(getClass().getResourceAsStream("/routingSymbol.png")));
               hBox.getChildren().add(routingImageView);
             }
             setGraphic(hBox);
@@ -186,7 +186,7 @@ public class MobileMapSearchAndRouteSample extends Application {
       // create a graphics overlay for showing geocoded locations (for when the mobile map package has a locator task)
       GraphicsOverlay locationsGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(locationsGraphicsOverlay);
-      Image img = new Image(getClass().getResourceAsStream("/symbols/pin.png"), 0, 80, true, true);
+      Image img = new Image(getClass().getResourceAsStream("/pin.png"), 0, 80, true, true);
       PictureMarkerSymbol pinSymbol = new PictureMarkerSymbol(img);
       pinSymbol.loadAsync();
 

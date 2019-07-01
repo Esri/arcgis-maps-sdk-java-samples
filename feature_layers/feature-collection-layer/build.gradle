@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.analyze_hotspots.AnalyzeHotspotsLauncher'
+    mainClassName = 'com.esri.samples.feature_collection_layer.FeatureCollectionLayerLauncher'
 }
 
 jar {

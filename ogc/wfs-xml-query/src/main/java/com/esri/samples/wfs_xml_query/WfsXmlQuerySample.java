@@ -78,7 +78,7 @@ public class WfsXmlQuerySample extends Application {
 
     // create an XML query to retrieve trees of genus Tilia.
     // To learn more about specifying filters in OGC technologies, see https://www.opengeospatial.org/standards/filter.
-    String xmlQuery = IOUtils.toString(WfsXmlQuerySample.class.getResourceAsStream("/xml/SeattleTreeQuery.xml"), StandardCharsets.UTF_8.name());
+    String xmlQuery = IOUtils.toString(WfsXmlQuerySample.class.getResourceAsStream("/SeattleTreeQuery.xml"), StandardCharsets.UTF_8.name());
 
     // populate the WFS feature table with XML query
     wfsFeatureTable.populateFromServiceAsync(xmlQuery, true).addDoneListener(() -> {

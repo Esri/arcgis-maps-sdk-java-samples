@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
+    id "de.undercouch.download" version "3.4.3"
 }
 
 group = 'com.esri.samples'
@@ -36,6 +37,30 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
+task downloadData() {
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f31ea54e460e4439848557ab722baa0b/data"
+        dest 'build/data/shapefiles/shapefile.zip'
+        overwrite false
+    }
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/5c10e6c0b8974d16b74d557568105b96/data"
+        dest 'build/data/local_server/mmpk_blank.zip'
+        overwrite false
+    }
+}
+
+task unpackData(type: Copy) {
+    dependsOn downloadData
+    from (file("build/data/shapefiles").listFiles().findAll { f -> f.name.endsWith(".zip") }.collect { f -> zipTree(f) }) {
+        into 'shapefiles'
+    }
+    from (file("build/data/local_server").listFiles().findAll { f -> f.name.endsWith(".zip") }.collect { f -> zipTree(f) }) {
+        into 'local_server'
+    }
+    into 'samples-data'
+}
+
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -47,7 +72,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives
+    dependsOn copyNatives, unpackData
     mainClassName = 'com.esri.samples.local_server_dynamic_workspace_shapefile.LocalServerDynamicWorkspaceShapefileLauncher'
 }
 
@@ -63,6 +88,9 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
+    from (unpackData) {
+        into "samples-data"
+    }
     from copyNatives
     from jar.destinationDir
     into (project.name)

@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.closest_facility.CloseFacilityLauncher'
+    mainClassName = 'com.esri.samples.closest_facility.ClosestFacilityLauncher'
 }
 
 jar {

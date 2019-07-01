@@ -77,9 +77,9 @@ public class PlayAKMLTourSample extends Application {
 
       // create play/pause button
       final ImageView playIcon = new ImageView(new Image(PlayAKMLTourSample.class.getResourceAsStream(
-          "/icons/play.png")));
+          "/play.png")));
       final ImageView pauseIcon = new ImageView(new Image(PlayAKMLTourSample.class.getResourceAsStream(
-          "/icons/pause.png")));
+          "/pause.png")));
 
       Button playPauseButton = new Button();
       playPauseButton.setGraphic(playIcon);
@@ -95,7 +95,7 @@ public class PlayAKMLTourSample extends Application {
 
       // create replay button
       final ImageView replayIcon = new ImageView(new Image(PlayAKMLTourSample.class.getResourceAsStream(
-          "/icons/replay.png")));
+          "/replay.png")));
 
       Button replayButton = new Button();
       replayButton.setGraphic(replayIcon);

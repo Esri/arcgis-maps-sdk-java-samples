@@ -1,7 +1,10 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
+    id "de.undercouch.download" version "3.4.3"
 }
+
+import de.undercouch.gradle.tasks.download.Download
 
 group = 'com.esri.samples'
 
@@ -11,7 +14,7 @@ ext {
 
 javafx {
     version = "11.0.1"
-    modules = [ 'javafx.controls', 'javafx.web', 'javafx.fxml', 'javafx.swing' ]
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -36,17 +39,17 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task downloadData {
-    description = "Downloads data from AGOL for samples with offline data"
-
-    def samplesData = './samples-data'
-    if (!file(samplesData).exists()) {
-        mkdir(samplesData)
-    }
-    downloadSampleData([new Download(id: '296269901180442a88a3351640ff2262')], 'bristol')
+task downloadData(type: Download) {
+    src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/296269901180442a88a3351640ff2262/data"
+    dest 'build/data.zip'
+    overwrite false
 }
 
-def nativeLibrariesPath = "${System.properties.getProperty("user.home")}/.arcgis/$arcgisVersion";
+task unpackData(type: Copy) {
+    dependsOn downloadData
+    from zipTree(downloadData.dest)
+    into './samples-data/bristol'
+}
 
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
@@ -55,47 +58,35 @@ task copyNatives(type: Copy) {
         from(zipTree(it))
     }
     // store native libraries in a common location shared with other samples
-    into nativeLibrariesPath
+    into "${System.properties.getProperty("user.home")}/.arcgis/$arcgisVersion"
 }
 
 run {
-    dependsOn copyNatives
-    mainClassName = 'com.esri.samples.Animate3dGraphicSample'
-    // set environment variable so native libraries can be found at runtime
-    environment "ARCGISRUNTIMESDKJAVA_100_5_0", nativeLibrariesPath
+    dependsOn copyNatives, unpackData
+    mainClassName = 'com.esri.samples.animate_3d_graphic.Animate3dGraphicLauncher'
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes("Main-Class": "$mainClassName")
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+task productionZip(type: Zip) {
+    group = 'distribution'
+    from (unpackData) {
+        into "samples-data"
+    }
+    from copyNatives
+    from jar.destinationDir
+    into (project.name)
+    baseName = project.name
 }
 
 wrapper {
     gradleVersion = '5.0'
-}
-
-// downloads a portal item's contents to a folder in samples-data
-void downloadSampleData(List<Download> downloads, folderName) {
-    def downloadFolder = "./samples-data/$folderName"
-    if (!file(downloadFolder).exists()) {
-        downloads.each { download ->
-            def downloadFileName = "${download.name}.${download.ext}"
-            ant.get(src: "https://arcgisruntime.maps.arcgis" +
-                    ".com/sharing/rest/content/items/${download.id}/data",
-                    dest: downloadFileName)
-            if (download.ext == "zip") {
-                copy {
-                    from zipTree(downloadFileName)
-                    into(downloadFolder)
-                }
-            } else {
-                copy {
-                    from downloadFileName
-                    into downloadFolder
-                }
-            }
-            delete(downloadFileName)
-        }
-    }
-}
-
-class Download {
-    String id
-    String name = "data"
-    String ext = "zip"
 }

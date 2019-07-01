@@ -141,7 +141,7 @@ public class OfflineGeocodeSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a pin graphic
-      Image img = new Image(getClass().getResourceAsStream("/symbols/pin.png"), 0, 80, true, true);
+      Image img = new Image(getClass().getResourceAsStream("/pin.png"), 0, 80, true, true);
       pinSymbol = new PictureMarkerSymbol(img);
       pinSymbol.loadAsync();
 

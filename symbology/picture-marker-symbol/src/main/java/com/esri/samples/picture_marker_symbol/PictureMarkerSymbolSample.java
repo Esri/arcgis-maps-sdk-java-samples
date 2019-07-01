@@ -89,7 +89,7 @@ public class PictureMarkerSymbolSample extends Application {
       }
 
       // create blue picture marker symbol from local
-      Image newImage = new Image("/symbols/blue_symbol.png");
+      Image newImage = new Image("/blue_symbol.png");
       PictureMarkerSymbol blueSymbol = new PictureMarkerSymbol(newImage);
       // place blue picture marker symbol on ArcGISMap
       placePictureMarkerSymbol(blueSymbol, middlePoint);
@@ -162,7 +162,7 @@ public class PictureMarkerSymbolSample extends Application {
       orangeSymbolPath = File.createTempFile("orange_symbol", ".png");
 
       // save image from resources folder to computer's disk
-      Image orangeImage = new Image("symbols/orange_symbol.png");
+      Image orangeImage = new Image("orange_symbol.png");
 
       ImageIO.write(SwingFXUtils.fromFXImage(orangeImage, null), "png", orangeSymbolPath.getAbsoluteFile());
 
