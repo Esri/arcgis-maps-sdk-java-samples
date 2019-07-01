@@ -1,7 +1,3 @@
-task run {
-    dependsOn gradle.includedBuilds*.task(':run')
-}
-
 wrapper {
     gradleVersion = '5.0'
 }
