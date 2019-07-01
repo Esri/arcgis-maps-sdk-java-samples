@@ -10,7 +10,7 @@
 
 <h2>How to use the sample</h2>
 
-<p>Click 'find service areas' to calculate and display the service area of each facility on the map. The polygons displayed around each facility represents the service area; in red is the area that is within 3 minutes away from the hospital by car. Light orange is the area that is within 5 minutes away from the hospital by car. All polygons have transparency to them, so that when service areas from multiple facilities overlap, these areas will appear in bolder colors.</p>
+<p>Click 'find service areas' to calculate and display the service area of each facility on the map. The polygons displayed around each facility represents the service area; in red is the area that is within 1 minute away from the hospital by car. Light orange is the area that is within 3 minutes away from the hospital by car. All polygons have transparency to them, so that when service areas from multiple facilities overlap, these areas will appear in bolder colors.</p>
 
 <h2>How it works</h2>
 
