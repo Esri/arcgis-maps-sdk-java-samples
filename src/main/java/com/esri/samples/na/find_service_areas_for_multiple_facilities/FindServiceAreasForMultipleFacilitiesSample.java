@@ -17,6 +17,7 @@
 package com.esri.samples.na.find_service_areas_for_multiple_facilities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -106,8 +107,8 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
 
     // create a symbol used to display the facilities
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
-    facilitySymbol.setHeight(50);
-    facilitySymbol.setWidth(50);
+    facilitySymbol.setHeight(25);
+    facilitySymbol.setWidth(25);
     // set the renderer of the facilities feature layer to use the facilities symbol
     facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
@@ -154,8 +155,9 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
               // set the task parameters to have the task return polygons
               serviceAreaParameters.setPolygonDetail(ServiceAreaPolygonDetail.HIGH);
               serviceAreaParameters.setReturnPolygons(true);
-              // add a service area of 3 minutes travel time by car in addition to the default of 5 minutes travel time
-              serviceAreaParameters.getDefaultImpedanceCutoffs().add(3.0);
+              // clear the default service area, and add service areas of 1 minute and 3 minutes travel time by car
+              serviceAreaParameters.getDefaultImpedanceCutoffs().clear();
+              serviceAreaParameters.getDefaultImpedanceCutoffs().addAll(Arrays.asList(1.0, 3.0));
 
               // create query parameters used to select all facilities from the feature table
               QueryParameters queryParameters = new QueryParameters();
