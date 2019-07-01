@@ -1,42 +1,41 @@
-<h1>OAuth</h1>
+<h1>Authenticate with OAuth</h1>
 
-<p>Authenticate with OAuth 2.0 to retrieve the user's profile information.</p> 
+<p>Authenticate with ArcGIS Online (or your own portal) using OAuth2 to access secured resources (such as private web maps or layers). Accessing secured items requires logging in to the portal that hosts them (an ArcGIS Online account, for example).</p>
 
-<p><img src="OAuth.png"/></p>
+<p><img src="authenticate-with-oauth.png"/></p>
+
+<h2>Use case</h2>
+
+<p>Your app may need to access items that are only shared with authorized users. For example, your organization may host private data layers or feature services that are only accessible to verified users. You may also need to take advantage of premium ArcGIS Online services, such as geocoding or routing services, which require a named user login.</p>
 
 <h2>How to use the sample</h2>
 
-<p>This sample requires you to setup your own app on arcgis.com. See the <a href="https://github.com/Esri/arcgis-runtime-samples-java/wiki/OAuth">wiki</a> for details.</p>
-
-<p>Enter the details of the application registered on arcgis.com and click sign-in.
-This will open a sign-in dialog. After the credentials are entered correctly, the sample
-will receive an authorization code from the ArcGIS platform. This authorization code will then be used to obtain an
-access token. This access token is used later to access user's profile.</p>
+<p>When you run the sample, the app will load a web map which contains premium content. You will be challenged for an ArcGIS Online login to view the private layers. Enter a user name and password for an ArcGIS Online named user account (such as your ArcGIS for Developers account). If you authenticate successfully, the traffic layer will display, otherwise the map will contain only the public basemap layer.</p>
 
 <h2>How it works</h2>
 
 <ol>
-    <li>Setup an <code>OAuthConfiguration</code> with the settings of an application registered in the ArcGIS platform.</li>
-    <li>Setup an <code>AuthenticationChallengeHandler</code> that challenges the user for authentication. You could
-    create a custom handler similar to the one created in this sample: <code>OAuthChallengeHandler</code>.</li>
-    <li>On trying to access a secured resource, the authentication challenge in invoked.</li>
-    <li><code>OAuthChallengeHandler</code> directs the user to a sign-in page (using a <code>WebView</code>) from ArcGIS platform.</li>
-    <li>On successful sign-in, the ArcGIS platform provides an authorization code.</li>
-    <li>Use the authorization code to create a <code>OAuthTokenCredentialRequest</code>. This will be used by the Runtime
-    to request an access token. The access token is then used to request a secured resource in the ArcGIS platform.</li>
+   <li> Set the `AuthenticationManager`'s `AuthenticationChallengeHandler` to the `DefaultAuthenticationChallengeHandler`.</li> 
+    <li> Create an `OAuthConfiguration` specifying the portal URL, client ID, and redirect URL.</li> 
+    <li> Add the OAuth configuration to the authentication manager.</li> 
+    <li> Load a map with premium content requiring authentication to automatically invoke the default authentication handler.</li> 
 </ol>
 
 <h2>Relevant API</h2>
 
 <ul>
-    <li>AuthenticationChallengeHandler</li>
-    <li>OAuthConfiguration</li>
-    <li>OAuthTokenCredential</li>
-    <li>OAuthTokenCredentialRequest</li>
-    <li>Portal</li>
-    <li>PortalUser</li>
+  <li>AuthenticationManager</li>
+  <li>AuthenticationChallengeHandler</li>
+  <li>OAuthConfiguration</li>
+  <li>PortalItem</li>
 </ul>
 
 <h2>Additional information</h2>
 
-<p>The JavaFX <code>WebEngine</code> used in the <code>OAuthChallengeHandler</code> in this sample may not support rendering of some modern web elements returned by the <code>AuthorizationURL</code>. For this reason, we append <code>&display=classic</code> to the authorization URL, to ensure it renders properly.</p>
+<p>The workflow presented in this sample works for all SAML based enterprise (IWA, PKI, Okta, etc.) &amp; social (facebook, google, etc.) identify providers for ArcGIS Online or Portal. More information can be found <a href="https://doc.arcgis.com/en/arcgis-online/administer/enterprise-logins.htm">here</a>.</p>
+
+<p>For additional information on using Oauth in your app, see the <a href="https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/">Mobile and Native Named User Login</a> topic in our guide.</p>
+
+<h2>Tags</h2>
+
+<p>authentication, cloud, credential ,portal, security</p>
