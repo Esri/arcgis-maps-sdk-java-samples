@@ -1,0 +1,29 @@
+{
+    "category": "Symbology",
+    "description": "@@TODO: Display MIL-STD-2525. military symbology in 3D.",
+    "ignore": false,
+    "images": [
+        "GraphicsOverlayDictionaryRenderer3D.png"
+    ],
+    "keywords": [
+        "Graphics",
+        "Symbology",
+        "3D",
+        "GraphicsOverlay",
+        "DictionaryRenderer",
+        "DictionarySymbolStyle"
+    ],
+    "redirect_from": "/java/latest/sample-code/graphics-overlay-dictionary-renderer-3d.htm",
+    "relevant_apis": [
+        "GraphicsOverlay",
+        "DictionaryRenderer",
+        "DictionarySymbolStyle"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/resources/Mil2525DMessages.xml",
+        "src/main/java/com/esri/samples/graphics_overlay_dictionary_renderer_3D/GraphicsOverlayDictionaryRenderer3DSample.java",
+        "src/main/java/com/esri/samples/graphics_overlay_dictionary_renderer_3D/GraphicsOverlayDictionaryRenderer3DLauncher.java"
+    ],
+    "title": "@@TODO: Graphics Overlay Dictionary Renderer 3D"
+}
