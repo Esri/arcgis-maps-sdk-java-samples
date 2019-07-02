@@ -8,8 +8,7 @@ An RGB renderer is used to adjust the color bands of a multispectral image.
 
 ## How to use the sample
 
-Choose one of the stretch parameter types. The other options will adjust based on the chosen type. Add your 
-inputs and press the Update button to update the renderer.
+Choose one of the stretch parameter types. The other options will adjust based on the chosen type. Add your inputs and press the Update button to update the renderer.
 
 ## How it works
 
@@ -30,4 +29,3 @@ To apply a `RgbRenderer` to a `RasterLayer`:
 *   RasterLayer
 *   RgbRenderer
 *   StretchParameters
-

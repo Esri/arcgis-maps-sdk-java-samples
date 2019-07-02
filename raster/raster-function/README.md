@@ -2,8 +2,7 @@
 
 Apply a raster function to a raster.
 
-Raster functions are operations performed on a raster to apply on-the-fly processing. In this sample, a hillshade 
-raster function is applied to an online raster image service.
+Raster functions are operations performed on a raster to apply on-the-fly processing. In this sample, a hillshade raster function is applied to an online raster image service.
 
 ![](RasterFunction.png)
 
@@ -28,4 +27,3 @@ To create a `RasterLayer` using a `RasterFunction` and add it to the map:
 *   RasterFunction
 *   RasterFunctionArguments
 *   RasterLayer
-

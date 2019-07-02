@@ -27,4 +27,3 @@ To change the `ArcGISMap`'s `Basemap`:
 *   Basemap
 *   Basemap.Type
 *   MapView
-

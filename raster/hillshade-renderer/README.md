@@ -28,4 +28,3 @@ To apply a `HillshadeRenderer` to a `RasterLayer`:
 *   MapView
 *   Raster
 *   RasterLayer
-

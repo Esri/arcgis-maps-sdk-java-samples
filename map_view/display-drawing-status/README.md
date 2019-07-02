@@ -26,4 +26,3 @@ To use the `MapView`'s `DrawStatus`:
 *   FeatureLayer
 *   MapView
 *   Point
-

@@ -2,7 +2,7 @@
 
 Display a web scene.
 
-Just like Web Maps are the ArcGIS format for maps, Web Scenes are the ArcGIS format for scenes. These scenes can 
+Just like Web Maps are the ArcGIS format for maps, Web Scenes are the ArcGIS format for scenes. These scenes can
 be stored in ArcGIS Online or Portal.
 
 ![](OpenScenePortalItem.png)
@@ -19,4 +19,3 @@ To open a web scene:
 *   ArcGISScene
 *   Portal
 *   PortalItem
-

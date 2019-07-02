@@ -1,7 +1,7 @@
 # Scene Layer
 
 Display a scene layer with 3.  buildings.
-  
+
 ![](SceneLayer.png)
 
 ## How it works
@@ -22,4 +22,3 @@ To add an `ArcGISSceneLayer` to a scene:
 *   Camera
 *   SceneView
 *   Surface
-

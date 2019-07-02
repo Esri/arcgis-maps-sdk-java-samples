@@ -4,7 +4,7 @@ Synchronize the viewpoints between a `MapView` and a `SceneView`.
 
 The two `GeoViews` share a common `ViewPoint`. When navigating in one view, the other view is immediately updated to display the same `ViewPoint`.
 
-![](SyncMapAndSceneViewpoints.png" />
+![](SyncMapAndSceneViewpoints.png)
 
 ## How to use the sample
 
@@ -13,7 +13,6 @@ Interact with the map by panning, zooming or rotating the map or scene view. The
 ## How it works
 
 `MapView` and `SceneView` inherit from the `GeoView` parent class. When the `GeoView`'s viewpoint has changed, a listener can be added and allow the viewpoint of the other `GeoView` to be set and synchronized.
-
 1.  Create a `MapView` and a `SceneView`.
 2.  Add a viewpoint changed listener to each `GeoView` with `geoView.addViewpointChangedListener(viewpointChangedEvent)`.
 3.  Check if the `GeoView` is being navigated with `geoView.isNavigating()`.
@@ -23,12 +22,9 @@ Interact with the map by panning, zooming or rotating the map or scene view. The
 ## Relevant API
 
 *   GeoView
-
 *   Viewpoint
-
 *   ViewpointChangedEvent
 
 ## Tags
 
-<p>2D, 3D, view synchronisation, Viewpoint, Scene, Map
-
+2D, 3D, view synchronisation, Viewpoint, Scene, Map

@@ -27,4 +27,3 @@ To get a `Feature` from a `ServiceFeatureTable` and update its attributes:
 *   FeatureLayer
 *   MapView
 *   ServiceFeatureTable
-

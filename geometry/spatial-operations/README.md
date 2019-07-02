@@ -6,9 +6,7 @@ Find the union, difference, or intersection of two geometries.
 
 ## How to use the sample
 
-The sample provides a drop down on the top, where you can select a geometry operation. When you choose a geometry 
-operation, the application performs this operation between the overlapping polygons and applies the result to the 
-geometries.
+The sample provides a drop down on the top, where you can select a geometry operation. When you choose a geometry operation, the application performs this operation between the overlapping polygons and applies the result to the geometries.
 
 ## How it works
 
@@ -29,4 +27,3 @@ To find the union, difference, intersection, or symmetric difference between `Po
 *   PointCollection
 *   SimpleLineSymbol
 *   SimpleFillSymbol
-

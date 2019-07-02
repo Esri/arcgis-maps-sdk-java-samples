@@ -28,4 +28,3 @@ To query a `Feature` from your `FeatureLayer`:
 *   MapView
 *   QueryParameters
 *   ServiceFeatureTable
-

@@ -2,9 +2,7 @@
 
 Cache features on the client when the user interacts.
 
-On-interaction-cache mode will fetch features within the current extent when needed (performing a pan or zoom) from 
-the server and caches those features within a table on the client's side. Any queries performed on features within 
-that table will be performed locally, otherwise they will be requested from the server.
+On-interaction-cache mode will fetch features within the current extent when needed (performing a pan or zoom) from the server and caches those features within a table on the client's side. Any queries performed on features within that table will be performed locally, otherwise they will be requested from the server.
 
 ![](ServiceFeatureTableCache.png)
 
@@ -22,4 +20,3 @@ How to set `FeatureRequestMode.ON_INTERACTION_CACHE` mode:
 *   MapView
 *   ServiceFeatureTable
 *   ServiceFeatureTable.FeatureRequestMode
-

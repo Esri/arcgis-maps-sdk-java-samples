@@ -19,4 +19,3 @@ To add a`RasterLayer` as an operational layer from a local raster file:
 *   MapView
 *   Raster
 *   RasterLayer
-

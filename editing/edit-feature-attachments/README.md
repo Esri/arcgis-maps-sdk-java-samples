@@ -33,4 +33,3 @@ To get a `Feature` from a `ServiceFeatureTable` and add or delete `Attachment`:
 *   FeatureLayer
 *   MapView
 *   ServiceFeatureTable
-

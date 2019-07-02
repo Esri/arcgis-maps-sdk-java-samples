@@ -5,6 +5,7 @@ Find a route to the closest facility from a location.
 ![](ClosestFacility.png)
 
 ## How to use sample
+
 Left click near any of the hospitals and a route will be displayed from that clicked location to the nearest hospital.
 
 ## How it works
@@ -19,9 +20,9 @@ To display a `ClosestFacilityRoute` between an `Incident` and a `Facility`:
 6.  Get index list of closet facilities to incident, `facilityResult.getRankedFacilities(0)`
 7.  Get index of closest facility, `rankedFacilitiesList.get(0)`
 8.  Find closest facility route, `facilityResult.getRoute(closestFacilityIndex, IncidentIndex)`
-9.  Display route to `MapView`. 
-*   create `Graphic` from route geometry, `new Graphic(route.getRouteGeometry())`
-*   add graphic to `GraphicsOverlay` which is attached to the mapview
+9.  Display route to `MapView`.
+    *   create `Graphic` from route geometry, `new Graphic(route.getRouteGeometry())`
+    *   add graphic to `GraphicsOverlay` which is attached to the mapview
 
 ## Relevant API
 
@@ -34,4 +35,3 @@ To display a `ClosestFacilityRoute` between an `Incident` and a `Facility`:
 *   GraphicsOverlay
 *   Incident
 *   MapView
-

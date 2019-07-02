@@ -19,4 +19,3 @@ To display a `KMLLayer`:
 *   KmlLayer
 *   Portal
 *   PortalItem
-

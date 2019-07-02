@@ -1,7 +1,7 @@
 # Symbol Dictionary
 
 Find symbols within the mil2525.  specification that match a keyword.
-  
+
 ![](SymbolDictionary.png)
 
 ## Use case
@@ -18,8 +18,7 @@ Click the Clear button to clear previous search results.
 
 ## How it works
 
-1.  Create a symbol dictionary with the mil2525.  specification by passing the string "mil2525d" to the 
-  `SymbolDictionary` constructor.
+1.  Create a symbol dictionary with the mil2525.  specification by passing the string "mil2525d" to the `SymbolDictionary` constructor.
 2.  Create `StyleSymbolSearchParameters`.
 3.  Add members to the names, tags, symbolClasses, categories, and keys list fields of the search parameters.
 4.  Search for symbols using the parameters with `symbolDictionary.searchSymbolsAsync(styleSymbolSearchParameters)`.
@@ -36,4 +35,3 @@ Click the Clear button to clear previous search results.
 
 CIM, MIL-STD-2525B, MIL-STD-2525C, MIL-STD-2525D, defense, look up, mil2525b, mil2525c, mil2525d, military, military
  symbology, symbology
-

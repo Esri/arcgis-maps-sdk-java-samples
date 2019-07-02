@@ -25,4 +25,3 @@ To change visibility of a `ArcGISSubLayer` from your `ArcGISMap`:
 *   Basemap
 *   MapView
 *   SubLayerList
-

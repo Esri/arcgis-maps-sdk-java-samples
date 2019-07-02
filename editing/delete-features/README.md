@@ -27,4 +27,3 @@ To delete a `Feature` from a `ServiceFeatureTable`:
 *   FeatureLayer
 *   MapView
 *   ServiceFeatureTable
-

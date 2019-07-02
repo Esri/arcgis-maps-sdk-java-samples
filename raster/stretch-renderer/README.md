@@ -2,9 +2,7 @@
 
 Apply a stretch renderer to a raster.
 
-A stretch renderer can be used to stretch tightly grouped values 
-across the available value spectrum, creating more contrast between objects. This is useful for identifying objects 
-in dark images.
+A stretch renderer can be used to stretch tightly grouped values across the available value spectrum, creating more contrast between objects. This is useful for identifying objects in dark images.
 
 ![](StretchRenderer.png)
 
@@ -31,4 +29,3 @@ To apply a `StretchRenderer` to a `RasterLayer`:
 *   RasterLayer
 *   StretchParameters
 *   StretchRenderer
-

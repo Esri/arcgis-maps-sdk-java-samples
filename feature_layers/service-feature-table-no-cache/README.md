@@ -20,4 +20,3 @@ How to set `FeatureRequestMode.ON_INTERACTION_NO_CAHCE` mode:
 *   MapView
 *   ServiceFeatureTable
 *   ServiceFeatureTable.FeatureRequestMode
-

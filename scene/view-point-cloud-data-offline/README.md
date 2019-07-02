@@ -11,7 +11,6 @@ Point clouds are often used to visualize massive sets of sensor data such as lid
 ## How it works
 
 1.  Create a `PointCloudLayer` with the path to a local .slpk file containing a point cloud layer.
-
 2.  Add the layer to a scene's operational layers collection.
 
 ## Relevant API
@@ -20,9 +19,7 @@ Point clouds are often used to visualize massive sets of sensor data such as lid
 
 ## About the data
 
-This point cloud data comes from Balboa Park in San Diego, California. Created and provided by USGS.
-
-The points are colored by elevation on a spectrum from red (higher elevation) to blue (lower elevation).
+This point cloud data comes from Balboa Park in San Diego, California. Created and provided by USGS. The points are colored by elevation on a spectrum from red (higher elevation) to blue (lower elevation).
 
 ## Additional information
 

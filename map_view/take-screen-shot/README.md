@@ -6,8 +6,7 @@ Export an area of the map as an image.
 
 ## How to use this Sample
 
-Click the Take Screenshot button to export the image. In the file chooser that opens, set a file name and location to
- save the image.
+Click the Take Screenshot button to export the image. In the file chooser that opens, set a file name and location to save the image.
 
 ## How it works
 
@@ -20,4 +19,3 @@ To export the visible area of the `ArcGISMap` as an image file:
 
 *   ArcGISMap
 *   MapView
-

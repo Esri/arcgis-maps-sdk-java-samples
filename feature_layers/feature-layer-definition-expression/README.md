@@ -22,4 +22,3 @@ To limit the `Feature`s in your `FeatureLayer`:
 *   FeatureLayer
 *   MapView
 *   ServiceFeatureTable
-

@@ -13,7 +13,7 @@ Tap the map to add points. Each point will use the buffer distance entered when 
 To union multiple buffers:
 
 1.  Call `GeometryEngine.buffer(points, distances, union)` where `points` are the points to buffer around, `distances` are the buffer distances for each point (in meters) and `union` is a boolean for whether the results should be unioned.
-  <li>Use the result polygons (if not unioned) or single polygon (if unioned).
+2.  Use the result polygons (if not unioned) or single polygon (if unioned).
 
 ## Relevant API
 
@@ -23,6 +23,6 @@ To union multiple buffers:
 
 The properties of the underlying projection determine the accuracy of buffer polygons in a given area. Planar buffers are generally more accurate if made over small areas in a suitable spatial reference, such as the correct UTM zone or state plane system for the area of interest. Note that inaccurate buffers could still be created by buffering points inside the spatial reference's envelope with distances that move it outside the envelope.</p>
 
-<h2 id="tags">Tags</h2>
+## Tags
 
 Analysis, Buffer, GeometryEngine

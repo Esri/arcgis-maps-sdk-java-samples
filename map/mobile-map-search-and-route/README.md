@@ -6,11 +6,7 @@ Use locators and networks saved in an offline map.
 
 ## How to use the sample
 
-Click the "Open mobile map package" button to bring up a file choosing dialog. Browse to and select a .mmpk file.
-When chosen, the maps inside the mobile map package will be displayed in a list view. If the mobile map package has a locator task,
-the list items will have a pin icon. If the map contains transportation networks, it will have a navigation icon.
-Click on a map list item to open it. Click on the map to reverse geocode the clicked locations's address if a locator task is available.
-If transportation networks are available, a route will be calculated between geocode locations.
+Click the "Open mobile map package" button to bring up a file choosing dialog. Browse to and select a .mmpk file. When chosen, the maps inside the mobile map package will be displayed in a list view. If the mobile map package has a locator task, the list items will have a pin icon. If the map contains transportation networks, it will have a navigation icon. Click on a map list item to open it. Click on the map to reverse geocode the clicked locations's address if a locator task is available. If transportation networks are available, a route will be calculated between geocode locations.
 
 ## How it works
 
@@ -33,4 +29,5 @@ To search and route from a mobile map package:
 *   TransportationNetworkDataset
 
 ## Tags
+
 Offline, Routing, Search

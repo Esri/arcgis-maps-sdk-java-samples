@@ -23,9 +23,9 @@ To display the `ArcGISMap`'s `Bookmark`s:
 2.  Create a `BookmarkList` from the ArcGIS map, `ArcGISMap.getBookmarks()`.
 3.  Set the map to the `MapView`, `MapView.setMap()`.
 4.  To create a new bookmark
-*   use `MapView.getCurrentViewpoint()` to set the bookmark's viewpoint
-*   bookmark.name for the name of the bookmark
-*   add new bookmark to book mark list, `BookmarkList.add()`
+    *   use `MapView.getCurrentViewpoint()` to set the bookmark's viewpoint
+    *   bookmark.name for the name of the bookmark
+    *   add new bookmark to book mark list, `BookmarkList.add()`
 
 ## Relevant API
 
@@ -35,4 +35,3 @@ To display the `ArcGISMap`'s `Bookmark`s:
 *   BookmarkList
 *   MapView
 *   Viewpoint
-

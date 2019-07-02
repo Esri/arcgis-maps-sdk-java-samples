@@ -22,4 +22,3 @@ To create a `Geodatabase` and display it as a `FeatureLayer`:
 *   GeodatabaseFeatureTable
 *   Map
 *   MapView
-

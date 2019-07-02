@@ -23,4 +23,3 @@ To open a web map:
 *   MapView
 *   Portal
 *   PortalItem
-

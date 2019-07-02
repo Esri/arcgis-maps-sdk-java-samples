@@ -1,7 +1,7 @@
 # Feature Layer Shapefile
 
 Display features from a local shapefile.
-  
+
 ![](FeatureLayerShapefile.png)
 
 ## How it works
@@ -16,4 +16,3 @@ To show a shapefile as a feature layer:
 
 *   FeatureLayer
 *   ShapefileFeatureTable
-

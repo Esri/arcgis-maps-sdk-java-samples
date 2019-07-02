@@ -25,4 +25,3 @@ To change the `FeatureLayer`'s `Renderer`:
 *   Renderer
 *   ServiceFeatureTable
 *   SimpleRenderer
-

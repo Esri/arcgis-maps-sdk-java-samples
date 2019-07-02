@@ -18,4 +18,3 @@ To add `Feature`s from your `FeatureLayer` to an `ArcGISMap`.
 *   FeatureLayer
 *   MapView
 *   ServiceFeatureTable
-

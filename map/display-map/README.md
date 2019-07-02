@@ -16,4 +16,3 @@ To display a `ArcGISMap`:
 *   ArcGISMap
 *   Basemap
 *   MapView
-

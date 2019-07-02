@@ -24,4 +24,3 @@ To identify features from layers in a map:
 *   FeatureTable
 *   IdentifyLayerResult
 *   MapView
-

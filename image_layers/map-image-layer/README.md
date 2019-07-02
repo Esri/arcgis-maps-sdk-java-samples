@@ -19,4 +19,3 @@ To add an `ArcGISMapImageLayer` to your `ArcGISMap` using its URL:
 *   ArcGISMapImageLayer
 *   ArcGISMap
 *   MapView
-

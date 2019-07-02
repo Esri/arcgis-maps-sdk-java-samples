@@ -24,4 +24,3 @@ How to set `FeatureRequestMode.MANUAL_CACHE` mode:
 *   MapView
 *   ServiceFeatureTable
 *   ServiceFeatureTable.FeatureRequestMode
-

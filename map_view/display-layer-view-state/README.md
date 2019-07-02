@@ -7,15 +7,15 @@ Determine if a layer is currently visible.
 ## How to use the sample
 
 The view state of a layer changes while the layer is loading, like the start of the application. If you pan or zoom the map, the view state of some layers should also change.
-  The LayerViewStatus could be:
-  
+
+The LayerViewStatus could be:
+
 *   ACTIVE
 *   ERROR
 *   LOADING
 *   NOT_VISIBLE
 *   OUT_OF_SCALE
 *   UNKNOWN
-  
 
 ## How it works
 
@@ -34,4 +34,3 @@ To get a layer's view state:
 *   LayerViewStateChangedEvent
 *   MapView
 *   Viewpoint
-

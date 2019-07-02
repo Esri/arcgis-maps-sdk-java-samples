@@ -2,15 +2,9 @@
 
 Find transformations to other spatial references suitable to the point's location.
 
-Demonstrates how to use the TransformationCatalog to get a list of available DatumTransformations that
- can be used to project a Geometry between two different SpatialReferences.
+Demonstrates how to use the TransformationCatalog to get a list of available DatumTransformations that can be used to project a Geometry between two different SpatialReferences.
 
-Transformations (sometimes known as datum or geographic transformations) are used when projecting data from one 
-spatial reference to another, when there is a difference in the underlying datum of the spatial references. 
-Transformations can be mathematically defined by specific equations (equation-based transformations), or may rely on 
-external supporting files (grid-based transformations). Choosing the most appropriate transformation for a situation 
-can ensure the best possible accuracy for this operation. Some users familiar with transformations may wish to 
-control which transformation is used in an operation.
+Transformations (sometimes known as datum or geographic transformations) are used when projecting data from one spatial reference to another, when there is a difference in the underlying datum of the spatial references. Transformations can be mathematically defined by specific equations (equation-based transformations), or may rely on external supporting files (grid-based transformations). Choosing the most appropriate transformation for a situation can ensure the best possible accuracy for this operation. Some users familiar with transformations may wish to control which transformation is used in an operation.
 
 ![](ListTransformationsBySuitability.png)
 
@@ -24,12 +18,8 @@ Order by extent suitability, if checked, will find suitable transformations with
 
 To get suitable transformations from one spatial reference to another:
 
-1.  Use `TransformationCatalog.getTransformationsBySuitability(inputSR, outputSR)` for transformations 
-  based on the map's spatial reference OR `TransformationCatalog.getTransformationsBySuitability(inputSR, 
-  outputSR, mapView.getCurrentVisibileArea().getExtent())` for transformations suitable to the current extent
-  .
-2.  Pick one of the `DatumTransformation`s returned. Use `GeometryEngine.project(inputGeometry, 
-  outputSR, datumTransformation)` to get the transformed geometry.
+1.  Use `TransformationCatalog.getTransformationsBySuitability(inputSR, outputSR)` for transformations based on the map's spatial reference OR `TransformationCatalog.getTransformationsBySuitability(inputSR,outputSR, mapView.getCurrentVisibileArea().getExtent())` for transformations suitable to the current extent.
+2.  Pick one of the `DatumTransformation`s returned. Use `GeometryEngine.project(inputGeometry,outputSR, datumTransformation)` to get the transformed geometry.
 
 ## Relevant API
 
@@ -42,5 +32,4 @@ To get suitable transformations from one spatial reference to another:
 *   Point
 *   SimpleMarkerSymbol
 *   SpatialReference
-  <li>TransformationCatalog
-
+*  TransformationCatalog

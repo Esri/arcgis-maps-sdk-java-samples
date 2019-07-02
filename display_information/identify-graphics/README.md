@@ -25,4 +25,3 @@ To identify a `Graphic` from the `MapView`.
 *   PointCollection
 *   Polygon
 *   SimpleFillSymbol
-

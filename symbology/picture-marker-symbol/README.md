@@ -6,8 +6,8 @@ Use pictures for markers.
 
 ## How to use the sample
 
-The picture marker symbols that you see in the app are all constructed from different types of resources
-  - campsite,  constructed from a URL
+The picture marker symbols that you see in the app are all constructed from different types of resources:
+  - campsite, constructed from a URL
   - blue pin with a star, stored in the resource folder that comes with the application
   - orange pin, created from a file path on disk (which is written to disk when the app starts and cleaned up when the app closes)
 
@@ -30,4 +30,3 @@ To display a `PictureMarkerSymbol`:
 *   MapView
 *   PictureMarkerSymbol
 *   Point
-

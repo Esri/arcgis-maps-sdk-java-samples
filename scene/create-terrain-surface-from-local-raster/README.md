@@ -31,5 +31,6 @@ The terrain surface is what the basemap, operational layers, and graphics are dr
 *   RasterElevationSource
 *   Surface
 
-<h2 id="tags">Tags</h2>
+## Tags
+
 3D, Raster, Elevation, Surface

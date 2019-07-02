@@ -19,4 +19,3 @@ To add a `RasterLayer` as an operational layer from an `ImageServiceRaster`:
 *   ImageServiceRaster
 *   MapView
 *   RasterLayer
-

@@ -6,7 +6,7 @@ Rotate a map.
 
 ## How to use the sample
 
-Use the slider to rotate the map. If the map is not pointed north, the compass will display the current heading. 
+Use the slider to rotate the map. If the map is not pointed north, the compass will display the current heading.
 Click the compass to set the map's heading to north.
 
 ## How it works
@@ -24,4 +24,3 @@ To rotate a map:
 *   Envelope
 *   MapView
 *   Point
-

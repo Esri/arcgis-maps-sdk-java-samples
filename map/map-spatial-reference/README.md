@@ -8,7 +8,7 @@ Operational layers will automatically project to this spatial reference if possi
 
 ## How to use the sample
 
-ArcGISMapImageLayer is added to map with default spatial reference of GCS*   WGS *198.  (WKID: 4326). By setting the ArcGISMap to a spatial reference of world bonne (WKID: 54024), the ArcGISMapImageLayer gets re-projected to map's spatial reference.
+ArcGISMapImageLayer is added to map with default spatial reference of GCS*WG*1984. (WKID: 4326). By setting the ArcGISMap to a spatial reference of world bonne (WKID: 54024), the ArcGISMapImageLayer gets re-projected to map's spatial reference.
 
 ## How it works
 
@@ -27,4 +27,3 @@ To set a `SpatialReference` and project that to all operational layers of `ArcGI
 *   Basemap
 *   MapView
 *   SpatialReference
-

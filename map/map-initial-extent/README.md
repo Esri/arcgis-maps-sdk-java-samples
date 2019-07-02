@@ -24,4 +24,3 @@ To set an initial `Viewpoint`:
 *   MapView
 *   Point
 *   Viewpoint
-

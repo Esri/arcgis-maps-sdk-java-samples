@@ -15,21 +15,15 @@ An ENC exchange set is a catalog of data files which can be loaded as cells. The
 ## How it works
 
 1.  Specify the path to a local CATALOG.03.  file to create an `EncExchangeSet`.
-
 2.  After loading the exchange set, loop through the `EncDataset` objects in `encExchangeSet.getDatasets()`.
-
 3.  Create an `EncCell` for each dataset. Then create an `EncLayer` for each cell.
-
 4.  Add the ENC layer to a map's operational layers collection to display it.
 
 ## Relevant API
 
 *   EncCell
-
 *   EncDataset
-
 *   EncExchangeSet
-
 *   EncLayer
 
 ## Tags

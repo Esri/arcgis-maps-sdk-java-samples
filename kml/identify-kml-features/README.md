@@ -24,4 +24,3 @@ To identify KML features:
 *   KmlDataset
 *   KmlLayer
 *   KmlPlacemark
-

@@ -22,4 +22,3 @@ To set the min and max scales on a `ArcGISMap`:
 *   Basemap
 *   MapView
 *   Viewpoint
-
