@@ -21,7 +21,7 @@ To exaggerate a `Scene`'s `Surface`:
 ## Relevant API
 
 
-  * ArcGISScene
-  * Surface
-  * ArcGISTiledElevationSource
+*   ArcGISScene
+*   Surface
+*   ArcGISTiledElevationSource
 

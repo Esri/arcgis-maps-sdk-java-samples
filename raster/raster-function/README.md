@@ -23,11 +23,11 @@ To create a `RasterLayer` using a `RasterFunction` and add it to the map:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * ImageServiceRaster
-  * MapView
-  * RasterFunction
-  * RasterFunctionArguments
-  * RasterLayer
+*   ArcGISMap
+*   Basemap
+*   ImageServiceRaster
+*   MapView
+*   RasterFunction
+*   RasterFunctionArguments
+*   RasterLayer
 

@@ -20,9 +20,9 @@ How to set `FeatureRequestMode.ON_INTERACTION_CACHE` mode:
 ## Relevant API
 
 
-  * ArcGISMap
-  * FeatureLayer
-  * MapView
-  * ServiceFeatureTable
-  * ServiceFeatureTable.FeatureRequestMode
+*   ArcGISMap
+*   FeatureLayer
+*   MapView
+*   ServiceFeatureTable
+*   ServiceFeatureTable.FeatureRequestMode
 

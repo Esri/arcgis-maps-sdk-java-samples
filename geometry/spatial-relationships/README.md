@@ -23,19 +23,19 @@ To check the relationship between geometries.
 
 ## Relevant API
 
-  * ArcGISMap
-  * Basemap
-  * Geometry
-  * GeometryEngine
-  * GeometryType
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * Point
-  * PointCollection
-  * Polygon
-  * Polyline
-  * SimpleFillSymbol
-  * SimpleLineSymbol
-  * SimpleMarkerSymbol
+*   ArcGISMap
+*   Basemap
+*   Geometry
+*   GeometryEngine
+*   GeometryType
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   Point
+*   PointCollection
+*   Polygon
+*   Polyline
+*   SimpleFillSymbol
+*   SimpleLineSymbol
+*   SimpleMarkerSymbol
 

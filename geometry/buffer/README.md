@@ -20,10 +20,10 @@ To create a buffer around a point:
 
 ## Relevant API
 
-* GeometryEngine
-* GraphicsOverlay
-* Point
-* Polygon
+*   GeometryEngine
+*   GraphicsOverlay
+*   Point
+*   Polygon
 
 
 ## Additional Information

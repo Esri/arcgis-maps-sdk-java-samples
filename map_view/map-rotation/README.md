@@ -22,9 +22,9 @@ To rotate a map:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Compass
-  * Envelope
-  * MapView
-  * Point
+*   ArcGISMap
+*   Compass
+*   Envelope
+*   MapView
+*   Point
 

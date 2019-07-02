@@ -23,11 +23,11 @@ Click the 'Create Convex Hull' button to create convex hull(s) from the polygon 
 ## Relevant API
 
 
-* GeometryEngine.ConvexHull
+*   GeometryEngine.ConvexHull
 
-* GraphicsOverlay
+*   GraphicsOverlay
 
-* PointCollection
+*   PointCollection
 
 
 

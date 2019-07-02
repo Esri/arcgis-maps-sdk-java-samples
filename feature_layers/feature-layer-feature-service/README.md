@@ -17,8 +17,8 @@ To add `Feature`s from your `FeatureLayer` to an `ArcGISMap`.
 ## Relevant API
 
 
-  * ArcGISMap
-  * FeatureLayer
-  * MapView
-  * ServiceFeatureTable
+*   ArcGISMap
+*   FeatureLayer
+*   MapView
+*   ServiceFeatureTable
 

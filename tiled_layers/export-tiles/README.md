@@ -20,12 +20,12 @@ To export tiles from an `ArcGISTiledLayer`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISTiledLayer
-  * Basemap
-  * ExportTileCacheJob
-  * ExportTileCacheParamters
-  * ExportTileCacheTask
-  * MapView
-  * TileCache
+*   ArcGISMap
+*   ArcGISTiledLayer
+*   Basemap
+*   ExportTileCacheJob
+*   ExportTileCacheParamters
+*   ExportTileCacheTask
+*   MapView
+*   TileCache
 

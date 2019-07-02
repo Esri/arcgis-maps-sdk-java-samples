@@ -6,19 +6,19 @@ Set the terrain surface with elevation described by a raster file.
 
 The terrain surface is what the basemap, operational layers, and graphics are draped on. Supported raster formats include:
 
-  * ASRP/USRP
-  * CIB1, 5, 10
-  * DTED0, 1, 2
-  * GeoTIFF
-  * HFA
-  * HRE
-  * IMG
-  * JPEG
-  * JPEG 2000
-  * NITF
-  * PNG
-  * RPF
-  * SRTM1, 2
+*   ASRP/USRP
+*   CIB1, 5, 10
+*   DTED0, 1, 2
+*   GeoTIFF
+*   HFA
+*   HRE
+*   IMG
+*   JPEG
+*   JPEG 2000
+*   NITF
+*   PNG
+*   RPF
+*   SRTM1, 2
 
 
 ## How it works
@@ -30,8 +30,8 @@ The terrain surface is what the basemap, operational layers, and graphics are dr
 
 ## Relevant API
 
-  * RasterElevationSource
-  * Surface
+*   RasterElevationSource
+*   Surface
 
 
 <h2 id="tags">Tags</h2>

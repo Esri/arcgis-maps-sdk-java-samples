@@ -29,11 +29,11 @@ To generate a `Geodatabase` from a feature service:
 ## Relevant API
 
 
-  * ArcGISMap
-  * FeatureLayer
-  * Geodatabase
-  * GenerateGeodatabaseJob
-  * GenerateGeodatabaseParameters
-  * MapView
-  * ServiceFeatureTable
+*   ArcGISMap
+*   FeatureLayer
+*   Geodatabase
+*   GenerateGeodatabaseJob
+*   GenerateGeodatabaseParameters
+*   MapView
+*   ServiceFeatureTable
 

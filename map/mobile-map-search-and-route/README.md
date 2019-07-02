@@ -26,14 +26,14 @@ To search and route from a mobile map package:
 ## Relevant API
 
 
-  * GeocodeResult
-  * MobileMapPackage
-  * ReverseGeocodeParameters
-  * Route
-  * RouteParameters
-  * RouteResult
-  * RouteTask
-  * TransportationNetworkDataset
+*   GeocodeResult
+*   MobileMapPackage
+*   ReverseGeocodeParameters
+*   Route
+*   RouteParameters
+*   RouteResult
+*   RouteTask
+*   TransportationNetworkDataset
 
 
 ## Tags

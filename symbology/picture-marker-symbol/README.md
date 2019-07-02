@@ -27,12 +27,12 @@ To display a `PictureMarkerSymbol`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * PictureMarkerSymbol
-  * Point
+*   ArcGISMap
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   PictureMarkerSymbol
+*   Point
 
 
 

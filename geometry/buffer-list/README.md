@@ -20,7 +20,7 @@ To union multiple buffers:
 ## Relevant API
 
 
-* GeometryEngine
+*   GeometryEngine
 
 
 ## Additional Information

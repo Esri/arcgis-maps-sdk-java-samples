@@ -24,29 +24,29 @@ Some WFS services return coordinates in X,Y order, while others return coordinat
 3. Create a `WfsFeatureTable` from the `WfsLayerInfo`.
 
 
-* Set the axis order of the table if necessary.
+*   Set the axis order of the table if necessary.
 
 4. Create a `FeatureLayer` from the WSF feature table.
 
 5. Add the feature layer to the map.
 
 
-* The sample uses randomly-generated symbology, similar to the behavior in ArcGIS Pro.
+*   The sample uses randomly-generated symbology, similar to the behavior in ArcGIS Pro.
 
 
 ## Relevant API
 
 
 
-* FeatureLayer
+*   FeatureLayer
 
-* WfsFeatureTable
+*   WfsFeatureTable
 
-* WfsLayerInfo
+*   WfsLayerInfo
 
-* WfsService
+*   WfsService
 
-* WfsServiceInfo
+*   WfsServiceInfo
 
 
 

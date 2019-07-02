@@ -23,12 +23,12 @@ To find the union, difference, intersection, or symmetric difference between `Po
 
 ## Relevant API
 
-  * Geometry
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * Point
-  * PointCollection
-  * SimpleLineSymbol
-  * SimpleFillSymbol
+*   Geometry
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   Point
+*   PointCollection
+*   SimpleLineSymbol
+*   SimpleFillSymbol
 

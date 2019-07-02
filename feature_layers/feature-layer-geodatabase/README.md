@@ -19,10 +19,10 @@ To create a `Geodatabase` and display it as a `FeatureLayer`:
 ## Relevant API
 
 
-  * Basemap
-  * FeatureLayer
-  * Geodatabase
-  * GeodatabaseFeatureTable
-  * Map
-  * MapView
+*   Basemap
+*   FeatureLayer
+*   Geodatabase
+*   GeodatabaseFeatureTable
+*   Map
+*   MapView
 

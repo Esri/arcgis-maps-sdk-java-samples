@@ -21,10 +21,10 @@ To set the min and max scales on a `ArcGISMap`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * MapView
-  * Viewpoint
+*   ArcGISMap
+*   Basemap
+*   MapView
+*   Viewpoint
 
 
 

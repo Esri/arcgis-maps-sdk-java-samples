@@ -26,8 +26,8 @@ To manage the operational layers:
 ## Relevant API
 
 
-* ArcGISMap
-* ArcGISMapImageLayer
-* Basemap
-* LayerList
-* MapView
+*   ArcGISMap
+*   ArcGISMapImageLayer
+*   Basemap
+*   LayerList
+*   MapView

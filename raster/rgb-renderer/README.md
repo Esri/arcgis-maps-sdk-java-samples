@@ -25,11 +25,11 @@ To apply a `RgbRenderer` to a `RasterLayer`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * MapView
-  * Raster
-  * RasterLayer
-  * RgbRenderer
-  * StretchParameters
+*   ArcGISMap
+*   Basemap
+*   MapView
+*   Raster
+*   RasterLayer
+*   RgbRenderer
+*   StretchParameters
 

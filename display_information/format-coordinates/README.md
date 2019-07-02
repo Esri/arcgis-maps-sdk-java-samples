@@ -31,10 +31,10 @@ To convert between a `Point` and different coordinate formats using the
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISTiledLayer
-  * Basemap
-  * Callout
-  * CoordinateFormatter
-  * MapView
+*   ArcGISMap
+*   ArcGISTiledLayer
+*   Basemap
+*   Callout
+*   CoordinateFormatter
+*   MapView
 

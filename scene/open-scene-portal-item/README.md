@@ -19,7 +19,7 @@ To open a web scene:
 ## Relevant API
 
 
-* ArcGISScene
-* Portal
-* PortalItem
+*   ArcGISScene
+*   Portal
+*   PortalItem
 

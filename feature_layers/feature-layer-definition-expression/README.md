@@ -21,8 +21,8 @@ To limit the `Feature`s in your `FeatureLayer`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * FeatureLayer
-  * MapView
-  * ServiceFeatureTable
+*   ArcGISMap
+*   FeatureLayer
+*   MapView
+*   ServiceFeatureTable
 

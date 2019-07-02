@@ -26,11 +26,11 @@ To extrude graphics according to a property:
 ## Relevant API
 
 
-  * ArcGISScene
-  * Graphic
-  * GraphicsOverlay
-  * Renderer
-  * Renderer.SceneProperties
+*   ArcGISScene
+*   Graphic
+*   GraphicsOverlay
+*   Renderer
+*   Renderer.SceneProperties
 
 
 

@@ -18,11 +18,11 @@ To add an `ArcGISSceneLayer` to a scene:
 ## Relevant API
 
 
-  * 3D
-  * ArcGISScene
-  * ArcGISSceneLayer
-  * ArcGISTiledElevationSource
-  * Camera
-  * SceneView
-  * Surface
+*   3D
+*   ArcGISScene
+*   ArcGISSceneLayer
+*   ArcGISTiledElevationSource
+*   Camera
+*   SceneView
+*   Surface
 

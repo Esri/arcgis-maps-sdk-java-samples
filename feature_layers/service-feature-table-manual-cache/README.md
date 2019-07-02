@@ -22,9 +22,9 @@ How to set `FeatureRequestMode.MANUAL_CACHE` mode:
 ## Relevant API
 
 
-  * ArcGISMap
-  * FeatureLayer
-  * MapView
-  * ServiceFeatureTable
-  * ServiceFeatureTable.FeatureRequestMode
+*   ArcGISMap
+*   FeatureLayer
+*   MapView
+*   ServiceFeatureTable
+*   ServiceFeatureTable.FeatureRequestMode
 

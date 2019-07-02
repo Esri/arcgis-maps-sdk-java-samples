@@ -21,7 +21,7 @@ To access the `ArcGISMap`'s `LoadStatus`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * MapView
-  * LoadStatus
+*   ArcGISMap
+*   Basemap
+*   MapView
+*   LoadStatus

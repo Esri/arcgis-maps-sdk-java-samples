@@ -26,11 +26,11 @@ To apply a `StretchRenderer` to a `RasterLayer`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * MapView
-  * Raster
-  * RasterLayer
-  * StretchParameters
-  * StretchRenderer
+*   ArcGISMap
+*   Basemap
+*   MapView
+*   Raster
+*   RasterLayer
+*   StretchParameters
+*   StretchRenderer
 

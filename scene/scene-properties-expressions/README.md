@@ -25,13 +25,13 @@ To update a `Graphic`'s orientation using expressions:
 ## Relevant API
 
 
-  * ArcGISScene
-  * Graphic
-  * GraphicsOverlay
-  * Renderer
-  * Renderer.SceneProperties
-  * SceneView
-  * Viewpoint
+*   ArcGISScene
+*   Graphic
+*   GraphicsOverlay
+*   Renderer
+*   Renderer.SceneProperties
+*   SceneView
+*   Viewpoint
 
 
 

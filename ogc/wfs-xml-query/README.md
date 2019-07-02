@@ -23,15 +23,15 @@ ArcGIS Runtime `QueryParameters` objects can't represent all possible queries th
 ## Relevant API
 
 
-* FeatureLayer
+*   FeatureLayer
 
-* WfsFeatureTable
+*   WfsFeatureTable
 
 
 
 ## About the data
 
-This service shows trees in downtown Seattle and the surrounding area. An XML-encoded `GetFeature` request is used to limit results to only trees of the genus * Tilia *.
+This service shows trees in downtown Seattle and the surrounding area. An XML-encoded `GetFeature` request is used to limit results to only trees of the genus *   Tilia *.
 
 For additional information, see the underlying service on <a href="https://arcgisruntime.maps.arcgis.com/home/item.html?id=1b81d35c5b0942678140efc29bc25391">ArcGIS Online</a>.
 

@@ -18,10 +18,10 @@ To add a`RasterLayer` as an operational layer from a `GeoPackage`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * GeoPackage
-  * GeoPackageRaster
-  * MapView
-  * RasterLayer
+*   ArcGISMap
+*   Basemap
+*   GeoPackage
+*   GeoPackageRaster
+*   MapView
+*   RasterLayer
 

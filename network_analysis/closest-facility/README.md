@@ -21,20 +21,20 @@ To display a `ClosestFacilityRoute` between an `Incident` and a `Facility`:
   7. Get index of closest facility, `rankedFacilitiesList.get(0)`
   8. Find closest facility route, `facilityResult.getRoute(closestFacilityIndex, IncidentIndex)`
   9. Display route to `MapView`. 
-  * create `Graphic` from route geometry, `new Graphic(route.getRouteGeometry())`
-  * add graphic to `GraphicsOverlay` which is attached to the mapview
+*   create `Graphic` from route geometry, `new Graphic(route.getRouteGeometry())`
+*   add graphic to `GraphicsOverlay` which is attached to the mapview
 
 
 ## Relevant API
 
-  * ClosestFacilityParameters
-  * ClosestFacilityResult
-  * ClosestFacilityRoute
-  * ClosestFacilityTask
-  * Facility
-  * Graphic
-  * GraphicsOverlay
-  * Incident
-  * MapView
+*   ClosestFacilityParameters
+*   ClosestFacilityResult
+*   ClosestFacilityRoute
+*   ClosestFacilityTask
+*   Facility
+*   Graphic
+*   GraphicsOverlay
+*   Incident
+*   MapView
 
 

@@ -17,7 +17,7 @@ To create a `WmsLayer` from a URL and display it:
 ## Relevant API
 
 
-  * ArcGISMap
-  * MapView
-  * WmsLayer
+*   ArcGISMap
+*   MapView
+*   WmsLayer
 

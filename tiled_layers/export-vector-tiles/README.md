@@ -30,14 +30,14 @@ To export tiles from an `ArcGISVectorTiledLayer`:
 ## Relevant API
 
 
-  * ArcGISVectorTiledLayer
-  * ExportVectorTilesJob
-  * ExportVectorTilesParamters
-  * ExportVectorTilesResult
-  * ExportVectorTilesTask
-  * ItemResourceCache
-  * Portal
-  * PortalItem
-  * UserCredential
-  * VectorTileCache
+*   ArcGISVectorTiledLayer
+*   ExportVectorTilesJob
+*   ExportVectorTilesParamters
+*   ExportVectorTilesResult
+*   ExportVectorTilesTask
+*   ItemResourceCache
+*   Portal
+*   PortalItem
+*   UserCredential
+*   VectorTileCache
 

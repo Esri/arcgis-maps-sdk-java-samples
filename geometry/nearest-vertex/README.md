@@ -19,6 +19,6 @@ Tap anywhere on the map. An orange marker will show at that tapped location. A b
 ## Relevant API
 
 
-* GeometryEngine
-* ProximityResult
+*   GeometryEngine
+*   ProximityResult
 

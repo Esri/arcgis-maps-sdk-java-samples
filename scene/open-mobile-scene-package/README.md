@@ -25,7 +25,7 @@ A .mspk file is an archive containing the data (specifically, basemaps and featu
 ## Relevant API
 
 
-* MobileScenePackage
+*   MobileScenePackage
 
 
 ## Additional information

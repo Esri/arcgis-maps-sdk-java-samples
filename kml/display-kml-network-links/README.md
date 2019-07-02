@@ -21,9 +21,9 @@ To show KML with network links and display network messages:
 ## Relevant API
 
 
-* KmlDataset
-* KmlLayer
-* KmlNetworkLinkMessageReceivedEvent
+*   KmlDataset
+*   KmlLayer
+*   KmlNetworkLinkMessageReceivedEvent
 
 
 ## About the data

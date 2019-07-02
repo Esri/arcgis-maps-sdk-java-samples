@@ -27,13 +27,13 @@ An ENC exchange set is a catalog of data files which can be loaded as cells. The
 ## Relevant API
 
 
-* EncCell
+*   EncCell
 
-* EncDataset
+*   EncDataset
 
-* EncExchangeSet
+*   EncExchangeSet
 
-* EncLayer
+*   EncLayer
 
 
 ## Tags

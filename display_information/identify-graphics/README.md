@@ -22,10 +22,10 @@ To identify a `Graphic` from the `MapView`.
 ## Relevant API
 
 
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * PointCollection
-  * Polygon
-  * SimpleFillSymbol
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   PointCollection
+*   Polygon
+*   SimpleFillSymbol
 

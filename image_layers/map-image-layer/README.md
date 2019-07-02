@@ -19,8 +19,8 @@ To add an `ArcGISMapImageLayer` to your `ArcGISMap` using its URL:
 ## Relevant API
 
 
-  * ArcGISMapImageLayer
-  * ArcGISMap
-  * MapView
+*   ArcGISMapImageLayer
+*   ArcGISMap
+*   MapView
 
 

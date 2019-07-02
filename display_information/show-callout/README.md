@@ -24,8 +24,8 @@ To show a `Callout` with the clicked location's coordinates:
 ## Relevant API
 
 
- * ArcGISMap
- * Callout
- * MapView
- * Point
+ *   ArcGISMap
+ *   Callout
+ *   MapView
+ *   Point
 

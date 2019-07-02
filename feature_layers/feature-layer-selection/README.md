@@ -24,9 +24,9 @@ To select `Feature`s from your `FeatureLayer`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Feature
-  * FeatureLayer
-  * MapView
-  * ServiceFeatureTable
+*   ArcGISMap
+*   Feature
+*   FeatureLayer
+*   MapView
+*   ServiceFeatureTable
 

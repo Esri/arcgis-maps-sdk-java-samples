@@ -19,9 +19,9 @@ An `ArcGISTiledLayer` consumes raster tiles provided by an ArcGIS service or a t
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISTiledLayer
-  * MapView
+*   ArcGISMap
+*   ArcGISTiledLayer
+*   MapView
 
 
 ## Additional information

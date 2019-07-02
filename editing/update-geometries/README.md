@@ -24,9 +24,9 @@ To get a `Feature` from a `ServiceFeatureTable` and change it's geometry:
 ## Relevant API
 
 
- * ArcGISMap
- * Feature
- * FeatureLayer
- * MapView
- * ServiceFeatureTable
+ *   ArcGISMap
+ *   Feature
+ *   FeatureLayer
+ *   MapView
+ *   ServiceFeatureTable
 

@@ -18,9 +18,9 @@ To apply a `DictionaryRenderer` and display mil2525d graphics in 3D:
   4. Parse an XML file conforming to the specification. It should have key-value pairs to use as attributes for 
   each graphic:
   
-    * Use the name of the XML node as the attribute key and the content of the node as the attribute 
+ *   Use the name of the XML node as the attribute key and the content of the node as the attribute 
     value.
-    * Get the WKID and coordinates from the XML to create the graphic's geometry.
+ *   Get the WKID and coordinates from the XML to create the graphic's geometry.
   5. The other attributes such as "symbolentity" and "symbolset" will describe the symbology for the graphic.
   6. Create the graphic with the geometry and attributes and add it to the graphics overlay.
 
@@ -28,9 +28,9 @@ To apply a `DictionaryRenderer` and display mil2525d graphics in 3D:
 ## Relevant API
 
 
-  * GraphicsOverlay
-  * DictionaryRenderer
-  * DictionarySymbolStyle
+*   GraphicsOverlay
+*   DictionaryRenderer
+*   DictionarySymbolStyle
 
 
 ## Tags

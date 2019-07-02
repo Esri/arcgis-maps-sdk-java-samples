@@ -15,8 +15,8 @@ The terrain surface is what the basemap, operational layers, and graphics are dr
 
 ## Relevant API
 
-  * ArcGISTiledElevationSource
-  * Surface
+*   ArcGISTiledElevationSource
+*   Surface
 
 
 <h2 id="tags">Tags</h2>

@@ -27,13 +27,13 @@ To add a scale bar to a map view:
 ## Relevant API
 
 
-* ArcGISMap
+*   ArcGISMap
 
-* MapView
+*   MapView
 
-* Scalebar
+*   Scalebar
 
-* UnitSystem
+*   UnitSystem
 
 
 ## Tags

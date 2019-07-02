@@ -35,15 +35,15 @@ To query a map image layer's tables and find related features:
 ## Relevant API
 
 
-* ArcGISFeature
-* ArcGISMapImageLayer
-* Feature
-* FeatureQueryResult
-* QueryParameters
-* RelatedFeatureQueryResult
-* RelatedQueryParameters
-* RelationshipInfo
-* ServiceFeatureTable
+*   ArcGISFeature
+*   ArcGISMapImageLayer
+*   Feature
+*   FeatureQueryResult
+*   QueryParameters
+*   RelatedFeatureQueryResult
+*   RelatedQueryParameters
+*   RelationshipInfo
+*   ServiceFeatureTable
 
 
 ## Additional information

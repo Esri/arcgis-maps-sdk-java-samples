@@ -9,22 +9,22 @@ Fix the camera to point at and rotate around a target object.
 The orbit geoelement camera controller provides control over the following camera behaviors:
 
 
-* automatically track the target
+*   automatically track the target
 
 
-* stay near the target by setting a minimum and maximum distance offset
+*   stay near the target by setting a minimum and maximum distance offset
 
-* restrict where you can rotate around the target
+*   restrict where you can rotate around the target
 
-* automatically rotate the camera when the target's heading and pitch changes
+*   automatically rotate the camera when the target's heading and pitch changes
 
-* disable user interactions for rotating the camera
+*   disable user interactions for rotating the camera
 
-* animate camera movement over a specified duration
+*   animate camera movement over a specified duration
 
-* control the vertical positioning of the target on the screen
+*   control the vertical positioning of the target on the screen
 
-* set a target offset (e.g.to orbit around the tail of the plane) instead of defaulting to orbiting the center of the object
+*   set a target offset (e.g.to orbit around the tail of the plane) instead of defaulting to orbiting the center of the object
 
 
 ## How to use the sample
@@ -45,37 +45,37 @@ Use the "Cockpit view" button to offset and fix the camera into the cockpit of t
   2. Use `sceneView.setCameraController(OrbitCameraController)` to set the camera to the scene view. 
   3. Set the heading, pitch and distance camera properties with:
   
-  * `orbitCameraController.setCameraHeadingOffset(double)` * `orbitCameraController.setCameraPitchOffset(double)` 
-  * `orbitCameraController.setCameraDistance(double)`
+*   `orbitCameraController.setCameraHeadingOffset(double)` *   `orbitCameraController.setCameraPitchOffset(double)` 
+*   `orbitCameraController.setCameraDistance(double)`
   4. Set the minimum and maximum angle of heading and pitch, and minimum and maximum distance for the camera with:
   
-  * `orbitCameraController.setMin` or `setMaxCameraHeadingOffset(double)`.
-  * `orbitCameraController.setMin` or `setMaxCameraPitchOffset(double)`.
-  * `orbitCameraController.setMin` or `setMaxCameraDistance(double)`.
+*   `orbitCameraController.setMin` or `setMaxCameraHeadingOffset(double)`.
+*   `orbitCameraController.setMin` or `setMaxCameraPitchOffset(double)`.
+*   `orbitCameraController.setMin` or `setMaxCameraDistance(double)`.
   5. Set the distance from which the camera is offset from the plane with:
   
-  * `orbitCameraController.setTargetOffsetsAsync(x, y, z, duration)`
-  * `orbitCameraController.setTargetOffsetX(double)`
-  * `orbitCameraController.setTargetOffsetY(double)`
-  * `orbitCameraController.setTargetOffsetZ(double)`
+*   `orbitCameraController.setTargetOffsetsAsync(x, y, z, duration)`
+*   `orbitCameraController.setTargetOffsetX(double)`
+*   `orbitCameraController.setTargetOffsetY(double)`
+*   `orbitCameraController.setTargetOffsetZ(double)`
   6. Set the vertical screen factor to determine where the plane appears in the scene:
   
-  * `orbitCameraController.setTargetVerticalScreenFactor(float)`
+*   `orbitCameraController.setTargetVerticalScreenFactor(float)`
 
   7. Animate the camera to the cockpit using `orbitCameraController.setTargetOffsetsAsync(x, y, z, duration)`
 
   8. Set if the camera distance will adjust when zooming or panning using mouse or keyboard (default is true):
   
-  * `orbitCameraController.setCameraDistanceInteractive(boolean)`
+*   `orbitCameraController.setCameraDistanceInteractive(boolean)`
   9. Set if the camera will follow the pitch of the plane (default is true):
   
-  * `orbitCameraController.setAutoPitchEnabled(boolean)`
+*   `orbitCameraController.setAutoPitchEnabled(boolean)`
   
 
 ## Relevant API
 
 
-  * OrbitGeoElementCameraController
+*   OrbitGeoElementCameraController
 
 
 ## Tags

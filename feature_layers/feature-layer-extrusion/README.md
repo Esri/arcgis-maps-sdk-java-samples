@@ -20,8 +20,8 @@ To extrude features from a `FeatureLayer`:
 ## Relevant API
 
 
-  * FeatureLayer
-  * SceneProperties
-  * ServiceFeatureTable
-  * FeatureLayer
+*   FeatureLayer
+*   SceneProperties
+*   ServiceFeatureTable
+*   FeatureLayer
 

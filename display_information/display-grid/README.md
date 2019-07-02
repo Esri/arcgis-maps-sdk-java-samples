@@ -25,13 +25,13 @@ To show and style a grid:
 ## Relevant API
 
 
-  * Grid
-  * LatitudeLongitudeGrid
-  * LineSymbol
-  * MapView
-  * MgrsGrid
-  * SimpleLineSymbol
-  * TextSymbol
-  * UsngGrid
-  * UtmGrid
+*   Grid
+*   LatitudeLongitudeGrid
+*   LineSymbol
+*   MapView
+*   MgrsGrid
+*   SimpleLineSymbol
+*   TextSymbol
+*   UsngGrid
+*   UtmGrid
 

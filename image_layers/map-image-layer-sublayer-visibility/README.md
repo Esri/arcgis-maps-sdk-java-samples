@@ -23,9 +23,9 @@ To change visibility of a `ArcGISSubLayer` from your `ArcGISMap`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISMapImageLayer
-  * Basemap
-  * MapView
-  * SubLayerList
+*   ArcGISMap
+*   ArcGISMapImageLayer
+*   Basemap
+*   MapView
+*   SubLayerList
 

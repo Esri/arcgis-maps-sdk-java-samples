@@ -16,9 +16,9 @@ To add a`RasterLayer` as an operational layer from a local raster file:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * MapView
-  * Raster
-  * RasterLayer
+*   ArcGISMap
+*   Basemap
+*   MapView
+*   Raster
+*   RasterLayer
 

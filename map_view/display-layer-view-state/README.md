@@ -9,12 +9,12 @@ Determine if a layer is currently visible.
 The view state of a layer changes while the layer is loading, like the start of the application. If you pan or zoom the map, the view state of some layers should also change.
   The LayerViewStatus could be:
   
-  * ACTIVE
-  * ERROR
-  * LOADING
-  * NOT_VISIBLE
-  * OUT_OF_SCALE
-  * UNKNOWN
+*   ACTIVE
+*   ERROR
+*   LOADING
+*   NOT_VISIBLE
+*   OUT_OF_SCALE
+*   UNKNOWN
   
 
 ## How it works
@@ -30,11 +30,11 @@ To get a layer's view state:
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISMapImageLayer
-  * Layer
-  * LayerViewStatus
-  * LayerViewStateChangedEvent
-  * MapView
-  * Viewpoint
+*   ArcGISMap
+*   ArcGISMapImageLayer
+*   Layer
+*   LayerViewStatus
+*   LayerViewStateChangedEvent
+*   MapView
+*   Viewpoint
 

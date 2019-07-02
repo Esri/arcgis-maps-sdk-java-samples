@@ -25,7 +25,7 @@ Pan around the scene and zoom in. Notice how many thousands of additional featur
 ## Relevant API
 
 
-* ArcGISSceneLayer
+*   ArcGISSceneLayer
 
 
 ## About the data

@@ -14,10 +14,10 @@ To create a map with an OpenStreetMap basemap:
 ## Relevant API
 
 
-   * ArcGISMap
-   * Basemap
-   * Basemap.Type
-   * MapView
+*   ArcGISMap
+*   Basemap
+*   Basemap.Type
+*   MapView
 
 
 ## Tags

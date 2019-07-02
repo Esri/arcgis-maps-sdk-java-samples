@@ -23,10 +23,10 @@ To get a geocode from a query and display its location on the `ArcGISMap`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * GeocodeParameters
-  * GeocodeResult
-  * GraphicsOverlay
-  * LocatorTask
-  * MapView
+*   ArcGISMap
+*   GeocodeParameters
+*   GeocodeResult
+*   GraphicsOverlay
+*   LocatorTask
+*   MapView
 

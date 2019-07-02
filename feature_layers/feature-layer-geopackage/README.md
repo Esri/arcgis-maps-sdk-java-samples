@@ -19,10 +19,10 @@ To create a `FeatureLayer` from a local `GeoPackage`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * FeatureLayer
-  * GeoPackage
-  * GeoPackageFeatureTable
-  * MapView
+*   ArcGISMap
+*   Basemap
+*   FeatureLayer
+*   GeoPackage
+*   GeoPackageFeatureTable
+*   MapView
 

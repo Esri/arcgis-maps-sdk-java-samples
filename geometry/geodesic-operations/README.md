@@ -24,18 +24,18 @@ To create a geodesic path between two points:
 ## Relevant API
 
 
-  * ArcGISMap
-  * GeodeticCurveType
-  * Geometry
-  * GeometryEngine
-  * Graphic
-  * GraphicsOverlay
-  * LinearUnit
-  * LinearUnitId
-  * MapView
-  * Point
-  * PointCollection
-  * Polyline
-  * SimpleLineSymbol
-  * SimpleMarkerSymbol
+*   ArcGISMap
+*   GeodeticCurveType
+*   Geometry
+*   GeometryEngine
+*   Graphic
+*   GraphicsOverlay
+*   LinearUnit
+*   LinearUnitId
+*   MapView
+*   Point
+*   PointCollection
+*   Polyline
+*   SimpleLineSymbol
+*   SimpleMarkerSymbol
 

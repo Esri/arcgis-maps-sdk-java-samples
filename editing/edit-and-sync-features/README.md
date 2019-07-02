@@ -27,27 +27,27 @@ By generating a local geodatabase, a user can take an offline copy of a feature 
   5. On successful loading, call `getGeodatabaseFeatureTables()` on the `Geodatabase` and add it to the `ArcGISMap`'s operational layers.
   6. To sync changes between the local and web geodatabases:
   
-  * Create a `SyncGeodatabaseParameters` object, and set it's sync direction with `syncGeodatabaseParameters.SyncDirection()`.
-  * Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)` passing the `SyncGeodatabaseParameters` and `Geodatabase` as arguments.
-  * Start the `SyncGeodatabaseJob` to synchronize the edits.
+*   Create a `SyncGeodatabaseParameters` object, and set it's sync direction with `syncGeodatabaseParameters.SyncDirection()`.
+*   Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)` passing the `SyncGeodatabaseParameters` and `Geodatabase` as arguments.
+*   Start the `SyncGeodatabaseJob` to synchronize the edits.
 
 
 ## Relevant API
 
 
-  * FeatureLayer
-  * FeatureTable
-  * GenerateGeodatabaseJob
-  * GenerateGeodatabaseParameters
-  * GeodatabaseSyncTask
-  * SyncGeodatabaseJob
-  * SyncGeodatabaseParameters
-  * SyncLayerOption
+*   FeatureLayer
+*   FeatureTable
+*   GenerateGeodatabaseJob
+*   GenerateGeodatabaseParameters
+*   GeodatabaseSyncTask
+*   SyncGeodatabaseJob
+*   SyncGeodatabaseParameters
+*   SyncLayerOption
 
 
 ## About the data
 
-The basemap for this sample is a San Francisco offline tile package, provided by ESRI to support ArcGIS Runtime SDK Samples. The * WildfireSync * feature service elements illustrate a collection schema for wildfire information.
+The basemap for this sample is a San Francisco offline tile package, provided by ESRI to support ArcGIS Runtime SDK Samples. The *   WildfireSync *   feature service elements illustrate a collection schema for wildfire information.
 
 ## Tags
 

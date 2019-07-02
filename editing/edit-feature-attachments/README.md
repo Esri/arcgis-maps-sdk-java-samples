@@ -29,12 +29,12 @@ To get a `Feature` from a `ServiceFeatureTable` and add or delete `Attachment`:
 ## Relevant API
 
 
-  * ArcGISFeature
-  * ArcGISMap
-  * Attachment
-  * Feature
-  * FeatureLayer
-  * MapView
-  * ServiceFeatureTable
+*   ArcGISFeature
+*   ArcGISMap
+*   Attachment
+*   Feature
+*   FeatureLayer
+*   MapView
+*   ServiceFeatureTable
 
 

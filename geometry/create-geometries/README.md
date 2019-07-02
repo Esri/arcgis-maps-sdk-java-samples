@@ -18,10 +18,10 @@ To create different geometries and show them as graphics:
 
 ## Relevant API  
 
-* Envelope
-* Graphic
-* Multipoint
-* Point
-* PointCollection
-* Polygon
-* Polyline
+*   Envelope
+*   Graphic
+*   Multipoint
+*   Point
+*   PointCollection
+*   Polygon
+*   Polyline

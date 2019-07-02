@@ -28,11 +28,11 @@ To read layers from a geoPackage and show them in a map:
 ## Relevant API
 
 
-* ArcGISMap
-* Basemap
-* FeatureLayer
-* GeoPackage
-* Layer
-* MapView
-* RasterLayer
+*   ArcGISMap
+*   Basemap
+*   FeatureLayer
+*   GeoPackage
+*   Layer
+*   MapView
+*   RasterLayer
 

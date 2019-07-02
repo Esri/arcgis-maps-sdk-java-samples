@@ -29,16 +29,16 @@ To create and save a map to your portal for use in an app:
 ## Relevant API
 
 
-  * AuthenticationChallengeHandler
-  * ArcGISMap
-  * ArcGISMapImageLayer
-  * Basemap
-  * MapView
-  * OAuthConfiguration
-  * Portal
-  * PortalFolder
-  * PortalItem
-  * PortalUserContent
+*   AuthenticationChallengeHandler
+*   ArcGISMap
+*   ArcGISMapImageLayer
+*   Basemap
+*   MapView
+*   OAuthConfiguration
+*   Portal
+*   PortalFolder
+*   PortalItem
+*   PortalUserContent
 
 
 

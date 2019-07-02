@@ -17,8 +17,8 @@ To add an `ArcGISTiledLayer` as a `Basemap` to an `ArcGISMap`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISVectorTiledLayer
-  * Basemap
-  * MapView
+*   ArcGISMap
+*   ArcGISVectorTiledLayer
+*   Basemap
+*   MapView
 

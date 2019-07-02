@@ -26,7 +26,7 @@ To select geoelements in a scene layer:
 ## Relevant API 
 
 
-  * ArcGISSceneLayer
-  * GeoElement
-  * IdentifyLayerResult
+*   ArcGISSceneLayer
+*   GeoElement
+*   IdentifyLayerResult
 

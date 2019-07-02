@@ -34,13 +34,13 @@ current visible extent.
 ## Relevant API
 
 
-* FeatureLayer
+*   FeatureLayer
 
-* NavigationChangedEvent
+*   NavigationChangedEvent
 
-* QueryParameters
+*   QueryParameters
 
-* WfsFeatureTable
+*   WfsFeatureTable
 
 
 ## About the data

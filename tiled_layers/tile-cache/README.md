@@ -20,9 +20,9 @@ An `ArcGISTiledLayer` consumes raster tiles provided by an ArcGIS service or a t
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISTiledLayer
-  * TileCache
+*   ArcGISMap
+*   ArcGISTiledLayer
+*   TileCache
 
 
 ## Additional information

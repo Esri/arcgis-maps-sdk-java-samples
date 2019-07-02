@@ -32,8 +32,8 @@ To query map image sublayers:
 ## Relevant API
 
 
-  * ArcGISMapImageLayer
-  * ArcGISMapImageSublayer
-  * QueryParameters
-  * ServiceFeatureTable
+*   ArcGISMapImageLayer
+*   ArcGISMapImageSublayer
+*   QueryParameters
+*   ServiceFeatureTable
 

@@ -22,13 +22,13 @@ To show a `Graphic` in a `GraphicsOverlay` using a renderer:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * Point
-  * SimpleFillSymbol
-  * SimpleLineSymbol
-  * SimpleMarkerSymbol
-  * SimpleRenderer
+*   ArcGISMap
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   Point
+*   SimpleFillSymbol
+*   SimpleLineSymbol
+*   SimpleMarkerSymbol
+*   SimpleRenderer
 

@@ -21,9 +21,9 @@ By default, a scene's terrain is fully opaque and the camera cannot go undergrou
 ## Relevant API
 
 
-* Surface
+*   Surface
 
-* Surface.NavigationConstraint
+*   Surface.NavigationConstraint
 
 
 ## About the data

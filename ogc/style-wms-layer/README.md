@@ -23,5 +23,5 @@ To style a WMS Layer:
 ## Relevant API
 
 
-  * WmsLayer
+*   WmsLayer
 

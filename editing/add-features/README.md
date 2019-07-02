@@ -25,9 +25,9 @@ To add a feature to a `ServiceFeatureTable` and update it's server with that `Fe
 ## Relevant API
 
 
-* ArcGISMap
-* Feature
-* FeatureEditResult
-* FeatureLayer
-* MapView
-* ServiceFeatureTable
+*   ArcGISMap
+*   Feature
+*   FeatureEditResult
+*   FeatureLayer
+*   MapView
+*   ServiceFeatureTable

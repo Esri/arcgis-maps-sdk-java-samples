@@ -19,14 +19,14 @@ Create a feature collection layer which shows the result of a SQL query from a s
 ## Relevant API
 
 
-	* FeatureCollection
-	* FeatureCollectionLayer
-	* FeatureCollectionTable
-  * FeatureLayer
-	* FeatureTable
-  * FeatureQueryResult
-  * QueryParameters
-  * ServiceFeatureTable
+	*   FeatureCollection
+	*   FeatureCollectionLayer
+	*   FeatureCollectionTable
+*   FeatureLayer
+	*   FeatureTable
+*   FeatureQueryResult
+*   QueryParameters
+*   ServiceFeatureTable
 
 
 ## Tags

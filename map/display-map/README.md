@@ -16,8 +16,8 @@ To display a `ArcGISMap`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * MapView
+*   ArcGISMap
+*   Basemap
+*   MapView
 
 

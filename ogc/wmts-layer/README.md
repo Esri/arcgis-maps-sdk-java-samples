@@ -20,9 +20,9 @@ To display a `WmtsLayer` from a `WmtsService`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * MapView
-  * WmtsLayer
-  * WmtsService
+*   ArcGISMap
+*   Basemap
+*   MapView
+*   WmtsLayer
+*   WmtsService
 

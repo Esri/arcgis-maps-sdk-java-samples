@@ -32,12 +32,12 @@ Use the control panel to cancel the sketch, undo or redo changes made to the ske
 
 
 
-* Geometry
-* Graphic
-* GraphicsOverlay
-* MapView
-* SketchCreationMode
-* SketchEditor
+*   Geometry
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   SketchCreationMode
+*   SketchEditor
 
 
 

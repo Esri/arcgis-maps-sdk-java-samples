@@ -21,8 +21,8 @@ To create and display a `WebTiledLayer` with custom attribution:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * MapView
-  * WebTiledLayer
+*   ArcGISMap
+*   Basemap
+*   MapView
+*   WebTiledLayer
 

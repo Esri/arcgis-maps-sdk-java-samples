@@ -25,15 +25,15 @@ To get a sublayer and change its renderer:
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISMapImageLayer
-  * ArcGISMapImageSublayer
-  * Basemap
-  * ClassBreaksRenderer
-  * ClassBreaksRenderer.ClassBreak
-  * LoadStatus
-  * MapView
-  * SimpleFillSymbol
-  * SimpleLineSymbol
-  * SublayerList
+*   ArcGISMap
+*   ArcGISMapImageLayer
+*   ArcGISMapImageSublayer
+*   Basemap
+*   ClassBreaksRenderer
+*   ClassBreaksRenderer.ClassBreak
+*   LoadStatus
+*   MapView
+*   SimpleFillSymbol
+*   SimpleLineSymbol
+*   SublayerList
 

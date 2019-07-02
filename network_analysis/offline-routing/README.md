@@ -29,17 +29,17 @@ To display a `Route` using a `RouteTask` with offline data:
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISTiledLayer
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * Route
-  * RouteTask
-  * RouteParameters
-  * RouteResult
-  * SimpleLineSymbol
-  * Stop
-  * TextSymbol
-  * TileCache
+*   ArcGISMap
+*   ArcGISTiledLayer
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   Route
+*   RouteTask
+*   RouteParameters
+*   RouteResult
+*   SimpleLineSymbol
+*   Stop
+*   TextSymbol
+*   TileCache
 

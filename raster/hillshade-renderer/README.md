@@ -24,10 +24,10 @@ To apply a `HillshadeRenderer` to a `RasterLayer`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * HillshadeRenderer
-  * MapView
-  * Raster
-  * RasterLayer
+*   ArcGISMap
+*   Basemap
+*   HillshadeRenderer
+*   MapView
+*   Raster
+*   RasterLayer
 

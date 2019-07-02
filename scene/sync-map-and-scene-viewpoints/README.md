@@ -26,11 +26,11 @@ Interact with the map by panning, zooming or rotating the map or scene view. The
 ## Relevant API
 
 
-* GeoView
+*   GeoView
 
-* Viewpoint
+*   Viewpoint
 
-* ViewpointChangedEvent
+*   ViewpointChangedEvent
 
 
 

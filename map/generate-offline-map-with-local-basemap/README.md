@@ -9,21 +9,21 @@ Take a web map offline, but instead of downloading an online basemap, use one wh
 There are a number of use-cases where you may wish to use a basemap which is already on the device, rather than downloading:
 
 
-* You want to limit the total download size.
+*   You want to limit the total download size.
 
-* You want to be able to share a single set of basemap files between many offline maps.
+*   You want to be able to share a single set of basemap files between many offline maps.
 
-* You want to use a custom basemap (for example authored in ArcGIS Pro) which is not available online.
+*   You want to use a custom basemap (for example authored in ArcGIS Pro) which is not available online.
 
-* You do not wish to sign into ArcGIS.com in order to download Esri basemaps.
+*   You do not wish to sign into ArcGIS.com in order to download Esri basemaps.
 
 
 The author of a web map can support the use of basemaps which are already on a device by configuring the web map to specify the name of a suitable basemap file. This could be a basemap which:
 
 
-* Has been authored in ArcGIS Pro to make use of your organizations custom data.
+*   Has been authored in ArcGIS Pro to make use of your organizations custom data.
 
-* Is available as a PortalItem which can be downloaded once and re-used many times.
+*   Is available as a PortalItem which can be downloaded once and re-used many times.
 
 
 ## How to use the sample
@@ -59,15 +59,15 @@ The author of a web map can support the use of basemaps which are already on a d
 ## Relevant API
 
 
-* OfflineMapTask
+*   OfflineMapTask
 
-* GenerateOfflineMapParameters
+*   GenerateOfflineMapParameters
 
-* GenerateOfflineMapParameterOverrides
+*   GenerateOfflineMapParameterOverrides
 
-* GenerateOfflineMapJob
+*   GenerateOfflineMapJob
 
-* GenerateOfflineMapResult
+*   GenerateOfflineMapResult
 
 
 ## Tags

@@ -18,10 +18,10 @@ How to set `FeatureRequestMode.ON_INTERACTION_NO_CAHCE` mode:
 ## Relevant API
 
 
-  * ArcGISMap
-  * FeatureLayer
-  * MapView
-  * ServiceFeatureTable
-  * ServiceFeatureTable.FeatureRequestMode
+*   ArcGISMap
+*   FeatureLayer
+*   MapView
+*   ServiceFeatureTable
+*   ServiceFeatureTable.FeatureRequestMode
 
 

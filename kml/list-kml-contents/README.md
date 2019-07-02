@@ -22,16 +22,16 @@ To list the nodes in a KML file:
 ## Relevant API
 
 
-  * KmlContainer
-  * KmlDataset
-  * KmlDocument
-  * KmlFolder
-  * KmlGroundOverlay
-  * KmlLayer
-  * KmlNetworkLink
-  * KmlNode
-  * KmlPlacemark
-  * KmlScreenOverlay
+*   KmlContainer
+*   KmlDataset
+*   KmlDocument
+*   KmlFolder
+*   KmlGroundOverlay
+*   KmlLayer
+*   KmlNetworkLink
+*   KmlNode
+*   KmlPlacemark
+*   KmlScreenOverlay
 
 
 ## About the data

@@ -17,22 +17,22 @@ To display a `SimpleMarkerSymbol`:
   2. Create a `GraphicsOverlay` and add it to the `MapView`,`MapView.getGraphicsOverlays().add()`.
   3. Add the map to the view, `MapView.setMap()`.
   4. Create a `SimpleMarkerSymbol(SimpleMarkerSymbol.Style, color, size)`.
-  * style, how the symbol will be displayed (circle, square, etc.)
-    * color, color that the symbol will be displayed
-    * size, size of the symbol
+*   style, how the symbol will be displayed (circle, square, etc.)
+ *   color, color that the symbol will be displayed
+ *   size, size of the symbol
   5. Lately, create a `Graphic(Geometry, Symbol)` method and add it to the graphics overlay.
 
 
 ## Relevant API
 
 
-  * ArcGISMap
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * Point
-  * SimpleMarkerSymbol
-  * SimpleMarkerSymbol.Style
+*   ArcGISMap
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   Point
+*   SimpleMarkerSymbol
+*   SimpleMarkerSymbol.Style
 
 
 

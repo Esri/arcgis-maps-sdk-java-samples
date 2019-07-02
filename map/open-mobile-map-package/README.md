@@ -18,7 +18,7 @@ To display a map from a `MobileMapPackage`:
 ## Relevant API
 
 
-  * MapView
-  * MobileMapPackage
+*   MapView
+*   MobileMapPackage
 
 

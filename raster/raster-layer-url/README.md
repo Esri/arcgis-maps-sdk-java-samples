@@ -16,9 +16,9 @@ To add a `RasterLayer` as an operational layer from an `ImageServiceRaster`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * ImageServiceRaster
-  * MapView
-  * RasterLayer
+*   ArcGISMap
+*   Basemap
+*   ImageServiceRaster
+*   MapView
+*   RasterLayer
 

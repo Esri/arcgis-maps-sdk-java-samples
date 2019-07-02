@@ -29,12 +29,12 @@ access token. This access token is used later to access user's profile.
 ## Relevant API
 
 
-  * AuthenticationChallengeHandler
-  * OAuthConfiguration
-  * OAuthTokenCredential
-  * OAuthTokenCredentialRequest
-  * Portal
-  * PortalUser
+*   AuthenticationChallengeHandler
+*   OAuthConfiguration
+*   OAuthTokenCredential
+*   OAuthTokenCredentialRequest
+*   Portal
+*   PortalUser
 
 
 ## Additional information

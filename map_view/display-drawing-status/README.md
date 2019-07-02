@@ -21,12 +21,12 @@ To use the `MapView`'s `DrawStatus`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * DrawStatus
-  * DrawStatusChangedEvent
-  * Envelope
-  * FeatureLayer
-  * MapView
-  * Point
+*   ArcGISMap
+*   Basemap
+*   DrawStatus
+*   DrawStatusChangedEvent
+*   Envelope
+*   FeatureLayer
+*   MapView
+*   Point
 

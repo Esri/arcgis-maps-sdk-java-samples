@@ -26,9 +26,9 @@ Run the sample and use the drop-down menu at the top to select a rendering rule.
 ## Relevant API
 
 
-  * ImageServiceRaster
-  * RasterLayer
-  * RenderingRule
+*   ImageServiceRaster
+*   RasterLayer
+*   RenderingRule
 
 
 ## About the data

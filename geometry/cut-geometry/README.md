@@ -21,18 +21,18 @@ To cut a geometry with a polyline:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * Geometry
-  * GeometryEngine
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * Point
-  * PointCollection
-  * Polygon
-  * Polyline
-  * SimpleFillSymbol
-  * SimpleLineSymbol
-  * SpatialReferences
+*   ArcGISMap
+*   Basemap
+*   Geometry
+*   GeometryEngine
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   Point
+*   PointCollection
+*   Polygon
+*   Polyline
+*   SimpleFillSymbol
+*   SimpleLineSymbol
+*   SpatialReferences
 

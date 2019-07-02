@@ -18,8 +18,8 @@ To display a `KMLLayer`:
 ## Relevant API
 
 
-  * KmlDataset
-  * KmlLayer
-  * Portal
-  * PortalItem
+*   KmlDataset
+*   KmlLayer
+*   Portal
+*   PortalItem
 

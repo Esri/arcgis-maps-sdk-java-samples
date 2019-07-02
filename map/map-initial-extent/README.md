@@ -22,11 +22,11 @@ To set an initial `Viewpoint`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Envelope
-  * MapView
-  * Point
-  * Viewpoint
+*   ArcGISMap
+*   Envelope
+*   MapView
+*   Point
+*   Viewpoint
 
 
 

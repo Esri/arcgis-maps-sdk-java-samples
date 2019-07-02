@@ -20,10 +20,10 @@ To apply a `ColormapRenderer` to a `RasterLayer`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * ColormapRenderer
-  * MapView
-  * Raster
-  * RasterLayer
+*   ArcGISMap
+*   Basemap
+*   ColormapRenderer
+*   MapView
+*   Raster
+*   RasterLayer
 

@@ -26,14 +26,14 @@ How to set a default symbol using a `SimpleRenderer`:
 ## Relevant API
 
 
- * ArcGISMap
- * Graphic
- * GraphicsOverlay
- * MapView
- * Point
- * SimpleMarkerSymbol
- * SimpleMarkerSymbol.Style
- * SimpleRenderer
+ *   ArcGISMap
+ *   Graphic
+ *   GraphicsOverlay
+ *   MapView
+ *   Point
+ *   SimpleMarkerSymbol
+ *   SimpleMarkerSymbol.Style
+ *   SimpleRenderer
 
 
 

@@ -16,7 +16,7 @@ To perform geocoding with offline resources:
 
 
   1. Create an `ArcGISMap`'s using a `Basemap` and add it to the map view.
-  * basemap is created using a `TileCache`, which represent our offline resource
+*   basemap is created using a `TileCache`, which represent our offline resource
   2. Create a `LocatorTask` using a URI to the offline locator file and define the `ReverseGeocodeParameters`/`GeocodeParameters` for  the LocatorTask.
   3. To geocode an address, set the geocode parameters and use `LocatorTask.geocodeAsync(query, geocodeParameters)`.
   4. To reverse geocode a location, get the `Point` location on the map view and use `LocatorTask
@@ -27,19 +27,19 @@ To perform geocoding with offline resources:
 ## Relevant API
 
 
-  * ArcGISMap
-  * ArcGISTiledLayer
-  * Callout
-  * MapView
-  * LocatorTask
-  * GeocodeParameters
-  * GeocodeResult
-  * Graphic
-  * GraphicsOverlay
-  * Point
-  * PictureMarkerSymbol
-  * ReverseGeocodeParameters
-  * TileCache
+*   ArcGISMap
+*   ArcGISTiledLayer
+*   Callout
+*   MapView
+*   LocatorTask
+*   GeocodeParameters
+*   GeocodeResult
+*   Graphic
+*   GraphicsOverlay
+*   Point
+*   PictureMarkerSymbol
+*   ReverseGeocodeParameters
+*   TileCache
 
 
 

@@ -21,11 +21,11 @@ To change the atmosphere effect:
 ## Relevant API
 
 
-* ArcGISScene
+*   ArcGISScene
 
-* AtmosphereEffect
+*   AtmosphereEffect
 
-* SceneView
+*   SceneView
 
 
 
@@ -33,9 +33,9 @@ To change the atmosphere effect:
 There are three atmosphere effect options:
 
 
-* ** Realistic ** - Atmosphere effect applied to both the sky and the surface as viewed from above. 
-* ** Horizon only ** - Atmosphere effect applied to the sky (horizon) only.
-* ** None ** - No atmosphere effect. The sky is rendered black with a starfield consisting of randomly placed white dots.
+***   Realistic **   - Atmosphere effect applied to both the sky and the surface as viewed from above. 
+***   Horizon only **   - Atmosphere effect applied to the sky (horizon) only.
+***   None **   - No atmosphere effect. The sky is rendered black with a starfield consisting of randomly placed white dots.
 
 
 ## Tags

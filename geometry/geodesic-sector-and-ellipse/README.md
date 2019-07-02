@@ -31,13 +31,13 @@ To create a geodesic sector and ellipse:
 ## Relevant API
 
 
-* GeodesicEllipseParameters
+*   GeodesicEllipseParameters
   
-* GeodesicSectorParameters
+*   GeodesicSectorParameters
 
-* GeometryEngine
+*   GeometryEngine
 
-* GeometryType
+*   GeometryType
 
 
 ## Additional information

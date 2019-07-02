@@ -21,7 +21,7 @@ To export the visible area of the `ArcGISMap` as an image file:
 ## Relevant API
 
 
-  * ArcGISMap
-  * MapView
+*   ArcGISMap
+*   MapView
 
 

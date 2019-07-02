@@ -41,12 +41,12 @@ To change the order-by fields, select a group by field (it must be checked) and 
  ## Relevant API
  
  
-  * Field
-  * QueryParameters
-  * ServiceFeatureTable
-  * StatisticDefinition
-  * StatisticRecord
-  * StatisticType
-  * StatisticsQueryParameters
-  * StatisticsQueryResult
+*   Field
+*   QueryParameters
+*   ServiceFeatureTable
+*   StatisticDefinition
+*   StatisticRecord
+*   StatisticType
+*   StatisticsQueryParameters
+*   StatisticsQueryResult
  

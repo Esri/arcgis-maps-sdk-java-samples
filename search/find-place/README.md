@@ -14,7 +14,7 @@ To find locations matching a query and a search area:
 
 
   1. Create an `ArcGISMap`'s with `Basemap`.
-  * basemap is created using a `TileCache` to represent an offline resource.
+*   basemap is created using a `TileCache` to represent an offline resource.
   2. Add the map to the `MapView`, `MapView.setMap()`.
   3. Create a `LocatorTask` using a URL and set the `GeocodeParameters`.
   4. To reverse geocode near a location, pass the location's position into `GeocodeParameters.setSearchArea(Geometry)` to set the search area.
@@ -25,16 +25,16 @@ To find locations matching a query and a search area:
 ## Relevant API
 
 
-  * ArcGISMap
-  * GeocodeParameters
-  * GeocodeResult
-  * Graphic
-  * GraphicsOverlay
-  * LocatorTask
-  * MapView
-  * PictureMarkerSymbol
-  * ReverseGeocodeParameters
-  * TileCache
+*   ArcGISMap
+*   GeocodeParameters
+*   GeocodeResult
+*   Graphic
+*   GraphicsOverlay
+*   LocatorTask
+*   MapView
+*   PictureMarkerSymbol
+*   ReverseGeocodeParameters
+*   TileCache
 
 
 

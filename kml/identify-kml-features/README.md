@@ -23,8 +23,8 @@ To identify KML features:
 ## Relevant API
 
 
-  * IdentifyLayerResult
-  * KmlDataset
-  * KmlLayer
-  * KmlPlacemark
+*   IdentifyLayerResult
+*   KmlDataset
+*   KmlLayer
+*   KmlPlacemark
 

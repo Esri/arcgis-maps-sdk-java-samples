@@ -35,17 +35,17 @@ To densify and generalize a polyline:
 ## Relevant API
 
 
-   * ArcGISMap
-   * Basemap
-   * GeometryEngine
-   * Graphic
-   * GraphicsOverlay
-   * MapView
-   * Multipoint
-   * Point
-   * PointCollection
-   * Polyline
-   * SimpleLineSymbol
-   * SimpleMarkerSymbol
-   * SpatialReference
+*   ArcGISMap
+*   Basemap
+*   GeometryEngine
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   Multipoint
+*   Point
+*   PointCollection
+*   Polyline
+*   SimpleLineSymbol
+*   SimpleMarkerSymbol
+*   SpatialReference
 

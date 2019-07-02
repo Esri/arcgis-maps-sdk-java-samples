@@ -26,13 +26,13 @@ When starting the sample, the user is challenged for an ArcGIS Online login to v
 ## Relevant API
 
 
-  * AuthenticationChallengeHandler
-  * AuthenticationManager
-  * DefaultAuthenticationChallengeHandler
-  * Map
-  * MapView
-  * Portal
-  * PortalItem
+*   AuthenticationChallengeHandler
+*   AuthenticationManager
+*   DefaultAuthenticationChallengeHandler
+*   Map
+*   MapView
+*   Portal
+*   PortalItem
 
 
 ## Tags

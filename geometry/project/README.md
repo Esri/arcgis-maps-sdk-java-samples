@@ -23,7 +23,7 @@ To project a geometry to another spatial reference:
 
 ## Relevant API
 
-* GeometryEngine
-* Point
-* SpatialReference
+*   GeometryEngine
+*   Point
+*   SpatialReference
 

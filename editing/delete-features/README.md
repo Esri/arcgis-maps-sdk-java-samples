@@ -25,9 +25,9 @@ To delete a `Feature` from a `ServiceFeatureTable`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Feature
-  * FeatureLayer
-  * MapView
-  * ServiceFeatureTable
+*   ArcGISMap
+*   Feature
+*   FeatureLayer
+*   MapView
+*   ServiceFeatureTable
 

@@ -29,10 +29,10 @@ To start again from the beginning, click the reset button to reset the tour. The
 ## Relevant API
 
 
-* KmlDataset
-* KmlTour
-* KmlTourController
-* KmlTourStatus
+*   KmlDataset
+*   KmlTour
+*   KmlTourController
+*   KmlTourStatus
 
 
 ## About the data

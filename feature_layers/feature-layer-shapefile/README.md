@@ -17,7 +17,7 @@ To show a shapefile as a feature layer:
 ## Relevant API
 
 
-  * FeatureLayer
-  * ShapefileFeatureTable
+*   FeatureLayer
+*   ShapefileFeatureTable
 
 

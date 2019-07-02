@@ -21,19 +21,19 @@ To clip a `Geometry` with an `Envelope`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * Basemap
-  * Envelope
-  * Geometry
-  * GeometryEngine
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * Point
-  * PointCollection
-  * Polygon
-  * Polyline
-  * SimpleFillSymbol
-  * SimpleLineSymbol
-  * SpatialReferences
+*   ArcGISMap
+*   Basemap
+*   Envelope
+*   Geometry
+*   GeometryEngine
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   Point
+*   PointCollection
+*   Polygon
+*   Polyline
+*   SimpleFillSymbol
+*   SimpleLineSymbol
+*   SpatialReferences
 

@@ -22,10 +22,10 @@ To open a web map:
 ## Relevant API
 
 
-  * ArcGISMap
-  * MapView
-  * Portal
-  * PortalItem
+*   ArcGISMap
+*   MapView
+*   Portal
+*   PortalItem
 
 
 

@@ -24,11 +24,11 @@ To change the renderer of a shapefile feature layer:
 ## Relevant API
 
 
-  * FeatureLayer
-  * ShapefileFeatureTable
-  * SimpleFillSymbol
-  * SimpleLineSymbol
-  * SimpleRenderer
+*   FeatureLayer
+*   ShapefileFeatureTable
+*   SimpleFillSymbol
+*   SimpleLineSymbol
+*   SimpleRenderer
 
 
 

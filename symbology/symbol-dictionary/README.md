@@ -30,10 +30,10 @@ Click the Clear button to clear previous search results.
 ## Relevant API
 
 
-  * StyleSymbolSearchParameters
-  * StyleSymbolSearchResult
-  * Symbol
-  * SymbolDictionary
+*   StyleSymbolSearchParameters
+*   StyleSymbolSearchResult
+*   Symbol
+*   SymbolDictionary
 
 
 ## Tags

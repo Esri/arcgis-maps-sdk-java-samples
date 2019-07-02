@@ -27,13 +27,13 @@ Click anywhere on the surface to get the elevation at that point. Elevation is r
 ## Relevant API
 
 
-* ArcGISTiledElevationSource
+*   ArcGISTiledElevationSource
 
-* BaseSurface
+*   BaseSurface
 
-* ElevationSourcesList
+*   ElevationSourcesList
 
-* SceneView
+*   SceneView
 
 
 ## Additional information

@@ -23,7 +23,7 @@ To take a web map offline:
 ## Relevant API
 
 
-  * GenerateOfflineMapJob
-  * GenerateOfflineMapParameters
-  * GenerateOfflineMapResult
-  * OfflineMapTask
+*   GenerateOfflineMapJob
+*   GenerateOfflineMapParameters
+*   GenerateOfflineMapResult
+*   OfflineMapTask

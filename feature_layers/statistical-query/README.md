@@ -29,13 +29,13 @@ To query statistics on a `FeatureTable` field:
 ## Relevant API
 
 
-  * ArcGISMap
-  * FeatureLayer
-  * QueryParameters
-  * ServiceFeatureTable
-  * StatisticDefinition
-  * StatisticRecord
-  * StatisticType
-  * StatisticsQueryParameters
-  * StatisticsQueryResult
+*   ArcGISMap
+*   FeatureLayer
+*   QueryParameters
+*   ServiceFeatureTable
+*   StatisticDefinition
+*   StatisticRecord
+*   StatisticType
+*   StatisticsQueryParameters
+*   StatisticsQueryResult
 

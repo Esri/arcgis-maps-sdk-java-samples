@@ -23,10 +23,10 @@ To search for webmaps in a `Portal` matching a keyword:
 ## Relevant API
 
 
-  * ArcGISMap
-  * MapView
-  * Portal
-  * PortalItem
-  * PortalQueryParameters
-  * PortalQueryResultSet
+*   ArcGISMap
+*   MapView
+*   Portal
+*   PortalItem
+*   PortalQueryParameters
+*   PortalQueryResultSet
 

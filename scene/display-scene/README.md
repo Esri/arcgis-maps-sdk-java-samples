@@ -18,8 +18,8 @@ To create an `ArcGISScene` with elevation data:
 ## Relevant API
 
 
-  * ArcGISScene
-  * ArcGISTiledElevationSource
-  * Camera
-  * SceneView
-  * Surface
+*   ArcGISScene
+*   ArcGISTiledElevationSource
+*   Camera
+*   SceneView
+*   Surface

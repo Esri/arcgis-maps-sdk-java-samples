@@ -32,11 +32,11 @@ To change the `Viewpoint`:
 ## Relevant API
 
 
- * ArcGISMap
- * Basemap
- * Point
- * SpatialReference
- * Viewpoint
+ *   ArcGISMap
+ *   Basemap
+ *   Point
+ *   SpatialReference
+ *   Viewpoint
 
 
 

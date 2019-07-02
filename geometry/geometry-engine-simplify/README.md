@@ -22,11 +22,11 @@ To perform the simplify geometry operation on a `Polygon`:
 ## Relevant API
 
 
-  * Geometry
-  * Graphic
-  * GraphicsOverlay
-  * MapView
-  * Point
-  * PointCollection
-  * SimpleLineSymbol
-  * SimpleFillSymbol
+*   Geometry
+*   Graphic
+*   GraphicsOverlay
+*   MapView
+*   Point
+*   PointCollection
+*   SimpleLineSymbol
+*   SimpleFillSymbol

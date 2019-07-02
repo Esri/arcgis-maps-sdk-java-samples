@@ -35,14 +35,14 @@ To get suitable transformations from one spatial reference to another:
 
 ## Relevant API
 
-  * ArcGISMap
-  * Basemap
-  * DatumTransformation
-  * GeometryEngine
-  * Graphic
-  * GraphicsOverlay
-  * Point
-  * SimpleMarkerSymbol
-  * SpatialReference
+*   ArcGISMap
+*   Basemap
+*   DatumTransformation
+*   GeometryEngine
+*   Graphic
+*   GraphicsOverlay
+*   Point
+*   SimpleMarkerSymbol
+*   SpatialReference
   <li>TransformationCatalog
 

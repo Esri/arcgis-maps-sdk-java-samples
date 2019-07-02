@@ -22,9 +22,9 @@ To identify features from layers in a map:
 ## Relevant API
 
 
-* ArcGISMapImageLayer
-* FeatureLayer
-* FeatureTable
-* IdentifyLayerResult
-* MapView
+*   ArcGISMapImageLayer
+*   FeatureLayer
+*   FeatureTable
+*   IdentifyLayerResult
+*   MapView
 

@@ -25,10 +25,10 @@ To query a `Feature` from your `FeatureLayer`:
 ## Relevant API
 
 
-  * ArcGISMap
-  * FeatureLayer
-  * FeatureQueryResult
-  * MapView
-  * QueryParameters
-  * ServiceFeatureTable
+*   ArcGISMap
+*   FeatureLayer
+*   FeatureQueryResult
+*   MapView
+*   QueryParameters
+*   ServiceFeatureTable
 
