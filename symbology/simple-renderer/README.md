@@ -5,7 +5,7 @@ Set default symbols for all graphics in an overlay.
 Renderers are used to display graphics that don't already have a symbol set. A renderer will not override a symbol 
 that is manually set to a graphic.
 
-<img src="SimpleRenderer.png"/>
+![](SimpleRenderer.png)
 
 ## How to use the sample
 

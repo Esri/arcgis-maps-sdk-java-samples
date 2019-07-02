@@ -2,7 +2,7 @@
 
 Change a line graphic's color and style.
 
-<img src="SimpleLineSymbol.png"/>
+![](SimpleLineSymbol.png)
 
 ## How to use the sample
 

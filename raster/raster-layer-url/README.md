@@ -2,7 +2,7 @@
 
 Show raster data from an online raster image service.
 
-<img src="RasterLayerURL.png"/>
+![](RasterLayerURL.png)
 
 ## How it works
 

@@ -2,7 +2,7 @@
 
 Group and sort feature statistics by different fields.
 
-<img src="StatisticalQueryGroupAndSort.png">
+![](StatisticalQueryGroupAndSort.png">
 
 ## How to use the sample
 

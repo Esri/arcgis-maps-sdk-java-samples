@@ -2,7 +2,7 @@
 
 Adds a scale bar to visually gauge distances on a map.
 
-<img src="ScaleBar.png"/>
+![](ScaleBar.png)
 
 ## How to use the sample
 

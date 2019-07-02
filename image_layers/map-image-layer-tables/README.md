@@ -4,7 +4,7 @@ Find features in a spatial table related to features in a non-spatial table.
 
 The non-spatial tables contained by a map service may contain additional information about sublayer features. Such information can be accessed by traversing table relationships defined in the service.
 
-<img src="MapImageLayerTables.png"></a>
+![](MapImageLayerTables.png"></a>
 
 ## How to use the sample
 

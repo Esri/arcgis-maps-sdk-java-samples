@@ -6,7 +6,7 @@ A stretch renderer can be used to stretch tightly grouped values
 across the available value spectrum, creating more contrast between objects. This is useful for identifying objects 
 in dark images.
 
-<img src="StretchRenderer.png"/>
+![](StretchRenderer.png)
 
 ## How to use the sample
 

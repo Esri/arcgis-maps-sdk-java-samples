@@ -2,7 +2,7 @@
 
 View an integrated mesh layer from a scene service.
 
-<img src="AddAnIntegratedMeshLayer.png"/>
+![](AddAnIntegratedMeshLayer.png)
 
 ## Use Case
 

@@ -2,7 +2,7 @@
 
 Determine if a layer is currently visible.
 
-<img src="DisplayLayerViewState.png"/>
+![](DisplayLayerViewState.png)
 
 ## How to use the sample
 

@@ -4,7 +4,7 @@ Manage multiple running services in Local Server.
 
 ** Note: ** Local Server is not supported on MacOS
 
-<img src="LocalServerServices.png"/>
+![](LocalServerServices.png)
 
 ## How to use the sample
 

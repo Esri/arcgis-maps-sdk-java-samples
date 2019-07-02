@@ -2,7 +2,7 @@
 
 Display the map at an initial viewpoint.
 
-<img src="MapInitialExtent.png"/>
+![](MapInitialExtent.png)
 
 ## How to use the sample
 

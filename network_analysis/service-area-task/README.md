@@ -5,7 +5,7 @@ Find the service area for a point.
 A service area shows locations that can be reached from a facility based off a certain impedance [such as travel 
 time]. Barriers can also be added which can effect the impedance by not letting traffic through or adding the time is takes to pass that barrier.
 
-<img src="ServiceAreaTask.gif"/>
+![](ServiceAreaTask.gif)
 
 ## How to use sample
 <li>In order to find any service areas at least one ServiceAreaFaciltiy needs to be added.</li>

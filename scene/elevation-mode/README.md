@@ -2,7 +2,7 @@
 
 Position graphics relative to terrain.
 
-<img src="ElevationMode.png"/>
+![](ElevationMode.png)
 
 ## How it works
 

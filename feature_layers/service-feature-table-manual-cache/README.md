@@ -2,7 +2,7 @@
 
 Request features on demand.
 
-<img src="ServiceFeatureTableManualCache.png"/>
+![](ServiceFeatureTableManualCache.png)
 
 ## How to use the sample
 

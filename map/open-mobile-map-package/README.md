@@ -2,7 +2,7 @@
 
 Display a map from a mobile map package.
 
-<img src="OpenMobileMapPackage.png"/>
+![](OpenMobileMapPackage.png)
 
 ## How it works
 

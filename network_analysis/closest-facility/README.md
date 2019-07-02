@@ -2,7 +2,7 @@
 
 Find a route to the closest facility from a location.
 
-<img src="ClosestFacility.png"/>
+![](ClosestFacility.png)
 
 ## How to use sample
 Left click near any of the hospitals and a route will be displayed from that clicked location to the nearest hospital.

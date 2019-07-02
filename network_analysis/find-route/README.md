@@ -2,7 +2,7 @@
 
 Get a route between two stops with directions.
 
-<img src="FindRoute.png"/>
+![](FindRoute.png)
 
 ## How to use the sample
 

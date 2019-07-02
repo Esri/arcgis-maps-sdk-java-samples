@@ -2,7 +2,7 @@
 
 Export tiles from an online vector tile service.
 
-<img src="ExportVectorTiles.png"/>
+![](ExportVectorTiles.png)
 
 ## How to use the sample
 

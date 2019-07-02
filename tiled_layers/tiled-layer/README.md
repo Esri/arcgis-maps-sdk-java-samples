@@ -6,7 +6,7 @@ Display tiles from an ArcGIS tile service.
 
 An `ArcGISTiledLayer` consumes raster tiles provided by an ArcGIS service or a tile package (.tpk & .tpkx). Dividing a raster into tiles allows the map to provide relevant tiles and level of detail to the user when panning and zooming, allowing for rapid map visualization and navigation. The service in this sample pre-generates images based on a tiling scheme.
 
-<img src="TiledLayer.png"/>
+![](TiledLayer.png)
 
 ## How it works
 

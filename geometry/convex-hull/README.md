@@ -6,7 +6,7 @@ The convex hull is the polygon with shortest perimeter that encloses a set of po
 
 A convex hull can be useful in collision detection. When checking if two complex geometries touch and their convex hulls have been precomputed, it is efficient to first check if their convex hulls intersect before computing their proximity point-by-point.
 
-<img src="ConvexHull.png"/>
+![](ConvexHull.png)
 
 ## How to use the sample
 

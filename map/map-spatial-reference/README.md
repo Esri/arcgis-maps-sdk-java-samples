@@ -4,7 +4,7 @@ Specify a map's spatial reference.
 
 Operational layers will automatically project to this spatial reference if possible.
 
-<img src="MapSpatialReference.png"/>
+![](MapSpatialReference.png)
 
 ## How to use the sample
 

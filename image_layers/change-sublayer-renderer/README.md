@@ -4,7 +4,7 @@ Apply a renderer to a sublayer.
 
 In this example, a renderer is applied to see the different population ranges in the counties sublayer data.
 
-<img src="ChangeSublayerRenderer.png"/>
+![](ChangeSublayerRenderer.png)
 
 ## How to use the sample
 

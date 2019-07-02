@@ -6,7 +6,7 @@ Convert a map location Point in WGS84 to a String in a number of different
 coordinate notations (and vice versa) including decimal degrees; degrees, minutes, seconds; Universal Transverse 
 Mercator (UTM), and United States National Grid (USNG).
  
- <img src="FormatCoordinates.png"/>
+ ![](FormatCoordinates.png)
 
 ## How to use the sample
 

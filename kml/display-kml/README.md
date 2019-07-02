@@ -2,7 +2,7 @@
 
 Display a KML layer from a URL, portal item, or local KML file.
 
-<img src="DisplayKML.png"/>
+![](DisplayKML.png)
 
 ## How it works
 

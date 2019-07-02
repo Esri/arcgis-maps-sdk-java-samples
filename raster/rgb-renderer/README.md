@@ -4,7 +4,7 @@ Apply an RGB renderer to a raster.
 
 An RGB renderer is used to adjust the color bands of a multispectral image.
 
-<img src="RgbRenderer.png"/>
+![](RgbRenderer.png)
 
 ## How to use the sample
 

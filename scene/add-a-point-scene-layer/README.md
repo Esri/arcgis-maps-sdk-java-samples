@@ -2,7 +2,7 @@
 
 View a point scene layer from a scene service.
 
-<img src="AddAPointSceneLayer.png"/>
+![](AddAPointSceneLayer.png)
 
 ## Use case
 

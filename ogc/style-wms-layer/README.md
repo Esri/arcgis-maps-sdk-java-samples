@@ -2,7 +2,7 @@
 
 Change the style of a WMS layer.
 
-<img src="StyleWmsLayer.png"/>
+![](StyleWmsLayer.png)
 
 ## How to use the sample
 

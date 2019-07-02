@@ -4,7 +4,7 @@ Add new features to an online feature service.
 
 A FeatureLayer created using this SeviceFeatutreTable that is applied to the ArcGISMap will display any new Features automatically.
 
-<img src="AddFeatures.gif"/>
+![](AddFeatures.gif)
 
 ## How to use the sample
 

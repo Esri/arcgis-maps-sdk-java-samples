@@ -5,7 +5,7 @@ Display MIL-STD-2525D military symbology in 3D.
 The dictionary renderer creates these graphics using a local mil2525d style file included in the SDK's 
 resources/symbols directory plus an XML file with key-value attributes for each graphic.
 
-<img src="GraphicsOverlayDictionaryRenderer3D.png"/>
+![](GraphicsOverlayDictionaryRenderer3D.png)
 
 ## How it works
 

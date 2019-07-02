@@ -6,7 +6,7 @@ WebTiledLayer provides a simple way to integrate non-ArcGIS Services as a layer 
 from Stamen are added to the map. The template URI is specified by setting the subDomains, level, column, and row
 attributes. Additionally, copyright information is added to the layer so that the layer can be properly attributed.
 
-<img src="WebTiledLayer.png"/>
+![](WebTiledLayer.png)
 
 ## How it works
 

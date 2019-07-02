@@ -2,7 +2,7 @@
 
 Display nautical charts conforming to the ENC specification.
 
-<img src="AddEncExchangeSet.png"/>
+![](AddEncExchangeSet.png)
 
 ## Use case
 

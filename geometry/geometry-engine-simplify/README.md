@@ -2,7 +2,7 @@
 
 Simplify a polygon that has multiple parts.
 
-<img src="GeometryEngineSimplify.png"/>
+![](GeometryEngineSimplify.png)
 
 ## How to use the sample
 

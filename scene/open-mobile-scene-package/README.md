@@ -2,7 +2,7 @@
 
 Open and display a scene from an offline Mobile Scene Package (.mspk).
 
-<img src="OpenMobileScenePackage.png"/>
+![](OpenMobileScenePackage.png)
 
 ## Use Case
 

@@ -2,7 +2,7 @@
 
 Extrude features based on their attributes.
 
-<img src="FeatureLayerExtrusion.gif"/>
+![](FeatureLayerExtrusion.gif)
 
 ## How it works
 

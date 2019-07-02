@@ -5,7 +5,7 @@ Display mil2525d symbols.
 The dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key, 
 value attributes for each graphic.
 
-<img src="DictionaryRendererGraphicsOverlay.png"/>
+![](DictionaryRendererGraphicsOverlay.png)
 
 ## How it works
 

@@ -2,7 +2,7 @@
 
 Get the vertex of a geometry closest to a point.
 
-<img src="NearestVertex.png"/>
+![](NearestVertex.png)
 
 ## How to use the sample
 

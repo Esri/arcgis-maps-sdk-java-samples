@@ -5,7 +5,7 @@ Change a graphic's symbol based on camera proximity.
 Distance composite scene symbols can render different symbols depending on the distance between the camera and the
  graphic.
 
-<img src="DistanceCompositeSymbol.gif"/>
+![](DistanceCompositeSymbol.gif)
 
 ## How to use the sample
 

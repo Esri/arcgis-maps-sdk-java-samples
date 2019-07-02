@@ -4,7 +4,7 @@ Dynamically add a local shapefile to a map using Local Server.
 
 ** Note: ** Local Server is not supported on MacOS
 
-<img src="LocalServerDynamicWorkspaceShapefile.png"/>
+![](LocalServerDynamicWorkspaceShapefile.png)
 
 ## How to use the sample
 

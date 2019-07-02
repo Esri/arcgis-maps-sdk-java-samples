@@ -2,7 +2,7 @@
 
 Extrude graphics based on attributes.
 
-<img src="ExtrudeGraphics.png"/>
+![](ExtrudeGraphics.png)
 
 ## How to use the sample
 

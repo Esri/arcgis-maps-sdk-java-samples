@@ -2,7 +2,7 @@
 
 Set the map's reference scale and choose which feature layers should honor the reference scale.
 
-<img src="MapReferenceScale.png"/>
+![](MapReferenceScale.png)
 
 ## Use case
 
@@ -40,6 +40,6 @@ Map annotations are typically only relevant at certain scales. For instance, ann
 
 The map reference scale should normally be set by the map's author and not exposed to the end user like it is in this sample.
 
-## ## Tags
+## Tags
 
 Maps & Scenes, reference scale

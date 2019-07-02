@@ -2,7 +2,7 @@
 
 Get the elevation for a given point on a surface in a scene.
 
-<img src="GetElevationAtAPoint.png"/>
+![](GetElevationAtAPoint.png)
 
 ## Use case
 
@@ -42,6 +42,6 @@ Click anywhere on the surface to get the elevation at that point. Elevation is r
 
 If multiple elevation sources are present in the surface, the top most visible elevation source with a valid elevation in the given location is used to determine the result.
 
-## ## Tags
+## Tags
 
 elevation, point, surface
