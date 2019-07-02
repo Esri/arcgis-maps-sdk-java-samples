@@ -1,0 +1,36 @@
+{
+    "category": "Geometry",
+    "description": "@@TODO: Simplify a polygon that has multiple parts.",
+    "ignore": false,
+    "images": [
+        "GeometryEngineSimplify.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleFillSymbol"
+    ],
+    "redirect_from": "/java/latest/sample-code/geometry-engine-simplify.htm",
+    "relevant_apis": [
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleFillSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/geometry_engine_simplify/GeometryEngineSimplifySample.java",
+        "src/main/java/com/esri/samples/geometry_engine_simplify/GeometryEngineSimplifyLauncher.java"
+    ],
+    "title": "@@TODO: Geometry Engine Simplify"
+}

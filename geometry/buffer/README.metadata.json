@@ -1,0 +1,28 @@
+{
+    "category": "Geometry",
+    "description": "@@TODO: Create geodesic and planar buffers around a point.",
+    "ignore": false,
+    "images": [
+        "Buffer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "GeometryEngine",
+        "GraphicsOverlay",
+        "Point",
+        "Polygon"
+    ],
+    "redirect_from": "/java/latest/sample-code/buffer.htm",
+    "relevant_apis": [
+        "GeometryEngine",
+        "GraphicsOverlay",
+        "Point",
+        "Polygon"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/buffer/BufferLauncher.java",
+        "src/main/java/com/esri/samples/buffer/BufferSample.java"
+    ],
+    "title": "@@TODO: Buffer"
+}
