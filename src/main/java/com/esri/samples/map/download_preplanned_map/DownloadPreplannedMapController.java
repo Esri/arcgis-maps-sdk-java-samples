@@ -263,7 +263,7 @@ public class DownloadPreplannedMapController {
     });
 
     // close all geodatabases to allow deleting
-    geodatabases.forEach(geodatabase -> geodatabase.close());
+    geodatabases.forEach(Geodatabase::close);
 
     // delete all files in the temporary directory
     File localPreplannedMapDirectoryFile = tempDirectory.toFile();
