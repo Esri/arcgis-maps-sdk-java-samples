@@ -2,7 +2,7 @@
 
 Apply a blend renderer to a raster.
 
-Blend renderers can be used to blend elevation data with imagery, creating a 3.  effect.
+Blend renderers can be used to blend elevation data with imagery, creating a 3D effect.
 
 ![](BlendRenderer.png)
 
