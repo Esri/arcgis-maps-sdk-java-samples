@@ -14,15 +14,15 @@ A line of sight will display between a point on the Empire State Building (obser
 
 To show a line of sight between two graphics:
 
-1.  Create an `AnalysisOverlay` and add it to the `SceneView`'s analysis overlays collection.
-2.  Create a `GeoElementLineOfSight`, passing in observer and target `GeoElement`s (feautures or graphics). Add the line of sight to the analysis overlay's analyses collection.
-3.  To get the target visibility when it changes, add a `TargetVisibilityChangedListener` to the line of sight. The changed event will give the `TargetVisibility`.
+1. Create an `AnalysisOverlay` and add it to the `SceneView`'s analysis overlays collection.
+2. Create a `GeoElementLineOfSight`, passing in observer and target `GeoElement`s (feautures or graphics). Add the line of sight to the analysis overlay's analyses collection.
+3. To get the target visibility when it changes, add a `TargetVisibilityChangedListener` to the line of sight. The changed event will give the `TargetVisibility`.
 
 ## Relevant API
 
-*   AnalysisOverlay
-*   GeoElementLineOfSight
-*   LineOfSight.TargetVisibility
+* AnalysisOverlay
+* GeoElementLineOfSight
+* LineOfSight.TargetVisibility
 
 ## Tags
 

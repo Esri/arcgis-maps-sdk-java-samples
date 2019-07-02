@@ -10,13 +10,13 @@ On-interaction-cache mode will fetch features within the current extent when nee
 
 How to set `FeatureRequestMode.ON_INTERACTION_CACHE` mode:
 
-1.  Create a `ServiceFeatureTable` from a URL.
-2.  Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.ON_INTERACTION_CACHE)`.
+1. Create a `ServiceFeatureTable` from a URL.
+2. Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.ON_INTERACTION_CACHE)`.
 
 ## Relevant API
 
-*   ArcGISMap
-*   FeatureLayer
-*   MapView
-*   ServiceFeatureTable
-*   ServiceFeatureTable.FeatureRequestMode
+* ArcGISMap
+* FeatureLayer
+* MapView
+* ServiceFeatureTable
+* ServiceFeatureTable.FeatureRequestMode

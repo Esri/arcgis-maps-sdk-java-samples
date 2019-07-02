@@ -12,12 +12,12 @@ Tap the map to add points. Each point will use the buffer distance entered when 
 
 To union multiple buffers:
 
-1.  Call `GeometryEngine.buffer(points, distances, union)` where `points` are the points to buffer around, `distances` are the buffer distances for each point (in meters) and `union` is a boolean for whether the results should be unioned.
-2.  Use the result polygons (if not unioned) or single polygon (if unioned).
+1. Call `GeometryEngine.buffer(points, distances, union)` where `points` are the points to buffer around, `distances` are the buffer distances for each point (in meters) and `union` is a boolean for whether the results should be unioned.
+2. Use the result polygons (if not unioned) or single polygon (if unioned).
 
 ## Relevant API
 
-*   GeometryEngine
+* GeometryEngine
 
 ## Additional Information
 

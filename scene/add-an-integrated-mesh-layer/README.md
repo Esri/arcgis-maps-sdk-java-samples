@@ -11,13 +11,13 @@ elevation information.
 
 ## How it works
 
-1.  Create a scene.
-2.  Create an `IntegratedMeshLayer` with the URL to an integrated mesh layer scene service.
-3.  Add the layer to the scene's operational layers collection.
+1. Create a scene.
+2. Create an `IntegratedMeshLayer` with the URL to an integrated mesh layer scene service.
+3. Add the layer to the scene's operational layers collection.
 
 ## Relevant API
 
-*   IntegratedMeshLayer
+* IntegratedMeshLayer
 
 ## Tags
 

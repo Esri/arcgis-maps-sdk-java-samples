@@ -23,14 +23,14 @@ Below are some other ways to set a viewpoint.
 
 To change the `Viewpoint`:
 
-1.  Create an `ArcGISMap`.
-2.  Set the map to the `MapView`, `MapView.setMap()`.
-3.  Change the view point with `MapView.setViewPoint()` or any method mention above.
+1. Create an `ArcGISMap`.
+2. Set the map to the `MapView`, `MapView.setMap()`.
+3. Change the view point with `MapView.setViewPoint()` or any method mention above.
 
 ## Relevant API
 
-*   ArcGISMap
-*   Basemap
-*   Point
-*   SpatialReference
-*   Viewpoint
+* ArcGISMap
+* Basemap
+* Point
+* SpatialReference
+* Viewpoint

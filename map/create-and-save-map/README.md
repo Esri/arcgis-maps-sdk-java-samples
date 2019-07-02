@@ -14,26 +14,26 @@ Fill in your portal and registered app credentials in the starting dialog to aut
 
 To create and save a map to your portal for use in an app:
 
-1.  Create an `ArcGISMap` with a `Basemap` and operational layers
-2.  Create an `OAuthConfiguration` with your portal and app credential.
-3.  Add the configuration to the `AuthenticationMangager`
-4.  Create a `Portal` and load it. Use a custom `AuthenticationChallengeHandler` to
+1. Create an `ArcGISMap` with a `Basemap` and operational layers
+2. Create an `OAuthConfiguration` with your portal and app credential.
+3. Add the configuration to the `AuthenticationMangager`
+4. Create a `Portal` and load it. Use a custom `AuthenticationChallengeHandler` to
   authenticate with your username and password
-5.  Once authenticated, save the map by calling `map.saveMapAsAsync()`, passing in the title, tags,
+5. Once authenticated, save the map by calling `map.saveMapAsAsync()`, passing in the title, tags,
   description, and portal folder
 
 ## Relevant API
 
-*   AuthenticationChallengeHandler
-*   ArcGISMap
-*   ArcGISMapImageLayer
-*   Basemap
-*   MapView
-*   OAuthConfiguration
-*   Portal
-*   PortalFolder
-*   PortalItem
-*   PortalUserContent
+* AuthenticationChallengeHandler
+* ArcGISMap
+* ArcGISMapImageLayer
+* Basemap
+* MapView
+* OAuthConfiguration
+* Portal
+* PortalFolder
+* PortalItem
+* PortalUserContent
 
 ## Additional information
 

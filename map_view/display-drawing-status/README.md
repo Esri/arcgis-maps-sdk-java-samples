@@ -12,17 +12,17 @@ The progress bar in the top left displays the drawing status of the map view.
 
 To use the `MapView`'s `DrawStatus`:
 
-1.  Create an `ArcGISMap`.
-2.  Set the map to the view `MapView`, `MapView.setMap()`.
-3.  Add `MapView.addDrawStatusChangedListener()` block and listen when the `MapView.DrawStatus` changes.
+1. Create an `ArcGISMap`.
+2. Set the map to the view `MapView`, `MapView.setMap()`.
+3. Add `MapView.addDrawStatusChangedListener()` block and listen when the `MapView.DrawStatus` changes.
 
 ## Relevant API
 
-*   ArcGISMap
-*   Basemap
-*   DrawStatus
-*   DrawStatusChangedEvent
-*   Envelope
-*   FeatureLayer
-*   MapView
-*   Point
+* ArcGISMap
+* Basemap
+* DrawStatus
+* DrawStatusChangedEvent
+* Envelope
+* FeatureLayer
+* MapView
+* Point

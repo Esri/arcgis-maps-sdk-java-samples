@@ -12,16 +12,16 @@ Use the buttons in the control panel to change the renderer.
 
 To change the `FeatureLayer`'s `Renderer`:
 
-*   Create a `ServiceFeatureTable` from a URL.
-*   Create a feature layer from the service feature table.
-*   Create a new renderer (in this case, a `SimpleRenderer`).
-*   Change the feature layer's renderer using `FeatureLayer.setRenderer(SimpleRenderer)`.
+* Create a `ServiceFeatureTable` from a URL.
+* Create a feature layer from the service feature table.
+* Create a new renderer (in this case, a `SimpleRenderer`).
+* Change the feature layer's renderer using `FeatureLayer.setRenderer(SimpleRenderer)`.
 
 ## Relevant API
 
-*   ArcGISMap
-*   FeatureLayer
-*   MapView
-*   Renderer
-*   ServiceFeatureTable
-*   SimpleRenderer
+* ArcGISMap
+* FeatureLayer
+* MapView
+* Renderer
+* ServiceFeatureTable
+* SimpleRenderer

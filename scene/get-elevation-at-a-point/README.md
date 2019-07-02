@@ -14,17 +14,17 @@ Click anywhere on the surface to get the elevation at that point. Elevation is r
 
 ## How it works
 
-1.  Create a `SceneView` and `Scene` with an imagery base map.
-2.  Set an `ArcGISTiledElevationService` as the elevation source of the scene's base surface.
-3.  Use the `screenToBaseSurface(screenPoint)` method on the scene view to convert the selected screen point into a point on surface.
-4.  Use the `getElevationAsync(surfacePoint)` method on the base surface to asynchronously get the elevation.
+1. Create a `SceneView` and `Scene` with an imagery base map.
+2. Set an `ArcGISTiledElevationService` as the elevation source of the scene's base surface.
+3. Use the `screenToBaseSurface(screenPoint)` method on the scene view to convert the selected screen point into a point on surface.
+4. Use the `getElevationAsync(surfacePoint)` method on the base surface to asynchronously get the elevation.
 
 ## Relevant API
 
-*   ArcGISTiledElevationSource
-*   BaseSurface
-*   ElevationSourcesList
-*   SceneView
+* ArcGISTiledElevationSource
+* BaseSurface
+* ElevationSourcesList
+* SceneView
 
 ## Additional information
 

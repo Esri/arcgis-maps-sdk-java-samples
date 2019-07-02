@@ -12,18 +12,18 @@ Zoom to any extent. Then click the generate button to generate a geodatabase of 
 
 To generate a `Geodatabase` from a feature service:
 
-1.  Create a `GeodatabaseSyncTask` with the URL of the feature service and load it.
-2.  Create `GenerateGeodatabaseParameters` specifying things like the extent and whether to include attachments.
-3.  Create a `GenerateGeodatabaseJob` with `GenerateGeodatabaseJob job = syncTask.generateGeodatabaseAsync(parameters, filePath)`. Start the job with `job.start()`.
-4.  When the job is done, `job.getResult()` will return the geodatabase. Inside the geodatabase are feature tables that can be used to add feature layers to the map.
-5.  Lastly, it is good practice to call `syncTask.unregisterGeodatabaseAsync(geodatabase)` when you're not planning on syncing changes to the service.
+1. Create a `GeodatabaseSyncTask` with the URL of the feature service and load it.
+2. Create `GenerateGeodatabaseParameters` specifying things like the extent and whether to include attachments.
+3. Create a `GenerateGeodatabaseJob` with `GenerateGeodatabaseJob job = syncTask.generateGeodatabaseAsync(parameters, filePath)`. Start the job with `job.start()`.
+4. When the job is done, `job.getResult()` will return the geodatabase. Inside the geodatabase are feature tables that can be used to add feature layers to the map.
+5. Lastly, it is good practice to call `syncTask.unregisterGeodatabaseAsync(geodatabase)` when you're not planning on syncing changes to the service.
 
 ## Relevant API
 
-*   ArcGISMap
-*   FeatureLayer
-*   Geodatabase
-*   GenerateGeodatabaseJob
-*   GenerateGeodatabaseParameters
-*   MapView
-*   ServiceFeatureTable
+* ArcGISMap
+* FeatureLayer
+* Geodatabase
+* GenerateGeodatabaseJob
+* GenerateGeodatabaseParameters
+* MapView
+* ServiceFeatureTable

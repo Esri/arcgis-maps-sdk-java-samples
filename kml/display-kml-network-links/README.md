@@ -12,15 +12,15 @@ The data shown should refresh automatically every few seconds. A network message
 
 To show KML with network links and display network messages:
 
-1.  Create a `KmlDataset` from a KML source which has network links.
-2.  Construct a `KmlLayer` with the dataset and add the layer as an operational layer.
-3.  To listen for network messages, add a `KmlNetworkLinkMessageReceivedListener` on the dataset.
+1. Create a `KmlDataset` from a KML source which has network links.
+2. Construct a `KmlLayer` with the dataset and add the layer as an operational layer.
+3. To listen for network messages, add a `KmlNetworkLinkMessageReceivedListener` on the dataset.
 
 ## Relevant API
 
-*   KmlDataset
-*   KmlLayer
-*   KmlNetworkLinkMessageReceivedEvent
+* KmlDataset
+* KmlLayer
+* KmlNetworkLinkMessageReceivedEvent
 
 ## About the data
 

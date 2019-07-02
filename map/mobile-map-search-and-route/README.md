@@ -12,21 +12,21 @@ Click the "Open mobile map package" button to bring up a file choosing dialog. B
 
 To search and route from a mobile map package:
 
-1.  Create a `MobileMapPackage` passing in the path to the local mmpk file.
-2.  Load the mobile map package and get its maps with `mobileMapPackage.getMaps()`.
-3.  A `LocatorTask` can be retrieved from the mobile map package with `mobileMapPackage.getLocatorTask()` if it has one.
-4.  To see if a map has transportation networks saved with it call `map.getTransportationNetworks()`. Each `TransportationNetworkDataset` can be used to construct a `RouteTask`.
+1. Create a `MobileMapPackage` passing in the path to the local mmpk file.
+2. Load the mobile map package and get its maps with `mobileMapPackage.getMaps()`.
+3. A `LocatorTask` can be retrieved from the mobile map package with `mobileMapPackage.getLocatorTask()` if it has one.
+4. To see if a map has transportation networks saved with it call `map.getTransportationNetworks()`. Each `TransportationNetworkDataset` can be used to construct a `RouteTask`.
 
 ## Relevant API
 
-*   GeocodeResult
-*   MobileMapPackage
-*   ReverseGeocodeParameters
-*   Route
-*   RouteParameters
-*   RouteResult
-*   RouteTask
-*   TransportationNetworkDataset
+* GeocodeResult
+* MobileMapPackage
+* ReverseGeocodeParameters
+* Route
+* RouteParameters
+* RouteResult
+* RouteTask
+* TransportationNetworkDataset
 
 ## Tags
 

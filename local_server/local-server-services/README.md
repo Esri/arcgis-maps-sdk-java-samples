@@ -2,7 +2,7 @@
 
 Manage multiple running services in Local Server.
 
-**Note:**   Local Server is not supported on MacOS
+**Note:** Local Server is not supported on MacOS
 
 ![](LocalServerServices.png)
 
@@ -16,23 +16,23 @@ To stop a service, select it from the Running Services list and click the Stop S
 
 To start a `LocalService`:
 
-1.  Start the local server.
-    *   `LocalServer.INSTANCE` creates a local server
-    *   `server.startAsync()` starts the server asynchronously
-2.  Wait for server to be in the  `LocalServerStatus.STARTED` state.
-    *   `Server.addStatusChangedListener()` fires whenever the running status of the local server
+1. Start the local server.
+    * `LocalServer.INSTANCE` creates a local server
+    * `server.startAsync()` starts the server asynchronously
+2. Wait for server to be in th. `LocalServerStatus.STARTED` state.
+    * `Server.addStatusChangedListener()` fires whenever the running status of the local server
 changes
-3.  Create and run a local service.
-    *   `new LocalMapService(Url)` creates a local map service with the given url path to mpk file
-    *   `service.startAsync()` starts the service asynchronously
-4.  Stop the service with `service.stopAsync().`
+3. Create and run a local service.
+    * `new LocalMapService(Url)` creates a local map service with the given url path to mpk file
+    * `service.startAsync()` starts the service asynchronously
+4. Stop the service with `service.stopAsync().`
 
 ## Relevant API
 
-*   LocalFeatureService
-*   LocalGeoprocessingService
-*   LocalMapService
-*   LocalServer
-*   StatusChangedEvent
-*   LocalServerStatus
-*   LocalService
+* LocalFeatureService
+* LocalGeoprocessingService
+* LocalMapService
+* LocalServer
+* StatusChangedEvent
+* LocalServerStatus
+* LocalService

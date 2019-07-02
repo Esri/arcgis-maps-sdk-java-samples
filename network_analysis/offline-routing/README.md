@@ -12,25 +12,25 @@ Left-click near a road to add a stop to the route. A number graphic will show it
 
 To display a `Route` using a `RouteTask` with offline data:
 
-1.  Create the map's `Basemap` from a local tile package using a `TileCache` and `ArcGISTiledLayer`
-2.  Create a `RouteTask` with an offline locator geodatabase
-3.  Get the `RouteParameters` using `routeTask.createDefaultParameters()`
-4.  Create `Stop`s and add them to the route task's parameters.
-5.  Solve the `Route` using `routeTask.solveRouteAsync(routeParameters)`
-6.  Create a graphic with the route's geometry and a `SimpleLineSymbol` and display it on another `GraphicsOverlay`.
+1. Create the map's `Basemap` from a local tile package using a `TileCache` and `ArcGISTiledLayer`
+2. Create a `RouteTask` with an offline locator geodatabase
+3. Get the `RouteParameters` using `routeTask.createDefaultParameters()`
+4. Create `Stop`s and add them to the route task's parameters.
+5. Solve the `Route` using `routeTask.solveRouteAsync(routeParameters)`
+6. Create a graphic with the route's geometry and a `SimpleLineSymbol` and display it on another `GraphicsOverlay`.
 
 ## Relevant API
 
-*   ArcGISMap
-*   ArcGISTiledLayer
-*   Graphic
-*   GraphicsOverlay
-*   MapView
-*   Route
-*   RouteTask
-*   RouteParameters
-*   RouteResult
-*   SimpleLineSymbol
-*   Stop
-*   TextSymbol
-*   TileCache
+* ArcGISMap
+* ArcGISTiledLayer
+* Graphic
+* GraphicsOverlay
+* MapView
+* Route
+* RouteTask
+* RouteParameters
+* RouteResult
+* SimpleLineSymbol
+* Stop
+* TextSymbol
+* TileCache

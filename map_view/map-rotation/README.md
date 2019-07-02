@@ -13,14 +13,14 @@ Click the compass to set the map's heading to north.
 
 To rotate a map:
 
-1.  Create an `ArcGISMap`.
-2.  Add the map to a `MapView`.
-3.  Use `MapView.setViewpointRotationAsync` to indicate the rotation angle.
+1. Create an `ArcGISMap`.
+2. Add the map to a `MapView`.
+3. Use `MapView.setViewpointRotationAsync` to indicate the rotation angle.
 
 ## Relevant API
 
-*   ArcGISMap
-*   Compass
-*   Envelope
-*   MapView
-*   Point
+* ArcGISMap
+* Compass
+* Envelope
+* MapView
+* Point

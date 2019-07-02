@@ -12,15 +12,15 @@ Click the 'Create Convex Hull' button to create convex hull(s) from the polygon 
 
 ## How it works
 
-1.  Create an `ArcGISMap` and display it in a `MapView`.
-2.  Create two input polygon graphics and add them to a `GraphicsOverlay`.
-3.  Call `GeometryEngine.convexHull(inputGeometries, boolean)`, loop through the returned geometry (or geometries) and add them to a new `GraphicsOverlay`, set above the one containing the two input polygons.
+1. Create an `ArcGISMap` and display it in a `MapView`.
+2. Create two input polygon graphics and add them to a `GraphicsOverlay`.
+3. Call `GeometryEngine.convexHull(inputGeometries, boolean)`, loop through the returned geometry (or geometries) and add them to a new `GraphicsOverlay`, set above the one containing the two input polygons.
 
 ## Relevant API
 
-*   GeometryEngine.ConvexHull
-*   GraphicsOverlay
-*   PointCollection
+* GeometryEngine.ConvexHull
+* GraphicsOverlay
+* PointCollection
 
 ## Tags
 

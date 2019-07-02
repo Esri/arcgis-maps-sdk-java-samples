@@ -8,14 +8,14 @@ The terrain surface is what the basemap, operational layers, and graphics are dr
 
 ## How it works
 
-1.  Create an `ArcGISScene` and add it to a `SceneView`.
-2.  Create an `ArcGISTiledElevationSource` with the path to the local tile package.
-3.  Add this source to the scene's base surface: `scene.getBaseSurface().getElevationSources().add(tiledElevationSource)`.
+1. Create an `ArcGISScene` and add it to a `SceneView`.
+2. Create an `ArcGISTiledElevationSource` with the path to the local tile package.
+3. Add this source to the scene's base surface: `scene.getBaseSurface().getElevationSources().add(tiledElevationSource)`.
 
 ## Relevant API
 
-*   ArcGISTiledElevationSource
-*   Surface
+* ArcGISTiledElevationSource
+* Surface
 
 ## Tags
 

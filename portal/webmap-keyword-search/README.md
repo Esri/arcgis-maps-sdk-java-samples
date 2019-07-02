@@ -12,16 +12,16 @@ Input a keyword into the text field and press Enter to search. Click on a result
 
 To search for webmaps in a `Portal` matching a keyword:
 
-1.  Create a `Portal` and load it
-2.  Create `PortalItemQueryParameters`. Set the type to `PortalItem.Type.WEBMAP` and the query to the keyword you want to search
-3.  Use `portal.findItemsAsync(params)` to get the first set of matching items.
-4.  Get more results with `portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters())`
+1. Create a `Portal` and load it
+2. Create `PortalItemQueryParameters`. Set the type to `PortalItem.Type.WEBMAP` and the query to the keyword you want to search
+3. Use `portal.findItemsAsync(params)` to get the first set of matching items.
+4. Get more results with `portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters())`
 
 ## Relevant API
 
-*   ArcGISMap
-*   MapView
-*   Portal
-*   PortalItem
-*   PortalQueryParameters
-*   PortalQueryResultSet
+* ArcGISMap
+* MapView
+* Portal
+* PortalItem
+* PortalQueryParameters
+* PortalQueryResultSet

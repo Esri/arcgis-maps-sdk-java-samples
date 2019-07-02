@@ -10,16 +10,16 @@ An `ArcGISTiledLayer` consumes raster tiles provided by an ArcGIS service or a t
 
 ## How it works
 
-1.  Create a `TileCache`, specifying the path to the local tile package.
-2.  Create a `ArcGISTiledLayer` with the tile cache.
-3.  Create a `Basemap` with the tiled layer.
-4.  Create a `ArcGISMap` with the basemap and set it to a `MapView`.
+1. Create a `TileCache`, specifying the path to the local tile package.
+2. Create a `ArcGISTiledLayer` with the tile cache.
+3. Create a `Basemap` with the tiled layer.
+4. Create a `ArcGISMap` with the basemap and set it to a `MapView`.
 
 ## Relevant API
 
-*   ArcGISMap
-*   ArcGISTiledLayer
-*   TileCache
+* ArcGISMap
+* ArcGISTiledLayer
+* TileCache
 
 ## Additional information
 

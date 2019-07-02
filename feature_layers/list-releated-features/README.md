@@ -13,10 +13,10 @@ grouped by feature table.
 
 To query related `Feature`s:
 
-1.  Get a `Feature` from a loaded `FeatureLayer`.
-2.  Get the feature's `FeatureTable` and call `featureTable.queryRelatedFeaturesAsync(feature)`.
-3.  You will get a list of `RelatedFeatureQueryResult`s.
-    *   You can get the name of the table containing the related features with `relatedFeatureQueryResult.getRelatedTable().getTableName()`.
+1. Get a `Feature` from a loaded `FeatureLayer`.
+2. Get the feature's `FeatureTable` and call `featureTable.queryRelatedFeaturesAsync(feature)`.
+3. You will get a list of `RelatedFeatureQueryResult`s.
+    * You can get the name of the table containing the related features with `relatedFeatureQueryResult.getRelatedTable().getTableName()`.
 4. The `RelatedFeatureQueryResult` implements `Iterable&lt;Feature&gt;`. You can iterate over the result to get the features:
   ```java
   for (Feature feature: relatedFeatureQueryResult) {
@@ -26,12 +26,12 @@ To query related `Feature`s:
 
 ## Relevant API
 
-*   ArcGISFeature
-*   ArcGISFeatureTable
-*   ArcGISMap
-*   Feature
-*   FeatureLayer
-*   FeatureQueryResult
-*   FeatureTable
-*   MapView
-*   RelatedFeatureQueryResult
+* ArcGISFeature
+* ArcGISFeatureTable
+* ArcGISMap
+* Feature
+* FeatureLayer
+* FeatureQueryResult
+* FeatureTable
+* MapView
+* RelatedFeatureQueryResult

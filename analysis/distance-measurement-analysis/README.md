@@ -14,15 +14,15 @@ Choose a unit system for the measurement in the UI dropdown. Click any location 
 
 To measure distances with the `LocationDistanceMeasurement` analysis:
 
-1.  Create an `AnalysisOverlay` and add it to your scene view's analysis overlay collection: `sceneView.getAnalysisOverlays().add(analysisOverlay)`.
-2.  Create a `LocationDistanceMeasurement`, specifying the `startLocation` and `endLocation`. These can be the same point to start with. Add the analysis to the analysis overlay: `analysisOverlay.getAnalyses().add(LocationDistanceMeasurement)`. The measuring line will be drawn for you between the two points.
-3.  The `measurementChanged` callback will fire if the distances change. You can get the new values for the `directDistance`, `horizontalDistance`, and `verticalDistance` from the `MeasurementChangedEvent` returned by the callback. The distance objects contain both a scalar value and a unit of measurement.
+1. Create an `AnalysisOverlay` and add it to your scene view's analysis overlay collection: `sceneView.getAnalysisOverlays().add(analysisOverlay)`.
+2. Create a `LocationDistanceMeasurement`, specifying the `startLocation` and `endLocation`. These can be the same point to start with. Add the analysis to the analysis overlay: `analysisOverlay.getAnalyses().add(LocationDistanceMeasurement)`. The measuring line will be drawn for you between the two points.
+3. The `measurementChanged` callback will fire if the distances change. You can get the new values for the `directDistance`, `horizontalDistance`, and `verticalDistance` from the `MeasurementChangedEvent` returned by the callback. The distance objects contain both a scalar value and a unit of measurement.
 
 ## Relevant API
 
-*   AnalysisOverlay
-*   LocationDistanceMeasurement
-*   UnitSystem
+* AnalysisOverlay
+* LocationDistanceMeasurement
+* UnitSystem
 
 ## Additional information
 

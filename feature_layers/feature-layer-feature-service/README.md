@@ -8,13 +8,13 @@ Show features from an online feature service.
 
 To add `Feature`s from your `FeatureLayer` to an `ArcGISMap`.
 
-1.  Create a `ServiceFeatureTable` from a URL.
-2.  Create a feature layer from the service feature table.
-3.  Set the feature layer to your ArcGISMap using `ArcGISMap.getOperationalLayers().add(FeatureLayer)`.
+1. Create a `ServiceFeatureTable` from a URL.
+2. Create a feature layer from the service feature table.
+3. Set the feature layer to your ArcGISMap using `ArcGISMap.getOperationalLayers().add(FeatureLayer)`.
 
 ## Relevant API
 
-*   ArcGISMap
-*   FeatureLayer
-*   MapView
-*   ServiceFeatureTable
+* ArcGISMap
+* FeatureLayer
+* MapView
+* ServiceFeatureTable

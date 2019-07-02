@@ -10,20 +10,20 @@ A renderer allows you to change the style of all graphics in an overlay by only 
 
 To show a `Graphic` in a `GraphicsOverlay` using a renderer:
 
-1.  Create a `GraphicsOverlay` and add it to the `MapView`
-2.  Create a `Graphic`, specifying only its geometry
-3.  Create a single `Symbol` such as a `SimpleMarkerSymbol`
-4.  Create a renderer with the symbol such as `new SimpleRenderer(symbol)`
-5.  Set the renderer on the graphics overlay with `graphicsOverlay.setRenderer(renderer)`
+1. Create a `GraphicsOverlay` and add it to the `MapView`
+2. Create a `Graphic`, specifying only its geometry
+3. Create a single `Symbol` such as a `SimpleMarkerSymbol`
+4. Create a renderer with the symbol such as `new SimpleRenderer(symbol)`
+5. Set the renderer on the graphics overlay with `graphicsOverlay.setRenderer(renderer)`
 
 ## Relevant API
 
-*   ArcGISMap
-*   Graphic
-*   GraphicsOverlay
-*   MapView
-*   Point
-*   SimpleFillSymbol
-*   SimpleLineSymbol
-*   SimpleMarkerSymbol
-*   SimpleRenderer
+* ArcGISMap
+* Graphic
+* GraphicsOverlay
+* MapView
+* Point
+* SimpleFillSymbol
+* SimpleLineSymbol
+* SimpleMarkerSymbol
+* SimpleRenderer

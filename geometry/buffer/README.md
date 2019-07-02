@@ -14,15 +14,15 @@ Tap on the map to create planar (green) and geodesic (purple) buffers around the
 
 To create a buffer around a point:
 
-1.  Call `GeometryEngine.buffer` passing in a `Point` and a distance in meters. This returns a `Polygon` which can be displayed using a `Graphic`.
-2.  For the geodesic buffer, call `GeometryEngine.bufferGeodetic` passing in the point, distance, linear unit, max deviation, and `GeodeticCurveType.GEODESIC`.
+1. Call `GeometryEngine.buffer` passing in a `Point` and a distance in meters. This returns a `Polygon` which can be displayed using a `Graphic`.
+2. For the geodesic buffer, call `GeometryEngine.bufferGeodetic` passing in the point, distance, linear unit, max deviation, and `GeodeticCurveType.GEODESIC`.
 
 ## Relevant API
 
-*   GeometryEngine
-*   GraphicsOverlay
-*   Point
-*   Polygon
+* GeometryEngine
+* GraphicsOverlay
+* Point
+* Polygon
 
 ## Additional Information
 

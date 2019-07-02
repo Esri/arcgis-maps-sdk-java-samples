@@ -12,10 +12,10 @@ Click the Take Screenshot button to export the image. In the file chooser that o
 
 To export the visible area of the `ArcGISMap` as an image file:
 
-1.  Export the image with `mapView.exportImageAsync()`.
-2.  Get the `Image` once export is done loading.
+1. Export the image with `mapView.exportImageAsync()`.
+2. Get the `Image` once export is done loading.
 
 ## Relevant API
 
-*   ArcGISMap
-*   MapView
+* ArcGISMap
+* MapView

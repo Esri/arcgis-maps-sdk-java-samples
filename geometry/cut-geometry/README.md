@@ -12,22 +12,22 @@ Click the "Cut" button to cut the polygon with the polyline and see the resultin
 
 To cut a geometry with a polyline:
 
-1.  Use the static method `GeometryEngine.cut(geometry, polyline)`.
+1. Use the static method `GeometryEngine.cut(geometry, polyline)`.
 2. Loop through the `List&lt;Geometry&gt;` of cut pieces. Keep in mind that some of these geometries may be multi-part.`
 
 ## Relevant API
 
-*   ArcGISMap
-*   Basemap
-*   Geometry
-*   GeometryEngine
-*   Graphic
-*   GraphicsOverlay
-*   MapView
-*   Point
-*   PointCollection
-*   Polygon
-*   Polyline
-*   SimpleFillSymbol
-*   SimpleLineSymbol
-*   SpatialReferences
+* ArcGISMap
+* Basemap
+* Geometry
+* GeometryEngine
+* Graphic
+* GraphicsOverlay
+* MapView
+* Point
+* PointCollection
+* Polygon
+* Polyline
+* SimpleFillSymbol
+* SimpleLineSymbol
+* SpatialReferences

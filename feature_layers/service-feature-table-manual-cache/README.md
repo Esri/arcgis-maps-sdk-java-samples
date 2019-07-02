@@ -14,13 +14,13 @@ Note: Maximum of Features returned is set to 1000.
 
 How to set `FeatureRequestMode.MANUAL_CACHE` mode:
 
-1.  Create a `ServiceFeatureTable` from a URL.
-2.  Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.MANUAL_CACHE)`.
+1. Create a `ServiceFeatureTable` from a URL.
+2. Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.MANUAL_CACHE)`.
 
 ## Relevant API
 
-*   ArcGISMap
-*   FeatureLayer
-*   MapView
-*   ServiceFeatureTable
-*   ServiceFeatureTable.FeatureRequestMode
+* ArcGISMap
+* FeatureLayer
+* MapView
+* ServiceFeatureTable
+* ServiceFeatureTable.FeatureRequestMode

@@ -16,21 +16,21 @@ Some WFS services return coordinates in X,Y order, while others return coordinat
 
 ## How it works
 
-1.  Create a `WfsService` object with a URL to a WFS feature service.
-2.  Obtain a list of `WfsLayerInfo` from the WFS service with `getServiceInfo().getLayerInfos()`.
-3.  Create a `WfsFeatureTable` from the `WfsLayerInfo`.
-    *   Set the axis order of the table if necessary.
-4.  Create a `FeatureLayer` from the WSF feature table.
-5.  Add the feature layer to the map.
-    *   The sample uses randomly-generated symbology, similar to the behavior in ArcGIS Pro.
+1. Create a `WfsService` object with a URL to a WFS feature service.
+2. Obtain a list of `WfsLayerInfo` from the WFS service with `getServiceInfo().getLayerInfos()`.
+3. Create a `WfsFeatureTable` from the `WfsLayerInfo`.
+    * Set the axis order of the table if necessary.
+4. Create a `FeatureLayer` from the WSF feature table.
+5. Add the feature layer to the map.
+    * The sample uses randomly-generated symbology, similar to the behavior in ArcGIS Pro.
 
 ## Relevant API
 
-*   FeatureLayer
-*   WfsFeatureTable
-*   WfsLayerInfo
-*   WfsService
-*   WfsServiceInfo
+* FeatureLayer
+* WfsFeatureTable
+* WfsLayerInfo
+* WfsService
+* WfsServiceInfo
 
 ## About the data
 
