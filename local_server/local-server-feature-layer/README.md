@@ -4,7 +4,7 @@ Start a local feature service and display its features in a map.
 
 ** Note: ** Local Server is not supported on MacOS
 
-<img src="LocalServerFeatureLayer.png"/>
+![]("LocalServerFeatureLayer.png)
 
 ## How to use the sample
 

@@ -2,7 +2,7 @@
 
 Get clicked features from multiple layers.
 
-<img src="IdentifyLayers.png"/>
+![]("IdentifyLayers.png)
 
 ## How to use the sample
 

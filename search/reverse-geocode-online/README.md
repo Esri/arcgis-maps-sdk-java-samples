@@ -2,7 +2,7 @@
 
 Find the address of a location.
 
-<img src="ReverseGeocodeOnline.png"/>
+![]("ReverseGeocodeOnline.png)
 
 ## How to use the sample
 

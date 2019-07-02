@@ -2,7 +2,7 @@
 
 Filter features within a time range.
 
-<img src="TimeBasedQuery.png"/>
+![]("TimeBasedQuery.png)
 
 ## How it works
 

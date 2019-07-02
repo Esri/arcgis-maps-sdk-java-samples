@@ -2,7 +2,7 @@
 
 Display a 3D scene with terrain and imagery.
 
-<img src="DisplayScene.png"/>
+![]("DisplayScene.png)
 
 ## How it works
 

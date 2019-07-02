@@ -2,7 +2,7 @@
 
 Dsiplay tiles from a Web Map Tile Service.
 
-<img src="WmtsLayer.png"/>
+![]("WmtsLayer.png)
 
 ## How it works
 

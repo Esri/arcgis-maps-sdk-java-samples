@@ -4,7 +4,7 @@ Create graphics with simple 3D shapes.
 
 Includes tetrahedrons, cubes, spheres, diamonds, cylinders, and cones.
 
-<img src="Symbols3D.png"/>
+![]("Symbols3D.png)
 
 ## How it works
 

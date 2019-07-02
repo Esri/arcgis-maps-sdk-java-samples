@@ -4,7 +4,7 @@ Create geodesic and planar buffers around a point.
 
 Buffers can be used to visually show the area within a certain distance of a geometry. For example, the Chernobyl exclusion zone is set up as a buffer around the failed nuclear power plant, indicating where there are unsafe levels of radioactive fallout.
 
-<img src="Buffer.png">
+![]("Buffer.png">
 
 ## How to use the sample
 Tap on the map to create planar (green) and geodesic (purple) buffers around the tapped location. Enter a value in the spinner between 500 and 2000 (in miles) to set the 

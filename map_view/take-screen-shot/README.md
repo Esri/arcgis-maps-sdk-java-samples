@@ -2,7 +2,7 @@
 
 Export an area of the map as an image.
 
-<img src="TakeScreenShot.png"/>
+![]("TakeScreenShot.png)
 
 ## How to use this Sample
 

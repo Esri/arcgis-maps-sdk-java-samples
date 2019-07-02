@@ -2,7 +2,7 @@
 
 Get the elevation for a given point on a surface in a scene.
 
-<img src="GetElevationAtAPoint.png"/>
+![]("GetElevationAtAPoint.png)
 
 ## Use case
 

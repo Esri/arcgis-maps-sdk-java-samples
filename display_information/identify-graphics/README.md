@@ -6,7 +6,7 @@ Determine if a graphic was clicked.
 
 When you click on a graphic on the map, you should see an alert.
 
-<img src="IdentifyGraphics.png"/>
+![]("IdentifyGraphics.png)
 
 ## How it works
 

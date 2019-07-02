@@ -2,7 +2,7 @@
 
 Use locators and networks saved in an offline map.
 
-<img src="MobileMapSearchAndRoute.png"/>
+![]("MobileMapSearchAndRoute.png)
 
 ## How to use the sample
 

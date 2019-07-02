@@ -7,7 +7,7 @@ location are shown at irregular intervals. One can densify the polyline connecti
 along the line at regular intervals. Generalizing the polyline can also simplify the geometry while preserving its 
 general shape.
 
-<img src="DensifyAndGeneralize.gif"/>
+![]("DensifyAndGeneralize.gif)
 
 ## How to use the sample
 

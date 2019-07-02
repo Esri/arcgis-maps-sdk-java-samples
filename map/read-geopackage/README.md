@@ -2,7 +2,7 @@
 
 Display rasters and features from local GeoPackages.
 
-<img src="ReadGeoPackage.png"/>
+![]("ReadGeoPackage.png)
 
 ## How to use the sample
 

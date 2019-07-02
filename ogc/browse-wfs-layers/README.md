@@ -2,7 +2,7 @@
 
 Browse a WFS service for layers and add them to the map.
 
-<img src="BrowseWfsLayers.png"/>
+![]("BrowseWfsLayers.png)
 
 ## Use case
 

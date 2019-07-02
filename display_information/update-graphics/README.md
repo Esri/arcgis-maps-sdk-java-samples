@@ -5,7 +5,7 @@ Change a graphic's symbol, attributes, and geometry.
 A graphic's geometry is its location on a map. The symbol controls how a graphic will be displayed to a map. And the 
 attributes store information about the graphic in key value pairs.
 
-<img src="UpdateGraphics.gif"/>
+![]("UpdateGraphics.gif)
 
 ## How to use the sample
 

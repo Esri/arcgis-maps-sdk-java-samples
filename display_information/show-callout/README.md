@@ -2,7 +2,7 @@
 
 Show a callout at the clicked location.
 
-<img src="ShowCallout.png"/>
+![]("ShowCallout.png)
 
 ## How to use the sample
 

@@ -2,7 +2,7 @@
 
 Load a WFS feature table using an XML query.
 
-<img src="WfsXmlQuery.png"/>
+![]("WfsXmlQuery.png)
 
 ## Use case
 

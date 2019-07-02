@@ -2,7 +2,7 @@
 
 Find webmaps within a portal using a keyword.
 
-<img src="WebmapKeywordSearch.png"/>
+![]("WebmapKeywordSearch.png)
 
 ## How to use the sample
 

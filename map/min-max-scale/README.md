@@ -2,7 +2,7 @@
 
 Restrict zooming to a specific scale range.
 
-<img src="MinMaxScale.png"/>
+![]("MinMaxScale.png)
 
 ## How to use the sample
 

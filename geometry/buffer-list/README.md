@@ -2,7 +2,7 @@
 
 Combine buffers from multiple points individual buffer distances.
 
-<img src="BufferList.png"/>
+![]("BufferList.png)
 
 ## How to use the sample
 

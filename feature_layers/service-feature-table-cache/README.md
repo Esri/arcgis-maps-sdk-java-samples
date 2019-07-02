@@ -6,7 +6,7 @@ On-interaction-cache mode will fetch features within the current extent when nee
 the server and caches those features within a table on the client's side. Any queries performed on features within 
 that table will be performed locally, otherwise they will be requested from the server.
 
-<img src="ServiceFeatureTableCache.png"/>
+![]("ServiceFeatureTableCache.png)
 
 ## How it works
 

@@ -2,7 +2,7 @@
 
 Get clicked features in a KML Layer.
 
-<img src="IdentifyKMLFeatures.png"/>
+![]("IdentifyKMLFeatures.png)
 
 ## How to use the sample
 

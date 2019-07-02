@@ -2,7 +2,7 @@
 
 Display local 3D point cloud data.
 
-<img src="ViewPointCloudDataOffline.png"/>
+![]("ViewPointCloudDataOffline.png)
 
 ## Use case
 

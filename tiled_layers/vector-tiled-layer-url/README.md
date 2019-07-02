@@ -2,7 +2,7 @@
 
 Display tiles from an ArcGIS vector tile service.
 
-<img src="VectorTiledLayerURL.png"/>
+![]("VectorTiledLayerURL.png)
 
 ## How it works
 

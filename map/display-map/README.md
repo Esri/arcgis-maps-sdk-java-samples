@@ -2,7 +2,7 @@
 
 Display a map with some imagery.
 
-<img src="DisplayMap.png"/>
+![]("DisplayMap.png)
 
 ## How it works
 

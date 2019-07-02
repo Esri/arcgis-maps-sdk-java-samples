@@ -2,7 +2,7 @@
 
 Determine spatial relationships between two geometries.
 
-<img src="SpatialRelationships.png"/>
+![]("SpatialRelationships.png)
 
 ## How to use the sample
 

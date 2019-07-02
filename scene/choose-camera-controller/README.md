@@ -2,7 +2,7 @@
 
 Control the behavior of the camera in a scene.
 
-<img src="ChooseCameraController.png"/>
+![]("ChooseCameraController.png)
 
 ## Use case
 

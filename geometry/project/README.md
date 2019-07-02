@@ -8,7 +8,7 @@ with the `GeometryEngine::intersect` function. This function takes two geometrie
 geometries must be in the same spatial reference. If they are not, you could first use 
 `GeometryEngine::project` to convert the geometries so they match.
 
-<img src="Project.png">
+![]("Project.png">
 
 ## How to use the sample
 Click anywhere on the map. A callout will display the clicked location's coordinate in the original (basemap's) 

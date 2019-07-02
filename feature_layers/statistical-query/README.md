@@ -2,7 +2,7 @@
 
 Get aggregated feature statistics for a specified field.
 
-<img src="StatisticalQuery.png"/>
+![]("StatisticalQuery.png)
 
 ## How to use the sample
 

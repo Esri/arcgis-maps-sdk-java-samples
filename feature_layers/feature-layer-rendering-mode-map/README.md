@@ -2,7 +2,7 @@
 
 Render features statically or dynamically.
 
-<img src="FeatureLayerRenderingModeMap.gif"/>
+![]("FeatureLayerRenderingModeMap.gif)
 
 ## How it works
 

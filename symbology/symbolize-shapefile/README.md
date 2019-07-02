@@ -2,7 +2,7 @@
 
 Override the default rendering of a shapefile.
   
-<img src="SymbolizeShapefile.png"/>
+![]("SymbolizeShapefile.png)
 
 ## How to use the sample
 

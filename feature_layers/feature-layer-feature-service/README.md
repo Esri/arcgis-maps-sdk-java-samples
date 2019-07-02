@@ -2,7 +2,7 @@
 
 Show features from an online feature service.
 
-<img src="FeatureLayerFeatureService.png"/>
+![]("FeatureLayerFeatureService.png)
 
 ## How it works
 

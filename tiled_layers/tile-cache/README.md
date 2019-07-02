@@ -2,7 +2,7 @@
 
 Create a basemap from a local tile cache.
 
-<img src="TileCache.png"/>
+![]("TileCache.png)
 
 ## Use case
 

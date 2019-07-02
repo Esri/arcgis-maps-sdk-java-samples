@@ -2,7 +2,7 @@
 
 Find places of interest near a location or within an specific area.
 
-<img src="FindPlace.png"/>
+![]("FindPlace.png)
 
 ## How to use the sample
 

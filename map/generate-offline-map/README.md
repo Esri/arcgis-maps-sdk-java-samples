@@ -2,7 +2,7 @@
 
 Take an extent of a web map offline.
 
-<img src="GenerateOfflineMap.png"/>
+![]("GenerateOfflineMap.png)
 
 ## How to use the sample
 
