@@ -1,38 +1,38 @@
-<h1>Create Terrain Surface from a Local Raster</h1>
+# Create Terrain Surface from a Local Raster
 
-<p>Set the terrain surface with elevation described by a raster file.</p>
+Set the terrain surface with elevation described by a raster file.
 
-<p><img src="CreateTerrainSurfaceFromLocalRaster.png"/></p>
+<img src="CreateTerrainSurfaceFromLocalRaster.png"/>
 
-<p>The terrain surface is what the basemap, operational layers, and graphics are draped on. Supported raster formats include:</p>
-<ul>
-    <li>ASRP/USRP</li>
-    <li>CIB1, 5, 10</li>
-    <li>DTED0, 1, 2</li>
-    <li>GeoTIFF</li>
-    <li>HFA</li>
-    <li>HRE</li>
-    <li>IMG</li>
-    <li>JPEG</li>
-    <li>JPEG 2000</li>
-    <li>NITF</li>
-    <li>PNG</li>
-    <li>RPF</li>
-    <li>SRTM1, 2</li>
-</ul>
+The terrain surface is what the basemap, operational layers, and graphics are draped on. Supported raster formats include:
 
-<h2>How it works</h2>
-<ol>
-    <li>Create an <code>ArcGISScene</code> and add it to a <code>SceneView</code>.</li>
-    <li>Create a <code>RasterElevationSource</code> with a list of raster file paths.</li>
-    <li>Add this source to the scene's base surface: <code>scene.getBaseSurface().getElevationSources().add(rasterElevationSource)</code>.</li>
-</ol>
+  * ASRP/USRP
+  * CIB1, 5, 10
+  * DTED0, 1, 2
+  * GeoTIFF
+  * HFA
+  * HRE
+  * IMG
+  * JPEG
+  * JPEG 2000
+  * NITF
+  * PNG
+  * RPF
+  * SRTM1, 2
 
-<h2>Relevant API</h2>
-<ul>
-    <li>RasterElevationSource</li>
-    <li>Surface</li>
-</ul>
+
+## How it works
+
+  1. Create an `ArcGISScene` and add it to a `SceneView`.
+  2. Create a `RasterElevationSource` with a list of raster file paths.
+  3. Add this source to the scene's base surface: `scene.getBaseSurface().getElevationSources().add(rasterElevationSource)`.
+
+
+## Relevant API
+
+  * RasterElevationSource
+  * Surface
+
 
 <h2 id="tags">Tags</h2>
-<p>3D, Raster, Elevation, Surface</p>
+3D, Raster, Elevation, Surface

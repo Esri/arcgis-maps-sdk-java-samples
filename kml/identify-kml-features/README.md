@@ -1,30 +1,30 @@
-<h1>Identify KML Features</h1>
+# Identify KML Features
 
-<p>Get clicked features in a KML Layer.</p>
+Get clicked features in a KML Layer.
 
-<p><img src="IdentifyKMLFeatures.png"/></p>
+<img src="IdentifyKMLFeatures.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>When the KML layer is done loaded, click on one of the features. A callout should display next to the feature with HTML describing it.</p>
+When the KML layer is done loaded, click on one of the features. A callout should display next to the feature with HTML describing it.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To identify KML features:</p>
+To identify KML features:
 
-<ol>
-  <li>Add a <code>KmlLayer</code> to the map as an operational layer.</li>
-  <li>Add a clicked listener to the map view with <code>mapView.setOnMouseClicked</code> to get the clicked screen point.</li>
-  <li>Identify features at the screen location with <code>mapView.identifyLayerAsync(kmlLayer, screenPoint, tolerance, false)</code>.</li>
-  <li>Use the returned future to get the <code>IdentifyLayerResult</code>.</li>
-  <li>Loop through <code>result.getElements()</code>, looking for <code>GeoElements</code> which are instances of <code>KmlPlacemark</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Add a `KmlLayer` to the map as an operational layer.
+  2. Add a clicked listener to the map view with `mapView.setOnMouseClicked` to get the clicked screen point.
+  3. Identify features at the screen location with `mapView.identifyLayerAsync(kmlLayer, screenPoint, tolerance, false)`.
+  4. Use the returned future to get the `IdentifyLayerResult`.
+  5. Loop through `result.getElements()`, looking for `GeoElements` which are instances of `KmlPlacemark`.
 
-<ul>
-  <li>IdentifyLayerResult</li>
-  <li>KmlDataset</li>
-  <li>KmlLayer</li>
-  <li>KmlPlacemark</li>
-</ul>
+
+## Relevant API
+
+
+  * IdentifyLayerResult
+  * KmlDataset
+  * KmlLayer
+  * KmlPlacemark
+

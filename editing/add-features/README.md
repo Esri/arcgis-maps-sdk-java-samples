@@ -1,34 +1,33 @@
-<h1>Add Features</h1>
+# Add Features
 
-<p>Add new features to an online feature service.</p>
+Add new features to an online feature service.
 
-<p>A FeatureLayer created using this SeviceFeatutreTable that is applied to the ArcGISMap will display any new Features automatically.</p>
+A FeatureLayer created using this SeviceFeatutreTable that is applied to the ArcGISMap will display any new Features automatically.
 
-<p><img src="AddFeatures.gif"/></p>
+<img src="AddFeatures.gif"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click on a location in the MapView to add a Feature at that location.</p>
+Click on a location in the MapView to add a Feature at that location.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To add a feature to a <code>ServiceFeatureTable</code> and update it's server with that <code>Feature</code>:</p>
+To add a feature to a `ServiceFeatureTable` and update it's server with that `Feature`:
 
-<ol>
-<li>Create a service feature table from a URL, <code>new ServiceFeatureTable("URL")</code>.</li>
-<li>Create a <code>FeatureLayer</code> from the service feature table, <code>new FeatureLayer(ServiceFeatureTable)</code>.</li>
-<li>Create a feature with attributes and a location using service feature table, <code>ServiceFeatureTable.createFeature(attributes, location)</code>.</li>
-<li>Apply the addition to the service feature table, <code>ServiceFeatureTable.addFeatureAsync(Feature)</code>.</li>
-<li>Update the new feature to the server, <code>ServiceFeatureTable.applyEditsAsync()</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+1. Create a service feature table from a URL, `new ServiceFeatureTable("URL")`.
+2. Create a `FeatureLayer` from the service feature table, `new FeatureLayer(ServiceFeatureTable)`.
+3. Create a feature with attributes and a location using service feature table, `ServiceFeatureTable.createFeature(attributes, location)`.
+4. Apply the addition to the service feature table, `ServiceFeatureTable.addFeatureAsync(Feature)`.
+5. Update the new feature to the server, `ServiceFeatureTable.applyEditsAsync()`.
 
-<ul>
-<li>ArcGISMap</li>
-<li>Feature</li>
-<li>FeatureEditResult</li>
-<li>FeatureLayer</li>
-<li>MapView</li>
-<li>ServiceFeatureTable</li>
-</ul>
+
+## Relevant API
+
+
+* ArcGISMap
+* Feature
+* FeatureEditResult
+* FeatureLayer
+* MapView
+* ServiceFeatureTable

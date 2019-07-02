@@ -1,39 +1,39 @@
-<h1>Clip Geometry</h1>
+# Clip Geometry
 
-<p>Clip a geometry to an envelope.</p>
+Clip a geometry to an envelope.
 
-<p><img src="ClipGeometry.gif"/></p>
+<img src="ClipGeometry.gif"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click the "Clip" button to clip the blue graphic with the red envelopes.</p>
+Click the "Clip" button to clip the blue graphic with the red envelopes.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To clip a <code>Geometry</code> with an <code>Envelope</code>:</p>
+To clip a `Geometry` with an `Envelope`:
 
-<ol>
-    <li>Use the static method <code>GeometryEngine.clip(geometry, envelope)</code>.</li>
-    <li>Keep in mind that the resulting <code>Geometry</code> may be null if the envelope does not intersect the 
-    geometry you are clipping</li>.</code>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Use the static method `GeometryEngine.clip(geometry, envelope)`.
+  2. Keep in mind that the resulting `Geometry` may be null if the envelope does not intersect the 
+  geometry you are clipping.`
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Basemap</li>
-    <li>Envelope</li>
-    <li>Geometry</li>
-    <li>GeometryEngine</li>
-    <li>Graphic</li>
-    <li>GraphicsOverlay</li>
-    <li>MapView</li>
-    <li>Point</li>
-    <li>PointCollection</li>
-    <li>Polygon</li>
-    <li>Polyline</li>
-    <li>SimpleFillSymbol</li>
-    <li>SimpleLineSymbol</li>
-    <li>SpatialReferences</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * Envelope
+  * Geometry
+  * GeometryEngine
+  * Graphic
+  * GraphicsOverlay
+  * MapView
+  * Point
+  * PointCollection
+  * Polygon
+  * Polyline
+  * SimpleFillSymbol
+  * SimpleLineSymbol
+  * SpatialReferences
+

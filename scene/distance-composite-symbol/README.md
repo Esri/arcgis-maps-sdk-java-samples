@@ -1,46 +1,46 @@
-<h1>Distance Composite Symbol</h1>
+# Distance Composite Symbol
 
-<p>Change a graphic's symbol based on camera proximity.</p>
+Change a graphic's symbol based on camera proximity.
 
-<p>Distance composite scene symbols can render different symbols depending on the distance between the camera and the
- graphic.</p>
+Distance composite scene symbols can render different symbols depending on the distance between the camera and the
+ graphic.
 
-<p><img src="DistanceCompositeSymbol.gif"/></p>
+<img src="DistanceCompositeSymbol.gif"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The symbol of graphic will change while zooming in or out.</p>
+The symbol of graphic will change while zooming in or out.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create and display a <code>DistanceCompositeSceneSymbol</code>:</p>
+To create and display a `DistanceCompositeSceneSymbol`:
 
-<ol>
-  <li>Create a <code>GraphicsOverlay</code> and add it to the <code>SceneView</code>.</li>
-  <li>Create symbols for each <code>Range</code> the composite symbol.</li>
-  <li>Create a distance composite scene symbol`.</li>
-  <li>Add a range for each symbol to <code>DistanceCompositeSceneSymbol.getRangeCollection().add(new Range(symbol, min distance, max distance))</code>.
-    <ul><li>symbol, symbol to be used within the min/max range that is given</li>
-      <li>min/max distance, the minimum and maximum distance that the symbol will be display from the <code>Camera</code></li></ul></li>
-  <li>Create a <code>Graphic</code> with the symbol: <code>Graphic(Point, DistanceCompositeSceneSymbol)</code></li>
-  <li>Add the graphic to the graphics overlay.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a `GraphicsOverlay` and add it to the `SceneView`.
+  2. Create symbols for each `Range` the composite symbol.
+  3. Create a distance composite scene symbol`.
+  4. Add a range for each symbol to `DistanceCompositeSceneSymbol.getRangeCollection().add(new Range(symbol, min distance, max distance))`.
+  * symbol, symbol to be used within the min/max range that is given
+  * min/max distance, the minimum and maximum distance that the symbol will be display from the `Camera`
+  5. Create a `Graphic` with the symbol: `Graphic(Point, DistanceCompositeSceneSymbol)`
+  6. Add the graphic to the graphics overlay.
 
-<ul>
-  <li>ArcGISScene</li>
-  <li>ArcGISTiledElevationSource</li>
-  <li>Camera</li>
-  <li>DistanceCompositeSceneSymbol</li>
-  <li>DistanceCompositeSceneSymbol.Range</li>
-  <li>Graphic</li>
-  <li>GraphicsOverlay</li>
-  <li>ModelSceneSymbol</li>
-  <li>Range</li>
-  <li>RangeCollection</li>
-  <li>SceneView</li>
-  <li>SimpleMarkerSceneSymbol</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISScene
+  * ArcGISTiledElevationSource
+  * Camera
+  * DistanceCompositeSceneSymbol
+  * DistanceCompositeSceneSymbol.Range
+  * Graphic
+  * GraphicsOverlay
+  * ModelSceneSymbol
+  * Range
+  * RangeCollection
+  * SceneView
+  * SimpleMarkerSceneSymbol
+
 
 

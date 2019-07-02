@@ -1,36 +1,36 @@
-<h1>Stretch Renderer</h1>
+# Stretch Renderer
 
-<p>Apply a stretch renderer to a raster.</p>
+Apply a stretch renderer to a raster.
 
-<p>A stretch renderer can be used to stretch tightly grouped values 
+A stretch renderer can be used to stretch tightly grouped values 
 across the available value spectrum, creating more contrast between objects. This is useful for identifying objects 
-in dark images.</p>
+in dark images.
 
-<p><img src="StretchRenderer.png"/></p>
+<img src="StretchRenderer.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Choose one of the stretch parameter types. The other options will adjust based on the chosen type.</p>
+Choose one of the stretch parameter types. The other options will adjust based on the chosen type.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To apply a <code>StretchRenderer</code> to a <code>RasterLayer</code>:</p>
-<ol>
-  <li>Create a <code>Raster</code> from a raster file</li>
-  <li>Create a <code>RasterLayer</code> from the raster</li>
-  <li>Create a <code>Basemap</code> from the raster layer and set it to the map</li>
-  <li>Create a <code>StretchRenderer</code>, specifying the stretch parameters and other properties</li>
-  <li>Set the renderer on the raster layer with <code>rasterLayer.setRenderer(renderer)</code></li>
-</ol>
+To apply a `StretchRenderer` to a `RasterLayer`:
 
-<h2>Relevant API</h2>
+  1. Create a `Raster` from a raster file
+  2. Create a `RasterLayer` from the raster
+  3. Create a `Basemap` from the raster layer and set it to the map
+  4. Create a `StretchRenderer`, specifying the stretch parameters and other properties
+  5. Set the renderer on the raster layer with `rasterLayer.setRenderer(renderer)`
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>MapView</li>
-  <li>Raster</li>
-  <li>RasterLayer</li>
-  <li>StretchParameters</li>
-  <li>StretchRenderer</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * MapView
+  * Raster
+  * RasterLayer
+  * StretchParameters
+  * StretchRenderer
+

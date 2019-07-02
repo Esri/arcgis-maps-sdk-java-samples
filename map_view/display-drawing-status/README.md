@@ -1,32 +1,32 @@
-<h1>Display Drawing Status</h1>
+# Display Drawing Status
 
-<p>Determine if a layer is done drawing.</p>
+Determine if a layer is done drawing.
 
-<p><img src="DisplayDrawingStatus.png"/></p>
+<img src="DisplayDrawingStatus.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The progress bar in the top left displays the drawing status of the map view.</p>
+The progress bar in the top left displays the drawing status of the map view.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To use the <code>MapView</code>'s <code>DrawStatus</code>:</p>
+To use the `MapView`'s `DrawStatus`:
 
-<ol>
-    <li>Create an <code>ArcGISMap</code>. </li>
-    <li>Set the map to the view <code>MapView</code>, <code>MapView.setMap()</code>. </li>
-    <li>Add <code>MapView.addDrawStatusChangedListener()</code> block and listen when the <code>MapView.DrawStatus</code> changes.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create an `ArcGISMap`.
+  2. Set the map to the view `MapView`, `MapView.setMap()`.
+  3. Add `MapView.addDrawStatusChangedListener()` block and listen when the `MapView.DrawStatus` changes.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Basemap</li>
-    <li>DrawStatus </li>
-    <li>DrawStatusChangedEvent</li>
-    <li>Envelope</li>
-    <li>FeatureLayer</li>
-    <li>MapView</li>
-    <li>Point</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * DrawStatus
+  * DrawStatusChangedEvent
+  * Envelope
+  * FeatureLayer
+  * MapView
+  * Point
+

@@ -1,44 +1,44 @@
-<h1>Change Atmosphere Effect</h1>
+# Change Atmosphere Effect
 
-<p>Change the appearance of the atmosphere in a scene.</p>
+Change the appearance of the atmosphere in a scene.
 
-<p><img src="ChangeAtmosphereEffect.gif" /></p>
+<img src="ChangeAtmosphereEffect.gif" />
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Select one of the three available atmosphere effects. The sky will change to display the selected atmosphere effect. </p>
+Select one of the three available atmosphere effects. The sky will change to display the selected atmosphere effect.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To change the atmosphere effect:</p>
+To change the atmosphere effect:
 
-<ol>
-<li>Create an <code>ArcGISScene</code> and display it in a <code>SceneView</code>.</li>
 
-<li>Change the atmosphere effect with <code>sceneView.setAtmosphereEffect(atmosphereEffect)</code>.</li>
-</ol>
+1. Create an `ArcGISScene` and display it in a `SceneView`.
 
-<h2>Relevant API</h2>
+2. Change the atmosphere effect with `sceneView.setAtmosphereEffect(atmosphereEffect)`.
 
-<ul>
-<li>ArcGISScene</li>
 
-<li>AtmosphereEffect</li>
+## Relevant API
 
-<li>SceneView</li>
 
-</ul>
+* ArcGISScene
 
-<h2>Additional Information</h2>
+* AtmosphereEffect
+
+* SceneView
+
+
+
+## Additional Information
 There are three atmosphere effect options:
 
-<ul>
-<li><strong> Realistic</strong> - Atmosphere effect applied to both the sky and the surface as viewed from above.</li> 
-<li><strong> Horizon only</strong> - Atmosphere effect applied to the sky (horizon) only.</li>
-<li><strong> None</strong> - No atmosphere effect. The sky is rendered black with a starfield consisting of randomly placed white dots.</li>
-</ul>
 
-<h2>Tags</h2>
+* ** Realistic ** - Atmosphere effect applied to both the sky and the surface as viewed from above. 
+* ** Horizon only ** - Atmosphere effect applied to the sky (horizon) only.
+* ** None ** - No atmosphere effect. The sky is rendered black with a starfield consisting of randomly placed white dots.
 
-<p>3D, AtmosphereEffect, Scene</p>
+
+## Tags
+
+3D, AtmosphereEffect, Scene
 

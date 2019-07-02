@@ -1,43 +1,39 @@
-<h1>Feature Layer Rendering Mode (Map)</h1>
+# Feature Layer Rendering Mode (Map)
 
-<p>Render features statically or dynamically.</p>
+Render features statically or dynamically.
 
-<p><img src="FeatureLayerRenderingModeMap.gif"/></p>
+<img src="FeatureLayerRenderingModeMap.gif"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To change <code>FeatureLayer.RenderingMode</code> using <code>LoadSettings</code>:</p>
+To change `FeatureLayer.RenderingMode` using `LoadSettings`:
 
-<ol>
-    <li>Create a <code>ArcGISMap</code>.</li>
-    <li>Set preferred rendering mode to map, <code>mapBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)</code>.
-      <ul>
-        <li>Can set preferred rendering mode for <code>Points</code>, <code>Polylines</code>, or <code>Polygons</code>.</li>
-        <li><code>Multipoint</code> preferred rendering mode is the same as point.</li>
-      </ul>
-    </li>
-    <li>Set map to <code>MapView</code>, <code>mapViewBottom.setMap(mapBottom)</code>.</li>
-    <li>Create a <code>ServiceFeatureTable</code> from a point service, <code>new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");</code>.</li>
-    <li>Create <code>FeatureLayer</code> from table, <code>new FeatureLayer(poinServiceFeatureTable)</code>.</li>
-    <li>Add layer to map, <code>mapBottom.getOperationalLayers().add(pointFeatureLayer.copy())</code>
-      <ul>
-        <li>Now the point layer will be rendered dynamically to map view.</li>
-      </ul>
-    </li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a `ArcGISMap`.
+  2. Set preferred rendering mode to map, `mapBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)`.
+  
+  * Can set preferred rendering mode for `Points`, `Polylines`, or `Polygons`.
+  * `Multipoint` preferred rendering mode is the same as point.
+  3. Set map to `MapView`, `mapViewBottom.setMap(mapBottom)`.
+  4. Create a `ServiceFeatureTable` from a point service, `new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");`.
+  5. Create `FeatureLayer` from table, `new FeatureLayer(poinServiceFeatureTable)`.
+  6. Add layer to map, `mapBottom.getOperationalLayers().add(pointFeatureLayer.copy())`
+  
+  * Now the point layer will be rendered dynamically to map view.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>FeatureLayer</li>
-    <li>FeatureLayer.RenderingMode</li>
-    <li>LoadSettings</li>
-    <li>Point</li>
-    <li>Polyline</li>
-    <li>Polygon</li>
-    <li>ServiceFeatureTable</li>
-    <li>Viewpoint</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * FeatureLayer
+  * FeatureLayer.RenderingMode
+  * LoadSettings
+  * Point
+  * Polyline
+  * Polygon
+  * ServiceFeatureTable
+  * Viewpoint
+
 
 

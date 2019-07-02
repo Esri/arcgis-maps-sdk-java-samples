@@ -36,3 +36,5 @@ samples-data/
 ehthumbs.db
 /arcgis-runtime-samples-java.iws
 /arcgis-runtime-samples-java.iml
+
+node_modules

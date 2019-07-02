@@ -1,31 +1,31 @@
-<h1>Show Callout</h1>
+# Show Callout
 
-<p>Show a callout at the clicked location.</p>
+Show a callout at the clicked location.
 
-<p><img src="ShowCallout.png"/></p>
+<img src="ShowCallout.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click anywhere on the map to show a callout with the clicked location's coordinates.</p>
+Click anywhere on the map to show a callout with the clicked location's coordinates.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To show a <code>Callout</code> with the clicked location's coordinates:</p>
+To show a `Callout` with the clicked location's coordinates:
 
-<ol>
- <li>Use <code>MapView.setOnMouseClicked()</code> to create a click event handler.</li>
- <li>Create a new Point2D object from the events getX() and getY() coordinates.</li>
- <li>Get the <code>Point</code>s location on the map, <code>MapView.screenToLocation(Point2D)</code>.</li>
- <li>Get the <code>MapView</code>'s callout, <code>MapView.getCallout()</code>.</li>
- <li>Use <code>Callout.setDetail()</code> to display map's point <code>Point.getX()</code> and <code>Point.getY()</code> to screen.</li>
- <li>Show the callout, <code>Callout.showCalloutAt(point)</code>, and dismiss on the next click with <code>Callout.dismiss()</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+ 1. Use `MapView.setOnMouseClicked()` to create a click event handler.
+ 2. Create a new Point2D object from the events getX() and getY() coordinates.
+ 3. Get the `Point`s location on the map, `MapView.screenToLocation(Point2D)`.
+ 4. Get the `MapView`'s callout, `MapView.getCallout()`.
+ 5. Use `Callout.setDetail()` to display map's point `Point.getX()` and `Point.getY()` to screen.
+ 6. Show the callout, `Callout.showCalloutAt(point)`, and dismiss on the next click with `Callout.dismiss()`.
 
-<ul>
- <li>ArcGISMap</li>
- <li>Callout</li>
- <li>MapView</li>
- <li>Point</li>
-</ul>
+
+## Relevant API
+
+
+ * ArcGISMap
+ * Callout
+ * MapView
+ * Point
+

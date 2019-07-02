@@ -1,25 +1,25 @@
-<h1>Display KML</h1>
+# Display KML
 
-<p>Display a KML layer from a URL, portal item, or local KML file.</p>
+Display a KML layer from a URL, portal item, or local KML file.
 
-<p><img src="DisplayKML.png"/></p>
+<img src="DisplayKML.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To display a <code>KMLLayer</code>:</p>
+To display a `KMLLayer`:
 
-<ol>
-  <li>To create a KML layer from a URL, create a <code>KMLDataset</code> using the URL to the KML file. Then pass the dataset to the <code>KmlLayer</code> constructor.</li>
-  <li>To create a KML layer from a portal item, construct a <code>PortalItem</code> with a portal and the KML portal item. Pass the portal item to the <code>KmlLayer</code> constructor.</li>
-  <li>To create a KML layer from a local file, create a <code>KMLDataset</code> using the absolute file path to the local KML file. Then pass the dataset to the <code>KmlLayer</code> constructor.</li>
-  <li>Add the layer as an operational layer to the map with <code>map.getOperationalLayers().add(kmlLayer)</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. To create a KML layer from a URL, create a `KMLDataset` using the URL to the KML file. Then pass the dataset to the `KmlLayer` constructor.
+  2. To create a KML layer from a portal item, construct a `PortalItem` with a portal and the KML portal item. Pass the portal item to the `KmlLayer` constructor.
+  3. To create a KML layer from a local file, create a `KMLDataset` using the absolute file path to the local KML file. Then pass the dataset to the `KmlLayer` constructor.
+  4. Add the layer as an operational layer to the map with `map.getOperationalLayers().add(kmlLayer)`.
 
-<ul>
-  <li>KmlDataset</li>
-  <li>KmlLayer</li>
-  <li>Portal</li>
-  <li>PortalItem</li>
-</ul>
+
+## Relevant API
+
+
+  * KmlDataset
+  * KmlLayer
+  * Portal
+  * PortalItem
+

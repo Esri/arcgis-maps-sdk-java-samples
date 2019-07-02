@@ -1,4 +1,4 @@
-# Line of Sight GeoElement
+#  Line of Sight GeoElement
 
 Show a line of sight between two moving objects.
 
@@ -6,11 +6,11 @@ To determine if an observer can see a target, you can show a line of sight betwe
 
 ![](LineOfSightGeoElement.gif)
 
-## How to use the sample
+##  How to use the sample
 
 A line of sight will display between a point on the Empire State Building (observer) and a taxi (target). The taxi will drive around a block and the line of sight should automatically update. The taxi will be highlighted when it is visibile. You can change the observer height with the slider to see how it affects the target's visibility.
 
-## How it works
+##  How it works
 
 To show a line of sight between two graphics:
 
@@ -18,12 +18,12 @@ To show a line of sight between two graphics:
 2.  Create a `GeoElementLineOfSight`, passing in observer and target `GeoElement`s (feautures or graphics). Add the line of sight to the analysis overlay's analyses collection.
 3.  To get the target visibility when it changes, add a `TargetVisibilityChangedListener` to the line of sight. The changed event will give the `TargetVisibility`.
 
-## Relevant API
+##  Relevant API
 
 *   AnalysisOverlay
 *   GeoElementLineOfSight
 *   LineOfSight.TargetVisibility
 
-## Tags
+##  Tags
 
 Analysis

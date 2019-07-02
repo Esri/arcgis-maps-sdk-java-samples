@@ -1,28 +1,28 @@
-<h1>Feature Layer (Geodatabase)</h1>
+# Feature Layer (Geodatabase)
 
-<p>Display features from a local geodatabase.</p>
+Display features from a local geodatabase.
 
-<p><img src="FeatureLayerGeodatabase.png"/></p>
+<img src="FeatureLayerGeodatabase.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create a <code>Geodatabase</code> and display it as a <code>FeatureLayer</code>:</p>
+To create a `Geodatabase` and display it as a `FeatureLayer`:
 
-<ol>
-    <li>Create a geodatabase using the provided local resource, <code>new Geodatabase(geodatabaseResourceUrl)</code>.</li>
-    <li>Wait for geodatabase to load, <code>Geodatabase.addDoneLoadingListener(runnable)</code></li>
-    <li>Get the `Trailheads` <code>GeodatabaseFeatureTable</code> from the geodatabase, <code>Geodatabase.getGeodatabaseFeatureTable(tableName)</code></li>
-    <li>Create feature layer using the table from above, <code>new FeatureLayer(geodatabaseFeatureTable)</code></li>
-    <li>Add feature layer to <code>ArcGISMap</code>, <code>ArcGISMap.getOperationalLayers().add(featureLayer)</code></li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a geodatabase using the provided local resource, `new Geodatabase(geodatabaseResourceUrl)`.
+  2. Wait for geodatabase to load, `Geodatabase.addDoneLoadingListener(runnable)`
+  3. Get the `Trailheads` `GeodatabaseFeatureTable` from the geodatabase, `Geodatabase.getGeodatabaseFeatureTable(tableName)`
+  4. Create feature layer using the table from above, `new FeatureLayer(geodatabaseFeatureTable)`
+  5. Add feature layer to `ArcGISMap`, `ArcGISMap.getOperationalLayers().add(featureLayer)`
 
-<ul>
-  <li>Basemap</li>
-  <li>FeatureLayer</li>
-  <li>Geodatabase</li>
-  <li>GeodatabaseFeatureTable</li>
-  <li>Map</li>
-  <li>MapView</li>
-</ul>
+
+## Relevant API
+
+
+  * Basemap
+  * FeatureLayer
+  * Geodatabase
+  * GeodatabaseFeatureTable
+  * Map
+  * MapView
+

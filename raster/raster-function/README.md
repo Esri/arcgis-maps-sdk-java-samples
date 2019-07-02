@@ -1,33 +1,33 @@
-<h1>Raster Function</h1>
+# Raster Function
 
-<p>Apply a raster function to a raster.</p>
+Apply a raster function to a raster.
 
-<p>Raster functions are operations performed on a raster to apply on-the-fly processing. In this sample, a hillshade 
-raster function is applied to an online raster image service.</p>
+Raster functions are operations performed on a raster to apply on-the-fly processing. In this sample, a hillshade 
+raster function is applied to an online raster image service.
 
-<p><img src="RasterFunction.png"/></p>
+<img src="RasterFunction.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create a <code>RasterLayer</code> using a <code>RasterFunction</code> and add it to the map:</p>
-<ol>
-  <li>Create an initial raster such as an <code>ImageServiceRaster</code></li>
-  <li>Create a <code>RasterFunction</code> from a json string source</li>
-  <li>Get the raster function's arguments with <code>rasterFunction.getArguments()</code></li>
-  <li>Set the initial raster and raster name in the arguments: <code>arguments.setRaster(arguments.getRasterNames().get(0), imageServiceRaster)</code></li>
-  <li>Create a new <code>Raster</code> from the function</li>
-  <li>Create a <code>RasterLayer</code> with the new raster</li>
-  <li>Add it as an operational layer with <code>map.getOperationalLayers().add(rasterLayer)</code></li>
-</ol>
+To create a `RasterLayer` using a `RasterFunction` and add it to the map:
 
-<h2>Relevant API</h2>
+  1. Create an initial raster such as an `ImageServiceRaster`
+  2. Create a `RasterFunction` from a json string source
+  3. Get the raster function's arguments with `rasterFunction.getArguments()`
+  4. Set the initial raster and raster name in the arguments: `arguments.setRaster(arguments.getRasterNames().get(0), imageServiceRaster)`
+  5. Create a new `Raster` from the function
+  6. Create a `RasterLayer` with the new raster
+  7. Add it as an operational layer with `map.getOperationalLayers().add(rasterLayer)`
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>ImageServiceRaster</li>
-  <li>MapView</li>
-  <li>RasterFunction</li>
-  <li>RasterFunctionArguments</li>
-  <li>RasterLayer</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * ImageServiceRaster
+  * MapView
+  * RasterFunction
+  * RasterFunctionArguments
+  * RasterLayer
+

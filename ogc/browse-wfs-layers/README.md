@@ -1,61 +1,59 @@
-<h1>Browse WFS layers</h1>
+# Browse WFS layers
 
-<p>Browse a WFS service for layers and add them to the map.</p>
+Browse a WFS service for layers and add them to the map.
 
-<p><img src="BrowseWfsLayers.png"/></p>
+<img src="BrowseWfsLayers.png"/>
 
-<h2>Use case</h2>
+## Use case
 
-<p>Services often have multiple layers available for display. For example, a feature service for a city might have layers representing roads, land masses, building footprints, parks, and facilities. A user can choose to only show the road network and parks for a park accessibility analysis. </p>
+Services often have multiple layers available for display. For example, a feature service for a city might have layers representing roads, land masses, building footprints, parks, and facilities. A user can choose to only show the road network and parks for a park accessibility analysis.
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>A list of layers in the WFS service will be shown. Select a layer to display it.</p>
+A list of layers in the WFS service will be shown. Select a layer to display it.
 
-<p>Some WFS services return coordinates in X,Y order, while others return coordinates in lat/long (Y,X) order. If you don't see features rendered or you see features in the wrong location, use the checkbox to swap the coordinate order and reload. Note: the WFS service in this sample does not require coordinate swapping.</p>
+Some WFS services return coordinates in X,Y order, while others return coordinates in lat/long (Y,X) order. If you don't see features rendered or you see features in the wrong location, use the checkbox to swap the coordinate order and reload. Note: the WFS service in this sample does not require coordinate swapping.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Create a <code>WfsService</code> object with a URL to a WFS feature service.</li>
 
-<li>Obtain a list of <code>WfsLayerInfo</code> from the WFS service with <code>getServiceInfo().getLayerInfos()</code>.</li>
+1. Create a `WfsService` object with a URL to a WFS feature service.
 
-<li>Create a <code>WfsFeatureTable</code> from the <code>WfsLayerInfo</code>.
+2. Obtain a list of `WfsLayerInfo` from the WFS service with `getServiceInfo().getLayerInfos()`.
 
-<ul>
-<li>Set the axis order of the table if necessary.</li></ul>
-</li>
+3. Create a `WfsFeatureTable` from the `WfsLayerInfo`.
 
-<li>Create a <code>FeatureLayer</code> from the WSF feature table.</li>
 
-<li>Add the feature layer to the map.
+* Set the axis order of the table if necessary.
 
-<ul>
-<li>The sample uses randomly-generated symbology, similar to the behavior in ArcGIS Pro.</li></ul>
-</li>
-</ol>
+4. Create a `FeatureLayer` from the WSF feature table.
 
-<h2>Relevant API</h2>
+5. Add the feature layer to the map.
 
-<ul>
 
-<li>FeatureLayer</li>
+* The sample uses randomly-generated symbology, similar to the behavior in ArcGIS Pro.
 
-<li>WfsFeatureTable</li>
 
-<li>WfsLayerInfo</li>
+## Relevant API
 
-<li>WfsService</li>
 
-<li>WfsServiceInfo</li>
 
-</ul>
+* FeatureLayer
 
-<h2>About the data</h2>
+* WfsFeatureTable
 
-<p>This service shows features for downtown Seattle. For additional information, see the underlying service on <a href="https://arcgisruntime.maps.arcgis.com/home/item.html?id=1b81d35c5b0942678140efc29bc25391">ArcGIS Online</a>.</p>
+* WfsLayerInfo
 
-<h2>Tags</h2>
+* WfsService
 
-<p>OGC, WFS, feature, web, service, layers, browse, catalog</p>
+* WfsServiceInfo
+
+
+
+## About the data
+
+This service shows features for downtown Seattle. For additional information, see the underlying service on <a href="https://arcgisruntime.maps.arcgis.com/home/item.html?id=1b81d35c5b0942678140efc29bc25391">ArcGIS Online</a>.
+
+## Tags
+
+OGC, WFS, feature, web, service, layers, browse, catalog

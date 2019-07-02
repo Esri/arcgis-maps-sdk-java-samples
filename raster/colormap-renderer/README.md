@@ -1,29 +1,29 @@
-<h1>Colormap Renderer</h1>
+# Colormap Renderer
 
-<p>Apply a colormap renderer to a raster.</p>
+Apply a colormap renderer to a raster.
 
-<p>Colormap renderers can be used to replace values on a raster layer with a color based on the original value brightness.</p>
+Colormap renderers can be used to replace values on a raster layer with a color based on the original value brightness.
 
-<p><img src="ColormapRenderer.png"/></p>
+<img src="ColormapRenderer.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To apply a <code>ColormapRenderer</code> to a <code>RasterLayer</code>:</p>
-<ol>
-  <li>Create a <code>Raster</code> from a raster file</li>
-  <li>Create a <code>RasterLayer</code> from the raster</li>
-  <li>Create a <code>List&lt;Integer&gt;</code> representing colors. Colors at the beginning of the list replace the darkest values in 
-  the raster and colors at the end of the list replaced the brightest values of the raster.</li>
-  <li>Create a <code>ColormapRenderer</code> with the color list and apply it to the raster layer with <code>rasterLayer.setRasterRenderer(colormapRenderer)</code></li>
-</ol>
+To apply a `ColormapRenderer` to a `RasterLayer`:
 
-<h2>Relevant API</h2>
+  1. Create a `Raster` from a raster file
+  2. Create a `RasterLayer` from the raster
+  3. Create a `List&lt;Integer&gt;` representing colors. Colors at the beginning of the list replace the darkest values in 
+  the raster and colors at the end of the list replaced the brightest values of the raster.
+  4. Create a `ColormapRenderer` with the color list and apply it to the raster layer with `rasterLayer.setRasterRenderer(colormapRenderer)`
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>ColormapRenderer</li>
-  <li>MapView</li>
-  <li>Raster</li>
-  <li>RasterLayer</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * ColormapRenderer
+  * MapView
+  * Raster
+  * RasterLayer
+

@@ -1,27 +1,27 @@
-<h1>Terrain Exaggeration</h1>
+# Terrain Exaggeration
 
-<p>Vertically exaggerate terrain.</p>
+Vertically exaggerate terrain.
 
-<p><img src="TerrainExaggeration.gif"/></p>
+<img src="TerrainExaggeration.gif"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Selecting an exaggeration amount from the slider will apply that to the scene's surface.</p>
+Selecting an exaggeration amount from the slider will apply that to the scene's surface.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To exaggerate a <code>Scene</code>'s <code>Surface</code>:</p>
+To exaggerate a `Scene`'s `Surface`:
 
-<ol>
-  <li>Create an elevated surface and add it to the scene, <code>Surface.getElevationSources().add("elevationURL")</code></li>
-  <li>Add surface to the scene, <code> scene.setBaseSurface(Surface)</code></li>
-  <li>Set exaggeration amount of the surface, <code>Surface.setElevationExaggeration(exaggeration)</code></li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create an elevated surface and add it to the scene, `Surface.getElevationSources().add("elevationURL")`
+  2. Add surface to the scene, ` scene.setBaseSurface(Surface)`
+  3. Set exaggeration amount of the surface, `Surface.setElevationExaggeration(exaggeration)`
 
-<ul>
-  <li>ArcGISScene</li>
-  <li>Surface</li>
-  <li>ArcGISTiledElevationSource</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISScene
+  * Surface
+  * ArcGISTiledElevationSource
+

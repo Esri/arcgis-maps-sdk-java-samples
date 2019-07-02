@@ -1,34 +1,32 @@
-<h1>Show Labels on Layer</h1>
+# Show Labels on Layer
 
-<p>Add custom labels to a layer.</p>
+Add custom labels to a layer.
 
-<p><img src="ShowLabelsOnLayer.png"/></p>
+<img src="ShowLabelsOnLayer.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To show labels on a feature layer:</p>
+To show labels on a feature layer:
 
-<ol>
- <li>First, create a <code>FeatureLayer</code> with a <code>ServiceFeatureTable</code> using an online feature 
- service.</li>
- <li>Create a <code>TextSymbol</code> to use for displaying the label text.</li>
- <li>Create a JSON string for the label definition.
-    <ul>
-        <li> Set the "LabelExpressionInfo.expression" key to express what the text the label should display. You can 
-        use fields of the feature by using <code>$feature.field_name</code> in the expression.
-        <li>To use the text symbol, set the "symbol" key to the symbol's JSON representation using <code>textSymbol.toJson()</code>.</li>
-     </ul>
- </li>
- <li>Create a label definition from the JSON using <code>LabelDefinition.fromJson(json)</code>.</code>
- <li>Add the definition to the feature layer with <code>featureLayer.getLabelDefinitions().add(labelDefinition)
- </code>.</li>
- <li>Lastly, enable labels on the layer using <code>featureLayer.setLabelsEnabled()</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+ 1. First, create a `FeatureLayer` with a `ServiceFeatureTable` using an online feature 
+ service.
+ 2. Create a `TextSymbol` to use for displaying the label text.
+ 3. Create a JSON string for the label definition.
+  
+  * Set the "LabelExpressionInfo.expression" key to express what the text the label should display. You can 
+  use fields of the feature by using `$feature.field_name` in the expression.
+  <li>To use the text symbol, set the "symbol" key to the symbol's JSON representation using `textSymbol.toJson()`.
+ 4. Create a label definition from the JSON using `LabelDefinition.fromJson(json)`.`
+ <li>Add the definition to the feature layer with `featureLayer.getLabelDefinitions().add(labelDefinition)
+ `.
+ 5. Lastly, enable labels on the layer using `featureLayer.setLabelsEnabled()`.
 
-<ul>
- <li>FeatureLayer</li>
- <li>LabelDefinition</li>
- <li>TextSymbol</li>
-</ul>
+
+## Relevant API
+
+
+ * FeatureLayer
+ * LabelDefinition
+ * TextSymbol
+

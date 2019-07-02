@@ -1,30 +1,30 @@
-<h1>Service Feature Table (Manual Cache)</h1>
+# Service Feature Table (Manual Cache)
 
-<p>Request features on demand.</p>
+Request features on demand.
 
-<p><img src="ServiceFeatureTableManualCache.png"/></p>
+<img src="ServiceFeatureTableManualCache.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click on the Request Cache button to manually request Features. Returned label displays how many features were returned by the service.</p>
+Click on the Request Cache button to manually request Features. Returned label displays how many features were returned by the service.
 
-<p>Note: Maximum of Features returned is set to 1000.</p>
+Note: Maximum of Features returned is set to 1000.
 
-<h2>How it works</h2>
+## How it works
 
-<p>How to set <code>FeatureRequestMode.MANUAL_CACHE</code> mode:</p>
+How to set `FeatureRequestMode.MANUAL_CACHE` mode:
 
-<ol>
-    <li>Create a <code>ServiceFeatureTable</code> from a URL.</li>
-    <li>Set request mode of table, <code>ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.MANUAL_CACHE)</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a `ServiceFeatureTable` from a URL.
+  2. Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.MANUAL_CACHE)`.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>FeatureLayer</li>
-    <li>MapView</li>
-    <li>ServiceFeatureTable</li>
-    <li>ServiceFeatureTable.FeatureRequestMode</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * FeatureLayer
+  * MapView
+  * ServiceFeatureTable
+  * ServiceFeatureTable.FeatureRequestMode
+

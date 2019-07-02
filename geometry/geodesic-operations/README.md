@@ -1,41 +1,41 @@
-<h1>Geodesic Operations</h1>
+# Geodesic Operations
 
-<p>Calculate the geodesic path and distance between two points.</p>
+Calculate the geodesic path and distance between two points.
 
-<p><img src="GeodesicOperations.png"/></p>
+<img src="GeodesicOperations.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click on the map to select a path destination. The geodesic path between the two points will update.</p>
+Click on the map to select a path destination. The geodesic path between the two points will update.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create a geodesic path between two points:</p>
+To create a geodesic path between two points:
 
-<ol>
-    <li>Create a <code>Polyline</code> using two points.</li>
-    <li>Pass this polyline to: <code>GeometryEngine.densifyGeodetic(polyline, segmentLength, unitOfMeasurement, GeodeticCurveType
-    .GEODESIC)</code>. This will create a new polyline with segments of length <code>segmentLength</code> and 
-    <code>LinearUnit</code> set to <code>unitOfMeasurement</code>. The curve will be geodesic.</li>
-    <li>You can set this geometry to a <code>Graphic</code> to display the curve in a <code>GraphicsOverlay</code>.</li>
-    <li>To get the distance, use <code>GeometryEngine.lengthGeodetic(pathGeometry, unitOfMeasurement, GeodeticCurveType.GEODESIC)</code></li> 
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a `Polyline` using two points.
+  2. Pass this polyline to: `GeometryEngine.densifyGeodetic(polyline, segmentLength, unitOfMeasurement, GeodeticCurveType
+  .GEODESIC)`. This will create a new polyline with segments of length `segmentLength` and 
+  `LinearUnit` set to `unitOfMeasurement`. The curve will be geodesic.
+  3. You can set this geometry to a `Graphic` to display the curve in a `GraphicsOverlay`.
+  4. To get the distance, use `GeometryEngine.lengthGeodetic(pathGeometry, unitOfMeasurement, GeodeticCurveType.GEODESIC)` 
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>GeodeticCurveType</li>
-    <li>Geometry</li>
-    <li>GeometryEngine</li>
-    <li>Graphic</li>
-    <li>GraphicsOverlay</li>
-    <li>LinearUnit</li>
-    <li>LinearUnitId</li>
-    <li>MapView</li>
-    <li>Point</li>
-    <li>PointCollection</li>
-    <li>Polyline</li>
-    <li>SimpleLineSymbol</li>
-    <li>SimpleMarkerSymbol</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * GeodeticCurveType
+  * Geometry
+  * GeometryEngine
+  * Graphic
+  * GraphicsOverlay
+  * LinearUnit
+  * LinearUnitId
+  * MapView
+  * Point
+  * PointCollection
+  * Polyline
+  * SimpleLineSymbol
+  * SimpleMarkerSymbol
+

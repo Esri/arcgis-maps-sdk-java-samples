@@ -1,41 +1,41 @@
-<h1>Add ENC exchange set</h1>
+# Add ENC exchange set
 
-<p>Display nautical charts conforming to the ENC specification.</p>
+Display nautical charts conforming to the ENC specification.
 
-<p><img src="AddEncExchangeSet.png"/></p>
+<img src="AddEncExchangeSet.png"/>
 
-<h2>Use case</h2>
+## Use case
 
-<p>Maritime applications require conformity to strict specifications over how hydrographic data is displayed digitally to ensure the safety of traveling vessels.</p>
+Maritime applications require conformity to strict specifications over how hydrographic data is displayed digitally to ensure the safety of traveling vessels.
 
-<p>S-57 is the IHO (International Hydrographic Organization) Transfer Standard for digital hydrographic data. The symbology standard for this is called S-52. There are different product specifications for this standard. ENC (Electronic Navigational Charts) is one such specification developed by IHO.</p>
+S-57 is the IHO (International Hydrographic Organization) Transfer Standard for digital hydrographic data. The symbology standard for this is called S-52. There are different product specifications for this standard. ENC (Electronic Navigational Charts) is one such specification developed by IHO.
 
-<p>An ENC exchange set is a catalog of data files which can be loaded as cells. The cells contain information on how symbols should be displayed in relation to one another, so as to represent information such as depth and obstacles accurately.</p>
+An ENC exchange set is a catalog of data files which can be loaded as cells. The cells contain information on how symbols should be displayed in relation to one another, so as to represent information such as depth and obstacles accurately.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Specify the path to a local CATALOG.031 file to create an <code>EncExchangeSet</code>.</li>
 
-<li>After loading the exchange set, loop through the <code>EncDataset</code> objects in <code>encExchangeSet.getDatasets()</code>.</li>
+1. Specify the path to a local CATALOG.031 file to create an `EncExchangeSet`.
 
-<li>Create an <code>EncCell</code> for each dataset. Then create an <code>EncLayer</code> for each cell.</li>
+2. After loading the exchange set, loop through the `EncDataset` objects in `encExchangeSet.getDatasets()`.
 
-<li>Add the ENC layer to a map's operational layers collection to display it.</li>
-</ol>
+3. Create an `EncCell` for each dataset. Then create an `EncLayer` for each cell.
 
-<h2>Relevant API</h2>
+4. Add the ENC layer to a map's operational layers collection to display it.
 
-<ul>
-<li>EncCell</li>
 
-<li>EncDataset</li>
+## Relevant API
 
-<li>EncExchangeSet</li>
 
-<li>EncLayer</li>
-</ul>
+* EncCell
 
-<h2>Tags</h2>
+* EncDataset
 
-<p>Data, ENC, maritime, nautical chart, layers, hydrographic</p>
+* EncExchangeSet
+
+* EncLayer
+
+
+## Tags
+
+Data, ENC, maritime, nautical chart, layers, hydrographic

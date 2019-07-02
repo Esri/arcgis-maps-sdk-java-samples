@@ -1,24 +1,24 @@
-<h1>Raster Layer URL</h1>
+# Raster Layer URL
 
-<p>Show raster data from an online raster image service.</p>
+Show raster data from an online raster image service.
 
-<p><img src="RasterLayerURL.png"/></p>
+<img src="RasterLayerURL.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To add a <code>RasterLayer</code> as an operational layer from an <code>ImageServiceRaster</code>:</p>
-<ol>
-  <li>Create an <code>ImageServiceRaster</code> using the service's URL</li>
-  <li>Create a <code>RasterLayer</code> from the raster</li>
-  <li>Add it as an operational layer with <code>map.getOperationalLayers().add(rasterLayer)</code></li>
-</ol>
+To add a `RasterLayer` as an operational layer from an `ImageServiceRaster`:
 
-<h2>Relevant API</h2>
+  1. Create an `ImageServiceRaster` using the service's URL
+  2. Create a `RasterLayer` from the raster
+  3. Add it as an operational layer with `map.getOperationalLayers().add(rasterLayer)`
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>ImageServiceRaster</li>
-  <li>MapView</li>
-  <li>RasterLayer</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * ImageServiceRaster
+  * MapView
+  * RasterLayer
+

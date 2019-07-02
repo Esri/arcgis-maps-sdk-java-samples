@@ -1,4 +1,4 @@
-# Analyze Hotspots
+#  Analyze Hotspots
 
 Perform hotspot analysis using a geoprocessing service.
 
@@ -6,11 +6,11 @@ In this case, frequency of 911 calls in an area are analyzed.
 
 ![](AnalyzeHotspots.png)
 
-## How to use the sample
+##  How to use the sample
 
 Select a start and end date using the datepickers between 1/1/1998 and 5/31/1998 respectively. Click the "Analyze hotspots" button to start the geoprocessing job.
 
-## How it works
+##  How it works
 
 To analyze hotspots using a geoprocessing service:
 
@@ -21,7 +21,7 @@ To analyze hotspots using a geoprocessing service:
 5.  Get the resulting `ArcGISMapImageLayer` using `geoprocessingResult.getMapImageLayer()`.
 6.  Add the layer to the map's operational layers.
 
-## Relevant API
+##  Relevant API
 
 *   ArcGISMapImageLayer
 *   GeoprocessingJob

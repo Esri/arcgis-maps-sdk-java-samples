@@ -1,40 +1,40 @@
-<h1>Format Coordinates</h1>
+# Format Coordinates
 
-<p>Write coordinates in a variety of common formats.</p>
+Write coordinates in a variety of common formats.
 
-<p>Convert a map location Point in WGS84 to a String in a number of different 
+Convert a map location Point in WGS84 to a String in a number of different 
 coordinate notations (and vice versa) including decimal degrees; degrees, minutes, seconds; Universal Transverse 
-Mercator (UTM), and United States National Grid (USNG).</p>
+Mercator (UTM), and United States National Grid (USNG).
  
- <p><img src="FormatCoordinates.png"/></p>
+ <img src="FormatCoordinates.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click on the map to see a callout with the clicked location's coordinate formatted in 4 different ways. You can 
+Click on the map to see a callout with the clicked location's coordinate formatted in 4 different ways. You can 
 also put a coordinate string in any of these formats in the text field. Hit Enter and the coordinate string will be 
-converted to a map location which the callout will move to.</p>
+converted to a map location which the callout will move to.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To convert between a <code>Point</code> and different coordinate formats using the 
-<code>CoordinateFormatter</code>:</p>
-<ol>
-    <li>Get or create a map <code>Point</code> with a spatial reference.</li>
-    <li>Use one of the static "to" methods on <code>CoordinateFormatter</code> such as 
-    <code>CoordinateFormatter.toLatitudeLongitude(point, CoordinateFormatter.LatitudeLongitudeFormat.DECIMAL_DEGREES,
-     4)</code> to get the formatted string</code>.</li>
-    <li>To go from a formatted string to a <code>Point</code>, use one of the "from" static methods like 
-    <code>CoordinateFormatter.fromUtm(coordinateString, map.getSpatialReference(), CoordinateFormatter.UtmConversionMode
-    .LATITUDE_BAND_INDICATORS)</code>.</li>
-</ol>
+To convert between a `Point` and different coordinate formats using the 
+`CoordinateFormatter`:
 
-<h2>Relevant API</h2>
+  1. Get or create a map `Point` with a spatial reference.
+  2. Use one of the static "to" methods on `CoordinateFormatter` such as 
+  `CoordinateFormatter.toLatitudeLongitude(point, CoordinateFormatter.LatitudeLongitudeFormat.DECIMAL_DEGREES,
+   4)` to get the formatted string`.
+  3. To go from a formatted string to a `Point`, use one of the "from" static methods like 
+  `CoordinateFormatter.fromUtm(coordinateString, map.getSpatialReference(), CoordinateFormatter.UtmConversionMode
+  .LATITUDE_BAND_INDICATORS)`.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>ArcGISTiledLayer</li>
-    <li>Basemap</li>
-    <li>Callout</li>
-    <li>CoordinateFormatter</li>
-    <li>MapView</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * ArcGISTiledLayer
+  * Basemap
+  * Callout
+  * CoordinateFormatter
+  * MapView
+

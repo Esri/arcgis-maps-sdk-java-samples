@@ -1,32 +1,32 @@
-<h1>Webmap Keyword Search</h1>
+# Webmap Keyword Search
 
-<p>Find webmaps within a portal using a keyword.</p>
+Find webmaps within a portal using a keyword.
 
-<p><img src="WebmapKeywordSearch.png"/></p>
+<img src="WebmapKeywordSearch.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
 Input a keyword into the text field and press Enter to search. Click on a result to show the webmap in the map view. 
 Click on the "Find More Results" button to add more results to the list.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To search for webmaps in a <code>Portal</code> matching a keyword:</p>
-<ol>
-  <li>Create a <code>Portal</code> and load it</li>
-  <li>Create <code>PortalItemQueryParameters</code>. Set the type to <code>PortalItem.Type.WEBMAP</code> and the 
-  query to the keyword you want to search</li>
-  <li>Use <code>portal.findItemsAsync(params)</code> to get the first set of matching items.</li>
-  <li>Get more results with <code>portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters())</code></li>
-</ol>
+To search for webmaps in a `Portal` matching a keyword:
 
-<h2>Relevant API</h2>
+  1. Create a `Portal` and load it
+  2. Create `PortalItemQueryParameters`. Set the type to `PortalItem.Type.WEBMAP` and the 
+  query to the keyword you want to search
+  3. Use `portal.findItemsAsync(params)` to get the first set of matching items.
+  4. Get more results with `portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters())`
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>MapView</li>
-  <li>Portal</li>
-  <li>PortalItem</li>
-  <li>PortalQueryParameters</li>
-  <li>PortalQueryResultSet</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * MapView
+  * Portal
+  * PortalItem
+  * PortalQueryParameters
+  * PortalQueryResultSet
+

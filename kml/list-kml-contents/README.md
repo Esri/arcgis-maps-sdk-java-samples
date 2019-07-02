@@ -1,43 +1,43 @@
-<h1>List KML Contents</h1>
+# List KML Contents
 
-<p>Show KML nodes in their nested hierarchy.</p>
+Show KML nodes in their nested hierarchy.
 
-<p><img src="ListKMLContents.png"/></p>
+<img src="ListKMLContents.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>When the scene and KML layer loads, the KML node tree will be shown in the tree view. Click on a node to zoom to its extent (if it has one).</p>
+When the scene and KML layer loads, the KML node tree will be shown in the tree view. Click on a node to zoom to its extent (if it has one).
 
-<h2>How it works</h2>
+## How it works
 
-<p>To list the nodes in a KML file:</p>
+To list the nodes in a KML file:
 
-<ol>
-  <li>Create a <code>KmlDataset</code> pointing to the KML file.</li>
-  <li>Start with a list of the rood nodes with <code>kmlDataset.getRootNodes()</code>.</li>
-  <li>For each node, check if it is a <code>KmlContainer</code> or <code>KmlNetworkLink</code>. These types can have child nodes. If it is one of these, cast to the appropriate type and call <code>getChildNodes()</code>.</li>
-  <li>Recursively search these child nodes for more nodes.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a `KmlDataset` pointing to the KML file.
+  2. Start with a list of the rood nodes with `kmlDataset.getRootNodes()`.
+  3. For each node, check if it is a `KmlContainer` or `KmlNetworkLink`. These types can have child nodes. If it is one of these, cast to the appropriate type and call `getChildNodes()`.
+  4. Recursively search these child nodes for more nodes.
 
-<ul>
-  <li>KmlContainer</li>
-  <li>KmlDataset</li>
-  <li>KmlDocument</li>
-  <li>KmlFolder</li>
-  <li>KmlGroundOverlay</li>
-  <li>KmlLayer</li>
-  <li>KmlNetworkLink</li>
-  <li>KmlNode</li>
-  <li>KmlPlacemark</li>
-  <li>KmlScreenOverlay</li>
-</ul>
 
-<h2>About the data</h2>
+## Relevant API
 
-<p>This is an example KML file meant to demonstrate how Runtime supports several common features.</p>
 
-<h2>Tags</h2>
+  * KmlContainer
+  * KmlDataset
+  * KmlDocument
+  * KmlFolder
+  * KmlGroundOverlay
+  * KmlLayer
+  * KmlNetworkLink
+  * KmlNode
+  * KmlPlacemark
+  * KmlScreenOverlay
 
-<p>KML, KMZ, OGC, Keyhole</p>
+
+## About the data
+
+This is an example KML file meant to demonstrate how Runtime supports several common features.
+
+## Tags
+
+KML, KMZ, OGC, Keyhole

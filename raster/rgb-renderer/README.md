@@ -1,35 +1,35 @@
-<h1>Rgb Renderer</h1>
+# Rgb Renderer
 
-<p>Apply an RGB renderer to a raster.</p>
+Apply an RGB renderer to a raster.
 
-<p>An RGB renderer is used to adjust the color bands of a multispectral image.</p>
+An RGB renderer is used to adjust the color bands of a multispectral image.
 
-<p><img src="RgbRenderer.png"/></p>
+<img src="RgbRenderer.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Choose one of the stretch parameter types. The other options will adjust based on the chosen type. Add your 
-inputs and press the Update button to update the renderer.</p>
+Choose one of the stretch parameter types. The other options will adjust based on the chosen type. Add your 
+inputs and press the Update button to update the renderer.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To apply a <code>RgbRenderer</code> to a <code>RasterLayer</code>:</p>
-<ol>
-  <li>Create a <code>Raster</code> from a multispectral raster file</li>
-  <li>Create a <code>RasterLayer</code> from the raster</li>
-  <li>Create a <code>Basemap</code> from the raster layer and set it to the map</li>
-  <li>Create a <code>RgbRenderer</code>, specifying the stretch parameters and other properties</li>
-  <li>Set the renderer on the raster layer with <code>rasterLayer.setRenderer(renderer)</code></li>
-</ol>
+To apply a `RgbRenderer` to a `RasterLayer`:
 
-<h2>Relevant API</h2>
+  1. Create a `Raster` from a multispectral raster file
+  2. Create a `RasterLayer` from the raster
+  3. Create a `Basemap` from the raster layer and set it to the map
+  4. Create a `RgbRenderer`, specifying the stretch parameters and other properties
+  5. Set the renderer on the raster layer with `rasterLayer.setRenderer(renderer)`
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>MapView</li>
-  <li>Raster</li>
-  <li>RasterLayer</li>
-  <li>RgbRenderer</li>
-  <li>StretchParameters</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * MapView
+  * Raster
+  * RasterLayer
+  * RgbRenderer
+  * StretchParameters
+

@@ -1,31 +1,31 @@
-<h1>Identify Graphics</h1>
+# Identify Graphics
 
-<p>Determine if a graphic was clicked.</p>
+Determine if a graphic was clicked.
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>When you click on a graphic on the map, you should see an alert.</p>
+When you click on a graphic on the map, you should see an alert.
 
-<p><img src="IdentifyGraphics.png"/></p>
+<img src="IdentifyGraphics.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To identify a <code>Graphic</code> from the <code>MapView</code>.</p>
+To identify a `Graphic` from the `MapView`.
 
-<ol>
-    <li>Create a <code>GraphicsOverlay</code> and add it to the MapView.</li>
-    <li>Add Graphic along with a <code>SimpleFillSymbol</code>. </li>
-    <li>Add the graphic to the graphics overlay. </li>
-    <li>Identify the graphics on the specified location, <code>MapView.identifyGraphicsOverlayAsync(graphicsOverlay, point, tolerance, max results)</code> method.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a `GraphicsOverlay` and add it to the MapView.
+  2. Add Graphic along with a `SimpleFillSymbol`.
+  3. Add the graphic to the graphics overlay.
+  4. Identify the graphics on the specified location, `MapView.identifyGraphicsOverlayAsync(graphicsOverlay, point, tolerance, max results)` method.
 
-<ul>
-    <li>Graphic</li>
-    <li>GraphicsOverlay</li>
-    <li>MapView</li>
-    <li>PointCollection</li>
-    <li>Polygon</li>
-    <li>SimpleFillSymbol</li>
-</ul>
+
+## Relevant API
+
+
+  * Graphic
+  * GraphicsOverlay
+  * MapView
+  * PointCollection
+  * Polygon
+  * SimpleFillSymbol
+

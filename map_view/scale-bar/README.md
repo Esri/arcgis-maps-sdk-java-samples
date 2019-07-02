@@ -1,45 +1,45 @@
-<h1>Scale Bar</h1>
+# Scale Bar
 
-<p>Adds a scale bar to visually gauge distances on a map.</p>
+Adds a scale bar to visually gauge distances on a map.
 
-<p><img src="ScaleBar.png"/></p>
+<img src="ScaleBar.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Zoom in or out of the map. The scale bar will automatically display the appropriate scale based on zoom level. Units can be in metric and/or imperial.</p>
+Zoom in or out of the map. The scale bar will automatically display the appropriate scale based on zoom level. Units can be in metric and/or imperial.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To add a scale bar to a map view:</p>
+To add a scale bar to a map view:
 
-<ol>
-<li>Create a <code>ArcGISMap</code> and display it in a <code>MapView</code>.</li>
 
-<li>Create a <code>ScaleBar</code> passing in the map view.</li>
+1. Create a `ArcGISMap` and display it in a `MapView`.
 
-<li>Set the scale bar's skin style with <code>scaleBar.setSkinStyle(skinStyle)</code>.</li>
+2. Create a `ScaleBar` passing in the map view.
 
-<li>Set the unit system with <code>scaleBar.setUnitSystem(unitSystem)</code>.</li>
+3. Set the scale bar's skin style with `scaleBar.setSkinStyle(skinStyle)`.
 
-<li>Add the scale bar to the UI overlaying the map view.</li>
-</ol>
+4. Set the unit system with `scaleBar.setUnitSystem(unitSystem)`.
 
-<h2>Relevant API</h2>
+5. Add the scale bar to the UI overlaying the map view.
 
-<ul>
-<li>ArcGISMap</li>
 
-<li>MapView</li>
+## Relevant API
 
-<li>Scalebar</li>
 
-<li>UnitSystem</li>
-</ul>
+* ArcGISMap
 
-<h2>Tags</h2>
+* MapView
 
-<p>Map, Scale Bar, Toolkit </p>
+* Scalebar
 
-<h2>Additional Information</h2>
+* UnitSystem
 
-<p>The scale will be accurate for the center of the map, and in general more accurate at larger scales (zoomed in). This means at smaller scales (zoomed out), the reading may be inaccurate at the extremes of the visible extent.</p>
+
+## Tags
+
+Map, Scale Bar, Toolkit
+
+## Additional Information
+
+The scale will be accurate for the center of the map, and in general more accurate at larger scales (zoomed in). This means at smaller scales (zoomed out), the reading may be inaccurate at the extremes of the visible extent.

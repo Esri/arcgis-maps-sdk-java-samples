@@ -1,34 +1,34 @@
-<h1>Spatial Operations</h1>
+# Spatial Operations
 
-<p>Find the union, difference, or intersection of two geometries.</p>
+Find the union, difference, or intersection of two geometries.
 
-<p><img src="SpatialOperations.png"/></p>
+<img src="SpatialOperations.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The sample provides a drop down on the top, where you can select a geometry operation. When you choose a geometry 
+The sample provides a drop down on the top, where you can select a geometry operation. When you choose a geometry 
 operation, the application performs this operation between the overlapping polygons and applies the result to the 
-geometries.</p>
+geometries.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To find the union, difference, intersection, or symmetric difference between <code>Polygon</code>s:</p>
+To find the union, difference, intersection, or symmetric difference between `Polygon`s:
 
-<ol>
-    <li>Create a <code>GraphicsOverlay</code> and add it to the <code>MapView</code>.</li>
-    <li>Define a <code>PointCollection</code> of each <code>Geometry</code>.</li>
-    <li>Add the overlapping polygons to the graphics overlay.</li>
-    <li>Determine spatial relationships between polygons, e.g. union, difference, etc, by using the appropriate operation <code>GeometryEngine.operation(polygon.getGeometry(), polygon.getGeometry())</code></li>
-</ol>
 
-<h2>Relevant API</h2>
-<ul>
-    <li>Geometry</li>
-    <li>Graphic</li>
-    <li>GraphicsOverlay</li>
-    <li>MapView</li>
-    <li>Point</li>
-    <li>PointCollection</li>
-    <li>SimpleLineSymbol</li>
-    <li>SimpleFillSymbol</li>
-</ul>
+  1. Create a `GraphicsOverlay` and add it to the `MapView`.
+  2. Define a `PointCollection` of each `Geometry`.
+  3. Add the overlapping polygons to the graphics overlay.
+  4. Determine spatial relationships between polygons, e.g. union, difference, etc, by using the appropriate operation `GeometryEngine.operation(polygon.getGeometry(), polygon.getGeometry())`
+
+
+## Relevant API
+
+  * Geometry
+  * Graphic
+  * GraphicsOverlay
+  * MapView
+  * Point
+  * PointCollection
+  * SimpleLineSymbol
+  * SimpleFillSymbol
+

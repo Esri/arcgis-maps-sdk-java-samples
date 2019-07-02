@@ -1,35 +1,35 @@
-<h1>View content beneath terrain surface</h1>
+# View content beneath terrain surface
 
-<p>See through terrain in a scene and move the camera underground.</p>
+See through terrain in a scene and move the camera underground.
 
-<p><img src="ViewContentBeneathTerrainSurface.png"/></p>
+<img src="ViewContentBeneathTerrainSurface.png"/>
 
-<h2>Use case</h2>
+## Use case
 
-<p>By default, a scene's terrain is fully opaque and the camera cannot go underground. To see underground features such as pipes in a utility network, you can lower the opacity of the terrain surface and set the navigation constraint on the surface to allow underground navigation.</p>
+By default, a scene's terrain is fully opaque and the camera cannot go underground. To see underground features such as pipes in a utility network, you can lower the opacity of the terrain surface and set the navigation constraint on the surface to allow underground navigation.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Display an <code>ArcGISScene</code> in a <code>SceneView</code> which contains layers with underground features.</li>
 
-<li>To see underground, get the scene's base surface and set its opacity to a value between 0 and 1.</li>
+1. Display an `ArcGISScene` in a `SceneView` which contains layers with underground features.
 
-<li>To allow the camera to go underground, set the surface's navigation constraint to <code>NONE</code>.</li>
-</ol>
+2. To see underground, get the scene's base surface and set its opacity to a value between 0 and 1.
 
-<h2>Relevant API</h2>
+3. To allow the camera to go underground, set the surface's navigation constraint to `NONE`.
 
-<ul>
-<li>Surface</li>
 
-<li>Surface.NavigationConstraint</li>
-</ul>
+## Relevant API
 
-<h2>About the data</h2>
 
-<p>This data is a point scene layer showing underground wellbore paths (green polylines) and seismic events (brown points).</p>
+* Surface
 
-<h2>Tags</h2>
+* Surface.NavigationConstraint
 
-<p>3D, subsurface, underground, utilities</p>
+
+## About the data
+
+This data is a point scene layer showing underground wellbore paths (green polylines) and seismic events (brown points).
+
+## Tags
+
+3D, subsurface, underground, utilities

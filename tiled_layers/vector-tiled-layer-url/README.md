@@ -1,24 +1,24 @@
-<h1>Vector Tiled Layer URL</h1>
+# Vector Tiled Layer URL
 
-<p>Display tiles from an ArcGIS vector tile service.</p>
+Display tiles from an ArcGIS vector tile service.
 
-<p><img src="VectorTiledLayerURL.png"/></p>
+<img src="VectorTiledLayerURL.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To add an <code>ArcGISTiledLayer</code> as a <code>Basemap</code> to an <code>ArcGISMap</code>:</p>
+To add an `ArcGISTiledLayer` as a `Basemap` to an `ArcGISMap`:
 
-<ol>
-    <li>Create an ArcGISVectorTiledLayer from a URL with <code>new ArcGISVectorTiledLayer(url)</code>.</li>
-    <li>Create a basemap passing in the vector tiled layer.</li>
-    <li>Set the basemap to the map with <code>map.setBasemap(basemap)</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create an ArcGISVectorTiledLayer from a URL with `new ArcGISVectorTiledLayer(url)`.
+  2. Create a basemap passing in the vector tiled layer.
+  3. Set the basemap to the map with `map.setBasemap(basemap)`.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>ArcGISVectorTiledLayer</li>
-    <li>Basemap</li>
-    <li>MapView</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * ArcGISVectorTiledLayer
+  * Basemap
+  * MapView
+

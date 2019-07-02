@@ -1,44 +1,42 @@
-<h1>List Related Features</h1>
+# List Related Features
 
-<p>Find features related to the selected feature.</p>
+Find features related to the selected feature.
 
-<p><img src="ListRelatedFeatures.png"/></p>
+<img src="ListRelatedFeatures.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>After the layer is loaded, click on a feature to select it. An accordion view will display related features 
-grouped by feature table.</p>
+After the layer is loaded, click on a feature to select it. An accordion view will display related features 
+grouped by feature table.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To query related <code>Feature</code>s:</p>
+To query related `Feature`s:
 
-<ol>
-  <li>Get a <code>Feature</code> from a loaded <code>FeatureLayer</code>.</li>
-  <li>Get the feature's <code>FeatureTable</code> and call <code>featureTable.queryRelatedFeaturesAsync(feature)</code>.</li>
-  <li>You will get a list of <code>RelatedFeatureQueryResult</code>s.
-    <ul>
-      <li>You can get the name of the table containing the related features with <code>relatedFeatureQueryResult
-      .getRelatedTable().getTableName()</code>.</li>
-    </ul>
-  </li>
-  <li>The <code>RelatedFeatureQueryResult</code> implements <code>Iterable&lt;Feature&gt;</code>. You can iterate over 
+
+  1. Get a `Feature` from a loaded `FeatureLayer`.
+  2. Get the feature's `FeatureTable` and call `featureTable.queryRelatedFeaturesAsync(feature)`.
+  3. You will get a list of `RelatedFeatureQueryResult`s.
+  
+  * You can get the name of the table containing the related features with `relatedFeatureQueryResult
+  .getRelatedTable().getTableName()`.
+  <li>The `RelatedFeatureQueryResult` implements `Iterable&lt;Feature&gt;`. You can iterate over 
   the result to get the features:
-  <pre><code>for (Feature feature: relatedFeatureQueryResult) {
+  ``for (Feature feature: relatedFeatureQueryResult) {
   //do something with the related feature...
-  }</code></pre>
-</ol>
+  }``
 
-<h2>Relevant API</h2>
 
-<ul>
-  <li>ArcGISFeature</li>
-  <li>ArcGISFeatureTable</li>
-  <li>ArcGISMap</li>
-  <li>Feature</li>
-  <li>FeatureLayer</li>
-  <li>FeatureQueryResult</li>
-  <li>FeatureTable</li>
-  <li>MapView</li>
-  <li>RelatedFeatureQueryResult</li>
-</ul>
+## Relevant API
+
+
+  * ArcGISFeature
+  * ArcGISFeatureTable
+  * ArcGISMap
+  * Feature
+  * FeatureLayer
+  * FeatureQueryResult
+  * FeatureTable
+  * MapView
+  * RelatedFeatureQueryResult
+

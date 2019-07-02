@@ -1,32 +1,32 @@
-<h1>Add an integrated mesh layer</h1>
+# Add an integrated mesh layer
 
-<p>View an integrated mesh layer from a scene service.</p>
+View an integrated mesh layer from a scene service.
 
-<p><img src="AddAnIntegratedMeshLayer.png"/></p>
+<img src="AddAnIntegratedMeshLayer.png"/>
 
-<h2>Use Case</h2>
+## Use Case
 
-<p>An integrated mesh can represent artificial and natural 3D features such as
+An integrated mesh can represent artificial and natural 3D features such as
 building walls, trees, valleys, and cliffs, with realistic textures and
-elevation information.</p>
+elevation information.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Create a scene.</li>
 
-<li>Create an <code>IntegratedMeshLayer</code> with the URL to an integrated mesh layer 
-scene service.</li>
+1. Create a scene.
 
-<li>Add the layer to the scene's operational layers collection.</li>
-</ol>
+2. Create an `IntegratedMeshLayer` with the URL to an integrated mesh layer 
+scene service.
 
-<h2>Relevant API</h2>
+3. Add the layer to the scene's operational layers collection.
 
-<ul>
-<li>IntegratedMeshLayer</li>
-</ul>
 
-<h2>Tags</h2>
+## Relevant API
 
-<p>3D, integrated mesh, layers</p>
+
+* IntegratedMeshLayer
+
+
+## Tags
+
+3D, integrated mesh, layers

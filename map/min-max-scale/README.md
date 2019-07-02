@@ -1,30 +1,30 @@
-<h1>Min Max Scale</h1>
+# Min Max Scale
 
-<p>Restrict zooming to a specific scale range.</p>
+Restrict zooming to a specific scale range.
 
-<p><img src="MinMaxScale.png"/></p>
+<img src="MinMaxScale.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The ArcGISMap has a minimum and maximum scale set which locks the map view in-between that range.</p>
+The ArcGISMap has a minimum and maximum scale set which locks the map view in-between that range.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To set the min and max scales on a <code>ArcGISMap</code>:</p>
+To set the min and max scales on a `ArcGISMap`:
 
-<ol>
-    <li>Create an ArcGIS map.  </li>
-    <li>Set min and max scales of map, <code>ArcGISMap.setMaxScale()</code> and <code>ArcGISMap.setMinScale()</code>.</li>
-    <li>Set the ArcGIS map to the <code>MapView</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create an ArcGIS map.
+  2. Set min and max scales of map, `ArcGISMap.setMaxScale()` and `ArcGISMap.setMinScale()`.
+  3. Set the ArcGIS map to the `MapView`.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Basemap</li>
-    <li>MapView</li>
-    <li>Viewpoint</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * MapView
+  * Viewpoint
+
 
 

@@ -1,43 +1,43 @@
-<h1>Manage Bookmarks</h1>
+# Manage Bookmarks
 
-<p>Use bookmarks in a map.</p>
+Use bookmarks in a map.
 
-<p><img src="ManageBookmarks.png"/></p>
+<img src="ManageBookmarks.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The map in the sample comes pre-populated with a set of bookmarks.
+The map in the sample comes pre-populated with a set of bookmarks.
   To access a bookmark and move to that location.
-  - click on a bookmark's name from the list</p>
+  - click on a bookmark's name from the list
 
-<p>To add a bookmark.
+To add a bookmark.
   - pan and/or zoom to a new location and click on the on the Add Bookmark button
   - enter a unique name for the bookmark and click ok
-  - bookmark will be added to the list</p>
+  - bookmark will be added to the list
 
-<h2>How it works</h2>
+## How it works
 
-<p>To display the <code>ArcGISMap</code>'s <code>Bookmark</code>s:</p>
+To display the `ArcGISMap`'s `Bookmark`s:
 
-<ol>
-  <li>Create an ArcGIS map; it has a property called bookmarks.  </li>
-  <li>Create a <code>BookmarkList</code> from the ArcGIS map, <code>ArcGISMap.getBookmarks()</code>.</li>
-  <li>Set the map to the <code>MapView</code>, <code>MapView.setMap()</code>. </li>
-  <li>To create a new bookmark
-    <ul><li>use <code>MapView.getCurrentViewpoint()</code> to set the bookmark's viewpoint </li>
-      <li>bookmark.name for the name of the bookmark</li>
-      <li>add new bookmark to book mark list, <code>BookmarkList.add()</code></li></ul></li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create an ArcGIS map; it has a property called bookmarks.
+  2. Create a `BookmarkList` from the ArcGIS map, `ArcGISMap.getBookmarks()`.
+  3. Set the map to the `MapView`, `MapView.setMap()`.
+  4. To create a new bookmark
+  * use `MapView.getCurrentViewpoint()` to set the bookmark's viewpoint
+  * bookmark.name for the name of the bookmark
+  * add new bookmark to book mark list, `BookmarkList.add()`
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>Bookmark</li>
-  <li>BookmarkList</li>
-  <li>MapView</li>
-  <li>Viewpoint</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * Bookmark
+  * BookmarkList
+  * MapView
+  * Viewpoint
+
 
 

@@ -1,32 +1,32 @@
-<h1>Change Feature Layer Renderer</h1>
+# Change Feature Layer Renderer
 
-<p>Change how a feature layer looks with a renderer.</p>
+Change how a feature layer looks with a renderer.
 
-<p><img src="ChangeFeatureLayerRenderer.gif"/></p>
+<img src="ChangeFeatureLayerRenderer.gif"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Use the buttons in the control panel to change the renderer.</p>
+Use the buttons in the control panel to change the renderer.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To change the <code>FeatureLayer</code>'s <code>Renderer</code>:</p>
+To change the `FeatureLayer`'s `Renderer`:
 
-<ul>
-    <li>Create a <code>ServiceFeatureTable</code> from a URL.</li>
-    <li>Create a feature layer from the service feature table.</li>
-    <li>Create a new renderer (in this case, a <code>SimpleRenderer</code>).</li>
-    <li>Change the feature layer's renderer using <code>FeatureLayer.setRenderer(SimpleRenderer)</code>.</li>
-</ul>
 
-<h2>Relevant API</h2>
+  * Create a `ServiceFeatureTable` from a URL.
+  * Create a feature layer from the service feature table.
+  * Create a new renderer (in this case, a `SimpleRenderer`).
+  * Change the feature layer's renderer using `FeatureLayer.setRenderer(SimpleRenderer)`.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>FeatureLayer</li>
-    <li>MapView</li>
-    <li>Renderer</li>
-    <li>ServiceFeatureTable</li>
-    <li>SimpleRenderer</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * FeatureLayer
+  * MapView
+  * Renderer
+  * ServiceFeatureTable
+  * SimpleRenderer
+
 

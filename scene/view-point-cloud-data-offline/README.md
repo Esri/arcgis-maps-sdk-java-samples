@@ -1,37 +1,37 @@
-<h1>View point cloud data offline</h1>
+# View point cloud data offline
 
-<p>Display local 3D point cloud data.</p>
+Display local 3D point cloud data.
 
-<p><img src="ViewPointCloudDataOffline.png"/></p>
+<img src="ViewPointCloudDataOffline.png"/>
 
-<h2>Use case</h2>
+## Use case
 
-<p>Point clouds are often used to visualize massive sets of sensor data such as lidar. The point locations indicate where the sensor data was measured spatially, and the color or size of the points indicate the measured/derived value of the sensor reading. In the case of lidar, the color of the visualized point could be the color of the reflected light, so that the point cloud forms a true color 3D image of the area.</p>
+Point clouds are often used to visualize massive sets of sensor data such as lidar. The point locations indicate where the sensor data was measured spatially, and the color or size of the points indicate the measured/derived value of the sensor reading. In the case of lidar, the color of the visualized point could be the color of the reflected light, so that the point cloud forms a true color 3D image of the area.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Create a <code>PointCloudLayer</code> with the path to a local .slpk file containing a point cloud layer.</li>
 
-<li>Add the layer to a scene's operational layers collection.</li>
-</ol>
+1. Create a `PointCloudLayer` with the path to a local .slpk file containing a point cloud layer.
 
-<h2>Relevant API</h2>
+2. Add the layer to a scene's operational layers collection.
 
-<ul>
-<li>PointCloudLayer</li>
-</ul>
 
-<h2>About the data</h2>
+## Relevant API
 
-<p>This point cloud data comes from Balboa Park in San Diego, California. Created and provided by USGS.</p>
 
-<p>The points are colored by elevation on a spectrum from red (higher elevation) to blue (lower elevation).</p>
+* PointCloudLayer
 
-<h2>Additional information</h2>
 
-<p>Point clouds can be loaded offline from scene layer packages (.slpk) or online via a scene service.</p>
+## About the data
 
-<h2>Tags</h2>
+This point cloud data comes from Balboa Park in San Diego, California. Created and provided by USGS.
 
-<p>3D, point cloud, lidar</p>
+The points are colored by elevation on a spectrum from red (higher elevation) to blue (lower elevation).
+
+## Additional information
+
+Point clouds can be loaded offline from scene layer packages (.slpk) or online via a scene service.
+
+## Tags
+
+3D, point cloud, lidar

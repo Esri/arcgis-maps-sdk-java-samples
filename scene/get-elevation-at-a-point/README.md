@@ -1,47 +1,47 @@
-<h1>Get elevation at a point</h1>
+# Get elevation at a point
 
-<p>Get the elevation for a given point on a surface in a scene.</p>
+Get the elevation for a given point on a surface in a scene.
 
-<p><img src="GetElevationAtAPoint.png"/></p>
+<img src="GetElevationAtAPoint.png"/>
 
-<h2>Use case</h2>
+## Use case
 
-<p>Knowing the elevation at a given point in a landscape can aid in navigation, planning and survey in the field.</p>
+Knowing the elevation at a given point in a landscape can aid in navigation, planning and survey in the field.
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click anywhere on the surface to get the elevation at that point. Elevation is reported in meters since the scene view is in WGS84.</p>
+Click anywhere on the surface to get the elevation at that point. Elevation is reported in meters since the scene view is in WGS84.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Create a <code>SceneView</code> and <code>Scene</code> with an imagery base map.</li>
 
-<li>Set an <code>ArcGISTiledElevationService</code> as the elevation source of the scene's base surface.</li>
+1. Create a `SceneView` and `Scene` with an imagery base map.
 
-<li>Use the <code>screenToBaseSurface(screenPoint)</code> method on the scene view to convert the selected screen point into a point on surface.</li>
+2. Set an `ArcGISTiledElevationService` as the elevation source of the scene's base surface.
 
-<li>Use the <code>getElevationAsync(surfacePoint)</code> method on the base surface to asynchronously get the elevation.</li>
-</ol>
+3. Use the `screenToBaseSurface(screenPoint)` method on the scene view to convert the selected screen point into a point on surface.
 
-<h2>Relevant API</h2>
+4. Use the `getElevationAsync(surfacePoint)` method on the base surface to asynchronously get the elevation.
 
-<ul>
-<li>ArcGISTiledElevationSource</li>
 
-<li>BaseSurface</li>
+## Relevant API
 
-<li>ElevationSourcesList</li>
 
-<li>SceneView</li>
-</ul>
+* ArcGISTiledElevationSource
 
-<h2>Additional information</h2>
+* BaseSurface
 
-<p><code>getElevationAsync(surfacePoint)</code> retrieves the most accurate available elevation value at a given point. To do this, the method must go to the server or local raster file and load the highest level of detail of data for the target location and return the elevation value.</p>
+* ElevationSourcesList
 
-<p>If multiple elevation sources are present in the surface, the top most visible elevation source with a valid elevation in the given location is used to determine the result.</p>
+* SceneView
 
-<h4>Tags</h4>
 
-<p>elevation, point, surface</p>
+## Additional information
+
+`getElevationAsync(surfacePoint)` retrieves the most accurate available elevation value at a given point. To do this, the method must go to the server or local raster file and load the highest level of detail of data for the target location and return the elevation value.
+
+If multiple elevation sources are present in the surface, the top most visible elevation source with a valid elevation in the given location is used to determine the result.
+
+## ## Tags
+
+elevation, point, surface

@@ -1,75 +1,75 @@
-<h1>Generate offline map with local basemap</h1>
+# Generate offline map with local basemap
 
-<p>Take a web map offline, but instead of downloading an online basemap, use one which is already on the device.</p>
+Take a web map offline, but instead of downloading an online basemap, use one which is already on the device.
 
-<p><img src="GenerateOfflineMapWithLocalBasemap.png"/></p>
+<img src="GenerateOfflineMapWithLocalBasemap.png"/>
 
-<h2>Use case</h2>
+## Use case
 
-<p>There are a number of use-cases where you may wish to use a basemap which is already on the device, rather than downloading:</p>
+There are a number of use-cases where you may wish to use a basemap which is already on the device, rather than downloading:
 
-<ul>
-<li>You want to limit the total download size.</li>
 
-<li>You want to be able to share a single set of basemap files between many offline maps.</li>
+* You want to limit the total download size.
 
-<li>You want to use a custom basemap (for example authored in ArcGIS Pro) which is not available online.</li>
+* You want to be able to share a single set of basemap files between many offline maps.
 
-<li>You do not wish to sign into ArcGIS.com in order to download Esri basemaps.</li>
-</ul>
+* You want to use a custom basemap (for example authored in ArcGIS Pro) which is not available online.
 
-<p>The author of a web map can support the use of basemaps which are already on a device by configuring the web map to specify the name of a suitable basemap file. This could be a basemap which:</p>
+* You do not wish to sign into ArcGIS.com in order to download Esri basemaps.
 
-<ul>
-<li>Has been authored in ArcGIS Pro to make use of your organizations custom data.</li>
 
-<li>Is available as a PortalItem which can be downloaded once and re-used many times.</li>
-</ul>
+The author of a web map can support the use of basemaps which are already on a device by configuring the web map to specify the name of a suitable basemap file. This could be a basemap which:
 
-<h2>How to use the sample</h2>
 
-<ol>
-<li>Click on the "Take Map Offline" button.</li>
+* Has been authored in ArcGIS Pro to make use of your organizations custom data.
 
-<li>You will be prompted to choose whether you wish to use the "naperville_imagery.tpk" basemap (already saved in the samples-data directory) or to download the online basemap.</li>
+* Is available as a PortalItem which can be downloaded once and re-used many times.
 
-<li>If you choose to download the online basemap, the offline map will be generated with the same (topographic) basemap as the online web map. To download the Esri basemap, you may be prompted to sign in to ArcGIS.com.</li>
 
-<li>If you choose to use the basemap from the device, the offline map will be generated with the local imagery basemap i.e. no tiles are exported or downloaded. Since the application is not exporting online ArcGIS Online basemaps you will not need to log-in.</li>
-</ol>
+## How to use the sample
 
-<h2>How it works</h2>
 
-<ol>
-<li>Create an <code>ArcGISMap</code> with a portal item pointing to the web map.</li>
+1. Click on the "Take Map Offline" button.
 
-<li>Create <code>GenerateOfflineMapParameters</code> specifying the download area geometry, min scale, and max scale.</li>
+2. You will be prompted to choose whether you wish to use the "naperville_imagery.tpk" basemap (already saved in the samples-data directory) or to download the online basemap.
 
-<li>Once the generate offline map parameters are created, check the <code>getReferenceBasemapFilename()</code> property. The author of an online web map can configure this setting to indicate the name of a suitable basemap. In this sample, the app checks the local device for the suggested "naperville_imagery.tpk" file.</li>
+3. If you choose to download the online basemap, the offline map will be generated with the same (topographic) basemap as the online web map. To download the Esri basemap, you may be prompted to sign in to ArcGIS.com.
 
-<li>If the user chooses to use the basemap on the device, use <code>setReferenceBasemapDirectory()</code> on the generate offline map parameters to set the absolute path of the directory which contains the .tpk file. If this property is set, no online basemap will be downloaded and instead, the mobile map will be created with a reference to the .tpk on the device.</li>
+4. If you choose to use the basemap from the device, the offline map will be generated with the local imagery basemap i.e. no tiles are exported or downloaded. Since the application is not exporting online ArcGIS Online basemaps you will not need to log-in.
 
-<li>A <code>GenerateOfflineMapJob</code> is created by calling <code>offlineMapTask.generateOfflineMap</code> passing the parameters and the download location for the offline map.</li>
 
-<li>Create the offline map job and start it.</li>
+## How it works
 
-<li>When the job is done, use <code>getOfflineMap</code> on the <code>GenerateOfflineMapResult</code> object to get the map.</li>
-</ol>
 
-<h2>Relevant API</h2>
+1. Create an `ArcGISMap` with a portal item pointing to the web map.
 
-<ul>
-<li>OfflineMapTask</li>
+2. Create `GenerateOfflineMapParameters` specifying the download area geometry, min scale, and max scale.
 
-<li>GenerateOfflineMapParameters</li>
+3. Once the generate offline map parameters are created, check the `getReferenceBasemapFilename()` property. The author of an online web map can configure this setting to indicate the name of a suitable basemap. In this sample, the app checks the local device for the suggested "naperville_imagery.tpk" file.
 
-<li>GenerateOfflineMapParameterOverrides</li>
+4. If the user chooses to use the basemap on the device, use `setReferenceBasemapDirectory()` on the generate offline map parameters to set the absolute path of the directory which contains the .tpk file. If this property is set, no online basemap will be downloaded and instead, the mobile map will be created with a reference to the .tpk on the device.
 
-<li>GenerateOfflineMapJob</li>
+5. A `GenerateOfflineMapJob` is created by calling `offlineMapTask.generateOfflineMap` passing the parameters and the download location for the offline map.
 
-<li>GenerateOfflineMapResult</li>
-</ul>
+6. Create the offline map job and start it.
 
-<h2>Tags</h2>
+7. When the job is done, use `getOfflineMap` on the `GenerateOfflineMapResult` object to get the map.
 
-<p>offline, local basemap, OfflineMapTask</p>
+
+## Relevant API
+
+
+* OfflineMapTask
+
+* GenerateOfflineMapParameters
+
+* GenerateOfflineMapParameterOverrides
+
+* GenerateOfflineMapJob
+
+* GenerateOfflineMapResult
+
+
+## Tags
+
+offline, local basemap, OfflineMapTask

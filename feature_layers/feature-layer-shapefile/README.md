@@ -1,23 +1,23 @@
-<h1>Feature Layer Shapefile</h1>
+# Feature Layer Shapefile
 
-<p>Display features from a local shapefile.</p>
+Display features from a local shapefile.
   
-<p><img src="FeatureLayerShapefile.png"/></p>
+<img src="FeatureLayerShapefile.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To show a shapefile as a feature layer:</p>
+To show a shapefile as a feature layer:
 
-<ol>
-  <li>Create a <code>ShapefileFeatureTable</code> passing in the URI of a shapefile.</li>
-  <li>Create a <code>FeatureLayer</code> using the <code>ShapefileFeatureTable</code>.</li>
-  <li>Add the layer to the map with <code>map.getOperationalLayers().add(featureLayer)</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a `ShapefileFeatureTable` passing in the URI of a shapefile.
+  2. Create a `FeatureLayer` using the `ShapefileFeatureTable`.
+  3. Add the layer to the map with `map.getOperationalLayers().add(featureLayer)`.
 
-<ul>
-  <li>FeatureLayer</li>
-  <li>ShapefileFeatureTable</li>
-</ul>
+
+## Relevant API
+
+
+  * FeatureLayer
+  * ShapefileFeatureTable
+
 

@@ -1,28 +1,28 @@
-<h1>Web Tiled Layer</h1>
+# Web Tiled Layer
 
-<p>Display map tiles from any custom (non-ArcGIS) service.</p>
+Display map tiles from any custom (non-ArcGIS) service.
 
-<p>WebTiledLayer provides a simple way to integrate non-ArcGIS Services as a layer in a map. In this case, map tiles
+WebTiledLayer provides a simple way to integrate non-ArcGIS Services as a layer in a map. In this case, map tiles
 from Stamen are added to the map. The template URI is specified by setting the subDomains, level, column, and row
-attributes. Additionally, copyright information is added to the layer so that the layer can be properly attributed.</p>
+attributes. Additionally, copyright information is added to the layer so that the layer can be properly attributed.
 
-<p><img src="WebTiledLayer.png"/></p>
+<img src="WebTiledLayer.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create and display a <code>WebTiledLayer</code> with custom attribution:</p>
+To create and display a `WebTiledLayer` with custom attribution:
 
-<ol>
-    <li>Create a <code>WebTiledLayer</code> specifying the list of subdomains and a template URI.</li>
-    <li>After loading the layer, use <code>webTiledLayer.setAttribution(attributionText)</code> to set custom
-    attribution.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a `WebTiledLayer` specifying the list of subdomains and a template URI.
+  2. After loading the layer, use `webTiledLayer.setAttribution(attributionText)` to set custom
+  attribution.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Basemap</li>
-    <li>MapView</li>
-    <li>WebTiledLayer</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * MapView
+  * WebTiledLayer
+

@@ -1,46 +1,45 @@
-<h1>Offline Geocode</h1>
+# Offline Geocode
 
-<p>Geocode with offline data.</p>
+Geocode with offline data.
 
-<p><img src="OfflineGeocode.png"/></p>
+<img src="OfflineGeocode.png"/>
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>For simplicity, the sample comes loaded with a set of addresses. You can select any address to perform geocoding 
+For simplicity, the sample comes loaded with a set of addresses. You can select any address to perform geocoding 
 and show it's location on map. You can select the pin and move the mouse to perform reverse geocoding in real-time.
-.</p>
+.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To perform geocoding with offline resources:</p>
+To perform geocoding with offline resources:
 
-<ol>
-    <li>Create an <code>ArcGISMap</code>'s using a <code>Basemap</code> and add it to the map view.
-        <ul><li>basemap is created using a <code>TileCache</code>, which represent our offline resource</li></ul>
-    </li>
-    <li>Create a <code>LocatorTask</code> using a URI to the offline locator file and define the <code>ReverseGeocodeParameters</code>/<code>GeocodeParameters</code> for  the LocatorTask.</li>
-    <li>To geocode an address, set the geocode parameters and use <code>LocatorTask.geocodeAsync(query, geocodeParameters)</code>.</li>
-    <li>To reverse geocode a location, get the <code>Point</code> location on the map view and use <code>LocatorTask
-    .reverseGeocodeAsync(point, reverseGeocodeParameters)</code>.</li>
-    <li>Show the retrieved results by creating a <code>PictureMarkerSymbol</code> with attributes from the result and add that symbol to a <code>Graphic</code>  in the <code>GraphicsOverlay</code>.</li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create an `ArcGISMap`'s using a `Basemap` and add it to the map view.
+  * basemap is created using a `TileCache`, which represent our offline resource
+  2. Create a `LocatorTask` using a URI to the offline locator file and define the `ReverseGeocodeParameters`/`GeocodeParameters` for  the LocatorTask.
+  3. To geocode an address, set the geocode parameters and use `LocatorTask.geocodeAsync(query, geocodeParameters)`.
+  4. To reverse geocode a location, get the `Point` location on the map view and use `LocatorTask
+  .reverseGeocodeAsync(point, reverseGeocodeParameters)`.
+  5. Show the retrieved results by creating a `PictureMarkerSymbol` with attributes from the result and add that symbol to a `Graphic`  in the `GraphicsOverlay`.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>ArcGISTiledLayer</li>
-    <li>Callout</li>
-    <li>MapView</li>
-    <li>LocatorTask </li>
-    <li>GeocodeParameters</li>
-    <li>GeocodeResult</li>
-    <li>Graphic</li>
-    <li>GraphicsOverlay</li>
-    <li>Point</li>
-    <li>PictureMarkerSymbol</li>
-    <li>ReverseGeocodeParameters</li>
-    <li>TileCache</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * ArcGISTiledLayer
+  * Callout
+  * MapView
+  * LocatorTask
+  * GeocodeParameters
+  * GeocodeResult
+  * Graphic
+  * GraphicsOverlay
+  * Point
+  * PictureMarkerSymbol
+  * ReverseGeocodeParameters
+  * TileCache
+
 
 

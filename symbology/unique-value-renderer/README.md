@@ -1,58 +1,58 @@
-<h1>Unique Value Renderer</h1>
+# Unique Value Renderer
 
-<p>Symbolize features based on their unique attribute value.</p>
+Symbolize features based on their unique attribute value.
 
-<p>Demonstrates how to use an UniqueValueRenderer to display Features from a FeatureLayer using different symbols. An unique value renderer sets an attribute to look for any matches within it's unique values. If there is a match then the symbol assign to that unique value is use to display that feature with the same value.</p>
+Demonstrates how to use an UniqueValueRenderer to display Features from a FeatureLayer using different symbols. An unique value renderer sets an attribute to look for any matches within it's unique values. If there is a match then the symbol assign to that unique value is use to display that feature with the same value.
 
-<p><img src="UniqueValueRenderer.png"/></p>
+<img src="UniqueValueRenderer.png"/>
 
-<p>In this sample the unique value renderer is looking for the "STATE_ABBR" attribute within each feature of the feature layer. For example we will have a unique value renderer that has a unique value set to the abbreviation for California.</p>
-<pre><code>SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, RED,
+In this sample the unique value renderer is looking for the "STATE_ABBR" attribute within each feature of the feature layer. For example we will have a unique value renderer that has a unique value set to the abbreviation for California.
+``SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, RED,
 new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, RED, 2));
 
 List&lt;Object&gt; californiaValue = new ArrayList&lt;&gt;();
 californiaValue.add("CA");
 uniqueValueRenderer.getUniqueValues().add(new UniqueValue(State of California", "California",
 californiaFillSymbol, californiaValue));
-</code></pre>
+``
 
-<p>When this unique value renderer comes across the feature whos key "STATE_ABBR" is value "CA" it will assign the symbol from the unique value above to this feature.</p>
+When this unique value renderer comes across the feature whos key "STATE_ABBR" is value "CA" it will assign the symbol from the unique value above to this feature.
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Sample starts with a predefined UniqueValues for some US states which are set to the UniqueValueRenderer and applied to the FeatureLayer.</p>
+Sample starts with a predefined UniqueValues for some US states which are set to the UniqueValueRenderer and applied to the FeatureLayer.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To display different <code>Symbol</code> for different <code>Graphic</code>s:</p>
+To display different `Symbol` for different `Graphic`s:
 
-<ol>
-    <li>Create a <code>ArcGISMap</code>'s with <code>Basemap</code>.</li>
-    <li>Create a <code>FeatureLayer</code> and add it to the map, <code>ArcGISMap.getOperationalLayers().add()</code>.</li>
-    <li>Add the map to the view, <code>MapView.setMap()</code>.  </li>
-    <li>Create a <code>UniqueValueRenderer</code>.
-        <ul><li>specify default feature attribute to look for, <code>UniqueValueRenderer.getFieldNames().add()</code></li>
-            <li>set default symbol for renderer, <code>UniqueValueRenderer.setDefaultSymbol()</code></li>
-            <li>set renderer to feature layer, <code>FeatureLayer.setRenderer(Renderer)</code></li></ul></li>
-    <li>Create a set of <code>UniqueValue(Description, Name, Symbol, Value)</code>.
-        <ul><li>description, description for this unique value</li>
-             <li>name, name for this unique value</li>
-            <li>symbol, symbol to be displayed for the values listed here</li>
-            <li>value, list of values that will use the symbol set here (Example: List of state name abbreviations "CA")</li></ul></li>
-    <li>Add unique values to renderer, <code>UniqueValueRenderer.getUniqueValues().add(UniqueValue)</code>. </li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create a `ArcGISMap`'s with `Basemap`.
+  2. Create a `FeatureLayer` and add it to the map, `ArcGISMap.getOperationalLayers().add()`.
+  3. Add the map to the view, `MapView.setMap()`.
+  4. Create a `UniqueValueRenderer`.
+  * specify default feature attribute to look for, `UniqueValueRenderer.getFieldNames().add()`
+    * set default symbol for renderer, `UniqueValueRenderer.setDefaultSymbol()`
+    * set renderer to feature layer, `FeatureLayer.setRenderer(Renderer)`
+  5. Create a set of `UniqueValue(Description, Name, Symbol, Value)`.
+  * description, description for this unique value
+     * name, name for this unique value
+    * symbol, symbol to be displayed for the values listed here
+    * value, list of values that will use the symbol set here (Example: List of state name abbreviations "CA")
+  6. Add unique values to renderer, `UniqueValueRenderer.getUniqueValues().add(UniqueValue)`.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>FeatureLayer</li>
-    <li>MapView</li>
-    <li>ServiceFeatureTable</li>
-    <li>SimpleFillSymbol</li>
-    <li>SimpleLineSymbol</li>
-    <li>UniqueValues</li>
-    <li>UniqueValueRenderer</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * FeatureLayer
+  * MapView
+  * ServiceFeatureTable
+  * SimpleFillSymbol
+  * SimpleLineSymbol
+  * UniqueValues
+  * UniqueValueRenderer
+
 
 

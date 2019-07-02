@@ -1,23 +1,23 @@
-<h1>Display a Map</h1>
+# Display a Map
 
-<p>Display a map with some imagery.</p>
+Display a map with some imagery.
 
-<p><img src="DisplayMap.png"/></p>
+<img src="DisplayMap.png"/>
 
-<h2>How it works</h2>
+## How it works
 
-<p>To display a <code>ArcGISMap</code>:</p>
+To display a `ArcGISMap`:
 
-<ol>
-    <li>Create an ArcGIS map using a default <code>Basemap</code> such use <code>Basemap.createImagery()</code>.  </li>
-    <li>Set the map to the map view, <code>MapView.setMap()</code>. </li>
-</ol>
 
-<h2>Relevant API</h2>
+  1. Create an ArcGIS map using a default `Basemap` such use `Basemap.createImagery()`.
+  2. Set the map to the map view, `MapView.setMap()`.
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Basemap</li>
-    <li>MapView</li>
-</ul>
+
+## Relevant API
+
+
+  * ArcGISMap
+  * Basemap
+  * MapView
+
 
