@@ -1,14 +1,14 @@
-#  Viewshed Geoprocessing
+# Viewshed Geoprocessing
 
 Calculate a viewshed against terrain using a geoprocessing service.
 
 ![](ViewshedGeoprocessing.png)
 
-##  How to use the sample
+## How to use the sample
 
 After the geoprocessing task finishes loading (the spinner will stop), click anywhere on the map to generate a viewshed at that location. A viewshed will be calculated using the service's default distance of 15km.
 
-##  How it works
+## How it works
 
 To create a viewshed from a geoprocessing service:
 
@@ -20,7 +20,7 @@ To create a viewshed from a geoprocessing service:
 6.  Get the resulting `GeoprocessingFeatures` using `geoprocessingResult.getOutputs().get("Viewshed_Result")`.
 7.  Iterate through the viewshed features in `geoprocessingFeatures.getFeatures()` to use their geometry or display the geometry in a graphic.
 
-##  Relevant API
+## Relevant API
 
 *   FeatureCollectionTable
 *   GeoprocessingFeatures

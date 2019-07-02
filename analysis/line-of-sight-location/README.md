@@ -1,14 +1,14 @@
-#  Line of Sight Location
+# Line of Sight Location
 
 Perform line of sight analysis in real-time.
 
-##  How to use the sample
+## How to use the sample
 
 Click to turn on the mouse move event listener. Then move the mouse where you want the target location to be. Click again to lock the target location.
 
 ![](LineOfSightLocation.gif)
 
-##  How it works
+## How it works
 
 To create a line of sight and update it with the mouse:
 
@@ -17,7 +17,7 @@ To create a line of sight and update it with the mouse:
 3.  Make an `EventHandler<MouseEvent>` to capture mouse movement. Turn the screen point into a scene point with `sceneView.screenToLocationAsync(screenPoint)`.
 4.  Update the target location with `lineOfSight.setTargetLocation(scenePoint)`.
 
-##  Relevant API
+## Relevant API
 
 *   3D
 *   AnalysisOverlay
