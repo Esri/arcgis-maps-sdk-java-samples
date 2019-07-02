@@ -46,14 +46,14 @@ See the Runtime SDK's [system requirements](https://developers.arcgis.com/java/l
 
 ## Resources
 
-* [ArcGIS Runtime SDK for Java](https://developers.arcgis.com/java/. 
+* [ArcGIS Runtime SDK for Java](https://developers.arcgis.com/java/)  
 * [Toolkit](https://github.com/Esri/arcgis-runtime-toolkit-java)
-* [ArcGIS Blog](https://blogs.esri.com/esri/arcgis/. 
-* [Esri Twitter](https://twitter.com/esri. 
+* [ArcGIS Blog](https://blogs.esri.com/esri/arcgis/)  
+* [Esri Twitter](https://twitter.com/esri)  
 
 ## Issues
 
-Find a bug or want to request a new feature. Please let us know by submitting an issue.
+Find a bug or want to request a new feature?  Please let us know by submitting an issue.
 
 ## Contributing
 
