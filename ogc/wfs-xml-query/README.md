@@ -11,13 +11,13 @@ ArcGIS Runtime `QueryParameters` objects can't represent all possible queries th
 ## How it works
 
 
-1. Create a `WfsFeatureTable` with a URL.
+1.  Create a `WfsFeatureTable` with a URL.
 
-2. Set the feature table's axis order to `NO_SWAP`, and the feature request mode to `MANUAL_CACHE`.
+2.  Set the feature table's axis order to `NO_SWAP`, and the feature request mode to `MANUAL_CACHE`.
 
-3. Create a `FeatureLayer` from the feature table and add it to the map's operational layers.
+3.  Create a `FeatureLayer` from the feature table and add it to the map's operational layers.
 
-4. Call `populateFromServiceAsync` on the feature table to populate it with only those features returned by the XML query.
+4.  Call `populateFromServiceAsync` on the feature table to populate it with only those features returned by the XML query.
 
 
 ## Relevant API

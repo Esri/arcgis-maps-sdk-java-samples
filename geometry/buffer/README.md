@@ -13,9 +13,9 @@ buffer distance (this range is appropriate to show the difference between geodes
 ## How it works
 To create a buffer around a point:
 
-1. Call `GeometryEngine.buffer` passing in a `Point` and a distance
+1.  Call `GeometryEngine.buffer` passing in a `Point` and a distance
  in meters. This returns a `Polygon` which can be displayed using a `Graphic`.
- 2. For the geodesic buffer, call `GeometryEngine.bufferGeodetic` passing in the point, distance, linear unit, max deviation, and `GeodeticCurveType.GEODESIC`.
+ 2.  For the geodesic buffer, call `GeometryEngine.bufferGeodetic` passing in the point, distance, linear unit, max deviation, and `GeodeticCurveType.GEODESIC`.
 
 
 ## Relevant API

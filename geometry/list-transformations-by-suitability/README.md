@@ -25,11 +25,11 @@ Order by extent suitability, if checked, will find suitable transformations with
 To get suitable transformations from one spatial reference to another:
 
 
-  1. Use `TransformationCatalog.getTransformationsBySuitability(inputSR, outputSR)` for transformations 
+1.  Use `TransformationCatalog.getTransformationsBySuitability(inputSR, outputSR)` for transformations 
   based on the map's spatial reference OR `TransformationCatalog.getTransformationsBySuitability(inputSR, 
   outputSR, mapView.getCurrentVisibileArea().getExtent())` for transformations suitable to the current extent
   .
-  2. Pick one of the `DatumTransformation`s returned. Use `GeometryEngine.project(inputGeometry, 
+2.  Pick one of the `DatumTransformation`s returned. Use `GeometryEngine.project(inputGeometry, 
   outputSR, datumTransformation)` to get the transformed geometry.
 
 

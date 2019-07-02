@@ -38,33 +38,33 @@ Click the "Generate offline map" button to start the download. A progress bar wi
 
 # How it works
 
-  1. Load a web map from a `PortalItem`. Authenticate with the portal if required.
-  2. Create an `OfflineMapTask` with the map.
-  3. Generate default task parameters using the extent area you want to download with `offlineMapTask.createDefaultGenerateOfflineMapParametersAsync(extent)`.
-  4. Generate additional "override" parameters using the default parameters with `offlineMapTask.createGenerateOfflineMapParameterOverridesAsync(parameters)`.
-  5. For the basemap:
+1.  Load a web map from a `PortalItem`. Authenticate with the portal if required.
+2.  Create an `OfflineMapTask` with the map.
+3.  Generate default task parameters using the extent area you want to download with `offlineMapTask.createDefaultGenerateOfflineMapParametersAsync(extent)`.
+4.  Generate additional "override" parameters using the default parameters with `offlineMapTask.createGenerateOfflineMapParameterOverridesAsync(parameters)`.
+5.  For the basemap:
   
  *   Get the parameters `OfflineMapParametersKey` for the basemap layer.
  *   Get the `ExportTileCacheParameters` for the basemap layer with `overrides.getExportTileCacheParameters().get(basemapParamKey)`.
  *   Set the level IDs you want to download with `exportTileCacheParameters.getLevelIDs().add(levelID)`.   
  *   To buffer the extent, use `exportTileCacheParameters.setAreaOfInterest(bufferedGeometry)` where bufferedGeometry
     can be calculated with the `GeometryEngine`.
-  6. To remove operational layers from the download:
+6.  To remove operational layers from the download:
   
  *   Create a `OfflineParametersKey` with the operational layer.
  *   Get the generate geodatabase layer options using the key with `List&lt;GenerateLayerOption&gt; layerOptions = overrides.getGenerateGeodatabaseParameters().get(key).getLayerOptions();`
  *   Loop through each `GenerateLayerOption` in the the list, and remove it if the layer 
     option's ID matches the layer's ID.
-  7. To filter the features downloaded in an operational layer:
+7.  To filter the features downloaded in an operational layer:
   
  *   Get the layer options for the operational layer using the directions in step 6.
  *   Loop through the layer options. If the option layerID matches the layer's ID,  set the filter clause with
      `layerOption.setWhereClause(sqlQueryString)` and set the query option with `layerOption.setQueryOption(GenerateLayerOption.QueryOption.USE_FILTER)`.
-  8. To not crop a layer's features to the extent of the offline map (default is true):
+8.  To not crop a layer's features to the extent of the offline map (default is true):
   
  *   Set `layerOption.setUseGeometry(false)`.
-  9. Create a `GenerateOfflineMapJob` with `offlineMapTask.generateOfflineMap(parameters, downloadPath, overrides)`. Start the job with `job.start()`.
-  10. When the job is done, get a reference to the offline map with `job.getResult.getOfflineMap()`.
+9.  Create a `GenerateOfflineMapJob` with `offlineMapTask.generateOfflineMap(parameters, downloadPath, overrides)`. Start the job with `job.start()`.
+10.  When the job is done, get a reference to the offline map with `job.getResult.getOfflineMap()`.
 
 
 ## Relevant API

@@ -15,11 +15,11 @@ To delete a feature.
 To delete a `Feature` from a `ServiceFeatureTable`:
 
 
-  1. Create a service feature table from a URL.
-  2. Create a `FeatureLayer` from the service feature table.
-  3. Select features from the feature layer via `FeatureLayer.selectFeatures()`.
-  4. Remove the selected features from the ServiceFeatureTable using `ServiceFeatureTable.deleteFeaturesAsync()`.
-  5. Update the table on the server using `ServiceFeatureTable.applyEditsAsync()`.
+1.  Create a service feature table from a URL.
+2.  Create a `FeatureLayer` from the service feature table.
+3.  Select features from the feature layer via `FeatureLayer.selectFeatures()`.
+4.  Remove the selected features from the ServiceFeatureTable using `ServiceFeatureTable.deleteFeaturesAsync()`.
+5.  Update the table on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
 
 ## Relevant API

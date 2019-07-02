@@ -17,12 +17,12 @@ on-the-fly while moving stops. The green box marks the boundary of the route geo
 To display a `Route` using a `RouteTask` with offline data:
 
 
-  1. Create the map's `Basemap` from a local tile package using a `TileCache` and `ArcGISTiledLayer`
-  2. Create a `RouteTask` with an offline locator geodatabase
-  3. Get the `RouteParameters` using `routeTask.createDefaultParameters()`
-  4. Create `Stop`s and add them to the route task's parameters.
-  5. Solve the `Route` using `routeTask.solveRouteAsync(routeParameters)`
-  6. Create a graphic with the route's geometry and a `SimpleLineSymbol` and display it on another 
+1.  Create the map's `Basemap` from a local tile package using a `TileCache` and `ArcGISTiledLayer`
+2.  Create a `RouteTask` with an offline locator geodatabase
+3.  Get the `RouteParameters` using `routeTask.createDefaultParameters()`
+4.  Create `Stop`s and add them to the route task's parameters.
+5.  Solve the `Route` using `routeTask.solveRouteAsync(routeParameters)`
+6.  Create a graphic with the route's geometry and a `SimpleLineSymbol` and display it on another 
   `GraphicsOverlay`.
 
 

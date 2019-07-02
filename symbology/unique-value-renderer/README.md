@@ -27,19 +27,19 @@ Sample starts with a predefined UniqueValues for some US states which are set to
 To display different `Symbol` for different `Graphic`s:
 
 
-  1. Create a `ArcGISMap`'s with `Basemap`.
-  2. Create a `FeatureLayer` and add it to the map, `ArcGISMap.getOperationalLayers().add()`.
-  3. Add the map to the view, `MapView.setMap()`.
-  4. Create a `UniqueValueRenderer`.
+1.  Create a `ArcGISMap`'s with `Basemap`.
+2.  Create a `FeatureLayer` and add it to the map, `ArcGISMap.getOperationalLayers().add()`.
+3.  Add the map to the view, `MapView.setMap()`.
+4.  Create a `UniqueValueRenderer`.
 *   specify default feature attribute to look for, `UniqueValueRenderer.getFieldNames().add()`
  *   set default symbol for renderer, `UniqueValueRenderer.setDefaultSymbol()`
  *   set renderer to feature layer, `FeatureLayer.setRenderer(Renderer)`
-  5. Create a set of `UniqueValue(Description, Name, Symbol, Value)`.
+5.  Create a set of `UniqueValue(Description, Name, Symbol, Value)`.
 *   description, description for this unique value
 *   name, name for this unique value
  *   symbol, symbol to be displayed for the values listed here
  *   value, list of values that will use the symbol set here (Example: List of state name abbreviations "CA")
-  6. Add unique values to renderer, `UniqueValueRenderer.getUniqueValues().add(UniqueValue)`.
+6.  Add unique values to renderer, `UniqueValueRenderer.getUniqueValues().add(UniqueValue)`.
 
 
 ## Relevant API

@@ -15,11 +15,11 @@ Note: The search is case sensitive.
 To query a `Feature` from your `FeatureLayer`:
 
 
-  1. Create a `ServiceFeatureTable` from a URL.
-  2. Create a feature layer from the service feature table.
-  3. Create a `QueryParameters` object and specified the where clause on it with `QueryParameters.setWhereClause()` from the text entered by the user.
-  4. Fire the query on the service feature table using `ServiceFeatureTable.queryFeaturesAsync(query)`.
-  5. Once complete get the feature's from the `FeatureQueryResult`.
+1.  Create a `ServiceFeatureTable` from a URL.
+2.  Create a feature layer from the service feature table.
+3.  Create a `QueryParameters` object and specified the where clause on it with `QueryParameters.setWhereClause()` from the text entered by the user.
+4.  Fire the query on the service feature table using `ServiceFeatureTable.queryFeaturesAsync(query)`.
+5.  Once complete get the feature's from the `FeatureQueryResult`.
 
 
 ## Relevant API

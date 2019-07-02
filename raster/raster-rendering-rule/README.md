@@ -15,12 +15,12 @@ Run the sample and use the drop-down menu at the top to select a rendering rule.
 ## How it works
 
 
-  1. Create an `ImageServiceRaster` using a URL to an online image service.
-  2. After loading the raster, use `imageServiceRaster.getServiceInfo().getRenderingRuleInfos()` to get a list of `RenderingRuleInfo` supported by the service.
-  3. Choose a rendering rule info to apply and use it to create a `RenderingRule`.
-  4. Create a new `ImageServiceRaster` using the same URL.
-  5. Apply the rendering rule to the new raster using `imageServiceRaster.setRenderingRule(renderingRuleInfo)`.
-  6. Create a `RasterLayer` from the raster for display.
+1.  Create an `ImageServiceRaster` using a URL to an online image service.
+2.  After loading the raster, use `imageServiceRaster.getServiceInfo().getRenderingRuleInfos()` to get a list of `RenderingRuleInfo` supported by the service.
+3.  Choose a rendering rule info to apply and use it to create a `RenderingRule`.
+4.  Create a new `ImageServiceRaster` using the same URL.
+5.  Apply the rendering rule to the new raster using `imageServiceRaster.setRenderingRule(renderingRuleInfo)`.
+6.  Create a `RasterLayer` from the raster for display.
 
 
 ## Relevant API
@@ -33,7 +33,7 @@ Run the sample and use the drop-down menu at the top to select a rendering rule.
 
 ## About the data
 
-This raster image service contains 9 LAS files covering Charlotte, North Carolina's downtown area. The lidar data was collected in 2007. Four Raster Rules are available for selection: None, RFTAspectColor, RFTHillshade, and RFTShadedReliefElevationColorRamp.
+This raster image service contains 9 LAS files covering Charlotte, North Carolina's downtown area. The lidar data was collected in 2007.  Four Raster Rules are available for selection: None, RFTAspectColor, RFTHillshade, and RFTShadedReliefElevationColorRamp.
 
 ## Additional information
 

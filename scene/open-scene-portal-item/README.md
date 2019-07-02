@@ -12,8 +12,8 @@ be stored in ArcGIS Online or Portal.
 To open a web scene:
 
 
-1. Create a `PortalItem` with an item ID pointing to a web scene.
-2. Create an `ArcGISScene` passing in the portal item.
+1.  Create a `PortalItem` with an item ID pointing to a web scene.
+2.  Create an `ArcGISScene` passing in the portal item.
 
 
 ## Relevant API

@@ -20,10 +20,10 @@ To add a bookmark.
 To display the `ArcGISMap`'s `Bookmark`s:
 
 
-  1. Create an ArcGIS map; it has a property called bookmarks.
-  2. Create a `BookmarkList` from the ArcGIS map, `ArcGISMap.getBookmarks()`.
-  3. Set the map to the `MapView`, `MapView.setMap()`.
-  4. To create a new bookmark
+1.  Create an ArcGIS map; it has a property called bookmarks.
+2.  Create a `BookmarkList` from the ArcGIS map, `ArcGISMap.getBookmarks()`.
+3.  Set the map to the `MapView`, `MapView.setMap()`.
+4.  To create a new bookmark
 *   use `MapView.getCurrentViewpoint()` to set the bookmark's viewpoint
 *   bookmark.name for the name of the bookmark
 *   add new bookmark to book mark list, `BookmarkList.add()`

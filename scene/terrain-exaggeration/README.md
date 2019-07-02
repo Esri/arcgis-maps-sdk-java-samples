@@ -13,9 +13,9 @@ Selecting an exaggeration amount from the slider will apply that to the scene's 
 To exaggerate a `Scene`'s `Surface`:
 
 
-  1. Create an elevated surface and add it to the scene, `Surface.getElevationSources().add("elevationURL")`
-  2. Add surface to the scene, ` scene.setBaseSurface(Surface)`
-  3. Set exaggeration amount of the surface, `Surface.setElevationExaggeration(exaggeration)`
+1.  Create an elevated surface and add it to the scene, `Surface.getElevationSources().add("elevationURL")`
+2.  Add surface to the scene, ` scene.setBaseSurface(Surface)`
+3.  Set exaggeration amount of the surface, `Surface.setElevationExaggeration(exaggeration)`
 
 
 ## Relevant API

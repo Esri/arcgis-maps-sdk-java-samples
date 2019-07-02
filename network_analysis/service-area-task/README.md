@@ -21,14 +21,14 @@ time]. Barriers can also be added which can effect the impedance by not letting 
 To display service areas around a certain location:
 
 
-1. Create a `ServiceAreaTask` from an online service.
-2. Get ServiceAreaParameters from task, `task.createDefaultParametersAsync()`
-3. Setting return polygons to true will return all services areas, `serviceAreaParameters.setReturnPolygons(true)`
-4. Add a `ServiceAreaFacilty` to parameters, `serviceAreaParameters.setFacilities(serviceAreaFacility)`
-5. Get `ServiceAreaResult` by solving the service area task using parameters, `task.solveServiceAreaAsync(serviceAreaParameters).get()`
-6. Get any `ServiceAreaPolygon`s that were returned, `serviceAreaResult.getResultPolygons(facilityIndex)`
+1.  Create a `ServiceAreaTask` from an online service.
+2.  Get ServiceAreaParameters from task, `task.createDefaultParametersAsync()`
+3.  Setting return polygons to true will return all services areas, `serviceAreaParameters.setReturnPolygons(true)`
+4.  Add a `ServiceAreaFacilty` to parameters, `serviceAreaParameters.setFacilities(serviceAreaFacility)`
+5.  Get `ServiceAreaResult` by solving the service area task using parameters, `task.solveServiceAreaAsync(serviceAreaParameters).get()`
+6.  Get any `ServiceAreaPolygon`s that were returned, `serviceAreaResult.getResultPolygons(facilityIndex)`
 *   facilityIndex is the faciltiy from the mapview that you want to get the services areas of
-7. Display services areas to MapView, `graphicsOverlay.getGraphics().add(new Graphic(serviceAreaPolygon.getGeometry(), fillSymbol))`
+7.  Display services areas to MapView, `graphicsOverlay.getGraphics().add(new Graphic(serviceAreaPolygon.getGeometry(), fillSymbol))`
 
 
 ## Relevant API

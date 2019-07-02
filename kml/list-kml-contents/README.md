@@ -13,10 +13,10 @@ When the scene and KML layer loads, the KML node tree will be shown in the tree 
 To list the nodes in a KML file:
 
 
-  1. Create a `KmlDataset` pointing to the KML file.
-  2. Start with a list of the rood nodes with `kmlDataset.getRootNodes()`.
-  3. For each node, check if it is a `KmlContainer` or `KmlNetworkLink`. These types can have child nodes. If it is one of these, cast to the appropriate type and call `getChildNodes()`.
-  4. Recursively search these child nodes for more nodes.
+1.  Create a `KmlDataset` pointing to the KML file.
+2.  Start with a list of the rood nodes with `kmlDataset.getRootNodes()`.
+3.  For each node, check if it is a `KmlContainer` or `KmlNetworkLink`. These types can have child nodes. If it is one of these, cast to the appropriate type and call `getChildNodes()`.
+4.  Recursively search these child nodes for more nodes.
 
 
 ## Relevant API

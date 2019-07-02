@@ -13,9 +13,9 @@ Select one of the three available atmosphere effects. The sky will change to dis
 To change the atmosphere effect:
 
 
-1. Create an `ArcGISScene` and display it in a `SceneView`.
+1.  Create an `ArcGISScene` and display it in a `SceneView`.
 
-2. Change the atmosphere effect with `sceneView.setAtmosphereEffect(atmosphereEffect)`.
+2.  Change the atmosphere effect with `sceneView.setAtmosphereEffect(atmosphereEffect)`.
 
 
 ## Relevant API

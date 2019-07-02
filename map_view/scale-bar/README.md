@@ -13,15 +13,15 @@ Zoom in or out of the map. The scale bar will automatically display the appropri
 To add a scale bar to a map view:
 
 
-1. Create a `ArcGISMap` and display it in a `MapView`.
+1.  Create a `ArcGISMap` and display it in a `MapView`.
 
-2. Create a `ScaleBar` passing in the map view.
+2.  Create a `ScaleBar` passing in the map view.
 
-3. Set the scale bar's skin style with `scaleBar.setSkinStyle(skinStyle)`.
+3.  Set the scale bar's skin style with `scaleBar.setSkinStyle(skinStyle)`.
 
-4. Set the unit system with `scaleBar.setUnitSystem(unitSystem)`.
+4.  Set the unit system with `scaleBar.setUnitSystem(unitSystem)`.
 
-5. Add the scale bar to the UI overlaying the map view.
+5.  Add the scale bar to the UI overlaying the map view.
 
 
 ## Relevant API

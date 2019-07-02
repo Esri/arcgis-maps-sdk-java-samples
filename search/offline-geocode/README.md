@@ -15,13 +15,13 @@ and show it's location on map. You can select the pin and move the mouse to perf
 To perform geocoding with offline resources:
 
 
-  1. Create an `ArcGISMap`'s using a `Basemap` and add it to the map view.
+1.  Create an `ArcGISMap`'s using a `Basemap` and add it to the map view.
 *   basemap is created using a `TileCache`, which represent our offline resource
-  2. Create a `LocatorTask` using a URI to the offline locator file and define the `ReverseGeocodeParameters`/`GeocodeParameters` for  the LocatorTask.
-  3. To geocode an address, set the geocode parameters and use `LocatorTask.geocodeAsync(query, geocodeParameters)`.
-  4. To reverse geocode a location, get the `Point` location on the map view and use `LocatorTask
+2.  Create a `LocatorTask` using a URI to the offline locator file and define the `ReverseGeocodeParameters`/`GeocodeParameters` for  the LocatorTask.
+3.  To geocode an address, set the geocode parameters and use `LocatorTask.geocodeAsync(query, geocodeParameters)`.
+4.  To reverse geocode a location, get the `Point` location on the map view and use `LocatorTask
   .reverseGeocodeAsync(point, reverseGeocodeParameters)`.
-  5. Show the retrieved results by creating a `PictureMarkerSymbol` with attributes from the result and add that symbol to a `Graphic`  in the `GraphicsOverlay`.
+5.  Show the retrieved results by creating a `PictureMarkerSymbol` with attributes from the result and add that symbol to a `Graphic`  in the `GraphicsOverlay`.
 
 
 ## Relevant API

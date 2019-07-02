@@ -15,8 +15,8 @@ Tap on the map to add points. Click the "Create Convex Hull" button to show the 
 ## How it works
 
 
-1. Create an input geometry such as a `Multipoint`.
-2. Call `GeometryEngine.convexHull(inputGeometry)`. The returned `Geometry` will either be a `Point`, `Polyline`, or `Polygon` based on the number of input points.
+1.  Create an input geometry such as a `Multipoint`.
+2.  Call `GeometryEngine.convexHull(inputGeometry)`. The returned `Geometry` will either be a `Point`, `Polyline`, or `Polygon` based on the number of input points.
 
 
 ## Relevant API

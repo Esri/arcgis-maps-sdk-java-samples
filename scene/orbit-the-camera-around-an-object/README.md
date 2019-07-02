@@ -41,33 +41,33 @@ Use the "Cockpit view" button to offset and fix the camera into the cockpit of t
 ## How it works
 
 
-  1. Instantiate an `OrbitGeoElementCameraController`, with `GeoElement` and camera distance as parameters.
-  2. Use `sceneView.setCameraController(OrbitCameraController)` to set the camera to the scene view. 
-  3. Set the heading, pitch and distance camera properties with:
+1.  Instantiate an `OrbitGeoElementCameraController`, with `GeoElement` and camera distance as parameters.
+2.  Use `sceneView.setCameraController(OrbitCameraController)` to set the camera to the scene view. 
+3.  Set the heading, pitch and distance camera properties with:
   
 *   `orbitCameraController.setCameraHeadingOffset(double)` *   `orbitCameraController.setCameraPitchOffset(double)` 
 *   `orbitCameraController.setCameraDistance(double)`
-  4. Set the minimum and maximum angle of heading and pitch, and minimum and maximum distance for the camera with:
+4.  Set the minimum and maximum angle of heading and pitch, and minimum and maximum distance for the camera with:
   
 *   `orbitCameraController.setMin` or `setMaxCameraHeadingOffset(double)`.
 *   `orbitCameraController.setMin` or `setMaxCameraPitchOffset(double)`.
 *   `orbitCameraController.setMin` or `setMaxCameraDistance(double)`.
-  5. Set the distance from which the camera is offset from the plane with:
+5.  Set the distance from which the camera is offset from the plane with:
   
 *   `orbitCameraController.setTargetOffsetsAsync(x, y, z, duration)`
 *   `orbitCameraController.setTargetOffsetX(double)`
 *   `orbitCameraController.setTargetOffsetY(double)`
 *   `orbitCameraController.setTargetOffsetZ(double)`
-  6. Set the vertical screen factor to determine where the plane appears in the scene:
+6.  Set the vertical screen factor to determine where the plane appears in the scene:
   
 *   `orbitCameraController.setTargetVerticalScreenFactor(float)`
 
-  7. Animate the camera to the cockpit using `orbitCameraController.setTargetOffsetsAsync(x, y, z, duration)`
+7.  Animate the camera to the cockpit using `orbitCameraController.setTargetOffsetsAsync(x, y, z, duration)`
 
-  8. Set if the camera distance will adjust when zooming or panning using mouse or keyboard (default is true):
+8.  Set if the camera distance will adjust when zooming or panning using mouse or keyboard (default is true):
   
 *   `orbitCameraController.setCameraDistanceInteractive(boolean)`
-  9. Set if the camera will follow the pitch of the plane (default is true):
+9.  Set if the camera will follow the pitch of the plane (default is true):
   
 *   `orbitCameraController.setAutoPitchEnabled(boolean)`
   

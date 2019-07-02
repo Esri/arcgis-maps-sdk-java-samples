@@ -9,9 +9,9 @@ Display features from a local shapefile.
 To show a shapefile as a feature layer:
 
 
-  1. Create a `ShapefileFeatureTable` passing in the URI of a shapefile.
-  2. Create a `FeatureLayer` using the `ShapefileFeatureTable`.
-  3. Add the layer to the map with `map.getOperationalLayers().add(featureLayer)`.
+1.  Create a `ShapefileFeatureTable` passing in the URI of a shapefile.
+2.  Create a `FeatureLayer` using the `ShapefileFeatureTable`.
+3.  Add the layer to the map with `map.getOperationalLayers().add(featureLayer)`.
 
 
 ## Relevant API

@@ -9,7 +9,7 @@ Extrude features based on their attributes.
 To extrude features from a `FeatureLayer`:
 
 
-  1. Create a `ServiceFeatureTable` from an URL.
+1.  Create a `ServiceFeatureTable` from an URL.
   <li>Create a feature layer from service feature table.
   <ol>Make sure to set rendering mode to dynamic, `statesFeatureLayer.setRenderingMode(RenderingMode.DYNAMIC)`.</li>
   <li>Apply a `SimpleRenderer` to the feature layer.</li>

@@ -17,7 +17,7 @@ spatial reference and in the projected spatial reference.
 ## How it works
 To project a geometry to another spatial reference:
 
-1. Call the static method, `GeometryEngine.project`, passing in the original `Geometry` and a 
+1.  Call the static method, `GeometryEngine.project`, passing in the original `Geometry` and a 
 `SpatialReference` to project to.
 
 

@@ -8,7 +8,7 @@ The two `GeoViews` share a common `ViewPoint`. When navigating in one view, the 
 
 ## How to use the sample
 
-Interact with the map by panning, zooming or rotating the map or scene view. The other view will update automatically to match your navigation. Note that the resulting maps may not look identical due to the fact the `MapView` is 2D and the `SceneView` is 3D: but the centers and scales of each view will be kept the same.
+Interact with the map by panning, zooming or rotating the map or scene view. The other view will update automatically to match your navigation. Note that the resulting maps may not look identical due to the fact the `MapView` is 2.  and the `SceneView` is 3D: but the centers and scales of each view will be kept the same.
 
 ## How it works
 
@@ -16,11 +16,11 @@ Interact with the map by panning, zooming or rotating the map or scene view. The
 
 
 
-1. Create a `MapView` and a `SceneView`.
-2. Add a viewpoint changed listener to each `GeoView` with `geoView.addViewpointChangedListener(viewpointChangedEvent)`.
-3. Check if the `GeoView` is being navigated with `geoView.isNavigating()`.
-4. Get the current viewpoint of the active `GeoView` with `geoView.getcurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE)`.
-5. Set the viewpoint of the other view to the active view's viewpoint with `geoView.setViewpoint(Viewpoint)`.
+1.  Create a `MapView` and a `SceneView`.
+2.  Add a viewpoint changed listener to each `GeoView` with `geoView.addViewpointChangedListener(viewpointChangedEvent)`.
+3.  Check if the `GeoView` is being navigated with `geoView.isNavigating()`.
+4.  Get the current viewpoint of the active `GeoView` with `geoView.getcurrentViewpoint(Viewpoint.Type.CENTER_AND_SCALE)`.
+5.  Set the viewpoint of the other view to the active view's viewpoint with `geoView.setViewpoint(Viewpoint)`.
 
 
 ## Relevant API

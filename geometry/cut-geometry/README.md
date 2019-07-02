@@ -13,7 +13,7 @@ Click the "Cut" button to cut the polygon with the polyline and see the resultin
 To cut a geometry with a polyline:
 
 
-  1. Use the static method `GeometryEngine.cut(geometry, polyline)`.
+1.  Use the static method `GeometryEngine.cut(geometry, polyline)`.
   <li>Loop through the `List&lt;Geometry&gt;` of cut pieces. Keep in mind that some of these geometries may
    be multi-part.`
 
