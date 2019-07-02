@@ -20,8 +20,8 @@ To apply a `DictionaryRenderer` and display mil2525d graphics:
 4. Parse through local XML file creating a mapping of key,value pairs for each block of attributes.
     * use the name of the attribute as key and text within that attribute as the value
 5. Create a graphic for each mapping of attributes.
-    * \_wkid key, holds the geometry's spatial reference
-    * *control*points, creates the shape of the geometry
+    * _wkid key, holds the geometry's spatial reference
+    * *control* points, creates the shape of the geometry
     * other attributes explain to dictionary symbol how to display graphic
     * add graphic to `GraphicsOverlay.getGraphics().add(Graphic)`
 
