@@ -26,7 +26,6 @@ Moving the Camera:
 
 To animate a `Graphic` by updating it's `Geometry`s, heading, pitch, and roll:
 
-
 1.  Create a `GraphicsOverlay` and attach it to the `SceneView`.
 2.  Create a `ModelSceneSymbol` with `AnchorPosition.CENTER`.
 3.  Create a `Graphic(Geometry, Symbol)`.
@@ -43,9 +42,7 @@ To animate a `Graphic` by updating it's `Geometry`s, heading, pitch, and roll:
 8.  Update graphic's location, `Graphic.setGeometry(Point)`.
 9.  Update symbol's heading, pitch, and roll, `attributes.replace("[HEADING]", heading)`.
 
-
 ## Relevant API
-
 
 *   3D
 *   ArcGISMap
@@ -64,6 +61,4 @@ To animate a `Graphic` by updating it's `Geometry`s, heading, pitch, and roll:
 *   Renderer.SceneProperties
 *   SceneView
 *   Viewpoint
-
-
 

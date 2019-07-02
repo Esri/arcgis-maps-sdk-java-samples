@@ -15,7 +15,6 @@ access token. This access token is used later to access user's profile.
 
 ## How it works
 
-
 1.  Setup an `OAuthConfiguration` with the settings of an application registered in the ArcGIS platform.
 2.  Setup an `AuthenticationChallengeHandler` that challenges the user for authentication. You could
   create a custom handler similar to the one created in this sample: `OAuthChallengeHandler`.
@@ -25,9 +24,7 @@ access token. This access token is used later to access user's profile.
 6.  Use the authorization code to create a `OAuthTokenCredentialRequest`. This will be used by the Runtime
   to request an access token. The access token is then used to request a secured resource in the ArcGIS platform.
 
-
 ## Relevant API
-
 
 *   AuthenticationChallengeHandler
 *   OAuthConfiguration
@@ -35,7 +32,6 @@ access token. This access token is used later to access user's profile.
 *   OAuthTokenCredentialRequest
 *   Portal
 *   PortalUser
-
 
 ## Additional information
 

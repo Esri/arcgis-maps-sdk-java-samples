@@ -11,7 +11,6 @@ resources/symbols directory plus an XML file with key-value attributes for each 
 
 To apply a `DictionaryRenderer` and display mil2525.  graphics in 3D:
 
-
 1.  Create a `SymbolDicitonary` with the "mil2525d" specification type: `SymbolDictionary("mil2525d")`.
 2.  Create a `DictionaryRenderer` with the symbol dictionary.
 3.  Set the renderer on a graphics overlay with `graphicsOverlay.setRenderer(dictionaryRenderer)`.
@@ -24,14 +23,11 @@ To apply a `DictionaryRenderer` and display mil2525.  graphics in 3D:
 5.  The other attributes such as "symbolentity" and "symbolset" will describe the symbology for the graphic.
 6.  Create the graphic with the geometry and attributes and add it to the graphics overlay.
 
-
 ## Relevant API
-
 
 *   GraphicsOverlay
 *   DictionaryRenderer
 *   DictionarySymbolStyle
-
 
 ## Tags
 Graphics, Symbology, 3D

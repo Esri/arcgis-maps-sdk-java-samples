@@ -19,7 +19,6 @@ original by deselecting the "Show result" checkbox.
 
 To densify and generalize a polyline:
 
-
 1.  Use the static method `GeometryEngine.densify(polyline, maxSegmentLength)` to densify the polyline
   . The resulting polyline will add points along the line so that there are no points greater than `maxSegmentLength` from the next point.
 2.  Use the static method `GeometryEngine.generalize(polyline, maxDeviation, true)` to generalize the 
@@ -31,9 +30,7 @@ To densify and generalize a polyline:
   coordinate system. This could be in degrees in some coordinate systems. In this example, a cartesian coordinate 
   system is used and at a small enough scale that geodesic distances are not required.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

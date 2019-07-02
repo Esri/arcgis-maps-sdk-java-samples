@@ -11,7 +11,6 @@ Left click near any of the hospitals and a route will be displayed from that cli
 
 To display a `ClosestFacilityRoute` between an `Incident` and a `Facility`:
 
-
 1.  Create a `ClosestFacilityTask` using  an Url from an online service.
 2.  Get `ClosestFacilityParameters` from task, `task.createDefaultParametersAsync().get()`
 3.  Add facilities to parameters, `closestFacilityParameters.setFacilities().addAll(facilities)`.
@@ -24,7 +23,6 @@ To display a `ClosestFacilityRoute` between an `Incident` and a `Facility`:
 *   create `Graphic` from route geometry, `new Graphic(route.getRouteGeometry())`
 *   add graphic to `GraphicsOverlay` which is attached to the mapview
 
-
 ## Relevant API
 
 *   ClosestFacilityParameters
@@ -36,5 +34,4 @@ To display a `ClosestFacilityRoute` between an `Incident` and a `Facility`:
 *   GraphicsOverlay
 *   Incident
 *   MapView
-
 

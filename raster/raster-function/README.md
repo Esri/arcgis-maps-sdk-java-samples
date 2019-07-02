@@ -19,9 +19,7 @@ To create a `RasterLayer` using a `RasterFunction` and add it to the map:
 6.  Create a `RasterLayer` with the new raster
 7.  Add it as an operational layer with `map.getOperationalLayers().add(rasterLayer)`
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

@@ -14,7 +14,6 @@ Run the sample and use the drop-down menu at the top to select a rendering rule.
 
 ## How it works
 
-
 1.  Create an `ImageServiceRaster` using a URL to an online image service.
 2.  After loading the raster, use `imageServiceRaster.getServiceInfo().getRenderingRuleInfos()` to get a list of `RenderingRuleInfo` supported by the service.
 3.  Choose a rendering rule info to apply and use it to create a `RenderingRule`.
@@ -22,14 +21,11 @@ Run the sample and use the drop-down menu at the top to select a rendering rule.
 5.  Apply the rendering rule to the new raster using `imageServiceRaster.setRenderingRule(renderingRuleInfo)`.
 6.  Create a `RasterLayer` from the raster for display.
 
-
 ## Relevant API
-
 
 *   ImageServiceRaster
 *   RasterLayer
 *   RenderingRule
-
 
 ## About the data
 

@@ -14,7 +14,6 @@ Click anywhere on the surface to get the elevation at that point. Elevation is r
 
 ## How it works
 
-
 1.  Create a `SceneView` and `Scene` with an imagery base map.
 
 2.  Set an `ArcGISTiledElevationService` as the elevation source of the scene's base surface.
@@ -23,9 +22,7 @@ Click anywhere on the surface to get the elevation at that point. Elevation is r
 
 4.  Use the `getElevationAsync(surfacePoint)` method on the base surface to asynchronously get the elevation.
 
-
 ## Relevant API
-
 
 *   ArcGISTiledElevationSource
 
@@ -34,7 +31,6 @@ Click anywhere on the surface to get the elevation at that point. Elevation is r
 *   ElevationSourcesList
 
 *   SceneView
-
 
 ## Additional information
 

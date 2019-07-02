@@ -24,7 +24,6 @@ Update Graphic's Symbol:
 
 How to change a `Graphic`'s symbol, attributes, and geometry:
 
-
 1.  Create a `GraphicsOverlay` and attach it to the `MapView`.
 2.  Create graphics using a `Point` and `SimpleMarkerSymbol`.
 *   point gives the x,y-coordinate location of where SimpleMarkerSymbol will be located
@@ -49,15 +48,11 @@ How to change a `Graphic`'s symbol, attributes, and geometry:
 *   get symbol from the drop down box
 *   assign that symbol to the selected graphic, `Graphic.setSymbol()`
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Graphic
 *   GraphicsOverlay
 *   MapView
 *   SimpleMarkerSymbol
-
-
 

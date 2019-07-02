@@ -16,15 +16,12 @@ If transportation networks are available, a route will be calculated between geo
 
 To search and route from a mobile map package:
 
-
 1.  Create a `MobileMapPackage` passing in the path to the local mmpk file.
 2.  Load the mobile map package and get its maps with `mobileMapPackage.getMaps()`.
 3.  A `LocatorTask` can be retrieved from the mobile map package with `mobileMapPackage.getLocatorTask()` if it has one.
 4.  To see if a map has transportation networks saved with it call `map.getTransportationNetworks()`. Each `TransportationNetworkDataset` can be used to construct a `RouteTask`.
 
-
 ## Relevant API
-
 
 *   GeocodeResult
 *   MobileMapPackage
@@ -34,7 +31,6 @@ To search and route from a mobile map package:
 *   RouteResult
 *   RouteTask
 *   TransportationNetworkDataset
-
 
 ## Tags
 Offline, Routing, Search

@@ -12,7 +12,6 @@ Choose from the dropdown or input your own place and location to search near. Cl
 
 To find locations matching a query and a search area:
 
-
 1.  Create an `ArcGISMap`'s with `Basemap`.
 *   basemap is created using a `TileCache` to represent an offline resource.
 2.  Add the map to the `MapView`, `MapView.setMap()`.
@@ -21,9 +20,7 @@ To find locations matching a query and a search area:
 5.  Limit results to the view's visible area using the `MapView.getVisibleArea()` method.
 6.  Show the matching retrieved results from the `LocatorTask.geocodeAsync(String, GeocodeParameters)` via `PictureMarkerSymbol`s with a `Graphic` in a `GraphicsOverlay`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   GeocodeParameters
@@ -35,7 +32,4 @@ To find locations matching a query and a search area:
 *   PictureMarkerSymbol
 *   ReverseGeocodeParameters
 *   TileCache
-
-
-
 

@@ -8,7 +8,6 @@ Draw simple graphics with marker, line, polygon, and text symbols.
 
 To display a `Graphic` using a symbol:
 
-
 1.  Create a `GraphicsOverlay` and add it to the `MapView`, `MapView.getGraphicsOverlay.add()`.
 2.  To create a graphic using a `SimpleMarkerSymbol`.
 *   create a `Point` where the graphic will be located
@@ -31,9 +30,7 @@ To display a `Graphic` using a symbol:
 *   assign point and symbol to graphic, `Graphic(point, symbol)`
 6.  Add graphic to graphics overlay to display it to the map view.
 
-
 ## Relevant API
-
 
 *   Graphic
 *   GraphicsOverlay
@@ -46,6 +43,4 @@ To display a `Graphic` using a symbol:
 *   SimpleLineSymbol
 *   SimpleMarkerSymbol
 *   TextSymbol
-
-
 

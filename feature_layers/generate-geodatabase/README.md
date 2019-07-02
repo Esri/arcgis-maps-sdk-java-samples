@@ -15,7 +15,6 @@ the geodatabase will be added to the map.
 
 To generate a `Geodatabase` from a feature service:
 
-
 1.  Create a `GeodatabaseSyncTask` with the URL of the feature service and load it.
 2.  Create `GenerateGeodatabaseParameters` specifying things like the extent and whether to include
   attachments.
@@ -25,9 +24,7 @@ To generate a `Geodatabase` from a feature service:
 5.  Lastly, it is good practice to call `syncTask.unregisterGeodatabaseAsync(geodatabase)` when
   you're not planning on syncing changes to the service.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   FeatureLayer

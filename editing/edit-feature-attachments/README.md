@@ -16,7 +16,6 @@ To delete an attachment.
 
 To get a `Feature` from a `ServiceFeatureTable` and add or delete `Attachment`:
 
-
 1.  Create a service feature table from a URL.
 2.  Create a `FeatureLayer` from the service feature table.
 3.  Select features from the feature layer, `FeatureLayer.selectFeatures()`.
@@ -25,9 +24,7 @@ To get a `Feature` from a `ServiceFeatureTable` and add or delete `Attachment`:
 6.  To delete an attachment from the selected ArcGISFeature, use the `ArcGISFeature.deleteAttachmentAsync()`.
 7.  After a change, apply the changes to the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-
 ## Relevant API
-
 
 *   ArcGISFeature
 *   ArcGISMap
@@ -36,5 +33,4 @@ To get a `Feature` from a `ServiceFeatureTable` and add or delete `Attachment`:
 *   FeatureLayer
 *   MapView
 *   ServiceFeatureTable
-
 

@@ -8,7 +8,6 @@ Render features statically or dynamically.
 
 To change `FeatureLayer.RenderingMode` using `LoadSettings`:
 
-
 1.  Create a `ArcGISMap`.
 2.  Set preferred rendering mode to map, `mapBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)`.
   
@@ -21,9 +20,7 @@ To change `FeatureLayer.RenderingMode` using `LoadSettings`:
   
 *   Now the point layer will be rendered dynamically to map view.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   FeatureLayer
@@ -34,6 +31,4 @@ To change `FeatureLayer.RenderingMode` using `LoadSettings`:
 *   Polygon
 *   ServiceFeatureTable
 *   Viewpoint
-
-
 

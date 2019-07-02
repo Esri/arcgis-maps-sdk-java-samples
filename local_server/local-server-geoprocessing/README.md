@@ -19,7 +19,6 @@ Contour Line Controls (Top Left):
 
 To start a `GeoprocessingTask` that generates contour lines from raster data:
 
-
 1.  Add raster data to map using as an `ArcGISTiledLayer`.
 2.  Create and run a `LocalServer`.
   
@@ -48,9 +47,7 @@ To start a `GeoprocessingTask` that generates contour lines from raster data:
 *   replace `GPServer` from url with `MapServer/jobs/jobId`, to get generate contour lines data
 *   create a map image layer from that new url and add that layer to the map
 
-
 ## Relevant API
-
 
 *   GeoprocessingDouble
 *   GeoprocessingJob

@@ -12,12 +12,10 @@ The terrain surface is what the basemap, operational layers, and graphics are dr
 2.  Create an `ArcGISTiledElevationSource` with the path to the local tile package.
 3.  Add this source to the scene's base surface: `scene.getBaseSurface().getElevationSources().add(tiledElevationSource)`.
 
-
 ## Relevant API
 
 *   ArcGISTiledElevationSource
 *   Surface
-
 
 <h2 id="tags">Tags</h2>
 3D, Tile Cache, Elevation, Surface

@@ -10,17 +10,13 @@ Point clouds are often used to visualize massive sets of sensor data such as lid
 
 ## How it works
 
-
 1.  Create a `PointCloudLayer` with the path to a local .slpk file containing a point cloud layer.
 
 2.  Add the layer to a scene's operational layers collection.
 
-
 ## Relevant API
 
-
 *   PointCloudLayer
-
 
 ## About the data
 

@@ -8,9 +8,7 @@ Fix the camera to point at and rotate around a target object.
 
 The orbit geoelement camera controller provides control over the following camera behaviors:
 
-
 *   automatically track the target
-
 
 *   stay near the target by setting a minimum and maximum distance offset
 
@@ -26,11 +24,9 @@ The orbit geoelement camera controller provides control over the following camer
 
 *   set a target offset (e.g.to orbit around the tail of the plane) instead of defaulting to orbiting the center of the object
 
-
 ## How to use the sample
 
 The sample loads with the camera orbiting an plane model. The camera is preset with a restricted camera heading and pitch, and a limited minimum and maximum camera distance set from the plane. The position of the plane on the screen is also set just below center.
-
 
 Use the "Camera Heading" slider to adjust the camera heading. Select the "Allow camera distance interaction" checkbox to allow zooming in and out with the mouse/keyboard: when the checkbox is deselected the user will be unable to adjust with the camera distance. 
 
@@ -39,7 +35,6 @@ Use the "Plane Pitch" slider to adjust the plane's pitch. When not in Cockpit vi
 Use the "Cockpit view" button to offset and fix the camera into the cockpit of the plane. Use the "Plane pitch" slider to control the pitch of plane: the camera will follow the pitch of the plane in this mode.  In this view adjusting the camera distance is disabled. Hit the "Center view" button to exit cockpit view mode and fix the camera controller on the center of the plane.         
 
 ## How it works
-
 
 1.  Instantiate an `OrbitGeoElementCameraController`, with `GeoElement` and camera distance as parameters.
 2.  Use `sceneView.setCameraController(OrbitCameraController)` to set the camera to the scene view. 
@@ -74,12 +69,9 @@ Use the "Cockpit view" button to offset and fix the camera into the cockpit of t
 
 ## Relevant API
 
-
 *   OrbitGeoElementCameraController
-
 
 ## Tags
 
 OrbitGeoElementCameraController, Camera, SceneView, 3D
-
 

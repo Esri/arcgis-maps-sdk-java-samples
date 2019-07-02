@@ -14,16 +14,13 @@ Wait for the map image layer to load. Then click the "Change sublayer renderer" 
 
 To get a sublayer and change its renderer:
 
-
 1.  Create an ArcGIS map image layer from its URL.
 2.  After it is done loading, get its `SublayerList` with `imageLayer.getSublayers()`.
 3.  Cast the sublayer you want to change to the appropriate type: `(ArcGISMapImageSublayer) sublayers.get(0)
   `.
 4.  Set the renderer with `sublayer.setRenderer(renderer)`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   ArcGISMapImageLayer

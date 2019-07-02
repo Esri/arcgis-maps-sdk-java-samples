@@ -15,7 +15,6 @@ one of the comments to query related spatial features and display the first resu
 
 To query a map image layer's tables and find related features:
 
-
 1.  Create an `ArcGISMapImageLayer` with the URL of a map image service.
 2.  Load the layer and get one of it's tables with `imageLayer.getTables().get(index)`.
 3.  To query the table, create `QueryParameters`. You can use `queryParameters.setWhereClause
@@ -31,9 +30,7 @@ To query a map image layer's tables and find related features:
  7.  This returns a list of `RelatedFeatureQueryResult`s, each containing a set of related 
    features`.
 
-
 ## Relevant API
-
 
 *   ArcGISFeature
 *   ArcGISMapImageLayer
@@ -44,7 +41,6 @@ To query a map image layer's tables and find related features:
 *   RelatedQueryParameters
 *   RelationshipInfo
 *   ServiceFeatureTable
-
 
 ## Additional information
 

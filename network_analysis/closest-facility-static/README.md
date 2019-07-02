@@ -16,7 +16,6 @@ Click the 'Solve Routes' button to determine and display the route from each inc
 
 To display a `ClosestFacilityRoute` between several incidents and facilities:
 
-
 1.  Create a `ClosestFacilityTask` using a Url from an online service.
 2.  Get the default set of `ClosestFacilityParameters` from the task: `closestFacilityTask.createDefaultParametersAsync().get()`.
 3.  Build a list of all Facilities and Incidents:
@@ -36,9 +35,7 @@ To display a `ClosestFacilityRoute` between several incidents and facilities:
 *   create a `Graphic` from route geometry, with `new Graphic(closestFacilityRoute.getRouteGeometry())`.
 *   add graphic to `GraphicsOverlay` and set it to the mapview.
 
-
 ## Relevant API
-
 
 *   ClosestFacilityParameters
 *   ClosestFacilityResult
@@ -48,7 +45,6 @@ To display a `ClosestFacilityRoute` between several incidents and facilities:
 *   Graphic
 *   GraphicsOverlay
 *   Incident
-
 
 ## Tags
 

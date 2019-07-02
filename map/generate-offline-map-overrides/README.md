@@ -7,12 +7,10 @@ For applications where you just need to take all layers offline, use the standar
 sample. For more fine-grained control over the data you are taking offline, use overrides to adjust the settings for
  each layer. Some example use cases for the overrides approach could be when you need to:
 
-
 *   adjust the extent for one or more layers to be different to the rest of the map.
 *   reduce the amount of data (such as tiles) downloaded for one or more layers in the map.
 *   filter features to be taken offline.
 *   take features with no geometry offline.
-
 
 ![](GenerateOfflineMapOverrides.png)
 
@@ -66,7 +64,6 @@ Click the "Generate offline map" button to start the download. A progress bar wi
 9.  Create a `GenerateOfflineMapJob` with `offlineMapTask.generateOfflineMap(parameters, downloadPath, overrides)`. Start the job with `job.start()`.
 10.  When the job is done, get a reference to the offline map with `job.getResult.getOfflineMap()`.
 
-
 ## Relevant API
 
 *   ExportTileCacheParameters
@@ -78,7 +75,6 @@ Click the "Generate offline map" button to start the download. A progress bar wi
 *   GenerateOfflineMapResult
 *   OfflineMapParametersKey
 *   OfflineMapTask
-
 
 ## Tags
 Offline

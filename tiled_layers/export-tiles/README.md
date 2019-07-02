@@ -16,9 +16,7 @@ To export tiles from an `ArcGISTiledLayer`:
 4.  Call `job.start()` to start the job
 5.  When the job is done, use `job.getResult()` to get the resulting `TileCache`
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   ArcGISTiledLayer

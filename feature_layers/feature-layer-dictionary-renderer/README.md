@@ -11,7 +11,6 @@ feature within the geodatabase.
 
 To apply a `DictionaryRenderer` and display mil2525.  graphics:
 
-
 1.  Create a `Geodatabase(geodatabasePath)`.
 *   geodatabasePath, local path to geodatabase
 2.  Load the geodatabase asynchronously, `Geodatabase.loadAsync()`.
@@ -29,9 +28,7 @@ To apply a `DictionaryRenderer` and display mil2525.  graphics:
 9.  Add feature layer to map, `Map.getOperationalLayers().add(FeatureLayer)`.
 10.  Create `DictionaryRenderer(SymbolDictionary)` and attach to feature layer, `FeatureLayer.setRenderer(DictionaryRenderer)`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

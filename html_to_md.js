@@ -17,16 +17,7 @@ function openDir() {
             if (getExtension(file) == 'md'){
               filePath = './'+category+'/'+subfolder+'/'+file
               // convertHtmlToMd(filePath);
-              replacechars(filePath, '  1. ', '1. ')
-              replacechars(filePath, '  2. ', '2. ')
-              replacechars(filePath, '  3. ', '3. ')
-              replacechars(filePath, '  4. ', '4. ')
-              replacechars(filePath, '  5. ', '5. ')
-              replacechars(filePath, '  6. ', '6. ')
-              replacechars(filePath, '  7. ', '7. ')
-              replacechars(filePath, '  8. ', '8. ')
-              replacechars(filePath, '  9. ', '9. ')
-              replacechars(filePath, '  10. ', '10. ')
+              replacechars(filePath, '\(\[ \t\]\*\n\)\{\3\,\}', '\n\n')
             }
           })
         }
@@ -59,5 +50,7 @@ function replacechars(filePath, find, replace)
 }
 
 function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(find, 'g'), replace);
+  var EOL = str.match(/\r\n/gm)?"\r\n":"\n";
+  var regExp = new RegExp("("+EOL+"){3,}", "gm");
+return str.replace(regExp, EOL+EOL);
 }

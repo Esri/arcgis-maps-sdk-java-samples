@@ -14,19 +14,15 @@ Pan around the scene and zoom in. Notice how many thousands of additional featur
 
 ## How it works
 
-
 1.  Create a scene.
 
 2.  Create an `ArcGISSceneLayer` with the URL to a point scene layer service.
 
 3.  Add the layer to the scene's operational layers collection.
 
-
 ## Relevant API
 
-
 *   ArcGISSceneLayer
-
 
 ## About the data
 

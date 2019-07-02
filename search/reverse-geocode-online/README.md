@@ -12,7 +12,6 @@ You can click on the ArcGISMap to perform online reverse geocoding and show the 
 
 To perform online reverse geocode:
 
-
 1.  Create the `ArcGISMap`'s with `Basemap`.
 *   basemap is created using a `TileCache` to represent an offline resource
 2.  Create a `LocatorTask` using a URL.
@@ -20,9 +19,7 @@ To perform online reverse geocode:
 4.  Get the matching results from the `GeocodeResult` using `LocatorTask.reverseGeocodeAsync()`.
 5.  Lastly, to show the results using a `PictureMarkerSymbol` with attributes and add the symbol to a `Graphic` in the  `GraphicsOverlay`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   GeocodeParameters
@@ -32,7 +29,4 @@ To perform online reverse geocode:
 *   PictureMarkerSymbol
 *   ReverseGeocodeParameters
 *   TileCache
-
-
-
 

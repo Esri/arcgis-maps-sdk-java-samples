@@ -12,14 +12,11 @@ Click the "Clip" button to clip the blue graphic with the red envelopes.
 
 To clip a `Geometry` with an `Envelope`:
 
-
 1.  Use the static method `GeometryEngine.clip(geometry, envelope)`.
 2.  Keep in mind that the resulting `Geometry` may be null if the envelope does not intersect the 
   geometry you are clipping.`
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

@@ -17,7 +17,6 @@ Specify a minimum population in the spinner and click the query button to query 
 
 To query map image sublayers:
 
-
 1.  Create an `ArcGISMapImageLayer` using the URL of it's image service.
 2.  After loading the layer, get its sublayers you want to query with `(ArcGISMapImageSublayer) layer
   .getSubLayers().get(index)`.
@@ -28,9 +27,7 @@ To query map image sublayers:
   with features matching the query.
 6.  Iterate through the result features to use them however you wish.
 
-
 ## Relevant API
-
 
 *   ArcGISMapImageLayer
 *   ArcGISMapImageSublayer

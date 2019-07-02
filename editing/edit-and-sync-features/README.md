@@ -10,15 +10,12 @@ By generating a local geodatabase, a user can take an offline copy of a feature 
 
 ## How to use the sample
 
-
 1.  Pan and zoom to the area you would like to download point features for, ensuring that all desired features are within the red rectangle.
 2.  Click on the Generate Geodatabase button to make an offline database of the area. Once the job completes successfully, the available features within this area will be displayed.
 3.  A feature can be selected by tapping on it. The selected feature can be moved to a new location by tapping anywhere on the map.
 4.  Once a successful edit has been made to a feature, the Sync Geodatabase button is enabled. Press this button to synchronize the edits made to the local geodatabase with the remote feature service.
 
-
 ## How it works
-
 
 1.  Create a `GeodatabaseSyncTask` from a URL.
 2.  Use `createDefaultGenerateGeodatabaseParametersAsync()` on the geodatabase sync task to create `GenerateGeodatabaseParameters`, passing in an `Envelope` extent as the parameter.
@@ -31,9 +28,7 @@ By generating a local geodatabase, a user can take an offline copy of a feature 
 *   Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)` passing the `SyncGeodatabaseParameters` and `Geodatabase` as arguments.
 *   Start the `SyncGeodatabaseJob` to synchronize the edits.
 
-
 ## Relevant API
-
 
 *   FeatureLayer
 *   FeatureTable
@@ -43,7 +38,6 @@ By generating a local geodatabase, a user can take an offline copy of a feature 
 *   SyncGeodatabaseJob
 *   SyncGeodatabaseParameters
 *   SyncLayerOption
-
 
 ## About the data
 

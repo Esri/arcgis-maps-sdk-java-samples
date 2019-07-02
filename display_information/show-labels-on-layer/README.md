@@ -8,7 +8,6 @@ Add custom labels to a layer.
 
 To show labels on a feature layer:
 
-
  1.  First, create a `FeatureLayer` with a `ServiceFeatureTable` using an online feature 
  service.
  2.  Create a `TextSymbol` to use for displaying the label text.
@@ -22,9 +21,7 @@ To show labels on a feature layer:
  `.
  5.  Lastly, enable labels on the layer using `featureLayer.setLabelsEnabled()`.
 
-
 ## Relevant API
-
 
  *   FeatureLayer
  *   LabelDefinition

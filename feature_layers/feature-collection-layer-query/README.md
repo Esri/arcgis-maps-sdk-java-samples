@@ -6,7 +6,6 @@ Create a feature collection layer which shows the result of a SQL query from a s
 
 ## How it works
 
-
 1.  Create a `ServiceFeatureTable` object from a URL, and store it as a `FeatureTable` object.
 	2.  Create a `QueryParameters` object and specify the where clause with `QueryParameters.setWhereClause()`.
 	3.  Query the features stored in the feature table with `FeatureTable.queryFeaturesAsync(query)`.
@@ -15,9 +14,7 @@ Create a feature collection layer which shows the result of a SQL query from a s
 	6.  Create a `FeatureCollectionLayer` object from the feature collection.
 	7.  Display the layer by adding it to the map's operational layers with `mapView.getMap().getOperationalLayers().add(featureCollectionLayer)`.
 
-
 ## Relevant API
-
 
 	*   FeatureCollection
 	*   FeatureCollectionLayer
@@ -27,7 +24,6 @@ Create a feature collection layer which shows the result of a SQL query from a s
 *   FeatureQueryResult
 *   QueryParameters
 *   ServiceFeatureTable
-
 
 ## Tags
 FeatureQueryResult, FeatureCollection, FeatureCollectionLayer, FeatureCollectionTable, query

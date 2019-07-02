@@ -12,29 +12,23 @@ Map annotations are typically only relevant at certain scales. For instance, ann
 
 ## How to use the sample
 
-
 *   Use the drop down menu at the top left to set the map's reference scale.
 
 *   Click the "Set Map Scale to Reference Scale" button to set the map view scale to that of the map reference scale.
 
 *   Use the top right menu checkboxes to apply the map reference scale to the map's feature layers (which should scale according to the reference scale).
 
-
 ## How it works
-
 
 *   Set the map reference scale property on the `ArcGISMap` with `map.setReferenceScale(double)`.
 
 *   Set the scale symbols property on each individual `FeatureLayer` within the map with `featureLayer.setScaleSymbols(boolean)`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 
 *   FeatureLayer
-
 
 ## Additional Information
 

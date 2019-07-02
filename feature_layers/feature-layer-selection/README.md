@@ -12,7 +12,6 @@ Click on a feature from the map to select it.
 
 To select `Feature`s from your `FeatureLayer`:
 
-
 1.  Create a `ServiceFeatureTable` from a URL.
 2.  Create a feature layer from the service feature table.
 3.  Identify `MapView` on the location the user has clicked `MapView.identifyLayerAsync
@@ -20,9 +19,7 @@ To select `Feature`s from your `FeatureLayer`:
   `
 4.  Select all features that were identified with `FeatureLayer.selectFeatures(features)`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Feature

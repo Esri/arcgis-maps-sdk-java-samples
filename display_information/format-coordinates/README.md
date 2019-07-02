@@ -27,9 +27,7 @@ To convert between a `Point` and different coordinate formats using the
   `CoordinateFormatter.fromUtm(coordinateString, map.getSpatialReference(), CoordinateFormatter.UtmConversionMode
   .LATITUDE_BAND_INDICATORS)`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   ArcGISTiledLayer

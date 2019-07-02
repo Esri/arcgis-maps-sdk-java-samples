@@ -26,9 +26,7 @@ To export tiles from an `ArcGISVectorTiledLayer`:
   `ExportVectorTilesResult`.
 6.  You can load the result as a `ArcGISVectorTiledLayer` with `new ArcGISVectorTiledLayer(result.getVectorTileCache(), result.getItemResourceCache())`.
 
-
 ## Relevant API
-
 
 *   ArcGISVectorTiledLayer
 *   ExportVectorTilesJob

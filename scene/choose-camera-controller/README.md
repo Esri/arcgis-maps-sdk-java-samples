@@ -14,13 +14,10 @@ The application loads with the default globe camera controller. To rotate and fi
 
 ## How it works
 
-
 1.  Create an instance of a class extending `CameraController`: `GlobeCameraController`, `OrbitLocationCameraController`, `OrbitGeoElementCameraController`
 2.  Set the scene view's camera controller with `sceneView.setCameraController(cameraController)`.
 
-
 ## Relevant API
-
 
 *   ArcGISScene
 *   Camera
@@ -29,9 +26,7 @@ The application loads with the default globe camera controller. To rotate and fi
 *   OrbitLocationCameraController
 *   SceneView
 
-
 ## Tags
 
 camera controller, Camera, SceneView, 3D
-
 

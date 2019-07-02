@@ -19,9 +19,7 @@ To search for webmaps in a `Portal` matching a keyword:
 3.  Use `portal.findItemsAsync(params)` to get the first set of matching items.
 4.  Get more results with `portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters())`
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   MapView

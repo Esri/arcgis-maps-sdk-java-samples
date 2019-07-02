@@ -13,13 +13,11 @@ has to the other graphic geometries.
 
 To check the relationship between geometries.
 
-
 1.  Get the geometry from two different graphics. In this example the geometry of the selected graphic is 
   compared to the geometry of each graphic not selected.
 2.  Use the methods in `GeometryEngine` to check the relationship between the geometries, e.g. 
   `contains`, `disjoint`, `intersects`, etc. If the method returns 
   `true`, the relationship exists.
-
 
 ## Relevant API
 

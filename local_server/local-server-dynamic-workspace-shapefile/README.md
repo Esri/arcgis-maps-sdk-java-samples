@@ -14,7 +14,6 @@ A Local Server will automatically start once application is running. Select a sh
 
 To create a `ShapefileWorkspace` and add it to a `LocalMapService`:
 
-
 1.  Create and run a local server.
 *   `LocalServer.INSTANCE` creates a local server
 *   `Server.startAsync()` starts the server asynchronously
@@ -29,7 +28,6 @@ To create a `ShapefileWorkspace` and add it to a `LocalMapService`:
 8.  Create a `ArcGISMapImageLayer` using `localMapService.getUrl()`
 9.  Add the `ArcGISMapImageSublayer` to it's list of sublayers. The ArcGISMapImageSublayer points to the shapefile file on disk.
 <li>Once ArcGISMapImageLayer is done loading,  set ArcGISMapImageSublayer to `ArcGISMapImageLayer.getSublayers()`. The ArcGISMapImageSublayer points to the shapefile file on disk.
-
 
 ## Relevant API
 

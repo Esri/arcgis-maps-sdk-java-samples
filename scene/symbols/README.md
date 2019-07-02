@@ -10,7 +10,6 @@ Includes tetrahedrons, cubes, spheres, diamonds, cylinders, and cones.
 
 To create a `SimpleMarkerSceneSymbol` with a 3.  shape:
 
-
 1.  Create a `GraphicsOverlay`.
 2.  Create a `SimpleMarkerSceneSymbol(Style, color, width, height, depth, AnchorPosition)`.
 *   You can also use `SimpleMarkerSceneSymbol.createCone(color, diameter, height)`
@@ -21,9 +20,7 @@ To create a `SimpleMarkerSceneSymbol` with a 3.  shape:
 4.  Add the graphic to the graphics overlay, `GraphicsOverlay.getGraphics().add(Graphic)`.
 5.  Add the graphics overlay to the `SceneView`, `SceneView.getGraphicsOverlays().add(GraphicsOverlay)`.
 
-
 ## Relevant API
-
 
 *   ArcGISScene
 *   Graphic

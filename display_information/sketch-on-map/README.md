@@ -10,9 +10,7 @@ Choose which geometry type to sketch from one of the available buttons. Choose f
 
 Use the control panel to cancel the sketch, undo or redo changes made to the sketch and to save the sketch to the graphics overlay. There is also the option to select a saved graphic and edit its geometry using the Sketch Editor. The graphics overlay can be cleared using the clear all button.
 
-
 ## How it works
-
 
 1.  Create a `SketchEditor` and set it to the MapView with `mapView.setSketchEditor(sketchEditor)`.
 
@@ -26,11 +24,7 @@ Use the control panel to cancel the sketch, undo or redo changes made to the ske
 
 6.  To exit the sketch editor, use `sketchEditor.stop()`.
 
-
-
 ## Relevant API
-
-
 
 *   Geometry
 *   Graphic
@@ -38,8 +32,6 @@ Use the control panel to cancel the sketch, undo or redo changes made to the ske
 *   MapView
 *   SketchCreationMode
 *   SketchEditor
-
-
 
 ## Tags
 

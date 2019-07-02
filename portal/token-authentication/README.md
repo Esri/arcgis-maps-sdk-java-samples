@@ -14,7 +14,6 @@ When starting the sample, the user is challenged for an ArcGIS Online login to v
 
 ## How it works
 
-
 1.  Create an `AuthenticationChallengeHandler` using the `DefaultAuthenticationChallengeHandler` to handle the challenges sent by the protected map service.
 2.  Set the `AuthenticationChallengeHandler` used by the `AuthenticationManager`.
 3.  Create a `Portal` to ArcGIS Online.
@@ -22,9 +21,7 @@ When starting the sample, the user is challenged for an ArcGIS Online login to v
 5.  Create an `ArcGISMap` from the portal item, and display it in a `MapView`
 6.  Set the map to display in the map view.
 
-
 ## Relevant API
-
 
 *   AuthenticationChallengeHandler
 *   AuthenticationManager
@@ -33,7 +30,6 @@ When starting the sample, the user is challenged for an ArcGIS Online login to v
 *   MapView
 *   Portal
 *   PortalItem
-
 
 ## Tags
 

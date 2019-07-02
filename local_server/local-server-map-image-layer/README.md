@@ -14,7 +14,6 @@ A Local Server and Local Map Service will automatically be started and once runn
 
 To create a `ArcGISMapImageLayer` from a `LocalMapService`:
 
-
 1.  Create and run a local server.
 *   `LocalServer.INSTANCE` creates a local server
 *   `Server.startAsync()` starts the server asynchronously
@@ -31,7 +30,6 @@ To create a `ArcGISMapImageLayer` from a `LocalMapService`:
 *   load the layer asynchronously, `ArcGISMapImageLayer.loadAsync()`
 6.  Add map image layer to map, `Map.getOperationalLayers().add(ArcGISMapImageLayer)`.
 
-
 ## Relevant API
 
 *   ArcGISMapImageLayer
@@ -39,5 +37,4 @@ To create a `ArcGISMapImageLayer` from a `LocalMapService`:
 *   LocalServer
 *   LocalServerStatus
 *   StatusChangedEvent
-
 

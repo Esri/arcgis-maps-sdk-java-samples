@@ -12,7 +12,6 @@ For simplicity, the sample starts with a predefined SimpleMarkerSymbol set as a 
 
 To display a `SimpleMarkerSymbol`:
 
-
 1.  Create a `ArcGISMap`'s with `Basemap`.
 2.  Create a `GraphicsOverlay` and add it to the `MapView`,`MapView.getGraphicsOverlays().add()`.
 3.  Add the map to the view, `MapView.setMap()`.
@@ -22,9 +21,7 @@ To display a `SimpleMarkerSymbol`:
  *   size, size of the symbol
 5.  Lately, create a `Graphic(Geometry, Symbol)` method and add it to the graphics overlay.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Graphic
@@ -33,7 +30,4 @@ To display a `SimpleMarkerSymbol`:
 *   Point
 *   SimpleMarkerSymbol
 *   SimpleMarkerSymbol.Style
-
-
-
 

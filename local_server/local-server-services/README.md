@@ -19,7 +19,6 @@ service's URL in your default web browser, select it and click the Go to URL but
 
 To start a `LocalService`:
 
-
 1.  Start the local server.
 *   `LocalServer.INSTANCE` creates a local server
 *   `server.startAsync()` starts the server asynchronously
@@ -31,9 +30,7 @@ changes
 *   `service.startAsync()` starts the service asynchronously
 4.  Stop the service with `service.stopAsync().`
 
-
 ## Relevant API
-
 
 *   LocalFeatureService
 *   LocalGeoprocessingService

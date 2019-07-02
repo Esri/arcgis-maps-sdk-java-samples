@@ -10,19 +10,15 @@ An `ArcGISTiledLayer` consumes raster tiles provided by an ArcGIS service or a t
 
 ## How it works
 
-
 1.  Create an `ArcGISTiledLayer` object from a URL.
 2.  Pass the tiled layer in to a new `Basemap`.
 3.  Set the basemap to an `ArcGISMap`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   ArcGISTiledLayer
 *   MapView
-
 
 ## Additional information
 

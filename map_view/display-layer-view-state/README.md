@@ -21,14 +21,11 @@ The view state of a layer changes while the layer is loading, like the start of 
 
 To get a layer's view state:
 
-
 1.  Create an `ArcGISMap`.
 2.  Set the map to the `MapView`, `MapView.setMap()`.
 3.  Add the `MapView.addLayerViewStateChangedListener()` property and listen when the `Layer.getLayerViewStatus()` changes.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   ArcGISMapImageLayer

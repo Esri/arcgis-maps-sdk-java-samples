@@ -15,7 +15,6 @@ The symbol of graphic will change while zooming in or out.
 
 To create and display a `DistanceCompositeSceneSymbol`:
 
-
 1.  Create a `GraphicsOverlay` and add it to the `SceneView`.
 2.  Create symbols for each `Range` the composite symbol.
 3.  Create a distance composite scene symbol`.
@@ -25,9 +24,7 @@ To create and display a `DistanceCompositeSceneSymbol`:
 5.  Create a `Graphic` with the symbol: `Graphic(Point, DistanceCompositeSceneSymbol)`
 6.  Add the graphic to the graphics overlay.
 
-
 ## Relevant API
-
 
 *   ArcGISScene
 *   ArcGISTiledElevationSource
@@ -41,6 +38,4 @@ To create and display a `DistanceCompositeSceneSymbol`:
 *   RangeCollection
 *   SceneView
 *   SimpleMarkerSceneSymbol
-
-
 

@@ -25,9 +25,7 @@ To create and save a map to your portal for use in an app:
 5.  Once authenticated, save the map by calling `map.saveMapAsAsync()`, passing in the title, tags, 
   description, and portal folder
 
-
 ## Relevant API
-
 
 *   AuthenticationChallengeHandler
 *   ArcGISMap
@@ -39,8 +37,6 @@ To create and save a map to your portal for use in an app:
 *   PortalFolder
 *   PortalItem
 *   PortalUserContent
-
-
 
 ## Additional information
 

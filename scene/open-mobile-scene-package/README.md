@@ -10,7 +10,6 @@ A .mspk file is an archive containing the data (specifically, basemaps and featu
 
 ## How it works
 
-
 1.  Use the static method `MobileScenePackage.isDirectReadSupportedAsync(mspkData)` to check whether the package can be read in the archived form (.mspk) or whether it needs to be unpacked.
 
 2.  If direct read is supported, use `isDirectReadSupported.get()` and instantiate a `MobileScenePackage` with the path to the .mspk file.
@@ -21,12 +20,9 @@ A .mspk file is an archive containing the data (specifically, basemaps and featu
 
 5.  Set the first scene in the object collection on the scene view with `sceneView.setArcGISScene(scene)`.
 
-
 ## Relevant API
 
-
 *   MobileScenePackage
-
 
 ## Additional information
 

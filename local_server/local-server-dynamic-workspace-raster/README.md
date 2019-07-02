@@ -14,7 +14,6 @@ A Local Server and Local Feature Service will automatically be started and once 
 
 To create a `RasterWorkspace` and add it to a `LocalMapService`:
 
-
 1.  Create and run a local server.
 *   `LocalServer.INSTANCE` creates a local server
 <li>`Server.startAsync()` starts the server asynchronously</ul>
@@ -28,7 +27,6 @@ To create a `RasterWorkspace` and add it to a `LocalMapService`:
 6.  Create a `ArcGISMapImageLayer` using the url from the LocalMapService
 7.  Add the `ArcGISMapImageSublayer` to it's list of sublayers. The ArcGISMapImageSublayer points to the raster file on disk.
 <li>Finally, add the ArcGISMapImageLayer to map's list of operational layers. The raster layer appears in the map.
-
 
 ## Relevant API
 

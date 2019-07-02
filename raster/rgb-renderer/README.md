@@ -21,9 +21,7 @@ To apply a `RgbRenderer` to a `RasterLayer`:
 4.  Create a `RgbRenderer`, specifying the stretch parameters and other properties
 5.  Set the renderer on the raster layer with `rasterLayer.setRenderer(renderer)`
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

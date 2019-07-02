@@ -17,7 +17,6 @@ To start again from the beginning, click the reset button to reset the tour. The
 
 ## How it works
 
-
 1.  Create a `KmlDataset` with the path to a local KML file with a KML tour.
 2.  Create and load a `KmlLayer` with the dataset.
 3.  When the layer has loaded, search its `KmlNode`s by recursing through `kmlLayer.getRootNodes()
@@ -25,15 +24,12 @@ To start again from the beginning, click the reset button to reset the tour. The
 4.  Create a `KmlTourController` and set the tour with `kmlTourController.setTour(kmlTour)`.
 5.  Use `kmltourController.play()`, `kmltourController.pause()`, and `kmltourController.reset()` to control the tour.
 
-
 ## Relevant API
-
 
 *   KmlDataset
 *   KmlTour
 *   KmlTourController
 *   KmlTourStatus
-
 
 ## About the data
 

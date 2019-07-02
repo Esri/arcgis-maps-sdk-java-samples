@@ -8,7 +8,6 @@ Filter features within a time range.
 
 To query features by a time extent:
 
-
 1.  Create a `ServiceFeatureTable` from the URL of a feature service.
 2.  Set the feature table's feature request mode to manual with `featureTable.setFeatureRequestMode(MANUAL_CACHE)`.
 3.  After loading the service feature table, create `QueryParameters`.
@@ -24,9 +23,7 @@ To query features by a time extent:
   and add it to the map with `map.getOperationalLayers().add(featureLayer)` to see the features in the 
   time extent.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

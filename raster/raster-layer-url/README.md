@@ -12,9 +12,7 @@ To add a `RasterLayer` as an operational layer from an `ImageServiceRaster`:
 2.  Create a `RasterLayer` from the raster
 3.  Add it as an operational layer with `map.getOperationalLayers().add(rasterLayer)`
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

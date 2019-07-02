@@ -12,7 +12,6 @@ For simplicity, the sample comes loaded with a start and end stop. You can click
 
 To display a `Route` using a `RouteTask`:
 
-
 1.  Create an `ArcGISMap`.
 2.  Add the map to the `MapView`, `MapView.setMap()`.
 3.  Create a route task using an URL from an online service.
@@ -22,9 +21,7 @@ To display a `Route` using a `RouteTask`:
 6.  Display the route by adding it to a `GraphicsOverlay.getGraphics().add()`.
 7.  Show the step by step `DirectionMessage`s using the `Route.getDirectionManeuvers()` method.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   DirectionManeuver

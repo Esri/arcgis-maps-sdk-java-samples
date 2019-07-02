@@ -14,7 +14,6 @@ An ENC exchange set is a catalog of data files which can be loaded as cells. The
 
 ## How it works
 
-
 1.  Specify the path to a local CATALOG.03.  file to create an `EncExchangeSet`.
 
 2.  After loading the exchange set, loop through the `EncDataset` objects in `encExchangeSet.getDatasets()`.
@@ -23,9 +22,7 @@ An ENC exchange set is a catalog of data files which can be loaded as cells. The
 
 4.  Add the ENC layer to a map's operational layers collection to display it.
 
-
 ## Relevant API
-
 
 *   EncCell
 
@@ -34,7 +31,6 @@ An ENC exchange set is a catalog of data files which can be loaded as cells. The
 *   EncExchangeSet
 
 *   EncLayer
-
 
 ## Tags
 

@@ -18,7 +18,6 @@ Click the Clear button to clear previous search results.
 
 ## How it works
 
-
 1.  Create a symbol dictionary with the mil2525.  specification by passing the string "mil2525d" to the 
   `SymbolDictionary` constructor.
 2.  Create `StyleSymbolSearchParameters`.
@@ -26,15 +25,12 @@ Click the Clear button to clear previous search results.
 4.  Search for symbols using the parameters with `symbolDictionary.searchSymbolsAsync(styleSymbolSearchParameters)`.
 5.  Get the `Symbol` from the list of returned `StyleSymbolSearchResult`.
 
-
 ## Relevant API
-
 
 *   StyleSymbolSearchParameters
 *   StyleSymbolSearchResult
 *   Symbol
 *   SymbolDictionary
-
 
 ## Tags
 

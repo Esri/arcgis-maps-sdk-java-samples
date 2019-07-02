@@ -8,7 +8,6 @@ Combine feature tables with different geometries into a single layer.
 
 To display a `FeatureCollection` as a `FeatureCollectionLayer` on an `ArcGISMap` using different `FeatureCollectionTable`s:
 
-
 1.  Create a feature collection layer using a new feature collection, `new FeatureCollectionLayer(featureCollection)`
 2.  The layer is then added to the map, `ArcGISMap.getOperationalLayers().add(featureCollectionLayer)`.
 3.  A feature collection table is then created for the `GeometryType`s `Point` `Polyline` `Polygon`, `new FeatureCollectionTable(fields, geometryType, spatialRefernce)`
@@ -19,9 +18,7 @@ To display a `FeatureCollection` as a `FeatureCollectionLayer` on an `ArcGISMap`
 6.  To create a feature from the feature collection table use the createFeature method passing an attribute and geometry for that feature, `FeatureCollectionTable.createFeature(attributes, geometry)`.
 7.  Add new feature to the table, `FeatureCollectionTable.addFeatureAsync(feature)`.
 
-
 ## Relevant API
-
 
 *   FeatureCollection
 *   FeatureCollectionLayer

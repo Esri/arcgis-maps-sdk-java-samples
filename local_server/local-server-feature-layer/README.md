@@ -14,7 +14,6 @@ A Local Server and Local Feature Service will automatically be started and once 
 
 To create a `FeatureLayer` from a `LocalFeatureService`:
 
-
 1.  Create and run a local server.
 *   `LocalServer.INSTANCE` creates a local server
 *   `Server.startAsync()` starts the server asynchronously
@@ -33,7 +32,6 @@ To create a `FeatureLayer` from a `LocalFeatureService`:
 *   load the layer asynchronously, `FeatureLayer.loadAsync()`
 6.  Add feature layer to map, `Map.getOperationalLayers().add(FeatureLayer)`.
 
-
 ## Relevant API
 
 *   FeatureLayer
@@ -41,5 +39,4 @@ To create a `FeatureLayer` from a `LocalFeatureService`:
 *   LocalServer
 *   LocalServerStatus
 *   StatusChangedEvent
-
 

@@ -25,9 +25,7 @@ To apply a `BlendRenderer` to a `RasterLayer`:
   elevation raster parameter. That way the color ramp is used instead of the satellite imagery
 6.  Set the renderer on the raster layer with `rasterLayer.setRenderer(renderer)`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

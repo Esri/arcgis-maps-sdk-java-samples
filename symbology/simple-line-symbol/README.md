@@ -19,7 +19,6 @@ Change Line Style:
 
 To display a `SimpleLineSymbol`:
 
-
 1.  Create a `ArcGISMap`'s with `Basemap`.
 2.  Create a `GraphicsOverlay` and add it to the `MapView`, `MapView.getGraphicsOverlays().add()`.
 3.  Add the map to the view, `MapView.setMap()`.
@@ -30,9 +29,7 @@ To display a `SimpleLineSymbol`:
 *   width, size of this symbol
 6.  Lately, create a `Graphic(Geometry, Symbol)` and add it to the graphics overlay.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Graphic

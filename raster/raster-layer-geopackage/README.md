@@ -14,9 +14,7 @@ To add a`RasterLayer` as an operational layer from a `GeoPackage`:
 3.  Construct a `RasterLayer` with the `GeoPackageRaster` in the list you want to use.
 4.  Add the raster layer to the map as an operational layer `map.getOperationalLayers().add(rasterLayer)`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

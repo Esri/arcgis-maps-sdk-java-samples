@@ -16,19 +16,15 @@ The layers in the map will be displayed in a table of contents. Toggle the check
 
 ## How it works
 
-
 1.  Create an empty `GroupLayer`.
 
 2.  Add a child layer to the group layer's layers collection.
 
 3.  To toggle the visibility of the group, simply change the group layer's visibility property.
 
-
 ## Relevant API
 
-
 *   GroupLayer
-
 
 ## Additional information
 

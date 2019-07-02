@@ -15,7 +15,6 @@ To create different geometries and show them as graphics:
 3.  Add the `Graphic` to a `GraphicsOverlay` and add the overlay to the 
   `MapView`.
 
-
 ## Relevant API  
 
 *   Envelope

@@ -11,7 +11,6 @@ value attributes for each graphic.
 
 To apply a `DictionaryRenderer` and display mil2525.  graphics:
 
-
 1.  Create a `SymbolDicitonary`, `SymbolDictionary(specificationType, dictionaryPath)`.
 *   specificationType, this will be the mil2525d.stylx local file
 *   dictionaryPath,  path to the mil2525d.stylx local file
@@ -27,9 +26,7 @@ To apply a `DictionaryRenderer` and display mil2525.  graphics:
 *   other attributes explain to dictionary symbol how to display graphic
 *   add graphic to `GraphicsOverlay.getGraphics().add(Graphic)`
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap
@@ -43,6 +40,4 @@ To apply a `DictionaryRenderer` and display mil2525.  graphics:
 *   Polygon
 *   Polyline
 *   SymbolDictionary
-
-
 

@@ -20,9 +20,7 @@ To apply a `HillshadeRenderer` to a `RasterLayer`:
 4.  Create a `HillshadeRenderer`, specifying the slope type and other properties
 5.  Set the renderer on the raster layer with `rasterLayer.setRenderer(renderer)`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap

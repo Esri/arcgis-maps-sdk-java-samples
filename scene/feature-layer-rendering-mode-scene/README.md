@@ -8,7 +8,6 @@ Render features statically or dynamically in 3D.
 
 To change `FeatureLayer.RenderingMode` using `LoadSettings`:
 
-
 1.  Create a `ArcGISScene`.
 2.  Set preferred rendering mode to scene, `sceneBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)`.
   
@@ -21,9 +20,7 @@ To change `FeatureLayer.RenderingMode` using `LoadSettings`:
   
 *   Now the point layer will be rendered dynamically to scene view.
 
-
 ## Relevant API
-
 
 *   ArcGISScene
 *   Camera
@@ -34,6 +31,4 @@ To change `FeatureLayer.RenderingMode` using `LoadSettings`:
 *   Polyline
 *   Polygon
 *   ServiceFeatureTable
-
-
 

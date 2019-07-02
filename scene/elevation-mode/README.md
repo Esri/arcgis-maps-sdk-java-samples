@@ -8,7 +8,6 @@ Position graphics relative to terrain.
 
 To position `Graphic`s using `SurfacePlacement` (DRAPED, RELATIVE, ABSOLUTE):
 
-
 1.  Create a `GraphicsOverlay`.
 2.  Set the surface placement mode `GraphicsOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement)`.
 *   Draped, Z value of graphic has no affect and graphic is attached to surface
@@ -17,9 +16,7 @@ To position `Graphic`s using `SurfacePlacement` (DRAPED, RELATIVE, ABSOLUTE):
 3.  Add graphics to the graphics overlay, `GraphicsOverlay.getGraphics.add(Graphic)`.
 4.  Add the graphics overlay to the `SceneView`, `SceneView.getGraphicsOverlays().add(GraphicsOverlay)`.
 
-
 ## Relevant API
-
 
 *   ArcGISScene
 *   Camera
@@ -29,6 +26,4 @@ To position `Graphic`s using `SurfacePlacement` (DRAPED, RELATIVE, ABSOLUTE):
 *   SceneProperties
 *   SceneView
 *   Surface
-
-
 

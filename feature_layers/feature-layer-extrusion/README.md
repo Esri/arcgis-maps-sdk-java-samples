@@ -8,7 +8,6 @@ Extrude features based on their attributes.
 
 To extrude features from a `FeatureLayer`:
 
-
 1.  Create a `ServiceFeatureTable` from an URL.
   <li>Create a feature layer from service feature table.
   <ol>Make sure to set rendering mode to dynamic, `statesFeatureLayer.setRenderingMode(RenderingMode.DYNAMIC)`.</li>
@@ -18,7 +17,6 @@ To extrude features from a `FeatureLayer`:
 </ol>
 
 ## Relevant API
-
 
 *   FeatureLayer
 *   SceneProperties

@@ -13,7 +13,6 @@ the "Get Statistics" button to execute the query. A dialog will open with the st
 
 To query statistics on a `FeatureTable` field:
 
-
 1.  Create a `ServiceFeatureTable` from a URL.
 2.  Create a list of `StatisticDefinition`s specifying which field to query against, the aggregate 
   type, and an optional alias.
@@ -25,9 +24,7 @@ To query statistics on a `FeatureTable` field:
 6.  The map of statistics can be retreived with `record.getStatistics()` for printing or showing in 
   a list view.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   FeatureLayer

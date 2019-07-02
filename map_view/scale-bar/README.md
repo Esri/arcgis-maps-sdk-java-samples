@@ -12,7 +12,6 @@ Zoom in or out of the map. The scale bar will automatically display the appropri
 
 To add a scale bar to a map view:
 
-
 1.  Create a `ArcGISMap` and display it in a `MapView`.
 
 2.  Create a `ScaleBar` passing in the map view.
@@ -23,9 +22,7 @@ To add a scale bar to a map view:
 
 5.  Add the scale bar to the UI overlaying the map view.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 
@@ -34,7 +31,6 @@ To add a scale bar to a map view:
 *   Scalebar
 
 *   UnitSystem
-
 
 ## Tags
 

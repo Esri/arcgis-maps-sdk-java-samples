@@ -12,13 +12,10 @@ that table will be performed locally, otherwise they will be requested from the 
 
 How to set `FeatureRequestMode.ON_INTERACTION_CACHE` mode:
 
-
 1.  Create a `ServiceFeatureTable` from a URL.
 2.  Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.ON_INTERACTION_CACHE)`.
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   FeatureLayer

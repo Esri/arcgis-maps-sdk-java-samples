@@ -17,14 +17,12 @@ To create a buffer around a point:
  in meters. This returns a `Polygon` which can be displayed using a `Graphic`.
  2.  For the geodesic buffer, call `GeometryEngine.bufferGeodetic` passing in the point, distance, linear unit, max deviation, and `GeodeticCurveType.GEODESIC`.
 
-
 ## Relevant API
 
 *   GeometryEngine
 *   GraphicsOverlay
 *   Point
 *   Polygon
-
 
 ## Additional Information
 It is important to consider the spatial reference of the map you are working with when showing a buffer. A planar buffer with a constant radius is actually closer to an ellipse toward the poles in Web Mercator. In this case, you may want to use a geodesic buffer which takes the Earth's curvature into account.

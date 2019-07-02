@@ -16,9 +16,7 @@ To apply a `ColormapRenderer` to a `RasterLayer`:
   the raster and colors at the end of the list replaced the brightest values of the raster.
 4.  Create a `ColormapRenderer` with the color list and apply it to the raster layer with `rasterLayer.setRasterRenderer(colormapRenderer)`
 
-
 ## Relevant API
-
 
 *   ArcGISMap
 *   Basemap
