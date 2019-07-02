@@ -1,41 +1,35 @@
-<h1>Add a point scene layer</h1>
+# Add a point scene layer
 
-<p>View a point scene layer from a scene service.</p>
+View a point scene layer from a scene service.
 
-<p><img src="AddAPointSceneLayer.png"/></p>
+![](AddAPointSceneLayer.png)
 
-<h2>Use case</h2>
+## Use case
 
-<p>Point scene layers can efficiently display large amounts of point features. While point cloud layers can only display simple symbols, point scene layers can display any type of billboard symbol or even 3D models, as long as the location of the symbol can be described by a point. Points are cached and automatically thinned when zoomed out to improve performance.</p>
+Point scene layers can efficiently display large amounts of point features. While point cloud layers can only display simple symbols, point scene layers can display any type of billboard symbol or even 3D models, as long as the location of the symbol can be described by a point. Points are cached and automatically thinned when zoomed out to improve performance.
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Pan around the scene and zoom in. Notice how many thousands of additional features appear at each successive zoom scale.</p>
+Pan around the scene and zoom in. Notice how many thousands of additional features appear at each successive zoom scale.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Create a scene.</li>
+1. Create a scene.
+2. Create an `ArcGISSceneLayer` with the URL to a point scene layer service.
+3. Add the layer to the scene's operational layers collection.
 
-<li>Create an <code>ArcGISSceneLayer</code> with the URL to a point scene layer service.</li>
+## Relevant API
 
-<li>Add the layer to the scene's operational layers collection.</li>
-</ol>
+* ArcGISSceneLayer
 
-<h2>Relevant API</h2>
+## About the data
 
-<ul>
-<li>ArcGISSceneLayer</li>
-</ul>
+This dataset contains more than 40,000 points representing world airports. Points are retrieved on demand by the scene layer as the user navigates the scene.
 
-<h2>About the data</h2>
+## Additional information
 
-<p>This dataset contains more than 40,000 points representing world airports. Points are retrieved on demand by the scene layer as the user navigates the scene.</p>
+Point scene layers can also be retrieved from scene layer packages (.slpk) and mobile scene packages (.mspk).
 
-<h2>Additional information</h2>
+## Tags
 
-<p>Point scene layers can also be retrieved from scene layer packages (.slpk) and mobile scene packages (.mspk).</p>
-
-<h2>Tags</h2>
-
-<p>3D, point scene layer, layers</p>
+3D, point scene layer, layers

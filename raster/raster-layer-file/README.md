@@ -1,24 +1,21 @@
-<h1>Raster Layer File</h1>
+# Raster Layer File
 
-<p>Display raster data from a local file.</p>
+Display raster data from a local file.
 
-<p><img src="RasterLayerFile.png"/></p>
+![](RasterLayerFile.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To add a<code>RasterLayer</code> as an operational layer from a local raster file:</p>
-<ol>
-  <li>Create a<code>Raster</code> from a raster file</li>
-  <li>Create a<code>RasterLayer</code> from the raster</li>
-  <li>Add it as an operational layer with <code>map.getOperationalLayers().add(rasterLayer)</code></li>
-</ol>
+To add a`RasterLayer` as an operational layer from a local raster file:
 
-<h2>Relevant API</h2>
+1. Create a`Raster` from a raster file
+2. Create a`RasterLayer` from the raster
+3. Add it as an operational layer with `map.getOperationalLayers().add(rasterLayer)`
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>MapView</li>
-  <li>Raster</li>
-  <li>RasterLayer</li>
-</ul>
+## Relevant API
+
+* ArcGISMap
+* Basemap
+* MapView
+* Raster
+* RasterLayer

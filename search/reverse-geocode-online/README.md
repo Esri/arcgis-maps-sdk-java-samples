@@ -1,38 +1,31 @@
-<h1>Reverse Geocode Online</h1>
+# Reverse Geocode Online
 
-<p>Find the address of a location.</p>
+Find the address of a location.
 
-<p><img src="ReverseGeocodeOnline.png"/></p>
+![](ReverseGeocodeOnline.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>You can click on the ArcGISMap to perform online reverse geocoding and show the matching results in the ArcGISMap. </p>
+You can click on the ArcGISMap to perform online reverse geocoding and show the matching results in the ArcGISMap.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To perform online reverse geocode:</p>
+To perform online reverse geocode:
 
-<ol>
-  <li>Create the <code>ArcGISMap</code>'s with <code>Basemap</code>.
-    <ul><li>basemap is created using a <code>TileCache</code> to represent an offline resource </li></ul></li>
-  <li>Create a <code>LocatorTask</code> using a URL.</li>
-  <li>Set the <code>GeocodeParameters</code> for the LocatorTask and specify the geocodes' attributes.</li>
-  <li>Get the matching results from the <code>GeocodeResult</code> using <code>LocatorTask.reverseGeocodeAsync()</code>.</li>
-  <li>Lastly, to show the results using a <code>PictureMarkerSymbol</code> with attributes and add the symbol to a <code>Graphic</code> in the  <code>GraphicsOverlay</code>.</li>
-</ol>
+1. Create the `ArcGISMap`'s with `Basemap`.
+* basemap is created using a `TileCache` to represent an offline resource
+2. Create a `LocatorTask` using a URL.
+3. Set the `GeocodeParameters` for the LocatorTask and specify the geocodes' attributes.
+4. Get the matching results from the `GeocodeResult` using `LocatorTask.reverseGeocodeAsync()`.
+5. Lastly, to show the results using a `PictureMarkerSymbol` with attributes and add the symbol to a `Graphic` in th. `GraphicsOverlay`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>GeocodeParameters</li>
-  <li>GraphicsOverlay</li>
-  <li>LocatorTask</li>
-  <li>MapView</li>
-  <li>PictureMarkerSymbol</li>
-  <li>ReverseGeocodeParameters </li>
-  <li>TileCache</li>
-</ul>
-
-
-
+* ArcGISMap
+* GeocodeParameters
+* GraphicsOverlay
+* LocatorTask
+* MapView
+* PictureMarkerSymbol
+* ReverseGeocodeParameters
+* TileCache

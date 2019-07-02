@@ -1,27 +1,21 @@
-<h1>Take Screen Shot</h1>
+# Take Screen Shot
 
-<p>Export an area of the map as an image.</p>
+Export an area of the map as an image.
 
-<p><img src="TakeScreenShot.png"/></p>
+![](TakeScreenShot.png)
 
-<h2>How to use this Sample</h2>
+## How to use this Sample
 
-Click the Take Screenshot button to export the image. In the file chooser that opens, set a file name and location to
- save the image.
+Click the Take Screenshot button to export the image. In the file chooser that opens, set a file name and location to save the image.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To export the visible area of the <code>ArcGISMap</code> as an image file:</p>
+To export the visible area of the `ArcGISMap` as an image file:
 
-<ol>
-    <li>Export the image with <code>mapView.exportImageAsync()</code>.</li>
-    <li>Get the <code>Image</code> once export is done loading.</li>
-</ol>
+1. Export the image with `mapView.exportImageAsync()`.
+2. Get the `Image` once export is done loading.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>MapView</li>
-</ul>
-
+* ArcGISMap
+* MapView

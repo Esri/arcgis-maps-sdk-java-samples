@@ -1,39 +1,29 @@
-<h1>Query Map Image Sublayer</h1>
+# Query Map Image Sublayer
 
-<p>Find features in a sublayer based on attributes and location.</p>
+Find features in a sublayer based on attributes and location.
 
-<p>Sublayers of an <code>ArcGISMapImageLayer</code> may expose a <code>ServiceFeatureTable</code> through a 
-<code>Table</code> property. This allows you to perform the same queries available when working with a table from a 
-<code>FeatureLayer</code>: attribute query, spatial query, statistics query, query for related features, and so on.</p>
+Sublayers of an `ArcGISMapImageLayer` may expose a `ServiceFeatureTable` through a `Table` property. This allows you to perform the same queries available when working with a table from a `FeatureLayer`: attribute query, spatial query, statistics query, query for related features, and so on.
 
-<p><img src="QueryMapImageSublayer.png"></p>
+![](QueryMapImageSublayer.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Specify a minimum population in the spinner and click the query button to query the sublayers. After a short time,
- the results for each sublayer will appear as graphics.</p>
+Specify a minimum population in the spinner and click the query button to query the sublayers. After a short time, the results for each sublayer will appear as graphics.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To query map image sublayers:</p>
+To query map image sublayers:
 
-<ol>
-    <li>Create an <code>ArcGISMapImageLayer</code> using the URL of it's image service.</li>
-    <li>After loading the layer, get its sublayers you want to query with <code>(ArcGISMapImageSublayer) layer
-    .getSubLayers().get(index)</code>.</li>
-    <li>Load the sublayer, and then get its <code>ServiceFeatureTable</code> with <code>sublayer.getTable()</code>.</li>
-    <li>Create <code>QueryParameters</code>. You can use the where clause to query against a table attribute or set 
-    the parameters geometry to limit the results to an area of the map.</li>
-    <li>Call <code>sublayerTable.queryFeaturesAsync(queryParameters)</code> to get a <code>FeatureQueryResult</code> 
-    with features matching the query.</li>
-    <li>Iterate through the result features to use them however you wish.</li>
-</ol>
+1. Create an `ArcGISMapImageLayer` using the URL of it's image service.
+2. After loading the layer, get its sublayers you want to query with `(ArcGISMapImageSublayer) layer.getSubLayers().get(index)`.
+3. Load the sublayer, and then get its `ServiceFeatureTable` with `sublayer.getTable()`.
+4. Create `QueryParameters`. You can use the where clause to query against a table attribute or set the parameters geometry to limit the results to an area of the map.
+5. Call `sublayerTable.queryFeaturesAsync(queryParameters)` to get a `FeatureQueryResult` with features matching the query.
+6. Iterate through the result features to use them however you wish.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMapImageLayer</li>
-    <li>ArcGISMapImageSublayer</li>
-    <li>QueryParameters</li>
-    <li>ServiceFeatureTable</li>
-</ul>
+* ArcGISMapImageLayer
+* ArcGISMapImageSublayer
+* QueryParameters
+* ServiceFeatureTable

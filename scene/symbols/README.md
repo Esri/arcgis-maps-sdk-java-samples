@@ -1,34 +1,30 @@
-<h1>Symbols</h1>
+# Symbols
 
-<p>Create graphics with simple 3D shapes.</p>
+Create graphics with simple 3D shapes.
 
-<p>Includes tetrahedrons, cubes, spheres, diamonds, cylinders, and cones.</p>
+Includes tetrahedrons, cubes, spheres, diamonds, cylinders, and cones.
 
-<p><img src="Symbols3D.png"/></p>
+![](Symbols3D.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create a <code>SimpleMarkerSceneSymbol</code> with a 3D shape:</p>
+To create a `SimpleMarkerSceneSymbol` with a 3. shape:
 
-<ol>
-  <li>Create a <code>GraphicsOverlay</code>.</li>
-  <li>Create a <code>SimpleMarkerSceneSymbol(Style, color, width, height, depth, AnchorPosition)</code>.
-    <ul><li>You can also use <code>SimpleMarkerSceneSymbol.createCone(color, diameter, height)</code></li>
-      <li>color, hex code color of symbol (Red = 0xFFFF0000)</li>
-      <li>(width, height, depth), size of the symbol</li>
-      <li>AnchorPosition, where to postion symbol on <code>Graphic</code></li></ul></li>
-  <li>Create a graphic using the symbol, <code>Graphic(Geometry, Symbol)</code>.</li>
-  <li>Add the graphic to the graphics overlay, <code>GraphicsOverlay.getGraphics().add(Graphic)</code>.</li>
-  <li>Add the graphics overlay to the <code>SceneView</code>, <code>SceneView.getGraphicsOverlays().add(GraphicsOverlay)</code>.</li>
-</ol>
+1. Create a `GraphicsOverlay`.
+2. Create a `SimpleMarkerSceneSymbol(Style, color, width, height, depth, AnchorPosition)`.
+    * You can also use `SimpleMarkerSceneSymbol.createCone(color, diameter, height)`
+    * color, hex code color of symbol (Red = 0xFFFF0000)
+    * (width, height, depth), size of the symbol
+    * AnchorPosition, where to postion symbol on `Graphic`
+3. Create a graphic using the symbol, `Graphic(Geometry, Symbol)`.
+4. Add the graphic to the graphics overlay, `GraphicsOverlay.getGraphics().add(Graphic)`.
+5. Add the graphics overlay to the `SceneView`, `SceneView.getGraphicsOverlays().add(GraphicsOverlay)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>ArcGISScene</li>
-  <li>Graphic</li>
-  <li>GraphicsOverlay</li>
-  <li>SimpleMarkerSceneSymbol</li>
-  <li>SimpleMarkerSceneSymbol.STYLE</li>
-  <li>SceneSymbol.AnchorPosition</li>
-</ul>
+* ArcGISScene
+* Graphic
+* GraphicsOverlay
+* SimpleMarkerSceneSymbol
+* SimpleMarkerSceneSymbol.STYLE
+* SceneSymbol.AnchorPosition

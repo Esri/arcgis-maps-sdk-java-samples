@@ -1,32 +1,26 @@
-<h1>Map Initial Extent</h1>
+# Map Initial Extent
 
-<p>Display the map at an initial viewpoint.</p>
+Display the map at an initial viewpoint.
 
-<p><img src="MapInitialExtent.png"/></p>
+![](MapInitialExtent.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>As application is loading, initial view point is set and map view zooms to that location.</p>
+As application is loading, initial view point is set and map view zooms to that location.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To set an initial <code>Viewpoint</code>:</p>
+To set an initial `Viewpoint`:
 
-<ol>
-    <li>Create an <code>ArcGISMap</code>.  </li>
-    <li>Create a view point using an <code>Envelope</code>, <code>Viewpoint(Envelope)</code>.</li>
-    <li>Set the starting location of the ArcGIS map, <code>ArcGISMap.setInitialViewpoint(Viewpoint)</code>.</li>
-    <li>Set the ArcGIS map to the <code>MapView</code>.</li>
-</ol>
+1. Create an `ArcGISMap`.
+2. Create a view point using an `Envelope`, `Viewpoint(Envelope)`.
+3. Set the starting location of the ArcGIS map, `ArcGISMap.setInitialViewpoint(Viewpoint)`.
+4. Set the ArcGIS map to the `MapView`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Envelope</li>
-    <li>MapView</li>
-    <li>Point</li>
-    <li>Viewpoint</li>
-</ul>
-
-
+* ArcGISMap
+* Envelope
+* MapView
+* Point
+* Viewpoint

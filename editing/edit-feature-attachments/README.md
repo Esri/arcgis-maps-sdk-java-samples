@@ -1,40 +1,35 @@
-<h1>Edit Feature Attachments</h1>
+# Edit Feature Attachments
 
-<p>Add or remove feature attachments.</p>
+Add or remove feature attachments.
 
-<p><img src="EditFeatureAttachments.gif"/></p>
+![](EditFeatureAttachments.gif)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>To add an attachment.
-  - click on a feature and then click add attachment button in panel</p>
+To add an attachment.
+  - click on a feature and then click add attachment button in panel
 
-<p>To delete an attachment.
-  - click on a feature, select an attachment from attachment list, and click delete attachment button</p>
+To delete an attachment.
+  - click on a feature, select an attachment from attachment list, and click delete attachment button
 
-<h2>How it works</h2>
+## How it works
 
-<p>To get a <code>Feature</code> from a <code>ServiceFeatureTable</code> and add or delete <code>Attachment</code>:</p>
+To get a `Feature` from a `ServiceFeatureTable` and add or delete `Attachment`:
 
-<ol>
-  <li>Create a service feature table from a URL.</li>
-  <li>Create a <code>FeatureLayer</code> from the service feature table.</li>
-  <li>Select features from the feature layer, <code>FeatureLayer.selectFeatures()</code>.</li>
-  <li>To fetch the feature's attachments, cast to an <code>ArcGISFeature</code> and use<code>ArcGISFeature.fetchAttachmentsAsync()</code>.</li>
-  <li>To add an attachment to the selected ArcGISFeature, create an attachment and use <code>ArcGISFeature.addAttachmentAsync()</code>.</li>
-  <li>To delete an attachment from the selected ArcGISFeature, use the <code>ArcGISFeature.deleteAttachmentAsync()</code>.</li>
-  <li>After a change, apply the changes to the server using <code>ServiceFeatureTable.applyEditsAsync()</code>.</li>
-</ol>
+1. Create a service feature table from a URL.
+2. Create a `FeatureLayer` from the service feature table.
+3. Select features from the feature layer, `FeatureLayer.selectFeatures()`.
+4. To fetch the feature's attachments, cast to an `ArcGISFeature` and use`ArcGISFeature.fetchAttachmentsAsync()`.
+5. To add an attachment to the selected ArcGISFeature, create an attachment and use `ArcGISFeature.addAttachmentAsync()`.
+6. To delete an attachment from the selected ArcGISFeature, use the `ArcGISFeature.deleteAttachmentAsync()`.
+7. After a change, apply the changes to the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>ArcGISFeature</li>
-  <li>ArcGISMap</li>
-  <li>Attachment</li>
-  <li>Feature</li>
-  <li>FeatureLayer</li>
-  <li>MapView</li>
-  <li>ServiceFeatureTable</li>
-</ul>
-
+* ArcGISFeature
+* ArcGISMap
+* Attachment
+* Feature
+* FeatureLayer
+* MapView
+* ServiceFeatureTable

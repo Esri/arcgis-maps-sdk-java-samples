@@ -1,28 +1,22 @@
-<h1>Service Feature Table (Cache)</h1>
+# Service Feature Table (Cache)
 
-<p>Cache features on the client when the user interacts.</p>
+Cache features on the client when the user interacts.
 
-<p>On-interaction-cache mode will fetch features within the current extent when needed (performing a pan or zoom) from 
-the server and caches those features within a table on the client's side. Any queries performed on features within 
-that table will be performed locally, otherwise they will be requested from the server.</p>
+On-interaction-cache mode will fetch features within the current extent when needed (performing a pan or zoom) from the server and caches those features within a table on the client's side. Any queries performed on features within that table will be performed locally, otherwise they will be requested from the server.
 
-<p><img src="ServiceFeatureTableCache.png"/></p>
+![](ServiceFeatureTableCache.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>How to set <code>FeatureRequestMode.ON_INTERACTION_CACHE</code> mode:</p>
+How to set `FeatureRequestMode.ON_INTERACTION_CACHE` mode:
 
-<ol>
-    <li>Create a <code>ServiceFeatureTable</code> from a URL.</li>
-    <li>Set request mode of table, <code>ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.ON_INTERACTION_CACHE)</code>.</li>
-</ol>
+1. Create a `ServiceFeatureTable` from a URL.
+2. Set request mode of table, `ServiceFeatureTable.setFeatureRequestMode(FeatureRequestMode.ON_INTERACTION_CACHE)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>FeatureLayer</li>
-    <li>MapView</li>
-    <li>ServiceFeatureTable</li>
-    <li>ServiceFeatureTable.FeatureRequestMode</li>
-</ul>
+* ArcGISMap
+* FeatureLayer
+* MapView
+* ServiceFeatureTable
+* ServiceFeatureTable.FeatureRequestMode

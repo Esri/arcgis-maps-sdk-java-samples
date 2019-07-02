@@ -1,32 +1,25 @@
-<h1>Scene Layer Selection</h1>
+# Scene Layer Selection
 
-<p>Select clicked features in a scene.</p>
+Select clicked features in a scene.
 
-<p><img src="SceneLayerSelection.png"></p>
+![](SceneLayerSelection.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click on a building in the scene layer to select it. Unselect buildings by clicking away from the buildings.</p>
+Click on a building in the scene layer to select it. Unselect buildings by clicking away from the buildings.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To select geoelements in a scene layer:</p>
+To select geoelements in a scene layer:
 
-<ol>
-    <li>Create an <code>ArcGISSceneLayer</code> passing in the URL to a scene layer service.</li>
-    <li>Use <code>sceneView.setOnMouseClicked</code> to get the screen click location <code>Point2D</code>.</li>
-    <li>Call <code>sceneView.identifyLayersAsync(sceneLayer, point2D, tolerance, false, 1)</code> to identify features 
-    in the scene.</li>
-    <li>From the resulting <code>IdentifyLayerResult</code>, get the list of identified <code>GeoElement</code>s with
-     <code>result.getElements()</code>.</li>
-     <li>Get the first element in the list, checking that it is a feature, and call <code>sceneLayer.selectFeature
-     (feature)</code> to select it.</li>
-</ol>
+1. Create an `ArcGISSceneLayer` passing in the URL to a scene layer service.
+2. Use `sceneView.setOnMouseClicked` to get the screen click location `Point2D`.
+3. Call `sceneView.identifyLayersAsync(sceneLayer, point2D, tolerance, false, 1)` to identify features in the scene.
+4. From the resulting `IdentifyLayerResult`, get the list of identified `GeoElement`s with `result.getElements()`.
+5. Get the first element in the list, checking that it is a feature, and call `sceneLayer.selectFeature(feature)` to select it.
 
-<h2>Relevant API</h2> 
+## Relevant API
 
-<ul>
-    <li>ArcGISSceneLayer</li>
-    <li>GeoElement</li>
-    <li>IdentifyLayerResult</li>
-</ul>
+* ArcGISSceneLayer
+* GeoElement
+* IdentifyLayerResult

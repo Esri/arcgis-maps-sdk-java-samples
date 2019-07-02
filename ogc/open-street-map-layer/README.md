@@ -1,24 +1,23 @@
-<h1>OpenStreetMap Layer</h1>
+# OpenStreetMap Layer
 
-<p>Display tiles from OpenStreetMap.</p>
+Display tiles from OpenStreetMap.
 
-<p><img src="OpenStreetMapLayer.png"/></p>
+![](OpenStreetMapLayer.png)
 
-<h2>How it works</h2>
-<p>To create a map with an OpenStreetMap basemap:</p>
-<ol>
-   <li>Create an <code>ArcGISMap</code> with a <code>Basemap.Type.OPEN_STREET_MAP</code>.</li>
-   <li>Set the map to a <code>MapView</code>.</li>
-</ol>
+## How it works
 
-<h2>Relevant API</h2>
+To create a map with an OpenStreetMap basemap:
 
-<ul>
-   <li>ArcGISMap</li>
-   <li>Basemap</li>
-   <li>Basemap.Type</li>
-   <li>MapView</li>
-</ul>
+1. Create an `ArcGISMap` with a `Basemap.Type.OPEN_STREET_MAP`.
+2. Set the map to a `MapView`.
 
-<h2>Tags</h2>
-<p>Layers, OpenStreetMap</p>
+## Relevant API
+
+* ArcGISMap
+* Basemap
+* Basemap.Type
+* MapView
+
+## Tags
+
+Layers, OpenStreetMap

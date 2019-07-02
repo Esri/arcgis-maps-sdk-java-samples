@@ -1,31 +1,27 @@
-<h1>Map Image Layer Sublayer Visibility</h1>
+# Map Image Layer Sublayer Visibility
 
-<p>Change the visibility of sublayers.</p>
+Change the visibility of sublayers.
 
-<p><img src="MapImageLayerSublayerVisibility.png"/></p>
+![](MapImageLayerSublayerVisibility.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Each sublayer has a check-box which can be used to toggle the visibility of the sublayer.</p>
+Each sublayer has a check-box which can be used to toggle the visibility of the sublayer.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To change visibility of a <code>ArcGISSubLayer</code> from your <code>ArcGISMap</code>:</p>
+To change visibility of a `ArcGISSubLayer` from your `ArcGISMap`:
 
-<ol>
-    <li>Create an <code>ArcGISMapImageLayer</code> from its URL.</li>
-    <li>Add it to <code>ArcGISMap.getOperationalLayers().add()</code>.</li>
-    <li>Display the ArcGISMap by adding it to the <code>MapView</code>.</li>
-    <li>Gain access to the sub-layers from the <code>ArcGISMapImageLayer.getSubLayers()</code> method which returns a <code>SubLayerList</code>. The sub layer list is a modifiable list of ArcGISSubLayers. </li>
-    <li>Determine if the layer is visible or not by turning on / off the ArcGIS sub layers visibility in the sub layer list.</li>
-</ol>
+1. Create an `ArcGISMapImageLayer` from its URL.
+2. Add it to `ArcGISMap.getOperationalLayers().add()`.
+3. Display the ArcGISMap by adding it to the `MapView`.
+4. Gain access to the sub-layers from the `ArcGISMapImageLayer.getSubLayers()` method which returns a `SubLayerList`. The sub layer list is a modifiable list of ArcGISSubLayers.
+5. Determine if the layer is visible or not by turning on / off the ArcGIS sub layers visibility in the sub layer list.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>ArcGISMapImageLayer</li>
-    <li>Basemap</li>
-    <li>MapView</li>
-    <li>SubLayerList</li>
-</ul>
+* ArcGISMap
+* ArcGISMapImageLayer
+* Basemap
+* MapView
+* SubLayerList

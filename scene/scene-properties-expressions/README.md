@@ -1,37 +1,29 @@
-<h1>Scene Properties Expressions</h1>
+# Scene Properties Expressions
 
-<p>Update the orientation of a graphic using scene property rotation expressions.</p>
+Update the orientation of a graphic using scene property rotation expressions.
 
-<p><img src="ScenePropertiesExpressions.gif"/></p>
+![](ScenePropertiesExpressions.gif)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Move the heading and pitch sliders to change the cone's orientation.</p>
+Move the heading and pitch sliders to change the cone's orientation.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To update a <code>Graphic</code>'s orientation using expressions:</p>
+To update a `Graphic`'s orientation using expressions:
 
-<ol>
-    <li>Create a new <code>GraphicsOverlay</code>.</li>
-    <li>Create a <code>SimpleRenderer</code> and set expressions on its scene properties: <code>Renderer
-    .getSceneProperties().setHeadingExpression("[HEADING]")</code>. Then set the renderer to the graphics overlay 
-    with  <code>GraphicsOverlay.setRenderer(renderer)</code>.</li>
-    <li>Create a graphic and add it to the graphics overlay.</li>
-    <li>To update the graphic's rotation, use <code>Graphic.getAttributes.put("HEADING", heading)</code> where the attribute key is
-        the expression and the value is the rotation angle.</li>
-</ol>
+1. Create a new `GraphicsOverlay`.
+2. Create a `SimpleRenderer` and set expressions on its scene properties: `Renderer.getSceneProperties().setHeadingExpression("[HEADING]")`. Then set the renderer to the graphics overlay wit. `GraphicsOverlay.setRenderer(renderer)`.
+3. Create a graphic and add it to the graphics overlay.
+4. To update the graphic's rotation, use `Graphic.getAttributes.put("HEADING", heading)` where the attribute key is
+  the expression and the value is the rotation angle.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISScene</li>
-    <li>Graphic</li>
-    <li>GraphicsOverlay</li>
-    <li>Renderer</li>
-    <li>Renderer.SceneProperties</li>
-    <li>SceneView</li>
-    <li>Viewpoint</li>
-</ul>
-
-
+* ArcGISScene
+* Graphic
+* GraphicsOverlay
+* Renderer
+* Renderer.SceneProperties
+* SceneView
+* Viewpoint

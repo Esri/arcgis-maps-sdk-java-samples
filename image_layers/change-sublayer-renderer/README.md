@@ -1,39 +1,34 @@
-<h1>Change Sublayer Renderer</h1>
+# Change Sublayer Renderer
 
-<p>Apply a renderer to a sublayer.</p>
+Apply a renderer to a sublayer.
 
-<p>In this example, a renderer is applied to see the different population ranges in the counties sublayer data.</p>
+In this example, a renderer is applied to see the different population ranges in the counties sublayer data.
 
-<p><img src="ChangeSublayerRenderer.png"/></p>
+![](ChangeSublayerRenderer.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Wait for the map image layer to load. Then click the "Change sublayer renderer" button to set the renderer.</p>
+Wait for the map image layer to load. Then click the "Change sublayer renderer" button to set the renderer.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To get a sublayer and change its renderer:</p>
+To get a sublayer and change its renderer:
 
-<ol>
-    <li>Create an ArcGIS map image layer from its URL.</li>
-    <li>After it is done loading, get its <code>SublayerList</code> with <code>imageLayer.getSublayers()</code>.</li>
-    <li>Cast the sublayer you want to change to the appropriate type: <code>(ArcGISMapImageSublayer) sublayers.get(0)
-    </code>.</li>
-    <li>Set the renderer with <code>sublayer.setRenderer(renderer)</code>.</li>
-</ol>
+1. Create an ArcGIS map image layer from its URL.
+2. After it is done loading, get its `SublayerList` with `imageLayer.getSublayers()`.
+3. Cast the sublayer you want to change to the appropriate type: `(ArcGISMapImageSublayer) sublayers.get(0)`.
+4. Set the renderer with `sublayer.setRenderer(renderer)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>ArcGISMapImageLayer</li>
-    <li>ArcGISMapImageSublayer</li>
-    <li>Basemap</li>
-    <li>ClassBreaksRenderer</li>
-    <li>ClassBreaksRenderer.ClassBreak</li>
-    <li>LoadStatus</li>
-    <li>MapView</li>
-    <li>SimpleFillSymbol</li>
-    <li>SimpleLineSymbol</li>
-    <li>SublayerList</li>
-</ul>
+* ArcGISMap
+* ArcGISMapImageLayer
+* ArcGISMapImageSublayer
+* Basemap
+* ClassBreaksRenderer
+* ClassBreaksRenderer.ClassBreak
+* LoadStatus
+* MapView
+* SimpleFillSymbol
+* SimpleLineSymbol
+* SublayerList

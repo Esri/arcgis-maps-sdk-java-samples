@@ -1,28 +1,24 @@
-<h1>Feature Layer Definition Expression</h1>
+# Feature Layer Definition Expression
 
-<p>Filter which features are shown using an expression.</p>
+Filter which features are shown using an expression.
 
-<p><img src="FeatureLayerDefinitionExpression.gif"/></p>
+![](FeatureLayerDefinitionExpression.gif)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Use the buttons in the control panel to apply or reset definition expression.</p>
+Use the buttons in the control panel to apply or reset definition expression.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To limit the <code>Feature</code>s in your <code>FeatureLayer</code>:</p>
+To limit the `Feature`s in your `FeatureLayer`:
 
-<ol>
-    <li>Create a <code>ServiceFeatureTable</code> from a URL.</li>
-    <li>Create a feature layer from the service feature table.</li>
-    <li>Set the limit of the features on your feature layer using <code>FeatureLayer.setDefinitionExpression(Expression)</code>.</li>
-</ol>
+1. Create a `ServiceFeatureTable` from a URL.
+2. Create a feature layer from the service feature table.
+3. Set the limit of the features on your feature layer using `FeatureLayer.setDefinitionExpression(Expression)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>FeatureLayer</li>
-    <li>MapView</li>
-    <li>ServiceFeatureTable</li>
-</ul>
+* ArcGISMap
+* FeatureLayer
+* MapView
+* ServiceFeatureTable

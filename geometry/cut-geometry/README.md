@@ -1,38 +1,33 @@
-<h1>Cut Geometry</h1>
+# Cut Geometry
 
-<p>Cut a geometry along a polyline.</p>
+Cut a geometry along a polyline.
 
-<p><img src="CutGeometry.png"/></p>
+![](CutGeometry.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click the "Cut" button to cut the polygon with the polyline and see the resulting parts.</p>
+Click the "Cut" button to cut the polygon with the polyline and see the resulting parts.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To cut a geometry with a polyline:</p>
+To cut a geometry with a polyline:
 
-<ol>
-    <li>Use the static method <code>GeometryEngine.cut(geometry, polyline)</code>.</li>
-    <li>Loop through the <code>List&lt;Geometry&gt;</code> of cut pieces. Keep in mind that some of these geometries may
-     be multi-part.</code>
-</ol>
+1. Use the static method `GeometryEngine.cut(geometry, polyline)`.
+2. Loop through the `List&lt;Geometry&gt;` of cut pieces. Keep in mind that some of these geometries may be multi-part.`
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Basemap</li>
-    <li>Geometry</li>
-    <li>GeometryEngine</li>
-    <li>Graphic</li>
-    <li>GraphicsOverlay</li>
-    <li>MapView</li>
-    <li>Point</li>
-    <li>PointCollection</li>
-    <li>Polygon</li>
-    <li>Polyline</li>
-    <li>SimpleFillSymbol</li>
-    <li>SimpleLineSymbol</li>
-    <li>SpatialReferences</li>
-</ul>
+* ArcGISMap
+* Basemap
+* Geometry
+* GeometryEngine
+* Graphic
+* GraphicsOverlay
+* MapView
+* Point
+* PointCollection
+* Polygon
+* Polyline
+* SimpleFillSymbol
+* SimpleLineSymbol
+* SpatialReferences

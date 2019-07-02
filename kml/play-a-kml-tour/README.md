@@ -1,49 +1,42 @@
-<h1>Play a KML Tour</h1>
+# Play a KML Tour
 
-<p>Play tours in KML files.</p>
+Play tours in KML files.
 
-<p><img src="PlayAKMLTour.png"/></p>
+![](PlayAKMLTour.png)
 
-<h2>Use case</h2>
+## Use case
 
-<p>KML, the file format used by Google Earth, supports creating tours, which can control the viewpoint of the scene, hide and show content, and play audio. Tours allow you to easily share tours of geographic locations, which can be augmented with rich multimedia.</p>
+KML, the file format used by Google Earth, supports creating tours, which can control the viewpoint of the scene, hide and show content, and play audio. Tours allow you to easily share tours of geographic locations, which can be augmented with rich multimedia.
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click the play button to start the tour. The narration audio will start and then the viewpoint will animate. Press 
-the button again to pause the tour.</p> 
+Click the play button to start the tour. The narration audio will start and then the viewpoint will animate. Press the button again to pause the tour.
 
-<p>To start again from the beginning, click the reset button to reset the tour. Then press play.</p>
+To start again from the beginning, click the reset button to reset the tour. Then press play.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Create a <code>KmlDataset</code> with the path to a local KML file with a KML tour.</li>
-<li>Create and load a <code>KmlLayer</code> with the dataset.</li>
-<li>When the layer has loaded, search its <code>KmlNode</code>s by recursing through <code>kmlLayer.getRootNodes()
-</code> to find a <code>KmlTour</code> node.</li>
-<li>Create a <code>KmlTourController</code> and set the tour with <code>kmlTourController.setTour(kmlTour)</code>.</li>
-<li>Use <code>kmltourController.play()</code>, <code>kmltourController.pause()</code>, and <code>kmltourController.reset()</code> to control the tour.</li>
-</ol>
+1. Create a `KmlDataset` with the path to a local KML file with a KML tour.
+2. Create and load a `KmlLayer` with the dataset.
+3. When the layer has loaded, search its `KmlNode`s by recursing through `kmlLayer.getRootNodes()` to find a `KmlTour` node.
+4. Create a `KmlTourController` and set the tour with `kmlTourController.setTour(kmlTour)`.
+5. Use `kmltourController.play()`, `kmltourController.pause()`, and `kmltourController.reset()` to control the tour.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-<li>KmlDataset</li>
-<li>KmlTour</li>
-<li>KmlTourController</li>
-<li>KmlTourStatus</li>
-</ul>
+* KmlDataset
+* KmlTour
+* KmlTourController
+* KmlTourStatus
 
-<h2>About the data</h2>
+## About the data
 
-<p>This sample uses a custom tour of Esri's offices created by a member of the ArcGIS Runtime SDK samples team. 
-Contains audio.</p>
+This sample uses a custom tour of Esri's offices created by a member of the ArcGIS Runtime SDK samples team. Contains audio.
 
-<h2>Additional information</h2>
+## Additional information
 
-<p>See <a href="https://developers.google.com/kml/documentation/touring">Google's documentation</a> for information about authoring KML tours.</p>
+See [Google's documentation](https://developers.google.com/kml/documentation/touring) for information about authoring KML tours.
 
-<h2>Tags</h2>
+## Tags
 
-<p>KML, tour, story, interactive, narration, play, pause, animation</p>
+KML, tour, story, interactive, narration, play, pause, animation

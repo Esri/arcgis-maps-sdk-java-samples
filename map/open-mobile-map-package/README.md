@@ -1,24 +1,18 @@
-<h1>Open Mobile Map Package</h1>
+# Open Mobile Map Package
 
-<p>Display a map from a mobile map package.</p>
+Display a map from a mobile map package.
 
-<p><img src="OpenMobileMapPackage.png"/></p>
+![](OpenMobileMapPackage.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To display a map from a <code>MobileMapPackage</code>:</p>
+To display a map from a `MobileMapPackage`:
 
-<ol>
-    <li>Create a <code>MobileMapPackage</code> specifying the path to the .mmpk file.</li>
-    <li>Load the mobile map package with <code>mmpk.loadAsync()</code>.</li>
-    <li>After it successfully loads, get the map from the mmpk and add it to the map view: <code>mapView.setMap(mmpk
-    .getMaps().get(0))</code>.</li>
-</ol>
+1. Create a `MobileMapPackage` specifying the path to the .mmpk file.
+2. Load the mobile map package with `mmpk.loadAsync()`.
+3. After it successfully loads, get the map from the mmpk and add it to the map view: `mapView.setMap(mmpk.getMaps().get(0))`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>MapView</li>
-    <li>MobileMapPackage</li>
-</ul>
-
+* MapView
+* MobileMapPackage

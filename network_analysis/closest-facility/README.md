@@ -1,40 +1,37 @@
-<h1>Closest Facility</h1>
+# Closest Facility
 
-<p>Find a route to the closest facility from a location.</p>
+Find a route to the closest facility from a location.
 
-<p><img src="ClosestFacility.png"/></p>
+![](ClosestFacility.png)
 
-<h2>How to use sample</h2>
-<p>Left click near any of the hospitals and a route will be displayed from that clicked location to the nearest hospital.</p>
+## How to use sample
 
-<h2>How it works</h2>
+Left click near any of the hospitals and a route will be displayed from that clicked location to the nearest hospital.
 
-<p>To display a <code>ClosestFacilityRoute</code> between an <code>Incident</code> and a <code>Facility</code>:</p>
+## How it works
 
-<ol>
-    <li>Create a <code>ClosestFacilityTask</code> using  an Url from an online service.</li>
-    <li>Get <code>ClosestFacilityParameters</code> from task, <code>task.createDefaultParametersAsync().get()</code></li>
-    <li>Add facilities to parameters, <code>closestFacilityParameters.setFacilities().addAll(facilities)</code>.</li>
-    <li>Add incidents to parameters, <code>closestFacilityParameters.setIncidents().add(Arrays.asList(new Incident(incidentPoint)))</code>.</li>
-    <li>Get <code>ClosestFacilityResult</code> from solving task with parameters, <code>task.solveClosestFacilityAsync(facilityParameters).get()</code></li>
-    <li>Get index list of closet facilities to incident, <code>facilityResult.getRankedFacilities(0)</code></li>
-    <li>Get index of closest facility, <code>rankedFacilitiesList.get(0)</code></li>
-    <li>Find closest facility route, <code>facilityResult.getRoute(closestFacilityIndex, IncidentIndex)</code></li>
-    <li>Display route to <code>MapView</code>. 
-      <ul><li>create <code>Graphic</code> from route geometry, <code>new Graphic(route.getRouteGeometry())</code></li>
-      <li>add graphic to <code>GraphicsOverlay</code> which is attached to the mapview</li></ul></li>
-</ol>
+To display a `ClosestFacilityRoute` between an `Incident` and a `Facility`:
 
-<h2>Relevant API</h2>
-<ul>
-  <li>ClosestFacilityParameters</li>
-  <li>ClosestFacilityResult</li>
-  <li>ClosestFacilityRoute</li>
-  <li>ClosestFacilityTask</li>
-  <li>Facility</li>
-  <li>Graphic</li>
-  <li>GraphicsOverlay</li>
-  <li>Incident</li>
-  <li>MapView</li>
-</ul>
+1. Create a `ClosestFacilityTask` usin. an Url from an online service.
+2. Get `ClosestFacilityParameters` from task, `task.createDefaultParametersAsync().get()`
+3. Add facilities to parameters, `closestFacilityParameters.setFacilities().addAll(facilities)`.
+4. Add incidents to parameters, `closestFacilityParameters.setIncidents().add(Arrays.asList(new Incident(incidentPoint)))`.
+5. Get `ClosestFacilityResult` from solving task with parameters, `task.solveClosestFacilityAsync(facilityParameters).get()`
+6. Get index list of closet facilities to incident, `facilityResult.getRankedFacilities(0)`
+7. Get index of closest facility, `rankedFacilitiesList.get(0)`
+8. Find closest facility route, `facilityResult.getRoute(closestFacilityIndex, IncidentIndex)`
+9. Display route to `MapView`.
+    * create `Graphic` from route geometry, `new Graphic(route.getRouteGeometry())`
+    * add graphic to `GraphicsOverlay` which is attached to the mapview
 
+## Relevant API
+
+* ClosestFacilityParameters
+* ClosestFacilityResult
+* ClosestFacilityRoute
+* ClosestFacilityTask
+* Facility
+* Graphic
+* GraphicsOverlay
+* Incident
+* MapView

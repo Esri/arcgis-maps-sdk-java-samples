@@ -1,26 +1,21 @@
-<h1>Map Image Layer</h1>
+# Map Image Layer
 
-<p>Display a layer from an ArcGIS map image layer service.</p>
+Display a layer from an ArcGIS map image layer service.
 
-<p>Typically this type of content is known as operational data, an example would be business data that changes frequently, such as displaying a fleet of vehicles as they make deliveries.</p>
+Typically this type of content is known as operational data, an example would be business data that changes frequently, such as displaying a fleet of vehicles as they make deliveries.
 
-<p><img src="MapImageLayer.png"/></p>
+![](MapImageLayer.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To add an <code>ArcGISMapImageLayer</code> to your <code>ArcGISMap</code> using its URL:</p>
+To add an `ArcGISMapImageLayer` to your `ArcGISMap` using its URL:
 
-<ol>
-    <li>Create an ArcGIS map image layer from its URL.</li>
-    <li>Add it to <code>ArcGISMap.getOperationalLayers().add()</code>.</li>
-    <li>Display the ArcGIS map by adding it to the <code>MapView</code>.</li>
-</ol>
+1. Create an ArcGIS map image layer from its URL.
+2. Add it to `ArcGISMap.getOperationalLayers().add()`.
+3. Display the ArcGIS map by adding it to the `MapView`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMapImageLayer</li>
-    <li>ArcGISMap</li>
-    <li>MapView</li>
-</ul>
-
+* ArcGISMapImageLayer
+* ArcGISMap
+* MapView

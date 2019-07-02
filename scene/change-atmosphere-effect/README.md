@@ -1,44 +1,34 @@
-<h1>Change Atmosphere Effect</h1>
+# Change Atmosphere Effect
 
-<p>Change the appearance of the atmosphere in a scene.</p>
+Change the appearance of the atmosphere in a scene.
 
-<p><img src="ChangeAtmosphereEffect.gif" /></p>
+![](ChangeAtmosphereEffect.gif)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Select one of the three available atmosphere effects. The sky will change to display the selected atmosphere effect. </p>
+Select one of the three available atmosphere effects. The sky will change to display the selected atmosphere effect.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To change the atmosphere effect:</p>
+To change the atmosphere effect:
 
-<ol>
-<li>Create an <code>ArcGISScene</code> and display it in a <code>SceneView</code>.</li>
+1. Create an `ArcGISScene` and display it in a `SceneView`.
+2. Change the atmosphere effect with `sceneView.setAtmosphereEffect(atmosphereEffect)`.
 
-<li>Change the atmosphere effect with <code>sceneView.setAtmosphereEffect(atmosphereEffect)</code>.</li>
-</ol>
+## Relevant API
 
-<h2>Relevant API</h2>
+* ArcGISScene
+* AtmosphereEffect
+* SceneView
 
-<ul>
-<li>ArcGISScene</li>
+## Additional Information
 
-<li>AtmosphereEffect</li>
-
-<li>SceneView</li>
-
-</ul>
-
-<h2>Additional Information</h2>
 There are three atmosphere effect options:
 
-<ul>
-<li><strong> Realistic</strong> - Atmosphere effect applied to both the sky and the surface as viewed from above.</li> 
-<li><strong> Horizon only</strong> - Atmosphere effect applied to the sky (horizon) only.</li>
-<li><strong> None</strong> - No atmosphere effect. The sky is rendered black with a starfield consisting of randomly placed white dots.</li>
-</ul>
+* **Realistic** - Atmosphere effect applied to both the sky and the surface as viewed from above.
+* **Horizon only** - Atmosphere effect applied to the sky (horizon) only.
+* **None** - No atmosphere effect. The sky is rendered black with a starfield consisting of randomly placed white dots.
 
-<h2>Tags</h2>
+## Tags
 
-<p>3D, AtmosphereEffect, Scene</p>
-
+3D, AtmosphereEffect, Scene

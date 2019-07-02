@@ -1,36 +1,28 @@
-<h1>Extrude Graphics</h1>
+# Extrude Graphics
 
-<p>Extrude graphics based on attributes.</p>
+Extrude graphics based on attributes.
 
-<p><img src="ExtrudeGraphics.png"/></p>
+![](ExtrudeGraphics.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Zoom and pan the scene to find the extruded graphics. Note how they are extruded to the level set in their height
-  property.</p>
+Zoom and pan the scene to find the extruded graphics. Note how they are extruded to the level set in their height property.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To extrude graphics according to a property:</p>
+To extrude graphics according to a property:
 
-<ol>
-  <li>Create a <code>GraphicsOverlay</code> and <code>SimpleRenderer</code>.</li>
-  <li>Get the renderer's <code>SceneProperties</code> using <code>Renderer.getSceneProperties()</code>.</li>
-  <li>Set the extrusion mode for the renderer with <code>SceneProperties.setExtrusionMode(ExtrusionMode)</code>.</li>
-  <li>Specify the attribute name of the graphic that the extrusion mode will use, <code>SceneProperties
-  .setExtrusionExpression("[HEIGHT]")</code>.</li>
-  <li>Set the renderer on the graphics overlay, <code>GraphicsOverlay.setRenderer(Renderer)</code>.</li>
-  <li>Create graphics with their attribute set, <code>Graphic.getAttributes().put("HEIGHT", Z Value)</code>.</li>
-</ol>
+1. Create a `GraphicsOverlay` and `SimpleRenderer`.
+2. Get the renderer's `SceneProperties` using `Renderer.getSceneProperties()`.
+3. Set the extrusion mode for the renderer with `SceneProperties.setExtrusionMode(ExtrusionMode)`.
+4. Specify the attribute name of the graphic that the extrusion mode will use, `SceneProperties.setExtrusionExpression("[HEIGHT]")`.
+5. Set the renderer on the graphics overlay, `GraphicsOverlay.setRenderer(Renderer)`.
+6. Create graphics with their attribute set, `Graphic.getAttributes().put("HEIGHT", Z Value)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>ArcGISScene</li>
-  <li>Graphic</li>
-  <li>GraphicsOverlay</li>
-  <li>Renderer</li>
-  <li>Renderer.SceneProperties</li>
-</ul>
-
-
+* ArcGISScene
+* Graphic
+* GraphicsOverlay
+* Renderer
+* Renderer.SceneProperties

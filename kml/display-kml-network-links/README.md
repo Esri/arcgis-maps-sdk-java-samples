@@ -1,35 +1,31 @@
-<h1>Display KML Network Links</h1>
+# Display KML Network Links
 
-<p>Display KML that automatically refreshes every few seconds.</p>
+Display KML that automatically refreshes every few seconds.
 
-<p><img src="DisplayKMLNetworkLinks.png"/></p>
+![](DisplayKMLNetworkLinks.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The data shown should refresh automatically every few seconds. A network message will be displayed when the dataset is loaded.</p>
+The data shown should refresh automatically every few seconds. A network message will be displayed when the dataset is loaded.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To show KML with network links and display network messages:</p>
+To show KML with network links and display network messages:
 
-<ol>
-    <li>Create a <code>KmlDataset</code> from a KML source which has network links.</li>
-    <li>Construct a <code>KmlLayer</code> with the dataset and add the layer as an operational layer.</li>
-    <li>To listen for network messages, add a <code>KmlNetworkLinkMessageReceivedListener</code> on the dataset.</li>
-</ol>
+1. Create a `KmlDataset` from a KML source which has network links.
+2. Construct a `KmlLayer` with the dataset and add the layer as an operational layer.
+3. To listen for network messages, add a `KmlNetworkLinkMessageReceivedListener` on the dataset.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-<li>KmlDataset</li>
-<li>KmlLayer</li>
-<li>KmlNetworkLinkMessageReceivedEvent</li>
-</ul>
+* KmlDataset
+* KmlLayer
+* KmlNetworkLinkMessageReceivedEvent
 
-<h2>About the data</h2>
+## About the data
 
-<p>This map shows the current air traffic in parts of Europe with heading, altitude, and ground speed. Additionally, noise levels from ground monitoring stations are shown.</p>
+This map shows the current air traffic in parts of Europe with heading, altitude, and ground speed. Additionally, noise levels from ground monitoring stations are shown.
 
-<h2>Tags</h2>
+## Tags
 
-<p>KML, KMZ, OGC, Keyhole, Network Link, Network Link Control</p>
+KML, KMZ, OGC, Keyhole, Network Link, Network Link Control

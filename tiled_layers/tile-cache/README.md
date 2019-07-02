@@ -1,34 +1,30 @@
-<h1>Tile cache</h1>
+# Tile cache
 
-<p>Create a basemap from a local tile cache.</p>
+Create a basemap from a local tile cache.
 
-<p><img src="TileCache.png"/></p>
+![](TileCache.png)
 
-<h2>Use case</h2>
+## Use case
 
-<p>An <code>ArcGISTiledLayer</code> consumes raster tiles provided by an ArcGIS service or a tile package (.tpk & .tpkx). Dividing a raster into tiles allows the map to provide relevant tiles and level of detail to the user when panning and zooming.</p>
+An `ArcGISTiledLayer` consumes raster tiles provided by an ArcGIS service or a tile package (.tpk & .tpkx). Dividing a raster into tiles allows the map to provide relevant tiles and level of detail to the user when panning and zooming.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-  <li>Create a <code>TileCache</code>, specifying the path to the local tile package.</li>
-  <li>Create a <code>ArcGISTiledLayer</code> with the tile cache.</li>
-  <li>Create a <code>Basemap</code> with the tiled layer.</li>
-  <li>Create a <code>ArcGISMap</code> with the basemap and set it to a <code>MapView</code>.</li>
-</ol>
+1. Create a `TileCache`, specifying the path to the local tile package.
+2. Create a `ArcGISTiledLayer` with the tile cache.
+3. Create a `Basemap` with the tiled layer.
+4. Create a `ArcGISMap` with the basemap and set it to a `MapView`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>ArcGISTiledLayer</li>
-  <li>TileCache</li>
-</ul>
+* ArcGISMap
+* ArcGISTiledLayer
+* TileCache
 
-<h2>Additional information</h2>
+## Additional information
 
-<p><code>ArcGISTiledLayer</code> supports both .tpk and .tpkx file formats.</p>
+`ArcGISTiledLayer` supports both .tpk and .tpkx file formats.
 
-<h2>Tags</h2>
+## Tags
 
-<p>layers, tile, TileCache, ArcGISTiledLayer</p>
+layers, tile, TileCache, ArcGISTiledLayer

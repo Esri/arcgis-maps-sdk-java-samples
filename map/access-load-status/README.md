@@ -1,28 +1,24 @@
-<h1>Access Load Status</h1>
+# Access Load Status
 
-<p>Determine when a map has finished loading.</p>
+Determine when a map has finished loading.
 
-<p><img src="AccessLoadStatus.png"/></p>
+![](AccessLoadStatus.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The sample provides an information area which displays what the ArcGISMap's load status is. Click on the button to reload the ArcGISMap.</p>
+The sample provides an information area which displays what the ArcGISMap's load status is. Click on the button to reload the ArcGISMap.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To access the <code>ArcGISMap</code>'s <code>LoadStatus</code>:</p>
+To access the `ArcGISMap`'s `LoadStatus`:
 
-<ol>
-    <li>Create an ArcGIS map.</li>
-    <li>Use <code>ArcGISMap.addLoadStatusChangedListener()</code> and <code>ArcGISMap.getNewLoadStatus()</code> to display the load status of the map.</li>
-    <li>Set the ArcGIS map to the <code>MapView</code> to began loading.</li>
-</ol>
+1. Create an ArcGIS map.
+2. Use `ArcGISMap.addLoadStatusChangedListener()` and `ArcGISMap.getNewLoadStatus()` to display the load status of the map.
+3. Set the ArcGIS map to the `MapView` to began loading.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap </li>
-    <li>Basemap</li>
-    <li>MapView</li>
-    <li>LoadStatus</li>
-</ul>
+* ArcGISMap
+* Basemap
+* MapView
+* LoadStatus

@@ -1,45 +1,38 @@
-<h1>Local Server Services</h1>
+# Local Server Services
 
-<p>Manage multiple running services in Local Server.</p>
+Manage multiple running services in Local Server.
 
-<p><b>Note:</b> Local Server is not supported on MacOS</p>
+**Note:** Local Server is not supported on MacOS
 
-<p><img src="LocalServerServices.png"/></p>
+![](LocalServerServices.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Choose an option from the dropdown control to filter packages by service type. Then click the Open button to 
-choose a package. Finally, click the Start button to start the service. The service's status will be displayed in 
-the center log.</p>
+Choose an option from the dropdown control to filter packages by service type. Then click the Open button to choose a package. Finally, click the Start button to start the service. The service's status will be displayed in the center log.
 
-<p>To stop a service, select it from the Running Services list and click the Stop Service button. To go to the 
-service's URL in your default web browser, select it and click the Go to URL button.</p>
+To stop a service, select it from the Running Services list and click the Stop Service button. To go to the service's URL in your default web browser, select it and click the Go to URL button.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To start a <code>LocalService</code>:</p>
+To start a `LocalService`:
 
-<ol>
-<li>Start the local server.
-<ul><li><code>LocalServer.INSTANCE</code> creates a local server</li>
-<li><code>server.startAsync()</code> starts the server asynchronously</li></ul></li>
-<li>Wait for server to be in the  <code>LocalServerStatus.STARTED</code> state.
-<ul><li><code>Server.addStatusChangedListener()</code> fires whenever the running status of the local server 
-changes</li></ul></li>
-<li>Create and run a local service.
-<ul><li><code>new LocalMapService(Url)</code> creates a local map service with the given url path to mpk file</li>
-<li><code>service.startAsync()</code> starts the service asynchronously</li></ul></li>
-<li> Stop the service with <code>service.stopAsync().</code></li>
-</ol>
+1. Start the local server.
+    * `LocalServer.INSTANCE` creates a local server
+    * `server.startAsync()` starts the server asynchronously
+2. Wait for server to be in th. `LocalServerStatus.STARTED` state.
+    * `Server.addStatusChangedListener()` fires whenever the running status of the local server
+changes
+3. Create and run a local service.
+    * `new LocalMapService(Url)` creates a local map service with the given url path to mpk file
+    * `service.startAsync()` starts the service asynchronously
+4. Stop the service with `service.stopAsync().`
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-<li>LocalFeatureService</li>
-<li>LocalGeoprocessingService</li>
-<li>LocalMapService</li>
-<li>LocalServer</li>
-<li>StatusChangedEvent</li>
-<li>LocalServerStatus</li>
-<li>LocalService</li>
-</ul>
+* LocalFeatureService
+* LocalGeoprocessingService
+* LocalMapService
+* LocalServer
+* StatusChangedEvent
+* LocalServerStatus
+* LocalService

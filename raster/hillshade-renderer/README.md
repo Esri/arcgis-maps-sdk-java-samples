@@ -1,33 +1,30 @@
-<h1>Hillshade Renderer</h1>
+# Hillshade Renderer
 
-<p>Apply a hillshade renderer to a raster.</p>
+Apply a hillshade renderer to a raster.
 
-<p>Hillshade renderers can adjust a grayscale raster (usually of terrain) according to a sun angle.</p>
+Hillshade renderers can adjust a grayscale raster (usually of terrain) according to a sun angle.
 
-<p><img src="HillshadeRenderer.png"/></p>
+![](HillshadeRenderer.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Choose and adjust the settings to update the hillshade renderer on the raster layer.</p>
+Choose and adjust the settings to update the hillshade renderer on the raster layer.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To apply a <code>HillshadeRenderer</code> to a <code>RasterLayer</code>:</p>
-<ol>
-  <li>Create a <code>Raster</code> from a grayscale raster file</li>
-  <li>Create a <code>RasterLayer</code> from the raster</li>
-  <li>Create a <code>Basemap</code> from the raster layer and set it to the map</li>
-  <li>Create a <code>HillshadeRenderer</code>, specifying the slope type and other properties</li>
-  <li>Set the renderer on the raster layer with <code>rasterLayer.setRenderer(renderer)</code>.</li>
-</ol>
+To apply a `HillshadeRenderer` to a `RasterLayer`:
 
-<h2>Relevant API</h2>
+1. Create a `Raster` from a grayscale raster file
+2. Create a `RasterLayer` from the raster
+3. Create a `Basemap` from the raster layer and set it to the map
+4. Create a `HillshadeRenderer`, specifying the slope type and other properties
+5. Set the renderer on the raster layer with `rasterLayer.setRenderer(renderer)`.
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>HillshadeRenderer</li>
-  <li>MapView</li>
-  <li>Raster</li>
-  <li>RasterLayer</li>
-</ul>
+## Relevant API
+
+* ArcGISMap
+* Basemap
+* HillshadeRenderer
+* MapView
+* Raster
+* RasterLayer

@@ -1,40 +1,29 @@
-<h1>Time Based Query</h1>
+# Time Based Query
 
-<p>Filter features within a time range.</p>
+Filter features within a time range.
 
-<p><img src="TimeBasedQuery.png"/></p>
+![](TimeBasedQuery.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To query features by a time extent:</p>
+To query features by a time extent:
 
-<ol>
-    <li>Create a <code>ServiceFeatureTable</code> from the URL of a feature service.</li>
-    <li>Set the feature table's feature request mode to manual with <code>featureTable.setFeatureRequestMode(MANUAL_CACHE)</code>.</li>
-    <li>After loading the service feature table, create <code>QueryParameters</code>.</li>
-    <li>Create two <code>Calendar</code> objects with the beginning and ending timestamps and create a 
-    <code>TimeExtent</code> with them.</li>
-    <li>Set the time extent with <code>queryParameters.setTimeExtent(timeExtent)</code></li>
-    <li>Populate the table with features in the time extent with <code>featureTable.popuateFromServiceAsync(queryParameters, true, outputFields)</code>.
-        <ul>
-            <li>The second argument is whether to clear the cache of features or not.</li>
-            <li>The output fields is a list of fields of the features to return. Use a list of one string 
-            <code>"*"</code> to get all of the fields.</li>
-        </ul>
-    </li>
-    <li>Finally, create a feature layer from the feature table with <code>new FeatureLayer(featureTable)</code>, 
-    and add it to the map with <code>map.getOperationalLayers().add(featureLayer)</code> to see the features in the 
-    time extent.</li>
-</ol>
+1. Create a `ServiceFeatureTable` from the URL of a feature service.
+2. Set the feature table's feature request mode to manual with `featureTable.setFeatureRequestMode(MANUAL_CACHE)`.
+3. After loading the service feature table, create `QueryParameters`.
+4. Create two `Calendar` objects with the beginning and ending timestamps and create a `TimeExtent` with them.
+5. Set the time extent with `queryParameters.setTimeExtent(timeExtent)`
+6. Populate the table with features in the time extent with `featureTable.popuateFromServiceAsync(queryParameters, true, outputFields)`.
+    * The second argument is whether to clear the cache of features or not.
+    * The output fields is a list of fields of the features to return. Use a list of one string `"*"` to get all of the fields.
+7. Finally, create a feature layer from the feature table with `new FeatureLayer(featureTable)`, and add it to the map with `map.getOperationalLayers().add(featureLayer)` to see the features in the time extent.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Basemap</li>
-    <li>FeatureLayer</li>
-    <li>MapView</li>
-    <li>QueryParameters</li>
-    <li>ServiceFeatureTable</li>
-    <li>TimeExtent</li>
-</ul>
+* ArcGISMap
+* Basemap
+* FeatureLayer
+* MapView
+* QueryParameters
+* ServiceFeatureTable
+* TimeExtent

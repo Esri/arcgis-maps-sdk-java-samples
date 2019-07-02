@@ -1,37 +1,29 @@
-<h1>Open mobile scene package</h1>
+# Open mobile scene package
 
-<p>Open and display a scene from an offline Mobile Scene Package (.mspk).</p>
+Open and display a scene from an offline Mobile Scene Package (.mspk).
 
-<p><img src="OpenMobileScenePackage.png"/></p>
+![](OpenMobileScenePackage.png)
 
-<h2>Use Case</h2>
+## Use Case
 
-<p>A .mspk file is an archive containing the data (specifically, basemaps and features) used to display an offline 3D scene.</p>
+A .mspk file is an archive containing the data (specifically, basemaps and features) used to display an offline 3. scene.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Use the static method <code>MobileScenePackage.isDirectReadSupportedAsync(mspkData)</code> to check whether the package can be read in the archived form (.mspk) or whether it needs to be unpacked.</li>
+1. Use the static method `MobileScenePackage.isDirectReadSupportedAsync(mspkData)` to check whether the package can be read in the archived form (.mspk) or whether it needs to be unpacked.
+2. If direct read is supported, use `isDirectReadSupported.get()` and instantiate a `MobileScenePackage` with the path to the .mspk file.
+3. If the mobile scene package requires unpacking, use `MobileScenePackage.unpackAsync(mspkPath, pathToUnpackTo)` and instantiate a `MobileScenePackage` with the path to the unpacked .mspk file.
+4. Call `mobileScenePackage.loadAsync` to load the mobile scene package. When finished, get the `ArcGISScene` objects inside with `mobileScenePackage.getScenes()`.
+5. Set the first scene in the object collection on the scene view with `sceneView.setArcGISScene(scene)`.
 
-<li>If direct read is supported, use <code>isDirectReadSupported.get()</code> and instantiate a <code>MobileScenePackage</code> with the path to the .mspk file.</li>
+## Relevant API
 
-<li>If the mobile scene package requires unpacking, use <code>MobileScenePackage.unpackAsync(mspkPath, pathToUnpackTo)</code> and instantiate a <code>MobileScenePackage</code> with the path to the unpacked .mspk file.</li>
+* MobileScenePackage
 
-<li>Call <code>mobileScenePackage.loadAsync</code> to load the mobile scene package. When finished, get the <code>ArcGISScene</code> objects inside with <code>mobileScenePackage.getScenes()</code>.</li>
+## Additional information
 
-<li>Set the first scene in the object collection on the scene view with <code>sceneView.setArcGISScene(scene)</code>.</li>
-</ol>
+Before loading the `MobileScenePackage`, it is important to first check if direct read is supported. The mobile scene package could contain certain data types that would require the data to be unpacked. For example, scenes containing raster data will need to be unpacked.
 
-<h2>Relevant API</h2>
+## Tags
 
-<ul>
-<li>MobileScenePackage</li>
-</ul>
-
-<h2>Additional information</h2>
-
-<p>Before loading the <code>MobileScenePackage</code>, it is important to first check if direct read is supported. The mobile scene package could contain certain data types that would require the data to be unpacked. For example, scenes containing raster data will need to be unpacked.</p>
-
-<h2>Tags</h2>
-
-<p>Offline, Scene, MobileScenePackage</p>
+Offline, Scene, MobileScenePackage

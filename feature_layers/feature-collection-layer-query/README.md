@@ -1,33 +1,30 @@
-<h1>Feature Collection Layer Query</h1>
+# Feature Collection Layer Query
 
-<p>Create a feature collection layer which shows the result of a SQL query from a service feature table.</p>
+Create a feature collection layer which shows the result of a SQL query from a service feature table.
 
-<p><img src="FeatureCollectionLayerQuery.png"/></p>
+![](FeatureCollectionLayerQuery.png)
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-    <li>Create a <code>ServiceFeatureTable</code> object from a URL, and store it as a <code>FeatureTable</code> object.</li>
-	<li>Create a <code>QueryParameters</code> object and specify the where clause with <code>QueryParameters.setWhereClause()</code>.</li>
-	<li>Query the features stored in the feature table with <code>FeatureTable.queryFeaturesAsync(query)</code>.</li>
-	<li>Once complete, instantiate a <code>FeatureCollectionTable</code> with the results of the query from the <code>FeatureQueryResult</code> object.</li>
-	<li>Create a <code>FeatureCollection</code> object, and add the feature collection table to it.</li>
-	<li>Create a <code>FeatureCollectionLayer</code> object from the feature collection.</li>
-	<li>Display the layer by adding it to the map's operational layers with <code>mapView.getMap().getOperationalLayers().add(featureCollectionLayer)</code>.</li>
-</ol>
+1. Create a `ServiceFeatureTable` object from a URL, and store it as a `FeatureTable` object.
+2. Create a `QueryParameters` object and specify the where clause with `QueryParameters.setWhereClause()`.
+3. Query the features stored in the feature table with `FeatureTable.queryFeaturesAsync(query)`.
+4. Once complete, instantiate a `FeatureCollectionTable` with the results of the query from the `FeatureQueryResult` object.
+5. Create a `FeatureCollection` object, and add the feature collection table to it.
+6. Create a `FeatureCollectionLayer` object from the feature collection.
+7. Display the layer by adding it to the map's operational layers with `mapView.getMap().getOperationalLayers().add(featureCollectionLayer)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-	<li>FeatureCollection</li>
-	<li>FeatureCollectionLayer</li>
-	<li>FeatureCollectionTable</li>
-    <li>FeatureLayer</li>
-	<li>FeatureTable</li>
-    <li>FeatureQueryResult</li>
-    <li>QueryParameters</li>
-    <li>ServiceFeatureTable</li>
-</ul>
+* FeatureCollection
+* FeatureCollectionLayer
+* FeatureCollectionTable
+* FeatureLayer
+* FeatureTable
+* FeatureQueryResult
+* QueryParameters
+* ServiceFeatureTable
 
-<h2>Tags</h2>
-<p>FeatureQueryResult, FeatureCollection, FeatureCollectionLayer, FeatureCollectionTable, query</p>
+## Tags
+
+FeatureQueryResult, FeatureCollection, FeatureCollectionLayer, FeatureCollectionTable, query

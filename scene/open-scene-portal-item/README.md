@@ -1,25 +1,21 @@
-<h1>Open Scene (Portal Item)</h1>
+# Open Scene (Portal Item)
 
-<p>Display a web scene.</p>
+Display a web scene.
 
-<p>Just like Web Maps are the ArcGIS format for maps, Web Scenes are the ArcGIS format for scenes. These scenes can 
-be stored in ArcGIS Online or Portal.</p>
+Just like Web Maps are the ArcGIS format for maps, Web Scenes are the ArcGIS format for scenes. These scenes can
+be stored in ArcGIS Online or Portal.
 
-<p><img src="OpenScenePortalItem.png"/></p>
+![](OpenScenePortalItem.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To open a web scene:</p>
+To open a web scene:
 
-<ol>
-<li>Create a <code>PortalItem</code> with an item ID pointing to a web scene.</li>
-<li>Create an <code>ArcGISScene</code> passing in the portal item.</li>
-</ol>
+1. Create a `PortalItem` with an item ID pointing to a web scene.
+2. Create an `ArcGISScene` passing in the portal item.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-<li>ArcGISScene</li>
-<li>Portal</li>
-<li>PortalItem</li>
-</ul>
+* ArcGISScene
+* Portal
+* PortalItem

@@ -1,47 +1,40 @@
-<h1>Create and Save Map</h1>
+# Create and Save Map
 
-<p>Create and save a map to your own portal.</p>
+Create and save a map to your own portal.
 
-<p><img src="CreateAndSaveMap.png"/></p>
+![](CreateAndSaveMap.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>This sample requires you to setup your own app on arcgis.com. See the <a href="https://github.com/Esri/arcgis-runtime-samples-java/wiki/OAuth">wiki</a> for details.</p>
+This sample requires you to setup your own app on arcgis.com. See the [wiki](https://github.com/Esri/arcgis-runtime-samples-java/wiki/OAuth) for details.
 
-<p>Fill in your portal and registered app credentials in the starting dialog to authenticate. Then, choose 
-the basemap and layers for your new map. To save the map, choose a title, tags and description (optional), and a folder 
-on your portal (you will need to create one in your portal's My Content). Click the Save button to save the map to the 
-chosen folder.</p>
+Fill in your portal and registered app credentials in the starting dialog to authenticate. Then, choose the basemap and layers for your new map. To save the map, choose a title, tags and description (optional), and a folder on your portal (you will need to create one in your portal's My Content). Click the Save button to save the map to the chosen folder.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create and save a map to your portal for use in an app:</p>
-<ol>
-  <li>Create an <code>ArcGISMap</code> with a <code>Basemap</code> and operational layers</li>
-  <li>Create an <code>OAuthConfiguration</code> with your portal and app credential.</li>
-  <li>Add the configuration to the <code>AuthenticationMangager</code></li>
-  <li>Create a <code>Portal</code> and load it. Use a custom <code>AuthenticationChallengeHandler</code> to 
-  authenticate with your username and password</li>
-  <li>Once authenticated, save the map by calling <code>map.saveMapAsAsync()</code>, passing in the title, tags, 
-  description, and portal folder</li>
-</ol>
+To create and save a map to your portal for use in an app:
 
-<h2>Relevant API</h2>
+1. Create an `ArcGISMap` with a `Basemap` and operational layers
+2. Create an `OAuthConfiguration` with your portal and app credential.
+3. Add the configuration to the `AuthenticationMangager`
+4. Create a `Portal` and load it. Use a custom `AuthenticationChallengeHandler` to
+  authenticate with your username and password
+5. Once authenticated, save the map by calling `map.saveMapAsAsync()`, passing in the title, tags,
+  description, and portal folder
 
-<ul>
-  <li>AuthenticationChallengeHandler</li>
-  <li>ArcGISMap</li>
-  <li>ArcGISMapImageLayer</li>
-  <li>Basemap</li>
-  <li>MapView</li>
-  <li>OAuthConfiguration</li>
-  <li>Portal</li>
-  <li>PortalFolder</li>
-  <li>PortalItem</li>
-  <li>PortalUserContent</li>
-</ul>
+## Relevant API
 
+* AuthenticationChallengeHandler
+* ArcGISMap
+* ArcGISMapImageLayer
+* Basemap
+* MapView
+* OAuthConfiguration
+* Portal
+* PortalFolder
+* PortalItem
+* PortalUserContent
 
-<h2>Additional information</h2>
+## Additional information
 
-<p>The JavaFX <code>WebEngine</code> used in the <code>OAuthChallengeHandler</code> in this sample may not support rendering of some modern web elements returned by the <code>AuthorizationURL</code>. For this reason, we append <code>&display=classic</code> to the authorization URL, to ensure it renders properly.</p>
+The JavaFX `WebEngine` used in the `OAuthChallengeHandler` in this sample may not support rendering of some modern web elements returned by the `AuthorizationURL`. For this reason, we append `&display=classic` to the authorization URL, to ensure it renders properly.

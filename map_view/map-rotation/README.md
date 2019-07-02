@@ -1,30 +1,26 @@
-<h1>Map Rotation</h1>
+# Map Rotation
 
-<p>Rotate a map.</p>
+Rotate a map.
 
-<p><img src="MapRotation.png"/></p>
+![](MapRotation.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Use the slider to rotate the map. If the map is not pointed north, the compass will display the current heading. 
-Click the compass to set the map's heading to north.</p>
+Use the slider to rotate the map. If the map is not pointed north, the compass will display the current heading.
+Click the compass to set the map's heading to north.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To rotate a map:</p>
+To rotate a map:
 
-<ol>
-    <li>Create an <code>ArcGISMap</code>.</li>
-    <li>Add the map to a <code>MapView</code>.</li>
-    <li>Use <code>MapView.setViewpointRotationAsync</code> to indicate the rotation angle.</li>
-</ol>
+1. Create an `ArcGISMap`.
+2. Add the map to a `MapView`.
+3. Use `MapView.setViewpointRotationAsync` to indicate the rotation angle.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Compass</li>
-    <li>Envelope</li>
-    <li>MapView</li>
-    <li>Point</li>
-</ul>
+* ArcGISMap
+* Compass
+* Envelope
+* MapView
+* Point

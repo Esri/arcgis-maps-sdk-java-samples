@@ -1,33 +1,29 @@
-<h1>Delete Features</h1>
+# Delete Features
 
-<p>Delete features from an online feature service.</p>
+Delete features from an online feature service.
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>To delete a feature.
+To delete a feature.
   - click on a feature on the Map
-  - click on the delete button</p>
+  - click on the delete button
 
-<p><img src="DeleteFeatures.gif"/></p>
+![](DeleteFeatures.gif)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To delete a <code>Feature</code> from a <code>ServiceFeatureTable</code>:</p>
+To delete a `Feature` from a `ServiceFeatureTable`:
 
-<ol>
-  <li>Create a service feature table from a URL.</li>
-  <li>Create a <code>FeatureLayer</code> from the service feature table.</li>
-  <li>Select features from the feature layer via <code>FeatureLayer.selectFeatures()</code>.</li>
-  <li>Remove the selected features from the ServiceFeatureTable using <code>ServiceFeatureTable.deleteFeaturesAsync()</code>.</li>
-  <li>Update the table on the server using <code>ServiceFeatureTable.applyEditsAsync()</code>.</li>
-</ol>
+1. Create a service feature table from a URL.
+2. Create a `FeatureLayer` from the service feature table.
+3. Select features from the feature layer via `FeatureLayer.selectFeatures()`.
+4. Remove the selected features from the ServiceFeatureTable using `ServiceFeatureTable.deleteFeaturesAsync()`.
+5. Update the table on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Feature</li>
-  <li>FeatureLayer</li>
-  <li>MapView</li>
-  <li>ServiceFeatureTable</li>
-</ul>
+* ArcGISMap
+* Feature
+* FeatureLayer
+* MapView
+* ServiceFeatureTable

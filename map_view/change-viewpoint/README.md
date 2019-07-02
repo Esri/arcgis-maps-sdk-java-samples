@@ -1,42 +1,36 @@
-<h1>Change Viewpoint</h1>
+# Change Viewpoint
 
-<p>Set or animate to a new viewpoint.</p>
+Set or animate to a new viewpoint.
 
-<p><img src="ChangeViewpoint.png"/></p>
+![](ChangeViewpoint.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The <code>MapView</code> provides different methods you can use to set the viewpoint.
- - London button pans to London given a certain time length, <code>MapView.setViewpointWithDurationAsync()</code>.
- - Waterloo button centers at a point and set a distance from the ground using a scale, <code>MapView.setViewpointCenterAsync()</code>.
- - Westminster button set viewpoint given some type of geometry, <code>MapView.setViewpointGeometryAsync()</code>.</p>
+The `MapView` provides different methods you can use to set the viewpoint.
+- London button pans to London given a certain time length, `MapView.setViewpointWithDurationAsync()`.
+- Waterloo button centers at a point and set a distance from the ground using a scale, `MapView.setViewpointCenterAsync()`.
+- Westminster button set viewpoint given some type of geometry, `MapView.setViewpointGeometryAsync()`.
 
-<p>Below are some other ways to set a viewpoint.
- - setViewpoint
- - setViewpointAsync
- - setViewpointCenterAsync
- - setViewpointGeometryAsync
- - setViewpointRotationAsync
- - setViewpointScaleAsync</p>
+Below are some other ways to set a viewpoint.
+- setViewpoint
+- setViewpointAsync
+- setViewpointCenterAsync
+- setViewpointGeometryAsync
+- setViewpointRotationAsync
+- setViewpointScaleAsync
 
-<h2>How it works</h2>
+## How it works
 
-<p>To change the <code>Viewpoint</code>:</p>
+To change the `Viewpoint`:
 
-<ol>
- <li>Create an <code>ArcGISMap</code>. </li>
- <li>Set the map to the <code>MapView</code>, <code>MapView.setMap()</code>. </li>
- <li>Change the view point with <code>MapView.setViewPoint()</code> or any method mention above.</li>
-</ol>
+1. Create an `ArcGISMap`.
+2. Set the map to the `MapView`, `MapView.setMap()`.
+3. Change the view point with `MapView.setViewPoint()` or any method mention above.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
- <li>ArcGISMap</li>
- <li>Basemap</li>
- <li>Point</li>
- <li>SpatialReference</li>
- <li>Viewpoint</li>
-</ul>
-
-
+* ArcGISMap
+* Basemap
+* Point
+* SpatialReference
+* Viewpoint

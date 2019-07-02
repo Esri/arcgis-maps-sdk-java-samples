@@ -1,45 +1,33 @@
-<h1>Geodesic Sector and Ellipse</h1>
+# Geodesic Sector and Ellipse
 
-<p>Create geodesic sectors and ellipses.</p>
+Create geodesic sectors and ellipses.
 
-<p>Geodesic sectors and ellipses can be used in a wide range of analyses ranging from antenna coverage to projectile landing zones.</p>
+Geodesic sectors and ellipses can be used in a wide range of analyses ranging from antenna coverage to projectile landing zones.
 
-<p><img src="GeodesicSectorAndEllipse.png"/></p>
+![](GeodesicSectorAndEllipse.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>The geodesic sector and ellipse will display with default parameters at the start. Click anywhere on the map to change the center of the geometries. Adjust any of the controls to see how they affect the sector and ellipse on the fly.</p>
+The geodesic sector and ellipse will display with default parameters at the start. Click anywhere on the map to change the center of the geometries. Adjust any of the controls to see how they affect the sector and ellipse on the fly.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create a geodesic sector and ellipse:</p>
+To create a geodesic sector and ellipse:
 
-<ol>
-<li>Create <code>GeodesicSectorParameters</code> and <code>GeodesicEllipseParameters</code> using one of the constructors with default values or using each setter individually.</li>
+1. Create `GeodesicSectorParameters` and `GeodesicEllipseParameters` using one of the constructors with default values or using each setter individually.
+2. Set the `center`, `axisDirection`, `semiAxis1Length`, and the `semiAxis2Length` properties to change the general ellipse position, shape, and orientation.
+3. Set the `sectorAngle` and `startDirection` angles to change the sector's shape and orientation.
+4. Set the `maxPointCount` and `maxSegmentLength` properties to control the complexity of the geometries and the approximation of the ellipse curve.
+5. Specify the `geometryType` to either `POLYGON`, `POLYLINE`, or `MULTIPOINT` to change the result geometry type.
+6. Pass the parameters to the related static methods: `GeometryEngine.ellipseGeodesic(geodesicEllipseParameters)` and `GeometryEngine.sectorGeodesic(geodesicSectorParameters)`. The returned value will be a `Geometry` of the type specified by the `geometryType` parameter.
 
-<li>Set the <code>center</code>, <code>axisDirection</code>, <code>semiAxis1Length</code>, and the <code>semiAxis2Length</code> properties to change the general ellipse position, shape, and orientation.</li>
+## Relevant API
 
-<li>Set the <code>sectorAngle</code> and <code>startDirection</code> angles to change the sector's shape and orientation.</li>
+* GeodesicEllipseParameters
+* GeodesicSectorParameters
+* GeometryEngine
+* GeometryType
 
-<li>Set the <code>maxPointCount</code> and <code>maxSegmentLength</code> properties to control the complexity of the geometries and the approximation of the ellipse curve.</li>
+## Additional information
 
-<li>Specify the <code>geometryType</code> to either <code>POLYGON</code>, <code>POLYLINE</code>, or <code>MULTIPOINT</code> to change the result geometry type.</li>
-
-<li>Pass the parameters to the related static methods: <code>GeometryEngine.ellipseGeodesic(geodesicEllipseParameters)</code> and <code>GeometryEngine.sectorGeodesic(geodesicSectorParameters)</code>. The returned value will be a <code>Geometry</code> of the type specified by the <code>geometryType</code> parameter.</li>
-</ol>
-
-<h2>Relevant API</h2>
-
-<ul>
-<li>GeodesicEllipseParameters</li>
-  
-<li>GeodesicSectorParameters</li>
-
-<li>GeometryEngine</li>
-
-<li>GeometryType</li>
-</ul>
-
-<h2>Additional information</h2>
-
-<p>To create a circle instead of an ellipse, simply set <code>semiAxis2Length</code> to 0.0 and <code>semiAxis1Length</code> to the desired radius of the circle. This eliminates the need to update both parameters to the same value.</p>
+To create a circle instead of an ellipse, simply set `semiAxis2Length` to 0.0 and `semiAxis1Length` to the desired radius of the circle. This eliminates the need to update both parameters to the same value.

@@ -1,33 +1,29 @@
-<h1>Tiled layer</h1>
+# Tiled layer
 
-<p>Display tiles from an ArcGIS tile service.</p>
+Display tiles from an ArcGIS tile service.
 
-<h2>Use case</h2>
+## Use case
 
-<p>An `ArcGISTiledLayer` consumes raster tiles provided by an ArcGIS service or a tile package (.tpk & .tpkx). Dividing a raster into tiles allows the map to provide relevant tiles and level of detail to the user when panning and zooming, allowing for rapid map visualization and navigation. The service in this sample pre-generates images based on a tiling scheme.</p>
+An `ArcGISTiledLayer` consumes raster tiles provided by an ArcGIS service or a tile package (.tpk & .tpkx). Dividing a raster into tiles allows the map to provide relevant tiles and level of detail to the user when panning and zooming, allowing for rapid map visualization and navigation. The service in this sample pre-generates images based on a tiling scheme.
 
-<p><img src="TiledLayer.png"/></p>
+![](TiledLayer.png)
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-    <li>Create an <code>ArcGISTiledLayer</code> object from a URL.</li>
-    <li>Pass the tiled layer in to a new <code>Basemap</code>.</li>
-    <li>Set the basemap to an <code>ArcGISMap</code>.</li>
-</ol>
+1. Create an `ArcGISTiledLayer` object from a URL.
+2. Pass the tiled layer in to a new `Basemap`.
+3. Set the basemap to an `ArcGISMap`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>ArcGISTiledLayer</li>
-    <li>MapView</li>
-</ul>
+* ArcGISMap
+* ArcGISTiledLayer
+* MapView
 
-<h2>Additional information</h2>
+## Additional information
 
-<p>An <code>ArcGISTiledLayer</code> can also be added to the ArcGISMap as a layer, but it's best practice to use as a basemap since its purpose is to provide geographical context. Tiled Layer supports both .tpk and .tpkx file formats.</p>
+An `ArcGISTiledLayer` can also be added to the ArcGISMap as a layer, but it's best practice to use as a basemap since its purpose is to provide geographical context. Tiled Layer supports both .tpk and .tpkx file formats.
 
-<h2>Tags</h2>
+## Tags
 
-<p>layers, tile, ArcGISTiledLayer</p>
+layers, tile, ArcGISTiledLayer

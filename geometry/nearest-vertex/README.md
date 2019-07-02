@@ -1,24 +1,20 @@
-<h1>Nearest Vertex</h1>
+# Nearest Vertex
 
-<p>Get the vertex of a geometry closest to a point.</p>
+Get the vertex of a geometry closest to a point.
 
-<p><img src="NearestVertex.png"/></p>
+![](NearestVertex.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Tap anywhere on the map. An orange marker will show at that tapped location. A blue marker will show the polygon's nearest vertex to the tapped location. A red marker will show the nearest coordinate within the polygon geometry.</p>
+Tap anywhere on the map. An orange marker will show at that tapped location. A blue marker will show the polygon's nearest vertex to the tapped location. A red marker will show the nearest coordinate within the polygon geometry.
 
-<h2>How it works</h2>
+## How it works
 
-<ol>
-<li>Get a <code>Point</code> to check the nearest vertex against.</li>
-<li>Call <code>GeometryEngine.nearestVertex(inputGeometry, point)</code>. The returned <code>ProximityResult</code> can be used to get the <code>coordinate</code> and distance between the vertex and point.</li>
-<li>Call <code>GeometryEngine.nearestCoordinate(inputGeometry, point)</code>. The returned <code>ProximityResult</code> can be used to get the <code>coordinate</code> and distance between the coordinate and point.</li>
-</ol>
+1. Get a `Point` to check the nearest vertex against.
+2. Call `GeometryEngine.nearestVertex(inputGeometry, point)`. The returned `ProximityResult` can be used to get the `coordinate` and distance between the vertex and point.
+3. Call `GeometryEngine.nearestCoordinate(inputGeometry, point)`. The returned `ProximityResult` can be used to get the `coordinate` and distance between the coordinate and point.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-<li>GeometryEngine</li>
-<li>ProximityResult</li>
-</ul>
+* GeometryEngine
+* ProximityResult

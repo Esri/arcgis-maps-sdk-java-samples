@@ -1,28 +1,23 @@
-<h1>WMTS Layer</h1>
+# WMTS Layer
 
-<p>Dsiplay tiles from a Web Map Tile Service.</p>
+Dsiplay tiles from a Web Map Tile Service.
 
-<p><img src="WmtsLayer.png"/></p>
+![](WmtsLayer.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To display a <code>WmtsLayer</code> from a <code>WmtsService</code>:</p>
+To display a `WmtsLayer` from a `WmtsService`:
 
-<ol>
-  <li>Create a <code>WmtsService</code> using the URL of the WMTS Service.</li>
-  <li>After loading the WmtsService, get the list of <code>WmtsLayerInfo</code>s from the service info: 
-  <code>service.getServiceInfo().getLayerInfos()</code></li>
-  <li>For the layer you want to display, get the layer ID using <code>getLayerInfos().get(0).getId()</code></li>
-  <li>Use the LayerInfo to create the WMTSLayer: <code>new WmtsLayer(layerInfos.get(0))</code></li>
-  <li>Set it as the maps' basemap with <code>map.setBasemap(new Basemap(wmtsLayer))</code></li>
-</ol>
+1. Create a `WmtsService` using the URL of the WMTS Service.
+2. After loading the WmtsService, get the list of `WmtsLayerInfo`s from the service info: `service.getServiceInfo().getLayerInfos()`
+3. For the layer you want to display, get the layer ID using `getLayerInfos().get(0).getId()`
+4. Use the LayerInfo to create the WMTSLayer: `new WmtsLayer(layerInfos.get(0))`
+5. Set it as the maps' basemap with `map.setBasemap(new Basemap(wmtsLayer))`
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>MapView</li>
-  <li>WmtsLayer</li>
-  <li>WmtsService</li>
-</ul>
+* ArcGISMap
+* Basemap
+* MapView
+* WmtsLayer
+* WmtsService

@@ -1,43 +1,31 @@
-<h1>Feature Layer Rendering Mode (Scene)</h1>
+# Feature Layer Rendering Mode (Scene)
 
-<p>Render features statically or dynamically in 3D.</p>
+Render features statically or dynamically in 3D.
 
-<p><img src="FeatureLayerRenderingModeScene.gif"/></p>
+![](FeatureLayerRenderingModeScene.gif)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To change <code>FeatureLayer.RenderingMode</code> using <code>LoadSettings</code>:</p>
+To change `FeatureLayer.RenderingMode` using `LoadSettings`:
 
-<ol>
-    <li>Create a <code>ArcGISScene</code>.</li>
-    <li>Set preferred rendering mode to scene, <code>sceneBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)</code>.
-      <ul>
-        <li>Can set preferred rendering mode for <code>Points</code>, <code>Polylines</code>, or <code>Polygons</code>.</li>
-        <li><code>Multipoint</code> preferred rendering mode is the same as point.</li>
-      </ul>
-    </li>
-    <li>Set scene to <code>SceneView</code>, <code>sceneViewBottom.setArcGISScene(sceneBottom)</code>.</li>
-    <li>Create a <code>ServiceFeatureTable</code> from a point service, <code>new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");</code>.</li>
-    <li>Create <code>FeatureLayer</code> from table, <code>new FeatureLayer(poinServiceFeatureTable)</code>.</li>
-    <li>Add layer to scene, <code>sceneBottom.getOperationalLayers().add(pointFeatureLayer.copy())</code>
-      <ul>
-        <li>Now the point layer will be rendered dynamically to scene view.</li>
-      </ul>
-    </li>
-</ol>
+1. Create a `ArcGISScene`.
+2. Set preferred rendering mode to scene, `sceneBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)`.
+    * Can set preferred rendering mode for `Points`, `Polylines`, or `Polygons`.
+    * `Multipoint` preferred rendering mode is the same as point.
+3. Set scene to `SceneView`, `sceneViewBottom.setArcGISScene(sceneBottom)`.
+4. Create a `ServiceFeatureTable` from a point service, `new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");`.
+5. Create `FeatureLayer` from table, `new FeatureLayer(poinServiceFeatureTable)`.
+6. Add layer to scene, `sceneBottom.getOperationalLayers().add(pointFeatureLayer.copy())`
+    * Now the point layer will be rendered dynamically to scene view.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISScene</li>
-    <li>Camera</li>
-    <li>FeatureLayer</li>
-    <li>FeatureLayer.RenderingMode</li>
-    <li>LoadSettings</li>
-    <li>Point</li>
-    <li>Polyline</li>
-    <li>Polygon</li>
-    <li>ServiceFeatureTable</li>
-</ul>
-
-
+* ArcGISScene
+* Camera
+* FeatureLayer
+* FeatureLayer.RenderingMode
+* LoadSettings
+* Point
+* Polyline
+* Polygon
+* ServiceFeatureTable

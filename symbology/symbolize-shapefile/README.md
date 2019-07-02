@@ -1,35 +1,28 @@
-<h1>Symbolize Shapefile</h1>
+# Symbolize Shapefile
 
-<p>Override the default rendering of a shapefile.</p>
-  
-<p><img src="SymbolizeShapefile.png"/></p>
+Override the default rendering of a shapefile.
 
-<h2>How to use the sample</h2>
+![](SymbolizeShapefile.png)
 
-<p>Press the toggle button to switch between red and yellow symbols and the default renderer.</p>
+## How to use the sample
 
-<h2>How it works</h2>
+Press the toggle button to switch between red and yellow symbols and the default renderer.
 
-<p>To change the renderer of a shapefile feature layer:</p>
+## How it works
 
-<ol>
-  <li>Create a <code>ShapefileFeatureTable</code> passing in the URL of a shapefile.</li>
-  <li>Create a <code>FeatureLayer</code> using the <code>ShapefileFeatureTable</code>.</li>
-  <li>Create a <code>SimpleLineSymbol</code> and <code>SimpleFillSymbol</code> (uses the line symbol).</li>
-  <li>Make a <code>SimpleRenderer</code> with the <code>SimpleFillSymbol</code>.</li>
-  <li>To apply the renderer, use <code>featureLayer.setRenderer(renderer)</code>.</li> 
-  <li>To go back to the default renderer, use <code>featureLayer.resetRenderer()</code>.</li>
-</ol>
+To change the renderer of a shapefile feature layer:
 
-<h2>Relevant API</h2>
+1. Create a `ShapefileFeatureTable` passing in the URL of a shapefile.
+2. Create a `FeatureLayer` using the `ShapefileFeatureTable`.
+3. Create a `SimpleLineSymbol` and `SimpleFillSymbol` (uses the line symbol).
+4. Make a `SimpleRenderer` with the `SimpleFillSymbol`.
+5. To apply the renderer, use `featureLayer.setRenderer(renderer)`.
+6. To go back to the default renderer, use `featureLayer.resetRenderer()`.
 
-<ul>
-  <li>FeatureLayer</li>
-  <li>ShapefileFeatureTable</li>
-  <li>SimpleFillSymbol</li>
-  <li>SimpleLineSymbol</li>
-  <li>SimpleRenderer</li>
-</ul>
+## Relevant API
 
-
-
+* FeatureLayer
+* ShapefileFeatureTable
+* SimpleFillSymbol
+* SimpleLineSymbol
+* SimpleRenderer

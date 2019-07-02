@@ -1,27 +1,23 @@
-<h1>Raster Layer GeoPackage</h1>
+# Raster Layer GeoPackage
 
-<p>Display raster data from a geopackage.</p>
+Display raster data from a geopackage.
 
-<p><img src="RasterLayerGeoPackage.png"/></p>
+![](RasterLayerGeoPackage.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To add a<code>RasterLayer</code> as an operational layer from a <code>GeoPackage</code>:</p>
-<ol>
-  <li>Create and load a <code>GeoPackage</code>, specifying the path to the local .gpkg file.</li>
-  <li>When it is done loading, get the <code>GeoPackageRaster</code>s inside with <code>geoPackage
-  .getGeoPackageRasters()</code>.</li>
-  <li>Construct a <code>RasterLayer</code> with the <code>GeoPackageRaster</code> in the list you want to use.</li>
-  <li>Add the raster layer to the map as an operational layer <code>map.getOperationalLayers().add(rasterLayer)</code>.</li>
-</ol>
+To add a`RasterLayer` as an operational layer from a `GeoPackage`:
 
-<h2>Relevant API</h2>
+1. Create and load a `GeoPackage`, specifying the path to the local .gpkg file.
+2. When it is done loading, get the `GeoPackageRaster`s inside with `geoPackage.getGeoPackageRasters()`.
+3. Construct a `RasterLayer` with the `GeoPackageRaster` in the list you want to use.
+4. Add the raster layer to the map as an operational layer `map.getOperationalLayers().add(rasterLayer)`.
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Basemap</li>
-  <li>GeoPackage</li>
-  <li>GeoPackageRaster</li>
-  <li>MapView</li>
-  <li>RasterLayer</li>
-</ul>
+## Relevant API
+
+* ArcGISMap
+* Basemap
+* GeoPackage
+* GeoPackageRaster
+* MapView
+* RasterLayer

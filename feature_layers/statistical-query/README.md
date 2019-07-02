@@ -1,41 +1,33 @@
-<h1>Statistical Query</h1>
+# Statistical Query
 
-<p>Get aggregated feature statistics for a specified field.</p>
+Get aggregated feature statistics for a specified field.
 
-<p><img src="StatisticalQuery.png"/></p>
+![](StatisticalQuery.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Check the boxes for the filters you want to use in the query (a spatial filter and an attribute filter). Click 
-the "Get Statistics" button to execute the query. A dialog will open with the statistics result.</p>
+Check the boxes for the filters you want to use in the query (a spatial filter and an attribute filter). Click
+the "Get Statistics" button to execute the query. A dialog will open with the statistics result.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To query statistics on a <code>FeatureTable</code> field:</p>
+To query statistics on a `FeatureTable` field:
 
-<ol>
-    <li>Create a <code>ServiceFeatureTable</code> from a URL.</li>
-    <li>Create a list of <code>StatisticDefinition</code>s specifying which field to query against, the aggregate 
-    type, and an optional alias.</li>
-    <li>Create <code>StatisticsQueryParameters</code> passing in the definitions. You can also use the setters to 
-    specify an area for the query (geometry) or a custom where clause.</li>
-    <li>Call <code>featureTable.queryStatisticsAsync(queryParameters)</code> to make the query.</li>
-    <li>Get the <code>StatisticsQueryResult</code> from the <code>ListenableFuture</code>. To see the stastics, 
-    iterate through <code>statisticsQueryResult.iterator()</code> to get the <code>StatisticRecord</code>s.</li>
-    <li>The map of statistics can be retreived with <code>record.getStatistics()</code> for printing or showing in 
-    a list view.</li>
-</ol>
+1. Create a `ServiceFeatureTable` from a URL.
+2. Create a list of `StatisticDefinition`s specifying which field to query against, the aggregate type, and an optional alias.
+3. Create `StatisticsQueryParameters` passing in the definitions. You can also use the setters to specify an area for the query (geometry) or a custom where clause.
+4. Call `featureTable.queryStatisticsAsync(queryParameters)` to make the query.
+5. Get the `StatisticsQueryResult` from the `ListenableFuture`. To see the stastics, iterate through `statisticsQueryResult.iterator()` to get the `StatisticRecord`s.
+6. The map of statistics can be retreived with `record.getStatistics()` for printing or showing in a list view.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>FeatureLayer</li>
-    <li>QueryParameters</li>
-    <li>ServiceFeatureTable</li>
-    <li>StatisticDefinition</li>
-    <li>StatisticRecord</li>
-    <li>StatisticType</li>
-    <li>StatisticsQueryParameters</li>
-    <li>StatisticsQueryResult</li>
-</ul>
+* ArcGISMap
+* FeatureLayer
+* QueryParameters
+* ServiceFeatureTable
+* StatisticDefinition
+* StatisticRecord
+* StatisticType
+* StatisticsQueryParameters
+* StatisticsQueryResult

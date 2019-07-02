@@ -1,48 +1,37 @@
-<h1>Simple Fill Symbol</h1>
+# Simple Fill Symbol
 
-<p>Change a graphic's fill color, outline, and style properties.</p>
+Change a graphic's fill color, outline, and style properties.
 
-<p><img src="SimpleFillSymbol.png"/></p>
+![](SimpleFillSymbol.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Change Fill color:
-  - change the color that makes up the area of the polygon</p>
+Change Fill color: - change the color that makes up the area of the polygon
+Change Outline Color: - adds a border color to the polygon
+Change Fill Style: - changes the pattern that makes up the area of the polygon
 
-<p>Change Outline Color:
-  - adds a border color to the polygon</p>
+## How it works
 
-<p>Change Fill Style:
-  - changes the pattern that makes up the area of the polygon</p>
+To create a `SimpleFillSymbol`:
 
-<h2>How it works</h2>
+1. Create the `ArcGISMap`'s with `Basemap`.
+2. Create the `GraphicsOverlay` and add it to the `MapView`, `MapView.getGraphicsOverlays().add()`.
+3. Add the map to the `MapView`, `MapView.setMap()`.
+4. Create a `Polygon` using a `PointCollection` to indicate the boundaries of the `Graphic`.
+5. Create a `SimpleFillSymbol(SimpleMarkerSymbol.Style, color, outline)`.
+    * style, pattern that makes up the area of the geometry
+    * color, color the symbol will be displayed
+    * outline, `SimpleLineSymbol` that make up the border of the symbol
+6. Lately, create a `Graphic(Geometry, Symbol)` and add it to the graphics overlay.
 
-<p>To create a <code>SimpleFillSymbol</code>:</p>
+## Relevant API
 
-<ol>
-  <li>Create the <code>ArcGISMap</code>'s with <code>Basemap</code>.</li>
-  <li>Create the <code>GraphicsOverlay</code> and add it to the <code>MapView</code>, <code>MapView.getGraphicsOverlays().add()</code>.</li>
-  <li>Add the map to the <code>MapView</code>, <code>MapView.setMap()</code>. </li>
-  <li>Create a <code>Polygon</code> using a <code>PointCollection</code> to indicate the boundaries of the <code>Graphic</code>. </li>
-  <li>Create a <code>SimpleFillSymbol(SimpleMarkerSymbol.Style, color, outline)</code>.
-    <ul><li>style, pattern that makes up the area of the geometry </li>
-      <li>color, color the symbol will be displayed</li>
-      <li>outline, <code>SimpleLineSymbol</code> that make up the border of the symbol</li></ul></li>
-  <li>Lately, create a <code>Graphic(Geometry, Symbol)</code> and add it to the graphics overlay.</li>
-</ol>
-
-<h2>Relevant API</h2>
-
-<ul>
-  <li>ArcGISMap</li>
-  <li>Graphic</li>
-  <li>GraphicsOverlay</li>
-  <li>MapView</li>
-  <li>Polygon</li>
-  <li>PointCollection</li>
-  <li>SimpleFillSymbol</li>
-  <li>SimpleFillSymbol.Style</li>
-  <li>SimpleLineSymbol</li>
-</ul>
-
-
+* ArcGISMap
+* Graphic
+* GraphicsOverlay
+* MapView
+* Polygon
+* PointCollection
+* SimpleFillSymbol
+* SimpleFillSymbol.Style
+* SimpleLineSymbol

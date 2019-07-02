@@ -1,39 +1,32 @@
-<h1>Simple Marker Symbol</h1>
+# Simple Marker Symbol
 
-<p>Show simple markers.</p>
+Show simple markers.
 
-<p><img src="SimpleMarkerSymbol.png"/></p>
+![](SimpleMarkerSymbol.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>For simplicity, the sample starts with a predefined SimpleMarkerSymbol set as a red circle.</p>
+For simplicity, the sample starts with a predefined SimpleMarkerSymbol set as a red circle.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To display a <code>SimpleMarkerSymbol</code>:</p>
+To display a `SimpleMarkerSymbol`:
 
-<ol>
-    <li>Create a <code>ArcGISMap</code>'s with <code>Basemap</code>.</li>
-    <li>Create a <code>GraphicsOverlay</code> and add it to the <code>MapView</code>,<code>MapView.getGraphicsOverlays().add()</code>.</li>
-    <li>Add the map to the view, <code>MapView.setMap()</code>.  </li>
-    <li>Create a <code>SimpleMarkerSymbol(SimpleMarkerSymbol.Style, color, size)</code>.
-        <ul><li>style, how the symbol will be displayed (circle, square, etc.)</li>
-            <li>color, color that the symbol will be displayed</li>
-            <li>size, size of the symbol</li></ul></li>
-    <li>Lately, create a <code>Graphic(Geometry, Symbol)</code> method and add it to the graphics overlay.</li>
-</ol>
+1. Create a `ArcGISMap`'s with `Basemap`.
+2. Create a `GraphicsOverlay` and add it to the `MapView`,`MapView.getGraphicsOverlays().add()`.
+3. Add the map to the view, `MapView.setMap()`.
+4. Create a `SimpleMarkerSymbol(SimpleMarkerSymbol.Style, color, size)`.
+    * style, how the symbol will be displayed (circle, square, etc.)
+    * color, color that the symbol will be displayed
+    * size, size of the symbol
+5. Lately, create a `Graphic(Geometry, Symbol)` method and add it to the graphics overlay.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>Graphic</li>
-    <li>GraphicsOverlay</li>
-    <li>MapView</li>
-    <li>Point</li>
-    <li>SimpleMarkerSymbol</li>
-    <li>SimpleMarkerSymbol.Style</li>
-</ul>
-
-
-
+* ArcGISMap
+* Graphic
+* GraphicsOverlay
+* MapView
+* Point
+* SimpleMarkerSymbol
+* SimpleMarkerSymbol.Style

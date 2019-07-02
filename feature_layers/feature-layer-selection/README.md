@@ -1,32 +1,26 @@
-<h1>Feature Layer Selection</h1>
+# Feature Layer Selection
 
-<p>Select clicked features.</p>
+Select clicked features.
 
-<p><img src="FeatureLayerSelection.png"/></p>
+![](FeatureLayerSelection.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Click on a feature from the map to select it.</p>
+Click on a feature from the map to select it.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To select <code>Feature</code>s from your <code>FeatureLayer</code>:</p>
+To select `Feature`s from your `FeatureLayer`:
 
-<ol>
-  <li>Create a <code>ServiceFeatureTable</code> from a URL.</li>
-  <li>Create a feature layer from the service feature table.</li>
-  <li>Identify <code>MapView</code> on the location the user has clicked <code>MapView.identifyLayerAsync
-  (featureLayer, clickLocation, tolerance, returnPopupsOnly, maxResults)
-    </code></li>
-  <li>Select all features that were identified with <code>FeatureLayer.selectFeatures(features)</code>.</li>
-</ol>
+1. Create a `ServiceFeatureTable` from a URL.
+2. Create a feature layer from the service feature table.
+3. Identify `MapView` on the location the user has clicked `MapView.identifyLayerAsync(featureLayer, clickLocation, tolerance, returnPopupsOnly, maxResults)`
+4. Select all features that were identified with `FeatureLayer.selectFeatures(features)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Feature</li>
-  <li>FeatureLayer</li>
-  <li>MapView</li>
-  <li>ServiceFeatureTable</li>
-</ul>
+* ArcGISMap
+* Feature
+* FeatureLayer
+* MapView
+* ServiceFeatureTable

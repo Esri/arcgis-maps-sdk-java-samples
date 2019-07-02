@@ -1,39 +1,33 @@
-<h1>Simple Renderer</h1>
+# Simple Renderer
 
-<p>Set default symbols for all graphics in an overlay.</p>
+Set default symbols for all graphics in an overlay.
 
-<p>Renderers are used to display graphics that don't already have a symbol set. A renderer will not override a symbol 
-that is manually set to a graphic.</p>
+Renderers are used to display graphics that don't already have a symbol set. A renderer will not override a symbol
+that is manually set to a graphic.
 
-<p><img src="SimpleRenderer.png"/></p>
+![](SimpleRenderer.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Starts with a predefined SimpleRenderer that sets a cross SimpleMarkerSymbol as a default symbol for graphics.</p>
+Starts with a predefined SimpleRenderer that sets a cross SimpleMarkerSymbol as a default symbol for graphics.
 
-<h2>How it works</h2>
+## How it works
 
-<p>How to set a default symbol using a <code>SimpleRenderer</code>:</p>
+How to set a default symbol using a `SimpleRenderer`:
 
-<ol>
- <li>Create a <code>ArcGISMap</code>'s with <code>Basemap</code>.</li>
- <li>Create a <code>GraphicsOverlay</code> and add it to the <code>MapView</code>, <code>MapView.getGraphicsOverlays().add()</code>.</li>
- <li>Add the map to the view, <code>MapView.setMap()</code>.  </li>
- <li>Create a simple renderer using a <code>SimpleMarkerSymbol</code>, <code>SimpleRenderer(Symbol)</code>. </li>
- <li>Lately, set the renderer to graphics overlay using <code>GraphicsOverlay.setRenderer(Renderer)</code>.</li>
-</ol>
+1. Create a `ArcGISMap`'s with `Basemap`.
+2. Create a `GraphicsOverlay` and add it to the `MapView`, `MapView.getGraphicsOverlays().add()`.
+3. Add the map to the view, `MapView.setMap()`.
+4. Create a simple renderer using a `SimpleMarkerSymbol`, `SimpleRenderer(Symbol)`.
+5. Lately, set the renderer to graphics overlay using `GraphicsOverlay.setRenderer(Renderer)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
- <li>ArcGISMap</li>
- <li>Graphic</li>
- <li>GraphicsOverlay</li>
- <li>MapView</li>
- <li>Point</li>
- <li>SimpleMarkerSymbol</li>
- <li>SimpleMarkerSymbol.Style</li>
- <li>SimpleRenderer</li>
-</ul>
-
-
+* ArcGISMap
+* Graphic
+* GraphicsOverlay
+* MapView
+* Point
+* SimpleMarkerSymbol
+* SimpleMarkerSymbol.Style
+* SimpleRenderer

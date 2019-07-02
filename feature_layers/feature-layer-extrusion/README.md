@@ -1,27 +1,23 @@
-<h1>Feature Layer Extrusion.</h1>
+# Feature Layer Extrusion
 
-<p>Extrude features based on their attributes.</p>
+Extrude features based on their attributes.
 
-<p><img src="FeatureLayerExtrusion.gif"/></p>
+![](FeatureLayerExtrusion.gif)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To extrude features from a <code>FeatureLayer</code>:</p>
+To extrude features from a `FeatureLayer`:
 
-<ol>
-  <li>Create a <code>ServiceFeatureTable</code> from an URL.</li>
-  <li>Create a feature layer from service feature table.
-  <ol>Make sure to set rendering mode to dynamic, <code>statesFeatureLayer.setRenderingMode(RenderingMode.DYNAMIC)</code>.</ol></li>
-  <li>Apply a <code>SimpleRenderer</code> to the feature layer.</li>
-  <li>Set <code>ExtrusionMode</code> of render, <code>renderer.getSceneProperties().setExtrusionMode(SceneProperties.ExtrusionMode.BASE_HEIGHT)</code>.</li>
-  <li>Set extrusion expression of renderer, <code>renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10")</code>.</li>
-</ol>
+1. Create a `ServiceFeatureTable` from an URL.
+2. Create a feature layer from service feature table.
+    * Make sure to set rendering mode to dynamic, `statesFeatureLayer.setRenderingMode(RenderingMode.DYNAMIC)`.
+3. Apply a `SimpleRenderer` to the feature layer.
+4. Set `ExtrusionMode` of render, `renderer.getSceneProperties().setExtrusionMode(SceneProperties.ExtrusionMode.BASE_HEIGHT)`.
+5. Set extrusion expression of renderer, `renderer.getSceneProperties().setExtrusionExpression("[POP2007]/ 10")`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>FeatureLayer</li>
-  <li>SceneProperties</li>
-  <li>ServiceFeatureTable</li>
-  <li>FeatureLayer</li>
-</ul>
+* FeatureLayer
+* SceneProperties
+* ServiceFeatureTable
+* FeatureLayer

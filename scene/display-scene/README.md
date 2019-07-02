@@ -1,26 +1,22 @@
-<h1>Display Scene</h1>
+# Display Scene
 
-<p>Display a 3D scene with terrain and imagery.</p>
+Display a 3. scene with terrain and imagery.
 
-<p><img src="DisplayScene.png"/></p>
+![](DisplayScene.png)
 
-<h2>How it works</h2>
+## How it works
 
-<p>To create an <code>ArcGISScene</code> with elevation data:</p>
+To create an `ArcGISScene` with elevation data:
 
-<ol>
-    <li>Create an ArcGIS scene and set the <code>Basemap</code> with <code>ArcGISScene.setBasemap()</code>.</li>
-    <li>Create a <code>SceneView</code> and set the scene to the view, <code>SceneView.setScene(scene)</code>.</li>
-    <li>Create a <code>Surface</code> and add a <code>ArcGISTiledElevationSource</code>, <code>Surface.getElevationSources().add()</code>.</li>
-    <li>Set the surface as the scene's base surface: <code>ArcGIScene.setBaseSurface(surface)</code>.</li>
-</ol>
+1. Create an ArcGIS scene and set the `Basemap` with `ArcGISScene.setBasemap()`.
+2. Create a `SceneView` and set the scene to the view, `SceneView.setScene(scene)`.
+3. Create a `Surface` and add a `ArcGISTiledElevationSource`, `Surface.getElevationSources().add()`.
+4. Set the surface as the scene's base surface: `ArcGIScene.setBaseSurface(surface)`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISScene</li>
-    <li>ArcGISTiledElevationSource</li>
-    <li>Camera</li>
-    <li>SceneView</li>
-    <li>Surface</li>
-</ul>
+* ArcGISScene
+* ArcGISTiledElevationSource
+* Camera
+* SceneView
+* Surface

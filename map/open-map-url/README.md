@@ -1,31 +1,25 @@
-<h1>Open Map (URL)</h1>
+# Open Map (URL)
 
-<p>Display a web map.</p>
+Display a web map.
 
-<p><img src="OpenMapURL.png"/></p>
+![](OpenMapURL.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>A web map can be selected from the drop-down list. On selection the web map displays in the MapView.</p>
+A web map can be selected from the drop-down list. On selection the web map displays in the MapView.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To open a web map:</p>
+To open a web map:
 
-<ol>
-    <li>Create a <code>Portal</code> from the ArcGIS URL http://www.arcgis.com.</li>
-    <li>Create a <code>PortalItem</code> using the Portal and the web map ID: <code>new PortalItem(portal, ID)</code>.</li>
-    <li>Create a <code>ArcGISMap</code> using the portal item.</li>
-    <li>Set the map to the <code>MapView</code>.</li>
-</ol>
+1. Create a `Portal` from the ArcGIS URL http://www.arcgis.com.
+2. Create a `PortalItem` using the Portal and the web map ID: `new PortalItem(portal, ID)`.
+3. Create a `ArcGISMap` using the portal item.
+4. Set the map to the `MapView`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>MapView</li>
-    <li>Portal</li>
-    <li>PortalItem</li>
-</ul>
-
-
+* ArcGISMap
+* MapView
+* Portal
+* PortalItem

@@ -1,43 +1,37 @@
-<h1>Symbol Dictionary</h1>
+# Symbol Dictionary
 
-<p>Find symbols within the mil2525d specification that match a keyword.</p>
-  
-<p><img src="SymbolDictionary.png"/></p>
+Find symbols within the mil2525. specification that match a keyword.
 
-<h2>Use case</h2>
+![](SymbolDictionary.png)
 
-<p>You can use support for military symbology to allow users to report changes in the field using the correct military symbols.</p>
+## Use case
 
-<h2>How to use the sample</h2>
+You can use support for military symbology to allow users to report changes in the field using the correct military symbols.
 
-<p>By default, leaving the fields blank and searching will return all symbols.</p>
+## How to use the sample
 
-<p>To filter symbols, enter text into one or multiple seach boxes and click the Search for Symbols button.</p>
+By default, leaving the fields blank and searching will return all symbols.
 
-<p>Click the Clear button to clear previous search results.</p>
+To filter symbols, enter text into one or multiple seach boxes and click the Search for Symbols button.
 
-<h2>How it works</h2>
+Click the Clear button to clear previous search results.
 
-<ol>
-  <li>Create a symbol dictionary with the mil2525d specification by passing the string "mil2525d" to the 
-  <code>SymbolDictionary</code> constructor.</li>
-  <li>Create <code>StyleSymbolSearchParameters</code>.</li>
-  <li>Add members to the names, tags, symbolClasses, categories, and keys list fields of the search parameters.</li>
-  <li>Search for symbols using the parameters with <code>symbolDictionary.searchSymbolsAsync(styleSymbolSearchParameters)</code>.</li>
-  <li>Get the <code>Symbol</code> from the list of returned <code>StyleSymbolSearchResult</code>.</li>
-</ol>
+## How it works
 
-<h2>Relevant API</h2>
+1. Create a symbol dictionary with the mil2525. specification by passing the string "mil2525d" to the `SymbolDictionary` constructor.
+2. Create `StyleSymbolSearchParameters`.
+3. Add members to the names, tags, symbolClasses, categories, and keys list fields of the search parameters.
+4. Search for symbols using the parameters with `symbolDictionary.searchSymbolsAsync(styleSymbolSearchParameters)`.
+5. Get the `Symbol` from the list of returned `StyleSymbolSearchResult`.
 
-<ul>
-  <li>StyleSymbolSearchParameters</li>
-  <li>StyleSymbolSearchResult</li>
-  <li>Symbol</li>
-  <li>SymbolDictionary</li>
-</ul>
+## Relevant API
 
-<h2>Tags</h2>
+* StyleSymbolSearchParameters
+* StyleSymbolSearchResult
+* Symbol
+* SymbolDictionary
 
-<p>CIM, MIL-STD-2525B, MIL-STD-2525C, MIL-STD-2525D, defense, look up, mil2525b, mil2525c, mil2525d, military, military
- symbology, symbology</p>
+## Tags
 
+CIM, MIL-STD-2525B, MIL-STD-2525C, MIL-STD-2525D, defense, look up, mil2525b, mil2525c, mil2525d, military, military
+ symbology, symbology

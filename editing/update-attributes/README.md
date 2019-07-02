@@ -1,33 +1,29 @@
-<h1>Update Attributes</h1>
+# Update Attributes
 
-<p>Update feature attributes in an online feature service.</p>
+Update feature attributes in an online feature service.
 
-<p><img src="UpdateAttributes.gif"/></p>
+![](UpdateAttributes.gif)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>To change the feature's damage property.
+To change the feature's damage property.
   - select feature from the map
-  - from drop down box select a damage type</p>
+  - from drop down box select a damage type
 
-<h2>How it works</h2>
+## How it works
 
-<p>To get a <code>Feature</code> from a <code>ServiceFeatureTable</code> and update its attributes:</p>
+To get a `Feature` from a `ServiceFeatureTable` and update its attributes:
 
-<ol>
-  <li>Create a service feature table from a URL.</li>
-  <li>Create a <code>FeatureLayer</code> from the service feature table.</li>
-  <li>Select features from the feature layer, <code>FeatureLayer.selectFeatures</code>.</li>
-  <li>To update the feature's attribute use the <code>ArcGISFeature.getAttributes().put()</code>.</li>
-  <li>After a change, apply the changes on the server using <code>ServiceFeatureTable.applyEditsAsync()</code>.</li>
-</ol>
+1. Create a service feature table from a URL.
+2. Create a `FeatureLayer` from the service feature table.
+3. Select features from the feature layer, `FeatureLayer.selectFeatures`.
+4. To update the feature's attribute use the `ArcGISFeature.getAttributes().put()`.
+5. After a change, apply the changes on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-  <li>ArcGISMap</li>
-  <li>Feature</li>
-  <li>FeatureLayer</li>
-  <li>MapView</li>
-  <li>ServiceFeatureTable</li>
-</ul>
+* ArcGISMap
+* Feature
+* FeatureLayer
+* MapView
+* ServiceFeatureTable

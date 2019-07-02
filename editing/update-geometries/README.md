@@ -1,32 +1,28 @@
-<h1>Update Geometries</h1>
+# Update Geometries
 
-<p>Update a feature's location in an online feature service.</p>
+Update a feature's location in an online feature service.
 
-<p><img src="UpdateGeometries.gif"/></p>
+![](UpdateGeometries.gif)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>To update a feature's location.
- - click on a feature from the map and then click on another location to move it</p>
+To update a feature's location.
+ - click on a feature from the map and then click on another location to move it
 
-<h2>How it works</h2>
+## How it works
 
-<p>To get a <code>Feature</code> from a <code>ServiceFeatureTable</code> and change it's geometry:</p>
+To get a `Feature` from a `ServiceFeatureTable` and change it's geometry:
 
-<ol>
- <li>Create a service feature table from a URL.</li>
- <li>Create a <code>FeatureLayer</code> from the service feature table.</li>
- <li>Select features from the feature layer, <code>FeatureLayer.selectFeatures</code>.</li>
- <li>Change the selected feature's location using <code>Feature.setGeometry(Geometry)</code>.</li>
- <li>After a change, update the table on the server using <code>ServiceFeatureTable.applyEditsAsync()</code>.</li>
-</ol>
+1. Create a service feature table from a URL.
+2. Create a `FeatureLayer` from the service feature table.
+3. Select features from the feature layer, `FeatureLayer.selectFeatures`.
+4. Change the selected feature's location using `Feature.setGeometry(Geometry)`.
+5. After a change, update the table on the server using `ServiceFeatureTable.applyEditsAsync()`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
- <li>ArcGISMap</li>
- <li>Feature</li>
- <li>FeatureLayer</li>
- <li>MapView</li>
- <li>ServiceFeatureTable</li>
-</ul>
+* ArcGISMap
+* Feature
+* FeatureLayer
+* MapView
+* ServiceFeatureTable

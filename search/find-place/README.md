@@ -1,41 +1,34 @@
-<h1>Find Place</h1>
+# Find Place
 
-<p>Find places of interest near a location or within an specific area.</p>
+Find places of interest near a location or within an specific area.
 
-<p><img src="FindPlace.png"/></p>
+![](FindPlace.png)
 
-<h2>How to use the sample</h2>
+## How to use the sample
 
-<p>Choose from the dropdown or input your own place and location to search near. Click the search button to find matching places. A redo search button will appear if you pan the map after a search.</p>
+Choose from the dropdown or input your own place and location to search near. Click the search button to find matching places. A redo search button will appear if you pan the map after a search.
 
-<h2>How it works</h2>
+## How it works
 
-<p>To find locations matching a query and a search area:</p>
+To find locations matching a query and a search area:
 
-<ol>
-    <li>Create an <code>ArcGISMap</code>'s with <code>Basemap</code>.
-        <ul><li>basemap is created using a <code>TileCache</code> to represent an offline resource. </li></ul></li>
-    <li>Add the map to the <code>MapView</code>, <code>MapView.setMap()</code>. </li>
-    <li>Create a <code>LocatorTask</code> using a URL and set the <code>GeocodeParameters</code>.</li>
-    <li>To reverse geocode near a location, pass the location's position into <code>GeocodeParameters.setSearchArea(Geometry)</code> to set the search area.</li>
-    <li>Limit results to the view's visible area using the <code>MapView.getVisibleArea()</code> method.</li>
-    <li>Show the matching retrieved results from the <code>LocatorTask.geocodeAsync(String, GeocodeParameters)</code> via <code>PictureMarkerSymbol</code>s with a <code>Graphic</code> in a <code>GraphicsOverlay</code>.</li>
-</ol>
+1. Create an `ArcGISMap`'s with `Basemap`.
+    * basemap is created using a `TileCache` to represent an offline resource.
+2. Add the map to the `MapView`, `MapView.setMap()`.
+3. Create a `LocatorTask` using a URL and set the `GeocodeParameters`.
+4. To reverse geocode near a location, pass the location's position into `GeocodeParameters.setSearchArea(Geometry)` to set the search area.
+5. Limit results to the view's visible area using the `MapView.getVisibleArea()` method.
+6. Show the matching retrieved results from the `LocatorTask.geocodeAsync(String, GeocodeParameters)` via `PictureMarkerSymbol`s with a `Graphic` in a `GraphicsOverlay`.
 
-<h2>Relevant API</h2>
+## Relevant API
 
-<ul>
-    <li>ArcGISMap</li>
-    <li>GeocodeParameters</li>
-    <li>GeocodeResult</li>
-    <li>Graphic</li>
-    <li>GraphicsOverlay</li>
-    <li>LocatorTask </li>
-    <li>MapView</li>
-    <li>PictureMarkerSymbol</li>
-    <li>ReverseGeocodeParameters</li>
-    <li>TileCache</li>
-</ul>
-
-
-
+* ArcGISMap
+* GeocodeParameters
+* GeocodeResult
+* Graphic
+* GraphicsOverlay
+* LocatorTask
+* MapView
+* PictureMarkerSymbol
+* ReverseGeocodeParameters
+* TileCache
