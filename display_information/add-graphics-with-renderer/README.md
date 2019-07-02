@@ -5,7 +5,7 @@ Specify a graphic's symbol with a renderer.
 A renderer allows you to change the style of all graphics in an overlay by only changing one copy of the symbol. A renderer will only effect 
 graphics that do not specify their own symbol.
 
-![]("AddGraphicsWithRenderer.png)
+<img src="AddGraphicsWithRenderer.png"/>
 
 ## How it works
 

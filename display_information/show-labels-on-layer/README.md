@@ -2,7 +2,7 @@
 
 Add custom labels to a layer.
 
-![]("ShowLabelsOnLayer.png)
+<img src="ShowLabelsOnLayer.png"/>
 
 ## How it works
 

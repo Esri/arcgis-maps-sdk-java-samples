@@ -2,7 +2,7 @@
 
 Generate a local geodatabase from an online feature service.
 
-![]("GenerateGeodatabase.png)
+<img src="GenerateGeodatabase.png"/>
 
 ## How to use the sample
 

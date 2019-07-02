@@ -2,7 +2,7 @@
 
 Change a graphic's fill color, outline, and style properties.
 
-![]("SimpleFillSymbol.png)
+<img src="SimpleFillSymbol.png"/>
 
 ## How to use the sample
 

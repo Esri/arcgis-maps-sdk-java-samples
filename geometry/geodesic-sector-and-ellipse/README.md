@@ -4,7 +4,7 @@ Create geodesic sectors and ellipses.
 
 Geodesic sectors and ellipses can be used in a wide range of analyses ranging from antenna coverage to projectile landing zones.
 
-![]("GeodesicSectorAndEllipse.png)
+<img src="GeodesicSectorAndEllipse.png"/>
 
 ## How to use the sample
 

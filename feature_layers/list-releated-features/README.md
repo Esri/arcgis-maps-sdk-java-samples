@@ -2,7 +2,7 @@
 
 Find features related to the selected feature.
 
-![]("ListRelatedFeatures.png)
+<img src="ListRelatedFeatures.png"/>
 
 ## How to use the sample
 

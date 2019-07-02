@@ -2,7 +2,7 @@
 
 Render features statically or dynamically in 3D.
 
-![]("FeatureLayerRenderingModeScene.gif)
+<img src="FeatureLayerRenderingModeScene.gif"/>
 
 ## How it works
 

@@ -2,7 +2,7 @@
 
 Determine if a layer is done drawing.
 
-![]("DisplayDrawingStatus.png)
+<img src="DisplayDrawingStatus.png"/>
 
 ## How to use the sample
 

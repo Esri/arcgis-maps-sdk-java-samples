@@ -2,7 +2,7 @@
 
 Filter which features are shown using an expression.
 
-![]("FeatureLayerDefinitionExpression.gif)
+<img src="FeatureLayerDefinitionExpression.gif"/>
 
 ## How to use the sample
 

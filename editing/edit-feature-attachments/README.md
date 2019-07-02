@@ -2,7 +2,7 @@
 
 Add or remove feature attachments.
 
-![]("EditFeatureAttachments.gif)
+<img src="EditFeatureAttachments.gif"/>
 
 ## How to use the sample
 

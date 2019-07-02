@@ -2,7 +2,7 @@
 
 Fix the camera to point at and rotate around a target object.
 
-![]("OrbitTheCameraAroundAnObject.png)
+<img src="OrbitTheCameraAroundAnObject.png"/>
 
 ## Use case
 

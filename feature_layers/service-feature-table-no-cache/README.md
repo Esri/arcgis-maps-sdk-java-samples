@@ -4,7 +4,7 @@ Show features without caching.
 
 On-interaction-no-cache mode will always fetch Features from the server and doesn't cache any Features on the client's side. This meaning that Features will be fetched whenever the ArcGISMap pans, zooms, selects, or queries.
 
-![]("ServiceFeatureTableNoCache.png)
+<img src="ServiceFeatureTableNoCache.png"/>
 
 ## How it works
 

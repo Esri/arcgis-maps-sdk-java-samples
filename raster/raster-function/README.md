@@ -5,7 +5,7 @@ Apply a raster function to a raster.
 Raster functions are operations performed on a raster to apply on-the-fly processing. In this sample, a hillshade 
 raster function is applied to an online raster image service.
 
-![]("RasterFunction.png)
+<img src="RasterFunction.png"/>
 
 ## How it works
 

@@ -2,7 +2,7 @@
 
 Display a raster on a map and apply different rendering rules to that raster.
 
-![]("RasterRenderingRule.png)
+<img src="RasterRenderingRule.png"/>
 
 ## Use case
 

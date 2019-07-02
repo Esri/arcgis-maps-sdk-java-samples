@@ -2,7 +2,7 @@
 
 Rotate a map.
 
-![]("MapRotation.png)
+<img src="MapRotation.png"/>
 
 ## How to use the sample
 

@@ -2,7 +2,7 @@
 
 Find routes from several locations to the respective closest facility.
 
-![]("ClosestFacilityStatic.png)
+<img src="ClosestFacilityStatic.png"/>
 
 ## Use case
 

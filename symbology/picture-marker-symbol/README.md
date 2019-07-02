@@ -2,7 +2,7 @@
 
 Use pictures for markers.
 
-![]("PictureMarkerSymbol.png)
+<img src="PictureMarkerSymbol.png"/>
 
 ## How to use the sample
 

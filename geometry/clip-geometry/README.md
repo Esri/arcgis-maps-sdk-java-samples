@@ -2,7 +2,7 @@
 
 Clip a geometry to an envelope.
 
-![]("ClipGeometry.gif)
+<img src="ClipGeometry.gif"/>
 
 ## How to use the sample
 

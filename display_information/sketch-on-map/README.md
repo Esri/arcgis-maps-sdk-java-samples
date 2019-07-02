@@ -2,7 +2,7 @@
 
 Use the Sketch Editor to edit, or sketch a new point, line, or polygon geometry on to a map.
 
-![]("SketchOnMap.png)
+<img src="SketchOnMap.png"/>
 
 ## How to use the sample
 

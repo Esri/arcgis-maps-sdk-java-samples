@@ -6,7 +6,7 @@ Sublayers of an `ArcGISMapImageLayer` may expose a `ServiceFeatureTable` through
 `Table` property. This allows you to perform the same queries available when working with a table from a 
 `FeatureLayer`: attribute query, spatial query, statistics query, query for related features, and so on.
 
-![]("QueryMapImageSublayer.png">
+<img src="QueryMapImageSublayer.png">
 
 ## How to use the sample
 

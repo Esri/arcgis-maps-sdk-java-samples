@@ -17,7 +17,7 @@ function openDir() {
             if (getExtension(file) == 'md'){
               filePath = './'+category+'/'+subfolder+'/'+file
               // convertHtmlToMd(filePath);
-              replacechars(filePath, '"/>', ')')
+              replacechars(filePath, "</code>", '`')
             }
           })
         }

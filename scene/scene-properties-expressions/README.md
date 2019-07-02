@@ -2,7 +2,7 @@
 
 Update the orientation of a graphic using scene property rotation expressions.
 
-![]("ScenePropertiesExpressions.gif)
+<img src="ScenePropertiesExpressions.gif"/>
 
 ## How to use the sample
 

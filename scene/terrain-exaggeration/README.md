@@ -2,7 +2,7 @@
 
 Vertically exaggerate terrain.
 
-![]("TerrainExaggeration.gif)
+<img src="TerrainExaggeration.gif"/>
 
 ## How to use the sample
 

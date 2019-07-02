@@ -4,7 +4,7 @@ Synchronize the viewpoints between a `MapView` and a `SceneView`.
 
 The two `GeoViews` share a common `ViewPoint`. When navigating in one view, the other view is immediately updated to display the same `ViewPoint`.
 
-![]("SyncMapAndSceneViewpoints.png" />
+<img src="SyncMapAndSceneViewpoints.png" />
 
 ## How to use the sample
 

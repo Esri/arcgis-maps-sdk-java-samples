@@ -2,7 +2,7 @@
 
 Draw simple graphics with marker, line, polygon, and text symbols.
 
-![]("AddGraphicsWithSymbols.png)
+<img src="AddGraphicsWithSymbols.png"/>
 
 ## How it works
 

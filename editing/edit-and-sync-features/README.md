@@ -2,7 +2,7 @@
 
 Synchronize offline edits with a feature service.
 
-![]("EditAndSyncFeatures.png)
+<img src="EditAndSyncFeatures.png"/>
 
 ## Use case
 

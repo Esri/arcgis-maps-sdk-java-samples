@@ -2,7 +2,7 @@
 
 Display a map centered at a latitude and longitude plus zoom level.
 
-![]("SetInitialMapLocation.png)
+<img src="SetInitialMapLocation.png"/>
 
 ## How it works
 

@@ -6,7 +6,7 @@ This is accomplished using a local geoprocessing package (.gpk) and the contour 
 
 ** Note: ** Local Server is not supported on MacOS
 
-![]("LocalServerGeoprocessing.png)
+<img src="LocalServerGeoprocessing.png"/>
 
 ## How to use the sample
 

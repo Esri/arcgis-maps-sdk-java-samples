@@ -4,7 +4,7 @@ Apply a colormap renderer to a raster.
 
 Colormap renderers can be used to replace values on a raster layer with a color based on the original value brightness.
 
-![]("ColormapRenderer.png)
+<img src="ColormapRenderer.png"/>
 
 ## How it works
 

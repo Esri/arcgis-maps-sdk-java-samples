@@ -2,7 +2,7 @@
 
 Use bookmarks in a map.
 
-![]("ManageBookmarks.png)
+<img src="ManageBookmarks.png"/>
 
 ## How to use the sample
 

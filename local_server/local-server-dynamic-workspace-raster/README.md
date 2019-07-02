@@ -4,7 +4,7 @@ Dynamically add a local raster file to a map using Local Server.
 
 ** Note: ** Local Server is not supported on MacOS
 
-![]("LocalServerDynamicWorkspaceRaster.png)
+<img src="LocalServerDynamicWorkspaceRaster.png"/>
 
 ## How to use the sample
 

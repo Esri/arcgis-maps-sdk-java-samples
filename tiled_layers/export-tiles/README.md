@@ -2,7 +2,7 @@
 
 Export tiles from an online tile service.
 
-![]("ExportTiles.png)
+<img src="ExportTiles.png"/>
 
 ## How it works
 

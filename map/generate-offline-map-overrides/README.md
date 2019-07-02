@@ -14,7 +14,7 @@ sample. For more fine-grained control over the data you are taking offline, use 
   * take features with no geometry offline.
 
 
-![]("GenerateOfflineMapOverrides.png)
+<img src="GenerateOfflineMapOverrides.png"/>
 
 ## How to use the sample
 

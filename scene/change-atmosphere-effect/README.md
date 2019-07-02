@@ -2,7 +2,7 @@
 
 Change the appearance of the atmosphere in a scene.
 
-![]("ChangeAtmosphereEffect.gif" />
+<img src="ChangeAtmosphereEffect.gif" />
 
 ## How to use the sample
 

@@ -2,7 +2,7 @@
 
 Display a variety of grids on a map.
 
-![]("DisplayGrid.png)
+<img src="DisplayGrid.png"/>
 
 ## How to use the sample
 

@@ -2,7 +2,7 @@
 
 Create and save a map to your own portal.
 
-![]("CreateAndSaveMap.png)
+<img src="CreateAndSaveMap.png"/>
 
 ## How to use the sample
 

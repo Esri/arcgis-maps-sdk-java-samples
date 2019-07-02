@@ -2,7 +2,7 @@
 
 Show KML nodes in their nested hierarchy.
 
-![]("ListKMLContents.png)
+<img src="ListKMLContents.png"/>
 
 ## How to use the sample
 

@@ -2,7 +2,7 @@
 
 Show simple markers.
 
-![]("SimpleMarkerSymbol.png)
+<img src="SimpleMarkerSymbol.png"/>
 
 ## How to use the sample
 

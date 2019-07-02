@@ -4,7 +4,7 @@ Set the terrain surface with elevation described by a local tile package.
 
 The terrain surface is what the basemap, operational layers, and graphics are draped on. The tile package must be a LERC (limited error raster compression) encoded TPK. Details on creating these are in the <a href="https://pro.arcgis.com/en/pro-app/help/sharing/overview/tile-package.htm">ArcGIS Pro documentation</a>.
 
-![]("CreateTerrainSurfaceFromLocalTilePackage.png)
+<img src="CreateTerrainSurfaceFromLocalTilePackage.png"/>
 
 ## How it works
 

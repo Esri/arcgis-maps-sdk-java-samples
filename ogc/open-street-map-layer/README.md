@@ -2,7 +2,7 @@
 
 Display tiles from OpenStreetMap.
 
-![]("OpenStreetMapLayer.png)
+<img src="OpenStreetMapLayer.png"/>
 
 ## How it works
 To create a map with an OpenStreetMap basemap:

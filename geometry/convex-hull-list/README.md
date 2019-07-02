@@ -4,7 +4,7 @@ Generate convex hull polygon(s) from multiple input geometries.
 
 The convex hull generates a minimum bounding geometry of input graphics. As a visual analogy, consider a set of points as nails in a board. The convex hull of the points would be like a rubber band stretched around the outermost nails.
 
-![]("ConvexHullList.png" />
+<img src="ConvexHullList.png" />
 
 ## How to use the sample
 

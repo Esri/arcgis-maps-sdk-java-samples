@@ -2,7 +2,7 @@
 
 Solve a route on-the-fly using only offline data.
 
-![]("OfflineRouting.gif)
+<img src="OfflineRouting.gif"/>
 
 ## How to use the sample
 

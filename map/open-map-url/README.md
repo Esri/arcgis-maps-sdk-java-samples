@@ -2,7 +2,7 @@
 
 Display a web map.
 
-![]("OpenMapURL.png)
+<img src="OpenMapURL.png"/>
 
 ## How to use the sample
 

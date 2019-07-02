@@ -2,7 +2,7 @@
 
 Group a collection of layers together and toggle their visibility as a group.
 
-![]("GroupLayers.png)
+<img src="GroupLayers.png"/>
 
 ## Use case
 

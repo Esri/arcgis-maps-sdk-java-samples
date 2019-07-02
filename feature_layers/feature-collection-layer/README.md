@@ -2,7 +2,7 @@
 
 Combine feature tables with different geometries into a single layer.
 
-![]("FeatureCollectionLayer.png)
+<img src="FeatureCollectionLayer.png"/>
 
 ## How it works
 

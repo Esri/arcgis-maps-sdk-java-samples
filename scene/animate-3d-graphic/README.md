@@ -2,7 +2,7 @@
 
 Animate a graphic's position and orientation and follow it with the camera.
 
-![]("Animate3dGraphic.png)
+<img src="Animate3dGraphic.png"/>
 
 ## How to use the sample
 

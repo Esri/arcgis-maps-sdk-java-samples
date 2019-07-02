@@ -2,7 +2,7 @@
 
 Find features matching a SQL query.
 
-![]("FeatureLayerQuery.png)
+<img src="FeatureLayerQuery.png"/>
 
 ## How to use the sample
 

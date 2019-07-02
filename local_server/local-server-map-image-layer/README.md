@@ -4,7 +4,7 @@ Create a local map imagery service and show its tiles in a map.
 
 ** Note: ** Local Server is not supported on MacOS
 
-![]("LocalServerMapImageLayer.png)
+<img src="LocalServerMapImageLayer.png"/>
 
 ## How to use the sample
 

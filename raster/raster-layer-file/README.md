@@ -2,7 +2,7 @@
 
 Display raster data from a local file.
 
-![]("RasterLayerFile.png)
+<img src="RasterLayerFile.png"/>
 
 ## How it works
 

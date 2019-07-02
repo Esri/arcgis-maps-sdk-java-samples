@@ -2,7 +2,7 @@
 
 Select clicked features.
 
-![]("FeatureLayerSelection.png)
+<img src="FeatureLayerSelection.png"/>
 
 ## How to use the sample
 

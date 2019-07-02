@@ -2,7 +2,7 @@
 
 Display a scene layer with 3D buildings.
   
-![]("SceneLayer.png)
+<img src="SceneLayer.png"/>
 
 ## How it works
 

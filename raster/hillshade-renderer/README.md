@@ -4,7 +4,7 @@ Apply a hillshade renderer to a raster.
 
 Hillshade renderers can adjust a grayscale raster (usually of terrain) according to a sun angle.
 
-![]("HillshadeRenderer.png)
+<img src="HillshadeRenderer.png"/>
 
 ## How to use the sample
 

@@ -2,7 +2,7 @@
 
 Access a map service that is secured with an ArcGIS token-based authentication.
 
-![]("TokenAuthentication.png)
+<img src="TokenAuthentication.png"/>
 
 ## Use case
 

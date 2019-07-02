@@ -2,7 +2,7 @@
 
 Display a WMS layer.
 
-![]("WmsLayerUrl.png)
+<img src="WmsLayerUrl.png"/>
 
 ## How it works
 

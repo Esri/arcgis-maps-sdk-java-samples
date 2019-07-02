@@ -2,7 +2,7 @@
 
 Display raster data from a geopackage.
 
-![]("RasterLayerGeoPackage.png)
+<img src="RasterLayerGeoPackage.png"/>
 
 ## How it works
 

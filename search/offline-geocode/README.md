@@ -2,7 +2,7 @@
 
 Geocode with offline data.
 
-![]("OfflineGeocode.png)
+<img src="OfflineGeocode.png"/>
 
 ## How to use the sample
 

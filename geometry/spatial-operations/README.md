@@ -2,7 +2,7 @@
 
 Find the union, difference, or intersection of two geometries.
 
-![]("SpatialOperations.png)
+<img src="SpatialOperations.png"/>
 
 ## How to use the sample
 

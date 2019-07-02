@@ -2,7 +2,7 @@
 
 Cut a geometry along a polyline.
 
-![]("CutGeometry.png)
+<img src="CutGeometry.png"/>
 
 ## How to use the sample
 

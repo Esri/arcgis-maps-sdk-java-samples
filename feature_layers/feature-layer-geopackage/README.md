@@ -2,7 +2,7 @@
 
 Display features from a local GeoPackage.
 
-![]("FeatureLayerGeoPackage.png)
+<img src="FeatureLayerGeoPackage.png"/>
 
 ## How it works
 

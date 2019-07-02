@@ -2,7 +2,7 @@
 
 Select clicked features in a scene.
 
-![]("SceneLayerSelection.png">
+<img src="SceneLayerSelection.png">
 
 ## How to use the sample
 

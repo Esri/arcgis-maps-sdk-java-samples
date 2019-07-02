@@ -2,7 +2,7 @@
 
 Set or animate to a new viewpoint.
 
-![]("ChangeViewpoint.png)
+<img src="ChangeViewpoint.png"/>
 
 ## How to use the sample
 

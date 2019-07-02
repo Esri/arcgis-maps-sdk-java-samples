@@ -5,7 +5,7 @@ Convert features into graphics to show them with mil2525d symbols.
 The dictionary renderer creates these graphics using a mil2525d style file and the attributes attached to each 
 feature within the geodatabase.
 
-![]("FeatureLayerDictionaryRenderer.png)
+<img src="FeatureLayerDictionaryRenderer.png"/>
 
 ## How it works
 

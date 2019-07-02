@@ -2,7 +2,7 @@
 
 Create simple geometry types.
 
-![]("CreateGeometries.png)
+<img src="CreateGeometries.png"/>
 
 ## How it works
 To create different geometries and show them as graphics:

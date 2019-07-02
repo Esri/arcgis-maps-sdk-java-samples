@@ -2,7 +2,7 @@
 
 Take a web map offline, but instead of downloading an online basemap, use one which is already on the device.
 
-![]("GenerateOfflineMapWithLocalBasemap.png)
+<img src="GenerateOfflineMapWithLocalBasemap.png"/>
 
 ## Use case
 

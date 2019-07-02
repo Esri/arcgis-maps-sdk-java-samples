@@ -4,7 +4,7 @@ Display a layer from an ArcGIS map image layer service.
 
 Typically this type of content is known as operational data, an example would be business data that changes frequently, such as displaying a fleet of vehicles as they make deliveries.
 
-![]("MapImageLayer.png)
+<img src="MapImageLayer.png"/>
 
 ## How it works
 

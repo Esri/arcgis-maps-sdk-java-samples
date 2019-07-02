@@ -2,7 +2,7 @@
 
 Update feature attributes in an online feature service.
 
-![]("UpdateAttributes.gif)
+<img src="UpdateAttributes.gif"/>
 
 ## How to use the sample
 

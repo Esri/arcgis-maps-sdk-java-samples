@@ -2,7 +2,7 @@
 
 Find the location for an address.
 
-![]("FindAddress.gif)
+<img src="FindAddress.gif"/>
 
 ## How to use the sample
 

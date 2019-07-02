@@ -2,7 +2,7 @@
 
 Determine when a map has finished loading.
 
-![]("AccessLoadStatus.png)
+<img src="AccessLoadStatus.png"/>
 
 ## How to use the sample
 

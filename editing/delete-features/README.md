@@ -8,7 +8,7 @@ To delete a feature.
   - click on a feature on the Map
   - click on the delete button
 
-![]("DeleteFeatures.gif)
+<img src="DeleteFeatures.gif"/>
 
 ## How it works
 

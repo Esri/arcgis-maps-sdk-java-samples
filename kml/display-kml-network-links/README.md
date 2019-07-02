@@ -2,7 +2,7 @@
 
 Display KML that automatically refreshes every few seconds.
 
-![]("DisplayKMLNetworkLinks.png)
+<img src="DisplayKMLNetworkLinks.png"/>
 
 ## How to use the sample
 

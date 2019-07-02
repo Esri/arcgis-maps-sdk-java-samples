@@ -2,7 +2,7 @@
 
 Find symbols within the mil2525d specification that match a keyword.
   
-![]("SymbolDictionary.png)
+<img src="SymbolDictionary.png"/>
 
 ## Use case
 

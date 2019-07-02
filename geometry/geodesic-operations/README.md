@@ -2,7 +2,7 @@
 
 Calculate the geodesic path and distance between two points.
 
-![]("GeodesicOperations.png)
+<img src="GeodesicOperations.png"/>
 
 ## How to use the sample
 

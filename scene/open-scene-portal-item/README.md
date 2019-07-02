@@ -5,7 +5,7 @@ Display a web scene.
 Just like Web Maps are the ArcGIS format for maps, Web Scenes are the ArcGIS format for scenes. These scenes can 
 be stored in ArcGIS Online or Portal.
 
-![]("OpenScenePortalItem.png)
+<img src="OpenScenePortalItem.png"/>
 
 ## How it works
 

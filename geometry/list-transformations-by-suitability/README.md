@@ -12,7 +12,7 @@ external supporting files (grid-based transformations). Choosing the most approp
 can ensure the best possible accuracy for this operation. Some users familiar with transformations may wish to 
 control which transformation is used in an operation.
 
-![]("ListTransformationsBySuitability.png)
+<img src="ListTransformationsBySuitability.png"/>
 
 ## How to use the sample
 

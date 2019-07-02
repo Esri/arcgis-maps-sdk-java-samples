@@ -2,7 +2,7 @@
 
 Create a feature collection layer which shows the result of a SQL query from a service feature table.
 
-![]("FeatureCollectionLayerQuery.png)
+<img src="FeatureCollectionLayerQuery.png"/>
 
 ## How it works
 

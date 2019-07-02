@@ -2,7 +2,7 @@
 
 Display features from a local geodatabase.
 
-![]("FeatureLayerGeodatabase.png)
+<img src="FeatureLayerGeodatabase.png"/>
 
 ## How it works
 

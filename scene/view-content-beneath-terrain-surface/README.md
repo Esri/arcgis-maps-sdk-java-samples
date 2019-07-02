@@ -2,7 +2,7 @@
 
 See through terrain in a scene and move the camera underground.
 
-![]("ViewContentBeneathTerrainSurface.png)
+<img src="ViewContentBeneathTerrainSurface.png"/>
 
 ## Use case
 

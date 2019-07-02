@@ -2,7 +2,7 @@
 
 Set the terrain surface with elevation described by a raster file.
 
-![]("CreateTerrainSurfaceFromLocalRaster.png)
+<img src="CreateTerrainSurfaceFromLocalRaster.png"/>
 
 The terrain surface is what the basemap, operational layers, and graphics are draped on. Supported raster formats include:
 

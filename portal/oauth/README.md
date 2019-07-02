@@ -2,7 +2,7 @@
 
 Authenticate with OAuth 2.0 to retrieve the user's profile information. 
 
-![]("OAuth.png)
+<img src="OAuth.png"/>
 
 ## How to use the sample
 

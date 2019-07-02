@@ -2,7 +2,7 @@
 
 Display features from a local shapefile.
   
-![]("FeatureLayerShapefile.png)
+<img src="FeatureLayerShapefile.png"/>
 
 ## How it works
 
