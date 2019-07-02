@@ -2,13 +2,13 @@
 
 Perform hotspot analysis using a geoprocessing service.
 
-In this case, frequency of 91.  calls in an area are analyzed.
+In this case, frequency of 911 calls in an area are analyzed.
 
 ![](AnalyzeHotspots.png)
 
 ## How to use the sample
 
-Select a start and end date using the datepickers between 1/1/199.  and 5/31/199.  respectively. Click the "Analyze hotspots" button to start the geoprocessing job.
+Select a start and end date using the datepickers between 1/1/1998 and 5/31/1998 respectively. Click the "Analyze hotspots" button to start the geoprocessing job.
 
 ## How it works
 
