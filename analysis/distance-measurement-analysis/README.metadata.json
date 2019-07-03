@@ -16,7 +16,6 @@
     "GeoprocessingTask"
   ],
   "snippets": [
-    "src/main/java/com/esri/samples/distance_measurement_analysis/DistanceMeasurementAnalysisLauncher.java",
     "src/main/java/com/esri/samples/distance_measurement_analysis/DistanceMeasurementAnalysisSample.java",
     "src/main/java/com/esri/samples/distance_measurement_analysis/DistanceMeasurementAnalysisController.java",
     "src/main/resources/distance_measurement_analysis.fxml"

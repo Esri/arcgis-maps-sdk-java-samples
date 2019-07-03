@@ -3,7 +3,7 @@
   "description": "Perform line of sight analysis in real-time.",
   "ignore": false,
   "images": [
-    "LineOfSightLocation.png"
+    "LineOfSightLocation.gif"
   ],
   "keywords": [],
   "redirect_from": "/java/latest/sample-code/line-of-sight-location.htm",
@@ -16,7 +16,6 @@
     "GeoprocessingTask"
   ],
   "snippets": [
-    "src/main/java/com/esri/samples/line_of_sight_location/LineOfSightLocationLauncher.java",
     "src/main/java/com/esri/samples/line_of_sight_location/LineOfSightLocationSample.java"
   ],
   "title": "Line of Sight Location"

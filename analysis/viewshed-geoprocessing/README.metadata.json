@@ -21,7 +21,6 @@
     "GeoprocessingTask"
   ],
   "snippets": [
-    "src/main/java/com/esri/samples/viewshed_geoprocessing/ViewshedGeoprocessingLauncher.java",
     "src/main/java/com/esri/samples/viewshed_geoprocessing/ViewshedGeoprocessingSample.java"
   ],
   "title": "Viewshed Geoprocessing"

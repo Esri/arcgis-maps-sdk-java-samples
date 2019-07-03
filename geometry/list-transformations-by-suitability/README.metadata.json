@@ -1,12 +1,11 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Find transformations to other spatial references suitable to the point's location.",
+    "description": "Find transformations to other spatial references suitable to the point's location.",
     "ignore": false,
     "images": [
         "ListTransformationsBySuitability.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "DatumTransformation",
@@ -15,7 +14,7 @@
         "GraphicsOverlay",
         "Point",
         "SimpleMarkerSymbol",
-        "SpatialReference . TransformationCatalog"
+        "TransformationCatalog"
     ],
     "redirect_from": "/java/latest/sample-code/list-transformations-by-suitability.htm",
     "relevant_apis": [
@@ -27,12 +26,10 @@
         "GraphicsOverlay",
         "Point",
         "SimpleMarkerSymbol",
-        "SpatialReference . TransformationCatalog"
+        "TransformationCatalog"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/list_transformations_by_suitability/ListTransformationsBySuitabilityLauncher.java",
         "src/main/java/com/esri/samples/list_transformations_by_suitability/ListTransformationsBySuitabilitySample.java"
     ],
-    "title": "@@TODO: List Transformations By Suitability"
+    "title": "List Transformations By Suitability"
 }

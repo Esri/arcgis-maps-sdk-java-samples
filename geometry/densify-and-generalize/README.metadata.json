@@ -1,10 +1,11 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Modify a polyline while preserving its general shape.",
+    "description": "Modify a polyline while preserving its general shape.",
     "ignore": false,
-    "images": [],
+    "images": [
+        "DensifyAndGeneralizeSample.gif"
+    ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "GeometryEngine",
@@ -36,11 +37,9 @@
         "SpatialReference"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/resources/densify_and_generalize.fxml",
         "src/main/java/com/esri/samples/densify_and_generalize/DensifyAndGeneralizeSample.java",
-        "src/main/java/com/esri/samples/densify_and_generalize/DensifyAndGeneralizeLauncher.java",
-        "src/main/java/com/esri/samples/densify_and_generalize/DensifyAndGeneralizeController.java"
+        "src/main/java/com/esri/samples/densify_and_generalize/DensifyAndGeneralizeController.java",
+        "src/main/resources/densify_and_generalize.fxml"
     ],
-    "title": "@@TODO: Densify and Generalize"
+    "title": "Densify and Generalize"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Create simple geometry types.",
+    "description": "Create simple geometry types.",
     "ignore": false,
     "images": [
         "CreateGeometries.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "Envelope",
         "Graphic",
         "Multipoint",
@@ -26,8 +25,6 @@
         "Polyline"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/create_geometries/CreateGeometriesLauncher.java",
         "src/main/java/com/esri/samples/create_geometries/CreateGeometriesSample.java"
     ],
     "title": "@@TODO: Create Geometries"

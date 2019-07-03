@@ -21,7 +21,6 @@
     "GeoprocessingTask"
   ],
   "snippets": [
-    "src/main/java/com/esri/samples/analyze_hotspots/AnalyzeHotspotsLauncher.java",
     "src/main/java/com/esri/samples/analyze_hotspots/AnalyzeHotspotsSample.java"
   ],
   "title": "Analyze Hotspots"

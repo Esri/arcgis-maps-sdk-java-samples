@@ -1,12 +1,11 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Project a point to another spatial reference.",
+    "description": "Project a point to another spatial reference.",
     "ignore": false,
     "images": [
         "Project.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "GeometryEngine",
         "Point",
         "SpatialReference"
@@ -18,10 +17,7 @@
         "SpatialReference"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "ProjectSample.java",
         "src/main/java/com/esri/samples/project/ProjectSample.java",
-        "src/main/java/com/esri/samples/project/ProjectLauncher.java"
     ],
-    "title": "@@TODO: Project"
+    "title": "Project"
 }

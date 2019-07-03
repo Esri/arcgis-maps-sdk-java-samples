@@ -19,7 +19,6 @@
         "Polygon"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/buffer/BufferLauncher.java",
         "src/main/java/com/esri/samples/buffer/BufferSample.java"
     ],
     "title": "Buffer"

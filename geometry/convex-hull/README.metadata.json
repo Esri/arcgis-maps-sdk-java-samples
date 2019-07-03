@@ -13,7 +13,6 @@
         "GeometryEngine"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/convex_hull/ConvexHullLauncher.java",
         "src/main/java/com/esri/samples/convex_hull/ConvexHullSample.java"
     ],
     "title": "Convex Hull"

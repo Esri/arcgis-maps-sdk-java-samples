@@ -1,12 +1,11 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Determine spatial relationships between two geometries.",
+    "description": "Determine spatial relationships between two geometries.",
     "ignore": false,
     "images": [
         "SpatialRelationships.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "Geometry",
@@ -42,10 +41,7 @@
         "SimpleMarkerSymbol"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "SpatialRelationshipsSample.java",
-        "src/main/java/com/esri/samples/spatial_relationships/SpatialRelationshipsLauncher.java",
         "src/main/java/com/esri/samples/spatial_relationships/SpatialRelationshipsSample.java"
     ],
-    "title": "@@TODO: Spatial Relationships"
+    "title": "Spatial Relationships"
 }

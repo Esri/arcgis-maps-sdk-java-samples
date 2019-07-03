@@ -1,12 +1,11 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Find the union, difference, or intersection of two geometries.",
+    "description": "Find the union, difference, or intersection of two geometries.",
     "ignore": false,
     "images": [
         "SpatialOperations.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "Geometry",
         "Graphic",
         "GraphicsOverlay",
@@ -28,9 +27,7 @@
         "SimpleFillSymbol"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/spatial_operations/SpatialOperationsLauncher.java",
         "src/main/java/com/esri/samples/spatial_operations/SpatialOperationsSample.java"
     ],
-    "title": "@@TODO: Spatial Operations"
+    "title": "Spatial Operations"
 }

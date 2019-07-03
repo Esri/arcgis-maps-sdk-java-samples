@@ -8,7 +8,6 @@
     "keywords": [
         "Analysis",
         "Buffer",
-        "GeometryEngine",
         "GeometryEngine"
     ],
     "redirect_from": "/java/latest/sample-code/buffer-list.htm",
@@ -16,8 +15,7 @@
         "GeometryEngine"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/buffer_list/BufferListSample.java",
-        "src/main/java/com/esri/samples/buffer_list/BufferListLauncher.java"
+        "src/main/java/com/esri/samples/buffer_list/BufferListSample.java"
     ],
     "title": "Buffer list"
 }

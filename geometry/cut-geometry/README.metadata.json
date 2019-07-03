@@ -1,12 +1,11 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Cut a geometry along a polyline.",
+    "description": "Cut a geometry along a polyline.",
     "ignore": false,
     "images": [
         "CutGeometry.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "Geometry",
@@ -40,10 +39,7 @@
         "SpatialReferences"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "CutGeometrySample.java",
-        "src/main/java/com/esri/samples/cut_geometry/CutGeometryLauncher.java",
         "src/main/java/com/esri/samples/cut_geometry/CutGeometrySample.java"
     ],
-    "title": "@@TODO: Cut Geometry"
+    "title": "Cut Geometry"
 }

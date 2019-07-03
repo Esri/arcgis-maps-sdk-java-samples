@@ -3,7 +3,7 @@
     "description": "Clip a geometry to an envelope.",
     "ignore": false,
     "images": [
-        "ClipGeometry.png"
+        "ClipGeometry.gif"
     ],
     "keywords": [
         "ArcGISMap",
@@ -41,7 +41,6 @@
         "SpatialReferences"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/clip_geometry/ClipGeometryLauncher.java",
         "src/main/java/com/esri/samples/clip_geometry/ClipGeometrySample.java"
     ],
     "title": "Clip Geometry"

@@ -16,7 +16,6 @@
     "GeoprocessingTask"
   ],
   "snippets": [
-    "src/main/java/com/esri/samples/line_of_sight_geoelement/LineOfSightGeoElementLauncher.java",
     "src/main/java/com/esri/samples/line_of_sight_geoelement/LineOfSightGeoElementSample.java"
   ],
   "title": "Line of Sight GeoElement"

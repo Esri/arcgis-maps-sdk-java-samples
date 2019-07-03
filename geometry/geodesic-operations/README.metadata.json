@@ -1,12 +1,11 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Calculate the geodesic path and distance between two points.",
+    "description": "Calculate the geodesic path and distance between two points.",
     "ignore": false,
     "images": [
         "GeodesicOperations.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "GeodeticCurveType",
         "Geometry",
@@ -40,8 +39,6 @@
         "SimpleMarkerSymbol"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/geodesic_operations/GeodesicOperationsLauncher.java",
         "src/main/java/com/esri/samples/geodesic_operations/GeodesicOperationsSample.java"
     ],
     "title": "@@TODO: Geodesic Operations"
