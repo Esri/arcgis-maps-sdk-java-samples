@@ -1,0 +1,26 @@
+{
+    "category": "Image layers",
+    "description": "@@TODO: Display a layer from an ArcGIS map image layer service.",
+    "ignore": false,
+    "images": [
+        "MapImageLayer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMapImageLayer",
+        "ArcGISMap",
+        "MapView"
+    ],
+    "redirect_from": "/java/latest/sample-code/map-image-layer.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "ArcGISMap",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/map_image_layer/MapImageLayerLauncher.java",
+        "src/main/java/com/esri/samples/map_image_layer/MapImageLayerSample.java"
+    ],
+    "title": "@@TODO: Map Image Layer"
+}

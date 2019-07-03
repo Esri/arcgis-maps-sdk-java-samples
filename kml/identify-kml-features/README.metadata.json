@@ -1,0 +1,28 @@
+{
+    "category": "Kml",
+    "description": "@@TODO: Get clicked features in a KML Layer.",
+    "ignore": false,
+    "images": [
+        "IdentifyKMLFeatures.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "IdentifyLayerResult",
+        "KmlDataset",
+        "KmlLayer",
+        "KmlPlacemark"
+    ],
+    "redirect_from": "/java/latest/sample-code/identify-kml-features.htm",
+    "relevant_apis": [
+        "IdentifyLayerResult",
+        "KmlDataset",
+        "KmlLayer",
+        "KmlPlacemark"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/identify_kml_features/IdentifyKMLFeaturesLauncher.java",
+        "src/main/java/com/esri/samples/identify_kml_features/IdentifyKMLFeaturesSample.java"
+    ],
+    "title": "@@TODO: Identify KML Features"
+}

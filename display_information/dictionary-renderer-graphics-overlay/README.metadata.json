@@ -1,0 +1,44 @@
+{
+    "category": "Display information",
+    "description": "@@TODO: Display mil2525d symbols.",
+    "ignore": false,
+    "images": [
+        "DictionaryRendererGraphicsOverlay.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "DictionaryRenderer",
+        "Graphic",
+        "GraphicsOverlay",
+        "LayerViewStatus",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SymbolDictionary"
+    ],
+    "redirect_from": "/java/latest/sample-code/dictionary-renderer-with-graphics-overlay.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "DictionaryRenderer",
+        "Graphic",
+        "GraphicsOverlay",
+        "LayerViewStatus",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SymbolDictionary"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/dictionary_renderer_graphics_overlay/DictionaryRendererGraphicsOverlaySample.java",
+        "src/main/java/com/esri/samples/dictionary_renderer_graphics_overlay/DictionaryRendererGraphicsOverlayLauncher.java"
+    ],
+    "title": "@@TODO: Dictionary Renderer with Graphics Overlay"
+}

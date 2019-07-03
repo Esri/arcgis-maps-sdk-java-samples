@@ -1,0 +1,38 @@
+{
+    "category": "Map",
+    "description": "@@TODO: Use locators and networks saved in an offline map.",
+    "ignore": false,
+    "images": [
+        "MobileMapSearchAndRoute.png"
+    ],
+    "keywords": [
+        "Offline",
+        "Routing",
+        "Search",
+        "GeocodeResult",
+        "MobileMapPackage",
+        "ReverseGeocodeParameters",
+        "Route",
+        "RouteParameters",
+        "RouteResult",
+        "RouteTask",
+        "TransportationNetworkDataset"
+    ],
+    "redirect_from": "/java/latest/sample-code/mobile-map-search-and-route.htm",
+    "relevant_apis": [
+        "GeocodeResult",
+        "MobileMapPackage",
+        "ReverseGeocodeParameters",
+        "Route",
+        "RouteParameters",
+        "RouteResult",
+        "RouteTask",
+        "TransportationNetworkDataset"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/mobile_map_search_and_route/MobileMapSearchAndRouteSample.java",
+        "src/main/java/com/esri/samples/mobile_map_search_and_route/MobileMapSearchAndRouteLauncher.java"
+    ],
+    "title": "@@TODO: Mobile Map Search And Route"
+}

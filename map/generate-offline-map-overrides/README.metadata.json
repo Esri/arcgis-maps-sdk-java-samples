@@ -1,0 +1,40 @@
+{
+    "category": "Map",
+    "description": "@@TODO: Take a web map offline with additional options for each layer.",
+    "ignore": false,
+    "images": [
+        "GenerateOfflineMapOverrides.png"
+    ],
+    "keywords": [
+        "Offline",
+        "ExportTileCacheParameters",
+        "GenerateGeodatabaseParameters",
+        "GenerateLayerOption",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapParameterOverrides",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapResult",
+        "OfflineMapParametersKey",
+        "OfflineMapTask"
+    ],
+    "redirect_from": "@@TODO: /java/latest/sample-code/generate-offline-map-overrides-.htm",
+    "relevant_apis": [
+        "ExportTileCacheParameters",
+        "GenerateGeodatabaseParameters",
+        "GenerateLayerOption",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapParameterOverrides",
+        "GenerateOfflineMapParameters",
+        "GenerateOfflineMapResult",
+        "OfflineMapParametersKey",
+        "OfflineMapTask"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/resources/generate_offline_map_overrides.fxml",
+        "src/main/java/com/esri/samples/generate_offline_map_overrides/GenerateOfflineMapOverridesSample.java",
+        "src/main/java/com/esri/samples/generate_offline_map_overrides/GenerateOfflineMapOverridesLauncher.java",
+        "src/main/java/com/esri/samples/generate_offline_map_overrides/GenerateOfflineMapOverridesController.java"
+    ],
+    "title": "@@TODO: Generate Offline Map (Overrides)"
+}

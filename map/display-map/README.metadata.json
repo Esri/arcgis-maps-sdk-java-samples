@@ -1,0 +1,26 @@
+{
+    "category": "Map",
+    "description": "@@TODO: Display a map with some imagery.",
+    "ignore": false,
+    "images": [
+        "DisplayMap.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/sample-code/display-a-map.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/display_map/DisplayMapSample.java",
+        "src/main/java/com/esri/samples/display_map/DisplayMapLauncher.java"
+    ],
+    "title": "@@TODO: Display a Map"
+}
