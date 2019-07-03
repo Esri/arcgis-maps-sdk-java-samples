@@ -6,43 +6,37 @@ Use Windows credentials to access services hosted on a portal secured with Integ
 
 ## Use case
 
-Integrated Windows Authentication, which is built into Microsoft Internet Information Server (IIS), works well for intranet applications, but isn't always practical for internet apps.
+Integrated Windows Authentication, which is built into Microsoft Internet Information Server (IIS), allows users to easily authenticate for different services using their domain's Windows credentials. This simplifies logging in to services that are provided through an intranet environment, as only a single username and password combination are required for the applications that support Integrated Windows Authentication.
 
 ## How to use the sample
 
-1. Enter the URL to your IWA-secured portal into the text field.
-2. Select either the `Search Public Portal` button (which will search for portals on www.arcgis.com) or `Search IWA Secured Portal` (which will search your IWA-secured portal), to search for web maps stored on the portal.
-3. If you chose to search a secured portal, you will be prompted for a username (including domain, such as username@DOMAIN or domain\username), and password.
-4. If you authenticate successfully, portal item results will display in the list.
-5. Select a web map item to display it in the map view.
+Select "Search Public Portal" to return all portal results hosted on www.arcgis.com (without requiring IWA authentication) or enter a URL to your IWA-secured portal, and select "Search IWA Secured Portal" to search for web maps stored there. If the latter was chosen, you will be prompted for a username (including domain, such as username@DOMAIN or domain\username), and password. If authentication is successful, portal item results will display in the list. Select a web map item to display it in the map view.
 
 ## How it works
 
-1. The `AuthenticationManager` object is configured with a challenge handler that will prompt for a Windows login (username@domain and password) if a secure resource is encountered.
-2. When a search for portal items is performed against an IWA-secured portal, the challenge handler creates a `UserCredential` object from the information entered by the user.
-3. If the user authenticates, the search returns a list of web maps (`ArcGISPortalItem`) and the user can select one to display as a `Map`.
+1. Create a custom `AuthenticationChallengeHandler` that will receive an `AuthenticationChallenge`, prompt the user to provide a Windows login (username@domain and password) if a secure resource is encountered, and return an`AuthenticationChallengeResponse` with an `AuthenticationChallengeResponse.Action` and a `UserCredential`.
+2. Set the `AuthenticationManager` to use the created challenge handler, `.setAuthenticationChallengeHandler(new IWAChallengeHandler());`.
+3. Create a new `Portal`, indicating that it is a secured resource, `new Portal (url, true)`.
+4. Load the portal, `Portal.loadAsync()`. This will trigger the challenge handler to prompt for a username and password. Depending on whether authentication is successful or not, access to the portal will be granted.
+5. Search the portal for the desired items, `Portal.findItemsAsync(new PortalQueryParameters("search query"))`.
+6. Use the `PortalItem`s to create a new map, `new ArcGISMap(PortalItem)`, and display them to the `Map View` as required.
 
 ## Relevant API
 
 * `AuthenticationChallenge`
+* `AuthenticationChallengeHandler`
 * `AuthenticationChallengeResponse`
 * `AuthenticationManager`
 * `AuthenticationManager.setAuthenticationChallengeHandler`
 * `Portal`
 * `UserCredential`
-
-## About the data
-
-This sample searches for web map portal items on a secure portal. To successfully run the sample, you need:
- * Access to a portal secured with Integrated Windows Authentication that contains one or more web map items.
- * A login that grants you access to the portal.
  
-## Additional Information
+## Additional information
  
- More information about IWA and it's use with ArcGIS can be found at the following links:
+ More information about IWA and its use with ArcGIS can be found at the following links:
   - [Use Integrated Windows Authentication with your portal](http://enterprise.arcgis.com/en/portal/latest/administer/windows/use-integrated-windows-authentication-with-your-portal.htm)
   - [IWA - Wikipedia](https://en.wikipedia.org/wiki/Integrated_Windows_Authentication)
   
 ## Tags
 
-login, security, sign-in
+authentication, IWA, login, portal, security, sign-in

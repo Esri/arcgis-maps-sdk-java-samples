@@ -78,13 +78,13 @@ final class IWAChallengeHandler implements AuthenticationChallengeHandler {
         new Alert(Alert.AlertType.ERROR, "Interruption handling AuthenticationChallengeResponse: " + e.getMessage()).show();
       }
 
-      // if credentials were set, return a new auth challenge response with them. otherwise, act like it was a cancel
+      // if credentials were set, return a new auth challenge response with them. otherwise, act like it was a cancel action
       if (userCredential != null) {
         return new AuthenticationChallengeResponse(AuthenticationChallengeResponse.Action.CONTINUE_WITH_CREDENTIAL, userCredential);
       }
     }
 
-    // no credentials were set, return a new auth challenge response with a cancel
+    // no credentials were set, return a new auth challenge response with with a cancel action
     return new AuthenticationChallengeResponse(AuthenticationChallengeResponse.Action.CANCEL, authenticationChallenge);
   }
 }

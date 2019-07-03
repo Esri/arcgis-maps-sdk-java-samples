@@ -16,7 +16,6 @@
 
 package com.esri.samples.portal.integrated_windows_authentication;
 
-import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -28,9 +27,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -73,7 +69,21 @@ public class IntegratedWindowsAuthenticationController {
       AuthenticationManager.setAuthenticationChallengeHandler(new IWAChallengeHandler());
 
       // add a listener to the map results list view that loads the map on selection
-      resultsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> displayMap());
+      resultsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+        if (resultsListView.getSelectionModel().getSelectedItem() != null) {
+          // create a portal item from the selection in the list view
+          PortalItem selectedItem = resultsListView.getSelectionModel().getSelectedItem();
+
+          // set the map to the map view
+          ArcGISMap webMap = new ArcGISMap(selectedItem);
+          mapView.setMap(webMap);
+
+          // show progress indicator while map is drawing
+          progressIndicator.setVisible(true);
+
+          loadWebMapTextView.setText("Loaded web map from item " + selectedItem.getItemId());
+        }
+      });
 
       // make the list view show a preview of the portal items' map area
       resultsListView.setCellFactory(c -> new PortalItemListCell());
@@ -151,7 +161,7 @@ public class IntegratedWindowsAuthenticationController {
         if (portal.getUser() != null) {
           loadStateTextView.setText("Connected as: " + portal.getUser().getUsername());
         } else {
-          // for a secure portal, the user should never be anonymous
+          // if connecting to an unsecured portal, no user name is needed
           loadStateTextView.setText("Connected as: Anonymous");
         }
 
@@ -181,26 +191,7 @@ public class IntegratedWindowsAuthenticationController {
   }
 
   /**
-   * Gets the selected PortalItem from the list view, creates a new map from it and displays it in the map view.
-   */
-  private void displayMap() {
-    if (resultsListView.getSelectionModel().getSelectedItem() != null) {
-      // create a portal item from the selecttion in the list view
-      PortalItem selectedItem = resultsListView.getSelectionModel().getSelectedItem();
-
-      // set the map to the map view
-      ArcGISMap webMap = new ArcGISMap(selectedItem);
-      mapView.setMap(webMap);
-
-      // show progress indicator while map is drawing
-      progressIndicator.setVisible(true);
-
-      loadWebMapTextView.setText("Loaded web map from item " + selectedItem.getItemId());
-    }
-  }
-
-  /**
-   * Stops the animation and disposes of application resources.
+   * Stops and releases all resources used in the application.
    */
   void terminate() {
 
@@ -210,7 +201,7 @@ public class IntegratedWindowsAuthenticationController {
   }
 
   /**
-   * Shows the available thumbnail of the PortalItem map in the selection list view.
+   * Shows the title of the Portal items in the selection list view.
    */
   class PortalItemListCell extends ListCell<PortalItem> {
 
@@ -218,29 +209,9 @@ public class IntegratedWindowsAuthenticationController {
     protected void updateItem(PortalItem portalItem, boolean empty) {
       super.updateItem(portalItem, empty);
       if (portalItem != null) {
-        HBox hBox = new HBox();
-        hBox.setMinHeight(65);
-
-        // show the preplanned map area thumbnail image
-        ImageView thumbnailImageView = new ImageView();
-        hBox.getChildren().add(thumbnailImageView);
-        thumbnailImageView.setFitHeight(65);
-        thumbnailImageView.setPreserveRatio(true);
-        ListenableFuture<byte[]> thumbnailData = portalItem.fetchThumbnailAsync();
-        thumbnailData.addDoneListener(() -> {
-          try {
-            thumbnailImageView.setImage(new Image(new ByteArrayInputStream(thumbnailData.get())));
-          } catch (Exception ex) {
-            ex.printStackTrace();
-          }
-        });
-
-        setGraphic(hBox);
-
         // set the list cell's text to the map's index
         setText(portalItem.getTitle());
       } else {
-        setGraphic(null);
         setText(null);
       }
     }
