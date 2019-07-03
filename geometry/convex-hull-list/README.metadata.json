@@ -1,6 +1,6 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Generate convex hull polygon(s) from multiple input geometries.",
+    "description": "Generate convex hull polygon(s) from multiple input geometries.",
     "ignore": false,
     "images": [
         "ConvexHullList.png"
@@ -15,14 +15,13 @@
     ],
     "redirect_from": "/java/latest/sample-code/convex-hull-list.htm",
     "relevant_apis": [
-        "GeometryEngine.ConvexHull",
+        "GeometryEngine",
         "GraphicsOverlay",
         "PointCollection"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/convex_hull_list/ConvexHullListSample.java",
         "src/main/java/com/esri/samples/convex_hull_list/ConvexHullListLauncher.java"
     ],
-    "title": "@@TODO: Convex Hull List"
+    "title": "Convex Hull List"
 }
