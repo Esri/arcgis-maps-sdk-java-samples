@@ -28,6 +28,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -46,7 +47,7 @@ public class IntegratedWindowsAuthenticationController {
   @FXML
   private MapView mapView;
   @FXML
-  private ListView<PortalItem> resultsListView;
+  private ListView<Pair<String, String>> resultsListView;
   @FXML
   private TextField portalUrlTextField;
   @FXML
@@ -55,6 +56,10 @@ public class IntegratedWindowsAuthenticationController {
   private Text loadStateTextView;
   @FXML
   private Text loadWebMapTextView;
+
+  private Portal iwaSecuredPortal;
+  private Portal publicPortal;
+  private boolean usingPublicPortal;
 
   public void initialize() {
     try {
@@ -68,25 +73,42 @@ public class IntegratedWindowsAuthenticationController {
       // set authentication challenge handler
       AuthenticationManager.setAuthenticationChallengeHandler(new IWAChallengeHandler());
 
+      // keep hold of the public portal the will be searched, to allow retrieving portal items later
+      publicPortal = new Portal("http://www.arcgis.com");
+
       // add a listener to the map results list view that loads the map on selection
       resultsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
         if (resultsListView.getSelectionModel().getSelectedItem() != null) {
-          // create a portal item from the selection in the list view
-          PortalItem selectedItem = resultsListView.getSelectionModel().getSelectedItem();
-
-          // set the map to the map view
-          ArcGISMap webMap = new ArcGISMap(selectedItem);
-          mapView.setMap(webMap);
-
           // show progress indicator while map is drawing
           progressIndicator.setVisible(true);
 
-          loadWebMapTextView.setText("Loaded web map from item " + selectedItem.getItemId());
+          // get the portal item ID from the selected list view item
+          String selectedItemId = resultsListView.getSelectionModel().getSelectedItem().getKey();
+
+          // see if using the public or secured portal; get the appropriate object reference
+          Portal portal;
+          if (usingPublicPortal) {
+            portal = publicPortal;
+          } else {
+            portal = iwaSecuredPortal;
+          }
+
+          // use the item ID to create a PortalItem from the portal
+          PortalItem portalItem = new PortalItem(portal, selectedItemId);
+
+          if (portalItem != null) {
+            // create a Map using the web map (portal item)
+            ArcGISMap webMap = new ArcGISMap(portalItem);
+            // set the map to the map view
+            mapView.setMap(webMap);
+          }
+
+          loadWebMapTextView.setText("Loaded web map from item " + selectedItemId);
         }
       });
 
       // make the list view show a preview of the portal items' map area
-      resultsListView.setCellFactory(c -> new PortalItemListCell());
+      resultsListView.setCellFactory(c -> new PortalItemInfoListCell());
 
       // hide the progress indicator when the map is finished drawing
       mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
@@ -106,7 +128,10 @@ public class IntegratedWindowsAuthenticationController {
    */
   @FXML
   private void handleSearchPublicPress() {
-    searchPortal(new Portal("http://www.arcgis.com"));
+    // set a variable indicating that the portal is a public portal, to allow retrieving portal items later
+    usingPublicPortal = true;
+    // search the public portal
+    searchPortal(publicPortal);
   }
 
   /**
@@ -116,15 +141,18 @@ public class IntegratedWindowsAuthenticationController {
   private void handleSearchSecurePress() {
     // check for a url in the URL field
     if (!portalUrlTextField.getText().isEmpty()) {
-      // search an instance of the IWA-secured portal, the user may be challenged for access
-      searchPortal(new Portal(portalUrlTextField.getText(), true));
+      // keep hold of the portal we are searching and set a variable indicating that this is a secure portal, to allow retrieving portal items later
+      iwaSecuredPortal = new Portal(portalUrlTextField.getText(), true);
+      usingPublicPortal = false;
+      // search the IWA-secured portal, the user may be challenged for access
+      searchPortal(iwaSecuredPortal);
     } else {
       new Alert(Alert.AlertType.ERROR, "Portal URL is empty. Please enter a portal URL.").show();
     }
   }
 
   /**
-   * Search the given portal for its portal items and display them in a list view.
+   * Search the given portal for its portal items and display their titles in a list view.
    *
    * @param portal to search
    */
@@ -172,8 +200,9 @@ public class IntegratedWindowsAuthenticationController {
             // get the result
             PortalQueryResultSet<PortalItem> portalItemSet = portalItemResultFuture.get();
             List<PortalItem> portalItems = portalItemSet.getResults();
-            // add the items to the list view
-            portalItems.forEach(portalItem -> resultsListView.getItems().add(portalItem));
+            // add the IDs and titles of the portal items to the list view
+            portalItems.forEach(portalItem -> resultsListView.getItems().add(new Pair<>(portalItem.getItemId(), portalItem.getTitle())));
+
           } catch (ExecutionException | InterruptedException e) {
             new Alert(Alert.AlertType.ERROR, "Error getting portal item set from portal: " + e.getMessage()).show();
           }
@@ -201,16 +230,16 @@ public class IntegratedWindowsAuthenticationController {
   }
 
   /**
-   * Shows the title of the Portal items in the selection list view.
+   * Shows the title of the portal items in the selection list view.
    */
-  class PortalItemListCell extends ListCell<PortalItem> {
+  class PortalItemInfoListCell extends ListCell<Pair<String, String>> {
 
     @Override
-    protected void updateItem(PortalItem portalItem, boolean empty) {
-      super.updateItem(portalItem, empty);
-      if (portalItem != null) {
+    protected void updateItem(Pair<String, String> portalItemInfo, boolean empty) {
+      super.updateItem(portalItemInfo, empty);
+      if (portalItemInfo != null) {
         // set the list cell's text to the map's index
-        setText(portalItem.getTitle());
+        setText(portalItemInfo.getValue());
       } else {
         setText(null);
       }
