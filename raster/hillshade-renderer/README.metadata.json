@@ -1,0 +1,34 @@
+{
+    "category": "Raster",
+    "description": "@@TODO: Apply a hillshade renderer to a raster.",
+    "ignore": false,
+    "images": [
+        "HillshadeRenderer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "HillshadeRenderer",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "redirect_from": "/java/latest/sample-code/hillshade-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "HillshadeRenderer",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/resources/hillshade_renderer.fxml",
+        "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererLauncher.java",
+        "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererController.java",
+        "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererSample.java"
+    ],
+    "title": "@@TODO: Hillshade Renderer"
+}
