@@ -1,0 +1,37 @@
+{
+    "category": "Portal",
+    "description": "@@TODO: Authenticate with OAuth 2.0 to retrieve the user's profile information.",
+    "ignore": false,
+    "images": [
+        "OAuth.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "AuthenticationChallengeHandler",
+        "OAuthConfiguration",
+        "OAuthTokenCredential",
+        "OAuthTokenCredentialRequest",
+        "Portal",
+        "PortalUser"
+    ],
+    "redirect_from": "@@TODO: /java/latest/sample-code/oauth.htm",
+    "relevant_apis": [
+        "AuthenticationChallengeHandler",
+        "OAuthConfiguration",
+        "OAuthTokenCredential",
+        "OAuthTokenCredentialRequest",
+        "Portal",
+        "PortalUser"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/resources/oauth_controller.fxml",
+        "src/main/resources/oauth_auth_dialog.fxml",
+        "src/main/java/com/esri/samples/oauth/OAuthSample.java",
+        "src/main/java/com/esri/samples/oauth/AuthenticationDialog.java",
+        "src/main/java/com/esri/samples/oauth/OAuthLauncher.java",
+        "src/main/java/com/esri/samples/oauth/OAuthChallengeHandler.java",
+        "src/main/java/com/esri/samples/oauth/OAuthController.java"
+    ],
+    "title": "@@TODO: OAuth"
+}
