@@ -18,7 +18,7 @@ package com.esri.samples.portal.oauth;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -39,7 +39,7 @@ public class OAuthSample extends Application {
 
     try {
       // create stack pane and application scene
-      BorderPane stackPane = new BorderPane();
+      StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
@@ -49,20 +49,17 @@ public class OAuthSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a ArcGISMap with the a Basemap instance with an Imagery base
-      // layer
+      // create a map with imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());
 
-      // set the map to be displayed in this view
+      // set the map to the map view
       mapView = new MapView();
       mapView.setMap(map);
 
       // set up an oauth config with url to portal, a client id and a re-direct url
-      // a custom client id for your app can be set on the ArcGIS for Developers dashboard under
-      // Authentication --> Redirect URIs
       OAuthConfiguration oAuthConfiguration = new OAuthConfiguration("https://www.arcgis.com/", "lgAdHkYZYlwwfAhC", "urn:ietf:wg:oauth:2.0:oob");
 
-      // set up the AuthenticationManager to handle auth challenges
+      // set up the authentication manager to handle authentication challenges
       DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
       AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
       // add the OAuth configuration
@@ -75,7 +72,7 @@ public class OAuthSample extends Application {
       mapView.setMap(portalMap);
 
       // add the map view to stack pane
-      stackPane.setCenter(mapView);
+      stackPane.getChildren().addAll(mapView);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
