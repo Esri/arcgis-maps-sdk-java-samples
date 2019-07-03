@@ -1,0 +1,57 @@
+{
+    "category": "Scene",
+    "description": "@@TODO: Animate a graphic's position and orientation and follow it with the camera.",
+    "ignore": false,
+    "images": [
+        "Animate3dGraphic.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "3D",
+        "ArcGISMap",
+        "ArcGISScene",
+        "Camera",
+        "GlobeCameraController",
+        "Graphic",
+        "GraphicsOverlay",
+        "LayerSceneProperties.SurfacePlacement",
+        "MapView",
+        "ModelSceneSymbol",
+        "OrbitGeoElementCameraController",
+        "Point",
+        "Polyline",
+        "Renderer",
+        "Renderer.SceneProperties",
+        "SceneView",
+        "Viewpoint"
+    ],
+    "redirect_from": "@@TODO: /java/latest/sample-code/animate-3.-graphic.htm",
+    "relevant_apis": [
+        "3D",
+        "ArcGISMap",
+        "ArcGISScene",
+        "Camera",
+        "GlobeCameraController",
+        "Graphic",
+        "GraphicsOverlay",
+        "LayerSceneProperties.SurfacePlacement",
+        "MapView",
+        "ModelSceneSymbol",
+        "OrbitGeoElementCameraController",
+        "Point",
+        "Polyline",
+        "Renderer",
+        "Renderer.SceneProperties",
+        "SceneView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/resources/animate_3d_graphic.fxml",
+        "src/main/java/com/esri/samples/animate_3d_graphic/AnimationModel.java",
+        "src/main/java/com/esri/samples/animate_3d_graphic/Animate3dGraphicSample.java",
+        "src/main/java/com/esri/samples/animate_3d_graphic/Animate3dGraphicLauncher.java",
+        "src/main/java/com/esri/samples/animate_3d_graphic/Animate3dGraphicController.java"
+    ],
+    "title": "@@TODO: Animate 3. Graphic"
+}

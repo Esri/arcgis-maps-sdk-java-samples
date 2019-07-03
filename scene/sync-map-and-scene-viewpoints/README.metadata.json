@@ -1,0 +1,31 @@
+{
+    "category": "Scene",
+    "description": "@@TODO: Synchronize the viewpoints between a MapView and a SceneView.",
+    "ignore": false,
+    "images": [
+        "SyncMapAndSceneViewpoints.png"
+    ],
+    "keywords": [
+        "2D",
+        "3D",
+        "view synchronisation",
+        "Viewpoint",
+        "Scene",
+        "Map",
+        "GeoView",
+        "Viewpoint",
+        "ViewpointChangedEvent"
+    ],
+    "redirect_from": "@@TODO: /java/latest/sample-code/sync-map-and-scene-viewpoints.htm",
+    "relevant_apis": [
+        "GeoView",
+        "Viewpoint",
+        "ViewpointChangedEvent"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/sync_map_and_scene_viewpoints/SyncMapAndSceneViewpointsLauncher.java",
+        "src/main/java/com/esri/samples/sync_map_and_scene_viewpoints/SyncMapAndSceneViewpointsSample.java"
+    ],
+    "title": "@@TODO: Sync Map and Scene Viewpoints"
+}
