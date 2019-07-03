@@ -1,12 +1,11 @@
 {
     "category": "Geometry",
-    "description": "@@TODO: Calculate the convex hull for a set of points.",
+    "description": "Calculate the convex hull for a set of points.",
     "ignore": false,
     "images": [
         "ConvexHull.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "GeometryEngine"
     ],
     "redirect_from": "/java/latest/sample-code/convex-hull.htm",
@@ -14,9 +13,8 @@
         "GeometryEngine"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/convex_hull/ConvexHullLauncher.java",
         "src/main/java/com/esri/samples/convex_hull/ConvexHullSample.java"
     ],
-    "title": "@@TODO: Convex Hull"
+    "title": "Convex Hull"
 }
