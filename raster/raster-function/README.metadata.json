@@ -1,0 +1,34 @@
+{
+    "category": "Raster",
+    "description": "@@TODO: Apply a raster function to a raster.",
+    "ignore": false,
+    "images": [
+        "RasterFunction.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "ImageServiceRaster",
+        "MapView",
+        "RasterFunction",
+        "RasterFunctionArguments",
+        "RasterLayer"
+    ],
+    "redirect_from": "/java/latest/sample-code/raster-function.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "ImageServiceRaster",
+        "MapView",
+        "RasterFunction",
+        "RasterFunctionArguments",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/raster_function/RasterFunctionLauncher.java",
+        "src/main/java/com/esri/samples/raster_function/RasterFunctionSample.java"
+    ],
+    "title": "@@TODO: Raster Function"
+}
