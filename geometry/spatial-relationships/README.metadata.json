@@ -1,0 +1,51 @@
+{
+    "category": "Geometry",
+    "description": "@@TODO: Determine spatial relationships between two geometries.",
+    "ignore": false,
+    "images": [
+        "SpatialRelationships.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "Geometry",
+        "GeometryEngine",
+        "GeometryType",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
+    ],
+    "redirect_from": "/java/latest/sample-code/spatial-relationships.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Geometry",
+        "GeometryEngine",
+        "GeometryType",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "SpatialRelationshipsSample.java",
+        "src/main/java/com/esri/samples/spatial_relationships/SpatialRelationshipsLauncher.java",
+        "src/main/java/com/esri/samples/spatial_relationships/SpatialRelationshipsSample.java"
+    ],
+    "title": "@@TODO: Spatial Relationships"
+}

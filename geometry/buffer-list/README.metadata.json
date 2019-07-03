@@ -1,0 +1,23 @@
+{
+    "category": "Geometry",
+    "description": "Combine buffers from multiple points individual buffer distances.",
+    "ignore": false,
+    "images": [
+        "BufferList.png"
+    ],
+    "keywords": [
+        "Analysis",
+        "Buffer",
+        "GeometryEngine",
+        "GeometryEngine"
+    ],
+    "redirect_from": "/java/latest/sample-code/buffer-list.htm",
+    "relevant_apis": [
+        "GeometryEngine"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/buffer_list/BufferListSample.java",
+        "src/main/java/com/esri/samples/buffer_list/BufferListLauncher.java"
+    ],
+    "title": "Buffer list"
+}
