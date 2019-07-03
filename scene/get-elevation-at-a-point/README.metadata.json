@@ -1,6 +1,6 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Get the elevation for a given point on a surface in a scene.",
+    "description": "Get the elevation for a given point on a surface in a scene.",
     "ignore": false,
     "images": [
         "GetElevationAtAPoint.png"
@@ -14,7 +14,7 @@
         "ElevationSourcesList",
         "SceneView"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/get-elevation-at-a-point.htm",
+    "redirect_from": "/java/latest/sample-code/get-elevation-at-a-point.htm",
     "relevant_apis": [
         "ArcGISTiledElevationSource",
         "BaseSurface",
@@ -22,9 +22,7 @@
         "SceneView"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/get_elevation_at_a_point/GetElevationAtAPointLauncher.java",
         "src/main/java/com/esri/samples/get_elevation_at_a_point/GetElevationAtAPointSample.java"
     ],
-    "title": "@@TODO: Get elevation at a point"
+    "title": "Get elevation at a point"
 }

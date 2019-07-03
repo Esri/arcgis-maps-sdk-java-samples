@@ -1,12 +1,11 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Extrude graphics based on attributes.",
+    "description": "Extrude graphics based on attributes.",
     "ignore": false,
     "images": [
         "ExtrudeGraphics.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISScene",
         "Graphic",
         "GraphicsOverlay",
@@ -22,9 +21,8 @@
         "Renderer.SceneProperties"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/extrude_graphics/ExtrudeGraphicsSample.java",
         "src/main/java/com/esri/samples/extrude_graphics/ExtrudeGraphicsLauncher.java"
     ],
-    "title": "@@TODO: Extrude Graphics"
+    "title": "Extrude Graphics"
 }

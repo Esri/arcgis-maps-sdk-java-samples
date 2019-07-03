@@ -1,12 +1,11 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Vertically exaggerate terrain.",
+    "description": "Vertically exaggerate terrain.",
     "ignore": false,
     "images": [
         "TerrainExaggeration.gif"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISScene",
         "Surface",
         "ArcGISTiledElevationSource"
@@ -18,11 +17,10 @@
         "ArcGISTiledElevationSource"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/resources/terrain_exaggeration.fxml",
         "src/main/java/com/esri/samples/terrain_exaggeration/TerrainExaggerationSample.java",
         "src/main/java/com/esri/samples/terrain_exaggeration/TerrainExaggerationController.java",
         "src/main/java/com/esri/samples/terrain_exaggeration/TerrainExaggerationLauncher.java"
     ],
-    "title": "@@TODO: Terrain Exaggeration"
+    "title": "Terrain Exaggeration"
 }

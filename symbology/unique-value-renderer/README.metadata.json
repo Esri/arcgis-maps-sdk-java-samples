@@ -1,12 +1,11 @@
 {
     "category": "Symbology",
-    "description": "@@TODO: Symbolize features based on their unique attribute value.",
+    "description": "Symbolize features based on their unique attribute value.",
     "ignore": false,
     "images": [
         "UniqueValueRenderer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "FeatureLayer",
         "MapView",
@@ -28,9 +27,8 @@
         "UniqueValueRenderer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/unique_value_renderer/UniqueValueRendererSample.java",
         "src/main/java/com/esri/samples/unique_value_renderer/UniqueValueRendererLauncher.java"
     ],
-    "title": "@@TODO: Unique Value Renderer"
+    "title": "Unique Value Renderer"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Position graphics relative to terrain.",
+    "description": "Position graphics relative to terrain.",
     "ignore": false,
     "images": [
         "ElevationMode.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISScene",
         "Camera",
         "Graphic",
@@ -28,9 +27,8 @@
         "Surface"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/elevation_mode/ElevationModeSample.java",
         "src/main/java/com/esri/samples/elevation_mode/ElevationModeLauncher.java"
     ],
-    "title": "@@TODO: Elevation Mode"
+    "title": "Elevation Mode"
 }

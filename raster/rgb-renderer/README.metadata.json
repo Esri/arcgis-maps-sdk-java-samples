@@ -1,12 +1,11 @@
 {
     "category": "Raster",
-    "description": "@@TODO: Apply an RGB renderer to a raster.",
+    "description": "Apply an RGB renderer to a raster.",
     "ignore": false,
     "images": [
         "RgbRenderer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "MapView",
@@ -26,11 +25,9 @@
         "StretchParameters"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/resources/rgb_renderer.fxml",
         "src/main/java/com/esri/samples/rgb_renderer/RgbRendererController.java",
-        "src/main/java/com/esri/samples/rgb_renderer/RgbRendererLauncher.java",
         "src/main/java/com/esri/samples/rgb_renderer/RgbRendererSample.java"
     ],
-    "title": "@@TODO: Rgb Renderer"
+    "title": "Rgb Renderer"
 }

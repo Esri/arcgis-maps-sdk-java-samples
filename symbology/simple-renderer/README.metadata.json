@@ -1,12 +1,11 @@
 {
     "category": "Symbology",
-    "description": "@@TODO: Set default symbols for all graphics in an overlay.",
+    "description": "Set default symbols for all graphics in an overlay.",
     "ignore": false,
     "images": [
         "SimpleRenderer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
@@ -28,9 +27,7 @@
         "SimpleRenderer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/simple_renderer/SimpleRendererLauncher.java",
         "src/main/java/com/esri/samples/simple_renderer/SimpleRendererSample.java"
     ],
-    "title": "@@TODO: Simple Renderer"
+    "title": "Simple Renderer"
 }

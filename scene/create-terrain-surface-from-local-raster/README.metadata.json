@@ -1,6 +1,6 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Set the terrain surface with elevation described by a raster file.",
+    "description": "Set the terrain surface with elevation described by a raster file.",
     "ignore": false,
     "images": [
         "CreateTerrainSurfaceFromLocalRaster.png"
@@ -19,9 +19,8 @@
         "Surface"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/create_terrain_surface_from_local_raster/CreateTerrainSurfaceFromLocalRasterSample.java",
         "src/main/java/com/esri/samples/create_terrain_surface_from_local_raster/CreateTerrainSurfaceFromLocalRasterLauncher.java"
     ],
-    "title": "@@TODO: Create Terrain Surface from a Local Raster"
+    "title": "Create Terrain Surface from a Local Raster"
 }

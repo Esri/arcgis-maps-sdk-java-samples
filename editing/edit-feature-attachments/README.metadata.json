@@ -1,12 +1,11 @@
 {
     "category": "Editing",
-    "description": "@@TODO: Add or remove feature attachments.",
+    "description": "Add or remove feature attachments.",
     "ignore": false,
     "images": [
         "EditFeatureAttachments.gif"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISFeature",
         "ArcGISMap",
         "Attachment",
@@ -26,9 +25,8 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/edit_feature_attachments/EditFeatureAttachmentsSample.java",
         "src/main/java/com/esri/samples/edit_feature_attachments/EditFeatureAttachmentsLauncher.java"
     ],
-    "title": "@@TODO: Edit Feature Attachments"
+    "title": "Edit Feature Attachments"
 }

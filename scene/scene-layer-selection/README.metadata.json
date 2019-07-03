@@ -1,12 +1,11 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Select clicked features in a scene.",
+    "description": "Select clicked features in a scene.",
     "ignore": false,
     "images": [
         "SceneLayerSelection.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISSceneLayer",
         "GeoElement",
         "IdentifyLayerResult"
@@ -18,9 +17,7 @@
         "IdentifyLayerResult"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/scene_layer_selection/SceneLayerSelectionLauncher.java",
         "src/main/java/com/esri/samples/scene_layer_selection/SceneLayerSelectionSample.java"
     ],
-    "title": "@@TODO: Scene Layer Selection"
+    "title": "Scene Layer Selection"
 }

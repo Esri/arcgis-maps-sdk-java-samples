@@ -1,12 +1,11 @@
 {
     "category": "Search",
-    "description": "@@TODO: Geocode with offline data.",
+    "description": "Geocode with offline data.",
     "ignore": false,
     "images": [
         "OfflineGeocode.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "ArcGISTiledLayer",
         "Callout",
@@ -38,9 +37,8 @@
         "TileCache"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/offline_geocode/OfflineGeocodeSample.java",
         "src/main/java/com/esri/samples/offline_geocode/OfflineGeocodeLauncher.java"
     ],
-    "title": "@@TODO: Offline Geocode"
+    "title": "Offline Geocode"
 }

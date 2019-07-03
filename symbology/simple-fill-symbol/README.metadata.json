@@ -1,12 +1,11 @@
 {
     "category": "Symbology",
-    "description": "@@TODO: Change a graphic's fill color, outline, and style properties.",
+    "description": "Change a graphic's fill color, outline, and style properties.",
     "ignore": false,
     "images": [
         "SimpleFillSymbol.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
@@ -30,9 +29,7 @@
         "SimpleLineSymbol"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/simple_fill_symbol/SimpleFillSymbolLauncher.java",
         "src/main/java/com/esri/samples/simple_fill_symbol/SimpleFillSymbolSample.java"
     ],
-    "title": "@@TODO: Simple Fill Symbol"
+    "title": "Simple Fill Symbol"
 }

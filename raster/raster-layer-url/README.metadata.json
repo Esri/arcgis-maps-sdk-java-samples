@@ -1,19 +1,18 @@
 {
     "category": "Raster",
-    "description": "@@TODO: Show raster data from an online raster image service.",
+    "description": "Show raster data from an online raster image service.",
     "ignore": false,
     "images": [
         "RasterLayerURL.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "ImageServiceRaster",
         "MapView",
         "RasterLayer"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/raster-layer-url.htm",
+    "redirect_from": "/java/latest/sample-code/raster-layer-url.htm",
     "relevant_apis": [
         "ArcGISMap",
         "Basemap",
@@ -22,9 +21,8 @@
         "RasterLayer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/raster_layer_url/RasterLayerURLSample.java",
         "src/main/java/com/esri/samples/raster_layer_url/RasterLayerURLLauncher.java"
     ],
-    "title": "@@TODO: Raster Layer URL"
+    "title": "Raster Layer URL"
 }

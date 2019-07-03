@@ -1,12 +1,11 @@
 {
     "category": "Symbology",
-    "description": "@@TODO: Show simple markers.",
+    "description": "Show simple markers.",
     "ignore": false,
     "images": [
         "SimpleMarkerSymbol.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
@@ -26,9 +25,8 @@
         "SimpleMarkerSymbol.Style"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/simple_marker_symbol/SimpleMarkerSymbolSample.java",
         "src/main/java/com/esri/samples/simple_marker_symbol/SimpleMarkerSymbolLauncher.java"
     ],
-    "title": "@@TODO: Simple Marker Symbol"
+    "title": "Simple Marker Symbol"
 }

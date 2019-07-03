@@ -1,12 +1,11 @@
 {
     "category": "Editing",
-    "description": "@@TODO: Delete features from an online feature service.",
+    "description": "Delete features from an online feature service.",
     "ignore": false,
     "images": [
         "DeleteFeatures.gif"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Feature",
         "FeatureLayer",
@@ -22,9 +21,7 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/delete_features/DeleteFeaturesLauncher.java",
         "src/main/java/com/esri/samples/delete_features/DeleteFeaturesSample.java"
     ],
-    "title": "@@TODO: Delete Features"
+    "title": "Delete Features"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Search",
-    "description": "@@TODO: Find the address of a location.",
+    "description": "Find the address of a location.",
     "ignore": false,
     "images": [
         "ReverseGeocodeOnline.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "GeocodeParameters",
         "GraphicsOverlay",
@@ -28,9 +27,8 @@
         "TileCache"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/reverse_geocode_online/ReverseGeocodeOnlineSample.java",
         "src/main/java/com/esri/samples/reverse_geocode_online/ReverseGeocodeOnlineLauncher.java"
     ],
-    "title": "@@TODO: Reverse Geocode Online"
+    "title": "Reverse Geocode Online"
 }

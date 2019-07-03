@@ -1,12 +1,11 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Display a web scene.",
+    "description": "Display a web scene.",
     "ignore": false,
     "images": [
         "OpenScenePortalItem.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISScene",
         "Portal",
         "PortalItem"
@@ -18,9 +17,8 @@
         "PortalItem"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/open_scene_portal_item/OpenScenePortalItemSample.java",
         "src/main/java/com/esri/samples/open_scene_portal_item/OpenScenePortalItemLauncher.java"
     ],
-    "title": "@@TODO: Open Scene (Portal Item)"
+    "title": "Open Scene (Portal Item)"
 }

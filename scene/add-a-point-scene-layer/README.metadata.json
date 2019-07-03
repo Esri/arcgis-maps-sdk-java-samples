@@ -1,6 +1,6 @@
 {
     "category": "Scene",
-    "description": "@@TODO: View a point scene layer from a scene service.",
+    "description": "View a point scene layer from a scene service.",
     "ignore": false,
     "images": [
         "AddAPointSceneLayer.png"
@@ -16,9 +16,7 @@
         "ArcGISSceneLayer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/add_a_point_scene_layer/AddAPointSceneLayerLauncher.java",
         "src/main/java/com/esri/samples/add_a_point_scene_layer/AddAPointSceneLayerSample.java"
     ],
-    "title": "@@TODO: Add a point scene layer"
+    "title": "Add a point scene layer"
 }

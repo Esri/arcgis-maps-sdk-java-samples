@@ -1,6 +1,6 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Fix the camera to point at and rotate around a target object.",
+    "description": "Fix the camera to point at and rotate around a target object.",
     "ignore": false,
     "images": [
         "OrbitTheCameraAroundAnObject.png"
@@ -17,11 +17,9 @@
         "OrbitGeoElementCameraController"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/resources/orbit_the_camera_around_an_object.fxml",
         "src/main/java/com/esri/samples/orbit_the_camera_around_an_object/OrbitTheCameraAroundAnObjectController.java",
-        "src/main/java/com/esri/samples/orbit_the_camera_around_an_object/OrbitTheCameraAroundAnObjectLauncher.java",
         "src/main/java/com/esri/samples/orbit_the_camera_around_an_object/OrbitTheCameraAroundAnObjectSample.java"
     ],
-    "title": "@@TODO: Orbit the camera around an object"
+    "title": "Orbit the camera around an object"
 }

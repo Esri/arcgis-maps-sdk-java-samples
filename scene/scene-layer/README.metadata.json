@@ -1,12 +1,11 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Display a scene layer with 3. buildings.",
+    "description": "Display a scene layer with 3. buildings.",
     "ignore": false,
     "images": [
         "SceneLayer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "3D",
         "ArcGISScene",
         "ArcGISSceneLayer",
@@ -26,9 +25,7 @@
         "Surface"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/scene_layer/SceneLayerLauncher.java",
         "src/main/java/com/esri/samples/scene_layer/SceneLayerSample.java"
     ],
-    "title": "@@TODO: Scene Layer"
+    "title": "Scene Layer"
 }

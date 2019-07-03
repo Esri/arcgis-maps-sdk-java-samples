@@ -1,12 +1,11 @@
 {
     "category": "Raster",
-    "description": "@@TODO: Apply a blend renderer to a raster.",
+    "description": "Apply a blend renderer to a raster.",
     "ignore": false,
     "images": [
         "BlendRenderer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "BlendRenderer",
@@ -26,11 +25,10 @@
         "RasterLayer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/resources/blend_renderer.fxml",
         "src/main/java/com/esri/samples/blend_renderer/BlendRendererController.java",
         "src/main/java/com/esri/samples/blend_renderer/BlendRendererSample.java",
         "src/main/java/com/esri/samples/blend_renderer/BlendRendererLauncher.java"
     ],
-    "title": "@@TODO: Blend Renderer"
+    "title": "Blend Renderer"
 }

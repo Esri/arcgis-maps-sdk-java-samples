@@ -1,6 +1,6 @@
 {
     "category": "Scene",
-    "description": "@@TODO: See through terrain in a scene and move the camera underground.",
+    "description": "See through terrain in a scene and move the camera underground.",
     "ignore": false,
     "images": [
         "ViewContentBeneathTerrainSurface.png"
@@ -13,15 +13,13 @@
         "Surface",
         "Surface.NavigationConstraint"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/view-content-beneath-terrain-surface.htm",
+    "redirect_from": "/java/latest/sample-code/view-content-beneath-terrain-surface.htm",
     "relevant_apis": [
         "Surface",
         "Surface.NavigationConstraint"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/view_content_beneath_terrain_surface/ViewContentBeneathTerrainSurfaceLauncher.java",
         "src/main/java/com/esri/samples/view_content_beneath_terrain_surface/ViewContentBeneathTerrainSurfaceSample.java"
     ],
-    "title": "@@TODO: View content beneath terrain surface"
+    "title": "View content beneath terrain surface"
 }

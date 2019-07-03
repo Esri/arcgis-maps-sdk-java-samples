@@ -1,12 +1,11 @@
 {
     "category": "Raster",
-    "description": "@@TODO: Display raster data from a local file.",
+    "description": "Display raster data from a local file.",
     "ignore": false,
     "images": [
         "RasterLayerFile.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "MapView",
@@ -22,9 +21,8 @@
         "RasterLayer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/raster_layer_file/RasterLayerFileSample.java",
         "src/main/java/com/esri/samples/raster_layer_file/RasterLayerFileLauncher.java"
     ],
-    "title": "@@TODO: Raster Layer File"
+    "title": "Raster Layer File"
 }

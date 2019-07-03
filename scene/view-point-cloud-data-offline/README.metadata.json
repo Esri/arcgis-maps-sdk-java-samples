@@ -1,6 +1,6 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Display local 3. point cloud data.",
+    "description": "Display local 3. point cloud data.",
     "ignore": false,
     "images": [
         "ViewPointCloudDataOffline.png"
@@ -16,9 +16,7 @@
         "PointCloudLayer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/view_point_cloud_data_offline/ViewPointCloudDataOfflineLauncher.java",
         "src/main/java/com/esri/samples/view_point_cloud_data_offline/ViewPointCloudDataOfflineSample.java"
     ],
-    "title": "@@TODO: View point cloud data offline"
+    "title": "View point cloud data offline"
 }

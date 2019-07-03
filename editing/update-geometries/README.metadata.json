@@ -1,12 +1,11 @@
 {
     "category": "Editing",
-    "description": "@@TODO: Update a feature's location in an online feature service.",
+    "description": "Update a feature's location in an online feature service.",
     "ignore": false,
     "images": [
         "UpdateGeometries.gif"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Feature",
         "FeatureLayer",
@@ -22,9 +21,7 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/update_geometries/UpdateGeometriesLauncher.java",
         "src/main/java/com/esri/samples/update_geometries/UpdateGeometriesSample.java"
     ],
-    "title": "@@TODO: Update Geometries"
+    "title": "Update Geometries"
 }

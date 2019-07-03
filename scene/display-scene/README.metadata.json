@@ -1,19 +1,18 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Display a 3. scene with terrain and imagery.",
+    "description": "Display a 3. scene with terrain and imagery.",
     "ignore": false,
     "images": [
         "DisplayScene.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISScene",
         "ArcGISTiledElevationSource",
         "Camera",
         "SceneView",
         "Surface"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/display-scene.htm",
+    "redirect_from": "/java/latest/sample-code/display-scene.htm",
     "relevant_apis": [
         "ArcGISScene",
         "ArcGISTiledElevationSource",
@@ -22,9 +21,7 @@
         "Surface"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/display_scene/DisplaySceneLauncher.java",
         "src/main/java/com/esri/samples/display_scene/DisplaySceneSample.java"
     ],
-    "title": "@@TODO: Display Scene"
+    "title": "Display Scene"
 }

@@ -1,10 +1,9 @@
 {
     "category": "Scene",
-    "description": "@@TODO: Create graphics with simple 3D shapes.",
+    "description": "Create graphics with simple 3D shapes.",
     "ignore": false,
     "images": [],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISScene",
         "Graphic",
         "GraphicsOverlay",
@@ -22,9 +21,7 @@
         "SceneSymbol.AnchorPosition"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/symbols/SymbolsLauncher.java",
         "src/main/java/com/esri/samples/symbols/SymbolsSample.java"
     ],
-    "title": "@@TODO: Symbols"
+    "title": "Symbols"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Symbology",
-    "description": "@@TODO: Change a line graphic's color and style.",
+    "description": "Change a line graphic's color and style.",
     "ignore": false,
     "images": [
         "SimpleLineSymbol.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
@@ -28,9 +27,7 @@
         "SimpleLineSymbol.Style"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/simple_line_symbol/SimpleLineSymbolLauncher.java",
         "src/main/java/com/esri/samples/simple_line_symbol/SimpleLineSymbolSample.java"
     ],
-    "title": "@@TODO: Simple Line Symbol"
+    "title": "Simple Line Symbol"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Symbology",
-    "description": "@@TODO: Use pictures for markers.",
+    "description": "Use pictures for markers.",
     "ignore": false,
     "images": [
         "PictureMarkerSymbol.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
@@ -24,9 +23,8 @@
         "Point"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/picture_marker_symbol/PictureMarkerSymbolSample.java",
         "src/main/java/com/esri/samples/picture_marker_symbol/PictureMarkerSymbolLauncher.java"
     ],
-    "title": "@@TODO: Picture Marker Symbol"
+    "title": "Picture Marker Symbol"
 }

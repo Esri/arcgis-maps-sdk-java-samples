@@ -1,12 +1,11 @@
 {
     "category": "Symbology",
-    "description": "@@TODO: Override the default rendering of a shapefile.",
+    "description": "Override the default rendering of a shapefile.",
     "ignore": false,
     "images": [
         "SymbolizeShapefile.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "FeatureLayer",
         "ShapefileFeatureTable",
         "SimpleFillSymbol",
@@ -22,9 +21,7 @@
         "SimpleRenderer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/symbolize_shapefile/SymbolizeShapefileLauncher.java",
         "src/main/java/com/esri/samples/symbolize_shapefile/SymbolizeShapefileSample.java"
     ],
-    "title": "@@TODO: Symbolize Shapefile"
+    "title": "Symbolize Shapefile"
 }
