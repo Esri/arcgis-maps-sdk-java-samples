@@ -85,7 +85,7 @@ public class IntegratedWindowsAuthenticationController {
           // get the portal item ID from the selected list view item
           String selectedItemId = resultsListView.getSelectionModel().getSelectedItem().getKey();
 
-          // see if using the public or secured portal; get the appropriate object reference
+          // determine if using the public or secured portal; get the appropriate object reference
           Portal portal;
           if (usingPublicPortal) {
             portal = publicPortal;
@@ -189,7 +189,7 @@ public class IntegratedWindowsAuthenticationController {
         if (portal.getUser() != null) {
           loadStateTextView.setText("Connected as: " + portal.getUser().getUsername());
         } else {
-          // if connecting to an unsecured portal, no user name is needed
+          // if connecting to an unsecured portal, no user credentials are needed to authenticate access
           loadStateTextView.setText("Connected as: Anonymous");
         }
 
@@ -211,8 +211,9 @@ public class IntegratedWindowsAuthenticationController {
         });
 
       } else {
-        // hide the progress indicator
+        // hide the progress indicator and reset the load state text
         progressIndicator.setVisible(false);
+        loadStateTextView.setText("");
         // report error
         new Alert(Alert.AlertType.ERROR, "Portal sign in failed: " + portal.getLoadError().getCause().getMessage()).show();
       }
