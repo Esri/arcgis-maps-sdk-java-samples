@@ -26,13 +26,13 @@
 <h2>Relevant API</h2>
 
 <ul>
-  <li><code>AuthenticationChallenge</code></li>
-  <li><code>AuthenticationChallengeHandler</code></li>
-  <li><code>AuthenticationChallengeResponse</code></li>
-  <li><code>AuthenticationManager</code></li>
-  <li><code>AuthenticationManager.setAuthenticationChallengeHandler</code></li>
-  <li><code>Portal</code></li>
-  <li><code>UserCredential</code></li>
+  <li>AuthenticationChallenge</li>
+  <li>AuthenticationChallengeHandler</li>
+  <li>AuthenticationChallengeResponse</li>
+  <li>AuthenticationManager</li>
+  <li>AuthenticationManager.setAuthenticationChallengeHandler</li>
+  <li>Portal</li>
+  <li>UserCredential</li>
 </ul>
 
 <h2>About the data</h2>
