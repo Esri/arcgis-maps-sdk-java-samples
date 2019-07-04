@@ -55,16 +55,15 @@ public class ReadGeoPackageSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // open the Geopackage
+      // get the GeoPackage, and load it
       File geoPackageFile = new File("./samples-data/auroraCO/AuroraCO.gpkg");
       GeoPackage geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
       geoPackage.loadAsync();
       geoPackage.addDoneLoadingListener(() -> {
 
-        // get the Rasters from the GeoPackage, and add them to the map as a layer
+        // get the rasters from the GeoPackage, and add them to the map as layers
         geoPackage.getGeoPackageRasters().forEach(raster -> {
           RasterLayer rasterLayer = new RasterLayer(raster);
-          rasterLayer.loadAsync();
           // make the layer semi-transparent so we can see layers below it
           rasterLayer.setOpacity(0.5f);
           
@@ -74,7 +73,6 @@ public class ReadGeoPackageSample extends Application {
         // get the FeatureTables from the GeoPackage, and add them to the map as a layer
         geoPackage.getGeoPackageFeatureTables().forEach(table -> {
           FeatureLayer featureLayer = new FeatureLayer(table);
-          featureLayer.loadAsync();
 
           map.getOperationalLayers().add(featureLayer);
         });
@@ -82,6 +80,7 @@ public class ReadGeoPackageSample extends Application {
 
       // add the map view to the stack pane
       stackPane.getChildren().add(mapView);
+      
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();

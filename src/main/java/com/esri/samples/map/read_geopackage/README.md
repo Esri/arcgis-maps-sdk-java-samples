@@ -15,7 +15,7 @@
 <h2>How it works</h2>
 
 <ol>
-  <li>Open the GeoPackage using <code>GeoPackage.openAsync(path)</code>.</li>
+  <li>Get the GeoPackage and load it using <code>geoPackage.loadAsync()</code>.</li>
   <li>Iterate through available rasters, exposed by <code>geopackage.getGeoPackageRasters()</code>.
   <ul>
     <li>For each raster, create a raster layer using <code>new RasterLayer(geopackageRaster)</code>, then add it to the map.</li>
@@ -50,6 +50,6 @@
 
 <p>GeoPackage uses a single SQLite file (.gpkg) that conforms to the OGC GeoPackage Standard. You can create a GeoPackage file (.gpkg) from your own data using the create a SQLite Database tool in ArcGIS Pro.</p>
 
-<h2 id="tags">Tags</h2>
+<h2>Tags</h2>
 
 <p>container, layers, maps, OGC, package, rasters, tables</p>
