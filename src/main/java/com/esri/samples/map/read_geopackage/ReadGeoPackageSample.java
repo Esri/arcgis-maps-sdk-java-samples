@@ -80,7 +80,7 @@ public class ReadGeoPackageSample extends Application {
 
       // add the map view to the stack pane
       stackPane.getChildren().add(mapView);
-      
+
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
