@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.portal.oauth;
+package com.esri.samples.portal.authenticate_with_oauth;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
