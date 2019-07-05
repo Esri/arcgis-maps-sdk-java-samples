@@ -1,0 +1,35 @@
+{
+    "category": "Kml",
+    "description": "@@TODO: Play tours in KML files.",
+    "ignore": false,
+    "images": [
+        "PlayAKMLTour.png"
+    ],
+    "keywords": [
+        "KML",
+        "tour",
+        "story",
+        "interactive",
+        "narration",
+        "play",
+        "pause",
+        "animation",
+        "KmlDataset",
+        "KmlTour",
+        "KmlTourController",
+        "KmlTourStatus"
+    ],
+    "redirect_from": "/java/latest/sample-code/play-a-kml-tour.htm",
+    "relevant_apis": [
+        "KmlDataset",
+        "KmlTour",
+        "KmlTourController",
+        "KmlTourStatus"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/play_a_kml_tour/PlayAKMLTourLauncher.java",
+        "src/main/java/com/esri/samples/play_a_kml_tour/PlayAKMLTourSample.java"
+    ],
+    "title": "@@TODO: Play a KML Tour"
+}

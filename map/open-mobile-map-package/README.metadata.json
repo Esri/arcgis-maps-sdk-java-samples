@@ -1,0 +1,24 @@
+{
+    "category": "Map",
+    "description": "@@TODO: Display a map from a mobile map package.",
+    "ignore": false,
+    "images": [
+        "OpenMobileMapPackage.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "MapView",
+        "MobileMapPackage"
+    ],
+    "redirect_from": "/java/latest/sample-code/open-mobile-map-package.htm",
+    "relevant_apis": [
+        "MapView",
+        "MobileMapPackage"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/open_mobile_map_package/OpenMobileMapPackageLauncher.java",
+        "src/main/java/com/esri/samples/open_mobile_map_package/OpenMobileMapPackageSample.java"
+    ],
+    "title": "@@TODO: Open Mobile Map Package"
+}

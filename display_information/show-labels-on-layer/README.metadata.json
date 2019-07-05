@@ -1,0 +1,26 @@
+{
+    "category": "Display information",
+    "description": "@@TODO: Add custom labels to a layer.",
+    "ignore": false,
+    "images": [
+        "ShowLabelsOnLayer.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "FeatureLayer",
+        "LabelDefinition",
+        "TextSymbol"
+    ],
+    "redirect_from": "/java/latest/sample-code/show-labels-on-layer.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "LabelDefinition",
+        "TextSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/show_labels_on_layer/ShowLabelsOnLayerSample.java",
+        "src/main/java/com/esri/samples/show_labels_on_layer/ShowLabelsOnLayerLauncher.java"
+    ],
+    "title": "@@TODO: Show Labels on Layer"
+}

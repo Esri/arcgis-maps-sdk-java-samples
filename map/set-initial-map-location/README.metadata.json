@@ -1,0 +1,28 @@
+{
+    "category": "Map",
+    "description": "@@TODO: Display a map centered at a latitude and longitude plus zoom level.",
+    "ignore": false,
+    "images": [
+        "SetInitialMapLocation.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "redirect_from": "/java/latest/sample-code/set-initial-map-location.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/set_initial_map_location/SetInitialMapLocationSample.java",
+        "src/main/java/com/esri/samples/set_initial_map_location/SetInitialMapLocationLauncher.java"
+    ],
+    "title": "@@TODO: Set Initial Map Location"
+}

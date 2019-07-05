@@ -1,0 +1,42 @@
+{
+    "category": "Display information",
+    "description": "@@TODO: Draw simple graphics with marker, line, polygon, and text symbols.",
+    "ignore": false,
+    "images": [
+        "AddGraphicsWithSymbols.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimepleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "TextSymbol"
+    ],
+    "redirect_from": "/java/latest/sample-code/add-graphics-with-symbols.htm",
+    "relevant_apis": [
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimepleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "TextSymbol"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/add_graphics_with_symbols/AddGraphicsWithSymbolsLauncher.java",
+        "src/main/java/com/esri/samples/add_graphics_with_symbols/AddGraphicsWithSymbolsSample.java"
+    ],
+    "title": "@@TODO: Add Graphics with Symbols"
+}

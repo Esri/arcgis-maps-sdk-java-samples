@@ -1,0 +1,40 @@
+{
+    "category": "Display information",
+    "description": "@@TODO: Display a variety of grids on a map.",
+    "ignore": false,
+    "images": [
+        "DisplayGrid.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "Grid",
+        "LatitudeLongitudeGrid",
+        "LineSymbol",
+        "MapView",
+        "MgrsGrid",
+        "SimpleLineSymbol",
+        "TextSymbol",
+        "UsngGrid",
+        "UtmGrid"
+    ],
+    "redirect_from": "/java/latest/sample-code/display-grid.htm",
+    "relevant_apis": [
+        "Grid",
+        "LatitudeLongitudeGrid",
+        "LineSymbol",
+        "MapView",
+        "MgrsGrid",
+        "SimpleLineSymbol",
+        "TextSymbol",
+        "UsngGrid",
+        "UtmGrid"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/resources/display_grid.fxml",
+        "src/main/java/com/esri/samples/display_grid/DisplayGridLauncher.java",
+        "src/main/java/com/esri/samples/display_grid/DisplayGridController.java",
+        "src/main/java/com/esri/samples/display_grid/DisplayGridSample.java"
+    ],
+    "title": "@@TODO: Display Grid"
+}

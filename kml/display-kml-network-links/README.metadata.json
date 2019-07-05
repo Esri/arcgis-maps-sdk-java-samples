@@ -1,0 +1,31 @@
+{
+    "category": "Kml",
+    "description": "@@TODO: Display KML that automatically refreshes every few seconds.",
+    "ignore": false,
+    "images": [
+        "DisplayKMLNetworkLinks.png"
+    ],
+    "keywords": [
+        "KML",
+        "KMZ",
+        "OGC",
+        "Keyhole",
+        "Network Link",
+        "Network Link Control",
+        "KmlDataset",
+        "KmlLayer",
+        "KmlNetworkLinkMessageReceivedEvent"
+    ],
+    "redirect_from": "/java/latest/sample-code/display-kml-network-links.htm",
+    "relevant_apis": [
+        "KmlDataset",
+        "KmlLayer",
+        "KmlNetworkLinkMessageReceivedEvent"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/display_kml_network_links/DisplayKMLNetworkLinksSample.java",
+        "src/main/java/com/esri/samples/display_kml_network_links/DisplayKMLNetworkLinksLauncher.java"
+    ],
+    "title": "@@TODO: Display KML Network Links"
+}

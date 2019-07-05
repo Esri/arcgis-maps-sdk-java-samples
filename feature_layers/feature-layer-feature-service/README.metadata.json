@@ -1,0 +1,28 @@
+{
+    "category": "Feature layers",
+    "description": "@@TODO: Show features from an online feature service.",
+    "ignore": false,
+    "images": [
+        "FeatureLayerFeatureService.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-feature-service.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/feature_layer_feature_service/FeatureLayerFeatureServiceLauncher.java",
+        "src/main/java/com/esri/samples/feature_layer_feature_service/FeatureLayerFeatureServiceSample.java"
+    ],
+    "title": "@@TODO: Feature Layer Feature Service"
+}

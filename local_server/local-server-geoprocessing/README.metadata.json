@@ -1,0 +1,40 @@
+{
+    "category": "Local server",
+    "description": "@@TODO: Create contour lines from local raster data and Local Server.",
+    "ignore": false,
+    "images": [
+        "LocalServerGeoprocessing.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "GeoprocessingDouble",
+        "GeoprocessingJob",
+        "GeoprocessingParameter",
+        "GeoprocessingParameters",
+        "GeoprocessingTask",
+        "LocalGeoprocessingService",
+        "LocalGeoprocessingService.ServiceType",
+        "LocalServer",
+        "LocalServerStatus"
+    ],
+    "redirect_from": "@@TODO: /java/latest/sample-code/local-server-geoprocessing.htm",
+    "relevant_apis": [
+        "GeoprocessingDouble",
+        "GeoprocessingJob",
+        "GeoprocessingParameter",
+        "GeoprocessingParameters",
+        "GeoprocessingTask",
+        "LocalGeoprocessingService",
+        "LocalGeoprocessingService.ServiceType",
+        "LocalServer",
+        "LocalServerStatus"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/resources/local_server_geoprocessing.fxml",
+        "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingLauncher.java",
+        "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingController.java",
+        "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingSample.java"
+    ],
+    "title": "@@TODO: Local Server Geoprocessing"
+}

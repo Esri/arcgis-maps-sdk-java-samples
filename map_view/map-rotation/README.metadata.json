@@ -1,0 +1,30 @@
+{
+    "category": "Map view",
+    "description": "@@TODO: Rotate a map.",
+    "ignore": false,
+    "images": [
+        "MapRotation.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Compass",
+        "Envelope",
+        "MapView",
+        "Point"
+    ],
+    "redirect_from": "/java/latest/sample-code/map-rotation.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Compass",
+        "Envelope",
+        "MapView",
+        "Point"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/map_rotation/MapRotationSample.java",
+        "src/main/java/com/esri/samples/map_rotation/MapRotationLauncher.java"
+    ],
+    "title": "@@TODO: Map Rotation"
+}

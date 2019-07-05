@@ -1,0 +1,28 @@
+{
+    "category": "Display information",
+    "description": "@@TODO: Show a callout at the clicked location.",
+    "ignore": false,
+    "images": [
+        "ShowCallout.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Callout",
+        "MapView",
+        "Point"
+    ],
+    "redirect_from": "/java/latest/sample-code/show-callout.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Callout",
+        "MapView",
+        "Point"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/show_callout/ShowCalloutSample.java",
+        "src/main/java/com/esri/samples/show_callout/ShowCalloutLauncher.java"
+    ],
+    "title": "@@TODO: Show Callout"
+}

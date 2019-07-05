@@ -1,0 +1,36 @@
+{
+    "category": "Map view",
+    "description": "@@TODO: Determine if a layer is done drawing.",
+    "ignore": false,
+    "images": [
+        "DisplayDrawingStatus.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "Basemap",
+        "DrawStatus",
+        "DrawStatusChangedEvent",
+        "Envelope",
+        "FeatureLayer",
+        "MapView",
+        "Point"
+    ],
+    "redirect_from": "/java/latest/sample-code/display-drawing-status.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "DrawStatus",
+        "DrawStatusChangedEvent",
+        "Envelope",
+        "FeatureLayer",
+        "MapView",
+        "Point"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/display_drawing_status/DisplayDrawingStatusSample.java",
+        "src/main/java/com/esri/samples/display_drawing_status/DisplayDrawingStatusLauncher.java"
+    ],
+    "title": "@@TODO: Display Drawing Status"
+}

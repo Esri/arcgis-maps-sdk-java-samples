@@ -1,0 +1,28 @@
+{
+    "category": "Tiled layers",
+    "description": "@@TODO: Display tiles from an ArcGIS vector tile service.",
+    "ignore": false,
+    "images": [
+        "VectorTiledLayerURL.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMap",
+        "ArcGISVectorTiledLayer",
+        "Basemap",
+        "MapView"
+    ],
+    "redirect_from": "@@TODO: /java/latest/sample-code/vector-tiled-layer-url.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISVectorTiledLayer",
+        "Basemap",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/vector_tiled_layer_url/VectorTiledLayerURLSample.java",
+        "src/main/java/com/esri/samples/vector_tiled_layer_url/VectorTiledLayerURLLauncher.java"
+    ],
+    "title": "@@TODO: Vector Tiled Layer URL"
+}

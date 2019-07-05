@@ -1,0 +1,25 @@
+{
+    "category": "Feature layers",
+    "description": "@@TODO: Group and sort feature statistics by different fields.",
+    "ignore": false,
+    "images": [
+        "StatisticalQueryGroupAndSort.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***"
+    ],
+    "redirect_from": "/java/latest/sample-code/statistical-query-group-and-sort.htm",
+    "relevant_apis": [
+        "@@TODO: *** PLEASE ADD RELEVANT APIS ***"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/resources/statistical_query_group_and_sort.fxml",
+        "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortLauncher.java",
+        "src/main/java/com/esri/samples/statistical_query_group_and_sort/GroupField.java",
+        "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortSample.java",
+        "src/main/java/com/esri/samples/statistical_query_group_and_sort/OrderByField.java",
+        "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortController.java"
+    ],
+    "title": "@@TODO: Statistical Query Group And Sort"
+}

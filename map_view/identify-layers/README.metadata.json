@@ -1,0 +1,30 @@
+{
+    "category": "Map view",
+    "description": "@@TODO: Get clicked features from multiple layers.",
+    "ignore": false,
+    "images": [
+        "IdentifyLayers.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "ArcGISMapImageLayer",
+        "FeatureLayer",
+        "FeatureTable",
+        "IdentifyLayerResult",
+        "MapView"
+    ],
+    "redirect_from": "/java/latest/sample-code/identify-layers.htm",
+    "relevant_apis": [
+        "ArcGISMapImageLayer",
+        "FeatureLayer",
+        "FeatureTable",
+        "IdentifyLayerResult",
+        "MapView"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/java/com/esri/samples/identify_layers/IdentifyLayersSample.java",
+        "src/main/java/com/esri/samples/identify_layers/IdentifyLayersLauncher.java"
+    ],
+    "title": "@@TODO: Identify Layers"
+}

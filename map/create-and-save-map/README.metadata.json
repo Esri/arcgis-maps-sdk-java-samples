@@ -1,0 +1,45 @@
+{
+    "category": "Map",
+    "description": "@@TODO: Create and save a map to your own portal.",
+    "ignore": false,
+    "images": [
+        "CreateAndSaveMap.png"
+    ],
+    "keywords": [
+        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
+        "AuthenticationChallengeHandler",
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "OAuthConfiguration",
+        "Portal",
+        "PortalFolder",
+        "PortalItem",
+        "PortalUserContent"
+    ],
+    "redirect_from": "/java/latest/sample-code/create-and-save-map.htm",
+    "relevant_apis": [
+        "AuthenticationChallengeHandler",
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "OAuthConfiguration",
+        "Portal",
+        "PortalFolder",
+        "PortalItem",
+        "PortalUserContent"
+    ],
+    "snippets": [
+        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
+        "src/main/resources/create_and_save_map.fxml",
+        "src/main/resources/create_and_save_map_auth_dialog.fxml",
+        "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapLauncher.java",
+        "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapController.java",
+        "src/main/java/com/esri/samples/create_and_save_map/AuthenticationDialog.java",
+        "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapSample.java",
+        "src/main/java/com/esri/samples/create_and_save_map/OAuthChallengeHandler.java"
+    ],
+    "title": "@@TODO: Create and Save Map"
+}
