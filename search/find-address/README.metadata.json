@@ -23,8 +23,7 @@
         "MapView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/find_address/FindAddressSample.java",
-        "src/main/java/com/esri/samples/find_address/FindAddressLauncher.java"
+        "src/main/java/com/esri/samples/find_address/FindAddressSample.java"
     ],
     "title": "Find Address"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Filter which features are shown using an expression.",
+    "description": "Filter which features are shown using an expression.",
     "ignore": false,
     "images": [
         "FeatureLayerDefinitionExpression.gif"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "FeatureLayer",
         "MapView",
@@ -20,9 +19,7 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/feature_layer_definition_expression/FeatureLayerDefinitionExpressionSample.java",
-        "src/main/java/com/esri/samples/feature_layer_definition_expression/FeatureLayerDefinitionExpressionLauncher.java"
+        "src/main/java/com/esri/samples/feature_layer_definition_expression/FeatureLayerDefinitionExpressionSample.java"
     ],
-    "title": "@@TODO: Feature Layer Definition Expression"
+    "title": "Feature Layer Definition Expression"
 }

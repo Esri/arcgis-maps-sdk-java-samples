@@ -25,8 +25,7 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/edit_feature_attachments/EditFeatureAttachmentsSample.java",
-        "src/main/java/com/esri/samples/edit_feature_attachments/EditFeatureAttachmentsLauncher.java"
+        "src/main/java/com/esri/samples/edit_feature_attachments/EditFeatureAttachmentsSample.java"
     ],
     "title": "Edit Feature Attachments"
 }

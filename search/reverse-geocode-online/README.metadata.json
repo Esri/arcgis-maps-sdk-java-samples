@@ -27,8 +27,7 @@
         "TileCache"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/reverse_geocode_online/ReverseGeocodeOnlineSample.java",
-        "src/main/java/com/esri/samples/reverse_geocode_online/ReverseGeocodeOnlineLauncher.java"
+        "src/main/java/com/esri/samples/reverse_geocode_online/ReverseGeocodeOnlineSample.java"
     ],
     "title": "Reverse Geocode Online"
 }

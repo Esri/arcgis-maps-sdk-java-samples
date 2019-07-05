@@ -1,12 +1,11 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Get aggregated feature statistics for a specified field.",
+    "description": "Get aggregated feature statistics for a specified field.",
     "ignore": false,
     "images": [
         "StatisticalQuery.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "FeatureLayer",
         "QueryParameters",
@@ -30,9 +29,8 @@
         "StatisticsQueryResult"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/statistical_query/StatisticalQueryLauncher.java",
         "src/main/java/com/esri/samples/statistical_query/StatisticalQuerySample.java"
     ],
-    "title": "@@TODO: Statistical Query"
+    "title": "Statistical Query"
 }

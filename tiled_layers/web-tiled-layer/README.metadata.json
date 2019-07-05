@@ -1,12 +1,11 @@
 {
     "category": "Tiled layers",
-    "description": "@@TODO: Display map tiles from any custom (non-ArcGIS) service.",
+    "description": "Display map tiles from any custom (non-ArcGIS) service.",
     "ignore": false,
     "images": [
         "WebTiledLayer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "MapView",
@@ -20,9 +19,8 @@
         "WebTiledLayer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/web_tiled_layer/WebTiledLayerLauncher.java",
         "src/main/java/com/esri/samples/web_tiled_layer/WebTiledLayerSample.java"
     ],
-    "title": "@@TODO: Web Tiled Layer"
+    "title": "Web Tiled Layer"
 }

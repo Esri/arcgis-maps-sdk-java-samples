@@ -1,12 +1,11 @@
 {
     "category": "Local server",
-    "description": "@@TODO: Dynamically add a local shapefile to a map using Local Server.",
+    "description": "Dynamically add a local shapefile to a map using Local Server.",
     "ignore": false,
     "images": [
         "LocalServerDynamicWorkspaceShapefile.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMapImageLayer",
         "ArcGISMapImageSublayer",
         "DynamicWorkspace",
@@ -14,7 +13,7 @@
         "ShapefileWorkspace",
         "TableSublayerSource"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/local-server-dynamic-workspace-shapefile.htm",
+    "redirect_from": "/java/latest/sample-code/local-server-dynamic-workspace-shapefile.htm",
     "relevant_apis": [
         "ArcGISMapImageLayer",
         "ArcGISMapImageSublayer",
@@ -24,9 +23,7 @@
         "TableSublayerSource"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/local_server_dynamic_workspace_shapefile/LocalServerDynamicWorkspaceShapefileSample.java",
-        "src/main/java/com/esri/samples/local_server_dynamic_workspace_shapefile/LocalServerDynamicWorkspaceShapefileLauncher.java"
+        "src/main/java/com/esri/samples/local_server_dynamic_workspace_shapefile/LocalServerDynamicWorkspaceShapefileSample.java"
     ],
-    "title": "@@TODO: Local Server Dynamic Workspace Shapefile"
+    "title": "Local Server Dynamic Workspace Shapefile"
 }

@@ -1,6 +1,6 @@
 {
     "category": "Network analysis",
-    "description": "@@TODO: Find routes from several locations to the respective closest facility.",
+    "description": "Find routes from several locations to the respective closest facility.",
     "ignore": false,
     "images": [
         "ClosestFacilityStatic.png"
@@ -20,7 +20,7 @@
         "GraphicsOverlay",
         "Incident"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/closest-facility-static-.htm",
+    "redirect_from": "/java/latest/sample-code/closest-facility-static-.htm",
     "relevant_apis": [
         "ClosestFacilityParameters",
         "ClosestFacilityResult",
@@ -32,9 +32,7 @@
         "Incident"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/closest_facility_static/ClosestFacilityStaticSample.java",
-        "src/main/java/com/esri/samples/closest_facility_static/ClosestFacilityStaticLauncher.java"
+        "src/main/java/com/esri/samples/closest_facility_static/ClosestFacilityStaticSample.java"
     ],
-    "title": "@@TODO: Closest Facility (Static)"
+    "title": "Closest Facility (Static)"
 }

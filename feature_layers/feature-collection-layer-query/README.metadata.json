@@ -1,6 +1,6 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Create a feature collection layer which shows the result of a SQL query from a service feature table.",
+    "description": "Create a feature collection layer which shows the result of a SQL query from a service feature table.",
     "ignore": false,
     "images": [
         "FeatureCollectionLayerQuery.png"
@@ -32,9 +32,8 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/feature_collection_layer_query/FeatureCollectionLayerQueryLauncher.java",
         "src/main/java/com/esri/samples/feature_collection_layer_query/FeatureCollectionLayerQuerySample.java"
     ],
-    "title": "@@TODO: Feature Collection Layer Query"
+    "title": "Feature Collection Layer Query"
 }

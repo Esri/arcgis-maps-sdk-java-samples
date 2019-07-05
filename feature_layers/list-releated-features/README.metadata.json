@@ -1,12 +1,11 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Find features related to the selected feature.",
+    "description": "Find features related to the selected feature.",
     "ignore": false,
     "images": [
         "ListRelatedFeatures.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISFeature",
         "ArcGISFeatureTable",
         "ArcGISMap",
@@ -30,9 +29,8 @@
         "RelatedFeatureQueryResult"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/list_related_features/ListRelatedFeaturesLauncher.java",
         "src/main/java/com/esri/samples/list_related_features/ListRelatedFeaturesSample.java"
     ],
-    "title": "@@TODO: List Related Features"
+    "title": "List Related Features"
 }

@@ -21,8 +21,7 @@
         "RasterLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/raster_layer_url/RasterLayerURLSample.java",
-        "src/main/java/com/esri/samples/raster_layer_url/RasterLayerURLLauncher.java"
+        "src/main/java/com/esri/samples/raster_layer_url/RasterLayerURLSample.java"
     ],
     "title": "Raster Layer URL"
 }

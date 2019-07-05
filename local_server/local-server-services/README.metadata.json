@@ -1,12 +1,11 @@
 {
     "category": "Local server",
-    "description": "@@TODO: Manage multiple running services in Local Server.",
+    "description": "Manage multiple running services in Local Server.",
     "ignore": false,
     "images": [
         "LocalServerServices.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "LocalFeatureService",
         "LocalGeoprocessingService",
         "LocalMapService",
@@ -15,7 +14,7 @@
         "LocalServerStatus",
         "LocalService"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/local-server-services.htm",
+    "redirect_from": "/java/latest/sample-code/local-server-services.htm",
     "relevant_apis": [
         "LocalFeatureService",
         "LocalGeoprocessingService",
@@ -26,11 +25,9 @@
         "LocalService"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/resources/local_server_services.fxml",
-        "src/main/java/com/esri/samples/local_server_services/LocalServerServicesLauncher.java",
         "src/main/java/com/esri/samples/local_server_services/LocalServerServicesSample.java",
         "src/main/java/com/esri/samples/local_server_services/LocalServerServicesController.java"
     ],
-    "title": "@@TODO: Local Server Services"
+    "title": "Local Server Services"
 }

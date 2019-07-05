@@ -1,12 +1,11 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Extrude features based on their attributes.",
+    "description": "Extrude features based on their attributes.",
     "ignore": false,
     "images": [
         "FeatureLayerExtrusion.gif"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "FeatureLayer",
         "SceneProperties",
         "ServiceFeatureTable",
@@ -20,9 +19,7 @@
         "FeatureLayer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/feature_layer_extrusion/FeatureLayerExtrusionSample.java",
-        "src/main/java/com/esri/samples/feature_layer_extrusion/FeatureLayerExtrusionLauncher.java"
+        "src/main/java/com/esri/samples/feature_layer_extrusion/FeatureLayerExtrusionSample.java"
     ],
-    "title": "@@TODO: Feature Layer Extrusion"
+    "title": "Feature Layer Extrusion"
 }

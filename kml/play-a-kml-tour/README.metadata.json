@@ -1,6 +1,6 @@
 {
     "category": "Kml",
-    "description": "@@TODO: Play tours in KML files.",
+    "description": "Play tours in KML files.",
     "ignore": false,
     "images": [
         "PlayAKMLTour.png"
@@ -27,9 +27,8 @@
         "KmlTourStatus"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/play_a_kml_tour/PlayAKMLTourLauncher.java",
         "src/main/java/com/esri/samples/play_a_kml_tour/PlayAKMLTourSample.java"
     ],
-    "title": "@@TODO: Play a KML Tour"
+    "title": "Play a KML Tour"
 }

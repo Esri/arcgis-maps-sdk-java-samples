@@ -1,12 +1,11 @@
 {
     "category": "Map",
-    "description": "@@TODO: Determine when a map has finished loading.",
+    "description": "Determine when a map has finished loading.",
     "ignore": false,
     "images": [
         "AccessLoadStatus.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "MapView",
@@ -20,9 +19,7 @@
         "LoadStatus"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/access_load_status/AccessLoadStatusSample.java",
-        "src/main/java/com/esri/samples/access_load_status/AccessLoadStatusLauncher.java"
+        "src/main/java/com/esri/samples/access_load_status/AccessLoadStatusSample.java"
     ],
-    "title": "@@TODO: Access Load Status"
+    "title": "Access Load Status"
 }

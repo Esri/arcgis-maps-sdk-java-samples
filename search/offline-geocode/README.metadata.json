@@ -37,8 +37,7 @@
         "TileCache"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/offline_geocode/OfflineGeocodeSample.java",
-        "src/main/java/com/esri/samples/offline_geocode/OfflineGeocodeLauncher.java"
+        "src/main/java/com/esri/samples/offline_geocode/OfflineGeocodeSample.java"
     ],
     "title": "Offline Geocode"
 }

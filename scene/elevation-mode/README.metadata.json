@@ -27,8 +27,7 @@
         "Surface"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/elevation_mode/ElevationModeSample.java",
-        "src/main/java/com/esri/samples/elevation_mode/ElevationModeLauncher.java"
+        "src/main/java/com/esri/samples/elevation_mode/ElevationModeSample.java"
     ],
     "title": "Elevation Mode"
 }

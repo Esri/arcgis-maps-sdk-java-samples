@@ -1,12 +1,11 @@
 {
     "category": "Map",
-    "description": "@@TODO: Create and save a map to your own portal.",
+    "description": "Create and save a map to your own portal.",
     "ignore": false,
     "images": [
         "CreateAndSaveMap.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "AuthenticationChallengeHandler",
         "ArcGISMap",
         "ArcGISMapImageLayer",
@@ -32,14 +31,12 @@
         "PortalUserContent"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/resources/create_and_save_map.fxml",
         "src/main/resources/create_and_save_map_auth_dialog.fxml",
-        "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapLauncher.java",
         "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapController.java",
         "src/main/java/com/esri/samples/create_and_save_map/AuthenticationDialog.java",
         "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapSample.java",
         "src/main/java/com/esri/samples/create_and_save_map/OAuthChallengeHandler.java"
     ],
-    "title": "@@TODO: Create and Save Map"
+    "title": "Create and Save Map"
 }

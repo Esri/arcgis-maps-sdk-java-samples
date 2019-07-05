@@ -27,8 +27,7 @@
         "UniqueValueRenderer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/unique_value_renderer/UniqueValueRendererSample.java",
-        "src/main/java/com/esri/samples/unique_value_renderer/UniqueValueRendererLauncher.java"
+        "src/main/java/com/esri/samples/unique_value_renderer/UniqueValueRendererSample.java"
     ],
     "title": "Unique Value Renderer"
 }

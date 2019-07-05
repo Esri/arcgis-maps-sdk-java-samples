@@ -1,12 +1,11 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Filter features within a time range.",
+    "description": "Filter features within a time range.",
     "ignore": false,
     "images": [
         "TimeBasedQuery.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "FeatureLayer",
@@ -26,9 +25,7 @@
         "TimeExtent"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/time_based_query/TimeBasedQuerySample.java",
-        "src/main/java/com/esri/samples/time_based_query/TimeBasedQueryLauncher.java"
+        "src/main/java/com/esri/samples/time_based_query/TimeBasedQuerySample.java"
     ],
-    "title": "@@TODO: Time Based Query"
+    "title": "Time Based Query"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Convert features into graphics to show them with mil2525. symbols.",
+    "description": "Convert features into graphics to show them with mil2525. symbols.",
     "ignore": false,
     "images": [
         "FeatureLayerDictionaryRenderer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "DictionaryRenderer",
@@ -17,7 +16,7 @@
         "MapView",
         "SymbolDictionary"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/dictionary-renderer-with-feature-layer.htm",
+    "redirect_from": "/java/latest/sample-code/dictionary-renderer-with-feature-layer.htm",
     "relevant_apis": [
         "ArcGISMap",
         "Basemap",
@@ -30,9 +29,7 @@
         "SymbolDictionary"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/feature_layer_dictionary_renderer/FeatureLayerDictionaryRendererSample.java",
-        "src/main/java/com/esri/samples/feature_layer_dictionary_renderer/FeatureLayerDictionaryRendererLauncher.java"
+        "src/main/java/com/esri/samples/feature_layer_dictionary_renderer/FeatureLayerDictionaryRendererSample.java"
     ],
-    "title": "@@TODO: Dictionary Renderer with Feature Layer"
+    "title": "Dictionary Renderer with Feature Layer"
 }

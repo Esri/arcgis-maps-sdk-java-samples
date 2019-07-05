@@ -17,8 +17,7 @@
         "PortalItem"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/open_scene_portal_item/OpenScenePortalItemSample.java",
-        "src/main/java/com/esri/samples/open_scene_portal_item/OpenScenePortalItemLauncher.java"
+        "src/main/java/com/esri/samples/open_scene_portal_item/OpenScenePortalItemSample.java"
     ],
     "title": "Open Scene (Portal Item)"
 }

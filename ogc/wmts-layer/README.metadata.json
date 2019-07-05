@@ -1,12 +1,11 @@
 {
     "category": "Ogc",
-    "description": "@@TODO: Dsiplay tiles from a Web Map Tile Service.",
+    "description": "Dsiplay tiles from a Web Map Tile Service.",
     "ignore": false,
     "images": [
         "WmtsLayer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "MapView",
@@ -22,9 +21,7 @@
         "WmtsService"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/wmts_layer/WmtsLayerSample.java",
-        "src/main/java/com/esri/samples/wmts_layer/WmtsLayerLauncher.java"
+        "src/main/java/com/esri/samples/wmts_layer/WmtsLayerSample.java"
     ],
-    "title": "@@TODO: WMTS Layer"
+    "title": "WMTS Layer"
 }

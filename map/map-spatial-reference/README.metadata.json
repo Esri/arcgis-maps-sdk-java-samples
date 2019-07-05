@@ -1,12 +1,11 @@
 {
     "category": "Map",
-    "description": "@@TODO: Specify a map's spatial reference.",
+    "description": "Specify a map's spatial reference.",
     "ignore": false,
     "images": [
         "MapSpatialReference.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "ArcGISMapImageLayer",
         "Basemap",
@@ -22,9 +21,7 @@
         "SpatialReference"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/map_spatial_reference/MapSpatialReferenceSample.java",
-        "src/main/java/com/esri/samples/map_spatial_reference/MapSpatialReferenceLauncher.java"
+        "src/main/java/com/esri/samples/map_spatial_reference/MapSpatialReferenceSample.java"
     ],
-    "title": "@@TODO: Map Spatial Reference"
+    "title": "Map Spatial Reference"
 }

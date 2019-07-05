@@ -1,12 +1,11 @@
 {
     "category": "Map",
-    "description": "@@TODO: Change a map's basemap.",
+    "description": "Change a map's basemap.",
     "ignore": false,
     "images": [
         "ChangeBasemap.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "Basemap.Type",
@@ -20,9 +19,7 @@
         "MapView"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/change_basemap/ChangeBasemapSample.java",
-        "src/main/java/com/esri/samples/change_basemap/ChangeBasemapLauncher.java"
+        "src/main/java/com/esri/samples/change_basemap/ChangeBasemapSample.java"
     ],
-    "title": "@@TODO: Change Basemap"
+    "title": "Change Basemap"
 }

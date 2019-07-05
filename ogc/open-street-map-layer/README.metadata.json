@@ -1,6 +1,6 @@
 {
     "category": "Ogc",
-    "description": "@@TODO: Display tiles from OpenStreetMap.",
+    "description": "Display tiles from OpenStreetMap.",
     "ignore": false,
     "images": [
         "OpenStreetMapLayer.png"
@@ -13,7 +13,7 @@
         "Basemap.Type",
         "MapView"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/openstreetmap-layer.htm",
+    "redirect_from": "/java/latest/sample-code/openstreetmap-layer.htm",
     "relevant_apis": [
         "ArcGISMap",
         "Basemap",
@@ -21,9 +21,8 @@
         "MapView"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/open_street_map_layer/OpenStreetMapLayerLauncher.java",
         "src/main/java/com/esri/samples/open_street_map_layer/OpenStreetMapLayerSample.java"
     ],
-    "title": "@@TODO: OpenStreetMap Layer"
+    "title": "OpenStreetMap Layer"
 }

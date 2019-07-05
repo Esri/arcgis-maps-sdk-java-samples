@@ -1,6 +1,6 @@
 {
     "category": "Map",
-    "description": "@@TODO: Use locators and networks saved in an offline map.",
+    "description": "Use locators and networks saved in an offline map.",
     "ignore": false,
     "images": [
         "MobileMapSearchAndRoute.png"
@@ -30,9 +30,7 @@
         "TransportationNetworkDataset"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/mobile_map_search_and_route/MobileMapSearchAndRouteSample.java",
-        "src/main/java/com/esri/samples/mobile_map_search_and_route/MobileMapSearchAndRouteLauncher.java"
+        "src/main/java/com/esri/samples/mobile_map_search_and_route/MobileMapSearchAndRouteSample.java"
     ],
-    "title": "@@TODO: Mobile Map Search And Route"
+    "title": "Mobile Map Search And Route"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Map",
-    "description": "@@TODO: Take an extent of a web map offline.",
+    "description": "Take an extent of a web map offline.",
     "ignore": false,
     "images": [
         "GenerateOfflineMap.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "GenerateOfflineMapJob",
         "GenerateOfflineMapParameters",
         "GenerateOfflineMapResult",
@@ -20,9 +19,7 @@
         "OfflineMapTask"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/generate_offline_map/GenerateOfflineMapSample.java",
-        "src/main/java/com/esri/samples/generate_offline_map/GenerateOfflineMapLauncher.java"
+        "src/main/java/com/esri/samples/generate_offline_map/GenerateOfflineMapSample.java"
     ],
-    "title": "@@TODO: Generate Offline Map"
+    "title": "Generate Offline Map"
 }

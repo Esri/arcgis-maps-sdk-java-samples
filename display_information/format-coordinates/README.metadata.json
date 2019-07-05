@@ -1,12 +1,11 @@
 {
     "category": "Display information",
-    "description": "@@TODO: Write coordinates in a variety of common formats.",
+    "description": "Write coordinates in a variety of common formats.",
     "ignore": false,
     "images": [
         "FormatCoordinates.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "ArcGISTiledLayer",
         "Basemap",
@@ -24,9 +23,7 @@
         "MapView"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/format_coordinates/FormatCoordinatesSample.java",
-        "src/main/java/com/esri/samples/format_coordinates/FormatCoordinatesLauncher.java"
+        "src/main/java/com/esri/samples/format_coordinates/FormatCoordinatesSample.java"
     ],
-    "title": "@@TODO: Format Coordinates"
+    "title": "Format Coordinates"
 }

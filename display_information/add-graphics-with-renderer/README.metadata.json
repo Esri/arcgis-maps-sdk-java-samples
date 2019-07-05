@@ -1,12 +1,11 @@
 {
     "category": "Display information",
-    "description": "@@TODO: Specify a graphic's symbol with a renderer.",
+    "description": "Specify a graphic's symbol with a renderer.",
     "ignore": false,
     "images": [
         "AddGraphicsWithRenderer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
@@ -30,9 +29,7 @@
         "SimpleRenderer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/add_graphics_with_renderer/AddGraphicsWithRendererSample.java",
-        "src/main/java/com/esri/samples/add_graphics_with_renderer/AddGraphicsWithRendererLauncher.java"
+        "src/main/java/com/esri/samples/add_graphics_with_renderer/AddGraphicsWithRendererSample.java"
     ],
-    "title": "@@TODO: Add Graphics with Renderer"
+    "title": "Add Graphics with Renderer"
 }

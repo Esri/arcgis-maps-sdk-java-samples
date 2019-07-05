@@ -25,8 +25,7 @@
         "SimpleMarkerSymbol.Style"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/simple_marker_symbol/SimpleMarkerSymbolSample.java",
-        "src/main/java/com/esri/samples/simple_marker_symbol/SimpleMarkerSymbolLauncher.java"
+        "src/main/java/com/esri/samples/simple_marker_symbol/SimpleMarkerSymbolSample.java"
     ],
     "title": "Simple Marker Symbol"
 }

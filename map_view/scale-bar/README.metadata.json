@@ -1,6 +1,6 @@
 {
     "category": "Map view",
-    "description": "@@TODO: Adds a scale bar to visually gauge distances on a map.",
+    "description": "Adds a scale bar to visually gauge distances on a map.",
     "ignore": false,
     "images": [
         "ScaleBar.png"
@@ -22,9 +22,7 @@
         "UnitSystem"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/scale_bar/ScaleBarSample.java",
-        "src/main/java/com/esri/samples/scale_bar/ScaleBarLauncher.java"
+        "src/main/java/com/esri/samples/scale_bar/ScaleBarSample.java"
     ],
-    "title": "@@TODO: Scale Bar"
+    "title": "Scale Bar"
 }

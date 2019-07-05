@@ -19,8 +19,7 @@
         "Surface"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/create_terrain_surface_from_local_raster/CreateTerrainSurfaceFromLocalRasterSample.java",
-        "src/main/java/com/esri/samples/create_terrain_surface_from_local_raster/CreateTerrainSurfaceFromLocalRasterLauncher.java"
+        "src/main/java/com/esri/samples/create_terrain_surface_from_local_raster/CreateTerrainSurfaceFromLocalRasterSample.java"
     ],
     "title": "Create Terrain Surface from a Local Raster"
 }

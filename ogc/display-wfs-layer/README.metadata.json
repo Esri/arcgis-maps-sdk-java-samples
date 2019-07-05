@@ -1,6 +1,6 @@
 {
     "category": "Ogc",
-    "description": "@@TODO: Display a layer from a WFS service, requesting only features for the current extent.",
+    "description": "Display a layer from a WFS service, requesting only features for the current extent.",
     "ignore": false,
     "images": [
         "DisplayWFSLayer.png"
@@ -19,7 +19,7 @@
         "QueryParameters",
         "WfsFeatureTable"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/display-wfs-layer.htm",
+    "redirect_from": "/java/latest/sample-code/display-wfs-layer.htm",
     "relevant_apis": [
         "FeatureLayer",
         "NavigationChangedEvent",
@@ -27,9 +27,8 @@
         "WfsFeatureTable"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/display_wfs_layer/DisplayWfsLayerLauncher.java",
         "src/main/java/com/esri/samples/display_wfs_layer/DisplayWFSLayerSample.java"
     ],
-    "title": "@@TODO: Display WFS Layer"
+    "title": "Display WFS Layer"
 }

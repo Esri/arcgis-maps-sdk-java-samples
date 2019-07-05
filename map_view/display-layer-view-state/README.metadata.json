@@ -1,12 +1,11 @@
 {
     "category": "Map view",
-    "description": "@@TODO: Determine if a layer is currently visible.",
+    "description": "Determine if a layer is currently visible.",
     "ignore": false,
     "images": [
         "DisplayLayerViewState.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "ArcGISMapImageLayer",
         "Layer",
@@ -26,9 +25,8 @@
         "Viewpoint"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/display_layer_view_state/DisplayLayerViewStateLauncher.java",
         "src/main/java/com/esri/samples/display_layer_view_state/DisplayLayerViewStateSample.java"
     ],
-    "title": "@@TODO: Display Layer View State"
+    "title": "Display Layer View State"
 }

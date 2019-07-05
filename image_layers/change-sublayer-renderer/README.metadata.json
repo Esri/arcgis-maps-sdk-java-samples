@@ -1,12 +1,11 @@
 {
     "category": "Image layers",
-    "description": "@@TODO: Apply a renderer to a sublayer.",
+    "description": "Apply a renderer to a sublayer.",
     "ignore": false,
     "images": [
         "ChangeSublayerRenderer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "ArcGISMapImageLayer",
         "ArcGISMapImageSublayer",
@@ -34,9 +33,8 @@
         "SublayerList"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/change_sublayer_renderer/ChangeSublayerRendererLauncher.java",
         "src/main/java/com/esri/samples/change_sublayer_renderer/ChangeSublayerRendererSample.java"
     ],
-    "title": "@@TODO: Change Sublayer Renderer"
+    "title": "Change Sublayer Renderer"
 }

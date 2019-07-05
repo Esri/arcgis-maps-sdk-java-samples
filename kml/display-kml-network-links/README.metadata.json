@@ -1,6 +1,6 @@
 {
     "category": "Kml",
-    "description": "@@TODO: Display KML that automatically refreshes every few seconds.",
+    "description": "Display KML that automatically refreshes every few seconds.",
     "ignore": false,
     "images": [
         "DisplayKMLNetworkLinks.png"
@@ -23,9 +23,7 @@
         "KmlNetworkLinkMessageReceivedEvent"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/display_kml_network_links/DisplayKMLNetworkLinksSample.java",
-        "src/main/java/com/esri/samples/display_kml_network_links/DisplayKMLNetworkLinksLauncher.java"
+        "src/main/java/com/esri/samples/display_kml_network_links/DisplayKMLNetworkLinksSample.java"
     ],
-    "title": "@@TODO: Display KML Network Links"
+    "title": "Display KML Network Links"
 }

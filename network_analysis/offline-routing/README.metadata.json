@@ -1,12 +1,11 @@
 {
     "category": "Network analysis",
-    "description": "@@TODO: Solve a route on-the-fly using only offline data.",
+    "description": "Solve a route on-the-fly using only offline data.",
     "ignore": false,
     "images": [
         "OfflineRouting.gif"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "ArcGISTiledLayer",
         "Graphic",
@@ -38,9 +37,7 @@
         "TileCache"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/offline_routing/OfflineRoutingSample.java",
-        "src/main/java/com/esri/samples/offline_routing/OfflineRoutingLauncher.java"
+        "src/main/java/com/esri/samples/offline_routing/OfflineRoutingSample.java"
     ],
-    "title": "@@TODO: Offline Routing"
+    "title": "Offline Routing"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Map",
-    "description": "@@TODO: Display rasters and features from local GeoPackages.",
+    "description": "Display rasters and features from local GeoPackages.",
     "ignore": false,
     "images": [
         "ReadGeoPackage.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "FeatureLayer",
@@ -26,9 +25,8 @@
         "RasterLayer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/read_geopackage/ReadGeoPackageLauncher.java",
         "src/main/java/com/esri/samples/read_geopackage/ReadGeoPackageSample.java"
     ],
-    "title": "@@TODO: Read GeoPackage"
+    "title": "Read GeoPackage"
 }

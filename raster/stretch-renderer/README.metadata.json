@@ -27,8 +27,7 @@
     "snippets": [
         "src/main/resources/stretch_renderer.fxml",
         "src/main/java/com/esri/samples/stretch_renderer/StretchRendererSample.java",
-        "src/main/java/com/esri/samples/stretch_renderer/StretchRendererController.java",
-        "src/main/java/com/esri/samples/stretch_renderer/StretchRendererLauncher.java"
+        "src/main/java/com/esri/samples/stretch_renderer/StretchRendererController.java"
     ],
     "title": "Stretch Renderer"
 }

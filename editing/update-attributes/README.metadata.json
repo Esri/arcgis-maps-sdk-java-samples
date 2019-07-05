@@ -21,8 +21,7 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/update_attributes/UpdateAttributesSample.java",
-        "src/main/java/com/esri/samples/update_attributes/UpdateAttributesLauncher.java"
+        "src/main/java/com/esri/samples/update_attributes/UpdateAttributesSample.java"
     ],
     "title": "Update Attributes"
 }

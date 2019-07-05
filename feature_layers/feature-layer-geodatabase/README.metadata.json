@@ -1,12 +1,11 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Display features from a local geodatabase.",
+    "description": "Display features from a local geodatabase.",
     "ignore": false,
     "images": [
         "FeatureLayerGeodatabase.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "Basemap",
         "FeatureLayer",
         "Geodatabase",
@@ -14,7 +13,7 @@
         "Map",
         "MapView"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/feature-layer-geodatabase-.htm",
+    "redirect_from": "/java/latest/sample-code/feature-layer-geodatabase-.htm",
     "relevant_apis": [
         "Basemap",
         "FeatureLayer",
@@ -24,9 +23,7 @@
         "MapView"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/feature_layer_geodatabase/FeatureLayerGeodatabaseSample.java",
-        "src/main/java/com/esri/samples/feature_layer_geodatabase/FeatureLayerGeodatabaseLauncher.java"
+        "src/main/java/com/esri/samples/feature_layer_geodatabase/FeatureLayerGeodatabaseSample.java"
     ],
-    "title": "@@TODO: Feature Layer (Geodatabase)"
+    "title": "Feature Layer (Geodatabase)"
 }

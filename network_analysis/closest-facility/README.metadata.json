@@ -1,12 +1,11 @@
 {
     "category": "Network analysis",
-    "description": "@@TODO: Find a route to the closest facility from a location.",
+    "description": "Find a route to the closest facility from a location.",
     "ignore": false,
     "images": [
         "ClosestFacility.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ClosestFacilityParameters",
         "ClosestFacilityResult",
         "ClosestFacilityRoute",
@@ -17,7 +16,7 @@
         "Incident",
         "MapView"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/closest-facility.htm",
+    "redirect_from": "/java/latest/sample-code/closest-facility.htm",
     "relevant_apis": [
         "ClosestFacilityParameters",
         "ClosestFacilityResult",
@@ -30,9 +29,8 @@
         "MapView"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/closest_facility/ClosestFacilityLauncher.java",
         "src/main/java/com/esri/samples/closest_facility/ClosestFacilitySample.java"
     ],
-    "title": "@@TODO: Closest Facility"
+    "title": "Closest Facility"
 }

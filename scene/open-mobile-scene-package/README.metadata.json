@@ -16,8 +16,7 @@
         "MobileScenePackage"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/open_mobile_scene_package/OpenMobileScenePackageSample.java",
-        "src/main/java/com/esri/samples/open_mobile_scene_package/OpenMobileScenePackageLauncher.java"
+        "src/main/java/com/esri/samples/open_mobile_scene_package/OpenMobileScenePackageSample.java"
     ],
     "title": "Open mobile scene package"
 }

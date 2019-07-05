@@ -1,6 +1,6 @@
 {
     "category": "Tiled layers",
-    "description": "@@TODO: Create a basemap from a local tile cache.",
+    "description": "Create a basemap from a local tile cache.",
     "ignore": false,
     "images": [
         "TileCache.png"
@@ -21,9 +21,7 @@
         "TileCache"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/tile_cache/TileCacheSample.java",
-        "src/main/java/com/esri/samples/tile_cache/TileCacheLauncher.java"
+        "src/main/java/com/esri/samples/tile_cache/TileCacheSample.java"
     ],
-    "title": "@@TODO: Tile cache"
+    "title": "Tile cache"
 }

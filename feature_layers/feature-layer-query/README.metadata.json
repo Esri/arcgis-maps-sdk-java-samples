@@ -1,12 +1,11 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Find features matching a SQL query.",
+    "description": "Find features matching a SQL query.",
     "ignore": false,
     "images": [
         "FeatureLayerQuery.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "FeatureLayer",
         "FeatureQueryResult",
@@ -24,9 +23,7 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/feature_layer_query/FeatureLayerQuerySample.java",
-        "src/main/java/com/esri/samples/feature_layer_query/FeatureLayerQueryLauncher.java"
+        "src/main/java/com/esri/samples/feature_layer_query/FeatureLayerQuerySample.java"
     ],
-    "title": "@@TODO: Feature Layer Query"
+    "title": "Feature Layer Query"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Map",
-    "description": "@@TODO: Display the map at an initial viewpoint.",
+    "description": "Display the map at an initial viewpoint.",
     "ignore": false,
     "images": [
         "MapInitialExtent.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Envelope",
         "MapView",
@@ -22,9 +21,8 @@
         "Viewpoint"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/map_initial_extent/MapInitialExtentLauncher.java",
         "src/main/java/com/esri/samples/map_initial_extent/MapInitialExtentSample.java"
     ],
-    "title": "@@TODO: Map Initial Extent"
+    "title": "Map Initial Extent"
 }

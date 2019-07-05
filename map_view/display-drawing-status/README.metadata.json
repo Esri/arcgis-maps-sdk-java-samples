@@ -1,12 +1,11 @@
 {
     "category": "Map view",
-    "description": "@@TODO: Determine if a layer is done drawing.",
+    "description": "Determine if a layer is done drawing.",
     "ignore": false,
     "images": [
         "DisplayDrawingStatus.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "DrawStatus",
@@ -28,9 +27,7 @@
         "Point"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/display_drawing_status/DisplayDrawingStatusSample.java",
-        "src/main/java/com/esri/samples/display_drawing_status/DisplayDrawingStatusLauncher.java"
+        "src/main/java/com/esri/samples/display_drawing_status/DisplayDrawingStatusSample.java"
     ],
-    "title": "@@TODO: Display Drawing Status"
+    "title": "Display Drawing Status"
 }

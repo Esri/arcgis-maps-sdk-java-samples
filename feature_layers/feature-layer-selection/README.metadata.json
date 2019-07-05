@@ -1,12 +1,11 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Select clicked features.",
+    "description": "Select clicked features.",
     "ignore": false,
     "images": [
         "FeatureLayerSelection.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Feature",
         "FeatureLayer",
@@ -22,9 +21,7 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/feature_layer_selection/FeatureLayerSelectionSample.java",
-        "src/main/java/com/esri/samples/feature_layer_selection/FeatureLayerSelectionLauncher.java"
+        "src/main/java/com/esri/samples/feature_layer_selection/FeatureLayerSelectionSample.java"
     ],
-    "title": "@@TODO: Feature Layer Selection"
+    "title": "Feature Layer Selection"
 }

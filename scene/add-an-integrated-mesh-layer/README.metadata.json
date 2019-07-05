@@ -16,8 +16,7 @@
         "IntegratedMeshLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/add_an_integrated_mesh_layer/AddAnIntegratedMeshLayerSample.java",
-        "src/main/java/com/esri/samples/add_an_integrated_mesh_layer/AddAnIntegratedMeshLayerLauncher.java"
+        "src/main/java/com/esri/samples/add_an_integrated_mesh_layer/AddAnIntegratedMeshLayerSample.java"
     ],
     "title": "Add an integrated mesh layer"
 }

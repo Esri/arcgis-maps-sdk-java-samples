@@ -1,19 +1,18 @@
 {
     "category": "Local server",
-    "description": "@@TODO: Create a local map imagery service and show its tiles in a map.",
+    "description": "Create a local map imagery service and show its tiles in a map.",
     "ignore": false,
     "images": [
         "LocalServerMapImageLayer.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMapImageLayer",
         "LocalMapService",
         "LocalServer",
         "LocalServerStatus",
         "StatusChangedEvent"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/local-server-map-image-layer.htm",
+    "redirect_from": "/java/latest/sample-code/local-server-map-image-layer.htm",
     "relevant_apis": [
         "ArcGISMapImageLayer",
         "LocalMapService",
@@ -22,9 +21,7 @@
         "StatusChangedEvent"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/local_server_map_image_layer/LocalServerMapImageLayerSample.java",
-        "src/main/java/com/esri/samples/local_server_map_image_layer/LocalServerMapImageLayerLauncher.java"
+        "src/main/java/com/esri/samples/local_server_map_image_layer/LocalServerMapImageLayerSample.java"
     ],
-    "title": "@@TODO: Local Server Map Image Layer"
+    "title": "Local Server Map Image Layer"
 }

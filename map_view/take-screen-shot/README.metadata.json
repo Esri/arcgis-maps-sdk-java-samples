@@ -1,12 +1,11 @@
 {
     "category": "Map view",
-    "description": "@@TODO: Export an area of the map as an image.",
+    "description": "Export an area of the map as an image.",
     "ignore": false,
     "images": [
         "TakeScreenShot.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "MapView"
     ],
@@ -16,9 +15,7 @@
         "MapView"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/take_screen_shot/TakeScreenShotSample.java",
-        "src/main/java/com/esri/samples/take_screen_shot/TakeScreenShotLauncher.java"
+        "src/main/java/com/esri/samples/take_screen_shot/TakeScreenShotSample.java"
     ],
-    "title": "@@TODO: Take Screen Shot"
+    "title": "Take Screen Shot"
 }

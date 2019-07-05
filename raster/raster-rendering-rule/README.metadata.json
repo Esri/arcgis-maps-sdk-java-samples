@@ -20,8 +20,7 @@
         "RenderingRule"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/raster_rendering_rule/RasterRenderingRuleSample.java",
-        "src/main/java/com/esri/samples/raster_rendering_rule/RasterRenderingRuleLauncher.java"
+        "src/main/java/com/esri/samples/raster_rendering_rule/RasterRenderingRuleSample.java"
     ],
     "title": "Raster rendering rule"
 }

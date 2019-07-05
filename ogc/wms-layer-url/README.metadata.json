@@ -1,26 +1,23 @@
 {
     "category": "Ogc",
-    "description": "@@TODO: Display a WMS layer.",
+    "description": "Display a WMS layer.",
     "ignore": false,
     "images": [
         "WmsLayerUrl.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "MapView",
         "WmsLayer"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/wms-layer-url.htm",
+    "redirect_from": "/java/latest/sample-code/wms-layer-url.htm",
     "relevant_apis": [
         "ArcGISMap",
         "MapView",
         "WmsLayer"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/wms_layer_url/WmsLayerUrlSample.java",
-        "src/main/java/com/esri/samples/wms_layer_url/WmsLayerUrlLauncher.java"
+        "src/main/java/com/esri/samples/wms_layer_url/WmsLayerUrlSample.java"
     ],
-    "title": "@@TODO: WMS Layer URL"
+    "title": "WMS Layer URL"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Map view",
-    "description": "@@TODO: Set or animate to a new viewpoint.",
+    "description": "Set or animate to a new viewpoint.",
     "ignore": false,
     "images": [
         "ChangeViewpoint.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "Point",
@@ -22,9 +21,7 @@
         "Viewpoint"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/change_viewpoint/ChangeViewpointSample.java",
-        "src/main/java/com/esri/samples/change_viewpoint/ChangeViewpointLauncher.java"
+        "src/main/java/com/esri/samples/change_viewpoint/ChangeViewpointSample.java"
     ],
-    "title": "@@TODO: Change Viewpoint"
+    "title": "Change Viewpoint"
 }

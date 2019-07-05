@@ -1,12 +1,11 @@
 {
     "category": "Display information",
-    "description": "@@TODO: Determine if a graphic was clicked.",
+    "description": "Determine if a graphic was clicked.",
     "ignore": false,
     "images": [
         "IdentifyGraphics.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "Graphic",
         "GraphicsOverlay",
         "MapView",
@@ -24,9 +23,7 @@
         "SimpleFillSymbol"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/identify_graphics/IdentifyGraphicsSample.java",
-        "src/main/java/com/esri/samples/identify_graphics/IdentifyGraphicsLauncher.java"
+        "src/main/java/com/esri/samples/identify_graphics/IdentifyGraphicsSample.java"
     ],
-    "title": "@@TODO: Identify Graphics"
+    "title": "Identify Graphics"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Tiled layers",
-    "description": "@@TODO: Export tiles from an online tile service.",
+    "description": "Export tiles from an online tile service.",
     "ignore": false,
     "images": [
         "ExportTiles.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "ArcGISTiledLayer",
         "Basemap",
@@ -28,9 +27,7 @@
         "TileCache"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/export_tiles/ExportTilesSample.java",
-        "src/main/java/com/esri/samples/export_tiles/ExportTilesLauncher.java"
+        "src/main/java/com/esri/samples/export_tiles/ExportTilesSample.java"
     ],
-    "title": "@@TODO: Export Tiles"
+    "title": "Export Tiles"
 }

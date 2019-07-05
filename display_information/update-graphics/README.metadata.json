@@ -1,12 +1,11 @@
 {
     "category": "Display information",
-    "description": "@@TODO: Change a graphic's symbol, attributes, and geometry.",
+    "description": "Change a graphic's symbol, attributes, and geometry.",
     "ignore": false,
     "images": [
         "UpdateGraphics.gif"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
@@ -22,9 +21,7 @@
         "SimpleMarkerSymbol"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/update_graphics/UpdateGraphicsSample.java",
-        "src/main/java/com/esri/samples/update_graphics/UpdateGraphicsLauncher.java"
+        "src/main/java/com/esri/samples/update_graphics/UpdateGraphicsSample.java"
     ],
-    "title": "@@TODO: Update Graphics"
+    "title": "Update Graphics"
 }

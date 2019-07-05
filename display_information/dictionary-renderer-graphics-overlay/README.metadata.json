@@ -1,12 +1,11 @@
 {
     "category": "Display information",
-    "description": "@@TODO: Display mil2525d symbols.",
+    "description": "Display mil2525d symbols.",
     "ignore": false,
     "images": [
         "DictionaryRendererGraphicsOverlay.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "DictionaryRenderer",
@@ -36,9 +35,7 @@
         "SymbolDictionary"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/dictionary_renderer_graphics_overlay/DictionaryRendererGraphicsOverlaySample.java",
-        "src/main/java/com/esri/samples/dictionary_renderer_graphics_overlay/DictionaryRendererGraphicsOverlayLauncher.java"
+        "src/main/java/com/esri/samples/dictionary_renderer_graphics_overlay/DictionaryRendererGraphicsOverlaySample.java"
     ],
-    "title": "@@TODO: Dictionary Renderer with Graphics Overlay"
+    "title": "Dictionary Renderer with Graphics Overlay"
 }

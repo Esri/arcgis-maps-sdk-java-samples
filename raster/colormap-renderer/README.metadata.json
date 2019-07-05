@@ -23,8 +23,7 @@
         "RasterLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/colormap_renderer/ColormapRendererSample.java",
-        "src/main/java/com/esri/samples/colormap_renderer/ColormapRendererLauncher.java"
+        "src/main/java/com/esri/samples/colormap_renderer/ColormapRendererSample.java"
     ],
     "title": "Colormap Renderer"
 }

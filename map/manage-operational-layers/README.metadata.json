@@ -1,12 +1,11 @@
 {
     "category": "Map",
-    "description": "@@TODO: Add, remove and reorder operational layers in a map.",
+    "description": "Add, remove and reorder operational layers in a map.",
     "ignore": false,
     "images": [
         "ManageOperationalLayers.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "ArcGISMapImageLayer",
         "Basemap",
@@ -22,9 +21,8 @@
         "MapView"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/manage_operational_layers/ManageOperationalLayersLauncher.java",
         "src/main/java/com/esri/samples/manage_operational_layers/ManageOperationalLayersSample.java"
     ],
-    "title": "@@TODO: Manage Operational Layers"
+    "title": "Manage Operational Layers"
 }

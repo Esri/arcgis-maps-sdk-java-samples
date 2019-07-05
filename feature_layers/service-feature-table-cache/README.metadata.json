@@ -1,19 +1,18 @@
 {
     "category": "Feature layers",
-    "description": "@@TODO: Cache features on the client when the user interacts.",
+    "description": "Cache features on the client when the user interacts.",
     "ignore": false,
     "images": [
         "ServiceFeatureTableCache.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "FeatureLayer",
         "MapView",
         "ServiceFeatureTable",
         "ServiceFeatureTable.FeatureRequestMode"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/service-feature-table-cache-.htm",
+    "redirect_from": "/java/latest/sample-code/service-feature-table-cache-.htm",
     "relevant_apis": [
         "ArcGISMap",
         "FeatureLayer",
@@ -22,9 +21,8 @@
         "ServiceFeatureTable.FeatureRequestMode"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/service_feature_table_cache/ServiceFeatureTableCacheLauncher.java",
         "src/main/java/com/esri/samples/service_feature_table_cache/ServiceFeatureTableCacheSample.java"
     ],
-    "title": "@@TODO: Service Feature Table (Cache)"
+    "title": "Service Feature Table (Cache)"
 }

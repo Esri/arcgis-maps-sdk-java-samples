@@ -1,12 +1,11 @@
 {
     "category": "Network analysis",
-    "description": "@@TODO: Find the service area for a point.",
+    "description": "Find the service area for a point.",
     "ignore": false,
     "images": [
         "ServiceAreaTask.gif"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "GraphicsOverlay",
         "MapView",
@@ -32,11 +31,9 @@
         "PolylineBuilder"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/resources/service_area_task.fxml",
         "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskSample.java",
-        "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskController.java",
-        "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskLauncher.java"
+        "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskController.java"
     ],
-    "title": "@@TODO: Service Area Task"
+    "title": "Service Area Task"
 }

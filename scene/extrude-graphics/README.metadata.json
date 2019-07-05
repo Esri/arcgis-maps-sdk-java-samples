@@ -21,8 +21,7 @@
         "Renderer.SceneProperties"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/extrude_graphics/ExtrudeGraphicsSample.java",
-        "src/main/java/com/esri/samples/extrude_graphics/ExtrudeGraphicsLauncher.java"
+        "src/main/java/com/esri/samples/extrude_graphics/ExtrudeGraphicsSample.java"
     ],
     "title": "Extrude Graphics"
 }

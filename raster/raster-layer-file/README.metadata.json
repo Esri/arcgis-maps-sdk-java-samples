@@ -21,8 +21,7 @@
         "RasterLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/raster_layer_file/RasterLayerFileSample.java",
-        "src/main/java/com/esri/samples/raster_layer_file/RasterLayerFileLauncher.java"
+        "src/main/java/com/esri/samples/raster_layer_file/RasterLayerFileSample.java"
     ],
     "title": "Raster Layer File"
 }

@@ -23,8 +23,7 @@
         "Point"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/picture_marker_symbol/PictureMarkerSymbolSample.java",
-        "src/main/java/com/esri/samples/picture_marker_symbol/PictureMarkerSymbolLauncher.java"
+        "src/main/java/com/esri/samples/picture_marker_symbol/PictureMarkerSymbolSample.java"
     ],
     "title": "Picture Marker Symbol"
 }

@@ -25,8 +25,7 @@
         "EncLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/add_enc_exchange_set/AddEncExchangeSetSample.java",
-        "src/main/java/com/esri/samples/add_enc_exchange_set/AddEncExchangeSetLauncher.java"
+        "src/main/java/com/esri/samples/add_enc_exchange_set/AddEncExchangeSetSample.java"
     ],
     "title": "Add ENC exchange set"
 }

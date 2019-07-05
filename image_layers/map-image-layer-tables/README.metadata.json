@@ -1,12 +1,11 @@
 {
     "category": "Image layers",
-    "description": "@@TODO: Find features in a spatial table related to features in a non-spatial table.",
+    "description": "Find features in a spatial table related to features in a non-spatial table.",
     "ignore": false,
     "images": [
         "MapImageLayerTables.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISFeature",
         "ArcGISMapImageLayer",
         "Feature",
@@ -30,9 +29,8 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/map_image_layer_tables/MapImageLayerTablesLauncher.java",
         "src/main/java/com/esri/samples/map_image_layer_tables/MapImageLayerTablesSample.java"
     ],
-    "title": "@@TODO: Map Image Layer Tables"
+    "title": "Map Image Layer Tables"
 }

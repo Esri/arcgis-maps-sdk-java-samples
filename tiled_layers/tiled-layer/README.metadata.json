@@ -1,6 +1,6 @@
 {
     "category": "Tiled layers",
-    "description": "@@TODO: Display tiles from an ArcGIS tile service.",
+    "description": "Display tiles from an ArcGIS tile service.",
     "ignore": false,
     "images": [
         "TiledLayer.png"
@@ -13,16 +13,15 @@
         "ArcGISTiledLayer",
         "MapView"
     ],
-    "redirect_from": "@@TODO: /java/latest/sample-code/tiled-layer.htm",
+    "redirect_from": "/java/latest/sample-code/tiled-layer.htm",
     "relevant_apis": [
         "ArcGISMap",
         "ArcGISTiledLayer",
         "MapView"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/tiled_layer/TiledLayerLauncher.java",
         "src/main/java/com/esri/samples/tiled_layer/TiledLayerSample.java"
     ],
-    "title": "@@TODO: Tiled layer"
+    "title": "Tiled layer"
 }

@@ -1,12 +1,11 @@
 {
     "category": "Map",
-    "description": "@@TODO: Use bookmarks in a map.",
+    "description": "Use bookmarks in a map.",
     "ignore": false,
     "images": [
         "ManageBookmarks.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "Basemap",
         "Bookmark",
@@ -24,9 +23,8 @@
         "Viewpoint"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
         "src/main/java/com/esri/samples/manage_bookmarks/ManageBookmarksLauncher.java",
         "src/main/java/com/esri/samples/manage_bookmarks/ManageBookmarksSample.java"
     ],
-    "title": "@@TODO: Manage Bookmarks"
+    "title": "Manage Bookmarks"
 }

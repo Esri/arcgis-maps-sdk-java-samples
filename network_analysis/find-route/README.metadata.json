@@ -1,12 +1,11 @@
 {
     "category": "Network analysis",
-    "description": "@@TODO: Get a route between two stops with directions.",
+    "description": "Get a route between two stops with directions.",
     "ignore": false,
     "images": [
         "FindRoute.png"
     ],
     "keywords": [
-        "@@TODO: *** PLEASE ADD ADDITIONAL KEYWORDS ***",
         "ArcGISMap",
         "DirectionManeuver",
         "DirectionMessage",
@@ -34,9 +33,7 @@
         "Stop"
     ],
     "snippets": [
-        "@@TODO: *** PLEASE VERIFY THE INCLUSION OF THESE SNIPPETS ***",
-        "src/main/java/com/esri/samples/find_route/FindRouteSample.java",
-        "src/main/java/com/esri/samples/find_route/FindRouteLauncher.java"
+        "src/main/java/com/esri/samples/find_route/FindRouteSample.java"
     ],
-    "title": "@@TODO: Find Route"
+    "title": "Find Route"
 }
