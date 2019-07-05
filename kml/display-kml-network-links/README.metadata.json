@@ -1,5 +1,5 @@
 {
-    "category": "Kml",
+    "category": "KML",
     "description": "Display KML that automatically refreshes every few seconds.",
     "ignore": false,
     "images": [

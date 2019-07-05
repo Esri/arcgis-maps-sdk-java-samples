@@ -1,5 +1,5 @@
 {
-    "category": "Ogc",
+    "category": "OGC",
     "description": "Browse a WFS service for layers and add them to the map.",
     "ignore": false,
     "images": [

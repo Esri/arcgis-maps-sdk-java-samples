@@ -1,4 +1,4 @@
-# Animate 3. Graphic
+# Animate 3D Graphic
 
 Animate a graphic's position and orientation and follow it with the camera.
 
@@ -17,9 +17,9 @@ Speed Slider (Top Right Corner):
 
 * controls speed of animation
 
-2. Map Controls (Bottom Left Corner):
+Map Controls (Bottom Left Corner):
 
-* Plus and Minus -- controls distance of 2. view from ground level
+* Plus and Minus -- controls distance of 2D view from ground level
 
 Moving the Camera:
 

@@ -1,5 +1,5 @@
 {
-    "category": "Kml",
+    "category": "KML",
     "description": "Get clicked features in a KML Layer.",
     "ignore": false,
     "images": [

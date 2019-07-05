@@ -1,5 +1,5 @@
 {
-    "category": "Ogc",
+    "category": "OGC",
     "description": "Display tiles from OpenStreetMap.",
     "ignore": false,
     "images": [

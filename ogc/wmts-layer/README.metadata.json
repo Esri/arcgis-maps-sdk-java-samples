@@ -1,5 +1,5 @@
 {
-    "category": "Ogc",
+    "category": "OGC",
     "description": "Dsiplay tiles from a Web Map Tile Service.",
     "ignore": false,
     "images": [
