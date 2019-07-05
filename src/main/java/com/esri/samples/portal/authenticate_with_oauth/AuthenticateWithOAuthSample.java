@@ -30,7 +30,7 @@ import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
 
-public class OAuthSample extends Application {
+public class AuthenticateWithOAuthSample extends Application {
 
   private MapView mapView;
 
@@ -43,7 +43,7 @@ public class OAuthSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("OAuth Sample");
+      stage.setTitle("Authenticate With OAuth Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
