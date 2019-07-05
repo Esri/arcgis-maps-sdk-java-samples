@@ -25,9 +25,9 @@
         "RasterLayer"
     ],
     "snippets": [
-        "src/main/resources/blend_renderer.fxml",
         "src/main/java/com/esri/samples/blend_renderer/BlendRendererController.java",
-        "src/main/java/com/esri/samples/blend_renderer/BlendRendererSample.java"
+        "src/main/java/com/esri/samples/blend_renderer/BlendRendererSample.java",
+        "src/main/resources/blend_renderer.fxml"
     ],
     "title": "Blend Renderer"
 }
