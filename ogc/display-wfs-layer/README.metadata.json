@@ -27,7 +27,6 @@
         "WfsFeatureTable"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/display_wfs_layer/DisplayWfsLayerLauncher.java",
         "src/main/java/com/esri/samples/display_wfs_layer/DisplayWFSLayerSample.java"
     ],
     "title": "Display WFS Layer"

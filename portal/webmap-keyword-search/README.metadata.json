@@ -23,9 +23,9 @@
         "PortalQueryResultSet"
     ],
     "snippets": [
-        "src/main/resources/webmap_keyword_search.fxml",
         "src/main/java/com/esri/samples/webmap_keyword_search/WebmapKeywordSearchSample.java",
-        "src/main/java/com/esri/samples/webmap_keyword_search/WebmapKeywordSearchController.java"
+        "src/main/java/com/esri/samples/webmap_keyword_search/WebmapKeywordSearchController.java",
+        "src/main/resources/webmap_keyword_search.fxml"
     ],
     "title": "Webmap Keyword Search"
 }

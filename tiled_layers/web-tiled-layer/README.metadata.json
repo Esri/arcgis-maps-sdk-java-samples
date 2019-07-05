@@ -19,7 +19,6 @@
         "WebTiledLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/web_tiled_layer/WebTiledLayerLauncher.java",
         "src/main/java/com/esri/samples/web_tiled_layer/WebTiledLayerSample.java"
     ],
     "title": "Web Tiled Layer"

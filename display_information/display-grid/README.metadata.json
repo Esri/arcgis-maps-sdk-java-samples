@@ -29,9 +29,9 @@
         "UtmGrid"
     ],
     "snippets": [
-        "src/main/resources/display_grid.fxml",
+        "src/main/java/com/esri/samples/display_grid/DisplayGridSample.java",
         "src/main/java/com/esri/samples/display_grid/DisplayGridController.java",
-        "src/main/java/com/esri/samples/display_grid/DisplayGridSample.java"
+        "src/main/resources/display_grid.fxml"
     ],
     "title": "Display Grid"
 }

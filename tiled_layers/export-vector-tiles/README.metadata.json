@@ -31,7 +31,6 @@
         "VectorTileCache"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/export_vector_tiles/ExportVectorTilesLauncher.java",
         "src/main/java/com/esri/samples/export_vector_tiles/ExportVectorTilesSample.java"
     ],
     "title": "Export Vector Tiles"

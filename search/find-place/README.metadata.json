@@ -31,9 +31,9 @@
         "TileCache"
     ],
     "snippets": [
-        "src/main/resources/find_place.fxml",
+        "src/main/java/com/esri/samples/find_place/FindPlaceSample.java",
         "src/main/java/com/esri/samples/find_place/FindPlaceController.java",
-        "src/main/java/com/esri/samples/find_place/FindPlaceSample.java"
+        "src/main/resources/find_place.fxml"
     ],
     "title": "Find Place"
 }

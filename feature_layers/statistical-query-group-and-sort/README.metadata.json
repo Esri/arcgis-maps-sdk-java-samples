@@ -13,11 +13,11 @@
         "*** PLEASE ADD RELEVANT APIS ***"
     ],
     "snippets": [
-        "src/main/resources/statistical_query_group_and_sort.fxml",
-        "src/main/java/com/esri/samples/statistical_query_group_and_sort/GroupField.java",
         "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortSample.java",
+        "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortController.java",
+        "src/main/java/com/esri/samples/statistical_query_group_and_sort/GroupField.java",
         "src/main/java/com/esri/samples/statistical_query_group_and_sort/OrderByField.java",
-        "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortController.java"
+        "src/main/resources/statistical_query_group_and_sort.fxml"
     ],
     "title": "Statistical Query Group And Sort"
 }

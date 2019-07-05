@@ -21,7 +21,6 @@
         "MapView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/open_street_map_layer/OpenStreetMapLayerLauncher.java",
         "src/main/java/com/esri/samples/open_street_map_layer/OpenStreetMapLayerSample.java"
     ],
     "title": "OpenStreetMap Layer"

@@ -23,9 +23,9 @@
         "RasterLayer"
     ],
     "snippets": [
-        "src/main/resources/hillshade_renderer.fxml",
+        "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererSample.java",
         "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererController.java",
-        "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererSample.java"
+        "src/main/resources/hillshade_renderer.fxml"
     ],
     "title": "Hillshade Renderer"
 }

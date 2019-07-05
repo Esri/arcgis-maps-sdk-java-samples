@@ -29,7 +29,6 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/map_image_layer_tables/MapImageLayerTablesLauncher.java",
         "src/main/java/com/esri/samples/map_image_layer_tables/MapImageLayerTablesSample.java"
     ],
     "title": "Map Image Layer Tables"

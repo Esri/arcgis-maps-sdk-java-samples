@@ -30,9 +30,9 @@
         "SketchEditor"
     ],
     "snippets": [
-        "src/main/resources/sketch_on_map.fxml",
         "src/main/java/com/esri/samples/sketch_on_map/SketchOnMapSample.java",
-        "src/main/java/com/esri/samples/sketch_on_map/SketchOnMapController.java"
+        "src/main/java/com/esri/samples/sketch_on_map/SketchOnMapController.java",
+        "src/main/resources/sketch_on_map.fxml"
     ],
     "title": "Sketch on Map"
 }

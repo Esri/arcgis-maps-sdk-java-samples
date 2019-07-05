@@ -19,7 +19,6 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/feature_layer_feature_service/FeatureLayerFeatureServiceLauncher.java",
         "src/main/java/com/esri/samples/feature_layer_feature_service/FeatureLayerFeatureServiceSample.java"
     ],
     "title": "Feature Layer Feature Service"

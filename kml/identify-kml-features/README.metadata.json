@@ -19,7 +19,6 @@
         "KmlPlacemark"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/identify_kml_features/IdentifyKMLFeaturesLauncher.java",
         "src/main/java/com/esri/samples/identify_kml_features/IdentifyKMLFeaturesSample.java"
     ],
     "title": "Identify KML Features"

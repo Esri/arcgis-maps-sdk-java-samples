@@ -19,7 +19,6 @@
         "Viewpoint"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/min_max_scale/MinMaxScaleLauncher.java",
         "src/main/java/com/esri/samples/min_max_scale/MinMaxScaleSample.java"
     ],
     "title": "Min Max Scale"

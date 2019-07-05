@@ -23,7 +23,6 @@
         "Viewpoint"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/manage_bookmarks/ManageBookmarksLauncher.java",
         "src/main/java/com/esri/samples/manage_bookmarks/ManageBookmarksSample.java"
     ],
     "title": "Manage Bookmarks"

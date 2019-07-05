@@ -29,7 +29,6 @@
         "WfsServiceInfo"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/browse_wfs_layers/BrowseWfsLayersLauncher.java",
         "src/main/java/com/esri/samples/browse_wfs_layers/BrowseWfsLayersSample.java"
     ],
     "title": "Browse WFS layers"

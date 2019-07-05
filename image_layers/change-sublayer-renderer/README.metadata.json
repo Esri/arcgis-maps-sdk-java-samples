@@ -33,7 +33,6 @@
         "SublayerList"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/change_sublayer_renderer/ChangeSublayerRendererLauncher.java",
         "src/main/java/com/esri/samples/change_sublayer_renderer/ChangeSublayerRendererSample.java"
     ],
     "title": "Change Sublayer Renderer"

@@ -25,9 +25,9 @@
         "LocalService"
     ],
     "snippets": [
-        "src/main/resources/local_server_services.fxml",
         "src/main/java/com/esri/samples/local_server_services/LocalServerServicesSample.java",
-        "src/main/java/com/esri/samples/local_server_services/LocalServerServicesController.java"
+        "src/main/java/com/esri/samples/local_server_services/LocalServerServicesController.java",
+        "src/main/resources/local_server_services.fxml"
     ],
     "title": "Local Server Services"
 }

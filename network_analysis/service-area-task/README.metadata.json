@@ -31,9 +31,9 @@
         "PolylineBuilder"
     ],
     "snippets": [
-        "src/main/resources/service_area_task.fxml",
         "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskSample.java",
-        "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskController.java"
+        "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskController.java",
+        "src/main/resources/service_area_task.fxml"
     ],
     "title": "Service Area Task"
 }

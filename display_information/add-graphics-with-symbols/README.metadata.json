@@ -33,7 +33,6 @@
         "TextSymbol"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/add_graphics_with_symbols/AddGraphicsWithSymbolsLauncher.java",
         "src/main/java/com/esri/samples/add_graphics_with_symbols/AddGraphicsWithSymbolsSample.java"
     ],
     "title": "Add Graphics with Symbols"

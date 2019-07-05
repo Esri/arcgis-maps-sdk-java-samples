@@ -21,7 +21,6 @@
         "MapView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/manage_operational_layers/ManageOperationalLayersLauncher.java",
         "src/main/java/com/esri/samples/manage_operational_layers/ManageOperationalLayersSample.java"
     ],
     "title": "Manage Operational Layers"

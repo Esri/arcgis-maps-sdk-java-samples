@@ -27,7 +27,6 @@
         "KmlTourStatus"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/play_a_kml_tour/PlayAKMLTourLauncher.java",
         "src/main/java/com/esri/samples/play_a_kml_tour/PlayAKMLTourSample.java"
     ],
     "title": "Play a KML Tour"

@@ -20,7 +20,6 @@
         "MapView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/tiled_layer/TiledLayerLauncher.java",
         "src/main/java/com/esri/samples/tiled_layer/TiledLayerSample.java"
     ],
     "title": "Tiled layer"

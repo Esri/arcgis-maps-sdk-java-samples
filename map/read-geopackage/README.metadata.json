@@ -25,7 +25,6 @@
         "RasterLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/read_geopackage/ReadGeoPackageLauncher.java",
         "src/main/java/com/esri/samples/read_geopackage/ReadGeoPackageSample.java"
     ],
     "title": "Read GeoPackage"

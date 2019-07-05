@@ -21,7 +21,6 @@
         "Viewpoint"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/map_initial_extent/MapInitialExtentLauncher.java",
         "src/main/java/com/esri/samples/map_initial_extent/MapInitialExtentSample.java"
     ],
     "title": "Map Initial Extent"

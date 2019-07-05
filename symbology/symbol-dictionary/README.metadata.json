@@ -31,11 +31,11 @@
         "SymbolDictionary"
     ],
     "snippets": [
-        "src/main/resources/symbol_dictionary.fxml",
-        "src/main/resources/symbol_dictionary_view.fxml",
+        "src/main/java/com/esri/samples/symbol_dictionary/SymbolDictionarySample.java",
         "src/main/java/com/esri/samples/symbol_dictionary/SymbolDictionaryController.java",
         "src/main/java/com/esri/samples/symbol_dictionary/SymbolView.java",
-        "src/main/java/com/esri/samples/symbol_dictionary/SymbolDictionarySample.java"
+        "src/main/resources/symbol_dictionary.fxml",
+        "src/main/resources/symbol_dictionary_view.fxml"
     ],
     "title": "Symbol Dictionary"
 }

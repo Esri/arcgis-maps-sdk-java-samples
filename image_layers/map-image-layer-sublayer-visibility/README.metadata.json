@@ -21,7 +21,6 @@
         "SubLayerList"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/map_image_layer_sublayer_visibility/MapImageLayerSublayerVisibilityLauncher.java",
         "src/main/java/com/esri/samples/map_image_layer_sublayer_visibility/MapImageLayerSublayerVisibilitySample.java"
     ],
     "title": "Map Image Layer Sublayer Visibility"

@@ -45,10 +45,10 @@
         "Viewpoint"
     ],
     "snippets": [
-        "src/main/resources/animate_3d_graphic.fxml",
-        "src/main/java/com/esri/samples/animate_3d_graphic/AnimationModel.java",
         "src/main/java/com/esri/samples/animate_3d_graphic/Animate3dGraphicSample.java",
-        "src/main/java/com/esri/samples/animate_3d_graphic/Animate3dGraphicController.java"
+        "src/main/java/com/esri/samples/animate_3d_graphic/Animate3dGraphicController.java",
+        "src/main/java/com/esri/samples/animate_3d_graphic/AnimationModel.java",
+        "src/main/resources/animate_3d_graphic.fxml"
     ],
     "title": "Animate 3. Graphic"
 }

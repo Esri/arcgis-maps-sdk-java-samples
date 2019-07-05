@@ -17,9 +17,9 @@
         "ArcGISTiledElevationSource"
     ],
     "snippets": [
-        "src/main/resources/terrain_exaggeration.fxml",
         "src/main/java/com/esri/samples/terrain_exaggeration/TerrainExaggerationSample.java",
-        "src/main/java/com/esri/samples/terrain_exaggeration/TerrainExaggerationController.java"
+        "src/main/java/com/esri/samples/terrain_exaggeration/TerrainExaggerationController.java",
+        "src/main/resources/terrain_exaggeration.fxml"
     ],
     "title": "Terrain Exaggeration"
 }

@@ -32,7 +32,6 @@
         "ServiceFeatureTable"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/feature_collection_layer_query/FeatureCollectionLayerQueryLauncher.java",
         "src/main/java/com/esri/samples/feature_collection_layer_query/FeatureCollectionLayerQuerySample.java"
     ],
     "title": "Feature Collection Layer Query"

@@ -15,7 +15,6 @@
         "GroupLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/group_layers/GroupLayersLauncher.java",
         "src/main/java/com/esri/samples/group_layers/GroupLayersSample.java",
         "src/main/java/com/esri/samples/group_layers/LayerTreeCell.java"
     ],

@@ -21,7 +21,6 @@
         "ServiceFeatureTable.FeatureRequestMode"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/service_feature_table_cache/ServiceFeatureTableCacheLauncher.java",
         "src/main/java/com/esri/samples/service_feature_table_cache/ServiceFeatureTableCacheSample.java"
     ],
     "title": "Service Feature Table (Cache)"

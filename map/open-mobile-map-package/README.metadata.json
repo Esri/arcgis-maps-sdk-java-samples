@@ -15,7 +15,6 @@
         "MobileMapPackage"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/open_mobile_map_package/OpenMobileMapPackageLauncher.java",
         "src/main/java/com/esri/samples/open_mobile_map_package/OpenMobileMapPackageSample.java"
     ],
     "title": "Open Mobile Map Package"

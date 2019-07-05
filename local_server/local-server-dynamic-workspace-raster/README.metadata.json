@@ -25,7 +25,6 @@
         "StatusChangedEvent"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/local_server_dynamic_workspace_raster/LocalServerDynamicWorkspaceRasterLauncher.java",
         "src/main/java/com/esri/samples/local_server_dynamic_workspace_raster/LocalServerDynamicWorkspaceRasterSample.java"
     ],
     "title": "Local Server Dynamic Workspace Raster"

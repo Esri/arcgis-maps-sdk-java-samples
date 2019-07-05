@@ -29,7 +29,6 @@
         "RelatedFeatureQueryResult"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/list_related_features/ListRelatedFeaturesLauncher.java",
         "src/main/java/com/esri/samples/list_related_features/ListRelatedFeaturesSample.java"
     ],
     "title": "List Related Features"

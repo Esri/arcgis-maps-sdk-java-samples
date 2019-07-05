@@ -29,7 +29,6 @@
         "SimpleRenderer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/feature_collection_layer/FeatureCollectionLayerLauncher.java",
         "src/main/java/com/esri/samples/feature_collection_layer/FeatureCollectionLayerSample.java"
     ],
     "title": "Feature Collection Layer"
