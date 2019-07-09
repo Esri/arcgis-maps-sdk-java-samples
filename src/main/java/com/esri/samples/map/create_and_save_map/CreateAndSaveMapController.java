@@ -44,6 +44,7 @@ import com.esri.arcgisruntime.portal.PortalFolder;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.portal.PortalUserContent;
 import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
 
 public class CreateAndSaveMapController {
@@ -126,10 +127,12 @@ public class CreateAndSaveMapController {
       OAuthConfiguration configuration = authenticationDialog.getResult();
       // check authentication went through
       if (configuration != null) {
-        AuthenticationManager.addOAuthConfiguration(configuration);
 
-        // setup the handler that will prompt an authentication challenge to the user
-        AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
+        // set up the authentication manager to handle authentication challenges
+        DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
+        AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
+        // add the OAuth configuration
+        AuthenticationManager.addOAuthConfiguration(configuration);
 
         portal = new Portal("http://" + configuration.getPortalUrl(), true);
         portal.addDoneLoadingListener(() -> {
@@ -147,12 +150,11 @@ public class CreateAndSaveMapController {
           } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
 
             // show alert message on error
-            showMessage("Authentication failed", portal.getLoadError().getMessage(), Alert.AlertType.ERROR);
+            new Alert(Alert.AlertType.ERROR, "Authentication failed: " + portal.getLoadError().getMessage()).show();
           }
         });
 
-        // loading the portal info of a secured resource
-        // this will invoke the authentication challenge
+        // load the portal info of a secured resource. This will invoke the authentication challenge
         portal.loadAsync();
       }
     });
