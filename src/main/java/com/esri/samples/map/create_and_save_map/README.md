@@ -20,7 +20,7 @@ chosen folder.</p>
   <li>Create an <code>ArcGISMap</code> with a <code>Basemap</code> and operational layers</li>
   <li>Create an <code>OAuthConfiguration</code> with your portal and app credential.</li>
   <li>Add the configuration to the <code>AuthenticationMangager</code></li>
-  <li>Create a <code>Portal</code> and load it. Use a <code>DefaultAuthenticationChallengeHandler</code> to 
+  <li>Create a <code>Portal</code> and load it. Use a custom <code>AuthenticationChallengeHandler</code> to 
   authenticate with your username and password</li>
   <li>Once authenticated, save the map by calling <code>map.saveMapAsAsync()</code>, passing in the title, tags, 
   description, and portal folder</li>
@@ -29,10 +29,10 @@ chosen folder.</p>
 <h2>Relevant API</h2>
 
 <ul>
+  <li>AuthenticationChallengeHandler</li>
   <li>ArcGISMap</li>
   <li>ArcGISMapImageLayer</li>
   <li>Basemap</li>
-  <li>DefaultAuthenticationChallengeHandler</li>
   <li>MapView</li>
   <li>OAuthConfiguration</li>
   <li>Portal</li>
@@ -40,3 +40,8 @@ chosen folder.</p>
   <li>PortalItem</li>
   <li>PortalUserContent</li>
 </ul>
+
+
+<h2>Additional information</h2>
+
+<p>The JavaFX <code>WebEngine</code> used in the <code>OAuthChallengeHandler</code> in this sample may not support rendering of some modern web elements returned by the <code>AuthorizationURL</code>. For this reason, we append <code>&display=classic</code> to the authorization URL, to ensure it renders properly.</p>

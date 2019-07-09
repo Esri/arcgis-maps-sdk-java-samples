@@ -44,7 +44,6 @@ import com.esri.arcgisruntime.portal.PortalFolder;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.portal.PortalUserContent;
 import com.esri.arcgisruntime.security.AuthenticationManager;
-import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
 
 public class CreateAndSaveMapController {
@@ -127,11 +126,10 @@ public class CreateAndSaveMapController {
       OAuthConfiguration configuration = authenticationDialog.getResult();
       // check authentication went through
       if (configuration != null) {
-        // set up the authentication manager to handle authentication challenges
-        DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
-        AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
-        // add the OAuth configuration
         AuthenticationManager.addOAuthConfiguration(configuration);
+
+        // setup the handler that will prompt an authentication challenge to the user
+        AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
 
         portal = new Portal("http://" + configuration.getPortalUrl(), true);
         portal.addDoneLoadingListener(() -> {
@@ -144,16 +142,17 @@ public class CreateAndSaveMapController {
               e.printStackTrace();
             }
 
-          saveButton.setDisable(false);
+            saveButton.setDisable(false);
 
-        } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+          } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
 
-          // show alert message on error
-          new Alert(Alert.AlertType.ERROR, "Authentication failed: " + portal.getLoadError().getMessage()).show();
-        }
-      });
+            // show alert message on error
+            showMessage("Authentication failed", portal.getLoadError().getMessage(), Alert.AlertType.ERROR);
+          }
+        });
 
-        // load the portal info of a secured resource. This will invoke the authentication challenge
+        // loading the portal info of a secured resource
+        // this will invoke the authentication challenge
         portal.loadAsync();
       }
     });
