@@ -18,7 +18,7 @@
   <li>Create a new <code>ServiceAreaTask</code> from a network service.</li>
   <li>Create default <code>ServiceAreaParameters</code> from the service area task.</li>
   <li>Set the parameters <code>ServiceAreaParameters.setReturnPolygons(true)</code> to return polygons of all service areas.</li>
-  <li>Add facilities of the <code>ServiceAreaParameters</code>. For this, use a set of <code>QueryParameters</code> to select features from a <code>ServiceFeatureTable</code>: <code>serviceAreaParameters.SetFacilities(facilitiesTable, queryParameters)</code>.</li>
+  <li>Define <code>QueryParameters</code> that select <code>facilities</code> from a <code>FacilitiesFeatureTable</code>. Use these to add the facilities to the service area parameters, <code>serviceAreaParameters.SetFacilities(facilitiesTable, queryParameters).</code></li>
   <li>Get the <code>ServiceAreaResult</code> by solving the service area task using the parameters.</li>
   <li>For each facility, get any <code>ServiceAreaPolygons</code> that were returned, <code>serviceAreaResult.getResultPolygons(facilityIndex)</code>.</li>
   <li>Display the service area polygons as <code>Graphics</code> in a <code>GraphicsOverlay</code> on the <code>MapView</code>.</li>

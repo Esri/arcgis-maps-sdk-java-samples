@@ -145,7 +145,6 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
 
           // create a service area task from URL
           ServiceAreaTask serviceAreaTask = new ServiceAreaTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ServiceArea");
-          serviceAreaTask.loadAsync();
 
           // create default service area task parameters
           ListenableFuture<ServiceAreaParameters> serviceAreaTaskParametersFuture = serviceAreaTask.createDefaultParametersAsync();
@@ -173,7 +172,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
                   // get the task results
                   ServiceAreaResult serviceAreaResult = serviceAreaResultFuture.get();
 
-                  // display all the service areas that were found to the map view
+                  // create a list to hold all the found service areas
                   List<Graphic> serviceAreaGraphics = serviceAreasGraphicsOverlay.getGraphics();
 
                   // iterate through all the facilities to get the service area polygons
@@ -187,14 +186,16 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
                   }
 
                 } catch (ExecutionException | InterruptedException e) {
-                  new Alert(Alert.AlertType.ERROR, "Error solving the service area task").show();
+                  new Alert(Alert.AlertType.ERROR, "Error solving the service area task.").show();
+
+                } finally {
+                  // hide the progress indicator after the task is complete
+                  progressIndicator.setVisible(false);
                 }
-                // hide the progress indicator after the task is complete
-                progressIndicator.setVisible(false);
               });
 
             } catch (ExecutionException | InterruptedException e) {
-              e.printStackTrace();
+              new Alert(Alert.AlertType.ERROR, "Error generating service area task parameters.").show();
             }
           });
         });
