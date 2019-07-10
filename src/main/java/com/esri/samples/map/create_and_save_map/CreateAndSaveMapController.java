@@ -202,7 +202,7 @@ public class CreateAndSaveMapController {
           showMessage("Save Successful", "Map titled " + title.getText() + " saved to portal item with id: " +
               portalItem.getItemId(), Alert.AlertType.INFORMATION);
         } catch (InterruptedException | ExecutionException e) {
-          showMessage("Save Unscuccessful", e.getCause().getMessage(), Alert.AlertType.ERROR);
+          showMessage("Save Unsuccessful", e.getCause().getMessage(), Alert.AlertType.ERROR);
         } finally {
           progress.setVisible(false);
         }
