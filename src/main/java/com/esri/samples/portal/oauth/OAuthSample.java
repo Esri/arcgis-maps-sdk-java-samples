@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.portal.authenticate_with_oauth;
+package com.esri.samples.portal.oauth;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,7 +30,7 @@ import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
 
-public class AuthenticateWithOAuthSample extends Application {
+public class OAuthSample extends Application {
 
   private MapView mapView;
 

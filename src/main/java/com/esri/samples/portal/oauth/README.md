@@ -2,7 +2,7 @@
 
 <p>Use OAuth2 to authenticate with ArcGIS Online (or your own portal) to access secured resources.</p>
 
-<p><img src="AuthenticateWithOAuth.png"/></p>
+<p><img src="OAuthSample.png"/></p>
 
 <h2>Use case</h2>
 
