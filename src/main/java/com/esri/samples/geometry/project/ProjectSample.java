@@ -89,7 +89,7 @@ public class ProjectSample extends Application {
           Point originalPoint = mapView.screenToLocation(point2D);
           inputPointGraphic.setGeometry(originalPoint);
           // project the web mercator point to WGS84 (WKID 4326)
-          Point projectedPoint = (Point) GeometryEngine.project(originalPoint, SpatialReference.create(4326));
+          Point projectedPoint = (Point) GeometryEngine.project(originalPoint, SpatialReferences.getWgs84());
           // show the original and projected point coordinates in a callout from the graphic
           Callout callout = mapView.getCallout();
           callout.setTitle("Coordinates");
