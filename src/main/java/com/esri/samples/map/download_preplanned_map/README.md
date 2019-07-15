@@ -22,6 +22,7 @@
   <li>When the user selects a map area, start the download.
     <ol>
       <li>Create a <code>DownloadPreplannedOfflineMapParameters</code> using <code>OfflineMapTask.createDefaultDownloadPreplannedOfflineMapParametersAsync</code>.</li>
+      <li><b>Note:</b> setting the <code>.updateOption()</code> on the parameters allows fine-tuning the update behaviour of the offline map. In this case, the preplanned area is defined not to apply any future updates, <code>SomeEnum.NOUPDATES</code>.</li>
       <li>Create a <code>DownloadPreplannedOfflineMapJob</code> using <code>OfflineMapTask.downloadPreplannedOfflineMap</code>, passing in the parameters.</li>
       <li>Wait for the job to complete and get the result, <code>DownloadPreplannedOfflineMapJob.getResult()</code>.</li>
       <li>Display any errors to the user.</li>
@@ -36,13 +37,7 @@
   <li>DownloadPreplannedOfflineMapJob</li>
   <li>DownloadPreplannedOfflineMapParameters</li>
   <li>DownloadPreplannedOfflineMapResult</li>
-  <li>DownloadPreplannedOfflineMapResult.HasErrors</li>
-  <li>DownloadPreplannedOfflineMapResult.LayerErrors</li>
-  <li>DownloadPreplannedOfflineMapResult.TableErrors</li>
   <li>OfflineMapTask</li>
-  <li>OfflineMapTask.CreateDefaultDownloadPreplannedOfflineMapParametersAsync</li>
-  <li>OfflineMapTask.DownloadPreplannedOfflineMap</li>
-  <li>OfflineMapTask.GetPreplannedMapAreasAsync</li>
   <li>PreplannedMapArea</li>
 </ul>
 
