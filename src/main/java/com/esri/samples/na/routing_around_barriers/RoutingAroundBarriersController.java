@@ -84,11 +84,9 @@ public class RoutingAroundBarriersController {
 
   @FXML
   public void initialize() {
-    // create an ArcGISMap with a streets basemap
+    // add a map with the streets basemap to the map view, centered on San Diego
     ArcGISMap map = new ArcGISMap(Basemap.createStreets());
-    // set the ArcGISMap to be displayed in this view
     mapView.setMap(map);
-    // zoom to viewpoint
     mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
     // add the graphics overlays to the map view
