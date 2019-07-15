@@ -168,7 +168,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   }
 
   /**
-   * Gets the keys of the selected symbol components, and constructs a multilayer point symbol.
+   * Gets the keys of the selected symbol components, and constructs a multilayer point symbol, and updates the symbol preview.
    */
   @FXML
   private void buildCompositeSymbol() {
@@ -178,7 +178,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     String eyesKey = getRequestedSymbolKey(eyesSelectionListView);
     String mouthKey = getRequestedSymbolKey(mouthSelectionListView);
 
-    // create a list of keys to use for getting the requested symbol.
+    // create a list of keys to use for getting the requested symbol
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
 
     // get the symbol from the SymbolStyle
@@ -193,7 +193,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         // loop through all the symbol layers and lock the color
         faceSymbol.getSymbolLayers().forEach(symbolLayer -> symbolLayer.setColorLocked(true));
 
-        // unlock the color of the base layer. Changing the symbol layer will now only change this layer's color
+        // unlock the color of the base layer. Changing the symbol layer color will now only change this layer's color
         faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
 
         // set the color of the symbol
@@ -213,6 +213,7 @@ public class ReadSymbolsFromMobileStyleFileController {
 
   /**
    * Returns the symbol key of the symbol style search result that is currently selected in the list view.
+   *
    * @param listView the list view of which to query the selected item
    * @return String representing the key of the selected symbol style
    */
@@ -294,13 +295,14 @@ public class ReadSymbolsFromMobileStyleFileController {
   /**
    * Shows the available symbol of the SymbolStyleSearchResult in the symbol selection list view.
    */
-  class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
+  private class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
 
     private SymbolLayerInfoListCell() {
       // set the cell to display only a graphic
       setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
     }
 
+    @Override
     protected void updateItem(SymbolStyleSearchResult item, boolean empty) {
       super.updateItem(item, empty);
 
@@ -336,6 +338,7 @@ public class ReadSymbolsFromMobileStyleFileController {
       rectangle = new Rectangle(10, 10);
     }
 
+    @Override
     protected void updateItem(Integer item, boolean empty) {
       super.updateItem(item, empty);
 
