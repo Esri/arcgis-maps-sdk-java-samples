@@ -328,7 +328,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   /**
    * Shows the colors in the color selection list view.
    */
-  class ColorListCell extends ListCell<Integer> {
+  private class ColorListCell extends ListCell<Integer> {
     private final Rectangle rectangle;
 
     private ColorListCell() {
