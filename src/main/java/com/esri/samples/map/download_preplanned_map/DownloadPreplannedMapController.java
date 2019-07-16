@@ -161,7 +161,7 @@ public class DownloadPreplannedMapController {
           DownloadPreplannedOfflineMapParameters downloadPreplannedOfflineMapParameters = downloadPreplannedOfflineMapParametersFuture.get();
 
           // set the parameters for the offline map to not query for updates
-          downloadPreplannedOfflineMapParameters.updateOption() = SomeEnum.NOUPDATES;
+          downloadPreplannedOfflineMapParameters.setUpdateMode() = PreplannedUpdateMode.NO_UPDATES;
 
           // create the job with the parameters and download path
           downloadPreplannedOfflineMapJob = offlineMapTask.downloadPreplannedOfflineMap(downloadPreplannedOfflineMapParameters, path);
