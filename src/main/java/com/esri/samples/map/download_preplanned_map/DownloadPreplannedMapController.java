@@ -56,6 +56,7 @@ import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapParam
 import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapResult;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 import com.esri.arcgisruntime.tasks.offlinemap.PreplannedMapArea;
+import com.esri.arcgisruntime.tasks.offlinemap.PreplannedUpdateMode;
 
 public class DownloadPreplannedMapController {
 
