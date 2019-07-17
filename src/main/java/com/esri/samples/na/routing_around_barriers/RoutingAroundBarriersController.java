@@ -80,8 +80,6 @@ public class RoutingAroundBarriersController {
   private RouteTask routeTask;
   private RouteParameters routeParameters;
   private SimpleFillSymbol barrierSymbol;
-  private SimpleLineSymbol routeLineSymbol;
-  private SimpleRenderer routeRenderer;
 
   @FXML
   public void initialize() {
@@ -98,10 +96,10 @@ public class RoutingAroundBarriersController {
 
     // create symbols for displaying the barriers and the route line
     barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
-    routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
+    SimpleLineSymbol routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
 
     // create simple renderer for routes, and set it to use the line symbol
-    routeRenderer = new SimpleRenderer();
+    SimpleRenderer routeRenderer = new SimpleRenderer();
     routeRenderer.setSymbol(routeLineSymbol);
     routeGraphicsOverlay.setRenderer(routeRenderer);
 
@@ -216,6 +214,8 @@ public class RoutingAroundBarriersController {
     if (stopsList.size() >= 2) {
       // clear the previous route from the graphics overlay, if it exists
       routeGraphicsOverlay.getGraphics().clear();
+      // clear the directions list from the directions list view, if they exist
+      directionsList.getItems().clear();
 
       // add the existing stops and barriers to the route parameters
       routeParameters.setStops(stopsList);
