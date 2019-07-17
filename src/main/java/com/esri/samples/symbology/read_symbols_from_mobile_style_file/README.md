@@ -16,9 +16,9 @@ Select a symbol and a color from each of the category lists to create an emoji. 
 
 1. Create a new `SymbolStyle` from a stylx file, and load it: `symbolStyle.loadAsync()`.
 2. Get a set of default search parameters, `symbolStyle.getDefaultSearchParametersAsync()`, and use these to retrieve a list of all symbols within the style file: `symbolStyle.searchSymbolsAsync(defaultSearchParameters)`.
-3. Iterate the list of `SymbolStyleSearchResult` and add symbols to list boxes according to their category. Display a preview of each symbol with `multilayerPointSymbol.createSwatchAsync()`.
-4. When symbol selections change, create a new multilayer symbol by passing the keys for the selected symbols into `symbolStyle.emojiStyle.getSymbolAsync(symbolKeys)`. To only allow coloring in the emoji face, color lock all symbol layers except the base layer and update the current symbol preview image.
-5. Create graphics symbolized with the current symbol when the user clicks on the map view.
+3. Get the `SymbolStyleSearchResult`, which contains the symbols, as well as their names, keys, and categories.
+4. Use a `List` of keys of the desired symbols to build a composite symbol, `symbolStyle.emojiStyle.getSymbolAsync(symbolKeys)`.
+5. Get the resulting `MultilayerPointSymbol`, use it to create a `Graphic` and display it to the map.
 
 ## Relevant API
 
