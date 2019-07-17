@@ -48,6 +48,7 @@ import com.esri.arcgisruntime.symbology.CompositeSymbol;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 import com.esri.arcgisruntime.tasks.networkanalysis.DirectionManeuver;
 import com.esri.arcgisruntime.tasks.networkanalysis.PolygonBarrier;
@@ -80,6 +81,7 @@ public class RoutingAroundBarriersController {
   private RouteParameters routeParameters;
   private SimpleFillSymbol barrierSymbol;
   private SimpleLineSymbol routeLineSymbol;
+  private SimpleRenderer routeRenderer;
 
   @FXML
   public void initialize() {
@@ -97,6 +99,11 @@ public class RoutingAroundBarriersController {
     // create symbols for displaying the barriers and the route line
     barrierSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFFFF0000, null);
     routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x800000FF, 5.0f);
+
+    // create simple renderer for routes, and set it to use the line symbol
+    routeRenderer = new SimpleRenderer();
+    routeRenderer.setSymbol(routeLineSymbol);
+    routeGraphicsOverlay.setRenderer(routeRenderer);
 
     // create a marker with a pin image and position it
     pinImage = new Image(getClass().getResourceAsStream("/symbols/orange_symbol.png"), 0, 40, true, true);
@@ -232,7 +239,7 @@ public class RoutingAroundBarriersController {
             Geometry routeGeometry = firstRoute.getRouteGeometry();
 
             // create a graphic for the route and add it to the graphics overlay
-            Graphic routeGraphic = new Graphic(routeGeometry, routeLineSymbol);
+            Graphic routeGraphic = new Graphic(routeGeometry);
             routeGraphicsOverlay.getGraphics().add(routeGraphic);
 
             // set the title of the TitledPane to display the information
