@@ -314,7 +314,7 @@ public class DownloadPreplannedMapController {
   /**
    * Shows the available thumbnail of the PreplannedMapArea in the selection list view.
    */
-  class PreplannedMapAreaListCell extends ListCell<PreplannedMapArea> {
+  private class PreplannedMapAreaListCell extends ListCell<PreplannedMapArea> {
 
     @Override
     protected void updateItem(PreplannedMapArea preplannedMapArea, boolean empty) {
