@@ -57,18 +57,16 @@
             <!--Routing Options Checkboxes-->
             <Label text="Routing Options:"/>
             <CheckBox fx:id="findBestSequenceCheckBox" text="Find best sequence"
-                      onAction="#togglePreserveStopsCheckBoxes"/>
+                      onAction="#togglePreserveStopsCheckBoxes" onMouseClicked="#createRouteAndDisplay"/>
             <VBox styleClass="panel-region" spacing="10">
                 <padding>
                     <Insets left="10"/>
                 </padding>
-                <CheckBox fx:id="preserveFirstStopCheckBox" text="Preserve first stop" disable="true"/>
-                <CheckBox fx:id="preserveLastStopCheckBox" text="Preserve last stop" disable="true"/>
+                <CheckBox fx:id="preserveFirstStopCheckBox" text="Preserve first stop" onMouseClicked="#createRouteAndDisplay" disable="true"/>
+                <CheckBox fx:id="preserveLastStopCheckBox" text="Preserve last stop" onMouseClicked="#createRouteAndDisplay" disable="true"/>
             </VBox>
             <Separator/>
-            <!--Action Buttons-->
-            <Button fx:id="btnDetermineRoute" text="Determine Route" onAction="#createRouteAndDisplay" disable="true"
-                    maxWidth="Infinity"/>
+            <!--Reset Button-->
             <Button fx:id="btnReset" text="Reset" onAction="#clearRouteAndGraphics" disable="true" maxWidth="Infinity"/>
         </VBox>
         <!--Directions Accordion-->

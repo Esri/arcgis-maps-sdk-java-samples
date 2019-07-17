@@ -62,7 +62,6 @@ public class RoutingAroundBarriersController {
   @FXML private MapView mapView;
   @FXML private ToggleButton btnAddStop;
   @FXML private ToggleButton btnAddBarrier;
-  @FXML private Button btnDetermineRoute;
   @FXML private Button btnReset;
   @FXML private CheckBox findBestSequenceCheckBox;
   @FXML private CheckBox preserveFirstStopCheckBox;
@@ -121,9 +120,6 @@ public class RoutingAroundBarriersController {
             // set flags to return stops and directions
             routeParameters.setReturnStops(true);
             routeParameters.setReturnDirections(true);
-
-            // enable the UI
-            btnDetermineRoute.setDisable(false);
 
           } catch (InterruptedException | ExecutionException e) {
             new Alert(Alert.AlertType.ERROR, "Cannot create RouteTask parameters " + e.getMessage()).show();
@@ -201,6 +197,8 @@ public class RoutingAroundBarriersController {
         barriersGraphicsOverlay.getGraphics().remove(barriersGraphicsOverlay.getGraphics().size() - 1);
       }
     }
+
+    createRouteAndDisplay();
   }
 
   /**
@@ -259,7 +257,11 @@ public class RoutingAroundBarriersController {
 
       });
     } else {
-      new Alert(Alert.AlertType.ERROR, "Cannot run the routing task, a minimum of two stops is required").show();
+      // reset the route information title pane since no route is displayed
+      routeInformationTitledPane.setText("No route to display");
+
+      // clear the directions list since no route is displayed
+      directionsList.getItems().clear();
     }
   }
 
@@ -285,8 +287,7 @@ public class RoutingAroundBarriersController {
     // clear all graphics overlays
     mapView.getGraphicsOverlays().forEach(graphicsOverlay -> graphicsOverlay.getGraphics().clear());
 
-    // enable/disable buttons
-    btnDetermineRoute.setDisable(false);
+    // disable reset button
     btnReset.setDisable(true);
   }
 
