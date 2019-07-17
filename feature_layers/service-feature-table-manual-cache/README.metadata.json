@@ -1,0 +1,27 @@
+{
+    "category": "Feature layers",
+    "description": "Request features on demand.",
+    "ignore": false,
+    "images": [
+        "ServiceFeatureTableManualCache.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "ServiceFeatureTable.FeatureRequestMode"
+    ],
+    "redirect_from": "/java/latest/sample-code/service-feature-table-manual-cache-.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "ServiceFeatureTable.FeatureRequestMode"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/service_feature_table_manual_cache/ServiceFeatureTableManualCacheSample.java"
+    ],
+    "title": "Service Feature Table (Manual Cache)"
+}

@@ -1,0 +1,26 @@
+{
+    "category": "Raster",
+    "description": "Display a raster on a map and apply different rendering rules to that raster.",
+    "ignore": false,
+    "images": [
+        "RasterRenderingRule.png"
+    ],
+    "keywords": [
+        "raster",
+        "rendering rules",
+        "visualization",
+        "ImageServiceRaster",
+        "RasterLayer",
+        "RenderingRule"
+    ],
+    "redirect_from": "/java/latest/sample-code/raster-rendering-rule.htm",
+    "relevant_apis": [
+        "ImageServiceRaster",
+        "RasterLayer",
+        "RenderingRule"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/raster_rendering_rule/RasterRenderingRuleSample.java"
+    ],
+    "title": "Raster rendering rule"
+}

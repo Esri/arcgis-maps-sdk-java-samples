@@ -1,0 +1,29 @@
+{
+    "category": "Raster",
+    "description": "Apply a colormap renderer to a raster.",
+    "ignore": false,
+    "images": [
+        "ColormapRenderer.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "ColormapRenderer",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "redirect_from": "/java/latest/sample-code/colormap-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "ColormapRenderer",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/colormap_renderer/ColormapRendererSample.java"
+    ],
+    "title": "Colormap Renderer"
+}

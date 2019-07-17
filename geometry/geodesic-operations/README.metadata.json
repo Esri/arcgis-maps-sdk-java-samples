@@ -1,0 +1,45 @@
+{
+    "category": "Geometry",
+    "description": "Calculate the geodesic path and distance between two points.",
+    "ignore": false,
+    "images": [
+        "GeodesicOperations.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "GeodeticCurveType",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "LinearUnit",
+        "LinearUnitId",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polyline",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
+    ],
+    "redirect_from": "/java/latest/sample-code/geodesic-operations.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeodeticCurveType",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "LinearUnit",
+        "LinearUnitId",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polyline",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/geodesic_operations/GeodesicOperationsSample.java"
+    ],
+    "title": "Geodesic Operations"
+}

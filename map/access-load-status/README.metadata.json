@@ -1,0 +1,25 @@
+{
+    "category": "Map",
+    "description": "Determine when a map has finished loading.",
+    "ignore": false,
+    "images": [
+        "AccessLoadStatus.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "LoadStatus"
+    ],
+    "redirect_from": "/java/latest/sample-code/access-load-status.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "LoadStatus"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/access_load_status/AccessLoadStatusSample.java"
+    ],
+    "title": "Access Load Status"
+}
