@@ -1,4 +1,5 @@
 # ArcGIS Java SDK
+data.zip*
 bin/
 build/
 out/
@@ -6,9 +7,7 @@ out/
 # Local configuration file (sdk path, etc)
 local.properties
 .gradle/
-/samples-data/
-/jniLibs/
-/resources/
+samples-data/
 
 # Intellij project files
 *.ipr

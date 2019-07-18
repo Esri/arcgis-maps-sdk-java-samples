@@ -1,1 +1,11 @@
-rootProject.name = 'arcgis-runtime-samples-java'
+final excludedDirs = ['.git', '.gradle', '.idea', 'wrapper', 'gradle', '.settings']
+
+file("./").listFiles().each { f ->
+    if (f.isDirectory() && !(f.name in excludedDirs)) {
+        f.listFiles().each { f2 ->
+            if (f2.isDirectory()) {
+                includeBuild "./${f.name}/${f2.name}"
+            }
+        }
+    }
+}

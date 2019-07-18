@@ -1,0 +1,27 @@
+{
+    "category": "Editing",
+    "description": "Update a feature's location in an online feature service.",
+    "ignore": false,
+    "images": [
+        "UpdateGeometries.gif"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "/java/latest/sample-code/update-geometries.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/update_geometries/UpdateGeometriesSample.java"
+    ],
+    "title": "Update Geometries"
+}

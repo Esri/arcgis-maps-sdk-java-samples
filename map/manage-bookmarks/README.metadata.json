@@ -1,0 +1,29 @@
+{
+    "category": "Map",
+    "description": "Use bookmarks in a map.",
+    "ignore": false,
+    "images": [
+        "ManageBookmarks.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "Bookmark",
+        "BookmarkList",
+        "MapView",
+        "Viewpoint"
+    ],
+    "redirect_from": "/java/latest/sample-code/manage-bookmarks.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Bookmark",
+        "BookmarkList",
+        "MapView",
+        "Viewpoint"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/manage_bookmarks/ManageBookmarksSample.java"
+    ],
+    "title": "Manage Bookmarks"
+}

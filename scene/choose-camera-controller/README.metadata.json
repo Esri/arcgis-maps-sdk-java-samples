@@ -1,0 +1,33 @@
+{
+    "category": "Scene",
+    "description": "Control the behavior of the camera in a scene.",
+    "ignore": false,
+    "images": [
+        "ChooseCameraController.png"
+    ],
+    "keywords": [
+        "camera controller",
+        "Camera",
+        "SceneView",
+        "3D",
+        "ArcGISScene",
+        "Camera",
+        "GlobeCameraController",
+        "OrbitGeoElementCameraController",
+        "OrbitLocationCameraController",
+        "SceneView"
+    ],
+    "redirect_from": "/java/latest/sample-code/choose-camera-controller.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Camera",
+        "GlobeCameraController",
+        "OrbitGeoElementCameraController",
+        "OrbitLocationCameraController",
+        "SceneView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/choose_camera_controller/ChooseCameraControllerSample.java"
+    ],
+    "title": "Choose camera controller"
+}

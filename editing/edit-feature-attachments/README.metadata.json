@@ -1,0 +1,31 @@
+{
+    "category": "Editing",
+    "description": "Add or remove feature attachments.",
+    "ignore": false,
+    "images": [
+        "EditFeatureAttachments.gif"
+    ],
+    "keywords": [
+        "ArcGISFeature",
+        "ArcGISMap",
+        "Attachment",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "/java/latest/sample-code/edit-feature-attachments.htm",
+    "relevant_apis": [
+        "ArcGISFeature",
+        "ArcGISMap",
+        "Attachment",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/edit_feature_attachments/EditFeatureAttachmentsSample.java"
+    ],
+    "title": "Edit Feature Attachments"
+}
