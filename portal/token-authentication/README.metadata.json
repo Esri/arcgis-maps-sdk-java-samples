@@ -1,0 +1,35 @@
+{
+    "category": "Portal",
+    "description": "Access a map service that is secured with an ArcGIS token-based authentication.",
+    "ignore": false,
+    "images": [
+        "TokenAuthentication.png"
+    ],
+    "keywords": [
+        "authentication",
+        "map service",
+        "security",
+        "token",
+        "AuthenticationChallengeHandler",
+        "AuthenticationManager",
+        "DefaultAuthenticationChallengeHandler",
+        "Map",
+        "MapView",
+        "Portal",
+        "PortalItem"
+    ],
+    "redirect_from": "/java/latest/sample-code/token-authentication.htm",
+    "relevant_apis": [
+        "AuthenticationChallengeHandler",
+        "AuthenticationManager",
+        "DefaultAuthenticationChallengeHandler",
+        "Map",
+        "MapView",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/token_authentication/TokenAuthenticationSample.java"
+    ],
+    "title": "Token authentication"
+}

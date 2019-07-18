@@ -1,0 +1,35 @@
+{
+    "category": "Feature layers",
+    "description": "Convert features into graphics to show them with mil2525. symbols.",
+    "ignore": false,
+    "images": [
+        "FeatureLayerDictionaryRenderer.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "DictionaryRenderer",
+        "Envelope",
+        "FeatureLayer",
+        "Geodatabase",
+        "GeometryEngine",
+        "MapView",
+        "SymbolDictionary"
+    ],
+    "redirect_from": "/java/latest/sample-code/dictionary-renderer-with-feature-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "DictionaryRenderer",
+        "Envelope",
+        "FeatureLayer",
+        "Geodatabase",
+        "GeometryEngine",
+        "MapView",
+        "SymbolDictionary"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/feature_layer_dictionary_renderer/FeatureLayerDictionaryRendererSample.java"
+    ],
+    "title": "Dictionary Renderer with Feature Layer"
+}

@@ -1,0 +1,27 @@
+{
+    "category": "Geometry",
+    "description": "Create geodesic sectors and ellipses.",
+    "ignore": false,
+    "images": [
+        "GeodesicSectorAndEllipse.png"
+    ],
+    "keywords": [
+        "GeodesicEllipseParameters",
+        "GeodesicSectorParameters",
+        "GeometryEngine",
+        "GeometryType"
+    ],
+    "redirect_from": "/java/latest/sample-code/geodesic-sector-and-ellipse.htm",
+    "relevant_apis": [
+        "GeodesicEllipseParameters",
+        "GeodesicSectorParameters",
+        "GeometryEngine",
+        "GeometryType"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/geodesic_sector_and_ellipse/GeodesicSectorAndEllipseSample.java",
+        "src/main/java/com/esri/samples/geodesic_sector_and_ellipse/GeodesicSectorAndEllipseController.java",
+        "src/main/resources/geodesic_sector_and_ellipse.fxml"
+    ],
+    "title": "Geodesic Sector and Ellipse"
+}

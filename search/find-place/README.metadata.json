@@ -1,0 +1,39 @@
+{
+    "category": "Search",
+    "description": "Find places of interest near a location or within an specific area.",
+    "ignore": false,
+    "images": [
+        "FindPlace.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "redirect_from": "/java/latest/sample-code/find-place.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/find_place/FindPlaceSample.java",
+        "src/main/java/com/esri/samples/find_place/FindPlaceController.java",
+        "src/main/resources/find_place.fxml"
+    ],
+    "title": "Find Place"
+}
