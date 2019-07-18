@@ -51,6 +51,8 @@ import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapJob;
 import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapResult;
@@ -81,6 +83,9 @@ public class DownloadPreplannedMapController {
 
       // create a portal to ArcGIS Online
       Portal portal = new Portal("https://www.arcgis.com/");
+
+      // set the authentication manager to handle OAuth challenges when accessing the portal
+      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
 
       // create a portal item using the portal and the item id of a map service
       PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
