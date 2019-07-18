@@ -1,0 +1,38 @@
+{
+    "category": "Network analysis",
+    "description": "Find routes from several locations to the respective closest facility.",
+    "ignore": false,
+    "images": [
+        "ClosestFacilityStatic.png"
+    ],
+    "keywords": [
+        "facility",
+        "incident",
+        "network analysis",
+        "route",
+        "search",
+        "ClosestFacilityParameters",
+        "ClosestFacilityResult",
+        "ClosestFacilityRoute",
+        "ClosestFacilityTask",
+        "Facility",
+        "Graphic",
+        "GraphicsOverlay",
+        "Incident"
+    ],
+    "redirect_from": "/java/latest/sample-code/closest-facility-static-.htm",
+    "relevant_apis": [
+        "ClosestFacilityParameters",
+        "ClosestFacilityResult",
+        "ClosestFacilityRoute",
+        "ClosestFacilityTask",
+        "Facility",
+        "Graphic",
+        "GraphicsOverlay",
+        "Incident"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/closest_facility_static/ClosestFacilityStaticSample.java"
+    ],
+    "title": "Closest Facility (Static)"
+}

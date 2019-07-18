@@ -1,0 +1,43 @@
+{
+    "category": "Search",
+    "description": "Geocode with offline data.",
+    "ignore": false,
+    "images": [
+        "OfflineGeocode.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Callout",
+        "MapView",
+        "LocatorTask",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "redirect_from": "/java/latest/sample-code/offline-geocode.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Callout",
+        "MapView",
+        "LocatorTask",
+        "GeocodeParameters",
+        "GeocodeResult",
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/offline_geocode/OfflineGeocodeSample.java"
+    ],
+    "title": "Offline Geocode"
+}

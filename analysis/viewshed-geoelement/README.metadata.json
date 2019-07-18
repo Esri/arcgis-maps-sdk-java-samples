@@ -1,0 +1,22 @@
+{
+  "category": "Analysis",
+  "description": "Attach a viewshed to an object to visualize what it sees.",
+  "ignore": false,
+  "images": [
+    "ViewshedGeoElement.gif"
+  ],
+  "keywords": [],
+  "redirect_from": "/java/latest/sample-code/viewshed-geoelement.htm",
+  "relevant_apis": [
+    "ArcGISMapImageLayer",
+    "GeoprocessingJob",
+    "GeoprocessingParameters",
+    "GeoprocessingResult",
+    "GeoprocessingString",
+    "GeoprocessingTask"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/viewshed_geoelement/ViewshedGeoElementSample.java"
+  ],
+  "title": "Viewshed GeoElement"
+}

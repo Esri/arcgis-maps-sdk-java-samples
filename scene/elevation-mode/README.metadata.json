@@ -1,0 +1,33 @@
+{
+    "category": "Scene",
+    "description": "Position graphics relative to terrain.",
+    "ignore": false,
+    "images": [
+        "ElevationMode.png"
+    ],
+    "keywords": [
+        "ArcGISScene",
+        "Camera",
+        "Graphic",
+        "GraphicsOverlay",
+        "LayerSceneProperties.SurfacePlacement",
+        "SceneProperties",
+        "SceneView",
+        "Surface"
+    ],
+    "redirect_from": "/java/latest/sample-code/elevation-mode.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Camera",
+        "Graphic",
+        "GraphicsOverlay",
+        "LayerSceneProperties.SurfacePlacement",
+        "SceneProperties",
+        "SceneView",
+        "Surface"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/elevation_mode/ElevationModeSample.java"
+    ],
+    "title": "Elevation Mode"
+}

@@ -1,0 +1,33 @@
+{
+    "category": "Symbology",
+    "description": "Set default symbols for all graphics in an overlay.",
+    "ignore": false,
+    "images": [
+        "SimpleRenderer.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SimpleMarkerSymbol.Style",
+        "SimpleRenderer"
+    ],
+    "redirect_from": "/java/latest/sample-code/simple-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleMarkerSymbol",
+        "SimpleMarkerSymbol.Style",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/simple_renderer/SimpleRendererSample.java"
+    ],
+    "title": "Simple Renderer"
+}
