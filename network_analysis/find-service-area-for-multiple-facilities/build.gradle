@@ -63,7 +63,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives, unpackData
-    mainClassName = 'com.esri.samples.offline_routing.FindServiceAreaForMultipleFacilitesLauncher'
+    mainClassName = 'com.esri.samples.offline_routing.FindServiceAreasForMultipleFacilitesLauncher'
 }
 
 jar {
