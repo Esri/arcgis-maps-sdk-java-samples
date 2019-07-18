@@ -2,7 +2,7 @@
 
 Use OAuth2 to authenticate with ArcGIS Online (or your own portal) to access secured resources.
 
-![](OAuthSample.png)
+![](OAuth.png)
 
 ## Use case
 
