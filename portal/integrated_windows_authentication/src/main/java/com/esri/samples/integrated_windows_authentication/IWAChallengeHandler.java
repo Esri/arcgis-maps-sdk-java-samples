@@ -64,7 +64,7 @@ final class IWAChallengeHandler implements AuthenticationChallengeHandler {
       CountDownLatch authenticationCountDownLatch = new CountDownLatch(1);
       // show the authentication dialog and capture the user credentials
       Platform.runLater(() -> {
-        com.esri.samples.portal.integrated_windows_authentication.AuthenticationDialog authenticationDialog = new com.esri.samples.portal.integrated_windows_authentication.AuthenticationDialog();
+        AuthenticationDialog authenticationDialog = new AuthenticationDialog();
         authenticationDialog.show();
         authenticationDialog.setOnCloseRequest(r -> {
           userCredential = (UserCredential) authenticationDialog.getResult();

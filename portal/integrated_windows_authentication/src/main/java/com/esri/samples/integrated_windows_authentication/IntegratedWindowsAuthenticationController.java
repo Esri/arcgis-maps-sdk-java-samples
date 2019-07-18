@@ -44,18 +44,12 @@ import com.esri.arcgisruntime.security.AuthenticationManager;
 
 public class IntegratedWindowsAuthenticationController {
 
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ListView<Pair<String, String>> resultsListView;
-  @FXML
-  private TextField portalUrlTextField;
-  @FXML
-  private ProgressIndicator progressIndicator;
-  @FXML
-  private Text loadStateTextView;
-  @FXML
-  private Text loadWebMapTextView;
+  @FXML private MapView mapView;
+  @FXML private ListView<Pair<String, String>> resultsListView;
+  @FXML private TextField portalUrlTextField;
+  @FXML private ProgressIndicator progressIndicator;
+  @FXML private Text loadStateTextView;
+  @FXML private Text loadWebMapTextView;
 
   private Portal iwaSecuredPortal;
   private Portal publicPortal;
@@ -71,7 +65,7 @@ public class IntegratedWindowsAuthenticationController {
       mapView.setMap(map);
 
       // set authentication challenge handler
-      AuthenticationManager.setAuthenticationChallengeHandler(new com.esri.samples.portal.integrated_windows_authentication.IWAChallengeHandler());
+      AuthenticationManager.setAuthenticationChallengeHandler(new IWAChallengeHandler());
 
       // keep hold of the public portal the will be searched, to allow retrieving portal items later
       publicPortal = new Portal("http://www.arcgis.com");

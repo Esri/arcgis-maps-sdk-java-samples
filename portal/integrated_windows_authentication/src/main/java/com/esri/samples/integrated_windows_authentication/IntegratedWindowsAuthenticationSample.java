@@ -28,7 +28,7 @@ public class IntegratedWindowsAuthenticationSample extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/iwa_controller.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/iwa_controller.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

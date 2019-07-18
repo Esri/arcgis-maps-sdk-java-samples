@@ -30,11 +30,12 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Separator?>
 <StackPane xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.esri.samples.portal.integrated_windows_authentication.IntegratedWindowsAuthenticationController"
-           stylesheets="/css/style.css">
+           fx:controller="com.esri.samples.integrated_windows_authentication.IntegratedWindowsAuthenticationController"
+           stylesheets="style.css">
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator" visible="false"/>
-    <VBox StackPane.alignment="TOP_LEFT" minWidth="270" maxWidth="270" maxHeight="300" styleClass="panel-region" spacing="10">
+    <VBox StackPane.alignment="TOP_LEFT" minWidth="270" maxWidth="270" maxHeight="300" styleClass="panel-region"
+          spacing="10">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -51,7 +52,8 @@
         </background>
         <Button text="Search Public Portal" onAction="#handleSearchPublicPress" maxWidth="Infinity"/>
         <Separator/>
-        <TextField fx:id="portalUrlTextField" promptText="https://your.arcgis.portal/gis" onAction="#handleSearchSecurePress"/>
+        <TextField fx:id="portalUrlTextField" promptText="https://your.arcgis.portal/gis"
+                   onAction="#handleSearchSecurePress"/>
         <Button text="Search IWA Secured Portal" onAction="#handleSearchSecurePress" maxWidth="Infinity"/>
         <Separator/>
         <Label text="Available Maps:"/>

@@ -35,7 +35,7 @@ class AuthenticationDialog extends Dialog {
 
   AuthenticationDialog() {
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/iwa_auth_dialog.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/iwa_auth_dialog.fxml"));
     loader.setRoot(this);
     loader.setController(this);
 
