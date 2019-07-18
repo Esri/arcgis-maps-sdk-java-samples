@@ -215,9 +215,10 @@ public class CreateAndSaveMapController {
 
   /**
    * Display an alert to the user with the specified information.
-   * @param title alert title
+   *
+   * @param title       alert title
    * @param description alert content description
-   * @param type alert type
+   * @param type        alert type
    */
   private void showMessage(String title, String description, Alert.AlertType type) {
     Alert alert = new Alert(type);
