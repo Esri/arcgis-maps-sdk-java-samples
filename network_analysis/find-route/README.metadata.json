@@ -1,0 +1,39 @@
+{
+    "category": "Network analysis",
+    "description": "Get a route between two stops with directions.",
+    "ignore": false,
+    "images": [
+        "FindRoute.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "DirectionManeuver",
+        "DirectionMessage",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Route",
+        "RouteTask",
+        "RouteParameters",
+        "RouteResult",
+        "Stop"
+    ],
+    "redirect_from": "/java/latest/sample-code/find-route.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "DirectionManeuver",
+        "DirectionMessage",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Route",
+        "RouteTask",
+        "RouteParameters",
+        "RouteResult",
+        "Stop"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/find_route/FindRouteSample.java"
+    ],
+    "title": "Find Route"
+}

@@ -1,0 +1,35 @@
+{
+    "category": "Image layers",
+    "description": "Find features in a spatial table related to features in a non-spatial table.",
+    "ignore": false,
+    "images": [
+        "MapImageLayerTables.png"
+    ],
+    "keywords": [
+        "ArcGISFeature",
+        "ArcGISMapImageLayer",
+        "Feature",
+        "FeatureQueryResult",
+        "QueryParameters",
+        "RelatedFeatureQueryResult",
+        "RelatedQueryParameters",
+        "RelationshipInfo",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "/java/latest/sample-code/map-image-layer-tables.htm",
+    "relevant_apis": [
+        "ArcGISFeature",
+        "ArcGISMapImageLayer",
+        "Feature",
+        "FeatureQueryResult",
+        "QueryParameters",
+        "RelatedFeatureQueryResult",
+        "RelatedQueryParameters",
+        "RelationshipInfo",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/map_image_layer_tables/MapImageLayerTablesSample.java"
+    ],
+    "title": "Map Image Layer Tables"
+}

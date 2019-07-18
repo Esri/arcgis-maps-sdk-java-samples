@@ -1,0 +1,23 @@
+{
+    "category": "Display information",
+    "description": "Add custom labels to a layer.",
+    "ignore": false,
+    "images": [
+        "ShowLabelsOnLayer.png"
+    ],
+    "keywords": [
+        "FeatureLayer",
+        "LabelDefinition",
+        "TextSymbol"
+    ],
+    "redirect_from": "/java/latest/sample-code/show-labels-on-layer.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "LabelDefinition",
+        "TextSymbol"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/show_labels_on_layer/ShowLabelsOnLayerSample.java"
+    ],
+    "title": "Show Labels on Layer"
+}

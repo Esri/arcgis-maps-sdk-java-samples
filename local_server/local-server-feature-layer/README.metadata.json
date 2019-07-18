@@ -1,0 +1,27 @@
+{
+    "category": "Local server",
+    "description": "Start a local feature service and display its features in a map.",
+    "ignore": false,
+    "images": [
+        "LocalServerFeatureLayer.png"
+    ],
+    "keywords": [
+        "FeatureLayer",
+        "LocalFeatureService",
+        "LocalServer",
+        "LocalServerStatus",
+        "StatusChangedEvent"
+    ],
+    "redirect_from": "/java/latest/sample-code/local-server-feature-layer.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "LocalFeatureService",
+        "LocalServer",
+        "LocalServerStatus",
+        "StatusChangedEvent"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/local_server_feature_layer/LocalServerFeatureLayerSample.java"
+    ],
+    "title": "Local Server Feature Layer"
+}
