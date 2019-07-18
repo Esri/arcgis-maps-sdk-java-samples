@@ -1,0 +1,33 @@
+{
+    "category": "Raster",
+    "description": "Apply a blend renderer to a raster.",
+    "ignore": false,
+    "images": [
+        "BlendRenderer.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "BlendRenderer",
+        "ColorRamp",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "redirect_from": "/java/latest/sample-code/blend-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "BlendRenderer",
+        "ColorRamp",
+        "MapView",
+        "Raster",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/blend_renderer/BlendRendererController.java",
+        "src/main/java/com/esri/samples/blend_renderer/BlendRendererSample.java",
+        "src/main/resources/blend_renderer.fxml"
+    ],
+    "title": "Blend Renderer"
+}

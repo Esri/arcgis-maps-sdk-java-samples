@@ -1,0 +1,21 @@
+{
+    "category": "Feature layers",
+    "description": "Display features from a local shapefile.",
+    "ignore": false,
+    "images": [
+        "FeatureLayerShapefile.png"
+    ],
+    "keywords": [
+        "FeatureLayer",
+        "ShapefileFeatureTable"
+    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-shapefile.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "ShapefileFeatureTable"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/feature_layer_shapefile/FeatureLayerShapefileSample.java"
+    ],
+    "title": "Feature Layer Shapefile"
+}

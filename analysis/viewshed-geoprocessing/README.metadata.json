@@ -1,0 +1,27 @@
+{
+  "category": "Analysis",
+  "description": "Calculate a viewshed against terrain using a geoprocessing service.",
+  "ignore": false,
+  "images": [
+    "ViewshedGeoprocessing.png"
+  ],
+  "keywords": [
+    "Geoprocessing",
+    "GeoprocessingJob",
+    "GeoprocessingParameters",
+    "GeoprocessingResult"
+  ],
+  "redirect_from": "/java/latest/sample-code/viewshed_geoprocessing.htm",
+  "relevant_apis": [
+    "ArcGISMapImageLayer",
+    "GeoprocessingJob",
+    "GeoprocessingParameters",
+    "GeoprocessingResult",
+    "GeoprocessingString",
+    "GeoprocessingTask"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/viewshed_geoprocessing/ViewshedGeoprocessingSample.java"
+  ],
+  "title": "Viewshed Geoprocessing"
+}

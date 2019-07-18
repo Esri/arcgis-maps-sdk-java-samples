@@ -1,0 +1,22 @@
+{
+  "category": "Analysis",
+  "description": "Create a viewshed using the current camera viewpoint.",
+  "ignore": false,
+  "images": [
+    "ViewshedCamera.gif"
+  ],
+  "keywords": [],
+  "redirect_from": "/java/latest/sample-code/viewshed-camera.htm",
+  "relevant_apis": [
+    "ArcGISMapImageLayer",
+    "GeoprocessingJob",
+    "GeoprocessingParameters",
+    "GeoprocessingResult",
+    "GeoprocessingString",
+    "GeoprocessingTask"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/viewshed_camera/ViewshedCameraSample.java"
+  ],
+  "title": "Viewshed Camera"
+}

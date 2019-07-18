@@ -1,0 +1,35 @@
+{
+    "category": "Network analysis",
+    "description": "Find a route to the closest facility from a location.",
+    "ignore": false,
+    "images": [
+        "ClosestFacility.png"
+    ],
+    "keywords": [
+        "ClosestFacilityParameters",
+        "ClosestFacilityResult",
+        "ClosestFacilityRoute",
+        "ClosestFacilityTask",
+        "Facility",
+        "Graphic",
+        "GraphicsOverlay",
+        "Incident",
+        "MapView"
+    ],
+    "redirect_from": "/java/latest/sample-code/closest-facility.htm",
+    "relevant_apis": [
+        "ClosestFacilityParameters",
+        "ClosestFacilityResult",
+        "ClosestFacilityRoute",
+        "ClosestFacilityTask",
+        "Facility",
+        "Graphic",
+        "GraphicsOverlay",
+        "Incident",
+        "MapView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/closest_facility/ClosestFacilitySample.java"
+    ],
+    "title": "Closest Facility"
+}

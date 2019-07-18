@@ -1,0 +1,41 @@
+{
+    "category": "Symbology",
+    "description": "Find symbols within the mil2525. specification that match a keyword.",
+    "ignore": false,
+    "images": [
+        "SymbolDictionary.png"
+    ],
+    "keywords": [
+        "CIM",
+        "MIL-STD-2525B",
+        "MIL-STD-2525C",
+        "MIL-STD-2525D",
+        "defense",
+        "look up",
+        "mil2525b",
+        "mil2525c",
+        "mil2525d",
+        "military",
+        "military symbology",
+        "symbology",
+        "StyleSymbolSearchParameters",
+        "StyleSymbolSearchResult",
+        "Symbol",
+        "SymbolDictionary"
+    ],
+    "redirect_from": "/java/latest/sample-code/symbol-dictionary.htm",
+    "relevant_apis": [
+        "StyleSymbolSearchParameters",
+        "StyleSymbolSearchResult",
+        "Symbol",
+        "SymbolDictionary"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/symbol_dictionary/SymbolDictionarySample.java",
+        "src/main/java/com/esri/samples/symbol_dictionary/SymbolDictionaryController.java",
+        "src/main/java/com/esri/samples/symbol_dictionary/SymbolView.java",
+        "src/main/resources/symbol_dictionary.fxml",
+        "src/main/resources/symbol_dictionary_view.fxml"
+    ],
+    "title": "Symbol Dictionary"
+}

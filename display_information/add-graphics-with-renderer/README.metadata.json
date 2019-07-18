@@ -1,0 +1,35 @@
+{
+    "category": "Display information",
+    "description": "Specify a graphic's symbol with a renderer.",
+    "ignore": false,
+    "images": [
+        "AddGraphicsWithRenderer.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SimpleRenderer"
+    ],
+    "redirect_from": "/java/latest/sample-code/add-graphics-with-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/add_graphics_with_renderer/AddGraphicsWithRendererSample.java"
+    ],
+    "title": "Add Graphics with Renderer"
+}

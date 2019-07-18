@@ -1,0 +1,27 @@
+{
+    "category": "Feature layers",
+    "description": "Show features without caching.",
+    "ignore": false,
+    "images": [
+        "ServiceFeatureTableNoCache.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "ServiceFeatureTable.FeatureRequestMode"
+    ],
+    "redirect_from": "/java/latest/sample-code/service-feature-table-no-cache-.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable",
+        "ServiceFeatureTable.FeatureRequestMode"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/service_feature_table_no_cache/ServiceFeatureTableNoCacheSample.java"
+    ],
+    "title": "Service Feature Table (No Cache)"
+}
