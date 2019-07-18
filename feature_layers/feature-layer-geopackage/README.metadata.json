@@ -1,0 +1,29 @@
+{
+    "category": "Feature layers",
+    "description": "Display features from a local GeoPackage.",
+    "ignore": false,
+    "images": [
+        "FeatureLayerGeoPackage.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "GeoPackage",
+        "GeoPackageFeatureTable",
+        "MapView"
+    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-geopackage.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "GeoPackage",
+        "GeoPackageFeatureTable",
+        "MapView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/feature_layer_geopackage/FeatureLayerGeoPackageSample.java"
+    ],
+    "title": "Feature Layer GeoPackage"
+}

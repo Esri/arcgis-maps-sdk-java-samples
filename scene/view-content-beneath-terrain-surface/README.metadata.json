@@ -1,0 +1,25 @@
+{
+    "category": "Scene",
+    "description": "See through terrain in a scene and move the camera underground.",
+    "ignore": false,
+    "images": [
+        "ViewContentBeneathTerrainSurface.png"
+    ],
+    "keywords": [
+        "3D",
+        "subsurface",
+        "underground",
+        "utilities",
+        "Surface",
+        "Surface.NavigationConstraint"
+    ],
+    "redirect_from": "/java/latest/sample-code/view-content-beneath-terrain-surface.htm",
+    "relevant_apis": [
+        "Surface",
+        "Surface.NavigationConstraint"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/view_content_beneath_terrain_surface/ViewContentBeneathTerrainSurfaceSample.java"
+    ],
+    "title": "View content beneath terrain surface"
+}

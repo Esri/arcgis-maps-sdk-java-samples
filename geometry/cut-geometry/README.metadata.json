@@ -1,0 +1,45 @@
+{
+    "category": "Geometry",
+    "description": "Cut a geometry along a polyline.",
+    "ignore": false,
+    "images": [
+        "CutGeometry.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SpatialReferences"
+    ],
+    "redirect_from": "/java/latest/sample-code/cut-geometry.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Geometry",
+        "GeometryEngine",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SpatialReferences"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/cut_geometry/CutGeometrySample.java"
+    ],
+    "title": "Cut Geometry"
+}
