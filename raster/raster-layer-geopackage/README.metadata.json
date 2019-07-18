@@ -1,0 +1,29 @@
+{
+    "category": "Raster",
+    "description": "Display raster data from a geopackage.",
+    "ignore": false,
+    "images": [
+        "RasterLayerGeoPackage.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "GeoPackage",
+        "GeoPackageRaster",
+        "MapView",
+        "RasterLayer"
+    ],
+    "redirect_from": "/java/latest/sample-code/raster-layer-geopackage.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "GeoPackage",
+        "GeoPackageRaster",
+        "MapView",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/raster_layer_geopackage/RasterLayerGeopackageSample.java"
+    ],
+    "title": "Raster Layer GeoPackage"
+}

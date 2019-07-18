@@ -1,0 +1,27 @@
+{
+  "category": "Analysis",
+  "description": "Perform hotspot analysis using a geoprocessing service.",
+  "ignore": false,
+  "images": [
+    "AnalyzeHotspots.png"
+  ],
+  "keywords": [
+    "Geoprocessing",
+    "GeoprocessingJob",
+    "GeoprocessingParameters",
+    "GeoprocessingResult"
+  ],
+  "redirect_from": "/java/latest/sample-code/analyze-hotspots.htm",
+  "relevant_apis": [
+    "ArcGISMapImageLayer",
+    "GeoprocessingJob",
+    "GeoprocessingParameters",
+    "GeoprocessingResult",
+    "GeoprocessingString",
+    "GeoprocessingTask"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/analyze_hotspots/AnalyzeHotspotsSample.java"
+  ],
+  "title": "Analyze Hotspots"
+}

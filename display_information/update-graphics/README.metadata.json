@@ -1,0 +1,27 @@
+{
+    "category": "Display information",
+    "description": "Change a graphic's symbol, attributes, and geometry.",
+    "ignore": false,
+    "images": [
+        "UpdateGraphics.gif"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "SimpleMarkerSymbol"
+    ],
+    "redirect_from": "/java/latest/sample-code/update-graphics.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "SimpleMarkerSymbol"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/update_graphics/UpdateGraphicsSample.java"
+    ],
+    "title": "Update Graphics"
+}

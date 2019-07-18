@@ -1,0 +1,33 @@
+{
+    "category": "Search",
+    "description": "Find the address of a location.",
+    "ignore": false,
+    "images": [
+        "ReverseGeocodeOnline.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "redirect_from": "/java/latest/sample-code/reverse-geocode-online.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "GeocodeParameters",
+        "GraphicsOverlay",
+        "LocatorTask",
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/reverse_geocode_online/ReverseGeocodeOnlineSample.java"
+    ],
+    "title": "Reverse Geocode Online"
+}

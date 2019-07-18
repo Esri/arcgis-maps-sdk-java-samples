@@ -1,0 +1,39 @@
+{
+    "category": "Editing",
+    "description": "Synchronize offline edits with a feature service.",
+    "ignore": false,
+    "images": [
+        "EditAndSyncFeatures.png"
+    ],
+    "keywords": [
+        "feature service",
+        "geodatabase",
+        "offline",
+        "synchronize",
+        "FeatureLayer",
+        "FeatureTable",
+        "GenerateGeodatabaseJob",
+        "GenerateGeodatabaseParameters",
+        "GeodatabaseSyncTask",
+        "SyncGeodatabaseJob",
+        "SyncGeodatabaseParameters",
+        "SyncLayerOption"
+    ],
+    "redirect_from": "/java/latest/sample-code/edit-and-sync-features.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "FeatureTable",
+        "GenerateGeodatabaseJob",
+        "GenerateGeodatabaseParameters",
+        "GeodatabaseSyncTask",
+        "SyncGeodatabaseJob",
+        "SyncGeodatabaseParameters",
+        "SyncLayerOption"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/edit_and_sync_features/EditAndSyncFeaturesSample.java",
+        "src/main/java/com/esri/samples/edit_and_sync_features/EditAndSyncFeaturesController.java",
+        "src/main/resources/edit_and_sync_features.fxml"
+    ],
+    "title": "Edit and sync features"
+}

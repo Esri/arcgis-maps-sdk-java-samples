@@ -1,0 +1,34 @@
+{
+    "category": "Portal",
+    "description": "Authenticate with OAuth 2.0 to retrieve the user's profile information.",
+    "ignore": false,
+    "images": [
+        "OAuth.png"
+    ],
+    "keywords": [
+        "AuthenticationChallengeHandler",
+        "OAuthConfiguration",
+        "OAuthTokenCredential",
+        "OAuthTokenCredentialRequest",
+        "Portal",
+        "PortalUser"
+    ],
+    "redirect_from": "/java/latest/sample-code/oauth.htm",
+    "relevant_apis": [
+        "AuthenticationChallengeHandler",
+        "OAuthConfiguration",
+        "OAuthTokenCredential",
+        "OAuthTokenCredentialRequest",
+        "Portal",
+        "PortalUser"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/oauth/OAuthSample.java",
+        "src/main/java/com/esri/samples/oauth/OAuthController.java",
+        "src/main/java/com/esri/samples/oauth/OAuthChallengeHandler.java",
+        "src/main/java/com/esri/samples/oauth/AuthenticationDialog.java",
+        "src/main/resources/oauth_controller.fxml",
+        "src/main/resources/oauth_auth_dialog.fxml"
+    ],
+    "title": "OAuth"
+}

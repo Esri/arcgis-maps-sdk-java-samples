@@ -1,0 +1,25 @@
+{
+    "category": "Feature layers",
+    "description": "Extrude features based on their attributes.",
+    "ignore": false,
+    "images": [
+        "FeatureLayerExtrusion.gif"
+    ],
+    "keywords": [
+        "FeatureLayer",
+        "SceneProperties",
+        "ServiceFeatureTable",
+        "FeatureLayer"
+    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-extrusion.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "SceneProperties",
+        "ServiceFeatureTable",
+        "FeatureLayer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/feature_layer_extrusion/FeatureLayerExtrusionSample.java"
+    ],
+    "title": "Feature Layer Extrusion"
+}
