@@ -1,0 +1,39 @@
+{
+    "category": "Image layers",
+    "description": "Apply a renderer to a sublayer.",
+    "ignore": false,
+    "images": [
+        "ChangeSublayerRenderer.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "ArcGISMapImageSublayer",
+        "Basemap",
+        "ClassBreaksRenderer",
+        "ClassBreaksRenderer.ClassBreak",
+        "LoadStatus",
+        "MapView",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SublayerList"
+    ],
+    "redirect_from": "/java/latest/sample-code/change-sublayer-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "ArcGISMapImageSublayer",
+        "Basemap",
+        "ClassBreaksRenderer",
+        "ClassBreaksRenderer.ClassBreak",
+        "LoadStatus",
+        "MapView",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SublayerList"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/change_sublayer_renderer/ChangeSublayerRendererSample.java"
+    ],
+    "title": "Change Sublayer Renderer"
+}

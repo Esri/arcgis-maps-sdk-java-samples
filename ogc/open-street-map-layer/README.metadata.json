@@ -1,0 +1,27 @@
+{
+    "category": "OGC",
+    "description": "Display tiles from OpenStreetMap.",
+    "ignore": false,
+    "images": [
+        "OpenStreetMapLayer.png"
+    ],
+    "keywords": [
+        "Layers",
+        "OpenStreetMap",
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "redirect_from": "/java/latest/sample-code/openstreetmap-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/open_street_map_layer/OpenStreetMapLayerSample.java"
+    ],
+    "title": "OpenStreetMap Layer"
+}

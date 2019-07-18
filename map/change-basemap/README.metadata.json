@@ -1,0 +1,25 @@
+{
+    "category": "Map",
+    "description": "Change a map's basemap.",
+    "ignore": false,
+    "images": [
+        "ChangeBasemap.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "redirect_from": "/java/latest/sample-code/change-basemap.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "Basemap.Type",
+        "MapView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/change_basemap/ChangeBasemapSample.java"
+    ],
+    "title": "Change Basemap"
+}

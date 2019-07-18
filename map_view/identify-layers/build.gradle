@@ -1,0 +1,74 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.5'
+}
+
+group = 'com.esri.samples'
+
+ext {
+    arcgisVersion = '100.5.0'
+}
+
+javafx {
+    version = "11.0.1"
+    modules = [ 'javafx.controls' ]
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    jcenter()
+    maven {
+        url 'https://esri.bintray.com/arcgis'
+    }
+    maven {
+        url 'http://olympus.esri.com/artifactory/arcgisruntime-repo'
+    }
+}
+
+configurations {
+    natives
+}
+
+dependencies {
+    compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
+    natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
+    natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
+}
+
+task copyNatives(type: Copy) {
+    description = "Copies the arcgis native libraries into the project build directory for development."
+    group = "build"
+    configurations.natives.asFileTree.each {
+        from(zipTree(it))
+    }
+    // store native libraries in a common location shared with other samples
+    into "${System.properties.getProperty("user.home")}/.arcgis/$arcgisVersion"
+}
+
+run {
+    dependsOn copyNatives
+    mainClassName = 'com.esri.samples.identify_layers.IdentifyLayersLauncher'
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes("Main-Class": "$mainClassName")
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+task productionZip(type: Zip) {
+    group = 'distribution'
+    from copyNatives
+    from jar.destinationDir
+    into (project.name)
+    baseName = project.name
+}
+
+wrapper {
+    gradleVersion = '5.0'
+}

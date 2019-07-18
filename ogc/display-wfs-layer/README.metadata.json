@@ -1,0 +1,33 @@
+{
+    "category": "OGC",
+    "description": "Display a layer from a WFS service, requesting only features for the current extent.",
+    "ignore": false,
+    "images": [
+        "DisplayWFSLayer.png"
+    ],
+    "keywords": [
+        "OGC",
+        "WFS",
+        "layers. feature",
+        "web",
+        "service",
+        "browse",
+        "catalog",
+        "interaction cache",
+        "FeatureLayer",
+        "NavigationChangedEvent",
+        "QueryParameters",
+        "WfsFeatureTable"
+    ],
+    "redirect_from": "/java/latest/sample-code/display-wfs-layer.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "NavigationChangedEvent",
+        "QueryParameters",
+        "WfsFeatureTable"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/display_wfs_layer/DisplayWFSLayerSample.java"
+    ],
+    "title": "Display WFS Layer"
+}

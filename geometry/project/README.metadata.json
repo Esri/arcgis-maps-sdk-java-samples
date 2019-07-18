@@ -1,0 +1,23 @@
+{
+    "category": "Geometry",
+    "description": "Project a point to another spatial reference.",
+    "ignore": false,
+    "images": [
+        "Project.png"
+    ],
+    "keywords": [
+        "GeometryEngine",
+        "Point",
+        "SpatialReference"
+    ],
+    "redirect_from": "/java/latest/sample-code/project.htm",
+    "relevant_apis": [
+        "GeometryEngine",
+        "Point",
+        "SpatialReference"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/project/ProjectSample.java"
+    ],
+    "title": "Project"
+}

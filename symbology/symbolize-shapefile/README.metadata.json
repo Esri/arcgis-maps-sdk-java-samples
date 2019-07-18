@@ -1,0 +1,27 @@
+{
+    "category": "Symbology",
+    "description": "Override the default rendering of a shapefile.",
+    "ignore": false,
+    "images": [
+        "SymbolizeShapefile.png"
+    ],
+    "keywords": [
+        "FeatureLayer",
+        "ShapefileFeatureTable",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleRenderer"
+    ],
+    "redirect_from": "/java/latest/sample-code/symbolize-shapefile.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "ShapefileFeatureTable",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleRenderer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/symbolize_shapefile/SymbolizeShapefileSample.java"
+    ],
+    "title": "Symbolize Shapefile"
+}

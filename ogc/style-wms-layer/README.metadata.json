@@ -1,0 +1,19 @@
+{
+    "category": "OGC",
+    "description": "Change the style of a WMS layer.",
+    "ignore": false,
+    "images": [
+        "StyleWmsLayer.png"
+    ],
+    "keywords": [
+        "WmsLayer"
+    ],
+    "redirect_from": "/java/latest/sample-code/style-wms-layer.htm",
+    "relevant_apis": [
+        "WmsLayer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/style_wms_layer/StyleWmsLayerSample.java"
+    ],
+    "title": "Style WMS Layer"
+}
