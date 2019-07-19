@@ -10,6 +10,8 @@ When a map is taken offline, a package containing basemap tiles, feature data, a
 
 ## How to use the sample
 
+**NOTE:** Downloading Tiles for offline use requires authentication with the web map's server. To use this sample, you will require an [ArcGIS Online](www.arcgis.com) account. 
+
 Select a map area to take offline, then use the button to take it offline. Click 'Delete offline areas' to remove any downloaded map areas.
 
 ## How it works
