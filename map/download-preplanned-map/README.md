@@ -22,7 +22,7 @@ Select a map area to take offline, then use the button to take it offline. Click
 4. Display the areas in the UI.
 5. When the user selects a map area, start the download.
     1. Create a `DownloadPreplannedOfflineMapParameters` using `OfflineMapTask.createDefaultDownloadPreplannedOfflineMapParametersAsync`.
-    2. **Note:** setting the `.updateOption()` on the parameters allows fine-tuning the update behaviour of the offline map. In this case, the preplanned area is defined not to apply any future updates, `SomeEnum.NOUPDATES`.
+    2. **Note:** Using `.setUpdateMode()` for setting the the parameters allows fine-tuning the update behaviour of the offline map. In this case, the preplanned area is defined not to apply any future updates, `PreplannedUpdateMode.NO_UPDATES`.
     3. Create a `DownloadPreplannedOfflineMapJob` using `OfflineMapTask.downloadPreplannedOfflineMap`, passing in the parameters.
     4. Wait for the job to complete and get the result, `DownloadPreplannedOfflineMapJob.getResult()`.
     5. Display any errors to the user.
