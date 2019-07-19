@@ -82,7 +82,7 @@ public class DownloadPreplannedMapController {
       tempDirectory.toFile().deleteOnExit();
 
       // create a portal to ArcGIS Online
-      Portal portal = new Portal("https://www.arcgis.com/", true);
+      Portal portal = new Portal("https://www.arcgis.com/");
 
       // set the authentication manager to handle OAuth challenges when accessing the portal
       AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
