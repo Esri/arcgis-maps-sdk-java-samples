@@ -41,14 +41,8 @@ dependencies {
 
 task downloadData(type: Download) {
     src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/1bd036f221f54a99abc9e46ff3511cbf/data"
-    dest 'build/data.zip'
+    dest './samples-data/stylx/emoji-mobile.stylx'
     overwrite false
-}
-
-task unpackData(type: Copy) {
-    dependsOn downloadData
-    from zipTree(downloadData.dest)
-    into './samples-data/stylx'
 }
 
 task copyNatives(type: Copy) {
@@ -62,7 +56,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives, unpackData
+    dependsOn copyNatives, downloadData
     mainClassName = 'com.esri.samples.read_symbols_from_mobile_style_file.ReadSymbolsFromMobileStyleFileLauncher'
 }
 
@@ -78,7 +72,7 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
-    from (unpackData) {
+    from (downloadData) {
         into "samples-data"
     }
     from copyNatives
