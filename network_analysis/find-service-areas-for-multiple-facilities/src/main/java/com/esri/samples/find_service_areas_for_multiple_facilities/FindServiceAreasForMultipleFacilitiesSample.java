@@ -67,7 +67,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
     // set title, size, and add scene to stage
-    stage.setTitle("Find Service Area for Multiple Facilities Sample");
+    stage.setTitle("Find Service Areas for Multiple Facilities Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
