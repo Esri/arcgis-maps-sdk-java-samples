@@ -16,7 +16,7 @@ Use the Edit Mode toggle buttons to select whether to add Stops or Barriers to t
 
 1. Create the route task by calling `RouteTask.CreateAsync(serviceUrl)` with the URL to a Network Analysis route service.
 2. Get the default `RouteParameters` for the service by calling `routeTask.CreateDefaultParametersAsync`.
-3. Create the desired `Stop`s and `PolygonBarrier``s, and add a graphics for these to the graphics overlay.
+3. Create the desired `Stop`s and `PolygonBarrier`s, and add a graphics for these to the graphics overlay.
 4. Add the stops and barriers to the route's parameters, `routeParameters.SetStops(routeStops)` and `routeParameters.SetPolygonBarriers(routeBarriers)`.
 5. Set the `ReturnStops` and `ReturnDirections` to `true`.
 6. If the user will accept routes with the stops in any order, set `FindBestSequence` to `true` to find the most optimal route.
