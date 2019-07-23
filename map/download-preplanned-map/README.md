@@ -10,23 +10,20 @@ When a map is taken offline, a package containing basemap tiles, feature data, a
 
 ## How to use the sample
 
-**NOTE:** Downloading Tiles for offline use requires authentication with the web map's server. To use this sample, you will require an [ArcGIS Online](www.arcgis.com) account. 
+**NOTE:** Downloading Tiles for offline use requires authentication with the web map's server. To use this sample, you will require an [ArcGIS Online](www.arcgis.com) account.
 
 Select a map area to take offline, then use the button to take it offline. Click 'Delete offline areas' to remove any downloaded map areas.
 
 ## How it works
 
-1. Open the map from a Portal item and display it.
-2. Create an `OfflineMapTask` from the Portal item.
-3. Call `offlineMapTask.getPreplannedMapAreasAsync()` to find the preplanned areas, then load each one by calling `mapArea.loadAsync()`.
-4. Display the areas in the UI.
-5. When the user selects a map area, start the download.
-    1. Create a `DownloadPreplannedOfflineMapParameters` using `OfflineMapTask.createDefaultDownloadPreplannedOfflineMapParametersAsync`.
-    2. **Note:** Using `.setUpdateMode()` for setting the the parameters allows fine-tuning the update behaviour of the offline map (see further information section). In this case, the preplanned area is defined not to apply any future updates, `PreplannedUpdateMode.NO_UPDATES`.
-    3. Create a `DownloadPreplannedOfflineMapJob` using `OfflineMapTask.downloadPreplannedOfflineMap`, passing in the parameters.
-    4. Wait for the job to complete and get the result, `DownloadPreplannedOfflineMapJob.getResult()`.
-    5. Display any errors to the user.
-    6. Show the offline map in the `MapView`.
+1. Open the `Map` from a `PortalItem` and display it.
+2. Create an `OfflineMapTask` from the portal item.
+3. Get the `PreplannedMapArea`s from the task, and then load them.
+4. To download a selected map area, Create the default `DownloadPreplannedOfflineMapParameters` from the task.
+5. Set the update mode of the preplanned map area with `PreplannedUpdateMode.NO_UPDATES`, so as not to apply any future updates (see further information section for other options).
+6. Use the parameters and a download path to create a `DownloadPreplannedOfflineMapJob` from the task.
+7. Start the job, and once it completed get the `DownloadPreplannedOfflineMapResult`.
+8. Get the `Map` from the result and display it in the `MapView`.
 
 ## Relevant API
 
@@ -43,10 +40,11 @@ The [Naperville stormwater network map](https://arcgisruntime.maps.arcgis.com/ho
 ## Additional information
 
 `PreplannedUpdateMode` can be used to set the way the preplanned map area receives updates in several ways:
-  * `NO_UPDATES` - No feature updates will be performed.
-  * `SYNC_WITH_FEATURE_SERVICES` - Changes, including local edits, will be synced directly with the underlying feature services.
-  * `DOWNLOAD_SCHEDULED_UPDATES` - Scheduled, read-only updates will be downloaded from the online map area and applied to the local mobile geodatabases.
- 
+
+* `NO_UPDATES` - No updates will be performed.
+* `SYNC_WITH_FEATURE_SERVICES` - Changes, including local edits, will be synced directly with the underlying feature services.
+* `DOWNLOAD_SCHEDULED_UPDATES` - Scheduled, read-only updates will be downloaded from the online map area and applied to the local mobile geodatabases.
+
 See [Take a map offline - preplanned](https://developers.arcgis.com/java/latest/guide/take-map-offline-preplanned.htm) to learn about preplanned workflows, including how to define preplanned areas in ArcGIS Online.
 
 ## Tags
