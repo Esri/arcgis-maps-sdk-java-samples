@@ -16,8 +16,11 @@
   -->
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Background?>
 <?import javafx.scene.layout.BackgroundFill?>
 <?import javafx.scene.layout.HBox?>
@@ -25,8 +28,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
 <StackPane fx:controller="com.esri.samples.read_symbols_from_mobile_style_file.ReadSymbolsFromMobileStyleFileController"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css">
     <!--SDK MapView-->
@@ -68,13 +69,14 @@
         </HBox>
         <HBox>
             <Label>Size:</Label>
-            <Slider fx:id="sizeSlider" min="10" value="50" majorTickUnit="1" minWidth="200" onMouseDragged="#updateSymbolSize" onMouseReleased="#updateSymbolSize"/>
-            <Label fx:id="sizeLabel" text="50 px"/>
+            <Slider fx:id="sizeSlider" min="10" value="50" majorTickUnit="10" showTickLabels="true" showTickMarks="true" minWidth="250" onMouseDragged="#buildCompositeSymbol" onMouseReleased="#buildCompositeSymbol"/>
         </HBox>
         <HBox alignment="CENTER_LEFT">
             <Label>Preview:</Label>
-            <HBox alignment="CENTER" fx:id="symbolPreviewHBox" minHeight="140" minWidth="140"/>
+            <HBox alignment="CENTER" fx:id="symbolPreviewHBox" minHeight="140" minWidth="140">
+                <ImageView fx:id="symbolPreview"/>
+            </HBox>
         </HBox>
-        <Button text="Reset" onAction="#resetView" minWidth="80"/>
+        <Button text="Clear" onAction="#clearView" minWidth="80"/>
     </VBox>
 </StackPane>

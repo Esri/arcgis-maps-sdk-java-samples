@@ -24,17 +24,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.shape.Rectangle;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
@@ -44,7 +40,6 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
@@ -60,7 +55,7 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML private ListView<Integer> colorSelectionListView;
   @FXML private Slider sizeSlider;
   @FXML private Label sizeLabel;
-  @FXML private HBox symbolPreviewHBox;
+  @FXML private ImageView symbolPreview;
 
   private GraphicsOverlay graphicsOverlay;
   private MultilayerPointSymbol faceSymbol;
@@ -148,8 +143,6 @@ public class ReadSymbolsFromMobileStyleFileController {
                   case "Mouth":
                     mouthSelectionListView.getItems().add(symbolStyleSearchResult);
                     break;
-                  default:
-                    break;
                 }
               });
 
@@ -229,33 +222,17 @@ public class ReadSymbolsFromMobileStyleFileController {
    */
   private void updateSymbolPreview(MultilayerPointSymbol multilayerPointSymbol) {
     // remove the previously displayed image view
-    symbolPreviewHBox.getChildren().clear();
+    symbolPreview.setImage(null);
 
     // create an image and image view from the symbol
     ListenableFuture<Image> symbolImageFuture = multilayerPointSymbol.createSwatchAsync(0x00000000, 1);
     try {
-      Image symbolImage = symbolImageFuture.get();
-      ImageView symbolImageView = new ImageView(symbolImage);
       // display the image view in the preview area
-      symbolPreviewHBox.getChildren().add(symbolImageView);
+      symbolPreview.setImage(symbolImageFuture.get());
 
     } catch (InterruptedException | ExecutionException e) {
       new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided MultilayerPointSymbol" + e.getMessage()).show();
     }
-  }
-
-  /**
-   * Updates the size of the symbol preview and the label when the slider is interacted with.
-   */
-  @FXML
-  private void updateSymbolSize() {
-    // get the slider value and convert to a string
-    String sizeValue = Integer.toString((int) sizeSlider.getValue());
-    // display the value in the label
-    sizeLabel.setText(sizeValue + " px");
-
-    // update the preview
-    buildCompositeSymbol();
   }
 
   /**
@@ -278,7 +255,7 @@ public class ReadSymbolsFromMobileStyleFileController {
    * Clears all the graphics from the graphics overlay.
    */
   @FXML
-  private void resetView() {
+  private void clearView() {
     graphicsOverlay.getGraphics().clear();
   }
 
@@ -292,65 +269,4 @@ public class ReadSymbolsFromMobileStyleFileController {
     }
   }
 
-  /**
-   * Shows the available symbol of the SymbolStyleSearchResult in the symbol selection list view.
-   */
-  private class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
-
-    private SymbolLayerInfoListCell() {
-      // set the cell to display only a graphic
-      setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-    }
-
-    @Override
-    protected void updateItem(SymbolStyleSearchResult item, boolean empty) {
-      super.updateItem(item, empty);
-
-      if (item == null || empty) {
-        // if the item in the list view is an empty item, show nothing
-        setGraphic(null);
-      } else {
-        // get the symbol from the list view entry, and create an image from it
-        ListenableFuture<Image> symbolImageFuture = item.getSymbol().createSwatchAsync(0x00000000, 1);
-        try {
-          // get the resulting image
-          Image symbolImage = symbolImageFuture.get();
-          // create and image view and display it in the cell
-          ImageView symbolImageView = new ImageView(symbolImage);
-          setGraphic(symbolImageView);
-        } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
-        }
-      }
-    }
-  }
-
-  /**
-   * Shows the colors in the color selection list view.
-   */
-  private class ColorListCell extends ListCell<Integer> {
-    private final Rectangle rectangle;
-
-    private ColorListCell() {
-      // set the cell to display only a graphic
-      setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-      // create a rectangle to display in the cell
-      rectangle = new Rectangle(10, 10);
-    }
-
-    @Override
-    protected void updateItem(Integer item, boolean empty) {
-      super.updateItem(item, empty);
-
-      if (item == null || empty) {
-        // if the item in the list view is an empty item, show nothing
-        setGraphic(null);
-      } else {
-        // convert the 0xAARRGGBB format to a Color object and apply it to the rectangle fill
-        rectangle.setFill(ColorUtil.argbToColor(item));
-        // set the rectangle to be displayed in the cell
-        setGraphic(rectangle);
-      }
-    }
-  }
 }

@@ -14,16 +14,16 @@ Select a symbol and a color from each of the category lists to create an emoji. 
 
 ## How it works
 
-1. Create a new `SymbolStyle` from a stylx file, and load it: `symbolStyle.loadAsync()`.
+1. Create a new `SymbolStyle` from a stylx file, and load it.
 2. Get a set of default search parameters, `symbolStyle.getDefaultSearchParametersAsync()`, and use these to retrieve a list of all symbols within the style file: `symbolStyle.searchSymbolsAsync(defaultSearchParameters)`.
 3. Get the `SymbolStyleSearchResult`, which contains the symbols, as well as their names, keys, and categories.
-4. Use a `List` of keys of the desired symbols to build a composite symbol, `symbolStyle.emojiStyle.getSymbolAsync(symbolKeys)`.
-5. Get the resulting `MultilayerPointSymbol`, use it to create a `Graphic` and display it to the map.
+4. Use a `List` of keys of the desired symbols to build a composite symbol, `symbolStyle.getSymbolAsync(symbolKeys)`.
+5. Create a `Graphic` using the `MultilayerPointSymbol`.
 
 ## Relevant API
 
 * MultilayerPointSymbol
-* MultilayerSymbol.CreateSwatchAsync
+* MultilayerSymbol
 * SymbolLayer
 * SymbolStyle
 * SymbolStyleSearchParameters
