@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2019 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<StackPane fx:controller="com.esri.samples.routing_around_barriers.RoutingAroundBarriersController"
+           xmlns:fx="http://javafx.com/fxml" stylesheets="style.css">
+    <!--SDK SceneView-->
+    <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"/>
+    <!--Controls Area-->
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" styleClass="panel-region">
+        <!--Control Panel-->
+        <VBox StackPane.alignment="TOP_LEFT" maxHeight="400" styleClass="panel-region" spacing="10">
+            <!--Control Panel Styling-->
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+            <background>
+                <Background>
+                    <fills>
+                        <BackgroundFill>
+                            <fill>
+                                <Color opacity="0.5"/>
+                            </fill>
+                        </BackgroundFill>
+                    </fills>
+                </Background>
+            </background>
+            <!--Edit Mode Toggle Buttons-->
+            <Label text="Edit Mode:"/>
+            <HBox minWidth="200" maxWidth="Infinity">
+                <ToggleButton fx:id="btnAddStop" text="Stops" selected="true" minWidth="100">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="toggleGroup"/>
+                    </toggleGroup>
+                </ToggleButton>
+                <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Barriers" minWidth="100"/>
+            </HBox>
+            <Separator/>
+            <!--Routing Options Checkboxes-->
+            <Label text="Routing Options:"/>
+            <CheckBox fx:id="findBestSequenceCheckBox" text="Find best sequence"
+                      onAction="#togglePreserveStopsCheckBoxes" onMouseClicked="#createRouteAndDisplay"/>
+            <VBox styleClass="panel-region" spacing="10">
+                <padding>
+                    <Insets left="10"/>
+                </padding>
+                <CheckBox fx:id="preserveFirstStopCheckBox" text="Preserve first stop" onMouseClicked="#createRouteAndDisplay" disable="true"/>
+                <CheckBox fx:id="preserveLastStopCheckBox" text="Preserve last stop" onMouseClicked="#createRouteAndDisplay" disable="true"/>
+            </VBox>
+            <Separator/>
+            <!--Reset Button-->
+            <Button fx:id="btnReset" text="Reset" onAction="#clearRouteAndGraphics" disable="true" maxWidth="Infinity"/>
+        </VBox>
+        <!--Directions Accordion-->
+        <VBox maxHeight="250" styleClass="panel-region" spacing="10">
+            <Accordion layoutX="20.0" layoutY="100.0" prefHeight="400.0" prefWidth="680.0">
+                <panes>
+                    <TitledPane fx:id="routeInformationTitledPane" text="No route to display">
+                        <ListView fx:id="directionsList"/>
+                    </TitledPane>
+                </panes>
+            </Accordion>
+        </VBox>
+    </VBox>
+</StackPane>
