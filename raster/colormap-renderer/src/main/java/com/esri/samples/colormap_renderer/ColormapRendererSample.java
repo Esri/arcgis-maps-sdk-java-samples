@@ -70,7 +70,7 @@ public class ColormapRendererSample extends Application {
       // add the raster as an operational layer
       map.getOperationalLayers().add(rasterLayer);
 
-      // create a color map where values 0-150 are red (0xFFFF0000) and 150-250 are yellow (0xFFFFFF00)
+      // create a color map where values 0-149 are red (0xFFFF0000) and 150-250 are yellow (0xFFFFFF00)
       List<Integer> colors = IntStream.range(0, 250)
           .boxed()
           .map(i -> i < 150 ? 0xFFFF0000 : 0xFFFFFF00)
