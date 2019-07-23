@@ -14,17 +14,16 @@ Use the Edit Mode toggle buttons to select whether to add Stops or Barriers to t
 
 ## How it works
 
-1. Create the route task by calling `RouteTask.CreateAsync(serviceUrl)` with the URL to a Network Analysis route service.
-2. Get the default `RouteParameters` for the service by calling `routeTask.CreateDefaultParametersAsync`.
-3. Create the desired `Stop`s and `PolygonBarrier``s, and add a graphics for these to the graphics overlay.
-4. Add the stops and barriers to the route's parameters, `routeParameters.SetStops(routeStops)` and `routeParameters.SetPolygonBarriers(routeBarriers)`.
+1. Create a `RouteTask` with the URL to a Network Analysis route service.
+2. Get the default `RouteParameters` for the service, and create the desired `Stop`s and `PolygonBarrier`s.
+4. Add the stops and barriers to the route's parameters, `routeParameters.setStops(routeStops)` and `routeParameters.setPolygonBarriers(routeBarriers)`.
 5. Set the `ReturnStops` and `ReturnDirections` to `true`.
 6. If the user will accept routes with the stops in any order, set `FindBestSequence` to `true` to find the most optimal route.
 7. If the user has a definite start point, set `PreserveFirstStop` to `true`.
 8. If the user has a definite final destination, set `PreserveLastStop` to `true`.
-9. Call `routeTask.SolveRouteAsync(routeParameters)` to get a `RouteResult`.
-10. Get the first returned route by calling `calculatedRoute.Routes.First()`.
-11. Get the geometry from the route as a polyline by accessing the `firstResult.RouteGeometry` property, and use the geometry to create a graphic display the route to the map.
+9. Call `routeTask.solveRouteAsync(routeParameters)` to get a `RouteResult`.
+10. Get the first returned route by calling `routeResult.getRoutes().get(0)`.
+11. Get the geometry from the route to display the route to the map.
 
 ## Relevant API
 
