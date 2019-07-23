@@ -48,11 +48,15 @@ import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.LayerList;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapJob;
 import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapResult;
@@ -80,6 +84,17 @@ public class DownloadPreplannedMapController {
       // set up a temporary directory for saving downloaded preplanned maps
       tempDirectory = Files.createTempDirectory("preplanned_offline_map");
       tempDirectory.toFile().deleteOnExit();
+
+      // create a graphics overlay to show the preplanned map areas extents (areas of interest)
+      GraphicsOverlay areasOfInterestGraphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(areasOfInterestGraphicsOverlay);
+
+      // create a symbol to mark the areas of interest, and create a simple renderer to use it
+      SimpleLineSymbol areaOfInterestLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x80FF0000, 5.0f);
+      // create simple renderer for areas of interest, and set it to use the line symbol
+      SimpleRenderer areaOfInterestRenderer = new SimpleRenderer();
+      areaOfInterestRenderer.setSymbol(areaOfInterestLineSymbol);
+      areasOfInterestGraphicsOverlay.setRenderer(areaOfInterestRenderer);
 
       // create a portal to ArcGIS Online
       Portal portal = new Portal("https://www.arcgis.com/");
@@ -111,7 +126,12 @@ public class DownloadPreplannedMapController {
           // load each item and add it to the area selection list view
           for (PreplannedMapArea mapArea : preplannedMapAreas) {
             mapArea.loadAsync();
-            preplannedAreasListView.getItems().add(mapArea);
+            mapArea.addDoneLoadingListener(()->{
+              preplannedAreasListView.getItems().add(mapArea);
+
+              // create a graphics for the area of interest and add it to the graphics overlay
+              areasOfInterestGraphicsOverlay.getGraphics().add(new Graphic(mapArea.getAreaOfInterest()));
+            });
           }
 
           // select the first item by default
