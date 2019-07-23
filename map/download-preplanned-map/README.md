@@ -6,7 +6,9 @@ Take a map offline using a preplanned map area.
 
 ## Use case
 
-When a map is taken offline, a package containing basemap tiles, feature data, and other resources is created. In the preplanned workflow, the author of the web map has set up the offline packages ahead of time, which enables faster, more resource-efficient downloads compared to an on-demand workflow. Because the resources for the area are packaged once and can be downloaded many times by different users, this approach is more scalable for large organizations. To see the difference for yourself, compare this sample to the Generate an offline map sample.
+In the preplanned workflow, the author of the web map can set up the offline packages for a map area ahead of time, which can then be distributed to end-users to view on their devices. Because the resources for the area are packaged once and can be downloaded many times by different users, this approach is faster and more scalable for large organizations when compared to an on-demand workflow (where each end-user requests a specific area that is then generated and delivered by a service).
+
+This workflow can be used by survey workers operating in remote areas where network connectivity is not available. The workers could download mobile map packages to their individual devices and perform their work normally.
 
 ## How to use the sample
 
