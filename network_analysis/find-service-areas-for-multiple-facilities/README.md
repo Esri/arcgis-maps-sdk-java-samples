@@ -17,7 +17,7 @@ Click 'find service areas' to calculate and display the service area of each fac
 1. Create a new `ServiceAreaTask` from a network service.
 2. Create default `ServiceAreaParameters` from the service area task.
 3. Set the parameters `ServiceAreaParameters.setReturnPolygons(true)` to return polygons of all service areas.
-4. Define `QueryParameters` that select `facilities` from a `FacilitiesFeatureTable`. Add the facilities to the service area parameters using the query parameters, `serviceAreaParameters.SetFacilities(facilitiesTable, queryParameters).`
+4. Define `QueryParameters` that retrieve all `Facility` items from a `FacilitiesFeatureTable`. Add the facilities to the service area parameters using the query parameters, `serviceAreaParameters.SetFacilities(facilitiesTable, queryParameters).`
 5. Get the `ServiceAreaResult` by solving the service area task using the parameters.
 6. For each facility, get any `ServiceAreaPolygons` that were returned, `serviceAreaResult.getResultPolygons(facilityIndex)`.
 7. Display the service area polygons as `Graphics` in a `GraphicsOverlay` on the `MapView`.

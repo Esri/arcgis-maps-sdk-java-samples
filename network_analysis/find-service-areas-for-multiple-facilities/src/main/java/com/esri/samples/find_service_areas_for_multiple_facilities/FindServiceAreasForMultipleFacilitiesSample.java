@@ -180,7 +180,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
                     List<ServiceAreaPolygon> serviceAreaPolygonList = serviceAreaResult.getResultPolygons(i);
                     // create a graphic for each available polygon, as there may be more than one for each service area
                     for (int j = 0; j < serviceAreaPolygonList.size(); j++) {
-                      // create and show a graphics for the service area, using alternating colors for the 1-minute service areas (red, j=0) and 3-minute service areas (orange, j=1)
+                      // create and show a graphics for the service area
                       serviceAreaGraphics.add(new Graphic(serviceAreaPolygonList.get(j).getGeometry(), fillSymbols.get(j)));
                     }
                   }
