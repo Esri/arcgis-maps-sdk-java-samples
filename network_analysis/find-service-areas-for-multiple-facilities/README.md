@@ -6,18 +6,18 @@ Find the service areas of several facilities from a feature service.
 
 ## Use case
 
-A service area is a region which can be accessed from a facility as limited by one or more factors, such as travel time, distance, or cost. When analyzing the service area of multiple facilities, this workflow can be used to identify gaps in service area coverage, or significant overlaps, helping to optimize the distribution of facilities. For example, a city's health service may identify areas of a city that can be served effectively from particular hospitals, and with this optimize distribution of staff and resources.
+A city taxi company may calculate service areas around their vehicle lots to identify gaps in coverage. Alternatively, they may want to ensure overlaps where a high volume of passengers requires redundant facilities, such as near an airport.
 
 ## How to use the sample
 
-Click 'find service areas' to calculate and display the service area of each facility on the map. The polygons displayed around each facility represents the facility's service area; the red area is within 1 minute travel time from the hospital by car, whilst orange is within 3 minutes by car. All polygons are transparent, so that when service areas from multiple facilities overlap, these areas will appear as bolder colors.
+Click 'find service areas' to calculate and display the service area of each facility (hospital) on the map. The polygons displayed around each facility represents the facility's service area: the red area is within 1 minute travel time from the hospital by car, whilst orange is within 3 minutes by car. All service areas are semi-transparent to show where they overlap.
 
 ## How it works
 
 1. Create a new `ServiceAreaTask` from a network service.
 2. Create default `ServiceAreaParameters` from the service area task.
 3. Set the parameters `ServiceAreaParameters.setReturnPolygons(true)` to return polygons of all service areas.
-4. Define `QueryParameters` that select `facilities` from a `FacilitiesFeatureTable`. Use these to add the facilities to the service area parameters, `serviceAreaParameters.SetFacilities(facilitiesTable, queryParameters).`
+4. Define `QueryParameters` that select `facilities` from a `FacilitiesFeatureTable`. Add the facilities to the service area parameters using the query parameters, `serviceAreaParameters.SetFacilities(facilitiesTable, queryParameters).`
 5. Get the `ServiceAreaResult` by solving the service area task using the parameters.
 6. For each facility, get any `ServiceAreaPolygons` that were returned, `serviceAreaResult.getResultPolygons(facilityIndex)`.
 7. Display the service area polygons as `Graphics` in a `GraphicsOverlay` on the `MapView`.
