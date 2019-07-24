@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.esri.samples.apply_scheduled_updates_to_preplanned_map_area;
 
 import java.nio.file.Files;
@@ -25,6 +41,7 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseParameters;
@@ -50,7 +67,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Update Offline Map Sample");
+      stage.setTitle("Apply Schedueld Updates to Preplanned Map Area");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -93,14 +110,15 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       mobileMapPackage.addDoneLoadingListener(() -> {
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
 
-          //add the map from the mobile map package to the map view
-          mapView.setMap(mobileMapPackage.getMaps().get(0));
+          // add the map from the mobile map package to the map view
+          ArcGISMap offlineMap = mobileMapPackage.getMaps().get(0);
+          mapView.setMap(offlineMap);
 
           // show progress indicator
           progressIndicator.setVisible(true);
 
-          // create an offline map sync task with the mobile map package
-          OfflineMapSyncTask offlineMapSyncTask = new OfflineMapSyncTask(mobileMapPackage.getMaps().get(0));
+          // create an offline map sync task with the preplanned area
+          OfflineMapSyncTask offlineMapSyncTask = new OfflineMapSyncTask(offlineMap);
 
           // check for updates to the offline map
           ListenableFuture<OfflineMapUpdatesInfo> offlineMapUpdatesInfoFuture = offlineMapSyncTask.checkForUpdatesAsync();
@@ -136,7 +154,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
 
                       // set the sync direction to none, since we only want to update
                       offlineMapSyncParameters.setSyncDirection(SyncGeodatabaseParameters.SyncDirection.NONE);
-                      // set the parameters to download all updated for the mobile map packages
+                      // set the parameters to download all updates for the mobile map packages
                       offlineMapSyncParameters.setPreplannedScheduledUpdatesOption(PreplannedScheduledUpdatesOption.DOWNLOAD_ALL_UPDATES);
                       // set the map package to rollback to the old state should the sync job fail
                       offlineMapSyncParameters.setRollbackOnFailure(true);
@@ -150,7 +168,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
                         if (offlineMapSyncJob.getStatus() == Job.Status.SUCCEEDED) {
                           OfflineMapSyncResult offlineMapSyncResult = offlineMapSyncJob.getResult();
 
-                          // reopen the mobile map package if required
+                          // if mobile map package reopen is required, close the existing mobile map package and load it again
                           if (offlineMapSyncResult.isMobileMapPackageReopenRequired()) {
                             mobileMapPackage.close();
                             mobileMapPackage.loadAsync();
