@@ -20,12 +20,14 @@ import java.io.File;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.GeoPackage;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.RasterLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -41,7 +43,7 @@ public class ReadGeoPackageSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Read GeoPackage Sample");
@@ -60,22 +62,25 @@ public class ReadGeoPackageSample extends Application {
       GeoPackage geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
       geoPackage.loadAsync();
       geoPackage.addDoneLoadingListener(() -> {
+        if (geoPackage.getLoadStatus() == LoadStatus.LOADED) {
+          // get the rasters from the GeoPackage, and add them to the map as layers
+          geoPackage.getGeoPackageRasters().forEach(raster -> {
+            RasterLayer rasterLayer = new RasterLayer(raster);
+            // make the layer semi-transparent so we can see layers below it
+            rasterLayer.setOpacity(0.5f);
 
-        // get the rasters from the GeoPackage, and add them to the map as layers
-        geoPackage.getGeoPackageRasters().forEach(raster -> {
-          RasterLayer rasterLayer = new RasterLayer(raster);
-          // make the layer semi-transparent so we can see layers below it
-          rasterLayer.setOpacity(0.5f);
+            map.getOperationalLayers().add(rasterLayer);
+          });
 
-          map.getOperationalLayers().add(rasterLayer);
-        });
+          // get the FeatureTables from the GeoPackage, and add them to the map as a layer
+          geoPackage.getGeoPackageFeatureTables().forEach(table -> {
+            FeatureLayer featureLayer = new FeatureLayer(table);
 
-        // get the FeatureTables from the GeoPackage, and add them to the map as a layer
-        geoPackage.getGeoPackageFeatureTables().forEach(table -> {
-          FeatureLayer featureLayer = new FeatureLayer(table);
-
-          map.getOperationalLayers().add(featureLayer);
-        });
+            map.getOperationalLayers().add(featureLayer);
+          });
+        } else {
+          new Alert(Alert.AlertType.ERROR, "GeoPackage failed to load. Error: " + geoPackage.getLoadError().getMessage()).show();
+        }
       });
 
       // add the map view to the stack pane

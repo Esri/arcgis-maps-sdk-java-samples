@@ -10,23 +10,19 @@ The OGC GeoPackage specification defines an open standard for sharing raster and
 
 ## How to use the sample
 
-When the sample loads, the feature tables and rasters from the GeoPackage will be shown on the map.
+When the sample loads, the feature layers and rasters from the GeoPackage will be shown on the map.
 
 ## How it works
 
 1. Get the GeoPackage and load it using `geoPackage.loadAsync()`.
-2. Iterate through available rasters, exposed by `geopackage.getGeoPackageRasters()`.
-    * For each raster, create a raster layer using `new RasterLayer(geopackageRaster)`, then add it to the map.
-3. Iterate through available feature tables, exposed by `geopackage.getGeoPackageFeatureTables()`.
-    * For each feature table, create a feature layer using `new FeatureLayer(geopackageFeatureTable)`, then add it to the map.
+2. Iterate through available rasters, exposed by `geopackage.getGeoPackageRasters()`. For each raster, create a raster layer using `new RasterLayer(geopackageRaster)`, then add it to the map.
+3. Iterate through available feature tables, exposed by `geopackage.getGeoPackageFeatureTables()`. For each feature table, create a feature layer using `new FeatureLayer(geopackageFeatureTable)`, then add it to the map.
 
 ## Relevant API
 
 * GeoPackage
 * GeoPackageRaster
-* GeoPackage.GeoPackageRasters
 * GeoPackageFeatureTable
-* GeoPackage.GeoPackageFeatureTables
 
 ## Offline data
 
