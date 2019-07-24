@@ -199,35 +199,19 @@ public class CreateAndSaveMapController {
       result.addDoneListener(() -> {
         try {
           PortalItem portalItem = result.get();
-          showMessage("Save Successful", "Map titled " + title.getText() + " saved to portal item with id: " +
-                  portalItem.getItemId(), Alert.AlertType.INFORMATION);
+          new Alert(Alert.AlertType.CONFIRMATION, "Map titled " + title.getText() + " saved to portal item with id: " +portalItem.getItemId()).show();
         } catch (InterruptedException | ExecutionException e) {
-          showMessage("Save Unsuccessful", e.getCause().getMessage(), Alert.AlertType.ERROR);
+          new Alert(Alert.AlertType.ERROR, "Save Unsuccessful: " + e.getCause().getMessage()).show();
         } finally {
           progress.setVisible(false);
         }
       });
     } catch (Exception e) {
       progress.setVisible(false);
-      showMessage("Could not save map", e.getMessage(), Alert.AlertType.ERROR);
+      new Alert(Alert.AlertType.ERROR, "Could not save map. " + e.getMessage()).show();
     }
   }
-
-  /**
-   * Display an alert to the user with the specified information.
-   *
-   * @param title       alert title
-   * @param description alert content description
-   * @param type        alert type
-   */
-  private void showMessage(String title, String description, Alert.AlertType type) {
-    Alert alert = new Alert(type);
-    alert.initOwner(mapView.getScene().getWindow());
-    alert.setTitle(title);
-    alert.setContentText(description);
-    alert.show();
-  }
-
+  
   /**
    * Stops and releases all resources used in application.
    */
