@@ -29,15 +29,16 @@ class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
       // if the item in the list view is an empty item, show nothing
       setGraphic(null);
     } else {
+      ImageView symbolImageView = new ImageView();
+      setGraphic(symbolImageView);
       // get the symbol from the list view entry, and create an image from it
       ListenableFuture<Image> symbolImageFuture = item.getSymbol().createSwatchAsync(0x00000000, 1);
       symbolImageFuture.addDoneListener(() -> {
         try {
           // get the resulting image
           Image symbolImage = symbolImageFuture.get();
-          // create and image view and display it in the cell
-          ImageView symbolImageView = new ImageView(symbolImage);
-          setGraphic(symbolImageView);
+          // update the image view with the symbol swatch
+          symbolImageView.setImage(symbolImage);
         } catch (InterruptedException | ExecutionException e) {
           new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
         }

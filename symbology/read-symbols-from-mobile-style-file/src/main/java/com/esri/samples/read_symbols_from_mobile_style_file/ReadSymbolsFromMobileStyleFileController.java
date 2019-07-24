@@ -24,7 +24,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -40,6 +40,7 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
@@ -52,10 +53,9 @@ public class ReadSymbolsFromMobileStyleFileController {
   @FXML private ListView<SymbolStyleSearchResult> hatSelectionListView;
   @FXML private ListView<SymbolStyleSearchResult> eyesSelectionListView;
   @FXML private ListView<SymbolStyleSearchResult> mouthSelectionListView;
-  @FXML private ListView<Integer> colorSelectionListView;
   @FXML private Slider sizeSlider;
-  @FXML private Label sizeLabel;
   @FXML private ImageView symbolPreview;
+  @FXML private ColorPicker colorPicker;
 
   private GraphicsOverlay graphicsOverlay;
   private MultilayerPointSymbol faceSymbol;
@@ -90,15 +90,6 @@ public class ReadSymbolsFromMobileStyleFileController {
       listView.getItems().add(null);
       listView.getSelectionModel().select(0);
     }
-
-    // add colors to the color selection list view
-    colorSelectionListView.getItems().addAll(0xFFFFFF00, 0xFF00FF00, 0xFFFFB6C1);
-    // make the first item in the list view selected by default
-    colorSelectionListView.getSelectionModel().select(0);
-    // add the change listener to the color selection list view, making a selection update the preview image
-    colorSelectionListView.getSelectionModel().selectedItemProperty().addListener(changeListener);
-    // add the cell factory to the color selection list view
-    colorSelectionListView.setCellFactory(c -> new ColorListCell());
   }
 
   /**
@@ -190,7 +181,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
 
         // set the color of the symbol
-        faceSymbol.setColor(colorSelectionListView.getSelectionModel().getSelectedItem());
+        faceSymbol.setColor(ColorUtil.colorToArgb(colorPicker.getValue()));
 
         // set the size of the symbol
         faceSymbol.setSize((float) sizeSlider.getValue());
