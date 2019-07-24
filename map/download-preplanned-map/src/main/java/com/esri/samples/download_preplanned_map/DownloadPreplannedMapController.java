@@ -46,6 +46,7 @@ import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.LayerList;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
@@ -75,10 +76,13 @@ public class DownloadPreplannedMapController {
 
   private ArcGISMap originalMap;
   private DownloadPreplannedOfflineMapJob downloadPreplannedOfflineMapJob;
-  private ArrayList<MobileMapPackage> downloadedMaps;
+  private ArrayList<MobileMapPackage> openedMobileMapPackages;
   private OfflineMapTask offlineMapTask;
   private Path tempDirectory;
   private ArrayList<Geometry> areasOfInterest;
+  private ArrayList<Graphic> areasOfInterestGraphics;
+  private List<PreplannedMapArea> preplannedMapAreas;
+  private GraphicsOverlay areasOfInterestGraphicsOverlay;
 
   @FXML
   private void initialize() {
@@ -86,9 +90,9 @@ public class DownloadPreplannedMapController {
       // set up a temporary directory for saving downloaded preplanned maps
       tempDirectory = Files.createTempDirectory("preplanned_offline_map");
       tempDirectory.toFile().deleteOnExit();
-
+      System.out.println(tempDirectory.toAbsolutePath());
       // create a graphics overlay to show the preplanned map areas extents (areas of interest)
-      GraphicsOverlay areasOfInterestGraphicsOverlay = new GraphicsOverlay();
+      areasOfInterestGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(areasOfInterestGraphicsOverlay);
 
       // create a symbol to mark the areas of interest, and create a simple renderer to use it
@@ -97,6 +101,13 @@ public class DownloadPreplannedMapController {
       SimpleRenderer areaOfInterestRenderer = new SimpleRenderer();
       areaOfInterestRenderer.setSymbol(areaOfInterestLineSymbol);
       areasOfInterestGraphicsOverlay.setRenderer(areaOfInterestRenderer);
+
+      // create a list to hold the preplanned map areas
+      preplannedMapAreas = new ArrayList<>();
+
+      // create a list to hold the preplanned map areas extent (area of interest)
+      areasOfInterest = new ArrayList<>();
+      areasOfInterestGraphics = new ArrayList<>();
 
       // create a portal to ArcGIS Online
       Portal portal = new Portal("https://www.arcgis.com/");
@@ -110,8 +121,8 @@ public class DownloadPreplannedMapController {
       // create a map with the portal item
       originalMap = new ArcGISMap(portalItem);
 
-      // make a list to keep track of downloaded mobile map packages
-      downloadedMaps = new ArrayList<>();
+      // make a list to keep track of opened mobile map packages, to allow closing and deleting
+      openedMobileMapPackages = new ArrayList<>();
 
       // show the map
       mapView.setMap(originalMap);
@@ -124,24 +135,25 @@ public class DownloadPreplannedMapController {
       preplannedMapAreasFuture.addDoneListener(() -> {
         try {
           // get the result
-          List<PreplannedMapArea> preplannedMapAreas = preplannedMapAreasFuture.get();
-
-          // create a list to hold the preplanned map areas extent (area of interest)
-          areasOfInterest = new ArrayList<>();
+          preplannedMapAreas = preplannedMapAreasFuture.get();
 
           // load each item and add it to the area selection list view
           for (PreplannedMapArea mapArea : preplannedMapAreas) {
             mapArea.loadAsync();
             mapArea.addDoneLoadingListener(()->{
-              preplannedAreasListView.getItems().add(mapArea);
+              if (mapArea.getLoadStatus() == LoadStatus.LOADED) {
+                preplannedAreasListView.getItems().add(mapArea);
 
-              // create a graphics for the area of interest and add it to the appropriate list
-              areasOfInterest.add(mapArea.getAreaOfInterest());
+                // create a graphics for the area of interest and add it to the appropriate list
+                areasOfInterest.add(mapArea.getAreaOfInterest());
+
+                // create graphics for the areas of interest
+                areasOfInterestGraphics.add(new Graphic(mapArea.getAreaOfInterest()));
+
+                areasOfInterestGraphicsOverlay.getGraphics().add(new Graphic(mapArea.getAreaOfInterest()));
+              }
             });
           }
-
-          // create graphics for the areas of interest, and add these to the graphics overlay
-          areasOfInterest.forEach(geometry -> areasOfInterestGraphicsOverlay.getGraphics().add(new Graphic(geometry)));
 
           // select the first item by default
           preplannedAreasListView.getSelectionModel().select(0);
@@ -178,10 +190,18 @@ public class DownloadPreplannedMapController {
       // if the area is already downloaded, open it
       if (Files.exists(Paths.get(path))) {
 
-        // open the downloaded mobile map package
+        // clear the graphics overlay
+        areasOfInterestGraphicsOverlay.getGraphics().clear();
+
+        // add the package to the list of opened map packages
         MobileMapPackage localMapArea = new MobileMapPackage(path);
         localMapArea.loadAsync();
         localMapArea.addDoneLoadingListener(() -> mapView.setMap(localMapArea.getMaps().get(0)));
+
+        if (!openedMobileMapPackages.contains(localMapArea)) {
+          openedMobileMapPackages.add(localMapArea);
+        }
+
         return;
       }
 
@@ -219,11 +239,16 @@ public class DownloadPreplannedMapController {
               // check if the result has any errors and display them
               checkForOfflineMapResultErrors(downloadPreplannedOfflineMapResult);
 
+              // clear the graphics overlay
+              areasOfInterestGraphicsOverlay.getGraphics().clear();
+
               // show the result in the map view
               mapView.setMap(downloadPreplannedOfflineMapResult.getOfflineMap());
 
-              // add the map to the list of downloaded maps
-              downloadedMaps.add(downloadPreplannedOfflineMapResult.getMobileMapPackage());
+              // add the package to the list of opened map packages
+              if (!openedMobileMapPackages.contains(downloadPreplannedOfflineMapResult.getMobileMapPackage())) {
+                openedMobileMapPackages.add(downloadPreplannedOfflineMapResult.getMobileMapPackage());
+              }
 
               // re-enable the UI
               downloadAreaBtn.setDisable(false);
@@ -267,6 +292,14 @@ public class DownloadPreplannedMapController {
     }
   }
 
+  @FXML
+  private void viewOnlineMap(){
+    // reset the map view to the original map
+    mapView.setMap(originalMap);
+
+    areasOfInterestGraphicsOverlay.getGraphics().addAll(areasOfInterestGraphics);
+  }
+
   /**
    * Deletes all the previously downloaded offline areas.
    */
@@ -279,11 +312,11 @@ public class DownloadPreplannedMapController {
     }
 
     // reset the map view to the original map
-    mapView.setMap(originalMap);
+    viewOnlineMap();
 
     // get the geodatabases from all downloaded mobile map packages
     ArrayList<Geodatabase> geodatabases = new ArrayList<>();
-    downloadedMaps.forEach(mobileMapPackage -> {
+    openedMobileMapPackages.forEach(mobileMapPackage -> {
       List<ArcGISMap> maps = mobileMapPackage.getMaps();
       maps.forEach(map ->{
         LayerList operationalLayers = map.getOperationalLayers();
@@ -340,6 +373,8 @@ public class DownloadPreplannedMapController {
    */
   void terminate() {
 
+    deleteOfflineAreas();
+
     if (mapView != null) {
       mapView.dispose();
     }
@@ -359,6 +394,7 @@ public class DownloadPreplannedMapController {
 
         // show the preplanned map area thumbnail image
         ImageView thumbnailImageView = new ImageView();
+        setGraphic(thumbnailImageView);
         hBox.getChildren().add(thumbnailImageView);
         thumbnailImageView.setFitHeight(65);
         thumbnailImageView.setPreserveRatio(true);
@@ -366,8 +402,8 @@ public class DownloadPreplannedMapController {
         thumbnailData.addDoneListener(() -> {
           try {
             thumbnailImageView.setImage(new Image(new ByteArrayInputStream(thumbnailData.get())));
-          } catch (Exception ex) {
-            ex.printStackTrace();
+          } catch (InterruptedException | ExecutionException e) {
+            new Alert(Alert.AlertType.ERROR, "Error getting preplanned map area thumbnails" + e.getMessage()).show();
           }
         });
 
