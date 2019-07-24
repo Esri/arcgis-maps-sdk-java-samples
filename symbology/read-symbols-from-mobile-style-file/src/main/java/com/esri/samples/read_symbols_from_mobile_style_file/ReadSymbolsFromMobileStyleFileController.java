@@ -228,10 +228,11 @@ public class ReadSymbolsFromMobileStyleFileController {
 
   /**
    * Adds graphics to the map view on mouse clicks.
+   *
    * @param e mouse button click event
    */
   @FXML
-  private void handleMouseClicked(MouseEvent e){
+  private void handleMouseClicked(MouseEvent e) {
     if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
       // convert clicked point to a map point
       Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
