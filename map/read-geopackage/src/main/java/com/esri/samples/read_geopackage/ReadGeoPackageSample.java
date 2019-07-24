@@ -56,29 +56,29 @@ public class ReadGeoPackageSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // get the GeoPackage, and load it
+      // load the local GeoPackage
       File geoPackageFile = new File("./samples-data/auroraCO/AuroraCO.gpkg");
       GeoPackage geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
       geoPackage.loadAsync();
       geoPackage.addDoneLoadingListener(() -> {
         if (geoPackage.getLoadStatus() == LoadStatus.LOADED) {
-          // get the rasters from the GeoPackage, and add them to the map as layers
+          // add raster layers from the rasters in the GeoPackage
           geoPackage.getGeoPackageRasters().forEach(raster -> {
             RasterLayer rasterLayer = new RasterLayer(raster);
-            // make the layer semi-transparent so we can see layers below it
+            // make the layer semi-transparent to see through it
             rasterLayer.setOpacity(0.5f);
 
             map.getOperationalLayers().add(rasterLayer);
           });
 
-          // get the FeatureTables from the GeoPackage, and add them to the map as a layer
+          // add feature layers from the feature tables in the GeoPackage
           geoPackage.getGeoPackageFeatureTables().forEach(table -> {
             FeatureLayer featureLayer = new FeatureLayer(table);
 
             map.getOperationalLayers().add(featureLayer);
           });
         } else {
-          new Alert(Alert.AlertType.ERROR, "GeoPackage failed to load. Error: " + geoPackage.getLoadError().getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "GeoPackage failed to load").show();
         }
       });
 
