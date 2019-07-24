@@ -43,6 +43,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.FeatureTable;
 import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
+import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -77,6 +78,7 @@ public class DownloadPreplannedMapController {
   private ArrayList<MobileMapPackage> downloadedMaps;
   private OfflineMapTask offlineMapTask;
   private Path tempDirectory;
+  private ArrayList<Geometry> areasOfInterest;
 
   @FXML
   private void initialize() {
@@ -121,7 +123,11 @@ public class DownloadPreplannedMapController {
       ListenableFuture<List<PreplannedMapArea>> preplannedMapAreasFuture = offlineMapTask.getPreplannedMapAreasAsync();
       preplannedMapAreasFuture.addDoneListener(() -> {
         try {
+          // get the result
           List<PreplannedMapArea> preplannedMapAreas = preplannedMapAreasFuture.get();
+
+          // create a list to hold the preplanned map areas extent (area of interest)
+          areasOfInterest = new ArrayList<>();
 
           // load each item and add it to the area selection list view
           for (PreplannedMapArea mapArea : preplannedMapAreas) {
@@ -129,10 +135,13 @@ public class DownloadPreplannedMapController {
             mapArea.addDoneLoadingListener(()->{
               preplannedAreasListView.getItems().add(mapArea);
 
-              // create a graphics for the area of interest and add it to the graphics overlay
-              areasOfInterestGraphicsOverlay.getGraphics().add(new Graphic(mapArea.getAreaOfInterest()));
+              // create a graphics for the area of interest and add it to the appropriate list
+              areasOfInterest.add(mapArea.getAreaOfInterest());
             });
           }
+
+          // create graphics for the areas of interest, and add these to the graphics overlay
+          areasOfInterest.forEach(geometry -> areasOfInterestGraphicsOverlay.getGraphics().add(new Graphic(geometry)));
 
           // select the first item by default
           preplannedAreasListView.getSelectionModel().select(0);
