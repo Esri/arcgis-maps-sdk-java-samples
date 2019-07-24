@@ -211,7 +211,7 @@ public class CreateAndSaveMapController {
       new Alert(Alert.AlertType.ERROR, "Could not save map. " + e.getMessage()).show();
     }
   }
-  
+
   /**
    * Stops and releases all resources used in application.
    */
