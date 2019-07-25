@@ -16,7 +16,6 @@
 
 package com.esri.samples.download_preplanned_map;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,12 +30,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 
 import com.esri.arcgisruntime.ArcGISRuntimeException;
 import com.esri.arcgisruntime.concurrent.Job;
@@ -102,12 +97,6 @@ public class DownloadPreplannedMapController {
       areaOfInterestRenderer.setSymbol(areaOfInterestLineSymbol);
       areasOfInterestGraphicsOverlay.setRenderer(areaOfInterestRenderer);
 
-      // create a listener that zooms to the extent of the preplanned map area when an item is selected
-      listViewSelectionListener = (obs, oldValue, newValue) -> mapView.setViewpointAsync(new Viewpoint((Envelope) newValue.getAreaOfInterest()));
-
-      // add the listener to the list view
-      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener);
-
       // make a list to keep track of opened mobile map packages, to allow closing and deleting
       openedMobileMapPackages = new ArrayList<>();
 
@@ -159,6 +148,12 @@ public class DownloadPreplannedMapController {
 
       // make the list view show a preview of the preplanned map area items
       preplannedAreasListView.setCellFactory(c -> new PreplannedMapAreaListCell());
+
+      // create a listener that zooms to the extent of the preplanned map area when an item is selected
+      listViewSelectionListener = (obs, oldValue, newValue) -> mapView.setViewpointAsync(new Viewpoint((Envelope) newValue.getAreaOfInterest()));
+
+      // add the listener to the list view
+      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener);
 
     } catch (IOException e) {
       new Alert(Alert.AlertType.ERROR, "Failed to create a temporary path for saving the Preplanned Map Areas.").show();
@@ -378,41 +373,4 @@ public class DownloadPreplannedMapController {
     }
   }
 
-  /**
-   * Shows the available thumbnail of the PreplannedMapArea in the selection list view.
-   */
-  private class PreplannedMapAreaListCell extends ListCell<PreplannedMapArea> {
-
-    @Override
-    protected void updateItem(PreplannedMapArea preplannedMapArea, boolean empty) {
-      super.updateItem(preplannedMapArea, empty);
-      if (preplannedMapArea != null) {
-        HBox hBox = new HBox();
-        hBox.setMinHeight(65);
-
-        // show the preplanned map area thumbnail image
-        ImageView thumbnailImageView = new ImageView();
-        setGraphic(thumbnailImageView);
-        hBox.getChildren().add(thumbnailImageView);
-        thumbnailImageView.setFitHeight(65);
-        thumbnailImageView.setPreserveRatio(true);
-        ListenableFuture<byte[]> thumbnailData = preplannedMapArea.getPortalItem().fetchThumbnailAsync();
-        thumbnailData.addDoneListener(() -> {
-          try {
-            thumbnailImageView.setImage(new Image(new ByteArrayInputStream(thumbnailData.get())));
-          } catch (InterruptedException | ExecutionException e) {
-            new Alert(Alert.AlertType.ERROR, "Error getting preplanned map area thumbnails" + e.getMessage()).show();
-          }
-        });
-
-        setGraphic(hBox);
-
-        setText(preplannedMapArea.getPortalItem().getTitle());
-
-      } else {
-        setGraphic(null);
-        setText(null);
-      }
-    }
-  }
 }
