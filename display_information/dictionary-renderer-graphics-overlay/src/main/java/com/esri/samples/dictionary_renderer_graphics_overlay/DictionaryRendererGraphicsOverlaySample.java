@@ -16,8 +16,6 @@
 
 package com.esri.samples.dictionary_renderer_graphics_overlay;
 
-import static org.joox.JOOX.$;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +39,8 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
+
+import static org.joox.JOOX.$;
 
 public class DictionaryRendererGraphicsOverlaySample extends Application {
 
@@ -69,7 +69,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // create symbol dictionary from specification
-    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
+    DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile("./samples-data/stylx/mil2525d.stylx");
 
     // tells graphics overlay how to render graphics with symbol dictionary attributes set
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
