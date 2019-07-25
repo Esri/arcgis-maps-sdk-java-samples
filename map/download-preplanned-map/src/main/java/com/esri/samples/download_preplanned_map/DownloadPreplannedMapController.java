@@ -67,6 +67,7 @@ public class DownloadPreplannedMapController {
 
   @FXML private Button deleteOfflineAreasBtn;
   @FXML private Button downloadAreaBtn;
+  @FXML private Button showWebMapButton;
   @FXML private ListView<PreplannedMapArea> preplannedAreasListView;
   @FXML private MapView mapView;
   @FXML private ProgressBar downloadProgressBar;
@@ -169,6 +170,9 @@ public class DownloadPreplannedMapController {
 
       // remove the listener from the list view to stop the viewpoint changing on selection
       preplannedAreasListView.getSelectionModel().selectedItemProperty().removeListener(listViewSelectionListener);
+
+      // enable the 'view web map' button
+      showWebMapButton.setDisable(false);
 
       // get the requested preplanned map area
       PreplannedMapArea selectedMapArea = preplannedAreasListView.getSelectionModel().getSelectedItem();
@@ -282,7 +286,7 @@ public class DownloadPreplannedMapController {
   }
 
   @FXML
-  private void viewOnlineMap(){
+  private void showOnlineMap(){
     // reset the map view to the original map
     mapView.setMap(originalMap);
 
@@ -291,6 +295,9 @@ public class DownloadPreplannedMapController {
 
     // add the listener to the list view to change the viewpoint on selection
     preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener);
+
+    // disable the 'view web map' button
+    showWebMapButton.setDisable(true);
   }
 
   /**
@@ -305,7 +312,7 @@ public class DownloadPreplannedMapController {
     }
 
     // reset the map view to the original map
-    viewOnlineMap();
+    showOnlineMap();
 
     // get the geodatabases from all downloaded mobile map packages
     ArrayList<Geodatabase> geodatabases = new ArrayList<>();
