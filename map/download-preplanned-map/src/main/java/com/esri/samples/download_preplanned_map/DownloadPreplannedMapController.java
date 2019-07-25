@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -77,6 +78,7 @@ public class DownloadPreplannedMapController {
 
   private ArcGISMap originalMap;
   private ArrayList<MobileMapPackage> openedMobileMapPackages;
+  private ChangeListener<PreplannedMapArea> listViewSelectionListener;
   private DownloadPreplannedOfflineMapJob downloadPreplannedOfflineMapJob;
   private GraphicsOverlay areasOfInterestGraphicsOverlay;
   private OfflineMapTask offlineMapTask;
@@ -101,7 +103,10 @@ public class DownloadPreplannedMapController {
       areasOfInterestGraphicsOverlay.setRenderer(areaOfInterestRenderer);
 
       // create a listener that zooms to the extent of the preplanned map area when an item is selected
-      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> mapView.setViewpointAsync(new Viewpoint((Envelope) newValue.getAreaOfInterest())));
+      listViewSelectionListener = (obs, oldValue, newValue) -> mapView.setViewpointAsync(new Viewpoint((Envelope) newValue.getAreaOfInterest()));
+
+      // add the listener to the list view
+      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener);
 
       // make a list to keep track of opened mobile map packages, to allow closing and deleting
       openedMobileMapPackages = new ArrayList<>();
@@ -166,6 +171,9 @@ public class DownloadPreplannedMapController {
   @FXML
   private void handleDownloadArea() {
     if (preplannedAreasListView.getSelectionModel().getSelectedItem() != null) {
+
+      // remove the listener from the list view to stop the viewpoint changing on selection
+      preplannedAreasListView.getSelectionModel().selectedItemProperty().removeListener(listViewSelectionListener);
 
       // get the requested preplanned map area
       PreplannedMapArea selectedMapArea = preplannedAreasListView.getSelectionModel().getSelectedItem();
@@ -285,6 +293,9 @@ public class DownloadPreplannedMapController {
 
     // show the graphics overlay with the areas of interest
     areasOfInterestGraphicsOverlay.setVisible(true);
+
+    // add the listener to the list view to change the viewpoint on selection
+    preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener);
   }
 
   /**
