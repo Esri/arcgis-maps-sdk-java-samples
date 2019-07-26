@@ -27,7 +27,6 @@ Select "Search Public Portal" to return all portal results hosted on www.arcgis.
 *   AuthenticationChallengeHandler
 *   AuthenticationChallengeResponse
 *   AuthenticationManager
-*   AuthenticationManager.setAuthenticationChallengeHandler
 *   Portal
 *   UserCredential
 
