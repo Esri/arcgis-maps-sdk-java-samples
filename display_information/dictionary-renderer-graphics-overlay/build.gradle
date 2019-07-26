@@ -41,7 +41,7 @@ dependencies {
 }
 
 task downloadData(type: Download) {
-    src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/5de1ff8d2aa243558ba057fa922beb84/data"
+    src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/c78b149a1d52414682c86a5feeb13d30/data"
     dest './samples-data/stylx/mil2525d.stylx'
     overwrite false
 }
