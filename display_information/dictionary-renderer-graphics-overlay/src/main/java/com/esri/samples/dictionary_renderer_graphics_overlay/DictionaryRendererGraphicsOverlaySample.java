@@ -16,6 +16,8 @@
 
 package com.esri.samples.dictionary_renderer_graphics_overlay;
 
+import static org.joox.JOOX.$;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +41,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
-
-import static org.joox.JOOX.$;
 
 public class DictionaryRendererGraphicsOverlaySample extends Application {
 
