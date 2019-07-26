@@ -32,6 +32,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
+import org.apache.commons.io.FileUtils;
 
 import com.esri.arcgisruntime.ArcGISRuntimeException;
 import com.esri.arcgisruntime.concurrent.Job;
@@ -62,8 +63,6 @@ import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapResul
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 import com.esri.arcgisruntime.tasks.offlinemap.PreplannedMapArea;
 import com.esri.arcgisruntime.tasks.offlinemap.PreplannedUpdateMode;
-
-import org.apache.commons.io.FileUtils;
 
 public class DownloadPreplannedMapController {
 
