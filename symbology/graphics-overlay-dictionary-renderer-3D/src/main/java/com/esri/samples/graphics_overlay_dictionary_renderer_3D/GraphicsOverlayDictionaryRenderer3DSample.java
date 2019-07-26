@@ -75,7 +75,7 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
       // create symbol dictionary from specification
       // the specification style file comes with the SDK in the resources/symbols directory
       // see this directory for other specification types
-      DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
+      DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile("./samples-data/stylx/mil2525d.stylx");
 
       // tells graphics overlay how to render graphics with symbol dictionary attributes set
       DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);

@@ -1,12 +1,15 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
+    id "de.undercouch.download" version "3.4.3"
 }
+
+import de.undercouch.gradle.tasks.download.Download
 
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.5.0'
+    arcgisVersion = '100.6.0-2490'
 }
 
 javafx {
@@ -37,6 +40,12 @@ dependencies {
     compile 'org.jooq:joox:1.4.0'
 }
 
+task downloadData(type: Download) {
+    src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/c78b149a1d52414682c86a5feeb13d30/data"
+    dest './samples-data/stylx/mil2525d.stylx'
+    overwrite false
+}
+
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -48,7 +57,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives
+    dependsOn copyNatives, downloadData
     mainClassName = 'com.esri.samples.graphics_overlay_dictionary_renderer_3D.GraphicsOverlayDictionaryRenderer3DLauncher'
 }
 

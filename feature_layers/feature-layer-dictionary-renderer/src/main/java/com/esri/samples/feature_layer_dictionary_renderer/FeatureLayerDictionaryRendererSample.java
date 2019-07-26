@@ -57,7 +57,7 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     geodatabase.loadAsync();
 
     // render tells layer what symbols to apply to what features
-    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
+    DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile("./samples-data/stylx/mil2525d.stylx");
     symbolDictionary.loadAsync();
 
     geodatabase.addDoneLoadingListener(() -> {
