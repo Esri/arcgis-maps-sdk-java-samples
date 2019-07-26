@@ -286,7 +286,7 @@ public class DownloadPreplannedMapController {
   }
 
   @FXML
-  private void showOnlineMap(){
+  private void showWebMap(){
     // reset the map view to the original map
     mapView.setMap(originalMap);
 
@@ -312,7 +312,7 @@ public class DownloadPreplannedMapController {
     }
 
     // reset the map view to the original map
-    showOnlineMap();
+    showWebMap();
 
     // get the geodatabases from all downloaded mobile map packages
     ArrayList<Geodatabase> geodatabases = new ArrayList<>();
