@@ -342,6 +342,8 @@ public class DownloadPreplannedMapController {
 
     // disable the 'delete offline areas' button
     deleteOfflineAreasBtn.setDisable(true);
+
+    new Alert(Alert.AlertType.INFORMATION, "All preplanned map areas deleted.").show();
   }
 
   /**
