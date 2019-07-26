@@ -63,6 +63,8 @@ import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 import com.esri.arcgisruntime.tasks.offlinemap.PreplannedMapArea;
 import com.esri.arcgisruntime.tasks.offlinemap.PreplannedUpdateMode;
 
+import org.apache.commons.io.FileUtils;
+
 public class DownloadPreplannedMapController {
 
   @FXML private Button deleteOfflineAreasBtn;
@@ -130,7 +132,7 @@ public class DownloadPreplannedMapController {
           // load each item and create an extent and label
           for (PreplannedMapArea mapArea : preplannedMapAreas) {
             mapArea.loadAsync();
-            mapArea.addDoneLoadingListener(()->{
+            mapArea.addDoneLoadingListener(() -> {
               if (mapArea.getLoadStatus() == LoadStatus.LOADED) {
 
                 // create graphics for the areas of interest, add it to the graphics overlay
@@ -263,6 +265,7 @@ public class DownloadPreplannedMapController {
 
   /**
    * Checks for layer and table errors of an offline map result, and displays them if present.
+   *
    * @param downloadPreplannedOfflineMapResult the result to query for errors
    */
   private void checkForOfflineMapResultErrors(DownloadPreplannedOfflineMapResult downloadPreplannedOfflineMapResult) {
@@ -272,12 +275,12 @@ public class DownloadPreplannedMapController {
 
       Map<Layer, ArcGISRuntimeException> layerErrors = downloadPreplannedOfflineMapResult.getLayerErrors();
       layerErrors.forEach((layer, exception) ->
-        stringBuilder.append("Layer: ").append(layer.getName()).append(". Exception: ").append(exception.getMessage()).append(". ")
+              stringBuilder.append("Layer: ").append(layer.getName()).append(". Exception: ").append(exception.getMessage()).append(". ")
       );
 
       Map<FeatureTable, ArcGISRuntimeException> tableError = downloadPreplannedOfflineMapResult.getTableErrors();
       tableError.forEach((table, exception) ->
-        stringBuilder.append("Table: ").append(table.getTableName()).append(". Exception: ").append(exception.getMessage()).append(". ")
+              stringBuilder.append("Table: ").append(table.getTableName()).append(". Exception: ").append(exception.getMessage()).append(". ")
       );
 
       // show the message
@@ -286,7 +289,7 @@ public class DownloadPreplannedMapController {
   }
 
   @FXML
-  private void showWebMap(){
+  private void showWebMap() {
     // reset the map view to the original map
     mapView.setMap(originalMap);
 
@@ -305,20 +308,42 @@ public class DownloadPreplannedMapController {
    */
   @FXML
   private void deleteOfflineAreas() {
+    try {
+      // cancel the job
+      if (downloadPreplannedOfflineMapJob != null) {
+        downloadPreplannedOfflineMapJob.cancel();
+      }
 
-    // cancel the job
-    if (downloadPreplannedOfflineMapJob != null) {
-      downloadPreplannedOfflineMapJob.cancel();
+      // reset the map view to the original map
+      showWebMap();
+
+      // close all previously opened geodatabases to allow deleting the files
+      closeAllGeoDatabases();
+
+      // delete all files in the temporary directory
+      File localPreplannedMapDirectoryFile = tempDirectory.toFile();
+      FileUtils.cleanDirectory(localPreplannedMapDirectoryFile);
+
+      // disable the 'delete offline areas' button
+      deleteOfflineAreasBtn.setDisable(true);
+
+      // show confirmation
+      new Alert(Alert.AlertType.INFORMATION, "All preplanned map areas deleted.").show();
+
+    } catch (IOException e) {
+      new Alert(Alert.AlertType.ERROR, "Error deleting preplanned map areas.").show();
     }
+  }
 
-    // reset the map view to the original map
-    showWebMap();
-
+  /**
+   * Collects the GeoDatabases from the previously opened MobileMapPackages and closes them to allow deleting
+   */
+  private void closeAllGeoDatabases() {
     // get the geodatabases from all downloaded mobile map packages
     ArrayList<Geodatabase> geodatabases = new ArrayList<>();
     openedMobileMapPackages.forEach(mobileMapPackage -> {
       List<ArcGISMap> maps = mobileMapPackage.getMaps();
-      maps.forEach(map ->{
+      maps.forEach(map -> {
         LayerList operationalLayers = map.getOperationalLayers();
         operationalLayers.forEach(layer -> {
           if (layer instanceof FeatureLayer) {
@@ -335,39 +360,6 @@ public class DownloadPreplannedMapController {
 
     // close all geodatabases to allow deleting
     geodatabases.forEach(Geodatabase::close);
-
-    // delete all files in the temporary directory
-    File localPreplannedMapDirectoryFile = tempDirectory.toFile();
-    deleteDirectoryContents(localPreplannedMapDirectoryFile);
-
-    // disable the 'delete offline areas' button
-    deleteOfflineAreasBtn.setDisable(true);
-
-    new Alert(Alert.AlertType.INFORMATION, "All preplanned map areas deleted.").show();
-  }
-
-  /**
-   * Deletes the contents of a directory recursively.
-   *
-   * @param directory of which to delete all content
-   */
-  private void deleteDirectoryContents(File directory) {
-    if (directory.exists() && directory.listFiles() != null) {
-      for (File file : directory.listFiles()) {
-        if (file.isDirectory()) {
-          deleteDirectoryContents(file);
-        }
-        try {
-          Files.delete(file.toPath());
-        } catch (IOException e) {
-          if (!file.isDirectory()) {
-            new Alert(Alert.AlertType.ERROR, "Could not delete file: " + e.getMessage()).show();
-          } else {
-            new Alert(Alert.AlertType.ERROR, "Could not clean directory contents: " + e.getMessage()).show();
-          }
-        }
-      }
-    }
   }
 
   /**
