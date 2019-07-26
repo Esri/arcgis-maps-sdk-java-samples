@@ -41,6 +41,7 @@ import com.esri.arcgisruntime.data.FeatureTable;
 import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -152,10 +153,31 @@ public class DownloadPreplannedMapController {
       preplannedAreasListView.setCellFactory(c -> new PreplannedMapAreaListCell());
 
       // create a listener that zooms to the extent of the preplanned map area when an item is selected
-      listViewSelectionListener = (obs, oldValue, newValue) -> mapView.setViewpointAsync(new Viewpoint((Envelope) newValue.getAreaOfInterest()));
+      listViewSelectionListener = (obs, oldValue, newValue) -> {
+        // get the extent of the area of interest, and add a buffer
+        Envelope areaOfInterest = GeometryEngine.buffer(newValue.getAreaOfInterest(), 100).getExtent();
 
-      // add the listener to the list view
+        // set the point of view to the area of interest
+        mapView.setViewpointAsync(new Viewpoint (areaOfInterest), 1.50F);
+      };
+
+      // create a listener that checks if the area has been previously downloaded, and change the button text accordingly
+      ChangeListener<PreplannedMapArea> listViewSelectionListener2 = (obs, oldValue, newValue) -> {
+
+        // get the path for the preplanned area
+        String path = tempDirectory + "/" + newValue.getPortalItem().getTitle();
+
+        // set the button text
+        if (Files.exists(Paths.get(path))) {
+          downloadAreaBtn.setText("View Downloaded Area");
+        } else {
+          downloadAreaBtn.setText("Download Preplanned Area");
+        }
+      };
+
+      // add the listeners to the list view
       preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener);
+      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener2);
 
     } catch (IOException e) {
       new Alert(Alert.AlertType.ERROR, "Failed to create a temporary path for saving the Preplanned Map Areas.").show();
@@ -243,6 +265,9 @@ public class DownloadPreplannedMapController {
               if (!openedMobileMapPackages.contains(downloadPreplannedOfflineMapResult.getMobileMapPackage())) {
                 openedMobileMapPackages.add(downloadPreplannedOfflineMapResult.getMobileMapPackage());
               }
+
+              // update the button text
+              downloadAreaBtn.setText("View Downloaded Area");
 
               // re-enable the UI
               downloadAreaBtn.setDisable(false);
