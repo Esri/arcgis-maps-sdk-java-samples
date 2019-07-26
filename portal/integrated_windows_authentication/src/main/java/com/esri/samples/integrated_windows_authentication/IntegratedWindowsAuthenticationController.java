@@ -113,7 +113,7 @@ public class IntegratedWindowsAuthenticationController {
     if (!portalUrlTextField.getText().isEmpty()) {
       // keep hold of the portal we are searching and set a variable indicating that this is a secure portal, to allow retrieving portal items later
       iwaSecuredPortal = new Portal(portalUrlTextField.getText(), true);
-      
+
       // clear any existing items in the list view
       resultsListView.getItems().clear();
 
