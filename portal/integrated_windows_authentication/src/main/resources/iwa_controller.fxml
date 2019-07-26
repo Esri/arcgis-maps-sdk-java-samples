@@ -50,11 +50,9 @@
                 </fills>
             </Background>
         </background>
-        <Button text="Search Public Portal" onAction="#handleSearchPublicPress" maxWidth="Infinity"/>
-        <Separator/>
         <TextField fx:id="portalUrlTextField" promptText="https://your.arcgis.portal/gis"
-                   onAction="#handleSearchSecurePress"/>
-        <Button text="Search IWA Secured Portal" onAction="#handleSearchSecurePress" maxWidth="Infinity"/>
+                   onAction="#handleSearchPortalPress"/>
+        <Button text="Search IWA Secured Portal" onAction="#handleSearchPortalPress" maxWidth="Infinity"/>
         <Separator/>
         <Label text="Available Maps:"/>
         <ListView fx:id="resultsListView" minHeight="240" maxHeight="240"/>

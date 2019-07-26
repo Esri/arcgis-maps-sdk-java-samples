@@ -52,8 +52,6 @@ public class IntegratedWindowsAuthenticationController {
   @FXML private Text loadWebMapTextView;
 
   private Portal iwaSecuredPortal;
-  private Portal publicPortal;
-  private boolean usingPublicPortal;
 
   public void initialize() {
     try {
@@ -67,9 +65,6 @@ public class IntegratedWindowsAuthenticationController {
       // set authentication challenge handler
       AuthenticationManager.setAuthenticationChallengeHandler(new IWAChallengeHandler());
 
-      // keep hold of the public portal the will be searched, to allow retrieving portal items later
-      publicPortal = new Portal("http://www.arcgis.com");
-
       // add a listener to the map results list view that loads the map on selection
       resultsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
         if (resultsListView.getSelectionModel().getSelectedItem() != null) {
@@ -79,16 +74,8 @@ public class IntegratedWindowsAuthenticationController {
           // get the portal item ID from the selected list view item
           String selectedItemId = resultsListView.getSelectionModel().getSelectedItem().getKey();
 
-          // determine if using the public or secured portal; get the appropriate object reference
-          Portal portal;
-          if (usingPublicPortal) {
-            portal = publicPortal;
-          } else {
-            portal = iwaSecuredPortal;
-          }
-
           // use the item ID to create a PortalItem from the portal
-          PortalItem portalItem = new PortalItem(portal, selectedItemId);
+          PortalItem portalItem = new PortalItem(iwaSecuredPortal, selectedItemId);
 
           if (portalItem != null) {
             // create a Map using the web map (portal item)
@@ -118,100 +105,72 @@ public class IntegratedWindowsAuthenticationController {
   }
 
   /**
-   * Handles searching a public portal.
+   * Handles searching the provided IWA secured portal.
    */
   @FXML
-  private void handleSearchPublicPress() {
-    // set a variable indicating that the portal is a public portal, to allow retrieving portal items later
-    usingPublicPortal = true;
-    // search the public portal
-    searchPortal(publicPortal);
-  }
-
-  /**
-   * Handles searching a secure portal.
-   */
-  @FXML
-  private void handleSearchSecurePress() {
+  private void handleSearchPortalPress() {
     // check for a url in the URL field
     if (!portalUrlTextField.getText().isEmpty()) {
       // keep hold of the portal we are searching and set a variable indicating that this is a secure portal, to allow retrieving portal items later
       iwaSecuredPortal = new Portal(portalUrlTextField.getText(), true);
-      usingPublicPortal = false;
-      // search the IWA-secured portal, the user may be challenged for access
-      searchPortal(iwaSecuredPortal);
+      
+      // clear any existing items in the list view
+      resultsListView.getItems().clear();
+
+      // clear the information about the previously loaded map
+      loadWebMapTextView.setText("");
+
+      // show portal load state
+      progressIndicator.setVisible(true);
+      loadStateTextView.setText("Searching for web map items on the portal at " + iwaSecuredPortal.getUri());
+
+      // load the portal items
+      iwaSecuredPortal.loadAsync();
+      iwaSecuredPortal.addDoneLoadingListener(() -> {
+        if (iwaSecuredPortal.getLoadStatus() == LoadStatus.LOADED) {
+          try {
+            // update load state in UI with the portal URI
+            loadStateTextView.setText("Connected to the portal on " + new URI(iwaSecuredPortal.getUri()).getHost());
+          } catch (URISyntaxException e) {
+            new Alert(Alert.AlertType.ERROR, "Error getting URI from portal: " + e.getMessage()).show();
+          }
+
+          // report the user name used for this connection
+          if (iwaSecuredPortal.getUser() != null) {
+            loadStateTextView.setText("Connected as: " + iwaSecuredPortal.getUser().getUsername());
+          } else {
+            // if connecting to an unsecured portal, no user credentials are needed to authenticate access
+            loadStateTextView.setText("Connected as: Anonymous");
+          }
+
+          // search the portal for web maps
+          ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = iwaSecuredPortal.findItemsAsync(new PortalQueryParameters("type:(\"web map\" NOT \"web mapping application\")"));
+          portalItemResultFuture.addDoneListener(() -> {
+            try {
+              // get the result
+              PortalQueryResultSet<PortalItem> portalItemSet = portalItemResultFuture.get();
+              List<PortalItem> portalItems = portalItemSet.getResults();
+              // add the IDs and titles of the portal items to the list view
+              portalItems.forEach(portalItem -> resultsListView.getItems().add(new Pair<>(portalItem.getItemId(), portalItem.getTitle())));
+
+            } catch (ExecutionException | InterruptedException e) {
+              new Alert(Alert.AlertType.ERROR, "Error getting portal item set from portal: " + e.getMessage()).show();
+            }
+            // hide the progress indicator
+            progressIndicator.setVisible(false);
+          });
+
+        } else {
+          // hide the progress indicator and reset the load state text
+          progressIndicator.setVisible(false);
+          loadStateTextView.setText("");
+          // report error
+          new Alert(Alert.AlertType.ERROR, "Portal sign in failed: " + iwaSecuredPortal.getLoadError().getCause().getMessage()).show();
+        }
+      });
     } else {
       new Alert(Alert.AlertType.ERROR, "Portal URL is empty. Please enter a portal URL.").show();
     }
-  }
-
-  /**
-   * Search the given portal for its portal items and display their titles in a list view.
-   *
-   * @param portal to search
-   */
-  private void searchPortal(Portal portal) {
-
-    // check if the portal is null
-    if (portal == null) {
-      new Alert(Alert.AlertType.ERROR, "No portal provided").show();
-      return;
-    }
-
-    // clear any existing items in the list view
-    resultsListView.getItems().clear();
-
-    // clear the information about the previously loaded map
-    loadWebMapTextView.setText("");
-
-    // show portal load state
-    progressIndicator.setVisible(true);
-    loadStateTextView.setText("Searching for web map items on the portal at " + portal.getUri());
-
-    // load the portal items
-    portal.loadAsync();
-    portal.addDoneLoadingListener(() -> {
-      if (portal.getLoadStatus() == LoadStatus.LOADED) {
-        try {
-          // update load state in UI with the portal URI
-          loadStateTextView.setText("Connected to the portal on " + new URI(portal.getUri()).getHost());
-        } catch (URISyntaxException e) {
-          new Alert(Alert.AlertType.ERROR, "Error getting URI from portal: " + e.getMessage()).show();
-        }
-
-        // report the user name used for this connection
-        if (portal.getUser() != null) {
-          loadStateTextView.setText("Connected as: " + portal.getUser().getUsername());
-        } else {
-          // if connecting to an unsecured portal, no user credentials are needed to authenticate access
-          loadStateTextView.setText("Connected as: Anonymous");
-        }
-
-        // search the portal for web maps
-        ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = portal.findItemsAsync(new PortalQueryParameters("type:(\"web map\" NOT \"web mapping application\")"));
-        portalItemResultFuture.addDoneListener(() -> {
-          try {
-            // get the result
-            PortalQueryResultSet<PortalItem> portalItemSet = portalItemResultFuture.get();
-            List<PortalItem> portalItems = portalItemSet.getResults();
-            // add the IDs and titles of the portal items to the list view
-            portalItems.forEach(portalItem -> resultsListView.getItems().add(new Pair<>(portalItem.getItemId(), portalItem.getTitle())));
-
-          } catch (ExecutionException | InterruptedException e) {
-            new Alert(Alert.AlertType.ERROR, "Error getting portal item set from portal: " + e.getMessage()).show();
-          }
-          // hide the progress indicator
-          progressIndicator.setVisible(false);
-        });
-
-      } else {
-        // hide the progress indicator and reset the load state text
-        progressIndicator.setVisible(false);
-        loadStateTextView.setText("");
-        // report error
-        new Alert(Alert.AlertType.ERROR, "Portal sign in failed: " + portal.getLoadError().getCause().getMessage()).show();
-      }
-    });
   }
 
   /**
