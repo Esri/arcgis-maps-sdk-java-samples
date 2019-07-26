@@ -1,4 +1,4 @@
-# Authenticate with OAuth
+# OAuth
 
 Use OAuth2 to authenticate with ArcGIS Online (or your own portal) to access secured resources.
 
