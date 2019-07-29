@@ -89,18 +89,7 @@ public class DownloadPreplannedMapController {
       tempDirectory = Files.createTempDirectory("preplanned_offline_map");
       tempDirectory.toFile().deleteOnExit();
 
-      // create a graphics overlay to show the preplanned map areas extents (areas of interest)
-      areasOfInterestGraphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(areasOfInterestGraphicsOverlay);
-
-      // create a symbol to mark the areas of interest
-      SimpleLineSymbol areaOfInterestLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x80FF0000, 5.0f);
-      // create simple renderer for areas of interest, and set it to use the line symbol
-      SimpleRenderer areaOfInterestRenderer = new SimpleRenderer();
-      areaOfInterestRenderer.setSymbol(areaOfInterestLineSymbol);
-      areasOfInterestGraphicsOverlay.setRenderer(areaOfInterestRenderer);
-
-      // make a list to keep track of opened mobile map packages, to allow closing and deleting
+      // make a list to store opened mobile map packages
       openedMobileMapPackages = new ArrayList<>();
 
       // create a portal to ArcGIS Online
@@ -117,6 +106,17 @@ public class DownloadPreplannedMapController {
 
       // show the map
       mapView.setMap(webMap);
+
+      // create a graphics overlay to show the preplanned map areas extents (areas of interest)
+      areasOfInterestGraphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(areasOfInterestGraphicsOverlay);
+
+      // create a red outline to mark the areas of interest of the preplanned map areas
+      SimpleLineSymbol areaOfInterestLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x80FF0000, 5.0f);
+      // create simple renderer for areas of interest, and set it to use the line symbol
+      SimpleRenderer areaOfInterestRenderer = new SimpleRenderer();
+      areaOfInterestRenderer.setSymbol(areaOfInterestLineSymbol);
+      areasOfInterestGraphicsOverlay.setRenderer(areaOfInterestRenderer);
 
       // create an offline map task for the portal item
       offlineMapTask = new OfflineMapTask(portalItem);
@@ -152,7 +152,7 @@ public class DownloadPreplannedMapController {
       // add a cell factory to the list view that shows the preplanned area's title
       preplannedAreasListView.setCellFactory(c -> new PreplannedMapAreaListCell());
 
-      // create a listener that changed the viewpoint to the extent of the preplanned map area when an item is selected in the list view
+      // create a listener that changes the viewpoint to the extent of the preplanned map area when an item is selected in the list view
       listViewSelectionChangeViewpointListener = (obs, oldValue, newValue) -> {
         if (newValue != null) {
           // get the extent of the area of interest, and add a buffer
@@ -188,21 +188,18 @@ public class DownloadPreplannedMapController {
   }
 
   /**
-   * Downloads the selected preplanned map area.
+   * Downloads and shows the selected preplanned map area.
    */
   @FXML
-  private void handleDownloadArea() {
+  private void handleDownloadPreplannedAreaButtonClicked() {
     if (preplannedAreasListView.getSelectionModel().getSelectedItem() != null) {
 
       // remove the listener from the list view to stop the viewpoint changing on selection
       preplannedAreasListView.getSelectionModel().selectedItemProperty().removeListener(listViewSelectionChangeViewpointListener);
-
       // enable the 'view web map' button
       showWebMapButton.setDisable(false);
-
       // get the requested preplanned map area
       PreplannedMapArea selectedMapArea = preplannedAreasListView.getSelectionModel().getSelectedItem();
-
       // create a folder path where the map package will be downloaded to
       String path = tempDirectory + "/" + selectedMapArea.getPortalItem().getTitle();
 
@@ -215,7 +212,7 @@ public class DownloadPreplannedMapController {
         // open and load the mobile map package
         MobileMapPackage localMapArea = new MobileMapPackage(path);
         localMapArea.loadAsync();
-        // display the map
+        // display the map from the mobile map package
         localMapArea.addDoneLoadingListener(() -> mapView.setMap(localMapArea.getMaps().get(0)));
 
         // add the mobile map package to the list of opened map packages
@@ -297,7 +294,7 @@ public class DownloadPreplannedMapController {
   /**
    * Checks for layer and table errors of an offline map result, and displays them if present.
    *
-   * @param downloadPreplannedOfflineMapResult the result to query for errors
+   * @param downloadPreplannedOfflineMapResult the result to query for errors.
    */
   private void checkForOfflineMapResultErrors(DownloadPreplannedOfflineMapResult downloadPreplannedOfflineMapResult) {
     if (downloadPreplannedOfflineMapResult.hasErrors()) {
@@ -324,7 +321,7 @@ public class DownloadPreplannedMapController {
    */
   @FXML
   private void showWebMap() {
-    // set the web map to the map vew
+    // set the web map to the map view
     mapView.setMap(webMap);
 
     // show the graphics overlay with the areas of interest
@@ -401,7 +398,7 @@ public class DownloadPreplannedMapController {
   }
 
   /**
-   * Stops the animation and disposes of application resources.
+   * Stops and releases all resources used in application.
    */
   void terminate() {
 

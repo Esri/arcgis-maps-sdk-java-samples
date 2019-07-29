@@ -11,7 +11,7 @@
         "preplanned",
         "pre-planned"
     ],
-    "redirect_from": "/java/latest/sample-code/generate-offline-map.htm",
+    "redirect_from": "/java/latest/sample-code/download-preplanned-map.htm",
     "relevant_apis": [
         "DownloadPreplannedOfflineMapJob",
         "DownloadPreplannedOfflineMapParameters",
@@ -21,7 +21,7 @@
     ],
     "snippets": [
         "src/main/java/com/esri/samples/download_preplanned_map/DownloadPreplannedMapController.java",
-        "src/main/java/com/esri/samples/download_preplanned_map/DownloadPreplannedMapController.java",
+        "src/main/java/com/esri/samples/download_preplanned_map/DownloadPreplannedMapSample.java",
         "src/main/java/com/esri/samples/download_preplanned_map/PreplannedMapAreaListCell.java",
         "src/main/resources/download_preplanned_map.fxml"
     ],
