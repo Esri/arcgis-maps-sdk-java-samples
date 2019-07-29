@@ -67,16 +67,16 @@ import com.esri.arcgisruntime.tasks.offlinemap.PreplannedUpdateMode;
 
 public class DownloadPreplannedMapController {
 
-  @FXML private Button deleteOfflineAreasBtn;
-  @FXML private Button downloadAreaBtn;
+  @FXML private Button deleteOfflineAreasButton;
+  @FXML private Button downloadAreaButton;
   @FXML private Button showWebMapButton;
   @FXML private ListView<PreplannedMapArea> preplannedAreasListView;
   @FXML private MapView mapView;
   @FXML private ProgressBar downloadProgressBar;
 
-  private ArcGISMap originalMap;
+  private ArcGISMap webMap;
   private ArrayList<MobileMapPackage> openedMobileMapPackages;
-  private ChangeListener<PreplannedMapArea> listViewSelectionListener;
+  private ChangeListener<PreplannedMapArea> listViewSelectionChangeViewpointListener;
   private DownloadPreplannedOfflineMapJob downloadPreplannedOfflineMapJob;
   private GraphicsOverlay areasOfInterestGraphicsOverlay;
   private OfflineMapTask offlineMapTask;
@@ -93,7 +93,7 @@ public class DownloadPreplannedMapController {
       areasOfInterestGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(areasOfInterestGraphicsOverlay);
 
-      // create a symbol to mark the areas of interest, and create a simple renderer to use it
+      // create a symbol to mark the areas of interest
       SimpleLineSymbol areaOfInterestLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x80FF0000, 5.0f);
       // create simple renderer for areas of interest, and set it to use the line symbol
       SimpleRenderer areaOfInterestRenderer = new SimpleRenderer();
@@ -113,10 +113,10 @@ public class DownloadPreplannedMapController {
       PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
       // create a map with the portal item
-      originalMap = new ArcGISMap(portalItem);
+      webMap = new ArcGISMap(portalItem);
 
       // show the map
-      mapView.setMap(originalMap);
+      mapView.setMap(webMap);
 
       // create an offline map task for the portal item
       offlineMapTask = new OfflineMapTask(portalItem);
@@ -129,55 +129,58 @@ public class DownloadPreplannedMapController {
           List<PreplannedMapArea> preplannedMapAreas = preplannedMapAreasFuture.get();
           preplannedAreasListView.getItems().addAll(preplannedMapAreas);
 
-          // load each item and create an extent and label
+          // load each item and get the area of interest
           for (PreplannedMapArea mapArea : preplannedMapAreas) {
             mapArea.loadAsync();
             mapArea.addDoneLoadingListener(() -> {
               if (mapArea.getLoadStatus() == LoadStatus.LOADED) {
 
-                // create graphics for the areas of interest, add it to the graphics overlay
+                // create a graphic for the area of interest and add it to the graphics overlay
                 areasOfInterestGraphicsOverlay.getGraphics().add(new Graphic(mapArea.getAreaOfInterest()));
               }
             });
           }
 
           // enable the download button
-          downloadAreaBtn.setDisable(false);
+          downloadAreaButton.setDisable(false);
 
         } catch (InterruptedException | ExecutionException e) {
           new Alert(Alert.AlertType.ERROR, "Failed to get the Preplanned Map Areas from the Offline Map Task.").show();
         }
       });
 
-      // make the list view show a preview of the preplanned map area items
+      // add a cell factory to the list view that shows the preplanned area's title
       preplannedAreasListView.setCellFactory(c -> new PreplannedMapAreaListCell());
 
-      // create a listener that zooms to the extent of the preplanned map area when an item is selected
-      listViewSelectionListener = (obs, oldValue, newValue) -> {
-        // get the extent of the area of interest, and add a buffer
-        Envelope areaOfInterest = GeometryEngine.buffer(newValue.getAreaOfInterest(), 100).getExtent();
+      // create a listener that changed the viewpoint to the extent of the preplanned map area when an item is selected in the list view
+      listViewSelectionChangeViewpointListener = (obs, oldValue, newValue) -> {
+        if (newValue != null) {
+          // get the extent of the area of interest, and add a buffer
+          Envelope areaOfInterest = GeometryEngine.buffer(newValue.getAreaOfInterest(), 100).getExtent();
 
-        // set the point of view to the area of interest
-        mapView.setViewpointAsync(new Viewpoint (areaOfInterest), 1.50F);
+          // set the point of view to the area of interest
+          mapView.setViewpointAsync(new Viewpoint(areaOfInterest), 1.50F);
+        }
       };
 
-      // create a listener that checks if the area has been previously downloaded, and change the button text accordingly
-      ChangeListener<PreplannedMapArea> listViewSelectionListener2 = (obs, oldValue, newValue) -> {
+      // create a listener that checks if the area has been previously downloaded, and changes the button text accordingly
+      ChangeListener<PreplannedMapArea> listViewSelectionButtonLabelListener = (obs, oldValue, newValue) -> {
+        if (newValue != null) {
+          // get the path for the preplanned area
+          String path = tempDirectory + "/" + newValue.getPortalItem().getTitle();
 
-        // get the path for the preplanned area
-        String path = tempDirectory + "/" + newValue.getPortalItem().getTitle();
-
-        // set the button text
-        if (Files.exists(Paths.get(path))) {
-          downloadAreaBtn.setText("View Downloaded Area");
-        } else {
-          downloadAreaBtn.setText("Download Preplanned Area");
+          // check if the path exists and set the button text accordingly
+          if (Files.exists(Paths.get(path))) {
+            downloadAreaButton.setText("View Downloaded Area");
+          } else {
+            downloadAreaButton.setText("Download Preplanned Area");
+          }
         }
       };
 
       // add the listeners to the list view
-      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener);
-      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener2);
+      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionChangeViewpointListener);
+      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionButtonLabelListener);
 
     } catch (IOException e) {
       new Alert(Alert.AlertType.ERROR, "Failed to create a temporary path for saving the Preplanned Map Areas.").show();
@@ -192,7 +195,7 @@ public class DownloadPreplannedMapController {
     if (preplannedAreasListView.getSelectionModel().getSelectedItem() != null) {
 
       // remove the listener from the list view to stop the viewpoint changing on selection
-      preplannedAreasListView.getSelectionModel().selectedItemProperty().removeListener(listViewSelectionListener);
+      preplannedAreasListView.getSelectionModel().selectedItemProperty().removeListener(listViewSelectionChangeViewpointListener);
 
       // enable the 'view web map' button
       showWebMapButton.setDisable(false);
@@ -209,11 +212,13 @@ public class DownloadPreplannedMapController {
         // hide the graphics overlay with the areas of interest
         areasOfInterestGraphicsOverlay.setVisible(false);
 
-        // add the package to the list of opened map packages
+        // open and load the mobile map package
         MobileMapPackage localMapArea = new MobileMapPackage(path);
         localMapArea.loadAsync();
+        // display the map
         localMapArea.addDoneLoadingListener(() -> mapView.setMap(localMapArea.getMaps().get(0)));
 
+        // add the mobile map package to the list of opened map packages
         if (!openedMobileMapPackages.contains(localMapArea)) {
           openedMobileMapPackages.add(localMapArea);
         }
@@ -222,16 +227,17 @@ public class DownloadPreplannedMapController {
       }
 
       // disable the UI
-      downloadAreaBtn.setDisable(true);
-      deleteOfflineAreasBtn.setDisable(true);
+      showWebMapButton.setDisable(true);
+      downloadAreaButton.setDisable(true);
+      deleteOfflineAreasButton.setDisable(true);
 
-      // create download parameters
+      // create download parameters from the task
       ListenableFuture<DownloadPreplannedOfflineMapParameters> downloadPreplannedOfflineMapParametersFuture = offlineMapTask.createDefaultDownloadPreplannedOfflineMapParametersAsync(selectedMapArea);
       downloadPreplannedOfflineMapParametersFuture.addDoneListener(() -> {
         try {
           DownloadPreplannedOfflineMapParameters downloadPreplannedOfflineMapParameters = downloadPreplannedOfflineMapParametersFuture.get();
 
-          // set the parameters for the offline map to not query for updates
+          // set the parameters for the offline map to not receive updates
           downloadPreplannedOfflineMapParameters.setUpdateMode(PreplannedUpdateMode.NO_UPDATES);
 
           // create the job with the parameters and download path
@@ -245,7 +251,7 @@ public class DownloadPreplannedMapController {
           downloadPreplannedOfflineMapJob.start();
           downloadPreplannedOfflineMapJob.addJobDoneListener(() -> {
 
-            // hide the progress bar and label
+            // hide the progress bar
             downloadProgressBar.setVisible(false);
 
             if (downloadPreplannedOfflineMapJob.getStatus() == Job.Status.SUCCEEDED) {
@@ -267,11 +273,12 @@ public class DownloadPreplannedMapController {
               }
 
               // update the button text
-              downloadAreaBtn.setText("View Downloaded Area");
+              downloadAreaButton.setText("View Downloaded Area");
 
               // re-enable the UI
-              downloadAreaBtn.setDisable(false);
-              deleteOfflineAreasBtn.setDisable(false);
+              showWebMapButton.setDisable(false);
+              downloadAreaButton.setDisable(false);
+              deleteOfflineAreasButton.setDisable(false);
 
               // display error details if the job fails
             } else if (downloadPreplannedOfflineMapJob.getStatus() == Job.Status.FAILED) {
@@ -314,14 +321,14 @@ public class DownloadPreplannedMapController {
 
   @FXML
   private void showWebMap() {
-    // reset the map view to the original map
-    mapView.setMap(originalMap);
+    // set the web map to the map vew
+    mapView.setMap(webMap);
 
     // show the graphics overlay with the areas of interest
     areasOfInterestGraphicsOverlay.setVisible(true);
 
     // add the listener to the list view to change the viewpoint on selection
-    preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionListener);
+    preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionChangeViewpointListener);
 
     // disable the 'view web map' button
     showWebMapButton.setDisable(true);
@@ -349,7 +356,11 @@ public class DownloadPreplannedMapController {
       FileUtils.cleanDirectory(localPreplannedMapDirectoryFile);
 
       // disable the 'delete offline areas' button
-      deleteOfflineAreasBtn.setDisable(true);
+      deleteOfflineAreasButton.setDisable(true);
+
+      // reset the UI
+      preplannedAreasListView.getSelectionModel().select(null);
+      downloadAreaButton.setText("Download Preplanned Area");
 
       // show confirmation
       new Alert(Alert.AlertType.INFORMATION, "All preplanned map areas deleted.").show();
