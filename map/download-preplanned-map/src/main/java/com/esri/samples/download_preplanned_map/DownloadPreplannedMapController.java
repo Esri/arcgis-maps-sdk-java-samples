@@ -319,6 +319,9 @@ public class DownloadPreplannedMapController {
     }
   }
 
+  /**
+   * Resets the map view to show the web map from the portal.
+   */
   @FXML
   private void showWebMap() {
     // set the web map to the map vew
@@ -371,7 +374,7 @@ public class DownloadPreplannedMapController {
   }
 
   /**
-   * Collects the GeoDatabases from the previously opened MobileMapPackages and closes them to allow deleting
+   * Collects the GeoDatabases from the previously opened MobileMapPackages and closes them to allow deleting.
    */
   private void closeAllGeoDatabases() {
     // get the geodatabases from all downloaded mobile map packages
