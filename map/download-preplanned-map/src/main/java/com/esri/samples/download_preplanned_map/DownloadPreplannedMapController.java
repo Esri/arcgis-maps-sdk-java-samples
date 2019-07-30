@@ -317,39 +317,17 @@ public class DownloadPreplannedMapController {
   }
 
   /**
-   * Resets the map view to show the web map from the portal.
-   */
-  @FXML
-  private void showWebMap() {
-    // set the web map to the map view
-    mapView.setMap(webMap);
-
-    // show the graphics overlay with the areas of interest
-    areasOfInterestGraphicsOverlay.setVisible(true);
-
-    // add the listener to the list view to change the viewpoint on selection
-    preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionChangeViewpointListener);
-
-    // disable the 'view web map' button
-    showWebMapButton.setDisable(true);
-  }
-
-  /**
    * Deletes all the previously downloaded offline areas.
    */
   @FXML
-  private void deleteOfflineAreas() {
+  private void handleDeleteOfflineAreasButtonClicked() {
     try {
-      // cancel the job
-      if (downloadPreplannedOfflineMapJob != null) {
-        downloadPreplannedOfflineMapJob.cancel();
-      }
 
       // reset the map view to the original map
       showWebMap();
 
       // close all previously opened geodatabases to allow deleting the files
-      closeAllGeoDatabases();
+      fetchAllGeodatabases().forEach(Geodatabase::close);
 
       // delete all files in the temporary directory
       File localPreplannedMapDirectoryFile = tempDirectory.toFile();
@@ -371,11 +349,31 @@ public class DownloadPreplannedMapController {
   }
 
   /**
-   * Collects the GeoDatabases from the previously opened MobileMapPackages and closes them to allow deleting.
+   * Resets the map view to show the web map from the portal.
    */
-  private void closeAllGeoDatabases() {
-    // get the geodatabases from all downloaded mobile map packages
+  @FXML
+  private void showWebMap() {
+    // set the web map to the map view
+    mapView.setMap(webMap);
+
+    // show the graphics overlay with the areas of interest
+    areasOfInterestGraphicsOverlay.setVisible(true);
+
+    // add the listener to the list view to change the viewpoint on selection
+    preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionChangeViewpointListener);
+
+    // disable the 'view web map' button
+    showWebMapButton.setDisable(true);
+  }
+
+  /**
+   * Returns all GeoDatabases from the previously opened MobileMapPackages.
+   */
+  private ArrayList<Geodatabase> fetchAllGeodatabases() {
+
     ArrayList<Geodatabase> geodatabases = new ArrayList<>();
+
+    // get the geodatabases from all downloaded mobile map packages
     openedMobileMapPackages.forEach(mobileMapPackage -> {
       List<ArcGISMap> maps = mobileMapPackage.getMaps();
       maps.forEach(map -> {
@@ -393,8 +391,7 @@ public class DownloadPreplannedMapController {
       });
     });
 
-    // close all geodatabases to allow deleting
-    geodatabases.forEach(Geodatabase::close);
+    return geodatabases;
   }
 
   /**
@@ -402,7 +399,16 @@ public class DownloadPreplannedMapController {
    */
   void terminate() {
 
-    deleteOfflineAreas();
+    // close all previously opened geodatabases to allow deleting the files
+    fetchAllGeodatabases().forEach(Geodatabase::close);
+
+    // delete all files in the temporary directory
+    File localPreplannedMapDirectoryFile = tempDirectory.toFile();
+    try {
+      FileUtils.cleanDirectory(localPreplannedMapDirectoryFile);
+    } catch (IOException e) {
+      new Alert(Alert.AlertType.ERROR, "Error deleting preplanned map areas.").show();
+    }
 
     if (mapView != null) {
       mapView.dispose();
