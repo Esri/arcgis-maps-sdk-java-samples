@@ -258,7 +258,7 @@ public class RoutingAroundBarriersController {
           }
 
         } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Solve RouteTask failed " + e.getMessage() + e.getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Solve RouteTask failed").show();
         }
 
         // enable the reset button
