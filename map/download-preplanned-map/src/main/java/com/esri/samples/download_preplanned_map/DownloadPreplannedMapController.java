@@ -203,8 +203,76 @@ public class DownloadPreplannedMapController {
       // create a folder path where the map package will be downloaded to
       String path = tempDirectory + "/" + selectedMapArea.getPortalItem().getTitle();
 
-      // if the area is already downloaded, open it
-      if (Files.exists(Paths.get(path))) {
+      // download the preplanned area if it has not been downloaded previously
+      if (!Files.exists(Paths.get(path))) {
+
+        // disable the UI
+        showWebMapButton.setDisable(true);
+        downloadAreaButton.setDisable(true);
+        deleteOfflineAreasButton.setDisable(true);
+
+        // create download parameters from the task
+        ListenableFuture<DownloadPreplannedOfflineMapParameters> downloadPreplannedOfflineMapParametersFuture = offlineMapTask.createDefaultDownloadPreplannedOfflineMapParametersAsync(selectedMapArea);
+        downloadPreplannedOfflineMapParametersFuture.addDoneListener(() -> {
+          try {
+            DownloadPreplannedOfflineMapParameters downloadPreplannedOfflineMapParameters = downloadPreplannedOfflineMapParametersFuture.get();
+
+            // set the parameters for the offline map to not receive updates
+            downloadPreplannedOfflineMapParameters.setUpdateMode(PreplannedUpdateMode.NO_UPDATES);
+
+            // create the job with the parameters and download path
+            downloadPreplannedOfflineMapJob = offlineMapTask.downloadPreplannedOfflineMap(downloadPreplannedOfflineMapParameters, path);
+
+            // show the job progress
+            downloadProgressBar.setVisible(true);
+            downloadPreplannedOfflineMapJob.addProgressChangedListener(() -> downloadProgressBar.setProgress((double) downloadPreplannedOfflineMapJob.getProgress() / 100));
+
+            // start the job and wait for it to complete
+            downloadPreplannedOfflineMapJob.start();
+            downloadPreplannedOfflineMapJob.addJobDoneListener(() -> {
+
+              // hide the progress bar
+              downloadProgressBar.setVisible(false);
+
+              // hide the graphics overlay with the areas of interest
+              areasOfInterestGraphicsOverlay.setVisible(false);
+
+              if (downloadPreplannedOfflineMapJob.getStatus() == Job.Status.SUCCEEDED) {
+
+                // get the result of the job
+                DownloadPreplannedOfflineMapResult downloadPreplannedOfflineMapResult = downloadPreplannedOfflineMapJob.getResult();
+
+                // check if the result has any errors and display them
+                checkForOfflineMapResultErrors(downloadPreplannedOfflineMapResult);
+
+                // show the result in the map view
+                mapView.setMap(downloadPreplannedOfflineMapResult.getOfflineMap());
+
+                // add the package to the list of opened map packages
+                if (!openedMobileMapPackages.contains(downloadPreplannedOfflineMapResult.getMobileMapPackage())) {
+                  openedMobileMapPackages.add(downloadPreplannedOfflineMapResult.getMobileMapPackage());
+                }
+
+                // update the button text
+                downloadAreaButton.setText("View Downloaded Area");
+
+                // re-enable the UI
+                showWebMapButton.setDisable(false);
+                downloadAreaButton.setDisable(false);
+                deleteOfflineAreasButton.setDisable(false);
+
+                // display error details if the job fails
+              } else if (downloadPreplannedOfflineMapJob.getStatus() == Job.Status.FAILED) {
+                new Alert(Alert.AlertType.ERROR, "Download Preplanned Offline Map Job failed. Error: " + downloadPreplannedOfflineMapJob.getError());
+              }
+            });
+          } catch (InterruptedException | ExecutionException e) {
+            new Alert(Alert.AlertType.ERROR, "Could not create Default Parameters for the Download Preplanned Offline Map Job.").show();
+          }
+        });
+
+        // if the area is already downloaded, open it
+      } else {
 
         // hide the graphics overlay with the areas of interest
         areasOfInterestGraphicsOverlay.setVisible(false);
@@ -220,72 +288,8 @@ public class DownloadPreplannedMapController {
           openedMobileMapPackages.add(localMapArea);
         }
 
-        return;
       }
 
-      // disable the UI
-      showWebMapButton.setDisable(true);
-      downloadAreaButton.setDisable(true);
-      deleteOfflineAreasButton.setDisable(true);
-
-      // create download parameters from the task
-      ListenableFuture<DownloadPreplannedOfflineMapParameters> downloadPreplannedOfflineMapParametersFuture = offlineMapTask.createDefaultDownloadPreplannedOfflineMapParametersAsync(selectedMapArea);
-      downloadPreplannedOfflineMapParametersFuture.addDoneListener(() -> {
-        try {
-          DownloadPreplannedOfflineMapParameters downloadPreplannedOfflineMapParameters = downloadPreplannedOfflineMapParametersFuture.get();
-
-          // set the parameters for the offline map to not receive updates
-          downloadPreplannedOfflineMapParameters.setUpdateMode(PreplannedUpdateMode.NO_UPDATES);
-
-          // create the job with the parameters and download path
-          downloadPreplannedOfflineMapJob = offlineMapTask.downloadPreplannedOfflineMap(downloadPreplannedOfflineMapParameters, path);
-
-          // show the job progress
-          downloadProgressBar.setVisible(true);
-          downloadPreplannedOfflineMapJob.addProgressChangedListener(() -> downloadProgressBar.setProgress((double) downloadPreplannedOfflineMapJob.getProgress() / 100));
-
-          // start the job and wait for it to complete
-          downloadPreplannedOfflineMapJob.start();
-          downloadPreplannedOfflineMapJob.addJobDoneListener(() -> {
-
-            // hide the progress bar
-            downloadProgressBar.setVisible(false);
-
-            if (downloadPreplannedOfflineMapJob.getStatus() == Job.Status.SUCCEEDED) {
-              // get the result of the job
-              DownloadPreplannedOfflineMapResult downloadPreplannedOfflineMapResult = downloadPreplannedOfflineMapJob.getResult();
-
-              // check if the result has any errors and display them
-              checkForOfflineMapResultErrors(downloadPreplannedOfflineMapResult);
-
-              // hide the graphics overlay with the areas of interest
-              areasOfInterestGraphicsOverlay.setVisible(false);
-
-              // show the result in the map view
-              mapView.setMap(downloadPreplannedOfflineMapResult.getOfflineMap());
-
-              // add the package to the list of opened map packages
-              if (!openedMobileMapPackages.contains(downloadPreplannedOfflineMapResult.getMobileMapPackage())) {
-                openedMobileMapPackages.add(downloadPreplannedOfflineMapResult.getMobileMapPackage());
-              }
-
-              // update the button text
-              downloadAreaButton.setText("View Downloaded Area");
-
-              // re-enable the UI
-              showWebMapButton.setDisable(false);
-              downloadAreaButton.setDisable(false);
-              deleteOfflineAreasButton.setDisable(false);
-
-              // display error details if the job fails
-            } else if (downloadPreplannedOfflineMapJob.getStatus() == Job.Status.FAILED) {
-              new Alert(Alert.AlertType.ERROR, "Download Preplanned Offline Map Job failed. Error: " + downloadPreplannedOfflineMapJob.getError());
-            }
-          });
-        } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Could not create Default Parameters for the Download Preplanned Offline Map Job.").show();
-        }
-      });
     } else {
       new Alert(Alert.AlertType.ERROR, "No Preplanned Map Area selected for downloading.").show();
     }
