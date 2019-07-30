@@ -69,12 +69,12 @@ public class DownloadPreplannedMapController {
 
   @FXML private Button deleteOfflineAreasButton;
   @FXML private Button downloadAreaButton;
-  @FXML private Button showWebMapButton;
+  @FXML private Button showOnlineMapButton;
   @FXML private ListView<PreplannedMapArea> preplannedAreasListView;
   @FXML private MapView mapView;
   @FXML private ProgressBar downloadProgressBar;
 
-  private ArcGISMap webMap;
+  private ArcGISMap onlineMap;
   private ArrayList<MobileMapPackage> openedMobileMapPackages;
   private ChangeListener<PreplannedMapArea> listViewSelectionChangeViewpointListener;
   private DownloadPreplannedOfflineMapJob downloadPreplannedOfflineMapJob;
@@ -102,10 +102,10 @@ public class DownloadPreplannedMapController {
       PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
       // create a map with the portal item
-      webMap = new ArcGISMap(portalItem);
+      onlineMap = new ArcGISMap(portalItem);
 
       // show the map
-      mapView.setMap(webMap);
+      mapView.setMap(onlineMap);
 
       // create a graphics overlay to show the preplanned map areas extents (areas of interest)
       areasOfInterestGraphicsOverlay = new GraphicsOverlay();
@@ -196,8 +196,8 @@ public class DownloadPreplannedMapController {
 
       // remove the listener from the list view to stop the viewpoint changing on selection
       preplannedAreasListView.getSelectionModel().selectedItemProperty().removeListener(listViewSelectionChangeViewpointListener);
-      // enable the 'view web map' button
-      showWebMapButton.setDisable(false);
+      // enable the 'show online map' button
+      showOnlineMapButton.setDisable(false);
       // get the requested preplanned map area
       PreplannedMapArea selectedMapArea = preplannedAreasListView.getSelectionModel().getSelectedItem();
       // create a folder path where the map package will be downloaded to
@@ -207,7 +207,7 @@ public class DownloadPreplannedMapController {
       if (!Files.exists(Paths.get(path))) {
 
         // disable the UI
-        showWebMapButton.setDisable(true);
+        showOnlineMapButton.setDisable(true);
         downloadAreaButton.setDisable(true);
         deleteOfflineAreasButton.setDisable(true);
 
@@ -257,7 +257,7 @@ public class DownloadPreplannedMapController {
                 downloadAreaButton.setText("View Downloaded Area");
 
                 // re-enable the UI
-                showWebMapButton.setDisable(false);
+                showOnlineMapButton.setDisable(false);
                 downloadAreaButton.setDisable(false);
                 deleteOfflineAreasButton.setDisable(false);
 
@@ -326,8 +326,8 @@ public class DownloadPreplannedMapController {
   private void handleDeleteOfflineAreasButtonClicked() {
     try {
 
-      // reset the map view to the original map
-      showWebMap();
+      // reset the map view to the online map
+      showOnlineMap();
 
       // close all previously opened geodatabases to allow deleting the files
       fetchAllGeodatabases().forEach(Geodatabase::close);
@@ -352,12 +352,12 @@ public class DownloadPreplannedMapController {
   }
 
   /**
-   * Resets the map view to show the web map from the portal.
+   * Resets the map view to show the online map from the portal.
    */
   @FXML
-  private void showWebMap() {
-    // set the web map to the map view
-    mapView.setMap(webMap);
+  private void showOnlineMap() {
+    // set the online map to the map view
+    mapView.setMap(onlineMap);
 
     // show the graphics overlay with the areas of interest
     areasOfInterestGraphicsOverlay.setVisible(true);
@@ -365,8 +365,8 @@ public class DownloadPreplannedMapController {
     // add the listener to the list view to change the viewpoint on selection
     preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionChangeViewpointListener);
 
-    // disable the 'view web map' button
-    showWebMapButton.setDisable(true);
+    // disable the 'show online map' button
+    showOnlineMapButton.setDisable(true);
   }
 
   /**
