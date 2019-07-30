@@ -287,7 +287,6 @@ public class DownloadPreplannedMapController {
         if (!openedMobileMapPackages.contains(localMapArea)) {
           openedMobileMapPackages.add(localMapArea);
         }
-
       }
 
     } else {
