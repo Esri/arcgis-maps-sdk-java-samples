@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2019 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -44,19 +44,29 @@ import com.esri.arcgisruntime.portal.PortalFolder;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.portal.PortalUserContent;
 import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.OAuthConfiguration;
 
 public class CreateAndSaveMapController {
 
-  @FXML private MapView mapView;
-  @FXML private TextField title;
-  @FXML private TextField tags;
-  @FXML private TextArea description;
-  @FXML private ComboBox<PortalFolder> folderList;
-  @FXML private ListView<Basemap> basemapList;
-  @FXML private ListView<Layer> layersList;
-  @FXML private Button saveButton;
-  @FXML private ProgressIndicator progress;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private TextField title;
+  @FXML
+  private TextField tags;
+  @FXML
+  private TextArea description;
+  @FXML
+  private ComboBox<PortalFolder> folderList;
+  @FXML
+  private ListView<Basemap> basemapList;
+  @FXML
+  private ListView<Layer> layersList;
+  @FXML
+  private Button saveButton;
+  @FXML
+  private ProgressIndicator progress;
 
   private ArcGISMap map;
   private Portal portal;
@@ -66,12 +76,12 @@ public class CreateAndSaveMapController {
 
     // set basemap options
     basemapList.getItems().addAll(Basemap.createStreets(), Basemap.createImagery(), Basemap
-        .createTopographic(), Basemap.createOceans());
+            .createTopographic(), Basemap.createOceans());
 
     // update basemap when selection changes
     basemapList.getSelectionModel().select(0);
     basemapList.getSelectionModel().selectedItemProperty()
-        .addListener(o -> map.setBasemap(basemapList.getSelectionModel().getSelectedItem()));
+            .addListener(o -> map.setBasemap(basemapList.getSelectionModel().getSelectedItem()));
 
     basemapList.setCellFactory(c -> new BasemapCell());
 
@@ -81,7 +91,7 @@ public class CreateAndSaveMapController {
 
     // set operational layer options
     String worldElevationService =
-        "http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
+            "http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
     ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(worldElevationService);
     worldElevation.loadAsync();
 
@@ -126,10 +136,12 @@ public class CreateAndSaveMapController {
       OAuthConfiguration configuration = authenticationDialog.getResult();
       // check authentication went through
       if (configuration != null) {
-        AuthenticationManager.addOAuthConfiguration(configuration);
 
-        // setup the handler that will prompt an authentication challenge to the user
-        AuthenticationManager.setAuthenticationChallengeHandler(new OAuthChallengeHandler());
+        // set up the authentication manager to handle authentication challenges
+        DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
+        AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
+        // add the OAuth configuration
+        AuthenticationManager.addOAuthConfiguration(configuration);
 
         portal = new Portal("http://" + configuration.getPortalUrl(), true);
         portal.addDoneLoadingListener(() -> {
@@ -147,12 +159,11 @@ public class CreateAndSaveMapController {
           } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
 
             // show alert message on error
-            showMessage("Authentication failed", portal.getLoadError().getMessage(), Alert.AlertType.ERROR);
+            new Alert(Alert.AlertType.ERROR, "Authentication failed: " + portal.getLoadError().getMessage()).show();
           }
         });
 
-        // loading the portal info of a secured resource
-        // this will invoke the authentication challenge
+        // load the portal info of a secured resource. This will invoke the authentication challenge
         portal.loadAsync();
       }
     });
@@ -193,36 +204,21 @@ public class CreateAndSaveMapController {
     progress.setVisible(true);
     try {
       ListenableFuture<PortalItem> result = map.saveAsAsync(portal, folderList.getSelectionModel().getSelectedItem(),
-          title.getText(), Arrays.asList(tags.getText().split(",")), description.getText(), null, true);
+              title.getText(), Arrays.asList(tags.getText().split(",")), description.getText(), null, true);
       result.addDoneListener(() -> {
         try {
           PortalItem portalItem = result.get();
-          showMessage("Save Successful", "Map titled " + title.getText() + " saved to portal item with id: " +
-              portalItem.getItemId(), Alert.AlertType.INFORMATION);
+          new Alert(Alert.AlertType.CONFIRMATION, "Map titled " + title.getText() + " saved to portal item with id: " + portalItem.getItemId()).show();
         } catch (InterruptedException | ExecutionException e) {
-          showMessage("Save Unscuccessful", e.getCause().getMessage(), Alert.AlertType.ERROR);
+          new Alert(Alert.AlertType.ERROR, "Save Unsuccessful: " + e.getCause().getMessage()).show();
         } finally {
           progress.setVisible(false);
         }
       });
     } catch (Exception e) {
       progress.setVisible(false);
-      showMessage("Could not save map", e.getMessage(), Alert.AlertType.ERROR);
+      new Alert(Alert.AlertType.ERROR, "Could not save map. " + e.getMessage()).show();
     }
-  }
-
-  /**
-   * Display an alert to the user with the specified information.
-   * @param title alert title
-   * @param description alert content description
-   * @param type alert type
-   */
-  private void showMessage(String title, String description, Alert.AlertType type) {
-    Alert alert = new Alert(type);
-    alert.initOwner(mapView.getScene().getWindow());
-    alert.setTitle(title);
-    alert.setContentText(description);
-    alert.show();
   }
 
   /**

@@ -1,31 +1,41 @@
-# Read GeoPackage
+# Read a GeoPackage
 
-Display rasters and features from local GeoPackages.
+Add rasters and feature tables from a GeoPackage to a map.
 
-![](ReadGeoPackage.png)
+![](ReadGeoPackage.jpg)
+
+## Use case
+
+The OGC GeoPackage specification defines an open standard for sharing raster and vector data. You may want to use GeoPackage files to support file-based sharing of geographic data.
 
 ## How to use the sample
 
-The layers in the geoPackage, which have not been added to the map are shown in the bottom list. Click an item to show it as a layer in the map. Layers in the map are listed in the top list. Click layers from the top list to remove them from the map.
+When the sample loads, the feature layers and rasters from the GeoPackage will be shown on the map.
 
 ## How it works
 
-To read layers from a geoPackage and show them in a map:
-
-1. Create a `GeoPackage` with the path to the local geoPackage file.
-2. Load the `GeoPackage` with `GeoPackage.loadAsync`.
-3. Create raster layers for each of these with `new RasterLayer(geoPackageRaster)`.
-4. Add each layer to the map as an operational layer with `map.getOperationalLayers().add(layer)`.
-5. When it's done loading, get the `GeoPackageFeatureTable`s inside with `geoPackage.getGeoPackageFeatureTables()`.
-6. For each feature table, create a feature layer with `new FeatureLayer(featureTable)`.
-7. You can also get the `GeoPackageRaster`s inside using `GeoPackage.getGeoPackageRasters()`.
+1. Get the GeoPackage and load it using `geoPackage.loadAsync()`.
+2. Iterate through available rasters, exposed by `geopackage.getGeoPackageRasters()`. For each raster, create a raster layer using `new RasterLayer(geopackageRaster)`, then add it to the map.
+3. Iterate through available feature tables, exposed by `geopackage.getGeoPackageFeatureTables()`. For each feature table, create a feature layer using `new FeatureLayer(geopackageFeatureTable)`, then add it to the map.
 
 ## Relevant API
 
-* ArcGISMap
-* Basemap
-* FeatureLayer
 * GeoPackage
-* Layer
-* MapView
-* RasterLayer
+* GeoPackageRaster
+* GeoPackageFeatureTable
+
+## Offline data
+
+Find this item on [ArcGIS Online](https://arcgisruntime.maps.arcgis.com/home/item.html?id=68ec42517cdd439e81b036210483e8e7).
+
+## About the data
+
+This sample features a GeoPackage with datasets that cover Aurora, Colorado: Public art (points), Bike trails (lines), Subdivisions (polygons), Airport noise (raster), and liquour license density (raster).
+
+## Additional information
+
+GeoPackage uses a single SQLite file (.gpkg) that conforms to the OGC GeoPackage Standard. You can create a GeoPackage file (.gpkg) from your own data using the create a SQLite Database tool in ArcGIS Pro.
+
+## Tags
+
+container, layers, maps, OGC, package, rasters, tables
