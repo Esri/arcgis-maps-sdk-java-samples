@@ -20,7 +20,7 @@
         "PortalItem"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/oauth/OAuthSample.java",
+        "src/main/java/com/esri/samples/oauth/OAuthSample.java"
     ],
     "title": "OAuth"
 }
