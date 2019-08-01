@@ -70,7 +70,9 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
 
       // create checkboxes for toggling the sublayer visibility manually
       CheckBox closedSublayerCheckbox = new CheckBox();
+      closedSublayerCheckbox.setSelected(true);
       CheckBox openSublayerCheckbox = new CheckBox();
+      openSublayerCheckbox.setSelected(true);
 
       // create a control panel and add the checkboxes
       VBox controlsVBox = new VBox(6);
@@ -114,10 +116,10 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
 
                   // toggle annotation sublayer visibility on check
                   closedSublayerCheckbox.setOnAction(event -> closedSublayer.setVisible(closedSublayerCheckbox.isSelected()));
-                  openSublayerCheckbox.setOnAction(event -> closedSublayer.setVisible(openSublayerCheckbox.isSelected()));
+                  openSublayerCheckbox.setOnAction(event -> openSublayer.setVisible(openSublayerCheckbox.isSelected()));
 
                   mapView.addMapScaleChangedListener(mapScaleChangedEvent->{
-                    // if the "open" sublayer is bisible, set the text color to white, otherwise set it to gray
+                    // if the "open" sublayer is visible, set the text color to white, otherwise set it to gray
                     if (openSublayer.isVisibleAtScale(mapView.getMapScale())){
                       openSublayerCheckbox.setTextFill(Color.WHITE);
                     } else {
