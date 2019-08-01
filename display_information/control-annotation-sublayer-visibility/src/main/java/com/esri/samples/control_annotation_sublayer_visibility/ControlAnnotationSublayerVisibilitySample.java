@@ -22,13 +22,22 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.layers.AnnotationLayer;
+import com.esri.arcgisruntime.layers.AnnotationSublayer;
+import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -47,6 +56,7 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Control Annotation Sublayer Visibility");
@@ -55,14 +65,26 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create ArcGISMap with imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+      // create checkboxes for toggling the sublayer visibility manually
+      CheckBox closedSublayerCheckbox = new CheckBox();
+      CheckBox openSublayerCheckbox = new CheckBox();
+
+      // create a control panel and add the checkboxes
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+              Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(180, 50);
+      controlsVBox.getStyleClass().add("panel-region");
+      // add checkboxes to control panel
+      controlsVBox.getChildren().addAll(closedSublayerCheckbox,openSublayerCheckbox);
 
       // create a map view
       mapView = new MapView();
 
       // show current map scale in a label at the bottom of the screen
       Label currentMapScaleLabel = new Label();
+      currentMapScaleLabel.getStyleClass().add(".label");
       mapView.addMapScaleChangedListener(mapScaleChangedEvent -> currentMapScaleLabel.setText("Scale: 1:"+Math.round(mapView.getMapScale())));
 
       // load the mobile map package
@@ -72,6 +94,27 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED){
           // set the mobile map package's map to the map view
           mapView.setMap(mobileMapPackage.getMaps().get(0));
+          // find the annotation layer withing the map
+          for (Layer layer : mapView.getMap().getOperationalLayers()) {
+            if (layer instanceof AnnotationLayer){
+              // load the annotation layer
+              layer.loadAsync();
+              layer.addDoneLoadingListener(()->{
+                if (layer.getLoadStatus() == LoadStatus.LOADED) {
+                  // get annotation sublayer name from sublayer content
+                  AnnotationSublayer closedSublayer = (AnnotationSublayer) layer.getSubLayerContents().get(0);
+                  AnnotationSublayer openSublayer = (AnnotationSublayer) layer.getSubLayerContents().get(1);
+
+                  // set the layer name for the checkboxes
+                  closedSublayerCheckbox.setText(buildLayerName(closedSublayer));
+                  openSublayerCheckbox.setText(buildLayerName(openSublayer));
+
+                } else {
+                  new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer "+layer.getName()).show();
+                }
+              });
+            }
+          }
 
         } else {
           new Alert(Alert.AlertType.ERROR, "Mobile Map Package failed to load.").show();
@@ -79,14 +122,30 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       });
 
       // add map view and label to stack pane
-      stackPane.getChildren().addAll(mapView, currentMapScaleLabel);
+      stackPane.getChildren().addAll(mapView, controlsVBox, currentMapScaleLabel);
       StackPane.setAlignment(currentMapScaleLabel, Pos.BOTTOM_CENTER);
       StackPane.setMargin(currentMapScaleLabel, new Insets(0,0,20,0));
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(20,0,0,20));
 
     } catch (Exception e) {
       // on any error, print the stack trace
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Get name, and where relevant, append min and max scales of each annotation sublayer.
+   *
+   * @param annotationSublayer
+   * @return the layer name with min max scales, where relevant
+   */
+  private String buildLayerName(AnnotationSublayer annotationSublayer){
+    StringBuilder layerNameBuilder = new StringBuilder(annotationSublayer.getName());
+    if (!Double.isNaN(annotationSublayer.getMaxScale()) && !Double.isNaN(annotationSublayer.getMinScale())){
+      layerNameBuilder.append(" (1:").append((int) annotationSublayer.getMaxScale()).append(" -1:").append((int) annotationSublayer.getMinScale()).append(")");
+    }
+    return layerNameBuilder.toString();
   }
 
   /**
