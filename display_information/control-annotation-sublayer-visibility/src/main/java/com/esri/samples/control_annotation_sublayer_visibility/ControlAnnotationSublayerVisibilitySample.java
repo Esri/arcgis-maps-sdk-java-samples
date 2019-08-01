@@ -21,6 +21,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
@@ -28,8 +29,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.Callout;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -55,13 +58,25 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // create ArcGISMap with imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createStreets());
 
-      // create a view and set map to it
+      // create a map view
       mapView = new MapView();
-      mapView.setMap(map);
 
       // show current map scale in a label at the bottom of the screen
       Label currentMapScaleLabel = new Label();
       mapView.addMapScaleChangedListener(mapScaleChangedEvent -> currentMapScaleLabel.setText("Scale: 1:"+Math.round(mapView.getMapScale())));
+
+      // load the mobile map package
+      MobileMapPackage mobileMapPackage = new MobileMapPackage("./samples-data/mmpk/GasDeviceAnno.mmpk");
+      mobileMapPackage.loadAsync();
+      mobileMapPackage.addDoneLoadingListener(()->{
+        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED){
+          // set the mobile map package's map to the map view
+          mapView.setMap(mobileMapPackage.getMaps().get(0));
+
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Mobile Map Package failed to load.").show();
+        }
+      });
 
       // add map view and label to stack pane
       stackPane.getChildren().addAll(mapView, currentMapScaleLabel);
