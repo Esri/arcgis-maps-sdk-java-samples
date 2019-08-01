@@ -65,15 +65,16 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       CheckBox openSublayerCheckbox = new CheckBox();
       openSublayerCheckbox.setSelected(true);
 
-      // create a control panel and add the checkboxes
+      // create a control panel and label for the checkboxes
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 50);
       controlsVBox.getStyleClass().add("panel-region");
-      // add checkboxes to control panel
-      controlsVBox.getChildren().addAll(closedSublayerCheckbox,openSublayerCheckbox);
+      Label controlsVBoxLabel = new Label("Annotation Sublayer visibility");
+      // add checkboxes and label to control panel
+      controlsVBox.getChildren().addAll(controlsVBoxLabel, closedSublayerCheckbox,openSublayerCheckbox);
 
       // create a map view
       mapView = new MapView();
