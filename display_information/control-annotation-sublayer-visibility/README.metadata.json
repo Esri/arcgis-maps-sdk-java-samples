@@ -1,0 +1,23 @@
+{
+    "category": "Display information",
+    "description": "Use annotation sublayers to gain finer control of annotation layer subtypes.",
+    "ignore": false,
+    "images": [
+        "ControlAnnotationSublayerVisibility.png"
+    ],
+    "keywords": [
+        "scale",
+        "text",
+        "utilities"
+    ],
+    "redirect_from": "/java/latest/sample-code/control-annotation-sublayer-visibility.htm",
+    "relevant_apis": [
+        "AnnotationLayer",
+        "AnnotationSublayer",
+        "LayerContent"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/control_annotation_sublayer_visibility/ControlAnnotationSublayerVisibilitySample.java"
+    ],
+    "title": "Control annotation sublayer visibility"
+}
