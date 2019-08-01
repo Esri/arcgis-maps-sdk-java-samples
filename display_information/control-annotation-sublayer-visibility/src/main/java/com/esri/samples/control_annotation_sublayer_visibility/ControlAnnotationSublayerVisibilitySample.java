@@ -17,6 +17,8 @@
 package com.esri.samples.control_annotation_sublayer_visibility;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -30,6 +32,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -108,6 +111,19 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
                   // set the layer name for the checkboxes
                   closedSublayerCheckbox.setText(buildLayerName(closedSublayer));
                   openSublayerCheckbox.setText(buildLayerName(openSublayer));
+
+                  // toggle annotation sublayer visibility on check
+                  closedSublayerCheckbox.setOnAction(event -> closedSublayer.setVisible(closedSublayerCheckbox.isSelected()));
+                  openSublayerCheckbox.setOnAction(event -> closedSublayer.setVisible(openSublayerCheckbox.isSelected()));
+
+                  mapView.addMapScaleChangedListener(mapScaleChangedEvent->{
+                    // if the "open" sublayer is bisible, set the text color to white, otherwise set it to gray
+                    if (openSublayer.isVisibleAtScale(mapView.getMapScale())){
+                      openSublayerCheckbox.setTextFill(Color.WHITE);
+                    } else {
+                      openSublayerCheckbox.setTextFill(Color.DARKGRAY);
+                    }
+                  });
 
                 } else {
                   new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer "+layer.getName()).show();
