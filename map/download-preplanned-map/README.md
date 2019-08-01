@@ -20,7 +20,7 @@ Select a map area, then click "Download Preplanned Area" to take it offline. Whe
 2. Create an `OfflineMapTask` from the portal item.
 3. Get the `PreplannedMapArea`s from the task, and then load them.
 4. To download a selected map area, create the default `DownloadPreplannedOfflineMapParameters` from the task using the selected preplanned map area.
-5. Set the update mode of the preplanned map area with `PreplannedUpdateMode.NO_UPDATES`, so as not to apply any future updates (see further information section for other options).
+5. Set the update mode of the preplanned map area with `PreplannedUpdateMode.NO_UPDATES`, so as not to apply any future updates (see additional information section for other options).
 6. Use the parameters and a download path to create a `DownloadPreplannedOfflineMapJob` from the task.
 7. Start the job. Once it has completed, get the  `DownloadPreplannedOfflineMapResult`.
 8. Get the `Map` from the result and display it in the `MapView`.
