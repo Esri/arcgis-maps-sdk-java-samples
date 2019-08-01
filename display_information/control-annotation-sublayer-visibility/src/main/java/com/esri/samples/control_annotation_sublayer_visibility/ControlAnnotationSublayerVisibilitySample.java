@@ -87,7 +87,7 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
 
       // show current map scale in a label at the bottom of the screen
       Label currentMapScaleLabel = new Label();
-      currentMapScaleLabel.getStyleClass().add(".label");
+      currentMapScaleLabel.setTextFill(Color.WHITE);
       mapView.addMapScaleChangedListener(mapScaleChangedEvent -> currentMapScaleLabel.setText("Scale: 1:"+Math.round(mapView.getMapScale())));
 
       // load the mobile map package
