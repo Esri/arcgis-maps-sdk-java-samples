@@ -16,6 +16,12 @@
 
 package com.esri.samples.honor_mobile_map_package_expiration_date;
 
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -28,7 +34,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.Expiration;
@@ -38,6 +46,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class HonorMobileMapPackageExpirationDateSample extends Application {
 
   private MapView mapView;
+  private MobileMapPackage mobileMapPackage;
 
   @Override
   public void start(Stage stage) {
@@ -46,6 +55,7 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Honor Mobile Map Package Expiration Date Sample");
@@ -59,36 +69,72 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
       expirationOverlayVbox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       expirationOverlayVbox.setPadding(new Insets(10.0));
-      expirationOverlayVbox.setMaxSize(210, 150);
+      expirationOverlayVbox.setMaxSize(800, 150);
+      expirationOverlayVbox.setAlignment(Pos.CENTER);
       expirationOverlayVbox.getStyleClass().add("panel-region");
 
       // create a map view
       mapView = new MapView();
 
-      // load a mobile map package
-      MobileMapPackage mobileMapPackage = new MobileMapPackage("./samples-data/mmpk/LothianRiversAnno.mmpk");
+      // load the mobile map package
+      mobileMapPackage = new MobileMapPackage("./samples-data/mmpk/LothianRiversAnno.mmpk");
       mobileMapPackage.loadAsync();
-      System.out.printf("loading");
       mobileMapPackage.addDoneLoadingListener(() -> {
-        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
-          // add the map from the mobile map package to the map view
-          mapView.setMap(mobileMapPackage.getMaps().get(0));
-
-          System.out.println("loaded");
+        // handle map package expiration, if expired
+        if (mobileMapPackage.getExpiration() != null && mobileMapPackage.getExpiration().isExpired()) {
 
           // get the Expiration of the mobile map package
           Expiration expiration = mobileMapPackage.getExpiration();
 
-          // create labels for the expiration message and date
+          // create label for the expiration message
           Label expirationMessageLabel = new Label(expiration.getMessage());
-          // @TODO: format time @ date appropriately
-          Label expirationDateLabel = new Label(expiration.getDateTime().toString());
+          expirationMessageLabel.setFont(new Font(16));
+
+          // create a label to display the time since expiration
+          Label timeSinceExpirationLabel = new Label();
+          timeSinceExpirationLabel.setFont(new Font(16));
+
+          // determine the time in milliseconds when the mobile map package expired
+          long expirationTime = expiration.getDateTime().getTimeInMillis();
+
+          // create a timeline to count the time since expiration
+          Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {
+                // get a calendar for the current time
+                Calendar currentTimeCalendar = Calendar.getInstance();
+
+                // determine the time since expiration
+                long millisecondsSinceExpiration = currentTimeCalendar.getTimeInMillis() - expirationTime;
+
+                // format the label
+                String formattedTimeSinceExpiration = String.format("Expired %d days and %02d:%02d:%02d hours ago.",
+                        TimeUnit.MILLISECONDS.toDays(millisecondsSinceExpiration),
+                        TimeUnit.MILLISECONDS.toHours(millisecondsSinceExpiration)
+                                - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millisecondsSinceExpiration)),
+                        TimeUnit.MILLISECONDS.toMinutes(millisecondsSinceExpiration)
+                                - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisecondsSinceExpiration)),
+                        TimeUnit.MILLISECONDS.toSeconds(millisecondsSinceExpiration)
+                                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisecondsSinceExpiration))
+                );
+
+                // set the label to display the time since expiration
+                timeSinceExpirationLabel.setText(formattedTimeSinceExpiration);
+              }
+            ),
+            new KeyFrame(Duration.seconds(1))
+          );
+          timeline.setCycleCount(Animation.INDEFINITE);
+          timeline.play();
 
           // add the labels to the overlay
-          expirationOverlayVbox.getChildren().addAll(expirationMessageLabel, expirationDateLabel);
+          expirationOverlayVbox.getChildren().addAll(expirationMessageLabel, timeSinceExpirationLabel);
+        }
+        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED) {
+
+          // add the map from the mobile map package to the map view
+          mapView.setMap(mobileMapPackage.getMaps().get(0));
 
         } else {
-          new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package").show();
+          new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package: " + mobileMapPackage.getLoadError().getMessage()).show();
         }
       });
 

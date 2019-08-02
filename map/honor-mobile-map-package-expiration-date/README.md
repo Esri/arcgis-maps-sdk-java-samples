@@ -12,7 +12,7 @@ As long as the author of an MMPK has set an expiration date, the expiration date
 
 ## How to use the sample
 
-Load the app. The author of the MMPK used in this sample chose to set the MMPK's map as still readable, even if it's expired. The app presents expiration information to the user.
+Load the sample. The author of the MMPK used in this sample chose to set the MMPK's map as still readable, even if it's expired. The sample presents expiration information to the user.
 
 ## How it works
 
