@@ -42,6 +42,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class ControlAnnotationSublayerVisibilitySample extends Application {
 
   private MapView mapView;
+  private MobileMapPackage mobileMapPackage;
 
   @Override
   public void start(Stage stage) {
@@ -85,7 +86,7 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       mapView.addMapScaleChangedListener(mapScaleChangedEvent -> currentMapScaleLabel.setText("Scale: 1:"+Math.round(mapView.getMapScale())));
 
       // load the mobile map package
-      MobileMapPackage mobileMapPackage = new MobileMapPackage("./samples-data/mmpk/GasDeviceAnno.mmpk");
+      mobileMapPackage = new MobileMapPackage("./samples-data/mmpk/GasDeviceAnno.mmpk");
       mobileMapPackage.loadAsync();
       mobileMapPackage.addDoneLoadingListener(()->{
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED){
