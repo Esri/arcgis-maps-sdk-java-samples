@@ -79,6 +79,7 @@ public class DownloadPreplannedMapController {
   private ChangeListener<PreplannedMapArea> listViewSelectionChangeViewpointListener;
   private DownloadPreplannedOfflineMapJob downloadPreplannedOfflineMapJob;
   private GraphicsOverlay areasOfInterestGraphicsOverlay;
+  private MobileMapPackage localMapArea;
   private OfflineMapTask offlineMapTask;
   private Path tempDirectory;
 
@@ -278,7 +279,7 @@ public class DownloadPreplannedMapController {
         areasOfInterestGraphicsOverlay.setVisible(false);
 
         // open and load the mobile map package
-        MobileMapPackage localMapArea = new MobileMapPackage(path);
+        localMapArea = new MobileMapPackage(path);
         localMapArea.loadAsync();
         // display the map from the mobile map package
         localMapArea.addDoneLoadingListener(() -> mapView.setMap(localMapArea.getMaps().get(0)));
