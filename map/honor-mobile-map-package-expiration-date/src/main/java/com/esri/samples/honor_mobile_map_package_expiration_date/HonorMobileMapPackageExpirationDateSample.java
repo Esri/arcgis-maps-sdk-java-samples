@@ -73,6 +73,17 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
       expirationOverlayVbox.setAlignment(Pos.CENTER);
       expirationOverlayVbox.getStyleClass().add("panel-region");
 
+      // create label for the expiration message
+      Label expirationMessageLabel = new Label();
+      expirationMessageLabel.setFont(new Font(16));
+
+      // create a label to display the time since expiration
+      Label timeSinceExpirationLabel = new Label();
+      timeSinceExpirationLabel.setFont(new Font(16));
+
+      // add the labels to the overlay
+      expirationOverlayVbox.getChildren().addAll(expirationMessageLabel, timeSinceExpirationLabel);
+
       // create a map view
       mapView = new MapView();
 
@@ -86,13 +97,8 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
           // get the Expiration of the mobile map package
           Expiration expiration = mobileMapPackage.getExpiration();
 
-          // create label for the expiration message
-          Label expirationMessageLabel = new Label(expiration.getMessage());
-          expirationMessageLabel.setFont(new Font(16));
-
-          // create a label to display the time since expiration
-          Label timeSinceExpirationLabel = new Label();
-          timeSinceExpirationLabel.setFont(new Font(16));
+          // set the expiration message to the label
+          expirationMessageLabel.setText(expiration.getMessage());
 
           // determine the time in milliseconds when the mobile map package expired
           long expirationTime = expiration.getDateTime().getTimeInMillis();
@@ -124,9 +130,7 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
           );
           timeline.setCycleCount(Animation.INDEFINITE);
           timeline.play();
-
-          // add the labels to the overlay
-          expirationOverlayVbox.getChildren().addAll(expirationMessageLabel, timeSinceExpirationLabel);
+          
         }
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED) {
 
