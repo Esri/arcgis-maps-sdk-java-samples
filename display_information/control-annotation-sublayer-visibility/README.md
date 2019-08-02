@@ -38,6 +38,4 @@ Use the checkboxes to manually set "Open" and "Closed" annotation sublayers visi
 
 ## Tags
 
-scale
-text
-utilities
+scale, text, utilities
