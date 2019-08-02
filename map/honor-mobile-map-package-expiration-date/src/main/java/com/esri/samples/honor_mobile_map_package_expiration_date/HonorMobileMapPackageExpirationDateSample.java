@@ -73,11 +73,9 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
       expirationOverlayVbox.setAlignment(Pos.CENTER);
       expirationOverlayVbox.getStyleClass().add("panel-region");
 
-      // create label for the expiration message
+      // create labels to display the expiration message and time since expiration
       Label expirationMessageLabel = new Label();
       expirationMessageLabel.setFont(new Font(16));
-
-      // create a label to display the time since expiration
       Label timeSinceExpirationLabel = new Label();
       timeSinceExpirationLabel.setFont(new Font(16));
 
@@ -105,32 +103,32 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
 
           // create a timeline to count the time since expiration
           Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {
-                // get a calendar for the current time
-                Calendar currentTimeCalendar = Calendar.getInstance();
+            // get a calendar for the current time
+            Calendar currentTimeCalendar = Calendar.getInstance();
 
-                // determine the time since expiration
-                long millisecondsSinceExpiration = currentTimeCalendar.getTimeInMillis() - expirationTime;
+            // determine the time since expiration
+            long millisecondsSinceExpiration = currentTimeCalendar.getTimeInMillis() - expirationTime;
 
-                // format the label
-                String formattedTimeSinceExpiration = String.format("Expired %d days and %02d:%02d:%02d hours ago.",
-                        TimeUnit.MILLISECONDS.toDays(millisecondsSinceExpiration),
-                        TimeUnit.MILLISECONDS.toHours(millisecondsSinceExpiration)
-                                - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millisecondsSinceExpiration)),
-                        TimeUnit.MILLISECONDS.toMinutes(millisecondsSinceExpiration)
-                                - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisecondsSinceExpiration)),
-                        TimeUnit.MILLISECONDS.toSeconds(millisecondsSinceExpiration)
-                                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisecondsSinceExpiration))
-                );
+            // format the label
+            String formattedTimeSinceExpiration = String.format("Expired %d days and %02d:%02d:%02d hours ago.",
+                    TimeUnit.MILLISECONDS.toDays(millisecondsSinceExpiration),
+                    TimeUnit.MILLISECONDS.toHours(millisecondsSinceExpiration)
+                            - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millisecondsSinceExpiration)),
+                    TimeUnit.MILLISECONDS.toMinutes(millisecondsSinceExpiration)
+                            - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisecondsSinceExpiration)),
+                    TimeUnit.MILLISECONDS.toSeconds(millisecondsSinceExpiration)
+                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisecondsSinceExpiration))
+            );
 
-                // set the label to display the time since expiration
-                timeSinceExpirationLabel.setText(formattedTimeSinceExpiration);
-              }
-            ),
-            new KeyFrame(Duration.seconds(1))
+            // set the label to display the time since expiration
+            timeSinceExpirationLabel.setText(formattedTimeSinceExpiration);
+          }
+          ),
+                  new KeyFrame(Duration.seconds(1))
           );
           timeline.setCycleCount(Animation.INDEFINITE);
           timeline.play();
-          
+
         }
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED) {
 
