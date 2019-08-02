@@ -58,6 +58,7 @@ import org.apache.commons.io.FileUtils;
 public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application {
 
   private MapView mapView;
+  private MobileMapPackage mobileMapPackage;
 
   @Override
   public void start(Stage stage) {
@@ -105,7 +106,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       FileUtils.copyDirectory(sourceDirectory.toFile(), tempMobileMapPackageDirectory.toFile());
 
       // load the offline map as a mobile map package
-      MobileMapPackage mobileMapPackage = new MobileMapPackage(tempMobileMapPackageDirectory.toString());
+      mobileMapPackage = new MobileMapPackage(tempMobileMapPackageDirectory.toString());
       mobileMapPackage.loadAsync();
       mobileMapPackage.addDoneLoadingListener(() -> {
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
