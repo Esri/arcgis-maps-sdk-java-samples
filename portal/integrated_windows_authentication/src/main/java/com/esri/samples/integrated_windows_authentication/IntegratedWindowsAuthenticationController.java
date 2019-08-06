@@ -129,7 +129,7 @@ public class IntegratedWindowsAuthenticationController {
             // update load state in UI with the portal URI
             loadStateTextView.setText("Connected to the portal on " + new URI(iwaSecuredPortal.getUri()).getHost());
           } catch (URISyntaxException e) {
-            new Alert(Alert.AlertType.ERROR, "Error getting URI from portal: " + e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, "Error getting URI from portal.").show();
           }
 
           // report the user name used for this connection
