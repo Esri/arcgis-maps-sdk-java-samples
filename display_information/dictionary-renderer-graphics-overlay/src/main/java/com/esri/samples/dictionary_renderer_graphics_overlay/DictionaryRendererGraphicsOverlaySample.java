@@ -18,6 +18,13 @@ package com.esri.samples.dictionary_renderer_graphics_overlay;
 
 import static org.joox.JOOX.$;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,8 +75,8 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     graphicsOverlay.setMinScale(1000000);
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    // create symbol dictionary from specification
-    DictionarySymbolStyle symbolDictionary = new DictionarySymbolStyle("mil2525d");
+    // create symbol dictionary from style file
+    DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile("./samples-data/stylx/mil2525d.stylx");
 
     // tells graphics overlay how to render graphics with symbol dictionary attributes set
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
@@ -91,18 +98,29 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
   }
 
   /**
-   * Parses a XML file and creates a message for each block of attributes found.
+   * Parses a XML file following the mil2525d specification and creates a message for each block of attributes found.
    */
   private List<Map<String, Object>> parseMessages() throws Exception {
+
+    File mil2525dFile = new File("./samples-data/xml/Mil2525DMessages.xml");
+    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    Document document = documentBuilder.parse(mil2525dFile);
+    document.getDocumentElement().normalize();
+
     final List<Map<String, Object>> messages = new ArrayList<>();
-    $(getClass().getResourceAsStream("/Mil2525DMessages.xml")) // $ reads the file
-        .find("message")
-        .each()
-        .forEach(message -> {
-          Map<String, Object> attributes = new HashMap<>();
-          message.children().forEach(attr -> attributes.put(attr.getNodeName(), attr.getTextContent()));
-          messages.add(attributes);
-        });
+
+    for (int i = 0; i < document.getElementsByTagName("message").getLength() ; i++) {
+      Node message = document.getElementsByTagName("message").item(i);
+
+      Map<String, Object> attributes = new HashMap<>();
+
+      NodeList childNodes = message.getChildNodes();
+      for (int j = 0; j < childNodes.getLength() ; j++) {
+        attributes.put(childNodes.item(j).getNodeName(), childNodes.item(j).getTextContent());
+      }
+      messages.add(attributes);
+    }
 
     return messages;
   }
