@@ -55,10 +55,8 @@ public class IntegratedWindowsAuthenticationController {
   public void initialize() {
     try {
 
-      // create a streets base map
+      // add a map to the map view
       ArcGISMap map = new ArcGISMap(Basemap.createStreets());
-
-      // set the map to be displayed in the map view
       mapView.setMap(map);
 
       // set authentication challenge handler
@@ -153,7 +151,7 @@ public class IntegratedWindowsAuthenticationController {
               portalItems.forEach(portalItem -> resultsListView.getItems().add(new Pair<>(portalItem.getItemId(), portalItem.getTitle())));
 
             } catch (ExecutionException | InterruptedException e) {
-              new Alert(Alert.AlertType.ERROR, "Error getting portal item set from portal: " + e.getMessage()).show();
+              new Alert(Alert.AlertType.ERROR, "Error getting portal item set from portal.").show();
             }
             // hide the progress indicator
             progressIndicator.setVisible(false);
