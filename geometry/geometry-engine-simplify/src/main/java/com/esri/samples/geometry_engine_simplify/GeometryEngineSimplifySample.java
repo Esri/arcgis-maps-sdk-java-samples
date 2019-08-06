@@ -90,16 +90,22 @@ public class GeometryEngineSimplifySample extends Application {
       resetButton.setMaxWidth(Double.MAX_VALUE);
       resetButton.setDisable(true);
 
-      // perform the simplify geometry operation
+      // resolve a button press
       simplifyButton.setOnAction(e -> {
-        Geometry resultPolygon = GeometryEngine.simplify(polygon.getGeometry());
 
-        // update result as a red (0xFFE91F1F) geometry
-        SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
-        resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
+        // check if the geometry needs to be simplified
+        if (!GeometryEngine.isSimple(polygon.getGeometry())) {
 
-        resetButton.setDisable(false);
-        simplifyButton.setDisable(true);
+          // perform the simplify geometry operation
+          Geometry resultPolygon = GeometryEngine.simplify(polygon.getGeometry());
+
+          // update result as a red (0xFFE91F1F) geometry
+          SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
+          resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
+
+          resetButton.setDisable(false);
+          simplifyButton.setDisable(true);
+        }
       });
 
       // clear result layer
