@@ -1,1 +1,26 @@
 rootProject.name = 'local-server-dynamic-workspace-shapefile'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f31ea54e460e4439848557ab722baa0b/data",
+            dest: file("./shapefile.zip")
+    )
+    ant.unzip(
+            src: file("./shapefile.zip"),
+            dest: file("./samples-data/shapefiles")
+    )
+    delete file("./shapefile.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/5c10e6c0b8974d16b74d557568105b96/data",
+            dest: file("./mmpk_blank.zip")
+    )
+    ant.unzip(
+            src: file("./mmpk_blank.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./mmpk_blank.zip")
+}

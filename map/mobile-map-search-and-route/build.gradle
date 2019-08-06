@@ -1,7 +1,6 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
-    id "de.undercouch.download" version "3.4.3"
 }
 
 group = 'com.esri.samples'
@@ -37,27 +36,6 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task downloadData() {
-    download {
-        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/9ebd467801244ad79920be3c27f774da/data"
-        dest 'build/data/mmpk/a.zip'
-        overwrite false
-    }
-    download {
-        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/3b279365273043ae90f09cb0b112d40d/data"
-        dest 'build/data/mmpk/b.zip'
-        overwrite false
-    }
-}
-
-task unpackData(type: Copy) {
-    dependsOn downloadData
-    from (file("build/data/mmpk").listFiles().findAll { f -> f.name.endsWith(".zip") }.collect { f -> zipTree(f) }) {
-        into 'mmpk'
-    }
-    into 'samples-data'
-}
-
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -69,7 +47,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives, unpackData
+    dependsOn copyNatives
     mainClassName = 'com.esri.samples.mobile_map_search_and_route.MobileMapSearchAndRouteLauncher'
 }
 
@@ -85,7 +63,7 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
-    from (unpackData) {
+    from ("samples-data") {
         into "samples-data"
     }
     from copyNatives

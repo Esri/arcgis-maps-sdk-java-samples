@@ -1,1 +1,16 @@
 rootProject.name = 'line-of-sight-geoelement'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/3af5cfec0fd24dac8d88aea679027cb9/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/dolmus_3ds")
+    )
+    delete file("./data.zip")
+}

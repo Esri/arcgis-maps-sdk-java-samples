@@ -1,10 +1,7 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
-    id "de.undercouch.download" version "3.4.3"
 }
-
-import de.undercouch.gradle.tasks.download.Download
 
 group = 'com.esri.samples'
 
@@ -39,18 +36,6 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task downloadData(type: Download) {
-    src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/68ec42517cdd439e81b036210483e8e7/data"
-    dest 'build/data.zip'
-    overwrite false
-}
-
-task unpackData(type: Copy) {
-    dependsOn downloadData
-    from zipTree(downloadData.dest)
-    into './samples-data/auroraCO'
-}
-
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -62,7 +47,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives, unpackData
+    dependsOn copyNatives
     mainClassName = 'com.esri.samples.feature_layer_geopackage.FeatureLayerGeoPackageLauncher'
 }
 
@@ -78,7 +63,7 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
-    from (unpackData) {
+    from ("samples-data") {
         into "samples-data"
     }
     from copyNatives
