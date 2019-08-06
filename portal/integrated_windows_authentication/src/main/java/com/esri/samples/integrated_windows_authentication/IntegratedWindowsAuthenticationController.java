@@ -16,8 +16,6 @@
 
 package com.esri.samples.integrated_windows_authentication;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -27,7 +25,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -48,8 +45,6 @@ public class IntegratedWindowsAuthenticationController {
   @FXML private TextField portalUrlTextField;
   @FXML private ProgressIndicator progressIndicator;
   @FXML private Text loadWebMapTextView;
-
-  private Portal iwaSecuredPortal;
 
   public void initialize() {
     try {
@@ -108,7 +103,7 @@ public class IntegratedWindowsAuthenticationController {
 
     } else {
       // keep hold of the portal we are searching and set a variable indicating that this is a secure portal, to allow retrieving portal items later
-      iwaSecuredPortal = new Portal(portalUrlTextField.getText(), true);
+      Portal iwaSecuredPortal = new Portal(portalUrlTextField.getText(), true);
 
       // clear any existing items in the list view
       resultsListView.getItems().clear();
