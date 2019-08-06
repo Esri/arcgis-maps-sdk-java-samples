@@ -55,7 +55,6 @@
         <Button text="Search IWA Secured Portal" onAction="#handleSearchPortalPress" maxWidth="Infinity"/>
         <Label text="Available Maps:"/>
         <ListView fx:id="resultsListView" minHeight="240" maxHeight="240"/>
-        <Text fx:id="loadStateTextView" wrappingWidth="300" fill="white"/>
         <Text fx:id="loadWebMapTextView" wrappingWidth="300" fill="white"/>
     </VBox>
 </StackPane>

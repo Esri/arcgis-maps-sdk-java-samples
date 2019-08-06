@@ -44,10 +44,9 @@ import com.esri.arcgisruntime.security.AuthenticationManager;
 public class IntegratedWindowsAuthenticationController {
 
   @FXML private MapView mapView;
-  @FXML private ListView<Pair<String, String>> resultsListView;
+  @FXML private ListView<PortalItem> resultsListView;
   @FXML private TextField portalUrlTextField;
   @FXML private ProgressIndicator progressIndicator;
-  @FXML private Text loadStateTextView;
   @FXML private Text loadWebMapTextView;
 
   private Portal iwaSecuredPortal;
@@ -69,10 +68,7 @@ public class IntegratedWindowsAuthenticationController {
           progressIndicator.setVisible(true);
 
           // get the portal item ID from the selected list view item
-          String selectedItemId = resultsListView.getSelectionModel().getSelectedItem().getKey();
-
-          // use the item ID to create a PortalItem from the portal
-          PortalItem portalItem = new PortalItem(iwaSecuredPortal, selectedItemId);
+          PortalItem portalItem = resultsListView.getSelectionModel().getSelectedItem();
 
           if (portalItem != null) {
             // create a Map using the web map (portal item)
@@ -81,7 +77,7 @@ public class IntegratedWindowsAuthenticationController {
             mapView.setMap(webMap);
           }
 
-          loadWebMapTextView.setText("Loaded web map from item " + selectedItemId);
+          loadWebMapTextView.setText("Loaded web map from item " + portalItem);
         }
       });
 
@@ -107,7 +103,10 @@ public class IntegratedWindowsAuthenticationController {
   @FXML
   private void handleSearchPortalPress() {
     // check for a url in the URL field
-    if (!portalUrlTextField.getText().isEmpty()) {
+    if (portalUrlTextField.getText().isEmpty()) {
+      new Alert(Alert.AlertType.ERROR, "Portal URL is empty. Please enter a portal URL.").show();
+
+    } else {
       // keep hold of the portal we are searching and set a variable indicating that this is a secure portal, to allow retrieving portal items later
       iwaSecuredPortal = new Portal(portalUrlTextField.getText(), true);
 
@@ -117,28 +116,13 @@ public class IntegratedWindowsAuthenticationController {
       // clear the information about the previously loaded map
       loadWebMapTextView.setText("");
 
-      // show portal load state
+      // show progress indicator
       progressIndicator.setVisible(true);
-      loadStateTextView.setText("Searching for web map items on the portal at " + iwaSecuredPortal.getUri());
 
       // load the portal items
       iwaSecuredPortal.loadAsync();
       iwaSecuredPortal.addDoneLoadingListener(() -> {
         if (iwaSecuredPortal.getLoadStatus() == LoadStatus.LOADED) {
-          try {
-            // update load state in UI with the portal URI
-            loadStateTextView.setText("Connected to the portal on " + new URI(iwaSecuredPortal.getUri()).getHost());
-          } catch (URISyntaxException e) {
-            new Alert(Alert.AlertType.ERROR, "Error getting URI from portal.").show();
-          }
-
-          // report the user name used for this connection
-          if (iwaSecuredPortal.getUser() != null) {
-            loadStateTextView.setText("Connected as: " + iwaSecuredPortal.getUser().getUsername());
-          } else {
-            // if connecting to an unsecured portal, no user credentials are needed to authenticate access
-            loadStateTextView.setText("Connected as: Anonymous");
-          }
 
           // search the portal for web maps
           ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = iwaSecuredPortal.findItemsAsync(new PortalQueryParameters("type:(\"web map\" NOT \"web mapping application\")"));
@@ -148,7 +132,7 @@ public class IntegratedWindowsAuthenticationController {
               PortalQueryResultSet<PortalItem> portalItemSet = portalItemResultFuture.get();
               List<PortalItem> portalItems = portalItemSet.getResults();
               // add the IDs and titles of the portal items to the list view
-              portalItems.forEach(portalItem -> resultsListView.getItems().add(new Pair<>(portalItem.getItemId(), portalItem.getTitle())));
+              portalItems.forEach(portalItem -> resultsListView.getItems().add(portalItem));
 
             } catch (ExecutionException | InterruptedException e) {
               new Alert(Alert.AlertType.ERROR, "Error getting portal item set from portal.").show();
@@ -158,15 +142,13 @@ public class IntegratedWindowsAuthenticationController {
           });
 
         } else {
-          // hide the progress indicator and reset the load state text
+          // hide the progress indicator
           progressIndicator.setVisible(false);
-          loadStateTextView.setText("");
+
           // report error
           new Alert(Alert.AlertType.ERROR, "Portal sign in failed: " + iwaSecuredPortal.getLoadError().getCause().getMessage()).show();
         }
       });
-    } else {
-      new Alert(Alert.AlertType.ERROR, "Portal URL is empty. Please enter a portal URL.").show();
     }
   }
 
