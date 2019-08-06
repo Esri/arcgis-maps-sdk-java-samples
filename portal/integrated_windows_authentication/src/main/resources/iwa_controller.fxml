@@ -53,7 +53,6 @@
         <TextField fx:id="portalUrlTextField" promptText="https://your.arcgis.portal/gis"
                    onAction="#handleSearchPortalPress"/>
         <Button text="Search IWA Secured Portal" onAction="#handleSearchPortalPress" maxWidth="Infinity"/>
-        <Separator/>
         <Label text="Available Maps:"/>
         <ListView fx:id="resultsListView" minHeight="240" maxHeight="240"/>
         <Text fx:id="loadStateTextView" wrappingWidth="300" fill="white"/>
