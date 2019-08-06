@@ -1,6 +1,6 @@
 {
     "category": "Feature layers",
-    "description": "Convert features into graphics to show them with mil2525. symbols.",
+    "description": "Convert features into graphics to show them with mil2525d symbols.",
     "ignore": false,
     "images": [
         "FeatureLayerDictionaryRenderer.png"
