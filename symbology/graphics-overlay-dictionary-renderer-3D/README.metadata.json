@@ -1,6 +1,6 @@
 {
     "category": "Symbology",
-    "description": "Display MIL-STD-2525. military symbology in 3D.",
+    "description": "Display MIL-STD-2525d military symbology in 3D.",
     "ignore": false,
     "images": [
         "GraphicsOverlayDictionaryRenderer3D.png"

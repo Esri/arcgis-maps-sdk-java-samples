@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.5.0'
+    arcgisVersion = '100.6.0-2490'
 }
 
 javafx {
@@ -34,6 +34,27 @@ dependencies {
     compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
+}
+
+task downloadData() {
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/5491f01d92554751902ecad85cc5d6ca/data"
+        dest 'build/data/dictionary.zip'
+        overwrite false
+    }
+    download {
+        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/c78b149a1d52414682c86a5feeb13d30/data"
+        dest './samples-data/stylx/mil2525d.stylx'
+        overwrite false
+    }
+}
+
+task unpackData(type: Copy) {
+    dependsOn downloadData
+    from (file("build/data/").listFiles().findAll { f -> f.name.endsWith(".zip") }.collect { f -> zipTree(f) }) {
+        into 'dictionary'
+    }
+    into 'samples-data'
 }
 
 task copyNatives(type: Copy) {

@@ -1,41 +1,34 @@
-# Dictionary Renderer with Graphics Overlay
+# Dictionary renderer with graphics overlay
 
 Display mil2525d symbols.
 
-The dictionary renderer creates these graphics using a local mil2525d style file and a XML file with key, value attributes for each graphic.
+![Dictionary Renderer Graphics Overlay Sample](DictionaryRendererGraphicsOverlay.png)
 
-![](DictionaryRendererGraphicsOverlay.png)
+## Use case
+
+Use a dictionary renderer on a graphics overlay to display more transient data, such as military messages coming through a local tactical network.
+
+## How to use the sample
+
+Pan and zoom to see military symbols within the map.
 
 ## How it works
 
-To apply a `DictionaryRenderer` and display mil2525d graphics:
-
-1. Create a `SymbolDicitonary`, `SymbolDictionary(specificationType, dictionaryPath)`.
-    * specificationType, this will be the mil2525d.stylx local file
-    * dictionaryPath. path to the mil2525d.stylx local file
-2. Load the dictionary asynchronouly, `DictionarySymbol.loadAsync()`.
-    * this will allows the application to continue working while the dictionary loads all symbol primitives found within the mil2525d specification
-3. Create a `DictionaryRenderer`, `DictionaryRenderer(SymbolDictionary)`.
-    * apply it to the `GraphicsOverlay.setRenderer(DictionaryRenderer)`
-4. Parse through local XML file creating a mapping of key,value pairs for each block of attributes.
-    * use the name of the attribute as key and text within that attribute as the value
-5. Create a graphic for each mapping of attributes.
-    * \_wkid key, holds the geometry's spatial reference
-    * *control* points, creates the shape of the geometry
-    * other attributes explain to dictionary symbol how to display graphic
-    * add graphic to `GraphicsOverlay.getGraphics().add(Graphic)`
+1. Create a new `DictionarySymbolStyle` from a stylx file.
+2. Create a new `DictionaryRenderer` from the dictionary symbol style.
+3. Create a new `GraphicsOverlay` and set the  dictionary renderer to the graphics overlay.
+4. Parse through the local XML file creating a map of key/value pairs for each block of attributes.
+5. Create a `Graphic` for each attribute:
+    1. Use the `_wkid` key to get the geometry's spatial reference.
+    2. Use the `_control_points` key to get the geometry's shape.
+6. Add the graphic to the graphics overlay.
 
 ## Relevant API
 
-* ArcGISMap
-* Basemap
 * DictionaryRenderer
-* Graphic
+* DictionarySymbolStyle
 * GraphicsOverlay
-* LayerViewStatus
-* MapView
-* Point
-* PointCollection
-* Polygon
-* Polyline
-* SymbolDictionary
+
+## Tags
+
+dictionary renderer, dictionary symbol style, military, symbol

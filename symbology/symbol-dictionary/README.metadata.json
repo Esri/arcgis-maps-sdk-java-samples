@@ -1,6 +1,6 @@
 {
     "category": "Symbology",
-    "description": "Find symbols within the mil2525. specification that match a keyword.",
+    "description": "Find symbols within the mil2525d specification that match a keyword.",
     "ignore": false,
     "images": [
         "SymbolDictionary.png"
