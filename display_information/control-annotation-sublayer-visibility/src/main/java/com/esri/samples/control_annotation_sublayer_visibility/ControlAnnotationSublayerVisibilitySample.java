@@ -148,8 +148,8 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
   /**
    * Get name, and where relevant, append min and max scales of each annotation sublayer.
    *
-   * @param annotationSublayer
-   * @return the layer name with min max scales, where relevant
+   * @param annotationSublayer the annotation sublayer.
+   * @return the layer name with min max scales, where relevant.
    */
   private String buildLayerName(AnnotationSublayer annotationSublayer) {
     StringBuilder layerNameBuilder = new StringBuilder(annotationSublayer.getName());
