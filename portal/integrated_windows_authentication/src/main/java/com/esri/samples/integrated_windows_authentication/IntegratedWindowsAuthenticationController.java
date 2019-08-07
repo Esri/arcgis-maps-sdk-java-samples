@@ -120,14 +120,15 @@ public class IntegratedWindowsAuthenticationController {
         if (iwaSecuredPortal.getLoadStatus() == LoadStatus.LOADED) {
 
           // search the portal for web maps
-          ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = iwaSecuredPortal.findItemsAsync(new PortalQueryParameters("type:(\"web map\" NOT \"web mapping application\")"));
+          ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = iwaSecuredPortal.findItemsAsync(
+                  new PortalQueryParameters("type:(\"web map\" NOT \"web mapping application\")"));
           portalItemResultFuture.addDoneListener(() -> {
             try {
               // get the result
               PortalQueryResultSet<PortalItem> portalItemSet = portalItemResultFuture.get();
               List<PortalItem> portalItems = portalItemSet.getResults();
               // add the IDs and titles of the portal items to the list view
-              portalItems.forEach(portalItem -> resultsListView.getItems().add(portalItem));
+              resultsListView.getItems().addAll(portalItems);
 
             } catch (ExecutionException | InterruptedException e) {
               new Alert(Alert.AlertType.ERROR, "Error getting portal item set from portal.").show();

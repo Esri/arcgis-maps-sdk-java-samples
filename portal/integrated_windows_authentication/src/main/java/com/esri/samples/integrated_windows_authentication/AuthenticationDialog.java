@@ -26,9 +26,9 @@ import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.security.UserCredential;
 
-class AuthenticationDialog extends Dialog {
+class AuthenticationDialog extends Dialog<UserCredential> {
 
-  @FXML private TextField userdomain;
+  @FXML private TextField userDomain;
   @FXML private PasswordField password;
   @FXML private ButtonType cancelButton;
   @FXML private ButtonType continueButton;
@@ -49,9 +49,9 @@ class AuthenticationDialog extends Dialog {
 
     setResultConverter(dialogButton -> {
       if (dialogButton == continueButton) {
-        if (!userdomain.getText().equals("") && !password.getText().equals("")) {
+        if (!userDomain.getText().equals("") && !password.getText().equals("")) {
           try {
-            return new UserCredential(userdomain.getText(), password.getText());
+            return new UserCredential(userDomain.getText(), password.getText());
           } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
           }
