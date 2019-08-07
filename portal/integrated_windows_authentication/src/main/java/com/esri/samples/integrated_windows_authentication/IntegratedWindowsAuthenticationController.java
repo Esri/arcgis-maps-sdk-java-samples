@@ -119,9 +119,13 @@ public class IntegratedWindowsAuthenticationController {
       iwaSecuredPortal.addDoneLoadingListener(() -> {
         if (iwaSecuredPortal.getLoadStatus() == LoadStatus.LOADED) {
 
+          // create portal query parameters searching for web maps
+          PortalQueryParameters portalQueryParameters = new PortalQueryParameters(
+                  "type:(\"web map\" NOT \"web mapping application\")");
+
           // search the portal for web maps
           ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = iwaSecuredPortal.findItemsAsync(
-                  new PortalQueryParameters("type:(\"web map\" NOT \"web mapping application\")"));
+                  portalQueryParameters);
           portalItemResultFuture.addDoneListener(() -> {
             try {
               // get the result
@@ -142,7 +146,7 @@ public class IntegratedWindowsAuthenticationController {
           progressIndicator.setVisible(false);
 
           // report error
-          new Alert(Alert.AlertType.ERROR, "Portal sign in failed: " + iwaSecuredPortal.getLoadError().getCause().getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Portal sign in failed").show();
         }
       });
     }
