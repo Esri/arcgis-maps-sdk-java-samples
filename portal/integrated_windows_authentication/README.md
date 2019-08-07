@@ -15,7 +15,7 @@ Enter a URL to your IWA-secured portal into the URL field and select "Search IWA
 ## How it works
 
 1. Set up an `AuthenticationChallengeHandler` that challenges the user for authentication, such as the custom handler created for this sample: `IWAChallengeHandler`.
-2. Set the `AuthenticationManager` to use the created challenge handlerusing `.setAuthenticationChallengeHandler(new IWAChallengeHandler());`.
+2. Set the `AuthenticationManager` to use the created challenge handler using `.setAuthenticationChallengeHandler(new IWAChallengeHandler());`.
 3. Create a new `Portal` from a portal URL and a boolean indicating if it is a secured resource using `new Portal(url, true)`.
 4. Load the portal. The authentication challenge handler will prompt the user for credentials. The portal will load successfully with valid credentials.
 5. Create `PortalQueryParameters` to define a search query for map items in the portal.
