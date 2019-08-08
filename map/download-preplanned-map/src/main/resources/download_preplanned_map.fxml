@@ -51,7 +51,7 @@
         <Button fx:id="showOnlineMapButton" disable="true" text="Show Online Map" minWidth="200" onAction="#showOnlineMap"/>
         <Label text="Available Preplanned Areas:"/>
         <ListView fx:id="preplannedAreasListView" minHeight="100" maxHeight="100" maxWidth="200"/>
-        <Button fx:id="downloadAreaButton" text="Download Preplanned Area" onAction="#handleDownloadPreplannedAreaButtonClicked" minWidth="200" disable="true"/>
+        <Button fx:id="downloadAreaButton" text="Download" onAction="#handleDownloadPreplannedAreaButtonClicked" minWidth="200" disable="true"/>
         <Button fx:id="deleteOfflineAreasButton" text="Delete All Downloaded Areas" onAction="#handleDeleteOfflineAreasButtonClicked" minWidth="200" disable="true"/>
     </VBox>
 </StackPane>
