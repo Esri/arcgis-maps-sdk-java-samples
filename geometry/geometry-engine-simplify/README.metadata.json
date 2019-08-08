@@ -1,30 +1,21 @@
 {
     "category": "Geometry",
-    "description": "Simplify a polygon that has multiple parts.",
+    "description": "Simplify a polygon with a self-intersecting geometry.",
     "ignore": false,
     "images": [
         "GeometryEngineSimplify.png"
     ],
     "keywords": [
         "Geometry",
-        "Graphic",
-        "GraphicsOverlay",
-        "MapView",
-        "Point",
-        "PointCollection",
-        "SimpleLineSymbol",
-        "SimpleFillSymbol"
+        "Polygon",
+        "Simplify",
+        "Spatial operations",
+        "Topology"
     ],
     "redirect_from": "/java/latest/sample-code/geometry-engine-simplify.htm",
     "relevant_apis": [
         "Geometry",
-        "Graphic",
-        "GraphicsOverlay",
-        "MapView",
-        "Point",
-        "PointCollection",
-        "SimpleLineSymbol",
-        "SimpleFillSymbol"
+        "GeometryEngine"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/geometry_engine_simplify/GeometryEngineSimplifySample.java"
