@@ -92,20 +92,27 @@ public class GeometryEngineSimplifySample extends Application {
 
       // perform the simplify geometry operation
       simplifyButton.setOnAction(e -> {
-        Geometry resultPolygon = GeometryEngine.simplify(polygon.getGeometry());
 
-        // update result as a red (0xFFE91F1F) geometry
-        SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
-        resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
+        // check if the geometry needs to be simplified
+        if (!GeometryEngine.isSimple(polygon.getGeometry())) {
 
-        resetButton.setDisable(false);
-        simplifyButton.setDisable(true);
+          // simplify the geometry
+          Geometry resultPolygon = GeometryEngine.simplify(polygon.getGeometry());
+
+          // update result as a red graphic
+          SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
+          resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
+
+          resetButton.setDisable(false);
+          simplifyButton.setDisable(true);
+        }
       });
 
       // clear result layer
       resetButton.setOnAction(e -> {
         resultGeomOverlay.getGraphics().clear();
         simplifyButton.setDisable(false);
+        resetButton.setDisable(true);
       });
 
       // add buttons to the control panel

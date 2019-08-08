@@ -6,33 +6,16 @@
         "DictionaryRendererGraphicsOverlay.png"
     ],
     "keywords": [
-        "ArcGISMap",
-        "Basemap",
-        "DictionaryRenderer",
-        "Graphic",
-        "GraphicsOverlay",
-        "LayerViewStatus",
-        "MapView",
-        "Point",
-        "PointCollection",
-        "Polygon",
-        "Polyline",
-        "SymbolDictionary"
+        "dictionary renderer",
+        "dictionary symbol style",
+        "military",
+        "symbol"
     ],
     "redirect_from": "/java/latest/sample-code/dictionary-renderer-with-graphics-overlay.htm",
     "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
         "DictionaryRenderer",
-        "Graphic",
-        "GraphicsOverlay",
-        "LayerViewStatus",
-        "MapView",
-        "Point",
-        "PointCollection",
-        "Polygon",
-        "Polyline",
-        "SymbolDictionary"
+        "DictionarySymbolStyle",
+        "GraphicsOverlay"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/dictionary_renderer_graphics_overlay/DictionaryRendererGraphicsOverlaySample.java"

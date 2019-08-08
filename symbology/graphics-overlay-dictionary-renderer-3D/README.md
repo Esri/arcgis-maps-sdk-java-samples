@@ -2,13 +2,13 @@
 
 Display MIL-STD-2525. military symbology in 3D.
 
-The dictionary renderer creates these graphics using a local mil2525. style file included in the SDK's resources/symbols directory plus an XML file with key-value attributes for each graphic.
+The dictionary renderer creates these graphics using a local mil2525d style file included in the SDK's resources/symbols directory plus an XML file with key-value attributes for each graphic.
 
 ![](GraphicsOverlayDictionaryRenderer3D.png)
 
 ## How it works
 
-To apply a `DictionaryRenderer` and display mil2525. graphics in 3D:
+To apply a `DictionaryRenderer` and display mil2525d graphics in 3D:
 
 1. Create a `SymbolDicitonary` with the "mil2525d" specification type: `SymbolDictionary("mil2525d")`.
 2. Create a `DictionaryRenderer` with the symbol dictionary.
