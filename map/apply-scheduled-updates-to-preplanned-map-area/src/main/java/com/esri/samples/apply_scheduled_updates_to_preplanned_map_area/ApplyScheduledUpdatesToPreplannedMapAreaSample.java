@@ -73,7 +73,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Apply Schedueld Updates to Preplanned Map Area");
+      stage.setTitle("Apply Scheduled Updates to Preplanned Map Area");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -101,7 +101,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 110);
+      controlsVBox.setMaxSize(200, 110);
       controlsVBox.getChildren().addAll(applyUpdatesButton, updateAvailableLabel, updateSizeLabel);
 
       // create a temporary copy of the local offline map files, so that updating does not overwrite them permanently
