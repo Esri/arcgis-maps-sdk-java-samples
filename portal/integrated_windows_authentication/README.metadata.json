@@ -11,7 +11,7 @@
         "login",
         "portal",
         "security",
-        "sign"
+        "sign-in"
     ],
     "redirect_from": "/java/latest/sample-code/integrated-windows-authentication.htm",
     "relevant_apis": [
@@ -27,6 +27,7 @@
         "src/main/java/com/esri/samples/integrated_windows_authentication/IntegratedWindowsAuthenticationController.java",
         "src/main/java/com/esri/samples/integrated_windows_authentication/IntegratedWindowsAuthenticationSample.java",
         "src/main/java/com/esri/samples/integrated_windows_authentication/IWAChallengeHandler.java",
+        "src/main/java/com/esri/samples/integrated_windows_authentication/PortalItemInfoListCell.java",
         "src/main/resources/iwa_auth_dialog.fxml",
         "src/main/resources/iwa_controller.fxml"
     ],
