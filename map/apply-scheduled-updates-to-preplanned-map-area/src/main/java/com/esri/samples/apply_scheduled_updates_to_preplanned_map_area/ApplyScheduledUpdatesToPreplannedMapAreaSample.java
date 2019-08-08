@@ -42,7 +42,6 @@ import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Expiration;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseParameters;
@@ -58,8 +57,13 @@ import org.apache.commons.io.FileUtils;
 
 public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application {
 
+  private Button applyUpdatesButton;
+  private Label updateAvailableLabel;
+  private Label updateSizeLabel;
   private MapView mapView;
   private MobileMapPackage mobileMapPackage;
+  private OfflineMapSyncTask offlineMapSyncTask;
+  private ProgressIndicator progressIndicator;
 
   @Override
   public void start(Stage stage) {
@@ -79,17 +83,17 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       mapView = new MapView();
 
       // create progress indicator
-      ProgressIndicator progressIndicator = new ProgressIndicator();
-      progressIndicator.setVisible(false);
+      progressIndicator = new ProgressIndicator();
+      progressIndicator.setVisible(true);
 
       // create a button to update the offline map
-      Button applyUpdatesButton = new Button("Apply Scheduled Updates");
+      applyUpdatesButton = new Button("Apply Scheduled Updates");
       applyUpdatesButton.setDisable(true);
 
       // create labels to show update availability and size
-      Label updateAvailableLabel = new Label("Updates: ");
+      updateAvailableLabel = new Label("Updates: ");
       updateAvailableLabel.setTextFill(Color.WHITE);
-      Label updateSizeLabel = new Label("Update size: ");
+      updateSizeLabel = new Label("Update size: ");
       updateSizeLabel.setTextFill(Color.WHITE);
 
       // create a control panel for the UI elements
@@ -116,126 +120,75 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           ArcGISMap offlineMap = mobileMapPackage.getMaps().get(0);
           mapView.setMap(offlineMap);
 
-          // show progress indicator
-          progressIndicator.setVisible(true);
-
           // create an offline map sync task with the preplanned area
-          OfflineMapSyncTask offlineMapSyncTask = new OfflineMapSyncTask(offlineMap);
+          offlineMapSyncTask = new OfflineMapSyncTask(offlineMap);
 
-          // check for updates to the offline map
-          ListenableFuture<OfflineMapUpdatesInfo> offlineMapUpdatesInfoFuture = offlineMapSyncTask.checkForUpdatesAsync();
-          offlineMapUpdatesInfoFuture.addDoneListener(() -> {
-            try {
-              // get and check the results
-              OfflineMapUpdatesInfo offlineMapUpdatesInfo = offlineMapUpdatesInfoFuture.get();
+          // check for available updates to the mobile map package
+          checkForScheduledUpdates();
 
-              // update UI for available updates
-              if (offlineMapUpdatesInfo.getDownloadAvailability() == OfflineUpdateAvailability.AVAILABLE) {
-                updateAvailableLabel.setText("Updates: AVAILABLE");
-
-                // check and show update size
-                long updateSize = offlineMapUpdatesInfo.getScheduledUpdatesDownloadSize();
-                updateSizeLabel.setText("Update size: " + updateSize + " bytes.");
-
-                // hide the progress indicator
-                progressIndicator.setVisible(false);
-
-                // enable the 'Apply Scheduled Updates' button
-                applyUpdatesButton.setDisable(false);
-                // when the button is clicked, synchronize the mobile map package
-                applyUpdatesButton.setOnAction(e -> {
-
-                  // show progress indicator
-                  progressIndicator.setVisible(true);
-
-                  // create default parameters for the sync task
-                  ListenableFuture<OfflineMapSyncParameters> offlineMapSyncParametersFuture = offlineMapSyncTask.createDefaultOfflineMapSyncParametersAsync();
-                  offlineMapSyncParametersFuture.addDoneListener(() -> {
-                    try {
-                      OfflineMapSyncParameters offlineMapSyncParameters = offlineMapSyncParametersFuture.get();
-
-                      // set the sync direction to none, since we only want to update
-                      offlineMapSyncParameters.setSyncDirection(SyncGeodatabaseParameters.SyncDirection.NONE);
-                      // set the parameters to download all updates for the mobile map packages
-                      offlineMapSyncParameters.setPreplannedScheduledUpdatesOption(PreplannedScheduledUpdatesOption.DOWNLOAD_ALL_UPDATES);
-                      // set the map package to rollback to the old state should the sync job fail
-                      offlineMapSyncParameters.setRollbackOnFailure(true);
-
-                      // create a sync job using the parameters
-                      OfflineMapSyncJob offlineMapSyncJob = offlineMapSyncTask.syncOfflineMap(offlineMapSyncParameters);
-
-                      // start the job and get the results
-                      offlineMapSyncJob.start();
-                      offlineMapSyncJob.addJobDoneListener(() -> {
-                        if (offlineMapSyncJob.getStatus() == Job.Status.SUCCEEDED) {
-                          OfflineMapSyncResult offlineMapSyncResult = offlineMapSyncJob.getResult();
-
-                          // if mobile map package reopen is required, close the existing mobile map package and load it again
-                          if (offlineMapSyncResult.isMobileMapPackageReopenRequired()) {
-                            mobileMapPackage.close();
-                            mobileMapPackage.loadAsync();
-                            mobileMapPackage.addDoneLoadingListener(() -> {
-                              if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
-
-                                // add the map from the mobile map package to the map view
-                                mapView.setMap(mobileMapPackage.getMaps().get(0));
-
-                              } else {
-                                new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package.").show();
-                              }
-                            });
-                          }
-
-                          // perform an additional check for updates
-                          ListenableFuture<OfflineMapUpdatesInfo> offlineMapUpdatesInfoFuture2 = offlineMapSyncTask.checkForUpdatesAsync();
-                          offlineMapUpdatesInfoFuture2.addDoneListener(() -> {
-                            try {
-                              // get and check the results
-                              OfflineMapUpdatesInfo offlineMapUpdatesInfo2 = offlineMapUpdatesInfoFuture2.get();
-
-                              // update UI for available updates
-                              if (offlineMapUpdatesInfo2.getDownloadAvailability() == OfflineUpdateAvailability.AVAILABLE) {
-                                updateAvailableLabel.setText("Updates: AVAILABLE");
-
-                                // check and show update size
-                                long updateSize2 = offlineMapUpdatesInfo2.getScheduledUpdatesDownloadSize();
-                                updateSizeLabel.setText("Update size: " + updateSize2 + " bytes.");
-
-                              } else {
-                                updateAvailableLabel.setText("Updates: UP TO DATE");
-                                updateSizeLabel.setText("Update size: N/A");
-                              }
-                            } catch (Exception ex) {
-                              new Alert(Alert.AlertType.ERROR, "Error checking for Scheduled Updates Availability: " + ex.getMessage()).show();
-                            }
-                          });
-
-                        } else {
-                          new Alert(Alert.AlertType.ERROR, "Error syncing the offline map: " + offlineMapSyncJob.getError().getMessage()).show();
-                        }
-
-                        // disable the 'Apply Scheduled Updates' button
-                        applyUpdatesButton.setDisable(true);
-                        // hide progress indicator
-                        progressIndicator.setVisible(false);
-
-                      });
-                    } catch (InterruptedException | ExecutionException ex) {
-                      new Alert(Alert.AlertType.ERROR, "Error creating DefaultOfflineMapSyncParameters" + ex.getMessage()).show();
-                    }
-                  });
-                });
-
-              } else {
-                updateAvailableLabel.setText("Updates: NOT AVAILABLE");
-              }
-            } catch (Exception e) {
-              new Alert(Alert.AlertType.ERROR, "Error checking for Scheduled Updates Availability: " + e.getMessage()).show();
-            }
-          });
         } else {
           new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package.").show();
         }
+      });
+
+      // when the button is clicked, synchronize the mobile map package
+      applyUpdatesButton.setOnAction(e -> {
+        // show progress indicator
+        progressIndicator.setVisible(true);
+
+        // disable the 'Apply Scheduled Updates' button
+        applyUpdatesButton.setDisable(true);
+
+        // create default parameters for the sync task
+        ListenableFuture<OfflineMapSyncParameters> offlineMapSyncParametersFuture = offlineMapSyncTask.createDefaultOfflineMapSyncParametersAsync();
+        offlineMapSyncParametersFuture.addDoneListener(() -> {
+          try {
+            OfflineMapSyncParameters offlineMapSyncParameters = offlineMapSyncParametersFuture.get();
+
+            // set the sync direction to none, since we only want to update
+            offlineMapSyncParameters.setSyncDirection(SyncGeodatabaseParameters.SyncDirection.NONE);
+            // set the parameters to download all updates for the mobile map packages
+            offlineMapSyncParameters.setPreplannedScheduledUpdatesOption(PreplannedScheduledUpdatesOption.DOWNLOAD_ALL_UPDATES);
+            // set the map package to rollback to the old state should the sync job fail
+            offlineMapSyncParameters.setRollbackOnFailure(true);
+
+            // create a sync job using the parameters
+            OfflineMapSyncJob offlineMapSyncJob = offlineMapSyncTask.syncOfflineMap(offlineMapSyncParameters);
+
+            // start the job and get the results
+            offlineMapSyncJob.start();
+            offlineMapSyncJob.addJobDoneListener(() -> {
+              if (offlineMapSyncJob.getStatus() == Job.Status.SUCCEEDED) {
+                OfflineMapSyncResult offlineMapSyncResult = offlineMapSyncJob.getResult();
+
+                // if mobile map package reopen is required, close the existing mobile map package and load it again
+                if (offlineMapSyncResult.isMobileMapPackageReopenRequired()) {
+                  mobileMapPackage.close();
+                  mobileMapPackage.loadAsync();
+                  mobileMapPackage.addDoneLoadingListener(() -> {
+                    if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
+
+                      // add the map from the mobile map package to the map view
+                      mapView.setMap(mobileMapPackage.getMaps().get(0));
+
+                    } else {
+                      new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package.").show();
+                    }
+                  });
+                }
+
+                // perform another check for updates, to make sure that the newest update was applied
+                checkForScheduledUpdates();
+
+              } else {
+                new Alert(Alert.AlertType.ERROR, "Error syncing the offline map: " + offlineMapSyncJob.getError().getMessage()).show();
+              }
+
+            });
+          } catch (InterruptedException | ExecutionException ex) {
+            new Alert(Alert.AlertType.ERROR, "Error creating DefaultOfflineMapSyncParameters" + ex.getMessage()).show();
+          }
+        });
       });
 
       // add the map view and UI elements to the stack pane
@@ -248,6 +201,45 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       // on any error, display the stack trace.
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Checks for scheduled updates to the preplanned map area.
+   */
+  private void checkForScheduledUpdates() {
+    // show progress indicator
+    progressIndicator.setVisible(true);
+
+    // check for updates to the offline map
+    ListenableFuture<OfflineMapUpdatesInfo> offlineMapUpdatesInfoFuture = offlineMapSyncTask.checkForUpdatesAsync();
+    offlineMapUpdatesInfoFuture.addDoneListener(() -> {
+      try {
+        // get and check the results
+        OfflineMapUpdatesInfo offlineMapUpdatesInfo = offlineMapUpdatesInfoFuture.get();
+
+        // update UI for available updates
+        if (offlineMapUpdatesInfo.getDownloadAvailability() == OfflineUpdateAvailability.AVAILABLE) {
+          updateAvailableLabel.setText("Updates: AVAILABLE");
+
+          // check and show update size
+          long updateSize = offlineMapUpdatesInfo.getScheduledUpdatesDownloadSize();
+          updateSizeLabel.setText("Update size: " + updateSize + " bytes.");
+
+          // enable the 'Apply Scheduled Updates' button
+          applyUpdatesButton.setDisable(false);
+
+        } else {
+          updateAvailableLabel.setText("Updates: UP TO DATE");
+          updateSizeLabel.setText("Update size: N/A");
+        }
+
+        // hide the progress indicator
+        progressIndicator.setVisible(false);
+
+      } catch (Exception ex) {
+        new Alert(Alert.AlertType.ERROR, "Error checking for Scheduled Updates Availability: " + ex.getMessage()).show();
+      }
+    });
   }
 
   /**
