@@ -42,6 +42,7 @@ import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Expiration;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseParameters;
@@ -185,9 +186,29 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
                             });
                           }
 
-                          // update labels
-                          updateAvailableLabel.setText("Updates: Up to date");
-                          updateSizeLabel.setText("Update size: N/A");
+                          // perform an additional check for updates
+                          ListenableFuture<OfflineMapUpdatesInfo> offlineMapUpdatesInfoFuture2 = offlineMapSyncTask.checkForUpdatesAsync();
+                          offlineMapUpdatesInfoFuture2.addDoneListener(() -> {
+                            try {
+                              // get and check the results
+                              OfflineMapUpdatesInfo offlineMapUpdatesInfo2 = offlineMapUpdatesInfoFuture2.get();
+
+                              // update UI for available updates
+                              if (offlineMapUpdatesInfo2.getDownloadAvailability() == OfflineUpdateAvailability.AVAILABLE) {
+                                updateAvailableLabel.setText("Updates: AVAILABLE");
+
+                                // check and show update size
+                                long updateSize2 = offlineMapUpdatesInfo2.getScheduledUpdatesDownloadSize();
+                                updateSizeLabel.setText("Update size: " + updateSize2 + " bytes.");
+
+                              } else {
+                                updateAvailableLabel.setText("Updates: UP TO DATE");
+                                updateSizeLabel.setText("Update size: N/A");
+                              }
+                            } catch (Exception ex) {
+                              new Alert(Alert.AlertType.ERROR, "Error checking for Scheduled Updates Availability: " + ex.getMessage()).show();
+                            }
+                          });
 
                         } else {
                           new Alert(Alert.AlertType.ERROR, "Error syncing the offline map: " + offlineMapSyncJob.getError().getMessage()).show();
