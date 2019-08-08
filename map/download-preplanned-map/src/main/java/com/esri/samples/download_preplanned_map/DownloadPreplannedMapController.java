@@ -174,9 +174,7 @@ public class DownloadPreplannedMapController {
           }
         }
       };
-
-//      downloadAreaButton.disableProperty().bind(preplannedAreasListView.getSelectionModel().selectedItemProperty().isNull());
-
+      
       // add the listeners to the list view
       preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionChangeViewpointListener);
       preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionButtonLabelListener);
