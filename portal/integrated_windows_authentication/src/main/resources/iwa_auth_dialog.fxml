@@ -27,7 +27,7 @@
             <content>
                 <GridPane vgap="10" hgap="10">
                     <Label text="Username@Domain" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <TextField fx:id="userdomain" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <TextField fx:id="userDomain" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                     <Label text="Password" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                     <PasswordField fx:id="password" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                 </GridPane>

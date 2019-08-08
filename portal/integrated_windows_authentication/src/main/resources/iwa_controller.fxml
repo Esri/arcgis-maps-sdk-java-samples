@@ -34,7 +34,7 @@
            stylesheets="style.css">
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator" visible="false"/>
-    <VBox StackPane.alignment="TOP_LEFT" minWidth="270" maxWidth="270" maxHeight="300" styleClass="panel-region"
+    <VBox StackPane.alignment="TOP_LEFT" minWidth="280" maxWidth="270" maxHeight="300" styleClass="panel-region"
           spacing="10">
         <padding>
             <Insets topRightBottomLeft="10"/>
