@@ -156,11 +156,7 @@ public class DownloadPreplannedMapController {
       // create a listener that changes the viewpoint to the extent of the preplanned map area when an item is selected in the list view
       listViewSelectionChangeViewpointListener = (obs, oldValue, newValue) -> {
         if (newValue != null) {
-          // get the extent of the area of interest, and add a buffer
-          Envelope areaOfInterest = GeometryEngine.buffer(newValue.getAreaOfInterest(), 100).getExtent();
-
-          // set the point of view to the area of interest
-          mapView.setViewpointAsync(new Viewpoint(areaOfInterest), 1.50F);
+          changeViewPoint(newValue);
         }
       };
 
@@ -179,12 +175,28 @@ public class DownloadPreplannedMapController {
         }
       };
 
+//      downloadAreaButton.disableProperty().bind(preplannedAreasListView.getSelectionModel().selectedItemProperty().isNull());
+
       // add the listeners to the list view
       preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionChangeViewpointListener);
       preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionButtonLabelListener);
 
     } catch (IOException e) {
       new Alert(Alert.AlertType.ERROR, "Failed to create a temporary path for saving the Preplanned Map Areas.").show();
+    }
+  }
+
+  /**
+   * Changes the viewpoint to the area of interest of a preplanned map area.
+   * @param preplannedMapArea to change the viewpoint to.
+   */
+  private void changeViewPoint(PreplannedMapArea preplannedMapArea) {
+    if (preplannedMapArea != null) {
+      // get the extent of the area of interest, and add a buffer
+      Envelope areaOfInterest = GeometryEngine.buffer(preplannedMapArea.getAreaOfInterest(), 100).getExtent();
+
+      // set the point of view to the area of interest
+      mapView.setViewpointAsync(new Viewpoint(areaOfInterest), 1.50F);
     }
   }
 
@@ -365,6 +377,9 @@ public class DownloadPreplannedMapController {
 
     // add the listener to the list view to change the viewpoint on selection
     preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener(listViewSelectionChangeViewpointListener);
+
+    // change the viewpoint to the currently selected preplanned map area
+    changeViewPoint(preplannedAreasListView.getSelectionModel().getSelectedItem());
 
     // disable the 'show online map' button
     showOnlineMapButton.setDisable(true);
