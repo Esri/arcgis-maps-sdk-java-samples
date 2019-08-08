@@ -3,7 +3,7 @@
     "description": "Display raster data from a geopackage.",
     "ignore": false,
     "images": [
-        "RasterLayerGeoPackage.png"
+        "RasterLayerGeopackage.png"
     ],
     "keywords": [
         "ArcGISMap",
