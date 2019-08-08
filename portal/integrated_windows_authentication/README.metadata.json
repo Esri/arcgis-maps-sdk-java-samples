@@ -11,7 +11,7 @@
         "login",
         "portal",
         "security",
-        "sign"
+        "sign-in"
     ],
     "redirect_from": "/java/latest/sample-code/integrated-windows-authentication.htm",
     "relevant_apis": [
