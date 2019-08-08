@@ -188,6 +188,7 @@ public class DownloadPreplannedMapController {
 
   /**
    * Changes the viewpoint to the area of interest of a preplanned map area.
+   *
    * @param preplannedMapArea to change the viewpoint to.
    */
   private void changeViewPoint(PreplannedMapArea preplannedMapArea) {
