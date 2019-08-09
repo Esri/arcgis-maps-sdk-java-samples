@@ -75,10 +75,11 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 70);
+      controlsVBox.setMaxSize(180, 85);
 
       // show current map scale in a label within the control panel
       Label currentMapScaleLabel = new Label();
+      currentMapScaleLabel.setTextFill(Color.WHITE);
       mapView.addMapScaleChangedListener(mapScaleChangedEvent -> currentMapScaleLabel.setText("Scale: 1:" + Math.round(mapView.getMapScale())));
 
       // add checkboxes and label to the control panel
@@ -103,8 +104,10 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
                   AnnotationSublayer openSublayer = (AnnotationSublayer) layer.getSubLayerContents().get(1);
 
                   // set the layer name for the checkboxes
-                  closedSublayerCheckbox.setText(buildLayerName(closedSublayer));
-                  openSublayerCheckbox.setText(buildLayerName(openSublayer));
+                  closedSublayerCheckbox.setText(closedSublayer.getName());
+                  openSublayerCheckbox.setText(openSublayer.getName() +
+                          " (" + "1:" + Math.round(openSublayer.getMaxScale()) +
+                          " - 1:" + Math.round(openSublayer.getMinScale()) + ")");
 
                   // toggle annotation sublayer visibility on check
                   closedSublayerCheckbox.setOnAction(event -> closedSublayer.setVisible(closedSublayerCheckbox.isSelected()));
@@ -132,9 +135,7 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       });
 
       // add map view and label to stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox, currentMapScaleLabel);
-      StackPane.setAlignment(currentMapScaleLabel, Pos.BOTTOM_CENTER);
-      StackPane.setMargin(currentMapScaleLabel, new Insets(0, 0, 20, 0));
+      stackPane.getChildren().addAll(mapView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(20, 0, 0, 20));
 
@@ -142,20 +143,6 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // on any error, print the stack trace
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Get name, and where relevant, append min and max scales of each annotation sublayer.
-   *
-   * @param annotationSublayer the annotation sublayer.
-   * @return the layer name with min max scales, where relevant.
-   */
-  private String buildLayerName(AnnotationSublayer annotationSublayer) {
-    StringBuilder layerNameBuilder = new StringBuilder(annotationSublayer.getName());
-    if (!Double.isNaN(annotationSublayer.getMaxScale()) && !Double.isNaN(annotationSublayer.getMinScale())) {
-      layerNameBuilder.append(" (1:").append((int) annotationSublayer.getMaxScale()).append(" -1:").append((int) annotationSublayer.getMinScale()).append(")");
-    }
-    return layerNameBuilder.toString();
   }
 
   /**
