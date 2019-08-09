@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.show_callout;
+package com.esri.samples.control_annotation_sublayer_visibility;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
