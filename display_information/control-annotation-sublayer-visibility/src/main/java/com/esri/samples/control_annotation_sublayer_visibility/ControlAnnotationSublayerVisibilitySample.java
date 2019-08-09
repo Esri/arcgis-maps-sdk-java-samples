@@ -80,7 +80,9 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // show current map scale in a label within the control panel
       Label currentMapScaleLabel = new Label();
       currentMapScaleLabel.setTextFill(Color.WHITE);
-      mapView.addMapScaleChangedListener(mapScaleChangedEvent -> currentMapScaleLabel.setText("Scale: 1:" + Math.round(mapView.getMapScale())));
+      mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
+              currentMapScaleLabel.setText("Scale: 1:" + Math.round(mapView.getMapScale()))
+      );
 
       // add checkboxes and label to the control panel
       controlsVBox.getChildren().addAll(closedSublayerCheckbox, openSublayerCheckbox, currentMapScaleLabel);
@@ -105,16 +107,14 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
 
                   // set the layer name for the checkboxes
                   closedSublayerCheckbox.setText(closedSublayer.getName());
-                  openSublayerCheckbox.setText(openSublayer.getName() +
-                          " (" + "1:" + Math.round(openSublayer.getMaxScale()) +
-                          " - 1:" + Math.round(openSublayer.getMinScale()) + ")");
+                  openSublayerCheckbox.setText(String.format("%s (1:%d - 1:%d)", openSublayer.getName(), Math.round(openSublayer.getMaxScale()), Math.round(openSublayer.getMinScale())));
 
                   // toggle annotation sublayer visibility on check
                   closedSublayerCheckbox.setOnAction(event -> closedSublayer.setVisible(closedSublayerCheckbox.isSelected()));
                   openSublayerCheckbox.setOnAction(event -> openSublayer.setVisible(openSublayerCheckbox.isSelected()));
 
+                  // gray out the open sublayer when the layer is out of scale
                   mapView.addMapScaleChangedListener(mapScaleChangedEvent -> {
-                    // if the "open" sublayer is visible, set the text color to white, otherwise set it to gray
                     if (openSublayer.isVisibleAtScale(mapView.getMapScale())) {
                       openSublayerCheckbox.setTextFill(Color.WHITE);
                     } else {
