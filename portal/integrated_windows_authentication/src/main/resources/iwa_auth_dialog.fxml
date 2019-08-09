@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2017 Esri.
+  ~ Copyright 2019 Esri.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
   ~ use this file except in compliance with the License. You may obtain a copy of
@@ -20,17 +20,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.PasswordField?>
 <fx:root type="javafx.scene.control.Dialog" xmlns:fx="http://javafx.com/fxml">
     <dialogPane>
         <DialogPane>
             <content>
                 <GridPane vgap="10" hgap="10">
-                    <Label text="Portal URL" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <TextField fx:id="portalURL" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                    <Label text="Client ID" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                    <TextField fx:id="clientID" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                    <Label text="Redirect URI" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                    <TextField fx:id="redirectURI" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Username@Domain" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="userDomain" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Password" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <PasswordField fx:id="password" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                 </GridPane>
             </content>
             <ButtonType fx:id="cancelButton" buttonData="CANCEL_CLOSE" text="Cancel"/>

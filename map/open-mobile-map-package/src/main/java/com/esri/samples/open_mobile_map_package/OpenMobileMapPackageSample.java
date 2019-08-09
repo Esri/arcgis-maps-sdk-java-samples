@@ -31,6 +31,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class OpenMobileMapPackageSample extends Application {
 
   private MapView mapView;
+  private MobileMapPackage mobileMapPackage;
 
   @Override
   public void start(Stage stage) {
@@ -52,7 +53,7 @@ public class OpenMobileMapPackageSample extends Application {
 
       //load a mobile map package
       final String mmpkPath = new File("./samples-data/mmpk/Yellowstone.mmpk").getAbsolutePath();
-      MobileMapPackage mobileMapPackage = new MobileMapPackage(mmpkPath);
+      mobileMapPackage = new MobileMapPackage(mmpkPath);
 
       mobileMapPackage.loadAsync();
       mobileMapPackage.addDoneLoadingListener(() -> {

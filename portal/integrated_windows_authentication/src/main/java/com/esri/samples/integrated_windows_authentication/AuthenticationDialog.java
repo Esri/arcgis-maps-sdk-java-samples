@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2019 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -14,30 +14,28 @@
  * the License.
  */
 
-package com.esri.samples.oauth;
+package com.esri.samples.integrated_windows_authentication;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import com.esri.arcgisruntime.security.OAuthConfiguration;
+import com.esri.arcgisruntime.security.UserCredential;
 
-/**
- * Custom dialog for getting an OAuthConfiguration.
- */
-class AuthenticationDialog extends Dialog<OAuthConfiguration> {
+class AuthenticationDialog extends Dialog<UserCredential> {
 
-  @FXML private TextField portalURL;
-  @FXML private TextField clientID;
-  @FXML private TextField redirectURI;
+  @FXML private TextField userDomain;
+  @FXML private PasswordField password;
   @FXML private ButtonType cancelButton;
   @FXML private ButtonType continueButton;
 
   AuthenticationDialog() {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/oauth_auth_dialog.fxml"));
+
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/iwa_auth_dialog.fxml"));
     loader.setRoot(this);
     loader.setController(this);
 
@@ -51,23 +49,18 @@ class AuthenticationDialog extends Dialog<OAuthConfiguration> {
 
     setResultConverter(dialogButton -> {
       if (dialogButton == continueButton) {
-        if (!portalURL.getText().equals("") && !clientID.getText().equals("") && !redirectURI.getText().equals("")) {
+        if (!userDomain.getText().equals("") && !password.getText().equals("")) {
           try {
-            return new OAuthConfiguration(portalURL.getText(), clientID.getText(), redirectURI.getText());
+            return new UserCredential(userDomain.getText(), password.getText());
           } catch (Exception e) {
-            showMessage(e.getMessage());
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
           }
         } else {
-          showMessage("missing credentials");
+          new Alert(Alert.AlertType.ERROR, "Missing credentials").show();
         }
       }
       return null;
     });
   }
 
-  private void showMessage(String message) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setContentText(message);
-    alert.show();
-  }
 }
