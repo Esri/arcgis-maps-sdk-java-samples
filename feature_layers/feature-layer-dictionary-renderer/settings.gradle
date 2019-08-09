@@ -4,7 +4,6 @@ rootProject.name = 'feature-layer-dictionary-renderer'
 def ant = new groovy.util.AntBuilder()
 
 if (!file("./samples-data").exists()) {
-    file("./samples-data/dictionary").mkdirs()
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/5491f01d92554751902ecad85cc5d6ca/data",
             dest: file("./data.zip")
@@ -14,6 +13,7 @@ if (!file("./samples-data").exists()) {
             dest: file("./samples-data/dictionary")
     )
     delete file("./data.zip")
+
     file("./samples-data/stylx").mkdirs()
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/c78b149a1d52414682c86a5feeb13d30/data",

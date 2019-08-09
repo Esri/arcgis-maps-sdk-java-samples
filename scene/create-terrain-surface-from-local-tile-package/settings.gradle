@@ -1,1 +1,16 @@
 rootProject.name = 'create-terrain-surface-from-local-tile-package'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/cd61610c030446689991cc159d354e25/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/monterey_elevation")
+    )
+    delete file("./data.zip")
+}
