@@ -1,7 +1,6 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
-    id "de.undercouch.download" version "3.4.3"
 }
 
 group = 'com.esri.samples'
@@ -37,27 +36,6 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task downloadData() {
-    download {
-        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/5491f01d92554751902ecad85cc5d6ca/data"
-        dest 'build/data/dictionary.zip'
-        overwrite false
-    }
-    download {
-        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/c78b149a1d52414682c86a5feeb13d30/data"
-        dest './samples-data/stylx/mil2525d.stylx'
-        overwrite false
-    }
-}
-
-task unpackData(type: Copy) {
-    dependsOn downloadData
-    from (file("build/data/").listFiles().findAll { f -> f.name.endsWith(".zip") }.collect { f -> zipTree(f) }) {
-        into 'dictionary'
-    }
-    into 'samples-data'
-}
-
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -69,7 +47,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives, unpackData
+    dependsOn copyNatives
     mainClassName = 'com.esri.samples.feature_layer_dictionary_renderer.FeatureLayerDictionaryRendererLauncher'
 }
 
@@ -85,7 +63,7 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
-    from (unpackData) {
+    from ("samples-data") {
         into "samples-data"
     }
     from copyNatives
