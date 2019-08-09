@@ -71,6 +71,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Apply Scheduled Updates to Preplanned Map Area");
@@ -82,7 +83,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       // create a map view
       mapView = new MapView();
 
-      // create progress indicator
+      // create a progress indicator
       progressIndicator = new ProgressIndicator();
       progressIndicator.setVisible(true);
 
@@ -92,9 +93,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
 
       // create labels to show update availability and size
       updateAvailableLabel = new Label("Updates: ");
-      updateAvailableLabel.setTextFill(Color.WHITE);
       updateSizeLabel = new Label("Update size: ");
-      updateSizeLabel.setTextFill(Color.WHITE);
 
       // create a control panel for the UI elements
       VBox controlsVBox = new VBox(6);
@@ -103,6 +102,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(200, 110);
       controlsVBox.getChildren().addAll(applyUpdatesButton, updateAvailableLabel, updateSizeLabel);
+      controlsVBox.getStyleClass().add("panel-region");
 
       // create a temporary copy of the local offline map files, so that updating does not overwrite them permanently
       Path tempMobileMapPackageDirectory = Files.createTempDirectory("canyonlands_offline_map");
@@ -181,12 +181,12 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
                 checkForScheduledUpdates();
 
               } else {
-                new Alert(Alert.AlertType.ERROR, "Error syncing the offline map: " + offlineMapSyncJob.getError().getMessage()).show();
+                new Alert(Alert.AlertType.ERROR, "Error syncing the offline map.").show();
               }
 
             });
           } catch (InterruptedException | ExecutionException ex) {
-            new Alert(Alert.AlertType.ERROR, "Error creating DefaultOfflineMapSyncParameters" + ex.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, "Error creating DefaultOfflineMapSyncParameters").show();
           }
         });
       });
@@ -237,7 +237,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
         progressIndicator.setVisible(false);
 
       } catch (Exception ex) {
-        new Alert(Alert.AlertType.ERROR, "Error checking for Scheduled Updates Availability: " + ex.getMessage()).show();
+        new Alert(Alert.AlertType.ERROR, "Error checking for Scheduled Updates Availability.").show();
       }
     });
   }
