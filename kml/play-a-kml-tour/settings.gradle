@@ -7,6 +7,6 @@ if (!file("./samples-data").exists()) {
     file("./samples-data/kml").mkdirs()
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f10b1d37fdd645c9bc9b189fb546307c/data",
-            dest: file("./samples-data/kml")
+            dest: file("./samples-data/kml/Esri_tour.kmz")
     )
 }

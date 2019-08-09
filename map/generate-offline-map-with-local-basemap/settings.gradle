@@ -7,6 +7,7 @@ if (!file("./samples-data").exists()) {
     file("./samples-data/naperville").mkdirs()
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/628e8e3521cf45e9a28a12fe10c02c4d/data",
-            dest: file("./samples-data/naperville")
+            dest: file("./samples-data/naperville/naperville_imagery.tpk")
     )
 }
+m
