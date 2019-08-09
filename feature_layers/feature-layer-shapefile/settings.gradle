@@ -1,1 +1,16 @@
 rootProject.name = 'feature-layer-shapefile'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/d98b3e5293834c5f852f13c569930caa/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/auroraCO")
+    )
+    delete file("./data.zip")
+}

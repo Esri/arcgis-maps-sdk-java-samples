@@ -1,1 +1,16 @@
 rootProject.name = 'add-enc-exchange-set'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/9d2987a825c646468b3ce7512fb76e2d/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/enc")
+    )
+    delete file("./data.zip")
+}

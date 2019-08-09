@@ -1,29 +1,31 @@
-# Geometry Engine Simplify
+# Geometry engine simplify
 
-Simplify a polygon that has multiple parts.
+Simplify a polygon with a self-intersecting geometry.
 
-![](GeometryEngineSimplify.png)
+![Geometry Engine Simplify Sample](GeometryEngineSimplify.png)
+
+## Use case
+
+A user may draw a polygon which is self-intersecting or contains incorrect ring orientations. The geometry must be simplified before it can be saved to a geodatabase.
 
 ## How to use the sample
 
-Click on the simplify button to apply the simplify geometry operation between the intersecting polygons. Click reset to restart the sample.
+Click the 'Simplify' button to simplify the geometry. Click 'Reset' to reset to the original geometry.
 
 ## How it works
 
-To perform the simplify geometry operation on a `Polygon`:
-
-1. Create a `GraphicsOverlay` and add it to the `MapView`.
-2. Define the `PointCollection` of the `Geometry`.
-3. Add the polygons to the GraphicsOverlay.
-4. Determine the simplified geometry by using the `GeometryEngine.simplify(polygon.getGeometry())`.
+1. Check if the polygon geometry needs to be simplified using `GeometryEngine.isSimple(Geometry)`.
+2. Simplify the polygon's geometry using `GeometryEngine.simplify(Geometry)`.
 
 ## Relevant API
 
 * Geometry
-* Graphic
-* GraphicsOverlay
-* MapView
-* Point
-* PointCollection
-* SimpleLineSymbol
-* SimpleFillSymbol
+* GeometryEngine
+
+## Additional information
+
+The concept of topological simplicity is different than geometry generalization, where points are removed from polygons or lines to create a more generalized result while preserving overall shape. See the 'Densify and Generalize' sample for comparison.
+
+## Tags
+
+geometry, polygon, simplify, spatial operations, topology

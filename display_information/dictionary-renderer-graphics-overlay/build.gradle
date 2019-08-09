@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.5.0'
+    arcgisVersion = '100.6.0-2490'
 }
 
 javafx {
@@ -64,6 +64,9 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
+    from ("samples-data") {
+        into "samples-data"
+    }
     from copyNatives
     from jar.destinationDir
     into (project.name)

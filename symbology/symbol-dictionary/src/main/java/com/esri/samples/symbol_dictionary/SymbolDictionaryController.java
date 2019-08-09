@@ -50,7 +50,7 @@ public class SymbolDictionaryController {
 
   public void initialize() {
     // loads a specification for the symbol dictionary
-    dictionarySymbol = new DictionarySymbolStyle("mil2525d");
+    dictionarySymbol = DictionarySymbolStyle.createFromFile("./samples-data/stylx/mil2525d.stylx");
     dictionarySymbol.loadAsync();
 
     // initialize result list

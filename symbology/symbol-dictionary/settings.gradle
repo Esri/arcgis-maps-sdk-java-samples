@@ -1,1 +1,12 @@
 rootProject.name = 'symbol-dictionary'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    file("./samples-data/stylx").mkdirs()
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/c78b149a1d52414682c86a5feeb13d30/data",
+            dest: file("./samples-data/stylx/mil2525d.stylx")
+    )
+}

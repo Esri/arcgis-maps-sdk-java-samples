@@ -1,10 +1,7 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
-    id "de.undercouch.download" version "3.4.3"
 }
-
-import de.undercouch.gradle.tasks.download.Download
 
 group = 'com.esri.samples'
 
@@ -39,12 +36,6 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task downloadData(type: Download) {
-    src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f10b1d37fdd645c9bc9b189fb546307c/data"
-    dest './samples-data/kml/Esri_tour.kmz'
-    overwrite false
-}
-
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -56,7 +47,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives, downloadData
+    dependsOn copyNatives
     mainClassName = 'com.esri.samples.play_a_kml_tour.PlayAKMLTourLauncher'
 }
 
@@ -72,7 +63,7 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
-    from (downloadData.dest) {
+    from ("samples-data") {
         into "samples-data"
     }
     from copyNatives

@@ -1,7 +1,6 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
-    id "de.undercouch.download" version "3.4.3"
 }
 
 group = 'com.esri.samples'
@@ -37,27 +36,6 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task downloadData() {
-    download {
-        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/9053a46b205142f0864682d5152642b5/data"
-        dest 'build/data/local_server/raster_hillshade.zip'
-        overwrite false
-    }
-    download {
-        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a9788a0e8ef241ec89182f87f6967ec9/data"
-        dest 'build/data/local_server/contour.zip'
-        overwrite false
-    }
-}
-
-task unpackData(type: Copy) {
-    dependsOn downloadData
-    from (file("build/data/local_server").listFiles().findAll { f -> f.name.endsWith(".zip") }.collect { f -> zipTree(f) }) {
-        into 'local_server'
-    }
-    into 'samples-data'
-}
-
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -69,7 +47,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives, unpackData
+    dependsOn copyNatives
     mainClassName = 'com.esri.samples.local_server_geoprocessing.LocalServerGeoprocessingLauncher'
 }
 
@@ -85,7 +63,7 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
-    from (unpackData) {
+    from ("samples-data") {
         into "samples-data"
     }
     from copyNatives

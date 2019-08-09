@@ -1,7 +1,6 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
-    id "de.undercouch.download" version "3.4.3"
 }
 
 group = 'com.esri.samples'
@@ -37,27 +36,6 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task downloadData() {
-    download {
-        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/793a4620fbba443a931ac1fa52ad7f45/data"
-        dest 'build/data/sanfrancisco/sanfrancisco_tpk.zip'
-        overwrite false
-    }
-    download {
-        src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/1455c3dbfc43497983572117c7d6064c/data"
-        dest 'build/data/sanfrancisco/sanfrancisco_loc.zip'
-        overwrite false
-    }
-}
-
-task unpackData(type: Copy) {
-    dependsOn downloadData
-    from (file("build/data/sanfrancisco").listFiles().findAll { f -> f.name.endsWith(".zip") }.collect { f -> zipTree(f) }) {
-        into 'sanfrancisco'
-    }
-    into 'samples-data'
-}
-
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -69,7 +47,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives, unpackData
+    dependsOn copyNatives
     mainClassName = 'com.esri.samples.offline_geocode.OfflineGeocodeLauncher'
 }
 
@@ -85,7 +63,7 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
-    from (unpackData) {
+    from ("samples-data") {
         into "samples-data"
     }
     from copyNatives
