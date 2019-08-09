@@ -1,10 +1,7 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.5'
-    id "de.undercouch.download" version "3.4.3"
 }
-
-import de.undercouch.gradle.tasks.download.Download
 
 group = 'com.esri.samples'
 
@@ -39,12 +36,6 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task downloadData(type: Download) {
-    src "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/174150279af74a2ba6f8b87a567f480b/data"
-    dest 'samples-data/mmpk/LothianRiversAnno.mmpk'
-    overwrite false
-}
-
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -56,7 +47,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    dependsOn copyNatives, downloadData
+    dependsOn copyNatives
     mainClassName = 'com.esri.samples.honor_mobile_map_package_expiration_date.HonorMobileMapPackageExpirationDateLauncher'
 }
 
@@ -72,11 +63,14 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
+    from ("samples-data") {
+        into "samples-data"
+    }
     from copyNatives
     from jar.destinationDir
     into (project.name)
     baseName = project.name
-}
+    }
 
 wrapper {
     gradleVersion = '5.0'
