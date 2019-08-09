@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.control_annotation_sublayer_visibility;
+package com.esri.samples.show_callout;
 
 /**
  * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
