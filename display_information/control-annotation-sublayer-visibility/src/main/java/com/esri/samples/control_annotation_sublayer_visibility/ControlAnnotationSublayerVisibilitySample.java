@@ -60,6 +60,9 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // create a map view
+      mapView = new MapView();
+
       // create checkboxes for toggling the sublayer visibility manually
       CheckBox closedSublayerCheckbox = new CheckBox();
       closedSublayerCheckbox.setSelected(true);
@@ -71,25 +74,22 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 50);
+      controlsVBox.setMaxSize(180, 70);
       controlsVBox.getStyleClass().add("panel-region");
-      Label controlsVBoxLabel = new Label("Annotation Sublayer Visibility");
-      // add checkboxes and label to the control panel
-      controlsVBox.getChildren().addAll(controlsVBoxLabel, closedSublayerCheckbox, openSublayerCheckbox);
 
-      // create a map view
-      mapView = new MapView();
-
-      // show current map scale in a label at the bottom of the screen
+      // show current map scale in a label within the control panel
       Label currentMapScaleLabel = new Label();
       currentMapScaleLabel.setTextFill(Color.WHITE);
       mapView.addMapScaleChangedListener(mapScaleChangedEvent -> currentMapScaleLabel.setText("Scale: 1:" + Math.round(mapView.getMapScale())));
+
+      // add checkboxes and label to the control panel
+      controlsVBox.getChildren().addAll(closedSublayerCheckbox, openSublayerCheckbox, currentMapScaleLabel);
 
       // load the mobile map package
       mobileMapPackage = new MobileMapPackage("./samples-data/mmpk/GasDeviceAnno.mmpk");
       mobileMapPackage.loadAsync();
       mobileMapPackage.addDoneLoadingListener(() -> {
-        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED) {
+        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
           // set the mobile map package's map to the map view
           mapView.setMap(mobileMapPackage.getMaps().get(0));
           // find the annotation layer withing the map
