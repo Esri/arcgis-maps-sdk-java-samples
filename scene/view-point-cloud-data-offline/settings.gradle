@@ -1,1 +1,16 @@
 rootProject.name = 'view-point-cloud-data-offline'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/943285c21a8e4e1582f0af1101f87bdf/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/slpks")
+    )
+    delete file("./data.zip")
+}
