@@ -10,4 +10,3 @@ if (!file("./samples-data").exists()) {
             dest: file("./samples-data/naperville/naperville_imagery.tpk")
     )
 }
-m
