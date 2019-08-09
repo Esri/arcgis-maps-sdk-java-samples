@@ -96,7 +96,7 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
           String expirationDate = daysHoursFormat.format(expiration.getDateTime().getTimeInMillis());
 
           // set the expiration message to the label
-          expirationDetailsLabel.setText(expirationMessage + "\n Mobile Map Package expired on: " + expirationDate + ".");
+          expirationDetailsLabel.setText(expirationMessage + "\n Mobile map package expired on: " + expirationDate + ".");
 
         }
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
