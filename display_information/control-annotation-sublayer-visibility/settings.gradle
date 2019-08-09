@@ -4,8 +4,8 @@ rootProject.name = 'control-annotation-sublayer-visibility'
 def ant = new groovy.util.AntBuilder()
 
 if (!file("./samples-data").exists()) {
-//    ant.get(
-//            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/b87307dcfb26411eb2e92e1627cb615b/data",
-//            dest: file("./samples-data/mmpk")
-//    )
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/b87307dcfb26411eb2e92e1627cb615b/data",
+            dest: file("./samples-data/mmpk")
+    )
 }
