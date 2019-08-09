@@ -51,7 +51,6 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Control Annotation Sublayer Visibility");
@@ -66,8 +65,10 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // create checkboxes for toggling the sublayer visibility manually
       CheckBox closedSublayerCheckbox = new CheckBox();
       closedSublayerCheckbox.setSelected(true);
+      closedSublayerCheckbox.setTextFill(Color.WHITE);
       CheckBox openSublayerCheckbox = new CheckBox();
       openSublayerCheckbox.setSelected(true);
+      openSublayerCheckbox.setTextFill(Color.DARKGRAY);
 
       // create a control panel and label for the checkboxes
       VBox controlsVBox = new VBox(6);
@@ -75,11 +76,9 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 70);
-      controlsVBox.getStyleClass().add("panel-region");
 
       // show current map scale in a label within the control panel
       Label currentMapScaleLabel = new Label();
-      currentMapScaleLabel.setTextFill(Color.WHITE);
       mapView.addMapScaleChangedListener(mapScaleChangedEvent -> currentMapScaleLabel.setText("Scale: 1:" + Math.round(mapView.getMapScale())));
 
       // add checkboxes and label to the control panel
@@ -92,7 +91,7 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
           // set the mobile map package's map to the map view
           mapView.setMap(mobileMapPackage.getMaps().get(0));
-          // find the annotation layer withing the map
+          // find the annotation layer within the map
           for (Layer layer : mapView.getMap().getOperationalLayers()) {
             if (layer instanceof AnnotationLayer) {
               // load the annotation layer
