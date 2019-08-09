@@ -34,9 +34,9 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -52,8 +52,6 @@ import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncTask;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapUpdatesInfo;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineUpdateAvailability;
 import com.esri.arcgisruntime.tasks.offlinemap.PreplannedScheduledUpdatesOption;
-
-import org.apache.commons.io.FileUtils;
 
 public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application {
 
