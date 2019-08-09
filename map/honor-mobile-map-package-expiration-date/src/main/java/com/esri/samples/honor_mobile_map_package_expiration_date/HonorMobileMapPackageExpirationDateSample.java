@@ -16,12 +16,9 @@
 
 package com.esri.samples.honor_mobile_map_package_expiration_date;
 
-import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,9 +31,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.Expiration;
@@ -73,14 +68,12 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
       expirationOverlayVbox.setAlignment(Pos.CENTER);
       expirationOverlayVbox.getStyleClass().add("panel-region");
 
-      // create labels to display the expiration message and time since expiration
-      Label expirationMessageLabel = new Label();
-      expirationMessageLabel.setFont(new Font(16));
-      Label timeSinceExpirationLabel = new Label();
-      timeSinceExpirationLabel.setFont(new Font(16));
+      // create a label to display the expiration message and expiration date
+      Label expirationDetailsLabel = new Label();
+      expirationOverlayVbox.getStyleClass().add("label");
 
       // add the labels to the overlay
-      expirationOverlayVbox.getChildren().addAll(expirationMessageLabel, timeSinceExpirationLabel);
+      expirationOverlayVbox.getChildren().add(expirationDetailsLabel);
 
       // create a map view
       mapView = new MapView();
@@ -92,51 +85,27 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
         // handle map package expiration, if expired
         if (mobileMapPackage.getExpiration() != null && mobileMapPackage.getExpiration().isExpired()) {
 
-          // get the Expiration of the mobile map package
+          // get the expiration of the mobile map package
           Expiration expiration = mobileMapPackage.getExpiration();
 
+          // get the expiration message
+          String expirationMessage = expiration.getMessage();
+
+          // get the expiration date
+          SimpleDateFormat daysHoursFormat = new SimpleDateFormat("EEE',' d MMM yyyy 'at' HH:mm:ss", Locale.US);
+          String expirationDate = daysHoursFormat.format(expiration.getDateTime().getTimeInMillis());
+
           // set the expiration message to the label
-          expirationMessageLabel.setText(expiration.getMessage());
-
-          // determine the time in milliseconds when the mobile map package expired
-          long expirationTime = expiration.getDateTime().getTimeInMillis();
-
-          // create a timeline to count the time since expiration
-          Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {
-            // get a calendar for the current time
-            Calendar currentTimeCalendar = Calendar.getInstance();
-
-            // determine the time since expiration
-            long millisecondsSinceExpiration = currentTimeCalendar.getTimeInMillis() - expirationTime;
-
-            // format the label
-            String formattedTimeSinceExpiration = String.format("Expired %d days and %02d:%02d:%02d hours ago.",
-                    TimeUnit.MILLISECONDS.toDays(millisecondsSinceExpiration),
-                    TimeUnit.MILLISECONDS.toHours(millisecondsSinceExpiration)
-                            - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millisecondsSinceExpiration)),
-                    TimeUnit.MILLISECONDS.toMinutes(millisecondsSinceExpiration)
-                            - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisecondsSinceExpiration)),
-                    TimeUnit.MILLISECONDS.toSeconds(millisecondsSinceExpiration)
-                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisecondsSinceExpiration))
-            );
-
-            // set the label to display the time since expiration
-            timeSinceExpirationLabel.setText(formattedTimeSinceExpiration);
-          }
-          ),
-                  new KeyFrame(Duration.seconds(1))
-          );
-          timeline.setCycleCount(Animation.INDEFINITE);
-          timeline.play();
+          expirationDetailsLabel.setText(expirationMessage + "\n Mobile Map Package expired on: " + expirationDate + ".");
 
         }
-        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED) {
+        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
 
           // add the map from the mobile map package to the map view
           mapView.setMap(mobileMapPackage.getMaps().get(0));
 
         } else {
-          new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package: " + mobileMapPackage.getLoadError().getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package.").show();
         }
       });
 
