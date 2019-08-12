@@ -10,7 +10,7 @@
         "text",
         "utilities"
     ],
-    "redirect_from": "/java/latest/sample-code/control-annotation-sublayer-visibility.htm",
+    "redirect_from": "",
     "relevant_apis": [
         "AnnotationLayer",
         "AnnotationSublayer",
