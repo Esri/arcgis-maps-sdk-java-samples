@@ -11,7 +11,7 @@
         "preplanned",
         "pre-planned"
     ],
-    "redirect_from": "/java/latest/sample-code/download-preplanned-map.htm",
+    "redirect_from": "",
     "relevant_apis": [
         "DownloadPreplannedOfflineMapJob",
         "DownloadPreplannedOfflineMapParameters",
@@ -25,5 +25,5 @@
         "src/main/java/com/esri/samples/download_preplanned_map/PreplannedMapAreaListCell.java",
         "src/main/resources/download_preplanned_map.fxml"
     ],
-    "title": "Download a Preplanned Map Area"
+    "title": "Download a preplanned map area"
 }
