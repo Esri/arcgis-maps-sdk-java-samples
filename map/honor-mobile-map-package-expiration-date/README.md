@@ -1,6 +1,6 @@
 # Honor mobile map package expiration date
 
-Access the expiration information of an expired mobile map package.
+Determine a mobile map package's expiration date.
 
 ![Honor mobile map package expiration date sample](HonorMobileMapPackageExpirationDate.png)
 
@@ -8,19 +8,16 @@ Access the expiration information of an expired mobile map package.
 
 The data contained within a mobile map package (MMPK) may only be relevant for a fixed period of time. Using ArcGIS Pro, the author of an MMPK can set an expiration date to ensure the user is aware the data is out of date.
 
-As long as the author of an MMPK has set an expiration date, the expiration date can be read even if the MMPK has not yet expired. For example, developers could also use this API to warn app users that an MMPK may be expiring soon.
+As long as the author of an MMPK has set an expiration date, the expiration date can be read even if the MMPK has not yet expired. The expiration date can also be read to warn a user that the MMPK may be expiring soon.
 
 ## How to use the sample
 
-Load the sample. The author of the MMPK used in this sample chose to set the MMPK's map as still readable, even if it's expired. The sample presents expiration information to the user.
+Run the app to see the mobile map package's expiration date displayed.
 
 ## How it works
 
-1. Create a `MobileMapPackage` passing in the path to the mobile map package's location on the device.
-2. Load the mobile map package.
-3. Present `Expiration` information to the user with:
-  * Use `getMessage()` to get the expiration message set by the author of the MMPK.
-  * Use `getDate()` to get the expiration date set by the author of the MMPK.
+1. Create a `MobileMapPackage` using the URI to a local .mmpk file and load it.
+2. Use `mobileMapPackage.getExpiration()` to get the expiration information. Get the expiration message with `getMessage()` and the expiration date with `getDate()`.
 
 ## Relevant API
 
