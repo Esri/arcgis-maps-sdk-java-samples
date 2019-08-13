@@ -2,7 +2,7 @@
 
 Construct a KML document and save it as a KMZ file.
 
-![Create And Save KML File Sample](CreateAndSaveKmlFile.png)
+![Create And Save KML File Sample](CreateAndSaveKMLFile.png)
 
 ## Use case
 
