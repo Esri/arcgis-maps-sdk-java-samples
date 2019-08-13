@@ -23,17 +23,17 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.layout.HBox?>
 <StackPane fx:controller="com.esri.samples.create_and_save_kml_file.CreateAndSaveKMLFileController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/style.css">
     <MapView fx:id="mapView"/>
-    <VBox fx:id="hostVbox" StackPane.alignment="TOP_LEFT" minWidth="400" maxWidth="400"
-          maxHeight="50" styleClass="panel-region">
+
+    <!--    Editing and Saving Controls-->
+    <VBox StackPane.alignment="TOP_LEFT" minWidth="300" maxWidth="400" maxHeight="50"
+          styleClass="panel-region">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -48,35 +48,47 @@
                 </fills>
             </Background>
         </background>
+
         <Label fx:id="instructionsText" text="Select a geometry to create:"/>
-        <GridPane StackPane.alignment="TOP_CENTER" alignment="TOP_CENTER" fx:id="geometrySelectionGridPane" minWidth="400" maxWidth="400"
-                  maxHeight="50" hgap="10" vgap="10">
-            <Button text="Point" onAction="#resolveSelectGeometryClick" minWidth="100" GridPane.columnIndex="0"
-                    GridPane.rowIndex="0" GridPane.columnSpan="2"/>
-            <Button text="Polyline" onAction="#resolveSelectGeometryClick" minWidth="100" GridPane.columnIndex="2"
-                    GridPane.rowIndex="0" GridPane.columnSpan="2"/>
-            <Button text="Polygon" onAction="#resolveSelectGeometryClick" minWidth="100" GridPane.columnIndex="4"
-                    GridPane.rowIndex="0" GridPane.columnSpan="2"/>
-        </GridPane>
-        <Button StackPane.alignment="TOP_CENTER" alignment="TOP_CENTER" fx:id="completeSketchBtn" text="Complete Sketch" onAction="#resolveCompleteSketchClick" disable="true"
-                visible="false" minWidth="300" GridPane.columnIndex="0"
-                GridPane.rowIndex="0" GridPane.columnSpan="6"/>
-        <Separator/>
-        <GridPane fx:id="saveResetGridPane" StackPane.alignment="TOP_LEFT" minWidth="400" maxWidth="400" maxHeight="50"
-                  hgap="10" vgap="10" styleClass="panel-region">
-            <Button text="Save KMZ file" onAction="#handleSaveClick" minWidth="150" GridPane.columnIndex="0"
-                    GridPane.rowIndex="1"
-                    GridPane.columnSpan="3"/>
-            <Button text="Reset" onAction="#resetKmlDocument" minWidth="150" GridPane.columnIndex="3"
-                    GridPane.rowIndex="1" GridPane.columnSpan="3"/>
-        </GridPane>
+
+        <HBox fx:id="geometrySelectionHBox">
+            <Button text="Point" onAction="#resolveSelectGeometryClick" minWidth="100"/>
+            <Button text="Polyline" onAction="#resolveSelectGeometryClick" minWidth="100"/>
+            <Button text="Polygon" onAction="#resolveSelectGeometryClick" minWidth="100"/>
+        </HBox>
+
+        <Button fx:id="completeSketchBtn" text="Complete Sketch" onAction="#resolveCompleteSketchClick" disable="true"
+                visible="false" minWidth="300"/>
+
+        <HBox fx:id="saveResetHBox">
+            <Button text="Save KMZ file" onAction="#handleSaveClick" disable="true" minWidth="150"/>
+            <Button text="Reset" onAction="#resetKmlDocument" disable="true" minWidth="150"/>
+        </HBox>
     </VBox>
-    <VBox fx:id="styleOptionsVBox" visible="false" minWidth="400"
-          maxWidth="400" maxHeight="200" styleClass="panel-region">
-        <Label fx:id="styleText" text=""/>
-        <ColorPicker fx:id="colorPicker"/>
-        <Button fx:id="applyStyleBtn" text="Apply Style" onAction="#resolveApplyStyleClick"/>
-        <Button fx:id="noStyleBtn" text="Don't Apply Style" onAction="#resolveNoStyleClick"/>
+
+    <!--Apply Style Options Controls-->
+    <VBox fx:id="styleOptionsVBox" StackPane.alignment="CENTER_LEFT" visible="false"
+          maxWidth="250" maxHeight="110" styleClass="panel-region" spacing="6" alignment="CENTER">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+        <Label text="Select Style:"/>
+        <ColorPicker fx:id="colorPicker" minWidth="226"/>
+        <HBox spacing="6" alignment="CENTER">
+            <Button onAction="#resolveApplyStyleClick" text="Apply Style" minWidth="110"/>
+            <Button onAction="#resolveNoStyleClick" text="Don't Apply Style" minWidth="110"/>
+        </HBox>
     </VBox>
 
 </StackPane>

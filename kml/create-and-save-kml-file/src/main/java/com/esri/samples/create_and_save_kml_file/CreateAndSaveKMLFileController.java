@@ -24,7 +24,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -49,9 +49,9 @@ public class CreateAndSaveKMLFileController {
   @FXML
   private Label instructionsText;
   @FXML
-  private GridPane geometrySelectionGridPane;
+  private HBox geometrySelectionHBox;
   @FXML
-  private GridPane saveResetGridPane;
+  private HBox saveResetHBox;
   @FXML
   private VBox styleOptionsVBox;
   @FXML
@@ -119,13 +119,22 @@ public class CreateAndSaveKMLFileController {
 
     // add the kml layer to the map
     map.getOperationalLayers().add(kmlLayer);
+
+    // disable the save/reset buttons
+    saveResetHBox.getChildren().forEach(node -> node.setDisable(true));
   }
 
   @FXML
   private void resolveSelectGeometryClick(ActionEvent event) {
-    geometrySelectionGridPane.setVisible(false);
+    // disable and hide the geometry buttons
+    geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(true));
+    geometrySelectionHBox.setVisible(false);
+
+    // disable the save/reset buttons while sketching
+    saveResetHBox.getChildren().forEach(node -> node.setDisable(true));
+
+    // show the 'Complete Sketch' button
     completeSketchBtn.setVisible(true);
-    saveResetGridPane.setVisible(false);
 
     // create variables for the sketch creation mode and color
 
@@ -156,7 +165,7 @@ public class CreateAndSaveKMLFileController {
 
   @FXML
   private void resolveCompleteSketchClick() {
-    geometrySelectionGridPane.setVisible(true);
+    geometrySelectionHBox.setVisible(true);
     completeSketchBtn.setVisible(false);
 
     // get the user-drawn geometry
@@ -184,19 +193,27 @@ public class CreateAndSaveKMLFileController {
 
   @FXML
   private void resolveApplyStyleClick(){
+    // enable the geometry buttons
+    geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(false));
 
     // hide the style editing UI and show the save & reset UI
     styleOptionsVBox.setVisible(false);
-    saveResetGridPane.setVisible(true);
+
+    // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
+    saveResetHBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
   }
 
   @FXML
   private void resolveNoStyleClick(){
+    // enable the geometry buttons
+    geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(false));
 
     // hide the style editing UI and show the save & reset UI
     styleOptionsVBox.setVisible(false);
-    saveResetGridPane.setVisible(true);
-    
+
+    // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
+    saveResetHBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
+
   }
 
   @FXML
