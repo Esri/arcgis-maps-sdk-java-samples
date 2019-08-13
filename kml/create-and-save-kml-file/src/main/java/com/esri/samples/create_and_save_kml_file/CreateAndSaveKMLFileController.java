@@ -25,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -32,12 +33,9 @@ import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.KmlLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
 import com.esri.arcgisruntime.mapping.view.SketchEditor;
-import com.esri.arcgisruntime.mapping.view.SketchGeometryChangedListener;
 import com.esri.arcgisruntime.ogc.kml.KmlAltitudeMode;
 import com.esri.arcgisruntime.ogc.kml.KmlDataset;
 import com.esri.arcgisruntime.ogc.kml.KmlDocument;
@@ -55,9 +53,11 @@ public class CreateAndSaveKMLFileController {
   @FXML
   private GridPane saveResetGridPane;
   @FXML
-  private GridPane editingOptionsGridPane;
+  private VBox styleOptionsVBox;
   @FXML
   private Button completeSketchBtn;
+  @FXML
+  private ColorPicker colorPicker;
 
   private ArcGISMap map;
   private KmlDocument kmlDocument;
@@ -65,7 +65,6 @@ public class CreateAndSaveKMLFileController {
   private KmlLayer kmlLayer;
   private KmlPlacemark currentKmlPlacemark;
   private SketchEditor sketchEditor;
-  private GraphicsOverlay graphicsOverlay;
   private SketchCreationMode sketchCreationMode;
 
   @FXML
@@ -83,8 +82,6 @@ public class CreateAndSaveKMLFileController {
       // save button enable depends on if the sketch is valid
       completeSketchBtn.setDisable(!sketchEditor.isSketchValid());
     });
-
-    ColorPicker colorPicker = new ColorPicker();
 
     // set the images for the point icon picker
     List<String> iconLinks = Arrays.asList(
@@ -117,7 +114,7 @@ public class CreateAndSaveKMLFileController {
     // create a kml dataset uting the kml document
     kmlDataset = new KmlDataset(kmlDocument);
 
-    // create the kml layer using the kml dataset.
+    // create the kml layer using the kml dataset
     kmlLayer = new KmlLayer(kmlDataset);
 
     // add the kml layer to the map
@@ -161,7 +158,6 @@ public class CreateAndSaveKMLFileController {
   private void resolveCompleteSketchClick() {
     geometrySelectionGridPane.setVisible(true);
     completeSketchBtn.setVisible(false);
-    saveResetGridPane.setVisible(true);
 
     // get the user-drawn geometry
     Geometry sketchGeometry = sketchEditor.getGeometry();
@@ -179,11 +175,28 @@ public class CreateAndSaveKMLFileController {
       // add the placemark to the kml document
       kmlDocument.getChildNodes().add(currentKmlPlacemark);
 
-      // enable the style editing UI
-
+      // show the style editing UI
+      styleOptionsVBox.setVisible(true);
     }
 
     sketchEditor.stop();
+  }
+
+  @FXML
+  private void resolveApplyStyleClick(){
+
+    // hide the style editing UI and show the save & reset UI
+    styleOptionsVBox.setVisible(false);
+    saveResetGridPane.setVisible(true);
+  }
+
+  @FXML
+  private void resolveNoStyleClick(){
+
+    // hide the style editing UI and show the save & reset UI
+    styleOptionsVBox.setVisible(false);
+    saveResetGridPane.setVisible(true);
+    
   }
 
   @FXML
