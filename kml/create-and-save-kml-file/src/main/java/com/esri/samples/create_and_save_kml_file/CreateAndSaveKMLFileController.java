@@ -26,29 +26,47 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.KmlLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
+import com.esri.arcgisruntime.mapping.view.SketchEditor;
+import com.esri.arcgisruntime.mapping.view.SketchGeometryChangedListener;
+import com.esri.arcgisruntime.ogc.kml.KmlAltitudeMode;
 import com.esri.arcgisruntime.ogc.kml.KmlDataset;
 import com.esri.arcgisruntime.ogc.kml.KmlDocument;
+import com.esri.arcgisruntime.ogc.kml.KmlGeometry;
 import com.esri.arcgisruntime.ogc.kml.KmlPlacemark;
 
 public class CreateAndSaveKMLFileController {
 
-  @FXML private MapView mapView;
-  @FXML private Label instructionsText;
-  @FXML private GridPane geometrySelectionGridPane;
-  @FXML private GridPane saveResetGridPane;
-  @FXML private GridPane editingOptionsGridPane;
-  @FXML private Button completeSketchBtn;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private Label instructionsText;
+  @FXML
+  private GridPane geometrySelectionGridPane;
+  @FXML
+  private GridPane saveResetGridPane;
+  @FXML
+  private GridPane editingOptionsGridPane;
+  @FXML
+  private Button completeSketchBtn;
 
   private ArcGISMap map;
   private KmlDocument kmlDocument;
   private KmlDataset kmlDataset;
   private KmlLayer kmlLayer;
   private KmlPlacemark currentKmlPlacemark;
+  private SketchEditor sketchEditor;
+  private GraphicsOverlay graphicsOverlay;
+  private SketchCreationMode sketchCreationMode;
 
   @FXML
   public void initialize() {
@@ -56,6 +74,15 @@ public class CreateAndSaveKMLFileController {
     // create a map and add it to the map view
     map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
     mapView.setMap(map);
+
+    sketchCreationMode = null;
+    sketchEditor = new SketchEditor();
+    mapView.setSketchEditor(sketchEditor);
+
+    sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
+      // save button enable depends on if the sketch is valid
+      completeSketchBtn.setDisable(!sketchEditor.isSketchValid());
+    });
 
     ColorPicker colorPicker = new ColorPicker();
 
@@ -69,7 +96,7 @@ public class CreateAndSaveKMLFileController {
             "http://static.arcgis.com/images/Symbols/Shapes/BlueStarLargeB.png");
 
     // set up a new KML document and layer
-//    resetKmlDocument();
+    resetKmlDocument();
   }
 
   /**
@@ -98,16 +125,15 @@ public class CreateAndSaveKMLFileController {
   }
 
   @FXML
-  private void resolveSelectGeometryClick(ActionEvent event){
+  private void resolveSelectGeometryClick(ActionEvent event) {
     geometrySelectionGridPane.setVisible(false);
     completeSketchBtn.setVisible(true);
     saveResetGridPane.setVisible(false);
 
     // create variables for the sketch creation mode and color
-    SketchCreationMode sketchCreationMode;
 
     // set the creation mode and UI based on which button called this method
-    switch (((Button) event.getSource()).getText()){
+    switch (((Button) event.getSource()).getText()) {
       case "Point":
         sketchCreationMode = SketchCreationMode.POINT;
         instructionsText.setText("Click to add a point.");
@@ -125,18 +151,43 @@ public class CreateAndSaveKMLFileController {
         break;
     }
 
+    if (sketchCreationMode != null) {
+      sketchEditor.start(sketchCreationMode);
+    }
 
   }
 
   @FXML
-  private void resolveCompleteSketchClick(){
+  private void resolveCompleteSketchClick() {
     geometrySelectionGridPane.setVisible(true);
     completeSketchBtn.setVisible(false);
     saveResetGridPane.setVisible(true);
+
+    // get the user-drawn geometry
+    Geometry sketchGeometry = sketchEditor.getGeometry();
+
+    if (sketchGeometry != null) {
+
+      // project the geometry to WGS84 to comply with the KML standard
+      Geometry projectedGeometry = GeometryEngine.project(sketchGeometry, SpatialReferences.getWgs84());
+      // create a KML geometry
+      KmlGeometry kmlGeometry = new KmlGeometry(projectedGeometry, KmlAltitudeMode.CLAMP_TO_GROUND);
+
+      // create a new placemark
+      currentKmlPlacemark = new KmlPlacemark(kmlGeometry);
+
+      // add the placemark to the kml document
+      kmlDocument.getChildNodes().add(currentKmlPlacemark);
+
+      // enable the style editing UI
+
+    }
+
+    sketchEditor.stop();
   }
 
   @FXML
-  private void handleSaveClick(){
+  private void handleSaveClick() {
 
   }
 
