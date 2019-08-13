@@ -16,6 +16,7 @@
 
 package com.esri.samples.create_and_save_kml_file;
 
+import java.io.File;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -79,6 +81,7 @@ public class CreateAndSaveKMLFileController {
   private KmlPlacemark currentKmlPlacemark;
   private SketchEditor sketchEditor;
   private SketchCreationMode sketchCreationMode;
+  private FileChooser fileChooser;
 
   @FXML
   public void initialize() {
@@ -106,6 +109,11 @@ public class CreateAndSaveKMLFileController {
             "http://static.arcgis.com/images/Symbols/Shapes/BlueStarLargeB.png");
 
     iconPicker.getItems().addAll(iconLinks);
+
+    // create a file chooser to get a path for saving the KMZ file
+    fileChooser = new FileChooser();
+    FileChooser.ExtensionFilter kmzFilter = new FileChooser.ExtensionFilter("KMZ files (*.kmz)", "*.kmz");
+    fileChooser.getExtensionFilters().add(kmzFilter);
 
     // set up a new KML document and layer
     resetKmlDocument();
@@ -217,25 +225,25 @@ public class CreateAndSaveKMLFileController {
     currentKmlPlacemark.setStyle(kmlStyle);
 
     // set the selected style for the placemark
-    switch (currentKmlPlacemark.getGeometries().get(0).getType().toString()){
+    switch (currentKmlPlacemark.getGeometries().get(0).getType().toString()) {
       // create a KmlIconStyle using the selected icon
       case ("POINT"):
-        if (iconPicker.getSelectionModel().getSelectedItem() != null ){
+        if (iconPicker.getSelectionModel().getSelectedItem() != null) {
           String iconURI = iconPicker.getSelectionModel().getSelectedItem();
           KmlIcon kmlIcon = new KmlIcon(iconURI);
-          KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon,1);
+          KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon, 1);
           kmlStyle.setIconStyle(kmlIconStyle);
         }
         break;
       case ("POLYLINE"):
-        if (colorPicker.valueProperty().get() != null){
+        if (colorPicker.valueProperty().get() != null) {
           Color color = colorPicker.valueProperty().get();
           KmlLineStyle kmlLineStyle = new KmlLineStyle(ColorUtil.colorToArgb(color), 8);
           kmlStyle.setLineStyle(kmlLineStyle);
         }
         break;
       case ("POLYGON"):
-        if (colorPicker.valueProperty().get() != null){
+        if (colorPicker.valueProperty().get() != null) {
           Color color = colorPicker.valueProperty().get();
           KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(ColorUtil.colorToArgb(color));
           kmlPolygonStyle.setFilled(true);
@@ -245,8 +253,6 @@ public class CreateAndSaveKMLFileController {
         break;
     }
   }
-
-
 
   @FXML
   private void resolveNoStyleClick() {
@@ -273,7 +279,8 @@ public class CreateAndSaveKMLFileController {
 
   @FXML
   private void handleSaveClick() {
-
+    // write the KMZ file to the path chosen in the file chooser
+    kmlDocument.saveAsAsync(fileChooser.showSaveDialog(mapView.getScene().getWindow()).getPath());
   }
 
   /**
