@@ -16,6 +16,7 @@
 
 package com.esri.samples.create_and_save_kml_file;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,9 +24,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -40,7 +43,13 @@ import com.esri.arcgisruntime.ogc.kml.KmlAltitudeMode;
 import com.esri.arcgisruntime.ogc.kml.KmlDataset;
 import com.esri.arcgisruntime.ogc.kml.KmlDocument;
 import com.esri.arcgisruntime.ogc.kml.KmlGeometry;
+import com.esri.arcgisruntime.ogc.kml.KmlIcon;
+import com.esri.arcgisruntime.ogc.kml.KmlIconStyle;
+import com.esri.arcgisruntime.ogc.kml.KmlLineStyle;
 import com.esri.arcgisruntime.ogc.kml.KmlPlacemark;
+import com.esri.arcgisruntime.ogc.kml.KmlPolygonStyle;
+import com.esri.arcgisruntime.ogc.kml.KmlStyle;
+import com.esri.arcgisruntime.symbology.ColorUtil;
 
 public class CreateAndSaveKMLFileController {
 
@@ -58,6 +67,10 @@ public class CreateAndSaveKMLFileController {
   private Button completeSketchBtn;
   @FXML
   private ColorPicker colorPicker;
+  @FXML
+  private ComboBox<String> iconPicker;
+  @FXML
+  private HBox stylePickersHBox;
 
   private ArcGISMap map;
   private KmlDocument kmlDocument;
@@ -91,6 +104,8 @@ public class CreateAndSaveKMLFileController {
             "http://static.arcgis.com/images/Symbols/Shapes/BluePin2LargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueSquareLargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueStarLargeB.png");
+
+    iconPicker.getItems().addAll(iconLinks);
 
     // set up a new KML document and layer
     resetKmlDocument();
@@ -143,17 +158,19 @@ public class CreateAndSaveKMLFileController {
       case "Point":
         sketchCreationMode = SketchCreationMode.POINT;
         instructionsText.setText("Click to add a point.");
-
+        iconPicker.setDisable(false);
         break;
 
       case "Polyline":
         sketchCreationMode = SketchCreationMode.POLYLINE;
         instructionsText.setText("Click to add a vertex.");
+        colorPicker.setDisable(false);
         break;
 
       case "Polygon":
         sketchCreationMode = SketchCreationMode.POLYGON;
         instructionsText.setText("Click to add a vertex.");
+        colorPicker.setDisable(false);
         break;
     }
 
@@ -195,7 +212,41 @@ public class CreateAndSaveKMLFileController {
   private void resolveApplyStyleClick() {
     // toggle the UI
     toggleUI();
+
+    KmlStyle kmlStyle = new KmlStyle();
+    currentKmlPlacemark.setStyle(kmlStyle);
+
+    // set the selected style for the placemark
+    switch (currentKmlPlacemark.getGeometries().get(0).getType().toString()){
+      // create a KmlIconStyle using the selected icon
+      case ("POINT"):
+        if (iconPicker.getSelectionModel().getSelectedItem() != null ){
+          String iconURI = iconPicker.getSelectionModel().getSelectedItem();
+          KmlIcon kmlIcon = new KmlIcon(iconURI);
+          KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon,1);
+          kmlStyle.setIconStyle(kmlIconStyle);
+        }
+        break;
+      case ("POLYLINE"):
+        if (colorPicker.valueProperty().get() != null){
+          Color color = colorPicker.valueProperty().get();
+          KmlLineStyle kmlLineStyle = new KmlLineStyle(ColorUtil.colorToArgb(color), 8);
+          kmlStyle.setLineStyle(kmlLineStyle);
+        }
+        break;
+      case ("POLYGON"):
+        if (colorPicker.valueProperty().get() != null){
+          Color color = colorPicker.valueProperty().get();
+          KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(ColorUtil.colorToArgb(color));
+          kmlPolygonStyle.setFilled(true);
+          kmlPolygonStyle.setOutlined(false);
+          kmlStyle.setPolygonStyle(kmlPolygonStyle);
+        }
+        break;
+    }
   }
+
+
 
   @FXML
   private void resolveNoStyleClick() {
@@ -210,8 +261,11 @@ public class CreateAndSaveKMLFileController {
     // enable the geometry buttons
     geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(false));
 
-    // hide the style editing UI and show the save & reset UI
+    // hide the style editing UI
     styleOptionsVBox.setVisible(false);
+
+    // disable both pickers within the style editing box
+    stylePickersHBox.getChildren().forEach(node -> node.setDisable(true));
 
     // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
     saveResetHBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));

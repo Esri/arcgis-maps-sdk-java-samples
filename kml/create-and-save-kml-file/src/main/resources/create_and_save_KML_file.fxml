@@ -26,6 +26,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ComboBox?>
 <StackPane fx:controller="com.esri.samples.create_and_save_kml_file.CreateAndSaveKMLFileController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/style.css">
@@ -84,7 +85,10 @@
             </Background>
         </background>
         <Label text="Select Style:"/>
-        <ColorPicker fx:id="colorPicker" minWidth="226"/>
+        <HBox fx:id="stylePickersHBox">
+            <ComboBox fx:id="iconPicker" minWidth="113"/>
+            <ColorPicker fx:id="colorPicker" minWidth="113"/>
+        </HBox>
         <HBox spacing="6" alignment="CENTER">
             <Button onAction="#resolveApplyStyleClick" text="Apply Style" minWidth="110"/>
             <Button onAction="#resolveNoStyleClick" text="Don't Apply Style" minWidth="110"/>
