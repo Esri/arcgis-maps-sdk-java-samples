@@ -109,7 +109,7 @@ public class CreateAndSaveKMLFileController {
   }
 
   /**
-   *
+   * Clears all operational layers and creates a blank KML document with a dataset and layer.
    */
   @FXML
   private void resetKmlDocument() {
@@ -136,6 +136,10 @@ public class CreateAndSaveKMLFileController {
     saveResetHBox.getChildren().forEach(node -> node.setDisable(true));
   }
 
+  /**
+   * Sets the sketch creation mode to the selected geometry and starts the sketch editor.
+   * @param event used to identify which button was pressed to select the corresponding geometry.
+   */
   @FXML
   private void resolveSelectGeometryClick(ActionEvent event) {
     // disable and hide the geometry buttons
@@ -177,6 +181,9 @@ public class CreateAndSaveKMLFileController {
 
   }
 
+  /**
+   * Completes the sketch in progress, creates a KML placemark from the resulting geometry, and adds it to the KML document.
+   */
   @FXML
   private void resolveCompleteSketchClick() {
     geometrySelectionHBox.setVisible(true);
@@ -205,6 +212,9 @@ public class CreateAndSaveKMLFileController {
     sketchEditor.stop();
   }
 
+  /**
+   * Applies the selected style to the KML placemark depending on the type of geometry.
+   */
   @FXML
   private void resolveApplyStyleClick() {
     // toggle the UI
@@ -215,7 +225,8 @@ public class CreateAndSaveKMLFileController {
 
     // set the selected style for the placemark
     switch (currentKmlPlacemark.getGeometries().get(0).getType().toString()) {
-      // create a KmlIconStyle using the selected icon
+
+      // create a KML icon style using the selected icon
       case ("POINT"):
         if (iconPicker.getSelectionModel().getSelectedItem() != null) {
           String iconURI = iconPicker.getSelectionModel().getSelectedItem();
@@ -224,6 +235,8 @@ public class CreateAndSaveKMLFileController {
           kmlStyle.setIconStyle(kmlIconStyle);
         }
         break;
+
+      // create a KML line style using the selected color
       case ("POLYLINE"):
         if (colorPicker.valueProperty().get() != null) {
           Color color = colorPicker.valueProperty().get();
@@ -231,6 +244,8 @@ public class CreateAndSaveKMLFileController {
           kmlStyle.setLineStyle(kmlLineStyle);
         }
         break;
+
+      // create a KML polygon style using the selected color as a fill
       case ("POLYGON"):
         if (colorPicker.valueProperty().get() != null) {
           Color color = colorPicker.valueProperty().get();
@@ -243,6 +258,9 @@ public class CreateAndSaveKMLFileController {
     }
   }
 
+  /**
+   * Re-enables the UI to allow creating another KML element, saving the document, or resetting the sample.
+   */
   @FXML
   private void resolveNoStyleClick() {
     // toggle the UI
@@ -266,6 +284,9 @@ public class CreateAndSaveKMLFileController {
     saveResetHBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
   }
 
+  /**
+   * Opens a FileChooser and saves a KMZ file to the selected path.
+   */
   @FXML
   private void handleSaveClick() {
     // write the KMZ file to the path chosen in the file chooser
