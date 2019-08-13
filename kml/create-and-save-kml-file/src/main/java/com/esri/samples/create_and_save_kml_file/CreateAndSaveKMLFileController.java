@@ -16,8 +16,6 @@
 
 package com.esri.samples.create_and_save_kml_file;
 
-import java.io.File;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,29 +53,18 @@ import com.esri.arcgisruntime.symbology.ColorUtil;
 
 public class CreateAndSaveKMLFileController {
 
-  @FXML
-  private MapView mapView;
-  @FXML
-  private Label instructionsText;
-  @FXML
-  private HBox geometrySelectionHBox;
-  @FXML
-  private HBox saveResetHBox;
-  @FXML
-  private VBox styleOptionsVBox;
-  @FXML
-  private Button completeSketchBtn;
-  @FXML
-  private ColorPicker colorPicker;
-  @FXML
-  private ComboBox<String> iconPicker;
-  @FXML
-  private HBox stylePickersHBox;
+  @FXML private MapView mapView;
+  @FXML private Label instructionsText;
+  @FXML private HBox geometrySelectionHBox;
+  @FXML private HBox saveResetHBox;
+  @FXML private VBox styleOptionsVBox;
+  @FXML private Button completeSketchBtn;
+  @FXML private ColorPicker colorPicker;
+  @FXML private ComboBox<String> iconPicker;
+  @FXML private HBox stylePickersHBox;
 
   private ArcGISMap map;
   private KmlDocument kmlDocument;
-  private KmlDataset kmlDataset;
-  private KmlLayer kmlLayer;
   private KmlPlacemark currentKmlPlacemark;
   private SketchEditor sketchEditor;
   private SketchCreationMode sketchCreationMode;
@@ -94,10 +81,10 @@ public class CreateAndSaveKMLFileController {
     sketchEditor = new SketchEditor();
     mapView.setSketchEditor(sketchEditor);
 
-    sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
+    sketchEditor.addGeometryChangedListener(sketchGeometryChangedListener ->
       // save button enable depends on if the sketch is valid
-      completeSketchBtn.setDisable(!sketchEditor.isSketchValid());
-    });
+      completeSketchBtn.setDisable(!sketchEditor.isSketchValid())
+    );
 
     // set the images for the point icon picker
     List<String> iconLinks = Arrays.asList(
@@ -107,8 +94,9 @@ public class CreateAndSaveKMLFileController {
             "http://static.arcgis.com/images/Symbols/Shapes/BluePin2LargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueSquareLargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueStarLargeB.png");
-
     iconPicker.getItems().addAll(iconLinks);
+    iconPicker.setCellFactory(comboBox -> new IconListCell());
+    iconPicker.getSelectionModel().select(0);
 
     // create a file chooser to get a path for saving the KMZ file
     fileChooser = new FileChooser();
@@ -134,11 +122,11 @@ public class CreateAndSaveKMLFileController {
     kmlDocument = new KmlDocument();
     kmlDocument.setName("KML Sample Document");
 
-    // create a kml dataset uting the kml document
-    kmlDataset = new KmlDataset(kmlDocument);
+    // create a kml dataset using the kml document
+    KmlDataset kmlDataset = new KmlDataset(kmlDocument);
 
     // create the kml layer using the kml dataset
-    kmlLayer = new KmlLayer(kmlDataset);
+    KmlLayer kmlLayer = new KmlLayer(kmlDataset);
 
     // add the kml layer to the map
     map.getOperationalLayers().add(kmlLayer);
