@@ -21,20 +21,28 @@ import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 
 import com.esri.arcgisruntime.layers.KmlLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
 import com.esri.arcgisruntime.ogc.kml.KmlDataset;
 import com.esri.arcgisruntime.ogc.kml.KmlDocument;
 import com.esri.arcgisruntime.ogc.kml.KmlPlacemark;
 
 public class CreateAndSaveKMLFileController {
 
-  @FXML
-  private MapView mapView;
+  @FXML private MapView mapView;
+  @FXML private Label instructionsText;
+  @FXML private GridPane geometrySelectionGridPane;
+  @FXML private GridPane saveResetGridPane;
+  @FXML private GridPane editingOptionsGridPane;
+  @FXML private Button completeSketchBtn;
 
   private ArcGISMap map;
   private KmlDocument kmlDocument;
@@ -90,8 +98,46 @@ public class CreateAndSaveKMLFileController {
   }
 
   @FXML
-  private void selectEditingMode(ActionEvent event){
-    System.out.println(event.getSource());
+  private void resolveSelectGeometryClick(ActionEvent event){
+    geometrySelectionGridPane.setVisible(false);
+    completeSketchBtn.setVisible(true);
+    saveResetGridPane.setVisible(false);
+
+    // create variables for the sketch creation mode and color
+    SketchCreationMode sketchCreationMode;
+
+    // set the creation mode and UI based on which button called this method
+    switch (((Button) event.getSource()).getText()){
+      case "Point":
+        sketchCreationMode = SketchCreationMode.POINT;
+        instructionsText.setText("Click to add a point.");
+
+        break;
+
+      case "Polyline":
+        sketchCreationMode = SketchCreationMode.POLYLINE;
+        instructionsText.setText("Click to add a vertex.");
+        break;
+
+      case "Polygon":
+        sketchCreationMode = SketchCreationMode.POLYGON;
+        instructionsText.setText("Click to add a vertex.");
+        break;
+    }
+
+
+  }
+
+  @FXML
+  private void resolveCompleteSketchClick(){
+    geometrySelectionGridPane.setVisible(true);
+    completeSketchBtn.setVisible(false);
+    saveResetGridPane.setVisible(true);
+  }
+
+  @FXML
+  private void handleSaveClick(){
+
   }
 
   /**

@@ -23,12 +23,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
-<StackPane fx:controller="com.esri.samples.create_and_save_kml_file.CreateAndSaveKMLFileController" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<StackPane fx:controller="com.esri.samples.create_and_save_kml_file.CreateAndSaveKMLFileController"
+           xmlns:fx="http://javafx.com/fxml"
            stylesheets="/style.css">
     <MapView fx:id="mapView"/>
-    <GridPane StackPane.alignment="TOP_LEFT" minWidth="400" maxWidth="400" maxHeight="50" hgap="10" vgap="10" styleClass="panel-region">
+    <VBox fx:id="hostVbox" StackPane.alignment="TOP_LEFT" minWidth="400" maxWidth="400"
+          maxHeight="50" styleClass="panel-region">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -43,11 +46,31 @@
                 </fills>
             </Background>
         </background>
-            <Button text="Point" onAction="#selectEditingMode" minWidth="100" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
-            <Button text="Polyline" onAction="#selectEditingMode" minWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
-            <Button text="Polygon" onAction="#selectEditingMode" minWidth="100" GridPane.columnIndex="4" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
-            <Button text="Save KMZ file" minWidth="150" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3"/>
-            <Button text="Reset" onAction="#resetKmlDocument" minWidth="150" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.columnSpan="3"/>
+        <Label fx:id="instructionsText" text="Select a geometry to create:"/>
+        <GridPane StackPane.alignment="TOP_CENTER" alignment="TOP_CENTER" fx:id="geometrySelectionGridPane" minWidth="400" maxWidth="400"
+                  maxHeight="50" hgap="10" vgap="10">
+            <Button text="Point" onAction="#resolveSelectGeometryClick" minWidth="100" GridPane.columnIndex="0"
+                    GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+            <Button text="Polyline" onAction="#resolveSelectGeometryClick" minWidth="100" GridPane.columnIndex="2"
+                    GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+            <Button text="Polygon" onAction="#resolveSelectGeometryClick" minWidth="100" GridPane.columnIndex="4"
+                    GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+        </GridPane>
+        <Button StackPane.alignment="TOP_CENTER" alignment="TOP_CENTER" fx:id="completeSketchBtn" text="Complete Sketch" onAction="#resolveCompleteSketchClick"
+                visible="false" minWidth="300" GridPane.columnIndex="0"
+                GridPane.rowIndex="0" GridPane.columnSpan="6"/>
+        <Separator/>
+        <GridPane fx:id="saveResetGridPane" StackPane.alignment="TOP_LEFT" minWidth="400" maxWidth="400" maxHeight="50"
+                  hgap="10" vgap="10" styleClass="panel-region">
+            <Button text="Save KMZ file" onAction="#handleSaveClick" minWidth="150" GridPane.columnIndex="0"
+                    GridPane.rowIndex="1"
+                    GridPane.columnSpan="3"/>
+            <Button text="Reset" onAction="#resetKmlDocument" minWidth="150" GridPane.columnIndex="3"
+                    GridPane.rowIndex="1" GridPane.columnSpan="3"/>
+        </GridPane>
+    </VBox>
+    <GridPane fx:id="editingOptionsGridPane" visible="false" StackPane.alignment="TOP_LEFT" minWidth="400"
+              maxWidth="400" maxHeight="50" hgap="10" vgap="10" styleClass="panel-region">
     </GridPane>
 
 </StackPane>
