@@ -25,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -58,7 +59,7 @@ public class CreateAndSaveKMLFileController {
   @FXML private ComboBox<String> iconPicker;
   @FXML private HBox geometrySelectionHBox;
   @FXML private HBox saveResetHBox;
-  @FXML private HBox stylePickersHBox;
+  @FXML private AnchorPane stylePickersAnchorPane;
   @FXML private Label instructionsText;
   @FXML private MapView mapView;
   @FXML private VBox styleOptionsVBox;
@@ -161,21 +162,21 @@ public class CreateAndSaveKMLFileController {
         sketchCreationMode = SketchCreationMode.POINT;
         instructionsText.setText("Click to add a point.");
         // enable the icon picker to allow applying icons after completion
-        iconPicker.setDisable(false);
+        iconPicker.setVisible(true);
         break;
 
       case "Polyline":
         sketchCreationMode = SketchCreationMode.POLYLINE;
         instructionsText.setText("Click to add a vertex.");
         // enable the color picker to allow applying colors after completion
-        colorPicker.setDisable(false);
+        colorPicker.setVisible(true);
         break;
 
       case "Polygon":
         sketchCreationMode = SketchCreationMode.POLYGON;
         instructionsText.setText("Click to add a vertex.");
         // enable the color picker to allow applying colors after completion
-        colorPicker.setDisable(false);
+        colorPicker.setVisible(true);
         break;
     }
 
@@ -218,6 +219,9 @@ public class CreateAndSaveKMLFileController {
 
     // stop the sketch editor
     sketchEditor.stop();
+
+    // update the instructions text
+    instructionsText.setText("Select a style for the geometry.");
   }
 
   /**
@@ -278,8 +282,11 @@ public class CreateAndSaveKMLFileController {
     // hide the style editing UI
     styleOptionsVBox.setVisible(false);
 
-    // disable both pickers within the style editing box
-    stylePickersHBox.getChildren().forEach(node -> node.setDisable(true));
+    // hide both pickers within the style editing box
+    stylePickersAnchorPane.getChildren().forEach(node -> node.setVisible(false));
+
+    // reset the instructions text
+    instructionsText.setText("Select a geometry to create:");
 
     // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
     saveResetHBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
