@@ -143,8 +143,6 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           try {
             OfflineMapSyncParameters offlineMapSyncParameters = offlineMapSyncParametersFuture.get();
 
-            // set the sync direction to none, since we only want to update
-            offlineMapSyncParameters.setSyncDirection(SyncGeodatabaseParameters.SyncDirection.NONE);
             // set the parameters to download all updates for the mobile map packages
             offlineMapSyncParameters.setPreplannedScheduledUpdatesOption(PreplannedScheduledUpdatesOption.DOWNLOAD_ALL_UPDATES);
             // set the map package to rollback to the old state should the sync job fail
