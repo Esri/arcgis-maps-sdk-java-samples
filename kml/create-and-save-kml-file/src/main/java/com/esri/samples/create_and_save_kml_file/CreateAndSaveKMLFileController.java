@@ -19,6 +19,7 @@ package com.esri.samples.create_and_save_kml_file;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 
@@ -66,6 +67,7 @@ public class CreateAndSaveKMLFileController {
   /**
    *
    */
+  @FXML
   private void resetKmlDocument() {
     // clear any existing layers from the map
     map.getOperationalLayers().clear();
@@ -87,6 +89,10 @@ public class CreateAndSaveKMLFileController {
     map.getOperationalLayers().add(kmlLayer);
   }
 
+  @FXML
+  private void selectEditingMode(ActionEvent event){
+    System.out.println(event.getSource());
+  }
 
   /**
    * Stops and releases all resources used in application.
