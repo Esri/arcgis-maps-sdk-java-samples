@@ -20,16 +20,11 @@ import com.esri.arcgisruntime.ArcGISRuntimeException;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.FeatureTable;
-import com.esri.arcgisruntime.data.Geodatabase;
-import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
-import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.LayerList;
-import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -41,44 +36,34 @@ import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.tasks.offlinemap.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class DownloadPreplannedMapController {
 
-  @FXML private Button deleteOfflineAreasButton;
-  @FXML private Button downloadAreaButton;
   @FXML private ListView<PreplannedMapArea> preplannedAreasListView;
+  @FXML private ListView<DownloadPreplannedOfflineMapJob> downloadJobsListView;
   @FXML private MapView mapView;
-  @FXML private ProgressBar downloadProgressBar;
+  @FXML private Button downloadButton;
 
   private ArcGISMap onlineMap;
-  private DownloadPreplannedOfflineMapJob downloadPreplannedOfflineMapJob;
   private GraphicsOverlay areasOfInterestGraphicsOverlay;
-  private MobileMapPackage localMapArea;
   private OfflineMapTask offlineMapTask;
-  private Path tempDirectory;
 
   @FXML
   private void initialize() {
     try {
-      // set up a temporary directory for saving downloaded preplanned maps
-      tempDirectory = Files.createTempDirectory("preplanned_offline_map");
-      tempDirectory.toFile().deleteOnExit();
 
       // create a portal to ArcGIS Online
       Portal portal = new Portal("https://www.arcgis.com/");
@@ -108,7 +93,10 @@ public class DownloadPreplannedMapController {
       // create an offline map task for the portal item
       offlineMapTask = new OfflineMapTask(portalItem);
 
-      // find the available preplanned map areas
+      // use a cell factory which shows the preplanned area's title
+      preplannedAreasListView.setCellFactory(c -> new PreplannedMapAreaListCell());
+
+      // get the preplanned map areas from the offline map task and show them in the list view
       ListenableFuture<List<PreplannedMapArea>> preplannedMapAreasFuture = offlineMapTask.getPreplannedMapAreasAsync();
       preplannedMapAreasFuture.addDoneListener(() -> {
         try {
@@ -116,246 +104,149 @@ public class DownloadPreplannedMapController {
           List<PreplannedMapArea> preplannedMapAreas = preplannedMapAreasFuture.get();
           preplannedAreasListView.getItems().addAll(preplannedMapAreas);
 
-          // load each item and get the area of interest
-          for (PreplannedMapArea mapArea : preplannedMapAreas) {
-            mapArea.loadAsync();
-            mapArea.addDoneLoadingListener(() -> {
-              if (mapArea.getLoadStatus() == LoadStatus.LOADED) {
-
-                // create a graphic for the area of interest and add it to the graphics overlay
-                areasOfInterestGraphicsOverlay.getGraphics().add(new Graphic(mapArea.getAreaOfInterest()));
+          // load each area and show a red border around their area of interest
+          preplannedMapAreas.forEach(preplannedMapArea -> {
+            preplannedMapArea.loadAsync();
+            preplannedMapArea.addDoneLoadingListener(() -> {
+              if (preplannedMapArea.getLoadStatus() == LoadStatus.LOADED) {
+                areasOfInterestGraphicsOverlay.getGraphics().add(new Graphic(preplannedMapArea.getAreaOfInterest()));
+              } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to load preplanned map area").show();
               }
             });
-          }
-
-          // enable the download button
-          downloadAreaButton.setDisable(false);
+          });
 
         } catch (InterruptedException | ExecutionException e) {
           new Alert(Alert.AlertType.ERROR, "Failed to get the Preplanned Map Areas from the Offline Map Task.").show();
         }
       });
 
-      // add a cell factory to the list view that shows the preplanned area's title
-      preplannedAreasListView.setCellFactory(c -> new PreplannedMapAreaListCell());
-      
-      // add the listeners to the list view
-      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-        if (newValue != null) {
 
-          // get the path for the preplanned area
-          String path = tempDirectory + "/" + newValue.getPortalItem().getTitle();
+      preplannedAreasListView.getSelectionModel().selectedItemProperty().addListener((o, p, n) -> {
+        PreplannedMapArea selectedPreplannedMapArea = preplannedAreasListView.getSelectionModel().getSelectedItem();
+        if (selectedPreplannedMapArea != null) {
 
-          // check if the area is already downloaded
-          if (Files.exists(Paths.get(path))) {
-            // disable the download button
-            downloadAreaButton.setDisable(true);
+          // clear the download jobs list view selection
+          downloadJobsListView.getSelectionModel().clearSelection();
 
-            // enable the delete button
-            deleteOfflineAreasButton.setDisable(false);
+          // show the online map with the areas of interest
+          mapView.setMap(onlineMap);
+          areasOfInterestGraphicsOverlay.setVisible(true);
 
-            areasOfInterestGraphicsOverlay.setVisible(false);
-
-            // open and load the mobile map package
-            localMapArea = new MobileMapPackage(path);
-            localMapArea.loadAsync();
-            // display the map from the mobile map package
-            localMapArea.addDoneLoadingListener(() -> mapView.setMap(localMapArea.getMaps().get(0)));
-
-          } else {
-            // enable the download button
-            downloadAreaButton.setDisable(false);
-
-            deleteOfflineAreasButton.setDisable(true);
-
-            // show the area in the online map
-            if (mapView.getMap() != onlineMap) {
-              mapView.setMap(onlineMap);
-            }
-
-            areasOfInterestGraphicsOverlay.setVisible(true);
-          }
-
-          // set viewpoint to preplanned area extent
-          // get the extent of the area of interest, and add a buffer
-          Envelope areaOfInterest = GeometryEngine.buffer(newValue.getAreaOfInterest(), 100).getExtent();
-
-          // set the point of view to the area of interest
-          mapView.setViewpointAsync(new Viewpoint(areaOfInterest), 1.50F);
-        } else {
-          downloadAreaButton.setDisable(true);
-          deleteOfflineAreasButton.setDisable(true);
+          // set the viewpoint to the preplanned map area's area of interest
+          Envelope areaOfInterest = GeometryEngine.buffer(selectedPreplannedMapArea.getAreaOfInterest(), 100).getExtent();
+          mapView.setViewpointAsync(new Viewpoint(areaOfInterest), 1.5f);
         }
       });
 
-    } catch (IOException e) {
-      new Alert(Alert.AlertType.ERROR, "Failed to create a temporary path for saving the Preplanned Map Areas.").show();
+      // disable the download button when no area is selected
+      downloadButton.disableProperty().bind(preplannedAreasListView.getSelectionModel().selectedItemProperty().isNull());
+
+      // use a cell factory which shows the download preplanned offline map job's progress and title
+      downloadJobsListView.setCellFactory(c -> new DownloadPreplannedOfflineMapJobListCell());
+
+      ChangeListener<DownloadPreplannedOfflineMapJob> selectedDownloadChangeListener = new ChangeListener<>() {
+        @Override
+        public void changed(ObservableValue<? extends DownloadPreplannedOfflineMapJob> observable, DownloadPreplannedOfflineMapJob oldValue, DownloadPreplannedOfflineMapJob newValue) {
+          DownloadPreplannedOfflineMapJob selectedJob = downloadJobsListView.getSelectionModel().getSelectedItem();
+          if (selectedJob != null) {
+
+            // hide the preplanned map areas and clear the preplanned area list view's selection
+            areasOfInterestGraphicsOverlay.setVisible(false);
+            preplannedAreasListView.getSelectionModel().clearSelection();
+
+            if (selectedJob.getStatus() == Job.Status.SUCCEEDED) {
+              DownloadPreplannedOfflineMapResult result = selectedJob.getResult();
+
+              // check if the result has errors
+              if (result.hasErrors()) {
+
+                // collect the layer and table errors into a single alert message
+                StringBuilder stringBuilder = new StringBuilder("Errors: ");
+
+                Map<Layer, ArcGISRuntimeException> layerErrors = result.getLayerErrors();
+                layerErrors.forEach((layer, exception) ->
+                        stringBuilder.append("Layer: ").append(layer.getName()).append(". Exception: ").append(exception.getMessage()).append(". ")
+                );
+
+                Map<FeatureTable, ArcGISRuntimeException> tableError = result.getTableErrors();
+                tableError.forEach((table, exception) ->
+                        stringBuilder.append("Table: ").append(table.getTableName()).append(". Exception: ").append(exception.getMessage()).append(". ")
+                );
+
+                new Alert(Alert.AlertType.ERROR, "One or more errors occurred with the Offline Map Result: " + stringBuilder.toString()).show();
+              } else {
+                // show the offline map in the map view
+                ArcGISMap downloadOfflineMap = result.getOfflineMap();
+                mapView.setMap(downloadOfflineMap);
+              }
+
+            } else {
+              // alert the user the job is still in progress if selected before the job is done
+              new Alert(Alert.AlertType.WARNING, "Job status: " + selectedJob.getStatus()).show();
+
+              // when the job is done, re-trigger the listener to show the job's result if it is still selected
+              selectedJob.addJobDoneListener(() ->
+                this.changed(observable, oldValue, downloadJobsListView.getSelectionModel().getSelectedItem())
+              );
+            }
+          }
+        }
+      };
+
+      downloadJobsListView.getSelectionModel().selectedItemProperty().addListener(selectedDownloadChangeListener);
+
+    } catch (Exception e) {
+      // on any exception, print the stacktrace
+      e.printStackTrace();
     }
   }
 
   /**
-   * Downloads and shows the selected preplanned map area.
+   * Download the selected preplanned map area from the list view to a temporary directory. The download job is tracked in another list view.
    */
   @FXML
   private void handleDownloadPreplannedAreaButtonClicked() {
-    if (preplannedAreasListView.getSelectionModel().getSelectedItem() != null) {
+    PreplannedMapArea selectedMapArea = preplannedAreasListView.getSelectionModel().getSelectedItem();
+    if (selectedMapArea != null) {
 
-      // get the requested preplanned map area
-      PreplannedMapArea selectedMapArea = preplannedAreasListView.getSelectionModel().getSelectedItem();
-      // create a folder path where the map package will be downloaded to
-      String path = tempDirectory + "/" + selectedMapArea.getPortalItem().getTitle();
+      // hide the preplanned areas and clear the selection
+      preplannedAreasListView.getSelectionModel().clearSelection();
+      areasOfInterestGraphicsOverlay.setVisible(false);
 
-      downloadAreaButton.setDisable(true);
-      preplannedAreasListView.setDisable(true);
-
-      // create download parameters from the task
+      // create default download parameters from the offline map task
       ListenableFuture<DownloadPreplannedOfflineMapParameters> downloadPreplannedOfflineMapParametersFuture = offlineMapTask.createDefaultDownloadPreplannedOfflineMapParametersAsync(selectedMapArea);
       downloadPreplannedOfflineMapParametersFuture.addDoneListener(() -> {
         try {
           DownloadPreplannedOfflineMapParameters downloadPreplannedOfflineMapParameters = downloadPreplannedOfflineMapParametersFuture.get();
 
-          // set the parameters for the offline map to not receive updates
+          // set the update mode to not receive updates
           downloadPreplannedOfflineMapParameters.setUpdateMode(PreplannedUpdateMode.NO_UPDATES);
 
-          // create the job with the parameters and download path
-          downloadPreplannedOfflineMapJob = offlineMapTask.downloadPreplannedOfflineMap(downloadPreplannedOfflineMapParameters, path);
+          // create a job to download the preplanned offline map to a temporary directory
+          Path path = Files.createTempDirectory(selectedMapArea.getPortalItem().getTitle());
+          path.toFile().deleteOnExit();
+          DownloadPreplannedOfflineMapJob downloadPreplannedOfflineMapJob = offlineMapTask.downloadPreplannedOfflineMap(downloadPreplannedOfflineMapParameters, path.toFile().getAbsolutePath());
 
-          // show the job progress
-          downloadProgressBar.setVisible(true);
-          downloadPreplannedOfflineMapJob.addProgressChangedListener(() -> downloadProgressBar.setProgress((double) downloadPreplannedOfflineMapJob.getProgress() / 100));
-
-          // start the job and wait for it to complete
+          // start the job
           downloadPreplannedOfflineMapJob.start();
-          downloadPreplannedOfflineMapJob.addJobDoneListener(() -> {
 
-            // hide the progress bar
-            downloadProgressBar.setVisible(false);
+          // track the job in the second list view
+          downloadJobsListView.getItems().add(downloadPreplannedOfflineMapJob);
 
-            if (downloadPreplannedOfflineMapJob.getStatus() == Job.Status.SUCCEEDED) {
-
-              // get the result of the job
-              DownloadPreplannedOfflineMapResult downloadPreplannedOfflineMapResult = downloadPreplannedOfflineMapJob.getResult();
-
-              // check if the result has any errors and display them
-              checkForOfflineMapResultErrors(downloadPreplannedOfflineMapResult);
-
-              // show the result in the map view
-              mapView.setMap(downloadPreplannedOfflineMapResult.getOfflineMap());
-
-              deleteOfflineAreasButton.setDisable(false);
-
-              // display error details if the job fails
-            } else if (downloadPreplannedOfflineMapJob.getStatus() == Job.Status.FAILED) {
-              downloadAreaButton.setDisable(false);
-              new Alert(Alert.AlertType.ERROR, "Download Preplanned Offline Map Job failed. Error: " + downloadPreplannedOfflineMapJob.getError());
-            }
-          });
         } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Could not create Default Parameters for the Download Preplanned Offline Map Job.").show();
-        } finally {
-          preplannedAreasListView.setDisable(false);
+          new Alert(Alert.AlertType.ERROR, "Failed to generate default parameters for the download job.").show();
+        } catch(IOException e) {
+          new Alert(Alert.AlertType.ERROR, "Failed to create a temporary directory for the download").show();
         }
       });
     }
-  }
-
-  /**
-   * Checks for layer and table errors of an offline map result, and displays them if present.
-   *
-   * @param downloadPreplannedOfflineMapResult the result to query for errors.
-   */
-  private void checkForOfflineMapResultErrors(DownloadPreplannedOfflineMapResult downloadPreplannedOfflineMapResult) {
-    if (downloadPreplannedOfflineMapResult.hasErrors()) {
-      // accumulate all layer and table errors into a single message
-      StringBuilder stringBuilder = new StringBuilder("Errors: ");
-
-      Map<Layer, ArcGISRuntimeException> layerErrors = downloadPreplannedOfflineMapResult.getLayerErrors();
-      layerErrors.forEach((layer, exception) ->
-              stringBuilder.append("Layer: ").append(layer.getName()).append(". Exception: ").append(exception.getMessage()).append(". ")
-      );
-
-      Map<FeatureTable, ArcGISRuntimeException> tableError = downloadPreplannedOfflineMapResult.getTableErrors();
-      tableError.forEach((table, exception) ->
-              stringBuilder.append("Table: ").append(table.getTableName()).append(". Exception: ").append(exception.getMessage()).append(". ")
-      );
-
-      // show the message
-      new Alert(Alert.AlertType.ERROR, "One or more errors occurred with the Offline Map Result: " + stringBuilder.toString()).show();
-    }
-  }
-
-  /**
-   * Deletes all the previously downloaded offline areas.
-   */
-  @FXML
-  private void handleDeleteOfflineAreasButtonClicked() {
-    try {
-
-      // reset the map view to the online map
-      mapView.setMap(onlineMap);
-
-      // close all previously opened geodatabases to allow deleting the files
-      fetchAllGeodatabases().forEach(Geodatabase::close);
-
-      // delete all files in the temporary directory
-      File localPreplannedMapDirectoryFile = tempDirectory.toFile();
-      FileUtils.cleanDirectory(localPreplannedMapDirectoryFile);
-
-      // disable the 'delete offline areas' button
-      deleteOfflineAreasButton.setDisable(true);
-
-      // reset the UI
-      preplannedAreasListView.getSelectionModel().select(null);
-
-      // show confirmation
-      new Alert(Alert.AlertType.INFORMATION, "All preplanned map areas deleted.").show();
-
-    } catch (IOException e) {
-      new Alert(Alert.AlertType.ERROR, "Error deleting preplanned map areas.").show();
-    }
-  }
-
-  /**
-   * Returns all GeoDatabases from the previously opened MobileMapPackages.
-   */
-  private ArrayList<Geodatabase> fetchAllGeodatabases() {
-
-    ArrayList<Geodatabase> geodatabases = new ArrayList<>();
-
-    // get the geodatabases from all downloaded mobile map packages
-    List<ArcGISMap> maps = localMapArea.getMaps();
-    maps.forEach(map -> {
-      LayerList operationalLayers = map.getOperationalLayers();
-      operationalLayers.forEach(layer -> {
-        if (layer instanceof FeatureLayer) {
-          FeatureLayer featurelayer = (FeatureLayer) layer;
-          GeodatabaseFeatureTable geodatabaseFeatureTable = (GeodatabaseFeatureTable) featurelayer.getFeatureTable();
-          // only add unique geodatabases to the list
-          if (!geodatabases.contains(geodatabaseFeatureTable.getGeodatabase())) {
-            geodatabases.add(geodatabaseFeatureTable.getGeodatabase());
-          }
-        }
-      });
-    });
-
-    return geodatabases;
   }
 
   /**
    * Stops and releases all resources used in application.
    */
   void terminate() {
-
-    // close all previously opened geodatabases to allow deleting the files
-    fetchAllGeodatabases().forEach(Geodatabase::close);
-
-    // delete all files in the temporary directory
-    File localPreplannedMapDirectoryFile = tempDirectory.toFile();
-    try {
-      FileUtils.cleanDirectory(localPreplannedMapDirectoryFile);
-    } catch (IOException e) {
-      new Alert(Alert.AlertType.ERROR, "Error deleting preplanned map areas.").show();
-    }
 
     if (mapView != null) {
       mapView.dispose();

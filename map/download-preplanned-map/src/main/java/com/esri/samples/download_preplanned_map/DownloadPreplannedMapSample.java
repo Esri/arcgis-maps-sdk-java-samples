@@ -16,8 +16,6 @@
 
 package com.esri.samples.download_preplanned_map;
 
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +27,7 @@ public class DownloadPreplannedMapSample extends Application {
   private static DownloadPreplannedMapController controller;
 
   @Override
-  public void start(Stage stage) throws IOException {
+  public void start(Stage stage) throws Exception {
     // set up the scene
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/download_preplanned_map.fxml"));
     Parent root = loader.load();
