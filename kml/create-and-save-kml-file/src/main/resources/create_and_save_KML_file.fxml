@@ -37,7 +37,7 @@
     <AnchorPane stylesheets="/style.css" StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="160">
     <!--    Editing and Saving Controls-->
     <VBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" minWidth="300" maxWidth="400" maxHeight="50"
-          styleClass="panel-region" spacing="5">
+          styleClass="panel-region" spacing="5" alignment="CENTER">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
