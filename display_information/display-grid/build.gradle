@@ -36,8 +36,6 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-def nativeLibrariesPath = "${System.properties.getProperty("user.home")}/.arcgis/$arcgisVersion";
-
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -45,14 +43,12 @@ task copyNatives(type: Copy) {
         from(zipTree(it))
     }
     // store native libraries in a common location shared with other samples
-    into nativeLibrariesPath
+    into "${System.properties.getProperty("user.home")}/.arcgis/$arcgisVersion"
 }
 
 run {
     dependsOn copyNatives
     mainClassName = 'com.esri.samples.display_grid.DisplayGridLauncher'
-    // set environment variable so native libraries can be found at runtime
-    environment "ARCGISRUNTIMESDKJAVA_100_5_0", nativeLibrariesPath
 }
 
 jar {
