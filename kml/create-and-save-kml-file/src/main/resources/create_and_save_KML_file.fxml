@@ -91,7 +91,7 @@
         </HBox>
         <HBox spacing="6" alignment="CENTER">
             <Button onAction="#resolveApplyStyleClick" text="Apply Style" minWidth="110"/>
-            <Button onAction="#resolveNoStyleClick" text="Don't Apply Style" minWidth="110"/>
+            <Button onAction="#toggleUI" text="Don't Apply Style" minWidth="110"/>
         </HBox>
     </VBox>
 

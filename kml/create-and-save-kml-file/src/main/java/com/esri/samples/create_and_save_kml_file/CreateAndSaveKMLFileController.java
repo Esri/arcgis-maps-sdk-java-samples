@@ -53,22 +53,22 @@ import com.esri.arcgisruntime.symbology.ColorUtil;
 
 public class CreateAndSaveKMLFileController {
 
-  @FXML private MapView mapView;
-  @FXML private Label instructionsText;
-  @FXML private HBox geometrySelectionHBox;
-  @FXML private HBox saveResetHBox;
-  @FXML private VBox styleOptionsVBox;
   @FXML private Button completeSketchBtn;
   @FXML private ColorPicker colorPicker;
   @FXML private ComboBox<String> iconPicker;
+  @FXML private HBox geometrySelectionHBox;
+  @FXML private HBox saveResetHBox;
   @FXML private HBox stylePickersHBox;
+  @FXML private Label instructionsText;
+  @FXML private MapView mapView;
+  @FXML private VBox styleOptionsVBox;
 
   private ArcGISMap map;
+  private FileChooser fileChooser;
   private KmlDocument kmlDocument;
   private KmlPlacemark currentKmlPlacemark;
   private SketchEditor sketchEditor;
   private SketchCreationMode sketchCreationMode;
-  private FileChooser fileChooser;
 
   @FXML
   public void initialize() {
@@ -77,12 +77,15 @@ public class CreateAndSaveKMLFileController {
     map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
     mapView.setMap(map);
 
-    sketchCreationMode = null;
+    // create a sketch editor and add it to the map view
     sketchEditor = new SketchEditor();
     mapView.setSketchEditor(sketchEditor);
 
+    // create a sketch creation mode
+    sketchCreationMode = null;
+
+    // enable the 'Complete Sketch' button depending on whether the sketch is valid
     sketchEditor.addGeometryChangedListener(sketchGeometryChangedListener ->
-      // save button enable depends on if the sketch is valid
       completeSketchBtn.setDisable(!sketchEditor.isSketchValid())
     );
 
@@ -119,17 +122,17 @@ public class CreateAndSaveKMLFileController {
     // reset the most recently placed placemark
     currentKmlPlacemark = null;
 
-    // create a new KmlDocument
+    // create a new KML document
     kmlDocument = new KmlDocument();
     kmlDocument.setName("KML Sample Document");
 
-    // create a kml dataset using the kml document
+    // create a KML dataset using the KML document
     KmlDataset kmlDataset = new KmlDataset(kmlDocument);
 
-    // create the kml layer using the kml dataset
+    // create the KML layer using the KML dataset
     KmlLayer kmlLayer = new KmlLayer(kmlDataset);
 
-    // add the kml layer to the map
+    // add the KML layer to the map
     map.getOperationalLayers().add(kmlLayer);
 
     // disable the save/reset buttons
@@ -146,35 +149,37 @@ public class CreateAndSaveKMLFileController {
     geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(true));
     geometrySelectionHBox.setVisible(false);
 
-    // disable the save/reset buttons while sketching
+    // disable the save/reset buttons
     saveResetHBox.getChildren().forEach(node -> node.setDisable(true));
 
     // show the 'Complete Sketch' button
     completeSketchBtn.setVisible(true);
 
-    // create variables for the sketch creation mode and color
-
-    // set the creation mode and UI based on which button called this method
+    // set the sketch creation mode and UI based on which button called this method
     switch (((Button) event.getSource()).getText()) {
       case "Point":
         sketchCreationMode = SketchCreationMode.POINT;
         instructionsText.setText("Click to add a point.");
+        // enable the icon picker to allow applying icons after completion
         iconPicker.setDisable(false);
         break;
 
       case "Polyline":
         sketchCreationMode = SketchCreationMode.POLYLINE;
         instructionsText.setText("Click to add a vertex.");
+        // enable the color picker to allow applying colors after completion
         colorPicker.setDisable(false);
         break;
 
       case "Polygon":
         sketchCreationMode = SketchCreationMode.POLYGON;
         instructionsText.setText("Click to add a vertex.");
+        // enable the color picker to allow applying colors after completion
         colorPicker.setDisable(false);
         break;
     }
 
+    // start the sketch editor to capture the user input
     if (sketchCreationMode != null) {
       sketchEditor.start(sketchCreationMode);
     }
@@ -186,16 +191,14 @@ public class CreateAndSaveKMLFileController {
    */
   @FXML
   private void resolveCompleteSketchClick() {
-    geometrySelectionHBox.setVisible(true);
-    completeSketchBtn.setVisible(false);
 
     // get the user-drawn geometry
     Geometry sketchGeometry = sketchEditor.getGeometry();
 
     if (sketchGeometry != null) {
-
       // project the geometry to WGS84 to comply with the KML standard
       Geometry projectedGeometry = GeometryEngine.project(sketchGeometry, SpatialReferences.getWgs84());
+
       // create a KML geometry
       KmlGeometry kmlGeometry = new KmlGeometry(projectedGeometry, KmlAltitudeMode.CLAMP_TO_GROUND);
 
@@ -209,6 +212,11 @@ public class CreateAndSaveKMLFileController {
       styleOptionsVBox.setVisible(true);
     }
 
+    // hide the 'Complete Sketch' button and show the geometry selection buttons
+    completeSketchBtn.setVisible(false);
+    geometrySelectionHBox.setVisible(true);
+
+    // stop the sketch editor
     sketchEditor.stop();
   }
 
@@ -217,8 +225,6 @@ public class CreateAndSaveKMLFileController {
    */
   @FXML
   private void resolveApplyStyleClick() {
-    // toggle the UI
-    toggleUI();
 
     KmlStyle kmlStyle = new KmlStyle();
     currentKmlPlacemark.setStyle(kmlStyle);
@@ -256,20 +262,15 @@ public class CreateAndSaveKMLFileController {
         }
         break;
     }
-  }
 
-  /**
-   * Re-enables the UI to allow creating another KML element, saving the document, or resetting the sample.
-   */
-  @FXML
-  private void resolveNoStyleClick() {
-    // toggle the UI
+    // re-enables the UI to allow creating another KML element, saving the document, or resetting the sample
     toggleUI();
   }
 
   /**
    * Toggles the UI when making a style selection for the recently created KML element, to allow choosing a new KML element to create.
    */
+  @FXML
   private void toggleUI() {
     // enable the geometry buttons
     geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(false));
