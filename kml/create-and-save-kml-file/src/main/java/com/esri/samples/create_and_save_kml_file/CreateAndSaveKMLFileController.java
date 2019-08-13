@@ -192,19 +192,21 @@ public class CreateAndSaveKMLFileController {
   }
 
   @FXML
-  private void resolveApplyStyleClick(){
-    // enable the geometry buttons
-    geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(false));
-
-    // hide the style editing UI and show the save & reset UI
-    styleOptionsVBox.setVisible(false);
-
-    // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
-    saveResetHBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
+  private void resolveApplyStyleClick() {
+    // toggle the UI
+    toggleUI();
   }
 
   @FXML
-  private void resolveNoStyleClick(){
+  private void resolveNoStyleClick() {
+    // toggle the UI
+    toggleUI();
+  }
+
+  /**
+   * Toggles the UI when making a style selection for the recently created KML element, to allow choosing a new KML element to create.
+   */
+  private void toggleUI() {
     // enable the geometry buttons
     geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(false));
 
@@ -213,7 +215,6 @@ public class CreateAndSaveKMLFileController {
 
     // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
     saveResetHBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
-
   }
 
   @FXML
