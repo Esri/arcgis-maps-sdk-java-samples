@@ -15,15 +15,15 @@ Click on one of the buttons in the middle row to start adding a geometry. Click 
 ## How it works
 
 1. Create a `KmlDocument`
-2. Create a `KmlDataset` using the `KmlDocument`.
-3. Create a `KmlLayer` using the `KmlDataset` and add it to `Map.OperationalLayers`.
+2. Create a `KmlDataset` using the KML document.
+3. Create a `KmlLayer` using the KML dataset and add it to the map as an `OperationalLayer`.
 4. Create `Geometry` using `SketchEditor`.
-5. Project that `Geometry` to WGS84 using `GeometryEngine.Project`.
-6. Create a `KmlGeometry` object using that projected `Geometry`.
-7. Create a `KmlPlacemark` using the `KmlGeometry`.
-8. Add the `KmlPlacemark` to the `KmlDocument`.
-9. Set the `KmlStyle` for the `KmlPlacemark`.
-10. When finished with adding `KmlPlacemark` nodes to the `KmlDocument`, save the `KmlDocument` to a file using the `SaveAsAsync` method.
+5. Project that geometry to WGS84 using `GeometryEngine.Project`.
+6. Create a `KmlGeometry` object using that projected geometry.
+7. Create a `KmlPlacemark` using the KML geometry.
+8. Add the KML placemark to the KML document.
+9. Set the `KmlStyle` for the KML placemark.
+10. When finished with adding KML placemark nodes to the KML document, save the KML document to a file using the `saveAsAsync(Path)` method.
 
 ## Relevant API
 
