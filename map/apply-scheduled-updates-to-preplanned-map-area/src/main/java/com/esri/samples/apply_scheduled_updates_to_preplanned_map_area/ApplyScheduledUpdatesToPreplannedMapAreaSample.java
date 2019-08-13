@@ -44,7 +44,6 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.tasks.geodatabase.SyncGeodatabaseParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncJob;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncResult;
