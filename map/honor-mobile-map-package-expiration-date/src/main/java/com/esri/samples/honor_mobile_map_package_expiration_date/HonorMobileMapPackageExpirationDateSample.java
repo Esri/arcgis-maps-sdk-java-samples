@@ -109,7 +109,7 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
             new Alert(Alert.AlertType.ERROR, "The author of this mobile map package has disallowed access after the expiration date.").show();
           }
 
-          // load the mobile map package if it has no expiration information
+          // show the map if it is not expired
         } else if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
           // add the map from the mobile map package to the map view
           mapView.setMap(mobileMapPackage.getMaps().get(0));
