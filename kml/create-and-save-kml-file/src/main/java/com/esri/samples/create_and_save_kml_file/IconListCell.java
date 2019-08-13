@@ -5,6 +5,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Displays a preview of the available icons in the icon selection combobox
+ */
 public class IconListCell extends ListCell<String> {
   private final ImageView iconImageView;
 

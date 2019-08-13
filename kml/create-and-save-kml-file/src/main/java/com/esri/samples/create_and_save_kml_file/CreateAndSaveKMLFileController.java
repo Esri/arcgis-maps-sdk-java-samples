@@ -96,6 +96,7 @@ public class CreateAndSaveKMLFileController {
             "http://static.arcgis.com/images/Symbols/Shapes/BlueStarLargeB.png");
     iconPicker.getItems().addAll(iconLinks);
     iconPicker.setCellFactory(comboBox -> new IconListCell());
+    iconPicker.setButtonCell(new IconListCell());
     iconPicker.getSelectionModel().select(0);
 
     // create a file chooser to get a path for saving the KMZ file
