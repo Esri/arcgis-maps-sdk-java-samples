@@ -16,13 +16,9 @@
 
 package com.esri.samples.create_and_save_kml_file;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
