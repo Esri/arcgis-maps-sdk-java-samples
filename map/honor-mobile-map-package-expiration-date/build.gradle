@@ -6,12 +6,12 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.5.0'
+    arcgisVersion = '100.6.0-2497'
 }
 
 javafx {
     version = "11.0.1"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.controls' ]
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -48,13 +48,13 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.display_grid.DisplayGridLauncher'
+    mainClassName = 'com.esri.samples.honor_mobile_map_package_expiration_date.HonorMobileMapPackageExpirationDateLauncher'
 }
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest { 
-        attributes("Main-Class": "$mainClassName") 
+    manifest {
+        attributes("Main-Class": "$mainClassName")
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
@@ -63,11 +63,14 @@ jar {
 
 task productionZip(type: Zip) {
     group = 'distribution'
+    from ("samples-data") {
+        into "samples-data"
+    }
     from copyNatives
     from jar.destinationDir
     into (project.name)
     baseName = project.name
-}
+    }
 
 wrapper {
     gradleVersion = '5.0'
