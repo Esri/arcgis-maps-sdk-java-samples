@@ -16,11 +16,16 @@
 
 package com.esri.samples.create_and_save_kml_file;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -50,6 +55,7 @@ import com.esri.arcgisruntime.ogc.kml.KmlLineStyle;
 import com.esri.arcgisruntime.ogc.kml.KmlPlacemark;
 import com.esri.arcgisruntime.ogc.kml.KmlPolygonStyle;
 import com.esri.arcgisruntime.ogc.kml.KmlStyle;
+import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 
 public class CreateAndSaveKMLFileController {
@@ -297,8 +303,20 @@ public class CreateAndSaveKMLFileController {
    */
   @FXML
   private void handleSaveClick() {
-    // write the KMZ file to the path chosen in the file chooser
-    kmlDocument.saveAsAsync(fileChooser.showSaveDialog(mapView.getScene().getWindow()).getPath());
+
+    try {
+      // get a path from the file chooser
+      String kmzPath = fileChooser.showSaveDialog(mapView.getScene().getWindow()).getPath();
+
+      // write the KMZ file to the path chosen
+      if ( kmzPath != null) {
+        kmlDocument.saveAsAsync(kmzPath);
+      } else{
+        new Alert(Alert.AlertType.ERROR, "KMZ file not saved.").show();
+      }
+    } catch (Exception e){
+      new Alert(Alert.AlertType.ERROR, "Error saving KMZ file.").show();
+    }
   }
 
   /**

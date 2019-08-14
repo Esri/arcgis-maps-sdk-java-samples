@@ -34,9 +34,9 @@
     <MapView fx:id="mapView"/>
 
     <!--Controls-->
-    <AnchorPane stylesheets="/style.css" StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="160">
+    <AnchorPane stylesheets="/style.css" StackPane.alignment="TOP_LEFT" maxWidth="210" maxHeight="100">
     <!--    Editing and Saving Controls-->
-    <VBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" minWidth="300" maxWidth="400" maxHeight="50"
+    <VBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" minWidth="210" maxWidth="210" maxHeight="90"
           styleClass="panel-region" spacing="5" alignment="CENTER">
         <padding>
             <Insets topRightBottomLeft="10"/>
@@ -57,24 +57,24 @@
 
         <AnchorPane>
             <HBox fx:id="geometrySelectionHBox" AnchorPane.leftAnchor="0" spacing="5">
-                <Button text="Point" onAction="#resolveSelectGeometryClick" minWidth="100"/>
-                <Button text="Polyline" onAction="#resolveSelectGeometryClick" minWidth="100"/>
-                <Button text="Polygon" onAction="#resolveSelectGeometryClick" minWidth="100"/>
+                <Button text="Point" onAction="#resolveSelectGeometryClick" minWidth="70"/>
+                <Button text="Polyline" onAction="#resolveSelectGeometryClick" minWidth="70"/>
+                <Button text="Polygon" onAction="#resolveSelectGeometryClick" minWidth="70"/>
             </HBox>
 
             <Button fx:id="completeSketchBtn" text="Complete Sketch" onAction="#resolveCompleteSketchClick" disable="true"
-                    visible="false" minWidth="310" AnchorPane.leftAnchor="0"/>
+                    visible="false" minWidth="210" AnchorPane.leftAnchor="0"/>
         </AnchorPane>
 
         <HBox fx:id="saveResetHBox" spacing="5">
-            <Button text="Save KMZ file" onAction="#handleSaveClick" disable="true" minWidth="152.5"/>
-            <Button text="Reset" onAction="#resetKmlDocument" disable="true" minWidth="152.5"/>
+            <Button text="Save KMZ file" onAction="#handleSaveClick" disable="true" minWidth="105"/>
+            <Button text="Reset" onAction="#resetKmlDocument" disable="true" minWidth="105"/>
         </HBox>
     </VBox>
 
     <!--Apply Style Options Controls-->
-    <VBox fx:id="styleOptionsVBox" AnchorPane.topAnchor="100" AnchorPane.leftAnchor="0" visible="false"
-          maxWidth="250" maxHeight="110" styleClass="panel-region" spacing="5" alignment="CENTER">
+    <VBox fx:id="styleOptionsVBox" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" visible="false"
+          minWidth="260" maxWidth="260" maxHeight="90" styleClass="panel-region" spacing="5" alignment="CENTER">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -83,7 +83,7 @@
                 <fills>
                     <BackgroundFill>
                         <fill>
-                            <Color opacity="0.3"/>
+                            <Color/>
                         </fill>
                     </BackgroundFill>
                 </fills>
@@ -92,9 +92,9 @@
 
         <Label text="Select Style:"/>
 
-        <AnchorPane fx:id="stylePickersAnchorPane">
-            <ComboBox fx:id="iconPicker" visible="false" minWidth="225" AnchorPane.leftAnchor="0"/>
-            <ColorPicker fx:id="colorPicker" visible="false" minWidth="225" AnchorPane.leftAnchor="0"/>
+        <AnchorPane fx:id="stylePickersAnchorPane" minWidth="210">
+            <ComboBox fx:id="iconPicker" visible="false" minWidth="210" AnchorPane.topAnchor="0"/>
+            <ColorPicker fx:id="colorPicker" visible="false" minWidth="210" AnchorPane.topAnchor="0"/>
         </AnchorPane>
 
         <HBox spacing="5" alignment="CENTER">
