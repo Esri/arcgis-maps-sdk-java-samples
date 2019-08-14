@@ -55,7 +55,6 @@ import com.esri.arcgisruntime.ogc.kml.KmlLineStyle;
 import com.esri.arcgisruntime.ogc.kml.KmlPlacemark;
 import com.esri.arcgisruntime.ogc.kml.KmlPolygonStyle;
 import com.esri.arcgisruntime.ogc.kml.KmlStyle;
-import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 
 public class CreateAndSaveKMLFileController {
@@ -93,7 +92,7 @@ public class CreateAndSaveKMLFileController {
 
     // enable the 'Complete Sketch' button depending on whether the sketch is valid
     sketchEditor.addGeometryChangedListener(sketchGeometryChangedListener ->
-      completeSketchBtn.setDisable(!sketchEditor.isSketchValid())
+            completeSketchBtn.setDisable(!sketchEditor.isSketchValid())
     );
 
     // set the images for the point icon picker
@@ -151,6 +150,7 @@ public class CreateAndSaveKMLFileController {
 
   /**
    * Sets the sketch creation mode to the selected geometry and starts the sketch editor.
+   *
    * @param event used to identify which button was pressed to select the corresponding geometry.
    */
   @FXML
@@ -312,12 +312,12 @@ public class CreateAndSaveKMLFileController {
       String kmzPath = fileChooser.showSaveDialog(mapView.getScene().getWindow()).getPath();
 
       // write the KMZ file to the path chosen
-      if ( kmzPath != null) {
+      if (kmzPath != null) {
         kmlDocument.saveAsAsync(kmzPath);
-      } else{
+      } else {
         new Alert(Alert.AlertType.ERROR, "KMZ file not saved.").show();
       }
-    } catch (Exception e){
+    } catch (Exception e) {
       new Alert(Alert.AlertType.ERROR, "Error saving KMZ file.").show();
     }
   }
