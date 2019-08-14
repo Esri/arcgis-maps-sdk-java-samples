@@ -116,6 +116,9 @@ public class CreateAndSaveKMLFileController {
 
     // set up a new KML document and layer
     resetKmlDocument();
+
+    // wait for the map to finish loading to enable the UI
+    map.addDoneLoadingListener(() -> toggleUI());
   }
 
   /**
