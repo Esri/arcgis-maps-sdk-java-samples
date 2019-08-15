@@ -1,0 +1,30 @@
+{
+    "category": "Map",
+    "description": "Take a map offline using a preplanned map area.",
+    "ignore": false,
+    "images": [
+        "DownloadPreplannedMap.png"
+    ],
+    "keywords": [
+        "map area",
+        "offline",
+        "preplanned",
+        "pre-planned"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "DownloadPreplannedOfflineMapJob",
+        "DownloadPreplannedOfflineMapParameters",
+        "DownloadPreplannedOfflineMapResult",
+        "OfflineMapTask",
+        "PreplannedMapArea"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/download_preplanned_map/DownloadPreplannedMapController.java",
+        "src/main/java/com/esri/samples/download_preplanned_map/DownloadPreplannedMapSample.java",
+        "src/main/java/com/esri/samples/download_preplanned_map/DownloadPreplannedOfflineMapJobListCell.java",
+        "src/main/java/com/esri/samples/download_preplanned_map/PreplannedMapAreaListCell.java",
+        "src/main/resources/download_preplanned_map.fxml"
+    ],
+    "title": "Download a Preplanned Map Area"
+}
