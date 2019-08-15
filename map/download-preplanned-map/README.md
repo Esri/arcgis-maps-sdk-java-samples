@@ -6,13 +6,15 @@ Take a map offline using a preplanned map area.
 
 ## Use case
 
-When using the preplanned workflow, the author of the web map can set up offline packages for a map area ahead of time, which can then be distributed to end-users to view on their devices. Because the resources for the area are packaged once and can be downloaded many times by different users, this approach is faster and more scalable for large organizations when compared to an on-demand workflow (where each end-user requests a specific area that is then generated and delivered by a service). For example, this workflow could be used by survey workers operating in remote areas where network connectivity is not available. The workers could download preplanned mobile areas to their individual devices ahead of time and perform their work normally while disconnected.
+Generating offline maps on demand for a specific area can be time consuming for users and a processing load on the server. If areas of interest are known ahead of time, a web map author can pre-create packages for these areas. This way, the generation only needs to happen once, making the workflow more efficient for users and servers. 
+
+An archaeology team could define preplanned map areas for dig sites which can be taken offline for field use.
 
 ## How to use the sample
 
-**NOTE:** Downloading Tiles for offline use requires authentication with the web map's server. An [ArcGIS Online](www.arcgis.com) account is required to use this sample.
+Downloading Tiles for offline use requires authentication with the web map's server. An [ArcGIS Online](www.arcgis.com) account is required to use this sample.
 
-Select a map area from the Preplanned Map Areas list. Click the Download button to download the offline map. The download progress will be shown in the Downloads list. When a download is complete, select it to display the offline map in the map view.
+Select a map area from the Preplanned Map Areas list. Click the Download button to download the selected area. The download progress will be shown in the Downloads list. When a download is complete, select it to display the offline map in the map view.
 
 ## How it works
 
