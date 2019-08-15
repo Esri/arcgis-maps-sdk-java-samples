@@ -212,7 +212,6 @@ public class DownloadPreplannedMapController {
 
       // hide the preplanned areas and clear the selection
       preplannedAreasListView.getSelectionModel().clearSelection();
-      areasOfInterestGraphicsOverlay.setVisible(false);
 
       // create default download parameters from the offline map task
       ListenableFuture<DownloadPreplannedOfflineMapParameters> downloadPreplannedOfflineMapParametersFuture = offlineMapTask.createDefaultDownloadPreplannedOfflineMapParametersAsync(selectedMapArea);
