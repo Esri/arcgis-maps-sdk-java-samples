@@ -16,6 +16,7 @@
 
 package com.esri.samples.create_and_save_kml_file;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -108,6 +109,7 @@ public class CreateAndSaveKMLFileController {
     fileChooser = new FileChooser();
     FileChooser.ExtensionFilter kmzFilter = new FileChooser.ExtensionFilter("KMZ files (*.kmz)", "*.kmz");
     fileChooser.getExtensionFilters().add(kmzFilter);
+    fileChooser.setTitle("Save KMZ file:");
 
     // set up a new KML document and layer
     resetKmlDocument();
@@ -305,13 +307,12 @@ public class CreateAndSaveKMLFileController {
 
     try {
       // get a path from the file chooser
-      String kmzPath = fileChooser.showSaveDialog(mapView.getScene().getWindow()).getPath();
-
+      File kmzFile = fileChooser.showSaveDialog(mapView.getScene().getWindow());
       // write the KMZ file to the path chosen
-      if (kmzPath != null) {
-        kmlDocument.saveAsAsync(kmzPath);
+      if (kmzFile != null) {
+        kmlDocument.saveAsAsync(kmzFile.getPath());
       } else {
-        new Alert(Alert.AlertType.ERROR, "KMZ file not saved.").show();
+        new Alert(Alert.AlertType.WARNING, "KMZ file not saved.").show();
       }
     } catch (Exception e) {
       new Alert(Alert.AlertType.ERROR, "Error saving KMZ file.").show();
