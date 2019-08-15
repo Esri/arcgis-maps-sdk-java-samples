@@ -10,20 +10,20 @@ When using the preplanned workflow, the author of the web map can set up offline
 
 ## How to use the sample
 
-**NOTE:** Downloading Tiles for offline use requires authentication with the web map's server. To use this sample, you will require an [ArcGIS Online](www.arcgis.com) account.
+**NOTE:** Downloading Tiles for offline use requires authentication with the web map's server. An [ArcGIS Online](www.arcgis.com) account is required to use this sample.
 
-Select a map area, then click "Download Preplanned Area" to take it offline. When viewing a downloaded map area, click 'Show Online Map' to return to the online map. Click "Delete All Downloaded Areas" to remove any downloaded map areas.
+Select a map area from the Preplanned Map Areas list. Click the Download button to download the offline map. The download progress will be shown in the Downloads list. When a download is complete, select it to display the offline map in the map view.
 
 ## How it works
 
-1. Open the `Map` from a `PortalItem` and display it.
-2. Create an `OfflineMapTask` from the portal item.
+1. Open the online `ArcGISMap` from a `PortalItem` and display it.
+2. Create an `OfflineMapTask` using the portal item.
 3. Get the `PreplannedMapArea`s from the task, and then load them.
 4. To download a selected map area, create the default `DownloadPreplannedOfflineMapParameters` from the task using the selected preplanned map area.
 5. Set the update mode of the preplanned map area.
 6. Use the parameters and a download path to create a `DownloadPreplannedOfflineMapJob` from the task.
 7. Start the job. Once it has completed, get the  `DownloadPreplannedOfflineMapResult`.
-8. Get the `Map` from the result and display it in the `MapView`.
+8. Get the `ArcGISMap` from the result and display it in the `MapView`.
 
 ## Relevant API
 
