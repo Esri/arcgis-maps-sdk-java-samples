@@ -1,0 +1,21 @@
+{
+    "category": "Network analysis",
+    "description": "Find all features connected to a set of starting points in a utility network.",
+    "ignore": false,
+    "images": [
+        "ConnectedTrace.png"
+    ],
+    "keywords": [
+        "connected trace",
+        "utility network",
+        "network analysis"
+    ],
+    "relevant_apis": [
+        "UtilityNetworks",
+        "GeometryEngine"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/find_connected_features_in_utility_network/FindConnectedFeaturesInUtilityNetworkSample.java"
+    ],
+    "title": "Find connected features in a utility network"
+}
