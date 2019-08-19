@@ -22,10 +22,36 @@
 <?import javafx.scene.paint.Color?>
 <StackPane fx:controller="com.esri.samples.find_connected_features_in_utility_network.FindConnectedFeaturesInUtilityNetworkController"
            xmlns:fx="http://javafx.com/fxml" stylesheets="style.css">
-    <!--SDK SceneView-->
+    <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <!--Controls Area-->
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" styleClass="panel-region">
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="120" styleClass="panel-region" spacing="10">
+        <!--Control Panel Styling-->
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.5"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
 
+        <RadioButton text="Add Starting Location(s)">
+            <toggleGroup>
+                <ToggleGroup fx:id="toggleGroup"/>
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton toggleGroup="$toggleGroup" text="Add Barriers(s)"/>
+        <Separator/>
+        <HBox alignment="CENTER" spacing="10">
+            <Button text="Trace" />
+            <Button text="Reset"/>
+        </HBox>
     </VBox>
 </StackPane>
