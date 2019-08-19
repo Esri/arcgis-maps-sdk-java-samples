@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
