@@ -24,8 +24,9 @@
            xmlns:fx="http://javafx.com/fxml" stylesheets="style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
+    <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
     <!--Controls Area-->
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="120" styleClass="panel-region" spacing="10">
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="200" styleClass="panel-region" spacing="10">
         <!--Control Panel Styling-->
         <padding>
             <Insets topRightBottomLeft="10"/>
@@ -42,16 +43,17 @@
             </Background>
         </background>
 
-        <RadioButton text="Add Starting Location(s)">
+        <RadioButton fx:id="addingStartRadioButton" text="Add Starting Location(s)" selected="true">
             <toggleGroup>
                 <ToggleGroup fx:id="toggleGroup"/>
             </toggleGroup>
         </RadioButton>
-        <RadioButton toggleGroup="$toggleGroup" text="Add Barriers(s)"/>
+        <RadioButton fx:id="addingBarrierRadioButton" toggleGroup="$toggleGroup" text="Add Barriers(s)"/>
         <Separator/>
         <HBox alignment="CENTER" spacing="10">
-            <Button text="Trace" />
-            <Button text="Reset"/>
+            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick"/>
+            <Button fx:id="resetButton" text="Reset" onAction="#handleResetClick"/>
         </HBox>
+        <Label fx:id="statusLabel" StackPane.alignment="CENTER" text="Loading Utility Network..."/>
     </VBox>
 </StackPane>
