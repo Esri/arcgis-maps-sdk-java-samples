@@ -37,8 +37,7 @@ systemProperty "java.library.path", "C:\tmp"
 ```
 
 ### Offline sample data
-Some samples require offline data. A `samples-data` directory will automatically download to the project root the 
-first time you call the `run` task. To refresh the data, you can run the `clean` and `unpackData` tasks.
+Some samples require offline data. A `samples-data` directory will automatically download to the project root the first time you call the `run` task. To refresh the data, you can run the `clean` and `unpackData` tasks.
 
 ## Requirements
 
