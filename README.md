@@ -1,5 +1,7 @@
 # ArcGIS Runtime Java SDK Samples
 
+ [ ![Download](https://api.bintray.com/packages/esri/arcgis/arcgis-java/images/download.svg) ](https://bintray.com/esri/arcgis/arcgis-java/_latestVersion)
+
 This repo contains a set of sample projects demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
 Browse the category directories to explore the samples. Each sample is an individual [Gradle](https://docs.gradle.org/current/userguide/userguide.html) project that can be run standalone. The Gradle buildscripts have tasks for running the application, building a jar, and distributing the app as a zip.
