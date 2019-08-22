@@ -15,98 +15,55 @@
   ~ the License.
   -->
 
-<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.Background?>
 <?import javafx.scene.layout.BackgroundFill?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.paint.Color?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ColorPicker?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
 <StackPane fx:controller="com.esri.samples.create_and_save_kml_file.CreateAndSaveKMLFileController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="/style.css">
     <MapView fx:id="mapView"/>
 
     <!--Controls-->
-    <AnchorPane stylesheets="/style.css" StackPane.alignment="TOP_LEFT" maxWidth="250" maxHeight="130">
-        <!--    Editing and Saving Controls-->
-        <VBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" minWidth="250" maxWidth="250" minHeight="130"
-              maxHeight="130"
-              styleClass="panel-region" spacing="10" alignment="CENTER">
-            <padding>
-                <Insets topRightBottomLeft="10"/>
-            </padding>
-            <background>
-                <Background>
-                    <fills>
-                        <BackgroundFill>
-                            <fill>
-                                <Color opacity="0.3"/>
-                            </fill>
-                        </BackgroundFill>
-                    </fills>
-                </Background>
-            </background>
+    <!--    Editing and Saving Controls-->
+    <VBox minWidth="180" maxWidth="180" minHeight="230" maxHeight="230" styleClass="panel-region" spacing="10"
+          alignment="CENTER" StackPane.alignment="TOP_LEFT">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
 
-            <Label fx:id="instructionsText" text="Select a geometry to create:"/>
+        <Label fx:id="instructionsText" text="Select a geometry to create:"/>
 
-            <AnchorPane>
-                <HBox fx:id="geometrySelectionHBox" AnchorPane.leftAnchor="0" spacing="10">
-                    <Button text="Point" onAction="#resolveSelectGeometryClick" minWidth="70" disable="true"/>
-                    <Button text="Polyline" onAction="#resolveSelectGeometryClick" minWidth="70" disable="true"/>
-                    <Button text="Polygon" onAction="#resolveSelectGeometryClick" minWidth="70" disable="true"/>
-                </HBox>
+        <ComboBox fx:id="geometrySelectionComboBox" minWidth="160"/>
+        <ComboBox fx:id="iconSelectionComboBox" minWidth="160"/>
+        <ColorPicker fx:id="colorPicker" minWidth="160" minHeight="25"/>
 
-                <Button fx:id="completeSketchBtn" text="Complete Sketch" onAction="#resolveCompleteSketchClick"
-                        disable="true"
-                        visible="false" minWidth="230" AnchorPane.leftAnchor="0"/>
-            </AnchorPane>
+        <Button fx:id="sketchButton" onAction="#resolveSketchClick" text="Sketch" minWidth="160"/>
 
-            <HBox fx:id="saveResetHBox" spacing="10">
-                <Button text="Save KMZ file" onAction="#handleSaveClick" disable="true" minWidth="110"/>
-                <Button text="Reset" onAction="#resetKmlDocument" disable="true" minWidth="110"/>
-            </HBox>
-        </VBox>
+        <Separator/>
+        <VBox fx:id="saveResetVBox"/>
+        <Button text="Save KMZ file" onAction="#handleSaveClick" disable="true" minWidth="160"/>
+        <Button text="Reset" onAction="#resetKmlDocument" disable="true" minWidth="160"/>
 
-        <!--Apply Style Options Controls-->
-        <VBox fx:id="styleOptionsVBox" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" visible="false"
-              minWidth="250" maxWidth="250" minHeight="130" maxHeight="130" styleClass="panel-region" spacing="10"
-              alignment="CENTER">
-            <padding>
-                <Insets topRightBottomLeft="10"/>
-            </padding>
-            <background>
-                <Background>
-                    <fills>
-                        <BackgroundFill>
-                            <fill>
-                                <Color/>
-                            </fill>
-                        </BackgroundFill>
-                    </fills>
-                </Background>
-            </background>
-
-            <Label text="Select Style:"/>
-
-            <AnchorPane fx:id="stylePickersAnchorPane" minWidth="250" maxWidth="250" maxHeight="130">
-                <ComboBox fx:id="iconPicker" visible="false" minWidth="230" AnchorPane.topAnchor="0"
-                          AnchorPane.leftAnchor="10"/>
-                <ColorPicker fx:id="colorPicker" visible="false" minWidth="230" AnchorPane.topAnchor="0"
-                             AnchorPane.leftAnchor="10"/>
-            </AnchorPane>
-
-            <HBox spacing="10" alignment="CENTER">
-                <Button onAction="#resolveApplyStyleClick" text="Apply Style" minWidth="110"/>
-                <Button onAction="#toggleUI" text="Don't Apply Style" minWidth="110"/>
-            </HBox>
-        </VBox>
-    </AnchorPane>
+    </VBox>
 
 </StackPane>

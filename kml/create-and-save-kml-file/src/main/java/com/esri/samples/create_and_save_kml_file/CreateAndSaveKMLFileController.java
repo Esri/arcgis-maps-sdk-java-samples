@@ -20,15 +20,15 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -56,15 +56,20 @@ import com.esri.arcgisruntime.symbology.ColorUtil;
 
 public class CreateAndSaveKMLFileController {
 
-  @FXML private Button completeSketchBtn;
-  @FXML private ColorPicker colorPicker;
-  @FXML private ComboBox<String> iconPicker;
-  @FXML private HBox geometrySelectionHBox;
-  @FXML private HBox saveResetHBox;
-  @FXML private AnchorPane stylePickersAnchorPane;
-  @FXML private Label instructionsText;
-  @FXML private MapView mapView;
-  @FXML private VBox styleOptionsVBox;
+  @FXML
+  private Button sketchButton;
+  @FXML
+  private ColorPicker colorPicker;
+  @FXML
+  private ComboBox<String> iconSelectionComboBox;
+  @FXML
+  private ComboBox<String> geometrySelectionComboBox;
+  @FXML
+  private Label instructionsText;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private VBox saveResetVBox;
 
   private ArcGISMap map;
   private FileChooser fileChooser;
@@ -83,16 +88,20 @@ public class CreateAndSaveKMLFileController {
     // create a sketch editor and add it to the map view
     sketchEditor = new SketchEditor();
     mapView.setSketchEditor(sketchEditor);
-
     // create a sketch creation mode
     sketchCreationMode = null;
 
-    // enable the 'Complete Sketch' button depending on whether the sketch is valid
-    sketchEditor.addGeometryChangedListener(sketchGeometryChangedListener ->
-            completeSketchBtn.setDisable(!sketchEditor.isSketchValid())
-    );
+    // set up the geometry selection combo box with the available options and select the first as a default
+    geometrySelectionComboBox.getItems().addAll("Point", "Polyline", "Polygon");
+    geometrySelectionComboBox.getSelectionModel().select(0);
 
-    // set the images for the point icon picker
+    // set the color picker and icon selection combobox to show/hide based on the selected geometry
+    colorPicker.managedProperty().bind(colorPicker.visibleProperty());
+    colorPicker.visibleProperty().bind(geometrySelectionComboBox.getSelectionModel().selectedItemProperty().isNotEqualTo("Point"));
+    iconSelectionComboBox.managedProperty().bind(iconSelectionComboBox.visibleProperty());
+    iconSelectionComboBox.visibleProperty().bind(geometrySelectionComboBox.getSelectionModel().selectedItemProperty().isEqualTo("Point"));
+
+    // set the images for the icon selection combo box
     List<String> iconLinks = Arrays.asList(
             "http://static.arcgis.com/images/Symbols/Shapes/BlueCircleLargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueDiamondLargeB.png",
@@ -100,10 +109,10 @@ public class CreateAndSaveKMLFileController {
             "http://static.arcgis.com/images/Symbols/Shapes/BluePin2LargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueSquareLargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueStarLargeB.png");
-    iconPicker.getItems().addAll(iconLinks);
-    iconPicker.setCellFactory(comboBox -> new IconListCell());
-    iconPicker.setButtonCell(new IconListCell());
-    iconPicker.getSelectionModel().select(0);
+    iconSelectionComboBox.getItems().addAll(iconLinks);
+    iconSelectionComboBox.setCellFactory(comboBox -> new IconListCell());
+    iconSelectionComboBox.setButtonCell(new IconListCell());
+    iconSelectionComboBox.getSelectionModel().select(0);
 
     // create a file chooser to get a path for saving the KMZ file
     fileChooser = new FileChooser();
@@ -114,7 +123,7 @@ public class CreateAndSaveKMLFileController {
     // set up a new KML document and layer
     resetKmlDocument();
 
-    // wait for the map to finish loading to enable the UI
+    // wait for the map to finish loading to enable the UI and allow sketching
     map.addDoneLoadingListener(() -> toggleUI());
   }
 
@@ -143,47 +152,32 @@ public class CreateAndSaveKMLFileController {
     map.getOperationalLayers().add(kmlLayer);
 
     // disable the save/reset buttons
-    saveResetHBox.getChildren().forEach(node -> node.setDisable(true));
+    saveResetVBox.getChildren().forEach(node -> node.setDisable(true));
   }
 
   /**
    * Sets the sketch creation mode to the selected geometry and starts the sketch editor.
-   *
-   * @param event used to identify which button was pressed to select the corresponding geometry.
    */
   @FXML
-  private void resolveSelectGeometryClick(ActionEvent event) {
-    // disable and hide the geometry buttons
-    geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(true));
-    geometrySelectionHBox.setVisible(false);
+  private void resolveSketchClick() {
+    // disable the sketch button
+    sketchButton.setDisable(true);
 
     // disable the save/reset buttons
-    saveResetHBox.getChildren().forEach(node -> node.setDisable(true));
+    saveResetVBox.getChildren().forEach(node -> node.setDisable(true));
 
-    // show the 'Complete Sketch' button
-    completeSketchBtn.setVisible(true);
-
-    // set the sketch creation mode and UI based on which button called this method
-    switch (((Button) event.getSource()).getText()) {
+    // set the sketch creation mode based the selection in the geometry combobox
+    switch (geometrySelectionComboBox.getSelectionModel().getSelectedItem()) {
       case "Point":
         sketchCreationMode = SketchCreationMode.POINT;
-        instructionsText.setText("Click to add a point.");
-        // enable the icon picker to allow applying icons after completion
-        iconPicker.setVisible(true);
         break;
 
       case "Polyline":
         sketchCreationMode = SketchCreationMode.POLYLINE;
-        instructionsText.setText("Click to add a vertex.");
-        // enable the color picker to allow applying colors after completion
-        colorPicker.setVisible(true);
         break;
 
       case "Polygon":
         sketchCreationMode = SketchCreationMode.POLYGON;
-        instructionsText.setText("Click to add a vertex.");
-        // enable the color picker to allow applying colors after completion
-        colorPicker.setVisible(true);
         break;
     }
 
@@ -192,90 +186,111 @@ public class CreateAndSaveKMLFileController {
       sketchEditor.start(sketchCreationMode);
     }
 
+    instructionsText.setText("Click to add a vertex, press 'Enter' to finish sketching, or 'Esc' to abort.");
+
+    // add a listener to the stage that allows finishing/aborting a sketch with the keyboard
+    EventHandler<KeyEvent> keyEventEventHandler = (KeyEvent event) -> {
+
+      if ((event.getCode() == KeyCode.ENTER && sketchEditor.isSketchValid()) || event.getCode() == KeyCode.ESCAPE) {
+
+        // remove the event listener to stop listening to keyboard events
+        sketchButton.getScene().setOnKeyPressed(null);
+
+        // enable the save / reset buttons box
+        saveResetVBox.getChildren().forEach(node -> node.setDisable(false));
+
+        if (event.getCode() == KeyCode.ENTER) {
+          // complete the sketch
+          completeSketch();
+
+        } else if (event.getCode() == KeyCode.ESCAPE) {
+
+          // stop the sketch editor and clear the geometry
+          sketchEditor.stop();
+          sketchEditor.clearGeometry();
+        }
+      }
+    };
+    sketchButton.getScene().setOnKeyPressed(keyEventEventHandler);
+
   }
 
   /**
    * Completes the sketch in progress, creates a KML placemark from the resulting geometry, and adds it to the KML document.
    */
   @FXML
-  private void resolveCompleteSketchClick() {
+  private void completeSketch() {
 
     // get the user-drawn geometry
     Geometry sketchGeometry = sketchEditor.getGeometry();
 
-    if (sketchGeometry != null) {
-      // project the geometry to WGS84 to comply with the KML standard
-      Geometry projectedGeometry = GeometryEngine.project(sketchGeometry, SpatialReferences.getWgs84());
+    // project the geometry to WGS84 to comply with the KML standard
+    Geometry projectedGeometry = GeometryEngine.project(sketchGeometry, SpatialReferences.getWgs84());
 
-      // create a KML geometry
-      KmlGeometry kmlGeometry = new KmlGeometry(projectedGeometry, KmlAltitudeMode.CLAMP_TO_GROUND);
+    // create a KML geometry
+    KmlGeometry kmlGeometry = new KmlGeometry(projectedGeometry, KmlAltitudeMode.CLAMP_TO_GROUND);
 
-      // create a new placemark
-      currentKmlPlacemark = new KmlPlacemark(kmlGeometry);
+    // create a new placemark
+    currentKmlPlacemark = new KmlPlacemark(kmlGeometry);
 
-      // add the placemark to the kml document
-      kmlDocument.getChildNodes().add(currentKmlPlacemark);
-
-      // show the style editing UI
-      styleOptionsVBox.setVisible(true);
-    }
-
-    // hide the 'Complete Sketch' button and show the geometry selection buttons
-    completeSketchBtn.setVisible(false);
-    geometrySelectionHBox.setVisible(true);
+    // add the placemark to the kml document
+    kmlDocument.getChildNodes().add(currentKmlPlacemark);
 
     // stop the sketch editor
     sketchEditor.stop();
 
-    // update the instructions text
-    instructionsText.setText("Select a style for the geometry.");
+    // apply the selected style to the sketch
+    applySketchStyle();
+
+    // toggle the UI to enable sketching again / saving the KMZ document
+    toggleUI();
   }
 
   /**
    * Applies the selected style to the KML placemark depending on the type of geometry.
    */
   @FXML
-  private void resolveApplyStyleClick() {
+  private void applySketchStyle() {
+    if (currentKmlPlacemark != null) {
 
-    KmlStyle kmlStyle = new KmlStyle();
-    currentKmlPlacemark.setStyle(kmlStyle);
+      // update the style of the current KML placemark
+      KmlStyle kmlStyle = new KmlStyle();
+      currentKmlPlacemark.setStyle(kmlStyle);
 
-    // set the selected style for the placemark
-    switch (currentKmlPlacemark.getGeometries().get(0).getType().toString()) {
+      // set the selected style for the placemark
+      switch (currentKmlPlacemark.getGeometries().get(0).getType().toString()) {
 
-      // create a KML icon style using the selected icon
-      case ("POINT"):
-        if (iconPicker.getSelectionModel().getSelectedItem() != null) {
-          String iconURI = iconPicker.getSelectionModel().getSelectedItem();
-          KmlIcon kmlIcon = new KmlIcon(iconURI);
-          KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon, 1);
-          kmlStyle.setIconStyle(kmlIconStyle);
-        }
-        break;
+        // create a KML icon style using the selected icon
+        case ("POINT"):
+          if (iconSelectionComboBox.getSelectionModel().getSelectedItem() != null) {
+            String iconURI = iconSelectionComboBox.getSelectionModel().getSelectedItem();
+            KmlIcon kmlIcon = new KmlIcon(iconURI);
+            KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon, 1);
+            kmlStyle.setIconStyle(kmlIconStyle);
+          }
+          break;
 
-      // create a KML line style using the selected color
-      case ("POLYLINE"):
-        if (colorPicker.valueProperty().get() != null) {
-          Color color = colorPicker.valueProperty().get();
-          KmlLineStyle kmlLineStyle = new KmlLineStyle(ColorUtil.colorToArgb(color), 8);
-          kmlStyle.setLineStyle(kmlLineStyle);
-        }
-        break;
+        // create a KML line style using the selected color
+        case ("POLYLINE"):
+          if (colorPicker.valueProperty().get() != null) {
+            Color color = colorPicker.valueProperty().get();
+            KmlLineStyle kmlLineStyle = new KmlLineStyle(ColorUtil.colorToArgb(color), 8);
+            kmlStyle.setLineStyle(kmlLineStyle);
+          }
+          break;
 
-      // create a KML polygon style using the selected color as a fill
-      case ("POLYGON"):
-        if (colorPicker.valueProperty().get() != null) {
-          Color color = colorPicker.valueProperty().get();
-          KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(ColorUtil.colorToArgb(color));
-          kmlPolygonStyle.setFilled(true);
-          kmlPolygonStyle.setOutlined(false);
-          kmlStyle.setPolygonStyle(kmlPolygonStyle);
-        }
-        break;
+        // create a KML polygon style using the selected color as a fill
+        case ("POLYGON"):
+          if (colorPicker.valueProperty().get() != null) {
+            Color color = colorPicker.valueProperty().get();
+            KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(ColorUtil.colorToArgb(color));
+            kmlPolygonStyle.setFilled(true);
+            kmlPolygonStyle.setOutlined(false);
+            kmlStyle.setPolygonStyle(kmlPolygonStyle);
+          }
+          break;
+      }
     }
-
-    // re-enables the UI to allow creating another KML element, saving the document, or resetting the sample
-    toggleUI();
   }
 
   /**
@@ -283,20 +298,14 @@ public class CreateAndSaveKMLFileController {
    */
   @FXML
   private void toggleUI() {
-    // enable the geometry buttons
-    geometrySelectionHBox.getChildren().forEach(node -> node.setDisable(false));
-
-    // hide the style editing UI
-    styleOptionsVBox.setVisible(false);
-
-    // hide both pickers within the style editing box
-    stylePickersAnchorPane.getChildren().forEach(node -> node.setVisible(false));
-
     // reset the instructions text
     instructionsText.setText("Select a geometry to create:");
 
+    // enable the 'Sketch' button
+    sketchButton.setDisable(false);
+
     // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
-    saveResetHBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
+    saveResetVBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
   }
 
   /**
