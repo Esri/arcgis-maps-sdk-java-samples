@@ -34,7 +34,7 @@
 
     <!--Controls-->
     <!--    Editing and Saving Controls-->
-    <VBox minWidth="180" maxWidth="180" minHeight="230" maxHeight="230" styleClass="panel-region" spacing="10"
+    <VBox minWidth="240" maxWidth="240" minHeight="260" maxHeight="260" styleClass="panel-region" spacing="10"
           alignment="CENTER" StackPane.alignment="TOP_LEFT">
         <padding>
             <Insets topRightBottomLeft="10"/>
@@ -51,19 +51,20 @@
             </Background>
         </background>
 
-        <Label fx:id="instructionsText" text="Select a geometry to create:"/>
+        <Label fx:id="instructionsText" maxWidth="220" text="Select a geometry to create:" minHeight="40"
+               wrapText="true"/>
 
-        <ComboBox fx:id="geometrySelectionComboBox" minWidth="160"/>
-        <ComboBox fx:id="iconSelectionComboBox" minWidth="160"/>
-        <ColorPicker fx:id="colorPicker" minWidth="160" minHeight="25"/>
+        <ComboBox fx:id="geometrySelectionComboBox" minWidth="220"/>
+        <ComboBox fx:id="iconSelectionComboBox" minWidth="220"/>
+        <ColorPicker fx:id="colorPicker" minWidth="220" minHeight="25"/>
 
-        <Button fx:id="sketchButton" onAction="#resolveSketchClick" text="Sketch" minWidth="160"/>
+        <Button fx:id="sketchButton" onAction="#resolveSketchClick" text="Sketch" minWidth="220"/>
 
         <Separator/>
-        <VBox fx:id="saveResetVBox"/>
-        <Button text="Save KMZ file" onAction="#handleSaveClick" disable="true" minWidth="160"/>
-        <Button text="Reset" onAction="#resetKmlDocument" disable="true" minWidth="160"/>
-
+        <VBox fx:id="saveResetVBox" spacing="10">
+            <Button text="Save KMZ file" onAction="#handleSaveClick" disable="true" minWidth="220"/>
+            <Button text="Reset" onAction="#resetKmlDocument" disable="true" minWidth="220"/>
+        </VBox>
     </VBox>
 
 </StackPane>

@@ -156,6 +156,21 @@ public class CreateAndSaveKMLFileController {
   }
 
   /**
+   * Toggles the UI to allow starting a new sketch or saving/resetting if any sketches are present.
+   */
+  @FXML
+  private void toggleUI() {
+    // reset the instructions text
+    instructionsText.setText("Select a geometry to create:");
+
+    // enable the 'Sketch' button
+    sketchButton.setDisable(false);
+
+    // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
+    saveResetVBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
+  }
+
+  /**
    * Sets the sketch creation mode to the selected geometry and starts the sketch editor.
    */
   @FXML
@@ -186,29 +201,30 @@ public class CreateAndSaveKMLFileController {
       sketchEditor.start(sketchCreationMode);
     }
 
+    // set the instructions text for sketching
     instructionsText.setText("Click to add a vertex, press 'Enter' to finish sketching, or 'Esc' to abort.");
 
     // add a listener to the stage that allows finishing/aborting a sketch with the keyboard
     EventHandler<KeyEvent> keyEventEventHandler = (KeyEvent event) -> {
 
+      // only listen to input from the 'Enter' key (when the geometry is valid), or the 'Escape' key
       if ((event.getCode() == KeyCode.ENTER && sketchEditor.isSketchValid()) || event.getCode() == KeyCode.ESCAPE) {
 
-        // remove the event listener to stop listening to keyboard events
-        sketchButton.getScene().setOnKeyPressed(null);
-
-        // enable the save / reset buttons box
-        saveResetVBox.getChildren().forEach(node -> node.setDisable(false));
-
+        // complete the sketch if the 'Enter' key was pressed
         if (event.getCode() == KeyCode.ENTER) {
-          // complete the sketch
           completeSketch();
 
+          // stop the sketch editor and clear the geometry if 'Escape' was pressed
         } else if (event.getCode() == KeyCode.ESCAPE) {
-
-          // stop the sketch editor and clear the geometry
           sketchEditor.stop();
           sketchEditor.clearGeometry();
         }
+
+        // toggle the UI to enable sketching again / saving the KMZ document
+        toggleUI();
+
+        // remove the event listener to stop listening to keyboard events
+        sketchButton.getScene().setOnKeyPressed(null);
       }
     };
     sketchButton.getScene().setOnKeyPressed(keyEventEventHandler);
@@ -239,73 +255,43 @@ public class CreateAndSaveKMLFileController {
     // stop the sketch editor
     sketchEditor.stop();
 
-    // apply the selected style to the sketch
-    applySketchStyle();
+    // update the style of the current KML placemark
+    KmlStyle kmlStyle = new KmlStyle();
+    currentKmlPlacemark.setStyle(kmlStyle);
 
-    // toggle the UI to enable sketching again / saving the KMZ document
-    toggleUI();
-  }
+    // set the selected style for the placemark
+    switch (currentKmlPlacemark.getGeometries().get(0).getType().toString()) {
 
-  /**
-   * Applies the selected style to the KML placemark depending on the type of geometry.
-   */
-  @FXML
-  private void applySketchStyle() {
-    if (currentKmlPlacemark != null) {
+      // create a KML icon style using the selected icon
+      case ("POINT"):
+        if (iconSelectionComboBox.getSelectionModel().getSelectedItem() != null) {
+          String iconURI = iconSelectionComboBox.getSelectionModel().getSelectedItem();
+          KmlIcon kmlIcon = new KmlIcon(iconURI);
+          KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon, 1);
+          kmlStyle.setIconStyle(kmlIconStyle);
+        }
+        break;
 
-      // update the style of the current KML placemark
-      KmlStyle kmlStyle = new KmlStyle();
-      currentKmlPlacemark.setStyle(kmlStyle);
+      // create a KML line style using the selected color
+      case ("POLYLINE"):
+        if (colorPicker.valueProperty().get() != null) {
+          Color color = colorPicker.valueProperty().get();
+          KmlLineStyle kmlLineStyle = new KmlLineStyle(ColorUtil.colorToArgb(color), 8);
+          kmlStyle.setLineStyle(kmlLineStyle);
+        }
+        break;
 
-      // set the selected style for the placemark
-      switch (currentKmlPlacemark.getGeometries().get(0).getType().toString()) {
-
-        // create a KML icon style using the selected icon
-        case ("POINT"):
-          if (iconSelectionComboBox.getSelectionModel().getSelectedItem() != null) {
-            String iconURI = iconSelectionComboBox.getSelectionModel().getSelectedItem();
-            KmlIcon kmlIcon = new KmlIcon(iconURI);
-            KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon, 1);
-            kmlStyle.setIconStyle(kmlIconStyle);
-          }
-          break;
-
-        // create a KML line style using the selected color
-        case ("POLYLINE"):
-          if (colorPicker.valueProperty().get() != null) {
-            Color color = colorPicker.valueProperty().get();
-            KmlLineStyle kmlLineStyle = new KmlLineStyle(ColorUtil.colorToArgb(color), 8);
-            kmlStyle.setLineStyle(kmlLineStyle);
-          }
-          break;
-
-        // create a KML polygon style using the selected color as a fill
-        case ("POLYGON"):
-          if (colorPicker.valueProperty().get() != null) {
-            Color color = colorPicker.valueProperty().get();
-            KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(ColorUtil.colorToArgb(color));
-            kmlPolygonStyle.setFilled(true);
-            kmlPolygonStyle.setOutlined(false);
-            kmlStyle.setPolygonStyle(kmlPolygonStyle);
-          }
-          break;
-      }
+      // create a KML polygon style using the selected color as a fill
+      case ("POLYGON"):
+        if (colorPicker.valueProperty().get() != null) {
+          Color color = colorPicker.valueProperty().get();
+          KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(ColorUtil.colorToArgb(color));
+          kmlPolygonStyle.setFilled(true);
+          kmlPolygonStyle.setOutlined(false);
+          kmlStyle.setPolygonStyle(kmlPolygonStyle);
+        }
+        break;
     }
-  }
-
-  /**
-   * Toggles the UI when making a style selection for the recently created KML element, to allow choosing a new KML element to create.
-   */
-  @FXML
-  private void toggleUI() {
-    // reset the instructions text
-    instructionsText.setText("Select a geometry to create:");
-
-    // enable the 'Sketch' button
-    sketchButton.setDisable(false);
-
-    // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
-    saveResetVBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
   }
 
   /**
