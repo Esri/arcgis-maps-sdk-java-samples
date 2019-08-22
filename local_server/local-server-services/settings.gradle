@@ -1,0 +1,66 @@
+rootProject.name = 'local-server-services'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/40e0d95e515745ee93b9d06cb75697bc/data",
+            dest: file("./a.zip")
+    )
+    ant.unzip(
+            src: file("./a.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./a.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/b6f669b3b5b941fc8a3f7ac03efbd1a9/data",
+            dest: file("./b.zip")
+    )
+    ant.unzip(
+            src: file("./b.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./b.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/5c10e6c0b8974d16b74d557568105b96/data",
+            dest: file("./c.zip")
+    )
+    ant.unzip(
+            src: file("./c.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./c.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/9053a46b205142f0864682d5152642b5/data",
+            dest: file("./d.zip")
+    )
+    ant.unzip(
+            src: file("./d.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./d.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a9788a0e8ef241ec89182f87f6967ec9/data",
+            dest: file("./e.zip")
+    )
+    ant.unzip(
+            src: file("./e.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./e.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/91087f8d3e6e46b7a0c5987eac379452/data",
+            dest: file("./f.zip")
+    )
+    ant.unzip(
+            src: file("./f.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./f.zip")
+}

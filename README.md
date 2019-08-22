@@ -1,80 +1,68 @@
 # ArcGIS Runtime Java SDK Samples
-### 100.5.0
-This project includes a set of samples demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
-Be sure to also check out our [toolkit on GitHub](https://github.com/Esri/arcgis-runtime-toolkit-java).
+ [ ![Download](https://api.bintray.com/packages/esri/arcgis/arcgis-java/images/download.svg) ](https://bintray.com/esri/arcgis/arcgis-java/_latestVersion)
 
-These samples are built with Gradle. If you want to learn more about Gradle, learn more from [Gradle's guide](https://docs.gradle.org/current/userguide/userguide.html).
+This repo contains a set of sample projects demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
-This guide has instructions for running samples using the command line or with Eclipse and IntelliJ IDEA.
+Browse the category directories to explore the samples. Each sample is an individual [Gradle](https://docs.gradle.org/current/userguide/userguide.html) project that can be run standalone. The Gradle buildscripts have tasks for running the application, building a jar, and distributing the app as a zip.
 
-For developers new to Git, please see the wiki page for how to [clone this repository](https://github.com/Esri/arcgis-runtime-samples-java/wiki/working-with-git).
+Installing Gradle is not necessary since each sample includes the Gradle wrapper.
 
-## Running the Samples
-To run the samples in a terminal, `cd` into the project and call the gradle `run` task, supplying the sample main class:
+## Instructions
 
-On Linux/Mac
-```
-$ ./gradlew run -PmainClass="com.esri.samples.scene.display_scene.DisplaySceneSample"
-```
+### IntelliJ IDEA
 
-On Windows
-```
-> gradlew.bat run -PmainClass="com.esri.samples.scene.display_scene.DisplaySceneSample"
-```
+1. Open IntelliJ IDEA and select _File > Open..._.
+2. Choose one of the sample project directories (not the category folder) and click _OK_.
+3. Select _File > Project Structure..._ and ensure that the Project SDK and language level are set to use Java 11.
+4. Open the Gradle view with _View > Tool Windows > Gradle_.
+5. In the Gradle view, double-click the `run` task under _Tasks > application_ to run the app.
 
-If no `mainClass` property is supplied, the default sample (set in the build.gradle file) will be run. 
+### Eclipse
 
-There is no need to install Gradle to run the samples.
+1. Open Eclipse and select _File > Import_.
+2. In the import wizard, choose _Gradle > Existing Gradle Project_, then click _Next_.
+3. Choose one of the sample project directories (not the category folder) as the project root directory.
+4. Click _Finish_ to complete the import.
+5. Open the Gradle Tasks view with _Window > Show View > Other... > Gradle > Gradle Tasks_.
+6. In the Gradle Tasks view, double-click the `run` task under _{project_name} > application_ to run the app.
 
-## Java 11
+### Terminal
+
+1. `cd` into one of the sample project directories (not the category folder).
+2. Run `./gradlew run` on Linux/Mac or `gradlew.bat run` on Windows to run the app.
+
+### Java 11
 Java 11 users may find exceptions when running the project if their library path is still set for Oracle JDK 1.8 (see the [OpenJavaFX docs](https://openjfx.io/openjfx-docs/) for more information). A workaround for this is to add the following argument in the `run` task of the Gradle buildscript:
 ```
 systemProperty "java.library.path", "C:\tmp"
 ```
 
-## Offline sample data
-Some samples require offline data. A `samples-data` directory will automatically download to the project root the 
-first time you call the `run` task.
+### Offline sample data
+Some samples require offline data. A `samples-data` directory will automatically download to the project root the first time you call the `run` task. To refresh the data, you can run the `clean` and `unpackData` tasks.
 
-## Importing into an IDE
-We will step through how to import the Samples project into Eclipse and IntelliJ IDEA. Other IDEs may support Gradle too. Please consult their documentation for importing Gradle projects.
+## Requirements
 
-### IntelliJ IDEA
-After cloning the samples, open IntelliJ IDEA and follow these steps:
-
-1. Click *Import Projects* from the Welcome Screen or select *File > New > Project from Existing Sources*.
-2. In the select path dialog, select the `build.gradle` file in the `arcgis-runtime-samples-java` directory. Click *OK* after specifying the `build.gradle` file.
-3. Click *OK* at the next dialog to complete the import.
-
-<img src="./intellij_proj.png" alt="IntelliJ IDEA project structure" height="200">
-
-To view all of the gradle tasks including the Run task, go to *View > Tool Windows > Gradle*.
-
-Alternatively, you can open the sample's main class, right-click, and select *Run* from the dropdown menu.
-
-### Eclipse
-To import the samples with Eclipse's default gradle plugin, follow these steps:
-
-1. Open Eclipse and select *File > Import*.
-2. In the import wizard, choose *Gradle > Gradle Project*, then click Next.
-3. Select the `arcgis-runtime-samples-java` directory as the project root directory.
-4. Click *finish* to complete the import.
-
-<img src="./eclipse_proj.png" alt="Eclipse project structure" height="200">
+See the Runtime SDK's [system requirements](https://developers.arcgis.com/java/latest/guide/system-requirements-for-quartz.htm).
 
 ## Resources
+
 * [ArcGIS Runtime SDK for Java](https://developers.arcgis.com/java/)  
+* [Toolkit](https://github.com/Esri/arcgis-runtime-toolkit-java)
 * [ArcGIS Blog](https://blogs.esri.com/esri/arcgis/)  
 * [Esri Twitter](https://twitter.com/esri)  
 
+## Issues
+
+Find a bug or want to request a new feature?  Please let us know by submitting an issue.
+
 ## Contributing
+
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-Find a bug or want a new feature? Please let us know by submitting an issue.
-
 ## Licensing
-Copyright 2018 Esri
+
+Copyright 2019 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not 
 use this file except in compliance with the License. You may obtain a copy 

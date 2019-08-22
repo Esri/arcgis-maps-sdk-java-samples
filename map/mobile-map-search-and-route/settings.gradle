@@ -1,0 +1,26 @@
+rootProject.name = 'mobile-map-search-and-route'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/9ebd467801244ad79920be3c27f774da/data",
+            dest: file("./a.zip")
+    )
+    ant.unzip(
+            src: file("./a.zip"),
+            dest: file("./samples-data/mmpk")
+    )
+    delete file("./a.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/3b279365273043ae90f09cb0b112d40d/data",
+            dest: file("./b.zip")
+    )
+    ant.unzip(
+            src: file("./b.zip"),
+            dest: file("./samples-data/mmpk")
+    )
+    delete file("./b.zip")
+}

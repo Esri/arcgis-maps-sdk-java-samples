@@ -1,0 +1,23 @@
+{
+    "category": "Scene",
+    "description": "Display a web scene.",
+    "ignore": false,
+    "images": [
+        "OpenScenePortalItem.png"
+    ],
+    "keywords": [
+        "ArcGISScene",
+        "Portal",
+        "PortalItem"
+    ],
+    "redirect_from": "/java/latest/sample-code/open-scene-portal-item-.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/open_scene_portal_item/OpenScenePortalItemSample.java"
+    ],
+    "title": "Open Scene (Portal Item)"
+}

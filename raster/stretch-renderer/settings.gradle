@@ -1,0 +1,16 @@
+rootProject.name = 'stretch-renderer'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/00113a41bea0401290635f8503bb4acf/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/raster")
+    )
+    delete file("./data.zip")
+}

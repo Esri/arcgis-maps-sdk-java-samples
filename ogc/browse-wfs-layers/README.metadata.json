@@ -1,0 +1,35 @@
+{
+    "category": "OGC",
+    "description": "Browse a WFS service for layers and add them to the map.",
+    "ignore": false,
+    "images": [
+        "BrowseWfsLayers.png"
+    ],
+    "keywords": [
+        "OGC",
+        "WFS",
+        "feature",
+        "web",
+        "service",
+        "layers",
+        "browse",
+        "catalog",
+        "FeatureLayer",
+        "WfsFeatureTable",
+        "WfsLayerInfo",
+        "WfsService",
+        "WfsServiceInfo"
+    ],
+    "redirect_from": "/java/latest/sample-code/browse-wfs-layers.htm",
+    "relevant_apis": [
+        "FeatureLayer",
+        "WfsFeatureTable",
+        "WfsLayerInfo",
+        "WfsService",
+        "WfsServiceInfo"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/browse_wfs_layers/BrowseWfsLayersSample.java"
+    ],
+    "title": "Browse WFS layers"
+}

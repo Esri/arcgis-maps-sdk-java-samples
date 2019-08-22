@@ -1,0 +1,33 @@
+{
+    "category": "Raster",
+    "description": "Apply a stretch renderer to a raster.",
+    "ignore": false,
+    "images": [
+        "StretchRenderer.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer",
+        "StretchParameters",
+        "StretchRenderer"
+    ],
+    "redirect_from": "/java/latest/sample-code/stretch-renderer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView",
+        "Raster",
+        "RasterLayer",
+        "StretchParameters",
+        "StretchRenderer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/stretch_renderer/StretchRendererSample.java",
+        "src/main/java/com/esri/samples/stretch_renderer/StretchRendererController.java",
+        "src/main/resources/stretch_renderer.fxml"
+    ],
+    "title": "Stretch Renderer"
+}

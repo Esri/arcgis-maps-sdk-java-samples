@@ -1,0 +1,24 @@
+{
+    "category": "Geometry",
+    "description": "Simplify a polygon with a self-intersecting geometry.",
+    "ignore": false,
+    "images": [
+        "GeometryEngineSimplify.png"
+    ],
+    "keywords": [
+        "Geometry",
+        "Polygon",
+        "Simplify",
+        "Spatial operations",
+        "Topology"
+    ],
+    "redirect_from": "/java/latest/sample-code/geometry-engine-simplify.htm",
+    "relevant_apis": [
+        "Geometry",
+        "GeometryEngine"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/geometry_engine_simplify/GeometryEngineSimplifySample.java"
+    ],
+    "title": "Geometry Engine Simplify"
+}

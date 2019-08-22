@@ -1,0 +1,25 @@
+{
+    "category": "Map",
+    "description": "Display a web map.",
+    "ignore": false,
+    "images": [
+        "OpenMapURL.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "MapView",
+        "Portal",
+        "PortalItem"
+    ],
+    "redirect_from": "/java/latest/sample-code/open-map-url-.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/open_map_url/OpenMapURLSample.java"
+    ],
+    "title": "Open Map (URL)"
+}

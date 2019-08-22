@@ -1,0 +1,29 @@
+{
+    "category": "Display information",
+    "description": "Determine if a graphic was clicked.",
+    "ignore": false,
+    "images": [
+        "IdentifyGraphics.png"
+    ],
+    "keywords": [
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PointCollection",
+        "Polygon",
+        "SimpleFillSymbol"
+    ],
+    "redirect_from": "/java/latest/sample-code/identify-graphics.htm",
+    "relevant_apis": [
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PointCollection",
+        "Polygon",
+        "SimpleFillSymbol"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/identify_graphics/IdentifyGraphicsSample.java"
+    ],
+    "title": "Identify Graphics"
+}

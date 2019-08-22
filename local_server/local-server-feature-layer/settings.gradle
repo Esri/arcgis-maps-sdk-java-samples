@@ -1,0 +1,16 @@
+rootProject.name = 'local-server-feature-layer'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/40e0d95e515745ee93b9d06cb75697bc/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./data.zip")
+}

@@ -1,0 +1,26 @@
+{
+    "category": "Tiled layers",
+    "description": "Display tiles from an ArcGIS tile service.",
+    "ignore": false,
+    "images": [
+        "TiledLayer.png"
+    ],
+    "keywords": [
+        "layers",
+        "tile",
+        "ArcGISTiledLayer",
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "MapView"
+    ],
+    "redirect_from": "/java/latest/sample-code/tiled-layer.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "MapView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/tiled_layer/TiledLayerSample.java"
+    ],
+    "title": "Tiled layer"
+}

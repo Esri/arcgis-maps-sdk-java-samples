@@ -1,0 +1,22 @@
+{
+    "category": "Group layers",
+    "description": "Group a collection of layers together and toggle their visibility as a group.",
+    "ignore": false,
+    "images": [
+        "GroupLayers.png"
+    ],
+    "keywords": [
+        "Layers",
+        "group layer",
+        "GroupLayer"
+    ],
+    "redirect_from": "/java/latest/sample-code/group-layers.htm",
+    "relevant_apis": [
+        "GroupLayer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/group_layers/GroupLayersSample.java",
+        "src/main/java/com/esri/samples/group_layers/LayerTreeCell.java"
+    ],
+    "title": "Group layers"
+}

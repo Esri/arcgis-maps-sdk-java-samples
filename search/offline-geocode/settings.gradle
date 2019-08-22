@@ -1,0 +1,26 @@
+rootProject.name = 'offline-geocode'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/793a4620fbba443a931ac1fa52ad7f45/data",
+            dest: file("./sanfrancisco_tpk.zip")
+    )
+    ant.unzip(
+            src: file("./sanfrancisco_tpk.zip"),
+            dest: file("./samples-data/sanfrancisco")
+    )
+    delete file("./sanfrancisco_tpk.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/1455c3dbfc43497983572117c7d6064c/data",
+            dest: file("./sanfrancisco_loc.zip")
+    )
+    ant.unzip(
+            src: file("./sanfrancisco_loc.zip"),
+            dest: file("./samples-data/sanfrancisco")
+    )
+    delete file("./sanfrancisco_loc.zip")
+}

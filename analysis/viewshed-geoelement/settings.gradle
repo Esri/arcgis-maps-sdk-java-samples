@@ -1,0 +1,16 @@
+rootProject.name = 'viewshed-geoelement'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/78847654fbe042e6af617ebbfbf985c7/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/bradley_low_3ds")
+    )
+    delete file("./data.zip")
+}

@@ -1,0 +1,26 @@
+{
+    "category": "Scene",
+    "description": "Change the appearance of the atmosphere in a scene.",
+    "ignore": false,
+    "images": [
+        "ChangeAtmosphereEffect.gif"
+    ],
+    "keywords": [
+        "3D",
+        "AtmosphereEffect",
+        "Scene",
+        "ArcGISScene",
+        "AtmosphereEffect",
+        "SceneView"
+    ],
+    "redirect_from": "/java/latest/sample-code/change-atmosphere-effect.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "AtmosphereEffect",
+        "SceneView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/change_atmosphere_effect/ChangeAtmosphereEffectSample.java"
+    ],
+    "title": "Change Atmosphere Effect"
+}

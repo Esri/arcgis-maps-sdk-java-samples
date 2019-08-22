@@ -1,0 +1,22 @@
+rootProject.name = 'graphics-overlay-dictionary-renderer-3D'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    file("./samples-data/xml/").mkdirs()
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/1e4ea99af4b440c092e7959cf3957bfa/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/xml/")
+    )
+    delete file("./data.zip")
+    file("./samples-data/stylx").mkdirs()
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/c78b149a1d52414682c86a5feeb13d30/data",
+            dest: file("./samples-data/stylx/mil2525d.stylx")
+    )
+}

@@ -1,0 +1,16 @@
+rootProject.name = 'open-mobile-map-package'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/3b279365273043ae90f09cb0b112d40d/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/mmpk")
+    )
+    delete file("./data.zip")
+}

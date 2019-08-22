@@ -1,0 +1,27 @@
+{
+    "category": "Scene",
+    "description": "Create graphics with simple 3D shapes.",
+    "ignore": false,
+    "images": [],
+    "keywords": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "SimpleMarkerSceneSymbol",
+        "SimpleMarkerSceneSymbol.STYLE",
+        "SceneSymbol.AnchorPosition"
+    ],
+    "redirect_from": "/java/latest/sample-code/symbols.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "Graphic",
+        "GraphicsOverlay",
+        "SimpleMarkerSceneSymbol",
+        "SimpleMarkerSceneSymbol.STYLE",
+        "SceneSymbol.AnchorPosition"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/symbols/SymbolsSample.java"
+    ],
+    "title": "Symbols"
+}

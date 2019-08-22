@@ -1,0 +1,27 @@
+{
+    "category": "Map",
+    "description": "Specify a map's spatial reference.",
+    "ignore": false,
+    "images": [
+        "MapSpatialReference.png"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "SpatialReference"
+    ],
+    "redirect_from": "/java/latest/sample-code/map-spatial-reference.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
+        "SpatialReference"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/map_spatial_reference/MapSpatialReferenceSample.java"
+    ],
+    "title": "Map Spatial Reference"
+}

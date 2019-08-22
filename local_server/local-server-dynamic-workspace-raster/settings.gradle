@@ -1,0 +1,37 @@
+rootProject.name = 'local-server-dynamic-workspace-raster'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/80b43ba48f524a8eb0cb54f0f1ee9a5f/data",
+            dest: file("./usa_raster.zip")
+    )
+    ant.unzip(
+            src: file("./usa_raster.zip"),
+            dest: file("./samples-data/raster")
+    )
+    delete file("./usa_raster.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/00113a41bea0401290635f8503bb4acf/data",
+            dest: file("./shasta.zip")
+    )
+    ant.unzip(
+            src: file("./shasta.zip"),
+            dest: file("./samples-data/raster")
+    )
+    delete file("./shasta.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/5c10e6c0b8974d16b74d557568105b96/data",
+            dest: file("./mmpk_blank.zip")
+    )
+    ant.unzip(
+            src: file("./mmpk_blank.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./mmpk_blank.zip")
+
+}

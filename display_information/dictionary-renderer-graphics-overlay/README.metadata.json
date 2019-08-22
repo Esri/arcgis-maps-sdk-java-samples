@@ -1,0 +1,24 @@
+{
+    "category": "Display information",
+    "description": "Display mil2525d symbols.",
+    "ignore": false,
+    "images": [
+        "DictionaryRendererGraphicsOverlay.png"
+    ],
+    "keywords": [
+        "dictionary renderer",
+        "dictionary symbol style",
+        "military",
+        "symbol"
+    ],
+    "redirect_from": "/java/latest/sample-code/dictionary-renderer-with-graphics-overlay.htm",
+    "relevant_apis": [
+        "DictionaryRenderer",
+        "DictionarySymbolStyle",
+        "GraphicsOverlay"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/dictionary_renderer_graphics_overlay/DictionaryRendererGraphicsOverlaySample.java"
+    ],
+    "title": "Dictionary Renderer with Graphics Overlay"
+}

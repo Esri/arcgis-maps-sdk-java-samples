@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2018 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.geometry.Insets?>
+<StackPane fx:controller="com.esri.samples.display_grid.DisplayGridController" xmlns:fx="http://javafx.com/fxml"
+           stylesheets="/style.css">
+    <MapView fx:id="mapView"/>
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="300" styleClass="panel-region" spacing="10"
+          alignment="CENTER">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50"/>
+                <ColumnConstraints percentWidth="50"/>
+            </columnConstraints>
+            <Label text="Grid type" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="gridTypeComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Labels visible" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <CheckBox fx:id="labelsVisibleCheckBox" selected="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Grid visible" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <CheckBox fx:id="gridVisibleCheckBox" selected="true" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Grid color" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <ColorPicker fx:id="gridColorPicker" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <Label text="Label color" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <ColorPicker fx:id="labelColorPicker" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <Label text="Label position" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="labelPositionComboBox" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+            <Label text="Label format" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="labelFormatComboBox" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+        </GridPane>
+        <Button text="Update" onAction="#updateGrid"/>
+    </VBox>
+</StackPane>

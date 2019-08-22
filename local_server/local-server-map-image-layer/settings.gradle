@@ -1,0 +1,16 @@
+rootProject.name = 'local-server-map-image-layer'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/b6f669b3b5b941fc8a3f7ac03efbd1a9/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./data.zip")
+}

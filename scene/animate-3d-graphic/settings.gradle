@@ -1,0 +1,16 @@
+rootProject.name = 'animate-3d-graphic'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/296269901180442a88a3351640ff2262/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/bristol")
+    )
+    delete file("./data.zip")
+}

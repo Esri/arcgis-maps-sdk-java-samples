@@ -1,0 +1,27 @@
+{
+    "category": "Editing",
+    "description": "Update feature attributes in an online feature service.",
+    "ignore": false,
+    "images": [
+        "UpdateAttributes.gif"
+    ],
+    "keywords": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": "/java/latest/sample-code/update-attributes.htm",
+    "relevant_apis": [
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
+        "MapView",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/update_attributes/UpdateAttributesSample.java"
+    ],
+    "title": "Update Attributes"
+}

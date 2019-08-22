@@ -1,0 +1,26 @@
+rootProject.name = 'local-server-geoprocessing'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/9053a46b205142f0864682d5152642b5/data",
+            dest: file("./raster_hillshade.zip")
+    )
+    ant.unzip(
+            src: file("./raster_hillshade.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./raster_hillshade.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a9788a0e8ef241ec89182f87f6967ec9/data",
+            dest: file("./contour.zip")
+    )
+    ant.unzip(
+            src: file("./contour.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./contour.zip")
+}

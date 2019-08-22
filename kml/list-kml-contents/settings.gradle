@@ -1,0 +1,16 @@
+rootProject.name = 'list-kml-contents'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/cdb15cd7cb624c2e9acb4af6c83d1fdd/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/kml")
+    )
+    delete file("./data.zip")
+}
