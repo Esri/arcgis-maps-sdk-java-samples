@@ -55,7 +55,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -250,55 +249,68 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   private UtilityElement createUtilityElement(ArcGISFeature identifiedFeature, UtilityNetworkSource networkSource) {
     UtilityElement result = null;
 
-    // get the utility asset group from the feature
-    String assetGroupFiledName = identifiedFeature.getFeatureTable().getSubtypeField();
+    // get the attributes of the identified feature
     Map<String, Object> attributes = identifiedFeature.getAttributes();
 
-    int assetGroupCode = (int) attributes.get(assetGroupFiledName.toLowerCase());
+    // get the name of the utility asset group's attribute field from the feature
+    String assetGroupFieldName = identifiedFeature.getFeatureTable().getSubtypeField();
+
+    // find the code matching the asset group name in the feature's attributes
+    int assetGroupCode = (int) attributes.get(assetGroupFieldName.toLowerCase());
+
+    // iterate through the network source's asset groups to find the group with the matching code
     List<UtilityAssetGroup> assetGroups = networkSource.getAssetGroups();
+    for (UtilityAssetGroup group : assetGroups) {
+      if (group.getCode() == assetGroupCode) {
+        UtilityAssetGroup assetGroup = group;
 
-        for (UtilityAssetGroup group : assetGroups){
-          if (group.getCode() == assetGroupCode){
-            UtilityAssetGroup assetGroup = group;
+        // get the code for the feature's asset type from it's attributes
+        Object assetTypeCode = attributes.get("assettype");
 
-            Object assetTypeCode = attributes.get("assettype");
-            List<UtilityAssetType> utilityAssetTypes = assetGroup.getAssetTypes();
-            for (UtilityAssetType type : utilityAssetTypes){
-              if (type.getCode() == Integer.parseInt(assetTypeCode.toString())){
-                UtilityAssetType assetType = type;
+        // iterate through the asset group's asset types to find the type matching the feature's asset type code
+        List<UtilityAssetType> utilityAssetTypes = assetGroup.getAssetTypes();
+        for (UtilityAssetType type : utilityAssetTypes) {
+          if (type.getCode() == Integer.parseInt(assetTypeCode.toString())) {
+            UtilityAssetType assetType = type;
 
-                // get the list of terminals for the feature
-                List<UtilityTerminal> terminals = assetType.getTerminalConfiguration().getTerminals();
+            // get the list of terminals for the feature
+            List<UtilityTerminal> terminals = assetType.getTerminalConfiguration().getTerminals();
 
-                // if there is more than one terminal, prompt the user to select one
-                if (terminals.size() > 1) {
-                  // as the user to choose a terminal
-                  UtilityTerminal terminal = promptForTerminalSelection(terminals);
+            // if there is only one terminal, use it to create a utility element
+            if (terminals.size() == 1) {
+              result = utilityNetwork.createElement(identifiedFeature, terminals.get(0));
+              // show the name of the terminal in the status label
+              showTerminalNameInStatusLabel(terminals.get(0));
 
-                  // create a utility element with the chosen terminal
-                  result = utilityNetwork.createElement(identifiedFeature, terminal);
-                  showTerminalNameInStatusLabel(terminal);
-                } else {
-                  // create a utility element with the terminal
-                  result = utilityNetwork.createElement(identifiedFeature, terminals.get(0));
-                  showTerminalNameInStatusLabel(terminals.get(0));
-                }
-              }
+              // if there is more than one terminal, prompt the user to select one
+            } else if (terminals.size() > 1) {
+              // as the user to choose a terminal
+//                  promptForTerminalSelection(terminals);
+//                  UtilityTerminal terminal = promptForTerminalSelection(terminals);
+
+              UtilityTerminalSelectionDialog utilityTerminalSelectionDialog = new UtilityTerminalSelectionDialog(terminals);
+              utilityTerminalSelectionDialog.show();
+
+              // create a utility element with the chosen terminal
+              result = utilityNetwork.createElement(identifiedFeature, selectedTerminal);
+              showTerminalNameInStatusLabel(selectedTerminal);
             }
           }
         }
+      }
+    }
 
     return result;
   }
 
   @FXML
-  private UtilityTerminal promptForTerminalSelection(List<UtilityTerminal> utilityTerminals) {
+  private void promptForTerminalSelection(List<UtilityTerminal> utilityTerminals) {
 
     selectedTerminal = null;
 
-    // create a countdown latch with a count of one to synchronize the authentication dialog
+    // create a countdown latch with a count of one to synchronize the terminal selection dialog
     CountDownLatch utilityTerminalSelectionCountdownLatch = new CountDownLatch(1);
-    // show the authentication dialog and capture the user credentials
+    // show the authentication dialog and capture the user selection
     Platform.runLater(() -> {
       UtilityTerminalSelectionDialog utilityTerminalSelectionDialog = new UtilityTerminalSelectionDialog(utilityTerminals);
       utilityTerminalSelectionDialog.show();
@@ -310,11 +322,10 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
     try {
       utilityTerminalSelectionCountdownLatch.await();
+
     } catch (InterruptedException e) {
       new Alert(Alert.AlertType.ERROR, "Interruption handling AuthenticationChallengeResponse: " + e.getMessage()).show();
     }
-
-    return selectedTerminal;
   }
 
   private void showTerminalNameInStatusLabel(UtilityTerminal terminal) {
