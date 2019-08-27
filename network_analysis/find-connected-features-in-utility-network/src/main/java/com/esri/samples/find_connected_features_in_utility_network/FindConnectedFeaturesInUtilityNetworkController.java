@@ -18,6 +18,7 @@ package com.esri.samples.find_connected_features_in_utility_network;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -375,6 +376,46 @@ public class FindConnectedFeaturesInUtilityNetworkController {
             });
 
             // group the utility elements by their network source
+            HashMap<String, List<UtilityElement>> utilityElementGroups = new HashMap<>();
+            utilityElementTraceResult.getElements().forEach(utilityElement -> {
+              String networkSourceName = utilityElement.getNetworkSource().getName();
+              if (!utilityElementGroups.containsKey(utilityElement.getNetworkSource().getName())) {
+                List<UtilityElement> list = new ArrayList<>();
+                list.add(utilityElement);
+
+                utilityElementGroups.put(networkSourceName, list);
+              } else {
+                utilityElementGroups.get(networkSourceName).add(utilityElement);
+              }
+            });
+
+            // get the feature layer for the utility element
+            utilityElementGroups.forEach((networkSourceName, utilityElements) -> {
+
+              // get the layer for the utility element
+              FeatureLayer layer = (FeatureLayer) mapView.getMap().getOperationalLayers().get(0);
+              if (layer == null) {
+                return;
+              }
+
+              if (layer.getFeatureTable().getTableName().equals(networkSourceName)) {
+
+                // convert the elements to features to highlight the result
+                ListenableFuture<List<ArcGISFeature>> fetchUtilityFeaturesFuture = utilityNetwork.fetchFeaturesForElementsAsync(utilityElements);
+                fetchUtilityFeaturesFuture.addDoneListener(() -> {
+                  try {
+                    List<ArcGISFeature> features = fetchUtilityFeaturesFuture.get();
+                    features.forEach(layer::selectFeature);
+
+                  } catch (InterruptedException | ExecutionException e) {
+                    new Alert(Alert.AlertType.ERROR, "Error fetching the corresponding features for the utility elements.").show();
+                    e.printStackTrace();
+                  }
+                });
+
+              }
+            });
+
 
             // enable the UI
             traceButton.setDisable(false);
