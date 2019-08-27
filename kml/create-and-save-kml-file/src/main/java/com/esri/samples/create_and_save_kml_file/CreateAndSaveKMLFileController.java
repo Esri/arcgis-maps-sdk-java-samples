@@ -16,23 +16,6 @@
 
 package com.esri.samples.create_and_save_kml_file;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -42,282 +25,177 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
 import com.esri.arcgisruntime.mapping.view.SketchEditor;
-import com.esri.arcgisruntime.ogc.kml.KmlAltitudeMode;
-import com.esri.arcgisruntime.ogc.kml.KmlDataset;
-import com.esri.arcgisruntime.ogc.kml.KmlDocument;
-import com.esri.arcgisruntime.ogc.kml.KmlGeometry;
-import com.esri.arcgisruntime.ogc.kml.KmlIcon;
-import com.esri.arcgisruntime.ogc.kml.KmlIconStyle;
-import com.esri.arcgisruntime.ogc.kml.KmlLineStyle;
-import com.esri.arcgisruntime.ogc.kml.KmlPlacemark;
-import com.esri.arcgisruntime.ogc.kml.KmlPolygonStyle;
-import com.esri.arcgisruntime.ogc.kml.KmlStyle;
+import com.esri.arcgisruntime.ogc.kml.*;
 import com.esri.arcgisruntime.symbology.ColorUtil;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 public class CreateAndSaveKMLFileController {
 
-  @FXML
-  private Button sketchButton;
-  @FXML
-  private ColorPicker colorPicker;
-  @FXML
-  private ComboBox<String> iconSelectionComboBox;
-  @FXML
-  private ComboBox<String> geometrySelectionComboBox;
-  @FXML
-  private Label instructionsText;
-  @FXML
-  private MapView mapView;
-  @FXML
-  private VBox saveResetVBox;
+  @FXML private StackPane stackPane;
+  @FXML private ColorPicker colorPicker;
+  @FXML private ComboBox<String> pointSymbolComboBox;
+  @FXML private ComboBox<SketchCreationMode> sketchCreationModeComboBox;
+  @FXML private MapView mapView;
 
-  private ArcGISMap map;
-  private FileChooser fileChooser;
   private KmlDocument kmlDocument;
-  private KmlPlacemark currentKmlPlacemark;
   private SketchEditor sketchEditor;
-  private SketchCreationMode sketchCreationMode;
+  private FileChooser fileChooser;
 
   @FXML
   public void initialize() {
 
     // create a map and add it to the map view
-    map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
+    ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
     mapView.setMap(map);
 
     // create a sketch editor and add it to the map view
     sketchEditor = new SketchEditor();
     mapView.setSketchEditor(sketchEditor);
-    // create a sketch creation mode
-    sketchCreationMode = null;
 
-    // set up the geometry selection combo box with the available options and select the first as a default
-    geometrySelectionComboBox.getItems().addAll("Point", "Polyline", "Polygon");
-    geometrySelectionComboBox.getSelectionModel().select(0);
+    // add geometry options for KML placemarks
+    sketchCreationModeComboBox.getItems().addAll(SketchCreationMode.POINT, SketchCreationMode.POLYLINE, SketchCreationMode.POLYGON);
 
-    // set the color picker and icon selection combobox to show/hide based on the selected geometry
-    colorPicker.managedProperty().bind(colorPicker.visibleProperty());
-    colorPicker.visibleProperty().bind(geometrySelectionComboBox.getSelectionModel().selectedItemProperty().isNotEqualTo("Point"));
-    iconSelectionComboBox.managedProperty().bind(iconSelectionComboBox.visibleProperty());
-    iconSelectionComboBox.visibleProperty().bind(geometrySelectionComboBox.getSelectionModel().selectedItemProperty().isEqualTo("Point"));
+    // restart the sketch editor whenever the selected creation mode changes
+    sketchCreationModeComboBox.getSelectionModel().selectedItemProperty().addListener(o -> startSketch());
+
+    map.addDoneLoadingListener(() -> sketchCreationModeComboBox.getSelectionModel().select(0));
+
+    // show style controls relevant to the selected sketch creation mode
+    colorPicker.visibleProperty().bind(sketchCreationModeComboBox.getSelectionModel().selectedItemProperty().isNotEqualTo(SketchCreationMode.POINT));
+    pointSymbolComboBox.visibleProperty().bind(sketchCreationModeComboBox.getSelectionModel().selectedItemProperty().isEqualTo(SketchCreationMode.POINT));
 
     // set the images for the icon selection combo box
     List<String> iconLinks = Arrays.asList(
+            null, // for the default symbol
             "http://static.arcgis.com/images/Symbols/Shapes/BlueCircleLargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueDiamondLargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BluePin2LargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueSquareLargeB.png",
             "http://static.arcgis.com/images/Symbols/Shapes/BlueStarLargeB.png");
-    iconSelectionComboBox.getItems().addAll(iconLinks);
-    iconSelectionComboBox.setCellFactory(comboBox -> new IconListCell());
-    iconSelectionComboBox.setButtonCell(new IconListCell());
-    iconSelectionComboBox.getSelectionModel().select(0);
+    pointSymbolComboBox.getItems().addAll(iconLinks);
+    pointSymbolComboBox.setCellFactory(comboBox -> new ImageURLListCell());
+    pointSymbolComboBox.setButtonCell(new ImageURLListCell());
+    pointSymbolComboBox.getSelectionModel().select(0);
+
+    // create a KML layer from a blank KML document and add it to the map
+    kmlDocument = new KmlDocument();
+    KmlDataset kmlDataset = new KmlDataset(kmlDocument);
+    KmlLayer kmlLayer = new KmlLayer(kmlDataset);
+    map.getOperationalLayers().add(kmlLayer);
 
     // create a file chooser to get a path for saving the KMZ file
     fileChooser = new FileChooser();
     FileChooser.ExtensionFilter kmzFilter = new FileChooser.ExtensionFilter("KMZ files (*.kmz)", "*.kmz");
     fileChooser.getExtensionFilters().add(kmzFilter);
     fileChooser.setTitle("Save KMZ file:");
-
-    // set up a new KML document and layer
-    resetKmlDocument();
-
-    // wait for the map to finish loading to enable the UI and allow sketching
-    map.addDoneLoadingListener(() -> toggleUI());
   }
 
   /**
-   * Clears all operational layers and creates a blank KML document with a dataset and layer.
+   * Starts the sketch editor based on the selected sketch creation mode.
    */
   @FXML
-  private void resetKmlDocument() {
-    // clear any existing layers from the map
-    map.getOperationalLayers().clear();
-
-    // reset the most recently placed placemark
-    currentKmlPlacemark = null;
-
-    // create a new KML document
-    kmlDocument = new KmlDocument();
-    kmlDocument.setName("KML Sample Document");
-
-    // create a KML dataset using the KML document
-    KmlDataset kmlDataset = new KmlDataset(kmlDocument);
-
-    // create the KML layer using the KML dataset
-    KmlLayer kmlLayer = new KmlLayer(kmlDataset);
-
-    // add the KML layer to the map
-    map.getOperationalLayers().add(kmlLayer);
-
-    // disable the save/reset buttons
-    saveResetVBox.getChildren().forEach(node -> node.setDisable(true));
-  }
-
-  /**
-   * Toggles the UI to allow starting a new sketch or saving/resetting if any sketches are present.
-   */
-  @FXML
-  private void toggleUI() {
-    // reset the instructions text
-    instructionsText.setText("Select a geometry to create:");
-
-    // enable the 'Sketch' button
-    sketchButton.setDisable(false);
-
-    // enable or disable the save/reset buttons, depending on whether there are kml elements in the document
-    saveResetVBox.getChildren().forEach(node -> node.setDisable(kmlDocument.getChildNodes().isEmpty()));
-  }
-
-  /**
-   * Sets the sketch creation mode to the selected geometry and starts the sketch editor.
-   */
-  @FXML
-  private void resolveSketchClick() {
-    // disable the sketch button
-    sketchButton.setDisable(true);
-
-    // disable the save/reset buttons
-    saveResetVBox.getChildren().forEach(node -> node.setDisable(true));
-
-    // set the sketch creation mode based the selection in the geometry combobox
-    switch (geometrySelectionComboBox.getSelectionModel().getSelectedItem()) {
-      case "Point":
-        sketchCreationMode = SketchCreationMode.POINT;
-        break;
-
-      case "Polyline":
-        sketchCreationMode = SketchCreationMode.POLYLINE;
-        break;
-
-      case "Polygon":
-        sketchCreationMode = SketchCreationMode.POLYGON;
-        break;
-    }
-
-    // start the sketch editor to capture the user input
-    if (sketchCreationMode != null) {
-      sketchEditor.start(sketchCreationMode);
-    }
-
-    // set the instructions text for sketching
-    instructionsText.setText("Click to add a vertex, press 'Enter' to finish sketching, or 'Esc' to abort.");
-
-    // add a listener to the stage that allows finishing/aborting a sketch with the keyboard
-    EventHandler<KeyEvent> keyEventEventHandler = (KeyEvent event) -> {
-
-      // only listen to input from the 'Enter' key (when the geometry is valid), or the 'Escape' key
-      if ((event.getCode() == KeyCode.ENTER && sketchEditor.isSketchValid()) || event.getCode() == KeyCode.ESCAPE) {
-
-        // complete the sketch if the 'Enter' key was pressed
-        if (event.getCode() == KeyCode.ENTER) {
-          completeSketch();
-
-          // stop the sketch editor and clear the geometry if 'Escape' was pressed
-        } else if (event.getCode() == KeyCode.ESCAPE) {
-          sketchEditor.stop();
-          sketchEditor.clearGeometry();
-        }
-
-        // toggle the UI to enable sketching again / saving the KMZ document
-        toggleUI();
-
-        // remove the event listener to stop listening to keyboard events
-        sketchButton.getScene().setOnKeyPressed(null);
-      }
-    };
-    sketchButton.getScene().setOnKeyPressed(keyEventEventHandler);
-
-  }
-
-  /**
-   * Completes the sketch in progress, creates a KML placemark from the resulting geometry, and adds it to the KML document.
-   */
-  @FXML
-  private void completeSketch() {
-
-    // get the user-drawn geometry
-    Geometry sketchGeometry = sketchEditor.getGeometry();
-
-    // project the geometry to WGS84 to comply with the KML standard
-    Geometry projectedGeometry = GeometryEngine.project(sketchGeometry, SpatialReferences.getWgs84());
-
-    // create a KML geometry
-    KmlGeometry kmlGeometry = new KmlGeometry(projectedGeometry, KmlAltitudeMode.CLAMP_TO_GROUND);
-
-    // create a new placemark
-    currentKmlPlacemark = new KmlPlacemark(kmlGeometry);
-
-    // add the placemark to the kml document
-    kmlDocument.getChildNodes().add(currentKmlPlacemark);
-
+  private void startSketch() {
     // stop the sketch editor
     sketchEditor.stop();
 
-    // update the style of the current KML placemark
-    KmlStyle kmlStyle = new KmlStyle();
-    currentKmlPlacemark.setStyle(kmlStyle);
+    // request focus on stack pane to receive key events
+    stackPane.requestFocus();
 
-    // set the selected style for the placemark
-    switch (currentKmlPlacemark.getGeometries().get(0).getType().toString()) {
+    // start the sketch editor with the selected creation mode
+    sketchEditor.start(sketchCreationModeComboBox.getSelectionModel().getSelectedItem());
+  }
 
-      // create a KML icon style using the selected icon
-      case ("POINT"):
-        if (iconSelectionComboBox.getSelectionModel().getSelectedItem() != null) {
-          String iconURI = iconSelectionComboBox.getSelectionModel().getSelectedItem();
-          KmlIcon kmlIcon = new KmlIcon(iconURI);
-          KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon, 1);
-          kmlStyle.setIconStyle(kmlIconStyle);
-        }
-        break;
+  /**
+   * Discard or commit the current sketch to a KML placemark if ESCAPE or ENTER are pressed while sketching.
+   *
+   * @param keyEvent the key event
+   */
+  @FXML
+  private void handleKeyReleased(KeyEvent keyEvent) {
+    if (keyEvent.getCode() == KeyCode.ESCAPE) {
+      // clear the current sketch and start a new sketch
+      startSketch();
+    } else if (keyEvent.getCode() == KeyCode.ENTER && sketchEditor.isSketchValid()) {
+      // project the sketched geometry to WGS84 to comply with the KML standard
+      Geometry sketchGeometry = sketchEditor.getGeometry();
+      Geometry projectedGeometry = GeometryEngine.project(sketchGeometry, SpatialReferences.getWgs84());
 
-      // create a KML line style using the selected color
-      case ("POLYLINE"):
-        if (colorPicker.valueProperty().get() != null) {
-          Color color = colorPicker.valueProperty().get();
-          KmlLineStyle kmlLineStyle = new KmlLineStyle(ColorUtil.colorToArgb(color), 8);
-          kmlStyle.setLineStyle(kmlLineStyle);
-        }
-        break;
+      // create a new KML placemark
+      KmlGeometry kmlGeometry = new KmlGeometry(projectedGeometry, KmlAltitudeMode.CLAMP_TO_GROUND);
+      KmlPlacemark currentKmlPlacemark = new KmlPlacemark(kmlGeometry);
 
-      // create a KML polygon style using the selected color as a fill
-      case ("POLYGON"):
-        if (colorPicker.valueProperty().get() != null) {
-          Color color = colorPicker.valueProperty().get();
-          KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(ColorUtil.colorToArgb(color));
-          kmlPolygonStyle.setFilled(true);
-          kmlPolygonStyle.setOutlined(false);
-          kmlStyle.setPolygonStyle(kmlPolygonStyle);
-        }
-        break;
+      // update the style of the current KML placemark
+      KmlStyle kmlStyle = new KmlStyle();
+      currentKmlPlacemark.setStyle(kmlStyle);
+
+      // set the selected style for the placemark
+      switch (sketchGeometry.getGeometryType()) {
+        case POINT:
+          if (pointSymbolComboBox.getSelectionModel().getSelectedItem() != null) {
+            String iconURI = pointSymbolComboBox.getSelectionModel().getSelectedItem();
+            KmlIcon kmlIcon = new KmlIcon(iconURI);
+            KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon, 1);
+            kmlStyle.setIconStyle(kmlIconStyle);
+          }
+          break;
+        case POLYLINE:
+          Color polylineColor = colorPicker.getValue();
+          if (polylineColor != null) {
+            KmlLineStyle kmlLineStyle = new KmlLineStyle(ColorUtil.colorToArgb(polylineColor), 8);
+            kmlStyle.setLineStyle(kmlLineStyle);
+          }
+          break;
+        case POLYGON:
+          Color polygonColor = colorPicker.getValue();
+          if (polygonColor != null) {
+            KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(ColorUtil.colorToArgb(polygonColor));
+            kmlPolygonStyle.setFilled(true);
+            kmlPolygonStyle.setOutlined(false);
+            kmlStyle.setPolygonStyle(kmlPolygonStyle);
+          }
+          break;
+      }
+
+      // add the placemark to the kml document
+      kmlDocument.getChildNodes().add(currentKmlPlacemark);
+
+      // start a new sketch
+      startSketch();
     }
   }
 
   /**
-   * Opens a FileChooser and saves a KMZ file to the selected path.
+   * Open the file chooser to save the KML Document to a KMZ file.
    */
   @FXML
-  private void handleSaveClick() {
+  private void handleSaveAction() {
 
-    try {
-      // get a path from the file chooser
-      File kmzFile = fileChooser.showSaveDialog(mapView.getScene().getWindow());
-      // write the KMZ file to the path chosen
-      if (kmzFile != null) {
-        kmlDocument.saveAsAsync(kmzFile.getPath());
-      } else {
-        new Alert(Alert.AlertType.WARNING, "KMZ file not saved.").show();
-      }
-    } catch (Exception e) {
-      new Alert(Alert.AlertType.ERROR, "Error saving KMZ file.").show();
+    // get a path from the file chooser
+    File kmzFile = fileChooser.showSaveDialog(mapView.getScene().getWindow());
+    if (kmzFile != null) {
+      kmlDocument.saveAsAsync(kmzFile.getPath()).addDoneListener(() ->
+          new Alert(Alert.AlertType.INFORMATION, "KMZ file saved.").show()
+      );
     }
   }
 
   /**
    * Stops and releases all resources used in application.
    */
-  public void terminate() {
+  void terminate() {
 
     if (mapView != null) {
       mapView.dispose();

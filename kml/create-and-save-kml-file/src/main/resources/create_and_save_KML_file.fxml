@@ -15,26 +15,18 @@
   ~ the License.
   -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ColorPicker?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.Background?>
-<?import javafx.scene.layout.BackgroundFill?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<StackPane fx:controller="com.esri.samples.create_and_save_kml_file.CreateAndSaveKMLFileController"
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<StackPane fx:id="stackPane"
+           fx:controller="com.esri.samples.create_and_save_kml_file.CreateAndSaveKMLFileController"
            xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/style.css">
-    <MapView fx:id="mapView"/>
-
-    <!--Controls-->
-    <!--    Editing and Saving Controls-->
-    <VBox minWidth="240" maxWidth="240" minHeight="260" maxHeight="260" styleClass="panel-region" spacing="10"
+           stylesheets="/style.css"
+           onKeyPressed="#handleKeyReleased">
+    <MapView fx:id="mapView" />
+    <VBox maxWidth="180" maxHeight="160" spacing="10"
           alignment="CENTER" StackPane.alignment="TOP_LEFT">
         <padding>
             <Insets topRightBottomLeft="10"/>
@@ -50,21 +42,10 @@
                 </fills>
             </Background>
         </background>
-
-        <Label fx:id="instructionsText" maxWidth="220" text="Select a geometry to create:" minHeight="40"
-               wrapText="true"/>
-
-        <ComboBox fx:id="geometrySelectionComboBox" minWidth="220"/>
-        <ComboBox fx:id="iconSelectionComboBox" minWidth="220"/>
-        <ColorPicker fx:id="colorPicker" minWidth="220" minHeight="25"/>
-
-        <Button fx:id="sketchButton" onAction="#resolveSketchClick" text="Sketch" minWidth="220"/>
-
+        <ComboBox fx:id="sketchCreationModeComboBox" maxWidth="Infinity"/>
+        <ComboBox fx:id="pointSymbolComboBox" managed="${pointSymbolComboBox.visible}" maxWidth="Infinity"/>
+        <ColorPicker fx:id="colorPicker" managed="${colorPicker.visible}" maxWidth="Infinity"/>
         <Separator/>
-        <VBox fx:id="saveResetVBox" spacing="10">
-            <Button text="Save KMZ file" onAction="#handleSaveClick" disable="true" minWidth="220"/>
-            <Button text="Reset" onAction="#resetKmlDocument" disable="true" minWidth="220"/>
-        </VBox>
+        <Button text="Save KMZ file" onAction="#handleSaveAction" maxWidth="Infinity"/>
     </VBox>
-
 </StackPane>
