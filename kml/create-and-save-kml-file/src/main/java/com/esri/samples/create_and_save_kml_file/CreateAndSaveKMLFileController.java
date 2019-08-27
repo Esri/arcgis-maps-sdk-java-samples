@@ -51,6 +51,7 @@ public class CreateAndSaveKMLFileController {
 
   private KmlDocument kmlDocument;
   private SketchEditor sketchEditor;
+  private FileChooser fileChooser;
 
   @FXML
   public void initialize() {
@@ -94,6 +95,12 @@ public class CreateAndSaveKMLFileController {
     KmlDataset kmlDataset = new KmlDataset(kmlDocument);
     KmlLayer kmlLayer = new KmlLayer(kmlDataset);
     map.getOperationalLayers().add(kmlLayer);
+
+    // create a file chooser to get a path for saving the KMZ file
+    fileChooser = new FileChooser();
+    FileChooser.ExtensionFilter kmzFilter = new FileChooser.ExtensionFilter("KMZ files (*.kmz)", "*.kmz");
+    fileChooser.getExtensionFilters().add(kmzFilter);
+    fileChooser.setTitle("Save KMZ file:");
   }
 
   /**
@@ -171,16 +178,10 @@ public class CreateAndSaveKMLFileController {
   }
 
   /**
-   * Open a FileChooser to save the KML Document to a KMZ file.
+   * Open the file chooser to save the KML Document to a KMZ file.
    */
   @FXML
   private void handleSaveAction() {
-
-    // create a file chooser to get a path for saving the KMZ file
-    FileChooser fileChooser = new FileChooser();
-    FileChooser.ExtensionFilter kmzFilter = new FileChooser.ExtensionFilter("KMZ files (*.kmz)", "*.kmz");
-    fileChooser.getExtensionFilters().add(kmzFilter);
-    fileChooser.setTitle("Save KMZ file:");
 
     // get a path from the file chooser
     File kmzFile = fileChooser.showSaveDialog(mapView.getScene().getWindow());
