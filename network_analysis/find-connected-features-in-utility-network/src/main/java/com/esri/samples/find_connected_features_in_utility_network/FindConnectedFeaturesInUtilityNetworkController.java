@@ -19,6 +19,7 @@ package com.esri.samples.find_connected_features_in_utility_network;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
@@ -54,6 +55,7 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -196,13 +198,12 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                 // check if the network source is a junction or an edge
                 if (networkSource.getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
                   //  create a utility element with the identified feature
-//                  utilityElement = createUtilityElement(identifiedFeature, networkSource);
+                  utilityElement = createUtilityElement(identifiedFeature, networkSource);
                 }
                 // check if the network source is an edge
                 else if (networkSource.getSourceType() == UtilityNetworkSource.Type.EDGE && identifiedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
 
                   //  create a utility element with the identified feature
-                  System.out.println(utilityNetwork.getLoadStatus());
                   utilityElement = utilityNetwork.createElement(identifiedFeature, null);
 
                   // get the geometry of the identified feature as a polyline, and remove the z component
@@ -247,39 +248,53 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   }
 
   private UtilityElement createUtilityElement(ArcGISFeature identifiedFeature, UtilityNetworkSource networkSource) {
-    UtilityElement result;
+    UtilityElement result = null;
 
-    // get the utility asset group
-    String assetGroupFieldName = identifiedFeature.getFeatureTable().getSubtypeField();
-    String assetGroupCode = identifiedFeature.getAttributes().get(assetGroupFieldName).toString();
-    UtilityAssetGroup assetGroup = networkSource.getAssetGroup(assetGroupFieldName);
+    // get the utility asset group from the feature
+    String assetGroupFiledName = identifiedFeature.getFeatureTable().getSubtypeField();
+    Map<String, Object> attributes = identifiedFeature.getAttributes();
 
-    // get the utility asset type from the feature
-    String assetTypeCode = identifiedFeature.getAttributes().get("ASSETTYPE").toString(); //@TODO fix this
-    UtilityAssetType assetType = assetGroup.getAssetType(assetTypeCode);
+    int assetGroupCode = (int) attributes.get(assetGroupFiledName.toLowerCase());
+    List<UtilityAssetGroup> assetGroups = networkSource.getAssetGroups();
 
-    // get the list of terminals for the feature
-    List<UtilityTerminal> terminals = assetType.getTerminalConfiguration().getTerminals();
+        for (UtilityAssetGroup group : assetGroups){
+          if (group.getCode() == assetGroupCode){
+            UtilityAssetGroup assetGroup = group;
 
-    // if there is more than one terminal, prompt the user to select one
-    if (terminals.size() > 1) {
-      // as the user to choose a terminal
-      UtilityTerminal terminal = promptForTerminalSelection(terminals);
+            Object assetTypeCode = attributes.get("assettype");
+            List<UtilityAssetType> utilityAssetTypes = assetGroup.getAssetTypes();
+            for (UtilityAssetType type : utilityAssetTypes){
+              if (type.getCode() == Integer.parseInt(assetTypeCode.toString())){
+                UtilityAssetType assetType = type;
 
-      // create a utility element with the chosen terminal
-      result = utilityNetwork.createElement(identifiedFeature, terminal);
-      showTerminalNameInStatusLabel(terminal);
-    } else {
-      // create a utility element with the terminal
-      result = utilityNetwork.createElement(identifiedFeature, terminals.get(0));
-      showTerminalNameInStatusLabel(terminals.get(0));
-    }
+                // get the list of terminals for the feature
+                List<UtilityTerminal> terminals = assetType.getTerminalConfiguration().getTerminals();
+
+                // if there is more than one terminal, prompt the user to select one
+                if (terminals.size() > 1) {
+                  // as the user to choose a terminal
+                  UtilityTerminal terminal = promptForTerminalSelection(terminals);
+
+                  // create a utility element with the chosen terminal
+                  result = utilityNetwork.createElement(identifiedFeature, terminal);
+                  showTerminalNameInStatusLabel(terminal);
+                } else {
+                  // create a utility element with the terminal
+                  result = utilityNetwork.createElement(identifiedFeature, terminals.get(0));
+                  showTerminalNameInStatusLabel(terminals.get(0));
+                }
+              }
+            }
+          }
+        }
 
     return result;
   }
 
   @FXML
   private UtilityTerminal promptForTerminalSelection(List<UtilityTerminal> utilityTerminals) {
+
+    selectedTerminal = null;
 
     // create a countdown latch with a count of one to synchronize the authentication dialog
     CountDownLatch utilityTerminalSelectionCountdownLatch = new CountDownLatch(1);
@@ -292,6 +307,12 @@ public class FindConnectedFeaturesInUtilityNetworkController {
         utilityTerminalSelectionCountdownLatch.countDown();
       });
     });
+
+    try {
+      utilityTerminalSelectionCountdownLatch.await();
+    } catch (InterruptedException e) {
+      new Alert(Alert.AlertType.ERROR, "Interruption handling AuthenticationChallengeResponse: " + e.getMessage()).show();
+    }
 
     return selectedTerminal;
   }
