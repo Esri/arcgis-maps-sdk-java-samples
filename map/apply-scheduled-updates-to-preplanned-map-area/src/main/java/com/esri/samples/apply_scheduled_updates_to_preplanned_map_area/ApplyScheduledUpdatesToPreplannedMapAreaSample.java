@@ -137,7 +137,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           alert.setTitle("Updates Available");
           alert.setHeaderText("An update is available for this preplanned map area.");
           alert.setResizable(false);
-          alert.setContentText("Update size: " + updateSize + "bytes. Apply the update?");
+          alert.setContentText("Update size: " + updateSize + " bytes. Apply the update?");
 
           // show the dialog and wait for confirmation
           Optional<ButtonType> result = alert.showAndWait();
