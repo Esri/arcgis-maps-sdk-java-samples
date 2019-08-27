@@ -19,11 +19,15 @@
 <?import javafx.scene.control.Dialog?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
 <fx:root type="javafx.scene.control.Dialog" xmlns:fx="http://javafx.com/fxml">
     <dialogPane>
         <DialogPane>
             <content>
-                <ListView fx:id="utilityTerminalListView"/>
+                <HBox minWidth="280" maxWidth="270" maxHeight="300" styleClass="panel-region"
+                      spacing="10">
+                    <ListView fx:id="utilityTerminalListView"/>
+                </HBox>
             </content>
             <ButtonType fx:id="cancelButton" buttonData="CANCEL_CLOSE" text="Cancel"/>
             <ButtonType fx:id="continueButton" buttonData="FINISH" text="Continue"/>
