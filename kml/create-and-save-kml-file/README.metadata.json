@@ -12,12 +12,10 @@
         "OGC"
     ],
     "relevant_apis": [
-        "GeometryEngine.Project",
         "KmlDataset",
         "KmlDocument",
         "KmlGeometry",
         "KmlLayer",
-        "KmlNode.SaveAsASync",
         "KmlPlacemark",
         "KmlStyle",
         "SketchEditor"
