@@ -70,6 +70,7 @@ public class CreateAndSaveKMLFileController {
     // restart the sketch editor whenever the selected creation mode changes
     sketchCreationModeComboBox.getSelectionModel().selectedItemProperty().addListener(o -> startSketch());
 
+    // start with POINT selected
     map.addDoneLoadingListener(() -> sketchCreationModeComboBox.getSelectionModel().select(0));
 
     // show style controls relevant to the selected sketch creation mode
@@ -186,6 +187,7 @@ public class CreateAndSaveKMLFileController {
     // get a path from the file chooser
     File kmzFile = fileChooser.showSaveDialog(mapView.getScene().getWindow());
     if (kmzFile != null) {
+      // save the KML document to the file
       kmlDocument.saveAsAsync(kmzFile.getPath()).addDoneListener(() ->
           new Alert(Alert.AlertType.INFORMATION, "KMZ file saved.").show()
       );
