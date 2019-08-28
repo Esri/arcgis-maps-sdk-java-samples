@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.5.0'
+    arcgisVersion = '100.6.0'
 }
 
 javafx {
@@ -53,8 +53,8 @@ run {
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest { 
-        attributes("Main-Class": "$mainClassName") 
+    manifest {
+        attributes("Main-Class": "$mainClassName")
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }

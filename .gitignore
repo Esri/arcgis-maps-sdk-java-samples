@@ -12,6 +12,7 @@ samples-data/
 # Intellij project files
 *.ipr
 .idea/
+*.iml
 
 # Eclipse
 .metadata

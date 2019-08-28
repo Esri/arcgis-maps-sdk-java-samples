@@ -1,0 +1,15 @@
+.panel-region .label {
+  -fx-text-fill: white;
+}
+
+.label {
+  -fx-text-fill: black;
+}
+
+.progress-indicator .percentage {
+    -fx-fill:null;
+}
+
+.progress-indicator  {
+    -fx-padding: 0 0 -16 0;
+}
