@@ -1,7 +1,9 @@
 import com.esri.samples.statistical_query_group_and_sort.StatisticalQueryGroupAndSortSample;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -10,10 +12,15 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.util.DebugUtils;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -88,7 +95,15 @@ public class StatisticalQueryGroupAndSortSampleTest extends FxRobot {
         Assert.assertNotNull(alertStage);
 
         final DialogPane alertDialogPane = (DialogPane) alertStage.getScene().getRoot();
-        Assert.assertEquals(alertDialogPane.getContentText(), "The selected combination has already been chosen.");
+        FxAssert.verifyThat(alertDialogPane, node -> "The selected combination has already been chosen.".equals(node.getContentText()), errorMessageMapper -> {
+            Image screenshot = DebugUtils.captureNode(alertDialogPane).apply(robotContext().getCaptureSupport());
+            try {
+                ImageIO.write(SwingFXUtils.fromFXImage(screenshot, null), "png", new File("./build/Screenshot.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return errorMessageMapper;
+        });
     }
 
 
