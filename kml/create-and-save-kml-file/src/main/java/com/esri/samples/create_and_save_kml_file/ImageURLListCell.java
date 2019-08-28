@@ -16,7 +16,6 @@
 
 package com.esri.samples.create_and_save_kml_file;
 
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
