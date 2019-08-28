@@ -23,11 +23,9 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
@@ -51,7 +49,6 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
   private MapView mapView;
   private MobileMapPackage mobileMapPackage;
   private OfflineMapSyncTask offlineMapSyncTask;
-  private ProgressIndicator progressIndicator;
 
   @Override
   public void start(Stage stage) {
@@ -70,10 +67,6 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
 
       // create a map view
       mapView = new MapView();
-
-      // create a progress indicator
-      progressIndicator = new ProgressIndicator();
-      progressIndicator.setVisible(true);
 
       // create a temporary copy of the local offline map files, so that updating does not overwrite them permanently
       Path tempMobileMapPackageDirectory = Files.createTempDirectory("canyonlands_offline_map");
@@ -102,9 +95,8 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
         }
       });
 
-      // add the map view and progress indicator to the stack pane
-      stackPane.getChildren().addAll(mapView, progressIndicator);
-      StackPane.setAlignment(progressIndicator, Pos.CENTER);
+      // add the map view to the stack pane
+      stackPane.getChildren().add(mapView);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -116,8 +108,6 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
    * Checks for scheduled updates to the preplanned map area.
    */
   private void checkForScheduledUpdates() {
-    // show progress indicator
-    progressIndicator.setVisible(true);
 
     // check for updates to the offline map
     ListenableFuture<OfflineMapUpdatesInfo> offlineMapUpdatesInfoFuture = offlineMapSyncTask.checkForUpdatesAsync();
@@ -158,18 +148,16 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           alert.show();
         }
 
-        // hide the progress indicator
-        progressIndicator.setVisible(false);
-
       } catch (Exception ex) {
         new Alert(Alert.AlertType.ERROR, "Error checking for Scheduled Updates Availability.").show();
       }
     });
   }
 
+  /**
+   * Applies the scheduled updates to the preplanned map area.
+   */
   private void applyScheduledUpdates() {
-    // show progress indicator
-    progressIndicator.setVisible(true);
 
     // create default parameters for the sync task
     ListenableFuture<OfflineMapSyncParameters> offlineMapSyncParametersFuture = offlineMapSyncTask.createDefaultOfflineMapSyncParametersAsync();
