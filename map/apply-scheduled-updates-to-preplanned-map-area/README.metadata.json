@@ -18,8 +18,7 @@
         "OfflineMapSyncJob",
         "OfflineMapSyncParameters",
         "OfflineMapSyncResult",
-        "OfflineMapSyncTask",
-        "OfflineMapUpdatesInfo"
+        "OfflineMapSyncTask"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/apply_scheduled_updates_to_preplanned_map_area/ApplyScheduledUpdatesToPreplannedMapAreaSample.java"
