@@ -12,12 +12,11 @@ This workflow can be used by survey workers operating in remote areas where netw
 
 ## How to use the sample
 
-Start the app. It will display an offline map, check for available updates, and show an alert with update availability and size. Confirm to apply the updates to the local offline map and show the results.
+Start the app. It will apply a scheduled update to a preplanned map area and show a confirmation on success.
 
 ## How it works
 
 1. Create an `OfflineMapSyncTask` with your offline map.
-2. If desired, get `OfflineMapUpdatesInfo` from the task to check for update availability or update size.
 3. Get a set of default `OfflineMapSyncParameters` for the task.
 4. Set the parameters to download all available updates.
 5. Use the parameters to create an `OfflineMapSyncJob`.
@@ -32,7 +31,6 @@ Start the app. It will display an offline map, check for available updates, and 
 * OfflineMapSyncParameters
 * OfflineMapSyncResult
 * OfflineMapSyncTask
-* OfflineMapUpdatesInfo
 
 ## About the data
 
