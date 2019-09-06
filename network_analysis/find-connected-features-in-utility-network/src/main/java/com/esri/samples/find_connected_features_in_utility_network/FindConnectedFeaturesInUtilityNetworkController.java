@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
@@ -56,8 +55,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.security.OAuthConfiguration;
-import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -75,18 +72,12 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
 
 public class FindConnectedFeaturesInUtilityNetworkController {
 
-  @FXML
-  private Button resetButton;
-  @FXML
-  private Button traceButton;
-  @FXML
-  private Label statusLabel;
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ProgressIndicator progressIndicator;
-  @FXML
-  private RadioButton addingStartRadioButton;
+  @FXML private Button resetButton;
+  @FXML private Button traceButton;
+  @FXML private Label statusLabel;
+  @FXML private MapView mapView;
+  @FXML private ProgressIndicator progressIndicator;
+  @FXML private RadioButton addingStartRadioButton;
 
   private GraphicsOverlay graphicsOverlay;
   private SimpleMarkerSymbol barrierPointSymbol;
