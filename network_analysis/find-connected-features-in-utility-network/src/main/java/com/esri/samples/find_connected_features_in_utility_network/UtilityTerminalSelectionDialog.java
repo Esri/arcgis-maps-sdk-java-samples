@@ -42,9 +42,13 @@ class UtilityTerminalSelectionDialog extends Dialog<UtilityTerminal> {
 
     setTitle("Select Utility Terminal");
 
-    System.out.println(utilityTerminals);
     utilityTerminalListView = new ListView<>();
-    utilityTerminals.forEach(terminal -> utilityTerminalListView.getItems().add(terminal));
+    utilityTerminalListView.getItems().addAll(utilityTerminals);
+
+    this.getDialogPane().setContent(utilityTerminalListView);
+
+    System.out.println(utilityTerminals);
+    System.out.println(utilityTerminalListView.getItems());
 
     try {
       loader.load();
