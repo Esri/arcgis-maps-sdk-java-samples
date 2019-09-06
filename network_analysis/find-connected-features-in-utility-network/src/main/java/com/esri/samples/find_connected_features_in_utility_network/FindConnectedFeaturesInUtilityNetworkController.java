@@ -56,6 +56,8 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.security.OAuthConfiguration;
+import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -285,16 +287,27 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
               // if there is more than one terminal, prompt the user to select one
             } else if (terminals.size() > 1) {
-              // as the user to choose a terminal
-//                  promptForTerminalSelection(terminals);
-//                  UtilityTerminal terminal = promptForTerminalSelection(terminals);
+              try {
 
-              UtilityTerminalSelectionDialog utilityTerminalSelectionDialog = new UtilityTerminalSelectionDialog(terminals);
-              utilityTerminalSelectionDialog.show();
+                // create and show a terminal selection dialog
+                UtilityTerminalSelectionDialog utilityTerminalSelectionDialog = new UtilityTerminalSelectionDialog(terminals);
+                utilityTerminalSelectionDialog.show();
 
-              // create a utility element with the chosen terminal
-              result = utilityNetwork.createElement(identifiedFeature, selectedTerminal);
-              showTerminalNameInStatusLabel(selectedTerminal);
+                // create a countdown latch with a count of one to synchronize the terminal selection dialog
+                CountDownLatch countDownLatch = new CountDownLatch(1);
+                // show the terminal selection dialog and capture the user selection
+                utilityTerminalSelectionDialog.setOnCloseRequest(r -> {
+                  selectedTerminal = utilityTerminalSelectionDialog.getResult();
+                  countDownLatch.countDown();
+                });
+                countDownLatch.await();
+
+                // create a utility element with the chosen terminal
+                result = utilityNetwork.createElement(identifiedFeature, selectedTerminal);
+                showTerminalNameInStatusLabel(selectedTerminal);
+              } catch (InterruptedException e) {
+                new Alert(Alert.AlertType.ERROR, "Error getting Terminal selection");
+              }
             }
           }
         }
@@ -302,31 +315,6 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     }
 
     return result;
-  }
-
-  @FXML
-  private void promptForTerminalSelection(List<UtilityTerminal> utilityTerminals) {
-
-    selectedTerminal = null;
-
-    // create a countdown latch with a count of one to synchronize the terminal selection dialog
-    CountDownLatch utilityTerminalSelectionCountdownLatch = new CountDownLatch(1);
-    // show the authentication dialog and capture the user selection
-    Platform.runLater(() -> {
-      UtilityTerminalSelectionDialog utilityTerminalSelectionDialog = new UtilityTerminalSelectionDialog(utilityTerminals);
-      utilityTerminalSelectionDialog.show();
-      utilityTerminalSelectionDialog.setOnCloseRequest(r -> {
-        selectedTerminal = utilityTerminalSelectionDialog.getResult();
-        utilityTerminalSelectionCountdownLatch.countDown();
-      });
-    });
-
-    try {
-      utilityTerminalSelectionCountdownLatch.await();
-
-    } catch (InterruptedException e) {
-      new Alert(Alert.AlertType.ERROR, "Interruption handling AuthenticationChallengeResponse: " + e.getMessage()).show();
-    }
   }
 
   private void showTerminalNameInStatusLabel(UtilityTerminal terminal) {
@@ -409,13 +397,11 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
                   } catch (InterruptedException | ExecutionException e) {
                     new Alert(Alert.AlertType.ERROR, "Error fetching the corresponding features for the utility elements.").show();
-                    e.printStackTrace();
                   }
                 });
 
               }
             });
-
 
             // enable the UI
             traceButton.setDisable(false);
