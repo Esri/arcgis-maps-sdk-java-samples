@@ -40,21 +40,24 @@ class UtilityTerminalSelectionDialog extends Dialog<UtilityTerminal> {
     loader.setRoot(this);
     loader.setController(this);
 
-    setTitle("Select Utility Terminal");
-
-    utilityTerminalListView.getItems().addAll(utilityTerminals);
+    setTitle("Select Utility Terminal:");
 
     this.getDialogPane().setContent(utilityTerminalListView);
 
-    System.out.println(utilityTerminals);
-    System.out.println(utilityTerminalListView.getItems());
-
     try {
       loader.load();
+
+      // use a cell factory which shows the utility terminals's title
+      utilityTerminalListView.setCellFactory(c -> new UtilityTerminalListCell());
+
+      // add the list of terminals to the ListView
+      utilityTerminalListView.getItems().addAll(utilityTerminals);
+
     } catch (Exception e) {
       e.printStackTrace();
     }
 
+    // on 'continue', return the selected terminal
     setResultConverter(dialogButton -> {
       if (dialogButton == continueButton) {
         if (utilityTerminalListView.getSelectionModel().getSelectedItem() != null) {

@@ -19,15 +19,13 @@
 <?import javafx.scene.control.Dialog?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.StackPane?>
 <fx:root type="javafx.scene.control.Dialog" xmlns:fx="http://javafx.com/fxml">
     <dialogPane>
-        <DialogPane>
+        <DialogPane >
             <content>
-                <StackPane>
-                    <ListView fx:id="utilityTerminalListView"/>
+                <StackPane >
+                    <ListView fx:id="utilityTerminalListView" maxHeight="100"/>
                 </StackPane>
             </content>
             <ButtonType fx:id="cancelButton" buttonData="CANCEL_CLOSE" text="Cancel"/>

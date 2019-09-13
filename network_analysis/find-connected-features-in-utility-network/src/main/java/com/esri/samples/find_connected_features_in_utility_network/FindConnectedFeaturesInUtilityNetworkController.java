@@ -21,10 +21,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
@@ -80,14 +79,14 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   @FXML private ProgressIndicator progressIndicator;
   @FXML private RadioButton addingStartRadioButton;
 
+  private ArrayList<UtilityElement> barriers;
+  private ArrayList<UtilityElement> startingLocations;
   private GraphicsOverlay graphicsOverlay;
   private SimpleMarkerSymbol barrierPointSymbol;
   private SimpleMarkerSymbol startingPointSymbol;
   private UtilityNetwork utilityNetwork;
   private UtilityTerminal selectedTerminal;
   private UtilityTraceParameters utilityTraceParameters;
-  private ArrayList<UtilityElement> startingLocations;
-  private ArrayList<UtilityElement> barriers;
 
   public void initialize() {
     try {
@@ -241,7 +240,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     }
   }
 
-  private UtilityElement createUtilityElement(ArcGISFeature identifiedFeature, UtilityNetworkSource networkSource) {
+  private UtilityElement createUtilityElement(ArcGISFeature identifiedFeature, UtilityNetworkSource networkSource) throws InterruptedException {
     UtilityElement result = null;
 
     // get the attributes of the identified feature
@@ -255,18 +254,16 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
     // iterate through the network source's asset groups to find the group with the matching code
     List<UtilityAssetGroup> assetGroups = networkSource.getAssetGroups();
-    for (UtilityAssetGroup group : assetGroups) {
-      if (group.getCode() == assetGroupCode) {
-        UtilityAssetGroup assetGroup = group;
+    for (UtilityAssetGroup assetGroup : assetGroups) {
+      if (assetGroup.getCode() == assetGroupCode) {
 
         // get the code for the feature's asset type from it's attributes
-        Object assetTypeCode = attributes.get("assettype");
+        String assetTypeCode = attributes.get("assettype").toString();
 
         // iterate through the asset group's asset types to find the type matching the feature's asset type code
         List<UtilityAssetType> utilityAssetTypes = assetGroup.getAssetTypes();
-        for (UtilityAssetType type : utilityAssetTypes) {
-          if (type.getCode() == Integer.parseInt(assetTypeCode.toString())) {
-            UtilityAssetType assetType = type;
+        for (UtilityAssetType assetType : utilityAssetTypes) {
+          if (assetType.getCode() == Integer.parseInt(assetTypeCode)) {
 
             // get the list of terminals for the feature
             List<UtilityTerminal> terminals = assetType.getTerminalConfiguration().getTerminals();
@@ -279,29 +276,17 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
               // if there is more than one terminal, prompt the user to select one
             } else if (terminals.size() > 1) {
-              try {
+              // create a dialog for terminal selection
+              UtilityTerminalSelectionDialog utilityTerminalSelectionDialog = new UtilityTerminalSelectionDialog(terminals);
 
-                // create and show a terminal selection dialog
-                UtilityTerminalSelectionDialog utilityTerminalSelectionDialog = new UtilityTerminalSelectionDialog(terminals);
-                utilityTerminalSelectionDialog.show();
+              // show the terminal selection dialog and capture the user selection
+              Optional<UtilityTerminal> selectedTerminalOptional = utilityTerminalSelectionDialog.showAndWait();
 
-                // create a countdown latch with a count of one to synchronize the terminal selection dialog
-                CountDownLatch countDownLatch = new CountDownLatch(1);
-                // show the terminal selection dialog and capture the user selection
-                Platform.runLater(() -> {
-                  utilityTerminalSelectionDialog.setOnCloseRequest(r -> {
-                    selectedTerminal = utilityTerminalSelectionDialog.getResult();
-                    countDownLatch.countDown();
-                  });
-                });
-
-                countDownLatch.await();
-
-                // create a utility element with the chosen terminal
+              // use the selected terminal
+              if (selectedTerminalOptional.isPresent()) {
+                selectedTerminal = selectedTerminalOptional.get();
                 result = utilityNetwork.createElement(identifiedFeature, selectedTerminal);
                 showTerminalNameInStatusLabel(selectedTerminal);
-              } catch (InterruptedException e) {
-                new Alert(Alert.AlertType.ERROR, "Error getting Terminal selection");
               }
             }
           }
