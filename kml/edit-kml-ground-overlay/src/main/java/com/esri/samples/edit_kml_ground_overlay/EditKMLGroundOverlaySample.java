@@ -16,6 +16,8 @@
 
 package com.esri.samples.edit_kml_ground_overlay;
 
+import java.net.URI;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,6 +35,7 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.internal.httpclient.client.utils.URIUtils;
 import com.esri.arcgisruntime.layers.KmlLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -118,7 +121,7 @@ public class EditKMLGroundOverlaySample extends Application {
         kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue())));
       });
 
-      // add the map view and list view to the stack pane
+      // add the map view and controls to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsHBox);
       StackPane.setAlignment(controlsHBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsHBox, new Insets(10, 0, 0, 10));
