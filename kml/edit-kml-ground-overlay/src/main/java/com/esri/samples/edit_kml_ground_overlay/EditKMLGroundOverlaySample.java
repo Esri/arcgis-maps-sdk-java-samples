@@ -16,8 +16,6 @@
 
 package com.esri.samples.edit_kml_ground_overlay;
 
-import java.net.URI;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,7 +33,6 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.internal.httpclient.client.utils.URIUtils;
 import com.esri.arcgisruntime.layers.KmlLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -114,12 +111,8 @@ public class EditKMLGroundOverlaySample extends Application {
       // move the viewpoint to the ground overlay
       sceneView.setViewpoint(new Viewpoint(kmlGroundOverlay.getExtent(), new Camera(kmlGroundOverlay.getGeometry().getExtent().getCenter(), 1250, 45, 60, 0)));
 
-      slider.setOnMouseReleased((event) -> {
-        kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue())));
-      });
-      slider.setOnMouseDragged((event) -> {
-        kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue())));
-      });
+      slider.setOnMouseReleased(event -> kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue()))));
+      slider.setOnMouseDragged(event -> kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue()))));
 
       // add the map view and controls to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsHBox);
