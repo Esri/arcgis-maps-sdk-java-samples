@@ -319,6 +319,13 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
   @FXML
   private void handleTraceClick() {
+
+    // check that the utility trace parameters are valid
+    if (startingLocations.isEmpty()) {
+      new Alert(Alert.AlertType.ERROR, "No starting locations provided for trace.").show();
+      return;
+    }
+
     // show the progress indicator and update the status text
     progressIndicator.setVisible(true);
     statusLabel.setText("Finding connected features...");
@@ -326,14 +333,6 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     // disable the UI
     traceButton.setDisable(true);
     resetButton.setDisable(true);
-
-    // check that the utility trace parameters are valid
-    if (startingLocations.isEmpty()) {
-      new Alert(Alert.AlertType.ERROR, "No starting locations provided for trace.").show();
-      resetButton.setDisable(false);
-      progressIndicator.setVisible(false);
-      return;
-    }
 
     // create utility trace parameters for a connected trace
     utilityTraceParameters = new UtilityTraceParameters(UtilityTraceType.CONNECTED, startingLocations);
@@ -399,6 +398,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
               }
             });
 
+            statusLabel.setText("Trace completed.");
+
             // enable the UI
             traceButton.setDisable(false);
             resetButton.setDisable(false);
@@ -407,10 +408,12 @@ public class FindConnectedFeaturesInUtilityNetworkController {
             progressIndicator.setVisible(false);
           }
         } else {
+          statusLabel.setText("Trace failed.");
           new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
         }
 
       } catch (InterruptedException | ExecutionException e) {
+        statusLabel.setText("Trace failed.");
         new Alert(Alert.AlertType.ERROR, "Error running utility network connected trace.").show();
       }
     });
