@@ -111,6 +111,7 @@ public class EditKMLGroundOverlaySample extends Application {
       // move the viewpoint to the ground overlay
       sceneView.setViewpoint(new Viewpoint(kmlGroundOverlay.getExtent(), new Camera(kmlGroundOverlay.getGeometry().getExtent().getCenter(), 1250, 45, 60, 0)));
 
+      // add an event handler to the slider to apply opacity to the KML ground overlay based on the slider value
       slider.setOnMouseReleased(event -> kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue()))));
       slider.setOnMouseDragged(event -> kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue()))));
 
