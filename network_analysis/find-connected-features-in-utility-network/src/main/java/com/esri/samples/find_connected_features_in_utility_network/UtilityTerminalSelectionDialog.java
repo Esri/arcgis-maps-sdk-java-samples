@@ -42,7 +42,6 @@ class UtilityTerminalSelectionDialog extends Dialog<UtilityTerminal> {
 
     setTitle("Select Utility Terminal");
 
-    utilityTerminalListView = new ListView<>();
     utilityTerminalListView.getItems().addAll(utilityTerminals);
 
     this.getDialogPane().setContent(utilityTerminalListView);

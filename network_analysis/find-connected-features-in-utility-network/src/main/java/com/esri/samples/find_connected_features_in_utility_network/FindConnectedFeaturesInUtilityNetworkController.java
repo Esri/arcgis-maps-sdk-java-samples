@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
@@ -100,7 +101,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
       barrierPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.RED), 20);
 
       // load the utility network data from the feature service and create feature layers
-      String featureServiceURL = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/";
+      String featureServiceURL = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
 
       ServiceFeatureTable distributionLineFeatureService = new ServiceFeatureTable(featureServiceURL + "/115");
       FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureService);
@@ -218,7 +219,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                   traceLocationGraphic.setGeometry(identifiedFeature.getGeometry());
                   graphicsOverlay.getGraphics().add(traceLocationGraphic);
 
-                  // add the element to the appropriate, and add the appropriate symbol to the graphic
+                  // add the element to the appropriate list, and add the appropriate symbol to the graphic
                   if (isAddingStart) {
                     startingLocations.add(utilityElement);
                     traceLocationGraphic.setSymbol(startingPointSymbol);
@@ -287,10 +288,13 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                 // create a countdown latch with a count of one to synchronize the terminal selection dialog
                 CountDownLatch countDownLatch = new CountDownLatch(1);
                 // show the terminal selection dialog and capture the user selection
-                utilityTerminalSelectionDialog.setOnCloseRequest(r -> {
-                  selectedTerminal = utilityTerminalSelectionDialog.getResult();
-                  countDownLatch.countDown();
+                Platform.runLater(() -> {
+                  utilityTerminalSelectionDialog.setOnCloseRequest(r -> {
+                    selectedTerminal = utilityTerminalSelectionDialog.getResult();
+                    countDownLatch.countDown();
+                  });
                 });
+
                 countDownLatch.await();
 
                 // create a utility element with the chosen terminal
@@ -326,6 +330,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     // check that the utility trace parameters are valid
     if (startingLocations.isEmpty()) {
       new Alert(Alert.AlertType.ERROR, "No starting locations provided for trace.").show();
+      resetButton.setDisable(false);
+      progressIndicator.setVisible(false);
       return;
     }
 
@@ -390,7 +396,6 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                     new Alert(Alert.AlertType.ERROR, "Error fetching the corresponding features for the utility elements.").show();
                   }
                 });
-
               }
             });
 
@@ -417,6 +422,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     progressIndicator.setVisible(false);
 
     // clear the utility trace parameters
+    startingLocations.clear();
+    barriers.clear();
     utilityTraceParameters = null;
 
     // clear any selected features in all map layers
@@ -428,6 +435,9 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
     // clear the graphics overlay
     graphicsOverlay.getGraphics().clear();
+
+    // enable the trace button
+    traceButton.setDisable(false);
   }
 
   /**
