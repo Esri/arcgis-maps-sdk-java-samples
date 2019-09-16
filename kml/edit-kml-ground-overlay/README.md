@@ -2,7 +2,7 @@
 
 Edit the values of a KML ground overlay.
 
-![Edit KML ground overlay](EditKmlGroundOverlay.png)
+![Edit KML ground overlay](EditKMLGroundOverlay.png)
 
 ## Use case
 

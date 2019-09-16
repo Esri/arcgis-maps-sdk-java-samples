@@ -81,7 +81,7 @@ public class EditKMLGroundOverlaySample extends Application {
 
       // create a controls box and add the slider and label
       HBox controlsHBox = new HBox();
-      controlsHBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+      controlsHBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       controlsHBox.setPadding(new Insets(10.0));
       controlsHBox.setMaxSize(250, 20);
