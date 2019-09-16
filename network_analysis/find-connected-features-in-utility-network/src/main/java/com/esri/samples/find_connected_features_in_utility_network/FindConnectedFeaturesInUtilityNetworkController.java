@@ -43,6 +43,7 @@ import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.ProximityResult;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.LayerContent;
@@ -85,7 +86,6 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   private SimpleMarkerSymbol barrierPointSymbol;
   private SimpleMarkerSymbol startingPointSymbol;
   private UtilityNetwork utilityNetwork;
-  private UtilityTerminal selectedTerminal;
   private UtilityTraceParameters utilityTraceParameters;
 
   public void initialize() {
@@ -147,6 +147,14 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     }
   }
 
+  /**
+   * Uses the clicked map point to identify any utility elements in the utility network at the clicked location. Based
+   * on the selection mode, the clicked utility element is added either to the starting locations or barriers for the
+   * trace parameters. An appropriate graphic is created at the clicked location to mark the element as either a
+   * starting location or barrier.
+   *
+   * @param e mouse event registered when the map view is clicked on.
+   */
   @FXML
   private void handleMapViewClicked(MouseEvent e) {
     if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
@@ -159,6 +167,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
       // get the clicked map point
       Point2D screenPoint = new Point2D(e.getX(), e.getY());
+      Point mapPoint = mapView.screenToLocation(screenPoint);
 
       // identify the feature to be used
       ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture = mapView.identifyLayersAsync(screenPoint, 10, false);
@@ -202,9 +211,6 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                   // get the geometry of the identified feature as a polyline, and remove the z component
                   Polyline polyline = (Polyline) GeometryEngine.removeZ(identifiedFeature.getGeometry());
 
-                  // get the map point of the clicked screen point
-                  Point mapPoint = mapView.screenToLocation(screenPoint);
-
                   // compute how far the clicked location is along the edge feature
                   utilityElement.setFractionAlongEdge(GeometryEngine.fractionAlong(polyline, mapPoint, -1));
 
@@ -215,7 +221,12 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                 if (utilityElement != null) {
                   // create a graphic for the new utility element
                   Graphic traceLocationGraphic = new Graphic();
-                  traceLocationGraphic.setGeometry(identifiedFeature.getGeometry());
+
+                  // find the closest coordinate on the selected element to the clicked point
+                  ProximityResult proximityResult = GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
+
+                  // set the graphic's geometry to the coordinate on the element
+                  traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
                   graphicsOverlay.getGraphics().add(traceLocationGraphic);
 
                   // add the element to the appropriate list, and add the appropriate symbol to the graphic
@@ -240,8 +251,15 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     }
   }
 
-  private UtilityElement createUtilityElement(ArcGISFeature identifiedFeature, UtilityNetworkSource networkSource) throws InterruptedException {
-    UtilityElement result = null;
+  /**
+   * Uses a UtilityNetworkSource to create a UtilityElement object out of an ArcGISFeature.
+   *
+   * @param identifiedFeature an ArcGISFeature object that will be used to create a UtilityElement.
+   * @param networkSource     the UtilityNetworkSource to which the created UtilityElement is associated.
+   * @return the created UtilityElement.
+   */
+  private UtilityElement createUtilityElement(ArcGISFeature identifiedFeature, UtilityNetworkSource networkSource) {
+    UtilityElement utilityElement = null;
 
     // get the attributes of the identified feature
     Map<String, Object> attributes = identifiedFeature.getAttributes();
@@ -270,7 +288,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
             // if there is only one terminal, use it to create a utility element
             if (terminals.size() == 1) {
-              result = utilityNetwork.createElement(identifiedFeature, terminals.get(0));
+              utilityElement = utilityNetwork.createElement(identifiedFeature, terminals.get(0));
               // show the name of the terminal in the status label
               showTerminalNameInStatusLabel(terminals.get(0));
 
@@ -284,8 +302,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
               // use the selected terminal
               if (selectedTerminalOptional.isPresent()) {
-                selectedTerminal = selectedTerminalOptional.get();
-                result = utilityNetwork.createElement(identifiedFeature, selectedTerminal);
+                UtilityTerminal selectedTerminal = selectedTerminalOptional.get();
+                utilityElement = utilityNetwork.createElement(identifiedFeature, selectedTerminal);
                 showTerminalNameInStatusLabel(selectedTerminal);
               }
             }
@@ -294,14 +312,23 @@ public class FindConnectedFeaturesInUtilityNetworkController {
       }
     }
 
-    return result;
+    return utilityElement;
   }
 
+  /**
+   * Shows the name of a UtilityTerminal in the status label in the UI.
+   *
+   * @param terminal
+   */
   private void showTerminalNameInStatusLabel(UtilityTerminal terminal) {
     String terminalName = terminal.getName() != null ? terminal.getName() : "default";
     statusLabel.setText("Terminal: " + terminalName);
   }
 
+  /**
+   * Uses the elements selected as starting locations and (optionally) barriers to perform a connected trace,
+   * then selects all connected elements found in the trace to highlight them.
+   */
   @FXML
   private void handleTraceClick() {
 
@@ -374,8 +401,14 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                 fetchUtilityFeaturesFuture.addDoneListener(() -> {
                   try {
                     List<ArcGISFeature> features = fetchUtilityFeaturesFuture.get();
+                    // select all the features to highlight them
                     features.forEach(layer::selectFeature);
 
+                    // update the status label
+                    statusLabel.setText("Trace completed.");
+
+                    // enable the UI
+                    enableUI();
                   } catch (InterruptedException | ExecutionException e) {
                     new Alert(Alert.AlertType.ERROR, "Error fetching the corresponding features for the utility elements.").show();
                   }
@@ -383,19 +416,14 @@ public class FindConnectedFeaturesInUtilityNetworkController {
               }
             });
 
-            statusLabel.setText("Trace completed.");
-
-            // enable the UI
-            traceButton.setDisable(false);
-            resetButton.setDisable(false);
-
-            // hide the progress indicator
-            progressIndicator.setVisible(false);
           }
         } else {
           statusLabel.setText("Trace failed.");
           new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
         }
+
+        // enable the UI
+        enableUI();
 
       } catch (InterruptedException | ExecutionException e) {
         statusLabel.setText("Trace failed.");
@@ -404,6 +432,23 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     });
   }
 
+  /**
+   * Enables both buttons and hides the progress indicator after a trace is complete.
+   */
+  private void enableUI() {
+
+    // enable the UI
+    traceButton.setDisable(false);
+    resetButton.setDisable(false);
+
+    // hide the progress indicator
+    progressIndicator.setVisible(false);
+  }
+
+  /**
+   * Restores the sample to the startup-state by resetting the status text, hiding the progress indicator, clearing
+   * the trace parameters, de-selecting all features and removing any graphics
+   */
   @FXML
   private void handleResetClick() {
     statusLabel.setText("Click on the network lines or points to add a utility element.");
