@@ -22,9 +22,9 @@
 <?import javafx.scene.layout.StackPane?>
 <fx:root type="javafx.scene.control.Dialog" xmlns:fx="http://javafx.com/fxml">
     <dialogPane>
-        <DialogPane >
+        <DialogPane>
             <content>
-                <StackPane >
+                <StackPane>
                     <ListView fx:id="utilityTerminalListView" maxHeight="100"/>
                 </StackPane>
             </content>
