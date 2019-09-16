@@ -16,6 +16,8 @@
 
 package com.esri.samples.edit_kml_ground_overlay;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -90,8 +92,8 @@ public class EditKMLGroundOverlaySample extends Application {
       Envelope overlayGeometry = new Envelope(-123.066227926904, 44.04736963555683, -123.0796942287304, 44.03878298600624, SpatialReferences.getWgs84());
 
       // create a KML icon for the overlay image
-      KmlIcon overlayImage = new KmlIcon("./samples-data/images/1944.jpg");
-//      KmlIcon overlayImage = new KmlIcon("https://ago-item-storage.s3.us-east-1.amazonaws.com/1f3677c24b2c446e96eaf1099292e83e/1944.jpg?X-Amz-Security-Token=AgoJb3JpZ2luX2VjEEoaCXVzLWVhc3QtMSJGMEQCICshnzTrzOv6b6NpolNhh3I%2Bjuv3XBn%2Fvd8uLsej%2BTxeAiBhTb2KvXMp30WZ6UsAQq31CunuScGVwEm3CxQ7vr6MdiraAwgTEAAaDDYwNDc1ODEwMjY2NSIMrJEL24VO52tvrhZ6KrcDvBkF1QNVJhjfyvfo2uotgHPHMLZCOUkM%2FN%2FFDV4V9%2FH85TM5RhIv16hWA7BuW7zueejiWZkJG0JeowEG4RmXK8aqA0ng2wC0kidx0TSL%2Bksb%2Fvozk%2BnO0Y%2B%2FzB8jl7HbDITAgS07Kjf1i%2BzuqlVD07QXQu1V7t8gnihOfeo9mTkBqsIuCIfIfVFlYtUr2HxWNAxeubDlKiqHlAlM3oq8HrwU3ww%2FX0grXgS1oWBCNoUFmCozilRg4w%2Fm0TkeJquzGUz%2F3xu1u2Q%2FXuY%2F%2FnCuPBo5ZEotbSPMCbwD0w%2FnBjv0zTng4OotwInpDghEKy4MjaynCAxdWb8gi9le%2B0xlstjn07KQgIBU6bg5uLRwH%2BglFkv7nnC91Nqg2eejfTCmiHV7JiyK3BE39QPEz3wFAbG7vLS5cTxS12aYJHJ9dM9jk6LKwXAiFk6geR6wuBlaqnocZavdsHye0DVE1L0NzBI9%2B%2BOaJiJdIgWIxFjbTYLsb%2BgqQYq3LaUwFnNh%2BNJkttuthJCNFpXgOiz6zdcga7CF7fYZlIvCn%2B%2F%2BUxEhCqnpjoZ%2B4VKpcVBkwVu%2BvADIfwxW%2F%2FWgrTC60u3rBTq1AVe8J6pv2bKqxlS7z48befFyNapR4C5qaz7vlZTjg5dOeISEl4snAMMXDVsb2yicciQEp9XQnZ3jHRcjwUxgdhfkQQMyNPrmJjI62DhBjaNMDgIJlR%2FemjPu8rBAO%2BzqOqytnh0WrlGlb5nIsK5U4Z8KVKly9f9L8jvQwLaxJiE9z4M8NLlFsazuiDkxdSdkJ2xR2VU8Rv1srLtJhBy74ER2FxJ30m6Bn4PU4qFz1atyMFyBynA%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20190913T104306Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAYZTTEKKEQCTZVDQY%2F20190913%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=b6f887990a6bd3a9990dddae12246eddf159862f2e2822330977c7e2761cf415");
+      String overlayImageURI = new File("./samples-data/images/1944.jpg").getAbsolutePath();
+      KmlIcon overlayImage = new KmlIcon(overlayImageURI);
 
       // create the KML ground overlay
       KmlGroundOverlay kmlGroundOverlay = new KmlGroundOverlay(overlayGeometry, overlayImage);
