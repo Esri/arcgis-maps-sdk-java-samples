@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Esri.
+ * Copyright 2019 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,8 +27,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -66,27 +66,10 @@ public class EditKMLGroundOverlaySample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // create a map and add it to the map view
+      // create a scene and add it to the scene view
       ArcGISScene scene = new ArcGISScene(Basemap.createImagery());
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
-
-      // create a slider for adjusting the rotation
-      Slider slider = new Slider(0, 1, 1);
-      slider.setMaxWidth(300);
-      slider.setShowTickLabels(true);
-      slider.setShowTickMarks(true);
-      // create a label for the slider
-      Label label = new Label("Overlay Opacity: ");
-
-      // create a controls box and add the slider and label
-      HBox controlsHBox = new HBox();
-      controlsHBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
-              Insets.EMPTY)));
-      controlsHBox.setPadding(new Insets(10.0));
-      controlsHBox.setMaxSize(250, 20);
-      controlsHBox.getStyleClass().add("panel-region");
-      controlsHBox.getChildren().addAll(label, slider);
 
       // create a geometry for the ground overlay
       Envelope overlayGeometry = new Envelope(-123.066227926904, 44.04736963555683, -123.0796942287304, 44.03878298600624, SpatialReferences.getWgs84());
@@ -104,28 +87,56 @@ public class EditKMLGroundOverlaySample extends Application {
       // create a KML dataset with the ground overlay as the root node
       KmlDataset kmlDataset = new KmlDataset(kmlGroundOverlay);
 
-      // create a KML layer for the scene view
+      // create a KML layer using the KML dataset
       KmlLayer kmlLayer = new KmlLayer(kmlDataset);
 
-      // add the KML layer to the scene
+      // add the KML layer to the scene view
       sceneView.getArcGISScene().getOperationalLayers().add(kmlLayer);
 
-      // move the viewpoint to the ground overlay
+      // set the viewpoint to the ground overlay
       sceneView.setViewpoint(new Viewpoint(kmlGroundOverlay.getExtent(), new Camera(kmlGroundOverlay.getGeometry().getExtent().getCenter(), 1250, 45, 60, 0)));
 
-      // add an event handler to the slider to apply opacity to the KML ground overlay based on the slider value
-      slider.setOnMouseReleased(event -> kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue()))));
-      slider.setOnMouseDragged(event -> kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue()))));
+      // create a slider for adjusting the overlay opacity
+      Slider slider = new Slider(0, 1, 1);
+      slider.setMaxWidth(300);
 
-      // add the map view and controls to the stack pane
-      stackPane.getChildren().addAll(sceneView, controlsHBox);
-      StackPane.setAlignment(controlsHBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsHBox, new Insets(10, 0, 0, 10));
+      // add an event handler to the slider to apply opacity to the KML ground overlay based on the slider value
+      slider.setOnMouseReleased(event -> updateGroundOverlayOpacity(kmlGroundOverlay, slider.getValue()));
+      slider.setOnMouseDragged(event -> updateGroundOverlayOpacity(kmlGroundOverlay, slider.getValue()));
+
+      // create a controls box
+      VBox controlsVBox = new VBox();
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
+              Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setSpacing(10);
+      controlsVBox.setMaxSize(250, 20);
+      controlsVBox.getStyleClass().add("panel-region");
+
+      // create a label for the slider
+      Label label = new Label("Overlay Opacity: ");
+      // add the slider and label to the controls box
+      controlsVBox.getChildren().addAll(label, slider);
+
+      // add the scene view and controls to the stack pane
+      stackPane.getChildren().addAll(sceneView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Updates the color of a KmlGroundOverlay with a provided alpha value.
+   *
+   * @param kmlGroundOverlay a provided KmlGroundOverlay.
+   * @param alphaValue       a double value representing the opacity to be applied.
+   */
+  private void updateGroundOverlayOpacity(KmlGroundOverlay kmlGroundOverlay, double alphaValue) {
+    kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, alphaValue)));
   }
 
   /**
