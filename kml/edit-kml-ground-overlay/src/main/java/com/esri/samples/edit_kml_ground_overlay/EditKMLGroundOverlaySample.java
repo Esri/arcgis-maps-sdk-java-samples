@@ -48,7 +48,9 @@ import com.esri.arcgisruntime.symbology.ColorUtil;
 
 public class EditKMLGroundOverlaySample extends Application {
 
+  private KmlGroundOverlay kmlGroundOverlay;
   private SceneView sceneView;
+  private Slider slider;
 
   @Override
   public void start(Stage stage) {
@@ -79,7 +81,7 @@ public class EditKMLGroundOverlaySample extends Application {
       KmlIcon overlayImage = new KmlIcon(overlayImageURI);
 
       // create the KML ground overlay
-      KmlGroundOverlay kmlGroundOverlay = new KmlGroundOverlay(overlayGeometry, overlayImage);
+      kmlGroundOverlay = new KmlGroundOverlay(overlayGeometry, overlayImage);
 
       // set the rotation of the ground overlay
       kmlGroundOverlay.setRotation(-3.046024799346924);
@@ -97,24 +99,25 @@ public class EditKMLGroundOverlaySample extends Application {
       sceneView.setViewpoint(new Viewpoint(kmlGroundOverlay.getExtent(), new Camera(kmlGroundOverlay.getGeometry().getExtent().getCenter(), 1250, 45, 60, 0)));
 
       // create a slider for adjusting the overlay opacity
-      Slider slider = new Slider(0, 1, 1);
+      slider = new Slider(0, 1, 1);
       slider.setMaxWidth(300);
 
       // add an event handler to the slider to apply opacity to the KML ground overlay based on the slider value
-      slider.setOnMouseReleased(event -> updateGroundOverlayOpacity(kmlGroundOverlay, slider.getValue()));
-      slider.setOnMouseDragged(event -> updateGroundOverlayOpacity(kmlGroundOverlay, slider.getValue()));
+      slider.setOnMouseReleased(event -> setGroundOverlayOpacity());
+      slider.setOnMouseDragged(event -> setGroundOverlayOpacity());
 
       // create a controls box
       VBox controlsVBox = new VBox();
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setSpacing(10);
+      controlsVBox.setSpacing(5);
       controlsVBox.setMaxSize(250, 20);
+      controlsVBox.setAlignment(Pos.CENTER);
       controlsVBox.getStyleClass().add("panel-region");
 
       // create a label for the slider
-      Label label = new Label("Overlay Opacity: ");
+      Label label = new Label("Overlay Opacity");
       // add the slider and label to the controls box
       controlsVBox.getChildren().addAll(label, slider);
 
@@ -130,13 +133,10 @@ public class EditKMLGroundOverlaySample extends Application {
   }
 
   /**
-   * Updates the color of a KmlGroundOverlay with a provided alpha value.
-   *
-   * @param kmlGroundOverlay a provided KmlGroundOverlay.
-   * @param alphaValue       a double value representing the opacity to be applied.
+   * Changes the opacity of a KmlGroundOverlay using a provided alpha value.
    */
-  private void updateGroundOverlayOpacity(KmlGroundOverlay kmlGroundOverlay, double alphaValue) {
-    kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, alphaValue)));
+  private void setGroundOverlayOpacity() {
+    kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue())));
   }
 
   /**
