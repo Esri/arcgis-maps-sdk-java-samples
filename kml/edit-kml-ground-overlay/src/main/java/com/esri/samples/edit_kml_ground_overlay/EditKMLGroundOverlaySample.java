@@ -133,7 +133,7 @@ public class EditKMLGroundOverlaySample extends Application {
   }
 
   /**
-   * Changes the opacity of a KmlGroundOverlay using a provided alpha value.
+   * Changes the opacity of the KmlGroundOverlay using a provided alpha value.
    */
   private void setGroundOverlayOpacity() {
     kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue())));
