@@ -16,9 +16,8 @@
 
 package com.esri.samples.apply_scheduled_updates_to_preplanned_map_area;
 
+import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -65,14 +64,15 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       stage.setScene(scene);
       stage.show();
 
-      // create a map view
+      // add a map view to the stack pane
       mapView = new MapView();
+      stackPane.getChildren().add(mapView);
 
       // create a temporary copy of the local offline map files, so that updating does not overwrite them permanently
-      Path tempMobileMapPackageDirectory = Files.createTempDirectory("canyonlands_offline_map");
-      tempMobileMapPackageDirectory.toFile().deleteOnExit();
-      Path sourceDirectory = Paths.get("./samples-data/canyonlands/");
-      FileUtils.copyDirectory(sourceDirectory.toFile(), tempMobileMapPackageDirectory.toFile());
+      File tempMobileMapPackageDirectory = Files.createTempDirectory("canyonlands_offline_map").toFile();
+      tempMobileMapPackageDirectory.deleteOnExit();
+      File sourceDirectory = new File("./samples-data/canyonlands/");
+      FileUtils.copyDirectory(sourceDirectory, tempMobileMapPackageDirectory);
 
       // load the offline map as a mobile map package
       mobileMapPackage = new MobileMapPackage(tempMobileMapPackageDirectory.toString());
@@ -94,9 +94,6 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package.").show();
         }
       });
-
-      // add the map view to the stack pane
-      stackPane.getChildren().add(mapView);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -123,28 +120,23 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           long updateSize = offlineMapUpdatesInfo.getScheduledUpdatesDownloadSize();
 
           // create a dialog to show the update information
-          Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+          Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Update size: " + updateSize + " bytes. Apply the update?");
           alert.setTitle("Updates Available");
           alert.setHeaderText("An update is available for this preplanned map area.");
-          alert.setResizable(false);
-          alert.setContentText("Update size: " + updateSize + " bytes. Apply the update?");
 
           // show the dialog and wait for confirmation
           Optional<ButtonType> result = alert.showAndWait();
-          ButtonType button = result.orElse(ButtonType.CANCEL);
 
           // apply the update if the dialog is confirmed
-          if (button == ButtonType.OK) {
+          if (result.isPresent() && result.get() == ButtonType.OK) {
             applyScheduledUpdates();
           }
 
         } else {
           // show a dialog that no updates are available
-          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          Alert alert = new Alert(Alert.AlertType.INFORMATION, "The preplanned map area is up to date.");
           alert.setTitle("Up to Date");
           alert.setHeaderText("No updates available.");
-          alert.setResizable(false);
-          alert.setContentText("The preplanned map area is up to date.");
           alert.show();
         }
 
