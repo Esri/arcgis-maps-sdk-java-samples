@@ -44,14 +44,14 @@ public class MinMaxScaleSampleTest extends FxRobot {
             sleep(200);
         }
 
-        Assert.assertEquals(mapView.getMapScale(), minScale, 5);
+        Assert.assertEquals(mapView.getMapScale(), minScale, delta);
 
         while(mapView.getMapScale() > maxScale + delta) {
             robotContext().getMouseRobot().scroll(-2);
             sleep(200);
         }
 
-        Assert.assertEquals(mapView.getMapScale(), maxScale, 5);
+        Assert.assertEquals(mapView.getMapScale(), maxScale, delta);
     }
 
 
