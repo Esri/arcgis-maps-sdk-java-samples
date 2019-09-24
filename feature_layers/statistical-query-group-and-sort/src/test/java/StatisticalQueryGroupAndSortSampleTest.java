@@ -95,7 +95,7 @@ public class StatisticalQueryGroupAndSortSampleTest extends FxRobot {
         Assert.assertNotNull(alertStage);
 
         final DialogPane alertDialogPane = (DialogPane) alertStage.getScene().getRoot();
-        FxAssert.verifyThat(alertDialogPane, node -> "The selected combination has already been chosen.".equals(node.getContentText()), errorMessageMapper -> {
+        FxAssert.verifyThat(alertDialogPane, node -> "The select combination has already been chosen.".equals(node.getContentText()), errorMessageMapper -> {
             Image screenshot = DebugUtils.captureNode(alertDialogPane).apply(robotContext().getCaptureSupport());
             try {
                 ImageIO.write(SwingFXUtils.fromFXImage(screenshot, null), "png", new File("./build/Screenshot.png"));
