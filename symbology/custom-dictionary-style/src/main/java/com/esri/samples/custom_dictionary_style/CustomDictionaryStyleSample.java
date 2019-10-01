@@ -33,6 +33,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -82,6 +83,18 @@ public class CustomDictionaryStyleSample extends Application {
       // create a renderer without overrides
       DictionaryRenderer dictionaryRendererWithoutOverrides = new DictionaryRenderer(restaurantStyle);
 
+      // load the restaurants layer
+      restaurantLayer.loadAsync();
+      restaurantLayer.addDoneLoadingListener(() -> {
+        if (restaurantLayer.getLoadStatus() == LoadStatus.LOADED) {
+          // change the viewpoint to the ESRI Redlands campus
+          mapView.setViewpoint(new Viewpoint(new Point(-1.304630524635E7, 4036698.1412000023, restaurantLayer.getSpatialReference()), 5000));
+
+          // apply the dictionary renderer without overrides to the layer
+          restaurantLayer.setRenderer(dictionaryRendererWithoutOverrides);
+        }
+      });
+
       // create overrides for expected field names that are different in this dataset
       HashMap<String, String> styleToFieldMappingOverrides = new HashMap<>();
       styleToFieldMappingOverrides.put("healthgrade", "Inspection");
@@ -99,18 +112,8 @@ public class CustomDictionaryStyleSample extends Application {
         }
       }
 
-      // create the dictionary renderer with the style file and the field overrides
+      // create the dictionary renderer with the field overrides
       DictionaryRenderer dictionaryRendererWithOverrides = new DictionaryRenderer(restaurantStyle, styleToFieldMappingOverrides, textFieldOverrides);
-
-      // set the map's initial extent to that of the restaurants layer
-      restaurantLayer.loadAsync();
-      restaurantLayer.addDoneLoadingListener(() -> {
-        if (restaurantLayer.getLoadStatus() == LoadStatus.LOADED) {
-          map.setInitialViewpoint(new Viewpoint((restaurantLayer.getFullExtent())));
-          // apply the dictionary renderer without overrides to the layer
-          restaurantLayer.setRenderer(dictionaryRendererWithoutOverrides);
-        }
-      });
 
       // create a checkbox for toggling the applied renderer
       CheckBox overridesCheckBox = new CheckBox("Use overrides");
