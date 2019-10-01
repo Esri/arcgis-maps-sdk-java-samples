@@ -1,0 +1,7 @@
+.panel-region .label {
+  -fx-text-fill: white;
+}
+
+.panel-region .check-box {
+   -fx-text-fill: white;
+}
