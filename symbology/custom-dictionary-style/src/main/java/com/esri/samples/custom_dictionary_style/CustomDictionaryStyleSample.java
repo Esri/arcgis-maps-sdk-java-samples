@@ -71,10 +71,10 @@ public class CustomDictionaryStyleSample extends Application {
       map.getOperationalLayers().add(restaurantLayer);
 
       // create a dictionary renderer
-      DictionaryRenderer dictionaryRendererWithoutOverrides = new DictionaryRenderer(restaurantStyle);
+      DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(restaurantStyle);
 
-      // apply the dictionary renderer without overrides to the layer
-      restaurantLayer.setRenderer(dictionaryRendererWithoutOverrides);
+      // apply the dictionary renderer
+      restaurantLayer.setRenderer(dictionaryRenderer);
 
       // load the restaurants layer
       restaurantLayer.loadAsync();
