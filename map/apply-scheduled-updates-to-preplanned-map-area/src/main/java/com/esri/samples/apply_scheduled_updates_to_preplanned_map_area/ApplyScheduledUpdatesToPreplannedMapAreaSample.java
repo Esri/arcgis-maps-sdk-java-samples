@@ -48,6 +48,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
   private MapView mapView;
   private MobileMapPackage mobileMapPackage;
   private OfflineMapSyncTask offlineMapSyncTask;
+  private File tempMobileMapPackageDirectory;
 
   @Override
   public void start(Stage stage) {
@@ -69,7 +70,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       stackPane.getChildren().add(mapView);
 
       // create a temporary copy of the local offline map files, so that updating does not overwrite them permanently
-      File tempMobileMapPackageDirectory = Files.createTempDirectory("canyonlands_offline_map").toFile();
+      tempMobileMapPackageDirectory = Files.createTempDirectory("canyonlands_offline_map").toFile();
       tempMobileMapPackageDirectory.deleteOnExit();
       File sourceDirectory = new File("./samples-data/canyonlands/");
       FileUtils.copyDirectory(sourceDirectory, tempMobileMapPackageDirectory);
@@ -169,15 +170,22 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           if (offlineMapSyncJob.getStatus() == Job.Status.SUCCEEDED) {
             OfflineMapSyncResult offlineMapSyncResult = offlineMapSyncJob.getResult();
 
-            // if mobile map package reopen is required, close the existing mobile map package and load it again
+            // check if mobile map package reopen is required
             if (offlineMapSyncResult.isMobileMapPackageReopenRequired()) {
+              // remove the present mobile map package from the map view and close it
+              mapView.setMap(null);
               mobileMapPackage.close();
-              mobileMapPackage.loadAsync();
-              mobileMapPackage.addDoneLoadingListener(() -> {
-                if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
+
+              // create a new instance of the now updated mobile map package
+              MobileMapPackage updatedMobileMapPackage = new MobileMapPackage(tempMobileMapPackageDirectory.toString());
+              updatedMobileMapPackage.loadAsync();
+
+              // wait for the new instance of the mobile map package to load
+              updatedMobileMapPackage.addDoneLoadingListener(() -> {
+                if (updatedMobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !updatedMobileMapPackage.getMaps().isEmpty()) {
 
                   // add the map from the mobile map package to the map view
-                  mapView.setMap(mobileMapPackage.getMaps().get(0));
+                  mapView.setMap(updatedMobileMapPackage.getMaps().get(0));
 
                 } else {
                   new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package.").show();
