@@ -35,6 +35,8 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncJob;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncResult;
@@ -172,8 +174,9 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
 
             // check if mobile map package reopen is required
             if (offlineMapSyncResult.isMobileMapPackageReopenRequired()) {
-              // remove the present mobile map package from the map view and close it
+              // release the mobile map package maps from the map view
               mapView.setMap(null);
+              // close the old mobile map package
               mobileMapPackage.close();
 
               // create a new instance of the now updated mobile map package
