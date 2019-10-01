@@ -16,11 +16,7 @@ Pan and zoom the map to see the symbology from the custom dictionary style. Sele
 
 1. Create a new `DictionarySymbolStyle` by passing in the path to the custom style file (.stylx).
 2. Create a new `DictionaryRenderer`, providing the DictionarySymbolStyle.
-3. Optionally, if you require to use overrides for any symbol or text attributes:
-    * Define the symbol overrides using a collection of key-value pairs: `configured-attribute-name : override-attribute-name`.
-    * Define text attribute overrides (if any) using a collection of key-value pairs: `configured-attribute-name : override-attribute-name`.
-    * Create a new `DictionaryRenderer`, providing the DictionarySymbolStyle and the collection of symbol and text attribute overrides.
-4. Apply the dictionary renderer to a feature layer or graphics overlay with the expected attributes.
+3. Apply the dictionary renderer to a feature layer using `layer.setRenderer(dictionaryRenderer)`.
 
 ## Relevant API
 
