@@ -159,8 +159,6 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
 
         // set the parameters to download all updates for the mobile map packages
         offlineMapSyncParameters.setPreplannedScheduledUpdatesOption(PreplannedScheduledUpdatesOption.DOWNLOAD_ALL_UPDATES);
-        // set the map package to rollback to the old state should the sync job fail
-        offlineMapSyncParameters.setRollbackOnFailure(true);
 
         // create a sync job using the parameters
         OfflineMapSyncJob offlineMapSyncJob = offlineMapSyncTask.syncOfflineMap(offlineMapSyncParameters);
