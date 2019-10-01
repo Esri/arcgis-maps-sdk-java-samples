@@ -20,12 +20,21 @@ import java.util.HashMap;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -44,6 +53,7 @@ public class CustomDictionaryStyleSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // create a map view
       mapView = new MapView();
@@ -69,21 +79,17 @@ public class CustomDictionaryStyleSample extends Application {
       FeatureLayer restaurantLayer = new FeatureLayer(restaurantFeatureTable);
       map.getOperationalLayers().add(restaurantLayer);
 
-      // set the map's initial extent to that of the restaurants layer
-      restaurantLayer.loadAsync();
-      restaurantLayer.addDoneLoadingListener(() ->
-              map.setInitialViewpoint(new Viewpoint((restaurantLayer.getFullExtent()))));
+      // create a renderer without overrides
+      DictionaryRenderer dictionaryRendererWithoutOverrides = new DictionaryRenderer(restaurantStyle);
 
       // create overrides for expected field names that are different in this dataset
       HashMap<String, String> styleToFieldMappingOverrides = new HashMap<>();
-      styleToFieldMappingOverrides.put("style", "Style");
-      styleToFieldMappingOverrides.put("price", "Price");
       styleToFieldMappingOverrides.put("healthgrade", "Inspection");
-      styleToFieldMappingOverrides.put("rating", "Rating");
+      styleToFieldMappingOverrides.put("rating", "MyRating");
 
       // create overrides for expected text field names (if any)
       HashMap<String, String> textFieldOverrides = new HashMap<>();
-      textFieldOverrides.put("name", "Name");
+      textFieldOverrides.put("name", "Address");
 
       // set the text visibility configuration setting
       List<DictionarySymbolStyleConfiguration> configurations = restaurantStyle.getConfigurations();
@@ -94,13 +100,47 @@ public class CustomDictionaryStyleSample extends Application {
       }
 
       // create the dictionary renderer with the style file and the field overrides
-      DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(restaurantStyle, styleToFieldMappingOverrides, textFieldOverrides);
+      DictionaryRenderer dictionaryRendererWithOverrides = new DictionaryRenderer(restaurantStyle, styleToFieldMappingOverrides, textFieldOverrides);
 
-      // apply the dictionary renderer to the layer
-      restaurantLayer.setRenderer(dictionaryRenderer);
+      // set the map's initial extent to that of the restaurants layer
+      restaurantLayer.loadAsync();
+      restaurantLayer.addDoneLoadingListener(() -> {
+        if (restaurantLayer.getLoadStatus() == LoadStatus.LOADED) {
+          map.setInitialViewpoint(new Viewpoint((restaurantLayer.getFullExtent())));
+          // apply the dictionary renderer without overrides to the layer
+          restaurantLayer.setRenderer(dictionaryRendererWithoutOverrides);
+        }
+      });
 
-      // add the map view to the stack pane
-      stackPane.getChildren().add(mapView);
+      // create a checkbox for toggling the applied renderer
+      CheckBox overridesCheckBox = new CheckBox("Use overrides");
+
+      // set the checkbox to toggle the renderer that is applied to the restaurants layer
+      overridesCheckBox.setOnAction(event -> {
+        if (overridesCheckBox.isSelected()) {
+          // apply the dictionary renderer with overrides to the layer
+          restaurantLayer.setRenderer(dictionaryRendererWithOverrides);
+        } else {
+          // apply the dictionary renderer without overrides to the layer
+          restaurantLayer.setRenderer(dictionaryRendererWithoutOverrides);
+        }
+      });
+
+      // create a control panel
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+              Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(130, 30);
+      controlsVBox.getStyleClass().add("panel-region");
+
+      // add the checkbox to the control panel
+      controlsVBox.getChildren().add(overridesCheckBox);
+
+      // add the map view and control panel to stack pane
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       e.printStackTrace();
