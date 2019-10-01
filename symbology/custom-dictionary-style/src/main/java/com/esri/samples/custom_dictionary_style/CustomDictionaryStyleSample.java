@@ -53,15 +53,15 @@ public class CustomDictionaryStyleSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // open the custom style file
-      DictionarySymbolStyle restaurantStyle = DictionarySymbolStyle.createFromFile("./samples-data/stylx/Restaurant.stylx");
-
       // create a new map with a streets basemap and show it
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
       mapView.setMap(map);
 
       // set the initial viewpoint to the ESRI Redlands campus
       map.setInitialViewpoint(new Viewpoint(new Point(-1.304630524635E7, 4036698.1412000023, map.getSpatialReference()), 5000));
+
+      // open the custom style file
+      DictionarySymbolStyle restaurantStyle = DictionarySymbolStyle.createFromFile("./samples-data/stylx/Restaurant.stylx");
 
       // create the restaurants feature table from the feature service
       ServiceFeatureTable restaurantFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/Redlands_Restaurants/FeatureServer/0");
@@ -73,7 +73,7 @@ public class CustomDictionaryStyleSample extends Application {
       // create a dictionary renderer
       DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(restaurantStyle);
 
-      // apply the dictionary renderer
+      // set the dictionary renderer to the restaurant layer
       restaurantLayer.setRenderer(dictionaryRenderer);
 
       // load the restaurants layer
