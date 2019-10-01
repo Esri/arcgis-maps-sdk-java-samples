@@ -10,7 +10,7 @@ When symbolizing geoelements in your map, you may need to convey several pieces 
 
 ## How to use the sample
 
-Pan and zoom the map to see the symbology from the custom dictionary style.
+Pan and zoom the map to see the symbology from the custom dictionary style. Select the checkbox to apply or remove overrides to the symbol style.
 
 ## How it works
 
