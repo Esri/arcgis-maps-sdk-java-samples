@@ -27,6 +27,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 import org.apache.commons.io.FileUtils;
 
 import com.esri.arcgisruntime.concurrent.Job;
@@ -35,8 +36,6 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.security.AuthenticationManager;
-import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncJob;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapSyncResult;
