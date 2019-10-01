@@ -16,33 +16,20 @@
 
 package com.esri.samples.custom_dictionary_style;
 
-import java.util.HashMap;
-import java.util.List;
-
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
-import com.esri.arcgisruntime.symbology.DictionarySymbolStyleConfiguration;
 
 public class CustomDictionaryStyleSample extends Application {
 
@@ -73,6 +60,9 @@ public class CustomDictionaryStyleSample extends Application {
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
       mapView.setMap(map);
 
+      // set the initial viewpoint to the ESRI Redlands campus
+      map.setInitialViewpoint(new Viewpoint(new Point(-1.304630524635E7, 4036698.1412000023, map.getSpatialReference()), 5000));
+
       // create the restaurants feature table from the feature service
       ServiceFeatureTable restaurantFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/Redlands_Restaurants/FeatureServer/0");
 
@@ -80,70 +70,17 @@ public class CustomDictionaryStyleSample extends Application {
       FeatureLayer restaurantLayer = new FeatureLayer(restaurantFeatureTable);
       map.getOperationalLayers().add(restaurantLayer);
 
-      // create a renderer without overrides
+      // create a dictionary renderer
       DictionaryRenderer dictionaryRendererWithoutOverrides = new DictionaryRenderer(restaurantStyle);
+
+      // apply the dictionary renderer without overrides to the layer
+      restaurantLayer.setRenderer(dictionaryRendererWithoutOverrides);
 
       // load the restaurants layer
       restaurantLayer.loadAsync();
-      restaurantLayer.addDoneLoadingListener(() -> {
-        if (restaurantLayer.getLoadStatus() == LoadStatus.LOADED) {
-          // change the viewpoint to the ESRI Redlands campus
-          mapView.setViewpoint(new Viewpoint(new Point(-1.304630524635E7, 4036698.1412000023, restaurantLayer.getSpatialReference()), 5000));
-
-          // apply the dictionary renderer without overrides to the layer
-          restaurantLayer.setRenderer(dictionaryRendererWithoutOverrides);
-        }
-      });
-
-      // create overrides for expected field names that are different in this dataset
-      HashMap<String, String> styleToFieldMappingOverrides = new HashMap<>();
-      styleToFieldMappingOverrides.put("healthgrade", "Inspection");
-      styleToFieldMappingOverrides.put("rating", "MyRating");
-
-      // create overrides for expected text field names (if any)
-      HashMap<String, String> textFieldOverrides = new HashMap<>();
-      textFieldOverrides.put("name", "Address");
-
-      // set the text visibility configuration setting
-      List<DictionarySymbolStyleConfiguration> configurations = restaurantStyle.getConfigurations();
-      for (DictionarySymbolStyleConfiguration configuration : configurations) {
-        if (configuration.getName().equals("text")) {
-          configuration.setValue("ON");
-        }
-      }
-
-      // create the dictionary renderer with the field overrides
-      DictionaryRenderer dictionaryRendererWithOverrides = new DictionaryRenderer(restaurantStyle, styleToFieldMappingOverrides, textFieldOverrides);
-
-      // create a checkbox for toggling the applied renderer
-      CheckBox overridesCheckBox = new CheckBox("Use overrides");
-
-      // set the checkbox to toggle the renderer that is applied to the restaurants layer
-      overridesCheckBox.setOnAction(event -> {
-        if (overridesCheckBox.isSelected()) {
-          // apply the dictionary renderer with overrides to the layer
-          restaurantLayer.setRenderer(dictionaryRendererWithOverrides);
-        } else {
-          // apply the dictionary renderer without overrides to the layer
-          restaurantLayer.setRenderer(dictionaryRendererWithoutOverrides);
-        }
-      });
-
-      // create a control panel
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-              Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(130, 30);
-      controlsVBox.getStyleClass().add("panel-region");
-
-      // add the checkbox to the control panel
-      controlsVBox.getChildren().add(overridesCheckBox);
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView);
 
     } catch (Exception e) {
       e.printStackTrace();
