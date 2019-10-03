@@ -43,9 +43,6 @@ public class CustomDictionaryStyleSample extends Application {
       Scene scene = new Scene(stackPane);
       scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
-      // create a map view
-      mapView = new MapView();
-
       // set title, size, and add scene to stage
       stage.setTitle("Custom Dictionary Style Sample");
       stage.setWidth(800);
@@ -53,11 +50,14 @@ public class CustomDictionaryStyleSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a new map with a streets basemap and show it
+      // create a map view
+      mapView = new MapView();
+
+      // create a new map with a streets basemap and set it to the map view
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
       mapView.setMap(map);
 
-      // set the initial viewpoint to the ESRI Redlands campus
+      // set the initial viewpoint to the Esri Redlands campus
       map.setInitialViewpoint(new Viewpoint(new Point(-1.304630524635E7, 4036698.1412000023, map.getSpatialReference()), 5000));
 
       // open the custom style file

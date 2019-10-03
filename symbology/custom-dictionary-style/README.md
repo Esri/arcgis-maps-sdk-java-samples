@@ -22,7 +22,6 @@ Pan and zoom the map to see the symbology from the custom dictionary style.
 
 * DictionaryRenderer
 * DictionarySymbolStyle
-* DictionarySymbolStyleConfiguration
 
 ## About the data
 
