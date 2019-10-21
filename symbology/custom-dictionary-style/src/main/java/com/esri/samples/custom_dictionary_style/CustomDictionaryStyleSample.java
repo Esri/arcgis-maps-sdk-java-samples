@@ -60,9 +60,6 @@ public class CustomDictionaryStyleSample extends Application {
       // set the initial viewpoint to the Esri Redlands campus
       map.setInitialViewpoint(new Viewpoint(new Point(-1.304630524635E7, 4036698.1412000023, map.getSpatialReference()), 5000));
 
-      // open the custom style file
-      DictionarySymbolStyle restaurantStyle = DictionarySymbolStyle.createFromFile("./samples-data/stylx/Restaurant.stylx");
-
       // create the restaurants feature table from the feature service
       ServiceFeatureTable restaurantFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/Redlands_Restaurants/FeatureServer/0");
 
@@ -70,17 +67,17 @@ public class CustomDictionaryStyleSample extends Application {
       FeatureLayer restaurantLayer = new FeatureLayer(restaurantFeatureTable);
       map.getOperationalLayers().add(restaurantLayer);
 
+      // open the custom style file
+      DictionarySymbolStyle restaurantStyle = DictionarySymbolStyle.createFromFile("./samples-data/stylx/Restaurant.stylx");
+
       // create a dictionary renderer
       DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(restaurantStyle);
 
       // set the dictionary renderer to the restaurant layer
       restaurantLayer.setRenderer(dictionaryRenderer);
 
-      // load the restaurants layer
-      restaurantLayer.loadAsync();
-
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView);
+      stackPane.getChildren().add(mapView);
 
     } catch (Exception e) {
       e.printStackTrace();
