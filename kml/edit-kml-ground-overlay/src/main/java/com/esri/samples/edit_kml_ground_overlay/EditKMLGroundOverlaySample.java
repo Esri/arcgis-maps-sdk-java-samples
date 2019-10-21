@@ -83,7 +83,7 @@ public class EditKMLGroundOverlaySample extends Application {
       // create the KML ground overlay
       kmlGroundOverlay = new KmlGroundOverlay(overlayGeometry, overlayImage);
 
-      // set the rotation of the ground overlay
+      // set the rotation of the ground overlay, to correct the overlay's rotation with respect to the basemap.
       kmlGroundOverlay.setRotation(-3.046024799346924);
 
       // create a KML dataset with the ground overlay as the root node
@@ -96,15 +96,16 @@ public class EditKMLGroundOverlaySample extends Application {
       sceneView.getArcGISScene().getOperationalLayers().add(kmlLayer);
 
       // set the viewpoint to the ground overlay
-      sceneView.setViewpoint(new Viewpoint(kmlGroundOverlay.getExtent(), new Camera(kmlGroundOverlay.getGeometry().getExtent().getCenter(), 1250, 45, 60, 0)));
+      sceneView.setViewpoint(new Viewpoint(overlayGeometry, new Camera(overlayGeometry.getCenter(), 1250, 45, 60, 0)));
 
       // create a slider for adjusting the overlay opacity
       slider = new Slider(0, 1, 1);
       slider.setMaxWidth(300);
 
-      // add an event handler to the slider to apply opacity to the KML ground overlay based on the slider value
-      slider.setOnMouseReleased(event -> setGroundOverlayOpacity());
-      slider.setOnMouseDragged(event -> setGroundOverlayOpacity());
+      // add a listener to the slider's value property to set the opacity of the KML ground overlay
+      slider.valueProperty().addListener(o ->
+              kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue())))
+      );
 
       // create a controls box
       VBox controlsVBox = new VBox();
@@ -130,13 +131,6 @@ public class EditKMLGroundOverlaySample extends Application {
       // on any error, display the stack trace.
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Changes the opacity of the KmlGroundOverlay using a provided alpha value.
-   */
-  private void setGroundOverlayOpacity() {
-    kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue())));
   }
 
   /**

@@ -15,13 +15,12 @@ Use the slider to adjust the opacity of the ground overlay.
 ## How it works
 
 1. Create an `Envelope` defining the geometry of the overlay.
-2. Create a `KmlIcon` using a `Uri` linking to an image.
+2. Create a `KmlIcon` using a  URI linking to an image.
 3. Create a `KmlGroundOverlay` using the envelope and icon.
-4. Use `kmlGroundOverlay.setRotation()` to set the rotation of the ground overlay.
-5. Create a `KmlDataset` using the ground overlay.
-6. Create a `KmlLayer` using the dataset.
-7. Add the KML layer to the scene.
-8. Listen for changes to the opacity slider and use `kmlGroundOverlay.setColor(value)` to change the value appropriately.
+4. Create a `KmlDataset` using the ground overlay.
+5. Create a `KmlLayer` using the dataset.
+6. Add the KML layer to the scene.
+7. Use `kmlGroundOverlay.setColor(value)` with a different alpha value to change the opacity.
 
 ## Relevant API
 
