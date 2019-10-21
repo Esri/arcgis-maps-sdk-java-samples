@@ -71,7 +71,8 @@ public class GenerateGeodatabaseSample extends Application {
       stage.show();
 
       // use a local tile package for the basemap
-      TileCache tileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
+      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/sanfrancisco/SanFrancisco.tpk");
+      TileCache tileCache = new TileCache(tpkFile.getCanonicalPath());
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
 
       // create a map view and add a map

@@ -68,7 +68,7 @@ public class ViewPointCloudDataOfflineSample extends Application {
       scene.setBaseSurface(surface);
 
       // add a point cloud layer from a scene layer package of Balboa Park in San Diego
-      File pointCloudSLPK = new File("./samples-data/slpks/sandiego-north-balboa-pointcloud.slpk");
+      File pointCloudSLPK = new File(System.getProperty("data.dir"), "./samples-data/slpks/sandiego-north-balboa-pointcloud.slpk");
       PointCloudLayer pointCloudLayer = new PointCloudLayer(pointCloudSLPK.getAbsolutePath());
       scene.getOperationalLayers().add(pointCloudLayer);
 

@@ -93,7 +93,7 @@ public class MobileMapSearchAndRouteSample extends Application {
       FileChooser fileChooser = new FileChooser();
       FileChooser.ExtensionFilter mpkFilter = new FileChooser.ExtensionFilter("Map Packages (*.mmpk)", "*.mmpk");
       fileChooser.getExtensionFilters().add(mpkFilter);
-      fileChooser.setInitialDirectory(new File("./samples-data/mmpk"));
+      fileChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/mmpk"));
 
       // click a button to open the file chooser
       Button findMmpkButton = new Button("Open mobile map package");

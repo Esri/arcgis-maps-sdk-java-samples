@@ -162,7 +162,7 @@ public class LineOfSightGeoElementSample extends Application {
       );
 
       // create a graphic of a taxi to be the target
-      String modelURI = new File("./samples-data/dolmus_3ds/dolmus.3ds").getAbsolutePath();
+      String modelURI = new File(System.getProperty("data.dir"), "./samples-data/dolmus_3ds/dolmus.3ds").getAbsolutePath();
       ModelSceneSymbol taxiSymbol = new ModelSceneSymbol(modelURI, 1.0);
       taxiSymbol.setAnchorPosition(SceneSymbol.AnchorPosition.BOTTOM);
       taxiSymbol.loadAsync();

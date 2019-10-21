@@ -99,7 +99,7 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
       FileChooser fileChooser = new FileChooser();
       fileChooser.setTitle("Open Resource File");
       fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Shapefiles", "*.shp"));
-      fileChooser.setInitialDirectory(new File("./samples-data/shapefiles/"));
+      fileChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/shapefiles/"));
       // choose the file, then start the local map service
       addButton.setOnAction(e -> {
         // browse to the shapefile file

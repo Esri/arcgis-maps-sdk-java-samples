@@ -42,7 +42,7 @@ public class HillshadeRendererController {
   public void initialize() {
 
     // create raster
-    Raster raster = new Raster(new File("./samples-data/raster/srtm.tiff").getAbsolutePath());
+    Raster raster = new Raster(new File(System.getProperty("data.dir"), "./samples-data/raster/srtm.tiff").getAbsolutePath());
 
     // create a raster layer
     rasterLayer = new RasterLayer(raster);

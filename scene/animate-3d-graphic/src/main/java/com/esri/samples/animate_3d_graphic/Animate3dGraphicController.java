@@ -141,7 +141,7 @@ public class Animate3dGraphicController {
       mapOverlay.getGraphics().add(plane2D);
 
       // create a graphic with a ModelSceneSymbol of a plane to add to the scene
-      String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
+      String modelURI = new File(System.getProperty("data.dir"), "./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
       ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
       plane3DSymbol.loadAsync();
       plane3D = new Graphic(new Point(0, 0, 0, WGS84), plane3DSymbol);

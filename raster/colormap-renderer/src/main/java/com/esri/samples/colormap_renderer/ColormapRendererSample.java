@@ -55,7 +55,7 @@ public class ColormapRendererSample extends Application {
       stage.show();
 
       // create a raster from a local raster file
-      Raster raster = new Raster(new File("./samples-data/raster/ShastaBW.tif").getAbsolutePath());
+      Raster raster = new Raster(new File(System.getProperty("data.dir"), "./samples-data/raster/ShastaBW.tif").getAbsolutePath());
 
       // create a raster layer
       RasterLayer rasterLayer = new RasterLayer(raster);

@@ -54,7 +54,7 @@ public class OpenMobileScenePackageSample extends Application {
     sceneView = new SceneView();
 
     // load a mobile scene package
-    final String mspkPath = new File("./samples-data/mspk/philadelphia.mspk").getAbsolutePath();
+    final String mspkPath = new File(System.getProperty("data.dir"), "./samples-data/mspk/philadelphia.mspk").getAbsolutePath();
 
     // check if the mobile scene package can be read directly using a static method
     ListenableFuture<Boolean> isDirectReadSupported = MobileScenePackage.isDirectReadSupportedAsync(mspkPath);

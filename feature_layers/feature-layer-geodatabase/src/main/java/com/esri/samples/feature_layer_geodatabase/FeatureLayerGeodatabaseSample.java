@@ -58,8 +58,9 @@ public class FeatureLayerGeodatabaseSample extends Application {
       mapView.setMap(map);
 
       // create geodatabase from local resource
-      String geodatabaseUrl = new File("samples-data/los_angeles/LA_Trails.geodatabase").getAbsolutePath();
-      Geodatabase geodatabase = new Geodatabase(geodatabaseUrl);
+      File geodatabaseFile = new File(System.getProperty("data.dir"), "./samples-data/los_angeles/LA_Trails" +
+              ".geodatabase");
+      Geodatabase geodatabase = new Geodatabase(geodatabaseFile.getCanonicalPath());
       geodatabase.addDoneLoadingListener(() -> {
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
           // access the geodatabase's feature table Trailheads

@@ -99,7 +99,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.tif"));
-        fileChooser.setInitialDirectory(new File("./samples-data/raster/"));
+        fileChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/raster/"));
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         if (selectedFile != null) {

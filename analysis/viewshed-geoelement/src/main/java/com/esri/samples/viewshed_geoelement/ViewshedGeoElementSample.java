@@ -113,8 +113,10 @@ public class ViewshedGeoElementSample extends Application {
       graphicsOverlay.setRenderer(renderer3D);
 
       // create a graphic of a tank
-      String modelURI = new File("./samples-data/bradley_low_3ds/bradle.3ds").getAbsolutePath();
-      ModelSceneSymbol tankSymbol = new ModelSceneSymbol(modelURI, 10.0);
+      String modelURI =
+              new File(System.getProperty("data.dir"), "./samples-data/bradley_low_3ds/bradle.3ds").getAbsolutePath();
+      System.out.println(modelURI);
+      ModelSceneSymbol tankSymbol = new ModelSceneSymbol(modelURI.replace("\\", "/"), 10.0);
       tankSymbol.setHeading(90);
       tankSymbol.setAnchorPosition(SceneSymbol.AnchorPosition.BOTTOM);
       tankSymbol.loadAsync();
