@@ -75,8 +75,9 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     graphicsOverlay.setMinScale(1000000);
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    // create symbol dictionary from style file
-    DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile("./samples-data/stylx/mil2525d.stylx");
+    // create symbol dictionary from style file\
+    File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/mil2525d.stylx");
+    DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
 
     // tells graphics overlay how to render graphics with symbol dictionary attributes set
     DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
