@@ -39,6 +39,8 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
+import java.io.File;
+
 public class ControlAnnotationSublayerVisibilitySample extends Application {
 
   private MapView mapView;
@@ -88,7 +90,8 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       controlsVBox.getChildren().addAll(closedSublayerCheckbox, openSublayerCheckbox, currentMapScaleLabel);
 
       // load the mobile map package
-      mobileMapPackage = new MobileMapPackage("./samples-data/mmpk/GasDeviceAnno.mmpk");
+      File mmpkFile = new File(System.getProperty("data.dir"), "./samples-data/mmpk/GasDeviceAnno.mmpk");
+      mobileMapPackage = new MobileMapPackage(mmpkFile.getAbsolutePath());
       mobileMapPackage.loadAsync();
       mobileMapPackage.addDoneLoadingListener(() -> {
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
