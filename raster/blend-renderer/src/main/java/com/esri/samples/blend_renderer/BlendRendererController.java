@@ -46,8 +46,8 @@ public class BlendRendererController {
   public void initialize() {
 
     // create rasters
-    imageryRasterPath = new File("./samples-data/raster/Shasta.tif").getAbsolutePath();
-    elevationRasterPath = new File("./samples-data/raster/Shasta_Elevation.tif").getAbsolutePath();
+    imageryRasterPath = new File(System.getProperty("data.dir"), "./samples-data/raster/Shasta.tif").getAbsolutePath();
+    elevationRasterPath = new File(System.getProperty("data.dir"), "./samples-data/raster/Shasta_Elevation.tif").getAbsolutePath();
 
     // create a raster layer
     RasterLayer rasterLayer = new RasterLayer(new Raster(imageryRasterPath));

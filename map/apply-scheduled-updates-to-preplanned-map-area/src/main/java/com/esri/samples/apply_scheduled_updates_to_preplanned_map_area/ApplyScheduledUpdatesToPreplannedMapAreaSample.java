@@ -73,7 +73,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       // create a temporary copy of the local offline map files, so that updating does not overwrite them permanently
       tempMobileMapPackageDirectory = Files.createTempDirectory("canyonlands_offline_map").toFile();
       tempMobileMapPackageDirectory.deleteOnExit();
-      File sourceDirectory = new File("./samples-data/canyonlands/");
+      File sourceDirectory = new File(System.getProperty("data.dir"), "./samples-data/canyonlands/");
       FileUtils.copyDirectory(sourceDirectory, tempMobileMapPackageDirectory);
 
       // load the offline map as a mobile map package

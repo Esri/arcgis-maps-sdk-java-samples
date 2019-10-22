@@ -57,7 +57,7 @@ public class RasterLayerGeopackageSample extends Application {
       mapView.setMap(map);
 
       // create a geopackage from a local gpkg file
-      GeoPackage geoPackage = new GeoPackage(new File("./samples-data/auroraCO/AuroraCO.gpkg").getAbsolutePath());
+      GeoPackage geoPackage = new GeoPackage(new File(System.getProperty("data.dir"), "./samples-data/auroraCO/AuroraCO.gpkg").getAbsolutePath());
 
       // load the geopackage
       geoPackage.loadAsync();

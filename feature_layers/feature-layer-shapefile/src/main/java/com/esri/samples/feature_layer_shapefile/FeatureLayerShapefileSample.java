@@ -58,7 +58,7 @@ public class FeatureLayerShapefileSample extends Application {
       mapView.setMap(map);
 
       // create a shapefile feature table from the local file
-      File shapefile = new File("./samples-data/auroraCO/Public_Art.shp");
+      File shapefile = new File(System.getProperty("data.dir"), "./samples-data/auroraCO/Public_Art.shp");
       ShapefileFeatureTable shapefileFeatureTable = new ShapefileFeatureTable(shapefile.getAbsolutePath());
 
       // use the shapefile feature table to create a feature layer

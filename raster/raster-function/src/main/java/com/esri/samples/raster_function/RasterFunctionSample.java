@@ -70,7 +70,7 @@ public class RasterFunctionSample extends Application {
 
           if (imageServiceRaster.getLoadStatus() == LoadStatus.LOADED) {
             // create raster function from local json file
-            File jsonFile = new File("./samples-data/raster/hillshade_simplified.json");
+            File jsonFile = new File(System.getProperty("data.dir"), "./samples-data/raster/hillshade_simplified.json");
             try (Scanner scanner = new Scanner(jsonFile)) {
               // read in the complete file as a string
               String json = scanner.useDelimiter("\\A").next();
