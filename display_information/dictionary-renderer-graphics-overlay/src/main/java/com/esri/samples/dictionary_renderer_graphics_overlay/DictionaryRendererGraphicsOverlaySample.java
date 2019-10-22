@@ -102,7 +102,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
    */
   private List<Map<String, Object>> parseMessages() throws Exception {
 
-    File mil2525dFile = new File("./samples-data/xml/Mil2525DMessages.xml");
+    File mil2525dFile = new File(System.getProperty("data.dir"), "./samples-data/xml/Mil2525DMessages.xml");
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
     Document document = documentBuilder.parse(mil2525dFile);
