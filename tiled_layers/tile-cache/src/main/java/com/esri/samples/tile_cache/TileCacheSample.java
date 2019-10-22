@@ -50,7 +50,7 @@ public class TileCacheSample extends Application {
 
       // create a tile cache from a local tile package
       File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/sanfrancisco/SanFrancisco.tpk");
-      TileCache tileCache = new TileCache(tpkFile.getCanonicalPath());
+      TileCache tileCache = new TileCache(tpkFile.getAbsolutePath());
 
       // create a tiled layer from the tile cache
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);

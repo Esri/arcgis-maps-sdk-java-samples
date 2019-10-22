@@ -125,7 +125,7 @@ public class OfflineGeocodeSample extends Application {
 
       // create a basemap from a local tile package
       File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/sanfrancisco/SanFrancisco.tpk");
-      TileCache tileCache = new TileCache(tpkFile.getCanonicalPath());
+      TileCache tileCache = new TileCache(tpkFile.getAbsolutePath());
       tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
 
