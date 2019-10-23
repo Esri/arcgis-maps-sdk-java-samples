@@ -48,9 +48,7 @@ import com.esri.arcgisruntime.symbology.ColorUtil;
 
 public class EditKMLGroundOverlaySample extends Application {
 
-  private KmlGroundOverlay kmlGroundOverlay;
   private SceneView sceneView;
-  private Slider slider;
 
   @Override
   public void start(Stage stage) {
@@ -81,9 +79,9 @@ public class EditKMLGroundOverlaySample extends Application {
       KmlIcon overlayImage = new KmlIcon(overlayImageURI);
 
       // create the KML ground overlay
-      kmlGroundOverlay = new KmlGroundOverlay(overlayGeometry, overlayImage);
+      KmlGroundOverlay kmlGroundOverlay = new KmlGroundOverlay(overlayGeometry, overlayImage);
 
-      // set the rotation of the ground overlay, to correct the overlay's rotation with respect to the basemap.
+      // set the rotation of the ground overlay to correct the overlay's rotation with respect to the basemap
       kmlGroundOverlay.setRotation(-3.046024799346924);
 
       // create a KML dataset with the ground overlay as the root node
@@ -99,7 +97,7 @@ public class EditKMLGroundOverlaySample extends Application {
       sceneView.setViewpoint(new Viewpoint(overlayGeometry, new Camera(overlayGeometry.getCenter(), 1250, 45, 60, 0)));
 
       // create a slider for adjusting the overlay opacity
-      slider = new Slider(0, 1, 1);
+      Slider slider = new Slider(0, 1, 1);
       slider.setMaxWidth(300);
 
       // add a listener to the slider's value property to set the opacity of the KML ground overlay
