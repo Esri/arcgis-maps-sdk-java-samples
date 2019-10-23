@@ -6,7 +6,7 @@ Use a custom dictionary style (.stylx) to symbolize features using a variety of 
 
 ## Use case
 
-When symbolizing geoelements in your map, you may need to convey several pieces of information with a single symbol. You could try to symbolize such data using a unique value renderer, but as the number of fields and values increases, that approach becomes impractical. With a dictionary renderer you can build each symbol on-the-fly, driven by one or more attribute values, and handle a nearly infinite number of unique combinations.
+When symbolizing geoelements in your map, you may need to convey several pieces of information with a single symbol. You could try to symbolize such data using a unique value renderer, but as the number of fields and values increases, that approach becomes impractical. With a dictionary renderer, you can build each symbol on-the-fly, driven by one or more attribute values, and handle a nearly infinite number of unique combinations.
 
 ## How to use the sample
 
@@ -15,7 +15,7 @@ Pan and zoom the map to see the symbology from the custom dictionary style.
 ## How it works
 
 1. Create a new `DictionarySymbolStyle` by passing in the path to the custom style file (.stylx).
-2. Create a new `DictionaryRenderer`, providing the DictionarySymbolStyle.
+2. Create a new `DictionaryRenderer`, providing the dictionary symbol style.
 3. Apply the dictionary renderer to a feature layer using `layer.setRenderer(dictionaryRenderer)`.
 
 ## Relevant API
