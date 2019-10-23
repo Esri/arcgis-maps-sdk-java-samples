@@ -20,7 +20,7 @@
     "DictionarySymbolStyleConfiguration"
   ],
   "snippets": [
-    "src/main/java/com/esri/samples/custom_dictionary_style/CustomDictionaryStyleSample.java",
+    "src/main/java/com/esri/samples/custom_dictionary_style/CustomDictionaryStyleSample.java"
   ],
   "title": "Custom dictionary style"
 }
