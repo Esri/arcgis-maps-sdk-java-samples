@@ -1,0 +1,12 @@
+rootProject.name = 'edit-kml-ground-overlay'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    file("./samples-data/images/").mkdirs()
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/1f3677c24b2c446e96eaf1099292e83e/data",
+            dest: file("./samples-data/images/1944.jpg")
+    )
+}
