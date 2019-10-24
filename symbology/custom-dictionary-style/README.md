@@ -27,7 +27,7 @@ Pan and zoom the map to see the symbology from the custom dictionary style.
 
 The layer shows a subset of [restaurants in Redlands, CA](https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/Redlands_Restaurants/FeatureServer)  with attributes for rating, style, health score, and open hours is symbolized using a dictionary renderer that displays a single symbol for all of these variables. The renderer uses symbols from a [custom dictionary style](https://arcgisruntime.maps.arcgis.com/home/item.html?id=751138a2e0844e06853522d54103222a) to show unique symbols based on several feature attributes. The symbols it contains were created using ArcGIS Pro. The logic used to apply the symbols comes from an Arcade script embedded in the stylx file (which is a SQLite database), along with a JSON string that defines expected attribute names and configuration properties.
 
-## Additional Information
+## Additional information
 
 To learn more about how styles in dictionary renderers work, visit [Display symbols from a style with a dictionary renderer](https://developers.arcgis.com/java/latest/guide/display-military-symbols-with-a-dictionary-renderer.htm). For information about creating your own custom dictionary style, see the open source [dictionary-renderer-toolkit](https://esriurl.com/DictionaryToolkit). 
 
