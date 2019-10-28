@@ -1,0 +1,12 @@
+rootProject.name = 'custom-dictionary-style'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    file("./samples-data/stylx").mkdirs()
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/751138a2e0844e06853522d54103222a/data",
+            dest: file("./samples-data/stylx/Restaurant.stylx")
+    )
+}
