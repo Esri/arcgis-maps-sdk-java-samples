@@ -33,7 +33,7 @@ public class OpenMobileScenePackageSample extends Application {
   private SceneView sceneView;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
     // create stack pane and application scene
     StackPane stackPane = new StackPane();
