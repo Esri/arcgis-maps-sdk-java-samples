@@ -16,21 +16,17 @@
 
 package com.esri.samples.open_mobile_scene_package;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.mapping.MobileScenePackage;
-import com.esri.arcgisruntime.mapping.view.SceneView;
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.concurrent.ExecutionException;
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.MobileScenePackage;
+import com.esri.arcgisruntime.mapping.view.SceneView;
 
 public class OpenMobileScenePackageSample extends Application {
 
@@ -56,53 +52,14 @@ public class OpenMobileScenePackageSample extends Application {
     // load a mobile scene package
     final String mspkPath = new File(System.getProperty("data.dir"), "./samples-data/mspk/philadelphia.mspk").getAbsolutePath();
 
-    // check if the mobile scene package can be read directly using a static method
-    ListenableFuture<Boolean> isDirectReadSupported = MobileScenePackage.isDirectReadSupportedAsync(mspkPath);
-    isDirectReadSupported.addDoneListener(() -> {
+    // create a mobile scene package from the file
+    MobileScenePackage mobileScenePackage = new MobileScenePackage(mspkPath);
 
-      try {
-        // if the mobile scene package can be read directly, then load the mspk from the direct read path directory
-        if (isDirectReadSupported.get()) {
-          //instantiate mobile scene package for direct read file
-          MobileScenePackage directReadMSPK = new MobileScenePackage(mspkPath);
-          loadMobileScenePackage(directReadMSPK);
-
-        } else {
-          // create a temporary directory to store unpacked file if appropriate
-          Path tempDirectory = Files.createTempDirectory("offline_map");
-          final String tempUnpackedPath = tempDirectory.toString();
-
-          // if the mobile scene package has to be unpacked, then unpack the mobile scene package and store it in a local path
-          MobileScenePackage.unpackAsync(mspkPath, tempUnpackedPath).addDoneListener(() -> {
-            //instantiate mobile scene package for unpacked file
-            MobileScenePackage unpackedMSPK = new MobileScenePackage(tempUnpackedPath);
-            // load the mobile scene package from the unpacked path
-            loadMobileScenePackage(unpackedMSPK);
-          });
-        }
-
-      } catch (InterruptedException | ExecutionException e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Mobile Scene Package direct read could not be determined");
-        alert.show();
-
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-
-    });
-
-    // add the sceneview to the stackpane
-    stackPane.getChildren().add(sceneView);
-  }
-
-  /**
-   * Loads the mobile scene package asynchronously, and once it has loaded, sets the first scene within the package to the scene view.
-   */
-  private void loadMobileScenePackage(MobileScenePackage mobileScenePackage) {
-
+    // load the mobile scene package
     mobileScenePackage.loadAsync();
-    mobileScenePackage.addDoneLoadingListener(() -> {
 
+    // wait for the mobile scene package to load
+    mobileScenePackage.addDoneLoadingListener(() -> {
       if (mobileScenePackage.getLoadStatus() == LoadStatus.LOADED && mobileScenePackage.getScenes().size() > 0) {
         // set the first scene from the package to the scene view
         sceneView.setArcGISScene(mobileScenePackage.getScenes().get(0));
@@ -111,6 +68,9 @@ public class OpenMobileScenePackageSample extends Application {
         alert.show();
       }
     });
+
+    // add the sceneview to the stackpane
+    stackPane.getChildren().add(sceneView);
   }
 
   /**
