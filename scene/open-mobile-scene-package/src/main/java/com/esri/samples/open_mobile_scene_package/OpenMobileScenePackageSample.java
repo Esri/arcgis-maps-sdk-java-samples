@@ -49,10 +49,8 @@ public class OpenMobileScenePackageSample extends Application {
     // create a new scene view
     sceneView = new SceneView();
 
-    // load a mobile scene package
+    // create a mobile scene package from a file
     final String mspkPath = new File("./samples-data/mspk/philadelphia.mspk").getAbsolutePath();
-
-    // create a mobile scene package from the file
     MobileScenePackage mobileScenePackage = new MobileScenePackage(mspkPath);
 
     // load the mobile scene package
