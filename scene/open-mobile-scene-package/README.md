@@ -16,7 +16,7 @@ The sample loads a mobile scene package. Pan and zoom to explore the scene.
 
 1. Create a `MobileScenePackage` with the path to a .mspk file.
 2. Call `mobileScenePackage.loadAsync` to load the mobile scene package. When finished, get the `ArcGISScene` objects inside with `mobileScenePackage.getScenes()`.
-3. Set the first scene in the object collection on the scene view with `sceneView.setArcGISScene(scene)`.
+3. Set the first scene to the scene view.
 
 ## Relevant API
 
