@@ -76,19 +76,19 @@ public class GroupLayersSample extends Application {
       scene.setBaseSurface(surface);
 
       // create different types of layers
-      ArcGISSceneLayer buildingsASceneLayer = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevB_BuildingShells/SceneServer");
-      ArcGISSceneLayer buildingsBSceneLayer = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer");
-      ArcGISSceneLayer treesSceneLayer = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Trees/SceneServer");
-      FeatureLayer pathwaysFeatureLayer = new FeatureLayer(new ServiceFeatureTable(" https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Pathways/FeatureServer/1"));
-      FeatureLayer projectAreaFeatureLayer = new FeatureLayer(new ServiceFeatureTable("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevelopmentProjectArea/FeatureServer/0"));
+      ArcGISSceneLayer devABuildings = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer");
+      ArcGISSceneLayer devBBuildings = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevB_BuildingShells/SceneServer");
+      ArcGISSceneLayer devATrees = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Trees/SceneServer");
+      FeatureLayer devAPathways = new FeatureLayer(new ServiceFeatureTable(" https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Pathways/FeatureServer/1"));
+      FeatureLayer devProjectArea = new FeatureLayer(new ServiceFeatureTable("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevelopmentProjectArea/FeatureServer/0"));
 
       // create a group layer from scratch by adding the layers as children
       GroupLayer groupLayer = new GroupLayer();
       groupLayer.setName("Group: Dev A");
-      groupLayer.getLayers().addAll(Arrays.asList(buildingsASceneLayer, buildingsBSceneLayer));
+      groupLayer.getLayers().addAll(Arrays.asList(devABuildings, devBBuildings));
 
       // add the group layer and other layers to the scene as operational layers
-      scene.getOperationalLayers().addAll(Arrays.asList(projectAreaFeatureLayer, groupLayer, treesSceneLayer, pathwaysFeatureLayer));
+      scene.getOperationalLayers().addAll(Arrays.asList(devProjectArea, groupLayer, devATrees, devAPathways));
 
       // zoom to the extent of the group layer when the child layers are loaded
       groupLayer.getLayers().forEach(childLayer ->
