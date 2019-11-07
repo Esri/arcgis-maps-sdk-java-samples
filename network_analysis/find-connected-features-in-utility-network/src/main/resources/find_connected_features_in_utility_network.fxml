@@ -61,8 +61,8 @@
         <RadioButton fx:id="addingBarrierRadioButton" toggleGroup="$toggleGroup" text="Add Barriers(s)"/>
         <Separator/>
         <HBox alignment="CENTER" spacing="10">
-            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick"/>
-            <Button fx:id="resetButton" text="Reset" onAction="#handleResetClick"/>
+            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true"/>
+            <Button fx:id="resetButton" text="Reset" onAction="#handleResetClick" disable="true"/>
         </HBox>
         <Label fx:id="statusLabel" StackPane.alignment="CENTER" text="Loading Utility Network..."/>
     </VBox>
