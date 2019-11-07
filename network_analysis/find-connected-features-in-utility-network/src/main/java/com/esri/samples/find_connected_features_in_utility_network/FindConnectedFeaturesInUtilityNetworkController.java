@@ -394,7 +394,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
             // get the feature layer for the utility element
             utilityElementGroups.forEach((networkSourceName, utilityElements) -> {
 
-              // load each elements feature table manually. Note this is a workaround for some features that are returned by the trace not being selected properly
+              // load each element's feature table manually. Note this is a workaround for some features that are returned by the trace not being selected properly
               FeatureTable utilityElementsFT = utilityElements.get(0).getNetworkSource().getFeatureTable();
               utilityElementsFT.loadAsync();
               utilityElementsFT.addDoneLoadingListener(()->{
