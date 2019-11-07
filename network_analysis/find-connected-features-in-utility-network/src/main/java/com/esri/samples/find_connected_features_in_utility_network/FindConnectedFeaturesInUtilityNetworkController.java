@@ -134,8 +134,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
       utilityNetwork.addDoneLoadingListener(() -> {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
 
-          // hide the progress indicator
-          progressIndicator.setVisible(false);
+          // enable the UI
+          enableUI();
 
           // update the status text
           statusLabel.setText("Click on the network lines or points to add a utility element.");
@@ -324,7 +324,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   /**
    * Shows the name of a UtilityTerminal in the status label in the UI.
    *
-   * @param terminal
+   * @param terminal the UtilityTerminal object of which to show the name in the UI
    */
   private void showTerminalNameInStatusLabel(UtilityTerminal terminal) {
     String terminalName = terminal.getName() != null ? terminal.getName() : "default";
@@ -421,6 +421,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
 
                         // enable the UI
                         enableUI();
+
                       } catch (InterruptedException | ExecutionException e) {
                         new Alert(Alert.AlertType.ERROR,
                           "Error fetching the corresponding features for the utility elements.").show();
@@ -450,7 +451,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   }
 
   /**
-   * Enables both buttons and hides the progress indicator after a trace is complete.
+   * Enables both buttons and hides the progress indicator.
    */
   private void enableUI() {
 
