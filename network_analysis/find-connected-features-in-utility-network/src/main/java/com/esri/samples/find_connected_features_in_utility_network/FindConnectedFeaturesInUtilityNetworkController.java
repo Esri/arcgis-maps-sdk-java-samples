@@ -37,6 +37,7 @@ import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
+import com.esri.arcgisruntime.data.FeatureTable;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -93,7 +94,12 @@ public class FindConnectedFeaturesInUtilityNetworkController {
       // create a basemap and set it to the map view
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsNightVector());
       mapView.setMap(map);
-      mapView.setViewpointAsync(new Viewpoint(new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146, SpatialReferences.getWebMercator())));
+      mapView.setViewpointAsync(new Viewpoint(new Envelope(
+        -9813547.35557238,
+        5129980.36635111,
+        -9813185.0602376,
+        5130215.41254146,
+        SpatialReferences.getWebMercator())));
 
       // create symbols for the starting point and barriers
       startingPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.GREEN), 20);
@@ -102,11 +108,11 @@ public class FindConnectedFeaturesInUtilityNetworkController {
       // load the utility network data from the feature service and create feature layers
       String featureServiceURL = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
 
-      ServiceFeatureTable distributionLineFeatureService = new ServiceFeatureTable(featureServiceURL + "/115");
-      FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureService);
+      ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/115");
+      FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
 
-      ServiceFeatureTable electricDeviceFeatureService = new ServiceFeatureTable(featureServiceURL + "/100");
-      FeatureLayer electricDeviceLayer = new FeatureLayer(electricDeviceFeatureService);
+      ServiceFeatureTable electricDeviceFeatureTable = new ServiceFeatureTable(featureServiceURL + "/100");
+      FeatureLayer electricDeviceLayer = new FeatureLayer(electricDeviceFeatureTable);
 
       // create and apply a renderer for the electric distribution lines feature layer
       distributionLineLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3)));
@@ -388,32 +394,41 @@ public class FindConnectedFeaturesInUtilityNetworkController {
             // get the feature layer for the utility element
             utilityElementGroups.forEach((networkSourceName, utilityElements) -> {
 
-              // get the layer for the utility element
-              FeatureLayer layer = (FeatureLayer) mapView.getMap().getOperationalLayers().get(0);
-              if (layer == null) {
-                return;
-              }
-
-              if (layer.getFeatureTable().getTableName().equals(networkSourceName)) {
-
-                // convert the elements to features to highlight the result
-                ListenableFuture<List<ArcGISFeature>> fetchUtilityFeaturesFuture = utilityNetwork.fetchFeaturesForElementsAsync(utilityElements);
-                fetchUtilityFeaturesFuture.addDoneListener(() -> {
-                  try {
-                    List<ArcGISFeature> features = fetchUtilityFeaturesFuture.get();
-                    // select all the features to highlight them
-                    features.forEach(layer::selectFeature);
-
-                    // update the status label
-                    statusLabel.setText("Trace completed.");
-
-                    // enable the UI
-                    enableUI();
-                  } catch (InterruptedException | ExecutionException e) {
-                    new Alert(Alert.AlertType.ERROR, "Error fetching the corresponding features for the utility elements.").show();
+              FeatureTable utilityElementsFT = utilityElements.get(0).getNetworkSource().getFeatureTable();
+              utilityElementsFT.loadAsync();
+              utilityElementsFT.addDoneLoadingListener(()->{
+                if (utilityElementsFT.getLoadStatus() == LoadStatus.LOADED) {
+                  // get the layer for the utility element
+                  FeatureLayer layer = (FeatureLayer) mapView.getMap().getOperationalLayers().get(0);
+                  if (layer == null) {
+                    return;
                   }
-                });
-              }
+
+                  if (layer.getFeatureTable().getTableName().equals(networkSourceName)) {
+
+                    // convert the elements to features to highlight the result
+                    ListenableFuture<List<ArcGISFeature>> fetchUtilityFeaturesFuture = utilityNetwork.fetchFeaturesForElementsAsync(utilityElements);
+                    fetchUtilityFeaturesFuture.addDoneListener(() -> {
+                      try {
+                        List<ArcGISFeature> features = fetchUtilityFeaturesFuture.get();
+                        // select all the features to highlight them
+                        features.forEach(layer::selectFeature);
+
+                        // update the status label
+                        statusLabel.setText("Trace completed.");
+
+                        // enable the UI
+                        enableUI();
+                      } catch (InterruptedException | ExecutionException e) {
+                        new Alert(Alert.AlertType.ERROR,
+                          "Error fetching the corresponding features for the utility elements.").show();
+                      }
+                    });
+                  }
+                } else {
+                  new Alert(Alert.AlertType.ERROR, "Error loading Utility Element Feature Layer.").show();
+                }
+              });
             });
 
           }
