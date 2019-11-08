@@ -103,9 +103,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
         new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,
           SpatialReferences.getWebMercator())));
 
-      // create symbols for the starting point and barriers
-      startingPointSymbol =
-        new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.GREEN), 20);
+      // create symbols for the starting point and barriers: a green cross for starting locations, and a red X for barriers
+      startingPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.GREEN), 20);
       barrierPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.RED), 20);
 
       // load the utility network data from the feature service and create feature layers
