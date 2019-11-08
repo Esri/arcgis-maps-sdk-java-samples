@@ -141,7 +141,10 @@ public class FindConnectedFeaturesInUtilityNetworkController {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
 
           // enable the UI
-          enableUI();
+          enableButtonInteraction();
+
+          // hide the progress indicator
+          progressIndicator.setVisible(false);
 
           // update the status text
           statusLabel.setText("Click on the network lines or points to add a utility element.");
@@ -162,7 +165,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   /**
    * Uses the clicked map point to identify any utility elements in the utility network at the clicked location. Based
    * on the selection mode, the clicked utility element is added either to the starting locations or barriers for the
-   * trace parameters. An appropriate graphic is created at the clicked location to mark the element as either a
+   * trace parameters. The appropriate graphic is created at the clicked location to mark the element as either a
    * starting location or barrier.
    *
    * @param e mouse event registered when the map view is clicked on
@@ -431,7 +434,10 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                         statusLabel.setText("Trace completed.");
 
                         // enable the UI
-                        enableUI();
+                        enableButtonInteraction();
+
+                        // hide the progress indicator
+                        progressIndicator.setVisible(false);
 
                       } catch (InterruptedException | ExecutionException e) {
                         new Alert(Alert.AlertType.ERROR,
@@ -451,7 +457,10 @@ public class FindConnectedFeaturesInUtilityNetworkController {
         }
 
         // enable the UI
-        enableUI();
+        enableButtonInteraction();
+
+        // hide the progress indicator
+        progressIndicator.setVisible(false);
 
       } catch (InterruptedException | ExecutionException e) {
         statusLabel.setText("Trace failed.");
@@ -463,18 +472,15 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   /**
    * Enables both buttons and hides the progress indicator.
    */
-  private void enableUI() {
+  private void enableButtonInteraction() {
 
     // enable the UI
     traceButton.setDisable(false);
     resetButton.setDisable(false);
-
-    // hide the progress indicator
-    progressIndicator.setVisible(false);
   }
 
   /**
-   * Restores the sample to the startup-state by resetting the status text, hiding the progress indicator, clearing the
+   * Resets the sample by resetting the status text, hiding the progress indicator, clearing the
    * trace parameters, de-selecting all features and removing any graphics.
    */
   @FXML
