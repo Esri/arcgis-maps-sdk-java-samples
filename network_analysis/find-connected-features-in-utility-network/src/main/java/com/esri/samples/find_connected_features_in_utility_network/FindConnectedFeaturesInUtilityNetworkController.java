@@ -37,7 +37,6 @@ import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
-import com.esri.arcgisruntime.data.FeatureTable;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -406,49 +405,38 @@ public class FindConnectedFeaturesInUtilityNetworkController {
             // get the feature layer for the utility element
             utilityElementGroups.forEach((networkSourceName, utilityElements) -> {
 
-              // load each element's feature table manually. Note this is a workaround for some features that are
-              // returned by the trace not being selected properly
-              FeatureTable utilityElementsFT = utilityElements.get(0).getNetworkSource().getFeatureTable();
-              utilityElementsFT.loadAsync();
-              utilityElementsFT.addDoneLoadingListener(() -> {
-                if (utilityElementsFT.getLoadStatus() == LoadStatus.LOADED) {
+              // get the layer for the utility element
+              FeatureLayer layer = (FeatureLayer) mapView.getMap().getOperationalLayers().get(0);
+              if (layer == null) {
+                return;
+              }
 
-                  // get the layer for the utility element
-                  FeatureLayer layer = (FeatureLayer) mapView.getMap().getOperationalLayers().get(0);
-                  if (layer == null) {
-                    return;
+              if (layer.getFeatureTable().getTableName().equals(networkSourceName)) {
+
+                // convert the elements to features to highlight the result
+                ListenableFuture<List<ArcGISFeature>> fetchUtilityFeaturesFuture =
+                  utilityNetwork.fetchFeaturesForElementsAsync(utilityElements);
+                fetchUtilityFeaturesFuture.addDoneListener(() -> {
+                  try {
+                    List<ArcGISFeature> features = fetchUtilityFeaturesFuture.get();
+                    // select all the features to highlight them
+                    features.forEach(layer::selectFeature);
+
+                    // update the status label
+                    statusLabel.setText("Trace completed.");
+
+                    // enable the UI
+                    enableButtonInteraction();
+
+                    // hide the progress indicator
+                    progressIndicator.setVisible(false);
+
+                  } catch (InterruptedException | ExecutionException e) {
+                    new Alert(Alert.AlertType.ERROR,
+                      "Error fetching the corresponding features for the utility elements.").show();
                   }
-
-                  if (layer.getFeatureTable().getTableName().equals(networkSourceName)) {
-
-                    // convert the elements to features to highlight the result
-                    ListenableFuture<List<ArcGISFeature>> fetchUtilityFeaturesFuture =
-                      utilityNetwork.fetchFeaturesForElementsAsync(utilityElements);
-                    fetchUtilityFeaturesFuture.addDoneListener(() -> {
-                      try {
-                        List<ArcGISFeature> features = fetchUtilityFeaturesFuture.get();
-                        // select all the features to highlight them
-                        features.forEach(layer::selectFeature);
-
-                        // update the status label
-                        statusLabel.setText("Trace completed.");
-
-                        // enable the UI
-                        enableButtonInteraction();
-
-                        // hide the progress indicator
-                        progressIndicator.setVisible(false);
-
-                      } catch (InterruptedException | ExecutionException e) {
-                        new Alert(Alert.AlertType.ERROR,
-                          "Error fetching the corresponding features for the utility elements.").show();
-                      }
-                    });
-                  }
-                } else {
-                  new Alert(Alert.AlertType.ERROR, "Error loading Utility Element Feature Layer.").show();
-                }
-              });
+                });
+              }
             });
           }
         } else {
@@ -480,8 +468,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   }
 
   /**
-   * Resets the sample by resetting the status text, hiding the progress indicator, clearing the
-   * trace parameters, de-selecting all features and removing any graphics.
+   * Resets the sample by resetting the status text, hiding the progress indicator, clearing the trace parameters,
+   * de-selecting all features and removing any graphics.
    */
   @FXML
   private void handleResetClick() {
