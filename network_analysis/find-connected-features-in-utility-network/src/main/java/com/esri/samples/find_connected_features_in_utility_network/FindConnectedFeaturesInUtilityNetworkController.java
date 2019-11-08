@@ -74,12 +74,18 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
 
 public class FindConnectedFeaturesInUtilityNetworkController {
 
-  @FXML private Button resetButton;
-  @FXML private Button traceButton;
-  @FXML private Label statusLabel;
-  @FXML private MapView mapView;
-  @FXML private ProgressIndicator progressIndicator;
-  @FXML private RadioButton addingStartRadioButton;
+  @FXML
+  private Button resetButton;
+  @FXML
+  private Button traceButton;
+  @FXML
+  private Label statusLabel;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private ProgressIndicator progressIndicator;
+  @FXML
+  private RadioButton startingLocationsRadioButton;
 
   private ArrayList<UtilityElement> barriers;
   private ArrayList<UtilityElement> startingLocations;
@@ -94,19 +100,18 @@ public class FindConnectedFeaturesInUtilityNetworkController {
       // create a basemap and set it to the map view
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsNightVector());
       mapView.setMap(map);
-      mapView.setViewpointAsync(new Viewpoint(new Envelope(
-        -9813547.35557238,
-        5129980.36635111,
-        -9813185.0602376,
-        5130215.41254146,
-        SpatialReferences.getWebMercator())));
+      mapView.setViewpointAsync(new Viewpoint(
+        new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,
+          SpatialReferences.getWebMercator())));
 
       // create symbols for the starting point and barriers
-      startingPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.GREEN), 20);
+      startingPointSymbol =
+        new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.GREEN), 20);
       barrierPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.RED), 20);
 
       // load the utility network data from the feature service and create feature layers
-      String featureServiceURL = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
+      String featureServiceURL =
+        "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
 
       ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/115");
       FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
@@ -115,7 +120,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
       FeatureLayer electricDeviceLayer = new FeatureLayer(electricDeviceFeatureTable);
 
       // create and apply a renderer for the electric distribution lines feature layer
-      distributionLineLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3)));
+      distributionLineLayer.setRenderer(new SimpleRenderer(
+        new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3)));
 
       // add the feature layers to the map
       map.getOperationalLayers().addAll(Arrays.asList(distributionLineLayer, electricDeviceLayer));
@@ -159,7 +165,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
    * trace parameters. An appropriate graphic is created at the clicked location to mark the element as either a
    * starting location or barrier.
    *
-   * @param e mouse event registered when the map view is clicked on.
+   * @param e mouse event registered when the map view is clicked on
    */
   @FXML
   private void handleMapViewClicked(MouseEvent e) {
@@ -169,25 +175,23 @@ public class FindConnectedFeaturesInUtilityNetworkController {
       progressIndicator.setVisible(true);
 
       // set whether the user is adding a starting point or a barrier
-      boolean isAddingStart = addingStartRadioButton.isSelected();
+      boolean isAddingStartingPoint = startingLocationsRadioButton.isSelected();
 
       // get the clicked map point
       Point2D screenPoint = new Point2D(e.getX(), e.getY());
       Point mapPoint = mapView.screenToLocation(screenPoint);
 
       // identify the feature to be used
-      ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture = mapView.identifyLayersAsync(screenPoint, 10, false);
+      ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture =
+        mapView.identifyLayersAsync(screenPoint, 10, false);
       identifyLayerResultsFuture.addDoneListener(() -> {
         try {
           // get the result of the query
           List<IdentifyLayerResult> identifyLayerResults = identifyLayerResultsFuture.get();
 
           // return if no features are identified
-          if (identifyLayerResults.isEmpty()) {
-            return;
-
-          } else {
-            // retrieve the first result and get it's contents
+          if (!identifyLayerResults.isEmpty()) {
+            // retrieve the first result and get its contents
             IdentifyLayerResult firstResult = identifyLayerResults.get(0);
             LayerContent layerContent = firstResult.getLayerContent();
             // check that the result is a feature layer and has elements
@@ -199,7 +203,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                 ArcGISFeature identifiedFeature = (ArcGISFeature) identifiedElement;
 
                 // get the network source of the identified feature
-                UtilityNetworkSource networkSource = utilityNetwork.getDefinition().getNetworkSource(identifiedFeature.getFeatureTable().getTableName());
+                UtilityNetworkSource networkSource =
+                  utilityNetwork.getDefinition().getNetworkSource(identifiedFeature.getFeatureTable().getTableName());
 
                 UtilityElement utilityElement = null;
 
@@ -209,7 +214,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                   utilityElement = createUtilityElement(identifiedFeature, networkSource);
                 }
                 // check if the network source is an edge
-                else if (networkSource.getSourceType() == UtilityNetworkSource.Type.EDGE && identifiedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+                else if (networkSource.getSourceType() == UtilityNetworkSource.Type.EDGE &&
+                  identifiedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
 
                   //  create a utility element with the identified feature
                   utilityElement = utilityNetwork.createElement(identifiedFeature, null);
@@ -229,14 +235,15 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                   Graphic traceLocationGraphic = new Graphic();
 
                   // find the closest coordinate on the selected element to the clicked point
-                  ProximityResult proximityResult = GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
+                  ProximityResult proximityResult =
+                    GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
 
                   // set the graphic's geometry to the coordinate on the element
                   traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
                   graphicsOverlay.getGraphics().add(traceLocationGraphic);
 
                   // add the element to the appropriate list, and add the appropriate symbol to the graphic
-                  if (isAddingStart) {
+                  if (isAddingStartingPoint) {
                     startingLocations.add(utilityElement);
                     traceLocationGraphic.setSymbol(startingPointSymbol);
                   } else {
@@ -260,9 +267,9 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   /**
    * Uses a UtilityNetworkSource to create a UtilityElement object out of an ArcGISFeature.
    *
-   * @param identifiedFeature an ArcGISFeature object that will be used to create a UtilityElement.
-   * @param networkSource     the UtilityNetworkSource to which the created UtilityElement is associated.
-   * @return the created UtilityElement.
+   * @param identifiedFeature an ArcGISFeature object that will be used to create a UtilityElement
+   * @param networkSource the UtilityNetworkSource to which the created UtilityElement is associated
+   * @return the created UtilityElement
    */
   private UtilityElement createUtilityElement(ArcGISFeature identifiedFeature, UtilityNetworkSource networkSource) {
     UtilityElement utilityElement = null;
@@ -281,7 +288,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     for (UtilityAssetGroup assetGroup : assetGroups) {
       if (assetGroup.getCode() == assetGroupCode) {
 
-        // get the code for the feature's asset type from it's attributes
+        // get the code for the feature's asset type from its attributes
         String assetTypeCode = attributes.get("assettype").toString();
 
         // iterate through the asset group's asset types to find the type matching the feature's asset type code
@@ -301,7 +308,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
               // if there is more than one terminal, prompt the user to select one
             } else if (terminals.size() > 1) {
               // create a dialog for terminal selection
-              UtilityTerminalSelectionDialog utilityTerminalSelectionDialog = new UtilityTerminalSelectionDialog(terminals);
+              UtilityTerminalSelectionDialog utilityTerminalSelectionDialog =
+                new UtilityTerminalSelectionDialog(terminals);
 
               // show the terminal selection dialog and capture the user selection
               Optional<UtilityTerminal> selectedTerminalOptional = utilityTerminalSelectionDialog.showAndWait();
@@ -332,8 +340,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   }
 
   /**
-   * Uses the elements selected as starting locations and (optionally) barriers to perform a connected trace,
-   * then selects all connected elements found in the trace to highlight them.
+   * Uses the elements selected as starting locations and (optionally) barriers to perform a connected trace, then
+   * selects all connected elements found in the trace to highlight them.
    */
   @FXML
   private void handleTraceClick() {
@@ -361,7 +369,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
     }
 
     // run the utility trace and get the results
-    ListenableFuture<List<UtilityTraceResult>> utilityTraceResultsFuture = utilityNetwork.traceAsync(utilityTraceParameters);
+    ListenableFuture<List<UtilityTraceResult>> utilityTraceResultsFuture =
+      utilityNetwork.traceAsync(utilityTraceParameters);
     utilityTraceResultsFuture.addDoneListener(() -> {
       try {
         List<UtilityTraceResult> utilityTraceResults = utilityTraceResultsFuture.get();
@@ -394,10 +403,11 @@ public class FindConnectedFeaturesInUtilityNetworkController {
             // get the feature layer for the utility element
             utilityElementGroups.forEach((networkSourceName, utilityElements) -> {
 
-              // load each element's feature table manually. Note this is a workaround for some features that are returned by the trace not being selected properly
+              // load each element's feature table manually. Note this is a workaround for some features that are
+              // returned by the trace not being selected properly
               FeatureTable utilityElementsFT = utilityElements.get(0).getNetworkSource().getFeatureTable();
               utilityElementsFT.loadAsync();
-              utilityElementsFT.addDoneLoadingListener(()->{
+              utilityElementsFT.addDoneLoadingListener(() -> {
                 if (utilityElementsFT.getLoadStatus() == LoadStatus.LOADED) {
 
                   // get the layer for the utility element
@@ -409,7 +419,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                   if (layer.getFeatureTable().getTableName().equals(networkSourceName)) {
 
                     // convert the elements to features to highlight the result
-                    ListenableFuture<List<ArcGISFeature>> fetchUtilityFeaturesFuture = utilityNetwork.fetchFeaturesForElementsAsync(utilityElements);
+                    ListenableFuture<List<ArcGISFeature>> fetchUtilityFeaturesFuture =
+                      utilityNetwork.fetchFeaturesForElementsAsync(utilityElements);
                     fetchUtilityFeaturesFuture.addDoneListener(() -> {
                       try {
                         List<ArcGISFeature> features = fetchUtilityFeaturesFuture.get();
@@ -433,7 +444,6 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                 }
               });
             });
-
           }
         } else {
           statusLabel.setText("Trace failed.");
@@ -464,8 +474,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   }
 
   /**
-   * Restores the sample to the startup-state by resetting the status text, hiding the progress indicator, clearing
-   * the trace parameters, de-selecting all features and removing any graphics
+   * Restores the sample to the startup-state by resetting the status text, hiding the progress indicator, clearing the
+   * trace parameters, de-selecting all features and removing any graphics.
    */
   @FXML
   private void handleResetClick() {

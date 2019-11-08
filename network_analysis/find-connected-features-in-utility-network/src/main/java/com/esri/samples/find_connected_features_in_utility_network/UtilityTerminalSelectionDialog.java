@@ -47,7 +47,7 @@ class UtilityTerminalSelectionDialog extends Dialog<UtilityTerminal> {
     try {
       loader.load();
 
-      // use a cell factory which shows the utility terminals's title
+      // use a cell factory which shows the utility terminal's title
       utilityTerminalListView.setCellFactory(c -> new UtilityTerminalListCell());
 
       // add the list of terminals to the ListView
