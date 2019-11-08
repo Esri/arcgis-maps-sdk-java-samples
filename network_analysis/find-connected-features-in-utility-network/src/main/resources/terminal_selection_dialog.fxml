@@ -28,7 +28,7 @@
                     <ListView fx:id="utilityTerminalListView" maxHeight="100"/>
                 </StackPane>
             </content>
-            <ButtonType fx:id="cancelButton" buttonData="CANCEL_CLOSE" text="Cancel"/>
+            <ButtonType buttonData="CANCEL_CLOSE" text="Cancel"/>
             <ButtonType fx:id="continueButton" buttonData="FINISH" text="Continue"/>
         </DialogPane>
     </dialogPane>
