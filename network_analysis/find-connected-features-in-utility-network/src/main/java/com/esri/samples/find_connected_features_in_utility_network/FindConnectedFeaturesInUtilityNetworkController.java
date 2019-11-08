@@ -436,7 +436,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
   }
 
   /**
-   * Enables both buttons and hides the progress indicator.
+   * Enables both buttons.
    */
   private void enableButtonInteraction() {
 
