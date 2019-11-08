@@ -327,7 +327,6 @@ public class FindConnectedFeaturesInUtilityNetworkController {
         }
       }
     }
-
     return utilityElement;
   }
 
