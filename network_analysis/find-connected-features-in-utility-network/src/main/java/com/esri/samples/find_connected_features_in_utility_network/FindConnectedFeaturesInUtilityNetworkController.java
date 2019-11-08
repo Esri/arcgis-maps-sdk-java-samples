@@ -206,8 +206,8 @@ public class FindConnectedFeaturesInUtilityNetworkController {
                 ArcGISFeature identifiedFeature = (ArcGISFeature) identifiedElement;
 
                 // get the network source of the identified feature
-                UtilityNetworkSource networkSource =
-                  utilityNetwork.getDefinition().getNetworkSource(identifiedFeature.getFeatureTable().getTableName());
+                String featureTableName = identifiedFeature.getFeatureTable().getTableName();
+                UtilityNetworkSource networkSource = utilityNetwork.getDefinition().getNetworkSource(featureTableName);
 
                 UtilityElement utilityElement = null;
 
