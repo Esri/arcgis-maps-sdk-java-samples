@@ -11,11 +11,23 @@
         "network analysis"
     ],
     "relevant_apis": [
-        "UtilityNetworks",
-        "GeometryEngine"
+        "GeometryEngine",
+        "UtilityNetwork",
+        "UtilityTraceParameters",
+        "UtilityTraceResult",
+        "UtilityElementTraceResult",
+        "UtilityNetworkSource",
+        "UtilityAssetType",
+        "UtilityTerminal",
+        "UtilityElement"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/find_connected_features_in_utility_network/FindConnectedFeaturesInUtilityNetworkSample.java"
+        "src/main/java/com/esri/samples/find_connected_features_in_utility_network/FindConnectedFeaturesInUtilityNetworkController.java",
+        "src/main/java/com/esri/samples/find_connected_features_in_utility_network/FindConnectedFeaturesInUtilityNetworkSample.java",
+        "src/main/java/com/esri/samples/find_connected_features_in_utility_network/UtilityTerminalListCell.java",
+        "src/main/java/com/esri/samples/find_connected_features_in_utility_network/UtilityTerminalSelectionDialog.java",
+        "src/main/resources/find_connected_features_in_utility_network.fxml",
+        "src/main/resources/terminal_selection_dialog.fxml"
     ],
     "title": "Find connected features in a utility network"
 }
