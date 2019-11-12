@@ -10,7 +10,7 @@ This is useful to visualize and validate the network topology of a utility netwo
 
 ## How to use the sample
 
-To add a starting point, select 'Add starting location(s)' and click on one or more features. To add a barrier, select 'Add barrier(s)' and click on one or more features. When a junction feature is identified, you may be prompted to select a terminal. When an edge feature is identified, the distance from the tapped location to the beginning of the edge feature will be computed. Click 'Trace' to highlight all features connected to the specified starting locations and not positioned beyond the barriers. Click 'Reset' to clear parameters and start over.
+Add starting locations and (optionally) barriers by clicking on one or more features while 'Add starting locations' or 'Add barriers' is selected. When a junction feature is identified, you may be prompted to select a terminal. When an edge feature is identified, the distance from the tapped location to the beginning of the edge feature will be computed. Click 'Trace' to highlight all features connected to the specified starting locations and not positioned beyond the barriers. Click 'Reset' to clear parameters and start over.
 
 ## How it works
 

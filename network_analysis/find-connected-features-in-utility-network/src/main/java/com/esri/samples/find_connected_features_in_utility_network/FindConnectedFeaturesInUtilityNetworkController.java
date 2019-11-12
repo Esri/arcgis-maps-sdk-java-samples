@@ -147,7 +147,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
           progressIndicator.setVisible(false);
 
           // update the status text
-          statusLabel.setText("Click on the network lines or points to add a utility element.");
+          statusLabel.setText("");
 
           // listen to clicks on the map view
           mapView.setOnMouseClicked(this::handleMapViewClicked);
@@ -451,7 +451,7 @@ public class FindConnectedFeaturesInUtilityNetworkController {
    */
   @FXML
   private void handleResetClick() {
-    statusLabel.setText("Click on the network lines or points to add a utility element.");
+    statusLabel.setText("");
     progressIndicator.setVisible(false);
 
     // clear the utility trace parameters
