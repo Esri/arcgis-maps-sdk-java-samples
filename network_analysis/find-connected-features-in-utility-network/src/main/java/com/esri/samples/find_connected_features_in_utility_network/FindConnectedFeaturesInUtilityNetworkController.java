@@ -18,7 +18,6 @@ package com.esri.samples.find_connected_features_in_utility_network;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
