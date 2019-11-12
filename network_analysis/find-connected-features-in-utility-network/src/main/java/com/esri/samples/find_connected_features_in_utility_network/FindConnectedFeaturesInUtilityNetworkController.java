@@ -23,6 +23,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.IntegerBinding;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
@@ -74,18 +78,12 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
 
 public class FindConnectedFeaturesInUtilityNetworkController {
 
-  @FXML
-  private Button resetButton;
-  @FXML
-  private Button traceButton;
-  @FXML
-  private Label statusLabel;
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ProgressIndicator progressIndicator;
-  @FXML
-  private RadioButton startingLocationsRadioButton;
+  @FXML private Button resetButton;
+  @FXML private Button traceButton;
+  @FXML private Label statusLabel;
+  @FXML private MapView mapView;
+  @FXML private ProgressIndicator progressIndicator;
+  @FXML private RadioButton startingLocationsRadioButton;
 
   private ArrayList<UtilityElement> barriers;
   private ArrayList<UtilityElement> startingLocations;
