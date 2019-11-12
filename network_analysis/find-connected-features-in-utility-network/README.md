@@ -42,7 +42,7 @@ To add a starting point, select 'Add starting location(s)' and click on one or m
 
 ## About the data
 
-The sample uses a dark vector basemap. It includes a subset of feature layers from a feature service that contains the same utility network used to run the connected trace.
+The [feature service](https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer) in this sample represents an electric network in Naperville, Illinois, which contains a utility network used to run the subnetwork-based trace.
 
 ## Tags
 
