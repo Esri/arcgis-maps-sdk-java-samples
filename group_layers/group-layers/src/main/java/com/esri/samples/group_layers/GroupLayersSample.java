@@ -85,10 +85,10 @@ public class GroupLayersSample extends Application {
       // create a group layer from scratch by adding the layers as children
       GroupLayer groupLayer = new GroupLayer();
       groupLayer.setName("Group: Dev A");
-      groupLayer.getLayers().addAll(Arrays.asList(devABuildings, devBBuildings));
+      groupLayer.getLayers().addAll(Arrays.asList(devATrees, devAPathways, devABuildings));
 
       // add the group layer and other layers to the scene as operational layers
-      scene.getOperationalLayers().addAll(Arrays.asList(devProjectArea, groupLayer, devATrees, devAPathways));
+      scene.getOperationalLayers().addAll(Arrays.asList(groupLayer, devBBuildings, devProjectArea));
 
       // zoom to the extent of the group layer when the child layers are loaded
       groupLayer.getLayers().forEach(childLayer ->
