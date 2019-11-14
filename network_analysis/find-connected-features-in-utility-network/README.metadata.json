@@ -12,14 +12,14 @@
     ],
     "relevant_apis": [
         "GeometryEngine",
-        "UtilityNetwork",
-        "UtilityTraceParameters",
-        "UtilityTraceResult",
-        "UtilityElementTraceResult",
-        "UtilityNetworkSource",
         "UtilityAssetType",
+        "UtilityElement",
+        "UtilityElementTraceResult",
+        "UtilityNetwork",
+        "UtilityNetworkSource",
         "UtilityTerminal",
-        "UtilityElement"
+        "UtilityTraceParameters",
+        "UtilityTraceResult"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/find_connected_features_in_utility_network/FindConnectedFeaturesInUtilityNetworkController.java",
