@@ -30,7 +30,7 @@ When you run the sample, the app attempt to will load a web map which contains p
 
 The workflow presented in this sample works for all SAML based enterprise (IWA, PKI, Okta, etc.) and social (Facebook, Google, etc.) identify providers for ArcGIS Online or Portal. More information on enterprise logins can be found [here](https://doc.arcgis.com/en/arcgis-online/administer/enterprise-logins.htm).
 
-For additional information on using OAuth in your app, see the [Mobile and Native Named User Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) topic in our guide. To setup and access your own app using this sample (using your own ArcGIS portal), see the wiki for details.
+For additional information on using OAuth in your app, see the [Mobile and Native Named User Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) topic in our guide. To setup and access your own app using this sample (using your own ArcGIS portal), see https://github.com/Esri/arcgis-runtime-samples-java/blob/master/OAuth.md.
 
 ## Tags
 
