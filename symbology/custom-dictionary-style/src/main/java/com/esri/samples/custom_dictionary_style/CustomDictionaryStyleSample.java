@@ -31,6 +31,8 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 
+import java.io.File;
+
 public class CustomDictionaryStyleSample extends Application {
 
   private MapView mapView;
@@ -68,7 +70,8 @@ public class CustomDictionaryStyleSample extends Application {
       map.getOperationalLayers().add(restaurantLayer);
 
       // open the custom style file
-      DictionarySymbolStyle restaurantStyle = DictionarySymbolStyle.createFromFile("./samples-data/stylx/Restaurant.stylx");
+      String styleFilePath = new File(System.getProperty("data.dir"), "./samples-data/stylx/Restaurant.stylx").getAbsolutePath();
+      DictionarySymbolStyle restaurantStyle = DictionarySymbolStyle.createFromFile(styleFilePath);
 
       // create a dictionary renderer
       DictionaryRenderer dictionaryRenderer = new DictionaryRenderer(restaurantStyle);
