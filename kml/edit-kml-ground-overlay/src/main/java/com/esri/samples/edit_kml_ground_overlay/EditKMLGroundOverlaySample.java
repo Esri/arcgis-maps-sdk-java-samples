@@ -75,7 +75,7 @@ public class EditKMLGroundOverlaySample extends Application {
       Envelope overlayGeometry = new Envelope(-123.066227926904, 44.04736963555683, -123.0796942287304, 44.03878298600624, SpatialReferences.getWgs84());
 
       // create a KML icon for the overlay image
-      String overlayImageURI = new File("./samples-data/images/1944.jpg").getAbsolutePath();
+      String overlayImageURI = new File(System.getProperty("data.dir"), "./samples-data/images/1944.jpg").getAbsolutePath();
       KmlIcon overlayImage = new KmlIcon(overlayImageURI);
 
       // create the KML ground overlay
