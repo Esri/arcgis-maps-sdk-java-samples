@@ -1,0 +1,25 @@
+{
+    "category": "KML",
+    "description": "Edit the values of a KML ground overlay.",
+    "ignore": false,
+    "images": [
+        "EditKMLGroundOverlay.png"
+    ],
+    "keywords": [
+        "imagery",
+        "Keyhole",
+        "KML",
+        "KMZ",
+        "OGC"
+    ],
+    "relevant_apis": [
+        "KmlDataset",
+        "KmlGroundOverlay",
+        "KmlIcon",
+        "KmlLayer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/edit_kml_ground_overlay/EditKMLGroundOverlaySample.java"
+    ],
+    "title": "Edit KML Ground Overlay"
+}
