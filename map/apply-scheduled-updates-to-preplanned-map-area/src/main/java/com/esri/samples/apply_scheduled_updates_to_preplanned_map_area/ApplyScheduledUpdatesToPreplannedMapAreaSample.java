@@ -27,7 +27,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import org.apache.commons.io.FileUtils;
 
 import com.esri.arcgisruntime.concurrent.Job;
@@ -161,6 +160,8 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
 
         // set the parameters to download all updates for the mobile map packages
         offlineMapSyncParameters.setPreplannedScheduledUpdatesOption(PreplannedScheduledUpdatesOption.DOWNLOAD_ALL_UPDATES);
+        // set the map package to rollback to the old state should the sync job fail
+        offlineMapSyncParameters.setRollbackOnFailure(true);
 
         // create a sync job using the parameters
         OfflineMapSyncJob offlineMapSyncJob = offlineMapSyncTask.syncOfflineMap(offlineMapSyncParameters);
@@ -171,23 +172,15 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           if (offlineMapSyncJob.getStatus() == Job.Status.SUCCEEDED) {
             OfflineMapSyncResult offlineMapSyncResult = offlineMapSyncJob.getResult();
 
-            // check if mobile map package reopen is required
+            // if mobile map package reopen is required, close the existing mobile map package and load it again
             if (offlineMapSyncResult.isMobileMapPackageReopenRequired()) {
-              // release the mobile map package maps from the map view
-              mapView.setMap(null);
-              // close the old mobile map package
               mobileMapPackage.close();
-
-              // create a new instance of the now updated mobile map package
-              MobileMapPackage updatedMobileMapPackage = new MobileMapPackage(tempMobileMapPackageDirectory.toString());
-              updatedMobileMapPackage.loadAsync();
-
-              // wait for the new instance of the mobile map package to load
-              updatedMobileMapPackage.addDoneLoadingListener(() -> {
-                if (updatedMobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !updatedMobileMapPackage.getMaps().isEmpty()) {
+              mobileMapPackage.loadAsync();
+              mobileMapPackage.addDoneLoadingListener(() -> {
+                if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
 
                   // add the map from the mobile map package to the map view
-                  mapView.setMap(updatedMobileMapPackage.getMaps().get(0));
+                  mapView.setMap(mobileMapPackage.getMaps().get(0));
 
                 } else {
                   new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package.").show();

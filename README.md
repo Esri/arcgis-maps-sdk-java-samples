@@ -60,6 +60,8 @@ Find a bug or want to request a new feature?  Please let us know by submitting a
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
+New to Git? Check out our [Working with Git](https://github.com/Esri/arcgis-runtime-samples-java/blob/master/WorkingWithGit.md) guide.
+
 ## Licensing
 
 Copyright 2019 Esri
