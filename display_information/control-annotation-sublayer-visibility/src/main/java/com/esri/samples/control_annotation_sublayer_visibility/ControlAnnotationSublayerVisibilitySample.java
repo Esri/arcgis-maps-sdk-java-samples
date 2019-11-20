@@ -74,6 +74,7 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
 
       // create a control panel and label for the checkboxes
       VBox controlsVBox = new VBox(6);
+      controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
