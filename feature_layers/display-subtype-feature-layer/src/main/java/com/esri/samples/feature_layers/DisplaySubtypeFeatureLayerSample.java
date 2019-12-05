@@ -16,6 +16,9 @@
 
 package com.esri.samples.feature_layers;
 
+import java.io.File;
+import java.util.Scanner;
+
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.ArcGISRuntimeException;
 import com.esri.arcgisruntime.arcgisservices.ArcGISMapServiceSublayerInfo;
@@ -58,7 +61,7 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
   private SubtypeSublayer sublayer;
 
   @Override
-  public void start(Stage stage) {
+  public void start(Stage stage) throws Error {
 
     try {
 
@@ -82,12 +85,13 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
       map.setBasemap(Basemap.createStreetsNightVector());
       mapView.setMap(map);
 
-
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ///  JAVAFX SET UP  ///
+      ///////////////////////
       // show current map scale
       Label currentMapScaleLabel = new Label();
-//      currentMapScaleLabel.setTextFill(Color.WHITE);
-//      currentMapScaleLabel.setAlignment(Pos.CENTER);
-      mapView.addMapScaleChangedListener(mapScaleChangedEvent -> currentMapScaleLabel.setText("Current Map Scale: 1:" + Math.round(mapView.getMapScale())));
+      mapView.addMapScaleChangedListener(mapScaleChangedEvent -> 
+        currentMapScaleLabel.setText("Current Map Scale: 1:" + Math.round(mapView.getMapScale())));
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
@@ -96,40 +100,45 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
       controlsVBox.setMaxSize(260, 150);
       controlsVBox.setAlignment(Pos.TOP_CENTER);
       controlsVBox.getStyleClass().add("panel-region");
-
-      HBox firstHBox = new HBox(15);
-      firstHBox.setAlignment(Pos.CENTER);
+      
       // create checkbox for toggling sublayer visibility
       CheckBox checkBox = new CheckBox("Show sublayer");
       checkBox.setSelected(true);
-      
       ToggleButton changeRendererButton = new ToggleButton("Toggle Renderer");
+      
+      HBox firstHBox = new HBox(15);
+      firstHBox.setAlignment(Pos.CENTER);
       firstHBox.getChildren().addAll(checkBox, changeRendererButton);
 
-      HBox secondHBox = new HBox(15);
-      secondHBox.setAlignment(Pos.CENTER);
       // create label for showing min scale
       Label minScaleLabel = new Label("Sublayer labelling min scale: not set");
       minScaleLabel.setMaxWidth(100);
       minScaleLabel.setWrapText(true);
       Button setMinScaleButton = new Button("Set Minimum Scale");
-
+      
+      HBox secondHBox = new HBox(15);
+      secondHBox.setAlignment(Pos.CENTER);
       secondHBox.getChildren().addAll(minScaleLabel, setMinScaleButton);
       controlsVBox.getChildren().addAll(currentMapScaleLabel, firstHBox, secondHBox);
-
+      ////////////////////////////////////////////////////////////////////////////////////////////
+      
+      // set the viewpoint to Naperville
       Viewpoint initialViewpoint = new Viewpoint(new Envelope(-9812691.11079696, 5128687.20710657, 
         -9812377.9447607, 5128865.36767282, SpatialReferences.getWebMercator()));
       map.setInitialViewpoint(initialViewpoint);
-      
-      String labelJson = "{ " +
-        "\"labelExpression\":\"[nominalvoltage]\",\"labelPlacement\":\"esriServerPointLabelPlacement" +
-        "AboveRight\",\"useCodedValues\":true,\"symbol\":{\"angle\":0,\"backgroundColor\":[0,0,0,0],\"borderLineColor\":" +
-        "[0,0,0,0],\"borderLineSize\":0,\"color\":[0,0,255,255],\"font\":{\"decoration\":\"none\",\"size\":10.5,\"style\"" +
-        ":\"normal\",\"weight\":\"normal\"},\"haloColor\":[255,255,255,255],\"haloSize\":2,\"horizontalAlignment\":\"" +
-        "center\",\"kerning\":false,\"type\":\"esriTS\",\"verticalAlignment\":\"middle\",\"xoffset\":0,\"yoffset\":0}}";
 
+      // access the json required for the sublayer label definitions
+      File jsonFile = new File(System.getProperty("data.dir"), 
+          getClass().getClassLoader().getResource("label_definition.json").getFile());
+      final String json;
+      // read in the complete file as a string
+      try (Scanner scanner = new Scanner(jsonFile)) {
+        json = scanner.useDelimiter("\\A").next();
+      }
+      
       final String serviceFeatureTableUrl = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/100";
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceFeatureTableUrl);
+      // create a subtype feature layer from the service feature table, and add it to the map
       SubtypeFeatureLayer subtypeFeatureLayer = new SubtypeFeatureLayer(serviceFeatureTable);
       map.getOperationalLayers().add(subtypeFeatureLayer);
       
@@ -139,7 +148,7 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
         // get the Street Light sublayer and set it up 
         sublayer = subtypeFeatureLayer.getSublayerWithSubtypeName("Street Light");
         sublayer.setLabelsEnabled(true);
-        sublayer.getLabelDefinitions().add(LabelDefinition.fromJson(labelJson));
+        sublayer.getLabelDefinitions().add(LabelDefinition.fromJson(json));
         
         // set visibility of the sublayer
         checkBox.setOnAction(event -> {
@@ -173,9 +182,7 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
       stackPane.getChildren().addAll(mapView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
       StackPane.setMargin(controlsVBox, new Insets(50, 10, 0, 0));
-
-
-
+      
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
