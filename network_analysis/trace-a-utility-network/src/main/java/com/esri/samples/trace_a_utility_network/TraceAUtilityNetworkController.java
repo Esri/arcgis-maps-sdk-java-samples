@@ -83,9 +83,8 @@ public class TraceAUtilityNetworkController {
 
   private ArrayList<UtilityElement> barriers;
   private ArrayList<UtilityElement> startingLocations;
-  private GraphicsOverlay graphicsOverlay;
-  private SimpleMarkerSymbol barrierPointSymbol;
-  private SimpleMarkerSymbol startingPointSymbol;
+  private GraphicsOverlay startingLocationsGraphicsOverlay;
+  private GraphicsOverlay barriersGraphicsOverlay;
   private UtilityNetwork utilityNetwork;
   private UtilityTraceParameters utilityTraceParameters;
 
@@ -94,13 +93,10 @@ public class TraceAUtilityNetworkController {
       // create a basemap and set it to the map view
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsNightVector());
       mapView.setMap(map);
+      // set the viewpoint to a subsection of the utility network
       mapView.setViewpointAsync(new Viewpoint(
         new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,
           SpatialReferences.getWebMercator())));
-
-      // create symbols for the starting point and barriers: a green cross for starting locations, and a red X for barriers
-      startingPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.GREEN), 20);
-      barrierPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.RED), 20);
 
       // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
@@ -120,8 +116,18 @@ public class TraceAUtilityNetworkController {
       map.getOperationalLayers().addAll(Arrays.asList(distributionLineLayer, electricDeviceLayer));
 
       // create a graphics overlay and add it to the map view
-      graphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
+      startingLocationsGraphicsOverlay = new GraphicsOverlay();
+      barriersGraphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().addAll(Arrays.asList(startingLocationsGraphicsOverlay, barriersGraphicsOverlay));
+
+      // create and apply renderers for the starting points and barriers graphics overlays
+      SimpleMarkerSymbol startingPointSymbol =
+          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.GREEN), 20);
+      startingLocationsGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
+
+      SimpleMarkerSymbol barrierPointSymbol =
+          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.RED), 20);
+      barriersGraphicsOverlay.setRenderer(new SimpleRenderer(barrierPointSymbol));
 
       // create a list of starting locations for the trace
       startingLocations = new ArrayList<>();
@@ -236,15 +242,14 @@ public class TraceAUtilityNetworkController {
 
                   // set the graphic's geometry to the coordinate on the element
                   traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
-                  graphicsOverlay.getGraphics().add(traceLocationGraphic);
 
-                  // add the element to the appropriate list, and add the appropriate symbol to the graphic
+                  // add the element to the appropriate list, and add the appropriate graphic to its graphics overlay
                   if (isAddingStartingPoint) {
                     startingLocations.add(utilityElement);
-                    traceLocationGraphic.setSymbol(startingPointSymbol);
+                    startingLocationsGraphicsOverlay.getGraphics().add(traceLocationGraphic);
                   } else {
                     barriers.add(utilityElement);
-                    traceLocationGraphic.setSymbol(barrierPointSymbol);
+                    barriersGraphicsOverlay.getGraphics().add(traceLocationGraphic);
                   }
                 }
               }
@@ -459,8 +464,9 @@ public class TraceAUtilityNetworkController {
       }
     });
 
-    // clear the graphics overlay
-    graphicsOverlay.getGraphics().clear();
+    // clear the graphics overlays
+    barriersGraphicsOverlay.getGraphics().clear();
+    startingLocationsGraphicsOverlay.getGraphics().clear();
 
     // enable the trace button
     traceButton.setDisable(false);
