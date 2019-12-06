@@ -364,9 +364,7 @@ public class TraceAUtilityNetworkController {
     utilityTraceParameters = new UtilityTraceParameters(UtilityTraceType.CONNECTED, startingLocations);
 
     // if any barriers have been created, add them to the parameters
-    if (!barriers.isEmpty()) {
-      utilityTraceParameters.getBarriers().addAll(barriers);
-    }
+    utilityTraceParameters.getBarriers().addAll(barriers);
 
     // run the utility trace and get the results
     ListenableFuture<List<UtilityTraceResult>> utilityTraceResultsFuture =
