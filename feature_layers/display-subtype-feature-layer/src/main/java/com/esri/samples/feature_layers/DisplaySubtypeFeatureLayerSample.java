@@ -16,172 +16,32 @@
 
 package com.esri.samples.feature_layers;
 
-import java.io.File;
-import java.util.Scanner;
+import java.io.IOException;
 
-import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.SubtypeFeatureLayer;
-import com.esri.arcgisruntime.layers.SubtypeSublayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.Renderer;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import com.esri.arcgisruntime.symbology.Symbol;
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class DisplaySubtypeFeatureLayerSample extends Application {
-
-  private MapView mapView;
-  private SubtypeSublayer sublayer;
-
+  
+  private static DisplaySubtypeFeatureLayerController controller;
+  
   @Override
-  public void start(Stage stage) throws Error {
+  public void start(Stage stage) throws IOException {
 
-    try {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/display_subtype_feature_layer.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene scene = new Scene(root);
 
-      // set the title and size of the stage and show it
-      StackPane stackPane = new StackPane();
-      Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-
-      stage.setTitle("Display subtype feature layer");
-      stage.setWidth(800);
-      stage.setHeight(700);
-
-      // create a JavaFX scene with a stackpane and set it to the stage
-      stage.setScene(fxScene);
-      stage.show();
-
-      // create a map view and add it to the stack pane
-      mapView = new MapView();
-      // create a map with streets night vector basemap and add it to the map view
-      ArcGISMap map = new ArcGISMap();
-      map.setBasemap(Basemap.createStreetsNightVector());
-      mapView.setMap(map);
-
-      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      ///  JAVAFX SET UP  ///
-      ///////////////////////
-      // show current map scale
-      Label currentMapScaleLabel = new Label();
-      mapView.addMapScaleChangedListener(mapScaleChangedEvent -> 
-        currentMapScaleLabel.setText("Current Map Scale: 1:" + Math.round(mapView.getMapScale())));
-
-      // create a control panel
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(260, 150);
-      controlsVBox.setAlignment(Pos.TOP_CENTER);
-      controlsVBox.getStyleClass().add("panel-region");
-      
-      // create checkbox for toggling sublayer visibility
-      CheckBox checkBox = new CheckBox("Show sublayer");
-      checkBox.setSelected(true);
-      ToggleButton changeRendererButton = new ToggleButton("Toggle Renderer");
-      
-      HBox firstHBox = new HBox(15);
-      firstHBox.setAlignment(Pos.CENTER);
-      firstHBox.getChildren().addAll(checkBox, changeRendererButton);
-
-      // create label for showing min scale
-      Label minScaleLabel = new Label("Sublayer labelling min scale: not set");
-      minScaleLabel.setMaxWidth(100);
-      minScaleLabel.setWrapText(true);
-      Button setMinScaleButton = new Button("Set Minimum Scale");
-      
-      HBox secondHBox = new HBox(15);
-      secondHBox.setAlignment(Pos.CENTER);
-      secondHBox.getChildren().addAll(minScaleLabel, setMinScaleButton);
-      controlsVBox.getChildren().addAll(currentMapScaleLabel, firstHBox, secondHBox);
-      ////////////////////////////////////////////////////////////////////////////////////////////
-      
-      // set the viewpoint to Naperville
-      Viewpoint initialViewpoint = new Viewpoint(new Envelope(-9812691.11079696, 5128687.20710657, 
-        -9812377.9447607, 5128865.36767282, SpatialReferences.getWebMercator()));
-      map.setInitialViewpoint(initialViewpoint);
-
-      // access the json required for the sublayer label definitions
-      File jsonFile = new File(System.getProperty("data.dir"), 
-          getClass().getClassLoader().getResource("label_definition.json").getFile());
-      final String json;
-      // read in the complete file as a string
-      try (Scanner scanner = new Scanner(jsonFile)) {
-        json = scanner.useDelimiter("\\A").next();
-      }
-
-      // create a subtype feature layer from the service feature table, and add it to the map
-      final String serviceFeatureTableUrl = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/100";
-      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceFeatureTableUrl);
-      SubtypeFeatureLayer subtypeFeatureLayer = new SubtypeFeatureLayer(serviceFeatureTable);
-      map.getOperationalLayers().add(subtypeFeatureLayer);
-      
-      subtypeFeatureLayer.loadAsync();
-      subtypeFeatureLayer.addDoneLoadingListener(() -> {
-
-        // get the Street Light sublayer and set it up 
-        sublayer = subtypeFeatureLayer.getSublayerWithSubtypeName("Street Light");
-        sublayer.setLabelsEnabled(true);
-        sublayer.getLabelDefinitions().add(LabelDefinition.fromJson(json));
-        
-        // set visibility of the sublayer
-        checkBox.setOnAction(event -> {
-          sublayer.setVisible(checkBox.isSelected());
-        });
-
-        // change the renderer of the sublayer
-        Renderer originalRenderer = sublayer.getRenderer();
-        changeRendererButton.setOnAction(event -> {
-          
-          if (changeRendererButton.isSelected()) { 
-          Symbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xfff58f84, 20);
-          Renderer sublayerRenderer = new SimpleRenderer(symbol);
-          sublayer.setRenderer(sublayerRenderer);
-          System.out.println("button clicked");
-          } else {
-            sublayer.setRenderer(originalRenderer);
-          }
-        });
-        
-        // set the minimum scale of the labels for the sub layer
-        setMinScaleButton.setOnAction(event -> {
-          sublayer.setMinScale(mapView.getMapScale());
-          minScaleLabel.setText("Sublayer labelling min scale: 1:" + Math.round(sublayer.getMinScale()));
-        });
-        
-        
-        
-      });
-
-      stackPane.getChildren().addAll(mapView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
-      StackPane.setMargin(controlsVBox, new Insets(50, 10, 0, 0));
-      
-    } catch (Exception e) {
-      // on any error, display the stack trace.
-      e.printStackTrace();
-    }
+    // set up the stage
+    stage.setTitle("Display subtype feature layer");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
   }
   
   /**
@@ -189,10 +49,7 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
    */
   @Override
   public void stop() {
-
-    if (mapView != null) {
-      mapView.dispose();
-    }
+    controller.terminate();
   }
 
   /**
@@ -204,5 +61,5 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
 
     Application.launch(args);
   }
-
+  
 }
