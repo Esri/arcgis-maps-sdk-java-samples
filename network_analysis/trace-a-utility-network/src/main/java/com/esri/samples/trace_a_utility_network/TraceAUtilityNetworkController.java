@@ -346,6 +346,13 @@ public class TraceAUtilityNetworkController {
   @FXML
   private void handleTraceClick() {
 
+    // clear the previous selection from the layer
+    mapView.getMap().getOperationalLayers().forEach(layer -> {
+      if (layer instanceof FeatureLayer) {
+        ((FeatureLayer) layer).clearSelection();
+      }
+    });
+
     // check that the utility trace parameters are valid
     if (startingLocations.isEmpty()) {
       new Alert(Alert.AlertType.ERROR, "No starting locations provided for trace.").show();
@@ -377,12 +384,6 @@ public class TraceAUtilityNetworkController {
             UtilityElementTraceResult utilityElementTraceResult = (UtilityElementTraceResult) utilityTraceResults.get(0);
 
             if (!utilityElementTraceResult.getElements().isEmpty()) {
-              // clear the previous selection from the layer
-              mapView.getMap().getOperationalLayers().forEach(layer -> {
-                if (layer instanceof FeatureLayer) {
-                  ((FeatureLayer) layer).clearSelection();
-                }
-              });
 
               // iterate through the map's feature layers
               mapView.getMap().getOperationalLayers().forEach(layer -> {
