@@ -41,20 +41,14 @@ import javafx.scene.control.ToggleButton;
 
 public class DisplaySubtypeFeatureLayerController {
 
-  @FXML
-  private ToggleButton toggleRendererButton;
-  @FXML
-  private MapView mapView;
-  @FXML
-  private Label currentMapScaleLabel;
-  @FXML
-  private Label minScaleLabel;
-  @FXML
-  private CheckBox checkBox;
+  @FXML private ToggleButton toggleRendererButton;
+  @FXML private MapView mapView;
+  @FXML private Label currentMapScaleLabel;
+  @FXML private Label minScaleLabel;
+  @FXML private CheckBox checkBox;
   private SubtypeSublayer sublayer;
   private Renderer originalRenderer;
-
-
+  
   public void initialize() {
 
     try {
@@ -63,23 +57,14 @@ public class DisplaySubtypeFeatureLayerController {
       ArcGISMap map = new ArcGISMap();
       map.setBasemap(Basemap.createStreetsNightVector());
       mapView.setMap(map);
-
+      // display the current map scale 
       mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
         currentMapScaleLabel.setText("Current Map Scale: 1:" + Math.round(mapView.getMapScale())));
 
-      // set the viewpoint to Naperville
+      // set the viewpoint to Naperville, Illinois
       Viewpoint initialViewpoint = new Viewpoint(new Envelope(-9812691.11079696, 5128687.20710657,
         -9812377.9447607, 5128865.36767282, SpatialReferences.getWebMercator()));
       map.setInitialViewpoint(initialViewpoint);
-
-      // access the json required for the sublayer label definitions
-      File jsonFile = new File(System.getProperty("data.dir"),
-        Objects.requireNonNull(getClass().getClassLoader().getResource("label_definition.json")).getFile());
-      final String json;
-      // read in the complete file as a string
-      try (Scanner scanner = new Scanner(jsonFile)) {
-        json = scanner.useDelimiter("\\A").next();
-      }
 
       // create a subtype feature layer from the service feature table, and add it to the map
       final String serviceFeatureTableUrl = "https://sampleserver7.arcgisonline" +
@@ -87,10 +72,19 @@ public class DisplaySubtypeFeatureLayerController {
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceFeatureTableUrl);
       SubtypeFeatureLayer subtypeFeatureLayer = new SubtypeFeatureLayer(serviceFeatureTable);
       map.getOperationalLayers().add(subtypeFeatureLayer);
+      
+      // access the json required for sublayer label definitions
+      File jsonFile = new File(System.getProperty("data.dir"),
+          Objects.requireNonNull(getClass().getClassLoader().getResource("label_definition.json")).getFile());
+      final String json;
+      // read in the complete file as a string
+      try (Scanner scanner = new Scanner(jsonFile)) {
+        json = scanner.useDelimiter("\\A").next();
+      }
 
       subtypeFeatureLayer.loadAsync();
       subtypeFeatureLayer.addDoneLoadingListener(() -> {
-
+        
         // get the Street Light sublayer and define its labels
         sublayer = subtypeFeatureLayer.getSublayerWithSubtypeName("Street Light");
         sublayer.setLabelsEnabled(true);

@@ -37,7 +37,7 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
     Scene scene = new Scene(root);
 
     // set up the stage
-    stage.setTitle("Display subtype feature layer");
+    stage.setTitle("Display subtype feature layer sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
