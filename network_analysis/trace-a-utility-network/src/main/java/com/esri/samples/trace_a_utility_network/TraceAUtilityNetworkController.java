@@ -18,6 +18,7 @@ package com.esri.samples.trace_a_utility_network;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -61,6 +62,7 @@ import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
+import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetGroup;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetType;
 import com.esri.arcgisruntime.utilitynetworks.UtilityElement;
@@ -109,8 +111,14 @@ public class TraceAUtilityNetworkController {
       FeatureLayer electricDeviceLayer = new FeatureLayer(electricDeviceFeatureTable);
 
       // create and apply a renderer for the electric distribution lines feature layer
-      distributionLineLayer.setRenderer(new SimpleRenderer(
-        new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3)));
+      UniqueValueRenderer.UniqueValue mediumVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Medium Voltage",
+          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
+          Collections.singletonList(5));
+      UniqueValueRenderer.UniqueValue lowVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Low Voltage",
+          new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
+          Collections.singletonList(3));
+      distributionLineLayer.setRenderer(new UniqueValueRenderer(Collections.singletonList("ASSETGROUP"),
+          Arrays.asList(mediumVoltageValue, lowVoltageValue), "", new SimpleLineSymbol()));
 
       // add the feature layers to the map
       map.getOperationalLayers().addAll(Arrays.asList(distributionLineLayer, electricDeviceLayer));
