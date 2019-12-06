@@ -61,11 +61,7 @@ class UtilityTerminalSelectionDialog extends Dialog<UtilityTerminal> {
     setResultConverter(dialogButton -> {
       if (dialogButton == continueButton) {
         if (utilityTerminalListView.getSelectionModel().getSelectedItem() != null) {
-          try {
-            return utilityTerminalListView.getSelectionModel().getSelectedItem();
-          } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Error selecting terminal.").show();
-          }
+          return utilityTerminalListView.getSelectionModel().getSelectedItem();
         } else {
           new Alert(Alert.AlertType.ERROR, "No terminal selected.").show();
         }
