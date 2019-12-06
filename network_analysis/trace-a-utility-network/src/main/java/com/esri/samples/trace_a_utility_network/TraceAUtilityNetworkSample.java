@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.esri.samples.find_connected_features_in_utility_network;
+package com.esri.samples.trace_a_utility_network;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,15 +22,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class FindConnectedFeaturesInUtilityNetworkSample extends Application {
+public class TraceAUtilityNetworkSample extends Application {
 
-  private FindConnectedFeaturesInUtilityNetworkController controller;
+  private TraceAUtilityNetworkController controller;
 
   @Override
   public void start(Stage stage) throws Exception {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/find_connected_features_in_utility_network.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/trace_a_utility_network.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.esri.samples.find_connected_features_in_utility_network;
+package com.esri.samples.trace_a_utility_network;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,7 +72,7 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceParameters;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceResult;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
 
-public class FindConnectedFeaturesInUtilityNetworkController {
+public class TraceAUtilityNetworkController {
 
   @FXML private Button resetButton;
   @FXML private Button traceButton;
