@@ -23,11 +23,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
@@ -37,6 +41,7 @@ import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
+import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -53,6 +58,7 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.GeoElement;
+import com.esri.arcgisruntime.mapping.SelectionProperties;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -65,11 +71,13 @@ import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetGroup;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetType;
+import com.esri.arcgisruntime.utilitynetworks.UtilityDomainNetwork;
 import com.esri.arcgisruntime.utilitynetworks.UtilityElement;
 import com.esri.arcgisruntime.utilitynetworks.UtilityElementTraceResult;
 import com.esri.arcgisruntime.utilitynetworks.UtilityNetwork;
 import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkSource;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTier;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceParameters;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceResult;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
@@ -82,6 +90,7 @@ public class TraceAUtilityNetworkController {
   @FXML private MapView mapView;
   @FXML private ProgressIndicator progressIndicator;
   @FXML private RadioButton startingLocationsRadioButton;
+  @FXML private ComboBox<UtilityTraceType> traceTypeSelectionCombobox;
 
   private ArrayList<UtilityElement> barriers;
   private ArrayList<UtilityElement> startingLocations;
@@ -89,6 +98,7 @@ public class TraceAUtilityNetworkController {
   private GraphicsOverlay barriersGraphicsOverlay;
   private UtilityNetwork utilityNetwork;
   private UtilityTraceParameters utilityTraceParameters;
+  private UtilityTier mediumVoltageTier;
 
   public void initialize() {
     try {
@@ -123,29 +133,37 @@ public class TraceAUtilityNetworkController {
       // add the feature layers to the map
       map.getOperationalLayers().addAll(Arrays.asList(distributionLineLayer, electricDeviceLayer));
 
-      // create a graphics overlay and add it to the map view
+      // create graphics overlays and them to the map view
       startingLocationsGraphicsOverlay = new GraphicsOverlay();
       barriersGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().addAll(Arrays.asList(startingLocationsGraphicsOverlay, barriersGraphicsOverlay));
 
       // create and apply renderers for the starting points and barriers graphics overlays
       SimpleMarkerSymbol startingPointSymbol =
-          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.GREEN), 20);
+          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.LIGHTGREEN), 25);
       startingLocationsGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
 
       SimpleMarkerSymbol barrierPointSymbol =
-          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.RED), 20);
+          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.ORANGERED), 25);
       barriersGraphicsOverlay.setRenderer(new SimpleRenderer(barrierPointSymbol));
 
       // create a list of starting locations for the trace
       startingLocations = new ArrayList<>();
       barriers = new ArrayList<>();
 
+      // build the trace configuration selection ComboBox and select the first value
+      traceTypeSelectionCombobox.getItems().addAll(Arrays.asList(UtilityTraceType.values()));
+      traceTypeSelectionCombobox.getSelectionModel().select(0);
+
       // create and load the utility network
       utilityNetwork = new UtilityNetwork(featureServiceURL, map);
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
+
+          // get the utility tier used for traces in this network. For this data set, the "Medium Voltage Radial" tier from the "ElectricDistribution" domain network is used.
+          UtilityDomainNetwork domainNetwork = utilityNetwork.getDefinition().getDomainNetwork("ElectricDistribution");
+          mediumVoltageTier = domainNetwork.getTier("Medium Voltage Radial");
 
           // enable the UI
           enableButtonInteraction();
@@ -234,7 +252,13 @@ public class TraceAUtilityNetworkController {
                   Polyline polyline = (Polyline) GeometryEngine.removeZ(identifiedFeature.getGeometry());
 
                   // compute how far the clicked location is along the edge feature
-                  utilityElement.setFractionAlongEdge(GeometryEngine.fractionAlong(polyline, mapPoint, -1));
+                  double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
+                  if (Double.isNaN(fractionAlongEdge)) {
+                    return;
+                  }
+
+                  // set the fraction along edge
+                  utilityElement.setFractionAlongEdge(fractionAlongEdge);
 
                   // update the status label text
                   statusLabel.setText("Fraction along edge: " + utilityElement.getFractionAlongEdge());
@@ -367,19 +391,25 @@ public class TraceAUtilityNetworkController {
       return;
     }
 
+    // get the selected trace type
+    UtilityTraceType traceType = traceTypeSelectionCombobox.getSelectionModel().getSelectedItem();
+
     // show the progress indicator and update the status text
     progressIndicator.setVisible(true);
-    statusLabel.setText("Finding connected features...");
+    statusLabel.setText("Running " + traceType.toString().toLowerCase() + " trace...");
 
     // disable the UI
     traceButton.setDisable(true);
     resetButton.setDisable(true);
 
     // create utility trace parameters for a connected trace
-    utilityTraceParameters = new UtilityTraceParameters(UtilityTraceType.CONNECTED, startingLocations);
+    utilityTraceParameters = new UtilityTraceParameters(traceType, startingLocations);
 
     // if any barriers have been created, add them to the parameters
     utilityTraceParameters.getBarriers().addAll(barriers);
+
+    // set the trace configuration using the tier from the utility domain network
+    utilityTraceParameters.setTraceConfiguration(mediumVoltageTier.getTraceConfiguration());
 
     // run the utility trace and get the results
     ListenableFuture<List<UtilityTraceResult>> utilityTraceResultsFuture =
@@ -422,20 +452,19 @@ public class TraceAUtilityNetworkController {
                   });
                 }
               });
-
             }
           } else {
             statusLabel.setText("Trace failed.");
-            enableButtonInteraction();
             progressIndicator.setVisible(false);
             new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
           }
 
-      } catch (InterruptedException | ExecutionException e) {
+      } catch (Exception e) {
         statusLabel.setText("Trace failed.");
-        enableButtonInteraction();
         progressIndicator.setVisible(false);
         new Alert(Alert.AlertType.ERROR, "Error running utility network connected trace.").show();
+      } finally {
+        enableButtonInteraction();
       }
     });
   }
@@ -463,6 +492,7 @@ public class TraceAUtilityNetworkController {
     startingLocations.clear();
     barriers.clear();
     utilityTraceParameters = null;
+    traceTypeSelectionCombobox.getSelectionModel().select(0);
 
     // clear any selected features in all map layers
     mapView.getMap().getOperationalLayers().forEach(layer -> {

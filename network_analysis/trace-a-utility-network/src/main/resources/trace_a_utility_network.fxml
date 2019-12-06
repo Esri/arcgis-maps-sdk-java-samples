@@ -29,6 +29,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.scene.control.ComboBox?>
 <StackPane
         fx:controller="com.esri.samples.trace_a_utility_network.TraceAUtilityNetworkController"
         xmlns:fx="http://javafx.com/fxml" stylesheets="style.css">
@@ -58,6 +59,9 @@
         </fx:define>
         <RadioButton toggleGroup="$toggleGroup" fx:id="startingLocationsRadioButton" text="Add Starting Location(s)" selected="true"/>
         <RadioButton toggleGroup="$toggleGroup" text="Add Barrier(s)"/>
+
+        <Label text="Trace type:"/>
+        <ComboBox fx:id="traceTypeSelectionCombobox" promptText="Select trace type"/>
 
         <Separator/>
 
