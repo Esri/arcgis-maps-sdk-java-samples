@@ -1,16 +1,16 @@
-# Find connected features in a utility network
+# Trace a utility network
 
-Find all features connected to a set of starting points in a utility network.
+Discover connected features in a utility network using connected, subnetwork, upstream, and downstream traces.
 
-![](ConnectedTrace.png)
+![](TraceUtilityNetwork.png)
 
 ## Use case
 
-This is useful to visualize and validate the network topology of a utility network for quality assurance. 
+You can use a trace to visualize and validate the network topology of a utility network for quality assurance. Subnetwork traces are used for validating whether subnetworks, such as circuits or zones, are defined or edited appropriately.
 
 ## How to use the sample
 
-Add starting locations and (optionally) barriers by clicking on one or more features while 'Add starting locations' or 'Add barriers' is selected. When a junction feature is identified, you may be prompted to select a terminal. When an edge feature is identified, the distance from the tapped location to the beginning of the edge feature will be computed. Click 'Trace' to highlight all features connected to the specified starting locations and not positioned beyond the barriers. Click 'Reset' to clear parameters and start over.
+Click on one or more features while 'Add starting locations' or 'Add barriers' is selected. When a junction feature is identified, you may be prompted to select a terminal. When an edge feature is identified, the distance from the tapped location to the beginning of the edge feature will be computed. Select the type of trace using the drop down menu. Click 'Trace' to initiate a trace on the network and see the results selected. Click 'Reset' to clear the trace parameters and start over.
 
 ## How it works
 
@@ -19,26 +19,31 @@ Add starting locations and (optionally) barriers by clicking on one or more feat
 3. Create and load a `UtilityNetwork` with the same feature service URL and map.
 4. Add a `GraphicsOverlay` with symbology that distinguishes starting points from barriers.
 5. Add a listener for clicks on the map view, and use `mapView.identifyLayersAsync()` to identify clicked features.
-6. Add a `Graphic` that represents its purpose (starting point or barrier) at the location of each identified feature.
+6. Create a `UtilityElement` that represents its purpose (starting point or barrier) at the location of each identified feature, and save it to a list.
 7. Determine the type of the identified feature using `utilityNetwork.getDefinition().getNetworkSource()` passing its table name.
 8. If a junction, display a terminal picker when more than one `UtilityTerminal` is found and create a `UtilityElement` with the selected terminal or the single terminal if there is only one.
 9. If an edge, create a utility element from the identified feature and set its `FractionAlongEdge` using `GeometryEngine.fractionAlong()`.
-10. Create `UtilityTraceParameters` for the trace, specifying the trace type, `UtilityTraceType.CONNECTED`, adding the starting location, and adding barriers (if applicable).
-11. Run a `utilityNetwork.traceAsync()` with the specified parameters, and get the `UtilityTraceResult`.
-12. From the utility trace result, get the `UtilityElementTraceResult`, and group the utility elements within by their network source name, which can be retrieved using `utilityElement.getNetworkSource().getName()`.
+10. Create `TraceParameters` with the selected trace type along with the collected starting locations and barriers (if applicable).
+11. Set the `TraceParameters.TraceConfiguration` with the utility tier's `TraceConfiguration` property.
+12. Run a `utilityNetwork.traceAsync()` with the specified parameters, and get the `UtilityTraceResult`.
+13. From the utility trace result, get the `UtilityElementTraceResult`, and group the utility elements within by their network source name, which can be retrieved using `utilityElement.getNetworkSource().getName()`.
 13. For every feature layer in this map with elements, select features by converting utility elements to `ArcGISFeature`(s) using `UtilityNetwork.fetchFeaturesForElementsAsync()`
 
 ## Relevant API
 
-* GeometryEngine
+* FractionAlongEdge
 * UtilityAssetType
+* UtilityDomainNetwork
 * UtilityElement
 * UtilityElementTraceResult
 * UtilityNetwork
+* UtilityNetworkDefinition
 * UtilityNetworkSource
 * UtilityTerminal
+* UtilityTier
 * UtilityTraceParameters
 * UtilityTraceResult
+* UtilityTraceType
 
 ## About the data
 
@@ -46,4 +51,4 @@ The [feature service](https://sampleserver7.arcgisonline.com/arcgis/rest/service
 
 ## Tags
 
-connected trace, utility network, network analysis
+condition barriers, downstream trace, network analysis, subnetwork trace, trace configuration, traversability, upstream trace, utility network, validate consistency
