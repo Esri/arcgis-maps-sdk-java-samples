@@ -24,6 +24,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ListView;
+import javafx.scene.control.cell.TextFieldListCell;
+import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
 
@@ -47,8 +49,23 @@ class UtilityTerminalSelectionDialog extends ChoiceDialog<UtilityTerminal> {
     try {
       loader.load();
 
-      // use a cell factory which shows the utility terminal's title
-      utilityTerminalListView.setCellFactory(c -> new UtilityTerminalListCell());
+      // use a string converter which shows the utility terminal's title
+      utilityTerminalListView.setCellFactory(utilityTerminalLv -> {
+        TextFieldListCell<UtilityTerminal> cell = new TextFieldListCell<>();
+        cell.setConverter(new StringConverter<>() {
+          @Override
+          public String toString(UtilityTerminal utilityTerminal) {
+            return utilityTerminal.getName();
+          }
+
+          @Override
+          public UtilityTerminal fromString(String string) {
+            return cell.getItem();
+          }
+        });
+
+        return cell;
+      });
 
       // add the list of terminals to the ListView
       utilityTerminalListView.getItems().addAll(utilityTerminals);
