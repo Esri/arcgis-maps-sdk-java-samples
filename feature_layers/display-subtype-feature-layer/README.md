@@ -1,38 +1,39 @@
-# Group layers
+# Display a subtype feature layer
 
-Group a collection of layers together and toggle their visibility as a group.
+Display a sublayer from a subtype feature layer.
 
-![](GroupLayers.png)
+![](DisplaySubtypeFeatureLayer.png)
 
 ## Use case
 
-Group layers communicate to the user that layers are related and can be managed together.
-In a land development project, you might group layers according to the phase of development.
+This is useful for controlling labeling, visibility and symbology of a given subtype as though they are distinct layers on the map.
 
 ## How to use the sample
 
-The layers in the map will be displayed in a table of contents. Toggle the checkbox next to a layer's name to change its visibility.
+The sample loads with the sublayer visible on the map. Toggle its visibility by clicking the "Show sublayer" checkbox. To 
+change the sublayer's renderer, click the "Toggle Renderer" button, and to set its minimum scale, click the "Set Minimum Scale" button
+to set its minimum scale to that of the current map scale. Zoom in and out to see the sublayer become visible based on its
+new scale range.
 
 ## How it works
-
-1. Create an empty `GroupLayer`.
-2. Add a child layer to the group layer's layers collection.
-3. To toggle the visibility of the group, simply change the group layer's visibility property.
+1.  Create a `SubtypeFeatureLayer` from a `ServiceFeatureTable` that defines a subtype, and add it to the `ArcGISMap`.
+2. Get a `SubtypeSublayer` from the subtype feature using its name.
+3. Enable the sublayer's labels and define them with `.getLabelDefinitions()`.
+4. Set the visibility status using this sublayer's `setVisible` property.
+5. Change the sublayer's symbology with `.setRenderer(Renderer)`.
+6. Update the sublayer's minimum scale value with `.setMinScale()`.
 
 ## Relevant API
 
-* GroupLayer
+* LabelDefinition
+* ServiceFeatureTable
+* SubtypeFeatureLayer
+* SubtypeSublayer
 
-## Additional information
+## About the data
 
-The full extent of a group layer may change when child layers are added/removed. Group layers do not have a spatial reference, but the full extent will have the spatial reference of the first child layer.
-
-Group layers can be saved to web scenes. In web maps, group layers will be flattened in the web map's operational layers.
-
-The implementation shown here makes use of a custom tree cell for displaying layers in a tree view. In the custom
-tree cell, toggling the checkbox of the group layer cell does not also toggle the child cell's checkbox. If you
-desire this behavior, use or extend JavaFX's `CheckBoxTreeCell` and `CheckBoxTreeItem`.
+The [feature service layer](https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/100) in this sample represents an electric network in Naperville, Illinois, which contains a utility network with asset classification for different devices.
 
 ## Tags
 
-Layers, group layer
+asset group, feature layer, labeling, sublayer, subtype, symbology, utility network, visible scale range

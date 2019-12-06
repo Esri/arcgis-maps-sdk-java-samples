@@ -19,16 +19,12 @@ package com.esri.samples.feature_layers;
 import java.io.File;
 import java.util.Scanner;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.ArcGISRuntimeException;
-import com.esri.arcgisruntime.arcgisservices.ArcGISMapServiceSublayerInfo;
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.SubtypeFeatureLayer;
 import com.esri.arcgisruntime.layers.SubtypeSublayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -51,7 +47,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -135,10 +130,10 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
       try (Scanner scanner = new Scanner(jsonFile)) {
         json = scanner.useDelimiter("\\A").next();
       }
-      
+
+      // create a subtype feature layer from the service feature table, and add it to the map
       final String serviceFeatureTableUrl = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/100";
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceFeatureTableUrl);
-      // create a subtype feature layer from the service feature table, and add it to the map
       SubtypeFeatureLayer subtypeFeatureLayer = new SubtypeFeatureLayer(serviceFeatureTable);
       map.getOperationalLayers().add(subtypeFeatureLayer);
       
