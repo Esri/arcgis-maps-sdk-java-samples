@@ -142,7 +142,7 @@ public class TraceAUtilityNetworkController {
           new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.ORANGERED), 25);
       barriersGraphicsOverlay.setRenderer(new SimpleRenderer(barrierPointSymbol));
 
-      // create a list of starting locations for the trace
+      // create a list of starting locations and barriers for the trace
       startingLocations = new ArrayList<>();
       barriers = new ArrayList<>();
 
