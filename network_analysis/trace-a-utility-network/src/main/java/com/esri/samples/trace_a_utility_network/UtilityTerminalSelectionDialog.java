@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.esri.samples.find_connected_features_in_utility_network;
+package com.esri.samples.trace_a_utility_network;
 
 import java.util.List;
 

@@ -30,7 +30,7 @@
 <?import javafx.scene.paint.Color?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <StackPane
-        fx:controller="com.esri.samples.find_connected_features_in_utility_network.FindConnectedFeaturesInUtilityNetworkController"
+        fx:controller="com.esri.samples.trace_a_utility_network.TraceAUtilityNetworkController"
         xmlns:fx="http://javafx.com/fxml" stylesheets="style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>

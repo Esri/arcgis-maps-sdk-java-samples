@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.find_connected_features_in_utility_network.FindConnectedFeaturesInUtilityNetworkLauncher'
+    mainClassName = 'com.esri.samples.trace_a_utility_network.TraceAUtilityNetworkSample'
 }
 
 jar {
