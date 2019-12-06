@@ -53,13 +53,14 @@
             </Background>
         </background>
 
-        <RadioButton fx:id="startingLocationsRadioButton" text="Add Starting Location(s)" selected="true">
-            <toggleGroup>
-                <ToggleGroup fx:id="toggleGroup"/>
-            </toggleGroup>
-        </RadioButton>
+        <fx:define>
+            <ToggleGroup fx:id="toggleGroup"/>
+        </fx:define>
+        <RadioButton toggleGroup="$toggleGroup" fx:id="startingLocationsRadioButton" text="Add Starting Location(s)" selected="true"/>
         <RadioButton toggleGroup="$toggleGroup" text="Add Barrier(s)"/>
+
         <Separator/>
+
         <HBox alignment="CENTER" spacing="10">
             <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true"/>
             <Button fx:id="resetButton" text="Reset" onAction="#handleResetClick" disable="true"/>
