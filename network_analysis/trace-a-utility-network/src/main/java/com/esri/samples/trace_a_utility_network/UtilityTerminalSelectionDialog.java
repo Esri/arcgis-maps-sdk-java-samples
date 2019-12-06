@@ -22,12 +22,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ListView;
 
 import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
 
-class UtilityTerminalSelectionDialog extends Dialog<UtilityTerminal> {
+class UtilityTerminalSelectionDialog extends ChoiceDialog<UtilityTerminal> {
 
   @FXML
   private ListView<UtilityTerminal> utilityTerminalListView;
