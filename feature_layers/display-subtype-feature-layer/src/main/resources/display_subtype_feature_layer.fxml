@@ -23,18 +23,19 @@
 <?import javafx.scene.layout.BackgroundFill?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.geometry.Insets?>
-<?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Separator?>
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
 <StackPane fx:controller="com.esri.samples.feature_layers.DisplaySubtypeFeatureLayerController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="260" maxHeight="120" spacing="6" styleClass="panel-region" alignment="TOP_CENTER">
+    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="190" maxHeight="200" spacing="6" styleClass="panel-region" alignment="CENTER_LEFT">
         <StackPane.margin>
-            <Insets top="50" right="10"/>
+            <Insets top="60" right="10"/>
         </StackPane.margin>
         <padding>
             <Insets topRightBottomLeft="10"/>
@@ -50,15 +51,18 @@
                 </fills>
             </Background>
         </background>
-        <Label fx:id="currentMapScaleLabel"/>
-        <HBox alignment="CENTER" spacing="15">
-            <CheckBox fx:id="checkBox" text="Show sublayer" onAction="#controlSublayerVisibility" selected="true"/>
-            <ToggleButton fx:id="toggleRendererButton" text="Toggle Renderer" onAction="#handleToggleRendererButtonClicked"/>
-        </HBox>
-        <HBox alignment="CENTER" spacing="15">
-            <Label fx:id="minScaleLabel" text="Sublayer labelling min scale: not set" maxWidth="100" wrapText="true"/>
-            <Button text="Set Minimum Scale"  onAction="#handleMinScaleButtonClicked"/>
-        </HBox>
+        <CheckBox fx:id="sublayerVisibilityCheckbox" text="Show sublayer" onAction="#controlSublayerVisibility" selected="true"/>
+        <fx:define>
+            <ToggleGroup fx:id="group" />
+        </fx:define>
+        <RadioButton text="Show original renderer" selected="true" onAction="#handleOriginalRendererButtonClicked" toggleGroup="$group">
+        </RadioButton>
+        <RadioButton text="Show alternative renderer" onAction="#handleAlternativeRendererButtonClicked" toggleGroup="$group"/>
+        <Separator/>
+        <Label fx:id="currentMapScaleLabel" alignment="CENTER"/>
+
+        <Label fx:id="minScaleLabel" text="Sublayer min scale: not set" wrapText="true"/>
+        <Button text="Set sublayer minimum scale"  onAction="#handleMinScaleButtonClicked" wrapText="true" textAlignment="CENTER"/>
     </VBox>
 </StackPane>
 

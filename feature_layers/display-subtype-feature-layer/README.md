@@ -10,10 +10,10 @@ This is useful for controlling labeling, visibility and symbology of a given sub
 
 ## How to use the sample
 
-The sample loads with the sublayer visible on the map. Toggle its visibility by clicking the "Show sublayer" checkbox. To change the sublayer's renderer, click the "Toggle Renderer" button, and click the "Set Minimum Scale" button to set its minimum scale to that of the current map scale. Zoom in and out to see the sublayer become visible based on its new scale range.
+The sample loads with the sublayer visible on the map. Toggle its visibility by clicking the "Show sublayer" checkbox. To change the sublayer's renderer, click the "Show alternative renderer" button, and to return to its original renderer, click the "Show alternative renderer" button. Click the "Set sublayer minimum scale" button to set the sublayer's minimum scale to that of the current map scale (this is labelled in the UI and updates when the scale is changed). Zoom in and out to see the sublayer become visible based on its new scale range.
 
 ## How it works
-1.  Create a `SubtypeFeatureLayer` from a `ServiceFeatureTable` that defines a subtype, and add it to the `ArcGISMap`.
+1. Create a `SubtypeFeatureLayer` from a `ServiceFeatureTable` that defines a subtype, and add it to the `ArcGISMap`.
 2. Get a `SubtypeSublayer` from the subtype feature layer using its name.
 3. Enable the sublayer's labels and define them with `getLabelDefinitions()`.
 4. Set the visibility status using this sublayer's `setVisible()` property.
