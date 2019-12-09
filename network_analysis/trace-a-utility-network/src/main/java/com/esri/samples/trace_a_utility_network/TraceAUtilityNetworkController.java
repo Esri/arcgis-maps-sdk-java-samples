@@ -28,12 +28,14 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -301,7 +303,8 @@ public class TraceAUtilityNetworkController {
 
     // get the name of the utility asset group's attribute field from the feature
     String assetGroupFieldName = identifiedFeature.getFeatureTable().getSubtypeField();
-    
+
+
     // iterate through the network source's asset groups to find the group with the matching code
     List<UtilityAssetGroup> assetGroups = networkSource.getAssetGroups();
     for (UtilityAssetGroup assetGroup : assetGroups) {
@@ -324,8 +327,14 @@ public class TraceAUtilityNetworkController {
               // if there is more than one terminal, prompt the user to select one
             } else if (terminals.size() > 1) {
               // create a dialog for terminal selection
-              UtilityTerminalSelectionDialog utilityTerminalSelectionDialog =
-                new UtilityTerminalSelectionDialog(terminals);
+              ChoiceDialog<UtilityTerminal> utilityTerminalSelectionDialog = new ChoiceDialog<>(terminals.get(0), terminals);
+              utilityTerminalSelectionDialog.setTitle("Select Utility Terminal:");
+
+              // override the list cell in the dialog's combo box to show the terminal name
+              @SuppressWarnings("unchecked")
+              ComboBox<UtilityTerminal> comboBox = (ComboBox<UtilityTerminal>) ((GridPane) utilityTerminalSelectionDialog.getDialogPane().getContent()).getChildren().get(1);
+              comboBox.setCellFactory(param -> new UtilityTerminalListCell());
+              comboBox.setButtonCell(new UtilityTerminalListCell());
 
               // show the terminal selection dialog and capture the user selection
               Optional<UtilityTerminal> selectedTerminalOptional = utilityTerminalSelectionDialog.showAndWait();
