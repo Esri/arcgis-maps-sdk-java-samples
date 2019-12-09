@@ -301,14 +301,11 @@ public class TraceAUtilityNetworkController {
 
     // get the name of the utility asset group's attribute field from the feature
     String assetGroupFieldName = identifiedFeature.getFeatureTable().getSubtypeField();
-
-    // find the code matching the asset group name in the feature's attributes
-    int assetGroupCode = (int) attributes.get(assetGroupFieldName.toLowerCase());
-
+    
     // iterate through the network source's asset groups to find the group with the matching code
     List<UtilityAssetGroup> assetGroups = networkSource.getAssetGroups();
     for (UtilityAssetGroup assetGroup : assetGroups) {
-      if (assetGroup.getCode() == assetGroupCode) {
+      if (assetGroup.getCode() == (int) attributes.get(assetGroupFieldName.toLowerCase())) {
 
         // iterate through the asset group's asset types to find the type matching the feature's asset type code
         List<UtilityAssetType> utilityAssetTypes = assetGroup.getAssetTypes();
