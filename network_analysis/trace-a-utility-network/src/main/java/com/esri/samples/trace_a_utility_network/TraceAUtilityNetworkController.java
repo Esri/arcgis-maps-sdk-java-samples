@@ -310,13 +310,10 @@ public class TraceAUtilityNetworkController {
     for (UtilityAssetGroup assetGroup : assetGroups) {
       if (assetGroup.getCode() == assetGroupCode) {
 
-        // get the code for the feature's asset type from its attributes
-        String assetTypeCode = attributes.get("assettype").toString();
-
         // iterate through the asset group's asset types to find the type matching the feature's asset type code
         List<UtilityAssetType> utilityAssetTypes = assetGroup.getAssetTypes();
         for (UtilityAssetType assetType : utilityAssetTypes) {
-          if (assetType.getCode() == Integer.parseInt(assetTypeCode)) {
+          if (assetType.getCode() == (short) attributes.get("assettype")) {
 
             // get the list of terminals for the feature
             List<UtilityTerminal> terminals = assetType.getTerminalConfiguration().getTerminals();
