@@ -231,9 +231,7 @@ public class TraceAUtilityNetworkController {
                 if (networkSource.getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
                   //  create a utility element with the identified feature
                   utilityElement = createUtilityElement(identifiedFeature, networkSource);
-                }
-                // check if the network source is an edge
-                else if (networkSource.getSourceType() == UtilityNetworkSource.Type.EDGE &&
+                } else if (networkSource.getSourceType() == UtilityNetworkSource.Type.EDGE &&
                     identifiedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
 
                   //  create a utility element with the identified feature
