@@ -169,9 +169,6 @@ public class TraceAUtilityNetworkController {
           // update the status text
           statusLabel.setText("");
 
-          // listen to clicks on the map view
-          mapView.setOnMouseClicked(this::handleMapViewClicked);
-
         } else {
           new Alert(Alert.AlertType.ERROR, "Error loading Utility Network.").show();
         }
@@ -192,7 +189,9 @@ public class TraceAUtilityNetworkController {
    */
   @FXML
   private void handleMapViewClicked(MouseEvent e) {
-    if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+    // ensure the utility network is loaded before processing clicks on the map view
+    if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED && e.getButton() == MouseButton.PRIMARY &&
+        e.isStillSincePress()) {
 
       // show the progress indicator
       progressIndicator.setVisible(true);
@@ -206,7 +205,7 @@ public class TraceAUtilityNetworkController {
 
       // identify the feature to be used
       ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture =
-        mapView.identifyLayersAsync(screenPoint, 10, false);
+          mapView.identifyLayersAsync(screenPoint, 10, false);
       identifyLayerResultsFuture.addDoneListener(() -> {
         try {
           // get the result of the query
@@ -238,7 +237,7 @@ public class TraceAUtilityNetworkController {
                 }
                 // check if the network source is an edge
                 else if (networkSource.getSourceType() == UtilityNetworkSource.Type.EDGE &&
-                  identifiedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+                    identifiedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
 
                   //  create a utility element with the identified feature
                   utilityElement = utilityNetwork.createElement(identifiedFeature, null);
@@ -265,7 +264,7 @@ public class TraceAUtilityNetworkController {
 
                   // find the closest coordinate on the selected element to the clicked point
                   ProximityResult proximityResult =
-                    GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
+                      GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
 
                   // set the graphic's geometry to the coordinate on the element
                   traceLocationGraphic.setGeometry(proximityResult.getCoordinate());

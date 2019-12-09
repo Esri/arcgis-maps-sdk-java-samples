@@ -34,7 +34,7 @@
         fx:controller="com.esri.samples.trace_a_utility_network.TraceAUtilityNetworkController"
         xmlns:fx="http://javafx.com/fxml" stylesheets="style.css">
     <!--SDK MapView-->
-    <MapView fx:id="mapView"/>
+    <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"/>
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
     <!--Controls Area-->
     <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="160" styleClass="panel-region" spacing="10">
