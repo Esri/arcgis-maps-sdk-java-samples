@@ -196,9 +196,6 @@ public class TraceAUtilityNetworkController {
       // show the progress indicator
       progressIndicator.setVisible(true);
 
-      // set whether the user is adding a starting point or a barrier
-      boolean isAddingStartingPoint = startingLocationsRadioButton.isSelected();
-
       // get the clicked map point
       Point2D screenPoint = new Point2D(e.getX(), e.getY());
       Point mapPoint = mapView.screenToLocation(screenPoint);
@@ -270,7 +267,7 @@ public class TraceAUtilityNetworkController {
                   traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
 
                   // add the element to the appropriate list, and add the appropriate graphic to its graphics overlay
-                  if (isAddingStartingPoint) {
+                  if (startingLocationsRadioButton.isSelected()) {
                     startingLocations.add(utilityElement);
                     startingLocationsGraphicsOverlay.getGraphics().add(traceLocationGraphic);
                   } else {
