@@ -51,7 +51,7 @@
                 </fills>
             </Background>
         </background>
-        <CheckBox fx:id="sublayerVisibilityCheckbox" text="Show sublayer" onAction="#controlSublayerVisibility" selected="true"/>
+        <CheckBox fx:id="sublayerVisibilityCheckbox" text="Show sublayer" onAction="#handleSublayerVisibility" selected="true"/>
         <fx:define>
             <ToggleGroup fx:id="group" />
         </fx:define>

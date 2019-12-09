@@ -15,9 +15,7 @@
  */
 package com.esri.samples.feature_layers;
 
-import java.io.File;
-import java.util.Objects;
-import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
 
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -25,6 +23,7 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.SubtypeFeatureLayer;
 import com.esri.arcgisruntime.layers.SubtypeSublayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -37,6 +36,8 @@ import com.esri.arcgisruntime.symbology.Symbol;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import org.apache.commons.io.IOUtils;
 
 public class DisplaySubtypeFeatureLayerController {
   
@@ -72,13 +73,7 @@ public class DisplaySubtypeFeatureLayerController {
       map.getOperationalLayers().add(subtypeFeatureLayer);
       
       // access the json required for sublayer label definitions
-      File jsonFile = new File(System.getProperty("data.dir"),
-          Objects.requireNonNull(getClass().getClassLoader().getResource("label_definition.json")).getFile());
-      final String json;
-      // read in the complete file as a string
-      try (Scanner scanner = new Scanner(jsonFile)) {
-        json = scanner.useDelimiter("\\A").next();
-      }
+      final String json = IOUtils.toString(getClass().getResourceAsStream("/label_definition.json"), StandardCharsets.UTF_8);
 
       // load the subtype feature layer
       subtypeFeatureLayer.loadAsync();
@@ -94,7 +89,6 @@ public class DisplaySubtypeFeatureLayerController {
         // create a custom renderer for the sublayer (light pink diamond symbol)
         Symbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xfff58f84, 20);
         alternativeRenderer = new SimpleRenderer(symbol);
-
       });
 
     } catch (Exception e) {
@@ -116,8 +110,8 @@ public class DisplaySubtypeFeatureLayerController {
    * Sets the visibility of the sublayer.
    */
   @FXML
-  private void controlSublayerVisibility() {
-    sublayer.setVisible(sublayerVisibilityCheckbox.isSelected());
+  private void handleSublayerVisibility() {
+      sublayer.setVisible(sublayerVisibilityCheckbox.isSelected());
   }
   
   /**
