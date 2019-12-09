@@ -33,7 +33,7 @@
            stylesheets="/style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="190" maxHeight="200" spacing="6" styleClass="panel-region" alignment="CENTER_LEFT">
+    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="190" maxHeight="200" spacing="6" styleClass="panel-region" alignment="CENTER_LEFT" visible="false" fx:id="vBox">
         <StackPane.margin>
             <Insets top="60" right="10"/>
         </StackPane.margin>

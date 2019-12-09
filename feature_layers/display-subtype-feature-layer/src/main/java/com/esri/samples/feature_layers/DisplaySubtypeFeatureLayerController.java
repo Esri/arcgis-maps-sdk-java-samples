@@ -23,7 +23,6 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.SubtypeFeatureLayer;
 import com.esri.arcgisruntime.layers.SubtypeSublayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -36,7 +35,7 @@ import com.esri.arcgisruntime.symbology.Symbol;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
+import javafx.scene.layout.VBox;
 import org.apache.commons.io.IOUtils;
 
 public class DisplaySubtypeFeatureLayerController {
@@ -45,6 +44,7 @@ public class DisplaySubtypeFeatureLayerController {
   @FXML private Label currentMapScaleLabel;
   @FXML private Label minScaleLabel;
   @FXML private CheckBox sublayerVisibilityCheckbox;
+  @FXML private VBox vBox;
   private SubtypeSublayer sublayer;
   private Renderer originalRenderer;
   private Renderer alternativeRenderer;
@@ -78,6 +78,8 @@ public class DisplaySubtypeFeatureLayerController {
       // load the subtype feature layer
       subtypeFeatureLayer.loadAsync();
       subtypeFeatureLayer.addDoneLoadingListener(() -> {
+        // show the UI for interaction with the sublayer once it has loaded
+        vBox.setVisible(true);
         
         // get the Street Light sublayer and define its labels
         sublayer = subtypeFeatureLayer.getSublayerWithSubtypeName("Street Light");
