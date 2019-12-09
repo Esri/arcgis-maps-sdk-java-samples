@@ -438,6 +438,7 @@ public class TraceAUtilityNetworkController {
                     statusLabel.setText("Trace completed.");
                     enableButtonInteraction();
                     progressIndicator.setVisible(false);
+                    enableButtonInteraction();
                   });
                 }
               });
@@ -446,13 +447,13 @@ public class TraceAUtilityNetworkController {
             statusLabel.setText("Trace failed.");
             progressIndicator.setVisible(false);
             new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
+            enableButtonInteraction();
           }
 
       } catch (Exception e) {
         statusLabel.setText("Trace failed.");
         progressIndicator.setVisible(false);
         new Alert(Alert.AlertType.ERROR, "Error running utility network connected trace.").show();
-      } finally {
         enableButtonInteraction();
       }
     });
