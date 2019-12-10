@@ -245,7 +245,6 @@ public class TraceAUtilityNetworkController {
 
                   // compute how far the clicked location is along the edge feature
                   double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
-                  System.out.println(fractionAlongEdge);
                   if (Double.isNaN(fractionAlongEdge)) {
                     // don't set the fraction along edge if it can't be determined
                     return;
@@ -462,7 +461,7 @@ public class TraceAUtilityNetworkController {
       } catch (Exception e) {
         statusLabel.setText("Trace failed.");
         progressIndicator.setVisible(false);
-        new Alert(Alert.AlertType.ERROR, "Error running utility network connected trace.").show();
+        new Alert(Alert.AlertType.ERROR, "Error running utility network trace.").show();
         enableButtonInteraction();
       }
     });
