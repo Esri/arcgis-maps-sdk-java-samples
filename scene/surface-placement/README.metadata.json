@@ -3,31 +3,30 @@
     "description": "Position graphics relative to terrain.",
     "ignore": false,
     "images": [
-        "ElevationMode.png"
+        "SurfacePlacement.png"
     ],
     "keywords": [
-        "ArcGISScene",
-        "Camera",
-        "Graphic",
-        "GraphicsOverlay",
-        "LayerSceneProperties.SurfacePlacement",
-        "SceneProperties",
-        "SceneView",
-        "Surface"
+        "3D",
+        "Absolute",
+        "Altitude",
+        "Draped",
+        "Elevation",
+        "Floating",
+        "Relative",
+        "Scene",
+        "Sea level",
+        "Surface placement"
     ],
     "redirect_from": "/java/latest/sample-code/elevation-mode.htm",
     "relevant_apis": [
-        "ArcGISScene",
-        "Camera",
         "Graphic",
         "GraphicsOverlay",
         "LayerSceneProperties.SurfacePlacement",
         "SceneProperties",
-        "SceneView",
         "Surface"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/elevation_mode/ElevationModeSample.java"
     ],
-    "title": "Elevation Mode"
+    "title": "Surface Placement"
 }

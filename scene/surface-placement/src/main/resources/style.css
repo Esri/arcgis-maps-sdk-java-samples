@@ -1,0 +1,7 @@
+.panel-region .label {
+  -fx-text-fill: white;
+}
+
+.panel-region .radio-button {
+   -fx-text-fill: white;
+}
