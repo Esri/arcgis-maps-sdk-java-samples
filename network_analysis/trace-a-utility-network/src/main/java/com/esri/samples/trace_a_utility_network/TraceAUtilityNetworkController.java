@@ -83,19 +83,19 @@ public class TraceAUtilityNetworkController {
 
   @FXML private Button resetButton;
   @FXML private Button traceButton;
+  @FXML private ComboBox<UtilityTraceType> traceTypeSelectionCombobox;
   @FXML private Label statusLabel;
   @FXML private MapView mapView;
   @FXML private ProgressIndicator progressIndicator;
   @FXML private RadioButton startingLocationsRadioButton;
-  @FXML private ComboBox<UtilityTraceType> traceTypeSelectionCombobox;
 
   private ArrayList<UtilityElement> barriers;
   private ArrayList<UtilityElement> startingLocations;
-  private GraphicsOverlay startingLocationsGraphicsOverlay;
   private GraphicsOverlay barriersGraphicsOverlay;
+  private GraphicsOverlay startingLocationsGraphicsOverlay;
   private UtilityNetwork utilityNetwork;
-  private UtilityTraceParameters utilityTraceParameters;
   private UtilityTier mediumVoltageTier;
+  private UtilityTraceParameters utilityTraceParameters;
 
   public void initialize() {
     try {
@@ -104,12 +104,12 @@ public class TraceAUtilityNetworkController {
       mapView.setMap(map);
       // set the viewpoint to a subsection of the utility network
       mapView.setViewpointAsync(new Viewpoint(
-        new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,
-          SpatialReferences.getWebMercator())));
+          new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,
+              SpatialReferences.getWebMercator())));
 
       // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
-        "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
+          "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
 
       ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/115");
       FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
@@ -158,7 +158,8 @@ public class TraceAUtilityNetworkController {
       utilityNetwork.addDoneLoadingListener(() -> {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
 
-          // get the utility tier used for traces in this network. For this data set, the "Medium Voltage Radial" tier from the "ElectricDistribution" domain network is used.
+          // get the utility tier used for traces in this network. For this data set, the "Medium Voltage Radial"
+          // tier from the "ElectricDistribution" domain network is used.
           UtilityDomainNetwork domainNetwork = utilityNetwork.getDefinition().getDomainNetwork("ElectricDistribution");
           mediumVoltageTier = domainNetwork.getTier("Medium Voltage Radial");
 
@@ -245,6 +246,7 @@ public class TraceAUtilityNetworkController {
                   // compute how far the clicked location is along the edge feature
                   double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
                   if (Double.isNaN(fractionAlongEdge)) {
+                    // don't set the fraction along edge if it can't be determined
                     return;
                   }
 
@@ -327,12 +329,14 @@ public class TraceAUtilityNetworkController {
               // if there is more than one terminal, prompt the user to select one
             } else if (terminals.size() > 1) {
               // create a dialog for terminal selection
-              ChoiceDialog<UtilityTerminal> utilityTerminalSelectionDialog = new ChoiceDialog<>(terminals.get(0), terminals);
+              ChoiceDialog<UtilityTerminal> utilityTerminalSelectionDialog =
+                  new ChoiceDialog<>(terminals.get(0), terminals);
               utilityTerminalSelectionDialog.setTitle("Select Utility Terminal:");
 
               // override the list cell in the dialog's combo box to show the terminal name
-              @SuppressWarnings("unchecked")
-              ComboBox<UtilityTerminal> comboBox = (ComboBox<UtilityTerminal>) ((GridPane) utilityTerminalSelectionDialog.getDialogPane().getContent()).getChildren().get(1);
+              @SuppressWarnings("unchecked") ComboBox<UtilityTerminal> comboBox =
+                  (ComboBox<UtilityTerminal>) ((GridPane) utilityTerminalSelectionDialog.getDialogPane()
+                      .getContent()).getChildren().get(1);
               comboBox.setCellFactory(param -> new UtilityTerminalListCell());
               comboBox.setButtonCell(new UtilityTerminalListCell());
 
@@ -405,53 +409,54 @@ public class TraceAUtilityNetworkController {
 
     // run the utility trace and get the results
     ListenableFuture<List<UtilityTraceResult>> utilityTraceResultsFuture =
-      utilityNetwork.traceAsync(utilityTraceParameters);
+        utilityNetwork.traceAsync(utilityTraceParameters);
     utilityTraceResultsFuture.addDoneListener(() -> {
       try {
         List<UtilityTraceResult> utilityTraceResults = utilityTraceResultsFuture.get();
 
-          if (utilityTraceResults.get(0) instanceof UtilityElementTraceResult) {
-            UtilityElementTraceResult utilityElementTraceResult = (UtilityElementTraceResult) utilityTraceResults.get(0);
+        if (utilityTraceResults.get(0) instanceof UtilityElementTraceResult) {
+          UtilityElementTraceResult utilityElementTraceResult = (UtilityElementTraceResult) utilityTraceResults.get(0);
 
-            if (!utilityElementTraceResult.getElements().isEmpty()) {
+          if (!utilityElementTraceResult.getElements().isEmpty()) {
 
-              // iterate through the map's feature layers
-              mapView.getMap().getOperationalLayers().forEach(layer -> {
-                if (layer instanceof FeatureLayer) {
+            // iterate through the map's feature layers
+            mapView.getMap().getOperationalLayers().forEach(layer -> {
+              if (layer instanceof FeatureLayer) {
 
-                  // create query parameters to find features who's network source name matches the layer's feature table name
-                  QueryParameters queryParameters = new QueryParameters();
-                  utilityElementTraceResult.getElements().forEach(utilityElement -> {
+                // create query parameters to find features who's network source name matches the layer's feature
+                // table name
+                QueryParameters queryParameters = new QueryParameters();
+                utilityElementTraceResult.getElements().forEach(utilityElement -> {
 
-                    String networkSourceName = utilityElement.getNetworkSource().getName();
-                    String featureTableName = ((FeatureLayer) layer).getFeatureTable().getTableName();
+                  String networkSourceName = utilityElement.getNetworkSource().getName();
+                  String featureTableName = ((FeatureLayer) layer).getFeatureTable().getTableName();
 
-                    if (networkSourceName.equals(featureTableName)) {
-                      queryParameters.getObjectIds().add(utilityElement.getObjectId());
-                    }
-                  });
+                  if (networkSourceName.equals(featureTableName)) {
+                    queryParameters.getObjectIds().add(utilityElement.getObjectId());
+                  }
+                });
 
-                  // select features that match the query
-                  ListenableFuture<FeatureQueryResult> featureQueryResultListenableFuture =
+                // select features that match the query
+                ListenableFuture<FeatureQueryResult> featureQueryResultListenableFuture =
                     ((FeatureLayer) layer).selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW);
 
-                  // wait for the selection to finish
-                  featureQueryResultListenableFuture.addDoneListener(() -> {
-                    // update the status text, enable the buttons and hide the progress indicator
-                    statusLabel.setText("Trace completed.");
-                    enableButtonInteraction();
-                    progressIndicator.setVisible(false);
-                    enableButtonInteraction();
-                  });
-                }
-              });
-            }
-          } else {
-            statusLabel.setText("Trace failed.");
-            progressIndicator.setVisible(false);
-            new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
-            enableButtonInteraction();
+                // wait for the selection to finish
+                featureQueryResultListenableFuture.addDoneListener(() -> {
+                  // update the status text, enable the buttons and hide the progress indicator
+                  statusLabel.setText("Trace completed.");
+                  enableButtonInteraction();
+                  progressIndicator.setVisible(false);
+                  enableButtonInteraction();
+                });
+              }
+            });
           }
+        } else {
+          statusLabel.setText("Trace failed.");
+          progressIndicator.setVisible(false);
+          new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
+          enableButtonInteraction();
+        }
 
       } catch (Exception e) {
         statusLabel.setText("Trace failed.");
