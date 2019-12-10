@@ -37,7 +37,7 @@
     <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"/>
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
     <!--Controls Area-->
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="160" styleClass="panel-region" spacing="10">
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="255" maxHeight="160" styleClass="panel-region" spacing="10">
         <!--Control Panel Styling-->
         <padding>
             <Insets topRightBottomLeft="10"/>
