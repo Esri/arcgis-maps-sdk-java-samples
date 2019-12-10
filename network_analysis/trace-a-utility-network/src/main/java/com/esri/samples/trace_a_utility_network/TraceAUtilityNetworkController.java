@@ -245,6 +245,7 @@ public class TraceAUtilityNetworkController {
 
                   // compute how far the clicked location is along the edge feature
                   double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
+                  System.out.println(fractionAlongEdge);
                   if (Double.isNaN(fractionAlongEdge)) {
                     // don't set the fraction along edge if it can't be determined
                     return;
@@ -254,7 +255,7 @@ public class TraceAUtilityNetworkController {
                   utilityElement.setFractionAlongEdge(fractionAlongEdge);
 
                   // update the status label text
-                  statusLabel.setText("Fraction along edge: " + utilityElement.getFractionAlongEdge());
+                  statusLabel.setText("Fraction along edge: " + Math.round(utilityElement.getFractionAlongEdge() * 100.0) / 100.0 );
                 }
 
                 if (utilityElement != null) {
