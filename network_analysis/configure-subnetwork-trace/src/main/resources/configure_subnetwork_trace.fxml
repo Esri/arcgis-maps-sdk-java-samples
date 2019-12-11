@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2017 Esri.
+  ~ Copyright 2019 Esri.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
   ~ use this file except in compliance with the License. You may obtain a copy of
@@ -16,30 +16,45 @@
   -->
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
-<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<StackPane fx:controller="com.esri.samples.configure_subnetwork_trace.ConfigureSubnetworkTraceController"
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css">
 
-<StackPane fx:controller="com.esri.samples.configure_subnetwork_trace.ServiceAreaTaskController" xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/style.css">
-           
-    <!--SDK SceneView-->
-    <MapView fx:id="mapView"/>
-    <!-- For loading service areas -->
-    <ProgressIndicator fx:id="progressIndicator" maxHeight="50.0" maxWidth="50.0" visible="false"/>
-    
-    <!-- Top bar button select -->
-    <HBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="50">
-      <ToggleButton fx:id="btnAddFacility" text="Add Facilities" minWidth="200">
-      <toggleGroup>
-        <ToggleGroup fx:id="toggleGroup"/>
-        </toggleGroup>
-      </ToggleButton>
-      <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Add Barrier"  onAction="#createBarrier" minWidth="200"/>
-      <Button text="Show Service Areas" onAction="#showServiceAreas" minWidth="200"/>
-      <Button text="Reset" onAction="#clearRouteAndGraphics" minWidth="200"/>
-    </HBox>  
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="800" maxHeight="600" spacing="10">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <HBox>
+            <Label text="Trace options:"/>
+            <CheckBox fx:id="includeBarriersCheckBox" text="Include Barriers"/>
+            <CheckBox fx:id="includeContainersCheckBox" text="Include Containers"/>
+        </HBox>
+
+        <HBox>
+            <Label text="Define new conditions"/>
+            <ComboBox fx:id="comparisonSourcesComboBox" onAction="#onComparisonSourceChanged"/>
+            <ComboBox fx:id="comparisonOperatorsComboBox"/>
+            <ComboBox fx:id="comparisonValuesComboBox"/>
+            <Button onAction="#resolveAddConditionClick" text="Add"/>
+        </HBox>
+
+        <HBox>
+            <Label text="Trace conditions:"/>
+            <TextArea fx:id="traceConditionsTextArea"/>
+        </HBox>
+
+        <HBox>
+            <Button onAction="#resolveTraceClick" text="Trace"/>
+            <Button onAction="#resolveResetClick" text="Reset"/>
+        </HBox>
+
+    </VBox>
+
 </StackPane>
