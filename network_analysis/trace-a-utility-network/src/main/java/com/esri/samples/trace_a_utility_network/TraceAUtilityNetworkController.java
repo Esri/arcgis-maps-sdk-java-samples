@@ -246,7 +246,7 @@ public class TraceAUtilityNetworkController {
                   // compute how far the clicked location is along the edge feature
                   double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
                   if (Double.isNaN(fractionAlongEdge)) {
-                    // don't set the fraction along edge if it can't be determined
+                    new Alert(Alert.AlertType.ERROR, "Cannot add starting location / barrier here.");
                     return;
                   }
 
@@ -331,6 +331,7 @@ public class TraceAUtilityNetworkController {
               // create a dialog for terminal selection
               ChoiceDialog<UtilityTerminal> utilityTerminalSelectionDialog =
                   new ChoiceDialog<>(terminals.get(0), terminals);
+              utilityTerminalSelectionDialog.initOwner(mapView.getScene().getWindow());
               utilityTerminalSelectionDialog.setTitle("Select Utility Terminal:");
 
               // override the list cell in the dialog's combo box to show the terminal name
@@ -461,7 +462,13 @@ public class TraceAUtilityNetworkController {
       } catch (Exception e) {
         statusLabel.setText("Trace failed.");
         progressIndicator.setVisible(false);
-        new Alert(Alert.AlertType.ERROR, "Error running utility network trace.").show();
+        // Note: this sample server may return a generic message in some circumstances when incompatible trace
+        // parameters are specified. This will be fixed in ArcGIS server 10.8
+        if (e.getMessage().contains("-2147208935")) {
+          new Alert(Alert.AlertType.ERROR, "Cannot run trace with the provided parameters.").show();
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Error running utility network trace.").show();
+        }
         enableButtonInteraction();
       }
     });
