@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
@@ -118,7 +117,7 @@ public class ConfigureSubnetworkTraceController {
               (UtilityTraceConditionalExpression) utilityTier.getTraceConfiguration().getTraversability().getBarriers();
 
           // show the initial expression in the text area
-          traceConditionsTextArea.setText(getExpression(initialExpression));
+          traceConditionsTextArea.setText(generateExpressionText(initialExpression));
 
           // set the traversability scope
           utilityTier.getTraceConfiguration().getTraversability().setScope(UtilityTraversabilityScope.JUNCTIONS);
@@ -130,24 +129,40 @@ public class ConfigureSubnetworkTraceController {
   }
 
   @FXML
-  private void resolveAddConditionClick(ActionEvent actionEvent) {
+  private void resolveAddConditionClick() {
     try {
 
-      UtilityNetworkAttribute selectedSourceAttribute = comparisonSourcesComboBox.getSelectionModel().getSelectedItem();
-      UtilityAttributeComparisonOperator selectedSourceOperator =
+      // get the selected utility network attribute and attribute comparison operator
+      UtilityNetworkAttribute selectedAttribute = comparisonSourcesComboBox.getSelectionModel().getSelectedItem();
+      UtilityAttributeComparisonOperator selectedOperator =
           comparisonOperatorsComboBox.getSelectionModel().getSelectedItem();
 
-      Object otherValue;
-      if (selectedSourceAttribute.getDomain() instanceof CodedValueDomain) {
-
+      // check if a comparison value was specified, and capture it to use as the last parameter of the UtilityNetworkAttributeComparison
+      Object otherValue = null;
+      if (selectedAttribute.getDomain() instanceof CodedValueDomain && comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null){
+        otherValue = comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode();
       }
 
+      // create the utility network attribute comparison expression
+      // NOTE: You may also create a UtilityNetworkAttributeComparison with another NetworkAttribute.
+      UtilityTraceConditionalExpression expression=
+            new UtilityNetworkAttributeComparison(selectedAttribute, selectedOperator, otherValue);
 
+      if (utilityTraceConfiguration.getTraversability().getBarriers() instanceof UtilityTraceConditionalExpression) {
+        UtilityTraceConditionalExpression otherExpression = (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
+        expression = new UtilityTraceOrCondition(otherExpression, expression);
+      }
+
+      utilityTraceConfiguration.getTraversability().setBarriers(expression);
+
+      // show the expression in the text area
+      traceConditionsTextArea.setText(generateExpressionText(expression));
     } catch (Exception e) {
+
     }
   }
 
-  private String getExpression(UtilityTraceConditionalExpression expression) {
+  private String generateExpressionText(UtilityTraceConditionalExpression expression) {
 
     StringBuilder stringBuilder = new StringBuilder();
 
@@ -156,7 +171,6 @@ public class ConfigureSubnetworkTraceController {
       stringBuilder.append(categoryComparison.getCategory().getName())
           .append(" ")
           .append(categoryComparison.getComparisonOperator());
-
     }
 
     if (expression instanceof UtilityNetworkAttributeComparison) {
@@ -169,8 +183,8 @@ public class ConfigureSubnetworkTraceController {
 
       if (attributeComparison.getNetworkAttribute().getDomain() instanceof CodedValueDomain) {
         CodedValueDomain codedValueDomain = (CodedValueDomain) attributeComparison.getNetworkAttribute().getDomain();
-        if (!codedValueDomain.getCodedValues().isEmpty()) {
 
+        if (!codedValueDomain.getCodedValues().isEmpty()) {
           // get the data type of the used network attribute
           UtilityNetworkAttribute.DataType dataType = attributeComparison.getNetworkAttribute().getDataType();
 
@@ -186,6 +200,7 @@ public class ConfigureSubnetworkTraceController {
             stringBuilder.append(codedValue);
           }
         }
+
       } else {
         if (attributeComparison.getOtherNetworkAttribute() != null) {
           stringBuilder.append(attributeComparison.getOtherNetworkAttribute().getName());
@@ -255,7 +270,7 @@ public class ConfigureSubnetworkTraceController {
   }
 
   @FXML
-  private void resolveResetClick(ActionEvent actionEvent) {
+  private void resolveResetClick() {
     utilityTraceConfiguration = initialUtilityTraceConfiguration;
   }
 
