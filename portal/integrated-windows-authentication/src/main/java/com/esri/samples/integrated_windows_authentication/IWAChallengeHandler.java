@@ -45,11 +45,12 @@ final class IWAChallengeHandler implements AuthenticationChallengeHandler {
   @Override
   public AuthenticationChallengeResponse handleChallenge(AuthenticationChallenge authenticationChallenge) {
 
+    // if the authentication challenge is self signed, return the appropriate response
     if (authenticationChallenge.getType() == AuthenticationChallenge.Type.SELF_SIGNED_CHALLENGE) {
       return new AuthenticationChallengeResponse(
           AuthenticationChallengeResponse.Action.CONTINUE_WITH_SELF_SIGNED_RESPONSE,
           new SelfSignedResponse(true, true));
-      
+
     } else if (authenticationChallenge.getType() == AuthenticationChallenge.Type.USER_CREDENTIAL_CHALLENGE &&
         authenticationChallenge.getRemoteResource() instanceof Portal) {
 
