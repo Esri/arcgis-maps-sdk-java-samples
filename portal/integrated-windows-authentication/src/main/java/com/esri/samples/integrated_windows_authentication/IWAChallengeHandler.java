@@ -26,6 +26,7 @@ import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.security.AuthenticationChallenge;
 import com.esri.arcgisruntime.security.AuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.AuthenticationChallengeResponse;
+import com.esri.arcgisruntime.security.SelfSignedResponse;
 import com.esri.arcgisruntime.security.UserCredential;
 
 /**
@@ -44,7 +45,13 @@ final class IWAChallengeHandler implements AuthenticationChallengeHandler {
   @Override
   public AuthenticationChallengeResponse handleChallenge(AuthenticationChallenge authenticationChallenge) {
 
-    if (authenticationChallenge.getType() == AuthenticationChallenge.Type.USER_CREDENTIAL_CHALLENGE && authenticationChallenge.getRemoteResource() instanceof Portal) {
+    if (authenticationChallenge.getType() == AuthenticationChallenge.Type.SELF_SIGNED_CHALLENGE) {
+      return new AuthenticationChallengeResponse(
+          AuthenticationChallengeResponse.Action.CONTINUE_WITH_SELF_SIGNED_RESPONSE,
+          new SelfSignedResponse(true, true));
+      
+    } else if (authenticationChallenge.getType() == AuthenticationChallenge.Type.USER_CREDENTIAL_CHALLENGE &&
+        authenticationChallenge.getRemoteResource() instanceof Portal) {
 
       // If challenge has been requested by a Portal and the Portal has been loaded, cancel the challenge
       // This is required as some layers have private portal items associated with them and we don't
