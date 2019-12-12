@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -66,14 +65,13 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
-import com.esri.arcgisruntime.utilitynetworks.UtilityAssetGroup;
-import com.esri.arcgisruntime.utilitynetworks.UtilityAssetType;
 import com.esri.arcgisruntime.utilitynetworks.UtilityDomainNetwork;
 import com.esri.arcgisruntime.utilitynetworks.UtilityElement;
 import com.esri.arcgisruntime.utilitynetworks.UtilityElementTraceResult;
 import com.esri.arcgisruntime.utilitynetworks.UtilityNetwork;
 import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkSource;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTerminalConfiguration;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTier;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceParameters;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceResult;
@@ -81,13 +79,20 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
 
 public class TraceAUtilityNetworkController {
 
-  @FXML private Button resetButton;
-  @FXML private Button traceButton;
-  @FXML private ComboBox<UtilityTraceType> traceTypeSelectionCombobox;
-  @FXML private Label statusLabel;
-  @FXML private MapView mapView;
-  @FXML private ProgressIndicator progressIndicator;
-  @FXML private RadioButton startingLocationsRadioButton;
+  @FXML
+  private Button resetButton;
+  @FXML
+  private Button traceButton;
+  @FXML
+  private ComboBox<UtilityTraceType> traceTypeSelectionCombobox;
+  @FXML
+  private Label statusLabel;
+  @FXML
+  private MapView mapView;
+  @FXML
+  private ProgressIndicator progressIndicator;
+  @FXML
+  private RadioButton startingLocationsRadioButton;
 
   private ArrayList<UtilityElement> barriers;
   private ArrayList<UtilityElement> startingLocations;
@@ -218,27 +223,45 @@ public class TraceAUtilityNetworkController {
             LayerContent layerContent = firstResult.getLayerContent();
             // check that the result is a feature layer and has elements
             if (layerContent instanceof FeatureLayer && !firstResult.getElements().isEmpty()) {
+
               // retrieve the geoelements in the feature layer
-              GeoElement identifiedElement = firstResult.getElements().get(0);
-              if (identifiedElement instanceof ArcGISFeature) {
-                // get the feature
-                ArcGISFeature identifiedFeature = (ArcGISFeature) identifiedElement;
+              GeoElement identifiedFeature = firstResult.getElements().get(0);
+              if (identifiedFeature instanceof ArcGISFeature) {
 
-                // get the network source of the identified feature
-                String featureTableName = identifiedFeature.getFeatureTable().getTableName();
-                UtilityNetworkSource networkSource = utilityNetwork.getDefinition().getNetworkSource(featureTableName);
-
-                UtilityElement utilityElement = null;
+                // create element from the identified feature
+                UtilityElement utilityElement = utilityNetwork.createElement((ArcGISFeature) identifiedFeature);
 
                 // check if the network source is a junction or an edge
-                if (networkSource.getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
-                  //  create a utility element with the identified feature
-                  utilityElement = createUtilityElement(identifiedFeature, networkSource);
-                } else if (networkSource.getSourceType() == UtilityNetworkSource.Type.EDGE &&
-                    identifiedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+                if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
 
-                  //  create a utility element with the identified feature
-                  utilityElement = utilityNetwork.createElement(identifiedFeature, null);
+                  // check if the feature has a terminal configuration and multiple terminals
+                  if (utilityElement.getAssetType().getTerminalConfiguration() != null) {
+                    UtilityTerminalConfiguration utilityTerminalConfiguration =
+                        utilityElement.getAssetType().getTerminalConfiguration();
+                    List<UtilityTerminal> terminals = utilityTerminalConfiguration.getTerminals();
+
+                    if (terminals.size() > 1) {
+                      // prompt the user to select a terminal for this feature
+                      Optional<UtilityTerminal> userSelectedTerminal = promptForTerminalSelection(terminals);
+
+                      // apply the selected terminal
+                      if (userSelectedTerminal.isPresent()) {
+                        UtilityTerminal terminal = userSelectedTerminal.get();
+                        utilityElement.setTerminal(terminal);
+                        // show the terminals name in the status label
+                        String terminalName = terminal.getName() != null ? terminal.getName() : "default";
+                        statusLabel.setText("Terminal: " + terminalName);
+
+                        // don't create the element if no terminal was selected
+                      } else {
+                        statusLabel.setText("No terminal selected - no feature added");
+                        return;
+                      }
+                    }
+                  }
+
+                } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE &&
+                    identifiedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
 
                   // get the geometry of the identified feature as a polyline, and remove the z component
                   Polyline polyline = (Polyline) GeometryEngine.removeZ(identifiedFeature.getGeometry());
@@ -257,25 +280,23 @@ public class TraceAUtilityNetworkController {
                   statusLabel.setText("Fraction along edge: " + utilityElement.getFractionAlongEdge());
                 }
 
-                if (utilityElement != null) {
-                  // create a graphic for the new utility element
-                  Graphic traceLocationGraphic = new Graphic();
+                // create a graphic for the new utility element
+                Graphic traceLocationGraphic = new Graphic();
 
-                  // find the closest coordinate on the selected element to the clicked point
-                  ProximityResult proximityResult =
-                      GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
+                // find the closest coordinate on the selected element to the clicked point
+                ProximityResult proximityResult =
+                    GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
 
-                  // set the graphic's geometry to the coordinate on the element
-                  traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
+                // set the graphic's geometry to the coordinate on the element
+                traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
 
-                  // add the element to the appropriate list, and add the appropriate graphic to its graphics overlay
-                  if (startingLocationsRadioButton.isSelected()) {
-                    startingLocations.add(utilityElement);
-                    startingLocationsGraphicsOverlay.getGraphics().add(traceLocationGraphic);
-                  } else {
-                    barriers.add(utilityElement);
-                    barriersGraphicsOverlay.getGraphics().add(traceLocationGraphic);
-                  }
+                // add the element to the appropriate list, and add the appropriate graphic to its graphics overlay
+                if (startingLocationsRadioButton.isSelected()) {
+                  startingLocations.add(utilityElement);
+                  startingLocationsGraphicsOverlay.getGraphics().add(traceLocationGraphic);
+                } else {
+                  barriers.add(utilityElement);
+                  barriersGraphicsOverlay.getGraphics().add(traceLocationGraphic);
                 }
               }
             }
@@ -291,81 +312,27 @@ public class TraceAUtilityNetworkController {
   }
 
   /**
-   * Uses a UtilityNetworkSource to create a UtilityElement object out of an ArcGISFeature.
+   * Prompts the user to select a terminal from a provided list.
    *
-   * @param identifiedFeature an ArcGISFeature object that will be used to create a UtilityElement
-   * @param networkSource the UtilityNetworkSource to which the created UtilityElement is associated
-   * @return the created UtilityElement
+   * @param terminals a list of terminals for the user to choose from
+   * @return the user's selected terminal
    */
-  private UtilityElement createUtilityElement(ArcGISFeature identifiedFeature, UtilityNetworkSource networkSource) {
-    UtilityElement utilityElement = null;
+  private Optional<UtilityTerminal> promptForTerminalSelection(List<UtilityTerminal> terminals) {
 
-    // get the attributes of the identified feature
-    Map<String, Object> attributes = identifiedFeature.getAttributes();
+    // create a dialog for terminal selection
+    ChoiceDialog<UtilityTerminal> utilityTerminalSelectionDialog = new ChoiceDialog<>(terminals.get(0), terminals);
+    utilityTerminalSelectionDialog.initOwner(mapView.getScene().getWindow());
+    utilityTerminalSelectionDialog.setTitle("Select Utility Terminal:");
 
-    // get the name of the utility asset group's attribute field from the feature
-    String assetGroupFieldName = identifiedFeature.getFeatureTable().getSubtypeField();
+    // override the list cell in the dialog's combo box to show the terminal name
+    @SuppressWarnings("unchecked") ComboBox<UtilityTerminal> comboBox =
+        (ComboBox<UtilityTerminal>) ((GridPane) utilityTerminalSelectionDialog.getDialogPane()
+            .getContent()).getChildren().get(1);
+    comboBox.setCellFactory(param -> new UtilityTerminalListCell());
+    comboBox.setButtonCell(new UtilityTerminalListCell());
 
-
-    // iterate through the network source's asset groups to find the group with the matching code
-    List<UtilityAssetGroup> assetGroups = networkSource.getAssetGroups();
-    for (UtilityAssetGroup assetGroup : assetGroups) {
-      if (assetGroup.getCode() == (int) attributes.get(assetGroupFieldName.toLowerCase())) {
-
-        // iterate through the asset group's asset types to find the type matching the feature's asset type code
-        List<UtilityAssetType> utilityAssetTypes = assetGroup.getAssetTypes();
-        for (UtilityAssetType assetType : utilityAssetTypes) {
-          if (assetType.getCode() == (short) attributes.get("assettype")) {
-
-            // get the list of terminals for the feature
-            List<UtilityTerminal> terminals = assetType.getTerminalConfiguration().getTerminals();
-
-            // if there is only one terminal, use it to create a utility element
-            if (terminals.size() == 1) {
-              utilityElement = utilityNetwork.createElement(identifiedFeature, terminals.get(0));
-              // show the name of the terminal in the status label
-              showTerminalNameInStatusLabel(terminals.get(0));
-
-              // if there is more than one terminal, prompt the user to select one
-            } else if (terminals.size() > 1) {
-              // create a dialog for terminal selection
-              ChoiceDialog<UtilityTerminal> utilityTerminalSelectionDialog =
-                  new ChoiceDialog<>(terminals.get(0), terminals);
-              utilityTerminalSelectionDialog.initOwner(mapView.getScene().getWindow());
-              utilityTerminalSelectionDialog.setTitle("Select Utility Terminal:");
-
-              // override the list cell in the dialog's combo box to show the terminal name
-              @SuppressWarnings("unchecked") ComboBox<UtilityTerminal> comboBox =
-                  (ComboBox<UtilityTerminal>) ((GridPane) utilityTerminalSelectionDialog.getDialogPane()
-                      .getContent()).getChildren().get(1);
-              comboBox.setCellFactory(param -> new UtilityTerminalListCell());
-              comboBox.setButtonCell(new UtilityTerminalListCell());
-
-              // show the terminal selection dialog and capture the user selection
-              Optional<UtilityTerminal> selectedTerminalOptional = utilityTerminalSelectionDialog.showAndWait();
-
-              // use the selected terminal
-              if (selectedTerminalOptional.isPresent()) {
-                UtilityTerminal selectedTerminal = selectedTerminalOptional.get();
-                utilityElement = utilityNetwork.createElement(identifiedFeature, selectedTerminal);
-                showTerminalNameInStatusLabel(selectedTerminal);
-              }
-            }
-          }
-        }
-      }
-    }
-    return utilityElement;
-  }
-
-  /**
-   * Shows the name of a UtilityTerminal in the status label in the UI.
-   *
-   * @param terminal the UtilityTerminal object of which to show the name in the UI
-   */
-  private void showTerminalNameInStatusLabel(UtilityTerminal terminal) {
-    String terminalName = terminal.getName() != null ? terminal.getName() : "default";
-    statusLabel.setText("Terminal: " + terminalName);
+    // show the terminal selection dialog and capture the user selection
+    return utilityTerminalSelectionDialog.showAndWait();
   }
 
   /**
