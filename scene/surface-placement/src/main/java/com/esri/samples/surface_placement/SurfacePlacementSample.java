@@ -143,7 +143,7 @@ public class SurfacePlacementSample extends Application {
 
       // create radio buttons to toggle between billboarded and flat draped surface placement modes
       ToggleGroup toggleGroup = new ToggleGroup();
-      Label toggleGroupLabel = new Label("Toggle surface placement mode:");
+      Label toggleGroupLabel = new Label("Toggle draped mode:");
 
       RadioButton drapedBillboardedRadioButton = new RadioButton("Draped Billboarded");
       drapedBillboardedRadioButton.setToggleGroup(toggleGroup);
