@@ -1,17 +1,17 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2019 Esri.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.esri.samples.configure_subnetwork_trace;
@@ -26,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.CodedValue;
@@ -54,6 +55,8 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraversabilityScope;
 
 public class ConfigureSubnetworkTraceController {
 
+  @FXML
+  private TextField comparisonValuesTextField;
   @FXML
   private CheckBox includeBarriersCheckBox;
   @FXML
@@ -84,17 +87,25 @@ public class ConfigureSubnetworkTraceController {
       utilityNetwork.addDoneLoadingListener(() -> {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
 
-          // build the choice lists for network attribute comparison
+          // build the choice list for the network attribute comparison sources
           List<UtilityNetworkAttribute> comparisonSources = utilityNetwork.getDefinition()
               .getNetworkAttributes()
               .stream()
-              .filter(UtilityNetworkAttribute::isSystemDefined)
+              .filter(value -> !value.isSystemDefined())
               .collect(Collectors.toList());
           comparisonSourcesComboBox.getItems().addAll(comparisonSources);
           comparisonSourcesComboBox.getSelectionModel().select(0);
+          // display the name of the comparison sources in the ComboBox
+          comparisonSourcesComboBox.setButtonCell(new ComparisonSourceListCell());
+          comparisonSourcesComboBox.setCellFactory(c -> new ComparisonSourceListCell());
 
+          // build the choice list for the comparison operators
           comparisonOperatorsComboBox.getItems().addAll(UtilityAttributeComparisonOperator.values());
           comparisonOperatorsComboBox.getSelectionModel().select(0);
+
+          // display the name of the comparison values in the ComboBox
+          comparisonValuesComboBox.setButtonCell(new CodedValueListCell());
+          comparisonValuesComboBox.setCellFactory(c -> new CodedValueListCell());
 
           // create a default starting location
           UtilityNetworkSource utilityNetworkSource =
@@ -109,11 +120,12 @@ public class ConfigureSubnetworkTraceController {
               utilityNetwork.getDefinition().getDomainNetwork("ElectricDistribution");
           UtilityTier utilityTier = utilityDomainNetwork.getTier("Medium Voltage Radial");
 
-          // get the utilityTrace configuration
-          initialUtilityTraceConfiguration = utilityTier.getTraceConfiguration();
+          // get the utilityTrace configuration and save it
+          utilityTraceConfiguration = utilityTier.getTraceConfiguration();
+          initialUtilityTraceConfiguration = utilityTraceConfiguration;
 
           // save the initial expression
-          UtilityTraceConditionalExpression initialExpression =
+          initialExpression =
               (UtilityTraceConditionalExpression) utilityTier.getTraceConfiguration().getTraversability().getBarriers();
 
           // show the initial expression in the text area
@@ -131,25 +143,32 @@ public class ConfigureSubnetworkTraceController {
   @FXML
   private void resolveAddConditionClick() {
     try {
-
       // get the selected utility network attribute and attribute comparison operator
       UtilityNetworkAttribute selectedAttribute = comparisonSourcesComboBox.getSelectionModel().getSelectedItem();
       UtilityAttributeComparisonOperator selectedOperator =
           comparisonOperatorsComboBox.getSelectionModel().getSelectedItem();
 
-      // check if a comparison value was specified, and capture it to use as the last parameter of the UtilityNetworkAttributeComparison
-      Object otherValue = null;
-      if (selectedAttribute.getDomain() instanceof CodedValueDomain && comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null){
-        otherValue = comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode();
+      // check if a comparison value was specified, and capture it to use as the last parameter of the
+      // UtilityNetworkAttributeComparison
+      Object otherValue;
+      // if a comparison value is selected from the ComboBox, use it as the third parameter
+      if (selectedAttribute.getDomain() instanceof CodedValueDomain &&
+          comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null) {
+        otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
+            selectedAttribute.getDataType());
+      } else {
+        // otherwise, a comparison value will be specified as text input, so use it as the third parameter
+        otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
       }
 
       // create the utility network attribute comparison expression
       // NOTE: You may also create a UtilityNetworkAttributeComparison with another NetworkAttribute.
-      UtilityTraceConditionalExpression expression=
-            new UtilityNetworkAttributeComparison(selectedAttribute, selectedOperator, otherValue);
+      UtilityTraceConditionalExpression expression =
+          new UtilityNetworkAttributeComparison(selectedAttribute, selectedOperator, otherValue);
 
       if (utilityTraceConfiguration.getTraversability().getBarriers() instanceof UtilityTraceConditionalExpression) {
-        UtilityTraceConditionalExpression otherExpression = (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
+        UtilityTraceConditionalExpression otherExpression =
+            (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
         expression = new UtilityTraceOrCondition(otherExpression, expression);
       }
 
@@ -158,7 +177,7 @@ public class ConfigureSubnetworkTraceController {
       // show the expression in the text area
       traceConditionsTextArea.setText(generateExpressionText(expression));
     } catch (Exception e) {
-
+      e.printStackTrace();
     }
   }
 
@@ -185,19 +204,22 @@ public class ConfigureSubnetworkTraceController {
         CodedValueDomain codedValueDomain = (CodedValueDomain) attributeComparison.getNetworkAttribute().getDomain();
 
         if (!codedValueDomain.getCodedValues().isEmpty()) {
-          // get the data type of the used network attribute
-          UtilityNetworkAttribute.DataType dataType = attributeComparison.getNetworkAttribute().getDataType();
+          // get the data type of the used network attribute comparison
+          UtilityNetworkAttribute.DataType attributeComparisonDataType =
+              attributeComparison.getNetworkAttribute().getDataType();
 
-          // get the coded values from the domain and find the ones where the code matches the network attribute's data type
+          // get the coded values from the domain and find the ones where the value matches the network attribute's
+          // comparison value
           List<CodedValue> list = codedValueDomain.getCodedValues()
               .stream()
-              .filter(value -> value.getCode().equals(dataType))
+              .filter(value -> convertToDataType(value.getCode(), attributeComparisonDataType).equals(
+                  convertToDataType(attributeComparison.getValue(), attributeComparisonDataType)))
               .collect(Collectors.toList());
 
           if (!list.isEmpty()) {
-            // get the first coded value and add it's name
+            // get the first coded value and add it's name to the string
             CodedValue codedValue = list.get(0);
-            stringBuilder.append(codedValue);
+            stringBuilder.append(codedValue.getName());
           }
         }
 
@@ -218,7 +240,7 @@ public class ConfigureSubnetworkTraceController {
     }
 
     if (expression instanceof UtilityTraceOrCondition) {
-      UtilityTraceAndCondition orCondition = (UtilityTraceAndCondition) expression;
+      UtilityTraceOrCondition orCondition = (UtilityTraceOrCondition) expression;
       stringBuilder.append(orCondition.getLeftExpression());
       stringBuilder.append("OR \n");
       stringBuilder.append(orCondition.getRightExpression());
@@ -239,7 +261,11 @@ public class ConfigureSubnetworkTraceController {
           new UtilityTraceParameters(UtilityTraceType.SUBNETWORK, Collections.singletonList(startingLocation));
 
       // set the defined trace configuration to the trace parameters
-      utilityTraceParameters.setTraceConfiguration(initialUtilityTraceConfiguration);
+      utilityTraceParameters.setTraceConfiguration(utilityTraceConfiguration);
+
+      // apply the include barriers/containers settings according to the checkboxes
+      utilityTraceParameters.getTraceConfiguration().setIncludeBarriers(includeBarriersCheckBox.isSelected());
+      utilityTraceParameters.getTraceConfiguration().setIncludeContainers(includeContainersCheckBox.isSelected());
 
       // run the utility trace and get the results
       ListenableFuture<List<UtilityTraceResult>> utilityTraceResultsFuture =
@@ -269,30 +295,80 @@ public class ConfigureSubnetworkTraceController {
     }
   }
 
+  /**
+   * Resets the trace configuration and UI back to the state at application start
+   */
   @FXML
   private void resolveResetClick() {
+    // reset the utility trace configuration and traversability to the state at application start
     utilityTraceConfiguration = initialUtilityTraceConfiguration;
+    utilityTraceConfiguration.getTraversability().setBarriers(initialExpression);
+
+    // show the configuration expression from the application start in the text area
+    traceConditionsTextArea.setText(generateExpressionText(initialExpression));
+
+    // un-check the checkboxes for including barriers and containers
+    includeContainersCheckBox.setSelected(false);
+    includeBarriersCheckBox.setSelected(false);
+
+    // select the first item in each ComboBox
+    comparisonSourcesComboBox.getSelectionModel().select(0);
+    comparisonOperatorsComboBox.getSelectionModel().select(0);
   }
 
   /**
    * Updates the contents of the comparison value choices ComboBox depending on the selected comparison source
    */
-  public void onComparisonSourceChanged() {
+  @FXML
+  private void onComparisonSourceChanged() {
+
+    comparisonValuesTextField.clear();
 
     if (comparisonSourcesComboBox.getSelectionModel().getSelectedItem() != null) {
 
+      // determine if we need to show a selection of values in the combo box, or a text entry field
       UtilityNetworkAttribute selectedAttribute = comparisonSourcesComboBox.getSelectionModel().getSelectedItem();
       if (selectedAttribute.getDomain() instanceof CodedValueDomain) {
 
+        // populate and show the comparison values combo box
         List<CodedValue> comparisonValues = ((CodedValueDomain) selectedAttribute.getDomain()).getCodedValues();
-
         comparisonValuesComboBox.getItems().clear();
         comparisonValuesComboBox.getItems().addAll(comparisonValues);
+        comparisonValuesComboBox.getSelectionModel().select(0);
+      } else {
+        comparisonValuesComboBox.getItems().clear();
       }
+      // toggle the selection combo box to be visible if it has any items
+      comparisonValuesComboBox.setVisible(!comparisonValuesComboBox.getItems().isEmpty());
+      // toggle the text field to be hidden if the combo box is visible, or show it if the combo box is invisible
+      comparisonValuesTextField.setVisible(!comparisonValuesComboBox.isVisible());
     }
-    //    comparisonValuesComboBox.setVisible(!comparisonValuesComboBox.getItems().isEmpty());
   }
 
+  private Object convertToDataType(Object otherValue, UtilityNetworkAttribute.DataType dataType) {
+    Object converted = null;
+
+    switch (dataType) {
+      case BOOLEAN:
+        converted = Boolean.valueOf(otherValue.toString());
+        break;
+      case DOUBLE:
+        converted = Double.valueOf(otherValue.toString());
+        break;
+      case FLOAT:
+        converted = Float.valueOf(otherValue.toString());
+        break;
+      case INTEGER:
+        converted = Integer.valueOf(otherValue.toString());
+        break;
+    }
+
+    if (converted == null) {
+      throw new IllegalArgumentException("Incompatible conversion type specified.");
+    }
+
+    return converted;
+  }
 
   /**
    * Stops and releases all resources used in application.
