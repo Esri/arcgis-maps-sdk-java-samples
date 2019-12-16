@@ -140,50 +140,55 @@ public class ConfigureSubnetworkTraceController {
     }
   }
 
+  /**
+   * Uses the selected parameters to add a barrier expression to the utility trace configuration.
+   */
   @FXML
   private void resolveAddConditionClick() {
-    try {
-      // get the selected utility network attribute and attribute comparison operator
-      UtilityNetworkAttribute selectedAttribute = comparisonSourcesComboBox.getSelectionModel().getSelectedItem();
-      UtilityAttributeComparisonOperator selectedOperator =
-          comparisonOperatorsComboBox.getSelectionModel().getSelectedItem();
 
-      // check if a comparison value was specified, and capture it to use as the last parameter of the
-      // UtilityNetworkAttributeComparison
-      Object otherValue;
-      // if a comparison value is selected from the ComboBox, use it as the third parameter
-      if (selectedAttribute.getDomain() instanceof CodedValueDomain &&
-          comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null) {
-        otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
-            selectedAttribute.getDataType());
-      } else if (!comparisonValuesTextField.getText().equals("")) {
-        // otherwise, a comparison value will be specified as text input, so use it as the third parameter
-        otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
-      } else {
-        new Alert(Alert.AlertType.WARNING, "No valid comparison value entered").show();
-        return;
-      }
+    // get the selected utility network attribute and attribute comparison operator
+    UtilityNetworkAttribute selectedAttribute = comparisonSourcesComboBox.getSelectionModel().getSelectedItem();
+    UtilityAttributeComparisonOperator selectedOperator =
+        comparisonOperatorsComboBox.getSelectionModel().getSelectedItem();
 
-      // create the utility network attribute comparison expression
-      // NOTE: You may also create a UtilityNetworkAttributeComparison with another NetworkAttribute.
-      UtilityTraceConditionalExpression expression =
-          new UtilityNetworkAttributeComparison(selectedAttribute, selectedOperator, otherValue);
-
-      if (utilityTraceConfiguration.getTraversability().getBarriers() instanceof UtilityTraceConditionalExpression) {
-        UtilityTraceConditionalExpression otherExpression =
-            (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
-        expression = new UtilityTraceOrCondition(otherExpression, expression);
-      }
-
-      utilityTraceConfiguration.getTraversability().setBarriers(expression);
-
-      // show the expression in the text area
-      traceConditionsTextArea.setText(generateExpressionText(expression));
-    } catch (Exception e) {
-      e.printStackTrace();
+    // check if a comparison value was specified, and capture it to use as the last parameter of the
+    // UtilityNetworkAttributeComparison
+    Object otherValue;
+    // if a comparison value is selected from the ComboBox, use it as the third parameter
+    if (selectedAttribute.getDomain() instanceof CodedValueDomain &&
+        comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null) {
+      otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
+          selectedAttribute.getDataType());
+    } else if (!comparisonValuesTextField.getText().equals("")) {
+      // otherwise, a comparison value will be specified as text input, so use it as the third parameter
+      otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
+    } else {
+      new Alert(Alert.AlertType.WARNING, "No valid comparison value entered").show();
+      return;
     }
+
+    // create the utility network attribute comparison expression
+    // NOTE: You may also create a UtilityNetworkAttributeComparison with another NetworkAttribute.
+    UtilityTraceConditionalExpression expression =
+        new UtilityNetworkAttributeComparison(selectedAttribute, selectedOperator, otherValue);
+
+    if (utilityTraceConfiguration.getTraversability().getBarriers() instanceof UtilityTraceConditionalExpression) {
+      UtilityTraceConditionalExpression otherExpression =
+          (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
+      expression = new UtilityTraceOrCondition(otherExpression, expression);
+    }
+
+    utilityTraceConfiguration.getTraversability().setBarriers(expression);
+
+    // show the expression in the text area
+    traceConditionsTextArea.setText(generateExpressionText(expression));
   }
 
+  /**
+   * Parses a utility trace conditional expression into text and returns it.
+   * @param expression a UtilityTraceConditionalExpression
+   * @return string representing the expression
+   */
   private String generateExpressionText(UtilityTraceConditionalExpression expression) {
 
     StringBuilder stringBuilder = new StringBuilder();
@@ -300,7 +305,7 @@ public class ConfigureSubnetworkTraceController {
   }
 
   /**
-   * Resets the trace configuration and UI back to the state at application start
+   * Resets the trace configuration and UI back to the state at application start.
    */
   @FXML
   private void resolveResetClick() {
@@ -321,7 +326,7 @@ public class ConfigureSubnetworkTraceController {
   }
 
   /**
-   * Updates the contents of the comparison value choices ComboBox depending on the selected comparison source
+   * Updates the contents of the comparison value choices ComboBox depending on the selected comparison source.
    */
   @FXML
   private void onComparisonSourceChanged() {
@@ -349,21 +354,27 @@ public class ConfigureSubnetworkTraceController {
     }
   }
 
-  private Object convertToDataType(Object otherValue, UtilityNetworkAttribute.DataType dataType) {
+  /**
+   * Converts an object representing a value into the data type specified.
+   * @param value the value to convert
+   * @param dataType the requested data type to which to convert
+   * @return the converted value
+   */
+  private Object convertToDataType(Object value, UtilityNetworkAttribute.DataType dataType) {
     Object converted = null;
 
     switch (dataType) {
       case BOOLEAN:
-        converted = Boolean.valueOf(otherValue.toString());
+        converted = Boolean.valueOf(value.toString());
         break;
       case DOUBLE:
-        converted = Double.valueOf(otherValue.toString());
+        converted = Double.valueOf(value.toString());
         break;
       case FLOAT:
-        converted = Float.valueOf(otherValue.toString());
+        converted = Float.valueOf(value.toString());
         break;
       case INTEGER:
-        converted = Integer.parseInt(otherValue.toString());
+        converted = Integer.parseInt(value.toString());
         break;
     }
 
