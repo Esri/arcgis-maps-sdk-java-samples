@@ -156,9 +156,12 @@ public class ConfigureSubnetworkTraceController {
           comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null) {
         otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
             selectedAttribute.getDataType());
-      } else {
+      } else if (!comparisonValuesTextField.getText().equals("")) {
         // otherwise, a comparison value will be specified as text input, so use it as the third parameter
         otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
+      } else {
+        new Alert(Alert.AlertType.WARNING, "No valid comparison value entered").show();
+        return;
       }
 
       // create the utility network attribute comparison expression
@@ -189,7 +192,7 @@ public class ConfigureSubnetworkTraceController {
       UtilityCategoryComparison categoryComparison = (UtilityCategoryComparison) expression;
       stringBuilder.append(categoryComparison.getCategory().getName())
           .append(" ")
-          .append(categoryComparison.getComparisonOperator());
+          .append(categoryComparison.getComparisonOperator().name());
     }
 
     if (expression instanceof UtilityNetworkAttributeComparison) {
@@ -197,7 +200,7 @@ public class ConfigureSubnetworkTraceController {
 
       stringBuilder.append(attributeComparison.getNetworkAttribute().getName())
           .append(" ")
-          .append(attributeComparison.getComparisonOperator())
+          .append(attributeComparison.getComparisonOperator().name())
           .append(" ");
 
       if (attributeComparison.getNetworkAttribute().getDomain() instanceof CodedValueDomain) {
@@ -227,23 +230,23 @@ public class ConfigureSubnetworkTraceController {
         if (attributeComparison.getOtherNetworkAttribute() != null) {
           stringBuilder.append(attributeComparison.getOtherNetworkAttribute().getName());
         } else {
-          stringBuilder.append(attributeComparison.getValue());
+          stringBuilder.append(attributeComparison.getValue().toString());
         }
       }
     }
 
     if (expression instanceof UtilityTraceAndCondition) {
       UtilityTraceAndCondition andCondition = (UtilityTraceAndCondition) expression;
-      stringBuilder.append(andCondition.getLeftExpression());
-      stringBuilder.append("AND \n");
-      stringBuilder.append(andCondition.getRightExpression());
+      stringBuilder.append(generateExpressionText(andCondition.getLeftExpression()));
+      stringBuilder.append(" AND \n");
+      stringBuilder.append(generateExpressionText(andCondition.getRightExpression()));
     }
 
     if (expression instanceof UtilityTraceOrCondition) {
       UtilityTraceOrCondition orCondition = (UtilityTraceOrCondition) expression;
-      stringBuilder.append(orCondition.getLeftExpression());
-      stringBuilder.append("OR \n");
-      stringBuilder.append(orCondition.getRightExpression());
+      stringBuilder.append(generateExpressionText(orCondition.getLeftExpression()));
+      stringBuilder.append(" OR \n");
+      stringBuilder.append(generateExpressionText(orCondition.getRightExpression()));
     }
 
     return stringBuilder.toString();
@@ -280,7 +283,7 @@ public class ConfigureSubnetworkTraceController {
 
             // show an alert with the number of elements found
             int elementsFound = utilityElementTraceResult.getElements().size();
-            new Alert(Alert.AlertType.INFORMATION, elementsFound + "elements found.").show();
+            new Alert(Alert.AlertType.INFORMATION, elementsFound + " " + "elements found.").show();
 
           } else {
             new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
@@ -288,6 +291,7 @@ public class ConfigureSubnetworkTraceController {
 
         } catch (Exception e) {
           new Alert(Alert.AlertType.ERROR, "Error running utility network trace.").show();
+          e.printStackTrace();
         }
       });
     } catch (Exception e) {
@@ -359,12 +363,8 @@ public class ConfigureSubnetworkTraceController {
         converted = Float.valueOf(otherValue.toString());
         break;
       case INTEGER:
-        converted = Integer.valueOf(otherValue.toString());
+        converted = Integer.parseInt(otherValue.toString());
         break;
-    }
-
-    if (converted == null) {
-      throw new IllegalArgumentException("Incompatible conversion type specified.");
     }
 
     return converted;
