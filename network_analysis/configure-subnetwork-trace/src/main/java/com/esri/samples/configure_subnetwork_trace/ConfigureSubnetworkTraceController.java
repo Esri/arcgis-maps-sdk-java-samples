@@ -119,9 +119,9 @@ public class ConfigureSubnetworkTraceController {
           UtilityDomainNetwork utilityDomainNetwork =
               utilityNetwork.getDefinition().getDomainNetwork("ElectricDistribution");
           UtilityTier utilityTier = utilityDomainNetwork.getTier("Medium Voltage Radial");
-
-          // get the utilityTrace configuration and save it
           utilityTraceConfiguration = utilityTier.getTraceConfiguration();
+
+          // save the default trace configuration to restore when the application is reset
           initialUtilityTraceConfiguration = utilityTraceConfiguration;
 
           // save the initial expression
@@ -160,24 +160,27 @@ public class ConfigureSubnetworkTraceController {
       otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
           selectedAttribute.getDataType());
     } else if (!comparisonValuesTextField.getText().equals("")) {
-      // otherwise, a comparison value will be specified as text input, so use it as the third parameter
+      // otherwise, a comparison value will be specified as text input to be used as the third parameter
       otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
     } else {
       new Alert(Alert.AlertType.WARNING, "No valid comparison value entered").show();
       return;
     }
 
-    // create the utility network attribute comparison expression
+    // create the utility network attribute comparison expression using the specified parameters
     // NOTE: You may also create a UtilityNetworkAttributeComparison with another NetworkAttribute.
     UtilityTraceConditionalExpression expression =
         new UtilityNetworkAttributeComparison(selectedAttribute, selectedOperator, otherValue);
 
+    // check if an expression is already defined for the traversability barriers
     if (utilityTraceConfiguration.getTraversability().getBarriers() instanceof UtilityTraceConditionalExpression) {
       UtilityTraceConditionalExpression otherExpression =
           (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
+      // use the exisiting expression to create an `or` expression with the user-defined expression
       expression = new UtilityTraceOrCondition(otherExpression, expression);
     }
 
+    // set the new expression to the traversability
     utilityTraceConfiguration.getTraversability().setBarriers(expression);
 
     // show the expression in the text area
