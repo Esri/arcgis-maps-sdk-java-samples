@@ -80,7 +80,7 @@ public class SurfacePlacementSample extends Application {
       sceneView.setArcGISScene(scene);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(53.04, -4.04, 1300, 0, 90.0, 0);
+      Camera camera = new Camera(53.05, -4.01, 1115, 299, 88, 0);
       sceneView.setViewpointCamera(camera);
 
       // add base surface for elevation data
