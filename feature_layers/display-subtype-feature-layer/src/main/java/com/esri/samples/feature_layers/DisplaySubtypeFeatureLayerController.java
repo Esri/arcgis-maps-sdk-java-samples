@@ -45,6 +45,7 @@ public class DisplaySubtypeFeatureLayerController {
   @FXML private Label minScaleLabel;
   @FXML private CheckBox sublayerVisibilityCheckbox;
   @FXML private VBox vBox;
+
   private SubtypeSublayer sublayer;
   private Renderer originalRenderer;
   private Renderer alternativeRenderer;

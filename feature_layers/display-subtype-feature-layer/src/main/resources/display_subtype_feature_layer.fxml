@@ -60,7 +60,6 @@
         <RadioButton text="Show alternative renderer" onAction="#handleAlternativeRendererButtonClicked" toggleGroup="$group"/>
         <Separator/>
         <Label fx:id="currentMapScaleLabel" alignment="CENTER"/>
-
         <Label fx:id="minScaleLabel" text="Sublayer min scale: not set" wrapText="true"/>
         <Button text="Set sublayer minimum scale"  onAction="#handleMinScaleButtonClicked" wrapText="true" textAlignment="CENTER"/>
     </VBox>
