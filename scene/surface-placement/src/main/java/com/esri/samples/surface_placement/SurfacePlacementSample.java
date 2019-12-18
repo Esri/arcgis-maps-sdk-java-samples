@@ -34,6 +34,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -49,6 +50,8 @@ import com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
 import com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
 
 public class SurfacePlacementSample extends Application {
+
+  private SceneView sceneView;
 
   @Override
   public void start(Stage stage) {
@@ -85,10 +88,10 @@ public class SurfacePlacementSample extends Application {
       scene.setBaseSurface(surface);
 
       // create overlays with elevation modes
-      drapedBillboardedOverlay = new GraphicsOverlay();
+      GraphicsOverlay drapedBillboardedOverlay = new GraphicsOverlay();
       drapedBillboardedOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.DRAPED_BILLBOARDED);
 
-      drapedFlatOverlay = new GraphicsOverlay();
+      GraphicsOverlay drapedFlatOverlay = new GraphicsOverlay();
       drapedFlatOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.DRAPED_FLAT);
 
       GraphicsOverlay relativeOverlay = new GraphicsOverlay();
@@ -151,7 +154,7 @@ public class SurfacePlacementSample extends Application {
       toggleGroup.selectedToggleProperty().addListener((observableValue, oldToggle, newToggle) -> {
         if (toggleGroup.getSelectedToggle() != null) {
           sceneView.getGraphicsOverlays().remove(oldToggle.getUserData());
-          sceneView.getGraphicsOverlays().add(toggleGroup.getSelectedToggle().getUserData());
+          sceneView.getGraphicsOverlays().add((GraphicsOverlay) toggleGroup.getSelectedToggle().getUserData());
         }
       });
 
