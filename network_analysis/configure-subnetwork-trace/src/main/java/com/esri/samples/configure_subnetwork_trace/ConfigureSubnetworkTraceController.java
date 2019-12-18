@@ -72,6 +72,7 @@ public class ConfigureSubnetworkTraceController {
 
   @FXML
   public void initialize() {
+
     try {
       // load the utility network
       utilityNetwork = new UtilityNetwork(
@@ -263,6 +264,7 @@ public class ConfigureSubnetworkTraceController {
    */
   @FXML
   private void onTraceClick() {
+
     try {
       // build utility trace parameters for a subnetwork trace using the prepared starting location
       UtilityTraceParameters utilityTraceParameters =
@@ -307,6 +309,7 @@ public class ConfigureSubnetworkTraceController {
    */
   @FXML
   private void onResetClick() {
+
     // reset the utility trace configuration and traversability to the state at application start
     utilityTraceConfiguration = initialUtilityTraceConfiguration;
     utilityTraceConfiguration.getTraversability().setBarriers(initialExpression);
@@ -329,6 +332,7 @@ public class ConfigureSubnetworkTraceController {
   @FXML
   private void onComparisonSourceChanged() {
 
+    // clear any previous text input
     comparisonValuesTextField.clear();
 
     if (comparisonSourcesComboBox.getSelectionModel().getSelectedItem() != null) {
@@ -342,9 +346,11 @@ public class ConfigureSubnetworkTraceController {
         comparisonValuesComboBox.getItems().clear();
         comparisonValuesComboBox.getItems().addAll(comparisonValues);
         comparisonValuesComboBox.getSelectionModel().select(0);
+
       } else {
         comparisonValuesComboBox.getItems().clear();
       }
+
       // toggle the selection combo box to be visible if it has any items
       comparisonValuesComboBox.setVisible(!comparisonValuesComboBox.getItems().isEmpty());
       // toggle the text field to be hidden if the combo box is visible, or show it if the combo box is invisible
@@ -359,6 +365,7 @@ public class ConfigureSubnetworkTraceController {
    * @return the converted value
    */
   private Object convertToDataType(Object value, UtilityNetworkAttribute.DataType dataType) {
+
     Object converted = null;
 
     switch (dataType) {
