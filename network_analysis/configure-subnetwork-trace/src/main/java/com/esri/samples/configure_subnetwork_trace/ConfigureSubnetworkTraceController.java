@@ -195,17 +195,17 @@ public class ConfigureSubnetworkTraceController {
     // for category comparison expressions, add the category name and comparison operator
     if (expression instanceof UtilityCategoryComparison) {
       UtilityCategoryComparison categoryComparison = (UtilityCategoryComparison) expression;
-      stringBuilder.append(categoryComparison.getCategory().getName())
-          .append(" ")
-          .append(categoryComparison.getComparisonOperator().name());
+      stringBuilder.append(
+          String.format("'%1$s' %2$s", categoryComparison.getCategory().getName(),
+              categoryComparison.getComparisonOperator().name()));
     }
 
     // for network attribute comparison expressions, add the network attribute name and comparison operator
     if (expression instanceof UtilityNetworkAttributeComparison) {
       UtilityNetworkAttributeComparison attributeComparison = (UtilityNetworkAttributeComparison) expression;
-      stringBuilder.append(attributeComparison.getNetworkAttribute().getName())
-          .append(" ")
-          .append(attributeComparison.getComparisonOperator().name());
+      stringBuilder.append(
+          String.format("'%1$s' %2$s", attributeComparison.getNetworkAttribute().getName(),
+              attributeComparison.getComparisonOperator().name()));
 
       if (attributeComparison.getNetworkAttribute().getDomain() instanceof CodedValueDomain) {
         CodedValueDomain codedValueDomain = (CodedValueDomain) attributeComparison.getNetworkAttribute().getDomain();
@@ -226,16 +226,17 @@ public class ConfigureSubnetworkTraceController {
           if (!list.isEmpty()) {
             // get the first coded value and add it's name to the string
             CodedValue codedValue = list.get(0);
-
-            stringBuilder.append(" ").append(codedValue.getName());
+            stringBuilder.append(String.format(" '%1$s'", codedValue.getName()));
           }
         }
 
       } else {
         if (attributeComparison.getOtherNetworkAttribute() != null) {
-          stringBuilder.append(attributeComparison.getOtherNetworkAttribute().getName());
+          stringBuilder.append(
+              String.format(" '%1$s'", attributeComparison.getOtherNetworkAttribute().getName()));
         } else {
-          stringBuilder.append(attributeComparison.getValue().toString());
+          stringBuilder.append(
+              String.format(" '%1$s'", attributeComparison.getValue().toString()));
         }
       }
     }
@@ -243,16 +244,16 @@ public class ConfigureSubnetworkTraceController {
     // for 'and'/'or' conditions, generate the expression for both sides
     if (expression instanceof UtilityTraceAndCondition) {
       UtilityTraceAndCondition andCondition = (UtilityTraceAndCondition) expression;
-      stringBuilder.append(generateExpressionText(andCondition.getLeftExpression()));
-      stringBuilder.append(" AND \n");
-      stringBuilder.append(generateExpressionText(andCondition.getRightExpression()));
+      stringBuilder.append(
+          String.format("%1$s AND%n %2$s", generateExpressionText(andCondition.getLeftExpression()),
+              generateExpressionText(andCondition.getRightExpression())));
     }
 
     if (expression instanceof UtilityTraceOrCondition) {
       UtilityTraceOrCondition orCondition = (UtilityTraceOrCondition) expression;
-      stringBuilder.append(generateExpressionText(orCondition.getLeftExpression()));
-      stringBuilder.append(" OR \n");
-      stringBuilder.append(generateExpressionText(orCondition.getRightExpression()));
+      stringBuilder.append(
+          String.format("%1$s OR%n %2$s", generateExpressionText(orCondition.getLeftExpression()),
+              generateExpressionText(orCondition.getRightExpression())));
     }
 
     return stringBuilder.toString();

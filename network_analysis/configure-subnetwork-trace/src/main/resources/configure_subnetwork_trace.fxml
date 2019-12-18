@@ -47,7 +47,7 @@
 
         <HBox spacing="10">
             <Label text="Trace conditions:"/>
-            <TextArea fx:id="traceConditionsTextArea"/>
+            <TextArea fx:id="traceConditionsTextArea" editable="false"/>
         </HBox>
 
         <HBox spacing="10">
