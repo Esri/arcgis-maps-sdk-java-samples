@@ -55,20 +55,14 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraversabilityScope;
 
 public class ConfigureSubnetworkTraceController {
 
-  @FXML
-  private TextField comparisonValuesTextField;
-  @FXML
-  private CheckBox includeBarriersCheckBox;
-  @FXML
-  private CheckBox includeContainersCheckBox;
-  @FXML
-  private TextArea traceConditionsTextArea;
-  @FXML
-  private ComboBox<CodedValue> comparisonValuesComboBox;
-  @FXML
-  private ComboBox<UtilityNetworkAttribute> comparisonSourcesComboBox;
-  @FXML
-  private ComboBox<UtilityAttributeComparisonOperator> comparisonOperatorsComboBox;
+  @FXML private TextField comparisonValuesTextField;
+  @FXML private CheckBox includeBarriersCheckBox;
+  @FXML private CheckBox includeContainersCheckBox;
+  @FXML private TextArea traceConditionsTextArea;
+  @FXML private ComboBox<CodedValue> comparisonValuesComboBox;
+  @FXML private ComboBox<UtilityNetworkAttribute> comparisonSourcesComboBox;
+  @FXML private ComboBox<UtilityAttributeComparisonOperator> comparisonOperatorsComboBox;
+
   private UtilityNetwork utilityNetwork;
   private UtilityTraceConfiguration initialUtilityTraceConfiguration;
   private UtilityTraceConfiguration utilityTraceConfiguration;
@@ -144,7 +138,7 @@ public class ConfigureSubnetworkTraceController {
    * Uses the selected parameters to add a barrier expression to the utility trace configuration.
    */
   @FXML
-  private void resolveAddConditionClick() {
+  private void onAddConditionClick() {
 
     // get the selected utility network attribute and attribute comparison operator
     UtilityNetworkAttribute selectedAttribute = comparisonSourcesComboBox.getSelectionModel().getSelectedItem();
@@ -157,6 +151,7 @@ public class ConfigureSubnetworkTraceController {
     // if a comparison value is selected from the ComboBox, use it as the third parameter
     if (selectedAttribute.getDomain() instanceof CodedValueDomain &&
         comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null) {
+      // convert the selected comparison value to the data type defined by the selected attribute
       otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
           selectedAttribute.getDataType());
     } else if (!comparisonValuesTextField.getText().equals("")) {
@@ -176,7 +171,7 @@ public class ConfigureSubnetworkTraceController {
     if (utilityTraceConfiguration.getTraversability().getBarriers() instanceof UtilityTraceConditionalExpression) {
       UtilityTraceConditionalExpression otherExpression =
           (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
-      // use the exisiting expression to create an `or` expression with the user-defined expression
+      // use the existing expression to create an `or` expression with the user-defined expression
       expression = new UtilityTraceOrCondition(otherExpression, expression);
     }
 
@@ -196,6 +191,7 @@ public class ConfigureSubnetworkTraceController {
 
     StringBuilder stringBuilder = new StringBuilder();
 
+    // for category comparison expressions, add the category name and comparison operator
     if (expression instanceof UtilityCategoryComparison) {
       UtilityCategoryComparison categoryComparison = (UtilityCategoryComparison) expression;
       stringBuilder.append(categoryComparison.getCategory().getName())
@@ -203,6 +199,7 @@ public class ConfigureSubnetworkTraceController {
           .append(categoryComparison.getComparisonOperator().name());
     }
 
+    // for network attribute comparison expressions, add the network attribute name and comparison operator
     if (expression instanceof UtilityNetworkAttributeComparison) {
       UtilityNetworkAttributeComparison attributeComparison = (UtilityNetworkAttributeComparison) expression;
 
@@ -243,6 +240,7 @@ public class ConfigureSubnetworkTraceController {
       }
     }
 
+    // for 'and'/'or' conditions, generate the expression for both sides
     if (expression instanceof UtilityTraceAndCondition) {
       UtilityTraceAndCondition andCondition = (UtilityTraceAndCondition) expression;
       stringBuilder.append(generateExpressionText(andCondition.getLeftExpression()));
@@ -265,7 +263,7 @@ public class ConfigureSubnetworkTraceController {
    * completion, shows an alert with the number of found elements.
    */
   @FXML
-  private void resolveTraceClick() {
+  private void onTraceClick() {
     try {
       // build utility trace parameters for a subnetwork trace using the prepared starting location
       UtilityTraceParameters utilityTraceParameters =
@@ -296,10 +294,8 @@ public class ConfigureSubnetworkTraceController {
           } else {
             new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
           }
-
         } catch (Exception e) {
           new Alert(Alert.AlertType.ERROR, "Error running utility network trace.").show();
-          e.printStackTrace();
         }
       });
     } catch (Exception e) {
@@ -311,7 +307,7 @@ public class ConfigureSubnetworkTraceController {
    * Resets the trace configuration and UI back to the state at application start.
    */
   @FXML
-  private void resolveResetClick() {
+  private void onResetClick() {
     // reset the utility trace configuration and traversability to the state at application start
     utilityTraceConfiguration = initialUtilityTraceConfiguration;
     utilityTraceConfiguration.getTraversability().setBarriers(initialExpression);

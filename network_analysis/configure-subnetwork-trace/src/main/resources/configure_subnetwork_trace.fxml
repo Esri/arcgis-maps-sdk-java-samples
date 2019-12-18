@@ -42,7 +42,7 @@
                 <ComboBox fx:id="comparisonValuesComboBox" maxWidth="175" minWidth="175"/>
                 <TextField fx:id="comparisonValuesTextField" maxWidth="175" minWidth="175"/>
             </StackPane>
-            <Button maxWidth="40" minWidth="40" onAction="#resolveAddConditionClick" text="Add"/>
+            <Button maxWidth="40" minWidth="40" onAction="#onAddConditionClick" text="Add"/>
         </HBox>
 
         <HBox spacing="10">
@@ -51,8 +51,8 @@
         </HBox>
 
         <HBox spacing="10">
-            <Button onAction="#resolveTraceClick" text="Trace" maxWidth="175" minWidth="175"/>
-            <Button onAction="#resolveResetClick" text="Reset" maxWidth="175" minWidth="175"/>
+            <Button onAction="#onTraceClick" text="Trace" maxWidth="175" minWidth="175"/>
+            <Button onAction="#onResetClick" text="Reset" maxWidth="175" minWidth="175"/>
         </HBox>
 
     </VBox>
