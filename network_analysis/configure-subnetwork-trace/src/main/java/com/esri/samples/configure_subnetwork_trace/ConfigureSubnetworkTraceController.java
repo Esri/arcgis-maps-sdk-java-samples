@@ -202,11 +202,9 @@ public class ConfigureSubnetworkTraceController {
     // for network attribute comparison expressions, add the network attribute name and comparison operator
     if (expression instanceof UtilityNetworkAttributeComparison) {
       UtilityNetworkAttributeComparison attributeComparison = (UtilityNetworkAttributeComparison) expression;
-
       stringBuilder.append(attributeComparison.getNetworkAttribute().getName())
           .append(" ")
-          .append(attributeComparison.getComparisonOperator().name())
-          .append(" ");
+          .append(attributeComparison.getComparisonOperator().name());
 
       if (attributeComparison.getNetworkAttribute().getDomain() instanceof CodedValueDomain) {
         CodedValueDomain codedValueDomain = (CodedValueDomain) attributeComparison.getNetworkAttribute().getDomain();
@@ -227,7 +225,8 @@ public class ConfigureSubnetworkTraceController {
           if (!list.isEmpty()) {
             // get the first coded value and add it's name to the string
             CodedValue codedValue = list.get(0);
-            stringBuilder.append(codedValue.getName());
+
+            stringBuilder.append(" ").append(codedValue.getName());
           }
         }
 
