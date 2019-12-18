@@ -50,10 +50,6 @@ import com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
 
 public class SurfacePlacementSample extends Application {
 
-  private SceneView sceneView;
-  private GraphicsOverlay drapedBillboardedOverlay;
-  private GraphicsOverlay drapedFlatOverlay;
-
   @Override
   public void start(Stage stage) {
 
@@ -72,22 +68,20 @@ public class SurfacePlacementSample extends Application {
       stage.show();
 
       // create a scene and add a basemap to it
-      ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createImagery());
+      ArcGISScene scene = new ArcGISScene(Basemap.Type.IMAGERY);
 
       // add the SceneView to the stack pane
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(53.05, -4.01, 1115, 299, 88, 0);
-      sceneView.setViewpointCamera(camera);
+      sceneView.setViewpointCamera(new Camera(53.05, -4.01, 1115, 299, 88, 0));
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources()
-          .add(new ArcGISTiledElevationSource(
-              "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
+      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource(
+          "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
+      surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 
       // create overlays with elevation modes
@@ -104,7 +98,7 @@ public class SurfacePlacementSample extends Application {
       absoluteOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.ABSOLUTE);
 
       // create point for graphic location
-      Point point = new Point(-4.04, 53.06, 1000, camera.getLocation().getSpatialReference());
+      Point point = new Point(-4.04, 53.06, 1000, SpatialReferences.getWgs84());
 
       // create a red (0xFFFF0000) circle symbol
       SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 10);
@@ -154,10 +148,10 @@ public class SurfacePlacementSample extends Application {
       drapedFlatRadioButton.setToggleGroup(toggleGroup);
       drapedFlatRadioButton.setUserData(drapedFlatOverlay);
 
-      toggleGroup.selectedToggleProperty().addListener((observalbeValue, oldToggle, newToggle) -> {
+      toggleGroup.selectedToggleProperty().addListener((observableValue, oldToggle, newToggle) -> {
         if (toggleGroup.getSelectedToggle() != null) {
-          sceneView.getGraphicsOverlays().remove((GraphicsOverlay) oldToggle.getUserData());
-          sceneView.getGraphicsOverlays().add((GraphicsOverlay) toggleGroup.getSelectedToggle().getUserData());
+          sceneView.getGraphicsOverlays().remove(oldToggle.getUserData());
+          sceneView.getGraphicsOverlays().add(toggleGroup.getSelectedToggle().getUserData());
         }
       });
 
@@ -169,7 +163,7 @@ public class SurfacePlacementSample extends Application {
       controlsVBox.setMaxSize(210, 90);
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren()
-          .addAll(Arrays.asList(toggleGroupLabel, drapedBillboardedRadioButton, drapedFlatRadioButton));
+          .addAll(toggleGroupLabel, drapedBillboardedRadioButton, drapedFlatRadioButton);
 
       // and the scene view and control box to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsVBox);
