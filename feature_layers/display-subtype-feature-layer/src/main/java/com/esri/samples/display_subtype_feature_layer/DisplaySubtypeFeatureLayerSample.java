@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.feature_layers;
+package com.esri.samples.display_subtype_feature_layer;
 
 import java.io.IOException;
 

@@ -22,8 +22,8 @@
     "SubtypeSublayer"
   ],
   "snippets": [
-    "src/main/java/com/esri/samples/display-subtype-feature-layer/DisplaySubtypeFeatureLayerSample.java",
-    "src/main/java/com/esri/samples/display-subtype-feature-layer/DisplaySubtypeFeatureLayerController.java",
+    "src/main/java/com/esri/samples/display_subtype_feature_layer/DisplaySubtypeFeatureLayerSample.java",
+    "src/main/java/com/esri/samples/display_subtype_feature_layer/DisplaySubtypeFeatureLayerController.java",
     "src/main/resources/display_subtype_feature_layer.fxml"
   ],
   "title": "Display subtype feature layer"

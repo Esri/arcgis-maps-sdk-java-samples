@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.esri.samples.feature_layers;
+package com.esri.samples.display_subtype_feature_layer;
 
 import java.nio.charset.StandardCharsets;
 

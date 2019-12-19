@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.feature_layers;
+package com.esri.samples.display_subtype_feature_layer;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
