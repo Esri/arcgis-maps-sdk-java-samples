@@ -250,7 +250,7 @@ public class TraceAUtilityNetworkController {
                         utilityElement.setTerminal(terminal);
                         // show the terminals name in the status label
                         String terminalName = terminal.getName() != null ? terminal.getName() : "default";
-                        statusLabel.setText("Terminal: " + terminalName);
+                        statusLabel.setText("Feature added at terminal: " + terminalName);
 
                         // don't create the element if no terminal was selected
                       } else {
@@ -322,7 +322,8 @@ public class TraceAUtilityNetworkController {
     // create a dialog for terminal selection
     ChoiceDialog<UtilityTerminal> utilityTerminalSelectionDialog = new ChoiceDialog<>(terminals.get(0), terminals);
     utilityTerminalSelectionDialog.initOwner(mapView.getScene().getWindow());
-    utilityTerminalSelectionDialog.setTitle("Select Utility Terminal:");
+    utilityTerminalSelectionDialog.setTitle("Choose Utility Terminal");
+    utilityTerminalSelectionDialog.setHeaderText("Junction selected. Choose the Utility Terminal to add as the trace element:");
 
     // override the list cell in the dialog's combo box to show the terminal name
     @SuppressWarnings("unchecked") ComboBox<UtilityTerminal> comboBox =
