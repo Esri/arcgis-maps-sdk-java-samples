@@ -297,7 +297,7 @@ public class ConfigureSubnetworkTraceController {
             new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
           }
         } catch (Exception e) {
-          new Alert(Alert.AlertType.ERROR, "Error running utility network trace.").show();
+          new Alert(Alert.AlertType.ERROR, "Error running utility network trace. For a working barrier condition, try \"Transformer Load\" Equal \"15\".").show();
         }
       });
     } catch (Exception e) {
