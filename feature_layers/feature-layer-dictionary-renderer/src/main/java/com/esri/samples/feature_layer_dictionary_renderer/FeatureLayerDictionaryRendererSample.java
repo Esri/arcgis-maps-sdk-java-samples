@@ -31,6 +31,8 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 
+import java.io.File;
+
 public class FeatureLayerDictionaryRendererSample extends Application {
 
   private MapView mapView;
@@ -53,11 +55,14 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     mapView.setMap(map);
 
     // load geo-database from local location
-    Geodatabase geodatabase = new Geodatabase("./samples-data/dictionary/militaryoverlay.geodatabase");
+    File geodatabaseFile = new File(System.getProperty("data.dir"), "./samples-data/dictionary/militaryoverlay" +
+            ".geodatabase");
+    Geodatabase geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
     geodatabase.loadAsync();
 
     // render tells layer what symbols to apply to what features
-    DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile("./samples-data/stylx/mil2525d.stylx");
+    File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/mil2525d.stylx");
+    DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
     symbolDictionary.loadAsync();
 
     geodatabase.addDoneLoadingListener(() -> {

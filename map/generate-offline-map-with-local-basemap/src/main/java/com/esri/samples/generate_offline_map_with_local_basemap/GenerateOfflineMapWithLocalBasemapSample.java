@@ -137,7 +137,7 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
                 // open a directory chooser to select the directory containing the referenced basemap
                 DirectoryChooser directoryChooser = new DirectoryChooser();
                 // for this sample, the directory chosen should be "naperville"
-                directoryChooser.setInitialDirectory(new File("./samples-data"));
+                directoryChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data"));
                 directoryChooser.setTitle("Choose directory containing local basemap");
                 File localBasemapDirectory = directoryChooser.showDialog(stage.getOwner());
 

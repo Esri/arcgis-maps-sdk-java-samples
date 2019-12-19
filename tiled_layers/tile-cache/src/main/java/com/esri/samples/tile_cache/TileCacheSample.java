@@ -27,6 +27,8 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
+import java.io.File;
+
 public class TileCacheSample extends Application {
 
   private MapView mapView;
@@ -47,7 +49,8 @@ public class TileCacheSample extends Application {
       stage.show();
 
       // create a tile cache from a local tile package
-      TileCache tileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
+      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/sanfrancisco/SanFrancisco.tpk");
+      TileCache tileCache = new TileCache(tpkFile.getAbsolutePath());
 
       // create a tiled layer from the tile cache
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);

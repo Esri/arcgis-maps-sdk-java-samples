@@ -1,11 +1,8 @@
-final excludedDirs = ['.git', '.gradle', '.idea', 'wrapper', 'gradle', '.settings']
+import static groovy.io.FileType.DIRECTORIES
 
-file("./").listFiles().each { f ->
-    if (f.isDirectory() && !(f.name in excludedDirs)) {
-        f.listFiles().each { f2 ->
-            if (f2.isDirectory()) {
-                includeBuild "./${f.name}/${f2.name}"
-            }
-        }
+// include all Gradle projects two levels down
+file('./').traverse(type: DIRECTORIES, maxDepth: 2) { f ->
+    if(f.isDirectory() && new File(f, "build.gradle").exists()) {
+        includeBuild f.absolutePath
     }
 }

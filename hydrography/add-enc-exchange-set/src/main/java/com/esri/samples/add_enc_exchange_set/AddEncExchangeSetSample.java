@@ -85,7 +85,7 @@ public class AddEncExchangeSetSample extends Application {
       mapView.setMap(map);
 
       // load the ENC exchange set from local data
-      File encPath = new File("./samples-data/enc/ExchangeSetwithoutUpdates/ENC_ROOT/CATALOG.031");
+      File encPath = new File(System.getProperty("data.dir"), "./samples-data/enc/ExchangeSetwithoutUpdates/ENC_ROOT/CATALOG.031");
       EncExchangeSet encExchangeSet = new EncExchangeSet(Collections.singletonList(encPath.getAbsolutePath()));
       encExchangeSet.loadAsync();
       encExchangeSet.addDoneLoadingListener(() -> {

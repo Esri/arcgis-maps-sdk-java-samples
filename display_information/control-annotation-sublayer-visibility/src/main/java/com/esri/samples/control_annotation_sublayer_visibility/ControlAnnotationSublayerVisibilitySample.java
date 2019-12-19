@@ -39,6 +39,8 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
+import java.io.File;
+
 public class ControlAnnotationSublayerVisibilitySample extends Application {
 
   private MapView mapView;
@@ -72,6 +74,7 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
 
       // create a control panel and label for the checkboxes
       VBox controlsVBox = new VBox(6);
+      controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
@@ -88,7 +91,8 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       controlsVBox.getChildren().addAll(closedSublayerCheckbox, openSublayerCheckbox, currentMapScaleLabel);
 
       // load the mobile map package
-      mobileMapPackage = new MobileMapPackage("./samples-data/mmpk/GasDeviceAnno.mmpk");
+      File mmpkFile = new File(System.getProperty("data.dir"), "./samples-data/mmpk/GasDeviceAnno.mmpk");
+      mobileMapPackage = new MobileMapPackage(mmpkFile.getAbsolutePath());
       mobileMapPackage.loadAsync();
       mobileMapPackage.addDoneLoadingListener(() -> {
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {

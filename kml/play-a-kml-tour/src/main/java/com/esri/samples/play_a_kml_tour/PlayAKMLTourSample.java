@@ -112,7 +112,7 @@ public class PlayAKMLTourSample extends Application {
       controlsVBox.getChildren().addAll(playPauseButton, replayButton);
 
       // add a KML layer from a KML dataset with a KML tour
-      KmlDataset kmlDataset = new KmlDataset(new File("./samples-data/kml/Esri_tour.kmz").getAbsolutePath());
+      KmlDataset kmlDataset = new KmlDataset(new File(System.getProperty("data.dir"), "./samples-data/kml/Esri_tour.kmz").getAbsolutePath());
       KmlLayer kmlLayer = new KmlLayer(kmlDataset);
       scene.getOperationalLayers().add(kmlLayer);
 

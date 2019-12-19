@@ -124,8 +124,8 @@ public class OfflineGeocodeSample extends Application {
       });
 
       // create a basemap from a local tile package
-      final String tileCachePath = new File("samples-data/sanfrancisco/SanFrancisco.tpk").getAbsolutePath();
-      TileCache tileCache = new TileCache(tileCachePath);
+      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/sanfrancisco/SanFrancisco.tpk");
+      TileCache tileCache = new TileCache(tpkFile.getAbsolutePath());
       tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
 
@@ -162,7 +162,8 @@ public class OfflineGeocodeSample extends Application {
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
 
       // create a locator task
-      final String locatorPath = new File("samples-data/sanfrancisco/SanFranciscoLocator.loc").getAbsolutePath();
+      final String locatorPath =
+              new File(System.getProperty("data.dir"), "./samples-data/sanfrancisco/SanFranciscoLocator.loc").getAbsolutePath();
       locatorTask = new LocatorTask(locatorPath);
 
       // set geocode task parameters

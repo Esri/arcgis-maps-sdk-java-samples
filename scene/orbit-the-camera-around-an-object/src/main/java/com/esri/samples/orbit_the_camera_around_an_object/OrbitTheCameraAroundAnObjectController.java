@@ -81,7 +81,7 @@ public class OrbitTheCameraAroundAnObjectController {
       sceneGraphicsOverlay.setRenderer(renderer);
 
       // create a graphic of a plane model
-      String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
+      String modelURI = new File(System.getProperty("data.dir"), "./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
       ModelSceneSymbol plane3DSymbol = new ModelSceneSymbol(modelURI, 1.0);
       plane3DSymbol.loadAsync();
       // position the plane over a runway

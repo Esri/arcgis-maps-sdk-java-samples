@@ -16,6 +16,7 @@
 
 package com.esri.samples.symbol_dictionary;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -50,7 +51,8 @@ public class SymbolDictionaryController {
 
   public void initialize() {
     // loads a specification for the symbol dictionary
-    dictionarySymbol = DictionarySymbolStyle.createFromFile("./samples-data/stylx/mil2525d.stylx");
+    File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/mil2525d.stylx");
+    dictionarySymbol = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
     dictionarySymbol.loadAsync();
 
     // initialize result list

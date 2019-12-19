@@ -88,7 +88,7 @@ public class DisplayKMLSample extends Application {
               kmlLayer = new KmlLayer(portalItem);
               break;
             case LOCAL_FILE:
-              File kmlFile = new File("./samples-data/kml/US_State_Capitals.kml");
+              File kmlFile = new File(System.getProperty("data.dir"), "./samples-data/kml/US_State_Capitals.kml");
               KmlDataset fileKmlDataset = new KmlDataset(kmlFile.getAbsolutePath());
               kmlLayer = new KmlLayer(fileKmlDataset);
               break;

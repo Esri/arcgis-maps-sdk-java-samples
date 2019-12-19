@@ -83,7 +83,8 @@ public class EditAndSyncFeaturesController {
 
     try {
       // create a basemap from a local tile cache
-      TileCache sanFranciscoTileCache = new TileCache("samples-data/sanfrancisco/SanFrancisco.tpk");
+      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/sanfrancisco/SanFrancisco.tpk");
+      TileCache sanFranciscoTileCache = new TileCache(tpkFile.getAbsolutePath());
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(sanFranciscoTileCache);
       Basemap basemap = new Basemap(tiledLayer);
 

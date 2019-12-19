@@ -60,7 +60,7 @@ public class CreateTerrainSurfaceFromLocalTilePackageSample extends Application 
 
       // create an elevation source from the local LERC encoded tile package
       ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource(
-          new File("./samples-data/monterey_elevation/MontereyElevation.tpk"
+          new File(System.getProperty("data.dir"), "./samples-data/monterey_elevation/MontereyElevation.tpk"
       ).getAbsolutePath());
 
       // create a surface, adding the elevation source

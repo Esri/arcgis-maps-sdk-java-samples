@@ -57,7 +57,7 @@ public class ReadGeoPackageSample extends Application {
       mapView.setMap(map);
 
       // load the local GeoPackage
-      File geoPackageFile = new File("./samples-data/auroraCO/AuroraCO.gpkg");
+      File geoPackageFile = new File(System.getProperty("data.dir"), "./samples-data/auroraCO/AuroraCO.gpkg");
       GeoPackage geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
       geoPackage.loadAsync();
       geoPackage.addDoneLoadingListener(() -> {
