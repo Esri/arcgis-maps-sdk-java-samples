@@ -260,8 +260,7 @@ public class TraceAUtilityNetworkController {
                     }
                   }
 
-                } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE &&
-                    identifiedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+                } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE) {
 
                   // get the geometry of the identified feature as a polyline, and remove the z component
                   Polyline polyline = (Polyline) GeometryEngine.removeZ(identifiedFeature.getGeometry());
