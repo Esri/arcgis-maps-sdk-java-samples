@@ -87,7 +87,7 @@ public class SurfacePlacementSample extends Application {
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 
-      // create overlays with elevation modes
+      // create overlays with surface placement types
       GraphicsOverlay drapedBillboardedOverlay = new GraphicsOverlay();
       drapedBillboardedOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.DRAPED_BILLBOARDED);
 
