@@ -430,7 +430,7 @@ public class TraceAUtilityNetworkController {
         statusLabel.setText("Trace failed.");
         progressIndicator.setVisible(false);
         // Note: this sample server may return a generic message in some circumstances when incompatible trace
-        // parameters are specified. This will be fixed in ArcGIS server 10.8
+        // parameters are specified
         if (e.getMessage().contains("-2147208935")) {
           new Alert(Alert.AlertType.ERROR, "Cannot run trace with the provided parameters.").show();
         } else {
