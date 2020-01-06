@@ -23,11 +23,11 @@ Click on one or more features while 'Add starting locations' or 'Add barriers' i
 7. Determine the type of the identified feature using `utilityNetwork.getDefinition().getNetworkSource()` passing its table name.
 8. If a junction, display a terminal picker when more than one `UtilityTerminal` is found and create a `UtilityElement` with the selected terminal or the single terminal if there is only one.
 9. If an edge, create a utility element from the identified feature and set its `FractionAlongEdge` using `GeometryEngine.fractionAlong()`.
-10. Create `TraceParameters` with the selected trace type along with the collected starting locations and barriers (if applicable).
-11. Set the `TraceParameters.TraceConfiguration` with the utility tier's `TraceConfiguration` property.
+10. Create `UtilityTraceParameters` with the selected trace type along with the collected starting locations and barriers (if applicable).
+11. Set the `TraceConfiguration` of the utility trace parameters to the the utility tier's trace configuration property.
 12. Run a `utilityNetwork.traceAsync()` with the specified parameters, and get the `UtilityTraceResult`.
-13. From the utility trace result, get the `UtilityElementTraceResult`, and group the utility elements within by their network source name, which can be retrieved using `utilityElement.getNetworkSource().getName()`.
-13. For every feature layer in this map with elements, select features by converting utility elements to `ArcGISFeature`(s) using `UtilityNetwork.fetchFeaturesForElementsAsync()`
+13. From the utility trace result, get the `UtilityElementTraceResult`.
+14. For each feature layer in the map, create `QueryParameters` to find features from the result who's network source name matches the layer's feature table name, and use `FeatureLayer.selectFeaturesAsync()` to select these features.
 
 ## Relevant API
 
