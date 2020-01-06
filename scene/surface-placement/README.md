@@ -14,27 +14,14 @@ The application loads a scene showing three points that use the individual surfa
 
 ## How it works
 
-To position `Graphic`s using `SurfacePlacement` (DRAPED, RELATIVE, ABSOLUTE):
-
 1. Create a `GraphicsOverlay`.
 2. Set the surface placement mode `GraphicsOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement)`.
     `ABSOLUTE`, position graphic using only its Z value.
     `RELATIVE`, position graphic using its Z value plus the elevation of the surface.
-    `DRAPED_BILLBOARDED`, position graphic upright on the surface and always facing the camera, not using its z value.
-    `DRAPED_FLAT`, position graphic flat on the surface, not using its z value.
+    `DRAPED_BILLBOARDED`, position graphic upright on the surface and always facing the camera, not using its Z value.
+    `DRAPED_FLAT`, position graphic flat on the surface, not using its Z value.
 3. Add graphics to the graphics overlay, `GraphicsOverlay.getGraphics.add(Graphic)`.
 4. Add the graphics overlay to the `SceneView`, `SceneView.getGraphicsOverlays().add(GraphicsOverlay)`.
-
-## Relevant API
-
-* ArcGISScene
-* Camera
-* Graphic
-* GraphicsOverlay
-* LayerSceneProperties.SurfacePlacement
-* SceneProperties
-* SceneView
-* Surface
 
 ## Relevant API
 

@@ -103,7 +103,7 @@ public class SurfacePlacementSample extends Application {
       // create point for graphic location
       Point point = new Point(-4.04, 53.06, 1000, SpatialReferences.getWgs84());
 
-      // create a red (0xFFFF0000) circle symbol
+      // create a red triangle symbol
       SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 10);
 
       // create a text symbol for each elevation mode
@@ -168,7 +168,7 @@ public class SurfacePlacementSample extends Application {
       controlsVBox.getChildren()
           .addAll(toggleGroupLabel, drapedBillboardedRadioButton, drapedFlatRadioButton);
 
-      // and the scene view and control box to the stack pane
+      // add the scene view and control box to the stack pane
       stackPane.getChildren().addAll(sceneView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));

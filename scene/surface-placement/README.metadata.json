@@ -26,7 +26,8 @@
         "Surface"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/elevation_mode/ElevationModeSample.java"
+        "src/main/java/com/esri/samples/surface_placement/SurfacePlacementSample.java",
+        "src/main/java/com/esri/samples/surface_placement/SurfacePlacementLauncher.java"
     ],
     "title": "Surface Placement"
 }
