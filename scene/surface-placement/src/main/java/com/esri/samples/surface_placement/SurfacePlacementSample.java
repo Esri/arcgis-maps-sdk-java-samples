@@ -16,13 +16,21 @@
 
 package com.esri.samples.surface_placement;
 
-import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
+import java.util.Arrays;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Point;
@@ -36,7 +44,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties.SurfacePlacement;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-import com.esri.arcgisruntime.symbology.DistanceCompositeSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol.HorizontalAlignment;
@@ -80,54 +87,91 @@ public class SurfacePlacementSample extends Application {
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 
-      // create a scenelayer from an online service and add it to the scene
-      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer("URL");
-      scene.getOperationalLayers().add(sceneLayer);
+      // create overlays with elevation modes
+      GraphicsOverlay drapedBillboardedOverlay = new GraphicsOverlay();
+      drapedBillboardedOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.DRAPED_BILLBOARDED);
 
-      // create a graphics overlay and add it to the sceneview
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-      sceneView.getGraphicsOverlays().add(graphicsOverlay);
+      GraphicsOverlay drapedFlatOverlay = new GraphicsOverlay();
+      drapedFlatOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.DRAPED_FLAT);
+
+      GraphicsOverlay relativeOverlay = new GraphicsOverlay();
+      relativeOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.RELATIVE);
+
+      GraphicsOverlay absoluteOverlay = new GraphicsOverlay();
+      absoluteOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.ABSOLUTE);
 
       // create point for graphic location
       Point point = new Point(-4.04, 53.06, 1000, SpatialReferences.getWgs84());
 
-      // create a red (0xFFFF0000) triangle symbol
+      // create a red (0xFFFF0000) circle symbol
       SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 10);
 
       // create a text symbol for each elevation mode
-      TextSymbol textSymbol = new TextSymbol(10, "", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
-      textSymbol.setOffsetX(20);
+      TextSymbol drapedBillboardedText =
+          new TextSymbol(10, "DRAPED BILLBOARDED", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+      drapedBillboardedText.setOffsetX(20);
 
-      // create a distance composite scene symbol to hold the triangle symbol and text symbol
-      DistanceCompositeSceneSymbol distanceCompositeSceneSymbol = new DistanceCompositeSceneSymbol();
-      distanceCompositeSceneSymbol.getRangeCollection().add(new DistanceCompositeSceneSymbol.Range(textSymbol, 0, 0));
-      distanceCompositeSceneSymbol.getRangeCollection()
-          .add(new DistanceCompositeSceneSymbol.Range(triangleSymbol, 0, 0));
+      TextSymbol drapedFlatText =
+          new TextSymbol(10, "DRAPED FLAT", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+      drapedFlatText.setOffsetX(20);
 
-      // create a graphic using the point and distance composite symbol, and add it the overlay
-      Graphic graphic = new Graphic(point, distanceCompositeSceneSymbol);
-      graphicsOverlay.getGraphics().add(graphic);
+      TextSymbol relativeText =
+          new TextSymbol(10, "RELATIVE", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+      relativeText.setOffsetX(20);
 
-      // create a ComboBox for selecting the surface placement mode
-      ComboBox<SurfacePlacement> surfacePlacementComboBox = new ComboBox<>();
-      surfacePlacementComboBox.getItems().addAll(SurfacePlacement.values());
+      TextSymbol absoluteText =
+          new TextSymbol(10, "ABSOLUTE", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+      absoluteText.setOffsetX(20);
 
-      // on selection, change the surface placement mode and update symbol text
-      surfacePlacementComboBox.getSelectionModel().selectedItemProperty()
-          .addListener(((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-              graphicsOverlay.getSceneProperties().setSurfacePlacement(newValue);
-              textSymbol.setText(newValue.name());
-            }
-          }));
+      // add the point graphic and text graphic to the corresponding graphics overlay
+      drapedBillboardedOverlay.getGraphics().add(new Graphic(point, triangleSymbol));
+      drapedBillboardedOverlay.getGraphics().add(new Graphic(point, drapedBillboardedText));
 
-      // select the current surface placement mode
-      surfacePlacementComboBox.getSelectionModel().select(graphicsOverlay.getSceneProperties().getSurfacePlacement());
+      drapedFlatOverlay.getGraphics().add(new Graphic(point, triangleSymbol));
+      drapedFlatOverlay.getGraphics().add(new Graphic(point, drapedFlatText));
+
+      relativeOverlay.getGraphics().add(new Graphic(point, triangleSymbol));
+      relativeOverlay.getGraphics().add(new Graphic(point, relativeText));
+
+      absoluteOverlay.getGraphics().add(new Graphic(point, triangleSymbol));
+      absoluteOverlay.getGraphics().add(new Graphic(point, absoluteText));
+
+      sceneView.getGraphicsOverlays().addAll(Arrays.asList(drapedBillboardedOverlay, relativeOverlay, absoluteOverlay));
+
+      // create radio buttons to toggle between billboarded and flat draped surface placement modes
+      ToggleGroup toggleGroup = new ToggleGroup();
+      Label toggleGroupLabel = new Label("Toggle draped mode:");
+
+      RadioButton drapedBillboardedRadioButton = new RadioButton("Draped Billboarded");
+      drapedBillboardedRadioButton.setToggleGroup(toggleGroup);
+      drapedBillboardedRadioButton.setSelected(true);
+      drapedBillboardedRadioButton.setUserData(drapedBillboardedOverlay);
+
+      RadioButton drapedFlatRadioButton = new RadioButton("Draped Flat");
+      drapedFlatRadioButton.setToggleGroup(toggleGroup);
+      drapedFlatRadioButton.setUserData(drapedFlatOverlay);
+
+      toggleGroup.selectedToggleProperty().addListener((observableValue, oldToggle, newToggle) -> {
+        if (toggleGroup.getSelectedToggle() != null) {
+          sceneView.getGraphicsOverlays().remove(oldToggle.getUserData());
+          sceneView.getGraphicsOverlays().add((GraphicsOverlay) toggleGroup.getSelectedToggle().getUserData());
+        }
+      });
+
+      // create a controls area for the radio buttons
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(
+          new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(210, 90);
+      controlsVBox.getStyleClass().add("panel-region");
+      controlsVBox.getChildren()
+          .addAll(toggleGroupLabel, drapedBillboardedRadioButton, drapedFlatRadioButton);
 
       // and the scene view and control box to the stack pane
-      stackPane.getChildren().addAll(sceneView, surfacePlacementComboBox);
-      StackPane.setAlignment(surfacePlacementComboBox, Pos.TOP_LEFT);
-      StackPane.setMargin(surfacePlacementComboBox, new Insets(10));
+      stackPane.getChildren().addAll(sceneView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace
