@@ -34,7 +34,7 @@
     "src/main/java/com/esri/samples/trace_a_utility_network/TraceAUtilityNetworkController.java",
     "src/main/java/com/esri/samples/trace_a_utility_network/TraceAUtilityNetworkLauncher.java",
     "src/main/java/com/esri/samples/trace_a_utility_network/TraceAUtilityNetworkSample.java",
-    "src/main/java/com/esri/samples/trace_a_utility_network/UtilityTerminalCell.java",
+    "src/main/java/com/esri/samples/trace_a_utility_network/UtilityTerminalListCell.java",
     "src/main/resources/trace_a_utility_network.fxml"
   ],
   "title": "Trace a utility network"
