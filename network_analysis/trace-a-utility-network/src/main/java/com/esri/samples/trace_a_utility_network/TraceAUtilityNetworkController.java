@@ -276,7 +276,7 @@ public class TraceAUtilityNetworkController {
                   utilityElement.setFractionAlongEdge(fractionAlongEdge);
 
                   // update the status label text
-                  statusLabel.setText("Fraction along edge: " + utilityElement.getFractionAlongEdge());
+                  statusLabel.setText("Fraction along edge: " + Math.round(utilityElement.getFractionAlongEdge() * 1000d) / 1000d );
                 }
 
                 // create a graphic for the new utility element
