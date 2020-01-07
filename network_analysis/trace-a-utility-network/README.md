@@ -27,7 +27,7 @@ Click on one or more features while 'Add starting locations' or 'Add barriers' i
 11. Set the `TraceConfiguration` of the utility trace parameters to the the utility tier's trace configuration property.
 12. Run a `utilityNetwork.traceAsync()` with the specified parameters, and get the `UtilityTraceResult`.
 13. From the utility trace result, get the `UtilityElementTraceResult`.
-14. For each feature layer in the map, create `QueryParameters` to find features from the result who's network source name matches the layer's feature table name, and use `FeatureLayer.selectFeaturesAsync()` to select these features.
+14. For each feature layer in the map, create `QueryParameters` to find features from the result whose network source name matches the layer's feature table name, and use `FeatureLayer.selectFeaturesAsync()` to select these features.
 
 ## Relevant API
 
