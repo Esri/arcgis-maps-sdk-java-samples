@@ -29,7 +29,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Separator?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<StackPane fx:controller="com.esri.samples.feature_layers.DisplaySubtypeFeatureLayerController" xmlns:fx="http://javafx.com/fxml"
+<StackPane fx:controller="com.esri.samples.display_subtype_feature_layer.DisplaySubtypeFeatureLayerController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
@@ -64,4 +64,3 @@
         <Button text="Set sublayer minimum scale"  onAction="#handleMinScaleButtonClicked" wrapText="true" textAlignment="CENTER"/>
     </VBox>
 </StackPane>
-

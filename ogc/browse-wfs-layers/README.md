@@ -12,8 +12,6 @@ Services often have multiple layers available for display. For example, a featur
 
 A list of layers in the WFS service will be shown. Select a layer to display it.
 
-Some WFS services return coordinates in X,Y order, while others return coordinates in lat/long (Y,X) order. If you don't see features rendered or you see features in the wrong location, use the checkbox to swap the coordinate order and reload. Note: the WFS service in this sample does not require coordinate swapping.
-
 ## How it works
 
 1. Create a `WfsService` object with a URL to a WFS feature service.
