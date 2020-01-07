@@ -9,11 +9,9 @@ ext {
     arcgisVersion = '100.7.0'
 }
 
-
-
 javafx {
     version = "11.0.1"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -33,6 +31,7 @@ configurations {
 }
 
 dependencies {
+    compile 'commons-io:commons-io:2.4'
     compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
@@ -50,7 +49,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.surface_placement.SurfacePlacementLauncher'
+    mainClassName = 'com.esri.samples.display_subtype_feature_layer.DisplaySubtypeFeatureLayerLauncher'
 }
 
 jar {

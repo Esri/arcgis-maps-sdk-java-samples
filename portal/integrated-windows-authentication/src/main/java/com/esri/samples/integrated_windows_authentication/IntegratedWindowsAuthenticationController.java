@@ -102,8 +102,14 @@ public class IntegratedWindowsAuthenticationController {
       new Alert(Alert.AlertType.ERROR, "Portal URL is empty. Please enter a portal URL.").show();
 
     } else {
+      // prefix the entered URL with 'https://' if it is not already
+      String portalUrl = portalUrlTextField.getText();
+      if (!portalUrl.startsWith("https://")){
+        portalUrl = "https://" + portalUrl;
+      }
+
       // keep hold of the portal we are searching and set a variable indicating that this is a secure portal, to allow retrieving portal items later
-      Portal iwaSecuredPortal = new Portal(portalUrlTextField.getText(), true);
+      Portal iwaSecuredPortal = new Portal(portalUrl, true);
 
       // clear any existing items in the list view
       resultsListView.getItems().clear();
