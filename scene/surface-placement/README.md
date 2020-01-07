@@ -35,10 +35,6 @@ The application loads a scene showing three points that use the individual surfa
 
 The scene launches with a view of northern Snowdonia National Park. Three points are shown hovering with positions defined by each of the different surface placement modes.
 
-## Additional information
-
-This sample uses an elevation service to add elevation/terrain to the scene. Graphics are positioned relative to that surface for the `DRAPED_BILLBOARDED`, `DRAPED_FLAT`, and `RELATIVE` surface placement modes. 
-
 ## Tags
 
 3D, absolute, altitude, draped, elevation, floating, relative, scene, sea level, surface placement
