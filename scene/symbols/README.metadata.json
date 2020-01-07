@@ -2,7 +2,9 @@
     "category": "Scene",
     "description": "Create graphics with simple 3D shapes.",
     "ignore": false,
-    "images": [],
+    "images": [
+        "Symbols.png"
+    ],
     "keywords": [
         "ArcGISScene",
         "Graphic",
