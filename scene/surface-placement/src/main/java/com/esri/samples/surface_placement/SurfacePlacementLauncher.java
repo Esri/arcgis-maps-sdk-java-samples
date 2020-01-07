@@ -1,11 +1,11 @@
-package com.esri.samples.elevation_mode;
+package com.esri.samples.surface_placement;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
 */
-public class ElevationModeLauncher {
+public class SurfacePlacementLauncher {
 
   public static void main(String[] args) {
-    ElevationModeSample.main(args); 
+    SurfacePlacementSample.main(args);
   }
 }

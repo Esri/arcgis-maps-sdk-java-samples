@@ -49,7 +49,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.feature_layers.DisplaySubtypeFeatureLayerLauncher'
+    mainClassName = 'com.esri.samples.display_subtype_feature_layer.DisplaySubtypeFeatureLayerLauncher'
 }
 
 jar {
