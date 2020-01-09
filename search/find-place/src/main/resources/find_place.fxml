@@ -64,7 +64,7 @@
                 </FXCollections>
             </items>
         </ComboBox>
-        <Button text="Search" onAction="#search" maxWidth="Infinity"/>
+        <Button fx:id="searchButton" text="Search" onAction="#search" maxWidth="Infinity"/>
     </VBox>
     <Button fx:id="redoButton" text="Redo search in this area" onAction="#searchByCurrentViewpoint" disable="true"
             StackPane.alignment="BOTTOM_CENTER" maxWidth="260">
