@@ -4,6 +4,7 @@ import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import org.junit.After;
@@ -18,21 +19,29 @@ import static org.junit.Assert.fail;
 
 public class FindPlaceTest extends FxRobot {
 
-  Object mapView;
+  public static final int SLEEP_500MS = 500;
+  public static final int SLEEP_1000MS = 1000;
+  public static final int SLEEP_1500MS = 1500;
+
+  MapView mapView;
+  GraphicsOverlay graphicsOverlay;
   ComboBox<String> placeBox;
   ComboBox<String> locationBox;
   Node locationBoxArrowRegion;
   Node placeBoxArrowRegion;
+  Button searchButton;
 
   @Before
   public void setup() throws Exception {
     // launch the sample
     ApplicationTest.launch(FindPlaceSample.class);
 
-    // get a handle on the MapView
+    // get a handle on the MapView and GraphicsOverlay
     Node mapViewNode = lookup("#mapView").query();
     if (mapViewNode instanceof MapView) {
-      mapView = mapViewNode;
+      mapView = (MapView) mapViewNode;
+      graphicsOverlay = mapView.getGraphicsOverlays().get(0);
+
     } else {
       fail("MapView Node could not be found");
     }
@@ -54,8 +63,11 @@ public class FindPlaceTest extends FxRobot {
       }
     }
 
+    // get a handle on the search button
+    searchButton = lookup("#searchButton").queryButton();
+
     // wait for initialization
-    sleep(1000);
+    sleep(SLEEP_1000MS);
   }
 
   //  @Override
@@ -73,7 +85,7 @@ public class FindPlaceTest extends FxRobot {
   public void tearDown() throws Exception {
     FxToolkit.cleanupStages();
     // wait before the next test
-    sleep(1000);
+    sleep(SLEEP_1000MS);
   }
 
   /**
@@ -82,30 +94,23 @@ public class FindPlaceTest extends FxRobot {
   @Test
   public void defaultSearchInput() {
 
-    clickOn(placeBoxArrowRegion);
-    sleep(500);
-    clickOn("Starbucks");
-    sleep(500);
+    clickOn(placeBoxArrowRegion).sleep(SLEEP_500MS);
+    clickOn("Starbucks").sleep(SLEEP_500MS);
 
-    clickOn(locationBoxArrowRegion);
-    sleep(500);
-    clickOn("Los Angeles, CA");
-    sleep(500);
+    clickOn(locationBoxArrowRegion).sleep(SLEEP_500MS);
+    clickOn("Los Angeles, CA").sleep(SLEEP_500MS);
 
-    clickOn("Search");
+    clickOn(searchButton);
 
     // wait for the map view to zoom to the location
-    if (mapView instanceof MapView) {
-      ((MapView) mapView).addDrawStatusChangedListener((drawStatusChangedEvent) -> {
-        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
-          // get the graphics overlay and assert that the expected number of graphics (location pins) is displayed
-          GraphicsOverlay graphicsOverlay = ((MapView) mapView).getGraphicsOverlays().get(0);
-          assertEquals("Unexpected number of graphics (location pins) found",50, graphicsOverlay.getGraphics().size());
-        }
-      });
-    }
+    mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
+      if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+        // get the graphics overlay and assert that the expected number of graphics (location pins) is displayed
+        assertEquals("Unexpected number of graphics (location pins) found", 50, graphicsOverlay.getGraphics().size());
+      }
+    });
 
-    sleep(1000);
+    sleep(SLEEP_1000MS);
   }
 
   /**
@@ -114,44 +119,33 @@ public class FindPlaceTest extends FxRobot {
   @Test
   public void customSearchInput() {
 
-    clickOn(placeBox).write("esri").sleep(1000);
+    clickOn(placeBox).write("esri").sleep(SLEEP_1500MS);
 
     Node esriEntry = lookup("Esri, 380 New York St, Redlands, CA, 92373, USA").query();
     if (esriEntry != null) {
-      clickOn(esriEntry);
+      clickOn(esriEntry).sleep(SLEEP_1000MS);
     } else {
       fail("No search result found for custom query \"esri\" ");
     }
 
-    sleep(1000);
+    clickOn(locationBox).write("Redlands").sleep(SLEEP_1500MS);
 
-    clickOn(locationBox).write("Redlands").sleep(1000);
-    
     Node redlandsEntry = lookup("Redlands, CA, USA").query();
     if (redlandsEntry != null) {
-      clickOn(redlandsEntry);
+      clickOn(redlandsEntry).sleep(SLEEP_1000MS);
     } else {
       fail("No search result found for custom query \"Redlands\" ");
     }
-    sleep(1000);
-    clickOn("Search");
+
+    clickOn(searchButton);
 
     // wait for the map view to zoom to the location
-    if (mapView instanceof MapView) {
-      ((MapView) mapView).addDrawStatusChangedListener((drawStatusChangedEvent) -> {
-        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
-          // get the graphics overlay and assert that the expected number of graphics (location pins) is displayed
-          GraphicsOverlay graphicsOverlay = ((MapView) mapView).getGraphicsOverlays().get(0);
-          assertEquals("Unexpected number of graphics (location pins) found",4, graphicsOverlay.getGraphics().size());
-        }
-      });
-    }
+    mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
+      if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+        // get the graphics overlay and assert that the expected number of graphics (location pins) is displayed
+        assertEquals("Unexpected number of graphics (location pins) found", 4, graphicsOverlay.getGraphics().size());
+      }
+    });
   }
-
-  // test cases:
-  // TODO: find callout node in map view and confirm text (probably something you'll be doing in our unit tests)
-  // TODO: each result has a corresponding pin shown
-  // TODO: clicking on map triggers identify and callout
-  // TODO: panning map triggers prompt for new results
 
 }
