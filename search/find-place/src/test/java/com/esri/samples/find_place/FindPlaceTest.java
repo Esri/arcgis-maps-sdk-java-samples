@@ -118,20 +118,12 @@ public class FindPlaceTest extends FxRobot {
     clickOn(placeBox).write("esri").sleep(SLEEP_1500MS);
 
     Node esriEntry = lookup("Esri, 380 New York St, Redlands, CA, 92373, USA").query();
-    if (esriEntry != null) {
-      clickOn(esriEntry).sleep(SLEEP_1000MS);
-    } else {
-      fail("No search result found for custom query \"esri\" ");
-    }
+    clickOn(esriEntry);
 
     clickOn(locationBox).write("Redlands").sleep(SLEEP_1500MS);
 
     Node redlandsEntry = lookup("Redlands, CA, USA").query();
-    if (redlandsEntry != null) {
-      clickOn(redlandsEntry).sleep(SLEEP_1000MS);
-    } else {
-      fail("No search result found for custom query \"Redlands\" ");
-    }
+    clickOn(redlandsEntry);
 
     clickOn(searchButton).sleep(SLEEP_1500MS);
 
@@ -148,21 +140,13 @@ public class FindPlaceTest extends FxRobot {
     clickOn(placeBox).write("esri").sleep(SLEEP_1500MS);
     // get a handle on the search result and click on it
     Node esriEntry = lookup("Esri, 380 New York St, Redlands, CA, 92373, USA").query();
-    if (esriEntry != null) {
-      clickOn(esriEntry);
-    } else {
-      fail("No search result found for custom query \"esri\" ");
-    }
+    clickOn(esriEntry);
 
     clickOn(locationBox).write("Redlands").sleep(SLEEP_1500MS);
     // get a handle on the search result, and click on it
     Node redlandsEntry = lookup("Redlands, CA, USA").query();
-    if (redlandsEntry != null) {
-      clickOn(redlandsEntry);
-    } else {
-      fail("No search result found for custom query \"Redlands\" ");
-    }
-
+    clickOn(redlandsEntry);
+    
     clickOn(searchButton).sleep(SLEEP_1500MS);
 
     // get the screen point of pin 1, move the mouse cursor to it
