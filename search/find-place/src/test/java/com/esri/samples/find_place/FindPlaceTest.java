@@ -108,7 +108,45 @@ public class FindPlaceTest extends FxRobot {
     sleep(1000);
   }
 
+  /**
+   * Test Case 2: When using a custom search query, the app returns the expected number of results
+   */
+  @Test
+  public void customSearchInput() {
 
+    clickOn(placeBox).write("esri").sleep(1000);
+
+    Node esriEntry = lookup("Esri, 380 New York St, Redlands, CA, 92373, USA").query();
+    if (esriEntry != null) {
+      clickOn(esriEntry);
+    } else {
+      fail("No search result found for custom query \"esri\" ");
+    }
+
+    sleep(1000);
+
+    clickOn(locationBox).write("Redlands").sleep(1000);
+    
+    Node redlandsEntry = lookup("Redlands, CA, USA").query();
+    if (redlandsEntry != null) {
+      clickOn(redlandsEntry);
+    } else {
+      fail("No search result found for custom query \"Redlands\" ");
+    }
+    sleep(1000);
+    clickOn("Search");
+
+    // wait for the map view to zoom to the location
+    if (mapView instanceof MapView) {
+      ((MapView) mapView).addDrawStatusChangedListener((drawStatusChangedEvent) -> {
+        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+          // get the graphics overlay and assert that the expected number of graphics (location pins) is displayed
+          GraphicsOverlay graphicsOverlay = ((MapView) mapView).getGraphicsOverlays().get(0);
+          assertEquals("Unexpected number of graphics (location pins) found",4, graphicsOverlay.getGraphics().size());
+        }
+      });
+    }
+  }
 
   // test cases:
   // TODO: find callout node in map view and confirm text (probably something you'll be doing in our unit tests)
