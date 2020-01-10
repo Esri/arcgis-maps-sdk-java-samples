@@ -22,6 +22,9 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.robot.Motion;
+import org.testfx.service.query.NodeQuery;
+
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -178,10 +181,12 @@ public class FindPlaceTest extends FxRobot {
     assertNotNull(callout);
     assertTrue(callout.isVisible());
 
+    // find the label with the text content matching the expected title of the search result
     Label titleLabel = lookup("380 New York St").query();
     assertNotNull(titleLabel);
     assertEquals(titleLabel.getText(), "380 New York St");
 
+    // find the label with the text content matching the expected detail of the search result
     Label detailLabel = lookup("Redlands, California, 92373").query();
     assertNotNull(detailLabel);
     assertEquals(detailLabel.getText(), "Redlands, California, 92373");
