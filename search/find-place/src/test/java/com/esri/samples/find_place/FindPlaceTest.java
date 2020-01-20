@@ -2,7 +2,6 @@ package com.esri.samples.find_place;
 
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.view.Callout;
-import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -22,11 +21,9 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.robot.Motion;
-import org.testfx.service.query.NodeQuery;
-
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -146,7 +143,7 @@ public class FindPlaceTest extends FxRobot {
     // get a handle on the search result, and click on it
     Node redlandsEntry = lookup("Redlands, CA, USA").query();
     clickOn(redlandsEntry);
-    
+
     clickOn(searchButton).sleep(SLEEP_1500MS);
 
     // get the screen point of pin 1, move the mouse cursor to it
@@ -180,5 +177,30 @@ public class FindPlaceTest extends FxRobot {
   // test cases:
   // TODO: each result has a corresponding pin shown
   // TODO: clicking on map triggers identify and callout
-  // TODO: panning map triggers prompt for new results
+
+  /**
+   * Test Case 6: Panning the map activates the 'redo search' button
+   */
+  @Test
+  public void panEnablesRedoSearchButton() {
+
+    // get a handle on the Redo Search button
+    Button redoButton = lookup("#redoButton").queryButton();
+
+    // perform a search with pre-defined search inputs
+    clickOn(placeBoxArrowRegion);
+    clickOn("Starbucks");
+
+    clickOn(locationBoxArrowRegion);
+    clickOn("Los Angeles, CA");
+
+    clickOn(searchButton).sleep(SLEEP_1500MS);
+
+    // check that the Redo Search button is disabled, and activates after panning
+    assertTrue(redoButton.isDisable());
+
+    drag(mapView).moveBy( 100, -100 ).drop();
+
+    assertFalse(redoButton.isDisable());
+  }
 }
