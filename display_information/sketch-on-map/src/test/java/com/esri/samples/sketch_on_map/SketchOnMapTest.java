@@ -215,13 +215,13 @@ public class SketchOnMapTest extends ApplicationTest {
     // click on the point and edit it
     Graphic point = graphicsOverlay.getGraphics().get(0);
     Point2D originalLocation = mapView.locationToScreen((Point) point.getGeometry());
-    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT)
-        .clickOn(MouseButton.PRIMARY);
+    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT);
+    clickOn(MouseButton.PRIMARY);
     clickOn(editButton);
 
-    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT)
-        .moveBy( 100, -100 )
-        .clickOn(MouseButton.PRIMARY);
+    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT);
+    moveBy( 100, -100 );
+    clickOn(MouseButton.PRIMARY);
     clickOn(saveButton);
 
     Point2D newLocation = mapView.locationToScreen((Point) point.getGeometry());
