@@ -1,53 +1,49 @@
 package com.esri.samples.sketch_on_map;
 
 import com.esri.arcgisruntime.geometry.GeometryType;
+import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.util.ListenableList;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.robot.Motion;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 public class SketchOnMapTest extends ApplicationTest {
 
   MapView mapView;
-
   GraphicsOverlay graphicsOverlay;
 
-  Button pointButton;
-
-  Button multipointButton;
-
-  Button polylineButton;
-
-  Button polygonButton;
-
-  Button freehandPolylineButton;
-
-  Button freehandPolygonButton;
-
   Button editButton;
-
   Button stopButton;
 
+  Button pointButton;
+  Button multipointButton;
+  Button polylineButton;
+  Button polygonButton;
+  Button freehandPolylineButton;
+  Button freehandPolygonButton;
+
   Button undoButton;
-
   Button redoButton;
-
   Button saveButton;
-
   Button clearButton;
 
   @Override
@@ -99,10 +95,10 @@ public class SketchOnMapTest extends ApplicationTest {
   }
 
   /**
-   * Test Case 1: Draw a point
+   * Test Case 1: Use the SketchEditor to draw a point on the map, and verify that it is added to the GraphicsOverlay.
    */
   @Test
-  public void test() {
+  public void drawPoint() {
     clickOn(pointButton);
     clickOn(mapView);
     clickOn(saveButton);
@@ -111,4 +107,146 @@ public class SketchOnMapTest extends ApplicationTest {
     assertEquals(1, graphics.size());
     assertEquals(GeometryType.POINT, graphics.get(0).getGeometry().getGeometryType());
   }
+
+  /**
+   * Test Case 2: Use the SketchEditor to draw a multipoint graphic on the map, and verify that it is added to the GraphicsOverlay.
+   */
+  @Test
+  public void drawMultipoint(){
+    clickOn(multipointButton);
+    clickOnFourPoints();
+    clickOn(saveButton);
+
+    ListenableList<Graphic> graphics = graphicsOverlay.getGraphics();
+    assertEquals(1, graphics.size());
+    assertEquals(GeometryType.MULTIPOINT, graphics.get(0).getGeometry().getGeometryType());
+  }
+
+  /**
+   * Test Case 3: Use the SketchEditor to draw a polyline on the map, and verify that it is added to the GraphicsOverlay.
+   */
+  @Test
+  public void drawPolyline() {
+    clickOn(polylineButton);
+    clickOnFourPoints();
+    clickOn(saveButton);
+
+    ListenableList<Graphic> graphics = graphicsOverlay.getGraphics();
+    assertEquals(1, graphics.size());
+    assertEquals(GeometryType.POLYLINE, graphics.get(0).getGeometry().getGeometryType());
+  }
+
+  /**
+   * Test Case 4: Use the SketchEditor to draw a polygon on the map, and verify that it is added to the GraphicsOverlay.
+   */
+  @Test
+  public void drawPolygon() {
+    clickOn(polygonButton);
+    clickOnFourPoints();
+    clickOn(saveButton);
+
+    ListenableList<Graphic> graphics = graphicsOverlay.getGraphics();
+    assertEquals(1, graphics.size());
+    assertEquals(GeometryType.POLYGON, graphics.get(0).getGeometry().getGeometryType());
+  }
+
+  /**
+   * Test Case 5: Use the SketchEditor to draw a freehand polyline on the map, and verify that it is added to the GraphicsOverlay.
+   */
+  @Test
+  public void drawFreehandPolyline() {
+    clickOn(freehandPolylineButton);
+    clickAndDragFourPoints();
+    clickOn(saveButton);
+
+    ListenableList<Graphic> graphics = graphicsOverlay.getGraphics();
+    assertEquals(1, graphics.size());
+    assertEquals(GeometryType.POLYLINE, graphics.get(0).getGeometry().getGeometryType());
+  }
+
+  /**
+   * Test Case 5: Use the SketchEditor to draw a freehand polygon on the map, and verify that it is added to the GraphicsOverlay.
+   */
+  @Test
+  public void drawFreehandPolygon() {
+    clickOn(freehandPolygonButton);
+    clickAndDragFourPoints();
+    clickOn(saveButton);
+
+    ListenableList<Graphic> graphics = graphicsOverlay.getGraphics();
+    assertEquals(1, graphics.size());
+    assertEquals(GeometryType.POLYGON, graphics.get(0).getGeometry().getGeometryType());
+  }
+
+  /**
+   * Clicks on four different points in the map view in succession, starting from the center.
+   */
+  private void clickOnFourPoints() {
+    clickOn(mapView);
+    moveBy(-100,0);
+    clickOn(MouseButton.PRIMARY);
+    moveBy(0,100);
+    clickOn(MouseButton.PRIMARY);
+    moveBy(100,0);
+    clickOn(MouseButton.PRIMARY);
+  }
+
+  /**
+   * Clicks and drags the mouse to four different points, starting from the center of the map view.
+   */
+  private void clickAndDragFourPoints() {
+    drag(mapView)
+    .moveBy(-150,0)
+    .moveBy(0,150)
+    .moveBy(150,0)
+    .drop();
+  }
+
+  /**
+   * Test Case 6: Create a point and edit it.
+   */
+  @Test
+  public void editPoint(){
+    // create a point sketch
+    clickOn(pointButton);
+    clickOn(mapView);
+    clickOn(saveButton);
+
+    // click on the point and edit it
+    Graphic point = graphicsOverlay.getGraphics().get(0);
+    Point2D originalLocation = mapView.locationToScreen((Point) point.getGeometry());
+    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT)
+        .clickOn(MouseButton.PRIMARY);
+    clickOn(editButton);
+
+    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT).moveBy( 100, -100 )
+        .clickOn(MouseButton.PRIMARY);
+    clickOn(saveButton);
+
+    Point2D newLocation = mapView.locationToScreen((Point) point.getGeometry());
+    assertNotEquals(originalLocation, newLocation);
+  }
+
+  /**
+   * Test Case 7: Delete created features
+   */
+  @Test
+  public void deleteSketches() {
+    clickOn(pointButton);
+    clickOn(mapView);
+    clickOn(saveButton);
+
+    ListenableList<Graphic> graphics = graphicsOverlay.getGraphics();
+    assertEquals(1, graphics.size());
+    assertEquals(GeometryType.POINT, graphics.get(0).getGeometry().getGeometryType());
+
+    clickOn(clearButton);
+    assertEquals(0, graphicsOverlay.getGraphics().size());
+  }
+
+  //TODO:
+  // *edit polyline/polygon (move existing vertex)
+  // *edit polyline/polygon (create new vertex)
+  // *edit polyline/polygon (remove vertex)
+
 }
