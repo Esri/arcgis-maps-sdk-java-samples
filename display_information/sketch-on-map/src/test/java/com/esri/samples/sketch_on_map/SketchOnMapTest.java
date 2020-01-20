@@ -1,7 +1,10 @@
 package com.esri.samples.sketch_on_map;
 
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryDimension;
 import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -23,7 +26,9 @@ import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.robot.Motion;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 public class SketchOnMapTest extends ApplicationTest {
@@ -60,7 +65,7 @@ public class SketchOnMapTest extends ApplicationTest {
     stage.show();
 
     // wait for initialization
-    sleep(1000);
+    sleep(1500);
   }
 
   @Before
@@ -229,7 +234,106 @@ public class SketchOnMapTest extends ApplicationTest {
   }
 
   /**
-   * Test Case 7: Delete created features
+   * Test Case 7: Create a polyline and edit it by moving a vertex
+   */
+  @Test
+  public void editPolyline_moveVertex() {
+    // create a polyline sketch
+    clickOn(polylineButton);
+    clickOnFourPoints();
+    clickOn(saveButton);
+
+    // move to the bottom right corner of the polygon and select it
+    Graphic graphic = graphicsOverlay.getGraphics().get(0);
+    Geometry oldGeometry = graphic.getGeometry();
+    double xMin = graphic.getGeometry().getExtent().getXMin();
+    double yMin = graphic.getGeometry().getExtent().getYMin();
+    Point2D originaBottomLeftCorner = mapView.locationToScreen(new Point(xMin, yMin, mapView.getSpatialReference()));
+    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
+    clickOn(MouseButton.PRIMARY);
+
+    // start editing
+    clickOn(editButton);
+
+    // move to the bottom left vertex, select it, and move it
+    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
+    clickOn(MouseButton.PRIMARY);
+    moveBy(-100, 100);
+    clickOn(MouseButton.PRIMARY);
+    clickOn(saveButton);
+
+    Geometry newGeometry = graphic.getGeometry();
+    assertNotEquals(newGeometry, oldGeometry);
+  }
+
+  /**
+   * Test Case 8: Create a polyline and edit it by removing a vertex
+   */
+  @Test
+  public void editPolyline_removeVertex() {
+    // create a polyline sketch
+    clickOn(polylineButton);
+    clickOnFourPoints();
+    clickOn(saveButton);
+
+    // move to the bottom right corner of the polygon and select it
+    Graphic graphic = graphicsOverlay.getGraphics().get(0);
+    Geometry oldGeometry = graphic.getGeometry();
+    double xMin = graphic.getGeometry().getExtent().getXMin();
+    double yMin = graphic.getGeometry().getExtent().getYMin();
+    Point2D originaBottomLeftCorner = mapView.locationToScreen(new Point(xMin, yMin, mapView.getSpatialReference()));
+    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
+    clickOn(MouseButton.PRIMARY);
+
+    // start editing
+    clickOn(editButton);
+
+    // move to the bottom left vertex, select it, and remove it
+    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
+    clickOn(MouseButton.SECONDARY);
+    moveBy(10, 10);
+    clickOn(MouseButton.PRIMARY);
+    clickOn(saveButton);
+
+    Geometry newGeometry = graphic.getGeometry();
+    assertNotEquals(newGeometry, oldGeometry);
+  }
+
+  /**
+   * Test Case 9: Create a polyline and edit it by adding a vertex between two existing vertices
+   */
+  @Test
+  public void editPolyline_addVertex() {
+    // create a polyline sketch
+    clickOn(polylineButton);
+    clickOnFourPoints();
+    clickOn(saveButton);
+
+    // move to the bottom right corner of the polygon and select it
+    Graphic graphic = graphicsOverlay.getGraphics().get(0);
+    Geometry oldGeometry = graphic.getGeometry();
+    double xMin = graphic.getGeometry().getExtent().getXMin();
+    double yMin = graphic.getGeometry().getExtent().getYMin();
+    Point2D originaBottomLeftCorner = mapView.locationToScreen(new Point(xMin, yMin, mapView.getSpatialReference()));
+    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
+    clickOn(MouseButton.PRIMARY);
+
+    // start editing
+    clickOn(editButton);
+
+    // move to the point between the two leftmost vertices, and drag the line to add a vertex
+    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
+    clickOn(MouseButton.SECONDARY);
+    moveBy(0, -50);
+    drag(MouseButton.PRIMARY).moveBy(-50,0).drop();
+    clickOn(saveButton);
+
+    Geometry newGeometry = graphic.getGeometry();
+    assertNotEquals(newGeometry, oldGeometry);
+  }
+
+  /**
+   * Test Case 10: Delete created features
    */
   @Test
   public void deleteSketches() {
@@ -246,8 +350,6 @@ public class SketchOnMapTest extends ApplicationTest {
   }
 
   //TODO:
-  // *edit polyline/polygon (move existing vertex)
-  // *edit polyline/polygon (create new vertex)
-  // *edit polyline/polygon (remove vertex)
+  // * add vertex to polyline/polygon while creating
 
 }
