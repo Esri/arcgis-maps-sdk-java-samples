@@ -219,7 +219,8 @@ public class SketchOnMapTest extends ApplicationTest {
         .clickOn(MouseButton.PRIMARY);
     clickOn(editButton);
 
-    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT).moveBy( 100, -100 )
+    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT)
+        .moveBy( 100, -100 )
         .clickOn(MouseButton.PRIMARY);
     clickOn(saveButton);
 
