@@ -310,15 +310,15 @@ public class SketchOnMapTest extends ApplicationTest {
     Geometry oldGeometry = graphic.getGeometry();
     double xMin = graphic.getGeometry().getExtent().getXMin();
     double yMin = graphic.getGeometry().getExtent().getYMin();
-    Point2D originaBottomLeftCorner = mapView.locationToScreen(new Point(xMin, yMin, mapView.getSpatialReference()));
-    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
+    Point2D originalBottomLeftCorner = mapView.locationToScreen(new Point(xMin, yMin, mapView.getSpatialReference()));
+    moveTo(mapView, Pos.TOP_LEFT, originalBottomLeftCorner, Motion.DIRECT);
     clickOn(MouseButton.PRIMARY);
 
     // start editing
     clickOn(editButton);
 
     // move to the point between the two leftmost vertices, and drag the line to add a vertex
-    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
+    moveTo(mapView, Pos.TOP_LEFT, originalBottomLeftCorner, Motion.DIRECT);
     clickOn(MouseButton.SECONDARY);
     moveBy(0, -50);
     drag(MouseButton.PRIMARY).moveBy(-50,0).drop();
