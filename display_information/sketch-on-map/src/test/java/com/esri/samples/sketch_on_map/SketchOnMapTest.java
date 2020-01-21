@@ -113,7 +113,7 @@ public class SketchOnMapTest extends ApplicationTest {
    * Test Case 2: Use the SketchEditor to draw a multipoint graphic on the map, and verify that it is added to the GraphicsOverlay.
    */
   @Test
-  public void drawMultipoint(){
+  public void drawMultipoint() {
     clickOn(multipointButton);
     clickOnFourPoints();
     clickOn(saveButton);
@@ -184,11 +184,11 @@ public class SketchOnMapTest extends ApplicationTest {
    */
   private void clickOnFourPoints() {
     clickOn(mapView);
-    moveBy(-100,0);
+    moveBy(-100, 0);
     clickOn(MouseButton.PRIMARY);
-    moveBy(0,100);
+    moveBy(0, 100);
     clickOn(MouseButton.PRIMARY);
-    moveBy(100,0);
+    moveBy(100, 0);
     clickOn(MouseButton.PRIMARY);
   }
 
@@ -197,17 +197,17 @@ public class SketchOnMapTest extends ApplicationTest {
    */
   private void clickAndDragFourPoints() {
     drag(mapView)
-    .moveBy(-150,0)
-    .moveBy(0,150)
-    .moveBy(150,0)
-    .drop();
+        .moveBy(-150, 0)
+        .moveBy(0, 150)
+        .moveBy(150, 0)
+        .drop();
   }
 
   /**
    * Test Case 6: Create a point and edit it.
    */
   @Test
-  public void editPoint(){
+  public void editPoint() {
     // create a point sketch
     clickOn(pointButton);
     clickOn(mapView);
@@ -221,7 +221,7 @@ public class SketchOnMapTest extends ApplicationTest {
     clickOn(editButton);
 
     moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT);
-    moveBy( 100, -100 );
+    moveBy(100, -100);
     clickOn(MouseButton.PRIMARY);
     clickOn(saveButton);
 
@@ -321,7 +321,7 @@ public class SketchOnMapTest extends ApplicationTest {
     moveTo(mapView, Pos.TOP_LEFT, originalBottomLeftCorner, Motion.DIRECT);
     clickOn(MouseButton.SECONDARY);
     moveBy(0, -50);
-    drag(MouseButton.PRIMARY).moveBy(-50,0).drop();
+    drag(MouseButton.PRIMARY).moveBy(-50, 0).drop();
     clickOn(saveButton);
 
     Geometry newGeometry = graphic.getGeometry();
