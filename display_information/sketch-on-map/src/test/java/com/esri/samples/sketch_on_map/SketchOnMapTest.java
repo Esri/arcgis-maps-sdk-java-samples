@@ -233,7 +233,7 @@ public class SketchOnMapTest extends ApplicationTest {
    * Test Case 7: Create a polyline and edit it by moving a vertex
    */
   @Test
-  public void editPolyline_moveVertex() {
+  public void editPolylineMoveVertex() {
     // create a polyline sketch
     clickOn(polylineButton);
     clickOnFourPoints();
@@ -266,7 +266,7 @@ public class SketchOnMapTest extends ApplicationTest {
    * Test Case 8: Create a polyline and edit it by removing a vertex
    */
   @Test
-  public void editPolyline_removeVertex() {
+  public void editPolylineRemoveVertex() {
     // create a polyline sketch
     clickOn(polylineButton);
     clickOnFourPoints();
@@ -299,7 +299,7 @@ public class SketchOnMapTest extends ApplicationTest {
    * Test Case 9: Create a polyline and edit it by adding a vertex between two existing vertices
    */
   @Test
-  public void editPolyline_addVertex() {
+  public void editPolylineAddVertex() {
     // create a polyline sketch
     clickOn(polylineButton);
     clickOnFourPoints();
