@@ -1,4 +1,4 @@
-# Configure a subnetwork trace
+# Configure subnetwork trace
 
 Get a server-defined trace configuration for a given tier and modify its traversability scope, add new condition barriers and control what is included in the subnetwork trace result.
 
@@ -6,11 +6,16 @@ Get a server-defined trace configuration for a given tier and modify its travers
 
 ## Use case
 
-While some traces are built from an ad-hoc group of parameters, many are based on a variation of the trace configuration taken from the subnetwork definition.  For example, an electrical trace will be based on the trace configuration of the subnetwork, but may add additional clauses to constrain the trace along a single phase.  Similarly, a trace in a gas or electric design application may include features with a status of “In Design” that are normally excluded from trace results.
+While some traces are built from an ad-hoc group of parameters, many are based on a variation of the trace configuration taken from the subnetwork definition. For example, an electrical trace will be based on the trace configuration of the subnetwork, but may add additional clauses to constrain the trace along a single phase. Similarly, a trace in a gas or electric design application may include features with a status of "In Design" that are normally excluded from trace results.
 
 ## How to use the sample
 
 Sample loads with a server-defined trace configuration from a tier. Check or uncheck which options to include in the trace - such as containers or barriers. Use the selection boxes to define a new condition network attribute comparison. Click 'Trace' to run a subnetwork trace with this modified configuration from a default starting location.
+
+Example barrier conditions for the default dataset:
+* 'Transformer Load' Equal '15'
+* 'Phases Current' DoesNotIncludeTheValues 'A'
+* 'Generation KW' LessThan '50'
 
 ## How it works
 

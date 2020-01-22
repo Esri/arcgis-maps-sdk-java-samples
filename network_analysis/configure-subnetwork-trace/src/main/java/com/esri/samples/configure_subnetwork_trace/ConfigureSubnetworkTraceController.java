@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
+import com.sun.javafx.scene.control.IntegerField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
@@ -55,20 +57,20 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraversabilityScope;
 
 public class ConfigureSubnetworkTraceController {
 
-  @FXML private TextField comparisonValuesTextField;
   @FXML private CheckBox includeBarriersCheckBox;
   @FXML private CheckBox includeContainersCheckBox;
-  @FXML private TextArea traceConditionsTextArea;
   @FXML private ComboBox<CodedValue> comparisonValuesComboBox;
-  @FXML private ComboBox<UtilityNetworkAttribute> comparisonSourcesComboBox;
   @FXML private ComboBox<UtilityAttributeComparisonOperator> comparisonOperatorsComboBox;
+  @FXML private ComboBox<UtilityNetworkAttribute> comparisonSourcesComboBox;
+  @FXML private TextArea traceConditionsTextArea;
+  @FXML private IntegerField comparisonValuesIntegerField;
 
+  private UtilityElement startingLocation;
   private UtilityNetwork utilityNetwork;
+  private UtilityTerminal startingTerminal;
+  private UtilityTraceConditionalExpression initialExpression;
   private UtilityTraceConfiguration initialUtilityTraceConfiguration;
   private UtilityTraceConfiguration utilityTraceConfiguration;
-  private UtilityElement startingLocation;
-
-  private UtilityTraceConditionalExpression initialExpression;
 
   @FXML
   public void initialize() {
@@ -105,10 +107,19 @@ public class ConfigureSubnetworkTraceController {
           // create a default starting location
           UtilityNetworkSource utilityNetworkSource =
               utilityNetwork.getDefinition().getNetworkSource("Electric Distribution Device");
-          UtilityAssetGroup utilityAssetGroup = utilityNetworkSource.getAssetGroup("Service Point");
-          UtilityAssetType utilityAssetType = utilityAssetGroup.getAssetType("Three Phase Low Voltage Meter");
+          UtilityAssetGroup utilityAssetGroup = utilityNetworkSource.getAssetGroup("Circuit Breaker");
+          UtilityAssetType utilityAssetType = utilityAssetGroup.getAssetType("Three Phase");
           startingLocation =
-              utilityNetwork.createElement(utilityAssetType, UUID.fromString("3AEC2649-D867-4EA7-965F-DBFE1F64B090"));
+              utilityNetwork.createElement(utilityAssetType, UUID.fromString("1CAF7740-0BF4-4113-8DB2-654E18800028"));
+
+          // set the terminal for the starting location. (For our case, we use the 'Load' terminal.)
+          List<UtilityTerminal> terminals = startingLocation.getAssetType().getTerminalConfiguration().getTerminals();
+          terminals.forEach(terminal -> {
+            if (terminal.getName().equals("Load")){
+              startingTerminal = terminal;
+            }
+          });
+          startingLocation.setTerminal(startingTerminal);
 
           // get a default trace configuration from a tier to update the UI
           UtilityDomainNetwork utilityDomainNetwork =
@@ -124,7 +135,7 @@ public class ConfigureSubnetworkTraceController {
               (UtilityTraceConditionalExpression) utilityTier.getTraceConfiguration().getTraversability().getBarriers();
 
           // show the initial expression in the text area
-          traceConditionsTextArea.setText(generateExpressionText(initialExpression));
+          traceConditionsTextArea.setText(expressionToString(initialExpression));
 
           // set the traversability scope
           utilityTier.getTraceConfiguration().getTraversability().setScope(UtilityTraversabilityScope.JUNCTIONS);
@@ -155,9 +166,9 @@ public class ConfigureSubnetworkTraceController {
       // convert the selected comparison value to the data type defined by the selected attribute
       otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
           selectedAttribute.getDataType());
-    } else if (!comparisonValuesTextField.getText().equals("")) {
+    } else if (!comparisonValuesIntegerField.getText().equals("")) {
       // otherwise, a comparison value will be specified as text input to be used as the third parameter
-      otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
+      otherValue = convertToDataType(comparisonValuesIntegerField.getText(), selectedAttribute.getDataType());
     } else {
       new Alert(Alert.AlertType.WARNING, "No valid comparison value entered").show();
       return;
@@ -180,7 +191,7 @@ public class ConfigureSubnetworkTraceController {
     utilityTraceConfiguration.getTraversability().setBarriers(expression);
 
     // show the expression in the text area
-    traceConditionsTextArea.setText(generateExpressionText(expression));
+    traceConditionsTextArea.setText(expressionToString(expression));
   }
 
   /**
@@ -188,7 +199,7 @@ public class ConfigureSubnetworkTraceController {
    * @param expression a UtilityTraceConditionalExpression
    * @return string representing the expression
    */
-  private String generateExpressionText(UtilityTraceConditionalExpression expression) {
+  private String expressionToString(UtilityTraceConditionalExpression expression) {
 
     StringBuilder stringBuilder = new StringBuilder();
 
@@ -201,7 +212,7 @@ public class ConfigureSubnetworkTraceController {
     }
 
     // for network attribute comparison expressions, add the network attribute name and comparison operator
-    if (expression instanceof UtilityNetworkAttributeComparison) {
+    else if (expression instanceof UtilityNetworkAttributeComparison) {
       UtilityNetworkAttributeComparison attributeComparison = (UtilityNetworkAttributeComparison) expression;
       stringBuilder.append(
           String.format("'%1$s' %2$s", attributeComparison.getNetworkAttribute().getName(),
@@ -242,18 +253,18 @@ public class ConfigureSubnetworkTraceController {
     }
 
     // for 'and'/'or' conditions, generate the expression for both sides
-    if (expression instanceof UtilityTraceAndCondition) {
+    else if (expression instanceof UtilityTraceAndCondition) {
       UtilityTraceAndCondition andCondition = (UtilityTraceAndCondition) expression;
       stringBuilder.append(
-          String.format("%1$s AND%n %2$s", generateExpressionText(andCondition.getLeftExpression()),
-              generateExpressionText(andCondition.getRightExpression())));
+          String.format("%1$s AND%n %2$s", expressionToString(andCondition.getLeftExpression()),
+              expressionToString(andCondition.getRightExpression())));
     }
 
-    if (expression instanceof UtilityTraceOrCondition) {
+    else if (expression instanceof UtilityTraceOrCondition) {
       UtilityTraceOrCondition orCondition = (UtilityTraceOrCondition) expression;
       stringBuilder.append(
-          String.format("%1$s OR%n %2$s", generateExpressionText(orCondition.getLeftExpression()),
-              generateExpressionText(orCondition.getRightExpression())));
+          String.format("%1$s OR%n %2$s", expressionToString(orCondition.getLeftExpression()),
+              expressionToString(orCondition.getRightExpression())));
     }
 
     return stringBuilder.toString();
@@ -316,7 +327,7 @@ public class ConfigureSubnetworkTraceController {
     utilityTraceConfiguration.getTraversability().setBarriers(initialExpression);
 
     // show the configuration expression from the application start in the text area
-    traceConditionsTextArea.setText(generateExpressionText(initialExpression));
+    traceConditionsTextArea.setText(expressionToString(initialExpression));
 
     // un-check the checkboxes for including barriers and containers
     includeContainersCheckBox.setSelected(false);
@@ -334,7 +345,7 @@ public class ConfigureSubnetworkTraceController {
   private void onComparisonSourceChanged() {
 
     // clear any previous text input
-    comparisonValuesTextField.clear();
+    comparisonValuesIntegerField.clear();
 
     if (comparisonSourcesComboBox.getSelectionModel().getSelectedItem() != null) {
 
@@ -355,7 +366,7 @@ public class ConfigureSubnetworkTraceController {
       // toggle the selection combo box to be visible if it has any items
       comparisonValuesComboBox.setVisible(!comparisonValuesComboBox.getItems().isEmpty());
       // toggle the text field to be hidden if the combo box is visible, or show it if the combo box is invisible
-      comparisonValuesTextField.setVisible(!comparisonValuesComboBox.isVisible());
+      comparisonValuesIntegerField.setVisible(!comparisonValuesComboBox.isVisible());
     }
   }
 

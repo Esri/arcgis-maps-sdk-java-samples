@@ -45,5 +45,5 @@
         "src/main/java/com/esri/samples/configure_subnetwork_trace/ConfigureSubnetworkTraceController.java",
         "src/main/resources/configure_subnetwork_trace.fxml"
     ],
-    "title": "Service Area Task"
+    "title": "Configure Subnetwork Trace"
 }

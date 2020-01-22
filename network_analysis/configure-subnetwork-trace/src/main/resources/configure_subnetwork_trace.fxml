@@ -20,6 +20,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import com.sun.javafx.scene.control.IntegerField?>
 <StackPane stylesheets="/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
            fx:controller="com.esri.samples.configure_subnetwork_trace.ConfigureSubnetworkTraceController">
 
@@ -40,7 +41,7 @@
             <ComboBox fx:id="comparisonOperatorsComboBox" maxWidth="180" minWidth="180"/>
             <StackPane maxWidth="175" minWidth="175">
                 <ComboBox fx:id="comparisonValuesComboBox" maxWidth="175" minWidth="175"/>
-                <TextField fx:id="comparisonValuesTextField" maxWidth="175" minWidth="175"/>
+                <IntegerField fx:id="comparisonValuesIntegerField" maxWidth="175" minWidth="175"/>
             </StackPane>
             <Button maxWidth="40" minWidth="40" onAction="#onAddConditionClick" text="Add"/>
         </HBox>
