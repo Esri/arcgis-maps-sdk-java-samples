@@ -25,27 +25,29 @@ import org.testfx.robot.Motion;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
 
 public class SketchOnMapTest extends ApplicationTest {
 
-  MapView mapView;
-  GraphicsOverlay graphicsOverlay;
+  private MapView mapView;
+  private GraphicsOverlay graphicsOverlay;
 
-  Button editButton;
-  Button stopButton;
+  private Button editButton;
+  private Button stopButton;
 
-  Button pointButton;
-  Button multipointButton;
-  Button polylineButton;
-  Button polygonButton;
-  Button freehandPolylineButton;
-  Button freehandPolygonButton;
+  private Button pointButton;
+  private Button multipointButton;
+  private Button polylineButton;
+  private Button polygonButton;
+  private Button freehandPolylineButton;
+  private Button freehandPolygonButton;
 
-  Button undoButton;
-  Button redoButton;
-  Button saveButton;
-  Button clearButton;
+  private Button undoButton;
+  private Button redoButton;
+  private Button saveButton;
+  private Button clearButton;
+
+  private float mapViewHeight = 700;
+  private float mapViewWidth = 1000;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -56,8 +58,8 @@ public class SketchOnMapTest extends ApplicationTest {
 
     stage.setScene(scene);
     stage.setTitle("Sketch on Map Sample");
-    stage.setWidth(1000);
-    stage.setHeight(700);
+    stage.setWidth(mapViewWidth);
+    stage.setHeight(mapViewHeight);
     stage.show();
 
     // wait for initialization
@@ -72,9 +74,6 @@ public class SketchOnMapTest extends ApplicationTest {
     if (mapViewNode instanceof MapView) {
       mapView = (MapView) mapViewNode;
       graphicsOverlay = mapView.getGraphicsOverlays().get(0);
-
-    } else {
-      fail("MapView Node could not be found");
     }
 
     // find the middle button group and get each button
@@ -100,13 +99,22 @@ public class SketchOnMapTest extends ApplicationTest {
    */
   @Test
   public void drawPoint() {
-    clickOn(pointButton);
-    clickOn(mapView);
-    clickOn(saveButton);
+    // define a screen point in the centre of the map view (relative to the top left corner)
+    Point2D screenPoint = new Point2D(Math.round(mapViewWidth / 2), Math.round(mapViewHeight / 2));
+
+    clickOn(pointButton)
+        .moveTo(mapView, Pos.TOP_LEFT, screenPoint, Motion.DIRECT)
+        .clickOn(MouseButton.PRIMARY)
+        .clickOn(saveButton);
 
     ListenableList<Graphic> graphics = graphicsOverlay.getGraphics();
     assertEquals(1, graphics.size());
-    assertEquals(GeometryType.POINT, graphics.get(0).getGeometry().getGeometryType());
+
+    Geometry pointGeometry = graphics.get(0).getGeometry();
+    assertEquals(GeometryType.POINT, pointGeometry.getGeometryType());
+
+    // check that the Geometry was created at the screen point clicked
+    assertEquals(screenPoint, mapView.locationToScreen((Point) pointGeometry));
   }
 
   /**
@@ -183,13 +191,13 @@ public class SketchOnMapTest extends ApplicationTest {
    * Clicks on four different points in the map view in succession, starting from the center.
    */
   private void clickOnFourPoints() {
-    clickOn(mapView);
-    moveBy(-100, 0);
-    clickOn(MouseButton.PRIMARY);
-    moveBy(0, 100);
-    clickOn(MouseButton.PRIMARY);
-    moveBy(100, 0);
-    clickOn(MouseButton.PRIMARY);
+    clickOn(mapView)
+        .moveBy(-100, 0)
+        .clickOn(MouseButton.PRIMARY)
+        .moveBy(0, 100)
+        .clickOn(MouseButton.PRIMARY)
+        .moveBy(100, 0)
+        .clickOn(MouseButton.PRIMARY);
   }
 
   /**
@@ -209,21 +217,24 @@ public class SketchOnMapTest extends ApplicationTest {
   @Test
   public void editPoint() {
     // create a point sketch
-    clickOn(pointButton);
-    clickOn(mapView);
-    clickOn(saveButton);
+    clickOn(pointButton)
+        .clickOn(mapView)
+        .clickOn(saveButton);
 
     // click on the point and edit it
     Graphic point = graphicsOverlay.getGraphics().get(0);
     Point2D originalLocation = mapView.locationToScreen((Point) point.getGeometry());
-    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT);
-    clickOn(MouseButton.PRIMARY);
-    clickOn(editButton);
+    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT)
+        .clickOn(MouseButton.PRIMARY)
 
-    moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT);
-    moveBy(100, -100);
-    clickOn(MouseButton.PRIMARY);
-    clickOn(saveButton);
+        // start editing
+        .clickOn(editButton)
+
+        // move to the vertex, select it, and click somewhere else to have the SketchEditor move it
+        .moveTo(mapView, Pos.TOP_LEFT, originalLocation, Motion.DIRECT)
+        .moveBy(100, -100)
+        .clickOn(MouseButton.PRIMARY)
+        .clickOn(saveButton);
 
     Point2D newLocation = mapView.locationToScreen((Point) point.getGeometry());
     assertNotEquals(originalLocation, newLocation);
@@ -245,18 +256,18 @@ public class SketchOnMapTest extends ApplicationTest {
     double xMin = graphic.getGeometry().getExtent().getXMin();
     double yMin = graphic.getGeometry().getExtent().getYMin();
     Point2D originaBottomLeftCorner = mapView.locationToScreen(new Point(xMin, yMin, mapView.getSpatialReference()));
-    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
-    clickOn(MouseButton.PRIMARY);
+    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT)
+        .clickOn(MouseButton.PRIMARY)
 
-    // start editing
-    clickOn(editButton);
+        // start editing
+        .clickOn(editButton)
 
-    // move to the bottom left vertex, select it, and move it
-    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
-    clickOn(MouseButton.PRIMARY);
-    moveBy(-100, 100);
-    clickOn(MouseButton.PRIMARY);
-    clickOn(saveButton);
+        // move to the bottom left vertex, select it, and click somewhere else to have the SketchEditor move it
+        .moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT)
+        .clickOn(MouseButton.PRIMARY)
+        .moveBy(-100, 100)
+        .clickOn(MouseButton.PRIMARY)
+        .clickOn(saveButton);
 
     Geometry newGeometry = graphic.getGeometry();
     assertNotEquals(newGeometry, oldGeometry);
@@ -278,18 +289,18 @@ public class SketchOnMapTest extends ApplicationTest {
     double xMin = graphic.getGeometry().getExtent().getXMin();
     double yMin = graphic.getGeometry().getExtent().getYMin();
     Point2D originaBottomLeftCorner = mapView.locationToScreen(new Point(xMin, yMin, mapView.getSpatialReference()));
-    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
-    clickOn(MouseButton.PRIMARY);
+    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT)
+        .clickOn(MouseButton.PRIMARY)
 
-    // start editing
-    clickOn(editButton);
+        // start editing
+        .clickOn(editButton)
 
-    // move to the bottom left vertex, select it, and remove it
-    moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT);
-    clickOn(MouseButton.SECONDARY);
-    moveBy(10, 10);
-    clickOn(MouseButton.PRIMARY);
-    clickOn(saveButton);
+        // move to the bottom left vertex, select it, and remove it
+        .moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT)
+        .clickOn(MouseButton.SECONDARY)
+        .moveBy(10, 10)
+        .clickOn(MouseButton.PRIMARY)
+        .clickOn(saveButton);
 
     Geometry newGeometry = graphic.getGeometry();
     assertNotEquals(newGeometry, oldGeometry);
@@ -311,18 +322,18 @@ public class SketchOnMapTest extends ApplicationTest {
     double xMin = graphic.getGeometry().getExtent().getXMin();
     double yMin = graphic.getGeometry().getExtent().getYMin();
     Point2D originalBottomLeftCorner = mapView.locationToScreen(new Point(xMin, yMin, mapView.getSpatialReference()));
-    moveTo(mapView, Pos.TOP_LEFT, originalBottomLeftCorner, Motion.DIRECT);
-    clickOn(MouseButton.PRIMARY);
+    moveTo(mapView, Pos.TOP_LEFT, originalBottomLeftCorner, Motion.DIRECT)
+        .clickOn(MouseButton.PRIMARY)
 
-    // start editing
-    clickOn(editButton);
+        // start editing
+        .clickOn(editButton)
 
-    // move to the point between the two leftmost vertices, and drag the line to add a vertex
-    moveTo(mapView, Pos.TOP_LEFT, originalBottomLeftCorner, Motion.DIRECT);
-    clickOn(MouseButton.SECONDARY);
-    moveBy(0, -50);
-    drag(MouseButton.PRIMARY).moveBy(-50, 0).drop();
-    clickOn(saveButton);
+        // move to the point between the two leftmost vertices, and drag the line to add a vertex
+        .moveTo(mapView, Pos.TOP_LEFT, originalBottomLeftCorner, Motion.DIRECT)
+        .clickOn(MouseButton.SECONDARY)
+        .moveBy(0, -50)
+        .drag(MouseButton.PRIMARY).moveBy(-50, 0).drop()
+        .clickOn(saveButton);
 
     Geometry newGeometry = graphic.getGeometry();
     assertNotEquals(newGeometry, oldGeometry);
@@ -333,9 +344,9 @@ public class SketchOnMapTest extends ApplicationTest {
    */
   @Test
   public void deleteSketches() {
-    clickOn(pointButton);
-    clickOn(mapView);
-    clickOn(saveButton);
+    clickOn(pointButton)
+        .clickOn(mapView)
+        .clickOn(saveButton);
 
     ListenableList<Graphic> graphics = graphicsOverlay.getGraphics();
     assertEquals(1, graphics.size());
