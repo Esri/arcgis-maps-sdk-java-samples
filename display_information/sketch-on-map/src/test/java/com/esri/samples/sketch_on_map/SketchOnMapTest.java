@@ -264,9 +264,9 @@ public class SketchOnMapTest extends ApplicationTest {
 
         // move to the bottom left vertex, select it, and click somewhere else to have the SketchEditor move it
         .moveTo(mapView, Pos.TOP_LEFT, originaBottomLeftCorner, Motion.DIRECT)
-        .clickOn(MouseButton.PRIMARY)
+        .drag(MouseButton.PRIMARY)
         .moveBy(-100, 100)
-        .clickOn(MouseButton.PRIMARY)
+        .drop()
         .clickOn(saveButton);
 
     Geometry newGeometry = graphic.getGeometry();
