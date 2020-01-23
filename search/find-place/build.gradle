@@ -36,10 +36,8 @@ dependencies {
     compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
-    testCompile "junit:junit:4.13-beta-3"
     testCompile "org.testfx:testfx-junit:4.0.16-alpha"
     testCompile "org.testfx:testfx-core:4.0.16-alpha"
-    testCompile "org.loadui:testFx:3.1.2"
 }
 
 task copyNatives(type: Copy) {

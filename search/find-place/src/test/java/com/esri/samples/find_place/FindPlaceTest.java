@@ -26,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class FindPlaceTest extends FxRobot {
 
@@ -34,13 +33,13 @@ public class FindPlaceTest extends FxRobot {
   public static final int SLEEP_1000MS = 1000;
   public static final int SLEEP_1500MS = 1500;
 
-  MapView mapView;
-  GraphicsOverlay graphicsOverlay;
-  ComboBox<String> placeBox;
+  Button searchButton;
   ComboBox<String> locationBox;
+  ComboBox<String> placeBox;
+  GraphicsOverlay graphicsOverlay;
+  MapView mapView;
   Node locationBoxArrowRegion;
   Node placeBoxArrowRegion;
-  Button searchButton;
 
   @Before
   public void setup() throws Exception {
@@ -52,9 +51,6 @@ public class FindPlaceTest extends FxRobot {
     if (mapViewNode instanceof MapView) {
       mapView = (MapView) mapViewNode;
       graphicsOverlay = mapView.getGraphicsOverlays().get(0);
-
-    } else {
-      fail("MapView Node could not be found");
     }
 
     // get a handle on the ComboBoxes
@@ -94,13 +90,16 @@ public class FindPlaceTest extends FxRobot {
   @Test
   public void defaultSearchInput() {
 
-    clickOn(placeBoxArrowRegion);
-    clickOn("Starbucks");
+    // select a default value from the place ComboBox
+    clickOn(placeBoxArrowRegion)
+        .clickOn("Starbucks")
 
-    clickOn(locationBoxArrowRegion);
-    clickOn("Los Angeles, CA");
+        // select a default value from the location ComboBox
+        .clickOn(locationBoxArrowRegion)
+        .clickOn("Los Angeles, CA")
 
-    clickOn(searchButton).sleep(SLEEP_1500MS);
+        // perform the search
+        .clickOn(searchButton).sleep(SLEEP_1500MS);
 
     // assert that the expected number of graphics (location pins) is displayed
     assertEquals("Unexpected number of graphics (location pins) found", 50, graphicsOverlay.getGraphics().size());
@@ -112,17 +111,23 @@ public class FindPlaceTest extends FxRobot {
   @Test
   public void customSearchInput() {
 
-    clickOn(placeBox).write("esri").sleep(SLEEP_1500MS);
+    // Type 'Esri' into the place box and select the search result
+    clickOn(placeBox).write("esri")
+        .sleep(SLEEP_1500MS);
 
     Node esriEntry = lookup("Esri, 380 New York St, Redlands, CA, 92373, USA").query();
     clickOn(esriEntry);
 
-    clickOn(locationBox).write("Redlands").sleep(SLEEP_1500MS);
+    // Type 'Redlands' into the location box and select the search result
+    clickOn(locationBox).write("Redlands")
+        .sleep(SLEEP_1500MS);
 
     Node redlandsEntry = lookup("Redlands, CA, USA").query();
     clickOn(redlandsEntry);
 
-    clickOn(searchButton).sleep(SLEEP_1500MS);
+    // perform the search
+    clickOn(searchButton)
+        .sleep(SLEEP_1500MS);
 
     // assert that the expected number of graphics (location pins) is displayed
     assertEquals("Unexpected number of graphics (location pins) found", 4, graphicsOverlay.getGraphics().size());
@@ -134,28 +139,34 @@ public class FindPlaceTest extends FxRobot {
   @Test
   public void confirmCalloutTest() {
 
-    clickOn(placeBox).write("esri").sleep(SLEEP_1500MS);
-    // get a handle on the search result and click on it
+    // Type 'Esri' into the place box and select the search result
+    clickOn(placeBox).write("esri")
+        .sleep(SLEEP_1500MS);
+
     Node esriEntry = lookup("Esri, 380 New York St, Redlands, CA, 92373, USA").query();
     clickOn(esriEntry);
 
-    clickOn(locationBox).write("Redlands").sleep(SLEEP_1500MS);
-    // get a handle on the search result, and click on it
+    // Type 'Redlands' into the location box and select the search result
+    clickOn(locationBox).write("Redlands")
+        .sleep(SLEEP_1500MS);
+
     Node redlandsEntry = lookup("Redlands, CA, USA").query();
     clickOn(redlandsEntry);
 
-    clickOn(searchButton).sleep(SLEEP_1500MS);
+    // perform the search
+    clickOn(searchButton)
+        .sleep(SLEEP_1500MS);
 
     // get the screen point of pin 1, move the mouse cursor to it
     Graphic pin = mapView.getGraphicsOverlays().get(0).getGraphics().get(1);
     Point2D screenPoint = mapView.locationToScreen((Point) pin.getGeometry());
-    moveTo(mapView, Pos.TOP_LEFT, screenPoint, Motion.DIRECT);
+    moveTo(mapView, Pos.TOP_LEFT, screenPoint, Motion.DIRECT)
 
-    // scroll to zoom in so that more of the pins are visible
-    scroll(12, VerticalDirection.UP).sleep(SLEEP_500MS);
+        // scroll to zoom in so that more of the pins are visible
+        .scroll(12, VerticalDirection.UP).sleep(SLEEP_500MS)
 
-    // move the mouse cursor to pin 1 again, and click it to show the callout
-    moveTo(mapView, Pos.TOP_LEFT, screenPoint, Motion.DIRECT).clickOn(MouseButton.PRIMARY);
+        // move the mouse cursor to pin 1 again, and click it to show the callout
+        .moveTo(mapView, Pos.TOP_LEFT, screenPoint, Motion.DIRECT).clickOn(MouseButton.PRIMARY);
 
     // assert that the callout shows the correct information
     Callout callout = mapView.getCallout();
@@ -171,7 +182,6 @@ public class FindPlaceTest extends FxRobot {
     Label detailLabel = lookup("Redlands, California, 92373").query();
     assertNotNull(detailLabel);
     assertEquals(detailLabel.getText(), "Redlands, California, 92373");
-
   }
 
   // test cases:
@@ -188,19 +198,19 @@ public class FindPlaceTest extends FxRobot {
     Button redoButton = lookup("#redoButton").queryButton();
 
     // perform a search with pre-defined search inputs
-    clickOn(placeBoxArrowRegion);
-    clickOn("Starbucks");
+    clickOn(placeBoxArrowRegion)
+        .clickOn("Starbucks")
 
-    clickOn(locationBoxArrowRegion);
-    clickOn("Los Angeles, CA");
+        .clickOn(locationBoxArrowRegion)
+        .clickOn("Los Angeles, CA")
 
-    clickOn(searchButton).sleep(SLEEP_1500MS);
+        .clickOn(searchButton)
+
+        .sleep(SLEEP_1500MS);
 
     // check that the Redo Search button is disabled, and activates after panning
     assertTrue(redoButton.isDisable());
-
-    drag(mapView).moveBy( 100, -100 ).drop();
-
+    drag(mapView).moveBy(100, -100).drop();
     assertFalse(redoButton.isDisable());
   }
 }
