@@ -20,9 +20,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import com.sun.javafx.scene.control.IntegerField?>
-<StackPane stylesheets="/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
-           fx:controller="com.esri.samples.configure_subnetwork_trace.ConfigureSubnetworkTraceController">
+<StackPane stylesheets="/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esri.samples.configure_subnetwork_trace.ConfigureSubnetworkTraceController">
 
     <VBox maxHeight="600" maxWidth="800" spacing="10" StackPane.alignment="TOP_LEFT">
         <padding>
@@ -36,24 +34,25 @@
 
         <HBox spacing="10">
             <Label text="Define new conditions"/>
-            <ComboBox fx:id="comparisonSourcesComboBox" maxWidth="175" minWidth="175"
-                      onAction="#onComparisonSourceChanged" prefHeight="25.0" prefWidth="100.0"/>
+            <ComboBox fx:id="comparisonSourcesComboBox" maxWidth="175" minWidth="175" onAction="#onComparisonSourceChanged" prefHeight="25.0" prefWidth="100.0"/>
             <ComboBox fx:id="comparisonOperatorsComboBox" maxWidth="180" minWidth="180"/>
             <StackPane maxWidth="175" minWidth="175">
                 <ComboBox fx:id="comparisonValuesComboBox" maxWidth="175" minWidth="175"/>
-                <IntegerField fx:id="comparisonValuesIntegerField" maxWidth="175" minWidth="175"/>
+                <TextField fx:id="comparisonValuesTextField" maxWidth="175" minWidth="175"/>
             </StackPane>
             <Button maxWidth="40" minWidth="40" onAction="#onAddConditionClick" text="Add"/>
         </HBox>
 
+        <Label text="Example barrier condition for this data: 'Transformer Load' Equal '15'"/>
+
         <HBox spacing="10">
             <Label text="Trace conditions:"/>
-            <TextArea fx:id="traceConditionsTextArea" editable="false"/>
+            <TextArea fx:id="traceConditionsTextArea" editable="false" prefHeight="181.0" prefWidth="630.0"/>
         </HBox>
 
         <HBox spacing="10">
-            <Button onAction="#onTraceClick" text="Trace" maxWidth="175" minWidth="175"/>
-            <Button onAction="#onResetClick" text="Reset" maxWidth="175" minWidth="175"/>
+            <Button maxWidth="545.0" minWidth="175" onAction="#onTraceClick" prefHeight="25.0" prefWidth="545.0" text="Trace"/>
+            <Button maxWidth="175" minWidth="175" onAction="#onResetClick" text="Reset"/>
         </HBox>
 
     </VBox>

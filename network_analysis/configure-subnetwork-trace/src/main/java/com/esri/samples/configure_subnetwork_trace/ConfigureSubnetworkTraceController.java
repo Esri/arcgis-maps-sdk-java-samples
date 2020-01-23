@@ -22,13 +22,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
-import com.sun.javafx.scene.control.IntegerField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.CodedValue;
@@ -54,6 +52,7 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceParameters;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceResult;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraversabilityScope;
+import javafx.scene.control.TextField;
 
 public class ConfigureSubnetworkTraceController {
 
@@ -63,7 +62,7 @@ public class ConfigureSubnetworkTraceController {
   @FXML private ComboBox<UtilityAttributeComparisonOperator> comparisonOperatorsComboBox;
   @FXML private ComboBox<UtilityNetworkAttribute> comparisonSourcesComboBox;
   @FXML private TextArea traceConditionsTextArea;
-  @FXML private IntegerField comparisonValuesIntegerField;
+  @FXML private TextField comparisonValuesTextField;
 
   private UtilityElement startingLocation;
   private UtilityNetwork utilityNetwork;
@@ -166,9 +165,9 @@ public class ConfigureSubnetworkTraceController {
       // convert the selected comparison value to the data type defined by the selected attribute
       otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
           selectedAttribute.getDataType());
-    } else if (!comparisonValuesIntegerField.getText().equals("")) {
+    } else if (!comparisonValuesTextField.getText().equals("")) {
       // otherwise, a comparison value will be specified as text input to be used as the third parameter
-      otherValue = convertToDataType(comparisonValuesIntegerField.getText(), selectedAttribute.getDataType());
+      otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
     } else {
       new Alert(Alert.AlertType.WARNING, "No valid comparison value entered").show();
       return;
@@ -345,7 +344,7 @@ public class ConfigureSubnetworkTraceController {
   private void onComparisonSourceChanged() {
 
     // clear any previous text input
-    comparisonValuesIntegerField.clear();
+    comparisonValuesTextField.clear();
 
     if (comparisonSourcesComboBox.getSelectionModel().getSelectedItem() != null) {
 
@@ -366,7 +365,7 @@ public class ConfigureSubnetworkTraceController {
       // toggle the selection combo box to be visible if it has any items
       comparisonValuesComboBox.setVisible(!comparisonValuesComboBox.getItems().isEmpty());
       // toggle the text field to be hidden if the combo box is visible, or show it if the combo box is invisible
-      comparisonValuesIntegerField.setVisible(!comparisonValuesComboBox.isVisible());
+      comparisonValuesTextField.setVisible(!comparisonValuesComboBox.isVisible());
     }
   }
 
