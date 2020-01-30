@@ -48,6 +48,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
   private MapView mapView;
   private MobileMapPackage mobileMapPackage;
   private OfflineMapSyncTask offlineMapSyncTask;
+  private File tempMobileMapPackageDirectory;
 
   @Override
   public void start(Stage stage) {
@@ -69,9 +70,9 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       stackPane.getChildren().add(mapView);
 
       // create a temporary copy of the local offline map files, so that updating does not overwrite them permanently
-      File tempMobileMapPackageDirectory = Files.createTempDirectory("canyonlands_offline_map").toFile();
+      tempMobileMapPackageDirectory = Files.createTempDirectory("canyonlands_offline_map").toFile();
       tempMobileMapPackageDirectory.deleteOnExit();
-      File sourceDirectory = new File("./samples-data/canyonlands/");
+      File sourceDirectory = new File(System.getProperty("data.dir"), "./samples-data/canyonlands/");
       FileUtils.copyDirectory(sourceDirectory, tempMobileMapPackageDirectory);
 
       // load the offline map as a mobile map package

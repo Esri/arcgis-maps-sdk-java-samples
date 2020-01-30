@@ -72,7 +72,7 @@ public class ListKMLContentsSample extends Application {
       sceneView.setArcGISScene(scene);
 
       // load a KML dataset from a local KMZ file and show it as an operational layer
-      File kmzFile = new File("./samples-data/kml/esri_test_data.kmz");
+      File kmzFile = new File(System.getProperty("data.dir"), "./samples-data/kml/esri_test_data.kmz");
       KmlDataset kmlDataset = new KmlDataset(kmzFile.getAbsolutePath());
       KmlLayer kmlLayer = new KmlLayer(kmlDataset);
       scene.getOperationalLayers().add(kmlLayer);

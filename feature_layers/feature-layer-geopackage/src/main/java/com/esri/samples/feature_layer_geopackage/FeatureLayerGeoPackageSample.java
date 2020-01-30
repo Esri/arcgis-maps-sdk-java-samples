@@ -57,7 +57,7 @@ public class FeatureLayerGeoPackageSample extends Application {
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
 
       // create a GeoPackage from a local gpkg file
-      File geoPackageFile = new File("./samples-data/auroraCO/AuroraCO.gpkg");
+      File geoPackageFile = new File(System.getProperty("data.dir"), "./samples-data/auroraCO/AuroraCO.gpkg");
       GeoPackage geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
       geoPackage.loadAsync();
 

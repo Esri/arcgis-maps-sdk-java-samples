@@ -16,6 +16,7 @@
 
 package com.esri.samples.read_symbols_from_mobile_style_file;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -98,7 +99,8 @@ public class ReadSymbolsFromMobileStyleFileController {
    */
   private void loadSymbolsFromStyleFile() {
     // create a SymbolStyle with the .stylx file
-    emojiStyle = new SymbolStyle("./samples-data/stylx/emoji-mobile.stylx");
+    File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/emoji-mobile.stylx");
+    emojiStyle = new SymbolStyle(stylxFile.getAbsolutePath());
     emojiStyle.loadAsync();
 
     // wait for the symbol style to load

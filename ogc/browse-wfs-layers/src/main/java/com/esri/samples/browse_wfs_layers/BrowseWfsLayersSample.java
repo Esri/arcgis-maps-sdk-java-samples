@@ -72,7 +72,7 @@ public class BrowseWfsLayersSample extends Application {
 
     // create a progress indicator
     progressIndicator = new ProgressIndicator();
-    progressIndicator.setVisible(false);
+    progressIndicator.setVisible(true);
 
     // create an ArcGISMap with topographic basemap and set it to the map view
     map = new ArcGISMap(Basemap.createImagery());
@@ -85,6 +85,7 @@ public class BrowseWfsLayersSample extends Application {
 
     // when the WFS service has loaded, add its layer information to the list view for browsing
     wfsService.addDoneLoadingListener(() -> {
+      progressIndicator.setVisible(false);
       if (wfsService.getLoadStatus() == LoadStatus.LOADED) {
         // add the list of WFS layers to the list view
         List<WfsLayerInfo> wfsLayerInfos = wfsService.getServiceInfo().getLayerInfos();

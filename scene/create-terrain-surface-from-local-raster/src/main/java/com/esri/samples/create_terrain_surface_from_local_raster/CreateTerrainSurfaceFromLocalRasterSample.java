@@ -63,7 +63,7 @@ public class CreateTerrainSurfaceFromLocalRasterSample extends Application {
 
       // list paths to local raster(s)
       List<String> localDataFilePaths = Collections.singletonList(
-          new File("./samples-data/monterey_elevation/MontereyElevation.dt2").getAbsolutePath()
+          new File(System.getProperty("data.dir"), "./samples-data/monterey_elevation/MontereyElevation.dt2").getAbsolutePath()
       );
 
       // create an elevation source from the raster collection

@@ -16,6 +16,7 @@
 
 package com.esri.samples.honor_mobile_map_package_expiration_date;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -80,7 +81,8 @@ public class HonorMobileMapPackageExpirationDateSample extends Application {
       mapView = new MapView();
 
       // load the mobile map package
-      mobileMapPackage = new MobileMapPackage("./samples-data/mmpk/LothianRiversAnno.mmpk");
+      File mmpkFile = new File(System.getProperty("data.dir"), "./samples-data/mmpk/LothianRiversAnno.mmpk");
+      mobileMapPackage = new MobileMapPackage(mmpkFile.getAbsolutePath());
       mobileMapPackage.loadAsync();
       mobileMapPackage.addDoneLoadingListener(() -> {
         // check if the map package has expiration information and if so, has it expired yet

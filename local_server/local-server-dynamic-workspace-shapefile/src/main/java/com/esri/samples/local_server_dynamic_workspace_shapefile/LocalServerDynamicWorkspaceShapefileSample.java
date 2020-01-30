@@ -99,7 +99,7 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
       FileChooser fileChooser = new FileChooser();
       fileChooser.setTitle("Open Resource File");
       fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Shapefiles", "*.shp"));
-      fileChooser.setInitialDirectory(new File("./samples-data/shapefiles/"));
+      fileChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/shapefiles/"));
       // choose the file, then start the local map service
       addButton.setOnAction(e -> {
         // browse to the shapefile file
@@ -136,8 +136,8 @@ public class LocalServerDynamicWorkspaceShapefileSample extends Application {
   private void startLocalMapService(String fileName, String path) {
 
     // start a service from the blank MPK
-    String mapServiceURL = "./samples-data/local_server/mpk_blank.mpk";
-    LocalMapService localMapService = new LocalMapService(mapServiceURL);
+    File mpkFile = new File(System.getProperty("data.dir"), "./samples-data/local_server/mpk_blank.mpk");
+    LocalMapService localMapService = new LocalMapService(mpkFile.getAbsolutePath());
 
     //create a shapefile workspace
     ShapefileWorkspace shapefileWorkspace = new ShapefileWorkspace("shp_wkspc", path);

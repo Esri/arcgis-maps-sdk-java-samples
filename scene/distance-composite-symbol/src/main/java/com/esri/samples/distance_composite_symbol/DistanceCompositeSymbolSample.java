@@ -88,7 +88,7 @@ public class DistanceCompositeSymbolSample extends Application {
       SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 3, 10);
       coneSymbol.setPitch(-90);
       coneSymbol.setAnchorPosition(AnchorPosition.CENTER);
-      String modelURI = new File("./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
+      String modelURI = new File(System.getProperty("data.dir"), "./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();
       ModelSceneSymbol modelSymbol = new ModelSceneSymbol(modelURI, 1.0);
       modelSymbol.loadAsync();
 

@@ -15,6 +15,7 @@
  */
 package com.esri.samples.offline_routing;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -86,7 +87,8 @@ public class OfflineRoutingSample extends Application {
       stage.show();
 
       // create the map's basemap from a local tile package
-      TileCache tileCache = new TileCache("./samples-data/san_diego/streetmap_SD.tpk");
+      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/san_diego/streetmap_SD.tpk");
+      TileCache tileCache = new TileCache(tpkFile.getAbsolutePath());
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
       ArcGISMap map = new ArcGISMap(basemap);
@@ -120,7 +122,8 @@ public class OfflineRoutingSample extends Application {
       });
 
       // create an offline RouteTask
-      routeTask = new RouteTask("./samples-data/san_diego/sandiego.geodatabase", "Streets_ND");
+      File geodatabaseFile = new File(System.getProperty("data.dir"), "./samples-data/san_diego/sandiego.geodatabase");
+      routeTask = new RouteTask(geodatabaseFile.getAbsolutePath(), "Streets_ND");
       routeTask.loadAsync();
       routeTask.addDoneLoadingListener(() -> {
         if (routeTask.getLoadStatus() == LoadStatus.LOADED) {

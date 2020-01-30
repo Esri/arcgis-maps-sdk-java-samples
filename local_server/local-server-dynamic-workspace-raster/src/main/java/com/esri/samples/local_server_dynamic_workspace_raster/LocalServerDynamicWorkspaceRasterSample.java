@@ -99,7 +99,7 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.tif"));
-        fileChooser.setInitialDirectory(new File("./samples-data/raster/"));
+        fileChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/raster/"));
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         if (selectedFile != null) {
@@ -133,8 +133,8 @@ public class LocalServerDynamicWorkspaceRasterSample extends Application {
   private void startLocalMapService(String fileName, String path) {
 
     // start a service from the blank MPK
-    String mapServiceURL = "./samples-data/local_server/mpk_blank.mpk";
-    LocalMapService localMapService = new LocalMapService(mapServiceURL);
+    File mpkFile = new File(System.getProperty("data.dir"), "./samples-data/local_server/mpk_blank.mpk");
+    LocalMapService localMapService = new LocalMapService(mpkFile.getAbsolutePath());
 
     // Can't add a dynamic workspace to a running service, so do that first
     RasterWorkspace rasterWorkspace = new RasterWorkspace("raster_wkspc", path);
