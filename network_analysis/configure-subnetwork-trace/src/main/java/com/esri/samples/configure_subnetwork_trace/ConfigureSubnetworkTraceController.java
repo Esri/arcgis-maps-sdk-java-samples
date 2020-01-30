@@ -16,17 +16,17 @@
 
 package com.esri.samples.configure_subnetwork_trace;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.CodedValue;
@@ -43,6 +43,7 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityNetwork;
 import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkAttribute;
 import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkAttributeComparison;
 import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkSource;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTier;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceAndCondition;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceConditionalExpression;
@@ -52,7 +53,6 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceParameters;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceResult;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraversabilityScope;
-import javafx.scene.control.TextField;
 
 public class ConfigureSubnetworkTraceController {
 
@@ -75,6 +75,14 @@ public class ConfigureSubnetworkTraceController {
   public void initialize() {
 
     try {
+
+      // add a listener to the comparison value text field, so that it only accepts numerical input separated by a decimal
+      comparisonValuesTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+        if (!newValue.matches("\\d*([.]\\d*)?")) {
+          comparisonValuesTextField.setText(oldValue);
+        }
+      });
+
       // load the utility network
       utilityNetwork = new UtilityNetwork(
           "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric" +
@@ -114,7 +122,7 @@ public class ConfigureSubnetworkTraceController {
           // set the terminal for the starting location. (For our case, we use the 'Load' terminal.)
           List<UtilityTerminal> terminals = startingLocation.getAssetType().getTerminalConfiguration().getTerminals();
           terminals.forEach(terminal -> {
-            if (terminal.getName().equals("Load")){
+            if (terminal.getName().equals("Load")) {
               startingTerminal = terminal;
             }
           });
@@ -195,6 +203,7 @@ public class ConfigureSubnetworkTraceController {
 
   /**
    * Parses a utility trace conditional expression into text and returns it.
+   *
    * @param expression a UtilityTraceConditionalExpression
    * @return string representing the expression
    */
@@ -257,9 +266,7 @@ public class ConfigureSubnetworkTraceController {
       stringBuilder.append(
           String.format("%1$s AND%n %2$s", expressionToString(andCondition.getLeftExpression()),
               expressionToString(andCondition.getRightExpression())));
-    }
-
-    else if (expression instanceof UtilityTraceOrCondition) {
+    } else if (expression instanceof UtilityTraceOrCondition) {
       UtilityTraceOrCondition orCondition = (UtilityTraceOrCondition) expression;
       stringBuilder.append(
           String.format("%1$s OR%n %2$s", expressionToString(orCondition.getLeftExpression()),
@@ -307,7 +314,9 @@ public class ConfigureSubnetworkTraceController {
             new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
           }
         } catch (Exception e) {
-          new Alert(Alert.AlertType.ERROR, "Error running utility network trace. For a working barrier condition, try \"Transformer Load\" Equal \"15\".").show();
+          new Alert(Alert.AlertType.ERROR,
+              "Error running utility network trace. For a working barrier condition, try \"Transformer Load\" Equal \"15\".")
+              .show();
         }
       });
     } catch (Exception e) {
@@ -371,7 +380,8 @@ public class ConfigureSubnetworkTraceController {
 
   /**
    * Converts an object representing a value into the data type specified.
-   * @param value the value to convert
+   *
+   * @param value    the value to convert
    * @param dataType the requested data type to which to convert
    * @return the converted value
    */
