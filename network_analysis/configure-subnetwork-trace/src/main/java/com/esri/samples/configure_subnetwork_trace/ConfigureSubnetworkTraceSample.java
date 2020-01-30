@@ -38,7 +38,7 @@ public class ConfigureSubnetworkTraceSample extends Application {
     // set title, size, and add scene to stage
     stage.setTitle("Configure Subnetwork Trace Sample");
     stage.setWidth(800);
-    stage.setHeight(700);
+    stage.setHeight(400);
     stage.setScene(scene);
     stage.show();
   }

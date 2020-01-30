@@ -308,7 +308,10 @@ public class ConfigureSubnetworkTraceController {
 
             // show an alert with the number of elements found
             int elementsFound = utilityElementTraceResult.getElements().size();
-            new Alert(Alert.AlertType.INFORMATION, elementsFound + " " + "elements found.").show();
+            Alert resultsDialog = new Alert(Alert.AlertType.INFORMATION, elementsFound + " " + "elements found.");
+            resultsDialog.setHeaderText("Trace completed successfully.");
+            resultsDialog.setTitle("Trace Complete");
+            resultsDialog.show();
 
           } else {
             new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();

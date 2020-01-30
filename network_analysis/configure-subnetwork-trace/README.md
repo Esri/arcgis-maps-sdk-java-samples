@@ -33,10 +33,13 @@ Example barrier conditions for the default dataset:
 
 ## Relevant API
 
+* CodedValueDomain
 * UtilityAssetGroup
 * UtilityAssetType
 * UtilityAttributeComparisonOperator
+* UtilityCategory
 * UtilityCategoryComparison
+* UtilityCategoryComparisonOperator
 * UtilityDomainNetwork
 * UtilityElement
 * UtilityElementTraceResult
@@ -54,6 +57,7 @@ Example barrier conditions for the default dataset:
 * UtilityTraceParameters
 * UtilityTraceResult
 * UtilityTraceType
+* UtilityTraversability
 * UtilityTraversabilityScope
 
 ## About the data

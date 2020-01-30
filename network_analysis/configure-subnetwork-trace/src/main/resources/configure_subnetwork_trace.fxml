@@ -16,13 +16,20 @@
   ~ the License.
   -->
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane stylesheets="/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.esri.samples.configure_subnetwork_trace.ConfigureSubnetworkTraceController">
 
-<StackPane stylesheets="/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esri.samples.configure_subnetwork_trace.ConfigureSubnetworkTraceController">
-
-    <VBox maxHeight="600" maxWidth="800" spacing="10" StackPane.alignment="TOP_LEFT">
+    <VBox maxHeight="600" maxWidth="800" spacing="10">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -32,9 +39,10 @@
             <CheckBox fx:id="includeContainersCheckBox" text="Include Containers"/>
         </HBox>
 
-        <HBox spacing="10">
+        <HBox alignment="CENTER_LEFT" spacing="10">
             <Label text="Define new conditions"/>
-            <ComboBox fx:id="comparisonSourcesComboBox" maxWidth="175" minWidth="175" onAction="#onComparisonSourceChanged" prefHeight="25.0" prefWidth="100.0"/>
+            <ComboBox fx:id="comparisonSourcesComboBox" maxWidth="175" minWidth="175"
+                      onAction="#onComparisonSourceChanged" prefHeight="25.0" prefWidth="100.0"/>
             <ComboBox fx:id="comparisonOperatorsComboBox" maxWidth="180" minWidth="180"/>
             <StackPane maxWidth="175" minWidth="175">
                 <ComboBox fx:id="comparisonValuesComboBox" maxWidth="175" minWidth="175"/>
@@ -43,7 +51,8 @@
             <Button maxWidth="40" minWidth="40" onAction="#onAddConditionClick" text="Add"/>
         </HBox>
 
-        <Label text="Example barrier condition for this data: 'Transformer Load' Equal '15'"/>
+        <Label styleClass="example-label"
+               text="Example barrier condition for this data: 'Transformer Load' Equal '15'"/>
 
         <HBox spacing="10">
             <Label text="Trace conditions:"/>
@@ -51,7 +60,8 @@
         </HBox>
 
         <HBox spacing="10">
-            <Button maxWidth="545.0" minWidth="175" onAction="#onTraceClick" prefHeight="25.0" prefWidth="545.0" text="Trace"/>
+            <Button maxWidth="545.0" minWidth="175" onAction="#onTraceClick" prefHeight="25.0" prefWidth="545.0"
+                    text="Trace"/>
             <Button maxWidth="175" minWidth="175" onAction="#onResetClick" text="Reset"/>
         </HBox>
 
