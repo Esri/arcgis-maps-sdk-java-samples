@@ -27,7 +27,7 @@
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
     <!--Controls Area-->
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="160" styleClass="panel-region" spacing="10">
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="130" styleClass="panel-region" spacing="10">
         <!--Control Panel Styling-->
         <padding>
             <Insets topRightBottomLeft="10"/>
@@ -44,10 +44,13 @@
             </Background>
         </background>
 
-        <Label text="Filter Barrier: Category exists"/>
-        <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true"/>
+        <Label text="Filter Barrier: Category exists" styleClass="title"/>
 
-        <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true"/>
+        <HBox maxWidth="300" spacing="10">
+            <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true" minWidth="250"/>
+            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true" minWidth="50"/>
+        </HBox>
+
         <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include Isolated Features"/>
         <Label fx:id="statusLabel" StackPane.alignment="CENTER" text="Loading Utility Network..."/>
     </VBox>

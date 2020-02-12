@@ -158,7 +158,7 @@ public class PerformValveIsolationTraceController {
           progressIndicator.setVisible(false);
 
           // update the status text
-          statusLabel.setText("");
+          statusLabel.setText("Utility network loaded. Ready to perform trace...");
 
         } else {
           new Alert(Alert.AlertType.ERROR, "Error loading Utility Network.").show();
