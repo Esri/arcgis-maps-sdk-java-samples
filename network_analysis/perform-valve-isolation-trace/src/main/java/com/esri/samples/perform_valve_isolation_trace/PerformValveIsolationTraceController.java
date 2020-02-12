@@ -17,10 +17,17 @@
 package com.esri.samples.perform_valve_isolation_trace;
 
 import com.esri.arcgisruntime.mapping.view.MapView;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 
 public class PerformValveIsolationTraceController {
 
-  private MapView mapView;
+  @FXML private MapView mapView;
+  @FXML private ProgressIndicator progressIndicator;
+  @FXML private ComboBox filterSelectionComboBox;
+  @FXML private Button traceButton;
+  @FXML private Label statusLabel;
+  @FXML private CheckBox includeIsolatedFeaturesCheckbox;
 
   public void initialize() {
     try {
@@ -28,6 +35,10 @@ public class PerformValveIsolationTraceController {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @FXML
+  private void handleTraceClick(){
   }
 
   /**
