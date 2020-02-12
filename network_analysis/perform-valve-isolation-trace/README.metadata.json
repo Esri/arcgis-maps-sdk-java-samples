@@ -1,0 +1,37 @@
+{
+    "category": "Network analysis",
+    "description": "Run a filtered trace to locate operable features that will isolate an area from the flow of network resources.",
+    "ignore": false,
+    "images": [
+        "PerformValveIsolationTrace.png"
+    ],
+    "keywords": [
+        "category comparison",
+        "condition barriers",
+        "isolated features",
+        "network analysis",
+        "subnetwork trace",
+        "trace configuration",
+        "trace filter",
+        "utility network"
+    ],
+    "relevant_apis": [
+        "UtilityCategory",
+        "UtilityCategoryComparison",
+        "UtilityCategoryComparisonOperator",
+        "UtilityDomainNetwork",
+        "UtilityElement",
+        "UtilityElementTraceResult",
+        "UtilityNetwork",
+        "UtilityNetworkDefinition",
+        "UtilityTraceFilter",
+        "UtilityTier",
+        "UtilityTraceParameters",
+        "UtilityTraceResult",
+        "UtilityTraceType"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/perform_valve_isolation_trace/PerformValveIsolationTraceSample.java"
+    ],
+    "title": "Perform Valve Isolation Trace"
+}
