@@ -71,7 +71,7 @@ public class PerformValveIsolationTraceController {
 
   @FXML private MapView mapView;
   @FXML private ProgressIndicator progressIndicator;
-  @FXML private ComboBox<UtilityCategory> filterSelectionComboBox;
+  @FXML private ComboBox<UtilityCategory> categorySelectionComboBox;
   @FXML private Button traceButton;
   @FXML private Label statusLabel;
   @FXML private CheckBox includeIsolatedFeaturesCheckbox;
@@ -146,7 +146,10 @@ public class PerformValveIsolationTraceController {
           startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
 
           // build the choice list for categories populated with the 'Name' property of each 'UtilityCategory' in the 'UtilityNetworkDefinition'
-          filterSelectionComboBox.getItems().addAll(networkDefinition.getCategories());
+          categorySelectionComboBox.getItems().addAll(networkDefinition.getCategories());
+          categorySelectionComboBox.getSelectionModel().select(0);
+          categorySelectionComboBox.setCellFactory(param -> new UtilityCategoryListCell());
+          categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
 
           // enable the UI
           enableButtonInteraction();
@@ -182,21 +185,21 @@ public class PerformValveIsolationTraceController {
 
       // disable the UI
       traceButton.setDisable(true);
-      filterSelectionComboBox.setDisable(true);
+      categorySelectionComboBox.setDisable(true);
 
       // get the selected utility category
-      if (filterSelectionComboBox.getSelectionModel().getSelectedItem() != null) {
-        UtilityCategory selectedCategory = filterSelectionComboBox.getSelectionModel().getSelectedItem();
+      if (categorySelectionComboBox.getSelectionModel().getSelectedItem() != null) {
+        UtilityCategory selectedCategory = categorySelectionComboBox.getSelectionModel().getSelectedItem();
         // create a category comparison for the trace
         // NOTE: UtilityNetworkAttributeComparison or UtilityCategoryComparison with Operator.DoesNotExists
         // can also be used. These conditions can be joined with either UtilityTraceOrCondition or UtilityTraceAndCondition.
         UtilityCategoryComparison categoryComparison = new UtilityCategoryComparison(selectedCategory, UtilityCategoryComparisonOperator.EXISTS);
         // set the category comparison to the barriers of the configuration's trace filter
-        traceConfiguration.getFilter().setBarriers(categoryComparison);
+//        traceConfiguration.getFilter().setBarriers(categoryComparison);
       }
 
       // set the configuration to include or leave out isolated features
-      traceConfiguration.setIncludeIsolatedFeatures(includeIsolatedFeaturesCheckbox.isSelected());
+//      traceConfiguration.setIncludeIsolatedFeatures(includeIsolatedFeaturesCheckbox.isSelected());
 
       // build parameters for the isolation trace
       UtilityTraceParameters traceParameters = new UtilityTraceParameters(UtilityTraceType.ISOLATION, Collections.singletonList(startingLocation));
@@ -273,7 +276,7 @@ public class PerformValveIsolationTraceController {
 
   private void enableButtonInteraction() {
     traceButton.setDisable(false);
-    filterSelectionComboBox.setDisable(false);
+    categorySelectionComboBox.setDisable(false);
   }
 
   /**

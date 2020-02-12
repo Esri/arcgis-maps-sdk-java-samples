@@ -44,8 +44,8 @@
             </Background>
         </background>
 
-        <Label text="FilterBarrier:"/>
-        <ComboBox fx:id="filterSelectionComboBox" promptText="Select trace type" disable="true"/>
+        <Label text="Filter Barrier: Category exists"/>
+        <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true"/>
 
         <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true"/>
         <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include Isolated Features"/>
