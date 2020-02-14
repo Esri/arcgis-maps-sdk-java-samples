@@ -15,9 +15,6 @@
         "text",
         "utility"
     ],
-    "nuget_packages": {
-        "Esri.ArcGISRuntime": "100.7.0"
-    },
     "offline_data": [],
     "relevant_apis": [
         "AnnotationLayer",
@@ -25,7 +22,7 @@
     ],
     "snippets": [
         "src/main/java/com/esri/samples/display_annotation/DisplayAnnotationSample.java",
-        "src/main/java/com/esri/samples/display_annotation/DisplayAnnotationController.java",
+        "src/main/java/com/esri/samples/display_annotation/DisplayAnnotationController.java"
     ],
     "title": "Display annotation"
 }
