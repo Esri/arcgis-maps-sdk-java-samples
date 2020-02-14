@@ -69,9 +69,12 @@ public class AddGraphicsWithSymbolsSample extends Application {
       // create a ArcGISMap with a topographic basemap
       final ArcGISMap map = new ArcGISMap(Basemap.Type.OCEANS, 56.075844, -2.681572, 13);
 
-      // create a view for the ArcGISMap and set the ArcGISMap to it
+      // set the map to be displayed in this view
       mapView = new MapView();
       mapView.setMap(map);
+
+      // add the map view to stack pane
+      stackPane.getChildren().addAll(mapView);
 
       // add the graphic overlay to the map view
       mapView.getGraphicsOverlays().add(graphicsOverlay);
