@@ -1,5 +1,5 @@
 {
-    "category": "Layers",
+    "category": "Display information",
     "description": "Display annotation from a feature service URL.",
     "formal_name": "DisplayAnnotation",
     "ignore": false,
