@@ -29,14 +29,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -46,10 +47,8 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.ColorUtil;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetGroup;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetType;
 import com.esri.arcgisruntime.utilitynetworks.UtilityCategory;
@@ -86,33 +85,19 @@ public class PerformValveIsolationTraceController {
       // create a basemap and set it to the map view
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsNightVector());
       mapView.setMap(map);
-      // set the viewpoint to a subsection of the utility network
-      mapView.setViewpointAsync(new Viewpoint(
-              new Envelope(-9815722.9878701176, 5129758.599748333, -9815208.5110788979, 5130098.2317954693,
-                      SpatialReferences.getWebMercator())));
 
       // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
-              "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
+              "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleGas/FeatureServer";
 
-      ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/115");
+      ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/3");
       FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
 
-      ServiceFeatureTable electricDeviceFeatureTable = new ServiceFeatureTable(featureServiceURL + "/100");
-      FeatureLayer electricDeviceLayer = new FeatureLayer(electricDeviceFeatureTable);
-
-      // create and apply a renderer for the electric distribution lines feature layer
-      UniqueValueRenderer.UniqueValue mediumVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Medium Voltage",
-              new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
-              Collections.singletonList(5));
-      UniqueValueRenderer.UniqueValue lowVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Low Voltage",
-              new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
-              Collections.singletonList(3));
-      distributionLineLayer.setRenderer(new UniqueValueRenderer(Collections.singletonList("ASSETGROUP"),
-              Arrays.asList(mediumVoltageValue, lowVoltageValue), "", new SimpleLineSymbol()));
+      ServiceFeatureTable deviceFeatureTable = new ServiceFeatureTable(featureServiceURL + "/0");
+      FeatureLayer deviceLayer = new FeatureLayer(deviceFeatureTable);
 
       // add the feature layers to the map
-      map.getOperationalLayers().addAll(Arrays.asList(distributionLineLayer, electricDeviceLayer));
+      map.getOperationalLayers().addAll(Arrays.asList(distributionLineLayer, deviceLayer));
 
       // create a graphics overlay for the starting location and add it to the map view
       GraphicsOverlay startingLocationGraphicsOverlay = new GraphicsOverlay();
@@ -131,34 +116,60 @@ public class PerformValveIsolationTraceController {
 
           // get a trace configuration from a tier
           UtilityNetworkDefinition networkDefinition = utilityNetwork.getDefinition();
-          UtilityDomainNetwork domainNetwork = networkDefinition.getDomainNetwork("ElectricDistribution");
-          UtilityTier tier = domainNetwork.getTier("Medium Voltage Radial");
+          UtilityDomainNetwork domainNetwork = networkDefinition.getDomainNetwork("Pipeline");
+          UtilityTier tier = domainNetwork.getTier("Pipe Distribution System");
           traceConfiguration = tier.getTraceConfiguration();
 
           // get a default starting location
-          UtilityNetworkSource networkSource = networkDefinition.getNetworkSource("Electric Distribution Device");
-          UtilityAssetGroup assetGroup = networkSource.getAssetGroup("Street Light");
-          UtilityAssetType assetType = assetGroup.getAssetType("Municipal");
-          startingLocation = utilityNetwork.createElement(assetType, UUID.fromString("925A7696-46F4-48A6-BF27-D1AEC900D63E"));
+          UtilityNetworkSource networkSource = networkDefinition.getNetworkSource("Gas Device");
+          UtilityAssetGroup assetGroup = networkSource.getAssetGroup("Meter");
+          UtilityAssetType assetType = assetGroup.getAssetType("Customer");
+          startingLocation = utilityNetwork.createElement(assetType, UUID.fromString("98A06E95-70BE-43E7-91B7-E34C9D3CB9FF"));
 
-          // create a graphic for the starting location and add it to the graphics overlay
-          Graphic startingLocationGraphic = new Graphic(new Point(-9815456.2591999993, 5129967.1691000015, SpatialReferences.getWebMercator()));
-          startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
+          // get the first feature for the starting location, and get its geometry
+          ListenableFuture<List<ArcGISFeature>> elementFeaturesFuture =
+                  utilityNetwork.fetchFeaturesForElementsAsync(Collections.singletonList(startingLocation));
 
-          // build the choice list for categories populated with the 'Name' property of each 'UtilityCategory' in the 'UtilityNetworkDefinition'
-          categorySelectionComboBox.getItems().addAll(networkDefinition.getCategories());
-          categorySelectionComboBox.getSelectionModel().select(0);
-          categorySelectionComboBox.setCellFactory(param -> new UtilityCategoryListCell());
-          categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
+          elementFeaturesFuture.addDoneListener(() -> {
+            try {
+              List<ArcGISFeature> startingLocationFeatures = elementFeaturesFuture.get();
 
-          // enable the UI
-          enableButtonInteraction();
+              if (!startingLocationFeatures.isEmpty()) {
+                Geometry startingLocationGeometry = startingLocationFeatures.get(0).getGeometry();
 
-          // hide the progress indicator
-          progressIndicator.setVisible(false);
+                if (startingLocationGeometry instanceof Point){
+                  Point startingLocationGeometryPoint = (Point) startingLocationFeatures.get(0).getGeometry();
 
-          // update the status text
-          statusLabel.setText("Utility network loaded. Ready to perform trace...");
+                // create a graphic for the starting location and add it to the graphics overlay
+                Graphic startingLocationGrahpic = new Graphic(startingLocationGeometry, startingPointSymbol);
+                startingLocationGraphicsOverlay.getGraphics().add(startingLocationGrahpic);
+
+                // set the map's viewpoint to the starting location
+                mapView.setViewpointAsync(new Viewpoint(startingLocationGeometryPoint, 3000));
+
+                // build the choice list for categories populated with the 'Name' property of each 'UtilityCategory' in the 'UtilityNetworkDefinition'
+                categorySelectionComboBox.getItems().addAll(networkDefinition.getCategories());
+                categorySelectionComboBox.getSelectionModel().select(0);
+                categorySelectionComboBox.setCellFactory(param -> new UtilityCategoryListCell());
+                categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
+
+                // enable the UI
+                enableButtonInteraction();
+
+                // hide the progress indicator
+                progressIndicator.setVisible(false);
+
+                // update the status text
+                statusLabel.setText("Utility network loaded. Ready to perform trace...");
+                }
+
+              } else {
+                new Alert(Alert.AlertType.ERROR, "Error getting starting location geometry!").show();
+              }
+            } catch (ExecutionException | InterruptedException e) {
+              new Alert(Alert.AlertType.ERROR, "Error getting starting location feature!").show();
+            }
+          });
 
         } else {
           new Alert(Alert.AlertType.ERROR, "Error loading Utility Network.").show();
