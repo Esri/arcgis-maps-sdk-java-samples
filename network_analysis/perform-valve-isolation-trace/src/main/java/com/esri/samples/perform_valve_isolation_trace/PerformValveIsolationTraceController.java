@@ -141,8 +141,8 @@ public class PerformValveIsolationTraceController {
                   Point startingLocationGeometryPoint = (Point) startingLocationFeatures.get(0).getGeometry();
 
                 // create a graphic for the starting location and add it to the graphics overlay
-                Graphic startingLocationGrahpic = new Graphic(startingLocationGeometry, startingPointSymbol);
-                startingLocationGraphicsOverlay.getGraphics().add(startingLocationGrahpic);
+                Graphic startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
+                startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
 
                 // set the map's viewpoint to the starting location
                 mapView.setViewpointAsync(new Viewpoint(startingLocationGeometryPoint, 3000));
