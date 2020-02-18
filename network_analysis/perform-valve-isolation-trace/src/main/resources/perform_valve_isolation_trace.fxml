@@ -44,7 +44,7 @@
             </Background>
         </background>
 
-        <Label text="Filter Barrier: Category exists" styleClass="title"/>
+        <Label text="Choose Category for Filter Barrier:" styleClass="title"/>
 
         <HBox maxWidth="300" spacing="10">
             <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true" minWidth="250"/>
