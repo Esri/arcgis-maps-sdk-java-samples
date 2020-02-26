@@ -1,16 +1,20 @@
 # Line of Sight Location
 
-Perform line of sight analysis in real-time.
+Perform a line of sight analysis between two points in real time.
+
+![Image of line of sight location](LineOfSightLocation.png)
+
+## Use case
+
+A line of sight analysis can be used to assess whether a view is obstructed between an observer and a target. Obstructing features could either be natural, like topography, or man-made, like buildings. Consider an events planning company wanting to commemorate a national event by lighting sequential beacons across hill summits or roof tops. To guarantee a successful event, ensuring an unobstructed line of sight between neighboring beacons would allow each beacon to be activated as intended.
 
 ## How to use the sample
 
-Click to turn on the mouse move event listener. Then move the mouse where you want the target location to be. Click again to lock the target location.
+The sample loads with a preset observer and target location, linked by a colored line. A red segment on the line means the view between observer and target is obstructed, whereas green means the view is unobstructed. 
 
-![](LineOfSightLocation.gif)
+Click to turn on the mouse move event listener, then move the mouse to update the target location in real time. Click again to lock the target location.
 
 ## How it works
-
-To create a line of sight and update it with the mouse:
 
 1. Create an `AnalysisOverlay` and add it to the scene view.
 2. Create a `LocationLineOfSight` with initial observer and target locations and add it to the analysis overlay.
@@ -19,10 +23,10 @@ To create a line of sight and update it with the mouse:
 
 ## Relevant API
 
-* 3D
 * AnalysisOverlay
-* ArcGISTiledElevationSource
-* ArcGISScene
-* Camera
 * LocationLineOfSight
 * SceneView
+
+## Tags
+
+3D, line of sight, visibility, visibility analysis
