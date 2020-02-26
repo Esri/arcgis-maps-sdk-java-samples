@@ -1,4 +1,4 @@
-# Viewshed GeoElement
+# Viewshed geoelement
 
 Analyze the viewshed for an object (GeoElement) in a scene.
 

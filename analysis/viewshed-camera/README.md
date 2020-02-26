@@ -1,4 +1,4 @@
-# Viewshed Camera
+# Viewshed camera
 
 Analyze the viewshed for a camera. A viewshed shows the visible and obstructed areas from an observer's vantage point. 
 
