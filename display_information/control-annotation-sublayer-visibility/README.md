@@ -1,22 +1,32 @@
 # Control annotation sublayer visibility
 
-Change the visibility of annotation sublayers.
+Use annotation sublayers to gain finer control of annotation layer subtypes.
 
 ![Control annotation sublayer visibility sample](ControlAnnotationSublayerVisibility.png)
 
 ## Use case
 
-An annotation layer for water utilities may contain sublayers for water mains, pipes, and valves. One might turn off the visibility of water main and pipe sublayers to make the valves easier to identify.
+Annotation, which differs from labels by having a fixed place and size, is typically only relevant at particular scales. Annotation sublayers allow for finer control of annotation by allowing properties (like visibility in the map and legend) to be set and others to be read (like name) on subtypes of an annotation layer.
+
+An annotation dataset which marks valves as "Opened" or "Closed", might be set to display the "Closed" valves over a broader range of scales than the "Opened" valves, if the "Closed" data is considered more relevant by the map's author. Regardless, the user can be given a manual option to set visibility of annotation sublayers on and off, if required.
 
 ## How to use the sample
 
-Zoom in to change the map's scale. The annotation sublayers were authored so that the "Open" sublayer will be visible for scales 1:500-1:2000 and the "Closed" sublayer is always visible. Use the checkboxes to toggle a sublayer's visibility.
+Start the sample and take note of the visibility of the annotation. Zoom in and out to see the annotation turn on and off based on scale ranges set on the data.
+
+Use the checkboxes to manually set "Open" and "Closed" annotation sublayers visibility to on or off.
 
 ## How it works
 
-1. Load a `MobileMapPackage` containing annotation layers.
-2. Get the `AnnotationSublayer` from the `Annotation Layer` of the mobile map package.
-3. Set the annotation sublayer's visibility as required.
+1. Load the `MobileMapPackage`.
+2. Populate checkbox text with the `AnnotationSublayer` names (including maximum and minimum scales, where relevant).
+3. Wire up the checkboxes to toggle the annotation sublayer's visibility.
+4. Add a listener for changes in map view navigation and add code to:
+
+    * Update the current scale UI element at the bottom of the screen on navigation.
+    * Set the "Open" annotation sublayer checkbox text to:
+        * Black, when the layer is drawn at the current map scale
+        * Light gray, when the layer is not drawn at the current map scale
  
 ## Relevant API
 
@@ -24,10 +34,12 @@ Zoom in to change the map's scale. The annotation sublayers were authored so tha
 * AnnotationSublayer
 * LayerContent
 
-## Additional Information
+## About the data
 
-Annotation, which differs from labels by having a fixed place and size, is typically only relevant at particular scales. Annotation sublayers allow for finer control of annotation by allowing properties (e.g. visibility in the map and legend) to be set and others to be read (e.g. name) on subtypes of an annotation layer.
+ The scale ranges were set by the map's author using ArcGIS Pro:
+* The "Open" annotation sublayer has its maximum scale set to 1:500 and its minimum scale set to 1:2000.
+* The "Closed" annotation sublayer has no minimum or maximum scales set, so will be drawn at all scales.
 
 ## Tags
 
-scale, text, utilities
+annotation, scale, text, utilities, visualization
