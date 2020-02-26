@@ -1,14 +1,16 @@
-# Format Coordinates
+# Format coordinates
 
-Write coordinates in a variety of common formats.
+Format coordinates in a variety of common notations.
 
-Convert a map location Point in WGS84 to a String in a number of different coordinate notations (and vice versa) including decimal degrees; degrees, minutes, seconds; Universal Transverse Mercator (UTM), and United States National Grid (USNG).
+## Use case
 
-![](FormatCoordinates.png)
+The coordinate formatter can format a map location in WGS84 in a number of common coordinate notations. Parsing one of these formats to a location is also supported. Formats include decimal degrees; degrees, minutes, seconds; Universal Transverse Mercator (UTM), and United States National Grid (USNG).
+
+![Images of format coordinates](FormatCoordinates.png)
 
 ## How to use the sample
 
-Click on the map to see a callout with the clicked location's coordinate formatted in 4 different ways. You can also put a coordinate string in any of these formats in the text field. Hit Enter and the coordinate string will be converted to a map location which the callout will move to.
+Click on the map to see a callout with the clicked location's coordinate formatted in 4 different ways. You can also put a coordinate string in any of these formats in the text field. Hit Enter and the coordinate string will be parsed to a map location which the callout will move to.
 
 ## How it works
 
@@ -22,9 +24,16 @@ To convert between a `Point` and different coordinate formats using the
 
 ## Relevant API
 
-* ArcGISMap
-* ArcGISTiledLayer
-* Basemap
-* Callout
 * CoordinateFormatter
-* MapView
+* CoordinateFormatter.LatitudeLongitudeFormat
+* CoordinateFormatter.UtmConversionMode
+
+## Relevant API
+
+* CoordinateFormatter
+* CoordinateFormatter.LatitudeLongitudeFormat
+* CoordinateFormatter.UtmConversionMode
+
+## Tags
+
+convert, coordinate, decimal degrees, degree minutes seconds, format, latitude, longitude, USNG, UTM
