@@ -6,12 +6,12 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.8.0-2692'
+    arcgisVersion = '100.8.0-2705'
 }
 
 javafx {
     version = "11.0.1"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.network_analysis.PerformValveIsolationTraceLauncher'
+    mainClassName = 'com.esri.samples.perform_valve_isolation_trace.PerformValveIsolationTraceLauncher'
 }
 
 jar {
