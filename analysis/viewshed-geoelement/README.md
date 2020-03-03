@@ -19,7 +19,7 @@ Click to set a destination for the vehicle (a GeoElement). The vehicle will 'dri
     * Use a `SimpleRenderer` which has a heading expression set in the `GraphicsOverlay`. This way you can relate the viewshed's heading to the `GeoElement` object's heading.
 3. Create a `GeoElementViewshed` with configuration for the viewshed analysis.
 4. Add the viewshed to an `AnalysisOverlay` and add the overlay to the scene.
-5. Configure the SceneView `CameraController` to orbit the vehicle.
+5. Configure the SceneView `OrbitGeoElementCameraController` to orbit the vehicle.
 
 ## About the data
 
