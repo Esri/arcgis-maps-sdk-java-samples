@@ -2,7 +2,7 @@
 
 Show a line of sight between two moving objects.
 
-![Image of line of sight geoelement](LineOfSightGeo.jpg)
+![Image of line of sight geoelement](LineOfSightGeoElement.gif)
 
 ## Use case
 
@@ -32,4 +32,3 @@ The taxi will be highlighted when it is visible. You can change the observer hei
 ## Tags
 
 3D, line of sight, visibility, visibility analysis
-

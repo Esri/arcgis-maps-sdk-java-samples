@@ -10,7 +10,7 @@ This tool identifies statistically significant spatial clusters of high values (
 
 ## How to use the sample
 
-Select a date range (between 1998-01-01 and 1998-05-31) from the dialog and click Analyze. The results will be shown on the map upon successful completion of the `GeoprocessingJob`.
+Select a date range (between 1998-01-01 and 1998-05-31) from the dialog and click "Analyze Hotspots". The results will be shown on the map upon successful completion of the geoprocessing job.
 
 ## How it works
 
@@ -18,7 +18,7 @@ Select a date range (between 1998-01-01 and 1998-05-31) from the dialog and clic
 1. Create a query string with the date range as an input of `GeoprocessingParameters`.
 1. Use the `GeoprocessingTask` to create a `GeoprocessingJob` with the `GeoprocessingParameters` instance.
 1. Start the `GeoprocessingJob` and wait for it to complete and return a `GeoprocessingResult`.
-1. Get the resulting `ArcGISMapImageLayer` using `GeoprocessingResult.getMapImageLayer`.
+1. Get the resulting `ArcGISMapImageLayer` using `GeoprocessingResult.getMapImageLayer()`.
 1. Add the layer to the map's operational layers.
 
 ## Relevant API

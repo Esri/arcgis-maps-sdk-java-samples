@@ -23,7 +23,6 @@ Choose a unit system for the measurement. Click any location in the scene to sta
 
 * AnalysisOverlay
 * LocationDistanceMeasurement
-* MeasurementChangedEvent
 
 ## Additional information
 
