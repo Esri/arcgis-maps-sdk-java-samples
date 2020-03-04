@@ -33,4 +33,3 @@ Run the sample and view the military symbols on the map.
 ## Tags
 
 visualization
-

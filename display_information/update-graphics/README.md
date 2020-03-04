@@ -2,9 +2,11 @@
 
 Change a graphic's symbol, attributes, and geometry.
 
-A graphic's geometry is its location on a map. The symbol controls how a graphic will be displayed to a map. And the attributes store information about the graphic in key value pairs.
+![Image of Update Graphics](UpdateGraphics.gif)
 
-![](UpdateGraphics.gif)
+## Use case
+
+A field worker may want to update a graphic's properties to adjust which real-world elements it represents in their map.
 
 ## How to use the sample
 
@@ -21,15 +23,6 @@ Update Graphic's Symbol:
 
 ## How it works
 
-How to change a `Graphic`'s symbol, attributes, and geometry:
-
-1. Create a `GraphicsOverlay` and attach it to the `MapView`.
-2. Create graphics using a `Point` and `SimpleMarkerSymbol`.
-    * point gives the x,y-coordinate location of where SimpleMarkerSymbol will be located
-3. Add two Attributes to each graphic, `Graphic.getAttributes().put()`.
-    * first attribute key NAME and value the name for that graphic
-    * second attribute key DESCRIPTION and value a description for that graphic
-4. Add graphics to the graphics overlay, `GraphicsOverlay.getGraphics().add(graphic)`.
 5. Identify graphic that user has selected using `MapView.identifyGraphicsOverlayAsync(GraphicsOverlay,Point2D, tolerance, maximumResults)`.
     * graphics overlay, the one that was created above
     * point2D, from the user mouse click
@@ -47,6 +40,10 @@ How to change a `Graphic`'s symbol, attributes, and geometry:
     * get symbol from the drop down box
     * assign that symbol to the selected graphic, `Graphic.setSymbol()`
 
+## Additional information
+
+A graphic's geometry is its location on a map. The symbol controls how a graphic will be displayed to a map. And the attributes store information about the graphic in key value pairs. 
+
 ## Relevant API
 
 * ArcGISMap
@@ -54,3 +51,7 @@ How to change a `Graphic`'s symbol, attributes, and geometry:
 * GraphicsOverlay
 * MapView
 * SimpleMarkerSymbol
+
+## Tags
+
+location, description, symbol, adjust, modify, attributes, geometry, marker

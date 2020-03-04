@@ -2,7 +2,7 @@
 
 Display coordinate system grids including Latitude/Longitude, MGRS, UTM and USNG on a map view. Also, toggle label visibility and change the color of grid lines and grid labels.
 
-![Image of display grid](display-grid.png)
+![Image of display grid](DisplayGrid.png)
 
 ## Use case
 
@@ -10,7 +10,7 @@ Grids are often used on printed maps, but can also be helpful on digital maps, t
 
 ## How to use the sample
 
-You can select the type of grid from `Grid Type` (LatLong, MGRS, UTM and USNG) and modify its properties like label visibility, grid line color, and grid label color using the controls. Click the 'Update' button to see the result.
+Use the controls to select the type of grid from `Grid Type` (LatLong, MGRS, UTM and USNG), and to modify its properties like label visibility, grid line color, and grid label color. Click the 'Update' button to see the result.
 
 
 ## How it works

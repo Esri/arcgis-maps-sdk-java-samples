@@ -1,6 +1,6 @@
 # Identify graphics
 
-Display an alert message when a graphic is clicked.
+Identify a graphic to get further information about the object.
 
 ![Image of identify graphics](IdentifyGraphics.png)
 
