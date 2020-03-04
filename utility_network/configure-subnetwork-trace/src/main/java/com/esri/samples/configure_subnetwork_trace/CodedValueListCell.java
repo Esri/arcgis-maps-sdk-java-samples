@@ -19,10 +19,9 @@ package com.esri.samples.configure_subnetwork_trace;
 import javafx.scene.control.ListCell;
 
 import com.esri.arcgisruntime.data.CodedValue;
-import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkAttribute;
 
 /**
- * Shows the name of the UtilityNetworkAttribute in the attribute selection ComboBox.
+ * Shows the name of the Coded Value in the attribute selection ComboBox.
  */
 public class CodedValueListCell extends ListCell<CodedValue> {
   @Override

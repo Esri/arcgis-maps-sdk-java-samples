@@ -145,7 +145,7 @@ public class ConfigureSubnetworkTraceController {
           traceConditionsTextArea.setText(expressionToString(initialExpression));
 
           // set the traversability scope
-          utilityTraceConfiguration().getTraversability().setScope(UtilityTraversabilityScope.JUNCTIONS);
+          utilityTraceConfiguration.getTraversability().setScope(UtilityTraversabilityScope.JUNCTIONS);
         }
       });
     } catch (Exception e) {
@@ -158,47 +158,53 @@ public class ConfigureSubnetworkTraceController {
    */
   @FXML
   private void onAddConditionClick() {
+    try {
+      // get the selected utility network attribute and attribute comparison operator
+      UtilityNetworkAttribute selectedAttribute = comparisonSourcesComboBox.getSelectionModel().getSelectedItem();
+      UtilityAttributeComparisonOperator selectedOperator =
+              comparisonOperatorsComboBox.getSelectionModel().getSelectedItem();
 
-    // get the selected utility network attribute and attribute comparison operator
-    UtilityNetworkAttribute selectedAttribute = comparisonSourcesComboBox.getSelectionModel().getSelectedItem();
-    UtilityAttributeComparisonOperator selectedOperator =
-        comparisonOperatorsComboBox.getSelectionModel().getSelectedItem();
+      // check if a comparison value was specified, and capture it to use as the last parameter of the
+      // UtilityNetworkAttributeComparison
+      // NOTE: since the type of the comparison value is dictated by the selected comparison attribute, we must store
+      // it in a generic Object variable and convert it appropriately
+      Object otherValue;
+      // if a comparison value is selected from the ComboBox, use it as the third parameter
+      if (selectedAttribute.getDomain() instanceof CodedValueDomain &&
+              comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null) {
+        // convert the selected comparison value to the data type defined by the selected attribute
+        otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
+                selectedAttribute.getDataType());
+      } else if (!comparisonValuesTextField.getText().equals("")) {
+        // otherwise, a comparison value will be specified as text input to be used as the third parameter
+        otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
+      } else {
+        new Alert(Alert.AlertType.WARNING, "No valid comparison value entered").show();
+        return;
+      }
 
-    // check if a comparison value was specified, and capture it to use as the last parameter of the
-    // UtilityNetworkAttributeComparison
-    Object otherValue;
-    // if a comparison value is selected from the ComboBox, use it as the third parameter
-    if (selectedAttribute.getDomain() instanceof CodedValueDomain &&
-        comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null) {
-      // convert the selected comparison value to the data type defined by the selected attribute
-      otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
-          selectedAttribute.getDataType());
-    } else if (!comparisonValuesTextField.getText().equals("")) {
-      // otherwise, a comparison value will be specified as text input to be used as the third parameter
-      otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
-    } else {
-      new Alert(Alert.AlertType.WARNING, "No valid comparison value entered").show();
-      return;
+      // create the utility network attribute comparison expression using the specified parameters
+      // NOTE: You may also create a UtilityNetworkAttributeComparison with another NetworkAttribute.
+      UtilityTraceConditionalExpression expression =
+              new UtilityNetworkAttributeComparison(selectedAttribute, selectedOperator, otherValue);
+
+      // check if an expression is already defined for the traversability barriers
+      if (utilityTraceConfiguration.getTraversability().getBarriers() instanceof UtilityTraceConditionalExpression) {
+        UtilityTraceConditionalExpression otherExpression =
+                (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
+        // use the existing expression to create an `or` expression with the user-defined expression
+        expression = new UtilityTraceOrCondition(otherExpression, expression);
+      }
+
+      // set the new expression to the traversability's barriers
+      utilityTraceConfiguration.getTraversability().setBarriers(expression);
+
+      // show the expression in the text area
+      traceConditionsTextArea.setText(expressionToString(expression));
+
+    } catch (Exception e) {
+      new Alert(Alert.AlertType.ERROR, "Error adding comparison value.").show();
     }
-
-    // create the utility network attribute comparison expression using the specified parameters
-    // NOTE: You may also create a UtilityNetworkAttributeComparison with another NetworkAttribute.
-    UtilityTraceConditionalExpression expression =
-        new UtilityNetworkAttributeComparison(selectedAttribute, selectedOperator, otherValue);
-
-    // check if an expression is already defined for the traversability barriers
-    if (utilityTraceConfiguration.getTraversability().getBarriers() instanceof UtilityTraceConditionalExpression) {
-      UtilityTraceConditionalExpression otherExpression =
-          (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
-      // use the existing expression to create an `or` expression with the user-defined expression
-      expression = new UtilityTraceOrCondition(otherExpression, expression);
-    }
-
-    // set the new expression to the traversability
-    utilityTraceConfiguration.getTraversability().setBarriers(expression);
-
-    // show the expression in the text area
-    traceConditionsTextArea.setText(expressionToString(expression));
   }
 
   /**
@@ -222,17 +228,19 @@ public class ConfigureSubnetworkTraceController {
     // for network attribute comparison expressions, add the network attribute name and comparison operator
     else if (expression instanceof UtilityNetworkAttributeComparison) {
       UtilityNetworkAttributeComparison attributeComparison = (UtilityNetworkAttributeComparison) expression;
+
+      UtilityNetworkAttribute utilityNetworkAttribute = attributeComparison.getNetworkAttribute();
+
       stringBuilder.append(
-          String.format("'%1$s' %2$s", attributeComparison.getNetworkAttribute().getName(),
+          String.format("'%1$s' %2$s", utilityNetworkAttribute.getName(),
               attributeComparison.getComparisonOperator().name()));
 
-      if (attributeComparison.getNetworkAttribute().getDomain() instanceof CodedValueDomain) {
-        CodedValueDomain codedValueDomain = (CodedValueDomain) attributeComparison.getNetworkAttribute().getDomain();
+      if (utilityNetworkAttribute.getDomain() instanceof CodedValueDomain) {
+        CodedValueDomain codedValueDomain = (CodedValueDomain) utilityNetworkAttribute.getDomain();
 
         if (!codedValueDomain.getCodedValues().isEmpty()) {
           // get the data type of the used network attribute comparison
-          UtilityNetworkAttribute.DataType attributeComparisonDataType =
-              attributeComparison.getNetworkAttribute().getDataType();
+          UtilityNetworkAttribute.DataType attributeComparisonDataType = utilityNetworkAttribute.getDataType();
 
           // get the coded values from the domain and find the ones where the value matches the network attribute's
           // comparison value
@@ -384,7 +392,7 @@ public class ConfigureSubnetworkTraceController {
   /**
    * Converts an object representing a value into the data type specified.
    *
-   * @param value    the value to convert
+   * @param value the value to convert
    * @param dataType the requested data type to which to convert
    * @return the converted value
    */
