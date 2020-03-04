@@ -52,6 +52,7 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceOrCondition;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceParameters;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceResult;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTraversability;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraversabilityScope;
 
 public class ConfigureSubnetworkTraceController {
@@ -70,6 +71,7 @@ public class ConfigureSubnetworkTraceController {
   private UtilityTraceConditionalExpression initialExpression;
   private UtilityTraceConfiguration initialUtilityTraceConfiguration;
   private UtilityTraceConfiguration utilityTraceConfiguration;
+  private UtilityTraversability utilityTraversability;
 
   @FXML
   public void initialize() {
@@ -145,7 +147,8 @@ public class ConfigureSubnetworkTraceController {
           traceConditionsTextArea.setText(expressionToString(initialExpression));
 
           // set the traversability scope
-          utilityTraceConfiguration.getTraversability().setScope(UtilityTraversabilityScope.JUNCTIONS);
+          utilityTraversability = utilityTraceConfiguration.getTraversability();
+          utilityTraversability.setScope(UtilityTraversabilityScope.JUNCTIONS);
         }
       });
     } catch (Exception e) {
@@ -189,15 +192,15 @@ public class ConfigureSubnetworkTraceController {
               new UtilityNetworkAttributeComparison(selectedAttribute, selectedOperator, otherValue);
 
       // check if an expression is already defined for the traversability barriers
-      if (utilityTraceConfiguration.getTraversability().getBarriers() instanceof UtilityTraceConditionalExpression) {
+      if (utilityTraversability.getBarriers() instanceof UtilityTraceConditionalExpression) {
         UtilityTraceConditionalExpression otherExpression =
-                (UtilityTraceConditionalExpression) utilityTraceConfiguration.getTraversability().getBarriers();
+                (UtilityTraceConditionalExpression) utilityTraversability.getBarriers();
         // use the existing expression to create an `or` expression with the user-defined expression
         expression = new UtilityTraceOrCondition(otherExpression, expression);
       }
 
       // set the new expression to the traversability's barriers
-      utilityTraceConfiguration.getTraversability().setBarriers(expression);
+      utilityTraversability.setBarriers(expression);
 
       // show the expression in the text area
       traceConditionsTextArea.setText(expressionToString(expression));
@@ -343,7 +346,7 @@ public class ConfigureSubnetworkTraceController {
 
     // reset the utility trace configuration and traversability to the state at application start
     utilityTraceConfiguration = initialUtilityTraceConfiguration;
-    utilityTraceConfiguration.getTraversability().setBarriers(initialExpression);
+    utilityTraversability.setBarriers(initialExpression);
 
     // show the configuration expression from the application start in the text area
     traceConditionsTextArea.setText(expressionToString(initialExpression));
