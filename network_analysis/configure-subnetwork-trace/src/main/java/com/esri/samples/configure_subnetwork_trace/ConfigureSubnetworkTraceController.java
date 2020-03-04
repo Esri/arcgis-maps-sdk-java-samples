@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Esri.
+ * Copyright 2020 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -145,7 +145,7 @@ public class ConfigureSubnetworkTraceController {
           traceConditionsTextArea.setText(expressionToString(initialExpression));
 
           // set the traversability scope
-          utilityTier.getTraceConfiguration().getTraversability().setScope(UtilityTraversabilityScope.JUNCTIONS);
+          utilityTraceConfiguration().getTraversability().setScope(UtilityTraversabilityScope.JUNCTIONS);
         }
       });
     } catch (Exception e) {
