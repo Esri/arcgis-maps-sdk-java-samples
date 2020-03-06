@@ -14,7 +14,7 @@ Pan and zoom to see names of waters and burns in a small region of Scotland.
 
 ## How it works
 
-1. Create a `Map` with a light gray canvas and a viewpoint near the data.
+1. Create an `ArcGISMap` with a light gray canvas and a viewpoint near the data.
 2. Create an `AnnotationLayer` from a feature service URL.
 3. Add both layers to the operational layers of the map and add it to a `MapView`.
 
