@@ -66,7 +66,7 @@ public class DisplayAnnotationSample extends Application {
             map.getOperationalLayers().add(annotationLayer);
 
             // add the map view to stack pane
-            stackPane.getChildren().addAll(mapView);
+            stackPane.getChildren().add(mapView);
         } catch (Exception e) {
             e.printStackTrace();
         }
