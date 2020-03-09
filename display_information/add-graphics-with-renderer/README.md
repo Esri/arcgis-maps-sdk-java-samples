@@ -17,8 +17,8 @@ Run the sample and view graphics for points, lines, and polygons, which are styl
 1 Create a `GraphicsOverlay` and add it to the `MapView`.
 2 Create a `Graphic`, specifying only a `Geometry`.
 3 Create a single `Symbol` such as a `SimpleMarkerSymbol`.
-4 Create a renderer with the `Symbol` such as new `SimpleRenderer(symbol)`.
-5 Set the renderer on the `GraphicsOverlay` with `graphicsOverlay.setRenderer(renderer)`.
+4 Create a renderer with the symbol, such as `new SimpleRenderer(symbol)`.
+5 Set the renderer on the graphics overlay with `graphicsOverlay.setRenderer(renderer)`.
 
 ## Relevant API
 
