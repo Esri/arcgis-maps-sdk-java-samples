@@ -1,6 +1,6 @@
 # Show callout
 
-Show a callout with the latitude and longitude of user-tapped points.
+Show a callout with the latitude and longitude of user-clicked points.
 
 ![Image of show callout](ShowCallout.png)
 
@@ -30,4 +30,4 @@ Click anywhere on the map. A callout showing the WGS84 coordinates for the click
 
 ## Tags
 
-balloon, bubble, callout, flyout, flyover, info window, popup, tap
+balloon, bubble, callout, click, flyout, flyover, info window, popup
