@@ -260,7 +260,13 @@ public class PerformValveIsolationTraceController {
                   });
                 }
               });
+
+            } else {
+              statusLabel.setText("Isolation trace completed.");
+              new Alert(Alert.AlertType.INFORMATION, "Isolation trace returned no elements.").show();
+              enableUI();
             }
+
           } else {
             statusLabel.setText("Trace failed.");
             new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
