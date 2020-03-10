@@ -24,7 +24,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.paint.Color;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -62,6 +61,7 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkDefinition;
 import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkSource;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTier;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceConfiguration;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTraceFilter;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceParameters;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceResult;
 import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
@@ -120,6 +120,9 @@ public class PerformValveIsolationTraceController {
           UtilityTier tier = domainNetwork.getTier("Pipe Distribution System");
           traceConfiguration = tier.getTraceConfiguration();
 
+          // create a trace filter
+          traceConfiguration.setFilter(new UtilityTraceFilter());
+
           // get a default starting location
           UtilityNetworkSource networkSource = networkDefinition.getNetworkSource("Gas Device");
           UtilityAssetGroup assetGroup = networkSource.getAssetGroup("Meter");
@@ -154,7 +157,7 @@ public class PerformValveIsolationTraceController {
                 categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
 
                 // enable the UI
-                enableButtonInteraction();
+                enableUI();
 
                 // hide the progress indicator
                 progressIndicator.setVisible(false);
@@ -192,11 +195,12 @@ public class PerformValveIsolationTraceController {
 
       // show the progress indicator and update the status text
       progressIndicator.setVisible(true);
-      statusLabel.setText("Running trace trace...");
+      statusLabel.setText("Running isolation trace...");
 
       // disable the UI
       traceButton.setDisable(true);
       categorySelectionComboBox.setDisable(true);
+      includeIsolatedFeaturesCheckbox.setDisable(true);
 
       // get the selected utility category
       if (categorySelectionComboBox.getSelectionModel().getSelectedItem() != null) {
@@ -206,11 +210,11 @@ public class PerformValveIsolationTraceController {
         // can also be used. These conditions can be joined with either UtilityTraceOrCondition or UtilityTraceAndCondition.
         UtilityCategoryComparison categoryComparison = new UtilityCategoryComparison(selectedCategory, UtilityCategoryComparisonOperator.EXISTS);
         // set the category comparison to the barriers of the configuration's trace filter
-//        traceConfiguration.getFilter().setBarriers(categoryComparison);
+        traceConfiguration.getFilter().setBarriers(categoryComparison);
       }
 
       // set the configuration to include or leave out isolated features
-//      traceConfiguration.setIncludeIsolatedFeatures(includeIsolatedFeaturesCheckbox.isSelected());
+      traceConfiguration.setIncludeIsolatedFeatures(includeIsolatedFeaturesCheckbox.isSelected());
 
       // build parameters for the isolation trace
       UtilityTraceParameters traceParameters = new UtilityTraceParameters(UtilityTraceType.ISOLATION, Collections.singletonList(startingLocation));
@@ -251,43 +255,39 @@ public class PerformValveIsolationTraceController {
                   // wait for the selection to finish
                   featureQueryResultListenableFuture.addDoneListener(() -> {
                     // update the status text, enable the buttons and hide the progress indicator
-                    statusLabel.setText("Trace completed.");
-                    enableButtonInteraction();
-                    progressIndicator.setVisible(false);
-                    enableButtonInteraction();
+                    statusLabel.setText("Isolation trace completed.");
+                    enableUI();
                   });
                 }
               });
             }
           } else {
             statusLabel.setText("Trace failed.");
-            progressIndicator.setVisible(false);
             new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
-            enableButtonInteraction();
+            enableUI();
           }
 
         } catch (Exception e) {
           statusLabel.setText("Trace failed.");
-          progressIndicator.setVisible(false);
-          // Note: this sample server may return a generic message in some circumstances when incompatible trace
-          // parameters are specified
-          if (e.getMessage().contains("-2147208935")) {
-            new Alert(Alert.AlertType.ERROR, "Cannot run trace with the provided parameters.").show();
-          } else {
-            new Alert(Alert.AlertType.ERROR, "Error running utility network trace.").show();
-          }
-          enableButtonInteraction();
+          new Alert(Alert.AlertType.ERROR, "Error getting isolation trace result.").show();
+          enableUI();
         }
       });
 
     } catch (Exception e) {
-      new Alert(Alert.AlertType.ERROR, "Error performing valve isolation trace.").show();
+      new Alert(Alert.AlertType.ERROR, "Error performing isolation trace.").show();
+      enableUI();
     }
   }
 
-  private void enableButtonInteraction() {
+  /**
+   * Enables the UI and hides the progress indicator.
+   */
+  private void enableUI() {
+    progressIndicator.setVisible(false);
     traceButton.setDisable(false);
     categorySelectionComboBox.setDisable(false);
+    includeIsolatedFeaturesCheckbox.setDisable(false);
   }
 
   /**
