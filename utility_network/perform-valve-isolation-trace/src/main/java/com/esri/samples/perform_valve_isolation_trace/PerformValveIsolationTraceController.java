@@ -167,10 +167,10 @@ public class PerformValveIsolationTraceController {
                 }
 
               } else {
-                new Alert(Alert.AlertType.ERROR, "Error getting starting location geometry!").show();
+                new Alert(Alert.AlertType.ERROR, "Error getting starting location geometry.").show();
               }
             } catch (ExecutionException | InterruptedException e) {
-              new Alert(Alert.AlertType.ERROR, "Error getting starting location feature!").show();
+              new Alert(Alert.AlertType.ERROR, "Error getting starting location feature.").show();
             }
           });
 
@@ -269,7 +269,7 @@ public class PerformValveIsolationTraceController {
 
           } else {
             statusLabel.setText("Trace failed.");
-            new Alert(Alert.AlertType.ERROR, "Trace result not a utility element.").show();
+            new Alert(Alert.AlertType.ERROR, "Isolation trace result is not a utility element.").show();
             enableUI();
           }
 
