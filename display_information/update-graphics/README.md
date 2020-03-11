@@ -24,7 +24,7 @@ Update Graphic's Symbol:
 ## How it works
 
 1. Capture clicks on the `MapView` by using `.setOnMouseClicked()`. Then use the event to create a `Point` from the clicked location. 
-2. Identify graphic that user has selected using `MapView.identifyGraphicsOverlayAsync(graphicsOverlay, pointClicked, tolerance, max results)`.
+2. Identify the clicked graphics using `MapView.identifyGraphicsOverlayAsync(graphicsOverlay, pointClicked, tolerance, max results)`.
 3. To select a clicked graphics, iterate through the list of graphics returned by the identification method, and set each graphic's selection property to `true`.
 4. To update graphic's location, create a new `Point` from the user's clicked point, and use `Graphic.setGeometry(point)` to modify the graphic's geometry.
 5. To update a graphic's attribute, get the attributes of the selected graphic and set the `DESCRIPTION` key with the desired string value.
