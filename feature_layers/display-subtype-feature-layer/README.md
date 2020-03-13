@@ -1,28 +1,26 @@
-# Display a subtype feature layer
+# Display subtype feature layer
 
-Display a composite layer of all the subtype values in a feature class.
+Displays a composite layer of all the subtype values in a feature class.
 
-![](DisplaySubtypeFeatureLayer.png)
+![Image of display subtype feature layer](DisplaySubtypeFeatureLayer.png)
 
 ## Use case
 
-This is useful for controlling labeling, visibility, and symbology of a given subtype as though they are distinct
- layers on the map.
+This is useful for controlling labeling, visibility and symbology of a given subtype as though they are distinct layers on the map.
 
 ## How to use the sample
 
-The sample loads with the sublayer visible on the map. Toggle its visibility by clicking the "Show sublayer
-" checkbox. Toggle between the sublayer's original renderer and an alternate renderer using the radio buttons. Click the
- "Set sublayer minimum scale" button to set the sublayer's minimum scale to the current map scale.
+The sample loads with the sublayer visible on the map. Toggle its visibility with the "Show sublayer" checkbox. Change the sublayer's renderer with the radio buttons, using "Show original renderer" or "Show alternative renderer", and set its minimum scale using the "Set sublayer minimum scale" button. This will set the sublayer's minimum scale to that of the current map scale. Zoom in and out to see the sublayer become visible based on its new scale range.
 
 ## How it works
-1. Create a `SubtypeFeatureLayer` from a `ServiceFeatureTable` that defines a subtype, and add it to the `ArcGISMap`.
-2. Get a `SubtypeSublayer` from the subtype feature layer using its name.
-3. Enable the sublayer's labels and define them with `getLabelDefinitions()`.
-4. Set the sublayer's visibility with `setVisible()`.
-5. Change the sublayer's renderer/symbology with `setRenderer()`.
-6. Update the sublayer's minimum scale value with `setMinScale()`.
 
+1. Create a `SubtypeFeatureLayer` from a `ServiceFeatureTable` that defines a subtype, and add it to the `ArcGISMap`.
+2. Get a `SubtypeSublayer` from the subtype feature using its name.
+3. Enable the sublayer's labels and define them with `LabelDefinitions`.
+4. Set the visibility status using this sublayer's `IsVisible` property.
+5. Change the sublayer's symbology with `.setRenderer(Renderer)`.
+6. Update the sublayer's minimum scale value with `.setMinScale()`.
+ 
 ## Relevant API
 
 * LabelDefinition

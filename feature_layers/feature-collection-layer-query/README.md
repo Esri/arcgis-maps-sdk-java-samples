@@ -1,18 +1,24 @@
-# Feature Collection Layer Query
+# Feature collection layer query
 
-Create a feature collection layer which shows the result of a SQL query from a service feature table.
+Create a feature collection layer to show a query result from a service feature table.
 
-![](FeatureCollectionLayerQuery.png)
+![Image of feature collection layer](FeatureCollectionLayerQuery.png)
+
+## Use case
+
+Consider a national wireless telecommunications company who wants to improve connectivity within areas of poor coverage. Their cell towers, cell tower radii and state boundaries data are held within service feature tables, which can be queried for states that don't meet a certain threshold of coverage. The query result can be used to create and display a single feature collection layer for analysis of areas requiring improved coverage.
+
+## How to use the sample
+
+When launched, this sample displays a map with point features as a feature collection layer. Pan and zoom to explore the map.
 
 ## How it works
 
-1. Create a `ServiceFeatureTable` object from a URL, and store it as a `FeatureTable` object.
-2. Create a `QueryParameters` object and specify the where clause with `QueryParameters.setWhereClause()`.
-3. Query the features stored in the feature table with `FeatureTable.queryFeaturesAsync(query)`.
-4. Once complete, instantiate a `FeatureCollectionTable` with the results of the query from the `FeatureQueryResult` object.
-5. Create a `FeatureCollection` object, and add the feature collection table to it.
-6. Create a `FeatureCollectionLayer` object from the feature collection.
-7. Display the layer by adding it to the map's operational layers with `mapView.getMap().getOperationalLayers().add(featureCollectionLayer)`.
+1. Perform a query using the `.queryFeatures()` method on a `ServiceFeatureTable`.
+2. Instantiate a `FeatureCollectionTable` with the result of the query.
+3. Create a `FeatureCollection` and add the feature collection table to it.
+4. Create a `FeatureCollectionLayer` from the feature collection.
+5. Add the feature collection layer to the map's `operationalLayers` list.
 
 ## Relevant API
 
@@ -20,11 +26,15 @@ Create a feature collection layer which shows the result of a SQL query from a s
 * FeatureCollectionLayer
 * FeatureCollectionTable
 * FeatureLayer
-* FeatureTable
 * FeatureQueryResult
+* FeatureTable
 * QueryParameters
 * ServiceFeatureTable
 
+## About the data
+
+This application utilizes data from the wildfire feature service. It loads at full extent with features indicating wildfire response point features across the world.
+
 ## Tags
 
-FeatureQueryResult, FeatureCollection, FeatureCollectionLayer, FeatureCollectionTable, query
+layer, query, search, table
