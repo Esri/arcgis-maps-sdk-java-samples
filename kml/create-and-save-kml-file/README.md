@@ -2,12 +2,11 @@
 
 Construct a KML document and save it as a KMZ file.
 
-![Create And Save KML File Sample](CreateAndSaveKMLFile.png)
+![Image of create and save KML file](CreateAndSaveKmlFile.png)
 
 ## Use case
 
-KML is a useful format for creating and saving data without using a service or database. A KML document can be
- serialized to a KMZ file for sharing and reading in other applications, such as ArcGIS Earth or Google Earth.
+If you need to create and save data on the fly, you can use KML to create points, lines, and polygons by sketching on the map, customizing the style, and serializing them as KML nodes in a KML Document. Once complete, you can share the KML data with others that are using a KML reading application, such as ArcGIS Earth.
 
 ## How to use the sample
 
