@@ -1,33 +1,35 @@
-# Statistical Query
+# Statistical query
 
-Get aggregated feature statistics for a specified field.
+Query a table to get aggregated statistics back for a specific field.
 
-![](StatisticalQuery.png)
+![Image of statistical query](StatisticalQuery.jpg)
+
+## Use case
+
+For example, a county boundaries table with population information can be queried to return aggregated results for total, average, maximum, and minimum population, rather than downloading the values for every county and calculating statistics manually.
 
 ## How to use the sample
 
-Check the boxes for the filters you want to use in the query (a spatial filter and an attribute filter). Click
-the "Get Statistics" button to execute the query. A dialog will open with the statistics result.
+Pan and zoom to define the extent for the query. Use the 'Cities in current extent' checkbox to control whether the query only includes features in the visible extent. Use the 'Cities grater than 5M' checkbox to filter the results to only those cities with a population greater than 5 million people. Click 'Get statistics' to perform the query. The query will return population-based statistics from the combined results of all features matching the query criteria.
 
 ## How it works
 
-To query statistics on a `FeatureTable` field:
-
-1. Create a `ServiceFeatureTable` from a URL.
-2. Create a list of `StatisticDefinition`s specifying which field to query against, the aggregate type, and an optional alias.
-3. Create `StatisticsQueryParameters` passing in the definitions. You can also use the setters to specify an area for the query (geometry) or a custom where clause.
-4. Call `featureTable.queryStatisticsAsync(queryParameters)` to make the query.
-5. Get the `StatisticsQueryResult` from the `ListenableFuture`. To see the stastics, iterate through `statisticsQueryResult.iterator()` to get the `StatisticRecord`s.
-6. The map of statistics can be retreived with `record.getStatistics()` for printing or showing in a list view.
+1. Create a `ServiceFeatureTable` with a URL to the feature service.
+2. Create `StatisticsQueryParameters`, and `StatisticDefinition` objects, and add to the parameters.
+3. Execute `queryStatistics()` on the `ServiceFeatureTable`. Depending on the state of the two checkboxes, additional parameters are set.
+4. Display each `StatisticRecord` in the first returned `QueryStatisticsResult`.
 
 ## Relevant API
 
-* ArcGISMap
-* FeatureLayer
 * QueryParameters
 * ServiceFeatureTable
 * StatisticDefinition
 * StatisticRecord
-* StatisticType
 * StatisticsQueryParameters
 * StatisticsQueryResult
+* StatisticType
+
+## Tags
+
+analysis, average, bounding geometry, filter, intersect, maximum, mean, minimum, query, spatial query, standard deviation, statistics, sum, variance
+

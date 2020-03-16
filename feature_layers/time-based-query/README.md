@@ -1,29 +1,37 @@
-# Time Based Query
+# Time-based query
 
-Filter features within a time range.
+Query data using a time extent. 
 
-![](TimeBasedQuery.png)
+![Image of time-based query](TimeBasedQuery.png)
+
+## Use case
+
+This workflow can be used to return records that are between a specified start and end date. For example, records of Canada goose sightings over time could be queried to only show sightings during the winter migration time period.
+
+## How to use the sample
+
+Run the sample, and a subset of records will be displayed on the map.
 
 ## How it works
 
-To query features by a time extent:
-
-1. Create a `ServiceFeatureTable` from the URL of a feature service.
-2. Set the feature table's feature request mode to manual with `featureTable.setFeatureRequestMode(MANUAL_CACHE)`.
-3. After loading the service feature table, create `QueryParameters`.
-4. Create two `Calendar` objects with the beginning and ending timestamps and create a `TimeExtent` with them.
-5. Set the time extent with `queryParameters.setTimeExtent(timeExtent)`
-6. Populate the table with features in the time extent with `featureTable.popuateFromServiceAsync(queryParameters, true, outputFields)`.
-    * The second argument is whether to clear the cache of features or not.
-    * The output fields is a list of fields of the features to return. Use a list of one string `"*"` to get all of the fields.
-7. Finally, create a feature layer from the feature table with `new FeatureLayer(featureTable)`, and add it to the map with `map.getOperationalLayers().add(featureLayer)` to see the features in the time extent.
+1. An instance of `ServiceFeatureTable` is created by passing a URL to the REST endpoint of a time-enabled service. Time-enabled services will have TimeInfo defined in the service description. This information is specified in ArcMap or ArcGIS Pro prior to publishing the service.
+2. The feature request mode of the `ServiceFeatureTable` is set to `ManualCache`, so that the developer can control how and when the feature table is populated with data.
+3. A `FeatureLayer` is created by passing in the instance of the `ServiceFeatureTable`.
+4. A `TimeExtent` object is created by specifying start and end date/time objects.
+5. A `QueryParmaters` object is created with the `TimeExtent`.
+6. `ServiceFeatureTable.populateFromServiceAsync()` is executed by passing in the `QueryParameters`.
+7. The feature table is populated with data that matches the provided query.
 
 ## Relevant API
 
-* ArcGISMap
-* Basemap
-* FeatureLayer
-* MapView
 * QueryParameters
 * ServiceFeatureTable
 * TimeExtent
+
+## About the data
+
+This sample uses Atlantic hurricane data from the year 2000. The data is from the National Hurricane Center (NOAA / National Weather Service).
+
+## Tags
+
+query, time, time Extent
