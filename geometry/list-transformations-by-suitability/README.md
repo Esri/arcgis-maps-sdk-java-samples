@@ -1,35 +1,38 @@
-# List Transformations By Suitability
+# List transformations by suitability
 
-Find transformations to other spatial references suitable to the point's location.
+Get a list of suitable transformations for projecting a geometry between two spatial references with different horizontal datums.
 
-Demonstrates how to use the TransformationCatalog to get a list of available DatumTransformations that can be used to project a Geometry between two different SpatialReferences.
+![Image of list transformations by suitability](ListTransformationsBySuitability.png)
 
-Transformations (sometimes known as datum or geographic transformations) are used when projecting data from one spatial reference to another, when there is a difference in the underlying datum of the spatial references. Transformations can be mathematically defined by specific equations (equation-based transformations), or may rely on external supporting files (grid-based transformations). Choosing the most appropriate transformation for a situation can ensure the best possible accuracy for this operation. Some users familiar with transformations may wish to control which transformation is used in an operation.
+## Use case
 
-![](ListTransformationsBySuitability.png)
+Transformations (sometimes known as datum or geographic transformations) are used when projecting data from one spatial reference to another when there is a difference in the underlying datum of the spatial references. Transformations can be mathematically defined by specific equations (equation-based transformations), or may rely on external supporting files (grid-based transformations). Choosing the most appropriate transformation for a situation can ensure the best possible accuracy for this operation. Some users familiar with transformations may wish to control which transformation is used in an operation.
 
 ## How to use the sample
 
-The list displays all suitable tranformations between the graphic and the map. Once the transform button is clicked a new red graphic will appear showing where the original graphic would be placed if transformation was applied.
+Select a transformation from the list and click 'Transform' to see the result of projecting the point from EPSG:27700 to EPSG:3857 using that transformation. The result is shown as a red cross; you can visually compare the original blue point with the projected red cross. 
 
-Order by extent suitability, if checked, will find suitable transformations within the map's visible area. If not checked, will find suitable transformations using the whole map.
+Select 'Consider current extent' to limit the transformations that are appropriate for the current extent.
+
+If the selected transformation is not usable (has missing grid files) then an error is displayed.
 
 ## How it works
 
-To get suitable transformations from one spatial reference to another:
-
-1. Use `TransformationCatalog.getTransformationsBySuitability(inputSR, outputSR)` for transformations based on the map's spatial reference OR `TransformationCatalog.getTransformationsBySuitability(inputSR,outputSR, mapView.getCurrentVisibileArea().getExtent())` for transformations suitable to the current extent.
-2. Pick one of the `DatumTransformation`s returned. Use `GeometryEngine.project(inputGeometry,outputSR, datumTransformation)` to get the transformed geometry.
+1. Pass the input and output spatial references to `TransformationCatalog.getTransformationsBySuitability()` for transformations based on the map's spatial reference OR additionally provide an extent argument to only return transformations suitable to the extent. This returns a list of ranked transformations.
+2. Use one of the `DatumTransformation` objects returned to project the input geometry to the output spatial reference.
 
 ## Relevant API
 
-* ArcGISMap
-* Basemap
 * DatumTransformation
+* GeographicTransformation
+* GeographicTransformationStep
 * GeometryEngine
-* Graphic
-* GraphicsOverlay
-* Point
-* SimpleMarkerSymbol
-* SpatialReference
-. TransformationCatalog
+* TransformationCatalog
+
+## About the data
+
+The map starts out zoomed into the grounds of the Royal Observatory, Greenwich. The initial point is in the [British National Grid](https://epsg.io/27700) spatial reference, which was created by the United Kingdom Ordnance Survey. The spatial reference after projection is in [web mercator](https://epsg.io/3857).
+
+## Tags
+
+datum, geodesy, projection, spatial reference, transformation
