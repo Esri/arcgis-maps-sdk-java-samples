@@ -1,21 +1,23 @@
-# List KML Contents
+# List KML contents
 
-Show KML nodes in their nested hierarchy.
+List the contents of a KML file.
 
-![](ListKMLContents.png)
+![Image of list KML contents](ListKMLContents.png)
+
+## Use case
+
+KML files can contain a hierarchy of features, including network links to other KML content. A user may wish to traverse through the contents of KML nodes to know what data is contained within each node and, recursively, their children.
 
 ## How to use the sample
 
-When the scene and KML layer loads, the KML node tree will be shown in the tree view. Click on a node to zoom to its extent (if it has one).
+The contents of the KML file are shown in a tree. Select a node to zoom to that node. Not all nodes can be zoomed to (e.g. screen overlays).
 
 ## How it works
 
-To list the nodes in a KML file:
-
-1. Create a `KmlDataset` pointing to the KML file.
-2. Start with a list of the rood nodes with `kmlDataset.getRootNodes()`.
-3. For each node, check if it is a `KmlContainer` or `KmlNetworkLink`. These types can have child nodes. If it is one of these, cast to the appropriate type and call `getChildNodes()`.
-4. Recursively search these child nodes for more nodes.
+1. Add the KML file to the scene as a layer.
+2. Explore the root nodes of the `KmlDataset` recursively explored to create a view model.
+  * Each node is enabled for display at this step. KML files may include nodes that are turned off by default.
+3. When a node is selected, use the node's `Extent` to determine a viewpoint and set the `SceneView` object's viewpoint do it.
 
 ## Relevant API
 
@@ -30,10 +32,6 @@ To list the nodes in a KML file:
 * KmlPlacemark
 * KmlScreenOverlay
 
-## About the data
-
-This is an example KML file meant to demonstrate how Runtime supports several common features.
-
 ## Tags
 
-KML, KMZ, OGC, Keyhole
+Keyhole, KML, KMZ, layers, OGC

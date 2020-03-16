@@ -1,42 +1,43 @@
-# Play a KML Tour
+# Play KML Tour
 
 Play tours in KML files.
 
-![](PlayAKMLTour.png)
+![Image of play KML tour](PlayAKMLTour.png)
 
 ## Use case
 
-KML, the file format used by Google Earth, supports creating tours, which can control the viewpoint of the scene, hide and show content, and play audio. Tours allow you to easily share tours of geographic locations, which can be augmented with rich multimedia.
+KML, the file format used by Google Earth, supports creating tours, which can control the viewpoint of the scene, hide and show content, and play audio. Tours allow you to easily share tours of geographic locations, which can be augmented with rich multimedia. Runtime allows you to consume these tours using a simple API.
 
 ## How to use the sample
 
-Click the play button to start the tour. The narration audio will start and then the viewpoint will animate. Press the button again to pause the tour.
-
-To start again from the beginning, click the reset button to reset the tour. Then press play.
+The sample will load the KMZ file from ArcGIS Online. When a tour is found, the _Play_ button will be enabled. Use _Play_ and _Pause_ to control the tour. When you're ready to show the tour, use the reset button to return the tour to the unplayed state.
 
 ## How it works
 
-1. Create a `KmlDataset` with the path to a local KML file with a KML tour.
-2. Create and load a `KmlLayer` with the dataset.
-3. When the layer has loaded, search its `KmlNode`s by recursing through `kmlLayer.getRootNodes()` to find a `KmlTour` node.
-4. Create a `KmlTourController` and set the tour with `kmlTourController.setTour(kmlTour)`.
-5. Use `kmltourController.play()`, `kmltourController.pause()`, and `kmltourController.reset()` to control the tour.
+1. Load the KML file and add it to a layer.
+2. Create the KML tour controller. Wire up the buttons to the `Play`, `Pause`, and `Reset` methods.
+3. Explore the tree of KML content to find the first KML tour. Once a tour is found, provide it to the KML tour controller.
+4. Enable the buttons to allow the user to play, pause, and reset the tour.
 
 ## Relevant API
 
-* KmlDataset
 * KmlTour
+* KmlTour.PropertyChanged
+* KmlTour.TourStatus
 * KmlTourController
-* KmlTourStatus
+* KmlTourController.Pause()
+* KmlTourController.Play()
+* KmlTourController.Reset()
+* KmlTourController.Tour
 
 ## About the data
 
-This sample uses a custom tour of Esri's offices created by a member of the ArcGIS Runtime SDK samples team. Contains audio.
+This sample uses a custom tour created by a member of the ArcGIS Runtime SDK samples team. When you play the tour, you'll see a narrated journey through some of Esri's offices.
 
 ## Additional information
 
-See [Google's documentation](https://developers.google.com/kml/documentation/touring) for information about authoring KML tours.
+See [Touring in KML](https://developers.google.com/kml/documentation/touring) in *Keyhole Markup Language* for more information.
 
 ## Tags
 
-KML, tour, story, interactive, narration, play, pause, animation
+animation, interactive, KML, narration, pause, play, story, tour
