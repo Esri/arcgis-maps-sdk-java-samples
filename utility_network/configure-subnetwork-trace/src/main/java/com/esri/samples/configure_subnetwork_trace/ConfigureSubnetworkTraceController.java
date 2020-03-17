@@ -395,26 +395,26 @@ public class ConfigureSubnetworkTraceController {
   /**
    * Converts the data type of a provided Object into the data type specified through a UtilityNetworkAttribute.DataType.
    *
-   * @param value the Object of which to convert the data type
+   * @param object the Object of which to convert the data type
    * @param dataType the requested data type to which to convert
    * @return the Object with a converted data type
    */
-  private Object convertObjectDataType(Object value, UtilityNetworkAttribute.DataType dataType) {
+  private Object convertObjectDataType(Object object, UtilityNetworkAttribute.DataType dataType) {
 
     Object converted = null;
 
     switch (dataType) {
       case BOOLEAN:
-        converted = Boolean.valueOf(value.toString());
+        converted = Boolean.valueOf(object.toString());
         break;
       case DOUBLE:
-        converted = Double.valueOf(value.toString());
+        converted = Double.valueOf(object.toString());
         break;
       case FLOAT:
-        converted = Float.valueOf(value.toString());
+        converted = Float.valueOf(object.toString());
         break;
       case INTEGER:
-        converted = Integer.parseInt(value.toString());
+        converted = Integer.parseInt(object.toString());
         break;
     }
 
