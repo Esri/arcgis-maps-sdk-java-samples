@@ -32,6 +32,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.CodedValue;
 import com.esri.arcgisruntime.data.CodedValueDomain;
 import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetGroup;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetType;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAttributeComparisonOperator;
@@ -62,6 +63,7 @@ public class ConfigureSubnetworkTraceController {
   @FXML private ComboBox<CodedValue> comparisonValuesComboBox;
   @FXML private ComboBox<UtilityAttributeComparisonOperator> comparisonOperatorsComboBox;
   @FXML private ComboBox<UtilityNetworkAttribute> comparisonSourcesComboBox;
+  @FXML private MapView mapView;
   @FXML private TextArea traceConditionsTextArea;
   @FXML private TextField comparisonValuesTextField;
 
@@ -419,12 +421,5 @@ public class ConfigureSubnetworkTraceController {
     }
 
     return converted;
-  }
-
-  /**
-   * Stops and releases all resources used in application.
-   */
-  void terminate() {
-
   }
 }

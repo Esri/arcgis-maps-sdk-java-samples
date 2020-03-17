@@ -42,15 +42,7 @@ public class ConfigureSubnetworkTraceSample extends Application {
     stage.setScene(scene);
     stage.show();
   }
-
-  /**
-   * Stops and releases all resources used in application.
-   */
-  @Override
-  public void stop() {
-    controller.terminate();
-  }
-
+  
   /**
    * Opens and runs application.
    *
