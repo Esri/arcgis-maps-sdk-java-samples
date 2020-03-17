@@ -1,29 +1,28 @@
-# Change Basemap
+# Change basemap
 
-Change a map's basemap.
+Change a map's basemap. A basemap is beneath all layers on an `ArcGISMap` and is used to provide visual reference for the operational layers.
 
-A basemap is beneath all other layers on an ArcGISMap and is used to provide visual reference to other layers.
+![Image of change basemap](ChangeBasemap.png)
 
-![](ChangeBasemap.png)
+## Use case
+
+Basemaps should selected contextually, for example, in maritime applications, it would be more appropriate to use a basemap of the world's oceans as opposed to a basemap of the world's streets.
 
 ## How to use the sample
 
-Choose any basemap from the list view.
+Select a basemap from the list of available basemaps to set it to the map.
 
 ## How it works
 
-To change the `ArcGISMap`'s `Basemap`:
-
-1. Create an ArcGIS map, `ArcGISMap(Basemap, latitude, longitude, scale)`.
-    * Basemap, use basemap type to access a basemap for map, `Basemap.Type.NATIONAL_GEOGRAPHIC`
-    * latitude and longitude coordinate location
-    * scale, level of detail displayed on `MapView`
-2. Set the ArcGIS map to the map view.
-3. Choose a new `Basemap.Type` and set it to the ArcGIS map to change it.
+1. Create an `ArcGISMap` object.
+2. Set the map to the `MapView` object.
+3. Choose a new basemap type and set it on the map.
 
 ## Relevant API
-
 * ArcGISMap
 * Basemap
-* Basemap.Type
 * MapView
+
+## Tags
+
+basemap, map

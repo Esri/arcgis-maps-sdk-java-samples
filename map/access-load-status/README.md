@@ -1,24 +1,30 @@
-# Access Load Status
+# Access load status
 
-Determine when a map has finished loading.
+Determine the map's load status which can be: `NOT_LOADED`, `FAILED_TO_LOAD`, `LOADING`, `LOADED`.
 
-![](AccessLoadStatus.png)
+![Image of access load status](AccessLoadStatus.png)
+
+## Use case
+
+Knowing the map's load state may be required before subsequent actions can be executed.
 
 ## How to use the sample
 
-The sample provides an information area which displays what the ArcGISMap's load status is. Click on the button to reload the ArcGISMap.
+Click on the button to reload the ArcGISMap. The load status of the ArcGISMap will be displayed on screen.
 
 ## How it works
 
-To access the `ArcGISMap`'s `LoadStatus`:
+The `LoadStatus` is `LOADED` when any of the following criteria are met:
 
-1. Create an ArcGIS map.
-2. Use `ArcGISMap.addLoadStatusChangedListener()` and `ArcGISMap.getNewLoadStatus()` to display the load status of the map.
-3. Set the ArcGIS map to the `MapView` to began loading.
+* The map has a valid spatial reference.
+* The map has an an initial viewpoint.
+* One of the map's predefined layers has been created.
 
 ## Relevant API
 
 * ArcGISMap
-* Basemap
+* LoadStatusChangedListener/LoadStatusChanged signal
 * MapView
-* LoadStatus
+
+## Tags
+LoadStatus, Map, Loadable pattern
