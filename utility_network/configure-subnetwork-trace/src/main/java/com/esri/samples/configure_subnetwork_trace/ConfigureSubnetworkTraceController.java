@@ -176,11 +176,11 @@ public class ConfigureSubnetworkTraceController {
       if (selectedAttribute.getDomain() instanceof CodedValueDomain &&
               comparisonValuesComboBox.getSelectionModel().getSelectedItem() != null) {
         // convert the selected comparison value to the data type defined by the selected attribute
-        otherValue = convertToDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
+        otherValue = convertObjectDataType(comparisonValuesComboBox.getSelectionModel().getSelectedItem().getCode(),
                 selectedAttribute.getDataType());
       } else if (!comparisonValuesTextField.getText().equals("")) {
         // otherwise, a comparison value will be specified as text input to be used as the third parameter
-        otherValue = convertToDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
+        otherValue = convertObjectDataType(comparisonValuesTextField.getText(), selectedAttribute.getDataType());
       } else {
         new Alert(Alert.AlertType.WARNING, "No valid comparison value entered").show();
         return;
@@ -249,8 +249,8 @@ public class ConfigureSubnetworkTraceController {
           // comparison value
           List<CodedValue> list = codedValueDomain.getCodedValues()
               .stream()
-              .filter(value -> convertToDataType(value.getCode(), attributeComparisonDataType).equals(
-                  convertToDataType(attributeComparison.getValue(), attributeComparisonDataType)))
+              .filter(value -> convertObjectDataType(value.getCode(), attributeComparisonDataType).equals(
+                  convertObjectDataType(attributeComparison.getValue(), attributeComparisonDataType)))
               .collect(Collectors.toList());
 
           if (!list.isEmpty()) {
@@ -393,13 +393,13 @@ public class ConfigureSubnetworkTraceController {
   }
 
   /**
-   * Converts an object representing a value into the data type specified.
+   * Converts the data type of a provided Object into the data type specified through a UtilityNetworkAttribute.DataType.
    *
-   * @param value the value to convert
+   * @param value the Object of which to convert the data type
    * @param dataType the requested data type to which to convert
-   * @return the converted value
+   * @return the Object with a converted data type
    */
-  private Object convertToDataType(Object value, UtilityNetworkAttribute.DataType dataType) {
+  private Object convertObjectDataType(Object value, UtilityNetworkAttribute.DataType dataType) {
 
     Object converted = null;
 
