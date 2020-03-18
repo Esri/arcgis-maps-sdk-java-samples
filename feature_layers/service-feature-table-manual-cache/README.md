@@ -21,10 +21,8 @@ Run the sample and pan and zoom around the map. No features will be requested an
 ## Relevant API
 
 * FeatureLayer
-* FeatureRequestMode.ManualCache
+* FeatureRequestMode
 * ServiceFeatureTable
-* ServiceFeatureTable.PopulateFromServiceAsync
-* ServiceFeatureTable.setFeatureRequestMode
 
 ## About the data
 
