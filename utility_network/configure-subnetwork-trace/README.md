@@ -10,7 +10,7 @@ While some traces are built from an ad-hoc group of parameters, many are based o
 
 ## How to use the sample
 
-The sample loads with a server-defined trace configuration from a tier. Check or uncheck which options to include in the trace - such as containers or barriers. Use the selection boxes to define a new condition network attribute comparison, and then use 'Add' to add the it to the trace configuration. Click 'Trace' to run a subnetwork trace with this modified configuration from a default starting location.
+The sample loads with a server-defined trace configuration from a tier. Check or uncheck which options to include in the trace - such as containers or barriers. Use the selection boxes to define a new condition network attribute comparison, and then use 'Add' to add it to the trace configuration. Click 'Trace' to run a subnetwork trace with this modified configuration from a default starting location.
 
 Example barrier conditions for the default dataset:
 
