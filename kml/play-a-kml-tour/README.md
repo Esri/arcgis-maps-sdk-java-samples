@@ -22,13 +22,7 @@ The sample will load the KMZ file from ArcGIS Online. When a tour is found, the 
 ## Relevant API
 
 * KmlTour
-* KmlTour.PropertyChanged
-* KmlTour.TourStatus
 * KmlTourController
-* KmlTourController.Pause()
-* KmlTourController.Play()
-* KmlTourController.Reset()
-* KmlTourController.Tour
 
 ## About the data
 
