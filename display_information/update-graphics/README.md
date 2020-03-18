@@ -27,8 +27,8 @@ Update Graphic's Symbol:
 2. Identify the clicked graphics using `MapView.identifyGraphicsOverlayAsync(graphicsOverlay, pointClicked, tolerance, max results)`.
 3. To select a clicked graphics, iterate through the list of graphics returned by the identification method, and set each graphic's selection property to `true`.
 4. To update graphic's location, create a new `Point` from the user's clicked point, and use `Graphic.setGeometry(point)` to modify the graphic's geometry.
-5. To update a graphic's attribute, get the attributes of the selected graphic and set the `DESCRIPTION` key with the desired string value.
-6. To update graphic's symbol simply assign that symbol to the selected graphic using `Graphic.setSymbol(SimpleMarkerSymbol)`
+5. To update a graphic's attribute, get the attributes of the selected graphic and set the `DESCRIPTION` key with the desired string value using `Graphic.getAttributes().put("DESCRIPTION",)`.
+6. To update graphic's symbol simply assign that symbol to the selected graphic using `Graphic.setSymbol(SimpleMarkerSymbol)`.
 
 ## Additional information
 
