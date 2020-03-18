@@ -20,9 +20,8 @@ Run the sample and pan and zoom around the map. With each interaction, new featu
 ## Relevant API
 
 * FeatureLayer
-* FeatureRequestMode.ON_INTERACTION_NO_CACHE
+* FeatureRequestMode
 * ServiceFeatureTable
-* ServiceFeatureTable.setFeatureRequestMode
 
 ## About the data
 
