@@ -10,7 +10,7 @@ Attachments provide a flexible way to manage additional information that is rela
 
 ## How to use the sample
 
-Click a feature on the map to select it. Click 'Add attachment' to add an attachment to the selected feature. The list view will update to show the attachments of the selected feature (if any). To delete an attachment, first select the feature, and then select an attachment from the list view. Then click 'Delete Attachment' to delete the selected attachment.
+Click a feature on the map to select it. Click 'Add Attachment' to add an attachment to the selected feature. The list view will update to show the attachments of the selected feature (if any). To delete an attachment, first select the feature, and then select an attachment from the list view. Then click 'Delete Attachment' to delete the selected attachment.
 
 ## How it works
 
@@ -28,14 +28,9 @@ Attachments can only be added to and accessed on service feature tables when the
 
 ## Relevant API
 
-* ApplyEditsAsync
-* DeleteAttachmentAsync
+* ArcGISFeature
 * FeatureLayer
-* FetchAttachmentsAsync
-* FetchDataAsync
 * ServiceFeatureTable
-* UpdateFeatureAsync
-
 
 ## Tags
 

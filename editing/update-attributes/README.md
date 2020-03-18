@@ -15,7 +15,6 @@ To change the feature's damage property, click on the feature to select it, and 
 ## How it works
 
 1. Create a `ServiceFeatureTable` object from a URL.
-    * When the table loads, you can get the domain to determine which options to present in your UI.
 2. Create a `FeatureLayer` object from the `ServiceFeatureTable`.
 3. Select features from the `FeatureLayer`.
 4. To update the feature's attribute, first load it, then use `.getAttributes().put(keyValuePair)` to modify the desired attribute.
@@ -30,4 +29,4 @@ To change the feature's damage property, click on the feature to select it, and 
 
 ## Tags
 
-attribute, coded value, coded value domain, domain, editing, value
+amend, attribute, details, edit, editing, information, value
