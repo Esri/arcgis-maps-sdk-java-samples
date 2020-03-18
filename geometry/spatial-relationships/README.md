@@ -19,20 +19,13 @@ Select one of the three graphics. The tree view will list the relationships the 
 
 ## Relevant API
 
-*   Geometry
-*   GeometryEngine
-*   GeometryEngine.contains
-*   GeometryEngine.crosses
-*   GeometryEngine.disjoint
-*   GeometryEngine.intersects
-*   GeometryEngine.overlaps
-*   GeometryEngine.touches
-*   GeometryEngine.within
-*   GeometryType
-*   Graphic
-*   Point
-*   Polygon
-*   Polyline
+* Geometry
+* GeometryEngine
+* GeometryType
+* Graphic
+* Point
+* Polygon
+* Polyline
 
 ## Tags
 
