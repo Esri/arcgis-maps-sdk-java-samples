@@ -26,7 +26,6 @@ Use the 'Animated Zoom' button to trigger the same zoom animation on both static
 
 * ArcGISMap
 * FeatureLayer
-* FeatureLayer.RenderingMode
 * LoadSettings
 * MapView
 
