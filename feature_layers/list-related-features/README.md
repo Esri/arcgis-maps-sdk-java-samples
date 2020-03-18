@@ -22,7 +22,7 @@ Click on a feature to select it. The related features will be displayed in a lis
 * ArcGISFeature
 * ArcGISFeatureTable
 * FeatureQueryResult
-* FeatureTable::QueryRelatedFeatures
+* FeatureTable
 * RelatedFeatureQueryResult
 
 ## Tags
