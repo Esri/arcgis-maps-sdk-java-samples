@@ -25,7 +25,7 @@ When launched, this sample displays a `FeatureCollectionLayer` with a `Point`, `
 
 ## Relevant API
 
-* Feature
+* ArcGISFeature
 * FeatureCollection
 * FeatureCollectionLayer
 * FeatureCollectionTable
