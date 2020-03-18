@@ -21,7 +21,7 @@ Use the button to change the renderer on the feature layer. The original rendere
 
 ## Relevant API
 
-* FeatureLayer.setRenderer
+* FeatureLayer
 * ServiceFeatureTable
 * SimpleRenderer
 
