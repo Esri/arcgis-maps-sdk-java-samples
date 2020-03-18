@@ -25,7 +25,6 @@ Wait for the map image layer to load. Click the 'Change sublayer renderer' butto
 * ArcGISMapImageLayer
 * ArcGISMapImageSubLayer
 * ClassBreaksRenderer
-* ClassBreaksRenderer.ClassBreak
 
 ## About the data
 
