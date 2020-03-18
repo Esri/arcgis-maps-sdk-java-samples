@@ -21,8 +21,7 @@ Click on the map. A planar and a geodesic buffer will be created at the click lo
 
 ## Relevant API
 
-* GeometryEngine.buffer()
-* GeometryEngine.bufferGeodetic()
+* GeometryEngine
 * GraphicsOverlay
 
 ## Additional information
