@@ -14,7 +14,6 @@ The geodesic sector and ellipse will display with default parameters at the star
 
 ## How it works
 
-To create a geodesic sector and ellipse:
 1. Create `GeodesicSectorParameters` and `GeodesicEllipseParameters` using one of the constructors with default values or using each setter individually.
 2. Set the `center`, `axisDirection`, `semiAxis1Length`, and the `semiAxis2Length` properties to change the general ellipse position, shape, and orientation.
 3. Set the `sectorAngle` and `startDirection` angles to change the sector's shape and orientation.
@@ -22,7 +21,7 @@ To create a geodesic sector and ellipse:
 5. Specify the `geometryType` to either `POLYGON`, `POLYLINE`, or `MULTIPOINT` to change the result geometry type.
 6. Pass the parameters to the related static methods: `GeometryEngine.ellipseGeodesic(geodesicEllipseParameters)` and `GeometryEngine.sectorGeodesic(geodesicSectorParameters)`. The returned value will be a `Geometry` of the type specified by the `geometryType` parameter.
 
-## Relevant API 
+## Relevant API
 
 * GeodesicEllipseParameters
 * GeodesicSectorParameters
