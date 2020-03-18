@@ -22,8 +22,7 @@ Fill in your portal and registered app credentials in the starting dialog to aut
 
 ## Relevant API
 
-* Map
-* Map::saveAs
+* ArcGISMap
 * Portal
 
 ## Tags
