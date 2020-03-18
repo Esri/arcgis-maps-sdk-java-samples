@@ -21,8 +21,6 @@ Click on the map to see a callout with the clicked location's coordinate formatt
 ## Relevant API
 
 * CoordinateFormatter
-* CoordinateFormatter.LatitudeLongitudeFormat
-* CoordinateFormatter.UtmConversionMode
 
 ## Tags
 
