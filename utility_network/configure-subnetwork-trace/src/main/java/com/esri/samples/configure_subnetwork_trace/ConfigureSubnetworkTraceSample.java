@@ -42,7 +42,7 @@ public class ConfigureSubnetworkTraceSample extends Application {
     stage.setScene(scene);
     stage.show();
   }
-  
+
   /**
    * Opens and runs application.
    *

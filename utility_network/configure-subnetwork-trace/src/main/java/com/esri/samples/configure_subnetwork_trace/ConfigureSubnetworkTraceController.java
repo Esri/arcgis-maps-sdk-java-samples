@@ -63,7 +63,6 @@ public class ConfigureSubnetworkTraceController {
   @FXML private ComboBox<CodedValue> comparisonValuesComboBox;
   @FXML private ComboBox<UtilityAttributeComparisonOperator> comparisonOperatorsComboBox;
   @FXML private ComboBox<UtilityNetworkAttribute> comparisonSourcesComboBox;
-  @FXML private MapView mapView;
   @FXML private TextArea traceConditionsTextArea;
   @FXML private TextField comparisonValuesTextField;
 
