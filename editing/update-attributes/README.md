@@ -29,4 +29,4 @@ To change the feature's damage property, click on the feature to select it, and 
 
 ## Tags
 
-amend, attribute, details, edit, editing, information, value
+amend, attribute, details, edit, editing, information, update, value
