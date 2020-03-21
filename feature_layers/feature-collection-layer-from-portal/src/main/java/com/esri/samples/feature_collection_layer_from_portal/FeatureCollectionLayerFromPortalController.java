@@ -33,7 +33,7 @@ public class FeatureCollectionLayerFromPortalController {
     @FXML
     private TextField FeatureCollectionItemIdTextField;
 
-   // private String FeatureCollectionItemId = "32798dfad17942858d5eef82ee802f0b";
+   private String FCItemId = "32798dfad17942858d5eef82ee802f0b";
 
     public void initialize()
     {
@@ -46,10 +46,7 @@ public class FeatureCollectionLayerFromPortalController {
 
             // load the portal and add the portal item
             Portal portal = new Portal("https://www.arcgis.com/");
-
-              String FeatureCollectionItemId = FeatureCollectionItemIdTextField.getText();
-
-            PortalItem portalItem = new PortalItem(portal,FeatureCollectionItemId);
+            PortalItem portalItem = new PortalItem(portal,FCItemId);
 
             // create feature collection and add to the map as a layer
             FeatureCollection featureCollection = new FeatureCollection(portalItem);

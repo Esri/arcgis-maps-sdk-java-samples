@@ -26,7 +26,7 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.esri.samples.feature_collection_layer_from_portal.FeatureCollectionLayerFromPortalSample"
+           fx:controller="com.esri.samples.feature_collection_layer_from_portal.FeatureCollectionLayerFromPortalController"
            stylesheets="style.css">
     <MapView fx:id="mapView"/>
 
