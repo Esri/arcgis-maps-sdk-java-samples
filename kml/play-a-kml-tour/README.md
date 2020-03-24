@@ -14,10 +14,11 @@ The sample will load the KMZ file from ArcGIS Online. Click the play button to s
 
 ## How it works
 
-1. Create and load a `KmlLayer` with a `KmlDataset` and add it to the scene's operational layers.
-2. Create a `KMLTourController` and set the tour with `kmlTourController.setTour(kmlTour)`.
-3. Explore the tree of KML content to find the first KML tour. Once a tour is found, provide it to the KML tour controller.
-4. Use `kmltourController.play()`, `kmltourController.pause()`, and `kmltourController.reset()` to control the tour.
+1. Create a `KmlDataset` with the path to a local KML file with a KML tour.
+2. Create and load a `KmlLayer` with the dataset.
+3. When the layer has loaded, search its `KmlNode`s by recursing through `kmlLayer.getRootNodes()` to find a `KmlTour` node.
+4. Create a `KmlTourController` and set the tour with `kmlTourController.setTour(kmlTour)`.
+5. Use `kmltourController.play()`, `kmltourController.pause()`, and `kmltourController.reset()` to control the tour.
 
 ## Relevant API
 
