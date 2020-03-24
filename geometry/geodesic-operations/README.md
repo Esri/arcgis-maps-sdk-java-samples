@@ -14,7 +14,7 @@ Click anywhere on the map. A line graphic will display the geodesic line between
 
 ## How it works
 
-1. Create a `Point` in New York City and display it as a `Graphic`.
+1. Create a `Point` in and display it as a `Graphic`.
 2. Obtain a new point when a click occurs on the `MapView` and add this point as a graphic.
 3. Create a `Polyline` from the two points.
 4. Execute `GeometryEngine.densifyGeodetic()` by passing in the created polyine then create a graphic from the returned `Geometry`.
