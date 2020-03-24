@@ -48,8 +48,8 @@
         </background>
         <VBox>
             <Label text="Enter Item Id and click on button"/>
-            <TextField fx:id="FeatureCollectionItemIdTextField" promptText="32798dfad17942858d5eef82ee802f0b" />
+            <TextField fx:id="FeatureCollectionItemIdTextField"  promptText="32798dfad17942858d5eef82ee802f0b" />
         </VBox>
-        <Button text="Open from portal item"  maxWidth="Infinity"/>
+        <Button text="Open from portal item" onAction="#fetchFromPortal" maxWidth="Infinity"/>
     </VBox>
 </StackPane>

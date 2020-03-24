@@ -17,41 +17,33 @@ package com.esri.samples.feature_collection_layer_from_portal;
 
 import com.esri.arcgisruntime.data.FeatureCollection;
 import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 public class FeatureCollectionLayerFromPortalController {
-
 
     @FXML
     private MapView mapView;
     @FXML
     private TextField FeatureCollectionItemIdTextField;
+    private ArcGISMap map;
 
-   private String FCItemId = "32798dfad17942858d5eef82ee802f0b";
-
-    public void initialize()
-    {
+    public void initialize() {
         try {
 
             // create amp and set it to be displayed in this view
-            ArcGISMap map = new ArcGISMap(Basemap.createOceans());
-            mapView = new MapView();
+            map = new ArcGISMap(Basemap.createOceans());
             mapView.setMap(map);
+            FeatureCollectionItemIdTextField.setText("32798dfad17942858d5eef82ee802f0b");
+            fetchFromPortal();
 
-            // load the portal and add the portal item
-            Portal portal = new Portal("https://www.arcgis.com/");
-            PortalItem portalItem = new PortalItem(portal,FCItemId);
-
-            // create feature collection and add to the map as a layer
-            FeatureCollection featureCollection = new FeatureCollection(portalItem);
-            FeatureCollectionLayer featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
-            map.getOperationalLayers().add(featureCollectionLayer);
 
         } catch (Exception e) {
             // on any error, display the stack trace.
@@ -59,7 +51,49 @@ public class FeatureCollectionLayerFromPortalController {
         }
     }
 
+    /**
+     * Handles searching the provided Item ID.
+     */
+    @FXML
+    private void fetchFromPortal() {
+        FeatureCollectionItemIdTextField.setPromptText("");
+        if (FeatureCollectionItemIdTextField.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Portal Itemid is empty. Please enter a portal item id.").show();
 
+        } else {
+            try {
+
+                // load the portal and add the portal item
+                Portal portal = new Portal("https://www.arcgis.com/");
+                System.out.println(FeatureCollectionItemIdTextField.getText());
+                PortalItem portalItem = new PortalItem(portal, FeatureCollectionItemIdTextField.getText());
+
+                // create feature collection and add to the map as a layer
+                FeatureCollection featureCollection = new FeatureCollection(portalItem);
+                FeatureCollectionLayer featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
+                map.getOperationalLayers().add(featureCollectionLayer);
+
+                portalItem.addDoneLoadingListener(() -> {
+                    System.out.println(portalItem.getLoadStatus().toString());
+                    if (portalItem.getLoadStatus() == LoadStatus.LOADED) {
+                        if (portalItem.getType() == PortalItem.Type.FEATURE_COLLECTION) {
+
+                        } else {
+                            new Alert(Alert.AlertType.ERROR, "This is not valid Feature Collection.").show();
+                        }
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "It is Service Issue or Invalid Item ID ").show();
+
+                    }
+                });
+
+
+            } catch (Exception e) {
+                // on any error, display the stack trace.
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * Stops and releases all resources used in the application.
