@@ -18,7 +18,7 @@ Use the checkboxes to manually set "Open" and "Closed" annotation sublayers visi
 
 ## How it works
 
-1. Load the `MobileMapPackage` that contains `AnnotationSublayer`.
+1. Load a `MobileMapPackage` that contains `AnnotationSublayer`.
 2. Get the sublayers from the map package's layers by calling `Layer.getSubLayerContents.get(i)`
 3. You can toggle the visibility of each sublayer manually using `.setVisible()`
 4. To determine if a sublayer is visible at the current scale of the `MapView`, use `sublayer.isVisibleAtScale()`, by passing in the map's current scale.
