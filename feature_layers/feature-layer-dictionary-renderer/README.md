@@ -19,7 +19,7 @@ Pan and zoom around the map. Observe the displayed military symbology on the map
 2. Load the geodatabase asynchronously using `Geodatabase.loadAsync()`.
 3. Instantiate a `SymbolDicitonary`  using `SymbolDictionary(specificationType)`.
     * `specificationType` will be the mil2525d.stylx file.
-4. Load the symbol dictionary asynchronously using `DictionarySymbol.loadAsync()`.
+4. Load the symbol dictionary asynchronously using `DictionarySymbolStyle.loadAsync()`.
 5. Wait for geodatabase to completely load by connecting to `Geodatabase.addDoneLoadingListener()`.
 6. Cycle through each `GeodatabaseFeatureTable` from the geodatabase using `Geodatabase.getGeodatabaseFeatureTables()`.
 7. Create a `FeatureLayer` from each table within the geodatabase using `FeatureLayer(GeodatabaseFeatureTable)`.
@@ -28,7 +28,7 @@ Pan and zoom around the map. Observe the displayed military symbology on the map
 10. After the last layer has loaded, then create a new `Envelope` from a union of the extents of all layers.
     * Set the envelope to be the `Viewpoint` of the map view using `MapView.setViewpoint(new Viewpoint(Envelope))`.
 11. Add the feature layer to map using `Map.getOperationalLayers().add(FeatureLayer)`.
-12. Create `DictionaryRenderer(SymbolDictionary)` and attach to the feature layer using `FeatureLayer.setRenderer(DictionaryRenderer)`.
+12. Create `DictionaryRenderer(dictionarySymbolStyle)` and attach to the feature layer using `FeatureLayer.setRenderer(dictionaryRenderer)`.
 
 ## Relevant API
 
