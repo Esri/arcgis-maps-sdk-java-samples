@@ -6,8 +6,7 @@ Convert features into graphics to show them with mil2525d symbols.
 
 ## Use case
 
-A dictionary renderer uses a style file along with a rule engine to display advanced symbology.
-This is useful for displaying features using precise military symbology.
+A dictionary renderer uses a style file along with a rule engine to display advanced symbology. This is useful for displaying features using precise military symbology.
 
 ## How to use the sample
 
@@ -17,9 +16,8 @@ Pan and zoom around the map. Observe the displayed military symbology on the map
 
 1. Create a `Geodatabase` using `Geodatabase(geodatabasePath)`.
 2. Load the geodatabase asynchronously using `Geodatabase.loadAsync()`.
-3. Instantiate a `SymbolDicitonary`  using `SymbolDictionary(specificationType)`.
-    * `specificationType` will be the mil2525d.stylx file.
-4. Load the symbol dictionary asynchronously using `DictionarySymbol.loadAsync()`.
+3. Create a `DictionarySymbolStyle`  using `DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath())`
+4. Load the symbol dictionary asynchronously using `dictionarySymbolStyle.loadAsync()`.
 5. Wait for geodatabase to completely load by connecting to `Geodatabase.addDoneLoadingListener()`.
 6. Cycle through each `GeodatabaseFeatureTable` from the geodatabase using `Geodatabase.getGeodatabaseFeatureTables()`.
 7. Create a `FeatureLayer` from each table within the geodatabase using `FeatureLayer(GeodatabaseFeatureTable)`.
@@ -33,8 +31,8 @@ Pan and zoom around the map. Observe the displayed military symbology on the map
 ## Relevant API
 
 * DictionaryRenderer
-* SymbolDictionary
+* DictionarySymbolStyle
 
 ## Tags
 
-DictionaryRenderer, DictionarySymbolStyle, military, symbol
+dictionary, military, symbol
