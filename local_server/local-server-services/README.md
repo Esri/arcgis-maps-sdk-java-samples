@@ -10,13 +10,9 @@ For executing offline geoprocessing tasks in your ArcGIS Runtime apps via an off
 
 ## How to use the sample
 
-Click `Start Local Server` to start the Local Server. Click `Stop Local Server` to stop the Local Server.
+Choose an option from the dropdown control to filter packages by service type. Then click the Open button to choose a package. Finally, click the Start button to start the service. The service's status will be displayed in the center log.
 
-The `Map Service` combo box lets you to pick a local service that is available.
-
-After browsing for the desired file, click `Start Service` to start the selected service.
-
-When the running service's url appears, select it and click `Open Url`. To stop this running service, click `Stop Service`.
+To stop a service, select it from the Running Services list and click the Stop Service button. To go to the service's URL in your default web browser, select it and click the Go to URL button.
 
 ## How it works
 
@@ -35,7 +31,7 @@ To stop a `LocalServer` and any attached `LocalServices`:
 
 1. If required, you can retrieve a list of all running services with `LocalServer.INSTANCE.getServices()`.
 2. Stop the services asynchronously using `LocalService.stopAsync()`.
-3. Use `LocalServer.INSTANCE.stopAsync()` to stop the server asynchronously. You can use `.addDoneListener()` on this process to perform additional actions after the server is successfully stopped, such as removing temporary files
+3. Use `LocalServer.INSTANCE.stopAsync()` to stop the server asynchronously. You can use `.addDoneListener()` on this process to perform additional actions after the server is successfully stopped, such as removing temporary files.
 
 ## Relevant API
 

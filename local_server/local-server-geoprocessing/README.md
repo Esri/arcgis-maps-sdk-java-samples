@@ -29,7 +29,6 @@ Contour Line Controls (Top Left):
 5. Create an instance of `GeoprocessingParameters` and add a `GeoprocessingDouble` as a parameter using `setInterval`.
     1. Instantiate `GeoprocessingParameters(ExecutionType)` creates geoprocessing parameters.
     2. Create a parameter using `GeoprocessingParameters.getInputs().put("Interval", new GeoprocessingDouble(double))` with name "Interval" and with the interval set as its value.
-    3.  Set the input with the interval value using `gpParams.setInputs(inputs)`.
 6. Create and start a `GeoprocessingJob` using the previous parameters.
     1. Create a geoprocessing job with `GeoprocessingTask.createJob(GeoprocessingParameters)`.
     2. Start the job with `GeoprocessingJob.start()`.
