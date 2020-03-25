@@ -10,7 +10,7 @@ Display a feature layer from a service using the **manual cache** feature reques
 
 ## How to use the sample
 
-Run the sample and pan and zoom around the map. No features will be requested and displayed automatically. Press the Populate button, and features will display.
+Run the sample and pan and zoom around the map. No features will be requested and displayed automatically. Press the "Request Cache" button to have features and a count of features display.
 
 ## How it works
 
@@ -23,10 +23,6 @@ Run the sample and pan and zoom around the map. No features will be requested an
 * FeatureLayer
 * ServiceFeatureTable.FeatureRequestMode
 * ServiceFeatureTable
-
-## About the data
-
-The U.S. National Bridge Inventory describes 600,000 bridges in the United States. The sample uses [US Bridges](https://arcgisruntime.maps.arcgis.com/home/item.html?id=250b103a722c4e1ea71e562eac61be1b), a modified copy of the U.S. National Bridge Inventory hosted on ArcGIS Online. The sample opens with an initial visible extent centered over Bridgeport, CT.
 
 ## Additional information
 

@@ -14,7 +14,7 @@ Run the sample and pan and zoom around the map. With each interaction, new featu
 
 ## How it works
 
-1. Set the `ServiceFeatureTable.FeatureRequestMode` property of the service feature table to `NO_CACHE` before the table is loaded.
+1. Set the `ServiceFeatureTable.FeatureRequestMode` property of the service feature table to `ON_INTERACTION_NO_CACHE` before the table is loaded.
 2. Add the table to the map using a `FeatureLayer`; features will be requested for the visible extent as the user pans and zooms.
 
 ## Relevant API
