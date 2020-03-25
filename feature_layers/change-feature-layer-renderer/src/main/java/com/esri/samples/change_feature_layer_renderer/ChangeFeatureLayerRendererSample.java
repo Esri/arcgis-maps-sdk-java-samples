@@ -34,7 +34,7 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 public class ChangeFeatureLayerRendererSample extends Application {
@@ -62,8 +62,8 @@ public class ChangeFeatureLayerRendererSample extends Application {
       stage.show();
 
       // create a blue (0xFF0000FF) line symbol renderer
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2);
-      SimpleRenderer blueRenderer = new SimpleRenderer(lineSymbol);
+      SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF317D11, 5 );
+      SimpleRenderer blueRenderer = new SimpleRenderer(markerSymbol);
 
       // create renderer toggle switch
       ToggleButton rendererSwitch = new ToggleButton();
