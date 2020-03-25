@@ -1,4 +1,4 @@
-# Local server feature layer
+# Local Server feature layer
 
 Start a local feature service and display its features in a map.
 
@@ -14,7 +14,7 @@ A Local Server and Local Feature Service will automatically be started. Once sta
 
 ## How it works
 
-1. Create and run a local server with `LocalServer.instance`.
+1. Create and run a local server with `LocalServer.INSTANCE`.
 2. Start the server asynchronously with `Server.startAsync()`.
 3. Wait for server to be in the  `LocalServerStatus.STARTED` state.
    * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
@@ -29,7 +29,7 @@ A Local Server and Local Feature Service will automatically be started. Once sta
    2. Load the table asynchronously using `ServiceFeatureTable.loadAsync()`.
    3. Create feature layer from service feature table using `new FeatureLayer(ServiceFeatureTable)`.
    4. Load the layer asynchronously using `FeatureLayer.loadAsync()`.
-7. Add feature layer to map using `Map.getOperationalLayers().add(FeatureLayer)`.
+7. Add feature layer to map using `ArcGISMap.getOperationalLayers().add(FeatureLayer)`.
 
 ## Relevant API
 

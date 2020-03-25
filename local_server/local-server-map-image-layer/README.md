@@ -14,7 +14,7 @@ The Local Server and local map service will automatically be started and, once r
 
 ## How it works
 
-1. Create and run a local server with `LocalServer.instance`.
+1. Create and run a local server with `LocalServer.INSTANCE`.
 2. Start the server asynchronously with `Server.startAsync()`.
 3. Wait for server to be in the  `LocalServerStatus.STARTED` state.
    * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
