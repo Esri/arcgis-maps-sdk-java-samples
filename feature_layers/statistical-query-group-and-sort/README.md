@@ -36,7 +36,7 @@ This sample uses a [Diabetes, Obesity, and Inactivity by US County](https://www.
 ## Relevant API
 
 * Field
-* OrderBy
+* QueryParameters.OrderBy
 * QueryParameters
 * ServiceFeatureTable
 * StatisticDefinition

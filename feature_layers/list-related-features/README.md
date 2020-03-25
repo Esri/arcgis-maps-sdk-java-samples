@@ -6,7 +6,7 @@ List features related to the selected feature.
 
 ## Use case
 
-Related features are useful for managing relational information, like what you would store in a relational database management system (RDBMS). You can define relationship between records as one-to-one, one-to-many, or many-to-one. For example, you could model inspections and facilities as a many-to-one relationship. Then, for any facility feature, you could list related inspection features.
+Related features are useful for managing relational information, like what you would store in a relational database management system (RDBMS). You can define relationships between records as one-to-one, one-to-many, or many-to-one. For example, you could model inspections and facilities as a many-to-one relationship. Then, for any facility feature, you could list related inspection features.
 
 ## How to use the sample
 
