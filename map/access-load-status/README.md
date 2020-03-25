@@ -14,6 +14,9 @@ Click on the button to reload the ArcGISMap. The load status of the ArcGISMap wi
 
 ## How it works
 
+1. Create an `ArcGISMap` and add it to a `MapView`.
+2. Use `ArcGISMap.addLoadStatusChangedListener()` or `ArcGISMap.getNewLoadStatus()` to query the map's load status.
+
 The `LoadStatus` is `LOADED` when any of the following criteria are met:
 
 * The map has a valid spatial reference.
@@ -23,8 +26,8 @@ The `LoadStatus` is `LOADED` when any of the following criteria are met:
 ## Relevant API
 
 * ArcGISMap
-* LoadStatusChangedListener
 * MapView
 
 ## Tags
+
 LoadStatus, Map, Loadable pattern
