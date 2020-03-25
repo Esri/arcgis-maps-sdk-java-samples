@@ -26,7 +26,7 @@ Pan and zoom around the map. Observe the displayed military symbology on the map
 10. After the last layer has loaded, then create a new `Envelope` from a union of the extents of all layers.
     * Set the envelope to be the `Viewpoint` of the map view using `MapView.setViewpoint(new Viewpoint(Envelope))`.
 11. Add the feature layer to map using `Map.getOperationalLayers().add(FeatureLayer)`.
-12. Create `DictionaryRenderer(SymbolDictionary)` and attach to the feature layer using `FeatureLayer.setRenderer(DictionaryRenderer)`.
+12. Create `DictionaryRenderer(dictionarySymbolStyle)` and attach to the feature layer using `FeatureLayer.setRenderer(dictionaryRenderer)`.
 
 ## Relevant API
 
