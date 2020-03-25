@@ -12,15 +12,17 @@ In static rendering mode, features and graphics are rendered only when needed (f
 
 ## How to use the sample
 
-Use the 'Animated Zoom' button to trigger the same zoom animation on both static and dynamically maps.
+When the sample is launched, it will trigger the same zoom animation on both the static and dynamic maps.
 
 ## How it works
 
-1. Create an `ArcGISMap` and call `getLoadSettings()` and then `setPreferred[Point/Polyline/Polygon]FeatureRenderingMode(...)`.
-2. The `RenderingMode` can be set to `STATIC`, `DYNAMIC` or `AUTOMATIC`.
-   * In Static rendering mode, the number of features and graphics has little impact on frame render time, meaning it scales well, however points don't stay screen-aligned and point/polyline/polygon objects are only redrawn once map view navigation is complete.
-   * In Dynamic rendering mode, large numbers of features or graphics can affect the responsiveness of maps or scenes to user interaction, however points remain screen-aligned and point/polyline/polygon objects are continually redrawn while the map view is navigating.
-3. When left to automatic rendering, points are drawn dynamically and polylines and polygons statically.
+1. Create an `ArcGISMap`
+2. Set the `RenderingMode` for a specific type of Graphic by calling `arcGISMap.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)`.
+    * You can set the preferred rendering mode for `Point`, Polylines, or Polygons by using the appropriate method.    
+    * The rendering mode can be set to `STATIC`, `DYNAMIC` or `AUTOMATIC` 
+    * In Static rendering mode, the number of features and graphics has little impact on frame render time, meaning it scales well, however points don't stay screen-aligned and point/polyline/polygon objects are only redrawn once map view navigation is complete.
+    * In Dynamic rendering mode, large numbers of features or graphics can affect the responsiveness of maps or scenes to user interaction, however points remain screen-aligned and point/polyline/polygon objects are continually redrawn while the map view is navigating.
+    * When left to automatic rendering, points are drawn dynamically and polylines and polygons statically.
 
 ## Relevant API
 
