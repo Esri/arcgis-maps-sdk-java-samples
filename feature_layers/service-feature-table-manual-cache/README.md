@@ -12,6 +12,8 @@ Display a feature layer from a service using the **manual cache** feature reques
 
 Run the sample and pan and zoom around the map. No features will be requested and displayed automatically. Press the "Request Cache" button to have features and a count of features display.
 
+Note: Maximum of Features returned is set to 1000.
+
 ## How it works
 
 1. Set the `ServiceFeatureTable.FeatureRequestMode` property of the service feature table to `MANUAL_CACHE` before the table is loaded.
