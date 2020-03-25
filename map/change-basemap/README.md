@@ -16,7 +16,7 @@ Select a basemap from the list of available basemaps to set it to the map.
 
 1. Create an `ArcGISMap` object.
 2. Set the map to the `MapView` object.
-3. Choose a new basemap type and set it on the map.
+3. Choose a new basemap type with `Basemap.Type` and set it on the map.
 
 ## Relevant API
 * ArcGISMap

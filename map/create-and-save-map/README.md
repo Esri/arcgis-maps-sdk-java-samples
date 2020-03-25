@@ -16,9 +16,9 @@ Fill in your portal and registered app credentials in the starting dialog to aut
 
 ## How it works
 
-1. A `Map` is created with a `Basemap` and a few operational layers.
+1. An `ArcGISMap` is created with a `Basemap` and a few operational layers.
 2. A `Portal` object is created and loaded. This will issue an authentication challenge, prompting the user to provide credentials.
-3. Once the user is authenticated, `Map.saveAsAsync()` is called and a new `Map` is saved with the specified title, tags, and folder.
+3. Once the user is authenticated, `Map.saveMapAsAsync()` is called and a new `ArcGISMap` is saved with the specified title, tags, and folder.
 
 ## Relevant API
 
