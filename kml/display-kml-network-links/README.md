@@ -10,7 +10,7 @@ KML files can reference other KML files on the network and support automatically
 
 ## How to use the sample
 
-The sample will load the KML file automatically. The data shown should refresh automatically every few seconds. Pan and zoom to explore the map.
+The sample will load the KML file automatically. A network message will be displayed when the dataset is loaded. The data shown should refresh automatically every few seconds. Pan and zoom to explore the map.
 
 ## How it works
 
@@ -22,7 +22,7 @@ The sample will load the KML file automatically. The data shown should refresh a
 
 * KmlDataset
 * KmlLayer
-* KmlNetworkLinkControlMessageEventArgs
+* KmlNetworkLinkMessageReceivedEvent
 
 ## About the data
 

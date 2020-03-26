@@ -37,7 +37,6 @@ Click anywhere on the map to sketch. Press ENTER to commit the sketch or ESCAPE 
 * KmlDocument
 * KmlGeometry
 * KmlLayer
-* KmlNode.SaveAsASync
 * KmlPlacemark
 * KmlStyle
 * SketchEditor
