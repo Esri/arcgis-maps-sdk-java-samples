@@ -1,6 +1,6 @@
 # Feature Collection Layer From Portal
 
-This sample demonstrates opening a feature collection saved as a portal item
+Create a feature collection layer from a portal item.
 
 ![](FeatureCollectionLayerFromPortal.png)
 
@@ -31,4 +31,3 @@ To display a `FeatureCollection` as a `portal Item` on an `ArcGISMap` :
 * Feature
 * Portal
 * PortalItem
-
