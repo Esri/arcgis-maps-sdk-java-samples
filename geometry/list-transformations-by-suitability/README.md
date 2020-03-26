@@ -24,8 +24,6 @@ If the selected transformation is not usable (has missing grid files) then an er
 ## Relevant API
 
 * DatumTransformation
-* GeographicTransformation
-* GeographicTransformationStep
 * GeometryEngine
 * TransformationCatalog
 
