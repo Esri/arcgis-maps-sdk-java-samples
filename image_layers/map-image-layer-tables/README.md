@@ -37,7 +37,7 @@ Once the map image layer loads, a list view will be populated with comment data 
 
 ## Additional information
 
-You can use `arcGISMapImageLayer.loadTablesAndLayersAsync()` to recursively load all sublayers and tables associated with a map image layer.
+You can use `ArcGISMapImageLayer.loadTablesAndLayersAsync()` to recursively load all sublayers and tables associated with a map image layer.
 
 ## Tags
 

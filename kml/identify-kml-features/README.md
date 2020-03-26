@@ -21,7 +21,7 @@ Note: the KML layer used in this sample contains a screen overlay. The screen ov
   * Dismiss the `Callout`, if one is showing.
   * Call `identifyLayerAsync(...)` passing in the `KmlLayer`, screen point and tolerance.
   * Await the result of the identify and then get the `KmlPlacemark` from the result.
-  * Create a callout at the calculated map point and populate the callout content with text from the placemark's `BalloonContent`. NOTE: KML supports defining HTML for balloon content and may need to be converted from HTML to text.
+  * Create a callout at the calculated map point and populate the callout content with text from the placemark's "balloon content". NOTE: KML supports defining HTML for balloon content and may need to be converted from HTML to text.
   * Show the callout.
   
 Note: There are several types of KML features. This sample only identifies features of type `KmlPlacemark`.
