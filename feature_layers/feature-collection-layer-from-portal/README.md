@@ -10,12 +10,9 @@ Feature collection layers are often used to hold features with mixed geometry or
 
 ## How to use the sample
 
-The feature collection is loaded from the Portal item when the sample starts. Enter feature collection saved as portal item in the text field
-and click on button to see result.
+The feature collection is loaded from the Portal item when the sample starts. Enter the ID of a Portal item that holds a feature collection into the text field, and click on the button to see result.
 
 ## How it works
-
-To display a `FeatureCollection` as a `portal Item` on an `ArcGISMap` :
 
 1. Create a `Portal`.
 2. Create the `PortalItem`, referring to the portal and an item ID.

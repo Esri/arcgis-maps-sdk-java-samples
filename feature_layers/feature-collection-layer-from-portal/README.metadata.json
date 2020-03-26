@@ -1,35 +1,28 @@
 {
     "category": "Feature layers",
-    "description": "Combine feature tables with different geometries into a single layer.",
+    "description": "Create a feature collection layer from a portal item.",
     "ignore": false,
     "images": [
-        "FeatureCollectionLayer.png"
+        "FeatureCollectionLayerFromPortal.png"
     ],
     "keywords": [
-        "FeatureCollection",
-        "FeatureCollectionLayer",
-        "FeatureCollectionTable",
-        "Feature",
-        "Field",
-        "SimpleFillSymbol",
-        "SimpleLineSymbol",
-        "SimpleMarkerSymbol",
-        "SimpleRenderer"
+        "collection", 
+        "feature collection", 
+        "feature collection layer", 
+        "id", 
+        "item", 
+        "map "notes, 
+        "portal"
     ],
     "redirect_from": "/java/latest/sample-code/feature-collection-layer.htm",
     "relevant_apis": [
-        "FeatureCollection",
-        "FeatureCollectionLayer",
-        "FeatureCollectionTable",
-        "Feature",
-        "Field",
-        "SimpleFillSymbol",
-        "SimpleLineSymbol",
-        "SimpleMarkerSymbol",
-        "SimpleRenderer"
+        "FeatureCollection"
+        "FeatureCollectionLayer"
+        "Portal"
+        "PortalItem"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/feature_collection_layer/FeatureCollectionLayerSample.java"
+        "src/main/java/com/esri/samples/feature_collection_layer_from_portal/FeatureCollectionLayerFromPortalSample.java"
     ],
-    "title": "Feature Collection Layer"
+    "title": "Feature Collection Layer From Portal"
 }
