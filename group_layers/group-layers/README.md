@@ -18,11 +18,7 @@ The layers in the map will be displayed in a table of contents. Toggle the check
 
 1. Create an empty `GroupLayer`.
 2. Add a child layer to the group layer's layers collection.
-3. To build the table of contents:
-  - Check that the layer is a group layer.
-  - Use `groupLayer.fetchLegendInfosAsync()` to get a `LegendInfo` with the layer's name to display.
-  - If `showChildrenInLegend` is true, use `getSubLayerContents` to get a list of `LayerContent`s for each child with legend display information.
-4. To toggle the visibility of the group, simply change the group layer's visibility property.
+3. To toggle the visibility of the group, simply change the group layer's visibility property using `layer.setVisible(boolean)`.
 
 ## Relevant API
 
@@ -33,6 +29,8 @@ The layers in the map will be displayed in a table of contents. Toggle the check
 The full extent of a group layer may change when child layers are added/removed. Group layers do not have a spatial reference, but the full extent will have the spatial reference of the first child layer.
 
 Group layers can be saved to web scenes. In web maps, group layers will be ignored.
+
+The implementation shown here makes use of a custom tree cell for displaying layers in a tree view. In the custom tree cell, toggling the checkbox of the group layer cell does not also toggle the child cell's checkbox. If you desire this behavior, use or extend JavaFX's `CheckBoxTreeCell` and `CheckBoxTreeItem`.
 
 ## Tags
 
