@@ -21,8 +21,8 @@ Click the 'Create Convex Hull' button to create convex hull(s) from the polygon 
 
 ## Relevant API
 
-* GeometryEngine.ConvexHull
-* Graphic.ZIndex
+* GeometryEngine
+* Graphic
 * GraphicsOverlay
 
 ## Tags

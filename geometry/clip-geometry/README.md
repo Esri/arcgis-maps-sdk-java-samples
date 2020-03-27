@@ -21,7 +21,7 @@ Click the "Clip" button to clip the blue graphic with the red dashed envelopes.
 
 * Envelope
 * Geometry
-* GeometryEngine.clip
+* GeometryEngine
 * Graphic
 * GraphicsOverlay
 

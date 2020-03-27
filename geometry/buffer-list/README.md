@@ -19,8 +19,7 @@ Click on the map to add points. Click the "Create Buffer(s)" button to draw buff
 
 ## Relevant API
 
-* Geometry
-* GeometryEngine.Buffer
+* GeometryEngine
 * SpatialReference
 
 ## Additional information
