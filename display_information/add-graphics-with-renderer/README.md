@@ -1,29 +1,39 @@
-# Add Graphics with Renderer
+# Add graphics with renderer
 
-Specify a graphic's symbol with a renderer.
+A renderer allows you to change the style of all graphics in a graphics overlay by referencing a single symbol style. A renderer will only effect graphics that do not specify their own symbol style.
 
-A renderer allows you to change the style of all graphics in an overlay by only changing one copy of the symbol. A renderer will only effect graphics that do not specify their own symbol.
+![Image of adding graphics with renderer](AddGraphicsWithRenderer.png)
 
-![](AddGraphicsWithRenderer.png)
+## Use case
+
+A renderer allows you to change the style of all graphics in an overlay by only changing one copy of the symbol. For example, a user may wish to display a number of graphics on a map of parkland which represent trees, all sharing a common symbol.
+
+## How to use the sample
+
+Run the sample and view graphics for points, lines, and polygons, which are stylized using renderers.
 
 ## How it works
 
-To show a `Graphic` in a `GraphicsOverlay` using a renderer:
-
-1. Create a `GraphicsOverlay` and add it to the `MapView`
-2. Create a `Graphic`, specifying only its geometry
-3. Create a single `Symbol` such as a `SimpleMarkerSymbol`
-4. Create a renderer with the symbol such as `new SimpleRenderer(symbol)`
-5. Set the renderer on the graphics overlay with `graphicsOverlay.setRenderer(renderer)`
+1. Create a `GraphicsOverlay` and add it to the `MapView`.
+2. Create a `Graphic`, specifying only a `Geometry`.
+3. Create a single `Symbol` such as a `SimpleMarkerSymbol`.
+4. Create a renderer with the symbol, such as `new SimpleRenderer(symbol)`.
+5. Set the renderer on the graphics overlay with `graphicsOverlay.setRenderer(renderer)`.
 
 ## Relevant API
 
-* ArcGISMap
+* Geometry
 * Graphic
 * GraphicsOverlay
-* MapView
-* Point
 * SimpleFillSymbol
 * SimpleLineSymbol
 * SimpleMarkerSymbol
 * SimpleRenderer
+
+## Additional information
+
+To set unique symbols across a number of graphics (e.g. showing graphics of individual landmarks) see "Add graphics with symbols" sample.
+
+## Tags
+
+display, graphics, marker, overlay, renderer, symbol
