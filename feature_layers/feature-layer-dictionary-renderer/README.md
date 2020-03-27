@@ -16,7 +16,7 @@ Pan and zoom around the map. Observe the displayed military symbology on the map
 
 1. Create a `Geodatabase` using `Geodatabase(geodatabasePath)`.
 2. Load the geodatabase asynchronously using `Geodatabase.loadAsync()`.
-3. Create a `DictionarySymbolStyle`  using `DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath())`
+3. Create a `DictionarySymbolStyle` using `DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath())`
 4. Load the symbol dictionary asynchronously using `dictionarySymbolStyle.loadAsync()`.
 5. Wait for geodatabase to completely load by connecting to `Geodatabase.addDoneLoadingListener()`.
 6. Cycle through each `GeodatabaseFeatureTable` from the geodatabase using `Geodatabase.getGeodatabaseFeatureTables()`.
