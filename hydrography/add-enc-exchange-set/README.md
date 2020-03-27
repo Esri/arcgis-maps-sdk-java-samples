@@ -1,21 +1,23 @@
 # Add ENC exchange set
 
-Display nautical charts conforming to the ENC specification.
+Display nautical charts per the ENC specification.
 
-![](AddEncExchangeSet.png)
+![Image showing the add ENC exchange set app](AddEncExchangeSet.png)
 
 ## Use case
 
-Maritime applications require conformity to strict specifications over how hydrographic data is displayed digitally to ensure the safety of traveling vessels.
-
-S-5. is the IHO (International Hydrographic Organization) Transfer Standard for digital hydrographic data. The symbology standard for this is called S-52. There are different product specifications for this standard. ENC (Electronic Navigational Charts) is one such specification developed by IHO.
+The [ENC specification](https://docs.iho.int/iho_pubs/standard/S-57Ed3.1/20ApB1.pdf) describes how hydrographic data should be displayed digitally.
 
 An ENC exchange set is a catalog of data files which can be loaded as cells. The cells contain information on how symbols should be displayed in relation to one another, so as to represent information such as depth and obstacles accurately.
 
+## How to use the sample
+
+Run the sample and view the ENC data. Pan and zoom around the map. Take note of the high level of detail in the data and the smooth rendering of the layer.
+
 ## How it works
 
-1. Specify the path to a local CATALOG.03. file to create an `EncExchangeSet`.
-2. After loading the exchange set, loop through the `EncDataset` objects in `encExchangeSet.getDatasets()`.
+1. Specify the path to a local CATALOG.031 file to create an `EncExchangeSet`.
+2. After loading the exchange set, get the `EncDataset` objects in the exchange set with `getDatasets()`.
 3. Create an `EncCell` for each dataset. Then create an `EncLayer` for each cell.
 4. Add the ENC layer to a map's operational layers collection to display it.
 
@@ -26,6 +28,10 @@ An ENC exchange set is a catalog of data files which can be loaded as cells. The
 * EncExchangeSet
 * EncLayer
 
+## Offline data
+
+This sample downloads the [ENC Exchange Set without updates](https://www.arcgis.com/home/item.html?id=9d2987a825c646468b3ce7512fb76e2d) item from ArcGIS Online.
+
 ## Tags
 
-Data, ENC, maritime, nautical chart, layers, hydrographic
+data, ENC, hydrographic, layers, maritime, nautical chart
