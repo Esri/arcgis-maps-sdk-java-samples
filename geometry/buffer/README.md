@@ -15,7 +15,7 @@ Click on the map. A planar and a geodesic buffer will be created at the click lo
 ## How it works
 
 1. Capture `Point`s when the `MapView` is clicked.
-2. Use The static method `GeometryEngine.buffer()` to create a planar buffer polygon from the map location and distance.
+2. Use the static method `GeometryEngine.buffer()` to create a planar buffer polygon from the map location and distance.
 3. Alternatively, use `GeometryEngine.bufferGeodetic()` to create a geodesic buffer polygon using the same inputs.
 
 ## Relevant API
