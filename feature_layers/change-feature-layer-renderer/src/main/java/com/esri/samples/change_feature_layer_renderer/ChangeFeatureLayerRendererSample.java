@@ -21,7 +21,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -65,13 +65,12 @@ public class ChangeFeatureLayerRendererSample extends Application {
       SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF317D11, 5 );
       SimpleRenderer blueRenderer = new SimpleRenderer(markerSymbol);
 
-      // create renderer toggle switch
-      ToggleButton rendererSwitch = new ToggleButton();
-      rendererSwitch.setText("green renderer");
+      // create renderer button
+      CheckBox rendererCheckBox = new CheckBox("Apply green renderer");
 
       // set the render if the switch is selected
-      rendererSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
-        if (rendererSwitch.isSelected()) {
+      rendererCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        if (rendererCheckBox.isSelected()) {
           featureLayer.setRenderer(blueRenderer);
         } else {
           // reset the renderer if not selected
@@ -112,9 +111,9 @@ public class ChangeFeatureLayerRendererSample extends Application {
       mapView.setMap(map);
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, rendererSwitch);
-      StackPane.setAlignment(rendererSwitch, Pos.TOP_LEFT);
-      StackPane.setMargin(rendererSwitch, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, rendererCheckBox);
+      StackPane.setAlignment(rendererCheckBox, Pos.TOP_LEFT);
+      StackPane.setMargin(rendererCheckBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace
