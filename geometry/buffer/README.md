@@ -10,19 +10,17 @@ Creating buffers is a core concept in GIS proximity analysis that allows you to 
 
 ## How to use the sample
 
-Click on the map. A planar and a geodesic buffer will be created at the click location using the distance (miles) specified in the text box. Continue clicking to create additional buffers. Notice that buffers closer to the equator appear similar in size. As you move north or south from the equator, however, the geodesic polygons become much larger. Geodesic polygons are in fact a better representation of the true shape and size of the buffer. Click `Clear` to remove all buffers and start again.
+Click on the map. A planar and a geodesic buffer will be created at the click location using the distance (miles) specified in the text box. Continue clicking to create additional buffers. Notice that buffers closer to the equator appear similar in size. As you move north or south from the equator, however, the geodesic polygons become much larger. Geodesic polygons are in fact a better representation of the true shape and size of the buffer.
 
 ## How it works
 
-1. The `Point` for a click on the map is captured.
-2. The static method `GeometryEngine.buffer()` is called to create a planar buffer polygon from the map location and distance.
-3. Another static method, `GeometryEngine.bufferGeodetic()` is called to create a geodesic buffer polygon using the same inputs.
-4. The polygon results (and click location) are displayed in the map view with different symbols in order to highlight the difference between the buffer techniques due to the spatial reference used in the planar calculation.
+1. Capture `Point`s when the `MapView` is clicked.
+2. Use The static method `GeometryEngine.buffer()` to create a planar buffer polygon from the map location and distance.
+3. Alternatively, use `GeometryEngine.bufferGeodetic()` to create a geodesic buffer polygon using the same inputs.
 
 ## Relevant API
 
-* GeometryEngine.buffer()
-* GeometryEngine.bufferGeodetic()
+* GeometryEngine
 * GraphicsOverlay
 
 ## Additional information
