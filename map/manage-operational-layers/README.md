@@ -1,35 +1,30 @@
-# Manage operational layers
-Add, remove, and reorder operational layers in a map.
+# Manage Operational Layers
 
-![Image of manage operational layers](ManageOperationalLayers.png)
+Add, remove and reorder operational layers in a map.
 
-## Use case
-
-Operational layers display the primary content of the map and usually provide dynamic content for the user to interact with (as opposed to basemap layers that provide context).
-
-The order of operational layers in a map determines the visual hierarchy of layers in the view. You can bring attention to a specific layer by rendering above other layers.
+![](ManageOperationalLayers.png)
 
 ## How to use the sample
 
-When the app starts, a list displays the operational layers that are currently displayed in the map. Right-click on the list item to remove the layer, or left-click to move it to the top. The map will be updated automatically.
+The map in the sample application comes with three ArcGISMapImageLayers already added. In the left control panel are two lists to hold layers.
 
-The second list shows layers that have been removed from the map. Click one to add it to the map.
+First list has the layers that are currently part of the map. Right click on the layer to remove it or left click on the layer to move it to the top.
+
+Second list has layers that have been removed from the first list. Click on layer to add it back to the first list.
 
 ## How it works
 
-1. Get the operational layers `LayerList` from the map using `map.getOperationalLayers()`.
-2. Add or remove layers using `layerList.add(layer)` and `layerList.remove(layer)` respectively. The last layer in the list will be rendered on top.
+To manage the operational layers:
+
+1. Create an `ArcGISMap`.
+2. Get the ArcGIS map `LayerList` using `ArcGISMap.getOperationalLayers()`.
+3. Add/Remove layers from the ArcGIS map by add/removing them from the layer list.
+4. The last `Layer` added to the list will be the Layer that is on top.
 
 ## Relevant API
 
 * ArcGISMap
 * ArcGISMapImageLayer
+* Basemap
 * LayerList
-
-## Additional information
-
-You cannot add the same layer to the map multiple times or add the same layer to multiple maps. Instead, clone the layer with `layer.clone()` before duplicating.
-
-## Tags
-
-add, delete, layer, map, remove
+* MapView
