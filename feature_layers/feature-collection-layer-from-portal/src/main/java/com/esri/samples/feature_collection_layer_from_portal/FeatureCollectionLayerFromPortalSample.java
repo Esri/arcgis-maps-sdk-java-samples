@@ -16,14 +16,6 @@
 
 package com.esri.samples.feature_collection_layer_from_portal;
 
-import com.esri.arcgisruntime.data.FeatureCollection;
-import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.portal.Portal;
-import com.esri.arcgisruntime.portal.PortalItem;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -34,6 +26,13 @@ import javafx.application.Application;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.data.FeatureCollection;
+import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
 
 public class FeatureCollectionLayerFromPortalSample extends Application {
 
@@ -46,7 +45,7 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
 
     @Override
     public void start(Stage stage) {
-        // set up the scene
+        // set up the application scene
         try {
             // create stack pane and application scene
             StackPane stackPane = new StackPane();
@@ -59,13 +58,15 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
             stage.setScene(scene);
             stage.show();
 
-            // create amp and set it to be displayed in this view
+
+            // create a new ArcGISMap with an oceans Basemap
             map = new ArcGISMap(Basemap.createOceans());
-            // create a view for this ArcGISMap and set ArcGISMap to it
+            
+            // create a map view and set the ArcGISMap to it
             mapView = new MapView();
             mapView.setMap(map);
 
-            // create text field to input user's own coordinate string
+            // create text field to input user's own portal item ID
             input = new TextField();
             input.setMaxWidth(250);
             input.setText("32798dfad17942858d5eef82ee802f0b");
@@ -74,15 +75,13 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
             Button fetchFromPortal = new Button("Open from portal item");
             fetchFromPortal.setMaxWidth(250);
 
-            /**
-             * Action event on button and validation of empty Text Filed
-             */
+             // verify the input and fetch the portal item
             fetchFromPortal.setOnAction(e -> {
 
                 if (!"".equals(input.getText())) {
                     fetchFeatureCollectionFromPortal();
                 } else {
-                    new Alert(Alert.AlertType.ERROR, "Portal Itemid is empty. Please enter a portal item id.").show();
+                    new Alert(Alert.AlertType.ERROR, "Portal Item ID is empty. Please enter a Portal Item ID.").show();
                 }
 
             });
@@ -106,11 +105,11 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
     }
 
     /**
-     * Fetch feature collection from portal and load as feature layer
+     * Fetch feature collection from portal and load as feature layer.
      */
     private void fetchFeatureCollectionFromPortal() {
 
-        //create portal and portal item
+        // create portal and portal item
         portal = new Portal("https://www.arcgis.com/");
         PortalItem portalItem = new PortalItem(portal, input.getText());
 

@@ -11,14 +11,15 @@
         "feature collection layer", 
         "id", 
         "item", 
-        "map "notes, 
+        "map",
+        "notes, 
         "portal"
     ],
     "redirect_from": "/java/latest/sample-code/feature-collection-layer.htm",
     "relevant_apis": [
-        "FeatureCollection"
-        "FeatureCollectionLayer"
-        "Portal"
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "Portal",
         "PortalItem"
     ],
     "snippets": [

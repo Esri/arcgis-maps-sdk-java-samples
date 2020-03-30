@@ -28,3 +28,11 @@ The feature collection is loaded from the Portal item when the sample starts. En
 * Feature
 * Portal
 * PortalItem
+
+## About the data
+
+The sample uses a sample layer depicting [world populations](https://www.arcgis.com/home/item.html?id=32798dfad17942858d5eef82ee802f0b).
+
+## Tags
+
+collection, feature collection, feature collection layer, id, item, map notes, portal
