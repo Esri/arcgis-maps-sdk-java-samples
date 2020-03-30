@@ -1,26 +1,35 @@
-# Generate offline map (overrides)
+# Generate Offline Map (Overrides)
 
 Take a web map offline with additional options for each layer.
 
-![Image of generate offline map overrides](GenerateOfflineMapOverrides.png)
+For applications where you just need to take all layers offline, use the standard workflow (using only `GenerateOfflineMapParameters`). For a simple example of how you take a map offline, see the "Generate Offline Map" sample. For more fine-grained control over the data you are taking offline, use overrides to adjust the settings for each layer. Some example use cases for the overrides approach could be when you need to:
 
-## Use case
+* adjust the extent for one or more layers to be different to the rest of the map.
+* reduce the amount of data (such as tiles) downloaded for one or more layers in the map.
+* filter features to be taken offline.
+* take features with no geometry offline.
 
-When taking a web map offline, you may adjust the data (such as layers or tiles) that is downloaded by using custom parameter overrides. This can be used to reduce the extent of the map or the download size of the offline map. It can also be used to highlight specific data by removing irrelevant data. Additionally, this workflow allows you to take features offline that don't have a geometry - for example, features whose attributes have been populated in the office, but still need a site survey for their geometry.
+![](GenerateOfflineMapOverrides.png)
 
 ## How to use the sample
 
-Sign in with an ArcGIS Online account when prompted for credentials (taking web maps offline requires an account) and modify the overrides parameters:
+**Note: When manually inputting a value in the spinner controls, make sure to hit Enter to commit the value.**
 
-* Use the min/max scale input fields to adjust the level IDs to be taken offline for the streets basemap.
-* Use the "Extent Buffer Distance" input field to set the buffer radius for the streets basemap.
-* Check the checkboxes for the feature operational layers you want to include in the offline map.
-* Use the "Min Hydrant Flow Rate" input field to only download features with a flow rate higher than this value.
-* Select the "Water Pipes" checkbox if you want to crop the water pipe features to the extent of the map.
+Sign in with a free developer account when prompted for credentials (taking web maps offline requires an account).
 
-After you have set up the overrides to your liking, click the "Generate offline map" button to start the download. A progress bar will display. Click the "Cancel" button if you want to stop the download. When the download is complete, the view will display the offline map. Pan around to see that it is cropped to the download area's extent.
+Use the min/max scale spinners to adjust the level IDs to be taken offline for the Streets basemap.
 
-## How it works
+Use the extent buffer distance spinner to set the buffer radius for the streets basemap.
+
+Check the checkboxes for the feature operational layers you want to include in the offline map.
+
+Use the min hydrant flow rate spinner to only download features with a flow rate higher than this value.
+
+Select the "Water Pipes" checkbox if you want to crop the water pipe features to the extent of the map.
+
+Click the "Generate offline map" button to start the download. A progress bar will display. Click the "Cancel" button if you want to stop the download. When the download is complete, the view will display the offline map. Pan around to see that it is cropped to the download area's extent.
+
+# How it works
 
 1. Load a web map from a `PortalItem`. Authenticate with the portal if required.
 2. Create an `OfflineMapTask` with the map.
@@ -33,11 +42,13 @@ After you have set up the overrides to your liking, click the "Generate offline 
     * To buffer the extent, use `exportTileCacheParameters.setAreaOfInterest(bufferedGeometry)` where bufferedGeometry can be calculated with the `GeometryEngine`.
 6. To remove operational layers from the download:
     * Create a `OfflineParametersKey` with the operational layer.
-    * Get the generate geodatabase layer options using the key with `List<GenerateLayerOption> layerOptions = overrides.getGenerateGeodatabaseParameters().get(key).getLayerOptions();`
-    * Loop through each `GenerateLayerOption` in the the list, and remove it if the layer option's ID matches the layer's ID.
+    * Get the generate geodatabase layer options using the key with `List&lt;GenerateLayerOption&gt; layerOptions = overrides.getGenerateGeodatabaseParameters().get(key).getLayerOptions();`
+    * Loop through each `GenerateLayerOption` in the the list, and remove it if the layer
+.     option's ID matches the layer's ID.
 7. To filter the features downloaded in an operational layer:
     * Get the layer options for the operational layer using the directions in step 6.
-    * Loop through the layer options. If the option layerID matches the layer's ID, set the filter clause with `layerOption.setWhereClause(sqlQueryString)` and set the query option with `layerOption.setQueryOption(GenerateLayerOption.QueryOption.USE_FILTER)`.
+    * Loop through the layer options. If the option layerID matches the layer's ID. set the filter clause with
+     `layerOption.setWhereClause(sqlQueryString)` and set the query option with `layerOption.setQueryOption(GenerateLayerOption.QueryOption.USE_FILTER)`.
 8. To not crop a layer's features to the extent of the offline map (default is true):
     * Set `layerOption.setUseGeometry(false)`.
 9. Create a `GenerateOfflineMapJob` with `offlineMapTask.generateOfflineMap(parameters, downloadPath, overrides)`. Start the job with `job.start()`.
@@ -55,10 +66,6 @@ After you have set up the overrides to your liking, click the "Generate offline 
 * OfflineMapParametersKey
 * OfflineMapTask
 
-## Additional information
-
-For applications where you just need to take all layers offline, use the standard workflow (using only `GenerateOfflineMapParameters`). For a simple example of how you take a map offline, please consult the "Generate offline map" sample.
-
 ## Tags
 
-adjust, download, extent, filter, LOD, offline, override, parameters, reduce, scale range, setting
+Offline
