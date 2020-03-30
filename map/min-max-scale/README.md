@@ -1,24 +1,30 @@
-# Min Max Scale
+# Min max scale
 
-Restrict zooming to a specific scale range.
+Restrict zooming between specific scale ranges.
 
-![](MinMaxScale.png)
+![Image of min max scale](MinMaxScale.png)
+
+## Use case
+
+Data may only appear at a certain scale on a map, and may be visually lost if zooming too far in or out. Setting the minimum and maximum scales ensures the zoom extents are appropriately limited for the purposes of the map.
 
 ## How to use the sample
 
-The ArcGISMap has a minimum and maximum scale set which locks the map view in-between that range.
+Zoom in and out of the map. The zoom extents of the map are limited between the given minimum and maximum scales.
 
 ## How it works
 
-To set the min and max scales on a `ArcGISMap`:
-
-1. Create an ArcGIS map.
-2. Set min and max scales of map, `ArcGISMap.setMaxScale()` and `ArcGISMap.setMinScale()`.
-3. Set the ArcGIS map to the `MapView`.
-
+1. Instantiate an `ArcGISMap` object.
+2. Set min and max scales of map with `setMaxScale()` and `setMinScale()`.
+3. Set the map to a `MapView` object.
+ 
 ## Relevant API
 
 * ArcGISMap
 * Basemap
 * MapView
-* Viewpoint
+* ViewPoint
+
+## Tags
+
+area of interest, level of detail, maximum, minimum, scale, viewpoint
