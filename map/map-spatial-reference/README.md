@@ -1,25 +1,26 @@
-# Map Spatial Reference
+# Map spatial reference
 
 Specify a map's spatial reference.
 
-Operational layers will automatically project to this spatial reference if possible.
+![Image of map spatial reference](MapSpatialReference.png)
 
-![](MapSpatialReference.png)
+## Use case
+
+Choosing the correct spatial reference is important for ensuring accurate projection of data points to a map.  
 
 ## How to use the sample
 
-ArcGISMapImageLayer is added to map with default spatial reference of GCS*WG*1984. (WKID: 4326). By setting the ArcGISMap to a spatial reference of world bonne (WKID: 54024), the ArcGISMapImageLayer gets re-projected to map's spatial reference.
+Pan and zoom around the map. Observe how the map is displayed using the World Bonne spatial reference.
 
 ## How it works
 
-To set a `SpatialReference` and project that to all operational layers of `ArcGISMap`:
+1. Instantiate an `ArcGISMap` object using a spatial reference e.g. `ArcGISMap(SpatialReference.create(54024))`.
+2. Instantiate a `Basemap` object using an `ArcGISMapImageLayer` object.
+3. Set the base map to the map.
+4. Set the map to a `MapView` object.
 
-1. Create an ArcGIS map passing in a spatial reference, `ArcGISMap(SpatialReference.create(54024))`.
-2. Create an `ArcGISMapImageLayer` as a `Basemap`.
-3. Set basemap to ArcGIS map.
-4. Set ArcGIS map to the `MapView`.
-    * the ArcGIS map image layer will now use the spatial reference set to the map and not it's default spatial reference
-
+The ArcGIS map image layer will now use the spatial reference set to the ArcGIS map (World Bonne (WKID: 54024)) and not it's default spatial reference.
+ 
 ## Relevant API
 
 * ArcGISMap
@@ -27,3 +28,11 @@ To set a `SpatialReference` and project that to all operational layers of `ArcGI
 * Basemap
 * MapView
 * SpatialReference
+
+## Additional information
+
+Operational layers will automatically project to this spatial reference when possible.
+
+## Tags
+
+project, SpatialReference, WKID
