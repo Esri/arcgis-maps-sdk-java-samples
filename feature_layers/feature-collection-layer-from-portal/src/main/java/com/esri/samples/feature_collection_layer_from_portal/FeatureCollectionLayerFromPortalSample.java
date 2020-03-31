@@ -16,6 +16,7 @@
 
 package com.esri.samples.feature_collection_layer_from_portal;
 
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -39,9 +40,8 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
     private MapView mapView;
     private ArcGISMap map;
     private Portal portal;
-    private FeatureCollectionLayer featureCollectionLayer;
     private FeatureCollection featureCollection;
-    private TextField input;
+    private TextField inputTextField;
 
     @Override
     public void start(Stage stage) {
@@ -58,45 +58,38 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
             stage.setScene(scene);
             stage.show();
 
-
-            // create a new ArcGISMap with an oceans Basemap
+            // create a new ArcGISMap with the oceans basemap
             map = new ArcGISMap(Basemap.createOceans());
-            
-            // create a map view and set the ArcGISMap to it
+
+            // create portal
+            portal = new Portal("https://www.arcgis.com/");
+
+            // create a map view and set the map to it
             mapView = new MapView();
             mapView.setMap(map);
 
             // create text field to input user's own portal item ID
-            input = new TextField();
-            input.setMaxWidth(250);
-            input.setText("32798dfad17942858d5eef82ee802f0b");
-
-            // create button to perform action
-            Button fetchFromPortal = new Button("Open from portal item");
-            fetchFromPortal.setMaxWidth(250);
-
-             // verify the input and fetch the portal item
-            fetchFromPortal.setOnAction(e -> {
-
-                if (!"".equals(input.getText())) {
-                    fetchFeatureCollectionFromPortal();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Portal Item ID is empty. Please enter a Portal Item ID.").show();
-                }
-
-            });
+            inputTextField = new TextField();
+            inputTextField.setMaxWidth(250);
+            inputTextField.setText("32798dfad17942858d5eef82ee802f0b");
 
             fetchFeatureCollectionFromPortal();
 
-            // add feature layer to ArcGISMap
-            map.getOperationalLayers().add(featureCollectionLayer);
+            // create button to perform action
+            Button fetchFromProtalButton = new Button("Open from portal item");
+            fetchFromProtalButton.setMaxWidth(250);
+
+            /**
+             * Action event on button and validation of empty Text Filed
+             */
+            fetchFromProtalButton.setOnAction(e -> fetchFeatureCollectionFromPortal());
 
             // add the map view and control panel to stack pane
-            stackPane.getChildren().addAll(mapView, input, fetchFromPortal);
-            StackPane.setAlignment(input, Pos.TOP_LEFT);
-            StackPane.setMargin(input, new Insets(10, 0, 0, 10));
-            StackPane.setAlignment(fetchFromPortal, Pos.TOP_LEFT);
-            StackPane.setMargin(fetchFromPortal, new Insets(40, 0, 0, 10));
+            stackPane.getChildren().addAll(mapView, inputTextField, fetchFromProtalButton);
+            StackPane.setAlignment(inputTextField, Pos.TOP_LEFT);
+            StackPane.setMargin(inputTextField, new Insets(10, 0, 0, 10));
+            StackPane.setAlignment(fetchFromProtalButton, Pos.TOP_LEFT);
+            StackPane.setMargin(fetchFromProtalButton, new Insets(40, 0, 0, 10));
 
         } catch (Exception e) {
             // on any error, display the stack trace
@@ -108,25 +101,34 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
      * Fetch feature collection from portal and load as feature layer.
      */
     private void fetchFeatureCollectionFromPortal() {
+        if (!inputTextField.getText().isEmpty()) {
+            // crate portal item
+            PortalItem portalItem = new PortalItem(portal, inputTextField.getText());
+                // create feature collection and add to the map as a layer
+                featureCollection = new FeatureCollection(portalItem);
+                FeatureCollectionLayer  featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
+                // add feature layer to the map
+                map.getOperationalLayers().clear();
+                map.getOperationalLayers().add(featureCollectionLayer);
 
-        // create portal and portal item
-        portal = new Portal("https://www.arcgis.com/");
-        PortalItem portalItem = new PortalItem(portal, input.getText());
-
-        // create feature collection and add to the map as a layer
-        featureCollection = new FeatureCollection(portalItem);
-        featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
-
-        featureCollectionLayer.loadAsync();
-        featureCollectionLayer.addDoneLoadingListener(() -> {
-            if (portalItem.getType() != PortalItem.Type.FEATURE_COLLECTION) {
-                new Alert(Alert.AlertType.ERROR, "This is not valid Feature Collection.").show();
-            }
-
-        });
+                featureCollectionLayer.addDoneLoadingListener(() -> {
+                    if(portalItem.getLoadStatus()== LoadStatus.LOADED) {
+                        if (portalItem.getType() != PortalItem.Type.FEATURE_COLLECTION) {
+                            new Alert(Alert.AlertType.ERROR, "This is not valid Feature Collection.").show();
+                        }
+                    }
+                    else
+                        {
+                            new Alert(Alert.AlertType.ERROR, portalItem.getLoadError().getCause().toString()).show();
+                        }
+                });
+        }
+        else
+        {
+            new Alert(Alert.AlertType.ERROR, "Portal Item ID is empty. Please enter a Portal Item ID.").show();
+        }
 
     }
-
     /**
      * Stops and releases all resources used in application.
      */

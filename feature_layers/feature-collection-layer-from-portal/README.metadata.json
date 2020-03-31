@@ -12,10 +12,9 @@
         "id", 
         "item", 
         "map",
-        "notes, 
+        "notes",
         "portal"
     ],
-    "redirect_from": "/java/latest/sample-code/feature-collection-layer.htm",
     "relevant_apis": [
         "FeatureCollection",
         "FeatureCollectionLayer",
