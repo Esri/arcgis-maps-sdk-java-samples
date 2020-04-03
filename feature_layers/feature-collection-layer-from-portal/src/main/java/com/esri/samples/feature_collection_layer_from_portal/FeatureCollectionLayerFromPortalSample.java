@@ -76,18 +76,18 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
             fetchFeatureCollectionFromPortal();
 
             // create button to perform action
-            Button fetchFromProtalButton = new Button("Open from portal item");
-            fetchFromProtalButton.setMaxWidth(250);
+            Button fetchFromPortalButton = new Button("Open from portal item");
+            fetchFromPortalButton.setMaxWidth(250);
 
             // verify the input and fetch the portal item
-            fetchFromProtalButton.setOnAction(e -> fetchFeatureCollectionFromPortal());
+            fetchFromPortalButton.setOnAction(e -> fetchFeatureCollectionFromPortal());
 
             // add the map view and control panel to stack pane
-            stackPane.getChildren().addAll(mapView, inputTextField, fetchFromProtalButton);
+            stackPane.getChildren().addAll(mapView, inputTextField, fetchFromPortalButton);
             StackPane.setAlignment(inputTextField, Pos.TOP_LEFT);
             StackPane.setMargin(inputTextField, new Insets(10, 0, 0, 10));
-            StackPane.setAlignment(fetchFromProtalButton, Pos.TOP_LEFT);
-            StackPane.setMargin(fetchFromProtalButton, new Insets(40, 0, 0, 10));
+            StackPane.setAlignment(fetchFromPortalButton, Pos.TOP_LEFT);
+            StackPane.setMargin(fetchFromPortalButton, new Insets(40, 0, 0, 10));
 
         } catch (Exception e) {
             // on any error, display the stack trace
@@ -105,7 +105,7 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
             PortalItem portalItem = new PortalItem(portal, inputTextField.getText());
             portalItem.loadAsync();
 
-            portalItem.addDoneLoadingListener(()->{
+            portalItem.addDoneLoadingListener(() -> {
 
                 if (portalItem.getLoadStatus() == LoadStatus.LOADED) {
 
@@ -122,12 +122,10 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
                         } else {
                         new Alert(Alert.AlertType.ERROR, "This is not valid Feature Collection.").show();
                     }
-
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Item does not exist or is inaccessible").show();
                 }
             });
-
         } else
         {
             new Alert(Alert.AlertType.ERROR, "Portal Item ID is empty. Please enter a Portal Item ID.").show();
