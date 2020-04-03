@@ -37,10 +37,9 @@ import com.esri.arcgisruntime.portal.PortalItem;
 
 public class FeatureCollectionLayerFromPortalSample extends Application {
 
-    private MapView mapView;
     private ArcGISMap map;
+    private MapView mapView;
     private Portal portal;
-    private FeatureCollection featureCollection;
     private TextField inputTextField;
 
     @Override
@@ -112,7 +111,7 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
                     if (portalItem.getType() == PortalItem.Type.FEATURE_COLLECTION) {
 
                         // create feature collection and add to the map as a layer
-                        featureCollection = new FeatureCollection(portalItem);
+                        FeatureCollection  featureCollection = new FeatureCollection(portalItem);
                         FeatureCollectionLayer featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
 
                         // add feature collection layer to the map
@@ -120,15 +119,15 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
                         map.getOperationalLayers().add(featureCollectionLayer);
 
                         } else {
-                        new Alert(Alert.AlertType.ERROR, "This is not valid Feature Collection.").show();
+                        new Alert(Alert.AlertType.ERROR, "Portal item is not a feature collection").show();
                     }
                 } else {
-                    new Alert(Alert.AlertType.ERROR, "Item does not exist or is inaccessible").show();
+                    new Alert(Alert.AlertType.ERROR, "Portal item failed to load").show();
                 }
             });
         } else
         {
-            new Alert(Alert.AlertType.ERROR, "Portal Item ID is empty. Please enter a Portal Item ID.").show();
+            new Alert(Alert.AlertType.ERROR, "Portal Item ID is empty").show();
         }
 
     }

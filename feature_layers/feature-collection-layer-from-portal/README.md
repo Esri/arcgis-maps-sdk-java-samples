@@ -19,7 +19,7 @@ The feature collection is loaded from the Portal item when the sample starts. En
 3. Verify that the item represents a feature collection.
 4. Create a `FeatureCollection` from the item.
 5. Create a `FeatureCollectionLayer`, referring to the feature collection.
-6. Add the feature collection layer to the map's `OperationalLayers` collection.
+6. Add the feature collection layer to the map's operational layers collection.
 
 ## Relevant API
 
