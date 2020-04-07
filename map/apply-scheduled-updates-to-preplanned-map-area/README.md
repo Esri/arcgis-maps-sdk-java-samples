@@ -2,7 +2,7 @@
 
 Apply scheduled updates to a downloaded preplanned map area.
 
-![Apply Scheduled Updates to Preplanned Map Area Sample](ApplyScheduledUpdatesToPreplannedMapArea.png)
+![Image of apply scheduled updates to preplanned map area](ApplyScheduledUpdatesToPreplannedMapArea.png)
 
 ## Use case
 
@@ -16,15 +16,14 @@ Start the app. It will display an offline map, check for available updates, and 
 
 ## How it works
 
-1. Create an `OfflineMapSyncTask` with an offline map.
-2. Use `offlineMapSyncTask.checkForUpdatesAsync()` to get a `OfflineMapUpdatesInfo` object.
-3. Check if the download availability on the info is `AVAILABLE`.
-4. To download the updates, create default sync parameters from the task.
-5. Set the `PreplannedScheduledUpdatesOption` and the rollback behavior on the parameters.
-6. Use `offlineMapSyncTask.syncOfflineMap(parameters)` to create an `OfflineMapSyncJob`.
-7. Start the job and get the `OfflineMapSyncResult`.
-8. Check if the mobile map package needs to be reopened, and do so if necessary. Display the offline map to see the
- changes.
+1. Create an `OfflineMapSyncTask` with your offline map.
+2. If desired, get `OfflineMapUpdatesInfo` from the task to check for update availability or update size.
+3. Get a set of default `OfflineMapSyncParameters` for the task.
+4. Set the parameters to download all available updates.
+5. Use the parameters to create an `OfflineMapSyncJob`.
+6. Start the job and get the results once it completes successfully.
+7. Check if the mobile map package needs to be reopened, and do so if necessary.
+8. Finally, display your offline map to see the changes.
 
 ## Relevant API
 
@@ -41,8 +40,8 @@ The data in this sample shows the roads and trails in the Canyonlands National P
 
 ## Additional information
 
-**Note:** preplanned areas using the Scheduled Updates workflow are read-only. For preplanned areas that can be edited on the end-user device, see [Take a map offline - preplanned](https://developers.arcgis.com/java/latest/guide/take-map-offline-preplanned.htm).
+**Note:** preplanned areas using the Scheduled Updates workflow are read-only. For preplanned areas that can be edited on the end-user device, see [Take a map offline (preplanned)](https://developers.arcgis.com/java/latest/guide/take-map-offline-preplanned.htm) in the *ArcGIS Runtime SDK for Java* guide.
 
 ## Tags
 
-offline, preplanned, pre-planned, synchronize, update
+offline, pre-planned, preplanned, synchronize, update

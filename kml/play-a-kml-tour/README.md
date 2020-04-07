@@ -1,18 +1,16 @@
-# Play a KML Tour
+# Play KML Tour
 
 Play tours in KML files.
 
-![](PlayAKMLTour.png)
+![Image of play KML tour](PlayAKMLTour.png)
 
 ## Use case
 
-KML, the file format used by Google Earth, supports creating tours, which can control the viewpoint of the scene, hide and show content, and play audio. Tours allow you to easily share tours of geographic locations, which can be augmented with rich multimedia.
+KML, the file format used by Google Earth, supports creating tours, which can control the viewpoint of the scene, hide and show content, and play audio. Tours allow you to easily share tours of geographic locations, which can be augmented with rich multimedia. Runtime allows you to consume these tours using a simple API.
 
 ## How to use the sample
 
-Click the play button to start the tour. The narration audio will start and then the viewpoint will animate. Press the button again to pause the tour.
-
-To start again from the beginning, click the reset button to reset the tour. Then press play.
+The sample will load the KMZ file from ArcGIS Online. Click the play button to start the tour. The narration audio will start and then the viewpoint will animate. Press the button again to pause the tour. To restart the tour, hit the refresh button and then the play button.
 
 ## How it works
 
@@ -24,19 +22,17 @@ To start again from the beginning, click the reset button to reset the tour. The
 
 ## Relevant API
 
-* KmlDataset
 * KmlTour
 * KmlTourController
-* KmlTourStatus
 
 ## About the data
 
-This sample uses a custom tour of Esri's offices created by a member of the ArcGIS Runtime SDK samples team. Contains audio.
+This sample uses a custom tour created by a member of the ArcGIS Runtime SDK samples team. When you play the tour, you'll see a narrated journey through some of Esri's offices.
 
 ## Additional information
 
-See [Google's documentation](https://developers.google.com/kml/documentation/touring) for information about authoring KML tours.
+See [Touring in KML](https://developers.google.com/kml/documentation/touring) in *Keyhole Markup Language* for more information.
 
 ## Tags
 
-KML, tour, story, interactive, narration, play, pause, animation
+animation, interactive, KML, narration, pause, play, story, tour
