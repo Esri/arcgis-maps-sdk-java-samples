@@ -2,7 +2,7 @@
 
 Play tours in KML files.
 
-![Image of play KML tour](PlayAKMLTour.png)
+![](PlayAKMLTour.png)
 
 ## Use case
 

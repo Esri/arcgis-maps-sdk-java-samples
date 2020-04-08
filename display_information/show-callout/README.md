@@ -2,7 +2,7 @@
 
 Show a callout with the latitude and longitude of user-clicked points.
 
-![Image of show callout](ShowCallout.png)
+![](ShowCallout.png)
 
 ## Use case
 
