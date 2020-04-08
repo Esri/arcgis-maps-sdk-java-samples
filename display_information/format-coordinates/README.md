@@ -2,7 +2,7 @@
 
 Format coordinates in a variety of common notations.
 
-![Image of format coordinates](FormatCoordinates.png)
+![](FormatCoordinates.png)
 
 ## Use case
 

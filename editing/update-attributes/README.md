@@ -2,7 +2,7 @@
 
 Update feature attributes in an online feature service.
 
-![Image of update attributes feature service](UpdateAttributes.gif)
+![](UpdateAttributes.gif)
 
 ## Use case
 

@@ -2,7 +2,7 @@
 
 Display annotation from a feature service URL.
 
-![Image showing the Display Annotation sample](DisplayAnnotation.png)
+![](DisplayAnnotation.png)
 
 ## Use case
 

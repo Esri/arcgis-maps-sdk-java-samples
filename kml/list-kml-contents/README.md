@@ -2,7 +2,7 @@
 
 List the contents of a KML file.
 
-![Image of list KML contents](ListKMLContents.png)
+![](ListKMLContents.png)
 
 ## Use case
 

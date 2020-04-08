@@ -2,7 +2,7 @@
 
 Identify a graphic to get further information about the object.
 
-![Image of identify graphics](IdentifyGraphics.png)
+![](IdentifyGraphics.png)
 
 ## Use case
 

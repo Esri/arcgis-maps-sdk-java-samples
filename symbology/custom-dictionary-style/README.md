@@ -2,7 +2,7 @@
 
 Use a custom dictionary style (.stylx) to symbolize features using a variety of attribute values.
 
-![Custom dictionary style](CustomDictionaryStyle.png)
+![](CustomDictionaryStyle.png)
 
 ## Use case
 
