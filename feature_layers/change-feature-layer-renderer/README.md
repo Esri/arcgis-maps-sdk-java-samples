@@ -2,7 +2,7 @@
 
 Change the appearance of a feature layer with a renderer.
 
-![Image of change feature layer renderer](ChangeFeatureLayerRenderer.png)
+![](ChangeFeatureLayerRenderer.png)
 
 ## Use case
 
@@ -10,7 +10,7 @@ A feature layer hosted on ArcGIS Online has a preset renderer and will display i
 
 ## How to use the sample
 
-Use the button to change the renderer on the feature layer. The original renderer displays orange circles, the diameters of which are proportional to carbon storage of each tree. When the blue renderer in this sample is applied, it displays the location of the trees simply as blue points.
+Use the 'Blue Renderer' button to change the renderer on the feature layer. The original renderer displays orange circles, the diameters of which are proportional to carbon storage of each tree. When the blue renderer in this sample is applied, it displays the location of the trees simply as blue points.
 
 ## How it works
 

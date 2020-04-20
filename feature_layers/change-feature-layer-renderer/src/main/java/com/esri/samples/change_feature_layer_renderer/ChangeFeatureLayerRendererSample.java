@@ -61,21 +61,23 @@ public class ChangeFeatureLayerRendererSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a marker symbol renderer with a green circle
-      SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF317D11, 5 );
+      // create a marker symbol renderer with a blue circle
+      SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF0000FF, 5 );
       SimpleRenderer blueRenderer = new SimpleRenderer(markerSymbol);
 
       // create renderer toggle switch
       ToggleButton rendererSwitch = new ToggleButton();
-      rendererSwitch.setText("green renderer");
+      rendererSwitch.setText("Blue Renderer");
 
       // set the render if the switch is selected
       rendererSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
         if (rendererSwitch.isSelected()) {
           featureLayer.setRenderer(blueRenderer);
+          rendererSwitch.setText("Show Original Renderer");
         } else {
           // reset the renderer if not selected
           featureLayer.resetRenderer();
+          rendererSwitch.setText("Blue Renderer");
         }
       });
 
