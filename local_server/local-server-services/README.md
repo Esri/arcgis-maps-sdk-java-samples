@@ -1,10 +1,12 @@
-# Local Server Services
+# Local Server services
 
-Manage multiple running services in Local Server.
+Demonstrates how to start and stop the Local Server and start and stop a local map, feature, and geoprocessing service running on the Local Server.
 
-**Note:** Local Server is not supported on MacOS
+![Image of local server services](LocalServerServices.png)
 
-![](LocalServerServices.png)
+## Use case
+
+For executing offline geoprocessing tasks in your ArcGIS Runtime apps via an offline (local) server.
 
 ## How to use the sample
 
@@ -14,18 +16,22 @@ To stop a service, select it from the Running Services list and click the Stop S
 
 ## How it works
 
-To start a `LocalService`:
+To start a `LocalServer` and attach a `LocalService`:
 
-1. Start the local server.
-    * `LocalServer.INSTANCE` creates a local server
-    * `server.startAsync()` starts the server asynchronously
-2. Wait for server to be in th. `LocalServerStatus.STARTED` state.
-    * `Server.addStatusChangedListener()` fires whenever the running status of the local server
-changes
-3. Create and run a local service.
-    * `new LocalMapService(Url)` creates a local map service with the given url path to mpk file
-    * `service.startAsync()` starts the service asynchronously
-4. Stop the service with `service.stopAsync().`
+1. Create and run a local server with `LocalServer.INSTANCE`.
+2. Start the server asynchronously with `Server.startAsync()`.
+3. Wait for server to be in the  `LocalServerStatus.STARTED` state.
+   * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
+4. Create and run a local service. Here is an example of running a `LocalMapService`:
+    1. Instantiate `LocalMapService(Url)` to create a local map service with the given URL path to map package (`mpk` or `mpkx` file).
+    2. Start the job with `LocalMapServic.estartAsync()`.
+       * The service is added to the `LocalServer` automatically.
+
+To stop a `LocalServer` and any attached `LocalServices`:
+
+1. If required, you can retrieve a list of all running services with `LocalServer.INSTANCE.getServices()`.
+2. Stop the services asynchronously using `LocalService.stopAsync()`.
+3. Use `LocalServer.INSTANCE.stopAsync()` to stop the server asynchronously. You can use `.addDoneListener()` on this process to perform additional actions after the server is successfully stopped, such as removing temporary files.
 
 ## Relevant API
 
@@ -33,6 +39,13 @@ changes
 * LocalGeoprocessingService
 * LocalMapService
 * LocalServer
-* StatusChangedEvent
 * LocalServerStatus
 * LocalService
+
+## Additional information
+
+Local Server can be downloaded for Windows and Linux platforms. Local Server is not supported on macOS.
+
+## Tags
+
+feature, geoprocessing, local services, map, server, service

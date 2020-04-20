@@ -1,12 +1,12 @@
-# Create and Save Map
+# Create and save map
 
-Create and save a map to your own portal.
+Create and save a map as an ArcGIS `PortalItem` (i.e. web map). 
 
-![](CreateAndSaveMap.png)
+![Image of create and save map](CreateAndSaveMap.png)
 
 ## Use case
 
-Maps can be created programatically in code and then serialized and saved as an ArcGIS `web map`. A `web map` can be shared with others and opened in various applications and APIs throughout the platform, such as ArcGIS Pro, ArcGIS Online, the JavaScript API, Collector, and Explorer.
+Maps can be created programmatically in code and then serialized and saved as an ArcGIS `web map`. A `web map` can be shared with others and opened in various applications and APIs throughout the platform, such as ArcGIS Pro, ArcGIS Online, the JavaScript API, Collector, and Explorer.
 
 ## How to use the sample
 
@@ -16,22 +16,15 @@ Fill in your portal and registered app credentials in the starting dialog to aut
 
 ## How it works
 
-1. Create an `ArcGISMap` with a `Basemap` and operational layers.
-2. Create an `OAuthConfiguration` with your portal and app credential.
-3. Add the configuration to the `AuthenticationManager`.
-4. Create a `Portal` and load it. Use a `DefaultAuthenticationChallengeHandler` to authenticate with your username and password.
-5. Once authenticated, save the map by calling `map.saveMapAsAsync()`, passing in the title, tags, description, and portal folder.
+1. An `ArcGISMap` is created with a `Basemap` and a few operational layers.
+2. A `Portal` object is created and loaded. This will issue an authentication challenge, prompting the user to provide credentials.
+3. Once the user is authenticated, `Map.saveMapAsAsync()` is called and a new `ArcGISMap` is saved with the specified title, tags, and folder.
 
 ## Relevant API
 
-* AuthenticationManager
-* DefaultAuthenticationChallengeHandler
-* OAuthConfiguration
+* ArcGISMap
 * Portal
-* PortalFolder
-* PortalItem
-* PortalUserContent
 
 ## Tags
 
-web map, portal
+ArcGIS Online, ArcGIS Pro, portal, publish, share, web map
