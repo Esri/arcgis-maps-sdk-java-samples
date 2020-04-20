@@ -2,7 +2,7 @@
 
 Update a feature's location in an online feature service.
 
-![Image of update geometries feature service](UpdateGeometries.gif)
+![](UpdateGeometries.gif)
 
 ## Use case
 

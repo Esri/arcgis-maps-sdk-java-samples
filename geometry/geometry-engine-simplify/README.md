@@ -2,7 +2,7 @@
 
 Simplify a polygon with a self-intersecting geometry.
 
-![Image of geometry engine simplify](GeometryEngineSimplify.png)
+![](GeometryEngineSimplify.png)
 
 ## Use case
 

@@ -2,7 +2,7 @@
 
 Change a graphic's symbol, attributes, and geometry.
 
-![Image of Update Graphics](UpdateGraphics.gif)
+![](UpdateGraphics.gif)
 
 ## Use case
 

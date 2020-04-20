@@ -2,7 +2,7 @@
 
 Measure distances between two points in 3D.
 
-![Image of distance measurement analysis](DistanceMeasurementAnalysis.png)
+![](DistanceMeasurementAnalysis.png)
 
 ## Use case
 

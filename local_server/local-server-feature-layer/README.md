@@ -2,7 +2,7 @@
 
 Start a local feature service and display its features in a map.
 
-![Image of local server feature layer](LocalServerFeatureLayer.png)
+![](LocalServerFeatureLayer.png)
 
 ## Use case
 

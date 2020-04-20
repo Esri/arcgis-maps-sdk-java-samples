@@ -2,7 +2,7 @@
 
 Demonstrates how to start and stop the Local Server and start and stop a local map, feature, and geoprocessing service running on the Local Server.
 
-![Image of local server services](LocalServerServices.png)
+![](LocalServerServices.png)
 
 ## Use case
 

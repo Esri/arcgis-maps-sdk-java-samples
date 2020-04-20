@@ -2,7 +2,7 @@
 
 Determine a mobile map package's expiration date.
 
-![Honor mobile map package expiration date sample](HonorMobileMapPackageExpirationDate.png)
+![](HonorMobileMapPackageExpirationDate.png)
 
 ## Use case
 
