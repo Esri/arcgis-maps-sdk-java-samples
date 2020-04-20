@@ -2,7 +2,7 @@
 
 Take a map offline using a preplanned map area.
 
-![Download Preplanned Map Sample](DownloadPreplannedMap.png)
+![](DownloadPreplannedMap.png)
 
 ## Use case
 

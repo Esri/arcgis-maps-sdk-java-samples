@@ -2,7 +2,7 @@
 
 Use a geoprocessing service and a set of features to identify statistically significant hot spots and cold spots.
 
-![Image of analyze hotspots](AnalyzeHotspots.png)
+![](AnalyzeHotspots.png)
 
 ## Use case
 

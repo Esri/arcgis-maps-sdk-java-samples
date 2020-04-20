@@ -2,7 +2,7 @@
 
 Calculate a geodesic path between two points and measure its distance.
 
-![Image of geodesic operations](GeodesicOperations.png)
+![](GeodesicOperations.png)
 
 ## Use case
 

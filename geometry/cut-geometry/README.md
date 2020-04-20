@@ -2,7 +2,7 @@
 
 Cut a geometry along a polyline.
 
-![Image of cut geometry](CutGeometry.png)
+![](CutGeometry.png)
 
 ## Use case
 

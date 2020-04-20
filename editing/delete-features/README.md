@@ -2,7 +2,7 @@
 
 Delete features from an online feature service.
 
-![Image of delete features feature service](DeleteFeatures.gif)
+![](DeleteFeatures.gif)
 
 ## Use case
 
