@@ -2,7 +2,7 @@
 
 Change how a feature layer looks with a renderer.
 
-![](ChangeFeatureLayerRenderer.gif)
+![](ChangeFeatureLayerRenderer.png)
 
 ## How to use the sample
 
