@@ -2,7 +2,7 @@
 
 Take a web map offline with additional options for each layer.
 
-![Image of generate offline map overrides](GenerateOfflineMapOverrides.png)
+![](GenerateOfflineMapOverrides.png)
 
 ## Use case
 
