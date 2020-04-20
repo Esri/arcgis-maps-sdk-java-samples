@@ -23,7 +23,7 @@ Zoom in and out of the map. The zoom extents of the map are limited between the 
 * ArcGISMap
 * Basemap
 * MapView
-* ViewPoint
+* Viewpoint
 
 ## Tags
 
