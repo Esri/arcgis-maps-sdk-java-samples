@@ -2,7 +2,7 @@
 
 Display the map at an initial viewpoint representing a bounding geometry.
 
-![Image of map initial extent](MapInitialExtent.png)
+![](MapInitialExtent.png)
 
 ## Use case
 
@@ -14,10 +14,10 @@ As application is loading, initial view point is set and map view opens at the g
 
 ## How it works
 
-1. Instantiate an `ArcGISMap` object.
-2. Instantiate a `Viewpoint` object using an `Envelope` object.
+1. Create an `ArcGISMap`.
+2. Create a `Viewpoint` using an `Envelope`.
 3. Set the starting location of the map with `setInitialViewpoint(Viewpoint)`.
-4. Set the map to a `MapView` object.
+4. Set the map to a `MapView`.
  
 ## Relevant API
 

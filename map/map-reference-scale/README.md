@@ -12,14 +12,12 @@ Map annotations are typically only relevant at certain scales. For instance, ann
 
 ## How to use the sample
 
-* Use the drop box at the top to set the map's reference scale (1:500,000 1:250,000 1:100,000 1:50,000).
-* Click the button to set the map scale to the reference scale.
-* Use the menu checkboxes in the layer menu to set which feature layers should honor the reference scale.
+Use the drop box at the top to set the map's reference scale (1:500,000 1:250,000 1:100,000 1:50,000). Click the 'Set Map Scale to Reference Scale' button to set the map scale to the reference scale. Use the menu checkboxes in the layer menu to set which feature layers should honor the reference scale.
 
 ## How it works
 
-1. Get and set the reference scale property on the `ArcGISMap` object.
-2. Get and set the scale symbols property on each individual `FeatureLayer` object.
+1. Get and set the reference scale property of the `ArcGISMap`.
+2. Get and set the scale symbols property on each individual `FeatureLayer`.
 
 ## Relevant API
 
