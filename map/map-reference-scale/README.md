@@ -2,7 +2,7 @@
 
 Set the map's reference scale and which feature layers should honor the reference scale.
 
-![Image of map reference scale](MapReferenceScale.png)
+![](MapReferenceScale.png)
 
 ## Use case
 

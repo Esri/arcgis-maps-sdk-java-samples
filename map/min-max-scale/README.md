@@ -2,7 +2,7 @@
 
 Restrict zooming between specific scale ranges.
 
-![Image of min max scale](MinMaxScale.png)
+![](MinMaxScale.png)
 
 ## Use case
 
