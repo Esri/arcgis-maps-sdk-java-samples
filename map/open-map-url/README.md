@@ -2,11 +2,11 @@
 
 Display a web map.
 
-![Image of open map URL](OpenMapURL.png)
+![](OpenMapURL.png)
 
 ## Use case
 
-For displaying web maps stored on ArcGISOnline (e.g. soil survey results, as demonstrated in this sample).
+For displaying web maps stored on ArcGISOnline.
 
 ## How to use the sample
 
@@ -25,6 +25,10 @@ A web map can be selected from the drop-down list. On selection the web map disp
 * MapView
 * Portal
 * PortalItem
+
+## About the data
+
+The web maps accessed by this sample show [USA soil survey results](https://www.arcgis.com/home/webmap/viewer.html?webmap=0edea1c7bbb84ba5842d20483af11679) and [2014 USA Tapestry Segmentation Density](https://www.arcgis.com/home/webmap/viewer.html?webmap=01f052c8995e4b9e889d73c3e210ebe3).
 
 ## Tags
 

@@ -2,13 +2,13 @@
 
 Display maps and use locators to enable search and routing offline using a Mobile Map Package.
 
-![Image of mobile map search and route](MobileMapSearchAndRoute.png)
+![](MobileMapSearchAndRoute.png)
 
 ## Use case
 
 Mobile map packages make it easy to transmit and store the necessary components for an offline map experience including: transportation networks (for routing/navigation), locators (address search, forward and reverse geocoding), and maps. 
 
-A field worker might download a mobile map package to support their operations while working offline.
+A field worker might download a mobile map package to support their operations while working offline, for example to navigate remote oil field roads.
 
 ## How to use the sample
 
