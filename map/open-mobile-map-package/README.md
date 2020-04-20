@@ -29,7 +29,7 @@ This sample shows points of interest within a [Yellowstone Mobile Map Package](h
 
 ## Additional information
 
-Mobile map packages can also include address locators and geometric networks. For an example of this, see the "Mobile Map Search and Route Sample".
+Mobile map packages can also include address locators and geometric networks. For an example of this, see the "Mobile Map Search and Route" sample.
 
 ## Tags
 

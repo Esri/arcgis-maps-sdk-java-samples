@@ -28,7 +28,7 @@ When the sample loads, the feature tables and rasters from the GeoPackage will b
 
 ## About the data
 
-This sample features a GeoPackage with [Aurora Colorado GeoPackage](https://www.arcgis.com/home/item.html?id=68ec42517cdd439e81b036210483e8e7) holds datasets that cover Aurora, Colorado: Public art (points), Bike trails (lines), Subdivisions (polygons), Airport noise (raster), and liquour license density (raster).
+This sample features an [Aurora Colorado GeoPackage](https://www.arcgis.com/home/item.html?id=68ec42517cdd439e81b036210483e8e7) which holds datasets that cover Aurora, Colorado: Public art (points), Bike trails (lines), Subdivisions (polygons), Airport noise (raster), and liquour license density (raster).
 
 ## Additional information
 
@@ -36,4 +36,4 @@ GeoPackage uses a single SQLite file (.gpkg) that conforms to the OGC GeoPackage
 
 ## Tags
 
-container, GeoPackage, layer, map, OGC, package, raster, table
+container, geopackage, layer, map, OGC, package, raster, table
