@@ -6,7 +6,7 @@ Take a web map offline with additional options for each layer.
 
 ## Use case
 
-When taking a web map offline, you may adjust the data (such as layers or tiles) that is downloaded by using custom parameter overrides. This can be used to reduce the extent of the map or the download size of the offline map. It can also be used to highlight specific data by removing irrelevant data. Additionally, this workflow allows you to take features offline that don't have a geometry - for example, features whose attributes have been populated in the office, but still need a site survey for their geometry.
+When taking a web map offline, you may adjust the data (such as layers or tiles) that are downloaded by using custom parameter overrides. This can be used to reduce the extent of the map or the download size of the offline map, or to highlight specific data by removing irrelevant data. Additionally, this workflow allows you to take features offline that don't have a geometry; for example, features whose attributes have been populated in the office, but still need a site survey for their geometry.
 
 ## How to use the sample
 
@@ -18,7 +18,7 @@ Sign in with an ArcGIS Online account when prompted for credentials (taking web 
 * Use the "Min Hydrant Flow Rate" input field to only download features with a flow rate higher than this value.
 * Select the "Water Pipes" checkbox if you want to crop the water pipe features to the extent of the map.
 
-After you have set up the overrides to your liking, click the "Generate offline map" button to start the download. A progress bar will display. Click the "Cancel" button if you want to stop the download. When the download is complete, the view will display the offline map. Pan around to see that it is cropped to the download area's extent.
+After you have set up the overrides to your liking, click the "Generate offline map" button to start the download. A progress bar will display. Click the "Cancel" button if you want to stop the download. When the download is complete, the view will display the offline map. Pan around to see that the map is cropped to the download area's extent.
 
 ## How it works
 
