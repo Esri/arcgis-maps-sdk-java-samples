@@ -2,7 +2,7 @@
 
 Change the appearance of a feature layer with a renderer.
 
-![](ChangeFeatureLayerRenderer.png)
+![Image of change feature layer renderer](ChangeFeatureLayerRenderer.png)
 
 ## Use case
 
