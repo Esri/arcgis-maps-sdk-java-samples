@@ -2,7 +2,7 @@
 
 Display the map at an initial viewpoint representing a bounding geometry.
 
-![](MapInitialExtent.png)
+![Image of map initial extent](MapInitialExtent.png)
 
 ## Use case
 

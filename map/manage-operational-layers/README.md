@@ -2,7 +2,7 @@
 
 Add, remove, and reorder operational layers in a map.
 
-![](ManageOperationalLayers.png)
+![Image of manage operational layers](ManageOperationalLayers.png)
 
 ## Use case
 
