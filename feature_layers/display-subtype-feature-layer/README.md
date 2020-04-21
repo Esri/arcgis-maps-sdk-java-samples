@@ -2,7 +2,7 @@
 
 Displays a composite layer of all the subtype values in a feature class.
 
-![](DisplaySubtypeFeatureLayer.png)
+![Image of display subtype feature layer](DisplaySubtypeFeatureLayer.png)
 
 ## Use case
 

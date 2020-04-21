@@ -2,7 +2,7 @@
 
 Limit the features displayed on a map with a definition expression.
 
-![](FeatureLayerDefinitionExpression.png)
+![Image of feature layer definition expression](FeatureLayerDefinitionExpression.png)
 
 ## Use case
 
