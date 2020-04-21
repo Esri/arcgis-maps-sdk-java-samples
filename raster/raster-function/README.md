@@ -1,4 +1,4 @@
-# Raster Function
+# Raster function
 
 Load a raster from a service, then apply a function to it.
 
