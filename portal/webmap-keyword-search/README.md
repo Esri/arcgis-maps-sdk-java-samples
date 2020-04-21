@@ -1,4 +1,4 @@
-# Webmap Keyword Search
+# Webmap keyword search
 
 Find webmap portal items by using a search term.
 

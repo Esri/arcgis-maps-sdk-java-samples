@@ -20,6 +20,9 @@ Enter the URL to your IWA-secured portal. Click the 'Search IWA Secured Portal' 
 
 ## Relevant API
 
+* AuthenticationChallenge
+* AuthenticationChallengeHandler
+* AuthenticationChallengeResponse
 * AuthenticationManager
 * Portal
 * UserCredential
