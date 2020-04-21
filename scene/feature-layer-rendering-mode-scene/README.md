@@ -1,31 +1,35 @@
-# Feature Layer Rendering Mode (Scene)
+# Feature layer rendering mode (scene)
 
-Render features statically or dynamically in 3D.
+Render features in a scene statically or dynamically by setting the feature layer rendering mode.
 
-![](FeatureLayerRenderingModeScene.gif)
+![Image of feature layer rendering mode scene](FeatureLayerRenderingModeScene.gif)
+
+## Use case
+
+In dynamic rendering mode, features and graphics are stored on the GPU. As a result, dynamic rendering mode is good for moving objects and for maintaining graphical fidelity during extent changes, since individual graphic changes can be efficiently applied directly to the GPU state. This gives the map or scene a seamless look and feel when interacting with it. The number of features and graphics has a direct impact on GPU resources, so large numbers of features or graphics can affect the responsiveness of maps or scenes to user interaction. Ultimately, the number and complexity of features and graphics that can be rendered in dynamic rendering mode is dependent on the power and memory of the device's GPU.
+
+In static rendering mode, features and graphics are rendered only when needed (for example, after an extent change) and offloads a significant portion of the graphical processing onto the CPU. As a result, less work is required by the GPU to draw the graphics, and the GPU can spend its resources on keeping the UI interactive. Use this mode for stationary graphics, complex geometries, and very large numbers of features or graphics. The number of features and graphics has little impact on frame render time, meaning it scales well, and pushes a constant GPU payload. However, rendering updates is CPU and system memory intensive, which can have an impact on device battery life.
+
+## How to use the sample
+
+When opened, the sample will automatically perform the the same zoom animation on both static and dynamically rendered scenes.
 
 ## How it works
 
-To change `FeatureLayer.RenderingMode` using `LoadSettings`:
-
-1. Create a `ArcGISScene`.
-2. Set preferred rendering mode to scene, `sceneBottom.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)`.
-    * Can set preferred rendering mode for `Points`, `Polylines`, or `Polygons`.
-    * `Multipoint` preferred rendering mode is the same as point.
-3. Set scene to `SceneView`, `sceneViewBottom.setArcGISScene(sceneBottom)`.
-4. Create a `ServiceFeatureTable` from a point service, `new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");`.
-5. Create `FeatureLayer` from table, `new FeatureLayer(poinServiceFeatureTable)`.
-6. Add layer to scene, `sceneBottom.getOperationalLayers().add(pointFeatureLayer.copy())`
-    * Now the point layer will be rendered dynamically to scene view.
+1. Create an `ArcGISScene` and call `getLoadSettings()` and then `setPreferred[Point/Polyline/Polygon]FeatureRenderingMode(...)`.
+2. The `RenderingMode` can be set to `STATIC`, `DYNAMIC` or `AUTOMATIC`.
+    * In Static rendering mode, the number of features and graphics has little impact on frame render time, meaning it scales well, however points don't stay screen-aligned and point/polyline/polygon objects are only redrawn once map view navigation is complete.
+    * In Dynamic rendering mode, large numbers of features or graphics can affect the responsiveness of maps or scenes to user interaction, however points remain screen-aligned and point/polyline/polygon objects are continually redrawn while the map view is navigating.
+3. When left to automatic rendering, points are drawn dynamically and polylines and polygons statically.
 
 ## Relevant API
 
 * ArcGISScene
-* Camera
 * FeatureLayer
 * FeatureLayer.RenderingMode
 * LoadSettings
-* Point
-* Polyline
-* Polygon
-* ServiceFeatureTable
+* SceneView
+
+## Tags
+
+3D, dynamic, feature layer, features, rendering, static
