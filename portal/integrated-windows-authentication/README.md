@@ -10,7 +10,7 @@ Your organization might use Integrated Windows Authentication (IWA) to secure Ar
 
 ## How to use the sample
 
-Enter the URL to your IWA-secured portal. Tap the button to search for web maps stored on the portal. You will be prompted for a user name, password, and domain. If you authenticate successfully, portal item results will display in the list. Select a web map item to display it in the map view.
+Enter the URL to your IWA-secured portal. Click the 'Search IWA Secured Portal' button to search for web maps stored on the portal. You will be prompted for a user name, password, and domain. If you authenticate successfully, portal item results will display in the list. Select a web map item to display it in the map view.
 
 ## How it works
 
