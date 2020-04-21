@@ -2,7 +2,7 @@
 
 Display a basemap centered at an initial location and scale.
 
-![](SetInitialMapLocation.png)
+![Image of set initial map location](SetInitialMapLocation.png)
 
 ## Use case
 
