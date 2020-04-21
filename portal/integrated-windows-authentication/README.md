@@ -1,6 +1,6 @@
 # Integrated Windows Authentication
 
-Connect to an IWA secured Portal and search for maps.
+Connect to an IWA secured portal and search for maps.
 
 ![Image of integrated windows authentication](IntegratedWindowsAuthentication.png)
 
