@@ -1,36 +1,44 @@
-# Change Viewpoint
+# Change viewpoint
 
-Set or animate to a new viewpoint.
+Set the map view to a new viewpoint.
 
-![](ChangeViewpoint.png)
+![Image of change viewpoint](ChangeViewpoint.png)
+
+## Use case
+
+Programmatically navigate to a specified location in the map or scene. Use this to focus on a particular point or area of interest.
 
 ## How to use the sample
 
-The `MapView` provides different methods you can use to set the viewpoint.
-- London button pans to London given a certain time length, `MapView.setViewpointWithDurationAsync()`.
-- Waterloo button centers at a point and set a distance from the ground using a scale, `MapView.setViewpointCenterAsync()`.
-- Westminster button set viewpoint given some type of geometry, `MapView.setViewpointGeometryAsync()`.
-
-Below are some other ways to set a viewpoint.
-- setViewpoint
-- setViewpointAsync
-- setViewpointCenterAsync
-- setViewpointGeometryAsync
-- setViewpointRotationAsync
-- setViewpointScaleAsync
+The map view has several methods for setting its current viewpoint. Click one of the buttons to see the viewpoint changed to that location using the method noted in parentheses.
 
 ## How it works
 
-To change the `Viewpoint`:
-
-1. Create an `ArcGISMap`.
-2. Set the map to the `MapView`, `MapView.setMap()`.
-3. Change the view point with `MapView.setViewPoint()` or any method mention above.
+1. Create a new `ArcGISMap` and set it to the `MapView`.
+2. Change the map's `Viewpoint` using one of the available methods:
+  * Use `MapView.setViewpointAsync()` to pan to a viewpoint over the specified length of time.
+  * Use `MapView.setViewpointCenterAsync()` to center the viewpoint on a `Point` and set a distance from the ground using a scale.
+  * Use `MapView.setViewpointGeometryAsync()` to set the viewpoint to a given `Geometry`.
 
 ## Relevant API
 
 * ArcGISMap
-* Basemap
+* Geometry
+* MapView
 * Point
-* SpatialReference
 * Viewpoint
+
+## Additional information
+
+Below are some other ways to set a viewpoint:
+
+* setViewpoint
+* setViewpointAsync
+* setViewpointCenterAsync
+* setViewpointGeometryAsync
+* setViewpointRotationAsync
+* setViewpointScaleAsync
+
+## Tags
+
+animate, extent, pan, rotate, scale, view, zoom

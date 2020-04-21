@@ -1,26 +1,32 @@
-# Identify Layers
+# Identify layers
 
-Get clicked features from multiple layers.
+Identify features in all layers in a map. 
 
-![](IdentifyLayers.png)
+![Image of identify layers](IdentifyLayers.png)
+
+## Use case
+
+IdentifyLayers allows users to tap on a map, returning features at that location across multiple layers. Because some layer types have sublayers, the sample recursively counts results for sublayers within each layer.
 
 ## How to use the sample
 
-Tap on map to get features at that location. The number of features identified from each layer will be shown in an alert.
+Click to identify features. An alert will show all layers with features under the tapped location, as well as the number of features.
 
 ## How it works
 
-To identify features from layers in a map:
-
-1. Get a `Point2D` with the screen location where the user clicked.
-2. Call `mapView.identifyLayersAsync(screenLocation, tolerance, returnPopupsOnly, maximumResults)`.
-3. Get the list of `IdentifyLayerResult`s from the result. You can get the identified `GeoElement`s in the layer with `identifyLayerResult.getElements()`.
-4. To find identified GeoElements in sublayers, use `identifyLayerResult.getSublayerResults()` and repeat the last step.
+1. The clicked map point is passed to `MapView.identifyLayersAsync`
+2. For each `IdentifyLayerResult` in the results, features are counted. 
+    * Note: there is one identify result per layer with matching features; if the feature count is 0, that means a sublayer contains the matching features.
 
 ## Relevant API
 
-* ArcGISMapImageLayer
-* FeatureLayer
-* FeatureTable
 * IdentifyLayerResult
 * MapView
+
+## Additional information
+
+The GeoView supports two methods of identify: `identifyLayerAsync()`, which identifies features within a specific layer and `identifyLayersAsync()`, which identifies features for all layers in the current view.
+
+## Tags
+
+identify, recursion, recursive, sublayers
