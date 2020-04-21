@@ -1,33 +1,34 @@
-# Blend Renderer
+# Blend renderer
 
-Apply a blend renderer to a raster.
+Blend a hillshade with a raster by specifying the elevation data. The resulting raster looks similar to the original raster, but with some terrain shading, giving it a textured look.
 
-Blend renderers can be used to blend elevation data with imagery, creating a 3D effect.
+![Image of blend renderer](BlendRenderer.png)
 
-![](BlendRenderer.png)
+## Use case
+
+A blend renderer can be used to apply a color ramp to a hillshade to emphasize areas of high or low elevation. A blend renderer can also be used to add a hillshade effect to aerial or satellite imagery, thereby making changes in elevation more visible.
 
 ## How to use the sample
 
-Choose and adjust the settings to update the blend renderer on the raster layer. To use a color ramp instead of the satellite imagery, choose the color ramp type NONE.
+Choose and adjust the altitude, azimuth, slope type and color ramp type settings to update the image.
 
 ## How it works
 
-To apply a `BlendRenderer` to a `RasterLayer`:
-
-1. Create a `Raster` from a raster file
-2. Create a `RasterLayer` from the raster
-3. Create a `Basemap` from the raster layer and set it to the map
-4. Create a `Raster` for elevation from a grayscale raster file
-5. Create a `BlendRenderer`, specifying the elevation raster, color ramp, and other properties
-    * If you specify a non-null color ramp, use the elevation raster as the base raster in addition to the elevation raster parameter. That way the color ramp is used instead of the satellite imagery
-6. Set the renderer on the raster layer with `rasterLayer.setRenderer(renderer)`.
+1. Create a `Raster` object from a raster file.
+2. Create a `RasterLayer` object from the raster.
+3. Create a `Basemap` object from the raster layer and set it to the map.
+4. Create another `Raster` object for elevation from a grayscale raster file.
+5. Create a `BlendRenderer` object, specifying the elevation raster, color ramp, and other properties.
+	- If you specify a non-null color ramp, use the elevation raster as the base raster in addition to the elevation raster parameter. That way, the color ramp is used instead of the satellite imagery.
+6. Set the blend renderer to the raster layer.
 
 ## Relevant API
 
-* ArcGISMap
-* Basemap
 * BlendRenderer
 * ColorRamp
-* MapView
 * Raster
 * RasterLayer
+
+## Tags
+
+color ramp, elevation, hillshade, image, raster, raster layer, visualization
