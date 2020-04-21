@@ -1,8 +1,8 @@
 # OAuth
 
-Use OAuth2 to authenticate with ArcGIS Online (or your own portal) to access secured resources.
+Authenticate with ArcGIS Online (or your own portal) using OAuth2 to access secured resources (such as private web maps or layers). Accessing secured items requires logging in to the portal that hosts them (an ArcGIS Online account, for example).
 
-![](OAuth.png)
+![Image of Authenticate with OAuth](OAuth.png)
 
 ## Use case
 
@@ -10,28 +10,30 @@ Your app may need to access items that are only shared with authorized users. Fo
 
 ## How to use the sample
 
-When you run the sample, the app attempt to will load a web map which contains premium content. You will be challenged for an ArcGIS Online login to view the private layers. Enter a user name and password for an ArcGIS Online named user account (such as your ArcGIS for Developers account). If you authenticate successfully, web map will display.
+When you run the sample, the app will load a web map which contains premium content. You will be challenged for an ArcGIS Online login to view the private layers. Enter a user name and password for an ArcGIS Online named user account (such as your ArcGIS for Developers account). If you authenticate successfully, the traffic layer will display, otherwise the map will contain only the public basemap layer.
 
 ## How it works
 
-1.  Set the `AuthenticationManager`'s `AuthenticationChallengeHandler` to the `DefaultAuthenticationChallengeHandler`.
-2.  Create an `OAuthConfiguration` specifying the portal URL, client ID, and redirect URL.
-3.  Add the OAuth configuration to the authentication manager.
-4.  Load a map with premium content requiring authentication to automatically invoke the default authentication challenge handler.
+1. Create an `OAuthConfiguration` specifying the portal URL, client ID, and redirect URL.
+2. Set the `AuthenticationManager`'s `AuthenticationChallengeHandler` to a `DefaultAuthenticationChallengeHandler`.
+3. Add the OAuth configuration to the authentication manager.
+4. Load a map with premium content requiring authentication to automatically invoke the default authentication handler.
 
 ## Relevant API
 
-*   AuthenticationManager
-*   AuthenticationChallengeHandler
-*   OAuthConfiguration
-*   PortalItem
+ * AuthenticationChallengeHandler
+ * AuthenticationManager
+ * OAuthConfiguration
+ * PortalItem
 
 ## Additional information
 
-The workflow presented in this sample works for all SAML based enterprise (IWA, PKI, Okta, etc.) and social (Facebook, Google, etc.) identify providers for ArcGIS Online or Portal. More information on enterprise logins can be found [here](https://doc.arcgis.com/en/arcgis-online/administer/enterprise-logins.htm).
+The workflow presented in this sample works for all SAML based enterprise (IWA, PKI, Okta, etc.) & social (facebook, google, etc.) identity providers for ArcGIS Online or Portal. For more information, see the topic [Set up enterprise logins].(https://doc.arcgis.com/en/arcgis-online/administer/enterprise-logins.htm).
 
-For additional information on using OAuth in your app, see the [Mobile and Native Named User Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) topic in our guide. To setup and access your own app using this sample (using your own ArcGIS portal), see https://github.com/Esri/arcgis-runtime-samples-java/blob/master/OAuth.md.
+For additional information on using Oauth in your app, see the topic [Authenticate with the API](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) in *Mobile and Native Named User Login*.
+
+To setup and access your own app using this sample (using your own ArcGIS portal), see https://github.com/Esri/arcgis-runtime-samples-java/blob/master/OAuth.md.
 
 ## Tags
 
-authentication, cloud, credential, portal, security
+authentication, cloud, credential, OAuth, portal, security
