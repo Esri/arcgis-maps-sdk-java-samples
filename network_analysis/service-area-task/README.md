@@ -1,4 +1,4 @@
-# Service Area Task
+# Service area task
 
 Find the service area within a network from a given point.
 
