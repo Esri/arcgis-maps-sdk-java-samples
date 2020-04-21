@@ -2,7 +2,7 @@
 
 Create and display geodesic sectors and ellipses.
 
-![](GeodesicSectorAndEllipse.png)
+![Image of geodesic sector and ellipse](GeodesicSectorAndEllipse.png)
 
 ## Use case
 

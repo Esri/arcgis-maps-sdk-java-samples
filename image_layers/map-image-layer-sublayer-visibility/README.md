@@ -2,7 +2,7 @@
 
 Change the visibility of sublayers.
 
-![](MapImageLayerSublayerVisibility.png)
+![Image of map image layer sublayer visibility](MapImageLayerSublayerVisibility.png)
 
 ## Use case
 

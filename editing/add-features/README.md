@@ -2,7 +2,7 @@
 
 Add features to a feature layer.
 
-![](AddFeatures.gif)
+![Image of adding features](AddFeatures.gif)
 
 ## Use case
 

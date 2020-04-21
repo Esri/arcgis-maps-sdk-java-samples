@@ -2,7 +2,7 @@
 
 Display features from a local geodatabase.
 
-![](FeatureLayerGeodatabase.png)
+![Image of feature layer geodatabase](FeatureLayerGeodatabase.png)
 
 ## Use case
 

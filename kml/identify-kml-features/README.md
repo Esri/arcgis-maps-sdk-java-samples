@@ -2,7 +2,7 @@
 
 Show a callout with formatted content for a KML feature.
 
-![](IdentifyKMLFeatures.png)
+![Image of identify KML features](IdentifyKMLFeatures.png)
 
 ## Use case
 

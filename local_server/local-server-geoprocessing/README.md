@@ -2,7 +2,7 @@
 
 Create contour lines from local raster data using a local geoprocessing package `.gpk` and the contour geoprocessing tool.
 
-![](LocalServerGeoprocessing.png)
+![Image of local server geoprocessing](LocalServerGeoprocessing.png)
 
 ## Use case
 

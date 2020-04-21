@@ -2,7 +2,7 @@
 
 Apply scheduled updates to a downloaded preplanned map area.
 
-![](ApplyScheduledUpdatesToPreplannedMapArea.png)
+![Image of apply scheduled updates to preplanned map area](ApplyScheduledUpdatesToPreplannedMapArea.png)
 
 ## Use case
 
