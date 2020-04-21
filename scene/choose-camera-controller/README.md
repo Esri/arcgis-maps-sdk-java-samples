@@ -2,7 +2,7 @@
 
 Control the behavior of the camera in a scene.
 
-![](ChooseCameraController.png)
+![Image of choose camera controller](ChooseCameraController.png)
 
 ## Use case
 
@@ -14,18 +14,18 @@ The application loads with the default globe camera controller. To rotate and fi
 
 ## How it works
 
-1. Create an instance of a class extending `CameraController`: `GlobeCameraController`, `OrbitLocationCameraController`, `OrbitGeoElementCameraController`
+1. Create an instance of a class extending `CameraController`: `GlobeCameraController`, `OrbitLocationCameraController`, `OrbitGeoElementCameraController`.
 2. Set the scene view's camera controller with `sceneView.setCameraController(cameraController)`.
 
 ## Relevant API
 
-* ArcGISScene
-* Camera
-* GlobeCameraController
-* OrbitGeoElementCameraController
-* OrbitLocationCameraController
-* SceneView
+*   ArcGISScene
+*   Camera
+*   GlobeCameraController
+*   OrbitGeoElementCameraController
+*   OrbitLocationCameraController
+*   SceneView
 
 ## Tags
 
-camera controller, Camera, SceneView, 3D
+3D, camera, camera controller
