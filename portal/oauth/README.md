@@ -32,7 +32,7 @@ The workflow presented in this sample works for all SAML based enterprise (IWA, 
 
 For additional information on using Oauth in your app, see the topic [Authenticate with the API](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) in *Mobile and Native Named User Login*.
 
-To setup and access your own app using this sample (using your own ArcGIS portal), see the [OAuth Java sample](https://github.com/Esri/arcgis-runtime-samples-java/blob/master/OAuth.md).
+To setup and access your own app using this sample (using your own ArcGIS portal), see the [OAuth Pattern document](https://github.com/Esri/arcgis-runtime-samples-java/blob/master/OAuth.md).
 
 ## Tags
 
