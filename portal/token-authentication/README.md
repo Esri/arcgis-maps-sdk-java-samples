@@ -1,6 +1,6 @@
 # Token authentication
 
-Access a web map that is secured with ArcGIS token-based authentication.
+Access a web map service that is secured with ArcGIS token-based authentication.
 
 
 ![Image of token authentication](TokenAuthentication.png)
@@ -11,7 +11,7 @@ Allows you to access a secure service with the convenience and security of ArcGI
 
 ## How to use the sample
 
-Once you launch the app, you will be challenged for an ArcGIS Online login to view the protected map service. Enter a user name and password for an ArcGIS Online named user account (such as your ArcGIS for Developers account). If you authenticate successfully, the protected map service will display in the map.
+Once you launch the sample, you will be challenged for an ArcGIS Online login to view the protected map service. Enter a user name and password for an ArcGIS Online named user account (such as your ArcGIS for Developers account). If you authenticate successfully, the protected map service will display in the map.
 
 ## How it works
 

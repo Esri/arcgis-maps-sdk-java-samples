@@ -10,7 +10,7 @@ Portals can contain many portal items and at times you may wish to query the por
 
 ## How to use the sample
 
-Enter search terms into the search bar. Once the search is complete, a list is populated with the resultant webmaps. Click on a webmap to set it to the map view.  Click on the "Find More Results" button to add more results to the list.
+Enter search terms into the search bar. Once the search is complete, a list is populated with the resultant webmaps. Click on a webmap to set it to the map view. Click on the "Find more results" button to add more results to the list.
 
 ## How it works
 
