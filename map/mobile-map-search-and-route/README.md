@@ -20,7 +20,7 @@ If the map contains transportation networks, it will have a navigation icon. Cli
 
 ## How it works
 
-1. Create a `MobileMapPackage`  passing in the path to the local mmpk file.
+1. Create a `MobileMapPackage` passing in the path to the local mmpk file.
 2. Get a list of maps inside the package with `mobileMapPackage.getMaps()`.
 3. If the package has a locator, access it with `mobileMapPackage.getLocatorTask()`.
 4. To see if a map contains transportation networks, call `map.getTransportationNetworks()`. Each `TransportationNetworkDataset` can be used to construct a `RouteTask`.
