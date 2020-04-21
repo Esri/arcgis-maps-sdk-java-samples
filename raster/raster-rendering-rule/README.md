@@ -2,7 +2,7 @@
 
 Display a raster on a map and apply different rendering rules to that raster.
 
-![](RasterRenderingRule.png)
+![Image of raster rendering rule](RasterRenderingRule.png)
 
 ## Use case
 
@@ -14,12 +14,12 @@ Run the sample and use the drop-down menu at the top to select a rendering rule.
 
 ## How it works
 
-1. Create an `ImageServiceRaster` using a URL to an online image service.
-2. After loading the raster, use `imageServiceRaster.getServiceInfo().getRenderingRuleInfos()` to get a list of `RenderingRuleInfo` supported by the service.
-3. Choose a rendering rule info to apply and use it to create a `RenderingRule`.
-4. Create a new `ImageServiceRaster` using the same URL.
-5. Apply the rendering rule to the new raster using `imageServiceRaster.setRenderingRule(renderingRuleInfo)`.
-6. Create a `RasterLayer` from the raster for display.
+1.  Create an `ImageServiceRaster` using a URL to an online image service.
+2.  After loading the raster, use `imageServiceRaster.getServiceInfo().getRenderingRuleInfos()` to get a list of `RenderingRuleInfo` supported by the service.
+3.  Choose a rendering rule info to apply and use it to create a `RenderingRule`.
+4.  Create a new `ImageServiceRaster` using the same URL.
+5.  Apply the rendering rule to the new raster using `imageServiceRaster.setRenderingRule(renderingRuleInfo)`.
+6.  Create a `RasterLayer` from the raster for display.
 
 ## Relevant API
 
@@ -33,7 +33,7 @@ This raster image service contains 9 LAS files covering Charlotte, North Carolin
 
 ## Additional information
 
-Image service rasters of any type can have rendering rules applied to them; they need not necessarily be elevation rasters. For a list of raster functions and the syntax for rendering rules, see the ArcGIS REST API documentation: https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm.
+Image service rasters of any type can have rendering rules applied to them; they need not necessarily be elevation rasters. See the list of [raster function objects](https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm) and syntax for rendering rules in the *ArcGIS REST API* documentation.
 
 ## Tags
 

@@ -1,31 +1,49 @@
-# Stretch Renderer
+# Stretch renderer
 
-Apply a stretch renderer to a raster.
+Use a stretch renderer to enhance the visual contrast of raster data for analysis.
 
-A stretch renderer can be used to stretch tightly grouped values across the available value spectrum, creating more contrast between objects. This is useful for identifying objects in dark images.
+![Image of stretch renderer](StretchRenderer.png)
 
-![](StretchRenderer.png)
+## Use case
+
+An appropriate stretch renderer can enhance the contrast of raster imagery, allowing the user to control how their data is displayed for efficient imagery analysis.
 
 ## How to use the sample
 
-Choose one of the stretch parameter types. The other options will adjust based on the chosen type.
+Choose one of the stretch parameter types from the drop down menu:
+
+* Std Deviation - a linear stretch defined by the standard deviation of the pixel values
+* Min Max - a linear stretch based on minimum and maximum pixel values
+* Percent Clip - a linear stretch between the defined percent clip minimum and percent clip maximum pixel values
+
+Then configure the parameters and click 'Update'.
 
 ## How it works
 
-To apply a `StretchRenderer` to a `RasterLayer`:
-
-1. Create a `Raster` from a raster file
-2. Create a `RasterLayer` from the raster
-3. Create a `Basemap` from the raster layer and set it to the map
-4. Create a `StretchRenderer`, specifying the stretch parameters and other properties
-5. Set the renderer on the raster layer with `rasterLayer.setRenderer(renderer)`
+1. Create a `Raster` from a raster file.
+2. Create a `RasterLayer` from the raster.
+3. Create a `Basemap` from the raster layer with `Basemap(RasterLayer)` and set it to the map with `ArcGISMap(basemap)`.
+4. Create a `StretchRenderer`, specifying the stretch parameters and other properties.
+5. Set the stretch renderer on the raster layer with `rasterLayer.setRasterRenderer(stretchRenderer)`.
 
 ## Relevant API
 
-* ArcGISMap
-* Basemap
-* MapView
+* MinMaxStretchParameters
+* PercentClipStretchParameters
 * Raster
 * RasterLayer
+* StandardDeviationStretchParameters
 * StretchParameters
 * StretchRenderer
+
+## About the data
+
+This sample uses a raster imagery tile of an area of forested mountainous terrain and rivers.
+
+## Additional information
+
+See [Stretch function](http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/stretch-function.htm) in the *ArcMap* documentation for more information about the types of stretches that can be performed.
+
+## Tags
+
+analysis, deviation, histogram, imagery, interpretation, min-max, percent clip, pixel, raster, stretch, symbology, visualization
