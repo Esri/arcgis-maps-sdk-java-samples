@@ -1,21 +1,23 @@
-# Take Screen Shot
+# Take screenshot
 
-Export an area of the map as an image.
+Take a screenshot of the map.
 
-![](TakeScreenShot.png)
+![Image of take screenshot](TakeScreenshot.png)
 
-## How to use this Sample
+## How to use the sample
 
 Click the Take Screenshot button to export the image. In the file chooser that opens, set a file name and location to save the image.
 
 ## How it works
 
-To export the visible area of the `ArcGISMap` as an image file:
-
-1. Export the image with `mapView.exportImageAsync()`.
-2. Get the `Image` once export is done loading.
+1. Call `mapView.exportImageAsync()` and set it to a `ListenableFuture<Bitmap>`.
+2. On done, call `get()` on the `ListenableFuture<Image>` and save it to the device.
 
 ## Relevant API
 
 * ArcGISMap
 * MapView
+
+## Tags
+
+capture, export, image, print, screen capture, screenshot, share, shot
