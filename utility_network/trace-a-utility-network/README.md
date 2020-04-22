@@ -31,7 +31,6 @@ Click on one or more features while 'Add starting locations' or 'Add barriers' i
 
 ## Relevant API
 
-* FractionAlong
 * UtilityAssetType
 * UtilityDomainNetwork
 * UtilityElement
