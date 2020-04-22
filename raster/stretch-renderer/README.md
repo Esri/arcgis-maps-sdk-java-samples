@@ -38,7 +38,7 @@ Then configure the parameters and click 'Update'.
 
 ## About the data
 
-This sample uses a raster imagery tile of an area of forested mountainous terrain and rivers.
+The raster used in this sample shows an area in the south of the Shasta-Trinity National Forest, California.
 
 ## Additional information
 
