@@ -2,7 +2,7 @@
 
 Discover connected features in a utility network using connected, subnetwork, upstream, and downstream traces.
 
-![](TraceUtilityNetwork.png)
+![Image of trace utility network](TraceUtilityNetwork.png)
 
 ## Use case
 
@@ -31,7 +31,7 @@ Click on one or more features while 'Add starting locations' or 'Add barriers' i
 
 ## Relevant API
 
-* FractionAlongEdge
+* FractionAlong
 * UtilityAssetType
 * UtilityDomainNetwork
 * UtilityElement
@@ -41,13 +41,15 @@ Click on one or more features while 'Add starting locations' or 'Add barriers' i
 * UtilityNetworkSource
 * UtilityTerminal
 * UtilityTier
+* UtilityTraceConfiguration
 * UtilityTraceParameters
 * UtilityTraceResult
 * UtilityTraceType
+* UtilityTraversability
 
 ## About the data
 
-The [feature service](https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer) in this sample represents an electric network in Naperville, Illinois, which contains a utility network used to run the subnetwork-based trace.
+The [Naperville electrical](https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer) network feature service, hosted on ArcGIS Online, contains a utility network used to run the subnetwork-based trace shown in this sample.
 
 ## Tags
 
