@@ -1,32 +1,33 @@
-# Picture Marker Symbol
+# Picture marker symbol
 
 Use pictures for markers.
 
-![](PictureMarkerSymbol.png)
+![Image of picture marker symbol](PictureMarkerSymbol.png)
+
+## Use case
+
+When marking geoelements on a map, using custom, unique symbols can be helpful for highlighting and differentiating between locations. For example, a tourism office may use pictures of landmarks as symbols on an online map or app, to help prospective visitors to orient themselves more easily around a city.
 
 ## How to use the sample
 
-The picture marker symbols that you see in the app are all constructed from different types of resources:
-  - campsite, constructed from a URL
-  - blue pin with a star, stored in the resource folder that comes with the application
-  - orange pin, created from a file path on disk (which is written to disk when the app starts and cleaned up when the app closes)
+When launched, this sample displays a map with three picture marker symbols. Pan and zoom to explore the map.
 
 ## How it works
 
-To display a `PictureMarkerSymbol`:
-
-1. Create the `ArcGISMap`'s with `Basemap`.
-2. Create the `GraphicsOverlay` and add it to the `MapView` using `MapView.getGraphicsOverlays().add()`.
-3. Add the map to the view, `MapView.setMap()`.
-4. Use the constructor `PictureMarkerSymbol(String uri)` to create a symbol from a specified URI (URL, a web page, or from an absolute path to a file that is stored locally).
-5. Use the constructor `PictureMarkerSymbol(Image)` to create a symbol from a local image.
-6. Lastly once a symbol is created it will need to be added to a `Graphic`. Set the graphic to the graphics overlay using the `GraphicsOverlay.getGraphics().add()` method indicating the location `Point`.
+1. Create a `PictureMarkerSymbol` using the URI to an online or local image.
+2. Create a `Graphic` and set its symbol to the `PictureMarkerSymbol`.
 
 ## Relevant API
 
-* ArcGISMap
-* Graphic
-* GraphicsOverlay
-* MapView
-* PictureMarkerSymbol
-* Point
+*   PictureMarkerSymbol
+
+## About the data
+
+The picture marker symbols in this sample are all constructed from different types of resources:
+ * [Campsite symbol constructed from a URL](http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae)
+ * Blue pin with a star stored in the resource folder that comes with the application
+ * Orange pin created from a file path on disk (which is written to disk when the app starts and cleaned up when the app closes).
+
+## Tags
+
+graphics, marker, picture, symbol, visualization

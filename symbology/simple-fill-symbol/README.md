@@ -1,37 +1,38 @@
-# Simple Fill Symbol
+# Simple fill symbol
 
-Change a graphic's fill color, outline, and style properties.
+Change a polygon's fill color, outline color, and fill style properties.
 
-![](SimpleFillSymbol.png)
+![Image of simple fill symbol](SimpleFillSymbol.png)
+
+## Use case
+
+Customize the appearance of a polygon with a color and style scheme suitable for the data. For example, a polygon with a brown 'forward-diagonal' fill style could represent an area of artificial ground mapped on a geological map.  
 
 ## How to use the sample
 
-Change Fill color: - change the color that makes up the area of the polygon
-Change Outline Color: - adds a border color to the polygon
-Change Fill Style: - changes the pattern that makes up the area of the polygon
+Use the drop down menus in the control panel to change the fill color, outline color and fill style of the polygon.
 
 ## How it works
 
-To create a `SimpleFillSymbol`:
-
-1. Create the `ArcGISMap`'s with `Basemap`.
-2. Create the `GraphicsOverlay` and add it to the `MapView`, `MapView.getGraphicsOverlays().add()`.
-3. Add the map to the `MapView`, `MapView.setMap()`.
-4. Create a `Polygon` using a `PointCollection` to indicate the boundaries of the `Graphic`.
-5. Create a `SimpleFillSymbol(SimpleMarkerSymbol.Style, color, outline)`.
-    * style, pattern that makes up the area of the geometry
-    * color, color the symbol will be displayed
-    * outline, `SimpleLineSymbol` that make up the border of the symbol
-6. Lately, create a `Graphic(Geometry, Symbol)` and add it to the graphics overlay.
+1.  Create a `Polygon` using a `PointCollection` to define its boundaries. 
+2.  Create a `SimpleLineSymbol(SimpleLineSymbol.Style, color, width)`.
+3.  Create a `SimpleFillSymbol(SimpleFillSymbol.Style, color, outline)`.
+4.  Set the color, outline and style of the simple fill symbol object with:
+	* `setColor()`;
+	* `setOutline(simpleLineSymbol)`;
+	* `setStyle()`;
+5.  Create a new `Graphic` object, passing in the polygon and simple fill symbol as parameters, and add the graphic to the graphics overlay with `graphicsOverlay.getGraphics().add(new Graphic(polygon, fillSymbol))`.
 
 ## Relevant API
 
-* ArcGISMap
-* Graphic
-* GraphicsOverlay
-* MapView
-* Polygon
-* PointCollection
-* SimpleFillSymbol
-* SimpleFillSymbol.Style
-* SimpleLineSymbol
+*   Graphic
+*   GraphicsOverlay
+*   PointCollection
+*   Polygon
+*   SimpleFillSymbol
+*   SimpleLineSymbol
+
+
+## Tags
+
+fill, line, graphic, symbol
