@@ -44,7 +44,6 @@ Click on one or more features while 'Add starting locations' or 'Add barriers' i
 * UtilityTraceParameters
 * UtilityTraceResult
 * UtilityTraceType
-* UtilityTraversability
 
 ## About the data
 
