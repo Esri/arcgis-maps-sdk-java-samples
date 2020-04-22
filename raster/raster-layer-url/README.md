@@ -1,4 +1,4 @@
-# Raster layer URL
+# Raster layer (URL)
 
 Create a raster layer from a raster image service.
 
