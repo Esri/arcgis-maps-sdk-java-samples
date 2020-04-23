@@ -6,7 +6,7 @@ Take a screenshot of the map.
 
 ## How to use the sample
 
-Click the Take Screenshot button to export the image. In the file chooser that opens, set a file name and location to save the image.
+Click the "Take Screenshot" button to export the image. In the file chooser that opens, set a file name and location to save the image.
 
 ## How it works
 
