@@ -10,7 +10,7 @@ Identify layers allows users to return features on a map at a specified location
 
 ## How to use the sample
 
-Click to identify features. An alert will show all layers with features under the tapped location, as well as the number of features.
+Click to identify features. An alert will show all layers with features under the clicked location, as well as the number of features.
 
 ## How it works
 
