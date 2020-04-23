@@ -3,7 +3,7 @@
     "description": "Change how a feature layer looks with a renderer.",
     "ignore": false,
     "images": [
-        "ChangeFeatureLayerRenderer.gif"
+        "ChangeFeatureLayerRenderer.png"
     ],
     "keywords": [
         "ArcGISMap",
