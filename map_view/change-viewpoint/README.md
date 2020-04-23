@@ -16,7 +16,7 @@ The map view has several methods for setting its current viewpoint. Click one of
 
 1. Create a new `ArcGISMap` and set it to the `MapView`.
 2. Change the map's `Viewpoint` using one of the available methods:
-  * Use `MapView.setViewpointAsync()` to pan to a viewpoint over the specified length of time.
+  * Use `mapView.setViewpointAsync()` to pan to a viewpoint over the specified length of time.
   * Use `MapView.setViewpointCenterAsync()` to center the viewpoint on a `Point` and set a distance from the ground using a scale.
   * Use `MapView.setViewpointGeometryAsync()` to set the viewpoint to a given `Geometry`.
 
@@ -30,7 +30,7 @@ The map view has several methods for setting its current viewpoint. Click one of
 
 ## Additional information
 
-Below are some other ways to set a viewpoint:
+Below are some other ways to set a viewpoint on the `MapView`:
 
 * setViewpoint
 * setViewpointAsync
