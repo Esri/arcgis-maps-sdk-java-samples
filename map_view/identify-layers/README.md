@@ -15,7 +15,7 @@ Click to identify features. An alert will show all layers with features under th
 ## How it works
 
 1. The clicked map point is passed to `MapView.identifyLayersAsync`
-2. For each `IdentifyLayerResult` in the results, features are counted. 
+2. For each `IdentifyLayerResult` in the results, features are counted.
     * Note: there is one identify result per layer with matching features; if the feature count is 0, that means a sublayer contains the matching features.
 
 ## Relevant API
