@@ -34,4 +34,4 @@ If multiple elevation sources are present in the surface, the top most visible e
 
 ## Tags
 
-elevation, MapViews SceneViews and UI, surface
+elevation, surface
