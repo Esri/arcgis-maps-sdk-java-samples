@@ -19,12 +19,12 @@ The application loads with the default globe camera controller. To rotate and fi
 
 ## Relevant API
 
-*   ArcGISScene
-*   Camera
-*   GlobeCameraController
-*   OrbitGeoElementCameraController
-*   OrbitLocationCameraController
-*   SceneView
+* ArcGISScene
+* Camera
+* GlobeCameraController
+* OrbitGeoElementCameraController
+* OrbitLocationCameraController
+* SceneView
 
 ## Tags
 

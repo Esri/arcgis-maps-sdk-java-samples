@@ -19,9 +19,9 @@ Select one of the three available atmosphere effects. The sky will change to dis
 
 ## Relevant API
 
-- ArcGISScene
-- AtmosphereEffect
-- SceneView
+* ArcGISScene
+* AtmosphereEffect
+* SceneView
 
 ## Additional information
 
