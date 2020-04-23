@@ -10,14 +10,14 @@ Find routes with driving directions between any number of locations. You might u
 
 ## How to use the sample
 
-For simplicity, the sample comes loaded with a start and end stop. You can tap on the 'Find Route' button to display a route between these stops. Once the route is generated, turn-by-turn directions are shown in a list. You can use the 'Reset' button to reset the sample.
+For simplicity, the sample comes loaded with a start and end stop. You can tap on the "Find Route" button to display a route between these stops. Once the route is generated, turn-by-turn directions are shown in a list. You can use the "Reset" button to reset the sample.
 
 ## How it works
 
 1. Create a `RouteTask` using a URL to an online route service.
 2. Generate default `RouteParameters` using `routeTask.createDefaultParametersAsync()`.
-3. Set `returnDirections` on the parameters to true.
-4. Add `Stop`s to the parameters `stops` collection for each destination.
+3. Use `setReturnDirections` on the parameters and set to true.
+4. Use `setStops` on the parameters to add `Stop`s to its stops collection for each destination.
 5. Solve the route using `routeTask.solveAsync(routeParameters)` to get a `RouteResult`.
 6. Iterate through the result's `Route`s. To display the route, create a graphic using the geometry from `route.getRouteGeometry()`. To display directions, use `route.getDirectionManeuvers()`, and for each `DirectionManeuver`, display `DirectionManeuver.getDirectionText()`.
 
