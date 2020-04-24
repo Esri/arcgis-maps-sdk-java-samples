@@ -14,7 +14,7 @@ When launched, this sample displays a scene with a dictionary renderer. Pan and 
 
 ## How it works
 
-1. Create a `SymbolDicitonary` from a dictionary (stylx) file.
+1. Create a `SymbolDictionary` from a dictionary (stylx) file.
 2. Create a `DictionaryRenderer` with the symbol dictionary.
 3. Set the renderer on a graphics overlay with `graphicsOverlay.setRenderer(dictionaryRenderer)`.
 4. Parse an XML file conforming to the specification. It should have key-value pairs to use as attributes for each graphic:

@@ -25,11 +25,11 @@ Use the drop down menus in the control panel to change the line color, width and
 
 ## Relevant API
 
-*   Graphic
-*   GraphicsOverlay
-*   PointCollection
-*   Polyline
-*   SimpleLineSymbol
+* Graphic
+* GraphicsOverlay
+* PointCollection
+* Polyline
+* SimpleLineSymbol
 
 ## Tags
 

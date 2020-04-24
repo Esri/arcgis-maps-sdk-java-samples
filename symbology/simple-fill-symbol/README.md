@@ -1,12 +1,12 @@
 # Simple fill symbol
 
-Change a polygon's fill color, outline color, and fill style properties.
+Change a graphic's fill color, outline color, and fill style properties.
 
 ![Image of simple fill symbol](SimpleFillSymbol.png)
 
 ## Use case
 
-Customize the appearance of a polygon with a color and style scheme suitable for the data. For example, a polygon with a brown 'forward-diagonal' fill style could represent an area of artificial ground mapped on a geological map.  
+Customize the appearance of a graphic with a color and style scheme suitable for the data. For example, a polygon with a brown 'forward-diagonal' fill style could represent an area of artificial ground mapped on a geological map.  
 
 ## How to use the sample
 
@@ -25,12 +25,12 @@ Use the drop down menus in the control panel to change the fill color, outline c
 
 ## Relevant API
 
-*   Graphic
-*   GraphicsOverlay
-*   PointCollection
-*   Polygon
-*   SimpleFillSymbol
-*   SimpleLineSymbol
+* Graphic
+* GraphicsOverlay
+* PointCollection
+* Polygon
+* SimpleFillSymbol
+* SimpleLineSymbol
 
 
 ## Tags
