@@ -31,7 +31,7 @@ The basemap in this sample is provided by [Stamen Design](http://maps.stamen.com
 
 Web tiled services use a uniform addressing scheme with pre-rendered tiles. Image tiles are accessed via a URL template string, with parameters for subdomain, level, column, and row.
 
-- Subdomain is optional and allows Runtime to balance requests among multiple servers for enhanced performance.
+- Subdomain is optional and allows ArcGIS Runtime to balance requests among multiple servers for enhanced performance.
 - Level, row, and column select the tiles to load based on the visible extent of the map.
 
 For more information about web tiled layers, see the following resources:

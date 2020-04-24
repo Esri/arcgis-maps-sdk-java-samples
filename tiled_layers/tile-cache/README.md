@@ -1,8 +1,8 @@
-# ArcGIS tiled layer (tile cache)
+# Tile cache
 
 Load an offline copy of a tiled map service as a basemap.
 
-![Image of ArcGIS tiled layer tile cache](TileCache.png)
+![Image of tile cache](TileCache.png)
 
 ## Use case
 
@@ -32,7 +32,7 @@ The map opens to a view of the city of San Francisco, CA. In a disconnected envi
 
 ## Additional information
 
-`ArcGISTiledLayer` and `TileCache` supports both .tpk and .tpkx file formats.  
+`ArcGISTiledLayer` and `TileCache` supports both .tpk and .tpkx file formats.
 
 ## Tags
 

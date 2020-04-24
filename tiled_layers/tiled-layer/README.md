@@ -32,7 +32,7 @@ The application utilizes the "World Topographic Map" tile layer. This presents a
 
 ## Additional information
 
-An ArcGISTiledLayer can also be added to the ArcGISMap as a layer, but it's best practice to use as a basemap since its purpose is to provide geographical context. ArcGIS tiled layers do not support reprojection, query, select, identify, or editing.
+An `ArcGISTiledLayer` can also be added to the `ArcGISMap` as a layer, but it's best practice to use as a basemap since its purpose is to provide geographical context. ArcGIS tiled layers do not support reprojection, query, select, identify, or editing.
 
 ## Tags
 
