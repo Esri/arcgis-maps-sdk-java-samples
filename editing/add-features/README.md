@@ -1,30 +1,32 @@
-# Add Features
+# Add features
 
-Add new features to an online feature service.
+Add features to a feature layer.
 
-A FeatureLayer created using this SeviceFeatutreTable that is applied to the ArcGISMap will display any new Features automatically.
+![Image of adding features](AddFeatures.gif)
 
-![](AddFeatures.gif)
+## Use case
+
+An end-user performing a survey may want to add features to the map during the course of their work.
 
 ## How to use the sample
 
-Click on a location in the MapView to add a Feature at that location.
+Click on a location on the map to add a feature at that location.
 
 ## How it works
 
-To add a feature to a `ServiceFeatureTable` and update it's server with that `Feature`:
-
-1. Create a service feature table from a URL, `new ServiceFeatureTable("URL")`.
-2. Create a `FeatureLayer` from the service feature table, `new FeatureLayer(ServiceFeatureTable)`.
-3. Create a feature with attributes and a location using service feature table, `ServiceFeatureTable.createFeature(attributes, location)`.
-4. Apply the addition to the service feature table, `ServiceFeatureTable.addFeatureAsync(Feature)`.
-5. Update the new feature to the server, `ServiceFeatureTable.applyEditsAsync()`.
+1. Create a `ServiceFeatureTable` from a URL.
+2. Create a `FeatureLayer` derived from the `ServiceFeatureTable` instance.
+3. Create a `Feature` with attributes and a location using the `ServiceFeatureTable`.
+4. Add the `Feature` to the `ServiceFeatureTable`.
+5. *Apply edits* to the `ServiceFeatureTable` which will upload the new feature to the online service.
 
 ## Relevant API
 
-* ArcGISMap
 * Feature
 * FeatureEditResult
 * FeatureLayer
-* MapView
 * ServiceFeatureTable
+
+## Tags
+
+edit, feature, online service

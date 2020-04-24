@@ -21,8 +21,7 @@
         "FeatureLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/display_annotation/DisplayAnnotationSample.java",
-        "src/main/java/com/esri/samples/display_annotation/DisplayAnnotationController.java"
+        "src/main/java/com/esri/samples/display_annotation/DisplayAnnotationSample.java"
     ],
     "title": "Display annotation"
 }

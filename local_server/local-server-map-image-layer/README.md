@@ -1,34 +1,33 @@
-# Local Server Map Image Layer
+# Local Server map image layer
 
-Create a local map imagery service and show its tiles in a map.
+Start the Local Server and Local Map Service, create an ArcGIS Map Image Layer from the Local Map Service, and add it to a map.
 
-**Note:** Local Server is not supported on MacOS
+![Image of local server map image layer](screenshot.png)
 
-![](LocalServerMapImageLayer.png)
+## Use case
+
+For executing offline geoprocessing tasks in your ArcGIS Runtime apps via an offline (local) server.
 
 ## How to use the sample
 
-A Local Server and Local Map Service will automatically be started and once running a Map Image Layer will be created and added to the map.
+The Local Server and local map service will automatically be started and, once running, a map image layer will be created and added to the map.
 
 ## How it works
 
-To create a `ArcGISMapImageLayer` from a `LocalMapService`:
-
-1. Create and run a local server.
-    * `LocalServer.INSTANCE` creates a local server
-    * `Server.startAsync()` starts the server asynchronously
-2. Wait for server to be in th. `LocalServerStatus.STARTED` state.
-    * `Server.addStatusChangedListener()` fires whenever the status of the local server has changed.
-3. Create and run a local map service.
-    * `new LocalMapService(Url)`, creates a local map service with the given url path to mpk file
-    * `LocalMapService.startAsync()`, starts the service asynchronously
-    * service will be added to the local server automatically
-4. Wait for map service to be in th. `LocalServerStatus.STARTED` state.
-    * `LocalMapService.addStatusChangedListener()` fires whenever the status of the local service has changed.
-5. Create a map image layer from local map service.
-    * create a `new ArcGISMapImageLayer(Url)` from local map service url, `LocalMapService.getUrl()`
-    * load the layer asynchronously, `ArcGISMapImageLayer.loadAsync()`
-6. Add map image layer to map, `Map.getOperationalLayers().add(ArcGISMapImageLayer)`.
+1. Create and run a local server with `LocalServer.INSTANCE`.
+2. Start the server asynchronously with `Server.startAsync()`.
+3. Wait for server to be in the  `LocalServerStatus.STARTED` state.
+   * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
+4. Create and run a local service, example of running a `LocalMapService`.
+    1. Instantiate `LocalMapService(Url)` to create a local map service with the given URL path to the map package (`mpk` file).
+    2. Start the service asynchronously with `LocalFeatureService.startAsync()`. The service is added to the Local Server automatically.
+5. Wait for the state of the map service to be `LocalServerStatus.STARTED`. 
+   * Callbacks attached to `LocalFeatureService.addStatusChangedListener()` will invoke whenever the status of the local service has changed.
+6. Create an ArcGIS map image layer from local map service.
+   1. Create a `ArcGISMapImageLayer(Url)` from local map service url provided by `LocalMapService.getUrl()`.
+   2. Add the layer to the map's operational layers. 
+   3. Connect to the map image layer's `LoadStatusChanged` signal.
+   4. When the layer's status is `Loaded`, set the map view's extent to the layer's full extent.
 
 ## Relevant API
 
@@ -36,4 +35,11 @@ To create a `ArcGISMapImageLayer` from a `LocalMapService`:
 * LocalMapService
 * LocalServer
 * LocalServerStatus
-* StatusChangedEvent
+
+## Additional information
+
+Local Server can be downloaded for Windows and Linux platforms. Local Server is not supported on macOS.
+
+## Tags
+
+image, layer, local, offline, server

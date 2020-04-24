@@ -1,28 +1,30 @@
-# Display Drawing Status
+# Display draw status
 
-Determine if a layer is done drawing.
+Get the draw status of your map view or scene view to know when all layers in the map or scene have finished drawing.
 
-![](DisplayDrawingStatus.png)
+![Image of display drawing status](DisplayDrawingStatus.png)
+
+## Use case
+
+You may want to display a loading indicator while layers are loading, which could then be removed on `DrawStatus.COMPLETED`.
 
 ## How to use the sample
 
-The progress bar in the top left displays the drawing status of the map view.
+Pan and zoom around the map. Observe how the status bar changes from a loading animation to solid, indicating that drawing has completed.
 
 ## How it works
 
-To use the `MapView`'s `DrawStatus`:
-
-1. Create an `ArcGISMap`.
-2. Set the map to the view `MapView`, `MapView.setMap()`.
-3. Add `MapView.addDrawStatusChangedListener()` block and listen when the `MapView.DrawStatus` changes.
+1. Create a `MapView` and add a `DrawStatusChangedListener` to it.
+2. Use `getDrawStatus` on the `DrawStatusChangedEvent` to determine draw status.
 
 ## Relevant API
 
 * ArcGISMap
-* Basemap
 * DrawStatus
 * DrawStatusChangedEvent
-* Envelope
-* FeatureLayer
+* DrawStatusChangedListener
 * MapView
-* Point
+
+## Tags
+
+draw, loading, map, render

@@ -1,27 +1,30 @@
-# Identify Graphics
+# Identify graphics
 
-Determine if a graphic was clicked.
+Identify a graphic to get further information about the object.
+
+![Image of identify graphics](IdentifyGraphics.png)
+
+## Use case
+
+A user may wish to select a graphic on a map to view relevant information about it.
 
 ## How to use the sample
 
-When you click on a graphic on the map, you should see an alert.
-
-![](IdentifyGraphics.png)
+Select a graphic to identify it. You will see an alert message displayed.
 
 ## How it works
 
-To identify a `Graphic` from the `MapView`.
-
-1. Create a `GraphicsOverlay` and add it to the MapView.
-2. Add Graphic along with a `SimpleFillSymbol`.
-3. Add the graphic to the graphics overlay.
-4. Identify the graphics on the specified location, `MapView.identifyGraphicsOverlayAsync(graphicsOverlay, point, tolerance, max results)` method.
+1. Use the `.setOnMouseClicked()` method to listen to clicks on a `MapView`. 
+2. When the map view is clicked, use the event to create a `Point` from the location clicked on the map.
+3. Identify the graphic on the map view with `MapView.identifyGraphicsOverlayAsync(graphicsOverlay, pointClicked, tolerance, max results)`.
 
 ## Relevant API
 
 * Graphic
 * GraphicsOverlay
 * MapView
-* PointCollection
-* Polygon
-* SimpleFillSymbol
+* Point
+
+## Tags
+
+graphics, identify

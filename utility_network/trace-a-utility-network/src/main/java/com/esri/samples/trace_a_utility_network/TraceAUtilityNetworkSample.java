@@ -36,7 +36,7 @@ public class TraceAUtilityNetworkSample extends Application {
     Scene scene = new Scene(root);
 
     // set title, size and add scene to stage
-    stage.setTitle("Find Connected Features in A Utility Network Sample");
+    stage.setTitle("Trace a Utility Network Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
