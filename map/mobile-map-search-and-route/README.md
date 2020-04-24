@@ -1,8 +1,8 @@
-# Mobile Map Search And Route
+# Mobile map search and route
 
 Use locators and networks saved in an offline map.
 
-![](MobileMapSearchAndRoute.png)
+![Image of mobile map search and route](MobileMapSearchAndRoute.png)
 
 ## How to use the sample
 
