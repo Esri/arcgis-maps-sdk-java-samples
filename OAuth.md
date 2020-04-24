@@ -1,3 +1,5 @@
+# OAuth Pattern
+
 Some samples require you to configure your own portal for authentication. This page describes the OAuth pattern.
 
 ### Register an App

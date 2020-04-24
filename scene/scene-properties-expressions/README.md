@@ -1,29 +1,35 @@
-# Scene Properties Expressions
+# Scene property expressions
 
-Update the orientation of a graphic using scene property rotation expressions.
+Update the orientation of a graphic using expressions based on its attributes.
 
-![](ScenePropertiesExpressions.gif)
+![Image of scene property expressions](ScenePropertiesExpressions.gif)
+
+## Use case
+
+Instead of reading the attribute and changing the rotation on the symbol for a single graphic (a manual CPU operation), you can bind the rotation to an expression that applies to the whole overlay (an automatic GPU operation). This usually results in a noticeable performance boost (smooth rotations).
 
 ## How to use the sample
 
-Move the heading and pitch sliders to change the cone's orientation.
+Adjust the heading and pitch sliders to rotate the cone.
 
 ## How it works
 
-To update a `Graphic`'s orientation using expressions:
-
-1. Create a new `GraphicsOverlay`.
-2. Create a `SimpleRenderer` and set expressions on its scene properties: `Renderer.getSceneProperties().setHeadingExpression("[HEADING]")`. Then set the renderer to the graphics overlay wit. `GraphicsOverlay.setRenderer(renderer)`.
-3. Create a graphic and add it to the graphics overlay.
-4. To update the graphic's rotation, use `Graphic.getAttributes.put("HEADING", heading)` where the attribute key is
-  the expression and the value is the rotation angle.
+1. Create a new `GraphicsOverlay`. 
+2. Create a new `SimpleRenderer`.
+3. Set the heading expression to `[HEADING]` and the pitch expression to `[PITCH]` with `simpleRenderer.getSceneProperties().setHeadingExpression(...)`.
+4. Apply the renderer to the graphics overlay with `graphicsOverlay.setRenderer(simpleRenderer)`.
+5. Create a new `Point` and a new `Graphic` and add it to the overlay with e.g. `graphicsOverlay.getGraphics().add(graphic)`.
+6. To update the graphic's rotation, update the `HEADING` or `PITCH` property in the graphic's attributes with `graphic.getAttributes().put(key, value)`.
 
 ## Relevant API
 
-* ArcGISScene
 * Graphic
 * GraphicsOverlay
-* Renderer
-* Renderer.SceneProperties
-* SceneView
-* Viewpoint
+* SceneProperties
+* SceneProperties.setHeadingExpression
+* SceneProperties.setPitchExpression
+* SimpleRenderer
+
+## Tags
+
+3D, expression, graphics, heading, pitch, rotation, scene, symbology
