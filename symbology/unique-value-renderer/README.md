@@ -1,54 +1,41 @@
-# Unique Value Renderer
+# Unique value renderer
 
-Symbolize features based on their unique attribute value.
+Render features in a layer using a distinct symbol for each unique attribute value.
 
-Demonstrates how to use an UniqueValueRenderer to display Features from a FeatureLayer using different symbols. An unique value renderer sets an attribute to look for any matches within it's unique values. If there is a match then the symbol assign to that unique value is use to display that feature with the same value.
+![Image of unique value renderer](UniqueValueRenderer.png)
 
-![](UniqueValueRenderer.png)
+## Use case
 
-In this sample the unique value renderer is looking for the "STATE_ABBR" attribute within each feature of the feature layer. For example we will have a unique value renderer that has a unique value set to the abbreviation for California.
-
-```java
-SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, RED,
-new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, RED, 2));
-
-List&lt;Object&gt; californiaValue = new ArrayList&lt;&gt;();
-californiaValue.add("CA");
-uniqueValueRenderer.getUniqueValues().add(new UniqueValue(State of California", "California",
-californiaFillSymbol, californiaValue));
-```
-
-When this unique value renderer comes across the feature whos key "STATE_ABBR" is value "CA" it will assign the symbol from the unique value above to this feature.
+A unique value renderer allows you to symbolize features in a layer based on one or more matching attributes. This is typically done by using unique colors, fill styles, or images to represent features with equal values in a string field. A unique value renderer could be used to show different types of trees on a vegetation map by using a symbols corresponding to matching name attributes.
 
 ## How to use the sample
 
-Sample starts with a predefined UniqueValues for some US states which are set to the UniqueValueRenderer and applied to the FeatureLayer.
+The map with the symbolized feature layer will be shown automatically when the sample loads.
 
 ## How it works
 
-To display different `Symbol` for different `Graphic`s:
-
-1. Create a `ArcGISMap`'s with `Basemap`.
-2. Create a `FeatureLayer` and add it to the map, `ArcGISMap.getOperationalLayers().add()`.
-3. Add the map to the view, `MapView.setMap()`.
-4. Create a `UniqueValueRenderer`.
-    * specify default feature attribute to look for, `UniqueValueRenderer.getFieldNames().add()`
-    * set default symbol for renderer, `UniqueValueRenderer.setDefaultSymbol()`
-    * set renderer to feature layer, `FeatureLayer.setRenderer(Renderer)`
-5. Create a set of `UniqueValue(Description, Name, Symbol, Value)`.
-    * description, description for this unique value
-    * name, name for this unique value
-    * symbol, symbol to be displayed for the values listed here
-    * value, list of values that will use the symbol set here (Example: List of state name abbreviations "CA")
-6. Add unique values to renderer, `UniqueValueRenderer.getUniqueValues().add(UniqueValue)`.
+1. Define a `SimpleFillSymbol` for each type of feature.
+2. Apply the `SimpleFillSymbol` to polygon features, which is the type of feature contained by this `ServiceFeatureTable`.
+3. Create separate `UniqueValue` objects which define the values in the renderer field and the symbol used to render matching features.
+4. Create a default symbol to render all features that do not match any of the `UniqueValue` objects defined.
 
 ## Relevant API
 
-* ArcGISMap
 * FeatureLayer
-* MapView
 * ServiceFeatureTable
 * SimpleFillSymbol
 * SimpleLineSymbol
-* UniqueValues
+* UniqueValue
 * UniqueValueRenderer
+
+## Additional information
+
+Using the `UniqueValueRenderer`, separate symbols can be used to display features that have a specific value for a given field. In this case, the field is subregions of the USA. While multiple fields can be used, this sample only uses one.
+
+## About the data
+
+The map shows U.S. states symbolized by subregion. Symbols are defined for *Pacific*, *Mountain*, and *West South Central* states. All other features are symbolized with the default symbol.
+
+## Tags
+
+draw, renderer, symbol, symbology, values
