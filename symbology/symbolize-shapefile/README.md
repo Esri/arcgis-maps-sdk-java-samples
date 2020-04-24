@@ -10,7 +10,7 @@ Feature layers created from shapefiles do not possess any rendering information,
 
 ## How to use the sample
 
-Pan and zoom around the map to view the symbology renderer set to the feature layer created from the shapefile. 
+Press the toggle button to switch between the red and yellow symbology renderer and the default renderer, set to the feature layer created from the shapefile. 
 
 ## How it works
 

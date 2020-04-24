@@ -14,21 +14,21 @@ The sample loads with a predefined simple renderer, which displays a red cross s
 
 ## How it works
 
-1.  Create a `GraphicsOverlay`.
-2.  Create a number of `Point` objects with x, y and spatial reference parameters.
-3.  Create a `SimpleMarkerSymbol` passing in a `SimpleMarkerSymbol.Style`, color and size as parameters.
-4.  Create a simple renderer with `SimpleRenderer(simpleMarkerSymbol)`.
-5.  Set the simple renderer to the graphics overlay using `graphicsOverlay.setRenderer(simpleRenderer)`.
-6.  Create a number of `Graphic` objects with the points initiated in step 2.
-7.  Add the graphics to the graphics overlay with `graphicsOverlay.getGraphics().add(graphic)`.
+1. Create a `GraphicsOverlay`.
+2. Create a number of `Point` objects with x, y and spatial reference parameters.
+3. Create a `SimpleMarkerSymbol` passing in a `SimpleMarkerSymbol.Style`, color and size as parameters.
+4. Create a simple renderer with `SimpleRenderer(simpleMarkerSymbol)`.
+5. Set the simple renderer to the graphics overlay using `graphicsOverlay.setRenderer(simpleRenderer)`.
+6. Create a number of `Graphic` objects with the points initiated in step 2.
+7. Add the graphics to the graphics overlay with `graphicsOverlay.getGraphics().add(graphic)`.
 
 ## Relevant API
 
-*   Graphic
-*   GraphicsOverlay
-*   Point
-*   SimpleMarkerSymbol
-*   SimpleRenderer
+* Graphic
+* GraphicsOverlay
+* Point
+* SimpleMarkerSymbol
+* SimpleRenderer
 
 ## Additional information
 

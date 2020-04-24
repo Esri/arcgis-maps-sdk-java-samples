@@ -12,13 +12,13 @@ You can use support for military symbology to allow users to report changes in t
 
 By default, leaving the fields blank and hitting search will find all symbols.
 
-To search for certain symbols, enter text into one or more search boxes and click 'Search for symbols'. Results are shown in a list. Pressing 'Clear' will reset the search.
+To search for certain symbols, enter text into one or more search boxes and click "Search for symbols". Results are shown in a list. Pressing "Clear" will reset the search.
 
 ## How it works
 
 1. Create a symbol dictionary with the mil2525d specification by passing the path to a .stylx file to the `SymbolDictionary.createFromFile(path)` constructor.
 2. Create `StyleSymbolSearchParameters`.
-3. Add members to the `names`, `tags`, `symbolClasses`, `categories`, and `keys` list fields of the search parameters.
+3. Add members to the names, tags, symbolClasses, categories, and keys list fields of the search parameters.
 4. Search for symbols using the parameters with `symbolDictionary.searchSymbolsAsync(styleSymbolSearchParameters)`.
 5. Get the `Symbol` from the list of returned `StyleSymbolSearchResult`s.
 
