@@ -2,7 +2,7 @@
 
 Take a web map offline using a local basemap on the device.
 
-![](GenerateOfflineMapWithLocalBasemap.png)
+![Image of generate offline map with local basemap](GenerateOfflineMapWithLocalBasemap.png)
 
 ## Use case
 
