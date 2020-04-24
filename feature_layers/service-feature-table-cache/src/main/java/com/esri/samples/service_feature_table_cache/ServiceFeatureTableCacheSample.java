@@ -67,7 +67,6 @@ public class ServiceFeatureTableCacheSample extends Application {
       map.setInitialViewpoint(new Viewpoint(new Envelope(-140.740858094945, 14.1552479740679, -47.693259181055,
               64.8874243113506, SpatialReferences.getWgs84())));
 
-      // create feature layer with its service feature table
       // create the service feature table
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);
 
