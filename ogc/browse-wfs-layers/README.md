@@ -10,7 +10,7 @@ Services often have multiple layers available for display. For example, a featur
 
 ## How to use the sample
 
-A list of layers in the WFS service will be shown. Select a layer to display.
+A list of layers in the WFS service will be shown. Select a layer to display it.
 
 ## How it works
 
