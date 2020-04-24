@@ -17,7 +17,7 @@ When the sample is launched, it will trigger the same zoom animation on both the
 ## How it works
 
 1. Create an `ArcGISMap`
-2. Set the `RenderingMode` for a specific type of Graphic by calling `arcGISMap.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)`.
+2. Set the `RenderingMode` for a specific type of `Graphic` e.g. for a `Point` by calling `arcGISMap.getLoadSettings().setPreferredPointFeatureRenderingMode(FeatureLayer.RenderingMode.DYNAMIC)`.
     * You can set the preferred rendering mode for `Point`, `Polyline`, or `Polygon` by using the appropriate method.    
     * The rendering mode can be set to `STATIC`, `DYNAMIC` or `AUTOMATIC` 
     * In Static rendering mode, the number of features and graphics has little impact on frame render time, meaning it scales well, however points don't stay screen-aligned and point/polyline/polygon objects are only redrawn once map view navigation is complete.
