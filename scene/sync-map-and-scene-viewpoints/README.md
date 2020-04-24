@@ -10,7 +10,7 @@ You might need to synchronize GeoView viewpoints if you had two map views in one
 
 ## How to use the sample
 
-Interact with the MapView or SceneView by zooming or panning. The other MapView or SceneView will automatically focus on the same viewpoint.
+Interact with the map view or scene view by zooming or panning. The other geoview will automatically focus on the same viewpoint.
 
 ## How it works
 
@@ -25,7 +25,7 @@ Interact with the MapView or SceneView by zooming or panning. The other MapView 
 
 ## About the data
 
-This application provides two different perspectives of the Imagery basemap. A 2D MapView as well as a 3D SceneView, displayed side by side.
+This application provides two different perspectives of the Imagery basemap. A 2D `MapView` as well as a 3D `SceneView`, displayed side by side.
 
 ## Tags
 

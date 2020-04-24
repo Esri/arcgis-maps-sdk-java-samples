@@ -16,7 +16,7 @@ The sample starts with a point cloud layer loaded and draped on top of a scene. 
 
 ## How it works
 
-1. Create a `PointCloudLayer` with the path to a local `.slpk` file containing a point cloud layer.
+1. Create a `PointCloudLayer` with the path to a local .slpk file containing a point cloud layer.
 2. Add the layer to a scene's operational layers collection with `getOperationalLayers().add(pointCloudLayer)`.
 
 ## Relevant API

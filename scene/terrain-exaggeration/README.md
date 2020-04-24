@@ -20,7 +20,7 @@ Use the slider to update terrain exaggeration.
 
 ## Relevant API
 
-* Scene
+* ArcGISScene
 * Surface
 
 ## Tags
