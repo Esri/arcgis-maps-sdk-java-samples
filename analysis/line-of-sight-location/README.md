@@ -2,7 +2,7 @@
 
 Perform a line of sight analysis between two points in real time.
 
-![](LineOfSightLocation.gif)
+![Image of line of sight location](LineOfSightLocation.gif)
 
 ## Use case
 

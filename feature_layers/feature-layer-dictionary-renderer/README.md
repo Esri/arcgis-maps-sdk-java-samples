@@ -2,7 +2,7 @@
 
 Convert features into graphics to show them with mil2525d symbols.
 
-![](FeatureLayerDictionaryRenderer.png)
+![Image of dictionary renderer with feature layer](FeatureLayerDictionaryRenderer.png)
 
 ## Use case
 

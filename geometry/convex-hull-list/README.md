@@ -2,7 +2,7 @@
 
 Generate convex hull polygon(s) from multiple input geometries.
 
-![](ConvexHullList.png)
+![Image of convex hull list](ConvexHullList.png)
 
 ## Use case
 

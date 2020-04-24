@@ -2,7 +2,7 @@
 
 Change a map's basemap. A basemap is beneath all layers on an `ArcGISMap` and is used to provide visual reference for the operational layers.
 
-![](ChangeBasemap.png)
+![Image of change basemap](ChangeBasemap.png)
 
 ## Use case
 

@@ -2,7 +2,7 @@
 
 Show features from an online feature service.
 
-![](screenshot.png)
+![Image of feature layer feature service](screenshot.png)
 
 ## Use case
 
