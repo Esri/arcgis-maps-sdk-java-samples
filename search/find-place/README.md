@@ -10,7 +10,7 @@ When getting directions or looking for nearby places, users may only know what t
 
 ## How to use the sample
 
-Choose a type of place in the first field and an area to search within in the second field. Click the 'Search' button to show the results of the query on the map. Click on a result pin to show its name and address. If you pan away from the result area, the "Redo search in this area" button at the bottom of the screen will become active. Click it to query again for the currently viewed area on the map.
+Choose a type of place in the first field and an area to search within in the second field. Click the "Search" button to show the results of the query on the map. Click on a result pin to show its name and address. If you pan away from the result area, the "Redo search in this area" button at the bottom of the screen will become active. Click it to query again for the currently viewed area on the map.
 
 ## How it works
 
@@ -19,15 +19,15 @@ Choose a type of place in the first field and an area to search within in the se
     * Create `GeocodeParameters`.
     * Add return fields to the parameters' `resultAttributeNames` collection. Only add a single "\*" option to return all fields.
     * Call `locatorTask.geocodeAsync(locationQueryString, geocodeParameters)` to get a list of `GeocodeResult`s.
-    * Use the `displayLocation` from each of the results to build an `Envelope` to view.
+    * Use `getDisplayLocation` from each of the results to build an `Envelope` to view.
 3. Get place of interest (POI) suggestions based on a place name query:
     * Create `SuggestParameters`.
-    * Add "POI" to the parameters' `categories` collection.
-    * Call `locatorTask.suggestAsync(placeQueryString, suggestParameters)` to get a list of `SuggestResults`.
-    * The `SuggestResult` will have a `label` to display in the search suggestions list.
+    * Add "POI" to the parameters' categories collection with `getCategories().add("POI")`.
+    * Call `locatorTask.suggestAsync(placeQueryString, suggestParameters)` to get a list of `SuggestResult`s.
+    * The `SuggestResult` will have a label to display in the search suggestions list.
 4. Use one of the suggestions or a user-written query to find the locations of POIs:
     * Create `GeocodeParameters`.
-    * Set the parameters' `searchArea` to the envelope.
+    * Set the parameters' search area to the envelope.
     * Call `locatorTask.geocodeAsync(suggestionLabelOrPlaceQueryString, geocodeParameters)` to get a list of `GeocodeResult`s.
     * Display the places of interest using the results' `displayLocation`s.
 

@@ -10,7 +10,7 @@ You can use an address locator file to geocode addresses and locations. For exam
 
 ## How to use the sample
 
-Select an address from the drop-down list to geocode the address and view the result on the map. Click the location you want to reverse geocode. Click on the pin to highlight it and then click and and drag on the map to get real-time geocoding.
+Select an address from the drop-down list to geocode the address and view the result on the map. Click the location you want to reverse geocode. Click on the pin to highlight it and then move the mouse to perform reverse geocoding in real-time.
 
 ## How it works
 

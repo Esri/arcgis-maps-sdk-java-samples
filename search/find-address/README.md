@@ -10,7 +10,7 @@ A user can input a raw address into your app's search bar and zoom to the addres
 
 ## How to use the sample
 
-Select an entry or type in an address in from the drop-down menu at the top of the screen. Suggestions will appear as text is entered. Click a suggestion or hit return to see the address marked with a pin. Tapping on the pin will show the address in a callout.
+Select an entry from the drop-down menu at the top left of the screen to zoom to the address, marked with a pin. 
 
 ## How it works
 

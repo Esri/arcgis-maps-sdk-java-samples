@@ -1,6 +1,6 @@
 # Reverse geocode online
 
-Use an online service to find the address for a tapped point.
+Use an online service to find the address for a point on the map.
 
 ![Image of reverse geocode](ReverseGeocodeOnline.png)
 
