@@ -10,7 +10,7 @@ You can use an offline network to enable routing in disconnected scenarios. For 
 
 ## How to use the sample
 
-Click near a road to start adding a stop to the route, click again to place it on the map. A number graphic will show its order in the route. After adding at least 2 stops, a route will display. Choose "Fastest" or "Shortest" from the drop down menu to control how the route is optimized. Use a secondary click on stops to select them, and then primary-click to re-place them. The route will update on-the-fly while moving stops. The green box marks the boundary of the routable area provided by the offline data.
+Left-click near a road to add a stop to the route. A number graphic will show its order in the route. After adding at least 2 stops, a route will display. Choose "Fastest" or "Shortest" from the drop down menu to control how the route is optimized. To move a stop, right-click the graphic to select it, move your mouse to reposition and finally right-click again to set the new position. The route will update on-the-fly while moving stops. The green box marks the boundary of the routable area provided by the offline data.
 
 ## How it works
 

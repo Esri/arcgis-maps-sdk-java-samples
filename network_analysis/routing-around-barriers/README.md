@@ -12,7 +12,7 @@ In some situations, it is further beneficial to find the most efficient route th
 
 ## How to use the sample
 
-Use the 'Edit Mode' toggle buttons to select whether to add Stops or Barriers to the route. The route will be solved automatically as you add stops and barriers, and information about the length of the route and directions will be shown in the controls area. Select 'Find best sequence' to allow stops to be re-ordered in order to find an optimum route. Select 'Preserve first stop' to preserve the first stop. Select 'Preserve last stop' to preserve the last stop. You can use the 'Reset' button to reset the sample.
+Use the "Edit Mode" toggle buttons to select whether to add Stops or Barriers to the route. The route will be solved automatically as you add stops and barriers, and information about the length of the route and directions will be shown in the controls area. Select 'Find best sequence' to allow stops to be re-ordered in order to find an optimum route. Select 'Preserve first stop' to preserve the first stop. Select 'Preserve last stop' to preserve the last stop. You can use the "Reset" button to reset the sample.
 
 ## How it works
 
