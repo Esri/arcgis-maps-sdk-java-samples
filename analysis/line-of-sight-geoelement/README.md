@@ -2,7 +2,7 @@
 
 Show a line of sight between two moving objects.
 
-![](LineOfSightGeoElement.gif)
+![Image of line of sight geoelement](LineOfSightGeoElement.gif)
 
 ## Use case
 

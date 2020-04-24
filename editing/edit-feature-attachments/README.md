@@ -2,7 +2,7 @@
 
 Add, delete, and download attachments for features from a service.
 
-![](EditFeatureAttachments.gif)
+![Image of edit feature attachments](EditFeatureAttachments.gif)
 
 ## Use case
 

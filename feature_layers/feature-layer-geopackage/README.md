@@ -2,7 +2,7 @@
 
 Display features from a local GeoPackage.
 
-![](FeatureLayerGeoPackage.png)
+![Image of feature layer geopackage](FeatureLayerGeoPackage.png)
 
 ## Use case
 

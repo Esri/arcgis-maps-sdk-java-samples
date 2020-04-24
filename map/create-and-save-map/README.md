@@ -2,7 +2,7 @@
 
 Create and save a map as an ArcGIS `PortalItem` (i.e. web map). 
 
-![](CreateAndSaveMap.png)
+![Image of create and save map](CreateAndSaveMap.png)
 
 ## Use case
 

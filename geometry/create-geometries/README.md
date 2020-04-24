@@ -2,7 +2,7 @@
 
 Create simple geometry types.
 
-![](CreateGeometries.png)
+![Image of create geometries](CreateGeometries.png)
 
 ## Use case
 

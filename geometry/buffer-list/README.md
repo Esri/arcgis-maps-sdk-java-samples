@@ -2,7 +2,7 @@
 
 Generate multiple individual buffers or a single unioned buffer around multiple points.
 
-![](BufferList.png)
+![Image of Buffer list](BufferList.png)
 
 ## Use case
 

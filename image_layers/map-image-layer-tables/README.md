@@ -2,7 +2,7 @@
 
 Find features in a spatial table related to features in a non-spatial table.
 
-![](MapImageLayerTables.png)
+![Image of map image layer tables](MapImageLayerTables.png)
 
 ## Use case
 
