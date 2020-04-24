@@ -65,7 +65,6 @@ public class ServiceFeatureTableNoCacheSample extends Application {
       map.setInitialViewpoint(new Viewpoint(new Envelope(-140.740858094945, 14.1552479740679, -47.693259181055,
               64.8874243113506, SpatialReferences.getWgs84())));
 
-      // create feature layer with its service feature table
       // create the service feature table
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/US_Bridges/FeatureServer/0");
 
