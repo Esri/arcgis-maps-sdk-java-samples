@@ -57,7 +57,7 @@ public class MapReferenceScaleController {
   private void initialize() {
 
     // access a web map as a portal item
-    Portal portal = new Portal("http://runtime.maps.arcgis.com");
+    Portal portal = new Portal("https://runtime.maps.arcgis.com");
     PortalItem portalItem = new PortalItem(portal, "3953413f3bd34e53a42bf70f2937a408");
 
     // create a map with the portal item

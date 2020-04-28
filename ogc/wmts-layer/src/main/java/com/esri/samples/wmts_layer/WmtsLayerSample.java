@@ -57,7 +57,7 @@ public class WmtsLayerSample extends Application {
       mapView.setMap(map);
 
       // create a WMTS service from a URL
-      String serviceURL = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS";
+      String serviceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS";
       WmtsService wmtsService = new WmtsService(serviceURL);
       wmtsService.addDoneLoadingListener(() -> {
         if (wmtsService.getLoadStatus() == LoadStatus.LOADED) {

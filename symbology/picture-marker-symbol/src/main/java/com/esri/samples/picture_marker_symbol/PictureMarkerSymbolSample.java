@@ -47,7 +47,7 @@ public class PictureMarkerSymbolSample extends Application {
   private GraphicsOverlay graphicsOverlay;
 
   private static final String CAMPSITE_SYMBOL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae";
 
   @Override
   public void start(Stage stage) {
