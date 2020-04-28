@@ -46,7 +46,7 @@
                 </fills>
             </Background>
         </background>
-        <Label fx:id="exaggerationLabel" text="Exaggeration: 1.00"/>
+        <Label fx:id="exaggerationLabel" text="Exaggeration: 1.0"/>
         <Slider fx:id="exaggerationSlider" max="5" min="1" majorTickUnit="1" minorTickCount="0" showTickMarks="true"
           showTickLabels="true" onMouseDragged="#changeElevationExaggeration" onMouseReleased="#changeElevationExaggeration"/>
     </VBox>
