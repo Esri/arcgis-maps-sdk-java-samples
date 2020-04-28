@@ -52,7 +52,6 @@ import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheTask;
 public class ExportTilesSample extends Application {
 
   private MapView mapView;
-  private ExportTileCacheJob exportTileCacheJob;
 
   @Override
   public void start(Stage stage) {
@@ -143,7 +142,7 @@ public class ExportTilesSample extends Application {
                 ExportTileCacheParameters exportTileCacheParameters = exportTileCacheParametersListenableFuture.get();
 
                 /// create a job with the parameters
-                exportTileCacheJob = exportTileCacheTask.exportTileCache(exportTileCacheParameters, tempFile.getAbsolutePath());
+                ExportTileCacheJob exportTileCacheJob = exportTileCacheTask.exportTileCache(exportTileCacheParameters, tempFile.getAbsolutePath());
 
                 // start the job and wait for it to finish
                 exportTileCacheJob.start();
