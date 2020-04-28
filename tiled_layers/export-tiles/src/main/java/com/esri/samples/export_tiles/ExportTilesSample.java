@@ -52,7 +52,7 @@ import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheTask;
 public class ExportTilesSample extends Application {
 
   private MapView mapView;
-  private ExportTileCacheJob exportTileCacheJob = null;
+  private ExportTileCacheJob exportTileCacheJob;
 
   @Override
   public void start(Stage stage) {
