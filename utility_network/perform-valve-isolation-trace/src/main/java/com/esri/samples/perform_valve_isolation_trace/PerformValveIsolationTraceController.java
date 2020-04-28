@@ -284,7 +284,7 @@ public class PerformValveIsolationTraceController {
 
 
   /**
-   * Enables/disable the UI and hides/shows the progress indicator.
+   * Enables/disables the UI and hides/shows the progress indicator.
    *
    * @param enable whether to enable or disable the UI
    */
