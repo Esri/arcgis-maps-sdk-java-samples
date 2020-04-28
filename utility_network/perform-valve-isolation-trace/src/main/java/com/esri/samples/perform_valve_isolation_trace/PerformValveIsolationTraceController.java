@@ -109,7 +109,7 @@ public class PerformValveIsolationTraceController {
       startingLocationGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
 
       // create and load the utility network
-      utilityNetwork = new UtilityNetwork(featureServiceURL, map);
+      utilityNetwork = new UtilityNetwork(featureServiceURL);
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
@@ -141,7 +141,7 @@ public class PerformValveIsolationTraceController {
                 Geometry startingLocationGeometry = startingLocationFeatures.get(0).getGeometry();
 
                 if (startingLocationGeometry instanceof Point){
-                  Point startingLocationGeometryPoint = (Point) startingLocationFeatures.get(0).getGeometry();
+                  Point startingLocationGeometryPoint = (Point) startingLocationGeometry;
 
                 // create a graphic for the starting location and add it to the graphics overlay
                 Graphic startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
@@ -157,10 +157,7 @@ public class PerformValveIsolationTraceController {
                 categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
 
                 // enable the UI
-                enableUI();
-
-                // hide the progress indicator
-                progressIndicator.setVisible(false);
+                enableUI(true);
 
                 // update the status text
                 statusLabel.setText("Utility network loaded. Ready to perform trace...");
@@ -183,6 +180,10 @@ public class PerformValveIsolationTraceController {
     }
   }
 
+  /**
+   * Uses the starting location and the selected filter barrier category to perform a valve isolation trace, then
+   * selects all connected elements found in the trace to highlight them.
+   */
   @FXML
   private void handleTraceClick() {
     try {
@@ -193,14 +194,9 @@ public class PerformValveIsolationTraceController {
         }
       });
 
-      // show the progress indicator and update the status text
-      progressIndicator.setVisible(true);
+      // disable the UI, show the progress indicator and update the status text
+      enableUI(false);
       statusLabel.setText("Running isolation trace...");
-
-      // disable the UI
-      traceButton.setDisable(true);
-      categorySelectionComboBox.setDisable(true);
-      includeIsolatedFeaturesCheckbox.setDisable(true);
 
       // get the selected utility category
       if (categorySelectionComboBox.getSelectionModel().getSelectedItem() != null) {
@@ -256,7 +252,7 @@ public class PerformValveIsolationTraceController {
                   featureQueryResultListenableFuture.addDoneListener(() -> {
                     // update the status text, enable the buttons and hide the progress indicator
                     statusLabel.setText("Isolation trace completed.");
-                    enableUI();
+                    enableUI(true);
                   });
                 }
               });
@@ -264,36 +260,39 @@ public class PerformValveIsolationTraceController {
             } else {
               statusLabel.setText("Isolation trace completed.");
               new Alert(Alert.AlertType.INFORMATION, "Isolation trace returned no elements.").show();
-              enableUI();
+              enableUI(true);
             }
 
           } else {
             statusLabel.setText("Trace failed.");
             new Alert(Alert.AlertType.ERROR, "Isolation trace result is not a utility element.").show();
-            enableUI();
+            enableUI(true);
           }
 
         } catch (Exception e) {
           statusLabel.setText("Trace failed.");
           new Alert(Alert.AlertType.ERROR, "Error getting isolation trace result.").show();
-          enableUI();
+          enableUI(true);
         }
       });
 
     } catch (Exception e) {
       new Alert(Alert.AlertType.ERROR, "Error performing isolation trace.").show();
-      enableUI();
+      enableUI(true);
     }
   }
 
+
   /**
-   * Enables the UI and hides the progress indicator.
+   * Enables/disable the UI and hides/shows the progress indicator.
+   *
+   * @param enable whether to enable or disable the UI
    */
-  private void enableUI() {
-    progressIndicator.setVisible(false);
-    traceButton.setDisable(false);
-    categorySelectionComboBox.setDisable(false);
-    includeIsolatedFeaturesCheckbox.setDisable(false);
+  private void enableUI(boolean enable) {
+    progressIndicator.setVisible(!enable);
+    traceButton.setDisable(enable);
+    categorySelectionComboBox.setDisable(enable);
+    includeIsolatedFeaturesCheckbox.setDisable(enable);
   }
 
   /**

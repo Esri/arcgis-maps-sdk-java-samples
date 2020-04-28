@@ -44,14 +44,14 @@
             </Background>
         </background>
 
-        <Label text="Choose Category for Filter Barrier:" styleClass="title"/>
+        <Label text="Choose category for filter barrier:" styleClass="title"/>
 
         <HBox maxWidth="300" spacing="10">
             <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true" minWidth="250"/>
             <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true" minWidth="50"/>
         </HBox>
 
-        <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include Isolated Features"/>
+        <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include isolated features"/>
         <Label fx:id="statusLabel" StackPane.alignment="CENTER" text="Loading Utility Network..."/>
     </VBox>
 </StackPane>
