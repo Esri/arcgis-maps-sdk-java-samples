@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -51,6 +52,7 @@ import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheTask;
 public class ExportTilesSample extends Application {
 
   private MapView mapView;
+  private ExportTileCacheJob exportTileCacheJob = null;
 
   @Override
   public void start(Stage stage) {
@@ -114,62 +116,87 @@ public class ExportTilesSample extends Application {
 
       // when the button is clicked, export the tiles to a temporary file
       exportTilesButton.setOnAction(e -> {
-        try {
-          File tempFile = File.createTempFile("tiles", ".tpk");
-          progressBar.setVisible(true);
-          double minScale = mapView.getMapScale();
-          double maxScale = tiledLayer.getMaxScale();
-          // minScale must always be larger than maxScale
-          if (minScale <= maxScale) {
-            minScale = maxScale + 1;
-          }
-          ExportTileCacheTask task = new ExportTileCacheTask(tiledLayer.getUri());
-          ListenableFuture<ExportTileCacheParameters> createParams = task.createDefaultExportTileCacheParametersAsync
-              (downloadArea.getGeometry(), minScale, maxScale);
-          createParams.addDoneListener(() -> {
-            try {
-              ExportTileCacheParameters params = createParams.get();
-              ExportTileCacheJob job = task.exportTileCache(params, tempFile.getAbsolutePath());
-              job.start();
-              job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
-              job.addJobDoneListener(() -> {
-                if (job.getStatus() == Job.Status.SUCCEEDED) {
-                  //show preview of exported tiles in alert
-                  TileCache tileCache = job.getResult();
-                  Alert preview = new Alert(Alert.AlertType.INFORMATION);
-                  preview.initOwner(mapView.getScene().getWindow());
-                  preview.setTitle("Preview");
-                  preview.setHeaderText("Exported to " + tileCache.getPath());
-                  MapView mapPreview = new MapView();
-                  mapPreview.setMinSize(400, 400);
-                  ArcGISTiledLayer tiledLayerPreview = new ArcGISTiledLayer(tileCache);
-                  ArcGISMap previewMap = new ArcGISMap(new Basemap(tiledLayerPreview));
-                  mapPreview.setMap(previewMap);
-                  preview.getDialogPane().setContent(mapPreview);
-                  preview.show();
-                } else {
-                  Alert alert = new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage());
-                  alert.show();
-                }
-                Platform.runLater(() -> progressBar.setVisible(false));
-              });
-            } catch (InterruptedException | ExecutionException ex) {
-              Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
-              alert.show();
-              progressBar.setVisible(false);
-              progressBar.setProgress(0);
+          try {
+            // disable the button and show the progress bar
+            exportTilesButton.setDisable(true);
+            progressBar.setVisible(true);
+
+            // create a file and define the scale for the job
+            File tempFile = File.createTempFile("tiles", ".tpk");
+            double minScale = mapView.getMapScale();
+            double maxScale = tiledLayer.getMaxScale();
+
+            // minScale must always be larger than maxScale
+            if (minScale <= maxScale) {
+              minScale = maxScale + 1;
             }
-          });
-        } catch (IOException ex) {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to create temporary file");
-          alert.show();
-        }
+
+            // create a task
+            ExportTileCacheTask exportTileCacheTask = new ExportTileCacheTask(tiledLayer.getUri());
+
+            // create parameters for the export tiles job
+            ListenableFuture<ExportTileCacheParameters> exportTileCacheParametersListenableFuture =
+                    exportTileCacheTask.createDefaultExportTileCacheParametersAsync(downloadArea.getGeometry(), minScale, maxScale);
+
+            exportTileCacheParametersListenableFuture.addDoneListener(() -> {
+              try {
+                ExportTileCacheParameters exportTileCacheParameters = exportTileCacheParametersListenableFuture.get();
+
+                /// create a job with the parameters
+                exportTileCacheJob = exportTileCacheTask.exportTileCache(exportTileCacheParameters, tempFile.getAbsolutePath());
+
+                // start the job and wait for it to finish
+                exportTileCacheJob.start();
+                exportTileCacheJob.addProgressChangedListener(() -> progressBar.setProgress(exportTileCacheJob.getProgress() / 100.0));
+
+                exportTileCacheJob.addJobDoneListener(() -> {
+                  if (exportTileCacheJob.getStatus() == Job.Status.SUCCEEDED) {
+
+                    //show preview of exported tiles in alert
+                    TileCache tileCache = exportTileCacheJob.getResult();
+                    Alert preview = new Alert(Alert.AlertType.INFORMATION);
+                    preview.initOwner(mapView.getScene().getWindow());
+                    preview.setTitle("Preview");
+                    preview.setHeaderText("Exported to " + tileCache.getPath());
+                    MapView mapPreview = new MapView();
+                    mapPreview.setMinSize(400, 400);
+                    ArcGISTiledLayer tiledLayerPreview = new ArcGISTiledLayer(tileCache);
+                    ArcGISMap previewMap = new ArcGISMap(new Basemap(tiledLayerPreview));
+                    mapPreview.setMap(previewMap);
+                    preview.getDialogPane().setContent(mapPreview);
+                    preview.show();
+
+                  } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, exportTileCacheJob.getError().getAdditionalMessage());
+                    alert.show();
+                  }
+
+                  Platform.runLater(() -> {
+                    progressBar.setVisible(false);
+                    exportTilesButton.setDisable(false);
+                  });
+                });
+
+              } catch (InterruptedException | ExecutionException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                alert.show();
+                progressBar.setVisible(false);
+                progressBar.setProgress(0);
+              }
+            });
+          } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to create temporary file");
+            alert.show();
+          }
       });
 
       // add the map view, button, and progress bar to stack pane
       stackPane.getChildren().addAll(mapView, exportTilesButton, progressBar);
-      StackPane.setAlignment(exportTilesButton, Pos.TOP_LEFT);
-      StackPane.setAlignment(progressBar, Pos.TOP_RIGHT);
+      StackPane.setAlignment(exportTilesButton, Pos.BOTTOM_CENTER);
+      StackPane.setMargin(exportTilesButton, new Insets(0, 0, 100, 0));
+      StackPane.setAlignment(progressBar, Pos.BOTTOM_CENTER);
+      StackPane.setMargin(progressBar, new Insets(0, 0, 80, 0));
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
