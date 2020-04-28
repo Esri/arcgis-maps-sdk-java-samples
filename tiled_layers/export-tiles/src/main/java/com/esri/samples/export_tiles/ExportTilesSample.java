@@ -142,7 +142,7 @@ public class ExportTilesSample extends Application {
               try {
                 ExportTileCacheParameters exportTileCacheParameters = exportTileCacheParametersListenableFuture.get();
 
-                /// create a job with the parameters
+                // create a job with the parameters
                 exportTileCacheJob = exportTileCacheTask.exportTileCache(exportTileCacheParameters, tempFile.getAbsolutePath());
 
                 // start the job and wait for it to finish
