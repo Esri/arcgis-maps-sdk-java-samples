@@ -16,6 +16,14 @@
 
 package com.esri.samples.animate_images_with_image_overlay;
 
+import java.util.ArrayList;
+
+import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.ImageOverlay;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -43,35 +51,35 @@ public class AnimateImagesWithImageOverlaySample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add JavaFX scene to stage
-      stage.setTitle("Scene Layer Sample");
+      stage.setTitle("Animate Images with Image Overlay Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
       stage.show();
 
-      // create a scene and add a basemap to it
-      ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createImagery());
-
-      // add the SceneView to the stack pane
+      // create a scene view and add it to the stack pane
       sceneView = new SceneView();
-      sceneView.setArcGISScene(scene);
-      stackPane.getChildren().addAll(sceneView);
-
-      // add base surface for elevation data
-      Surface surface = new Surface();
-      final String localElevationImageService = "http://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(localElevationImageService));
-      scene.setBaseSurface(surface);
+      stackPane.getChildren().add(sceneView);
       
-      // add a scene layer
-      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
-      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
-      scene.getOperationalLayers().add(sceneLayer);
+      // create a new tiled layer from the World Dark Gray Base REST service and set it as the scene's basemap
+      ArcGISScene scene = new ArcGISScene();
+      sceneView.setArcGISScene(scene);
+      
+      Basemap basemap = new Basemap(new ArcGISTiledLayer("https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer"));
+      scene.setBasemap(basemap);
 
-      // add a camera and initial camera position (Brest, France)
-      Camera camera = new Camera(48.37, -4.50, 1000.0, 10.0, 70, 0.0);
+      // create a new elevation source from the Terrain3D REST service and set it as the scene's base surface
+      Surface surface = new Surface();
+      surface.getElevationSources().add(new ArcGISTiledElevationSource("https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
+      scene.setBaseSurface(surface);
+
+      // create a camera, looking at the pacific southwest sector
+      Point observationPoint = new Point(-116.621, 24.7773, 856977.0);
+      Camera camera = new Camera(observationPoint, 353.994, 48.5495, 0.0);
       sceneView.setViewpointCamera(camera);
+      
+      // create and append an image overlay to the scene view
+      sceneView.getImageOverlays().add(new ImageOverlay());
 
     } catch (Exception e) {
       // on any error, display the stack trace.
