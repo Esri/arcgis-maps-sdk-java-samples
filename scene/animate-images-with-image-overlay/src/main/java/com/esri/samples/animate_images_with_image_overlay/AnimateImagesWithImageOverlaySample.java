@@ -64,8 +64,6 @@ public class AnimateImagesWithImageOverlaySample extends Application {
       surface.getElevationSources().add(new ArcGISTiledElevationSource(localElevationImageService));
       scene.setBaseSurface(surface);
       
-      Imageo
-
       // add a scene layer
       final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
       ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
