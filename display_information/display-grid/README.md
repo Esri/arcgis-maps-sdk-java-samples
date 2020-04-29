@@ -10,7 +10,7 @@ Grids are often used on printed maps, but can also be helpful on digital maps, t
 
 ## How to use the sample
 
-Use the controls to select the type of grid from `Grid Type` (LatLong, MGRS, UTM and USNG), and to modify its properties like label visibility, grid line color, and grid label color. Click the 'Update' button to see the result.
+Use the controls to select the type of grid from `Grid Type` (LatLong, MGRS, UTM and USNG), and to modify its properties like label visibility, grid line color, and grid label color.
 
 
 ## How it works
