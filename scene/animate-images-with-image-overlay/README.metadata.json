@@ -1,0 +1,28 @@
+{
+    "category": "Scene",
+    "description": "Animate a series of images with an image overlay.",
+    "ignore": false,
+    "images": [
+        "AnimateImageWithImageOverlay.png"
+    ],
+    "keywords": [
+        "3D",
+        "animation",
+        "drone",
+        "dynamic",
+        "image frame",
+        "image overlay",
+        "real time",
+        "rendering"
+    ],
+    "redirect_from": "/java/latest/sample-code/animate-images-with-image-overlay.htm",
+    "relevant_apis": [
+        "ImageFrame",
+        "ImageOverlay",
+        "SceneView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/animate_images_with_image_overlay/AnimateImagesWithImageOverlaySample.java"
+    ],
+    "title": "Animate Images With Image Overlay Sample"
+}
