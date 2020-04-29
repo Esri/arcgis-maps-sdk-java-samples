@@ -59,31 +59,30 @@ public class ShowCalloutSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+      // get the map view's callout
+      Callout callout = mapView.getCallout();
+
       // click event to display the callout
       mapView.setOnMouseClicked(e -> {
-        // check that the primary mouse button was clicked and user is not
-        // panning
+
+        // check that the primary mouse button was clicked and user is not panning
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
+
+          // hide any previous callout
+          callout.dismiss();
+
           // create a point from where the user clicked
           Point2D point = new Point2D(e.getX(), e.getY());
 
           // create a map point from a point
           Point mapPoint = mapView.screenToLocation(point);
 
-          // get the map view's callout
-          Callout callout = mapView.getCallout();
+          // set the callout's details
+          callout.setTitle("Location");
+          callout.setDetail(String.format("x: %.2f, y: %.2f", mapPoint.getX(), mapPoint.getY()));
 
-          if (!callout.isVisible()) {
-            // set the callout's details
-            callout.setTitle("Location");
-            callout.setDetail(String.format("x: %.2f, y: %.2f", mapPoint.getX(), mapPoint.getY()));
-
-            // show the callout where the user clicked
-            callout.showCalloutAt(mapPoint, DURATION);
-          } else {
-            // hide the callout
-            callout.dismiss();
-          }
+          // show the callout where the user clicked
+          callout.showCalloutAt(mapPoint, DURATION);
         }
       });
 
@@ -110,7 +109,7 @@ public class ShowCalloutSample extends Application {
 
   /**
    * Opens and runs application.
-   * 
+   *
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
