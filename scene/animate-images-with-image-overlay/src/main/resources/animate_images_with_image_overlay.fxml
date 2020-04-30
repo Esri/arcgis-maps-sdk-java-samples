@@ -50,7 +50,7 @@
             <Button fx:id="controlAnimationButton" text="Start" maxWidth="500" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
             <ComboBox fx:id="framesComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" maxWidth="Infinity"/>
             <Label text="Opacity:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Slider fx:id="opacitySlider" GridPane.rowIndex="1" showTickLabels="true" majorTickUnit="50" GridPane.columnIndex="1" maxWidth="Infinity"/>
+            <Slider fx:id="opacitySlider" GridPane.rowIndex="1" showTickLabels="true" majorTickUnit="50" GridPane.columnIndex="1" maxWidth="Infinity" max="1" onMouseDragged="#changeImageOverlayOpacity" onMouseReleased="#changeImageOverlayOpacity"/>
             
         </GridPane>
 

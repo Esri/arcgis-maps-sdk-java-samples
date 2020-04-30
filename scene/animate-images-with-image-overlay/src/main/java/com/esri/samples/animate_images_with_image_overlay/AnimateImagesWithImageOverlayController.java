@@ -102,6 +102,15 @@ public class AnimateImagesWithImageOverlayController {
     }
   }
 
+  /**
+   * Controls the opacity of the image overlay using the slider.
+   */
+  @FXML
+  private void changeImageOverlayOpacity() {
+    sceneView.getImageOverlays().get(0).setOpacity((float) opacitySlider.getValue());
+    
+  }
+
 
   /**
    * Disposes of application resources.
