@@ -16,18 +16,30 @@
 
 package com.esri.samples.animate_images_with_image_overlay;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
+import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.view.ImageFrame;
 import com.esri.arcgisruntime.mapping.view.ImageOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 
 public class AnimateImagesWithImageOverlayController {
 
@@ -37,6 +49,10 @@ public class AnimateImagesWithImageOverlayController {
   private Button controlAnimationButton;
   @FXML
   private Slider opacitySlider;
+  @FXML
+  private ComboBox<String> framesComboBox;
+  
+  private List<ImageFrame> imageFrames;
 
   public void initialize() {
 
@@ -60,9 +76,25 @@ public class AnimateImagesWithImageOverlayController {
       Point observationPoint = new Point(-116.621, 24.7773, 856977.0);
       Camera camera = new Camera(observationPoint, 353.994, 48.5495, 0.0);
       sceneView.setViewpointCamera(camera);
-
+      
       // create and append an image overlay to the scene view
       sceneView.getImageOverlays().add(new ImageOverlay());
+      
+      // instantiate a new empty list to hold image frames
+      imageFrames = new ArrayList<>();
+      
+      // get the image files from local storage as an unordered list
+      File[] imageFiles = new File(System.getProperty("data.dir"), "./samples-data/PacificSouthWest").listFiles();
+      
+      // sort the list of image files
+      if (imageFiles != null){
+        Arrays.sort(imageFiles);
+        // create an image with the given path and use it to create an image frame
+        for (File file: imageFiles) {
+          ImageFrame imageFrame = new ImageFrame(file.getAbsolutePath(), new Envelope((observationPoint), 15.09589635986124, -14.3770441522488));
+          imageFrames.add(imageFrame);
+        }
+      }
 
     } catch (Exception e) {
       // on any exception, print the stack trace
