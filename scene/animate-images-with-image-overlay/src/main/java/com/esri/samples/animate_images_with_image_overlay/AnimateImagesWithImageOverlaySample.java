@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2020 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,20 +16,18 @@
 
 package com.esri.samples.animate_images_with_image_overlay;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
-import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.ImageOverlay;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -38,53 +36,26 @@ import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
 public class AnimateImagesWithImageOverlaySample extends Application {
-
-  private SceneView sceneView;
-
+  
+  private static AnimateImagesWithImageOverlayController controller;
+  
   @Override
-  public void start(Stage stage) {
-
-    try {
-
-      // create stack pane and JavaFX app scene
-      StackPane stackPane = new StackPane();
-      Scene fxScene = new Scene(stackPane);
-
-      // set title, size, and add JavaFX scene to stage
+  public void start(Stage stage) throws IOException {
+      
+      // set up the scene
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/animate_images_with_image_overlay.fxml"));
+      Parent root = loader.load();
+      controller = loader.getController();
+      Scene fxScene = new Scene(root);
+        
+        
+      // set up the stage
       stage.setTitle("Animate Images with Image Overlay Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);
       stage.show();
 
-      // create a scene view and add it to the stack pane
-      sceneView = new SceneView();
-      stackPane.getChildren().add(sceneView);
-      
-      // create a new tiled layer from the World Dark Gray Base REST service and set it as the scene's basemap
-      ArcGISScene scene = new ArcGISScene();
-      sceneView.setArcGISScene(scene);
-      
-      Basemap basemap = new Basemap(new ArcGISTiledLayer("https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer"));
-      scene.setBasemap(basemap);
-
-      // create a new elevation source from the Terrain3D REST service and set it as the scene's base surface
-      Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource("https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
-      scene.setBaseSurface(surface);
-
-      // create a camera, looking at the pacific southwest sector
-      Point observationPoint = new Point(-116.621, 24.7773, 856977.0);
-      Camera camera = new Camera(observationPoint, 353.994, 48.5495, 0.0);
-      sceneView.setViewpointCamera(camera);
-      
-      // create and append an image overlay to the scene view
-      sceneView.getImageOverlays().add(new ImageOverlay());
-
-    } catch (Exception e) {
-      // on any error, display the stack trace.
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -92,10 +63,7 @@ public class AnimateImagesWithImageOverlaySample extends Application {
    */
   @Override
   public void stop() {
-
-    if (sceneView != null) {
-      sceneView.dispose();
-    }
+    controller.terminate();
   }
 
   /**
