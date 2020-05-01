@@ -55,13 +55,11 @@
         </background>
 
         <HBox>
-            <ToggleButton fx:id="btnAddFacility" text="Add Facilities" minWidth="90">
-                <toggleGroup>
-                    <ToggleGroup fx:id="toggleGroup"/>
-                </toggleGroup>
-            </ToggleButton>
-            <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Add Barrier" onAction="#createBarrier"
-                          minWidth="90"/>
+            <fx:define>
+                <ToggleGroup fx:id="toggleGroup"/>
+            </fx:define>
+            <ToggleButton fx:id="btnAddFacility" text="Add Facilities" minWidth="90" toggleGroup="$toggleGroup"/>
+            <ToggleButton fx:id="btnAddBarrier" text="Add Barrier"  minWidth="90"  toggleGroup="$toggleGroup" onAction="#createBarrier"/>
         </HBox>
         <Button text="Show Service Areas" onAction="#showServiceAreas" minWidth="180"/>
         <Button text="Reset" onAction="#clearRouteAndGraphics" minWidth="180"/>
