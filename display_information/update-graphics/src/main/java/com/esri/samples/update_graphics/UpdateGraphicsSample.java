@@ -53,9 +53,9 @@ public class UpdateGraphicsSample extends Application {
 
   private boolean isUpdateLocationActive;
   private List<SimpleMarkerSymbol> markers;
-  Button updateLocationButton;
-  Button updateDescriptionButton;
-  ComboBox<String> symbolBox;
+  private Button updateLocationButton;
+  private Button updateDescriptionButton;
+  private ComboBox<String> symbolBox;
 
   private MapView mapView;
   private Graphic selectedGraphic;
