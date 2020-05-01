@@ -1,27 +1,19 @@
-.panel-region .label {
-  -fx-text-fill: white;
+.stack-pane VBox {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-padding: 10;
+    -fx-max-width: 150;
+    -fx-min-width: 150;
+    -fx-min-height: 120;
+    -fx-max-height: 120;
+    -fx-spacing: 10;
 }
 
-.label {
-  -fx-text-fill: black;
+.stack-pane Button {
+    -fx-display: block;
+    -fx-min-width: 130;
 }
 
-.slider .axis {
-    -fx-tick-label-fill: white;
-}
-
-.range-slider .axis {
-    -fx-tick-label-fill: white;
-}
-
-.panel-region .check-box {
-   -fx-text-fill: white;
-}
-
-.panel-region .radio-button {
-   -fx-text-fill: white;
-}
-
-.color-picker .color-picker-label {
-   -fx-text-fill: black;
+.stack-pane ToggleButton {
+    -fx-display: block;
+    -fx-min-width: 65;
 }
