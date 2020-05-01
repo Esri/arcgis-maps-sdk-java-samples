@@ -195,7 +195,6 @@ public class UpdateGraphicsSample extends Application {
                   enableUI(true);
                 }
               } catch (Exception x) {
-                // on any error, display the stack trace
                 new Alert(Alert.AlertType.ERROR, "Error identifying clicked graphic").show();
               }
             });
