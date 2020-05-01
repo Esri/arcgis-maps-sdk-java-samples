@@ -34,15 +34,13 @@
 
     <!-- Controls area -->
     <VBox StackPane.alignment="TOP_LEFT">
-
         <HBox>
             <ToggleButton fx:id="btnAddFacility" text="Add Facilities">
                 <toggleGroup>
                     <ToggleGroup fx:id="toggleGroup"/>
                 </toggleGroup>
             </ToggleButton>
-            <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Add Barrier"
-                          onAction="#createBarrier"/>
+            <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Add Barrier" onAction="#createBarrier"/>
         </HBox>
         <Button text="Show Service Areas" onAction="#showServiceAreas"/>
         <Button text="Reset" onAction="#clearRouteAndGraphics"/>
