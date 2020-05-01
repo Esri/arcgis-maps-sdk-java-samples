@@ -30,17 +30,17 @@
     <!--SDK SceneView-->
     <MapView fx:id="mapView"/>
     <!-- For loading service areas -->
-    <ProgressIndicator fx:id="progressIndicator" maxHeight="50.0" maxWidth="50.0" visible="false"/>
+    <ProgressIndicator fx:id="progressIndicator" visible="false"/>
 
     <!-- Controls area -->
     <VBox StackPane.alignment="TOP_LEFT">
         <HBox>
-            <ToggleButton fx:id="btnAddFacility" text="Add Facilities">
-                <toggleGroup>
-                    <ToggleGroup fx:id="toggleGroup"/>
-                </toggleGroup>
-            </ToggleButton>
-            <ToggleButton fx:id="btnAddBarrier" toggleGroup="$toggleGroup" text="Add Barrier" onAction="#createBarrier"/>
+            <fx:define>
+                <ToggleGroup fx:id="toggleGroup"/>
+            </fx:define>
+            <ToggleButton fx:id="btnAddFacility" text="Add Facilities" toggleGroup="$toggleGroup"/>
+            <ToggleButton fx:id="btnAddBarrier" text="Add Barrier" toggleGroup="$toggleGroup"
+                          onAction="#createBarrier"/>
         </HBox>
         <Button text="Show Service Areas" onAction="#showServiceAreas"/>
         <Button text="Reset" onAction="#clearRouteAndGraphics"/>
