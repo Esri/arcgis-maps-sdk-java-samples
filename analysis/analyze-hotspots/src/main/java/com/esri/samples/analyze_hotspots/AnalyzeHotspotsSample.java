@@ -110,7 +110,7 @@ public class AnalyzeHotspotsSample extends Application {
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
       // create the geoprocessing task with the service URL and load it
-      GeoprocessingTask geoprocessingTask = new GeoprocessingTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot");
+      GeoprocessingTask geoprocessingTask = new GeoprocessingTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot");
       geoprocessingTask.loadAsync();
 
       geoprocessingTask.addDoneLoadingListener(() -> {

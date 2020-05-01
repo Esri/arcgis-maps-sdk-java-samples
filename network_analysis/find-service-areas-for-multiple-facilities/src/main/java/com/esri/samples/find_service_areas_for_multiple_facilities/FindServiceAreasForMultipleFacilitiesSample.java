@@ -106,7 +106,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesTable);
 
     // create a symbol used to display the facilities
-    PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
+    PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("https://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
     facilitySymbol.setHeight(25);
     facilitySymbol.setWidth(25);
     // set the renderer of the facilities feature layer to use the facilities symbol

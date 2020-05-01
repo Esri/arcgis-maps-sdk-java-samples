@@ -106,7 +106,7 @@ public class RasterRenderingRuleSample extends Application {
       mapView.setMap(map);
 
       // create an Image Service Raster as a raster layer and add to map
-      final String ImageServiceRasterUri = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
+      final String ImageServiceRasterUri = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
       final ImageServiceRaster imageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
       final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
       map.getOperationalLayers().add(imageRasterLayer);
