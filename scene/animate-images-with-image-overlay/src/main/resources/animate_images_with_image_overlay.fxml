@@ -47,14 +47,12 @@
         </background>
         <GridPane hgap="30" vgap="10" maxWidth="500">
 
-            <Button fx:id="controlAnimationButton" text="Stop" maxWidth="500" GridPane.rowIndex="0" GridPane.columnIndex="0" onAction="#handleButtonClicked"/>
-            <ComboBox fx:id="framesComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" maxWidth="Infinity"/>
+            <Button fx:id="controlAnimationButton" text="Stop" maxWidth="500" GridPane.rowIndex="0" GridPane.columnIndex="0" onAction="#handlecontrolAnimationButtonClicked"/>
+            <ComboBox fx:id="framesComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" maxWidth="Infinity" onAction="#handleframesComboBoxInteraction"/>
             <Label text="Opacity:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
             <Slider fx:id="opacitySlider" GridPane.rowIndex="1" showTickLabels="true" majorTickUnit="50" GridPane.columnIndex="1" maxWidth="Infinity" max="1" value="1" onMouseDragged="#changeImageOverlayOpacity" onMouseReleased="#changeImageOverlayOpacity"/>
             
         </GridPane>
-
-
     </VBox>
     
 </StackPane>
