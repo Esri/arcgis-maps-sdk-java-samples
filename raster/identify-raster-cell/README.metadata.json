@@ -1,0 +1,21 @@
+{
+    "category": "Raster",
+    "description": "Get the cell value of a local raster at a specified location.",
+    "ignore": false,
+    "images": [
+        "IdentifyRasterCell.png"
+    ],
+    "keywords": [
+"band", "cell", "cell value", "continuous", "discrete", "identify", "pixel", "pixel value", "raster"
+    ],
+    "relevant_apis": [
+        "IdentifyLayerResult",
+        "RasterCell",
+        "RasterLayer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/identify_raster_cell/IdentifyRasterCellSample.java",
+        "src/main/java/com/esri/samples/identify_raster_cell/IdentifyRasterCellLauncher.java"
+    ],
+    "title": "Identify Raster Cell"
+}
