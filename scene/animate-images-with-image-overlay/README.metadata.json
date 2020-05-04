@@ -3,7 +3,7 @@
     "description": "Animate a series of images with an image overlay.",
     "ignore": false,
     "images": [
-        "AnimateImageWithImageOverlay.png"
+        "AnimateImageWithImageOverlay.gif"
     ],
     "keywords": [
         "3D",
@@ -22,7 +22,9 @@
         "SceneView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/animate_images_with_image_overlay/AnimateImagesWithImageOverlaySample.java"
+        "src/main/java/com/esri/samples/animate_images_with_image_overlay/AnimateImagesWithImageOverlaySample.java",
+      "src/main/java/com/esri/samples/animate_images_with_image_overlay/AnimateImagesWithImageOverlayController.java",
+      "src/main/resources/animate_images_with_image)overlay.fxml"
     ],
     "title": "Animate Images With Image Overlay Sample"
 }

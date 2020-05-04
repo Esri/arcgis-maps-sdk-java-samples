@@ -64,7 +64,7 @@ public class AnimateImagesWithImageOverlayController {
 
     try {
 
-      // create a new tiled layer from the World Dark Gray Base REST service and set it as the scene's basemap
+      // create a new ArcGISScene and set it to the scene view
       ArcGISScene scene = new ArcGISScene();
       sceneView.setArcGISScene(scene);
 
@@ -72,11 +72,12 @@ public class AnimateImagesWithImageOverlayController {
       Point observationPoint = new Point(-116.621, 24.7773, 856977.0);
       Camera camera = new Camera(observationPoint, 353.994, 48.5495, 0.0);
 
-      // // create an envelope of the pacific southwest sector for displaying the image frame
+      // create an envelope of the pacific southwest sector for displaying the image frame
       Point pointForImageFrame = new Point(-120.0724273439448, 35.131016955536694, SpatialReferences.getWgs84());
       Envelope imageFrameEnvelope = new Envelope(pointForImageFrame, 15.09589635986124, -14.3770441522488);
       scene.setInitialViewpoint(new Viewpoint(imageFrameEnvelope, camera));
 
+      // create a new tiled layer from the World Dark Gray Base REST service and set it as the scene's basemap
       Basemap basemap = new Basemap(new ArcGISTiledLayer("https://services.arcgisonline" +
         ".com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer"));
       scene.setBasemap(basemap);
@@ -193,8 +194,7 @@ public class AnimateImagesWithImageOverlayController {
       controlAnimationButton.setText("Stop");
     }
   }
-
-
+  
   /**
    * Disposes of application resources.
    */
@@ -205,5 +205,4 @@ public class AnimateImagesWithImageOverlayController {
       sceneView.dispose();
     }
   }
-
 }

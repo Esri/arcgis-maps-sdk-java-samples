@@ -25,26 +25,24 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class AnimateImagesWithImageOverlaySample extends Application {
-  
+
   private static AnimateImagesWithImageOverlayController controller;
-  
+
   @Override
   public void start(Stage stage) throws IOException {
-      
-      // set up the scene
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/animate_images_with_image_overlay.fxml"));
-      Parent root = loader.load();
-      controller = loader.getController();
-      Scene fxScene = new Scene(root);
-        
-        
-      // set up the stage
-      stage.setTitle("Animate Images with Image Overlay Sample");
-      stage.setWidth(800);
-      stage.setHeight(700);
-      stage.setScene(fxScene);
-      stage.show();
 
+    // set up the scene
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/animate_images_with_image_overlay.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene fxScene = new Scene(root);
+
+    // set up the stage
+    stage.setTitle("Animate Images with Image Overlay Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(fxScene);
+    stage.show();
   }
 
   /**
@@ -64,5 +62,4 @@ public class AnimateImagesWithImageOverlaySample extends Application {
 
     Application.launch(args);
   }
-
 }
