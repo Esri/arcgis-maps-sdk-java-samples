@@ -60,9 +60,6 @@ public class UpdateAttributesSample extends Application {
   private ServiceFeatureTable featureTable;
   private ComboBox<String> comboBox;
 
-  private static final String FEATURE_LAYER_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
-
   @Override
   public void start(Stage stage) {
 
@@ -118,20 +115,32 @@ public class UpdateAttributesSample extends Application {
       // add damage type label and comboBox to the control panel
       controlsVBox.getChildren().addAll(typeDamageLabel, comboBox);
 
-      // create a map with streets basemap
-      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
-
-      // create view for this ArcGISMap
+      // create a map view
       mapView = new MapView();
 
+      // create a map with streets basemap and set it to the map view
+      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
+      mapView.setMap(map);
+
       // create service feature table from URL
-      featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
+      featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
 
-      // create a feature layer from table
+      // create a feature layer from service feature table
       featureLayer = new FeatureLayer(featureTable);
+      featureLayer.loadAsync();
 
-      // add the layer to the ArcGISMap
-      map.getOperationalLayers().add(featureLayer);
+      // wait for the feature layer to load
+      featureLayer.addDoneLoadingListener(()->{
+
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+
+          // add the feature layer to the ArcGISMap
+          map.getOperationalLayers().add(featureLayer);
+
+        } else {
+          displayMessage("Error", "Error loading feature layer");
+        }
+      });
 
       mapView.setOnMouseClicked(event -> {
         // accept only primary mouse click
@@ -173,8 +182,6 @@ public class UpdateAttributesSample extends Application {
           });
         }
       });
-      // set ArcGISMap to be displayed in view
-      mapView.setMap(map);
 
       // add the map view and control box to stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);

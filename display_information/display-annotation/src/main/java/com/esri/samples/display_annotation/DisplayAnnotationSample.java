@@ -18,12 +18,14 @@ package com.esri.samples.display_annotation;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.AnnotationLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -31,6 +33,8 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class DisplayAnnotationSample extends Application {
 
     private MapView mapView;
+    private FeatureLayer riverFeatureLayer;
+    private AnnotationLayer annotationLayer;
 
     @Override
     public void start(Stage stage) {
@@ -54,19 +58,34 @@ public class DisplayAnnotationSample extends Application {
             mapView.setMap(map);
 
             // create a feature layer from a feature service
-            FeatureLayer riverFeatureLayer = new FeatureLayer(new ServiceFeatureTable("https://services1.arcgis.com/6677msI40mnLuuLr/arcgis/rest/services/East_Lothian_Rivers/FeatureServer/0"));
+            riverFeatureLayer = new FeatureLayer(new ServiceFeatureTable("https://services1.arcgis.com/6677msI40mnLuuLr/arcgis/rest/services/East_Lothian_Rivers/FeatureServer/0"));
 
             // add the feature layer to the map
             map.getOperationalLayers().add(riverFeatureLayer);
 
             // create an annotation layer from a feature service
-            AnnotationLayer annotationLayer = new AnnotationLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/RiversAnnotation/FeatureServer/0");
+            annotationLayer = new AnnotationLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/RiversAnnotation/FeatureServer/0");
 
             // add the annotation layer to the map
             map.getOperationalLayers().add(annotationLayer);
 
+            // check that the feature layer has loaded
+            riverFeatureLayer.addDoneLoadingListener(() -> {
+                if (riverFeatureLayer.getLoadStatus() != LoadStatus.LOADED) {
+                    new Alert(Alert.AlertType.ERROR, "Error loading Feature Layer.").show();
+                }
+            });
+
+            // check that the annotation layer has loaded
+            annotationLayer.addDoneLoadingListener(()->{
+                if (annotationLayer.getLoadStatus() != LoadStatus.LOADED) {
+                    new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer.").show();
+                }
+            });
+
             // add the map view to stack pane
             stackPane.getChildren().add(mapView);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -71,18 +71,15 @@ public class ShowLabelsOnLayerSample extends Application {
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceUrl);
       featureLayer = new FeatureLayer(serviceFeatureTable);
 
+      // add the feature layer to the map
+      map.getOperationalLayers().add(featureLayer);
+
       // wait for the feature layer to load
       featureLayer.addDoneLoadingListener(() -> {
-        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
-
-          // add the feature layer to the map
-          map.getOperationalLayers().add(featureLayer);
-
-        } else {
+        if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
           new Alert(Alert.AlertType.ERROR, "Error loading Feature Layer.").show();
         }
       });
-      featureLayer.loadAsync();
 
       // use red text with white halo for republican district labels
       TextSymbol republicanTextSymbol = new TextSymbol();

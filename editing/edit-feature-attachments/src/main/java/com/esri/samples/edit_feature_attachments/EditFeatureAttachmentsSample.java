@@ -29,6 +29,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -66,9 +67,6 @@ public class EditFeatureAttachmentsSample extends Application {
 
   private ArcGISFeature selected;
   private List<Attachment> attachments;
-
-  private static final String SERVICE_FEATURE_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
@@ -121,26 +119,35 @@ public class EditFeatureAttachmentsSample extends Application {
       // add controls to the panel
       controlsVBox.getChildren().addAll(addAttachmentButton, deleteAttachmentButton, attachmentsLabel, attachmentList);
 
-      // create a map with streets basemap
-      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
-
-      // create service feature table from URL
-      featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
-
-      // create a feature layer from service feature table
-      featureLayer = new FeatureLayer(featureTable);
-
-      // add the feature layer to the ArcGISMap
-      map.getOperationalLayers().add(featureLayer);
-
-      // create a view for this ArcGISMap
+      // create a map view
       mapView = new MapView();
 
-      // set ArcGISMap to be displayed in the view
+      // create a map with streets basemap and set it to the map view
+      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
       mapView.setMap(map);
 
       // set selection color
       mapView.getSelectionProperties().setColor(0xff0000ff);
+
+      // create service feature table from URL
+      featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+
+      // create a feature layer from service feature table
+      featureLayer = new FeatureLayer(featureTable);
+      featureLayer.loadAsync();
+
+      // wait for the feature layer to load
+      featureLayer.addDoneLoadingListener(()->{
+
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+
+          // add the feature layer to the ArcGISMap
+          map.getOperationalLayers().add(featureLayer);
+
+        } else {
+          displayMessage("Error", "Error loading feature layer");
+        }
+      });
 
       mapView.setOnMouseClicked(event -> {
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
@@ -169,8 +176,7 @@ public class EditFeatureAttachmentsSample extends Application {
                     if (selected.getLoadStatus() == LoadStatus.LOADED) {
                       fetchAttachments(selected);
                     } else {
-                      Alert alert = new Alert(Alert.AlertType.ERROR, "Element Failed to Load!");
-                      alert.show();
+                      displayMessage("Error", "Element failed to load!");
                     }
                   });
                   addAttachmentButton.setDisable(false);
