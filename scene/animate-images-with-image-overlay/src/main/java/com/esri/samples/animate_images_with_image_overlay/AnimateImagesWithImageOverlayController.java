@@ -60,6 +60,13 @@ public class AnimateImagesWithImageOverlayController {
   public void initialize() {
 
     try {
+      
+      // populate the frames combo box with values
+      framesComboBox.getItems().addAll("60 frames per second", "30 frames per second", "15 frames per second");
+      // open the sample at 15fps
+      framesComboBox.getSelectionModel().select(2);
+      // set timer running tracker to true when sample loads
+      isTimerRunning = true;
 
       // create a new ArcGISScene and set it to the scene view
       ArcGISScene scene = new ArcGISScene();
@@ -103,13 +110,7 @@ public class AnimateImagesWithImageOverlayController {
           imageFrames.add(imageFrame);
         }
       }
-      
-      // populate the frames combo box with values
-      framesComboBox.getItems().addAll("60 frames per second", "30 frames per second", "15 frames per second");
-      // open the sample at 15fps
-      framesComboBox.getSelectionModel().select(2);
-      // set timer running tracker to true when sample loads
-      isTimerRunning = true;
+
       startNewAnimationTimer();
 
     } catch (Exception e) {
@@ -119,7 +120,22 @@ public class AnimateImagesWithImageOverlayController {
   }
 
   /**
-   * Create a new image frame from the image at the current index and add it to the image overlay.
+   * Set up a timer to display the images at the specified frame rate from the combobox.
+   */
+  private void startNewAnimationTimer() {
+
+    timer = new Timer(true);
+    TimerTask timerTask = new TimerTask() {
+      @Override
+      public void run() {
+        setNextImageFrameToImageOverlay();
+      }
+    };
+    timer.scheduleAtFixedRate(timerTask, 1L, period);
+  }
+  
+  /**
+   * Sets the next image frame from the array of image frames to the image overlay.
    */
   private void setNextImageFrameToImageOverlay() {
 
@@ -138,21 +154,6 @@ public class AnimateImagesWithImageOverlayController {
   @FXML
   private void changeImageOverlayOpacity() {
     imageOverlay.setOpacity((float) opacitySlider.getValue());
-  }
-
-  /**
-   * Set up a timer to display the images at the specified frame rate from the combobox.
-   */
-  private void startNewAnimationTimer() {
-
-    timer = new Timer(true);
-    TimerTask timerTask = new TimerTask() {
-      @Override
-      public void run() {
-        setNextImageFrameToImageOverlay();
-      }
-    };
-    timer.scheduleAtFixedRate(timerTask, 1L, period);
   }
 
   /**
