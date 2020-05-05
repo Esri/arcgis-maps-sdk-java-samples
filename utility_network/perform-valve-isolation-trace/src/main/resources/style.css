@@ -1,10 +1,10 @@
 VBox {
   -fx-text-fill: white;
-    -fx-background-color: rgba(0, 0, 0, 0.75);
-    -fx-padding: 10;
-    -fx-max-width: 300;
-    -fx-max-height: 130;
-    -fx-spacing: 10;
+  -fx-background-color: rgba(0, 0, 0, 0.75);
+  -fx-padding: 10;
+  -fx-max-width: 300;
+  -fx-max-height: 130;
+  -fx-spacing: 10;
 }
 
 .title {
