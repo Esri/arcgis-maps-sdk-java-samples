@@ -27,28 +27,12 @@
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
     <!--Controls Area-->
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="130" styleClass="panel-region" spacing="10">
-        <!--Control Panel Styling-->
-        <padding>
-            <Insets topRightBottomLeft="10"/>
-        </padding>
-        <background>
-            <Background>
-                <fills>
-                    <BackgroundFill>
-                        <fill>
-                            <Color opacity="0.75"/>
-                        </fill>
-                    </BackgroundFill>
-                </fills>
-            </Background>
-        </background>
-
+    <VBox StackPane.alignment="TOP_LEFT">
         <Label text="Choose category for filter barrier:" styleClass="title"/>
 
-        <HBox maxWidth="300" spacing="10">
-            <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true" minWidth="250"/>
-            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true" minWidth="50"/>
+        <HBox>
+            <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true"/>
+            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true"/>
         </HBox>
 
         <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include isolated features"/>

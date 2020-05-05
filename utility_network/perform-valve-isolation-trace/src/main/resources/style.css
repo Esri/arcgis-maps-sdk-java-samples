@@ -1,15 +1,33 @@
+VBox {
+  -fx-text-fill: white;
+    -fx-background-color: rgba(0, 0, 0, 0.75);
+    -fx-padding: 10;
+    -fx-max-width: 300;
+    -fx-max-height: 130;
+    -fx-spacing: 10;
+}
+
 .title {
   -fx-font-weight: bold;
 }
 
-.panel-region .label {
-  -fx-text-fill: white;
+HBox {
+    -fx-max-width: 300;
+    -fx-spacing: 10;
 }
 
-.label {
-  -fx-text-fill: black;
+ComboBox {
+ -fx-min-width: 250;
 }
 
-.panel-region .check-box {
+Button {
+-fx-min-width: 50;
+}
+
+CheckBox {
    -fx-text-fill: white;
+}
+
+Label {
+  -fx-text-fill: white;
 }
