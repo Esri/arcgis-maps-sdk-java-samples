@@ -1,7 +1,15 @@
+.slider .axis {
+    -fx-tick-label-fill: white;
+}
+
 .panel-region .label {
   -fx-text-fill: white;
 }
 
-.slider .axis {
-    -fx-tick-label-fill: white;
+.stack-pane VBox {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-padding: 20;
+    -fx-max-width: 300;
+    -fx-max-height: 50;
+    -fx-spacing: 10;
 }

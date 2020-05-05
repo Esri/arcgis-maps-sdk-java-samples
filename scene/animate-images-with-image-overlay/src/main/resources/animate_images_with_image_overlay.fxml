@@ -25,34 +25,17 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.control.Label?>
 <StackPane fx:controller="com.esri.samples.animate_images_with_image_overlay.AnimateImagesWithImageOverlayController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css" styleClass="stack-pane">
     <SceneView fx:id="sceneView"/>
-    <VBox StackPane.alignment="BOTTOM_CENTER" maxWidth="-Infinity" maxHeight="50" styleClass="panel-region" alignment="TOP_CENTER">
+    <VBox StackPane.alignment="BOTTOM_CENTER" styleClass="panel-region" alignment="TOP_CENTER">
     <StackPane.margin>
         <Insets bottom="20"/>
     </StackPane.margin>
-    <padding>
-        <Insets topRightBottomLeft="20"/>
-    </padding>
-        <background>
-            <Background>
-                <fills>
-                    <BackgroundFill>
-                        <fill>
-                            <Color opacity="0.3"/>
-                        </fill>
-                    </BackgroundFill>
-                </fills>
-            </Background>
-        </background>
         <GridPane hgap="30" vgap="10" maxWidth="500">
-
             <Button fx:id="controlAnimationButton" text="Stop" maxWidth="500" GridPane.rowIndex="0" GridPane.columnIndex="0" onAction="#handlecontrolAnimationButtonClicked"/>
             <ComboBox fx:id="framesComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" maxWidth="Infinity" onAction="#handleframesComboBoxInteraction"/>
             <Label text="Opacity:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
             <Slider fx:id="opacitySlider" GridPane.rowIndex="1" showTickLabels="true" majorTickUnit="50" GridPane.columnIndex="1" maxWidth="Infinity" max="1" value="1" onMouseDragged="#changeImageOverlayOpacity" onMouseReleased="#changeImageOverlayOpacity"/>
-            
         </GridPane>
     </VBox>
-    
 </StackPane>
