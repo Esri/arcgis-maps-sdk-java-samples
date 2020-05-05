@@ -16,7 +16,6 @@
   ~ the License.
   -->
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -29,42 +28,38 @@
 <StackPane stylesheets="/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.esri.samples.configure_subnetwork_trace.ConfigureSubnetworkTraceController">
 
-    <VBox maxHeight="600" maxWidth="800" spacing="10">
-        <padding>
-            <Insets topRightBottomLeft="10"/>
-        </padding>
-        <HBox spacing="10">
+    <VBox>
+        <HBox>
             <Label text="Trace options:"/>
             <CheckBox fx:id="includeBarriersCheckBox" text="Include Barriers"/>
             <CheckBox fx:id="includeContainersCheckBox" text="Include Containers"/>
         </HBox>
 
-        <HBox alignment="CENTER_LEFT" spacing="10">
+        <HBox alignment="CENTER_LEFT">
             <Label text="Define new conditions"/>
-            <ComboBox fx:id="comparisonSourcesComboBox" maxWidth="175" minWidth="175"
-                      onAction="#onComparisonSourceChanged" prefHeight="25.0" prefWidth="100.0"/>
-            <ComboBox fx:id="comparisonOperatorsComboBox" maxWidth="180" minWidth="180"/>
-            <StackPane maxWidth="175" minWidth="175">
-                <ComboBox fx:id="comparisonValuesComboBox" maxWidth="175" minWidth="175"/>
-                <TextField fx:id="comparisonValuesTextField" maxWidth="175" minWidth="175"/>
+            <ComboBox fx:id="comparisonSourcesComboBox" onAction="#onComparisonSourceChanged"/>
+            <ComboBox fx:id="comparisonOperatorsComboBox"/>
+
+            <StackPane styleClass="comparison-choice-elements">
+                <ComboBox fx:id="comparisonValuesComboBox"/>
+                <TextField fx:id="comparisonValuesTextField"/>
             </StackPane>
-            <Button maxWidth="40" minWidth="40" onAction="#onAddConditionClick" text="Add"/>
+
+            <Button text="Add" onAction="#onAddConditionClick" styleClass="add-button"/>
         </HBox>
 
         <Label styleClass="example-label"
                text="Example barrier condition for this data: 'Transformer Load' Equal '15'"/>
 
-        <HBox spacing="10">
+        <HBox>
             <Label text="Trace conditions:"/>
-            <TextArea fx:id="traceConditionsTextArea" editable="false" prefHeight="181.0" prefWidth="630.0"/>
+            <TextArea fx:id="traceConditionsTextArea" editable="false"/>
         </HBox>
 
-        <HBox spacing="10">
-            <Button maxWidth="545.0" minWidth="175" onAction="#onTraceClick" prefHeight="25.0" prefWidth="545.0"
-                    text="Trace"/>
-            <Button maxWidth="175" minWidth="175" onAction="#onResetClick" text="Reset"/>
+        <HBox>
+            <Button text="Trace" onAction="#onTraceClick" styleClass="trace-button"/>
+            <Button text="Reset" onAction="#onResetClick" styleClass="reset-button"/>
         </HBox>
-
     </VBox>
 
 </StackPane>

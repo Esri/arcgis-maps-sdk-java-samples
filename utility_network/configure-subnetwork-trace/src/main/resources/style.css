@@ -1,7 +1,48 @@
+VBox{
+  -fx-max-width: 800;
+  -fx-spacing: 10;
+  -fx-padding: 10;
+}
+
+HBox {
+ -fx-spacing: 10;
+}
+
 .label {
   -fx-font-weight: bold;
 }
 
 .example-label {
   -fx-font-weight: normal;
+}
+
+
+TextArea {
+  -fx-min-height: 181;
+  -fx-min-width: 630;
+}
+
+ComboBox {
+  -fx-min-width: 175;
+  -fx-max-width: 175;
+}
+
+TextField {
+  -fx-min-width: 175;
+}
+
+.comparison-choice-element {
+  -fx-min-width: 175;
+}
+
+.add-button {
+  -fx-min-width: 40;
+}
+
+.trace-button {
+  -fx-min-width: 545;
+}
+
+.reset-button {
+  -fx-min-width: 175;
 }
