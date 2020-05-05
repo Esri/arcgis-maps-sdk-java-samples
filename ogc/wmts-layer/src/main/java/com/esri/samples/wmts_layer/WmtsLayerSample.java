@@ -35,6 +35,7 @@ import com.esri.arcgisruntime.ogc.wmts.WmtsServiceInfo;
 public class WmtsLayerSample extends Application {
 
   private MapView mapView;
+  private WmtsService wmtsService;  // keeps loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -58,7 +59,7 @@ public class WmtsLayerSample extends Application {
 
       // create a WMTS service from a URL
       String serviceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS";
-      WmtsService wmtsService = new WmtsService(serviceURL);
+      wmtsService = new WmtsService(serviceURL);
       wmtsService.addDoneLoadingListener(() -> {
         if (wmtsService.getLoadStatus() == LoadStatus.LOADED) {
           WmtsServiceInfo wmtsServiceInfo = wmtsService.getServiceInfo();

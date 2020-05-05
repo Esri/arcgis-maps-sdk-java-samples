@@ -43,6 +43,10 @@ public class WebmapKeywordSearchController {
   private Portal portal;
   private PortalQueryResultSet<PortalItem> portalQueryResultSet;
 
+  // keeps loadables in scope to avoid garbage collection
+  private ListenableFuture<PortalQueryResultSet<PortalItem>> nextResults;
+  private ListenableFuture<PortalQueryResultSet<PortalItem>> webMapResults;
+
   @FXML
   private void initialize() {
     // load a portal for arcgis.com
@@ -79,11 +83,11 @@ public class WebmapKeywordSearchController {
     params.setQuery(PortalItem.Type.WEBMAP, null, keyword.getText());
 
     // find matching portal items
-    ListenableFuture<PortalQueryResultSet<PortalItem>> results = portal.findItemsAsync(params);
-    results.addDoneListener(() -> {
+    webMapResults = portal.findItemsAsync(params);
+    webMapResults.addDoneListener(() -> {
       try {
         // update the results list view with matching items
-        portalQueryResultSet = results.get();
+        portalQueryResultSet = webMapResults.get();
         List<PortalItem> portalItems = portalQueryResultSet.getResults();
         resultsList.getItems().clear();
         resultsList.getItems().addAll(portalItems);
@@ -101,11 +105,11 @@ public class WebmapKeywordSearchController {
   private void getMoreResults() {
     if (portalQueryResultSet.getNextQueryParameters() != null) {
       // find matching portal items
-      ListenableFuture<PortalQueryResultSet<PortalItem>> results = portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters());
-      results.addDoneListener(() -> {
+      nextResults = portal.findItemsAsync(portalQueryResultSet.getNextQueryParameters());
+      nextResults.addDoneListener(() -> {
         try {
           // replace the result set with the current set of results
-          portalQueryResultSet = results.get();
+          portalQueryResultSet = nextResults.get();
           List<PortalItem> portalItems = portalQueryResultSet.getResults();
 
           // add set of results to list view

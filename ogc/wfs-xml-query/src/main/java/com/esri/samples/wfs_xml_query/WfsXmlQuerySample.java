@@ -16,6 +16,8 @@
 
 package com.esri.samples.wfs_xml_query;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -37,6 +39,7 @@ import java.nio.charset.StandardCharsets;
 public class WfsXmlQuerySample extends Application {
 
   private MapView mapView;
+  private ListenableFuture<FeatureQueryResult> featureTableResult; // keeps loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -81,7 +84,8 @@ public class WfsXmlQuerySample extends Application {
     String xmlQuery = IOUtils.toString(WfsXmlQuerySample.class.getResourceAsStream("/SeattleTreeQuery.xml"), StandardCharsets.UTF_8.name());
 
     // populate the WFS feature table with XML query
-    wfsFeatureTable.populateFromServiceAsync(xmlQuery, true).addDoneListener(() -> {
+    featureTableResult = wfsFeatureTable.populateFromServiceAsync(xmlQuery, true);
+    featureTableResult.addDoneListener(() -> {
       // set the viewpoint of the map view to the extent reported by the feature layer
       mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
       progressIndicator.setVisible(false);
