@@ -23,6 +23,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
+
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -36,29 +41,21 @@ import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.ImageFrame;
 import com.esri.arcgisruntime.mapping.view.ImageOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
 
 public class AnimateImagesWithImageOverlayController {
 
-  @FXML
-  private SceneView sceneView;
-  @FXML
-  private Button controlAnimationButton;
-  @FXML
-  private Slider opacitySlider;
-  @FXML
-  private ComboBox<String> framesComboBox;
+  @FXML private SceneView sceneView;
+  @FXML private Button controlAnimationButton;
+  @FXML private Slider opacitySlider;
+  @FXML private ComboBox<String> framesComboBox;
 
   private List<ImageFrame> imageFrames;
 
-  private Integer imageIndex = 0;
+  private Integer frameIndex = 0;
   private Integer period = 67;
 
-  private Timer timer = null;
-  private boolean isTimerRunning = true;
+  private Timer timer;
+  private boolean isTimerRunning;
 
   public void initialize() {
 
@@ -109,7 +106,8 @@ public class AnimateImagesWithImageOverlayController {
       framesComboBox.getItems().addAll("60 frames per second", "30 frames per second", "15 frames per second");
       // open the sample at 15fps
       framesComboBox.getSelectionModel().select(2);
-
+      // set timer running tracker to true when sample loads
+      isTimerRunning = true;
       startNewAnimationTimer();
 
     } catch (Exception e) {
@@ -124,12 +122,12 @@ public class AnimateImagesWithImageOverlayController {
   private void addNextImageFrameToImageOverlay() {
 
     // set image frame to image overlay
-    sceneView.getImageOverlays().get(0).setImageFrame(imageFrames.get(imageIndex));
+    sceneView.getImageOverlays().get(0).setImageFrame(imageFrames.get(frameIndex));
     // increment the index to keep track of which image to load next
-    imageIndex++;
+    frameIndex++;
     // reset index once all files have been loaded
-    if (imageIndex == imageFrames.size())
-      imageIndex = 0;
+    if (frameIndex == imageFrames.size())
+      frameIndex = 0;
   }
 
   /**
