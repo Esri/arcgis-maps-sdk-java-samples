@@ -105,7 +105,7 @@ public class IdentifyRasterCellSample extends Application {
             // stop identifying on-the-fly when the mouse leaves the map view
             mapView.setOnMouseExited(null);
 
-            // lock the callout in place if raster cells are identified on-the-fly,
+            // on click, either lock the callout in place if raster cells are identified on-the-fly,
             // or release the callout again and start identifying on-the-fly
             mapView.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY && mouseEvent.isStillSincePress()) {
@@ -133,6 +133,7 @@ public class IdentifyRasterCellSample extends Application {
 
             // add the map view to stack pane
             stackPane.getChildren().addAll(mapView);
+
         } catch (Exception e) {
             // on any error, display the stack trace.
             e.printStackTrace();
@@ -145,60 +146,56 @@ public class IdentifyRasterCellSample extends Application {
      * @param mouseEvent the mouse event used to identify the raster cell and show the callout.
      */
     private void identifyRasterCell(MouseEvent mouseEvent) {
-        try {
-            // get the map point where the user clicked
-            Point2D point = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-            Point mapPoint = mapView.screenToLocation(point);
 
-            // identify the layers at the clicked location
-            ListenableFuture<IdentifyLayerResult> identifyLayerResultFuture
-                    = mapView.identifyLayerAsync(rasterLayer, point, 10, false, 1);
+        // get the map point where the user clicked
+        Point2D point = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+        Point mapPoint = mapView.screenToLocation(point);
 
-            identifyLayerResultFuture.addDoneListener(() -> {
-                try {
-                    // get the result of the query
-                    IdentifyLayerResult identifyLayerResult = identifyLayerResultFuture.get();
+        // identify the layers at the clicked location
+        ListenableFuture<IdentifyLayerResult> identifyLayerResultFuture
+                = mapView.identifyLayerAsync(rasterLayer, point, 10, false, 1);
 
-                    // Get the read only list of geo-elements (they contain RasterCell's)
-                    List<GeoElement> geoElements = identifyLayerResult.getElements();
+        identifyLayerResultFuture.addDoneListener(() -> {
+            try {
+                // get the result of the query
+                IdentifyLayerResult identifyLayerResult = identifyLayerResultFuture.get();
 
-                    // Create a StringBuilder to display information to the user
-                    StringBuilder stringBuilder = new StringBuilder();
+                // Get the read only list of geo-elements (they contain RasterCell's)
+                List<GeoElement> geoElements = identifyLayerResult.getElements();
 
-                    // Loop through each RasterCell
-                    for (GeoElement geoElement : geoElements) {
+                // Create a StringBuilder to display information to the user
+                StringBuilder stringBuilder = new StringBuilder();
 
-                        if (geoElement instanceof RasterCell) {
-                            RasterCell rasterCell = (RasterCell) geoElement;
+                // Loop through each RasterCell
+                for (GeoElement geoElement : geoElements) {
 
-                            // Loop through the attributes (key/value pairs)
-                            rasterCell.getAttributes().forEach((key, value) -> {
-                                // Add the key/value pair to the string builder
-                                stringBuilder.append(key).append(": ").append(value).append("\n");
-                            });
+                    if (geoElement instanceof RasterCell) {
+                        RasterCell rasterCell = (RasterCell) geoElement;
 
-                            // get and format the X and Y values for the cell
-                            double x = rasterCell.getGeometry().getExtent().getXMin();
-                            double y = rasterCell.getGeometry().getExtent().getYMin();
-                            String string = "X: " + Math.round(x) + " Y: " + Math.round(y);
+                        // Loop through the attributes (key/value pairs)
+                        rasterCell.getAttributes().forEach((key, value) -> {
+                            // Add the key/value pair to the string builder
+                            stringBuilder.append(key).append(": ").append(value).append("\n");
+                        });
 
-                            // add the X & Y coordinates where the user clicked raster cell to the string builder
-                            stringBuilder.append(string);
+                        // get and format the X and Y values for the cell
+                        double x = rasterCell.getGeometry().getExtent().getXMin();
+                        double y = rasterCell.getGeometry().getExtent().getYMin();
+                        String string = "X: " + Math.round(x) + " Y: " + Math.round(y);
 
-                            // Define a callout based on the string builder
-                            callout.setDetail(stringBuilder.toString());
-                            callout.showCalloutAt(mapPoint);
-                        }
+                        // add the X & Y coordinates where the user clicked raster cell to the string builder
+                        stringBuilder.append(string);
+
+                        // Define a callout based on the string builder
+                        callout.setDetail(stringBuilder.toString());
+                        callout.showCalloutAt(mapPoint);
                     }
-                } catch (InterruptedException | ExecutionException ex) {
-                    ex.printStackTrace();
                 }
-            });
+            } catch (InterruptedException | ExecutionException e) {
+                new Alert(Alert.AlertType.ERROR, "Error identifying layer").show();
+            }
+        });
 
-
-        } catch (Exception e) {
-
-        }
     }
 
     /**
