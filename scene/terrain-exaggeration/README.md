@@ -1,23 +1,28 @@
-# Terrain Exaggeration
+# Terrain exaggeration
 
-Vertically exaggerate terrain.
+Vertically exaggerate terrain in a scene.
 
-![](TerrainExaggeration.gif)
+![Image of terrain exaggeration](TerrainExaggeration.gif)
+
+## Use case
+
+Vertical exaggeration can be used to emphasize subtle changes in a surface. This can be useful in creating visualizations of terrain where the horizontal extent of the surface is significantly greater than the amount of vertical change in the surface. A fractional vertical exaggeration can be used to flatten surfaces or features that have extreme vertical variation.
 
 ## How to use the sample
 
-Selecting an exaggeration amount from the slider will apply that to the scene's surface.
+Use the slider to update terrain exaggeration.
 
 ## How it works
 
-To exaggerate a `Scene`'s `Surface`:
-
-1. Create an elevated surface and add it to the scene, `Surface.getElevationSources().add("elevationURL")`
-2. Add surface to the scene, ` scene.setBaseSurface(Surface)`
-3. Set exaggeration amount of the surface, `Surface.setElevationExaggeration(exaggeration)`
+1. Create an elevation surface from a URL with `Surface.getElevationSources().add("elevationURL")`. An elevation source defines the terrain based on a digital elevation model (DEM) or digital terrain model (DTM).
+2. Add the surface to the scene with `scene.setBaseSurface(Surface)`. The surface visualizes the elevation source.
+3. Configure the surface's elevation exaggeration using `surface.setElevationExaggeration(exaggeration)`.
 
 ## Relevant API
 
 * ArcGISScene
 * Surface
-* ArcGISTiledElevationSource
+
+## Tags
+
+3D, DEM, DTM, elevation, scene, surface, terrain

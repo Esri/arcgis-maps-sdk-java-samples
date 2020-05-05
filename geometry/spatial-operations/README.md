@@ -1,8 +1,12 @@
-# Spatial Operations
+# Spatial operations
 
 Find the union, difference, or intersection of two geometries.
 
-![](SpatialOperations.png)
+![Image of spatial operations](SpatialOperations.png)
+
+## Use case
+
+Determining the spatial relationships between points, lines or polygons is a fundamental concept in GIS. For example, a data analyst may need to find the intersection between areas with a high concentration of medical emergency situations and the service area of a hospital.
 
 ## How to use the sample
 
@@ -10,12 +14,8 @@ The sample provides a drop down on the top, where you can select a geometry oper
 
 ## How it works
 
-To find the union, difference, intersection, or symmetric difference between `Polygon`s:
-
-1. Create a `GraphicsOverlay` and add it to the `MapView`.
-2. Define a `PointCollection` of each `Geometry`.
-3. Add the overlapping polygons to the graphics overlay.
-4. Determine spatial relationships between polygons, e.g. union, difference, etc, by using the appropriate operation `GeometryEngine.operation(polygon.getGeometry(), polygon.getGeometry())`
+1. Get the `Geometry` of the features you would like to perform a spatial operation on.
+2. Use the various static methods of `GeometryEngine` to determine the spatial relationships between the geometries. For example, use `GeometryEngine.intersection(polygon1.getGeometry(), polygon2.getGeometry())` to find the intersection between two polygons.
 
 ## Relevant API
 
@@ -27,3 +27,7 @@ To find the union, difference, intersection, or symmetric difference between `Po
 * PointCollection
 * SimpleLineSymbol
 * SimpleFillSymbol
+
+## Tags
+
+combine, difference, edit, intersect, intersection, modify, symmetric difference, union

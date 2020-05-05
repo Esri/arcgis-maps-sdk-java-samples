@@ -63,7 +63,7 @@ public class RasterFunctionSample extends Application {
       mapView.setMap(map);
 
       // create an image service raster from an online raster service
-      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("http://sampleserver6.arcgisonline" +
+      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://sampleserver6.arcgisonline" +
           ".com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
       imageServiceRaster.loadAsync();
       imageServiceRaster.addDoneLoadingListener(() -> {

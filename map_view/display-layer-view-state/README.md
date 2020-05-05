@@ -1,29 +1,23 @@
-# Display Layer View State
+# Display layer view state
 
-Determine if a layer is currently visible.
+Determine if a layer is currently being viewed.
 
-![](DisplayLayerViewState.png)
+![Image of display layer view state](DisplayLayerViewState.png)
+
+## Use case
+
+The view state includes information on the loading state of layers and whether layers are visible at a given scale. For example, you might change how a layer is displayed in a layer list to communicate whether it is being viewed in the map. You then might show a loading spinner next to its name when the view state is LOADING, gray out the name when NOT_VISIBLE or OUT_OF_SCALE, show the name normally when ACTIVE, or with an error icon when the state is ERROR.
 
 ## How to use the sample
 
-The view state of a layer changes while the layer is loading, like the start of the application. If you pan or zoom the map, the view state of some layers should also change.
-
-The LayerViewStatus could be:
-
-* ACTIVE
-* ERROR
-* LOADING
-* NOT_VISIBLE
-* OUT_OF_SCALE
-* UNKNOWN
+Pan and zoom around in the map. Each layer's view status is displayed. Notice that some layers configured with a min and max scale change to `OUT_OF_SCALE` at certain scales.
 
 ## How it works
 
-To get a layer's view state:
-
-1. Create an `ArcGISMap`.
-2. Set the map to the `MapView`, `MapView.setMap()`.
-3. Add the `MapView.addLayerViewStateChangedListener()` property and listen when the `Layer.getLayerViewStatus()` changes.
+1. Create an `ArcGISMap` with some operational layers.
+2. Set the map on a `MapView`.
+3. Add a `LayerViewStateChangedListener` to the map view to capture `LayerViewStateChangedEvent`.
+4. Get the `Layer` for the event with `event.getLayer()` and the current view status with `event.getLayerViewStatus()`.
 
 ## Relevant API
 
@@ -32,5 +26,13 @@ To get a layer's view state:
 * Layer
 * LayerViewStatus
 * LayerViewStateChangedEvent
+* LayerViewStateChangedListener
 * MapView
-* Viewpoint
+
+## About the data
+
+The map shows a tiled layer of world time zones, a map image layer of the census, and a feature layer of recreation services.
+
+## Tags
+
+layer, map, status, view

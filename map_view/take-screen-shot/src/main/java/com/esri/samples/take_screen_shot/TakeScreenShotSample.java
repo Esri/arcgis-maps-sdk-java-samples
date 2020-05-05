@@ -22,10 +22,13 @@ import javax.imageio.ImageIO;
 
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -43,8 +46,8 @@ public class TakeScreenShotSample extends Application {
 
     try {
       // create stack pane and application scene
-      BorderPane borderPane = new BorderPane();
-      Scene scene = new Scene(borderPane);
+      StackPane stackPane = new StackPane();
+      Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
       stage.setTitle("Take Screen Shot Sample");
@@ -65,7 +68,7 @@ public class TakeScreenShotSample extends Application {
 
       // create button to take screen shot
       Button screenShotButton = new Button("Take Screenshot");
-      screenShotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+      
       screenShotButton.setOnAction(e -> {
         // export image from map view
         ListenableFuture<Image> mapImage = mapView.exportImageAsync();
@@ -86,8 +89,9 @@ public class TakeScreenShotSample extends Application {
       });
 
       // add the map view to stack pane
-      borderPane.setCenter(mapView);
-      borderPane.setBottom(screenShotButton);
+      stackPane.getChildren().addAll(mapView, screenShotButton);
+      StackPane.setAlignment(screenShotButton, Pos.BOTTOM_CENTER);
+      StackPane.setMargin(screenShotButton, new Insets(0, 0, 100, 0));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();

@@ -57,7 +57,7 @@ public class ServiceFeatureTableManualCacheSample extends Application {
   private ListenableFuture<FeatureQueryResult> tableResult;
 
   private static final String SERVICE_FEATURE_URL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {

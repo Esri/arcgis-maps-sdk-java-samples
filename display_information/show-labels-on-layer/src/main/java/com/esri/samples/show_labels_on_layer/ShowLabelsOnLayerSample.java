@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import com.google.gson.JsonObject;
@@ -31,6 +32,7 @@ import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -39,6 +41,7 @@ import com.esri.arcgisruntime.symbology.TextSymbol;
 public class ShowLabelsOnLayerSample extends Application {
 
   private MapView mapView;
+  private FeatureLayer featureLayer;
 
   @Override
   public void start(Stage stage) {
@@ -64,10 +67,22 @@ public class ShowLabelsOnLayerSample extends Application {
       mapView.setViewpointCenterAsync(new Point(-10846309.950860, 4683272.219411, SpatialReferences.getWebMercator()), 20000000);
 
       // create a feature layer from an online feature service of US Congressional Districts
-      String serviceUrl = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_115th_Congressional_Districts/FeatureServer/0";
+      String serviceUrl = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_116th_Congressional_Districts/FeatureServer/0";
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceUrl);
-      FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
-      map.getOperationalLayers().add(featureLayer);
+      featureLayer = new FeatureLayer(serviceFeatureTable);
+
+      // wait for the feature layer to load
+      featureLayer.addDoneLoadingListener(() -> {
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+
+          // add the feature layer to the map
+          map.getOperationalLayers().add(featureLayer);
+
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Error loading Feature Layer.").show();
+        }
+      });
+      featureLayer.loadAsync();
 
       // use red text with white halo for republican district labels
       TextSymbol republicanTextSymbol = new TextSymbol();

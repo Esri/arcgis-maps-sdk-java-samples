@@ -154,7 +154,7 @@ public class TraceAUtilityNetworkController {
       barriers = new ArrayList<>();
 
       // build the trace configuration selection ComboBox and select the first value
-      traceTypeSelectionCombobox.getItems().addAll(Arrays.asList(UtilityTraceType.values()));
+      traceTypeSelectionCombobox.getItems().addAll(UtilityTraceType.CONNECTED, UtilityTraceType.DOWNSTREAM, UtilityTraceType.UPSTREAM, UtilityTraceType.SUBNETWORK);
       traceTypeSelectionCombobox.getSelectionModel().select(0);
 
       // create and load the utility network

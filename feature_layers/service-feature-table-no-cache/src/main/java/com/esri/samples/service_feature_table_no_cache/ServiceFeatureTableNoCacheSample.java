@@ -18,15 +18,15 @@ package com.esri.samples.service_feature_table_no_cache;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -34,6 +34,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ServiceFeatureTableNoCacheSample extends Application {
 
+  private FeatureLayer featureLayer;
   private MapView mapView;
 
   @Override
@@ -51,32 +52,40 @@ public class ServiceFeatureTableNoCacheSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
-
-      // create starting viewpoint for ArcGISMap
-      SpatialReference spatialReference = SpatialReferences.getWebMercator();
-      Point leftPoint = new Point(-1.30758164047166E7, 4014771.46954516, spatialReference);
-      Point rightPoint = new Point(-1.30730056797177E7, 4016869.78617381, spatialReference);
-      Envelope envelope = new Envelope(leftPoint, rightPoint);
-      Viewpoint viewpoint = new Viewpoint(envelope);
-
-      // set starting viewpoint for ArcGISMap
-      map.setInitialViewpoint(viewpoint);
-
-      // create service feature table from URL
-      final String serviceFeatureUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0";
-      ServiceFeatureTable featureTable = new ServiceFeatureTable(serviceFeatureUrl);
-
-      // set cache mode for table to no caching
-      featureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.ON_INTERACTION_NO_CACHE);
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
-
-      // add feature layer to ArcGISMap
-      map.getOperationalLayers().add(featureLayer);
-
-      // create a view for this ArcGISMap and set ArcGISMap to it
+      // create a view for this ArcGISMap
       mapView = new MapView();
+
+      // create a ArcGISMap with the light Gray Canvas basemap
+      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
+
+      // set ArcGISMap to be displayed in ArcGISMap view
       mapView.setMap(map);
+
+      // set an initial viewpoint
+      map.setInitialViewpoint(new Viewpoint(new Envelope(-140.740858094945, 14.1552479740679, -47.693259181055,
+              64.8874243113506, SpatialReferences.getWgs84())));
+
+      // create the service feature table
+      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/US_Bridges/FeatureServer/0");
+
+      // explicitly set the mode to no cache
+      serviceFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.ON_INTERACTION_NO_CACHE);
+
+      // wait for the service feature table to load
+      serviceFeatureTable.loadAsync();
+      serviceFeatureTable.addDoneLoadingListener(() -> {
+        if (serviceFeatureTable.getLoadStatus() == LoadStatus.LOADED) {
+
+          // create the feature layer using the service feature table
+          featureLayer = new FeatureLayer(serviceFeatureTable);
+
+          // add the layer to the ArcGISMap
+          map.getOperationalLayers().add(featureLayer);
+
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Error loading Service Feature Table").show();
+        }
+      });
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
