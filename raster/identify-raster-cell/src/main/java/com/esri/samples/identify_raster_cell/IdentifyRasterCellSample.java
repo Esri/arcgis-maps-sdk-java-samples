@@ -21,6 +21,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.io.File;
@@ -42,6 +43,8 @@ import com.esri.arcgisruntime.raster.RasterCell;
 
 public class IdentifyRasterCellSample extends Application {
 
+    private boolean calloutLocked = false;
+    private Callout callout;
     private MapView mapView;
     private RasterLayer rasterLayer;
 
@@ -88,62 +91,42 @@ public class IdentifyRasterCellSample extends Application {
                 }
             });
 
+            // get a handle on the callout
+            callout = mapView.getCallout();
+            callout.setMouseTransparent(true);
+
+            // start identifying on-the-fly if the mouse enters the map view, and the callout is not locked
+            mapView.setOnMouseEntered(mouseEvent -> {
+                if (!calloutLocked) {
+                    mapView.setOnMouseMoved(this::identifyRasterCell);
+                }
+            });
+
+            // stop identifying on-the-fly when the mouse leaves the map view
+            mapView.setOnMouseExited(null);
+
+            // lock the callout in place if raster cells are identified on-the-fly,
+            // or release the callout again and start identifying on-the-fly
             mapView.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY && mouseEvent.isStillSincePress()) {
-                    try {
-                        // get the map point where the user clicked
-                        Point2D point = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-                        Point mapPoint = mapView.screenToLocation(point);
 
-                        // identify the layers at the clicked location
-                        ListenableFuture<IdentifyLayerResult> identifyLayerResultFuture
-                                = mapView.identifyLayerAsync(rasterLayer, point, 10, false, 1);
+                    if (!calloutLocked) {
+                        // stop identifying on the fly
+                        mapView.setOnMouseMoved(null);
+                        // lock the callout in place
+                        calloutLocked = true;
+                        // identify the raster cell at the clicked location
+                        identifyRasterCell(mouseEvent);
 
-                        identifyLayerResultFuture.addDoneListener(() -> {
-                            try {
-                                // get the result of the query
-                                IdentifyLayerResult identifyLayerResult = identifyLayerResultFuture.get();
-
-                                // Get the read only list of geo-elements (they contain RasterCell's)
-                                List<GeoElement> geoElements = identifyLayerResult.getElements();
-
-                                // Create a StringBuilder to display information to the user
-                                StringBuilder stringBuilder = new StringBuilder();
-
-                                // Loop through each RasterCell
-                                for (GeoElement geoElement : geoElements) {
-
-                                    if (geoElement instanceof RasterCell) {
-                                        RasterCell rasterCell = (RasterCell) geoElement;
-
-                                        // Loop through the attributes (key/value pairs)
-                                        rasterCell.getAttributes().forEach((key, value) -> {
-                                            // Add the key/value pair to the string builder
-                                            stringBuilder.append(key).append(": ").append(value).append("\n");
-                                        });
-
-                                        // get and format the X and Y values for the cell
-                                        double x = rasterCell.getGeometry().getExtent().getXMin();
-                                        double y = rasterCell.getGeometry().getExtent().getYMin();
-                                        String string = "X: " + Math.round(x) + " Y: " + Math.round(y);
-
-                                        // add the X & Y coordinates where the user clicked raster cell to the string builder
-                                        stringBuilder.append(string);
-
-                                        // Define a callout based on the string builder
-                                        Callout callout = mapView.getCallout();
-                                        callout.setDetail(stringBuilder.toString());
-                                        callout.showCalloutAt(mapPoint);
-                                    }
-                                }
-                            } catch (InterruptedException | ExecutionException ex) {
-                                ex.printStackTrace();
-                            }
-                        });
-
-
-                    } catch (Exception e) {
-
+                    } else {
+                        // dismiss the callout
+                        callout.dismiss();
+                        // unlock the callout
+                        calloutLocked = false;
+                        // show a new callout at the clicked location
+                        identifyRasterCell(mouseEvent);
+                        // start identifying on-the-fly
+                        mapView.setOnMouseMoved(this::identifyRasterCell);
                     }
                 }
             });
@@ -153,6 +136,68 @@ public class IdentifyRasterCellSample extends Application {
         } catch (Exception e) {
             // on any error, display the stack trace.
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Identifies the raster cell at the mouse event and displays a callout at that location.
+     *
+     * @param mouseEvent the mouse event used to identify the raster cell and show the callout.
+     */
+    private void identifyRasterCell(MouseEvent mouseEvent) {
+        try {
+            // get the map point where the user clicked
+            Point2D point = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+            Point mapPoint = mapView.screenToLocation(point);
+
+            // identify the layers at the clicked location
+            ListenableFuture<IdentifyLayerResult> identifyLayerResultFuture
+                    = mapView.identifyLayerAsync(rasterLayer, point, 10, false, 1);
+
+            identifyLayerResultFuture.addDoneListener(() -> {
+                try {
+                    // get the result of the query
+                    IdentifyLayerResult identifyLayerResult = identifyLayerResultFuture.get();
+
+                    // Get the read only list of geo-elements (they contain RasterCell's)
+                    List<GeoElement> geoElements = identifyLayerResult.getElements();
+
+                    // Create a StringBuilder to display information to the user
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    // Loop through each RasterCell
+                    for (GeoElement geoElement : geoElements) {
+
+                        if (geoElement instanceof RasterCell) {
+                            RasterCell rasterCell = (RasterCell) geoElement;
+
+                            // Loop through the attributes (key/value pairs)
+                            rasterCell.getAttributes().forEach((key, value) -> {
+                                // Add the key/value pair to the string builder
+                                stringBuilder.append(key).append(": ").append(value).append("\n");
+                            });
+
+                            // get and format the X and Y values for the cell
+                            double x = rasterCell.getGeometry().getExtent().getXMin();
+                            double y = rasterCell.getGeometry().getExtent().getYMin();
+                            String string = "X: " + Math.round(x) + " Y: " + Math.round(y);
+
+                            // add the X & Y coordinates where the user clicked raster cell to the string builder
+                            stringBuilder.append(string);
+
+                            // Define a callout based on the string builder
+                            callout.setDetail(stringBuilder.toString());
+                            callout.showCalloutAt(mapPoint);
+                        }
+                    }
+                } catch (InterruptedException | ExecutionException ex) {
+                    ex.printStackTrace();
+                }
+            });
+
+
+        } catch (Exception e) {
+
         }
     }
 
