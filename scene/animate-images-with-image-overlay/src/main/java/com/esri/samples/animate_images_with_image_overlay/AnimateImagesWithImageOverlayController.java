@@ -50,10 +50,10 @@ public class AnimateImagesWithImageOverlayController {
   @FXML private ComboBox<String> framesComboBox;
 
   private List<ImageFrame> imageFrames;
+  private ImageOverlay imageOverlay;
 
   private Integer frameIndex = 0;
   private Integer period = 67;
-
   private Timer timer;
   private boolean isTimerRunning;
 
@@ -87,21 +87,23 @@ public class AnimateImagesWithImageOverlayController {
 
       // create and append an image overlay to the scene view
       sceneView.getImageOverlays().add(new ImageOverlay());
+      // store the newly created image overlay
+      imageOverlay = sceneView.getImageOverlays().get(0);
 
       // instantiate a new empty list to hold image frames
       imageFrames = new ArrayList<>();
       // get the image files from local storage as an unordered list
       File[] imageFiles = new File(System.getProperty("data.dir"), "./samples-data/PacificSouthWest").listFiles();
-      // sort the list of image files
+      // sort the list of image files by file name in ascending order
       if (imageFiles != null) {
         Arrays.sort(imageFiles);
-        // create an image with the given path and use it to create an image frame
+        // create an image frame from the file path and add it to the list of image frames
         for (File file : imageFiles) {
           ImageFrame imageFrame = new ImageFrame(file.getAbsolutePath(), imageFrameEnvelope);
           imageFrames.add(imageFrame);
         }
       }
-
+      
       // populate the frames combo box with values
       framesComboBox.getItems().addAll("60 frames per second", "30 frames per second", "15 frames per second");
       // open the sample at 15fps
@@ -119,10 +121,10 @@ public class AnimateImagesWithImageOverlayController {
   /**
    * Create a new image frame from the image at the current index and add it to the image overlay.
    */
-  private void addNextImageFrameToImageOverlay() {
+  private void setNextImageFrameToImageOverlay() {
 
     // set image frame to image overlay
-    sceneView.getImageOverlays().get(0).setImageFrame(imageFrames.get(frameIndex));
+    imageOverlay.setImageFrame(imageFrames.get(frameIndex));
     // increment the index to keep track of which image to load next
     frameIndex++;
     // reset index once all files have been loaded
@@ -135,7 +137,7 @@ public class AnimateImagesWithImageOverlayController {
    */
   @FXML
   private void changeImageOverlayOpacity() {
-    sceneView.getImageOverlays().get(0).setOpacity((float) opacitySlider.getValue());
+    imageOverlay.setOpacity((float) opacitySlider.getValue());
   }
 
   /**
@@ -147,7 +149,7 @@ public class AnimateImagesWithImageOverlayController {
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
-        addNextImageFrameToImageOverlay();
+        setNextImageFrameToImageOverlay();
       }
     };
     timer.scheduleAtFixedRate(timerTask, 1L, period);
