@@ -98,12 +98,12 @@ public class BufferListSample extends Application {
       // set an initial viewpoint
       map.setInitialViewpoint(new Viewpoint(boundaryPolygon.getExtent()));
 
-      // create an im`age layer from a service URL (counties, cities, and highways)
+      // create an image layer from a service URL (counties, cities, and highways)
       mapImageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
       // add the image layer to the map's base layers
       map.getBasemap().getBaseLayers().add(mapImageLayer);
 
-      // check that the image layer has loaded
+      // this event gets triggered asynchronously when the image layer that has been added to the map is loaded
       mapImageLayer.addDoneLoadingListener(() -> {
         if (mapImageLayer.getLoadStatus() != LoadStatus.LOADED) {
           new Alert(Alert.AlertType.ERROR, "Error loading ArcGIS Map Image Layer.").show();

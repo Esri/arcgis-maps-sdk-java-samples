@@ -74,7 +74,7 @@ public class ShowLabelsOnLayerSample extends Application {
       // add the feature layer to the map
       map.getOperationalLayers().add(featureLayer);
 
-      // wait for the feature layer to load
+      // this event gets triggered asynchronously when the layer that has been added to the map is loaded
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
           new Alert(Alert.AlertType.ERROR, "Error loading Feature Layer.").show();

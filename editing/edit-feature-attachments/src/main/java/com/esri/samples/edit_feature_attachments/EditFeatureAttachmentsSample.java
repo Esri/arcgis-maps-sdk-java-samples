@@ -134,17 +134,13 @@ public class EditFeatureAttachmentsSample extends Application {
 
       // create a feature layer from service feature table
       featureLayer = new FeatureLayer(featureTable);
-      featureLayer.loadAsync();
 
-      // wait for the feature layer to load
+      // add the feature layer to the ArcGISMap
+      map.getOperationalLayers().add(featureLayer);
+
+      // this event gets triggered asynchronously when the feature layer that has been added to the map is loaded
       featureLayer.addDoneLoadingListener(()->{
-
-        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
-
-          // add the feature layer to the ArcGISMap
-          map.getOperationalLayers().add(featureLayer);
-
-        } else {
+        if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
           displayMessage("Error", "Error loading feature layer");
         }
       });

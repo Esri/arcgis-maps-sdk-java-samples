@@ -90,7 +90,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       // set the image layer's opacity
       imageLayer.setOpacity(0.7f);
 
-      // wait for the image layer to load
+      // this event gets triggered asynchronously when the image layer that has been added to the map is loaded
       imageLayer.addDoneLoadingListener(() -> {
         if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
 

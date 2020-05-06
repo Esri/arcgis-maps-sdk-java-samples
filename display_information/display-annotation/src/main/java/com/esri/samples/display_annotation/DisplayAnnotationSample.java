@@ -70,13 +70,14 @@ public class DisplayAnnotationSample extends Application {
             map.getOperationalLayers().add(annotationLayer);
 
             // check that the feature layer has loaded
+            // this event gets triggered asynchronously when the feature layer that has been added to the map is loaded
             riverFeatureLayer.addDoneLoadingListener(() -> {
                 if (riverFeatureLayer.getLoadStatus() != LoadStatus.LOADED) {
                     new Alert(Alert.AlertType.ERROR, "Error loading Feature Layer.").show();
                 }
             });
 
-            // check that the annotation layer has loaded
+            // this event gets triggered asynchronously when the annotation layer that has been added to the map is loaded
             annotationLayer.addDoneLoadingListener(()->{
                 if (annotationLayer.getLoadStatus() != LoadStatus.LOADED) {
                     new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer.").show();
