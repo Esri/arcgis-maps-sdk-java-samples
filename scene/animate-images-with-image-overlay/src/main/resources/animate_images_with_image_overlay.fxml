@@ -22,20 +22,19 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.paint.Color?>
 <?import javafx.scene.control.Label?>
 <StackPane fx:controller="com.esri.samples.animate_images_with_image_overlay.AnimateImagesWithImageOverlayController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css" styleClass="stack-pane">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/style.css">
     <SceneView fx:id="sceneView"/>
-    <VBox StackPane.alignment="BOTTOM_CENTER" styleClass="panel-region" alignment="TOP_CENTER">
+    <VBox>
     <StackPane.margin>
         <Insets bottom="20"/>
     </StackPane.margin>
-        <GridPane hgap="30" vgap="10" maxWidth="500">
-            <Button fx:id="controlAnimationButton" text="Stop" maxWidth="500" GridPane.rowIndex="0" GridPane.columnIndex="0" onAction="#handlecontrolAnimationButtonClicked"/>
-            <ComboBox fx:id="framesComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" maxWidth="Infinity" onAction="#handleframesComboBoxInteraction"/>
+        <GridPane>
+            <Button fx:id="controlAnimationButton" onAction="#handlecontrolAnimationButtonClicked" text="Stop" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <ComboBox fx:id="framesComboBox" onAction="#handleframesComboBoxInteraction" GridPane.rowIndex="0" GridPane.columnIndex="1" maxWidth="Infinity"/>
             <Label text="Opacity:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Slider fx:id="opacitySlider" GridPane.rowIndex="1" showTickLabels="true" majorTickUnit="50" GridPane.columnIndex="1" maxWidth="Infinity" max="1" value="1" onMouseDragged="#changeImageOverlayOpacity" onMouseReleased="#changeImageOverlayOpacity"/>
+            <Slider fx:id="opacitySlider" onMouseDragged="#changeImageOverlayOpacity" onMouseReleased="#changeImageOverlayOpacity" GridPane.rowIndex="1" GridPane.columnIndex="1" max="1" value="1" />
         </GridPane>
     </VBox>
 </StackPane>
