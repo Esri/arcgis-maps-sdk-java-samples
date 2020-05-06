@@ -39,7 +39,6 @@ import java.nio.charset.StandardCharsets;
 public class WfsXmlQuerySample extends Application {
 
   private MapView mapView;
-  private ListenableFuture<FeatureQueryResult> featureTableResult; // keeps loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -84,8 +83,7 @@ public class WfsXmlQuerySample extends Application {
     String xmlQuery = IOUtils.toString(WfsXmlQuerySample.class.getResourceAsStream("/SeattleTreeQuery.xml"), StandardCharsets.UTF_8.name());
 
     // populate the WFS feature table with XML query
-    featureTableResult = wfsFeatureTable.populateFromServiceAsync(xmlQuery, true);
-    featureTableResult.addDoneListener(() -> {
+    wfsFeatureTable.populateFromServiceAsync(xmlQuery, true).addDoneListener(() -> {
       // set the viewpoint of the map view to the extent reported by the feature layer
       mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
       progressIndicator.setVisible(false);
