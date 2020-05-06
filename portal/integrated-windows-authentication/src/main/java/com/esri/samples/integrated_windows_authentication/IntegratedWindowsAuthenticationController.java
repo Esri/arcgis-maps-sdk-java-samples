@@ -132,8 +132,8 @@ public class IntegratedWindowsAuthenticationController {
                   "type:(\"web map\" NOT \"web mapping application\")");
 
           // search the portal for web maps
-          ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = 
-            iwaSecuredPortal.findItemsAsync(portalQueryParameters);
+          ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = iwaSecuredPortal.findItemsAsync(
+            portalQueryParameters);
           portalItemResultFuture.addDoneListener(() -> {
             try {
               // get the result
