@@ -57,6 +57,9 @@ public class AnalyzeHotspotsSample extends Application {
 
   private MapView mapView;
   private GeoprocessingJob geoprocessingJob;
+  // keeps loadables in scope to avoid garbage collection
+  private GeoprocessingTask geoprocessingTask;
+  private ArcGISMapImageLayer hotSpotLayer;
 
   @Override
   public void start(Stage stage) {
@@ -110,7 +113,7 @@ public class AnalyzeHotspotsSample extends Application {
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
       // create the geoprocessing task with the service URL and load it
-      GeoprocessingTask geoprocessingTask = new GeoprocessingTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot");
+      geoprocessingTask = new GeoprocessingTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot");
       geoprocessingTask.loadAsync();
 
       geoprocessingTask.addDoneLoadingListener(() -> {
@@ -153,7 +156,7 @@ public class AnalyzeHotspotsSample extends Application {
                     if (geoprocessingJob.getStatus() == Job.Status.SUCCEEDED) {
                       // get the map image layer from the job's result
                       GeoprocessingResult geoprocessingResult = geoprocessingJob.getResult();
-                      ArcGISMapImageLayer hotSpotLayer = geoprocessingResult.getMapImageLayer();
+                      hotSpotLayer = geoprocessingResult.getMapImageLayer();
                       // make the layer semi-transparent to reference the basemap streets underneath
                       hotSpotLayer.setOpacity(0.7f);
                       // add the layer to the map and zoom to it when loaded
