@@ -49,6 +49,7 @@ import com.esri.arcgisruntime.ogc.kml.KmlScreenOverlay;
 
 public class ListKMLContentsSample extends Application {
 
+  private KmlDataset kmlDataset; // keeps loadable in scope to avoid garbage collection
   private SceneView sceneView;
 
   @Override
@@ -73,7 +74,7 @@ public class ListKMLContentsSample extends Application {
 
       // load a KML dataset from a local KMZ file and show it as an operational layer
       File kmzFile = new File(System.getProperty("data.dir"), "./samples-data/kml/esri_test_data.kmz");
-      KmlDataset kmlDataset = new KmlDataset(kmzFile.getAbsolutePath());
+      kmlDataset = new KmlDataset(kmzFile.getAbsolutePath());
       KmlLayer kmlLayer = new KmlLayer(kmlDataset);
       scene.getOperationalLayers().add(kmlLayer);
 

@@ -49,6 +49,7 @@ import com.esri.arcgisruntime.ogc.kml.KmlTourStatus;
 public class PlayAKMLTourSample extends Application {
 
   private SceneView sceneView;
+  private KmlLayer kmlLayer; // keeps loadable in scope to avoid garbage collection
   private KmlTourController kmlTourController;
 
   @Override
@@ -113,7 +114,7 @@ public class PlayAKMLTourSample extends Application {
 
       // add a KML layer from a KML dataset with a KML tour
       KmlDataset kmlDataset = new KmlDataset(new File(System.getProperty("data.dir"), "./samples-data/kml/Esri_tour.kmz").getAbsolutePath());
-      KmlLayer kmlLayer = new KmlLayer(kmlDataset);
+      kmlLayer = new KmlLayer(kmlDataset);
       scene.getOperationalLayers().add(kmlLayer);
 
       kmlLayer.addDoneLoadingListener(() -> {

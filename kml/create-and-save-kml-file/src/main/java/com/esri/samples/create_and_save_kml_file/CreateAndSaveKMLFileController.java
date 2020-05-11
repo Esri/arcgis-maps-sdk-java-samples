@@ -52,12 +52,13 @@ public class CreateAndSaveKMLFileController {
   private KmlDocument kmlDocument;
   private SketchEditor sketchEditor;
   private FileChooser fileChooser;
+  private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
 
   @FXML
   public void initialize() {
 
     // create a map and add it to the map view
-    ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
+    map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
     mapView.setMap(map);
 
     // create a sketch editor and add it to the map view
