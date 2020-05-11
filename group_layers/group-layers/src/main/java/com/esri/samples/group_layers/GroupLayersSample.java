@@ -44,6 +44,9 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class GroupLayersSample extends Application {
 
   private SceneView sceneView;
+  // keeps loadable in scope to avoid garbage collection
+  private ArcGISScene scene;
+  private GroupLayer groupLayer;
 
   @Override
   public void start(Stage stage) {
@@ -66,7 +69,7 @@ public class GroupLayersSample extends Application {
       stackPane.getChildren().add(sceneView);
 
       // create a scene with a basemap and add it to the scene view
-      ArcGISScene scene = new ArcGISScene();
+      scene = new ArcGISScene();
       scene.setBasemap(Basemap.createImagery());
       sceneView.setArcGISScene(scene);
 
@@ -83,7 +86,7 @@ public class GroupLayersSample extends Application {
       FeatureLayer devProjectArea = new FeatureLayer(new ServiceFeatureTable("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevelopmentProjectArea/FeatureServer/0"));
 
       // create a group layer from scratch by adding the layers as children
-      GroupLayer groupLayer = new GroupLayer();
+      groupLayer = new GroupLayer();
       groupLayer.setName("Group: Dev A");
       groupLayer.getLayers().addAll(Arrays.asList(devATrees, devAPathways, devABuildings));
 
