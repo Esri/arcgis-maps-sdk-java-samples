@@ -38,6 +38,7 @@ import com.esri.arcgisruntime.raster.Raster;
 public class ColormapRendererSample extends Application {
 
   private MapView mapView;
+  private RasterLayer rasterLayer; // keeps loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -58,7 +59,7 @@ public class ColormapRendererSample extends Application {
       Raster raster = new Raster(new File(System.getProperty("data.dir"), "./samples-data/raster/ShastaBW.tif").getAbsolutePath());
 
       // create a raster layer
-      RasterLayer rasterLayer = new RasterLayer(raster);
+      rasterLayer = new RasterLayer(raster);
 
       // create a Map with imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());

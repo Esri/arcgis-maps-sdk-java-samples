@@ -39,6 +39,9 @@ import com.esri.arcgisruntime.raster.RasterFunctionArguments;
 public class RasterFunctionSample extends Application {
 
   private MapView mapView;
+  // keeps loadables in scope to avoid garbage collection
+  private ImageServiceRaster imageServiceRaster;
+  private RasterLayer hillshadeLayer;
 
   @Override
   public void start(Stage stage) {
@@ -63,7 +66,7 @@ public class RasterFunctionSample extends Application {
       mapView.setMap(map);
 
       // create an image service raster from an online raster service
-      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://sampleserver6.arcgisonline" +
+      imageServiceRaster = new ImageServiceRaster("https://sampleserver6.arcgisonline" +
           ".com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
       imageServiceRaster.loadAsync();
       imageServiceRaster.addDoneLoadingListener(() -> {
@@ -81,7 +84,7 @@ public class RasterFunctionSample extends Application {
               // create a new raster from the function definition
               Raster raster = new Raster(rasterFunction);
               // create raster layer and add to map as operational layer
-              RasterLayer hillshadeLayer = new RasterLayer(raster);
+              hillshadeLayer = new RasterLayer(raster);
               // add the hillshade raster layer to the map
               map.getOperationalLayers().add(hillshadeLayer);
               hillshadeLayer.addDoneLoadingListener(() -> {
