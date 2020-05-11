@@ -43,6 +43,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class SceneLayerSelectionSample extends Application {
 
   private SceneView sceneView;
+  private ArcGISSceneLayer sceneLayer; // keeps loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -83,7 +84,7 @@ public class SceneLayerSelectionSample extends Application {
 
       // add a scene layer of buildings in Brest, France
       final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
-      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
+      sceneLayer = new ArcGISSceneLayer(buildings);
       scene.getOperationalLayers().add(sceneLayer);
 
       // zoom to the layer's extent when loaded

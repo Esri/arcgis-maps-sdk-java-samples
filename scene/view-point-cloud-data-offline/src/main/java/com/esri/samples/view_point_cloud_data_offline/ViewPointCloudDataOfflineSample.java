@@ -36,6 +36,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class ViewPointCloudDataOfflineSample extends Application {
 
   private SceneView sceneView;
+  private PointCloudLayer pointCloudLayer; // keeps loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -69,7 +70,7 @@ public class ViewPointCloudDataOfflineSample extends Application {
 
       // add a point cloud layer from a scene layer package of Balboa Park in San Diego
       File pointCloudSLPK = new File(System.getProperty("data.dir"), "./samples-data/slpks/sandiego-north-balboa-pointcloud.slpk");
-      PointCloudLayer pointCloudLayer = new PointCloudLayer(pointCloudSLPK.getAbsolutePath());
+      pointCloudLayer = new PointCloudLayer(pointCloudSLPK.getAbsolutePath());
       scene.getOperationalLayers().add(pointCloudLayer);
 
       // zoom to the layer when it is done loading
