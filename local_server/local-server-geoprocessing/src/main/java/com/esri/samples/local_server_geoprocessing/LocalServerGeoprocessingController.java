@@ -53,6 +53,7 @@ public class LocalServerGeoprocessingController {
   @FXML private ProgressBar progressBar;
   @FXML private MapView mapView;
 
+  private ArcGISTiledLayer tiledLayer; // keeps loadable in scope to avoid garbage collection
   private LocalGeoprocessingService localGPService;
   private GeoprocessingTask gpTask;
 
@@ -71,7 +72,7 @@ public class LocalServerGeoprocessingController {
       //load tiled layer and zoom to location
       String rasterURL = new File(System.getProperty("data.dir"), "./samples-data/local_server/RasterHillshade.tpk").getAbsolutePath();
       TileCache tileCache = new TileCache(rasterURL);
-      ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
+      tiledLayer = new ArcGISTiledLayer(tileCache);
       tiledLayer.loadAsync();
       tiledLayer.addDoneLoadingListener(() -> {
         if (tiledLayer.getLoadStatus() == LoadStatus.LOADED) {
