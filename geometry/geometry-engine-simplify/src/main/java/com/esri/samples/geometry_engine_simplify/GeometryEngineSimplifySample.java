@@ -49,6 +49,7 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 public class GeometryEngineSimplifySample extends Application {
 
+  private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
   private MapView mapView;
   private GraphicsOverlay resultGeomOverlay;
   private Graphic polygon;
@@ -118,7 +119,7 @@ public class GeometryEngineSimplifySample extends Application {
       // add buttons to the control panel
       controlsVBox.getChildren().addAll(simplifyButton, resetButton);
 
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
+      map = new ArcGISMap(Basemap.createLightGrayCanvas());
 
       // enable geometry operations when ArcGISMap is done loading
       map.addDoneLoadingListener(() -> {
