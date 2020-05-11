@@ -58,8 +58,13 @@ import com.esri.arcgisruntime.tasks.networkanalysis.Facility;
 import com.esri.arcgisruntime.tasks.networkanalysis.Incident;
 
 public class ClosestFacilityStaticSample extends Application {
-
+  
   private MapView mapView;
+
+  // keeps loadables in scope to avoid garbage collection
+  private ClosestFacilityTask closestFacilityTask;
+  private FeatureLayer facilitiesFeatureLayer;
+  private FeatureLayer incidentsFeatureLayer;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -104,18 +109,18 @@ public class ClosestFacilityStaticSample extends Application {
       SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x4D0000FF, 5.0f);
 
       // create a closest facility task from a network analysis service
-      ClosestFacilityTask closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
+      closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
 
       // create a table for facilities using the feature service
       FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
       // create a feature layer from the table, apply facilities icon
-      FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
+      facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
       facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
       // create a table for incidents using the feature service
       FeatureTable incidentsFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Incidents/FeatureServer/0");
       // create a feature layer from the table, apply incident icon
-      FeatureLayer incidentsFeatureLayer = new FeatureLayer(incidentsFeatureTable);
+      incidentsFeatureLayer = new FeatureLayer(incidentsFeatureTable);
       incidentsFeatureLayer.setRenderer(new SimpleRenderer(incidentSymbol));
 
       // add the layers to the map
