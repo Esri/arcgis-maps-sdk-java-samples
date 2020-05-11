@@ -95,12 +95,8 @@ public class IdentifyRasterCellSample extends Application {
             callout = mapView.getCallout();
             callout.setMouseTransparent(true);
 
-            // start identifying on-the-fly if the mouse enters the map view, and the callout is not locked
-            mapView.setOnMouseEntered(mouseEvent -> {
-                if (!calloutLocked) {
-                    mapView.setOnMouseMoved(this::identifyRasterCell);
-                }
-            });
+            // identify the raster cell under the mouse pointer on-the-fly if the mouse enters the map view
+            mapView.setOnMouseEntered(mouseEvent -> mapView.setOnMouseMoved(this::identifyRasterCell));
 
             // stop identifying on-the-fly when the mouse leaves the map view
             mapView.setOnMouseExited(null);
