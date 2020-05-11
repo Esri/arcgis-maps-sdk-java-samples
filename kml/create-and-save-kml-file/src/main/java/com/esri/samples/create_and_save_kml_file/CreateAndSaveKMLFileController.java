@@ -49,10 +49,10 @@ public class CreateAndSaveKMLFileController {
   @FXML private ComboBox<SketchCreationMode> sketchCreationModeComboBox;
   @FXML private MapView mapView;
 
+  private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
   private KmlDocument kmlDocument;
   private SketchEditor sketchEditor;
   private FileChooser fileChooser;
-  private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
 
   @FXML
   public void initialize() {

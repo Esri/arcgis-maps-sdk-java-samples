@@ -50,9 +50,9 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 public class GeometryEngineSimplifySample extends Application {
 
   private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
-  private MapView mapView;
   private GraphicsOverlay resultGeomOverlay;
   private Graphic polygon;
+  private MapView mapView;
 
   // simple black (0xFF000000) line symbol
   private final SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1);

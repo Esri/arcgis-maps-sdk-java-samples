@@ -41,8 +41,8 @@ import com.esri.arcgisruntime.portal.PortalItem;
 
 public class DisplayKMLSample extends Application {
 
-  private MapView mapView;
   private KmlLayer kmlLayer; // keeps loadable in scope to avoid garbage collection
+  private MapView mapView;
   
   @Override
   public void start(Stage stage) {

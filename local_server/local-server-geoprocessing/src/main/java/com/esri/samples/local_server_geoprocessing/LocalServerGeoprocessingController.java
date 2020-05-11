@@ -54,8 +54,8 @@ public class LocalServerGeoprocessingController {
   @FXML private MapView mapView;
 
   private ArcGISTiledLayer tiledLayer; // keeps loadable in scope to avoid garbage collection
-  private LocalGeoprocessingService localGPService;
   private GeoprocessingTask gpTask;
+  private LocalGeoprocessingService localGPService;
 
   private static LocalServer server;
 

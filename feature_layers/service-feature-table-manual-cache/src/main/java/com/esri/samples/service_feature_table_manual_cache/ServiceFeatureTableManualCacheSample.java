@@ -52,10 +52,10 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class ServiceFeatureTableManualCacheSample extends Application {
 
   private MapView mapView;
+  private FeatureLayer featureLayer; // keeps loadable in scope to avoid garbage collection
   private Label featuresReturnLabel;
   private ServiceFeatureTable featureTable;
   private ListenableFuture<FeatureQueryResult> tableResult;
-  private FeatureLayer featureLayer; // keeps loadable in scope to avoid garbage collection
 
   private static final String SERVICE_FEATURE_URL =
       "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";

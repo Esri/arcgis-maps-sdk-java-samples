@@ -56,8 +56,8 @@ public class UpdateGraphicsSample extends Application {
   private boolean isUpdateLocationActive;
   private List<SimpleMarkerSymbol> markers;
 
-  private MapView mapView;
   private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
+  private MapView mapView;
   private Graphic selectedGraphic;
   private GraphicsOverlay graphicsOverlay;
   private ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;

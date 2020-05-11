@@ -45,8 +45,8 @@ public class LocalServerFeatureLayerSample extends Application {
 
   private ArcGISMap map;
   private FeatureLayer featureLayer; // keeps loadable in scope to avoid garbage collection
-  private MapView mapView;
   private LocalFeatureService featureService;
+  private MapView mapView;
   private ProgressIndicator featureLayerProgress;
 
   private static LocalServer server;
