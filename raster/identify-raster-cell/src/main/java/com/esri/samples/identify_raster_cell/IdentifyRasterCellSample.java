@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2020 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -133,15 +133,15 @@ public class IdentifyRasterCellSample extends Application {
             stackPane.getChildren().addAll(mapView);
 
         } catch (Exception e) {
-            // on any error, display the stack trace.
+            // on any error, display the stack trace
             e.printStackTrace();
         }
     }
 
     /**
-     * Identifies the raster cell at the mouse event and displays a callout at that location.
+     * Identifies the raster cell at the mouse event's location and displays a callout at that location.
      *
-     * @param mouseEvent the mouse event used to identify the raster cell and show the callout.
+     * @param mouseEvent the mouse event used to identify the raster cell and show the callout
      */
     private void identifyRasterCell(MouseEvent mouseEvent) {
 
@@ -158,23 +158,23 @@ public class IdentifyRasterCellSample extends Application {
                 // get the result of the query
                 IdentifyLayerResult identifyLayerResult = identifyLayerResultFuture.get();
 
-                // Get the read only list of geo-elements (they contain RasterCell's)
+                // get the read only list of geo-elements (they contain RasterCell's)
                 List<GeoElement> geoElements = identifyLayerResult.getElements();
 
-                // Create a StringBuilder to display information to the user
+                // create a StringBuilder to display information to the user
                 StringBuilder stringBuilder = new StringBuilder();
 
-                // Loop through each RasterCell
+                // loop through each RasterCell
                 for (GeoElement geoElement : geoElements) {
 
                     if (geoElement instanceof RasterCell) {
                         RasterCell rasterCell = (RasterCell) geoElement;
 
-                        // Loop through the attributes (key/value pairs)
-                        rasterCell.getAttributes().forEach((key, value) -> {
-                            // Add the key/value pair to the string builder
-                            stringBuilder.append(key).append(": ").append(value).append("\n");
-                        });
+                        // loop through the attributes (key/value pairs)
+                        rasterCell.getAttributes().forEach((key, value) ->
+                                // add the key-value pair to the string builder
+                                stringBuilder.append(key).append(": ").append(value).append("\n")
+                        );
 
                         // get and format the X and Y values for the cell
                         double x = rasterCell.getGeometry().getExtent().getXMin();
@@ -184,7 +184,7 @@ public class IdentifyRasterCellSample extends Application {
                         // add the X & Y coordinates where the user clicked raster cell to the string builder
                         stringBuilder.append(string);
 
-                        // Define a callout based on the string builder
+                        // define a callout based on the string builder
                         callout.setDetail(stringBuilder.toString());
                         callout.showCalloutAt(mapPoint);
                     }
