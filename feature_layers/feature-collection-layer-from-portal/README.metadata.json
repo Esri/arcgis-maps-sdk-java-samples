@@ -1,0 +1,28 @@
+{
+    "category": "Feature layers",
+    "description": "Create a feature collection layer from a portal item.",
+    "ignore": false,
+    "images": [
+        "FeatureCollectionLayerFromPortal.png"
+    ],
+    "keywords": [
+        "collection", 
+        "feature collection", 
+        "feature collection layer", 
+        "id", 
+        "item", 
+        "map",
+        "notes",
+        "portal"
+    ],
+    "relevant_apis": [
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "Portal",
+        "PortalItem"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/feature_collection_layer_from_portal/FeatureCollectionLayerFromPortalSample.java"
+    ],
+    "title": "Feature Collection Layer from Portal"
+}
