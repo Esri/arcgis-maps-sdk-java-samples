@@ -42,8 +42,11 @@ import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class IdentifyLayersSample extends Application {
-
+  
   private MapView mapView;
+  // keeps loadables in scope to avoid garbage collection
+  private ArcGISMapImageLayer mapImageLayer; 
+  private FeatureLayer featureLayer;
 
   /**
    * Opens and runs application.
@@ -79,7 +82,7 @@ public class IdentifyLayersSample extends Application {
       mapView.setMap(map);
 
       // add a map image layer with one sublayer visible
-      ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer");
+      mapImageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer");
       mapImageLayer.addDoneLoadingListener(() -> {
         if (mapImageLayer.getLoadStatus() == LoadStatus.LOADED) {
           // hide Continent and World layers
@@ -93,7 +96,7 @@ public class IdentifyLayersSample extends Application {
 
       // add a feature layer
       FeatureTable featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      featureLayer = new FeatureLayer(featureTable);
       featureLayer.addDoneLoadingListener(() -> {
         if (mapImageLayer.getLoadStatus() != LoadStatus.LOADED) {
           new Alert(Alert.AlertType.ERROR, "Failed to load the feature layer").show();

@@ -38,6 +38,7 @@ import com.esri.arcgisruntime.toolkit.Compass;
 
 public class MapRotationSample extends Application {
 
+  private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -70,7 +71,7 @@ public class MapRotationSample extends Application {
       });
 
       // create a ArcGISMap with topographic basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
+      map = new ArcGISMap(Basemap.createStreetsVector());
 
       // enable slider when map view is done loading
       map.addDoneLoadingListener(() -> {
