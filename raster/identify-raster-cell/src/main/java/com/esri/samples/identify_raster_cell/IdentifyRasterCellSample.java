@@ -66,14 +66,14 @@ public class IdentifyRasterCellSample extends Application {
             // create a map view
             mapView = new MapView();
 
-            // create a Map with imagery basemap
-            ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+            // create a Map with an oceans basemap
+            ArcGISMap map = new ArcGISMap(Basemap.Type.OCEANS, -33.9, 18.6, 9);
 
             // add the map to a map view
             mapView.setMap(map);
 
             // create a raster from a local raster file
-            Raster raster = new Raster(new File(System.getProperty("data.dir"), "./samples-data/raster/Shasta_Elevation.tif").getAbsolutePath());
+            Raster raster = new Raster(new File(System.getProperty("data.dir"), "./samples-data/SA_EVI_8Day_03May20/SA_EVI_8Day_03May20.tif").getAbsolutePath());
 
             // create a raster layer
             rasterLayer = new RasterLayer(raster);
@@ -115,8 +115,6 @@ public class IdentifyRasterCellSample extends Application {
                         mapView.setOnMouseMoved(null);
                         // lock the callout in place
                         calloutLocked = true;
-                        // identify the raster cell at the clicked location
-                        identifyRasterCell(mouseEvent);
 
                     } else {
                         // dismiss the callout

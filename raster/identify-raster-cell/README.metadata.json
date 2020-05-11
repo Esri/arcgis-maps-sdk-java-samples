@@ -1,12 +1,20 @@
 {
     "category": "Raster",
-    "description": "Get the cell value of a local raster at a specified location.",
+    "description": "\nGet the cell value of a local raster at the clicked location and display the result in a callout.",
     "ignore": false,
     "images": [
         "IdentifyRasterCell.png"
     ],
     "keywords": [
-"band", "cell", "cell value", "continuous", "discrete", "identify", "pixel", "pixel value", "raster"
+        "band",
+        "cell",
+        "cell value",
+        "continuous",
+        "discrete",
+        "identify",
+        "pixel",
+        "pixel value",
+        "raster"
     ],
     "relevant_apis": [
         "IdentifyLayerResult",

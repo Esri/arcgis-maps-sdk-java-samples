@@ -6,11 +6,11 @@ Get the cell value of a local raster at the clicked location and display the res
 
 ## Use case
 
-You may want to identify a raster layer to get its exact cell value in the case the approximate value conveyed by its symbology is not sufficient. The information available for the raster cell depends on the type of raster layer being identified. For example, a 3-band satellite or aerial image might provide 8-bit RGB values, whereas a digital elevation model (DEM) would provide floating point z values. By identifying a raster cell of a DEM, you can retrieve the precise elevation of a location. 
+You may want to identify a raster layer to get its exact cell value in the case the approximate value conveyed by its symbology is not sufficient. The information available for the raster cell depends on the type of raster layer being identified. For example, a 3-band satellite or aerial image might provide 8-bit RGB values, whereas a digital elevation model (DEM) would provide floating point z values. By identifying a raster cell of a DEM, you can retrieve the precise elevation of a location.
 
 ## How to use the sample
 
-Click an area of the raster to identify it. See the raw raster cell information displayed in a callout.
+Move the mouse pointer over an area of the raster to identify the raster cell at that location, it and see the cell attributes information displayed in a callout. You can click the prmary mouse button to lock the callout in place, and click again to release the callout and resume identifying on-the-fly.
 
 ## How it works
 
@@ -24,14 +24,13 @@ Click an area of the raster to identify it. See the raw raster cell information 
 
 ## Relevant API
 
-* MapView
 * IdentifyLayerResult
 * RasterCell
 * RasterLayer
 
 ## About the data
 
-[TODO: Appropriate data that is approved for use in the sample should be used. The initial provided screen shot should be replaced when actual approved sample data is used.]
+The data shown is an NDVI classification derived from MODIS imagery between 27 Apr 2020 and 4 May 2020. It comes from the [NASA Worldview application](https://worldview.earthdata.nasa.gov/). In a normalized difference vegetation index, or [NDVI](https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index), values range between -1 and +1 with the positive end of the spectrum showing green vegetation.
 
 ## Tags
 
