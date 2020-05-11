@@ -35,6 +35,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class ServiceFeatureTableCacheSample extends Application {
 
   private MapView mapView;
+  private ServiceFeatureTable serviceFeatureTable; // keeps loadable in scope to avoid garbage collection
 
   private static final String FEATURE_SERVICE_URL =
       "https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/US_Bridges/FeatureServer/0";
@@ -68,7 +69,7 @@ public class ServiceFeatureTableCacheSample extends Application {
               64.8874243113506, SpatialReferences.getWgs84())));
 
       // create the service feature table
-      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);
+      serviceFeatureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);
 
       // explicitly set the mode to on interaction cache (which is also
       // the default mode for service feature tables)

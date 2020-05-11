@@ -37,6 +37,9 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class FeatureLayerGeoPackageSample extends Application {
 
   private MapView mapView;
+  // keeps loadables in scope to avoid garbage collection
+  private GeoPackage geoPackage;
+  private FeatureLayer featureLayer;
 
   @Override
   public void start(Stage stage) {
@@ -58,7 +61,7 @@ public class FeatureLayerGeoPackageSample extends Application {
 
       // create a GeoPackage from a local gpkg file
       File geoPackageFile = new File(System.getProperty("data.dir"), "./samples-data/auroraCO/AuroraCO.gpkg");
-      GeoPackage geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
+      geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
       geoPackage.loadAsync();
 
       // create a feature layer from the first feature table in the gpkg
@@ -66,7 +69,7 @@ public class FeatureLayerGeoPackageSample extends Application {
         if (geoPackage.getLoadStatus() == LoadStatus.LOADED) {
           List<GeoPackageFeatureTable> featureTables = geoPackage.getGeoPackageFeatureTables();
           if (featureTables.size() > 0) {
-            FeatureLayer featureLayer = new FeatureLayer(featureTables.get(0));
+            featureLayer = new FeatureLayer(featureTables.get(0));
             map.getOperationalLayers().add(featureLayer);
             // zoom to the layer
             featureLayer.addDoneLoadingListener(() ->

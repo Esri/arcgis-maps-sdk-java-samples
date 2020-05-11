@@ -41,6 +41,7 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
     private MapView mapView;
     private Portal portal;
     private TextField inputTextField;
+    private PortalItem portalItem; // keeps loadable in scope to avoid garbage collection
 
     @Override
     public void start(Stage stage) {
@@ -101,7 +102,7 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
 
         if (!inputTextField.getText().isEmpty()) {
             // crate portal item
-            PortalItem portalItem = new PortalItem(portal, inputTextField.getText());
+            portalItem = new PortalItem(portal, inputTextField.getText());
             portalItem.loadAsync();
 
             portalItem.addDoneLoadingListener(() -> {

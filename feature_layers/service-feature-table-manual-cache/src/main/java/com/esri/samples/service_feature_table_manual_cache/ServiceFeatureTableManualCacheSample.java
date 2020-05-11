@@ -55,6 +55,7 @@ public class ServiceFeatureTableManualCacheSample extends Application {
   private Label featuresReturnLabel;
   private ServiceFeatureTable featureTable;
   private ListenableFuture<FeatureQueryResult> tableResult;
+  private FeatureLayer featureLayer; // keeps loadable in scope to avoid garbage collection
 
   private static final String SERVICE_FEATURE_URL =
       "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
@@ -104,7 +105,7 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       featureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
       // create a feature layer from the service feature table
-      final FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      featureLayer = new FeatureLayer(featureTable);
 
       // enable button when feature layer is done loading
       featureLayer.addDoneLoadingListener(() -> {

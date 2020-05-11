@@ -47,6 +47,7 @@ public class DisplaySubtypeFeatureLayerController {
   @FXML private VBox vBox;
 
   private SubtypeSublayer sublayer;
+  private SubtypeFeatureLayer subtypeFeatureLayer; // keeps loadable in scope to avoid garbage collection
   private Renderer originalRenderer;
   private Renderer alternativeRenderer;
   
@@ -70,7 +71,7 @@ public class DisplaySubtypeFeatureLayerController {
       // create a subtype feature layer from the service feature table, and add it to the map
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable("https://sampleserver7.arcgisonline" +
         ".com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/100");
-      SubtypeFeatureLayer subtypeFeatureLayer = new SubtypeFeatureLayer(serviceFeatureTable);
+      subtypeFeatureLayer = new SubtypeFeatureLayer(serviceFeatureTable);
       map.getOperationalLayers().add(subtypeFeatureLayer);
       
       // access the json required for sublayer label definitions

@@ -53,6 +53,10 @@ import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
 public class GenerateGeodatabaseSample extends Application {
 
   private MapView mapView;
+  // keeps loadables in scope to avoid garbage collection
+  private GeodatabaseSyncTask syncTask;
+  private Geodatabase geodatabase;
+  
   private final AtomicInteger replica = new AtomicInteger();
 
   @Override
@@ -96,7 +100,7 @@ public class GenerateGeodatabaseSample extends Application {
       // create a geodatabase sync task
       String featureServiceURL =
           "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Sync/WildfireSync/FeatureServer";
-      GeodatabaseSyncTask syncTask = new GeodatabaseSyncTask(featureServiceURL);
+      syncTask = new GeodatabaseSyncTask(featureServiceURL);
       syncTask.loadAsync();
       syncTask.addDoneLoadingListener(() -> generateButton.setDisable(false));
 
@@ -137,7 +141,7 @@ public class GenerateGeodatabaseSample extends Application {
             // get geodatabase when done
             job.addJobDoneListener(() -> {
               if (job.getStatus() == Job.Status.SUCCEEDED) {
-                Geodatabase geodatabase = job.getResult();
+                geodatabase = job.getResult();
                 displayMessage("Geodatabase successfully generated", "Unregistering geodatabase since we're not " +
                     "syncing it here");
                 geodatabase.loadAsync();
