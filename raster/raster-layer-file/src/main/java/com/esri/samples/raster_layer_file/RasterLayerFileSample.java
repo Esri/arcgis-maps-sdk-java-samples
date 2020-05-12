@@ -34,7 +34,6 @@ import com.esri.arcgisruntime.raster.Raster;
 public class RasterLayerFileSample extends Application {
 
   private MapView mapView;
-  private RasterLayer rasterLayer; // keeps loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -55,7 +54,7 @@ public class RasterLayerFileSample extends Application {
       Raster raster = new Raster(new File(System.getProperty("data.dir"), "./samples-data/raster/Shasta.tif").getAbsolutePath());
 
       // create a raster layer
-      rasterLayer = new RasterLayer(raster);
+      RasterLayer rasterLayer = new RasterLayer(raster);
 
       // create a Map with imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());

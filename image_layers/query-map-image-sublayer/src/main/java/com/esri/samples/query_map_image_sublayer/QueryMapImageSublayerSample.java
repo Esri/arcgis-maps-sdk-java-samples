@@ -54,7 +54,6 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class QueryMapImageSublayerSample extends Application {
 
-  private ArcGISMapImageLayer imageLayer; // keeps loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -80,7 +79,7 @@ public class QueryMapImageSublayerSample extends Application {
       map.setInitialViewpoint(viewpoint);
 
       // create and add a map image layer to the map
-      imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
+      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
       map.getOperationalLayers().add(imageLayer);
 
       // create a map view and set the map to it

@@ -56,10 +56,8 @@ public class MapImageLayerTablesSample extends Application {
   private GraphicsOverlay graphicsOverlay;
   private ServiceFeatureTable commentsTable;
   private ListView<Feature> commentsListView;
-  // keeps loadables in scope to avoid garbage collection
-  private ArcGISMapImageLayer imageLayer;
-  private ArcGISFeature relatedFeature;
-
+  private ArcGISFeature relatedFeature; // keeps loadable in scope to avoid garbage collection
+  
   /**
    * Starting point of this application.
    *
@@ -91,7 +89,7 @@ public class MapImageLayerTablesSample extends Application {
 
       // create and add a map image layer to the map
       // the map image layer contains a feature table with related spatial and non-spatial comment features
-      imageLayer = new ArcGISMapImageLayer(
+      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(
           "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/MapServer");
       map.getOperationalLayers().add(imageLayer);
 

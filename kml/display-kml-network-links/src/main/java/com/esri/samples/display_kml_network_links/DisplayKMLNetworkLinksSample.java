@@ -34,7 +34,6 @@ import com.esri.arcgisruntime.ogc.kml.KmlDataset;
 
 public class DisplayKMLNetworkLinksSample extends Application {
 
-  private KmlLayer kmlLayer; // keeps loadable in scope to avoid garbage collection
   private SceneView sceneView;
 
   @Override
@@ -73,7 +72,7 @@ public class DisplayKMLNetworkLinksSample extends Application {
       });
 
       // add the KML layer as an operational layer and check if it is loaded correctly
-      kmlLayer = new KmlLayer(kmlDataset);
+      KmlLayer kmlLayer = new KmlLayer(kmlDataset);
       scene.getOperationalLayers().add(kmlLayer);
       kmlLayer.addDoneLoadingListener(() -> {
         if (kmlLayer.getLoadStatus() != LoadStatus.LOADED) {

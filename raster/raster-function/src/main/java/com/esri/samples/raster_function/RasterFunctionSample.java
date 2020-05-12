@@ -38,10 +38,8 @@ import com.esri.arcgisruntime.raster.RasterFunctionArguments;
 
 public class RasterFunctionSample extends Application {
 
+  private ImageServiceRaster imageServiceRaster; // keeps loadables in scope to avoid garbage collection
   private MapView mapView;
-  // keeps loadables in scope to avoid garbage collection
-  private ImageServiceRaster imageServiceRaster;
-  private RasterLayer hillshadeLayer;
 
   @Override
   public void start(Stage stage) {
@@ -84,7 +82,7 @@ public class RasterFunctionSample extends Application {
               // create a new raster from the function definition
               Raster raster = new Raster(rasterFunction);
               // create raster layer and add to map as operational layer
-              hillshadeLayer = new RasterLayer(raster);
+              RasterLayer hillshadeLayer = new RasterLayer(raster);
               // add the hillshade raster layer to the map
               map.getOperationalLayers().add(hillshadeLayer);
               hillshadeLayer.addDoneLoadingListener(() -> {

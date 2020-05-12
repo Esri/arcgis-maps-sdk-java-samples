@@ -47,7 +47,6 @@ public class RasterRenderingRuleSample extends Application {
 
   private ComboBox<RenderingRuleInfo> renderingRuleInfoComboBox;
   private MapView mapView;
-  private RasterLayer imageRasterLayer;
 
   @Override
   public void start(Stage stage) {
@@ -109,7 +108,7 @@ public class RasterRenderingRuleSample extends Application {
       // create an Image Service Raster as a raster layer and add to map
       final String ImageServiceRasterUri = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
       final ImageServiceRaster imageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
-      imageRasterLayer = new RasterLayer(imageServiceRaster);
+      RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
       map.getOperationalLayers().add(imageRasterLayer);
 
       // add event listener to loading of Image Service Raster and wait until loaded

@@ -37,10 +37,8 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class FeatureLayerGeoPackageSample extends Application {
 
   private MapView mapView;
-  // keeps loadables in scope to avoid garbage collection
-  private GeoPackage geoPackage;
-  private FeatureLayer featureLayer;
-
+  private GeoPackage geoPackage; // keeps loadable in scope to avoid garbage collection
+  
   @Override
   public void start(Stage stage) {
 
@@ -69,7 +67,7 @@ public class FeatureLayerGeoPackageSample extends Application {
         if (geoPackage.getLoadStatus() == LoadStatus.LOADED) {
           List<GeoPackageFeatureTable> featureTables = geoPackage.getGeoPackageFeatureTables();
           if (featureTables.size() > 0) {
-            featureLayer = new FeatureLayer(featureTables.get(0));
+            FeatureLayer featureLayer = new FeatureLayer(featureTables.get(0));
             map.getOperationalLayers().add(featureLayer);
             // zoom to the layer
             featureLayer.addDoneLoadingListener(() ->

@@ -56,7 +56,6 @@ import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
 
 public class FindServiceAreasForMultipleFacilitiesSample extends Application {
 
-  private FeatureLayer facilitiesFeatureLayer; // keeps loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -104,7 +103,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     // create a feature table of facilities using a FeatureServer
     ArcGISFeatureTable facilitiesTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
     // create a feature layer from the table
-    facilitiesFeatureLayer = new FeatureLayer(facilitiesTable);
+    FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesTable);
 
     // create a symbol used to display the facilities
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("https://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");

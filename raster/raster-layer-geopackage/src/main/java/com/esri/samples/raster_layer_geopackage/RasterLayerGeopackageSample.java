@@ -35,9 +35,7 @@ import com.esri.arcgisruntime.raster.GeoPackageRaster;
 public class RasterLayerGeopackageSample extends Application {
 
   private MapView mapView;
-  // keeps loadables in scope to avoid garbage collection
-  private RasterLayer rasterLayer;
-  private GeoPackage geoPackage;
+  private GeoPackage geoPackage; // keeps loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -70,7 +68,7 @@ public class RasterLayerGeopackageSample extends Application {
           GeoPackageRaster raster = geoPackage.getGeoPackageRasters().get(0);
 
           // create a raster layer and add it to the map
-          rasterLayer = new RasterLayer(raster);
+          RasterLayer rasterLayer = new RasterLayer(raster);
           rasterLayer.setOpacity(0.7f);
           map.getOperationalLayers().add(rasterLayer);
 

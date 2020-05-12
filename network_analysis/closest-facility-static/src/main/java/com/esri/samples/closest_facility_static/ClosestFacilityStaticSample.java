@@ -58,13 +58,9 @@ import com.esri.arcgisruntime.tasks.networkanalysis.Facility;
 import com.esri.arcgisruntime.tasks.networkanalysis.Incident;
 
 public class ClosestFacilityStaticSample extends Application {
-  
-  private MapView mapView;
 
-  // keeps loadables in scope to avoid garbage collection
-  private ClosestFacilityTask closestFacilityTask;
-  private FeatureLayer facilitiesFeatureLayer;
-  private FeatureLayer incidentsFeatureLayer;
+  private ClosestFacilityTask closestFacilityTask; // keeps loadables in scope to avoid garbage collection
+  private MapView mapView;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -114,13 +110,13 @@ public class ClosestFacilityStaticSample extends Application {
       // create a table for facilities using the feature service
       FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
       // create a feature layer from the table, apply facilities icon
-      facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
+      FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesFeatureTable);
       facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
       // create a table for incidents using the feature service
       FeatureTable incidentsFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Incidents/FeatureServer/0");
       // create a feature layer from the table, apply incident icon
-      incidentsFeatureLayer = new FeatureLayer(incidentsFeatureTable);
+      FeatureLayer incidentsFeatureLayer = new FeatureLayer(incidentsFeatureTable);
       incidentsFeatureLayer.setRenderer(new SimpleRenderer(incidentSymbol));
 
       // add the layers to the map

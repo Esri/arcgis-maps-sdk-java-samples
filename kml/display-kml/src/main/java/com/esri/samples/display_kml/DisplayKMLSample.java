@@ -41,7 +41,6 @@ import com.esri.arcgisruntime.portal.PortalItem;
 
 public class DisplayKMLSample extends Application {
 
-  private KmlLayer kmlLayer; // keeps loadable in scope to avoid garbage collection
   private MapView mapView;
   
   @Override
@@ -86,7 +85,7 @@ public class DisplayKMLSample extends Application {
         // create a KML layer based on the source type
         KmlDatasourceType kmlSourceType = kmlSourceComboBox.getSelectionModel().getSelectedItem();
         try {
-          kmlLayer = null;
+          KmlLayer kmlLayer = null;
           switch (kmlSourceType) {
             case URL:
               KmlDataset urlKmlDataset = new KmlDataset("https://www.wpc.ncep.noaa.gov/kml/noaa_chart/WPC_Day1_SigWx.kml");
