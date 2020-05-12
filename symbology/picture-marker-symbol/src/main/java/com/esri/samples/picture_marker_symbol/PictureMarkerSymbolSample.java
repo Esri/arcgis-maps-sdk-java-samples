@@ -21,7 +21,6 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -106,7 +105,7 @@ public class PictureMarkerSymbolSample extends Application {
       // place campsite picture marker symbol on ArcGISMap
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
-          Platform.runLater(() -> placePictureMarkerSymbol(campsiteSymbol, rightPoint));
+          placePictureMarkerSymbol(campsiteSymbol, rightPoint);
         } else {
           Alert alert = new Alert(Alert.AlertType.ERROR, "Map Failed to Load!");
           alert.show();
