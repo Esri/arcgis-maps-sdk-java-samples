@@ -62,7 +62,7 @@ public class ViewshedGeoprocessingSample extends Application {
 
   private MapView mapView;
   private GeoprocessingJob geoprocessingJob;
-  // keeps loadables in scope to avoid garbage collection
+  // keep loadables in scope to avoid garbage collection
   private GeoprocessingTask geoprocessingTask;
   private FeatureCollectionTable featureCollectionTable;
 

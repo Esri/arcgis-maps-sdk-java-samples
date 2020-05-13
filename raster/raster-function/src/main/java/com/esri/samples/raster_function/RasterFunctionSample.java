@@ -38,7 +38,7 @@ import com.esri.arcgisruntime.raster.RasterFunctionArguments;
 
 public class RasterFunctionSample extends Application {
 
-  private ImageServiceRaster imageServiceRaster; // keeps loadables in scope to avoid garbage collection
+  private ImageServiceRaster imageServiceRaster; // keep loadables in scope to avoid garbage collection
   private MapView mapView;
 
   @Override

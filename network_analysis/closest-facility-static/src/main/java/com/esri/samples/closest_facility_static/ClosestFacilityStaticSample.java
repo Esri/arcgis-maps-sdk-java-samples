@@ -59,7 +59,7 @@ import com.esri.arcgisruntime.tasks.networkanalysis.Incident;
 
 public class ClosestFacilityStaticSample extends Application {
 
-  private ClosestFacilityTask closestFacilityTask; // keeps loadables in scope to avoid garbage collection
+  private ClosestFacilityTask closestFacilityTask; // keep loadables in scope to avoid garbage collection
   private MapView mapView;
 
   @Override

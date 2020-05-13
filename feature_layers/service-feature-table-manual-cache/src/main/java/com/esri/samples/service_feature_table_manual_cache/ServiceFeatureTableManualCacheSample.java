@@ -52,7 +52,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class ServiceFeatureTableManualCacheSample extends Application {
 
   private MapView mapView;
-  private FeatureLayer featureLayer; // keeps loadable in scope to avoid garbage collection
+  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
   private Label featuresReturnLabel;
   private ServiceFeatureTable featureTable;
   private ListenableFuture<FeatureQueryResult> tableResult;

@@ -53,7 +53,7 @@ import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
 public class GenerateGeodatabaseSample extends Application {
 
   private MapView mapView;
-  // keeps loadables in scope to avoid garbage collection
+  // keep loadables in scope to avoid garbage collection
   private GeodatabaseSyncTask syncTask;
   private Geodatabase geodatabase;
   

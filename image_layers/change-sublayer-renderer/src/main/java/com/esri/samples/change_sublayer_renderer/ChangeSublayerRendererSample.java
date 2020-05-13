@@ -42,8 +42,8 @@ import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 public class ChangeSublayerRendererSample extends Application {
-  
-  private ArcGISMapImageLayer imageLayer; // keeps loadable in scope to avoid garbage collection
+
+  private ArcGISMapImageLayer imageLayer; // keep loadable in scope to avoid garbage collection
   private ArcGISMapImageSublayer countiesSublayer;
   private MapView mapView;
 

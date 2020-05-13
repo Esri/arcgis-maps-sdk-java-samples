@@ -59,7 +59,7 @@ import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesTask;
 public class ExportVectorTilesSample extends Application {
 
   private MapView mapView;
-  private PortalItem portalItem; // keeps loadable in scope to avoid garbage collection
+  private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {

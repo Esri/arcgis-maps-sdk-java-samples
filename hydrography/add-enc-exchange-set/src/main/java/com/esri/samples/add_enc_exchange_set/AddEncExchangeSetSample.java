@@ -44,7 +44,7 @@ public class AddEncExchangeSetSample extends Application {
 
   private MapView mapView;
   private Envelope completeExtent;
-  // keeps loadables in scope to avoid garbage collection
+  // keep loadables in scope to avoid garbage collection
   private EncExchangeSet encExchangeSet; 
   private EncLayer encLayer;
 

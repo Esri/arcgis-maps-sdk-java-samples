@@ -56,7 +56,7 @@ public class MapImageLayerTablesSample extends Application {
   private GraphicsOverlay graphicsOverlay;
   private ServiceFeatureTable commentsTable;
   private ListView<Feature> commentsListView;
-  private ArcGISFeature relatedFeature; // keeps loadable in scope to avoid garbage collection
+  private ArcGISFeature relatedFeature; // keep loadable in scope to avoid garbage collection
   
   /**
    * Starting point of this application.

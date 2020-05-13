@@ -35,7 +35,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class ServiceFeatureTableCacheSample extends Application {
 
   private MapView mapView;
-  private ServiceFeatureTable serviceFeatureTable; // keeps loadable in scope to avoid garbage collection
+  private ServiceFeatureTable serviceFeatureTable; // keep loadable in scope to avoid garbage collection
 
   private static final String FEATURE_SERVICE_URL =
       "https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/US_Bridges/FeatureServer/0";

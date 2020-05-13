@@ -31,7 +31,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class OpenMobileScenePackageSample extends Application {
 
   private SceneView sceneView;
-  private MobileScenePackage mobileScenePackage; // keeps loadable in scope to avoid garbage collection
+  private MobileScenePackage mobileScenePackage; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {

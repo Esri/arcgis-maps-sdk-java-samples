@@ -38,7 +38,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class StyleWmsLayerSample extends Application {
 
   private MapView mapView;
-  private WmsLayer wmsLayer; // keeps loadable in scope to avoid garbage collection
+  private WmsLayer wmsLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {

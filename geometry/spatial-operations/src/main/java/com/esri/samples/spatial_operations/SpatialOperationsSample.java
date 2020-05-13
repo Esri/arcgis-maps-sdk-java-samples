@@ -45,7 +45,7 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 public class SpatialOperationsSample extends Application {
 
-  private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
   private GraphicsOverlay resultGeomOverlay;
   private Graphic polygon1;

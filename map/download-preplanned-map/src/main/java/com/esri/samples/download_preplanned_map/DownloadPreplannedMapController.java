@@ -60,7 +60,7 @@ public class DownloadPreplannedMapController {
   private ArcGISMap onlineMap;
   private GraphicsOverlay areasOfInterestGraphicsOverlay;
   private OfflineMapTask offlineMapTask;
-  private List<PreplannedMapArea> preplannedMapAreas; // keeps loadable in scope to avoid garbage collection
+  private List<PreplannedMapArea> preplannedMapAreas; // keep loadable in scope to avoid garbage collection
 
   @FXML
   private void initialize() {

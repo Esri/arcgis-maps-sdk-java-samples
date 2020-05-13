@@ -49,7 +49,7 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class ListTransformationsBySuitabilitySample extends Application {
 
-  private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override

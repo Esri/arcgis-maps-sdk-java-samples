@@ -53,7 +53,7 @@ public class LocalServerGeoprocessingController {
   @FXML private ProgressBar progressBar;
   @FXML private MapView mapView;
 
-  private ArcGISTiledLayer tiledLayer; // keeps loadable in scope to avoid garbage collection
+  private ArcGISTiledLayer tiledLayer; // keep loadable in scope to avoid garbage collection
   private GeoprocessingTask gpTask;
   private LocalGeoprocessingService localGPService;
 

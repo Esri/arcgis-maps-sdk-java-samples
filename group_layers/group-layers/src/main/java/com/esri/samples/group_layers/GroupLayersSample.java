@@ -44,7 +44,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class GroupLayersSample extends Application {
 
   private SceneView sceneView;
-  // keeps loadables in scope to avoid garbage collection
+  // keep loadables in scope to avoid garbage collection
   private ArcGISScene scene;
   private GroupLayer groupLayer;
 

@@ -45,7 +45,7 @@ public class PictureMarkerSymbolSample extends Application {
   private File orangeSymbolPath;
   private GraphicsOverlay graphicsOverlay;
 
-  // keeps loadables in scope to avoid garbage collection
+  // keep loadables in scope to avoid garbage collection
   private ArcGISMap map;
   private PictureMarkerSymbol campsiteSymbol;
   private PictureMarkerSymbol blueSymbol;

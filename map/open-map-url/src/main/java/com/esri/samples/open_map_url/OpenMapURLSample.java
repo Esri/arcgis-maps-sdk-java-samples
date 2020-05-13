@@ -38,7 +38,7 @@ import com.esri.arcgisruntime.portal.PortalItem;
 public class OpenMapURLSample extends Application {
 
   private MapView mapView;
-  private List<ArcGISMap> webMaps; // keeps loadable in scope to avoid garbage collection
+  private List<ArcGISMap> webMaps; // keep loadable in scope to avoid garbage collection
 
   private static final String[] portalItemIDs = new String[] {
       "01f052c8995e4b9e889d73c3e210ebe3", "0edea1c7bbb84ba5842d20483af11679"

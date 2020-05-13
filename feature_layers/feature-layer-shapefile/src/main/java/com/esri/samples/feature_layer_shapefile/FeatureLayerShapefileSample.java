@@ -34,7 +34,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class FeatureLayerShapefileSample extends Application {
 
   private MapView mapView;
-  private FeatureLayer featureLayer; // keeps loadable in scope to avoid garbage collection
+  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {

@@ -46,7 +46,7 @@ public class IntegratedWindowsAuthenticationController {
   @FXML private ProgressIndicator progressIndicator;
   @FXML private Text loadWebMapTextView;
 
-  private Portal iwaSecuredPortal; // keeps loadable in scope to avoid garbage collection
+  private Portal iwaSecuredPortal; // keep loadable in scope to avoid garbage collection
 
   public void initialize() {
     try {

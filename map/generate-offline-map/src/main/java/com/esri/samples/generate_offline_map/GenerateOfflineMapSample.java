@@ -51,7 +51,7 @@ import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 
 public class GenerateOfflineMapSample extends Application {
 
-  private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override

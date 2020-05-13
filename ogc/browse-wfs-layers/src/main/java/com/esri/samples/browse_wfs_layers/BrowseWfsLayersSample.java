@@ -51,7 +51,7 @@ public class BrowseWfsLayersSample extends Application {
   private ArcGISMap map;
   private ProgressIndicator progressIndicator;
 
-  // keeps loadables in scope to avoid garbage collection
+  // keep loadables in scope to avoid garbage collection
   private WfsService wfsService;
   private WfsFeatureTable wfsFeatureTable;
 

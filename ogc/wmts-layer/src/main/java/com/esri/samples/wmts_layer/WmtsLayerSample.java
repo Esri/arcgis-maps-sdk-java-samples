@@ -35,7 +35,7 @@ import com.esri.arcgisruntime.ogc.wmts.WmtsServiceInfo;
 public class WmtsLayerSample extends Application {
 
   private MapView mapView;
-  private WmtsService wmtsService;  // keeps loadable in scope to avoid garbage collection
+  private WmtsService wmtsService;  // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {

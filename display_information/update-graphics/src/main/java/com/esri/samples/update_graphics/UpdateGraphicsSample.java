@@ -56,7 +56,7 @@ public class UpdateGraphicsSample extends Application {
   private boolean isUpdateLocationActive;
   private List<SimpleMarkerSymbol> markers;
 
-  private ArcGISMap map; // keeps loadable in scope to avoid garbage collection
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
   private Graphic selectedGraphic;
   private GraphicsOverlay graphicsOverlay;

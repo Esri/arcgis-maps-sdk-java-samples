@@ -78,7 +78,7 @@ public class EditAndSyncFeaturesController {
   private ViewpointChangedListener viewpointChangedListener;
   private Feature selectedFeature;
   
-  private ServiceFeatureTable onlineFeatureTable; // keeps loadable in scope to avoid garbage collection
+  private ServiceFeatureTable onlineFeatureTable; // keep loadable in scope to avoid garbage collection
 
   @FXML
   private void initialize() {

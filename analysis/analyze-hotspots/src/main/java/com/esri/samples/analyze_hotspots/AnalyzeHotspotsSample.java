@@ -57,7 +57,7 @@ public class AnalyzeHotspotsSample extends Application {
 
   private MapView mapView;
   private GeoprocessingJob geoprocessingJob;
-  private GeoprocessingTask geoprocessingTask; // keeps loadable in scope to avoid garbage collection
+  private GeoprocessingTask geoprocessingTask; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {

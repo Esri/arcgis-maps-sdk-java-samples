@@ -36,7 +36,7 @@ import java.io.File;
 public class FeatureLayerDictionaryRendererSample extends Application {
 
   private MapView mapView;
-  // keeps loadables in scope to avoid garbage collection
+  // keep loadables in scope to avoid garbage collection
   private Geodatabase geodatabase;
   private FeatureLayer featureLayer;
 

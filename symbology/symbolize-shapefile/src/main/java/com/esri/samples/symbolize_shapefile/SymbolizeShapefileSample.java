@@ -40,7 +40,7 @@ import com.esri.arcgisruntime.symbology.SimpleRenderer;
 public class SymbolizeShapefileSample extends Application {
 
   private MapView mapView;
-  private FeatureLayer featureLayer; // keeps loadable in scope to avoid garbage collection
+  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {

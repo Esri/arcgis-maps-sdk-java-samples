@@ -36,7 +36,7 @@ public class ServiceFeatureTableNoCacheSample extends Application {
 
   private FeatureLayer featureLayer;
   private MapView mapView;
-  private ServiceFeatureTable serviceFeatureTable; // keeps loadable in scope to avoid garbage collection
+  private ServiceFeatureTable serviceFeatureTable; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {

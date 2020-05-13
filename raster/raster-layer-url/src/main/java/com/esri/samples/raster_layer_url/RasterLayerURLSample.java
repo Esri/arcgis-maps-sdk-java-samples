@@ -34,7 +34,7 @@ import com.esri.arcgisruntime.raster.ImageServiceRaster;
 public class RasterLayerURLSample extends Application {
 
   private MapView mapView;
-  private RasterLayer rasterLayer; // keeps loadable in scope to avoid garbage collection
+  private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {

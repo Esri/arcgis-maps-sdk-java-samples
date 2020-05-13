@@ -44,7 +44,7 @@ public class LocalServerMapImageLayerSample extends Application {
 
   private static final int APPLICATION_WIDTH = 800;
 
-  private ArcGISMapImageLayer imageLayer; // keeps loadable in scope to avoid garbage collection
+  private ArcGISMapImageLayer imageLayer; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
   private LocalMapService mapImageService;
   private ProgressIndicator imageLayerProgress;

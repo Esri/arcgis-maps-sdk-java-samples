@@ -42,7 +42,7 @@ import com.esri.arcgisruntime.portal.PortalItem;
 public class DisplayKMLSample extends Application {
 
   private MapView mapView;
-  
+
   @Override
   public void start(Stage stage) {
 

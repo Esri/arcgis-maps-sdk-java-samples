@@ -42,9 +42,9 @@ import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class IdentifyLayersSample extends Application {
-  
+
   private MapView mapView;
-  // keeps loadables in scope to avoid garbage collection
+  // keep loadables in scope to avoid garbage collection
   private ArcGISMapImageLayer mapImageLayer; 
   private FeatureLayer featureLayer;
 

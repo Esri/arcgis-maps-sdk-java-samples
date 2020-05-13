@@ -13,7 +13,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class ViewContentBeneathTerrainSurfaceSample extends Application {
 
   private SceneView sceneView;
-  private ArcGISScene scene; // keeps loadable in scope to avoid garbage collection
+  private ArcGISScene scene; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) throws Exception {

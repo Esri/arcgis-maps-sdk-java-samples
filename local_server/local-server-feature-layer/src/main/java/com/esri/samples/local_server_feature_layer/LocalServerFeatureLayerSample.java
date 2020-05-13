@@ -44,7 +44,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class LocalServerFeatureLayerSample extends Application {
 
   private ArcGISMap map;
-  private FeatureLayer featureLayer; // keeps loadable in scope to avoid garbage collection
+  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
   private LocalFeatureService featureService;
   private MapView mapView;
   private ProgressIndicator featureLayerProgress;
