@@ -77,7 +77,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       // create a map view
       mapView = new MapView();
 
-      // create a ArcGISMap with the a BasemapType Topographic and set it to the map view
+      // create an ArcGISMap with the topographic basemap and set it to the map view
       ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 48.354406, -99.998267, 2);
       mapView.setMap(map);
 

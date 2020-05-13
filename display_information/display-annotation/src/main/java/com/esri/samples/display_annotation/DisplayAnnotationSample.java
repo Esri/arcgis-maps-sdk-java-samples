@@ -33,6 +33,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class DisplayAnnotationSample extends Application {
 
     private MapView mapView;
+// keeps loadables in scope to avoid garbage collection
     private FeatureLayer riverFeatureLayer;
     private AnnotationLayer annotationLayer;
 
