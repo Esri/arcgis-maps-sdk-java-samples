@@ -62,6 +62,7 @@ public class EditFeatureAttachmentsSample extends Application {
   private Button deleteAttachmentButton;
 
   private MapView mapView;
+  // keeps loadables in scope to avoid garbage collection
   private FeatureLayer featureLayer;
   private ServiceFeatureTable featureTable;
 
