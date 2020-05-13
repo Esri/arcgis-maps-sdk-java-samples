@@ -39,8 +39,8 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class MapImageLayerSublayerVisibilitySample extends Application {
 
+  private ArcGISMapImageLayer imageLayer;  // keeps loadables in scope to avoid garbage collection
   private MapView mapView;
-  private ArcGISMapImageLayer imageLayer;
 
   @Override
   public void start(Stage stage) {
