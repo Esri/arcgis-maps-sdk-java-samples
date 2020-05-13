@@ -41,7 +41,7 @@ import com.esri.arcgisruntime.symbology.TextSymbol;
 public class ShowLabelsOnLayerSample extends Application {
 
   private MapView mapView;
-  private FeatureLayer featureLayer;
+  private FeatureLayer featureLayer; // keeps loadables in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
