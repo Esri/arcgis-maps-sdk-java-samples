@@ -16,6 +16,10 @@
 
 package com.esri.samples.buffer_list;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -33,9 +37,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -60,7 +61,7 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 public class BufferListSample extends Application {
 
   private MapView mapView;
-  private ArcGISMapImageLayer mapImageLayer;
+  private ArcGISMapImageLayer mapImageLayer; // keeps loadables in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
