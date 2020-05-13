@@ -54,7 +54,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class UpdateAttributesSample extends Application {
 
   private ArcGISFeature selected;
-  private FeatureLayer featureLayer;   // keeps loadables in scope to avoid garbage collection
+  private FeatureLayer featureLayer;  // keeps loadables in scope to avoid garbage collection
   private MapView mapView;
 
   private ComboBox<String> comboBox;
