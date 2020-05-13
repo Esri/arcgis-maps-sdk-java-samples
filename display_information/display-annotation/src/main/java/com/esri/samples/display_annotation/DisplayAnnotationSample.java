@@ -33,9 +33,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class DisplayAnnotationSample extends Application {
 
     private MapView mapView;
-// keeps loadables in scope to avoid garbage collection
-    private FeatureLayer riverFeatureLayer;
-    private AnnotationLayer annotationLayer;
 
     @Override
     public void start(Stage stage) {
@@ -59,13 +56,13 @@ public class DisplayAnnotationSample extends Application {
             mapView.setMap(map);
 
             // create a feature layer from a feature service
-            riverFeatureLayer = new FeatureLayer(new ServiceFeatureTable("https://services1.arcgis.com/6677msI40mnLuuLr/arcgis/rest/services/East_Lothian_Rivers/FeatureServer/0"));
+            FeatureLayer riverFeatureLayer = new FeatureLayer(new ServiceFeatureTable("https://services1.arcgis.com/6677msI40mnLuuLr/arcgis/rest/services/East_Lothian_Rivers/FeatureServer/0"));
 
             // add the feature layer to the map
             map.getOperationalLayers().add(riverFeatureLayer);
 
             // create an annotation layer from a feature service
-            annotationLayer = new AnnotationLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/RiversAnnotation/FeatureServer/0");
+            AnnotationLayer annotationLayer = new AnnotationLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/RiversAnnotation/FeatureServer/0");
 
             // add the annotation layer to the map
             map.getOperationalLayers().add(annotationLayer);

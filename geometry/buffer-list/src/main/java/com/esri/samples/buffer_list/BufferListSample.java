@@ -61,7 +61,6 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 public class BufferListSample extends Application {
 
   private MapView mapView;
-  private ArcGISMapImageLayer mapImageLayer; // keeps loadables in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -100,7 +99,7 @@ public class BufferListSample extends Application {
       map.setInitialViewpoint(new Viewpoint(boundaryPolygon.getExtent()));
 
       // create an image layer from a service URL (counties, cities, and highways)
-      mapImageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
+      ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
       // add the image layer to the map's base layers
       map.getBasemap().getBaseLayers().add(mapImageLayer);
 

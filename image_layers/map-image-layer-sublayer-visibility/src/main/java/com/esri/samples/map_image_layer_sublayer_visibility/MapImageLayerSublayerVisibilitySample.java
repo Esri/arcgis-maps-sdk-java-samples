@@ -39,7 +39,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class MapImageLayerSublayerVisibilitySample extends Application {
 
-  private ArcGISMapImageLayer imageLayer;  // keeps loadables in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -82,7 +81,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       mapView.setMap(map);
 
       // create a Image Layer with dynamically generated ArcGISMap images
-      imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer");
+      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer");
 
       // add world cities layers as ArcGISMap operational layer
       map.getOperationalLayers().add(imageLayer);

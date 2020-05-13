@@ -41,7 +41,6 @@ import com.esri.arcgisruntime.symbology.TextSymbol;
 public class ShowLabelsOnLayerSample extends Application {
 
   private MapView mapView;
-  private FeatureLayer featureLayer; // keeps loadables in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -69,7 +68,7 @@ public class ShowLabelsOnLayerSample extends Application {
       // create a feature layer from an online feature service of US Congressional Districts
       String serviceUrl = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_116th_Congressional_Districts/FeatureServer/0";
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceUrl);
-      featureLayer = new FeatureLayer(serviceFeatureTable);
+      FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
       // add the feature layer to the map
       map.getOperationalLayers().add(featureLayer);

@@ -16,6 +16,7 @@
 
 package com.esri.samples.edit_feature_attachments;
 
+import org.apache.commons.io.IOUtils;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -29,7 +30,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -38,8 +38,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-
-import org.apache.commons.io.IOUtils;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
@@ -58,16 +56,11 @@ public class EditFeatureAttachmentsSample extends Application {
 
   private ListView<String> attachmentList;
   private Label attachmentsLabel;
-  private Button addAttachmentButton;
-  private Button deleteAttachmentButton;
-
-  private MapView mapView;
-  // keeps loadables in scope to avoid garbage collection
-  private FeatureLayer featureLayer;
-  private ServiceFeatureTable featureTable;
 
   private ArcGISFeature selected;
   private List<Attachment> attachments;
+  private ServiceFeatureTable featureTable;
+  private MapView mapView;
 
   @Override
   public void start(Stage stage) {
@@ -88,25 +81,25 @@ public class EditFeatureAttachmentsSample extends Application {
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-          Insets.EMPTY)));
+              Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 250);
       controlsVBox.getStyleClass().add("panel-region");
+
+      // create add/delete buttons
+      Button addAttachmentButton = new Button("Add Attachment");
+      addAttachmentButton.setMaxWidth(Double.MAX_VALUE);
+      addAttachmentButton.setDisable(true);
+
+      Button deleteAttachmentButton = new Button("Delete Attachment");
+      deleteAttachmentButton.setMaxWidth(Double.MAX_VALUE);
+      deleteAttachmentButton.setDisable(true);
 
       // create a list to show selected feature's attachments
       attachmentList = new ListView<>();
       attachmentsLabel = new Label("Attachments: ");
       attachmentsLabel.getStyleClass().add("panel-label");
-      attachmentList.getSelectionModel().selectedItemProperty().addListener((event) -> deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1));
-
-      // create add/delete buttons
-      addAttachmentButton = new Button("Add Attachment");
-      addAttachmentButton.setMaxWidth(Double.MAX_VALUE);
-      addAttachmentButton.setDisable(true);
-
-      deleteAttachmentButton = new Button("Delete Attachment");
-      deleteAttachmentButton.setMaxWidth(Double.MAX_VALUE);
-      deleteAttachmentButton.setDisable(true);
+      attachmentList.getSelectionModel().selectedItemProperty().addListener(event -> deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1));
 
       // get image attachment
       byte[] image = IOUtils.toByteArray(getClass().getResourceAsStream("/destroyed.png"));
@@ -134,13 +127,13 @@ public class EditFeatureAttachmentsSample extends Application {
       featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
 
       // create a feature layer from service feature table
-      featureLayer = new FeatureLayer(featureTable);
+      FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
       // add the feature layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);
 
       // this event gets triggered asynchronously when the feature layer that has been added to the map is loaded
-      featureLayer.addDoneLoadingListener(()->{
+      featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
           displayMessage("Error", "Error loading feature layer");
         }
@@ -223,14 +216,14 @@ public class EditFeatureAttachmentsSample extends Application {
 
   /**
    * Adds an attachment to a Feature.
-   * 
+   *
    * @param attachment byte array of attachment
    */
   private void addAttachment(byte[] attachment) {
 
     if (selected.canEditAttachments()) {
       ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(attachment, "image/png",
-          "destroyed.png");
+              "destroyed.png");
       addResult.addDoneListener(() -> {
         // update feature table
         ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);
@@ -293,7 +286,7 @@ public class EditFeatureAttachmentsSample extends Application {
   /**
    * Shows a message in an alert dialog.
    *
-   * @param title title of alert
+   * @param title   title of alert
    * @param message message to display
    */
   private void displayMessage(String title, String message) {
@@ -321,7 +314,7 @@ public class EditFeatureAttachmentsSample extends Application {
 
   /**
    * Opens and runs application.
-   * 
+   *
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {

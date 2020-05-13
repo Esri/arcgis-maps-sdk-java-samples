@@ -16,6 +16,8 @@
 
 package com.esri.samples.raster_rendering_rule;
 
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -32,7 +34,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import java.util.List;
 
 import com.esri.arcgisruntime.arcgisservices.RenderingRuleInfo;
 import com.esri.arcgisruntime.layers.RasterLayer;
@@ -45,10 +46,7 @@ import com.esri.arcgisruntime.raster.RenderingRule;
 
 public class RasterRenderingRuleSample extends Application {
 
-  private ComboBox<RenderingRuleInfo> renderingRuleInfoComboBox;
   private MapView mapView;
-  private RasterLayer imageRasterLayer;
-  private ImageServiceRaster imageServiceRaster;
 
   @Override
   public void start(Stage stage) {
@@ -78,7 +76,7 @@ public class RasterRenderingRuleSample extends Application {
       progressIndicator.setVisible(false);
 
       // create drop down menu of Rendering Rules
-      renderingRuleInfoComboBox = new ComboBox<>();
+      ComboBox<RenderingRuleInfo> renderingRuleInfoComboBox = new ComboBox<>();
       renderingRuleInfoComboBox.setMaxWidth(260.0);
       renderingRuleInfoComboBox.setConverter(new StringConverter<>() {
         @Override
@@ -109,8 +107,8 @@ public class RasterRenderingRuleSample extends Application {
 
       // create an Image Service Raster as a raster layer and add to map
       final String ImageServiceRasterUri = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
-      imageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
-      imageRasterLayer = new RasterLayer(imageServiceRaster);
+      ImageServiceRaster imageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
+      RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
       map.getOperationalLayers().add(imageRasterLayer);
 
       // add event listener to loading of Image Service Raster and wait until loaded
