@@ -49,6 +49,7 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class ListTransformationsBySuitabilitySample extends Application {
 
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -68,7 +69,7 @@ public class ListTransformationsBySuitabilitySample extends Application {
       stage.show();
 
       // create a map with light gray canvas basemap and add it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
+      map = new ArcGISMap(Basemap.createLightGrayCanvas());
       mapView = new MapView();
       mapView.setMap(map);
 

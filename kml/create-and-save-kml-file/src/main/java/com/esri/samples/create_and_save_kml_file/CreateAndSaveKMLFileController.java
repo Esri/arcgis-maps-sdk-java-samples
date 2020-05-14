@@ -49,6 +49,7 @@ public class CreateAndSaveKMLFileController {
   @FXML private ComboBox<SketchCreationMode> sketchCreationModeComboBox;
   @FXML private MapView mapView;
 
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private KmlDocument kmlDocument;
   private SketchEditor sketchEditor;
   private FileChooser fileChooser;
@@ -57,7 +58,7 @@ public class CreateAndSaveKMLFileController {
   public void initialize() {
 
     // create a map and add it to the map view
-    ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
+    map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
     mapView.setMap(map);
 
     // create a sketch editor and add it to the map view

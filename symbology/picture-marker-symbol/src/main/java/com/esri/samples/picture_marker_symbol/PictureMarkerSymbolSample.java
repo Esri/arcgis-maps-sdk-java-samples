@@ -21,7 +21,6 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -46,6 +45,12 @@ public class PictureMarkerSymbolSample extends Application {
   private File orangeSymbolPath;
   private GraphicsOverlay graphicsOverlay;
 
+  // keep loadables in scope to avoid garbage collection
+  private ArcGISMap map;
+  private PictureMarkerSymbol campsiteSymbol;
+  private PictureMarkerSymbol blueSymbol;
+  private PictureMarkerSymbol orangeSymbol;
+
   private static final String CAMPSITE_SYMBOL =
       "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae";
 
@@ -65,7 +70,7 @@ public class PictureMarkerSymbolSample extends Application {
       stage.show();
 
       // create a ArcGISMap with the topographic basemap
-      final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      map = new ArcGISMap(Basemap.createTopographic());
 
       // create view for this map
       mapView = new MapView();
@@ -83,24 +88,24 @@ public class PictureMarkerSymbolSample extends Application {
       // create orange picture marker symbol from disk
       if (saveResourceToExternalStorage()) {
         // create orange picture marker symbol
-        PictureMarkerSymbol orangeSymbol = new PictureMarkerSymbol(orangeSymbolPath.getAbsolutePath());
+        orangeSymbol = new PictureMarkerSymbol(orangeSymbolPath.getAbsolutePath());
         // place orange picture marker symbol on ArcGISMap
         placePictureMarkerSymbol(orangeSymbol, leftPoint);
       }
 
       // create blue picture marker symbol from local
       Image newImage = new Image("/blue_symbol.png");
-      PictureMarkerSymbol blueSymbol = new PictureMarkerSymbol(newImage);
+      blueSymbol = new PictureMarkerSymbol(newImage);
       // place blue picture marker symbol on ArcGISMap
       placePictureMarkerSymbol(blueSymbol, middlePoint);
 
       // create campsite picture marker symbol from URL
-      PictureMarkerSymbol campsiteSymbol = new PictureMarkerSymbol(CAMPSITE_SYMBOL);
+      campsiteSymbol = new PictureMarkerSymbol(CAMPSITE_SYMBOL);
 
       // place campsite picture marker symbol on ArcGISMap
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
-          Platform.runLater(() -> placePictureMarkerSymbol(campsiteSymbol, rightPoint));
+          placePictureMarkerSymbol(campsiteSymbol, rightPoint);
         } else {
           Alert alert = new Alert(Alert.AlertType.ERROR, "Map Failed to Load!");
           alert.show();

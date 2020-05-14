@@ -48,8 +48,8 @@ import com.esri.arcgisruntime.ogc.kml.KmlTourStatus;
 
 public class PlayAKMLTourSample extends Application {
 
-  private SceneView sceneView;
   private KmlTourController kmlTourController;
+  private SceneView sceneView;
 
   @Override
   public void start(Stage stage) throws IOException {

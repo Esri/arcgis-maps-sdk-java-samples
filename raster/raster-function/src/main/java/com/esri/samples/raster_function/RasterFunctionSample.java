@@ -38,6 +38,7 @@ import com.esri.arcgisruntime.raster.RasterFunctionArguments;
 
 public class RasterFunctionSample extends Application {
 
+  private ImageServiceRaster imageServiceRaster; // keep loadables in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -63,7 +64,7 @@ public class RasterFunctionSample extends Application {
       mapView.setMap(map);
 
       // create an image service raster from an online raster service
-      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://sampleserver6.arcgisonline" +
+      imageServiceRaster = new ImageServiceRaster("https://sampleserver6.arcgisonline" +
           ".com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
       imageServiceRaster.loadAsync();
       imageServiceRaster.addDoneLoadingListener(() -> {

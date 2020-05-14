@@ -62,6 +62,9 @@ public class ViewshedGeoprocessingSample extends Application {
 
   private MapView mapView;
   private GeoprocessingJob geoprocessingJob;
+  // keep loadables in scope to avoid garbage collection
+  private GeoprocessingTask geoprocessingTask;
+  private FeatureCollectionTable featureCollectionTable;
 
   @Override
   public void start(Stage stage) {
@@ -103,7 +106,7 @@ public class ViewshedGeoprocessingSample extends Application {
       progress.setMaxWidth(30);
 
       // create the geoprocessing task with the service URL and load it
-      GeoprocessingTask geoprocessingTask = new GeoprocessingTask("https://sampleserver6.arcgisonline" +
+      geoprocessingTask = new GeoprocessingTask("https://sampleserver6.arcgisonline" +
           ".com/arcgis/rest/services/Elevation/ESRI_Elevation_World/GPServer/Viewshed");
       geoprocessingTask.loadAsync();
 
@@ -133,7 +136,7 @@ public class ViewshedGeoprocessingSample extends Application {
                   List<Field> fields = Collections.singletonList(Field.createString("observer", "", 8));
 
                   // create a feature collection table (used as a parameter to the geoprocessing job)
-                  final FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(fields,
+                  featureCollectionTable = new FeatureCollectionTable(fields,
                       GeometryType.POINT, point.getSpatialReference());
                   featureCollectionTable.loadAsync();
 

@@ -34,6 +34,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class FeatureLayerShapefileSample extends Application {
 
   private MapView mapView;
+  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -62,7 +63,7 @@ public class FeatureLayerShapefileSample extends Application {
       ShapefileFeatureTable shapefileFeatureTable = new ShapefileFeatureTable(shapefile.getAbsolutePath());
 
       // use the shapefile feature table to create a feature layer
-      FeatureLayer featureLayer = new FeatureLayer(shapefileFeatureTable);
+      featureLayer = new FeatureLayer(shapefileFeatureTable);
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
           // zoom to the area containing the layer's features
