@@ -1,6 +1,6 @@
 # Identify raster cell
 
-Get the cell value of a local raster at the clicked location and display the result in a callout.
+Get the cell value of a local raster and display the result in a callout.
 
 ![Image of identify raster cell](IdentifyRasterCell.png)
 
@@ -10,14 +10,14 @@ You may want to identify a raster layer to get its exact cell value in the case 
 
 ## How to use the sample
 
-Move the mouse pointer over an area of the raster to identify the raster cell at that location, it and see the cell attributes information displayed in a callout. You can click the prmary mouse button to lock the callout in place, and click again to release the callout and resume identifying on-the-fly.
+Move the mouse pointer over an area of the raster to identify the raster cell at that location. The raster cell attribute information will display in a callout. You can click the primary mouse button to lock the callout in place, and click again to release the callout and resume identifying on-the-fly.
 
 ## How it works
 
 1. Add a listener to the `MapView` to capture mouse clicks.
 2. On click:
   * Dismiss the `Callout`, if one is showing.
-  * Call `identifyLayerAsync(...)` passing in the layer, screen point, tolerance, whether to return popups only, and maximum number of results.
+  * Call `identifyLayerAsync(...)` passing in the raster layer, screen point, tolerance, whether to return popups only, and maximum number of results.
   * Await the result of the identify and then get the `GeoElement` from the layer result.
   * Create a callout at the calculated map point and populate the callout content with text from the `RasterCell` attributes. 
   * Show the callout.

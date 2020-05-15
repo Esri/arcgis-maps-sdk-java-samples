@@ -67,7 +67,7 @@ public class IdentifyRasterCellSample extends Application {
             mapView = new MapView();
 
             // create a Map with an oceans basemap
-            ArcGISMap map = new ArcGISMap(Basemap.Type.OCEANS, -33.9, 18.6, 9);
+            ArcGISMap map = new ArcGISMap(Basemap.createOceans());
 
             // add the map to a map view
             mapView.setMap(map);
@@ -84,7 +84,7 @@ public class IdentifyRasterCellSample extends Application {
             // set viewpoint on the raster
             rasterLayer.addDoneLoadingListener(() -> {
                 if (map.getLoadStatus() == LoadStatus.LOADED) {
-                    mapView.setViewpointGeometryAsync(rasterLayer.getFullExtent(), 150);
+                    mapView.setViewpointGeometryAsync(rasterLayer.getFullExtent(), 50);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Raster Layer Failed to Load!");
                     alert.show();
@@ -158,7 +158,7 @@ public class IdentifyRasterCellSample extends Application {
                 // get the result of the query
                 IdentifyLayerResult identifyLayerResult = identifyLayerResultFuture.get();
 
-                // get the read only list of geo-elements (they contain RasterCell's)
+                // get the read only list of geo-elements (they contain RasterCells)
                 List<GeoElement> geoElements = identifyLayerResult.getElements();
 
                 // create a StringBuilder to display information to the user
