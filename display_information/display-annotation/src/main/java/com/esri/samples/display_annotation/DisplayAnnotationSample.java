@@ -75,7 +75,8 @@ public class DisplayAnnotationSample extends Application {
                 }
             });
 
-            // this event gets triggered asynchronously when the annotation layer that has been added to the map is loaded
+            // add a done loading listener, with a runnable that gets triggered asynchronously when the feature layer has loaded
+            // check for the load status of the layer and if it hasn't loaded, report an error
             annotationLayer.addDoneLoadingListener(()->{
                 if (annotationLayer.getLoadStatus() != LoadStatus.LOADED) {
                     new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer.").show();

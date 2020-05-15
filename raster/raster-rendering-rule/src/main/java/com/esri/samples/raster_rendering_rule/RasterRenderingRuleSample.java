@@ -111,7 +111,8 @@ public class RasterRenderingRuleSample extends Application {
       RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
       map.getOperationalLayers().add(imageRasterLayer);
 
-      // add event listener to loading of Image Service Raster and wait until loaded
+      // add a done loading listener, with a runnable that gets triggered asynchronously when the feature layer has loaded
+      // check for the load status of the layer and proceed with getting its properties. If it hasn't loaded, report an error
       imageRasterLayer.addDoneLoadingListener(() -> {
         if (imageRasterLayer.getLoadStatus() == LoadStatus.LOADED) {
           // zoom to extent of the raster
