@@ -93,6 +93,7 @@ public class IdentifyRasterCellSample extends Application {
 
             // get a handle on the callout
             callout = mapView.getCallout();
+            // make the callout transparent to mouse interactions, so that we keep identifying raster cells behind it
             callout.setMouseTransparent(true);
 
             // start identifying on-the-fly if the mouse enters the map view, and the callout is not locked
