@@ -54,7 +54,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class UpdateAttributesSample extends Application {
 
   private ArcGISFeature selectedFeature;
-  private FeatureLayer featureLayer;  // keeps loadables in scope to avoid garbage collection
+  private ServiceFeatureTable featureTable;
   private MapView mapView;
 
   private ComboBox<String> comboBox;
@@ -122,10 +122,10 @@ public class UpdateAttributesSample extends Application {
       mapView.setMap(map);
 
       // create service feature table from URL
-      ServiceFeatureTable featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+      featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
 
       // create a feature layer from service feature table
-      featureLayer = new FeatureLayer(featureTable);
+      FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
       // add the feature layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);
