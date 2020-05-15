@@ -89,7 +89,8 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       // set the image layer's opacity
       imageLayer.setOpacity(0.7f);
 
-      // this event gets triggered asynchronously when the image layer that has been added to the map is loaded
+      // add a done loading listener, with a runnable that gets triggered asynchronously when the feature layer has loaded
+      // check for the load status of the layer and proceed to get its sublayers. If it hasn't loaded, report an error
       imageLayer.addDoneLoadingListener(() -> {
         if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
 
