@@ -74,7 +74,7 @@ public class FindRouteSample extends Application {
   private static final int BLUE_COLOR = 0xff0000ff;
 
   private static final String ROUTE_TASK_SANDIEGO =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route";
 
   @Override
   public void start(Stage stage) {

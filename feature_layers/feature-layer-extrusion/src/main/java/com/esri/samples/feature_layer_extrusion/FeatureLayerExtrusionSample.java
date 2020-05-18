@@ -66,7 +66,7 @@ public class FeatureLayerExtrusionSample extends Application {
     stackPane.getChildren().add(sceneView);
 
     // get us census data as a service feature table
-    ServiceFeatureTable statesServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3");
+    ServiceFeatureTable statesServiceFeatureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3");
 
     // creates feature layer from table and add to scene
     final FeatureLayer statesFeatureLayer = new FeatureLayer(statesServiceFeatureTable);

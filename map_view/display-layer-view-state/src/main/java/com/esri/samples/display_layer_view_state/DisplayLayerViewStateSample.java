@@ -50,11 +50,11 @@ public class DisplayLayerViewStateSample extends Application {
   private static final int FEATURE_LAYER = 2;
 
   private static final String SERVICE_TIME_ZONES =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
   private static final String SERVICE_CENSUS =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
   private static final String SERVICE_RECREATION =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
