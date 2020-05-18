@@ -119,6 +119,10 @@ public class ViewshedGeoprocessingSample extends Application {
             // check that the primary mouse button was clicked and any previous geoprocessing job has been canceled
             if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY && geoprocessingJob == null) {
 
+              // clear previous user click location and the viewshed geoprocessing task results
+              inputGraphicsOverlay.getGraphics().clear();
+              outputGraphicsOverlay.getGraphics().clear();
+
               // show a graphic in the input graphics overlay at the clicked location
               Point2D point2D = new Point2D(e.getX(), e.getY());
               Point point = mapView.screenToLocation(point2D);
