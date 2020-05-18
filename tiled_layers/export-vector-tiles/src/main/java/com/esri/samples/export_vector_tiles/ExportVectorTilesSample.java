@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -137,25 +138,39 @@ public class ExportVectorTilesSample extends Application {
       // when the button is clicked, export the tiles to a temporary file
       exportTilesButton.setOnAction(e -> {
         try {
+          // disable the button and show the progress bar
+          exportTilesButton.setDisable(true);
+          progressBar.setVisible(true);
+
+          // create a file and define the scale for the job
           File vtpkFile = File.createTempFile("tiles", ".vtpk");
           File resDir = Files.createTempDirectory("StyleItemResources").toFile();
-          progressBar.setVisible(true);
+
           Layer layer = mapView.getMap().getBasemap().getBaseLayers().get(0);
           double maxScale = layer.getMaxScale();
-          ExportVectorTilesTask task = new ExportVectorTilesTask((PortalItem) layer.getItem());
-          ListenableFuture<ExportVectorTilesParameters> createParams = task
+
+          // create a task
+          ExportVectorTilesTask exportVectorTilesTask = new ExportVectorTilesTask((PortalItem) layer.getItem());
+
+          // create parameters for the export vector tiles job
+          ListenableFuture<ExportVectorTilesParameters> exportVectorTilesParametersFuture = exportVectorTilesTask
               .createDefaultExportVectorTilesParametersAsync(downloadArea.getGeometry(), maxScale);
-          createParams.addDoneListener(() -> {
+          exportVectorTilesParametersFuture.addDoneListener(() -> {
             try {
-              ExportVectorTilesParameters params = createParams.get();
-              ExportVectorTilesJob job = task.exportVectorTiles(params, vtpkFile.getAbsolutePath(), resDir
-                  .getAbsolutePath());
-              job.start();
-              job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
-              job.addJobDoneListener(() -> {
-                if (job.getStatus() == Job.Status.SUCCEEDED) {
+              ExportVectorTilesParameters exportVectorTilesParameters = exportVectorTilesParametersFuture.get();
+
+              // create a job with the parameters
+              ExportVectorTilesJob exportVectorTilesJob =
+                      exportVectorTilesTask.exportVectorTiles(exportVectorTilesParameters, vtpkFile.getAbsolutePath(), resDir.getAbsolutePath());
+
+              // start the job and wait for it to finish
+              exportVectorTilesJob.start();
+              exportVectorTilesJob.addProgressChangedListener(() -> progressBar.setProgress(exportVectorTilesJob.getProgress() / 100.0));
+              exportVectorTilesJob.addJobDoneListener(() -> {
+
+                if (exportVectorTilesJob.getStatus() == Job.Status.SUCCEEDED) {
                   // show preview of exported tiles in alert
-                  ExportVectorTilesResult tilesResult = job.getResult();
+                  ExportVectorTilesResult tilesResult = exportVectorTilesJob.getResult();
                   VectorTileCache tileCache = tilesResult.getVectorTileCache();
                   ItemResourceCache resourceCache = tilesResult.getItemResourceCache();
                   Alert preview = new Alert(Alert.AlertType.INFORMATION);
@@ -170,12 +185,18 @@ public class ExportVectorTilesSample extends Application {
                   mapPreview.setMap(previewMap);
                   preview.getDialogPane().setContent(mapPreview);
                   preview.show();
+
                 } else {
-                  Alert alert = new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage());
+                  Alert alert = new Alert(Alert.AlertType.ERROR, exportVectorTilesJob.getError().getAdditionalMessage());
                   alert.show();
                 }
-                Platform.runLater(() -> progressBar.setVisible(false));
+
+                Platform.runLater(() -> {
+                  progressBar.setVisible(false);
+                  exportTilesButton.setDisable(false);
+                });
               });
+
             } catch (InterruptedException | ExecutionException ex) {
               Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
               alert.show();
@@ -183,6 +204,7 @@ public class ExportVectorTilesSample extends Application {
               progressBar.setProgress(0);
             }
           });
+
         } catch (IOException ex) {
           Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to create temporary file");
           alert.show();
@@ -191,8 +213,11 @@ public class ExportVectorTilesSample extends Application {
 
       // add the map view, button, and progress bar to stack pane
       stackPane.getChildren().addAll(mapView, exportTilesButton, progressBar);
-      StackPane.setAlignment(exportTilesButton, Pos.TOP_LEFT);
-      StackPane.setAlignment(progressBar, Pos.TOP_RIGHT);
+      StackPane.setAlignment(exportTilesButton, Pos.BOTTOM_CENTER);
+      StackPane.setMargin(exportTilesButton, new Insets(0, 0, 100, 0));
+      StackPane.setAlignment(progressBar, Pos.BOTTOM_CENTER);
+      StackPane.setMargin(progressBar, new Insets(0, 0, 80, 0));
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
