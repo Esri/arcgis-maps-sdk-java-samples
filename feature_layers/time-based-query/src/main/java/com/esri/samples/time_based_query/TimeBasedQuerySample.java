@@ -38,6 +38,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class TimeBasedQuerySample extends Application {
 
   private MapView mapView;
+  private ServiceFeatureTable serviceFeatureTable; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -61,7 +62,7 @@ public class TimeBasedQuerySample extends Application {
 
       // create a feature table with the URL of the feature service
       String serviceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Hurricanes/MapServer/0";
-      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceURL);
+      serviceFeatureTable = new ServiceFeatureTable(serviceURL);
 
       // define the request mode to manual
       serviceFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);

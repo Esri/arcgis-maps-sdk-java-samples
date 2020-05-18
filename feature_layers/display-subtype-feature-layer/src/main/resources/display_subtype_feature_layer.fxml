@@ -64,4 +64,3 @@
         <Button text="Set sublayer minimum scale"  onAction="#handleMinScaleButtonClicked" wrapText="true" textAlignment="CENTER"/>
     </VBox>
 </StackPane>
-

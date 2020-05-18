@@ -51,6 +51,10 @@ public class BrowseWfsLayersSample extends Application {
   private ArcGISMap map;
   private ProgressIndicator progressIndicator;
 
+  // keep loadables in scope to avoid garbage collection
+  private WfsService wfsService;
+  private WfsFeatureTable wfsFeatureTable;
+
   @Override
   public void start(Stage stage) throws Exception {
 
@@ -80,7 +84,7 @@ public class BrowseWfsLayersSample extends Application {
     mapView.setMap(map);
 
     // create a WFS service with a URL and load it
-    WfsService wfsService = new WfsService("https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities");
+    wfsService = new WfsService("https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities");
     wfsService.loadAsync();
 
     // when the WFS service has loaded, add its layer information to the list view for browsing
@@ -134,7 +138,7 @@ public class BrowseWfsLayersSample extends Application {
     map.getOperationalLayers().clear();
 
     // create a WFSFeatureTable from the WFSLayerInfo
-    WfsFeatureTable wfsFeatureTable = new WfsFeatureTable(wfsLayerInfo);
+    wfsFeatureTable = new WfsFeatureTable(wfsLayerInfo);
 
     // set the feature request mode to manual. The table must be manually populated as panning and zooming won't request features automatically.
     wfsFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);

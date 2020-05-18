@@ -105,7 +105,7 @@ public class ClosestFacilitySample extends Application {
 
       // task to find the closest route between an incident and a facility 
       final String sanDiegoRegion =
-          "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility";
+          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility";
       task = new ClosestFacilityTask(sanDiegoRegion);
       task.addDoneLoadingListener(() -> {
         if (task.getLoadStatus() == LoadStatus.LOADED) {
@@ -165,7 +165,7 @@ public class ClosestFacilitySample extends Application {
         new Facility(new Point(-1.3049023883956768E7, 3861993.789732541, spatialReference)));
 
     // image for displaying facility
-    String facilityUrl = "http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png";
+    String facilityUrl = "https://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png";
     PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol(facilityUrl);
     facilitySymbol.setHeight(30);
     facilitySymbol.setWidth(30);

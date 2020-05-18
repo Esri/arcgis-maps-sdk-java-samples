@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.take_screen_shot;
+package com.esri.samples.take_screenshot;
 
 import java.io.File;
 
@@ -22,10 +22,13 @@ import javax.imageio.ImageIO;
 
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -34,7 +37,7 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-public class TakeScreenShotSample extends Application {
+public class TakeScreenshotSample extends Application {
 
   private MapView mapView;
 
@@ -43,11 +46,11 @@ public class TakeScreenShotSample extends Application {
 
     try {
       // create stack pane and application scene
-      BorderPane borderPane = new BorderPane();
-      Scene scene = new Scene(borderPane);
+      StackPane stackPane = new StackPane();
+      Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Take Screen Shot Sample");
+      stage.setTitle("Take Screenshot Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -65,7 +68,7 @@ public class TakeScreenShotSample extends Application {
 
       // create button to take screen shot
       Button screenShotButton = new Button("Take Screenshot");
-      screenShotButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+      
       screenShotButton.setOnAction(e -> {
         // export image from map view
         ListenableFuture<Image> mapImage = mapView.exportImageAsync();
@@ -86,8 +89,9 @@ public class TakeScreenShotSample extends Application {
       });
 
       // add the map view to stack pane
-      borderPane.setCenter(mapView);
-      borderPane.setBottom(screenShotButton);
+      stackPane.getChildren().addAll(mapView, screenShotButton);
+      StackPane.setAlignment(screenShotButton, Pos.BOTTOM_CENTER);
+      StackPane.setMargin(screenShotButton, new Insets(0, 0, 100, 0));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();

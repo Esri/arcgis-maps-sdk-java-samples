@@ -1,11 +1,11 @@
-package com.esri.samples.take_screen_shot;
+package com.esri.samples.take_screenshot;
 
 /**
 * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
 */
-public class TakeScreenShotLauncher {
+public class TakeScreenshotLauncher {
 
   public static void main(String[] args) {
-    TakeScreenShotSample.main(args); 
+    TakeScreenshotSample.main(args); 
   }
 }

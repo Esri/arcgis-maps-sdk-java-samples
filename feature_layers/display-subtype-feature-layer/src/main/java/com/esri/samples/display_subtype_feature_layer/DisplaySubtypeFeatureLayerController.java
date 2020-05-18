@@ -46,10 +46,10 @@ public class DisplaySubtypeFeatureLayerController {
   @FXML private CheckBox sublayerVisibilityCheckbox;
   @FXML private VBox vBox;
 
-  private SubtypeSublayer sublayer;
   private Renderer originalRenderer;
   private Renderer alternativeRenderer;
-  
+  private SubtypeSublayer sublayer;
+
   public void initialize() {
 
     try {

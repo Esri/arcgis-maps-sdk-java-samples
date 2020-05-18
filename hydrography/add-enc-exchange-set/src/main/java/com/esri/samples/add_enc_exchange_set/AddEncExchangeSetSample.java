@@ -44,6 +44,9 @@ public class AddEncExchangeSetSample extends Application {
 
   private MapView mapView;
   private Envelope completeExtent;
+  // keep loadables in scope to avoid garbage collection
+  private EncExchangeSet encExchangeSet; 
+  private EncLayer encLayer;
 
   @Override
   public void start(Stage stage) {
@@ -86,14 +89,14 @@ public class AddEncExchangeSetSample extends Application {
 
       // load the ENC exchange set from local data
       File encPath = new File(System.getProperty("data.dir"), "./samples-data/enc/ExchangeSetwithoutUpdates/ENC_ROOT/CATALOG.031");
-      EncExchangeSet encExchangeSet = new EncExchangeSet(Collections.singletonList(encPath.getAbsolutePath()));
+      encExchangeSet = new EncExchangeSet(Collections.singletonList(encPath.getAbsolutePath()));
       encExchangeSet.loadAsync();
       encExchangeSet.addDoneLoadingListener(() -> {
         if (encExchangeSet.getLoadStatus() == LoadStatus.LOADED) {
           // loop through the individual datasets of the exchange set
           for (EncDataset encDataset : encExchangeSet.getDatasets()) {
             // create an ENC layer with an ENC cell using the dataset
-            EncLayer encLayer = new EncLayer(new EncCell(encDataset));
+            encLayer = new EncLayer(new EncCell(encDataset));
             // add the ENC layer to the map's operational layers to display it
             map.getOperationalLayers().add(encLayer);
             // combine the extents of each layer after loading to set the viewpoint to their complete extent

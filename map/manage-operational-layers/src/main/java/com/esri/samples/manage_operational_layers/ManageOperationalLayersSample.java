@@ -46,11 +46,11 @@ public class ManageOperationalLayersSample extends Application {
   private LayerList mapAddedLayers;
 
   private static final String ELEVATION_LAYER =
-      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
+      "https://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
   private static final String CENSUS_LAYER =
-      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Census/MapServer";
+      "https://sampleserver5.arcgisonline.com/arcgis/rest/services/Census/MapServer";
   private static final String DAMAGE_LAYER =
-      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer";
+      "https://sampleserver5.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer";
 
   @Override
   public void start(Stage stage) {
