@@ -66,10 +66,7 @@ public class ShowCalloutSample extends Application {
       mapView.setOnMouseClicked(e -> {
 
         // check that the primary mouse button was clicked and user is not panning
-        if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
-
-          // hide any previous callout
-          callout.dismiss();
+        if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
 
           // create a point from where the user clicked
           Point2D point = new Point2D(e.getX(), e.getY());
@@ -83,6 +80,10 @@ public class ShowCalloutSample extends Application {
 
           // show the callout where the user clicked
           callout.showCalloutAt(mapPoint, DURATION);
+
+          // dismiss the callout on secondary click
+        } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
+          callout.dismiss();
         }
       });
 
