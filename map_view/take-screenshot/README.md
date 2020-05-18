@@ -1,4 +1,4 @@
-# Take screenshot
+# Take Screenshot
 
 Take a screenshot of the map.
 

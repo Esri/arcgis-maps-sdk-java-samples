@@ -46,7 +46,7 @@ public class WebmapKeywordSearchController {
   @FXML
   private void initialize() {
     // load a portal for arcgis.com
-    portal = new Portal("http://arcgis.com");
+    portal = new Portal("https://arcgis.com");
     portal.loadAsync();
 
     resultsList.setCellFactory(c -> new PortalItemCell());

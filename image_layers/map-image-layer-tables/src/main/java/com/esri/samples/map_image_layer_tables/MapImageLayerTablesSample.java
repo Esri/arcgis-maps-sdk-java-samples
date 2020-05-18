@@ -56,7 +56,8 @@ public class MapImageLayerTablesSample extends Application {
   private GraphicsOverlay graphicsOverlay;
   private ServiceFeatureTable commentsTable;
   private ListView<Feature> commentsListView;
-
+  private ArcGISFeature relatedFeature; // keep loadable in scope to avoid garbage collection
+  
   /**
    * Starting point of this application.
    *
@@ -198,7 +199,7 @@ public class MapImageLayerTablesSample extends Application {
               RelatedFeatureQueryResult relatedResult = results.get(0);
               if (relatedResult.iterator().hasNext()) {
                 // get the first related feature
-                ArcGISFeature relatedFeature = (ArcGISFeature) relatedResult.iterator().next();
+                relatedFeature = (ArcGISFeature) relatedResult.iterator().next();
                 // load the feature and get its geometry to show as a graphic on the map
                 relatedFeature.loadAsync();
                 relatedFeature.addDoneLoadingListener(() -> {

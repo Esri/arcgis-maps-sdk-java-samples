@@ -41,7 +41,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
 
   // World Topo Map Service URL
   private static final String WORLD_CITIES_SERVICE =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
 
   @Override
   public void start(Stage stage) {

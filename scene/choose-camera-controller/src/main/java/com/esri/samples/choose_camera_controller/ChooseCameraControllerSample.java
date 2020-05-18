@@ -78,7 +78,7 @@ public class ChooseCameraControllerSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
+      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("https://elevation3d.arcgis" +
               ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);

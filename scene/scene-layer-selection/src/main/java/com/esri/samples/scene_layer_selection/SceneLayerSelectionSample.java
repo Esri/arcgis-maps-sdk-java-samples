@@ -77,7 +77,7 @@ public class SceneLayerSelectionSample extends Application {
 
       // add base surface with elevation data
       Surface surface = new Surface();
-      final String elevationService = "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
+      final String elevationService = "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
       surface.getElevationSources().add(new ArcGISTiledElevationSource(elevationService));
       scene.setBaseSurface(surface);
 
