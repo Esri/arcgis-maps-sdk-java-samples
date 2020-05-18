@@ -31,6 +31,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class OpenMobileScenePackageSample extends Application {
 
   private SceneView sceneView;
+  private MobileScenePackage mobileScenePackage; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -51,7 +52,7 @@ public class OpenMobileScenePackageSample extends Application {
 
     // create a mobile scene package from a file
     final String mspkPath = new File(System.getProperty("data.dir"),"./samples-data/mspk/philadelphia.mspk").getAbsolutePath();
-    MobileScenePackage mobileScenePackage = new MobileScenePackage(mspkPath);
+    mobileScenePackage = new MobileScenePackage(mspkPath);
 
     // load the mobile scene package
     mobileScenePackage.loadAsync();

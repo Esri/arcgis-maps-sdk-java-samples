@@ -59,6 +59,7 @@ import com.esri.arcgisruntime.tasks.networkanalysis.Incident;
 
 public class ClosestFacilityStaticSample extends Application {
 
+  private ClosestFacilityTask closestFacilityTask; // keep loadables in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -104,7 +105,7 @@ public class ClosestFacilityStaticSample extends Application {
       SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x4D0000FF, 5.0f);
 
       // create a closest facility task from a network analysis service
-      ClosestFacilityTask closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
+      closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
 
       // create a table for facilities using the feature service
       FeatureTable facilitiesFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");

@@ -57,6 +57,7 @@ public class UpdateGraphicsSample extends Application {
   private Button updateDescriptionButton;
   private ComboBox<String> symbolBox;
 
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
   private Graphic selectedGraphic;
   private GraphicsOverlay graphicsOverlay;
@@ -120,7 +121,7 @@ public class UpdateGraphicsSample extends Application {
       controlsVBox.getChildren().addAll(updateLocationButton, updateDescriptionButton, symbolLabel, symbolBox);
 
       // create a ArcGISMap with basemap light gray canvas
-      ArcGISMap map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
+      map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
 
       // create a map view and set the map to it
       mapView = new MapView();

@@ -35,6 +35,7 @@ import com.esri.arcgisruntime.raster.GeoPackageRaster;
 public class RasterLayerGeopackageSample extends Application {
 
   private MapView mapView;
+  private GeoPackage geoPackage; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -57,7 +58,7 @@ public class RasterLayerGeopackageSample extends Application {
       mapView.setMap(map);
 
       // create a geopackage from a local gpkg file
-      GeoPackage geoPackage = new GeoPackage(new File(System.getProperty("data.dir"), "./samples-data/auroraCO/AuroraCO.gpkg").getAbsolutePath());
+      geoPackage = new GeoPackage(new File(System.getProperty("data.dir"), "./samples-data/auroraCO/AuroraCO.gpkg").getAbsolutePath());
 
       // load the geopackage
       geoPackage.loadAsync();

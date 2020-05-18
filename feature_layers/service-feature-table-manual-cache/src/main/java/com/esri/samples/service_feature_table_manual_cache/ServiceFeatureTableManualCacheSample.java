@@ -52,6 +52,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class ServiceFeatureTableManualCacheSample extends Application {
 
   private MapView mapView;
+  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
   private Label featuresReturnLabel;
   private ServiceFeatureTable featureTable;
   private ListenableFuture<FeatureQueryResult> tableResult;
@@ -104,7 +105,7 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       featureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
       // create a feature layer from the service feature table
-      final FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      featureLayer = new FeatureLayer(featureTable);
 
       // enable button when feature layer is done loading
       featureLayer.addDoneLoadingListener(() -> {

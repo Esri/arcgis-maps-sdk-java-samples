@@ -59,6 +59,7 @@ import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesTask;
 public class ExportVectorTilesSample extends Application {
 
   private MapView mapView;
+  private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -83,7 +84,7 @@ public class ExportVectorTilesSample extends Application {
 
       // get the portal item of the vector tile service
       Portal portal = new Portal("http://www.arcgis.com", true);
-      PortalItem portalItem = new PortalItem(portal, "86f556a2d1fd468181855a35e344567f");
+      portalItem = new PortalItem(portal, "86f556a2d1fd468181855a35e344567f");
       portalItem.addDoneLoadingListener(() -> {
         if (portalItem.getLoadStatus() == LoadStatus.LOADED) {
           // loading the vector tiled layer will invoke the authentication challenge
