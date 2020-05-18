@@ -47,7 +47,7 @@ public class TerrainExaggerationController {
       // add base surface for elevation data
       surface = new Surface();
       final String elevationImageService =
-              "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
+              "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
       surface.getElevationSources().add(new ArcGISTiledElevationSource(elevationImageService));
       scene.setBaseSurface(surface);
 

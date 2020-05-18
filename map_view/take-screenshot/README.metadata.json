@@ -3,7 +3,7 @@
     "description": "Export an area of the map as an image.",
     "ignore": false,
     "images": [
-        "TakeScreenShot.png"
+        "TakeScreenshot.png"
     ],
     "keywords": [
         "ArcGISMap",
@@ -15,7 +15,7 @@
         "MapView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/take_screen_shot/TakeScreenShotSample.java"
+        "src/main/java/com/esri/samples/take_screenshot/TakeScreenshotSample.java"
     ],
-    "title": "Take Screen Shot"
+    "title": "Take Screenshot"
 }

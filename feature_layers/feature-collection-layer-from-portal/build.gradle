@@ -6,14 +6,12 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.7.0'
+    arcgisVersion = '100.8.0'
 }
-
-
 
 javafx {
     version = "11.0.1"
-    modules = [ 'javafx.controls', 'javafx.swing' ]
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.web' ]
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -50,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.take_screen_shot.TakeScreenShotLauncher'
+    mainClassName = 'com.esri.samples.feature_collection_layer_from_portal.FeatureCollectionLayerFromPortalLauncher'
 }
 
 jar {

@@ -83,7 +83,7 @@ public class Animate3dGraphicController {
 
   private static final SpatialReference WGS84 = SpatialReferences.getWgs84();
   private static final String ELEVATION_IMAGE_SERVICE =
-      "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
+      "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
 
   /**
    * Called after FXML loads. Sets up scene and map and configures property bindings.

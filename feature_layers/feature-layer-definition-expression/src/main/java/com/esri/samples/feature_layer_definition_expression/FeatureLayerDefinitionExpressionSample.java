@@ -38,7 +38,7 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
   private FeatureLayer featureLayer;
 
   private final static String FEATURE_SERVICE_URL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
