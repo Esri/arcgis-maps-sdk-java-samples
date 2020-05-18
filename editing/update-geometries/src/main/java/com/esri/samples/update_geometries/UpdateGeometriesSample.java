@@ -49,9 +49,10 @@ public class UpdateGeometriesSample extends Application {
   private MapView mapView;
   private ServiceFeatureTable featureTable;
   private FeatureLayer featureLayer;
+  private ArcGISFeature selectedFeature; // keep loadable in scope to avoid garbage collection
 
   private static final String FEATURE_LAYER_URL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
@@ -112,12 +113,12 @@ public class UpdateGeometriesSample extends Application {
                     Iterator<Feature> features = selectedQueryResult.iterator();
                     if (features.hasNext()) {
                       // move selected feature to clicked location
-                      ArcGISFeature selected = (ArcGISFeature) features.next();
-                      selected.loadAsync();
-                      selected.addDoneLoadingListener(() -> {
-                        if (selected.canUpdateGeometry()) {
-                          selected.setGeometry(mapPoint);
-                          ListenableFuture<Void> featureTableResult = featureTable.updateFeatureAsync(selected);
+                      selectedFeature = (ArcGISFeature) features.next();
+                      selectedFeature.loadAsync();
+                      selectedFeature.addDoneLoadingListener(() -> {
+                        if (selectedFeature.canUpdateGeometry()) {
+                          selectedFeature.setGeometry(mapPoint);
+                          ListenableFuture<Void> featureTableResult = featureTable.updateFeatureAsync(selectedFeature);
                           // apply the edits to the service
                           featureTableResult.addDoneListener(this::applyEdits);
                         }

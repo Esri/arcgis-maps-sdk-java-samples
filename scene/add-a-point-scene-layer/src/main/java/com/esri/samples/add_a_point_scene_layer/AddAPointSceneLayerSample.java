@@ -63,7 +63,7 @@ public class AddAPointSceneLayerSample extends Application {
 
       // set the base surface with world elevation
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
+      surface.getElevationSources().add(new ArcGISTiledElevationSource("https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
       scene.setBaseSurface(surface);
 
       // add a point scene layer with points at world airport locations

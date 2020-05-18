@@ -81,9 +81,9 @@ public class FeatureLayerRenderingModeSceneSample extends Application {
       splitPane.getItems().add(sceneViewBottom);
 
       // create service feature table using a point, polyline, and polygon service
-      ServiceFeatureTable pointServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");
-      ServiceFeatureTable polylineServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/8");
-      ServiceFeatureTable polygonServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/9");
+      ServiceFeatureTable pointServiceFeatureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/0");
+      ServiceFeatureTable polylineServiceFeatureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/8");
+      ServiceFeatureTable polygonServiceFeatureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/9");
 
       // create feature layer from service feature tables
       FeatureLayer pointFeatureLayer = new FeatureLayer(pointServiceFeatureTable);

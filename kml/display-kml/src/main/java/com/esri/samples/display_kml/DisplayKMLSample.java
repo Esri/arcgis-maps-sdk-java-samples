@@ -24,6 +24,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -57,6 +58,10 @@ public class DisplayKMLSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // create a progress indicator
+      ProgressIndicator progressIndicator = new ProgressIndicator();
+      progressIndicator.setVisible(false);
+
       // create a map and add it to the map view
       ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
       mapView = new MapView();
@@ -71,6 +76,10 @@ public class DisplayKMLSample extends Application {
 
       // show the KML layer when the data source option is shown
       kmlSourceComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
+
+        // show a progress indicator while loading
+        progressIndicator.setVisible(true);
+
         // clear previous layer
         map.getOperationalLayers().clear();
         // create a KML layer based on the source type
@@ -98,6 +107,9 @@ public class DisplayKMLSample extends Application {
 
           KmlLayer finalKmlLayer = kmlLayer;
           kmlLayer.addDoneLoadingListener(() -> {
+
+            progressIndicator.setVisible(false);
+
             if (finalKmlLayer.getLoadStatus() != LoadStatus.LOADED) {
               new Alert(Alert.AlertType.ERROR, "Error loading KML layer").show();
             }
@@ -111,7 +123,7 @@ public class DisplayKMLSample extends Application {
       kmlSourceComboBox.getSelectionModel().select(0);
 
       // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView, kmlSourceComboBox);
+      stackPane.getChildren().addAll(mapView, kmlSourceComboBox, progressIndicator);
       StackPane.setAlignment(kmlSourceComboBox, Pos.TOP_LEFT);
       StackPane.setMargin(kmlSourceComboBox, new Insets(10));
     } catch (Exception e) {

@@ -56,6 +56,7 @@ public class UpdateGraphicsSample extends Application {
   private boolean isUpdateLocationActive;
   private List<SimpleMarkerSymbol> markers;
 
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
   private Graphic selectedGraphic;
   private GraphicsOverlay graphicsOverlay;
@@ -152,7 +153,7 @@ public class UpdateGraphicsSample extends Application {
       selectedGraphic = new Graphic();
 
       // create a ArcGISMap with basemap light gray canvas
-      ArcGISMap map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
+      map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
 
       // enable buttons when map view is done loading
       map.addDoneLoadingListener(() -> {
