@@ -1,6 +1,6 @@
 {
     "category": "Raster",
-    "description": "Get the cell value of a local raster at the clicked location and display the result in a callout.",
+    "description": "Get the cell value of a local raster and display the result in a callout.",
     "ignore": false,
     "images": [
         "IdentifyRasterCell.png"
