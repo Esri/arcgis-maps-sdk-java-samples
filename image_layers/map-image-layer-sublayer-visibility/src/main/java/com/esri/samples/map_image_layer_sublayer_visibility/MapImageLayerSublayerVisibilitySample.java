@@ -86,7 +86,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       // add world cities layers as ArcGISMap operational layer
       map.getOperationalLayers().add(imageLayer);
 
-      // set the image layer's opacity
+      // set the image layer's opacity so that the basemap is visible behind it
       imageLayer.setOpacity(0.7f);
 
       // show alert if layer fails to load
