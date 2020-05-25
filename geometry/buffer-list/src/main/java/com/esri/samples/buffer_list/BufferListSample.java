@@ -48,6 +48,7 @@ import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -87,18 +88,27 @@ public class BufferListSample extends Application {
       );
       Polygon boundaryPolygon = (Polygon) GeometryEngine.project(new Polygon(new PointCollection(boundaryPoints)), statePlaneNorthCentralTexas);
 
+      // create a map view
+      mapView = new MapView();
+
       // create a map with a basemap and add it to the map view
       ArcGISMap map = new ArcGISMap(statePlaneNorthCentralTexas);
+      mapView.setMap(map);
+
+      // set an initial viewpoint
       map.setInitialViewpoint(new Viewpoint(boundaryPolygon.getExtent()));
 
-      // add some base layers (counties, cities, and highways)
-      String mapServiceURL = ("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
-      ArcGISMapImageLayer usaLayer = new ArcGISMapImageLayer(mapServiceURL);
-      map.getBasemap().getBaseLayers().add(usaLayer);
+      // create an image layer from a service URL (counties, cities, and highways)
+      ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
+      // add the image layer to the map's base layers
+      map.getBasemap().getBaseLayers().add(mapImageLayer);
 
-      // set the map to the map view
-      mapView = new MapView();
-      mapView.setMap(map);
+      // show alert if layer fails to load
+      mapImageLayer.addDoneLoadingListener(() -> {
+        if (mapImageLayer.getLoadStatus() != LoadStatus.LOADED) {
+          new Alert(Alert.AlertType.ERROR, "Error loading ArcGIS Map Image Layer.").show();
+        }
+      });
 
       // create a graphics overlay to show the spatial reference's valid area
       GraphicsOverlay boundaryGraphicsOverlay = new GraphicsOverlay();
