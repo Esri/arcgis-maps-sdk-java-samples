@@ -130,8 +130,7 @@ public class UpdateAttributesSample extends Application {
       // add the feature layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);
 
-      // add a done loading listener, with a runnable that gets triggered asynchronously when the feature layer has loaded
-      // check for the load status of the layer and if it hasn't loaded, report an error
+      // show alert if layer fails to load
       featureLayer.addDoneLoadingListener(()->{
         if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
           displayMessage("Error", "Error loading feature layer");
