@@ -124,10 +124,10 @@ public class UpdateAttributesSample extends Application {
       // create service feature table from URL
       featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
 
-      // create a feature layer from service feature table
+      // create a feature layer with the feature table
       FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
-      // add the feature layer to the ArcGISMap
+      // add the feature layer to the map
       map.getOperationalLayers().add(featureLayer);
 
       // show alert if layer fails to load
