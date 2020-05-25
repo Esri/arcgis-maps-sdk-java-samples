@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.take_screen_shot;
+package com.esri.samples.take_screenshot;
 
 import java.io.File;
 
@@ -37,7 +37,7 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-public class TakeScreenShotSample extends Application {
+public class TakeScreenshotSample extends Application {
 
   private MapView mapView;
 
@@ -50,7 +50,7 @@ public class TakeScreenShotSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Take Screen Shot Sample");
+      stage.setTitle("Take Screenshot Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

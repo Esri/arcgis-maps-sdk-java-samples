@@ -106,7 +106,7 @@ public class RasterRenderingRuleSample extends Application {
       mapView.setMap(map);
 
       // create an Image Service Raster as a raster layer and add to map
-      final String ImageServiceRasterUri = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
+      String ImageServiceRasterUri = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
       ImageServiceRaster imageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
       RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
       map.getOperationalLayers().add(imageRasterLayer);
@@ -160,6 +160,7 @@ public class RasterRenderingRuleSample extends Application {
 
           // automatically select the first rendering rule
           renderingRuleInfoComboBox.getSelectionModel().selectFirst();
+
         } else {
           new Alert(Alert.AlertType.ERROR, "Error loading Image Raster Layer.").show();
         }

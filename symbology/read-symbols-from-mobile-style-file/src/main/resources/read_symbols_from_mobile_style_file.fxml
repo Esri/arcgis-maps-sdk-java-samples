@@ -57,11 +57,11 @@
             </VBox>
             <VBox>
                 <Label>Eyes:</Label>
-                <ListView fx:id="eyesSelectionListView" maxHeight="120" maxWidth="60"/>
+                <ListView fx:id="eyesSelectionListView" maxHeight="120" maxWidth="70"/>
             </VBox>
             <VBox>
                 <Label>Mouth:</Label>
-                <ListView fx:id="mouthSelectionListView" maxHeight="120" maxWidth="60"/>
+                <ListView fx:id="mouthSelectionListView" maxHeight="120" maxWidth="70"/>
             </VBox>
         </HBox>
         <HBox  spacing="10" alignment="CENTER_LEFT">

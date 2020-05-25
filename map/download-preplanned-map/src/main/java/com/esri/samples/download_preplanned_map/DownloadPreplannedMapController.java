@@ -60,6 +60,7 @@ public class DownloadPreplannedMapController {
   private ArcGISMap onlineMap;
   private GraphicsOverlay areasOfInterestGraphicsOverlay;
   private OfflineMapTask offlineMapTask;
+  private List<PreplannedMapArea> preplannedMapAreas; // keep loadable in scope to avoid garbage collection
 
   @FXML
   private void initialize() {
@@ -101,7 +102,7 @@ public class DownloadPreplannedMapController {
       preplannedMapAreasFuture.addDoneListener(() -> {
         try {
           // get the preplanned areas and add them to the list view
-          List<PreplannedMapArea> preplannedMapAreas = preplannedMapAreasFuture.get();
+          preplannedMapAreas = preplannedMapAreasFuture.get();
           preplannedAreasListView.getItems().addAll(preplannedMapAreas);
 
           // load each area and show a red border around their area of interest
