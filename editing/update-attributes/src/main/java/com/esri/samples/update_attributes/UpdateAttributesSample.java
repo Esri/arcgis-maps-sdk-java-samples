@@ -53,7 +53,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class UpdateAttributesSample extends Application {
 
-  private ArcGISFeature selectedFeature;
+  private ArcGISFeature identifiedFeature;
   private ServiceFeatureTable featureTable;
   private MapView mapView;
 
@@ -102,9 +102,9 @@ public class UpdateAttributesSample extends Application {
 
       // handle type damage selection
       comboBox.getSelectionModel().selectedItemProperty().addListener((o, p, n) -> {
-        if (!selectedFeature.getAttributes().get("typdamage").equals(n)) {
+        if (!identifiedFeature.getAttributes().get("typdamage").equals(n)) {
           try {
-            updateAttributes(selectedFeature);
+            updateAttributes(identifiedFeature);
           } catch (Exception e) {
             displayMessage("Cannot update attributes", e.getCause().getMessage());
           }
@@ -154,16 +154,16 @@ public class UpdateAttributesSample extends Application {
             try {
               IdentifyLayerResult layer = results.get();
               List<GeoElement> identified = layer.getElements();
-              if (identified.size() > 0) {
+              if (!identified.isEmpty()) {
                 GeoElement element = identified.get(0);
                 // get selected feature
                 if (element instanceof ArcGISFeature) {
-                  selectedFeature = (ArcGISFeature) element;
-                  featureLayer.selectFeature(selectedFeature);
-                  selectedFeature.loadAsync();
-                  selectedFeature.addDoneLoadingListener(() -> {
-                    if (selectedFeature.getLoadStatus() == LoadStatus.LOADED) {
-                      comboBox.getSelectionModel().select((String) selectedFeature.getAttributes().get("typdamage"));
+                  identifiedFeature = (ArcGISFeature) element;
+                  featureLayer.selectFeature(identifiedFeature);
+                  identifiedFeature.loadAsync();
+                  identifiedFeature.addDoneLoadingListener(() -> {
+                    if (identifiedFeature.getLoadStatus() == LoadStatus.LOADED) {
+                      comboBox.getSelectionModel().select((String) identifiedFeature.getAttributes().get("typdamage"));
                     } else {
                       Alert alert = new Alert(Alert.AlertType.ERROR, "Element Failed to Load!");
                       alert.show();
@@ -197,7 +197,7 @@ public class UpdateAttributesSample extends Application {
 
     if (featureTable.canUpdate(feature)) {
       // update attribute
-      selectedFeature.getAttributes().put("typdamage", comboBox.getValue());
+      identifiedFeature.getAttributes().put("typdamage", comboBox.getValue());
 
       // update feature in the feature table
       ListenableFuture<Void> editResult = featureTable.updateFeatureAsync(feature);
