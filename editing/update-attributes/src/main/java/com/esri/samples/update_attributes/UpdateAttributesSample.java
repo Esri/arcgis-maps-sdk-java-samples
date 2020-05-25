@@ -124,14 +124,13 @@ public class UpdateAttributesSample extends Application {
       // create service feature table from URL
       featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
 
-      // create a feature layer from service feature table
+      // create a feature layer with the feature table
       FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
-      // add the feature layer to the ArcGISMap
+      // add the feature layer to the map
       map.getOperationalLayers().add(featureLayer);
 
-      // add a done loading listener, with a runnable that gets triggered asynchronously when the feature layer has loaded
-      // check for the load status of the layer and if it hasn't loaded, report an error
+      // show alert if layer fails to load
       featureLayer.addDoneLoadingListener(()->{
         if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
           displayMessage("Error", "Error loading feature layer");

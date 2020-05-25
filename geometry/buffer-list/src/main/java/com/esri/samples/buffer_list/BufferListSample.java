@@ -103,8 +103,7 @@ public class BufferListSample extends Application {
       // add the image layer to the map's base layers
       map.getBasemap().getBaseLayers().add(mapImageLayer);
 
-      // add a done loading listener, with a runnable that gets triggered asynchronously when the feature layer has loaded
-      // check for the load status of the layer and if it hasn't loaded, report an error
+      // show alert if layer fails to load
       mapImageLayer.addDoneLoadingListener(() -> {
         if (mapImageLayer.getLoadStatus() != LoadStatus.LOADED) {
           new Alert(Alert.AlertType.ERROR, "Error loading ArcGIS Map Image Layer.").show();
