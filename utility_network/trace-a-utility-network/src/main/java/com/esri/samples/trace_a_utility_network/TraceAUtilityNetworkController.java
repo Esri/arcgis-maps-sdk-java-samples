@@ -109,12 +109,12 @@ public class TraceAUtilityNetworkController {
       mapView.setMap(map);
       // set the viewpoint to a subsection of the utility network
       mapView.setViewpointAsync(new Viewpoint(
-          new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,
-              SpatialReferences.getWebMercator())));
+              new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,
+                      SpatialReferences.getWebMercator())));
 
       // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
-          "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
+              "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
 
       ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/115");
       FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
@@ -124,13 +124,13 @@ public class TraceAUtilityNetworkController {
 
       // create and apply a renderer for the electric distribution lines feature layer
       UniqueValueRenderer.UniqueValue mediumVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Medium Voltage",
-          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
-          Collections.singletonList(5));
+              new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
+              Collections.singletonList(5));
       UniqueValueRenderer.UniqueValue lowVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Low Voltage",
-          new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
-          Collections.singletonList(3));
+              new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
+              Collections.singletonList(3));
       distributionLineLayer.setRenderer(new UniqueValueRenderer(Collections.singletonList("ASSETGROUP"),
-          Arrays.asList(mediumVoltageValue, lowVoltageValue), "", new SimpleLineSymbol()));
+              Arrays.asList(mediumVoltageValue, lowVoltageValue), "", new SimpleLineSymbol()));
 
       // add the feature layers to the map
       map.getOperationalLayers().addAll(Arrays.asList(distributionLineLayer, electricDeviceLayer));
@@ -142,11 +142,11 @@ public class TraceAUtilityNetworkController {
 
       // create and apply renderers for the starting points and barriers graphics overlays
       SimpleMarkerSymbol startingPointSymbol =
-          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.LIGHTGREEN), 25);
+              new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.LIGHTGREEN), 25);
       startingLocationsGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
 
       SimpleMarkerSymbol barrierPointSymbol =
-          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.ORANGERED), 25);
+              new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.ORANGERED), 25);
       barriersGraphicsOverlay.setRenderer(new SimpleRenderer(barrierPointSymbol));
 
       // create a list of starting locations and barriers for the trace
@@ -199,7 +199,7 @@ public class TraceAUtilityNetworkController {
   private void handleMapViewClicked(MouseEvent e) {
     // ensure the utility network is loaded before processing clicks on the map view
     if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED && e.getButton() == MouseButton.PRIMARY &&
-        e.isStillSincePress()) {
+            e.isStillSincePress()) {
 
       // show the progress indicator
       progressIndicator.setVisible(true);
@@ -210,7 +210,7 @@ public class TraceAUtilityNetworkController {
 
       // identify the feature to be used
       ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture =
-          mapView.identifyLayersAsync(screenPoint, 10, false);
+              mapView.identifyLayersAsync(screenPoint, 10, false);
       identifyLayerResultsFuture.addDoneListener(() -> {
         try {
           // get the result of the query
@@ -237,7 +237,7 @@ public class TraceAUtilityNetworkController {
                   // check if the feature has a terminal configuration and multiple terminals
                   if (utilityElement.getAssetType().getTerminalConfiguration() != null) {
                     UtilityTerminalConfiguration utilityTerminalConfiguration =
-                        utilityElement.getAssetType().getTerminalConfiguration();
+                            utilityElement.getAssetType().getTerminalConfiguration();
                     List<UtilityTerminal> terminals = utilityTerminalConfiguration.getTerminals();
 
                     if (terminals.size() > 1) {
@@ -284,7 +284,7 @@ public class TraceAUtilityNetworkController {
 
                 // find the closest coordinate on the selected element to the clicked point
                 ProximityResult proximityResult =
-                    GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
+                        GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
 
                 // set the graphic's geometry to the coordinate on the element
                 traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
@@ -326,8 +326,8 @@ public class TraceAUtilityNetworkController {
 
     // override the list cell in the dialog's combo box to show the terminal name
     @SuppressWarnings("unchecked") ComboBox<UtilityTerminal> comboBox =
-        (ComboBox<UtilityTerminal>) ((GridPane) utilityTerminalSelectionDialog.getDialogPane()
-            .getContent()).getChildren().get(1);
+            (ComboBox<UtilityTerminal>) ((GridPane) utilityTerminalSelectionDialog.getDialogPane()
+                    .getContent()).getChildren().get(1);
     comboBox.setCellFactory(param -> new UtilityTerminalListCell());
     comboBox.setButtonCell(new UtilityTerminalListCell());
 
@@ -377,7 +377,7 @@ public class TraceAUtilityNetworkController {
 
     // run the utility trace and get the results
     ListenableFuture<List<UtilityTraceResult>> utilityTraceResultsFuture =
-        utilityNetwork.traceAsync(utilityTraceParameters);
+            utilityNetwork.traceAsync(utilityTraceParameters);
     utilityTraceResultsFuture.addDoneListener(() -> {
       try {
         List<UtilityTraceResult> utilityTraceResults = utilityTraceResultsFuture.get();
@@ -406,7 +406,7 @@ public class TraceAUtilityNetworkController {
 
                 // select features that match the query
                 ListenableFuture<FeatureQueryResult> featureQueryResultListenableFuture =
-                    ((FeatureLayer) layer).selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW);
+                        ((FeatureLayer) layer).selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW);
 
                 // wait for the selection to finish
                 featureQueryResultListenableFuture.addDoneListener(() -> {
