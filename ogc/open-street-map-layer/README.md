@@ -2,7 +2,7 @@
 
 Add OpenStreetMap as a basemap layer.
 
-![Image of OpenStreetMap layer](openstreetmap-layer.png)
+![Image of OpenStreetMap layer](OpenStreetMapLayer.png)
 
 ## Use case
 
