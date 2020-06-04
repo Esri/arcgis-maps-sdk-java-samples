@@ -2,7 +2,7 @@
 
 Analyze the viewshed for a camera. A viewshed shows the visible and obstructed areas from an observer's vantage point. 
 
-![Image of viewshed for camera](ViewshedCamera.png)
+![Image of viewshed for camera](ViewshedCamera.gif)
 
 ## Use case
 

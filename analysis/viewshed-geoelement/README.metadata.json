@@ -3,7 +3,7 @@
   "description": "Attach a viewshed to an object to visualize what it sees.",
   "ignore": false,
   "images": [
-    "ViewshedGeoElement.png"
+    "ViewshedGeoElement.gif"
   ],
   "keywords": [],
   "redirect_from": "/java/latest/sample-code/viewshed-geoelement.htm",
