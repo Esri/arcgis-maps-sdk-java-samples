@@ -3,7 +3,7 @@
   "description": "Create a viewshed using the current camera viewpoint.",
   "ignore": false,
   "images": [
-    "ViewshedCamera.gif"
+    "ViewshedCamera.png"
   ],
   "keywords": [],
   "redirect_from": "/java/latest/sample-code/viewshed-camera.htm",
