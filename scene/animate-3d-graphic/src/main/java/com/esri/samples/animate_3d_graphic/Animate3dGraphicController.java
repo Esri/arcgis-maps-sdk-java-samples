@@ -206,7 +206,7 @@ public class Animate3dGraphicController {
 
     // open a file reader to the mission file that automatically closes after read
     try (BufferedReader missionFile = new BufferedReader(
-        new InputStreamReader(getClass().getResourceAsStream("/csv/" + mission)))) {
+        new InputStreamReader(getClass().getResourceAsStream("/animate_3d_graphic/csv/" + mission)))) {
       return missionFile.lines()
           //ex: -156.3666517,20.6255059,999.999908,83.77659,1.05E-09,-47.766567
           .map(l -> l.split(","))

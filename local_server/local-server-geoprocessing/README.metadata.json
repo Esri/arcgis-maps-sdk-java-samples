@@ -31,7 +31,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingSample.java",
         "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingController.java",
-        "src/main/resources/local_server_geoprocessing.fxml"
+        "src/main/resources/local_server_geoprocessing/main.fxml"
     ],
     "title": "Local Server Geoprocessing"
 }

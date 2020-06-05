@@ -31,7 +31,7 @@ public class HillshadeRendererSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/hillshade_renderer.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/hillshade_renderer/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

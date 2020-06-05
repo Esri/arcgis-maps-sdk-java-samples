@@ -61,7 +61,7 @@ public class BrowseWfsLayersSample extends Application {
     // create stack pane and JavaFX app scene
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
-    scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+    scene.getStylesheets().add(getClass().getResource("/browse_wfs_layers/style.css").toExternalForm());
 
     // set title, size, and add JavaFX scene to stage
     stage.setTitle("Browse WFS Layers");

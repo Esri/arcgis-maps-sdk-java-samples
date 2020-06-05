@@ -48,7 +48,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       // create a border pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/map_image_layer_sublayer_visibility/style.css").toExternalForm());
 
       // size the stage and add a title
       stage.setTitle("Map Image Layer Sublayer Visibility Sample");

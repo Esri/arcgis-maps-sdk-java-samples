@@ -27,7 +27,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/rgb_renderer/RgbRendererSample.java",
         "src/main/java/com/esri/samples/rgb_renderer/RgbRendererController.java",
-        "src/main/resources/rgb_renderer.fxml"
+        "src/main/resources/main.fxml"
     ],
     "title": "Rgb Renderer"
 }

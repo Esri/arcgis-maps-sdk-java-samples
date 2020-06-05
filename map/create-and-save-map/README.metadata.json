@@ -34,8 +34,8 @@
         "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapSample.java",
         "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapController.java",
         "src/main/java/com/esri/samples/create_and_save_map/AuthenticationDialog.java",
-        "src/main/resources/create_and_save_map.fxml",
-        "src/main/resources/create_and_save_map_auth_dialog.fxml"
+        "src/main/resources/create_and_save_map/main.fxml",
+        "src/main/resources/create_and_save_map_auth/auth_dialog.fxml"
     ],
     "title": "Create and Save Map"
 }

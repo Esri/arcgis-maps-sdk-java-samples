@@ -57,7 +57,7 @@ public class EditKMLGroundOverlaySample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/edit_kml_ground_overlay/style.css").toExternalForm());
 
       // set title, size and add application scene to stage
       stage.setTitle("Edit KML Ground Overlay Sample");

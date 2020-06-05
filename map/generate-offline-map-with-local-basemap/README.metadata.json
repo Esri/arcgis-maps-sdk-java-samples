@@ -26,7 +26,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/generate_offline_map_with_local_basemap/GenerateOfflineMapWithLocalBasemapSample.java",
         "src/main/java/com/esri/samples/generate_offline_map_with_local_basemap/GenerateOfflineMapDialog.java",
-        "src/main/resources/generate_offline_map_with_local_basemap_dialog.fxml"
+        "src/main/resources/generate_offline_map_with_local_basemap/basemap_dialog.fxml"
     ],
     "title": "Generate offline map with local basemap"
 }
