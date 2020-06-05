@@ -26,8 +26,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.GeodeticCurveType;
@@ -101,7 +101,11 @@ public class GeodesicOperationsSample extends Application {
       DecimalFormat formatter = new DecimalFormat("#0.00 km");
       distanceLabel.setText(formatter.format(0.0));
       VBox labelBox = new VBox(distanceLabel);
-      labelBox.setMaxSize(110, 40);
+      labelBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+              Insets.EMPTY)));
+      labelBox.setAlignment(Pos.CENTER);
+      labelBox.setPadding(new Insets(5));
+      labelBox.setMaxSize(80, 20);
       labelBox.getStyleClass().add("panel-region");
 
       // create a linear unit for measuring the distance
