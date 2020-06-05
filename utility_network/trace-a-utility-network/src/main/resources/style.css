@@ -1,13 +1,9 @@
 .panel-region .label {
-  -fx-text-fill: white;
-}
-
-.label {
-  -fx-text-fill: white;
-  -fx-font-size: 12px;
-  -fx-wrap-text: true;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-wrap-text: true;
 }
 
 .panel-region .radio-button {
-   -fx-text-fill: white;
+    -fx-text-fill: white;
 }
