@@ -97,7 +97,7 @@ public class FindRouteSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
           Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(400, 300);
+      controlsVBox.setMaxSize(450, 300);
       controlsVBox.getStyleClass().add("panel-region");
 
       Label directionsLabel = new Label("Route directions:");
