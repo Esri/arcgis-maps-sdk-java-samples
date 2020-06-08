@@ -29,7 +29,7 @@ public class DownloadPreplannedMapSample extends Application {
   @Override
   public void start(Stage stage) throws Exception {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/download_preplanned_map.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/download_preplanned_map/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

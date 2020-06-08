@@ -31,7 +31,7 @@ public class GeodesicSectorAndEllipseSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/geodesic_sector_and_ellipse.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/geodesic_sector_and_ellipse/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

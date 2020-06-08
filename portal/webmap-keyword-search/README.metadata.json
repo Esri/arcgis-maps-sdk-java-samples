@@ -25,7 +25,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/webmap_keyword_search/WebmapKeywordSearchSample.java",
         "src/main/java/com/esri/samples/webmap_keyword_search/WebmapKeywordSearchController.java",
-        "src/main/resources/webmap_keyword_search.fxml"
+        "src/main/resources/webmap_keyword_search/main.fxml"
     ],
     "title": "Webmap Keyword Search"
 }

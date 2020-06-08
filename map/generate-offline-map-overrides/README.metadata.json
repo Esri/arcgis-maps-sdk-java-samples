@@ -32,7 +32,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/generate_offline_map_overrides/GenerateOfflineMapOverridesSample.java",
         "src/main/java/com/esri/samples/generate_offline_map_overrides/GenerateOfflineMapOverridesController.java",
-        "src/main/resources/generate_offline_map_overrides.fxml"
+        "src/main/resources/generate_offline_map_overrides/main.fxml"
     ],
     "title": "Generate Offline Map (Overrides)"
 }

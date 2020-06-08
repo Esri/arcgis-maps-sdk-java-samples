@@ -1,32 +1,30 @@
-# Simple Marker Symbol
+# Simple marker symbol
 
-Show simple markers.
+Show a simple marker symbol on a map.
 
-![](SimpleMarkerSymbol.png)
+![Image of simple marker symbol](SimpleMarkerSymbol.png)
+
+## Use case
+
+Customize the appearance of a point suitable for the data. For example, a point on the map styled with a circle could represent a drilled borehole location, whereas a cross could represent the location of an old coal mine shaft.
 
 ## How to use the sample
 
-For simplicity, the sample starts with a predefined SimpleMarkerSymbol set as a red circle.
+The sample loads with a predefined simple marker symbol, set as a red circle.
 
 ## How it works
 
-To display a `SimpleMarkerSymbol`:
-
-1. Create a `ArcGISMap`'s with `Basemap`.
-2. Create a `GraphicsOverlay` and add it to the `MapView`,`MapView.getGraphicsOverlays().add()`.
-3. Add the map to the view, `MapView.setMap()`.
-4. Create a `SimpleMarkerSymbol(SimpleMarkerSymbol.Style, color, size)`.
-    * style, how the symbol will be displayed (circle, square, etc.)
-    * color, color that the symbol will be displayed
-    * size, size of the symbol
-5. Lately, create a `Graphic(Geometry, Symbol)` method and add it to the graphics overlay.
+1.  Create a `SimpleMarkerSymbol`.
+2.  Create a `Graphic` passing in a `Point` and the simple marker symbol as parameters. 
+3.  Add the graphic to the graphics overlay with `graphicsOverlay.getGraphics().add(graphic)`.
 
 ## Relevant API
 
-* ArcGISMap
-* Graphic
-* GraphicsOverlay
-* MapView
-* Point
-* SimpleMarkerSymbol
-* SimpleMarkerSymbol.Style
+*   Graphic
+*   GraphicsOverlay
+*   Point
+*   SimpleMarkerSymbol
+
+## Tags
+
+symbol, visualization

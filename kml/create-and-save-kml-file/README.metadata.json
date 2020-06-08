@@ -21,7 +21,8 @@
         "SketchEditor"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/create_and_save_kml_file/CreateAndSaveKMLFileSample.java"
+        "src/main/java/com/esri/samples/create_and_save_kml_file/CreateAndSaveKMLFileSample.java",
+        "src/main/resources/create_and_save_kml_file/main.fxml"
     ],
     "title": "Create and save KML file"
 }

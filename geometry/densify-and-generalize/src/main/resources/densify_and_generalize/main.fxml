@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2018 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.geometry.Insets?>
+<StackPane fx:controller="com.esri.samples.densify_and_generalize.DensifyAndGeneralizeController" xmlns:fx="http://javafx.com/fxml"
+           stylesheets="/densify_and_generalize/style.css">
+    <MapView fx:id="mapView"/>
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="250" maxHeight="50" styleClass="panel-region" spacing="10">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+        <CheckBox fx:id="densifyCheckBox" text="Densify" selected="true" onAction="#updateGeometry"/>
+        <Label text="Max Segment Length:"/>
+        <Slider fx:id="maxSegmentLengthSlider" min="100" max="500" majorTickUnit="100" showTickLabels="true"/>
+        <CheckBox fx:id="generalizeCheckBox" text="Generalize" selected="true" onAction="#updateGeometry"/>
+        <Label text="Max Deviation:"/>
+        <Slider fx:id="maxDeviationSlider" min="1" max="250" majorTickUnit="50" showTickLabels="true"/>
+        <CheckBox fx:id="resultVisibilityCheckBox" text="Show result" selected="true" onAction="#updateResultVisibility"/>
+    </VBox>
+</StackPane>

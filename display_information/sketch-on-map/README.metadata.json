@@ -32,7 +32,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/sketch_on_map/SketchOnMapSample.java",
         "src/main/java/com/esri/samples/sketch_on_map/SketchOnMapController.java",
-        "src/main/resources/sketch_on_map.fxml"
+        "src/main/resources/sketch_on_map/main.fxml"
     ],
     "title": "Sketch on Map"
 }

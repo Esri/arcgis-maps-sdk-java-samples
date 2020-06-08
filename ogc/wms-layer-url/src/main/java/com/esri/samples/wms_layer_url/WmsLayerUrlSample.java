@@ -38,6 +38,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class WmsLayerUrlSample extends Application {
 
   private MapView mapView;
+  private WmsLayer wmsLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -70,7 +71,7 @@ public class WmsLayerUrlSample extends Application {
       // create a WMS layer
       List<String> wmsLayerNames = Collections.singletonList("1");
       String url = "https://nowcoast.noaa.gov/arcgis/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer/WMSServer?request=GetCapabilities&service=WMS";
-      WmsLayer wmsLayer = new WmsLayer(url, wmsLayerNames);
+      wmsLayer = new WmsLayer(url, wmsLayerNames);
       // load the layer and add it as an operational layer
       wmsLayer.addDoneLoadingListener(() -> {
         if (wmsLayer.getLoadStatus() != LoadStatus.LOADED) {

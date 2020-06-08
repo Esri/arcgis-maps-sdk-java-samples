@@ -50,7 +50,7 @@ public class FeatureLayerExtrusionSample extends Application {
     StackPane stackPane = new StackPane();
     Scene fxScene = new Scene(stackPane);
     // for adding styling to any controls that are added
-    fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+    fxScene.getStylesheets().add(getClass().getResource("/feature_layer_extrusion/style.css").toExternalForm());
 
     // set title, size, and add scene to stage
     stage.setTitle("Feature Layer Extrusion Sample");
@@ -66,7 +66,7 @@ public class FeatureLayerExtrusionSample extends Application {
     stackPane.getChildren().add(sceneView);
 
     // get us census data as a service feature table
-    ServiceFeatureTable statesServiceFeatureTable = new ServiceFeatureTable("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3");
+    ServiceFeatureTable statesServiceFeatureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3");
 
     // creates feature layer from table and add to scene
     final FeatureLayer statesFeatureLayer = new FeatureLayer(statesServiceFeatureTable);

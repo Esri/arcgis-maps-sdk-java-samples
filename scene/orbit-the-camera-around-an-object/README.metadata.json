@@ -19,7 +19,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/orbit_the_camera_around_an_object/OrbitTheCameraAroundAnObjectSample.java",
         "src/main/java/com/esri/samples/orbit_the_camera_around_an_object/OrbitTheCameraAroundAnObjectController.java",
-        "src/main/resources/orbit_the_camera_around_an_object.fxml"
+        "src/main/resources/orbit_the_camera_around_an_object/main.fxml"
     ],
     "title": "Orbit the camera around an object"
 }

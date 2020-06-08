@@ -59,7 +59,7 @@ public class ChooseCameraControllerSample extends Application {
       // create stack pane and JavaFX app scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/choose_camera_controller/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Choose Camera Controller Sample");
@@ -78,7 +78,7 @@ public class ChooseCameraControllerSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
+      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("https://elevation3d.arcgis" +
               ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);

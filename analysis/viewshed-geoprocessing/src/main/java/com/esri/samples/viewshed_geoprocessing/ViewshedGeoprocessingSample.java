@@ -62,6 +62,9 @@ public class ViewshedGeoprocessingSample extends Application {
 
   private MapView mapView;
   private GeoprocessingJob geoprocessingJob;
+  // keep loadables in scope to avoid garbage collection
+  private GeoprocessingTask geoprocessingTask;
+  private FeatureCollectionTable featureCollectionTable;
 
   @Override
   public void start(Stage stage) {
@@ -103,7 +106,7 @@ public class ViewshedGeoprocessingSample extends Application {
       progress.setMaxWidth(30);
 
       // create the geoprocessing task with the service URL and load it
-      GeoprocessingTask geoprocessingTask = new GeoprocessingTask("https://sampleserver6.arcgisonline" +
+      geoprocessingTask = new GeoprocessingTask("https://sampleserver6.arcgisonline" +
           ".com/arcgis/rest/services/Elevation/ESRI_Elevation_World/GPServer/Viewshed");
       geoprocessingTask.loadAsync();
 
@@ -115,6 +118,10 @@ public class ViewshedGeoprocessingSample extends Application {
           mapView.setOnMouseClicked(e -> {
             // check that the primary mouse button was clicked and any previous geoprocessing job has been canceled
             if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY && geoprocessingJob == null) {
+
+              // clear previous user click location and the viewshed geoprocessing task results
+              inputGraphicsOverlay.getGraphics().clear();
+              outputGraphicsOverlay.getGraphics().clear();
 
               // show a graphic in the input graphics overlay at the clicked location
               Point2D point2D = new Point2D(e.getX(), e.getY());
@@ -133,7 +140,7 @@ public class ViewshedGeoprocessingSample extends Application {
                   List<Field> fields = Collections.singletonList(Field.createString("observer", "", 8));
 
                   // create a feature collection table (used as a parameter to the geoprocessing job)
-                  final FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(fields,
+                  featureCollectionTable = new FeatureCollectionTable(fields,
                       GeometryType.POINT, point.getSpatialReference());
                   featureCollectionTable.loadAsync();
 
