@@ -33,7 +33,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/find_place/FindPlaceSample.java",
         "src/main/java/com/esri/samples/find_place/FindPlaceController.java",
-        "src/main/resources/find_place.fxml"
+        "src/main/resources/find_place/main.fxml"
     ],
     "title": "Find Place"
 }

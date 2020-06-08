@@ -66,7 +66,7 @@ public class UpdateAttributesSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/update_attributes/style.css").toExternalForm());
 
       // size the stage, add a title, and set scene to stage
       stage.setTitle("Update Attributes Sample");

@@ -31,7 +31,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/display_grid/DisplayGridSample.java",
         "src/main/java/com/esri/samples/display_grid/DisplayGridController.java",
-        "src/main/resources/display_grid.fxml"
+        "src/main/resources/display_grid/main.fxml"
     ],
     "title": "Display Grid"
 }

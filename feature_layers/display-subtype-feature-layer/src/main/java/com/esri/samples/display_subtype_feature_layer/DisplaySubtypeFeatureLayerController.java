@@ -74,7 +74,7 @@ public class DisplaySubtypeFeatureLayerController {
       map.getOperationalLayers().add(subtypeFeatureLayer);
       
       // access the json required for sublayer label definitions
-      final String json = IOUtils.toString(getClass().getResourceAsStream("/label_definition.json"), StandardCharsets.UTF_8);
+      final String json = IOUtils.toString(getClass().getResourceAsStream("/display_subtype_feature_layer/label_definition.json"), StandardCharsets.UTF_8);
 
       // load the subtype feature layer
       subtypeFeatureLayer.loadAsync();

@@ -39,7 +39,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/densify_and_generalize/DensifyAndGeneralizeSample.java",
         "src/main/java/com/esri/samples/densify_and_generalize/DensifyAndGeneralizeController.java",
-        "src/main/resources/densify_and_generalize.fxml"
+        "src/main/resources/densify_and_generalize/main.fxml"
     ],
     "title": "Densify and Generalize"
 }

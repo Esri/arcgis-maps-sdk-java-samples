@@ -37,7 +37,7 @@ class AuthenticationDialog extends Dialog<OAuthConfiguration> {
   @FXML private ButtonType continueButton;
 
   AuthenticationDialog() {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/create_and_save_map_auth_dialog.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/create_and_save_map/auth_dialog.fxml"));
     loader.setRoot(this);
     loader.setController(this);
 

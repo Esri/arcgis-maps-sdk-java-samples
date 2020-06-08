@@ -21,7 +21,8 @@
   "snippets": [
     "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/ReadSymbolsFromMobileStyleFileSample.java",
     "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/ReadSymbolsFromMobileStyleFileController.java",
-    "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/SymbolLayerInfoListCell.java"
+    "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/SymbolLayerInfoListCell.java",
+    "src/main/resources/read_symbols_from_mobile_style_file/main.fxml"
   ],
   "title": "Read Symbols from Mobile Style File"
 }

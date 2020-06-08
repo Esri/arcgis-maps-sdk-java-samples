@@ -30,7 +30,7 @@ public class ServiceAreaTaskSample extends Application {
   public void start(Stage stage) throws Exception {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/service_area_task.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/service_area_task/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

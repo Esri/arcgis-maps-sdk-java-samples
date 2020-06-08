@@ -25,7 +25,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererSample.java",
         "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererController.java",
-        "src/main/resources/hillshade_renderer.fxml"
+        "src/main/resources/hillshade_renderer/main.fxml"
     ],
     "title": "Hillshade Renderer"
 }

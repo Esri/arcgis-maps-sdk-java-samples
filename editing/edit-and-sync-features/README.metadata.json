@@ -33,7 +33,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/edit_and_sync_features/EditAndSyncFeaturesSample.java",
         "src/main/java/com/esri/samples/edit_and_sync_features/EditAndSyncFeaturesController.java",
-        "src/main/resources/edit_and_sync_features.fxml"
+        "src/main/resources/edit_and_sync_features/main.fxml"
     ],
     "title": "Edit and sync features"
 }

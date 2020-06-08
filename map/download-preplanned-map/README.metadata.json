@@ -24,7 +24,7 @@
         "src/main/java/com/esri/samples/download_preplanned_map/DownloadPreplannedMapSample.java",
         "src/main/java/com/esri/samples/download_preplanned_map/DownloadPreplannedOfflineMapJobListCell.java",
         "src/main/java/com/esri/samples/download_preplanned_map/PreplannedMapAreaListCell.java",
-        "src/main/resources/download_preplanned_map.fxml"
+        "src/main/resources/download_preplanned_map/main.fxml"
     ],
     "title": "Download a Preplanned Map Area"
 }

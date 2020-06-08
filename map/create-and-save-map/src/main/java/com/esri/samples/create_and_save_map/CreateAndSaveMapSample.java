@@ -31,7 +31,7 @@ public class CreateAndSaveMapSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/create_and_save_map.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/create_and_save_map/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
