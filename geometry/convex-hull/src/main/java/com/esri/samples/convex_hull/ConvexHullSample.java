@@ -133,12 +133,21 @@ public class ConvexHullSample extends Application {
       vBox.getStyleClass().add("panel-region");
       vBox.getChildren().addAll(convexHullButton, clearButton);
 
-      // add a point where the user clicks on the map
+      // create a point from where the user clicked
       mapView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
-          Point2D point2D = new Point2D(e.getX(), e.getY());
-          Point point = mapView.screenToLocation(point2D);
-          inputs.add(point);
+
+          Point2D point = new Point2D(e.getX(), e.getY());
+
+          // create a map point from a point
+          Point mapPoint = mapView.screenToLocation(point);
+
+          // for a wrapped around map, the point coordinates include the wrapped around value
+          // for a service in projected coordinate system, this wrapped around value has to be normalized
+          Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
+
+          // add a point where the user clicks on the map
+          inputs.add(normalizedMapPoint);
           // update the inputs graphic geometry
           Multipoint inputsGeometry = new Multipoint(new PointCollection(inputs));
           inputsGraphic.setGeometry(inputsGeometry);
