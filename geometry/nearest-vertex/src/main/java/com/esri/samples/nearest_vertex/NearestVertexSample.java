@@ -129,8 +129,7 @@ public class NearestVertexSample extends Application {
           // create a map point from a point
           Point mapPoint = mapView.screenToLocation(point);
 
-          // for a wrapped around map, the point coordinates include the wrapped around value
-          // for a service in projected coordinate system, this wrapped around value has to be normalized
+          // the map point should be normalized to the central meridian when wrapping around a map, so its value stays within the coordinate system of the map view
           Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
           // show where the user clicked
           clickedLocationGraphic.setGeometry(normalizedMapPoint);

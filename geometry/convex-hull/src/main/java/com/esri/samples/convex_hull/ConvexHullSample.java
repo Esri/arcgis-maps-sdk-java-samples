@@ -142,8 +142,7 @@ public class ConvexHullSample extends Application {
           // create a map point from a point
           Point mapPoint = mapView.screenToLocation(point);
 
-          // for a wrapped around map, the point coordinates include the wrapped around value
-          // for a service in projected coordinate system, this wrapped around value has to be normalized
+          // the map point should be normalized to the central meridian when wrapping around a map, so its value stays within the coordinate system of the map view
           Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
 
           // add a point where the user clicks on the map
