@@ -123,14 +123,21 @@ public class NearestVertexSample extends Application {
       // get the nearest vertex and coordinate where the user clicks
       mapView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
+          // create a point from where the user clicked
+          Point2D point = new Point2D(e.getX(), e.getY());
+
+          // create a map point from a point
+          Point mapPoint = mapView.screenToLocation(point);
+
+          // for a wrapped around map, the point coordinates include the wrapped around value
+          // for a service in projected coordinate system, this wrapped around value has to be normalized
+          Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
           // show where the user clicked
-          Point2D point2D = new Point2D(e.getX(), e.getY());
-          Point point = mapView.screenToLocation(point2D);
-          clickedLocationGraphic.setGeometry(point);
+          clickedLocationGraphic.setGeometry(normalizedMapPoint);
 
           // show the nearest coordinate and vertex
-          ProximityResult nearestCoordinateResult = GeometryEngine.nearestCoordinate(polygon, point);
-          ProximityResult nearestVertexResult = GeometryEngine.nearestVertex(polygon, point);
+          ProximityResult nearestCoordinateResult = GeometryEngine.nearestCoordinate(polygon, normalizedMapPoint);
+          ProximityResult nearestVertexResult = GeometryEngine.nearestVertex(polygon, normalizedMapPoint);
           nearestVertexGraphic.setGeometry(nearestVertexResult.getCoordinate());
           nearestCoordinateGraphic.setGeometry(nearestCoordinateResult.getCoordinate());
 
