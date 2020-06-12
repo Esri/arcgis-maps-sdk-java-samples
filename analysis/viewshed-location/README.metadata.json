@@ -28,9 +28,9 @@
         "Viewshed"
     ],
     "snippets": [
-        "ViewshedLocationController.java",
-        "ViewshedLocationLauncher.java",
-        "ViewshedLocationSample.java"
+        "src/main/java/com/esri/samples/viewshed_location/ViewshedLocationController.java",
+        "src/main/java/com/esri/samples/viewshed_location/ViewshedLocationSample.java",
+        "src/main/resources/viewshed_location/main.fxml"
     ],
     "title": "Viewshed location"
 }

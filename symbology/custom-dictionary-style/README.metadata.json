@@ -1,26 +1,28 @@
 {
-  "category": "Symbology",
-  "description": "Use a custom dictionary style (.stylx) to symbolize features using a variety of attribute values.",
-  "ignore": false,
-  "images": [
-    "CustomDictionaryStyle.png"
-  ],
-  "keywords": [
-    "dictionary",
-    "military",
-    "renderer",
-    "style",
-    "stylx",
-    "unique value",
-    "visualization"
-  ],
-  "relevant_apis": [
-    "DictionaryRenderer",
-    "DictionarySymbolStyle",
-    "DictionarySymbolStyleConfiguration"
-  ],
-  "snippets": [
-    "src/main/java/com/esri/samples/custom_dictionary_style/CustomDictionaryStyleSample.java"
-  ],
-  "title": "Custom dictionary style"
+    "category": "Symbology",
+    "description": "Use a custom dictionary style (.stylx) to symbolize features using a variety of attribute values.",
+    "ignore": false,
+    "images": [
+        "CustomDictionaryStyle.png"
+    ],
+    "keywords": [
+        "dictionary",
+        "military",
+        "renderer",
+        "style",
+        "stylx",
+        "unique value",
+        "visualization",
+        "DictionaryRenderer",
+        "DictionarySymbolStyle"
+    ],
+    "redirect_from": [],
+    "relevant_apis": [
+        "DictionaryRenderer",
+        "DictionarySymbolStyle"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/custom_dictionary_style/CustomDictionaryStyleSample.java"
+    ],
+    "title": "Custom dictionary style"
 }

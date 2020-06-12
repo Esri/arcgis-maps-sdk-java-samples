@@ -1,23 +1,23 @@
 {
     "category": "Hydrography",
-    "description": "Display nautical charts conforming to the ENC specification.",
+    "description": "Display nautical charts per the ENC specification.",
     "ignore": false,
     "images": [
         "AddEncExchangeSet.png"
     ],
     "keywords": [
-        "Data",
         "ENC",
+        "data",
+        "hydrographic",
+        "layers",
         "maritime",
         "nautical chart",
-        "layers",
-        "hydrographic",
         "EncCell",
         "EncDataset",
         "EncExchangeSet",
         "EncLayer"
     ],
-    "redirect_from": "/java/latest/sample-code/add-enc-exchange-set.htm",
+    "redirect_from": [],
     "relevant_apis": [
         "EncCell",
         "EncDataset",

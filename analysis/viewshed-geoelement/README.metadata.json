@@ -3,7 +3,7 @@
     "description": "Analyze the viewshed for an object (GeoElement) in a scene.",
     "ignore": false,
     "images": [
-        "ViewshedGeoElement.png"
+        "ViewshedGeoElement.gif"
     ],
     "keywords": [
         "3D",
@@ -14,8 +14,8 @@
         "viewshed",
         "visibility analysis",
         "AnalysisOverlay",
-        "GeoElementViewshed",
         "GeodeticDistanceResult",
+        "GeoElementViewshed",
         "GeometryEngine.distanceGeodetic (used to animate the vehicle)",
         "ModelSceneSymbol",
         "OrbitGeoElementCameraController"
@@ -25,15 +25,14 @@
     ],
     "relevant_apis": [
         "AnalysisOverlay",
-        "GeoElementViewshed",
         "GeodeticDistanceResult",
+        "GeoElementViewshed",
         "GeometryEngine.distanceGeodetic (used to animate the vehicle)",
         "ModelSceneSymbol",
         "OrbitGeoElementCameraController"
     ],
     "snippets": [
-        "ViewshedGeoElementLauncher.java",
-        "ViewshedGeoElementSample.java"
+        "src/main/java/com/esri/samples/viewshed_geoelement/ViewshedGeoElementSample.java"
     ],
     "title": "Viewshed geoelement"
 }

@@ -6,12 +6,17 @@
         "EditKMLGroundOverlay.png"
     ],
     "keywords": [
-        "imagery",
-        "Keyhole",
         "KML",
         "KMZ",
-        "OGC"
+        "Keyhole",
+        "OGC",
+        "imagery",
+        "KmlDataset",
+        "KmlGroundOverlay",
+        "KmlIcon",
+        "KmlLayer"
     ],
+    "redirect_from": [],
     "relevant_apis": [
         "KmlDataset",
         "KmlGroundOverlay",
@@ -21,5 +26,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/edit_kml_ground_overlay/EditKMLGroundOverlaySample.java"
     ],
-    "title": "Edit KML Ground Overlay"
+    "title": "Edit KML ground overlay"
 }

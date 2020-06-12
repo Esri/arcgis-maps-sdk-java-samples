@@ -1,17 +1,19 @@
 {
     "category": "Display information",
-    "description": "Display mil2525d symbols.",
+    "description": "Create graphics using a local mil2525d style file and an XML file with key/value pairs for each graphic.",
     "ignore": false,
     "images": [
         "DictionaryRendererGraphicsOverlay.png"
     ],
     "keywords": [
-        "dictionary renderer",
-        "dictionary symbol style",
-        "military",
-        "symbol"
+        "visualization",
+        "DictionaryRenderer",
+        "DictionarySymbolStyle",
+        "GraphicsOverlay"
     ],
-    "redirect_from": "/java/latest/sample-code/dictionary-renderer-with-graphics-overlay.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/dictionary-renderer-with-graphics-overlay.htm"
+    ],
     "relevant_apis": [
         "DictionaryRenderer",
         "DictionarySymbolStyle",
@@ -20,5 +22,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/dictionary_renderer_graphics_overlay/DictionaryRendererGraphicsOverlaySample.java"
     ],
-    "title": "Dictionary Renderer with Graphics Overlay"
+    "title": "Dictionary renderer with graphics overlay"
 }

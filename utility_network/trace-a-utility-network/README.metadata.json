@@ -1,41 +1,55 @@
 {
-  "category": "Utility network",
-  "description": "Discover connected features in a utility network using connected, subnetwork, upstream, and downstream traces.",
-  "ignore": false,
-  "images": [
-    "TraceUtilityNetwork.png"
-  ],
-  "keywords": [
-    "condition barriers",
-    "downstream trace",
-    "network analysis",
-    "subnetwork trace",
-    "trace configuration",
-    "upstream trace",
-    "utility network",
-    "validate consistency"
-  ],
-  "relevant_apis": [
-    "FractionAlongEdge",
-    "UtilityAssetType",
-    "UtilityDomainNetwork",
-    "UtilityElement",
-    "UtilityElementTraceResult",
-    "UtilityNetwork",
-    "UtilityNetworkDefinition",
-    "UtilityNetworkSource",
-    "UtilityTerminal",
-    "UtilityTier",
-    "UtilityTraceParameters",
-    "UtilityTraceResult",
-    "UtilityTraceType"
-  ],
-  "snippets": [
-    "src/main/java/com/esri/samples/trace_a_utility_network/TraceAUtilityNetworkController.java",
-    "src/main/java/com/esri/samples/trace_a_utility_network/TraceAUtilityNetworkLauncher.java",
-    "src/main/java/com/esri/samples/trace_a_utility_network/TraceAUtilityNetworkSample.java",
-    "src/main/java/com/esri/samples/trace_a_utility_network/UtilityTerminalListCell.java",
-    "src/main/resources/trace_a_utility_network/main.fxml"
-  ],
-  "title": "Trace a utility network"
+    "category": "Utility network",
+    "description": "Discover connected features in a utility network using connected, subnetwork, upstream, and downstream traces.",
+    "ignore": false,
+    "images": [
+        "TraceUtilityNetwork.png"
+    ],
+    "keywords": [
+        "condition barriers",
+        "downstream trace",
+        "network analysis",
+        "subnetwork trace",
+        "trace configuration",
+        "traversability",
+        "upstream trace",
+        "utility network",
+        "validate consistency",
+        "UtilityAssetType",
+        "UtilityDomainNetwork",
+        "UtilityElement",
+        "UtilityElementTraceResult",
+        "UtilityNetwork",
+        "UtilityNetworkDefinition",
+        "UtilityNetworkSource",
+        "UtilityTerminal",
+        "UtilityTier",
+        "UtilityTraceConfiguration",
+        "UtilityTraceParameters",
+        "UtilityTraceResult",
+        "UtilityTraceType"
+    ],
+    "redirect_from": [],
+    "relevant_apis": [
+        "UtilityAssetType",
+        "UtilityDomainNetwork",
+        "UtilityElement",
+        "UtilityElementTraceResult",
+        "UtilityNetwork",
+        "UtilityNetworkDefinition",
+        "UtilityNetworkSource",
+        "UtilityTerminal",
+        "UtilityTier",
+        "UtilityTraceConfiguration",
+        "UtilityTraceParameters",
+        "UtilityTraceResult",
+        "UtilityTraceType"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/trace_a_utility_network/TraceAUtilityNetworkController.java",
+        "src/main/java/com/esri/samples/trace_a_utility_network/TraceAUtilityNetworkSample.java",
+        "src/main/java/com/esri/samples/trace_a_utility_network/UtilityTerminalListCell.java",
+        "src/main/resources/trace_a_utility_network/main.fxml"
+    ],
+    "title": "Trace a utility network"
 }

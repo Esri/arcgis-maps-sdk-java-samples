@@ -1,22 +1,28 @@
 {
     "category": "Tiled layers",
-    "description": "Display tiles from an ArcGIS tile service.",
+    "description": "Load an ArcGIS tiled layer from a URL.",
     "ignore": false,
     "images": [
         "TiledLayer.png"
     ],
     "keywords": [
+        "basemap",
         "layers",
-        "tile",
-        "ArcGISTiledLayer",
+        "raster tiles",
+        "tiled layer",
+        "visualization",
         "ArcGISMap",
         "ArcGISTiledLayer",
+        "Basemap",
         "MapView"
     ],
-    "redirect_from": "/java/latest/sample-code/tiled-layer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/tiled-layer.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
         "ArcGISTiledLayer",
+        "Basemap",
         "MapView"
     ],
     "snippets": [

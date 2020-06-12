@@ -1,41 +1,33 @@
 {
     "category": "Map",
-    "description": "Create and save a map to your own portal.",
+    "description": "Create and save a map as an ArcGIS `PortalItem` (i.e. web map).",
     "ignore": false,
     "images": [
         "CreateAndSaveMap.png"
     ],
     "keywords": [
-        "AuthenticationChallengeHandler",
+        "ArcGIS Online",
+        "ArcGIS Pro",
+        "portal",
+        "publish",
+        "share",
+        "web map",
         "ArcGISMap",
-        "ArcGISMapImageLayer",
-        "Basemap",
-        "MapView",
-        "OAuthConfiguration",
-        "Portal",
-        "PortalFolder",
-        "PortalItem",
-        "PortalUserContent"
+        "Portal"
     ],
-    "redirect_from": "/java/latest/sample-code/create-and-save-map.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/create-and-save-map.htm"
+    ],
     "relevant_apis": [
-        "AuthenticationChallengeHandler",
         "ArcGISMap",
-        "ArcGISMapImageLayer",
-        "Basemap",
-        "MapView",
-        "OAuthConfiguration",
-        "Portal",
-        "PortalFolder",
-        "PortalItem",
-        "PortalUserContent"
+        "Portal"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapSample.java",
-        "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapController.java",
         "src/main/java/com/esri/samples/create_and_save_map/AuthenticationDialog.java",
-        "src/main/resources/create_and_save_map/main.fxml",
-        "src/main/resources/create_and_save_map/auth_dialog.fxml"
+        "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapController.java",
+        "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapSample.java",
+        "src/main/resources/create_and_save_map/auth_dialog.fxml",
+        "src/main/resources/create_and_save_map/main.fxml"
     ],
-    "title": "Create and Save Map"
+    "title": "Create and save map"
 }

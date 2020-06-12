@@ -1,35 +1,35 @@
 {
     "category": "Feature layers",
-    "description": "Combine feature tables with different geometries into a single layer.",
+    "description": "Create a feature collection layer from a feature collection table, and add it to a map.",
     "ignore": false,
     "images": [
         "FeatureCollectionLayer.png"
     ],
     "keywords": [
+        "collection",
+        "feature",
+        "layers",
+        "table",
+        "ArcGISFeature",
         "FeatureCollection",
         "FeatureCollectionLayer",
         "FeatureCollectionTable",
-        "Feature",
         "Field",
-        "SimpleFillSymbol",
-        "SimpleLineSymbol",
-        "SimpleMarkerSymbol",
         "SimpleRenderer"
     ],
-    "redirect_from": "/java/latest/sample-code/feature-collection-layer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/feature-collection-layer.htm"
+    ],
     "relevant_apis": [
+        "ArcGISFeature",
         "FeatureCollection",
         "FeatureCollectionLayer",
         "FeatureCollectionTable",
-        "Feature",
         "Field",
-        "SimpleFillSymbol",
-        "SimpleLineSymbol",
-        "SimpleMarkerSymbol",
         "SimpleRenderer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_collection_layer/FeatureCollectionLayerSample.java"
     ],
-    "title": "Feature Collection Layer"
+    "title": "Feature collection layer"
 }

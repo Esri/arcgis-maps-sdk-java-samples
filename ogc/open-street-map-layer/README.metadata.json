@@ -1,27 +1,30 @@
 {
     "category": "OGC",
-    "description": "Display tiles from OpenStreetMap.",
+    "description": "Add OpenStreetMap as a basemap layer.",
     "ignore": false,
     "images": [
         "OpenStreetMapLayer.png"
     ],
     "keywords": [
-        "Layers",
+        "OSM",
         "OpenStreetMap",
-        "ArcGISMap",
-        "Basemap",
-        "Basemap.Type",
+        "basemap",
+        "layers",
+        "map",
+        "open",
+        "street",
+        "Map",
         "MapView"
     ],
-    "redirect_from": "/java/latest/sample-code/openstreetmap-layer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/openstreetmap-layer.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
-        "Basemap.Type",
+        "Map",
         "MapView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/open_street_map_layer/OpenStreetMapLayerSample.java"
     ],
-    "title": "OpenStreetMap Layer"
+    "title": "OpenStreetMap layer"
 }

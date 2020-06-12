@@ -1,25 +1,26 @@
 {
     "category": "Map",
-    "description": "Determine when a map has finished loading.",
+    "description": "Determine the map's load status which can be: `NOT_LOADED`, `FAILED_TO_LOAD`, `LOADING`, `LOADED`.",
     "ignore": false,
     "images": [
         "AccessLoadStatus.png"
     ],
     "keywords": [
+        "LoadStatus",
+        "Loadable pattern",
+        "Map",
         "ArcGISMap",
-        "Basemap",
-        "MapView",
-        "LoadStatus"
+        "MapView"
     ],
-    "redirect_from": "/java/latest/sample-code/access-load-status.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/access-load-status.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
-        "Basemap",
-        "MapView",
-        "LoadStatus"
+        "MapView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/access_load_status/AccessLoadStatusSample.java"
     ],
-    "title": "Access Load Status"
+    "title": "Access load status"
 }

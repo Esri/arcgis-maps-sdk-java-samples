@@ -8,10 +8,17 @@
     "keywords": [
         "map area",
         "offline",
+        "pre-planned",
         "preplanned",
-        "pre-planned"
+        "DownloadPreplannedOfflineMapJob",
+        "DownloadPreplannedOfflineMapParameters",
+        "DownloadPreplannedOfflineMapResult",
+        "OfflineMapTask",
+        "PreplannedMapArea"
     ],
-    "redirect_from": "",
+    "redirect_from": [
+        ""
+    ],
     "relevant_apis": [
         "DownloadPreplannedOfflineMapJob",
         "DownloadPreplannedOfflineMapParameters",
@@ -26,5 +33,5 @@
         "src/main/java/com/esri/samples/download_preplanned_map/PreplannedMapAreaListCell.java",
         "src/main/resources/download_preplanned_map/main.fxml"
     ],
-    "title": "Download a Preplanned Map Area"
+    "title": "Download a preplanned map area"
 }

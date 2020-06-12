@@ -3,7 +3,7 @@
     "description": "Show a line of sight between two moving objects.",
     "ignore": false,
     "images": [
-        "LineOfSightGeoElement.png"
+        "LineOfSightGeoElement.gif"
     ],
     "keywords": [
         "3D",
@@ -23,8 +23,7 @@
         "LineOfSight.getTargetVisibility"
     ],
     "snippets": [
-        "LineOfSightGeoElementLauncher.java",
-        "LineOfSightGeoElementSample.java"
+        "src/main/java/com/esri/samples/line_of_sight_geoelement/LineOfSightGeoElementSample.java"
     ],
     "title": "Line of sight geoelement"
 }

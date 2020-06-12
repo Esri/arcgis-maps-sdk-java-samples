@@ -21,9 +21,9 @@
         "LocationDistanceMeasurement"
     ],
     "snippets": [
-        "DistanceMeasurementAnalysisController.java",
-        "DistanceMeasurementAnalysisLauncher.java",
-        "DistanceMeasurementAnalysisSample.java"
+        "src/main/java/com/esri/samples/distance_measurement_analysis/DistanceMeasurementAnalysisController.java",
+        "src/main/java/com/esri/samples/distance_measurement_analysis/DistanceMeasurementAnalysisSample.java",
+        "src/main/resources/distance_measurement_analysis/main.fxml"
     ],
     "title": "Distance measurement analysis"
 }

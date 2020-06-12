@@ -1,22 +1,26 @@
 {
     "category": "Geometry",
-    "description": "Create geodesic and planar buffers around a point.",
+    "description": "Create a buffer around a map point and display the results as a `Graphic`",
     "ignore": false,
     "images": [
         "Buffer.png"
     ],
     "keywords": [
+        "analysis",
+        "buffer",
+        "euclidean",
+        "geodesic",
+        "geometry",
+        "planar",
         "GeometryEngine",
-        "GraphicsOverlay",
-        "Point",
-        "Polygon"
+        "GraphicsOverlay"
     ],
-    "redirect_from": "/java/latest/sample-code/buffer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/buffer.htm"
+    ],
     "relevant_apis": [
         "GeometryEngine",
-        "GraphicsOverlay",
-        "Point",
-        "Polygon"
+        "GraphicsOverlay"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/buffer/BufferSample.java"

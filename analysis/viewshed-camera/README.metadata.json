@@ -3,7 +3,7 @@
     "description": "Analyze the viewshed for a camera. A viewshed shows the visible and obstructed areas from an observer's vantage point.",
     "ignore": false,
     "images": [
-        "ViewshedCamera.png"
+        "ViewshedCamera.gif"
     ],
     "keywords": [
         "3D",
@@ -31,8 +31,7 @@
         "SceneView"
     ],
     "snippets": [
-        "ViewshedCameraLauncher.java",
-        "ViewshedCameraSample.java"
+        "src/main/java/com/esri/samples/viewshed_camera/ViewshedCameraSample.java"
     ],
     "title": "Viewshed camera"
 }
