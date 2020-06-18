@@ -1,21 +1,22 @@
 /*
-  * Copyright 2020 Esri.
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
-  
+* Copyright 2020 Esri.
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
 package com.esri.samples.display_utility_associations;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -50,8 +51,8 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkSource;
 
 public class DisplayUtilityAssociationsSample extends Application {
   
-  private MapView mapView;
   private GraphicsOverlay associationsOverlay;
+  private MapView mapView;
   private UtilityNetwork utilityNetwork;
   
   @Override
@@ -61,9 +62,10 @@ public class DisplayUtilityAssociationsSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      
+      scene.getStylesheets().add(getClass().getResource("/display_utility_associations/style.css").toExternalForm());
+  
       // set title, size, and add scene to stage
-      stage.setTitle("Display Utility Association Sample");
+      stage.setTitle("Display Utility Associations Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -82,13 +84,13 @@ public class DisplayUtilityAssociationsSample extends Application {
       SimpleLineSymbol connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, 0xFFFF0000, 5);
   
       // add the attachment symbol to the image view to display it in the legend
-      ListenableFuture<Image> attachmentImage  = attachmentSymbol.createSwatchAsync(0x00000000);
+      ListenableFuture<Image> attachmentImage = attachmentSymbol.createSwatchAsync(0x00000000);
       attachmentImage.addDoneListener(() -> {
         try {
-          // display the image view in the preview area
-          attachmentImageView.setImage(attachmentImage .get());
+          // display the image in the image view
+          attachmentImageView.setImage(attachmentImage.get());
         } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided attachmentSymbol" + e.getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided attachmentSymbol").show();
         }
       });
   
@@ -96,30 +98,37 @@ public class DisplayUtilityAssociationsSample extends Application {
       ListenableFuture<Image> connectivityImage = connectivitySymbol.createSwatchAsync(0x00000000);
       connectivityImage.addDoneListener(() -> {
         try {
-          // display the image view in the preview area
+          // display the image in the image view
           connectivityImageView.setImage(connectivityImage.get());
         } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided connectivitySymbol" + e.getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided connectivitySymbol").show();
         }
       });
   
-      // Create a renderer for the associations
-      UniqueValueRenderer.UniqueValue attachmentUniqueValue  = new UniqueValueRenderer.UniqueValue("Attachment", "", attachmentSymbol, Arrays.asList(UtilityAssociationType.ATTACHMENT.toString()));
-      UniqueValueRenderer.UniqueValue connectivityUniqueValue  = new UniqueValueRenderer.UniqueValue("Connectivity", "", connectivitySymbol, Arrays.asList(UtilityAssociationType.CONNECTIVITY.toString()));
+      // create a unique value for each association type with the created symbols
+      UniqueValueRenderer.UniqueValue attachmentUniqueValue = new UniqueValueRenderer.UniqueValue(
+        "Attachment", "", attachmentSymbol, Collections.singletonList(UtilityAssociationType.ATTACHMENT.toString()));
+      UniqueValueRenderer.UniqueValue connectivityUniqueValue = new UniqueValueRenderer.UniqueValue(
+        "Connectivity", "", connectivitySymbol, Collections.singletonList(UtilityAssociationType.CONNECTIVITY.toString()));
   
-      // create a graphics overlay for associations
+      // create a unique value renderer using the values
+      UniqueValueRenderer uniqueValueRenderer = new UniqueValueRenderer(
+        Collections.singletonList("AssociationType"), Arrays.asList(attachmentUniqueValue, connectivityUniqueValue), "", null);
+      
+      // create a graphics overlay for the associations and set the renderer
       associationsOverlay = new GraphicsOverlay();
-      associationsOverlay.setRenderer(new UniqueValueRenderer(Arrays.asList("AssociationType"), Arrays.asList(attachmentUniqueValue, connectivityUniqueValue), "", null));
+      associationsOverlay.setRenderer(uniqueValueRenderer);
   
       // create a map with the topographic vector basemap
       ArcGISMap map = new ArcGISMap(Basemap.createTopographicVector());
       
-      // create a viewpoint to focus on the utility networks'extent
+      // create a viewpoint to focus on the utility networks' extent
       Viewpoint viewPoint = new Viewpoint(41.8057655, -88.1489692, 23);
   
-      // set initial arcgis map extent
+      // set the initial viewpoint
       map.setInitialViewpoint(viewPoint);
-      // create a map view and set its map
+      
+      // create a map view, set the map, and add the graphics overlay
       mapView = new MapView();
       mapView.setMap(map);
       mapView.getGraphicsOverlays().add(associationsOverlay);
@@ -127,13 +136,13 @@ public class DisplayUtilityAssociationsSample extends Application {
       // create the utility network
       utilityNetwork = new UtilityNetwork("https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer");
   
-      // load utility network async and get all of the edges and junctions in the network
+      // load the utility network and get all of the edges and junctions in the network
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
         List<UtilityNetworkSource> networkSources = utilityNetwork.getDefinition().getNetworkSources();
-    
+  
         for (UtilityNetworkSource nSource : networkSources)
-          // check an add all edges that are not subnet lines to the map.
+          // add all edges that are not subnet lines to the map
           if (nSource.getSourceType() == UtilityNetworkSource.Type.EDGE && nSource.getSourceUsageType() != UtilityNetworkSource.UsageType.SUBNET_LINE) {
             mapView.getMap().getOperationalLayers().add(new FeatureLayer(nSource.getFeatureTable()));
           }
@@ -141,30 +150,26 @@ public class DisplayUtilityAssociationsSample extends Application {
           else if (nSource.getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
             mapView.getMap().getOperationalLayers().add(new FeatureLayer(nSource.getFeatureTable()));
           }
-    
+  
         // add association graphics at the initial view point
         addAssociationsGraphics();
         // listen for navigation changes
-        mapView.addNavigationChangedListener((event) -> {
-          addAssociationsGraphics();
-        });
+        mapView.addNavigationChangedListener(event -> addAssociationsGraphics());
       });
+  
+      // create a legend
+      GridPane gridPane = new GridPane();
+      gridPane.getStyleClass().add("grid-pane");
+      gridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(25), new ColumnConstraints(100)));
+      gridPane.add(attachmentImageView, 0, 0);
+      gridPane.add(attachmentLabel, 1, 0);
+      gridPane.add(connectivityImageView, 0, 1);
+      gridPane.add(connectivityLabel, 1, 1);
       
-      // create a controls box
-      VBox controlsVBox = new VBox();
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255,0.5)"), CornerRadii.EMPTY,
-        Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setSpacing(5);
-      controlsVBox.setMaxSize(100, 50);
-      controlsVBox.setAlignment(Pos.BASELINE_LEFT);
-      controlsVBox.getStyleClass().add("panel-region");
-      controlsVBox.getChildren().addAll(attachmentLabel, attachmentImageView, connectivityLabel, connectivityImageView);
-      
-      // add the scene view and controls to the stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      // add the map view and legend to the stack pane
+      stackPane.getChildren().addAll(mapView, gridPane);
+      StackPane.setAlignment(gridPane, Pos.TOP_LEFT);
+      StackPane.setMargin(gridPane, new Insets(10, 0, 0, 10));
       
     } catch (Exception e) {
       // on any error, display the stack trace
@@ -185,32 +190,37 @@ public class DisplayUtilityAssociationsSample extends Application {
       // check if the current viewpoint has an extent
       Envelope extent = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY).getTargetGeometry().getExtent();
       if (extent != null) {
+        
         // get all of the associations in the extent of the viewpoint
         ListenableFuture<List<UtilityAssociation>> associationsFuture = utilityNetwork.getAssociationsAsync(extent);
-  
         associationsFuture.addDoneListener(() -> {
-    
           try {
             List<UtilityAssociation> associations = associationsFuture.get();
-      
+  
+            // iterate through all associations
             associations.forEach(association -> {
+              
               // check if the graphics overlay already contains the association
               if (associationsOverlay.getGraphics().stream().noneMatch(graphic ->
                 graphic.getAttributes().containsKey("GlobalId")
                   && graphic.getAttributes().get("GlobalId") == association.getGlobalId())
                 && association.getGeometry() != null) {
-          
+  
                 // create attributes for the graphic so that the renderers display the appropriate symbol
-                Map<String, Object> attributes = Map.of("GlobalId", association.getGlobalId(), "AssociationType", association.getAssociationType().toString());
+                Map<String, Object> attributes = Map.of(
+                  "GlobalId", association.getGlobalId(),
+                  "AssociationType", association.getAssociationType().toString());
+                
                 // create and add the graphic for the association
                 Graphic newGraphic = new Graphic(association.getGeometry(), attributes);
                 associationsOverlay.getGraphics().add(newGraphic);
               }
+              
             });
           } catch (InterruptedException | ExecutionException e) {
             new Alert(Alert.AlertType.ERROR, "Error " + e.getMessage()).show();
           }
-    
+  
         });
       }
     }
