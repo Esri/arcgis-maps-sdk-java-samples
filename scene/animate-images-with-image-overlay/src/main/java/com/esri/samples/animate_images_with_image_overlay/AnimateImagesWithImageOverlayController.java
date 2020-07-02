@@ -17,16 +17,18 @@
 package com.esri.samples.animate_images_with_image_overlay;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.stream.Collectors;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
+import javafx.util.Duration;
 
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
@@ -54,19 +56,16 @@ public class AnimateImagesWithImageOverlayController {
 
   private Integer frameIndex = 0;
   private Integer period = 67;
-  private Timer timer;
-  private boolean isTimerRunning;
+  private Timeline animation;
 
   public void initialize() {
 
     try {
       
-      // populate the frames combo box with values
-      framesComboBox.getItems().addAll("60 frames per second", "30 frames per second", "15 frames per second");
-      // open the sample at 15fps
+      // populate the frames combo box with speed descriptions
+      framesComboBox.getItems().addAll("Fast", "Medium", "Slow");
+      // open the sample at slow speed
       framesComboBox.getSelectionModel().select(2);
-      // set timer running tracker to true when sample loads
-      isTimerRunning = true;
 
       // create a new ArcGISScene and set it to the scene view
       ArcGISScene scene = new ArcGISScene();
@@ -97,18 +96,14 @@ public class AnimateImagesWithImageOverlayController {
       // store the newly created image overlay
       imageOverlay = sceneView.getImageOverlays().get(0);
 
-      // instantiate a new empty list to hold image frames
-      imageFrames = new ArrayList<>();
       // get the image files from local storage as an unordered list
       File[] imageFiles = new File(System.getProperty("data.dir"), "./samples-data/PacificSouthWest").listFiles();
       // sort the list of image files by file name in ascending order
       if (imageFiles != null) {
-        Arrays.sort(imageFiles);
-        // create an image frame from the file path and add it to the list of image frames
-        for (File file : imageFiles) {
-          ImageFrame imageFrame = new ImageFrame(file.getAbsolutePath(), imageFrameEnvelope);
-          imageFrames.add(imageFrame);
-        }
+        imageFrames = Arrays.stream(imageFiles)
+          .sorted()
+          .map(f -> new ImageFrame(f.getAbsolutePath(), imageFrameEnvelope))
+          .collect(Collectors.toList());
       }
 
       startNewAnimationTimer();
@@ -120,34 +115,22 @@ public class AnimateImagesWithImageOverlayController {
   }
 
   /**
-   * Set up a timer to display the images at the specified frame rate from the combobox.
+   * Set up a timer to display the images at the specified speed from the combobox.
    */
   private void startNewAnimationTimer() {
 
-    timer = new Timer(true);
-    TimerTask timerTask = new TimerTask() {
-      @Override
-      public void run() {
-        setNextImageFrameToImageOverlay();
-      }
-    };
-    timer.scheduleAtFixedRate(timerTask, 1L, period);
+    animation = new Timeline();
+    animation.setCycleCount(-1); // loop animation
+    animation.getKeyFrames().add(new KeyFrame(Duration.millis(period), e -> {
+      // set image frame to image overlay
+      imageOverlay.setImageFrame(imageFrames.get(frameIndex));
+      // update to the next frame
+      frameIndex = (frameIndex + 1) % imageFrames.size();
+    }));
+    animation.play();
+    
   }
   
-  /**
-   * Sets the next image frame from the array of image frames to the image overlay.
-   */
-  private void setNextImageFrameToImageOverlay() {
-
-    // set image frame to image overlay
-    imageOverlay.setImageFrame(imageFrames.get(frameIndex));
-    // increment the index to keep track of which image to load next
-    frameIndex++;
-    // reset index once all files have been loaded
-    if (frameIndex == imageFrames.size())
-      frameIndex = 0;
-  }
-
   /**
    * Controls the opacity of the image overlay using the slider.
    */
@@ -160,22 +143,22 @@ public class AnimateImagesWithImageOverlayController {
    * Handles the rate at which the image frames are displayed using the combo box.
    */
   @FXML
-  private void handleframesComboBoxInteraction() {
-    // set the period for the chosen fps 
+  private void handleFramesComboBoxInteraction() {
+    // set the period for the chosen frame display speed 
     switch (framesComboBox.getSelectionModel().getSelectedItem()) {
-      case "60 frames per second":
-        period = 17; // 1000ms/17 = 60 fps
+      case "Fast":
+        period = 17;
         break;
-      case "30 frames per second":
-        period = 33; // 1000ms/33 = 30 fps
+      case "Medium":
+        period = 33;
         break;
-      case "15 frames per second":
-        period = 67; // 1000ms/67 = 15 fps
+      case "Slow":
+        period = 67;
         break;
     }
 
-    if (isTimerRunning) {
-      timer.cancel();
+    if (animation.getStatus() == Animation.Status.RUNNING) {
+      animation.pause();
       startNewAnimationTimer();
     }
   }
@@ -184,14 +167,12 @@ public class AnimateImagesWithImageOverlayController {
    * Stops/starts the animation of the image frames on the image overlay.
    */
   @FXML
-  private void handlecontrolAnimationButtonClicked() {
-    if (isTimerRunning) {
-      timer.cancel();
-      isTimerRunning = false;
+  private void handleControlAnimationButtonClicked() {
+    if (animation.getStatus() == Animation.Status.RUNNING) {
+      animation.pause();
       controlAnimationButton.setText("Start");
     } else {
       startNewAnimationTimer();
-      isTimerRunning = true;
       controlAnimationButton.setText("Stop");
     }
   }

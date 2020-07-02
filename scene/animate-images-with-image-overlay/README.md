@@ -2,7 +2,7 @@
 
 Animate a series of images with an image overlay.
 
-![Image of animate images with image overlay](AnimateImagesWithImageOverlay.gif)
+![Image of animate images with image overlay](AnimateImageWithImageOverlay.gif)
 
 ## Use case
 
@@ -15,8 +15,8 @@ The application loads a map of the Southwestern United States. Click the "Start/
 ## How it works
 
 1. Create an `ImageOverlay` and add it to the `SceneView`.
-2. Set up a timer with an interval period. For example, an interval of 67ms is roughly equivalent to 15 fps.
-3. For every image, create a new `ImageFrame` and add it to the image overlay at evern timer interval.
+2. Set up a timer with an interval period.
+3. For every image, create a new `ImageFrame` and add it to the image overlay at every timer interval.
 
 ## Relevant API
 

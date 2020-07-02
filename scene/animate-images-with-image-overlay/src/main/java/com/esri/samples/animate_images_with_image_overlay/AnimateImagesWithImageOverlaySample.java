@@ -32,7 +32,7 @@ public class AnimateImagesWithImageOverlaySample extends Application {
   public void start(Stage stage) throws IOException {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/animate_images_with_image_overlay.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/animate_images_with_image_overlay/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene fxScene = new Scene(root);
