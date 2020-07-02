@@ -106,7 +106,7 @@ public class AnimateImagesWithImageOverlayController {
           .collect(Collectors.toList());
       }
 
-      startNewAnimationTimer();
+      startNewAnimationTimeline();
 
     } catch (Exception e) {
       // on any exception, print the stack trace
@@ -115,9 +115,9 @@ public class AnimateImagesWithImageOverlayController {
   }
 
   /**
-   * Set up a timer to display the images at the specified speed from the combobox.
+   * Set up a timeline to display the images at the specified speed from the combobox.
    */
-  private void startNewAnimationTimer() {
+  private void startNewAnimationTimeline() {
 
     animation = new Timeline();
     animation.setCycleCount(-1); // loop animation
@@ -128,7 +128,6 @@ public class AnimateImagesWithImageOverlayController {
       frameIndex = (frameIndex + 1) % imageFrames.size();
     }));
     animation.play();
-    
   }
   
   /**
@@ -159,7 +158,7 @@ public class AnimateImagesWithImageOverlayController {
 
     if (animation.getStatus() == Animation.Status.RUNNING) {
       animation.pause();
-      startNewAnimationTimer();
+      startNewAnimationTimeline();
     }
   }
 
@@ -172,7 +171,7 @@ public class AnimateImagesWithImageOverlayController {
       animation.pause();
       controlAnimationButton.setText("Start");
     } else {
-      startNewAnimationTimer();
+      startNewAnimationTimeline();
       controlAnimationButton.setText("Stop");
     }
   }
