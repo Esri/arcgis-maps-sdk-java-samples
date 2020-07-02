@@ -49,9 +49,10 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 public class GeometryEngineSimplifySample extends Application {
 
-  private MapView mapView;
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private GraphicsOverlay resultGeomOverlay;
   private Graphic polygon;
+  private MapView mapView;
 
   // simple black (0xFF000000) line symbol
   private final SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1);
@@ -63,7 +64,7 @@ public class GeometryEngineSimplifySample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/geometry_engine_simplify/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Geometry Engine Simplify Sample");
@@ -118,7 +119,7 @@ public class GeometryEngineSimplifySample extends Application {
       // add buttons to the control panel
       controlsVBox.getChildren().addAll(simplifyButton, resetButton);
 
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
+      map = new ArcGISMap(Basemap.createLightGrayCanvas());
 
       // enable geometry operations when ArcGISMap is done loading
       map.addDoneLoadingListener(() -> {

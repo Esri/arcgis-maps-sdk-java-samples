@@ -27,7 +27,7 @@
     "snippets": [
         "src/main/java/com/esri/samples/scene_properties_expressions/ScenePropertiesExpressionsSample.java",
         "src/main/java/com/esri/samples/scene_properties_expressions/ScenePropertiesExpressionsController.java",
-        "src/main/resources/scene_properties_expressions.fxml"
+        "src/main/resources/scene_properties_expressions/main.fxml"
     ],
     "title": "Scene Properties Expressions"
 }

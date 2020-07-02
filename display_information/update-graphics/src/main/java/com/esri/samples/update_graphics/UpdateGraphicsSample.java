@@ -56,6 +56,7 @@ public class UpdateGraphicsSample extends Application {
   private boolean isUpdateLocationActive;
   private List<SimpleMarkerSymbol> markers;
 
+  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
   private Graphic selectedGraphic;
   private GraphicsOverlay graphicsOverlay;
@@ -74,7 +75,7 @@ public class UpdateGraphicsSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/update_graphics/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Update Graphics Sample");
@@ -152,7 +153,7 @@ public class UpdateGraphicsSample extends Application {
       selectedGraphic = new Graphic();
 
       // create a ArcGISMap with basemap light gray canvas
-      ArcGISMap map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
+      map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
 
       // enable buttons when map view is done loading
       map.addDoneLoadingListener(() -> {

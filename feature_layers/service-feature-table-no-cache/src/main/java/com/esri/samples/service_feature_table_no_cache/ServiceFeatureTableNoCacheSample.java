@@ -36,6 +36,7 @@ public class ServiceFeatureTableNoCacheSample extends Application {
 
   private FeatureLayer featureLayer;
   private MapView mapView;
+  private ServiceFeatureTable serviceFeatureTable; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -66,7 +67,7 @@ public class ServiceFeatureTableNoCacheSample extends Application {
               64.8874243113506, SpatialReferences.getWgs84())));
 
       // create the service feature table
-      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/US_Bridges/FeatureServer/0");
+      serviceFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/US_Bridges/FeatureServer/0");
 
       // explicitly set the mode to no cache
       serviceFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.ON_INTERACTION_NO_CACHE);

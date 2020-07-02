@@ -2,7 +2,7 @@
 
 Add OpenStreetMap as a basemap layer.
 
-![Image of OpenStreetMap layer](openstreetmap-layer.png)
+![Image of OpenStreetMap layer](OpenStreetMapLayer.png)
 
 ## Use case
 
@@ -28,7 +28,7 @@ The attribution text will be set to the required OpenStreetMap attribution autom
 
 Apps that expect to make many requests to OpenStreetMap should consider using an alternative tile server via the `WebTiledLayer` class. See [layer types described](https://developers.arcgis.com/java/latest/guide/layer-types-described.htm#ESRI_SECTION1_B995CCAB20584F91890B3614CF16CF43) in the *ArcGIS Runtime SDK for Java* documentation for more information on OpenStreetMap usage restrictions and alternatives.
 
-Esri now hosts an [OpenStreetMap vector layer on ArcGIS Online](http://www.arcgis.com/home/item.html?id=3e1a00aeae81496587988075fe529f71) that uses recent OpenStreetMap data in conjunction with a style matching the default OpenStreetMap style. This layer is not subject to the tile access restrictions that apply to tiles fetched from OpenStreetMap.org.
+Esri now hosts an [OpenStreetMap vector layer on ArcGIS Online](https://www.arcgis.com/home/item.html?id=3e1a00aeae81496587988075fe529f71) that uses recent OpenStreetMap data in conjunction with a style matching the default OpenStreetMap style. This layer is not subject to the tile access restrictions that apply to tiles fetched from OpenStreetMap.org.
 
 ## Tags
 

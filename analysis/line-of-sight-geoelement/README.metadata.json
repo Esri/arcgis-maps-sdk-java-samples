@@ -3,7 +3,7 @@
   "description": "Show a line of sight between two moving objects.",
   "ignore": false,
   "images": [
-    "LineOfSightGeoElement.png"
+    "LineOfSightGeoElement.gif"
   ],
   "keywords": [],
   "redirect_from": "/java/latest/sample-code/line-of-sight-geoelement.htm",

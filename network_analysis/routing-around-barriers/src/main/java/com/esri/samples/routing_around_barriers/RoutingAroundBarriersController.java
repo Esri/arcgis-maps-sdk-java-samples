@@ -104,13 +104,13 @@ public class RoutingAroundBarriersController {
     routeGraphicsOverlay.setRenderer(routeRenderer);
 
     // create a marker with a pin image and position it
-    pinImage = new Image(getClass().getResourceAsStream("/orange_symbol.png"), 0, 40, true, true);
+    pinImage = new Image(getClass().getResourceAsStream("/routing_around_barriers/orange_symbol.png"), 0, 40, true, true);
     pinSymbol = new PictureMarkerSymbol(pinImage);
     pinSymbol.setOffsetY(20);
     pinSymbol.loadAsync();
 
     // create route task from San Diego service
-    routeTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
+    routeTask = new RouteTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
     routeTask.loadAsync();
 
     // wait for the route task to load
