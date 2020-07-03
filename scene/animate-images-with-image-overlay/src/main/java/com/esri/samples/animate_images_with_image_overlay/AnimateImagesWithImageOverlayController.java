@@ -97,7 +97,7 @@ public class AnimateImagesWithImageOverlayController {
       imageOverlay = sceneView.getImageOverlays().get(0);
 
       // get the image files from local storage as an unordered list
-      File[] imageFiles = new File(System.getProperty("data.dir"), "./samples-data/PacificSouthWest").listFiles();
+      File[] imageFiles = new File(System.getProperty("data.dir"), "./samples-data/psw/PacificSouthWest").listFiles();
       // sort the list of image files by file name in ascending order
       if (imageFiles != null) {
         imageFrames = Arrays.stream(imageFiles)
