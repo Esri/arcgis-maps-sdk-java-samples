@@ -23,7 +23,7 @@
         "RouteTask",
         "Stop"
     ],
-    "redirect_from": [],
+    "redirect_from": [""],
     "relevant_apis": [
         "DirectionManeuver",
         "PolygonBarrier",

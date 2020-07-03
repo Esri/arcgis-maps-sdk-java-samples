@@ -27,7 +27,7 @@ Once you launch the sample, you will be challenged for an ArcGIS Online login to
 * AuthenticationChallengeHandler
 * AuthenticationManager
 * DefaultAuthenticationChallengeHandler
-* Map
+* ArcGISMap
 * MapView
 * Portal
 * PortalItem

@@ -17,7 +17,7 @@
         "ServiceAreaResult",
         "ServiceAreaTask"
     ],
-    "redirect_from": [],
+    "redirect_from": [""],
     "relevant_apis": [
         "ServiceAreaParameters",
         "ServiceAreaPolygon",

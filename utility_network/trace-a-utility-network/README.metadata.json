@@ -29,7 +29,7 @@
         "UtilityTraceResult",
         "UtilityTraceType"
     ],
-    "redirect_from": [],
+    "redirect_from": [""],
     "relevant_apis": [
         "UtilityAssetType",
         "UtilityDomainNetwork",
