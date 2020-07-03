@@ -3,7 +3,7 @@
     "description": "Animate a series of images with an image overlay.",
     "ignore": false,
     "images": [
-        "AnimateImageWithImageOverlay.gif"
+        "AnimateImagesWithImageOverlay.gif"
     ],
     "keywords": [
         "3D",

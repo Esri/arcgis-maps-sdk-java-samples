@@ -15,7 +15,7 @@ The application loads a map of the Southwestern United States. Click the "Start/
 ## How it works
 
 1. Create an `ImageOverlay` and add it to the `SceneView`.
-2. Set up a timer with an interval period.
+2. Set up a timeline with an interval period.
 3. For every image, create a new `ImageFrame` and add it to the image overlay at every timer interval.
 
 ## Relevant API
