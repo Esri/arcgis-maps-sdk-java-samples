@@ -26,7 +26,7 @@
 <StackPane fx:controller="com.esri.samples.animate_images_with_image_overlay.AnimateImagesWithImageOverlayController"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/animate_images_with_image_overlay/style.css">
     <SceneView fx:id="sceneView"/>
-    <VBox>
+    <VBox styleClass="panel-region">
     <StackPane.margin>
         <Insets bottom="20"/>
     </StackPane.margin>
@@ -34,7 +34,7 @@
             <Button fx:id="controlAnimationButton" onAction="#handleControlAnimationButtonClicked" text="Stop" GridPane.rowIndex="0" GridPane.columnIndex="0" />
             <ComboBox fx:id="framesComboBox" onAction="#handleFramesComboBoxInteraction" GridPane.rowIndex="0" GridPane.columnIndex="1" maxWidth="Infinity"/>
             <Label text="Opacity:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Slider fx:id="opacitySlider" onMouseDragged="#changeImageOverlayOpacity" onMouseReleased="#changeImageOverlayOpacity" GridPane.rowIndex="1" GridPane.columnIndex="1" max="1" value="1" />
+            <Slider fx:id="opacitySlider" onMouseDragged="#changeImageOverlayOpacity" onMouseReleased="#changeImageOverlayOpacity" showTickLabels="true" GridPane.rowIndex="1" GridPane.columnIndex="1" max="1" value="1" />
         </GridPane>
     </VBox>
 </StackPane>

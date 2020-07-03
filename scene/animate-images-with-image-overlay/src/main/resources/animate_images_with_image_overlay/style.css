@@ -15,21 +15,17 @@ GridPane {
     -fx-hgap: 30;
     -fx-vgap: 10;
     -fx-padding: 10 0 0 10;
+    -fx-text-fill: white;
 }
 
-Button {
+.panel-region .button {
     -fx-width: 500;
 }
 
-Slider {
-    -fx-show-tick-labels: true;
-    -fx-major-tick-unit: 50;
-} 
-
-.axis {
+.range-slider .axis {
     -fx-tick-label-fill: white;
 }
 
-Label {
+.panel-region .label {
     -fx-text-fill: white;
 }
