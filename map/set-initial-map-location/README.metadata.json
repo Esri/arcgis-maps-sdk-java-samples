@@ -20,8 +20,8 @@
         "longitude",
         "scale",
         "zoom level",
+        "ArcGISMap",
         "Basemap",
-        "Map",
         "MapView"
     ],
     "redirect_from": [
