@@ -28,8 +28,8 @@
         "/java/latest/sample-code/set-initial-map-location.htm"
     ],
     "relevant_apis": [
+        "ArcGISMap",
         "Basemap",
-        "Map",
         "MapView"
     ],
     "snippets": [

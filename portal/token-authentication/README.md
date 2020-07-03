@@ -24,10 +24,10 @@ Once you launch the sample, you will be challenged for an ArcGIS Online login to
 
 ## Relevant API
 
+* ArcGISMap
 * AuthenticationChallengeHandler
 * AuthenticationManager
 * DefaultAuthenticationChallengeHandler
-* ArcGISMap
 * MapView
 * Portal
 * PortalItem

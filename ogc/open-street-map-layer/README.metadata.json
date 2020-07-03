@@ -13,14 +13,14 @@
         "map",
         "open",
         "street",
-        "Map",
+        "ArcGISMap",
         "MapView"
     ],
     "redirect_from": [
         "/java/latest/sample-code/openstreetmap-layer.htm"
     ],
     "relevant_apis": [
-        "Map",
+        "ArcGISMap",
         "MapView"
     ],
     "snippets": [
