@@ -1,7 +1,6 @@
 StackPane {
     -fx-alignment: bottom-center
 }
-
 VBox {
     -fx-background-color: rgba(0, 0, 0, 0.3);
     -fx-padding: 20;
@@ -10,22 +9,22 @@ VBox {
     -fx-spacing: 10;
     -fx-alignment: top-center
 }
-
 GridPane {
     -fx-hgap: 30;
     -fx-vgap: 10;
     -fx-padding: 10 0 0 10;
     -fx-text-fill: white;
 }
-
 .panel-region .button {
     -fx-width: 500;
 }
-
-.range-slider .axis {
-    -fx-tick-label-fill: white;
+.slider {
+    -fx-show-tick-labels: true;
 }
 
+.slider .axis {
+    -fx-tick-label-fill: white;
+}
 .panel-region .label {
     -fx-text-fill: white;
 }
