@@ -18,9 +18,6 @@ GridPane {
 .panel-region .button {
     -fx-width: 500;
 }
-.slider {
-    -fx-show-tick-labels: true;
-}
 
 .slider .axis {
     -fx-tick-label-fill: white;
