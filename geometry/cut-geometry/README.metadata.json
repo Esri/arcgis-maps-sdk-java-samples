@@ -6,40 +6,23 @@
         "CutGeometry.png"
     ],
     "keywords": [
-        "ArcGISMap",
-        "Basemap",
-        "Geometry",
+        "cut",
+        "geometry",
+        "split",
         "GeometryEngine",
-        "Graphic",
-        "GraphicsOverlay",
-        "MapView",
-        "Point",
-        "PointCollection",
         "Polygon",
-        "Polyline",
-        "SimpleFillSymbol",
-        "SimpleLineSymbol",
-        "SpatialReferences"
+        "Polyline"
     ],
-    "redirect_from": "/java/latest/sample-code/cut-geometry.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/cut-geometry.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
-        "Geometry",
         "GeometryEngine",
-        "Graphic",
-        "GraphicsOverlay",
-        "MapView",
-        "Point",
-        "PointCollection",
         "Polygon",
-        "Polyline",
-        "SimpleFillSymbol",
-        "SimpleLineSymbol",
-        "SpatialReferences"
+        "Polyline"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/cut_geometry/CutGeometrySample.java"
     ],
-    "title": "Cut Geometry"
+    "title": "Cut geometry"
 }

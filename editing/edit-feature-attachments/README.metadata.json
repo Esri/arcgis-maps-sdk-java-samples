@@ -1,31 +1,32 @@
 {
     "category": "Editing",
-    "description": "Add or remove feature attachments.",
+    "description": "Add, delete, and download attachments for features from a service.",
     "ignore": false,
     "images": [
         "EditFeatureAttachments.gif"
     ],
     "keywords": [
+        "Edit and Manage Data",
+        "JPEG",
+        "PDF",
+        "PNG",
+        "TXT",
+        "image",
+        "picture",
         "ArcGISFeature",
-        "ArcGISMap",
-        "Attachment",
-        "Feature",
         "FeatureLayer",
-        "MapView",
         "ServiceFeatureTable"
     ],
-    "redirect_from": "/java/latest/sample-code/edit-feature-attachments.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/edit-feature-attachments.htm"
+    ],
     "relevant_apis": [
         "ArcGISFeature",
-        "ArcGISMap",
-        "Attachment",
-        "Feature",
         "FeatureLayer",
-        "MapView",
         "ServiceFeatureTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/edit_feature_attachments/EditFeatureAttachmentsSample.java"
     ],
-    "title": "Edit Feature Attachments"
+    "title": "Edit feature attachments"
 }

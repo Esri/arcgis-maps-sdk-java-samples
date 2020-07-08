@@ -1,16 +1,21 @@
 {
     "category": "OGC",
-    "description": "Display a WMS layer.",
+    "description": "Display a WMS layer using a WMS service URL.",
     "ignore": false,
     "images": [
         "WmsLayerUrl.png"
     ],
     "keywords": [
+        "OGC",
+        "WMS",
+        "web map service",
         "ArcGISMap",
         "MapView",
         "WmsLayer"
     ],
-    "redirect_from": "/java/latest/sample-code/wms-layer-url.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/wms-layer-url.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
         "MapView",
@@ -19,5 +24,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/wms_layer_url/WmsLayerUrlSample.java"
     ],
-    "title": "WMS Layer URL"
+    "title": "WMS layer (URL)"
 }

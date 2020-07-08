@@ -1,15 +1,25 @@
 {
     "category": "Map view",
-    "description": "Export an area of the map as an image.",
+    "description": "Take a screenshot of the map.",
     "ignore": false,
     "images": [
         "TakeScreenshot.png"
     ],
     "keywords": [
+        "capture",
+        "export",
+        "image",
+        "print",
+        "screen capture",
+        "screenshot",
+        "share",
+        "shot",
         "ArcGISMap",
         "MapView"
     ],
-    "redirect_from": "/java/latest/sample-code/take-screen-shot.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/take-screen-shot.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
         "MapView"

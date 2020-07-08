@@ -6,22 +6,26 @@
         "UpdateGeometries.gif"
     ],
     "keywords": [
-        "ArcGISMap",
+        "editing",
+        "feature layer",
+        "feature table",
+        "moving",
+        "service",
+        "updating",
         "Feature",
         "FeatureLayer",
-        "MapView",
         "ServiceFeatureTable"
     ],
-    "redirect_from": "/java/latest/sample-code/update-geometries.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/update-geometries.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "Feature",
         "FeatureLayer",
-        "MapView",
         "ServiceFeatureTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/update_geometries/UpdateGeometriesSample.java"
     ],
-    "title": "Update Geometries"
+    "title": "Update geometries (feature service)"
 }

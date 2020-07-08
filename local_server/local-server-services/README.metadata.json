@@ -1,33 +1,39 @@
 {
     "category": "Local server",
-    "description": "Manage multiple running services in Local Server.",
+    "description": "Demonstrates how to start and stop the Local Server and start and stop a local map, feature, and geoprocessing service running on the Local Server.",
     "ignore": false,
     "images": [
         "LocalServerServices.png"
     ],
     "keywords": [
+        "feature",
+        "geoprocessing",
+        "local services",
+        "map",
+        "server",
+        "service",
         "LocalFeatureService",
         "LocalGeoprocessingService",
         "LocalMapService",
         "LocalServer",
-        "StatusChangedEvent",
         "LocalServerStatus",
         "LocalService"
     ],
-    "redirect_from": "/java/latest/sample-code/local-server-services.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/local-server-services.htm"
+    ],
     "relevant_apis": [
         "LocalFeatureService",
         "LocalGeoprocessingService",
         "LocalMapService",
         "LocalServer",
-        "StatusChangedEvent",
         "LocalServerStatus",
         "LocalService"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/local_server_services/LocalServerServicesSample.java",
         "src/main/java/com/esri/samples/local_server_services/LocalServerServicesController.java",
+        "src/main/java/com/esri/samples/local_server_services/LocalServerServicesSample.java",
         "src/main/resources/local_server_services/main.fxml"
     ],
-    "title": "Local Server Services"
+    "title": "Local Server services"
 }

@@ -1,35 +1,30 @@
 {
     "category": "Geometry",
-    "description": "Find transformations to other spatial references suitable to the point's location.",
+    "description": "Get a list of suitable transformations for projecting a geometry between two spatial references with different horizontal datums.",
     "ignore": false,
     "images": [
         "ListTransformationsBySuitability.png"
     ],
     "keywords": [
-        "ArcGISMap",
-        "Basemap",
+        "datum",
+        "geodesy",
+        "projection",
+        "spatial reference",
+        "transformation",
         "DatumTransformation",
         "GeometryEngine",
-        "Graphic",
-        "GraphicsOverlay",
-        "Point",
-        "SimpleMarkerSymbol",
         "TransformationCatalog"
     ],
-    "redirect_from": "/java/latest/sample-code/list-transformations-by-suitability.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/list-transformations-by-suitability.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
         "DatumTransformation",
         "GeometryEngine",
-        "Graphic",
-        "GraphicsOverlay",
-        "Point",
-        "SimpleMarkerSymbol",
         "TransformationCatalog"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/list_transformations_by_suitability/ListTransformationsBySuitabilitySample.java"
     ],
-    "title": "List Transformations By Suitability"
+    "title": "List transformations by suitability"
 }

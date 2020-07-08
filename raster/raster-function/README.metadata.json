@@ -1,25 +1,28 @@
 {
     "category": "Raster",
-    "description": "Apply a raster function to a raster.",
+    "description": "Load a raster from a service, then apply a function to it.",
     "ignore": false,
     "images": [
         "RasterFunction.png"
     ],
     "keywords": [
-        "ArcGISMap",
-        "Basemap",
+        "function",
+        "layer",
+        "raster",
+        "raster function",
+        "service",
         "ImageServiceRaster",
-        "MapView",
+        "Raster",
         "RasterFunction",
         "RasterFunctionArguments",
         "RasterLayer"
     ],
-    "redirect_from": "/java/latest/sample-code/raster-function.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/raster-function.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
         "ImageServiceRaster",
-        "MapView",
+        "Raster",
         "RasterFunction",
         "RasterFunctionArguments",
         "RasterLayer"
@@ -27,5 +30,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/raster_function/RasterFunctionSample.java"
     ],
-    "title": "Raster Function"
+    "title": "Raster function"
 }

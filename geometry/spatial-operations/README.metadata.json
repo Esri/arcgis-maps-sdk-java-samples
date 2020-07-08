@@ -6,16 +6,26 @@
         "SpatialOperations.png"
     ],
     "keywords": [
+        "combine",
+        "difference",
+        "edit",
+        "intersect",
+        "intersection",
+        "modify",
+        "symmetric difference",
+        "union",
         "Geometry",
         "Graphic",
         "GraphicsOverlay",
         "MapView",
         "Point",
         "PointCollection",
-        "SimpleLineSymbol",
-        "SimpleFillSymbol"
+        "SimpleFillSymbol",
+        "SimpleLineSymbol"
     ],
-    "redirect_from": "/java/latest/sample-code/spatial-operations.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/spatial-operations.htm"
+    ],
     "relevant_apis": [
         "Geometry",
         "Graphic",
@@ -23,11 +33,11 @@
         "MapView",
         "Point",
         "PointCollection",
-        "SimpleLineSymbol",
-        "SimpleFillSymbol"
+        "SimpleFillSymbol",
+        "SimpleLineSymbol"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/spatial_operations/SpatialOperationsSample.java"
     ],
-    "title": "Spatial Operations"
+    "title": "Spatial operations"
 }

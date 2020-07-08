@@ -1,22 +1,37 @@
 {
-  "category": "Analysis",
-  "description": "Create a viewshed using the current camera viewpoint.",
-  "ignore": false,
-  "images": [
-    "ViewshedCamera.gif"
-  ],
-  "keywords": [],
-  "redirect_from": "/java/latest/sample-code/viewshed-camera.htm",
-  "relevant_apis": [
-    "ArcGISMapImageLayer",
-    "GeoprocessingJob",
-    "GeoprocessingParameters",
-    "GeoprocessingResult",
-    "GeoprocessingString",
-    "GeoprocessingTask"
-  ],
-  "snippets": [
-    "src/main/java/com/esri/samples/viewshed_camera/ViewshedCameraSample.java"
-  ],
-  "title": "Viewshed Camera"
+    "category": "Analysis",
+    "description": "Analyze the viewshed for a camera. A viewshed shows the visible and obstructed areas from an observer's vantage point.",
+    "ignore": false,
+    "images": [
+        "ViewshedCamera.gif"
+    ],
+    "keywords": [
+        "3D",
+        "Scene",
+        "viewshed",
+        "visibility analysis",
+        "AnalysisOverlay",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "LocationViewshed",
+        "SceneView"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/viewshed-camera.htm"
+    ],
+    "relevant_apis": [
+        "AnalysisOverlay",
+        "ArcGISScene",
+        "ArcGISSceneLayer",
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "LocationViewshed",
+        "SceneView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/viewshed_camera/ViewshedCameraSample.java"
+    ],
+    "title": "Viewshed camera"
 }
