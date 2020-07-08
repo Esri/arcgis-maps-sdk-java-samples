@@ -16,9 +16,7 @@
         "OfflineMapTask",
         "PreplannedMapArea"
     ],
-    "redirect_from": [
-        ""
-    ],
+    "redirect_from": "",
     "relevant_apis": [
         "DownloadPreplannedOfflineMapJob",
         "DownloadPreplannedOfflineMapParameters",

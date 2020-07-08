@@ -19,7 +19,7 @@
         "KmlStyle",
         "SketchEditor"
     ],
-    "redirect_from": [""],
+    "redirect_from": "",
     "relevant_apis": [
         "GeometryEngine.Project",
         "KmlDataset",

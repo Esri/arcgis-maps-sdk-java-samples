@@ -17,7 +17,7 @@
         "EncExchangeSet",
         "EncLayer"
     ],
-    "redirect_from": [""],
+    "redirect_from": "",
     "relevant_apis": [
         "EncCell",
         "EncDataset",
