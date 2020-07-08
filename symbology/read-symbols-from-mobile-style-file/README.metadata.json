@@ -16,7 +16,7 @@
         "SymbolStyle",
         "SymbolStyleSearchParameters"
     ],
-    "redirect_from": [""],
+    "redirect_from": "",
     "relevant_apis": [
         "MultilayerPointSymbol",
         "MultilayerSymbol",
