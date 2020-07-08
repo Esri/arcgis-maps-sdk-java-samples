@@ -15,9 +15,7 @@
         "AnnotationSublayer",
         "LayerContent"
     ],
-    "redirect_from": [
-        ""
-    ],
+    "redirect_from": "",
     "relevant_apis": [
         "AnnotationLayer",
         "AnnotationSublayer",
