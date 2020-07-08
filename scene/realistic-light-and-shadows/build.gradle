@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.9.0-2782'
+    arcgisVersion = '100.9.0-2838'
 }
 
 javafx {
@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.realistic_light_and_shadows_sample.RealisticLightAndShadowsSampleLauncher'
+    mainClassName = 'com.esri.samples.realistic_light_and_shadows.RealisticLightAndShadowsLauncher'
 }
 
 jar {

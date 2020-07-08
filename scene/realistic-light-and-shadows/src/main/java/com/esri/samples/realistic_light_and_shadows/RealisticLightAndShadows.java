@@ -1,4 +1,4 @@
-package com.esri.samples.realistic_light_and_shadows_sample;
+package com.esri.samples.realistic_light_and_shadows;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -12,7 +12,7 @@ import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-public class RealisticLightAndShadowsSample extends Application{
+public class RealisticLightAndShadows extends Application{
     private SceneView sceneView;
     private static final String ELEVATION_IMAGE_SERVICE =
             "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
