@@ -1,0 +1,19 @@
+.panel-region .label {
+  -fx-text-fill: white;
+}
+
+.label {
+  -fx-text-fill: black;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: white;
+}
+
+.range-slider .axis {
+    -fx-tick-label-fill: white;
+}
+
+.panel-region .check-box {
+   -fx-text-fill: white;
+}
