@@ -1,0 +1,34 @@
+{
+    "category": "Scene",
+    "description": "Display a 3. scene with terrain and imagery.",
+    "ignore": false,
+    "images": [
+        "RealisticLightingAndShadows.png"
+    ],
+    "keywords": [
+        "3D",
+        "lighting",
+        "realism",
+        "realistic",
+        "rendering",
+        "shadows",
+        "sun",
+        "time",
+        "ArcGISScene",
+        "LightingMode",
+        "SceneView.setSunLighting",
+        "SceneView.setSunTime"
+    ],
+    "redirect_from": "/java/latest/sample-code/display-scene.htm",
+    "relevant_apis": [
+        "ArcGISScene",
+        "LightingMode",
+        "SceneView.setSunLighting",
+        "SceneView.setSunTime"
+
+    ],
+    "snippets": [
+        "src/main/java/com.esri.samples.realistic_light_and_shadows_sample/RealisticLightAndShadowsSample.java"
+    ],
+    "title": "Realistic Light and Shadows Sample"
+}
