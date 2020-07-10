@@ -3,7 +3,7 @@
     "description": "Show features from an online feature service.",
     "ignore": false,
     "images": [
-        "screenshot.png"
+        "FeatureLayerFeatureService.png"
     ],
     "keywords": [
         "feature table",
