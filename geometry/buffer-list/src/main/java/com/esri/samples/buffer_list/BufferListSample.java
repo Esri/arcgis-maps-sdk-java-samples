@@ -91,12 +91,11 @@ public class BufferListSample extends Application {
       // create a map view
       mapView = new MapView();
 
-      // create a map with a basemap and add it to the map view
+      // create a blank map with a spatial reference
       ArcGISMap map = new ArcGISMap(statePlaneNorthCentralTexas);
-      mapView.setMap(map);
-
-      // set an initial viewpoint
+      // set an initial viewpoint and add the map to the map view
       map.setInitialViewpoint(new Viewpoint(boundaryPolygon.getExtent()));
+      mapView.setMap(map);
 
       // create an image layer from a service URL (counties, cities, and highways)
       ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
