@@ -11,7 +11,7 @@ ext {
 
 javafx {
     version = "11.0.1"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls' ,'javafx.fxml']
 }
 
 compileJava.options.encoding = 'UTF-8'

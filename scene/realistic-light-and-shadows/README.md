@@ -1,6 +1,6 @@
-# Realistic lighting and shadows
+# Realistic Lighting and Shadows
 
-Show realistic lighting and shadows for a given time of day.
+Show realistic lighting and shadows for the time of day.
 
 ![Image of realistic lighting and shadows](RealisticLightingAndShadows.png)
 
@@ -13,6 +13,7 @@ You can use realistic lighting to evaluate the shadow impact of buildings and ut
 Select one of the three lighting options to show that lighting effect on the SceneView. Select a time of day from the slider (based on a 24hr clock) to show the lighting for that time of day in the SceneView.
 
 ## How it works
+To add realistic lighting and shadows to the SceneView:
 
 1. Create an `ArcGISScene` and display it in a `SceneView`.
 2. Create a `Calendar` to define the time of day.

@@ -1,72 +1,61 @@
+/*
+ * Copyright 2020 Esri.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.esri.samples.realistic_light_and_shadows;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.view.Camera;
-import com.esri.arcgisruntime.mapping.view.SceneView;
-
 public class RealisticLightAndShadows extends Application{
-    private SceneView sceneView;
-    private static final String ELEVATION_IMAGE_SERVICE =
-            "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
+
+    private static RealisticLightAndShadowsController controller;
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException  {
 
-        try {
+        // set up the scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/realistic_light_and_shadows/main.fxml"));
+        Parent root = loader.load();
+        controller = loader.getController();
+        Scene scene = new Scene(root);
 
-            // create stack pane and JavaFX app scene
-            StackPane stackPane = new StackPane();
-            Scene fxScene = new Scene(stackPane);
+        // create stack pane and JavaFX app scene
+        //StackPane stackPane = new StackPane();
+        //Scene fxScene = new Scene(stackPane);
+        //fxScene.getStylesheets().add(getClass().getResource("/realistic_light_and_shadows/style.css").toExternalForm());
 
-            // set title, size, and add JavaFX scene to stage
-            stage.setTitle("Realistic Light and Shadows");
-            stage.setWidth(800);
-            stage.setHeight(700);
-            stage.setScene(fxScene);
-            stage.show();
-
-            // create a scene and add a basemap to it
-            ArcGISScene scene = new ArcGISScene();
-            scene.setBasemap(Basemap.createImagery());
-
-            // add the SceneView to the stack pane
-            sceneView = new SceneView();
-            sceneView.setArcGISScene(scene);
-            stackPane.getChildren().addAll(sceneView);
-
-            // add base surface for elevation data
-            Surface surface = new Surface();
-            surface.getElevationSources().add(new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE));
-            scene.setBaseSurface(surface);
-
-            // add a camera and initial camera position
-            Camera camera = new Camera(28.4, 83.9, 10010.0, 10.0, 80.0, 0.0);
-            sceneView.setViewpointCamera(camera);
-
-        } catch (Exception e) {
-            // on any error, display the stack trace.
-            e.printStackTrace();
-        }
+        // set title, size, and add JavaFX scene to stage
+        stage.setTitle("Realistic Environmental Atmosphere Sample");
+        stage.setWidth(800);
+        stage.setHeight(700);
+        stage.setScene(scene);
+        stage.show();
     }
 
+    /**
     /**
      * Stops and releases all resources used in application.
      */
     @Override
-    public void stop() {
-
-        if (sceneView != null) {
-            sceneView.dispose();
-        }
-    }
+    public void stop() {controller.terminate();}
 
     /**
      * Opens and runs application.

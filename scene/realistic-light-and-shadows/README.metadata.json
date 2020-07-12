@@ -1,6 +1,6 @@
 {
     "category": "Scene",
-    "description": "Display a 3. scene with terrain and imagery.",
+    "description": "Show realistic lighting and shadows for the time of day.",
     "ignore": false,
     "images": [
         "RealisticLightingAndShadows.png"
@@ -19,7 +19,7 @@
         "SceneView.setSunLighting",
         "SceneView.setSunTime"
     ],
-    "redirect_from": "/java/latest/sample-code/display-scene.htm",
+    "redirect_from": "",
     "relevant_apis": [
         "ArcGISScene",
         "LightingMode",
@@ -28,7 +28,7 @@
 
     ],
     "snippets": [
-        "src/main/java/com.esri.samples.realistic_light_and_shadows_sample/RealisticLightAndShadowsSample.java"
+        "src/main/java/com.esri.samples.realistic_light_and_shadows/RealisticLightAndShadows.java"
     ],
     "title": "Realistic Light and Shadows Sample"
 }
