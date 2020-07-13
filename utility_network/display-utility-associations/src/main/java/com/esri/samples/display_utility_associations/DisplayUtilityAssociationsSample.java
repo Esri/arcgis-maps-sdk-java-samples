@@ -152,11 +152,10 @@ public class DisplayUtilityAssociationsSample extends Application {
       // on any error, display the stack trace
       e.printStackTrace();
     }
-    
   }
   
   /**
-   * Get the utility association type for each association within the extent , create graphics and add it to the graphics overlay.
+   * Get the utility association type for each association within the extent, create graphics and add it to the graphics overlay.
    */
   private void addAssociationsGraphics() {
     try {
@@ -190,7 +189,6 @@ public class DisplayUtilityAssociationsSample extends Application {
                   Graphic newGraphic = new Graphic(association.getGeometry(), attributes);
                   associationsOverlay.getGraphics().add(newGraphic);
                 }
-                
               });
               // this is thrown when there are too many associations in the extent
             } catch (InterruptedException | ExecutionException e) {
@@ -227,7 +225,6 @@ public class DisplayUtilityAssociationsSample extends Application {
     });
     return imageView;
   }
-  
   
   /**
    * Stops and releases all resources used in application.
