@@ -88,7 +88,7 @@ public class BufferListSample extends Application {
       );
       Polygon boundaryPolygon = (Polygon) GeometryEngine.project(new Polygon(new PointCollection(boundaryPoints)), statePlaneNorthCentralTexas);
 
-      // create a map with a basemap and set an initial viewpoint
+      // create a blank map with a spatial reference and set an initial viewpoint
       ArcGISMap map = new ArcGISMap(statePlaneNorthCentralTexas);
       map.setInitialViewpoint(new Viewpoint(boundaryPolygon.getExtent()));
 
