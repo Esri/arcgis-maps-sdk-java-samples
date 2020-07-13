@@ -37,164 +37,162 @@ import com.esri.arcgisruntime.mapping.view.Camera;
 
 public class RealisticLightAndShadowsController {
 
-    @FXML private SceneView sceneView;
-    @FXML private Label time;
-    @FXML private Slider timeSlider;
-    @FXML private Button noSunButton;
-    @FXML private Button sunOnlyButton;
-    @FXML private Button sunAndShadowsButton;
-    private Surface surface;
-    private Calendar calendar;
+  @FXML
+  private SceneView sceneView;
+  @FXML
+  private Label time;
+  @FXML
+  private Slider timeSlider;
+  @FXML
+  private Button noSunButton;
+  @FXML
+  private Button sunOnlyButton;
+  @FXML
+  private Button sunAndShadowsButton;
+  private Surface surface;
+  private Calendar calendar;
 
-    public void initialize() {
-        try {
+  public void initialize() {
+    try {
 
-            // create a scene and add a basemap to it
-            ArcGISScene scene = new ArcGISScene();
-            scene.setBasemap(Basemap.createTopographic());
+      // create a scene and add a basemap to it
+      ArcGISScene scene = new ArcGISScene();
+      scene.setBasemap(Basemap.createTopographic());
 
-            // add the SceneView to the stack pane
-            sceneView.setArcGISScene(scene);
+      // add the SceneView to the stack pane
+      sceneView.setArcGISScene(scene);
 
-            // add base surface for elevation data
-            surface = new Surface();
-            ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
-                    ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
-            surface.getElevationSources().add(elevationSource);
-            scene.setBaseSurface(surface);
+      // add base surface for elevation data
+      surface = new Surface();
+      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
+        ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
+      surface.getElevationSources().add(elevationSource);
+      scene.setBaseSurface(surface);
 
-            // add a scene layer
-            final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
-            ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
-            scene.getOperationalLayers().add(sceneLayer);
+      // add a scene layer
+      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest" +
+        "/SceneServer/layers/0";
+      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
+      scene.getOperationalLayers().add(sceneLayer);
 
-            // add a camera and initial camera position
-            Camera camera = new Camera(48.37, -4.50, 1000.0, 10.0, 70, 0.0);
-            sceneView.setViewpointCamera(camera);
+      // add a camera and initial camera position
+      Camera camera = new Camera(48.37, -4.50, 1000.0, 10.0, 70, 0.0);
+      sceneView.setViewpointCamera(camera);
 
-            // set atmosphere effect to realistic
-            sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC);
+      // set atmosphere effect to realistic
+      sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC);
 
-            //set the time label on the control panel
-            setTimeLabel();
+      //set the time label on the control panel
+      setTimeLabel();
 
-            // set the slider to display tick labels as time strings
-             setSliderLabels();
+      // set the slider to display tick labels as time strings
+      setSliderLabels();
 
-            //update the atmosphere effect based on the button clicked
-            noSunButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.NO_LIGHT));
-            sunOnlyButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT));
-            sunAndShadowsButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT_AND_SHADOWS));
+      //update the atmosphere effect based on the button clicked
+      noSunButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.NO_LIGHT));
+      sunOnlyButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT));
+      sunAndShadowsButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT_AND_SHADOWS));
 
-            // create a control panel
-         //  controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-           //         CornerRadii.EMPTY, Insets.EMPTY)));
-           // (new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-            //                    CornerRadii.EMPTY, Insets.EMPTY)))
-//            controlsVBox.setPadding(new Insets(10.0));
+    } catch (Exception e) {
+      // on any error, display the stack trace.
+      e.printStackTrace();
+    }
+  }
 
-        } catch (Exception e) {
-            // on any error, display the stack trace.
-            e.printStackTrace();
+  /**
+   * Update the hour of the day based on the value of the slider.
+   */
+  @FXML
+  public void changeTimeOfDay() {
+    // when the slider changes, update the hour of the day based on the value of the slider
+    timeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+
+        // get value from the slider
+        Double timeFromSlider = timeSlider.getValue();
+        // to get minutes from timer value, split double to the two values after decimal place
+        String timeAsString = timeFromSlider.toString();
+
+        // get the hour value from the slider
+        int hourFromSlider = timeFromSlider.intValue();
+
+        if (timeAsString.length() > 4) {
+          String subString = timeAsString.substring(3, 5);
+
+          int minutes = Integer.valueOf(subString);
+          // convert figures into minutes
+          float actualMinutes = ((float) minutes / (float) 100) * (float) 60;
+          // round into an integer
+          int minuteFromSlider = Math.round(actualMinutes);
+
+          // set the calendar for given hour and minute from slider value
+          calendar.set(2018, 7, 10, hourFromSlider, minuteFromSlider);
+
+        } else {
+          calendar.set(2018, 7, 10, hourFromSlider, 00);
         }
-    }
 
-    /**
-     * Update the hour of the day based on the value of the slider.
-     */
-    @FXML
-    public void changeTimeOfDay()
-    {
-        // when the slider changes, update the hour of the day based on the value of the slider
-        timeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+        // update label to reflect current date and time
+        String dynamicDateAndTime = calendar.getTime().toString();
+        String dynamicDateAndTimeTidied = dynamicDateAndTime.substring(0, 16);
+        time.setText(dynamicDateAndTimeTidied);
 
-            // get value from the slider
-            Double timeFromSlider = timeSlider.getValue();
-            // to get minutes from timer value, split double to the two values after decimal place
-            String timeAsString = timeFromSlider.toString();
-
-            // get the hour value from the slider
-            int hourFromSlider = timeFromSlider.intValue();
-
-            if (timeAsString.length() > 4) {
-                String subString = timeAsString.substring(3, 5);
-
-                int minutes = Integer.valueOf(subString);
-                // convert figures into minutes
-                float actualMinutes = ((float) minutes / (float) 100) * (float) 60;
-                // round into an integer
-                int minuteFromSlider = Math.round(actualMinutes);
-
-                // set the calendar for given hour and minute from slider value
-                calendar.set(2018, 7, 10, hourFromSlider, minuteFromSlider);
-
-            } else {
-                calendar.set(2018, 7, 10, hourFromSlider, 00);
-            }
-
-
-            // update label to reflect current date and time
-            String dynamicDateAndTime = calendar.getTime().toString();
-            String dynamicDateAndTimeTidied = dynamicDateAndTime.substring(0, 16);
-            time.setText(dynamicDateAndTimeTidied);
-
-            // set the sun time to calendar
-            sceneView.setSunTime(calendar);
-                }
-        );
-    }
-
-    /**
-     * Set labels to display on the slider.
-     */
-    private void setSliderLabels() {
-
-        timeSlider.setLabelFormatter(new StringConverter<Double>() {
-
-            @Override
-            public String toString(Double object) {
-
-                if (object == 4) return "4am";
-                if (object == 8) return "8am";
-                if (object == 12) return "Midday";
-                if (object == 16) return "4pm";
-                if (object == 20) return "8pm";
-
-                return "Midnight";
-            }
-
-            @Override
-            public Double fromString(String string) {
-                return null;
-            }
-        });
-    }
-
-    /**
-     * Set the time to display in a label.
-     */
-    public void setTimeLabel(){
-
-        // set a new calendar and add a date and time
-        calendar = new GregorianCalendar(2018, 7, 10, 12, 00, 0);
+        // set the sun time to calendar
         sceneView.setSunTime(calendar);
+      }
+    );
+  }
 
-        // get information about calendar
-        String dateAndTime = calendar.getTime().toString();
+  /**
+   * Set labels to display on the slider.
+   */
+  private void setSliderLabels() {
 
-        // tidy string to just return date and time (hours and minutes)
-        String dateAndTimeTidied = dateAndTime.substring(0, 16);
+    timeSlider.setLabelFormatter(new StringConverter<Double>() {
 
-        // set a label to display the tidied date and time
-        time.setText(dateAndTimeTidied);
+      @Override
+      public String toString(Double object) {
+
+        if (object == 4) return "4am";
+        if (object == 8) return "8am";
+        if (object == 12) return "Midday";
+        if (object == 16) return "4pm";
+        if (object == 20) return "8pm";
+
+        return "Midnight";
+      }
+
+      @Override
+      public Double fromString(String string) {
+        return null;
+      }
+    });
+  }
+
+  /**
+   * Set the time to display in a label.
+   */
+  public void setTimeLabel() {
+
+    // set a new calendar and add a date and time
+    calendar = new GregorianCalendar(2018, 7, 10, 12, 00, 0);
+    sceneView.setSunTime(calendar);
+
+    // get information about calendar
+    String dateAndTime = calendar.getTime().toString();
+
+    // tidy string to just return date and time (hours and minutes)
+    String dateAndTimeTidied = dateAndTime.substring(0, 16);
+
+    // set a label to display the tidied date and time
+    time.setText(dateAndTimeTidied);
+  }
+
+  /**
+   * Disposes application resources.
+   */
+  void terminate() {
+    if (sceneView != null) {
+      sceneView.dispose();
     }
-
-    /**
-     * Disposes application resources.
-     */
-    void terminate() {
-        if (sceneView != null) {
-            sceneView.dispose();
-        }
-    }
+  }
 }

@@ -40,7 +40,7 @@
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
-         <background>
+        <background>
             <Background>
                 <fills>
                     <BackgroundFill>
@@ -56,9 +56,8 @@
         <Button fx:id="sunOnlyButton" text="Sun light only" maxWidth="Infinity"/>
         <Button fx:id="sunAndShadowsButton" text="Sun light with shadows" maxWidth="Infinity"/>
         <Slider fx:id="timeSlider" value="12" max="24" majorTickUnit="4" minorTickCount="60" showTickMarks="true"
-                onMouseDragged="#changeTimeOfDay"
-                showTickLabels="true">
-            <padding>
+                showTickLabels="true" onMouseDragged="#changeTimeOfDay">
+            <padding>ime
                 <Insets topRightBottomLeft="10"/>
             </padding>
         </Slider>

@@ -24,48 +24,45 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class RealisticLightAndShadows extends Application{
+public class RealisticLightAndShadows extends Application {
 
-    private static RealisticLightAndShadowsController controller;
+  private static RealisticLightAndShadowsController controller;
 
-    @Override
-    public void start(Stage stage) throws IOException  {
+  @Override
+  public void start(Stage stage) throws IOException {
 
-        // set up the scene
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/realistic_light_and_shadows/main.fxml"));
-        Parent root = loader.load();
-        controller = loader.getController();
-        Scene scene = new Scene(root);
+    // set up the scene
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/realistic_light_and_shadows/main.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene scene = new Scene(root);
 
-        // create stack pane and JavaFX app scene
-        //StackPane stackPane = new StackPane();
-        //Scene fxScene = new Scene(stackPane);
-        //fxScene.getStylesheets().add(getClass().getResource("/realistic_light_and_shadows/style.css").toExternalForm());
+    // set title, size, and add JavaFX scene to stage
+    stage.setTitle("Realistic Environmental Atmosphere Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
+  }
 
-        // set title, size, and add JavaFX scene to stage
-        stage.setTitle("Realistic Environmental Atmosphere Sample");
-        stage.setWidth(800);
-        stage.setHeight(700);
-        stage.setScene(scene);
-        stage.show();
-    }
+  /**
+   * /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
+    controller.terminate();
+  }
 
-    /**
-    /**
-     * Stops and releases all resources used in application.
-     */
-    @Override
-    public void stop() {controller.terminate();}
+  /**
+   * Opens and runs application.
+   *
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
 
-    /**
-     * Opens and runs application.
-     *
-     * @param args arguments passed to this application
-     */
-    public static void main(String[] args) {
-
-        Application.launch(args);
-    }
+    Application.launch(args);
+  }
 
 }
 
