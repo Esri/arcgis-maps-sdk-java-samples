@@ -81,12 +81,17 @@ public class RealisticLightAndShadowsController {
             // set the slider to display tick labels as time strings
              setSliderLabels();
 
+            //update the atmosphere effect based on the button clicked
             noSunButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.NO_LIGHT));
             sunOnlyButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT));
             sunAndShadowsButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT_AND_SHADOWS));
 
-
-
+            // create a control panel
+         //  controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
+           //         CornerRadii.EMPTY, Insets.EMPTY)));
+           // (new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
+            //                    CornerRadii.EMPTY, Insets.EMPTY)))
+//            controlsVBox.setPadding(new Insets(10.0));
 
         } catch (Exception e) {
             // on any error, display the stack trace.
@@ -95,11 +100,12 @@ public class RealisticLightAndShadowsController {
     }
 
     /**
-     * Set labels to display on the slider.
+     * Update the hour of the day based on the value of the slider.
      */
     @FXML
     public void changeTimeOfDay()
     {
+        // when the slider changes, update the hour of the day based on the value of the slider
         timeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 
             // get value from the slider
@@ -136,8 +142,6 @@ public class RealisticLightAndShadowsController {
             sceneView.setSunTime(calendar);
                 }
         );
-
-
     }
 
     /**
@@ -167,12 +171,12 @@ public class RealisticLightAndShadowsController {
     }
 
     /**
-     * Set the time to display in a label
+     * Set the time to display in a label.
      */
     public void setTimeLabel(){
 
         // set a new calendar and add a date and time
-        calendar = new GregorianCalendar(2020, 06, 07, 12, 00, 0);
+        calendar = new GregorianCalendar(2018, 7, 10, 12, 00, 0);
         sceneView.setSunTime(calendar);
 
         // get information about calendar
