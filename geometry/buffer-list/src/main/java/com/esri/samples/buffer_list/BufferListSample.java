@@ -88,19 +88,18 @@ public class BufferListSample extends Application {
       );
       Polygon boundaryPolygon = (Polygon) GeometryEngine.project(new Polygon(new PointCollection(boundaryPoints)), statePlaneNorthCentralTexas);
 
-      // create a map view
-      mapView = new MapView();
-
-      // create a blank map with a spatial reference
+      // create a map with a basemap and set an initial viewpoint
       ArcGISMap map = new ArcGISMap(statePlaneNorthCentralTexas);
-      // set an initial viewpoint and add the map to the map view
       map.setInitialViewpoint(new Viewpoint(boundaryPolygon.getExtent()));
-      mapView.setMap(map);
 
       // create an image layer from a service URL (counties, cities, and highways)
       ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
       // add the image layer to the map's base layers
       map.getBasemap().getBaseLayers().add(mapImageLayer);
+
+      // create a map view and set the map to it
+      mapView = new MapView();
+      mapView.setMap(map);
 
       // show alert if layer fails to load
       mapImageLayer.addDoneLoadingListener(() -> {
