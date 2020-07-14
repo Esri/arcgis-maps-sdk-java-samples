@@ -70,13 +70,13 @@ public class RealisticLightAndShadowsController {
       scene.setBaseSurface(surface);
 
       // add a scene layer
-      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest" +
+      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells" +
         "/SceneServer/layers/0";
       ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
       scene.getOperationalLayers().add(sceneLayer);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(48.37, -4.50, 1000.0, 10.0, 70, 0.0);
+      Camera camera = new Camera( 45.54605153789073,-122.69033380511073, 941.0002111233771, 162.58544227544266, 60.0, 0.0);
       sceneView.setViewpointCamera(camera);
 
       // set atmosphere effect to realistic
