@@ -10,8 +10,14 @@ ext {
 }
 
 javafx {
-    version = "11.0.1"
-    modules = [ 'javafx.controls' ,'javafx.fxml']
+    version = "11.0.2"
+    modules = ['javafx.controls',
+               'javafx.base',
+               'javafx.graphics',
+               'javafx.fxml',
+               'javafx.web',
+               'javafx.media']
+
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -65,7 +71,7 @@ task productionZip(type: Zip) {
     group = 'distribution'
     from copyNatives
     from jar.destinationDir
-    into (project.name)
+    into(project.name)
     baseName = project.name
 }
 

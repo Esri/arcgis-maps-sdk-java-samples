@@ -57,7 +57,7 @@
         <Button fx:id="sunAndShadowsButton" text="Sun light with shadows" maxWidth="Infinity"/>
         <Slider fx:id="timeSlider" value="12" max="24" majorTickUnit="4" minorTickCount="60" showTickMarks="true"
                 showTickLabels="true" onMouseDragged="#changeTimeOfDay">
-            <padding>ime
+            <padding>
                 <Insets topRightBottomLeft="10"/>
             </padding>
         </Slider>
