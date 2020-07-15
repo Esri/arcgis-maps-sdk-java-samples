@@ -24,13 +24,13 @@ import javafx.stage.Stage;
 
 public class ConfigureSubnetworkTraceSample extends Application {
 
-  private static ConfigureSubnetworkTraceController controller;
+  private ConfigureSubnetworkTraceController controller;
 
   @Override
   public void start(Stage stage) throws Exception {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/configure_subnetwork_trace.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/configure_subnetwork_trace/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
