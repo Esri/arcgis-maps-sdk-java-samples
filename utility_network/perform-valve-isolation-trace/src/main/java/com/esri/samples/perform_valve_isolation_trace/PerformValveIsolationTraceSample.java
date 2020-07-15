@@ -30,7 +30,7 @@ public class PerformValveIsolationTraceSample extends Application {
   public void start(Stage stage) throws Exception {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/perform_valve_isolation_trace.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/perform_valve_isolation_trace/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

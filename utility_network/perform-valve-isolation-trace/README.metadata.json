@@ -48,7 +48,7 @@
         "src/main/java/com/esri/samples/perform_valve_isolation_trace/PerformValveIsolationTraceController.java",
         "src/main/java/com/esri/samples/perform_valve_isolation_trace/PerformValveIsolationTraceSample.java",
         "src/main/java/com/esri/samples/perform_valve_isolation_trace/UtilityCategoryListCell.java",
-        "src/main/resources/perform_valve_isolation_trace.fxml"
+        "src/main/resources/perform_valve_isolation_trace/main.fxml"
     ],
     "title": "Perform valve isolation trace"
 }
