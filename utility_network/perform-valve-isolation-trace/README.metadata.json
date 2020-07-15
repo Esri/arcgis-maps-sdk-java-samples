@@ -13,8 +13,22 @@
         "subnetwork trace",
         "trace configuration",
         "trace filter",
-        "utility network"
+        "utility network",
+        "UtilityCategory",
+        "UtilityCategoryComparison",
+        "UtilityCategoryComparisonOperator",
+        "UtilityDomainNetwork",
+        "UtilityElement",
+        "UtilityElementTraceResult",
+        "UtilityNetwork",
+        "UtilityNetworkDefinition",
+        "UtilityTier",
+        "UtilityTraceFilter",
+        "UtilityTraceParameters",
+        "UtilityTraceResult",
+        "UtilityTraceType"
     ],
+    "redirect_from": "",
     "relevant_apis": [
         "UtilityCategory",
         "UtilityCategoryComparison",
@@ -24,14 +38,17 @@
         "UtilityElementTraceResult",
         "UtilityNetwork",
         "UtilityNetworkDefinition",
-        "UtilityTraceFilter",
         "UtilityTier",
+        "UtilityTraceFilter",
         "UtilityTraceParameters",
         "UtilityTraceResult",
         "UtilityTraceType"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/perform_valve_isolation_trace/PerformValveIsolationTraceSample.java"
+        "src/main/java/com/esri/samples/perform_valve_isolation_trace/PerformValveIsolationTraceController.java",
+        "src/main/java/com/esri/samples/perform_valve_isolation_trace/PerformValveIsolationTraceSample.java",
+        "src/main/java/com/esri/samples/perform_valve_isolation_trace/UtilityCategoryListCell.java",
+        "src/main/resources/perform_valve_isolation_trace.fxml"
     ],
-    "title": "Perform Valve Isolation Trace"
+    "title": "Perform valve isolation trace"
 }
