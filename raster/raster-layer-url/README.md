@@ -1,8 +1,16 @@
-# Raster Layer URL
+# Raster layer (URL)
 
-Show raster data from an online raster image service.
+Create a raster layer from a raster image service.
 
-![](RasterLayerURL.png)
+![Image of raster layer URL](RasterLayerURL.png)
+
+## Use case
+
+Accessing a raster image from an online service can be useful for analysing the most up-to-date data available for an area. For example, retrieving recent results of bathymetry surveys within a shipping channel monitored for its sediment build-up would allow planners to assess dredging needs.
+
+## How to use the sample
+
+Simply launch the sample to see a raster from an image service being used on a map.
 
 ## How it works
 
@@ -12,10 +20,15 @@ To add a `RasterLayer` as an operational layer from an `ImageServiceRaster`:
 2. Create a `RasterLayer` from the raster
 3. Add it as an operational layer with `map.getOperationalLayers().add(rasterLayer)`
 
+## About the data
+
+This sample uses a [NOAA raster image service](https://gis.ngdc.noaa.gov/arcgis/rest/services/bag_hillshades/ImageServer). The service computes a hillshade image from the depth (in meters) of U.S. coastal waters.
+
 ## Relevant API
 
-* ArcGISMap
-* Basemap
-* ImageServiceRaster
-* MapView
-* RasterLayer
+*  ImageServiceRaster
+*  RasterLayer
+
+## Tags
+
+image service, raster

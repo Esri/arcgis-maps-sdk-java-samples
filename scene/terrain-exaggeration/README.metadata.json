@@ -1,25 +1,32 @@
 {
     "category": "Scene",
-    "description": "Vertically exaggerate terrain.",
+    "description": "Vertically exaggerate terrain in a scene.",
     "ignore": false,
     "images": [
         "TerrainExaggeration.gif"
     ],
     "keywords": [
+        "3D",
+        "DEM",
+        "DTM",
+        "elevation",
+        "scene",
+        "surface",
+        "terrain",
         "ArcGISScene",
-        "Surface",
-        "ArcGISTiledElevationSource"
+        "Surface"
     ],
-    "redirect_from": "/java/latest/sample-code/terrain-exaggeration.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/terrain-exaggeration.htm"
+    ],
     "relevant_apis": [
         "ArcGISScene",
-        "Surface",
-        "ArcGISTiledElevationSource"
+        "Surface"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/terrain_exaggeration/TerrainExaggerationSample.java",
         "src/main/java/com/esri/samples/terrain_exaggeration/TerrainExaggerationController.java",
-        "src/main/resources/terrain_exaggeration.fxml"
+        "src/main/java/com/esri/samples/terrain_exaggeration/TerrainExaggerationSample.java",
+        "src/main/resources/terrain_exaggeration/main.fxml"
     ],
-    "title": "Terrain Exaggeration"
+    "title": "Terrain exaggeration"
 }

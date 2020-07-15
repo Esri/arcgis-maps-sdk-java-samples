@@ -1,33 +1,32 @@
 {
     "category": "Tiled layers",
-    "description": "Export tiles from an online tile service.",
+    "description": "Download tiles to a local tile cache file stored on the device.",
     "ignore": false,
     "images": [
         "ExportTiles.png"
     ],
     "keywords": [
-        "ArcGISMap",
+        "cache",
+        "download",
+        "offline",
         "ArcGISTiledLayer",
-        "Basemap",
         "ExportTileCacheJob",
-        "ExportTileCacheParamters",
+        "ExportTileCacheParameters",
         "ExportTileCacheTask",
-        "MapView",
         "TileCache"
     ],
-    "redirect_from": "/java/latest/sample-code/export-tiles.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/export-tiles.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "ArcGISTiledLayer",
-        "Basemap",
         "ExportTileCacheJob",
-        "ExportTileCacheParamters",
+        "ExportTileCacheParameters",
         "ExportTileCacheTask",
-        "MapView",
         "TileCache"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/export_tiles/ExportTilesSample.java"
     ],
-    "title": "Export Tiles"
+    "title": "Export tiles"
 }

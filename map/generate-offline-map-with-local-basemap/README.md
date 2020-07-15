@@ -1,8 +1,8 @@
 # Generate offline map with local basemap
 
-Take a web map offline, but instead of downloading an online basemap, use one which is already on the device.
+Take a web map offline using a local basemap on the device.
 
-![](GenerateOfflineMapWithLocalBasemap.png)
+![Image of generate offline map with local basemap](GenerateOfflineMapWithLocalBasemap.png)
 
 ## Use case
 
@@ -20,10 +20,11 @@ The author of a web map can support the use of basemaps which are already on a d
 
 ## How to use the sample
 
-1. Click on the "Take Map Offline" button.
-2. You will be prompted to choose whether you wish to use the "naperville_imagery.tpk" basemap (already saved in the samples-data directory) or to download the online basemap.
-3. If you choose to download the online basemap, the offline map will be generated with the same (topographic) basemap as the online web map. To download the Esri basemap, you may be prompted to sign in to ArcGIS.com.
-4. If you choose to use the basemap from the device, the offline map will be generated with the local imagery basemap i.e. no tiles are exported or downloaded. Since the application is not exporting online ArcGIS Online basemaps you will not need to log-in.
+Click on the "Take Map Offline" button. You will be prompted to choose whether you wish to download the online basemap or use the "naperville_imagery.tpk" basemap (which is already saved in the samples-data directory).
+
+If you choose to download the online basemap, the offline map will be generated with the same (topographic) basemap as the online web map. To download the Esri basemap, you may be prompted to sign in to ArcGIS.com.
+
+If you choose to use the basemap from the device, the offline map will be generated with the local imagery basemap. The download will be quicker since no tiles are exported or downloaded. Since the application is not exporting online ArcGIS Online basemaps you will not need to log-in.
 
 ## How it works
 
@@ -37,12 +38,15 @@ The author of a web map can support the use of basemaps which are already on a d
 
 ## Relevant API
 
-* OfflineMapTask
-* GenerateOfflineMapParameters
-* GenerateOfflineMapParameterOverrides
 * GenerateOfflineMapJob
+* GenerateOfflineMapParameters
 * GenerateOfflineMapResult
+* OfflineMapTask
+
+## Offline data
+
+This sample uses [naperville_imagery.tpk](https://arcgisruntime.maps.arcgis.com/home/item.html?id=628e8e3521cf45e9a28a12fe10c02c4d) TileCache. It is downloaded from ArcGIS Online automatically.
 
 ## Tags
 
-offline, local basemap, OfflineMapTask
+basemap, download, local, offline, save, web map

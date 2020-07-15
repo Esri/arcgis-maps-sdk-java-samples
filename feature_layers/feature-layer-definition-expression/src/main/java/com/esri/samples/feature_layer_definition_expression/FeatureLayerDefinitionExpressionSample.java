@@ -38,7 +38,7 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
   private FeatureLayer featureLayer;
 
   private final static String FEATURE_SERVICE_URL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
@@ -47,7 +47,7 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
       // create stack pane and application scene 
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/feature_layer_definition_expression/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Feature Layer Definition Expression Sample");

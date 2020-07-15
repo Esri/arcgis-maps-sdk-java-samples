@@ -1,37 +1,30 @@
-# List Related Features
+# List related features
 
-Find features related to the selected feature.
+List features related to the selected feature.
 
-![](ListRelatedFeatures.png)
+![Image of list related features](ListRelatedFeatures.png)
+
+## Use case
+
+Related features are useful for managing relational information, like what you would store in a relational database management system (RDBMS). You can define relationships between records as one-to-one, one-to-many, or many-to-one. For example, you could model inspections and facilities as a many-to-one relationship. Then, for any facility feature, you could list related inspection features.
 
 ## How to use the sample
 
-After the layer is loaded, click on a feature to select it. An accordion view will display related features
-grouped by feature table.
+Click on a feature to select it. The related features will be displayed in a list.
 
 ## How it works
 
-To query related `Feature`s:
-
-1. Get a `Feature` from a loaded `FeatureLayer`.
-2. Get the feature's `FeatureTable` and call `featureTable.queryRelatedFeaturesAsync(feature)`.
-3. You will get a list of `RelatedFeatureQueryResult`s.
-    * You can get the name of the table containing the related features with `relatedFeatureQueryResult.getRelatedTable().getTableName()`.
-4. The `RelatedFeatureQueryResult` implements `Iterable<Feature>`. You can iterate over the result to get the features:
-    ```java
-    for (Feature feature: relatedFeatureQueryResult) {
-      //do something with the related feature...
-     }
-    ```
+1. With a `Feature`, call `queryRelatedFeaturesAsync()` on the feature's feature table.
+2. Iterate over the result's collection of `RelatedFeatureQueryResult` objects to get the related features and add them to a list.
 
 ## Relevant API
 
 * ArcGISFeature
 * ArcGISFeatureTable
-* ArcGISMap
-* Feature
-* FeatureLayer
 * FeatureQueryResult
 * FeatureTable
-* MapView
 * RelatedFeatureQueryResult
+
+## Tags
+
+features, identify, query, related, relationship, search

@@ -6,13 +6,18 @@
         "MapSpatialReference.png"
     ],
     "keywords": [
+        "WKID",
+        "project",
+        "spatial reference",
         "ArcGISMap",
         "ArcGISMapImageLayer",
         "Basemap",
         "MapView",
         "SpatialReference"
     ],
-    "redirect_from": "/java/latest/sample-code/map-spatial-reference.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/map-spatial-reference.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
         "ArcGISMapImageLayer",
@@ -23,5 +28,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/map_spatial_reference/MapSpatialReferenceSample.java"
     ],
-    "title": "Map Spatial Reference"
+    "title": "Map spatial reference"
 }

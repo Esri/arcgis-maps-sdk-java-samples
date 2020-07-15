@@ -2,30 +2,26 @@
 
 Synchronize offline edits with a feature service.
 
-![](EditAndSyncFeatures.png)
+![Image of edit and sync features](EditAndSyncFeatures.png)
 
 ## Use case
 
-By generating a local geodatabase, a user can take an offline copy of a feature service, make changes to it while still offline, and later synchronize their edits to the online feature service. For example, an infrastructure survey worker could use this functionality to save an up-to-date geodatabase to their device, perform their survey work in a remote area without internet connection, and later sync their results to an online geodatabase when regaining internet access.
+A survey worker who works in an area without an internet connection could take a geodatabase of survey features offline at their office, make edits and add new features to the offline geodatabase in the field, and sync the updates with the online feature service after returning to the office.
 
 ## How to use the sample
 
-1. Pan and zoom to the area you would like to download point features for, ensuring that all desired features are within the red rectangle.
-2. Click on the Generate Geodatabase button to make an offline database of the area. Once the job completes successfully, the available features within this area will be displayed.
-3. A feature can be selected by tapping on it. The selected feature can be moved to a new location by tapping anywhere on the map.
-4. Once a successful edit has been made to a feature, the Sync Geodatabase button is enabled. Press this button to synchronize the edits made to the local geodatabase with the remote feature service.
+Pan and zoom to position the red rectangle around the area you want to take offline. Click "Generate geodatabase" to take the area offline. When complete, the map will update to only show the offline area. To edit features, click to select a feature, and click again anywhere else on the map to move the selected feature to the clicked location. To sync the edits with the feature service, click the "Sync geodatabase" button.
 
 ## How it works
 
-1. Create a `GeodatabaseSyncTask` from a URL.
+1. Create a `GeodatabaseSyncTask` from a URL to a feature service.
 2. Use `createDefaultGenerateGeodatabaseParametersAsync()` on the geodatabase sync task to create `GenerateGeodatabaseParameters`, passing in an `Envelope` extent as the parameter.
-3. Create a `GenerateGeodatabaseJob` from the `GeodatabaseSyncTask` using `generateGeodatabaseAsync(...)` passing in parameters and a path to the local geodatabase.
-4. Start the `GenerateGeodatabaseJob` and, on success, load the `Geodatabase`.
-5. On successful loading, call `getGeodatabaseFeatureTables()` on the `Geodatabase` and add it to the `ArcGISMap`'s operational layers.
-6. To sync changes between the local and web geodatabases:
-    * Create a `SyncGeodatabaseParameters` object, and set it's sync direction with `syncGeodatabaseParameters.SyncDirection()`.
-    * Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)` passing the `SyncGeodatabaseParameters` and `Geodatabase` as arguments.
-    * Start the `SyncGeodatabaseJob` to synchronize the edits.
+3. Create a `GenerateGeodatabaseJob` from the `GeodatabaseSyncTask` using `generateGeodatabaseAsync(...)`, passing in the parameters and a path to where the geodatabase should be downloaded locally.
+4. Start the job and get the result `Geodatabase`.
+5. Load the geodatabase and get its feature tables. Create feature layers from the feature tables and add them to the map's operational layers collection.
+6. Create `SyncGeodatabaseParameters` and set the sync direction.
+7. Create a `SyncGeodatabaseJob` from `GeodatabaseSyncTask` using `.syncGeodatabaseAsync(...)`, passing in the parameters and geodatabase as arguments.
+8. Start the sync job to synchronize the edits.
 
 ## Relevant API
 
@@ -38,9 +34,13 @@ By generating a local geodatabase, a user can take an offline copy of a feature 
 * SyncGeodatabaseParameters
 * SyncLayerOption
 
+## Offline data
+
+This sample uses a [San Francisco offline basemap tile package](https://www.arcgis.com/home/item.html?id=3f1bbf0ec70b409a975f5c91f363fe7d).
+
 ## About the data
 
-The basemap for this sample is a San Francisco offline tile package, provided by ESRI to support ArcGIS Runtime SDK Samples. The * WildfireSync * feature service elements illustrate a collection schema for wildfire information.
+The basemap uses an offline tile package of San Francisco. The online feature service has features with wildfire information.
 
 ## Tags
 

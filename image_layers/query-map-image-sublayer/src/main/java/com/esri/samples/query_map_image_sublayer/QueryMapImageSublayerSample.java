@@ -63,7 +63,7 @@ public class QueryMapImageSublayerSample extends Application {
       // create a stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/query_map_image_sublayer/style.css").toExternalForm());
 
       // size the stage and add a title
       stage.setTitle("Query Map Image Sublayer Sample");

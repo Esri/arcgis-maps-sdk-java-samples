@@ -44,11 +44,10 @@ public class DisplayMapSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a ArcGISMap with the a Basemap instance with an Imagery base
-      // layer
+      // create a map with the imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());
 
-      // set the map to be displayed in this view
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 

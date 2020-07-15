@@ -1,27 +1,33 @@
 {
     "category": "Scene",
-    "description": "Extrude graphics based on attributes.",
+    "description": "Extrude graphics based on an attribute value.",
     "ignore": false,
     "images": [
         "ExtrudeGraphics.png"
     ],
     "keywords": [
-        "ArcGISScene",
-        "Graphic",
-        "GraphicsOverlay",
+        "3D",
+        "extrude",
+        "extrusion",
+        "height",
+        "scene",
+        "visualization",
         "Renderer",
-        "Renderer.SceneProperties"
+        "SceneProperties",
+        "SceneProperties.ExtrusionMode",
+        "SimpleRenderer"
     ],
-    "redirect_from": "/java/latest/sample-code/extrude-graphics.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/extrude-graphics.htm"
+    ],
     "relevant_apis": [
-        "ArcGISScene",
-        "Graphic",
-        "GraphicsOverlay",
         "Renderer",
-        "Renderer.SceneProperties"
+        "SceneProperties",
+        "SceneProperties.ExtrusionMode",
+        "SimpleRenderer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/extrude_graphics/ExtrudeGraphicsSample.java"
     ],
-    "title": "Extrude Graphics"
+    "title": "Extrude graphics"
 }

@@ -1,39 +1,30 @@
-# Distance Composite Symbol
+# Distance composite symbol
 
-Change a graphic's symbol based on camera proximity.
+Change a graphic's symbol based on the camera's proximity to it.
 
-Distance composite scene symbols can render different symbols depending on the distance between the camera and the graphic.
+![Image of distance composite symbol](DistanceCompositeSymbol.gif)
 
-![](DistanceCompositeSymbol.gif)
+## Use case
+
+When showing dense datasets, it is beneficial to reduce the detail of individual points when zooming out to avoid visual clutter and to avoid data points overlapping and obscuring each other.
 
 ## How to use the sample
 
-The symbol of graphic will change while zooming in or out.
+The sample starts looking at a plane. Zoom out from the plane to see it turn into a cone. Keeping zooming out and it will turn into a point.
 
 ## How it works
 
-To create and display a `DistanceCompositeSceneSymbol`:
-
-1. Create a `GraphicsOverlay` and add it to the `SceneView`.
-2. Create symbols for each `Range` the composite symbol.
-3. Create a distance composite scene symbol`.
-4. Add a range for each symbol to `DistanceCompositeSceneSymbol.getRangeCollection().add(new Range(symbol, min distance, max distance))`.
-    * symbol, symbol to be used within the min/max range that is given
-    * min/max distance, the minimum and maximum distance that the symbol will be display from the `Camera`
-5. Create a `Graphic` with the symbol: `Graphic(Point, DistanceCompositeSceneSymbol)`
-6. Add the graphic to the graphics overlay.
+1. Create a `GraphicsOverlay` object and add it to a `SceneView` object.
+2. Create a `DistanceCompositeSceneSymbol` object.
+3. Create `DistanceCompositeSceneSymbol.Range` objects specifying a `Symbol` and the min and max distance within which the symbol should be visible.
+4. Add the ranges to the range collection of the distance composite scene symbol.
+5. Create a `Graphic` object with the distance composite scene symbol at a location and add it to the graphics overlay.
 
 ## Relevant API
 
-* ArcGISScene
-* ArcGISTiledElevationSource
-* Camera
 * DistanceCompositeSceneSymbol
 * DistanceCompositeSceneSymbol.Range
-* Graphic
-* GraphicsOverlay
-* ModelSceneSymbol
-* Range
-* RangeCollection
-* SceneView
-* SimpleMarkerSceneSymbol
+
+## Tags
+
+3D, data, graphic

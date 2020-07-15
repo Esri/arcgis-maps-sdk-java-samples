@@ -20,6 +20,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -31,6 +32,7 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.SublayerList;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -39,10 +41,6 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
 
   private MapView mapView;
 
-  // World Topo Map Service URL
-  private static final String WORLD_CITIES_SERVICE =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
-
   @Override
   public void start(Stage stage) {
 
@@ -50,7 +48,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       // create a border pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/map_image_layer_sublayer_visibility/style.css").toExternalForm());
 
       // size the stage and add a title
       stage.setTitle("Map Image Layer Sublayer Visibility Sample");
@@ -62,7 +60,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-          Insets.EMPTY)));
+              Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 130);
       controlsVBox.getStyleClass().add("panel-region");
@@ -75,27 +73,38 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       controlsVBox.getChildren().addAll(citiesBox, continentsBox, worldBox);
       controlsVBox.getChildren().forEach(c -> ((CheckBox) c).setSelected(true));
 
-      // create a ArcGISMap with the a BasemapType Topographic
+      // create a map view
+      mapView = new MapView();
+
+      // create an ArcGISMap with the topographic basemap and set it to the map view
       ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 48.354406, -99.998267, 2);
+      mapView.setMap(map);
 
       // create a Image Layer with dynamically generated ArcGISMap images
-      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(WORLD_CITIES_SERVICE);
-      imageLayer.setOpacity(0.7f);
+      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer");
 
       // add world cities layers as ArcGISMap operational layer
       map.getOperationalLayers().add(imageLayer);
 
-      // set the ArcGISMap to be displayed in this view
-      mapView = new MapView();
-      mapView.setMap(map);
+      // set the image layer's opacity so that the basemap is visible behind it
+      imageLayer.setOpacity(0.7f);
 
-      // get the layers from the ArcGISMap image layer
-      SublayerList layers = imageLayer.getSublayers();
+      // show alert if layer fails to load
+      imageLayer.addDoneLoadingListener(() -> {
+        if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
 
-      // handle sub layer selection
-      citiesBox.selectedProperty().addListener(e -> layers.get(0).setVisible(citiesBox.isSelected()));
-      continentsBox.selectedProperty().addListener(e -> layers.get(1).setVisible(continentsBox.isSelected()));
-      worldBox.selectedProperty().addListener(e -> layers.get(2).setVisible(worldBox.isSelected()));
+          // get the layers from the ArcGISMap image layer
+          SublayerList layers = imageLayer.getSublayers();
+
+          // handle sub layer selection
+          citiesBox.selectedProperty().addListener(e -> layers.get(0).setVisible(citiesBox.isSelected()));
+          continentsBox.selectedProperty().addListener(e -> layers.get(1).setVisible(continentsBox.isSelected()));
+          worldBox.selectedProperty().addListener(e -> layers.get(2).setVisible(worldBox.isSelected()));
+
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Error loading Image Layer.").show();
+        }
+      });
 
       // add the MapView and checkboxes
       stackPane.getChildren().addAll(mapView, controlsVBox);
@@ -119,7 +128,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
 
   /**
    * Starting point of this application.
-   * 
+   *
    * @param args arguments to this application.
    */
   public static void main(String[] args) {

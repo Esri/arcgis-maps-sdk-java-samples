@@ -8,18 +8,21 @@
     "keywords": [
         "OGC",
         "WFS",
-        "layers. feature",
-        "web",
-        "service",
         "browse",
         "catalog",
+        "feature",
         "interaction cache",
+        "layers",
+        "service",
+        "web",
         "FeatureLayer",
         "NavigationChangedEvent",
         "QueryParameters",
         "WfsFeatureTable"
     ],
-    "redirect_from": "/java/latest/sample-code/display-wfs-layer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/display-wfs-layer.htm"
+    ],
     "relevant_apis": [
         "FeatureLayer",
         "NavigationChangedEvent",
@@ -29,5 +32,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/display_wfs_layer/DisplayWFSLayerSample.java"
     ],
-    "title": "Display WFS Layer"
+    "title": "Display WFS layer"
 }

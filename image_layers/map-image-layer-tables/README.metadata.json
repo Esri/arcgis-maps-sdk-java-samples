@@ -6,6 +6,10 @@
         "MapImageLayerTables.png"
     ],
     "keywords": [
+        "features",
+        "query",
+        "related features",
+        "search",
         "ArcGISFeature",
         "ArcGISMapImageLayer",
         "Feature",
@@ -16,7 +20,9 @@
         "RelationshipInfo",
         "ServiceFeatureTable"
     ],
-    "redirect_from": "/java/latest/sample-code/map-image-layer-tables.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/map-image-layer-tables.htm"
+    ],
     "relevant_apis": [
         "ArcGISFeature",
         "ArcGISMapImageLayer",
@@ -31,5 +37,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/map_image_layer_tables/MapImageLayerTablesSample.java"
     ],
-    "title": "Map Image Layer Tables"
+    "title": "Map image layer tables"
 }

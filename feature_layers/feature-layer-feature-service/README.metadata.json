@@ -6,14 +6,22 @@
         "FeatureLayerFeatureService.png"
     ],
     "keywords": [
+        "feature table",
+        "layer",
+        "layers",
+        "service",
         "ArcGISMap",
+        "Basemap",
         "FeatureLayer",
         "MapView",
         "ServiceFeatureTable"
     ],
-    "redirect_from": "/java/latest/sample-code/feature-layer-feature-service.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/feature-layer-feature-service.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
+        "Basemap",
         "FeatureLayer",
         "MapView",
         "ServiceFeatureTable"
@@ -21,5 +29,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_feature_service/FeatureLayerFeatureServiceSample.java"
     ],
-    "title": "Feature Layer Feature Service"
+    "title": "Feature layer (feature service)"
 }

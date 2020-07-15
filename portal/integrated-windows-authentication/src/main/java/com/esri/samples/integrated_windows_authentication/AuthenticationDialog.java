@@ -35,7 +35,7 @@ class AuthenticationDialog extends Dialog<UserCredential> {
 
   AuthenticationDialog() {
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/iwa_auth_dialog.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/integrated_windows_authentication/iwa_auth_dialog.fxml"));
     loader.setRoot(this);
     loader.setController(this);
 

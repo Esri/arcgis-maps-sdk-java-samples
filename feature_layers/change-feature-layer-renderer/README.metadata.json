@@ -1,29 +1,28 @@
 {
     "category": "Feature layers",
-    "description": "Change how a feature layer looks with a renderer.",
+    "description": "Change the appearance of a feature layer with a renderer.",
     "ignore": false,
     "images": [
-        "ChangeFeatureLayerRenderer.gif"
+        "ChangeFeatureLayerRenderer.png"
     ],
     "keywords": [
-        "ArcGISMap",
+        "feature layer",
+        "renderer",
+        "visualization",
         "FeatureLayer",
-        "MapView",
-        "Renderer",
         "ServiceFeatureTable",
         "SimpleRenderer"
     ],
-    "redirect_from": "/java/latest/sample-code/change-feature-layer-renderer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/change-feature-layer-renderer.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "FeatureLayer",
-        "MapView",
-        "Renderer",
         "ServiceFeatureTable",
         "SimpleRenderer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/change_feature_layer_renderer/ChangeFeatureLayerRendererSample.java"
     ],
-    "title": "Change Feature Layer Renderer"
+    "title": "Change feature layer renderer"
 }

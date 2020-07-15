@@ -1,33 +1,36 @@
 {
     "category": "Symbology",
-    "description": "Symbolize features based on their unique attribute value.",
+    "description": "Render features in a layer using a distinct symbol for each unique attribute value.",
     "ignore": false,
     "images": [
         "UniqueValueRenderer.png"
     ],
     "keywords": [
-        "ArcGISMap",
+        "draw",
+        "renderer",
+        "symbol",
+        "symbology",
+        "values",
         "FeatureLayer",
-        "MapView",
         "ServiceFeatureTable",
         "SimpleFillSymbol",
         "SimpleLineSymbol",
-        "UniqueValues",
+        "UniqueValue",
         "UniqueValueRenderer"
     ],
-    "redirect_from": "/java/latest/sample-code/unique-value-renderer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/unique-value-renderer.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "FeatureLayer",
-        "MapView",
         "ServiceFeatureTable",
         "SimpleFillSymbol",
         "SimpleLineSymbol",
-        "UniqueValues",
+        "UniqueValue",
         "UniqueValueRenderer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/unique_value_renderer/UniqueValueRendererSample.java"
     ],
-    "title": "Unique Value Renderer"
+    "title": "Unique value renderer"
 }

@@ -34,6 +34,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ReadGeoPackageSample extends Application {
 
+  private GeoPackage geoPackage; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -58,7 +59,7 @@ public class ReadGeoPackageSample extends Application {
 
       // load the local GeoPackage
       File geoPackageFile = new File(System.getProperty("data.dir"), "./samples-data/auroraCO/AuroraCO.gpkg");
-      GeoPackage geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
+      geoPackage = new GeoPackage(geoPackageFile.getAbsolutePath());
       geoPackage.loadAsync();
       geoPackage.addDoneLoadingListener(() -> {
         if (geoPackage.getLoadStatus() == LoadStatus.LOADED) {

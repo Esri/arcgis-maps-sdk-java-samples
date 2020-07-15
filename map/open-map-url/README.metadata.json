@@ -6,12 +6,16 @@
         "OpenMapURL.png"
     ],
     "keywords": [
+        "portal item",
+        "web map",
         "ArcGISMap",
         "MapView",
         "Portal",
         "PortalItem"
     ],
-    "redirect_from": "/java/latest/sample-code/open-map-url-.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/open-map-url-.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
         "MapView",
@@ -21,5 +25,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/open_map_url/OpenMapURLSample.java"
     ],
-    "title": "Open Map (URL)"
+    "title": "Open map (URL)"
 }

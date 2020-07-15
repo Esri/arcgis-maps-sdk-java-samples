@@ -74,7 +74,7 @@ public class DisplayDrawingStatusSample extends Application {
 
       // create a feature table from a service URL
       final ServiceFeatureTable featureTable = new ServiceFeatureTable(
-          "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
 
       // create a feature layer from service table
       final FeatureLayer featureLayer = new FeatureLayer(featureTable);

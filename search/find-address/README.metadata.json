@@ -6,24 +6,24 @@
         "FindAddress.gif"
     ],
     "keywords": [
-        "ArcGISMap",
+        "address",
+        "geocode",
+        "locator",
+        "search",
         "GeocodeParameters",
         "GeocodeResult",
-        "GraphicsOverlay",
-        "LocatorTask",
-        "MapView"
+        "LocatorTask"
     ],
-    "redirect_from": "/java/latest/sample-code/find-address.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/find-address.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "GeocodeParameters",
         "GeocodeResult",
-        "GraphicsOverlay",
-        "LocatorTask",
-        "MapView"
+        "LocatorTask"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/find_address/FindAddressSample.java"
     ],
-    "title": "Find Address"
+    "title": "Find address"
 }

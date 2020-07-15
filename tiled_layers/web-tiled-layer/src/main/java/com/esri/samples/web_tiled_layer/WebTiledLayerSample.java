@@ -34,6 +34,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class WebTiledLayerSample extends Application {
 
   private MapView mapView;
+  private WebTiledLayer webTiledLayer;
 
   @Override
   public void start(Stage stage) {
@@ -60,7 +61,7 @@ public class WebTiledLayerSample extends Application {
       String templateURI = "http://{subDomain}.tile.stamen.com/terrain/{level}/{col}/{row}.png";
 
       // create a web tiled layer
-      final WebTiledLayer webTiledLayer = new WebTiledLayer(templateURI, subDomains);
+      webTiledLayer = new WebTiledLayer(templateURI, subDomains);
       webTiledLayer.loadAsync();
       webTiledLayer.addDoneLoadingListener(() -> {
         if(webTiledLayer.getLoadStatus() == LoadStatus.LOADED){
