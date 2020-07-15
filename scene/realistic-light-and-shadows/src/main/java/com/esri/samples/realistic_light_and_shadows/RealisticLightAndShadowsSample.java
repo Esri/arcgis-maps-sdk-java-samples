@@ -24,7 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class RealisticLightAndShadows extends Application {
+public class RealisticLightAndShadowsSample extends Application {
 
   private static RealisticLightAndShadowsController controller;
 

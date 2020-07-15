@@ -24,8 +24,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.util.StringConverter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
@@ -70,13 +73,15 @@ public class RealisticLightAndShadowsController {
       scene.setBaseSurface(surface);
 
       // add a scene layer
-      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells" +
+      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services" +
+        "/DevA_BuildingShells" +
         "/SceneServer/layers/0";
       ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
       scene.getOperationalLayers().add(sceneLayer);
 
       // add a camera and initial camera position
-      Camera camera = new Camera( 45.54605153789073,-122.69033380511073, 941.0002111233771, 162.58544227544266, 60.0, 0.0);
+      Camera camera = new Camera(45.54605153789073, -122.69033380511073, 941.0002111233771, 162.58544227544266, 60.0,
+        0.0);
       sceneView.setViewpointCamera(camera);
 
       // set atmosphere effect to realistic
@@ -130,10 +135,12 @@ public class RealisticLightAndShadowsController {
         } else {
           calendar.set(2018, 7, 10, hourFromSlider, 00);
         }
+        // tidy string to just return date and time (hours and minutes)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("PST"));
+        String dynamicDateAndTimeTidied = dateFormat.format(calendar.getTime());
 
         // update label to reflect current date and time
-        String dynamicDateAndTime = calendar.getTime().toString();
-        String dynamicDateAndTimeTidied = dynamicDateAndTime.substring(0, 16);
         time.setText(dynamicDateAndTimeTidied);
 
         // set the sun time to calendar
@@ -175,13 +182,13 @@ public class RealisticLightAndShadowsController {
 
     // set a new calendar and add a date and time
     calendar = new GregorianCalendar(2018, 7, 10, 12, 00, 0);
+    calendar.setTimeZone(TimeZone.getTimeZone("PST"));
     sceneView.setSunTime(calendar);
 
-    // get information about calendar
-    String dateAndTime = calendar.getTime().toString();
-
     // tidy string to just return date and time (hours and minutes)
-    String dateAndTimeTidied = dateAndTime.substring(0, 16);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("PST"));
+    String dateAndTimeTidied = dateFormat.format(calendar.getTime());
 
     // set a label to display the tidied date and time
     time.setText(dateAndTimeTidied);
