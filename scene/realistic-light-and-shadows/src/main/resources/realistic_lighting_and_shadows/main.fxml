@@ -30,9 +30,9 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.geometry.Insets?>
 
-<StackPane fx:controller="com.esri.samples.realistic_light_and_shadows.RealisticLightAndShadowsController"
+<StackPane fx:controller="com.esri.samples.realistic_lighting_and_shadows.RealisticLightingAndShadowsController"
            xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/realistic_light_and_shadows/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/realistic_lighting_and_shadows/style.css">
     <!--SDK SceneView-->
     <SceneView fx:id="sceneView"/>
     <!--Slider box-->

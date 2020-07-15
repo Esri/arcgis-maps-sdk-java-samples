@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.realistic_light_and_shadows;
+package com.esri.samples.realistic_lighting_and_shadows;
 
 import com.esri.arcgisruntime.mapping.view.LightingMode;
 import javafx.fxml.FXML;
@@ -36,7 +36,7 @@ import com.esri.arcgisruntime.mapping.view.AtmosphereEffect;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.mapping.view.Camera;
 
-public class RealisticLightAndShadowsController {
+public class RealisticLightingAndShadowsController {
 
   @FXML
   private SceneView sceneView;

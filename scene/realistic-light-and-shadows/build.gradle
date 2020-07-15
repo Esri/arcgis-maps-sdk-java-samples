@@ -54,7 +54,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.realistic_light_and_shadows.RealisticLightAndShadowsLauncher'
+    mainClassName = 'com.esri.samples.realistic_lighting_and_shadows.RealisticLightingAndShadowsLauncher'
 }
 
 jar {

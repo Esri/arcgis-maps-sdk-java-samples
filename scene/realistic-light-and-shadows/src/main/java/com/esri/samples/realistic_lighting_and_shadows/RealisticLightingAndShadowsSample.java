@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.realistic_light_and_shadows;
+package com.esri.samples.realistic_lighting_and_shadows;
 
 import java.io.IOException;
 
@@ -24,15 +24,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class RealisticLightAndShadowsSample extends Application {
+public class RealisticLightingAndShadowsSample extends Application {
 
-  private static RealisticLightAndShadowsController controller;
+  private static RealisticLightingAndShadowsController controller;
 
   @Override
   public void start(Stage stage) throws IOException {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/realistic_light_and_shadows/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/realistic_lighting_and_shadows/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
