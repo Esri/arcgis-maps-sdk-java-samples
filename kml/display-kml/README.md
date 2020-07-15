@@ -2,7 +2,7 @@
 
 Display KML from a URL, portal item, or local KML file.
 
-![Image of display KML](DisplayKml.png)
+![Image of display KML](DisplayKML.png)
 
 ## Use case
 

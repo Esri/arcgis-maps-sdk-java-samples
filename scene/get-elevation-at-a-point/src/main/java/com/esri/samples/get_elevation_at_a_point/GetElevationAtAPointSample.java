@@ -54,7 +54,7 @@ public class GetElevationAtAPointSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/get_elevation_at_a_point/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Get Elevation at a Point Sample");

@@ -61,7 +61,7 @@ public class SurfacePlacementSample extends Application {
       // create stack pane and JavaFX app scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/surface_placement/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Surface Placement Sample");

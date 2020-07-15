@@ -1,27 +1,34 @@
 {
-  "category": "Symbology",
-  "description": "Combine multiple symbols from a mobile style file into a single symbol.",
-  "ignore": false,
-  "images": [
-    "ReadSymbolsFromMobileStyleFile.png"
-  ],
-  "keywords": [
-    "advanced symbology",
-    "mobile style",
-    "multilayer",
-    "stylx"
-  ],
-  "relevant_apis": [
-    "MultilayerPointSymbol",
-    "MultilayerSymbol",
-    "SymbolLayer",
-    "SymbolStyle",
-    "SymbolStyleSearchParameters"
-  ],
-  "snippets": [
-    "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/ReadSymbolsFromMobileStyleFileSample.java",
-    "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/ReadSymbolsFromMobileStyleFileController.java",
-    "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/SymbolLayerInfoListCell.java"
-  ],
-  "title": "Read Symbols from Mobile Style File"
+    "category": "Symbology",
+    "description": "Combine multiple symbols from a mobile style file into a single symbol.",
+    "ignore": false,
+    "images": [
+        "ReadSymbolsFromMobileStyleFile.png"
+    ],
+    "keywords": [
+        "advanced symbology",
+        "mobile style",
+        "multilayer",
+        "stylx",
+        "MultilayerPointSymbol",
+        "MultilayerSymbol",
+        "SymbolLayer",
+        "SymbolStyle",
+        "SymbolStyleSearchParameters"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "MultilayerPointSymbol",
+        "MultilayerSymbol",
+        "SymbolLayer",
+        "SymbolStyle",
+        "SymbolStyleSearchParameters"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/ReadSymbolsFromMobileStyleFileController.java",
+        "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/ReadSymbolsFromMobileStyleFileSample.java",
+        "src/main/java/com/esri/samples/read_symbols_from_mobile_style_file/SymbolLayerInfoListCell.java",
+        "src/main/resources/read_symbols_from_mobile_style_file/main.fxml"
+    ],
+    "title": "Read symbols from a mobile style file"
 }

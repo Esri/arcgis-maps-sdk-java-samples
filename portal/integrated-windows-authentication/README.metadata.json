@@ -1,19 +1,24 @@
 {
     "category": "Portal",
-    "description": "Use Windows credentials to access services hosted on a portal secured with Integrated Windows Authentication (IWA).",
+    "description": "Connect to an IWA secured portal and search for maps.",
     "ignore": false,
     "images": [
         "IntegratedWindowsAuthentication.png"
     ],
     "keywords": [
+        "Windows",
         "authentication",
-        "IWA",
-        "login",
-        "portal",
         "security",
-        "sign-in"
+        "AuthenticationChallenge",
+        "AuthenticationChallengeHandler",
+        "AuthenticationChallengeResponse",
+        "AuthenticationManager",
+        "Portal",
+        "UserCredential"
     ],
-    "redirect_from": "/java/latest/sample-code/integrated-windows-authentication.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/integrated-windows-authentication.htm"
+    ],
     "relevant_apis": [
         "AuthenticationChallenge",
         "AuthenticationChallengeHandler",
@@ -28,8 +33,8 @@
         "src/main/java/com/esri/samples/integrated_windows_authentication/IntegratedWindowsAuthenticationSample.java",
         "src/main/java/com/esri/samples/integrated_windows_authentication/IWAChallengeHandler.java",
         "src/main/java/com/esri/samples/integrated_windows_authentication/PortalItemInfoListCell.java",
-        "src/main/resources/iwa_auth_dialog.fxml",
-        "src/main/resources/iwa_controller.fxml"
+        "src/main/resources/integrated_windows_authentication/iwa_auth_dialog.fxml",
+        "src/main/resources/integrated_windows_authentication/main.fxml"
     ],
-    "title": "Integrated windows authentication"
+    "title": "Integrated Windows Authentication"
 }

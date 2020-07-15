@@ -30,4 +30,4 @@ The `LoadStatus` is `LOADED` when any of the following criteria are met:
 
 ## Tags
 
-LoadStatus, Map, Loadable pattern
+LoadStatus, map, loadable pattern

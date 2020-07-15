@@ -43,8 +43,9 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 public class ChangeSublayerRendererSample extends Application {
 
-  private MapView mapView;
+  private ArcGISMapImageLayer imageLayer; // keep loadable in scope to avoid garbage collection
   private ArcGISMapImageSublayer countiesSublayer;
+  private MapView mapView;
 
   @Override
   public void start(Stage stage) {
@@ -53,7 +54,7 @@ public class ChangeSublayerRendererSample extends Application {
       // create a border pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/change_sublayer_renderer/style.css").toExternalForm());
 
       // size the stage and add a title
       stage.setTitle("Change Sublayer Renderer Sample");
@@ -73,7 +74,7 @@ public class ChangeSublayerRendererSample extends Application {
       rendererButton.setDisable(true);
 
       // create a map image layer from a service URL
-      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer");
+      imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer");
 
       // load the layer and find one of its sublayers
       imageLayer.addDoneLoadingListener(() -> {

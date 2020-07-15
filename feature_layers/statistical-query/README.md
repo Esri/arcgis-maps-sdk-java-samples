@@ -2,7 +2,7 @@
 
 Query a table to get aggregated statistics back for a specific field.
 
-![Image of statistical query](StatisticalQuery.jpg)
+![Image of statistical query](StatisticalQuery.png)
 
 ## Use case
 

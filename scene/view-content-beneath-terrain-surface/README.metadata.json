@@ -10,16 +10,18 @@
         "subsurface",
         "underground",
         "utilities",
-        "Surface",
-        "Surface.NavigationConstraint"
+        "NavigationConstraint",
+        "Surface"
     ],
-    "redirect_from": "/java/latest/sample-code/view-content-beneath-terrain-surface.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/view-content-beneath-terrain-surface.htm"
+    ],
     "relevant_apis": [
-        "Surface",
-        "Surface.NavigationConstraint"
+        "NavigationConstraint",
+        "Surface"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/view_content_beneath_terrain_surface/ViewContentBeneathTerrainSurfaceSample.java"
     ],
-    "title": "View content beneath terrain surface"
+    "title": "View content beneath the terrain surface"
 }

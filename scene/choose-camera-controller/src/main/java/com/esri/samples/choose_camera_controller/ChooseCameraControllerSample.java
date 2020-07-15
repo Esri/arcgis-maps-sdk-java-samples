@@ -59,7 +59,7 @@ public class ChooseCameraControllerSample extends Application {
       // create stack pane and JavaFX app scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/choose_camera_controller/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Choose Camera Controller Sample");

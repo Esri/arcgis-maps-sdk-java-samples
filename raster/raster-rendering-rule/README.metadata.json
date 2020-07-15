@@ -13,7 +13,9 @@
         "RasterLayer",
         "RenderingRule"
     ],
-    "redirect_from": "/java/latest/sample-code/raster-rendering-rule.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/raster-rendering-rule.htm"
+    ],
     "relevant_apis": [
         "ImageServiceRaster",
         "RasterLayer",

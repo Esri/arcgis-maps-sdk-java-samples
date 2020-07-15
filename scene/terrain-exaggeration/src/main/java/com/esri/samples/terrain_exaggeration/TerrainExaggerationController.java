@@ -17,6 +17,7 @@
 package com.esri.samples.terrain_exaggeration;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
 import com.esri.arcgisruntime.geometry.Point;
@@ -29,6 +30,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 
 public class TerrainExaggerationController {
 
+  @FXML private Label exaggerationLabel;
   @FXML private SceneView sceneView;
   @FXML private Slider exaggerationSlider;
   private Surface surface;
@@ -67,6 +69,7 @@ public class TerrainExaggerationController {
    */
   @FXML
   private void changeElevationExaggeration() {
+    exaggerationLabel.setText("Exaggeration: " + (double) Math.round(exaggerationSlider.getValue() * 100d) / 100d);
     surface.setElevationExaggeration((float) exaggerationSlider.getValue());
   }
 

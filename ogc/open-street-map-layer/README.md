@@ -2,7 +2,7 @@
 
 Add OpenStreetMap as a basemap layer.
 
-![Image of OpenStreetMap layer](openstreetmap-layer.png)
+![Image of OpenStreetMap layer](OpenStreetMapLayer.png)
 
 ## Use case
 
@@ -19,7 +19,7 @@ When the sample opens, it will automatically display the map with the OpenStreet
 
 ## Relevant API
 
-* Map
+* ArcGISMap
 * MapView
 
 ## Additional information

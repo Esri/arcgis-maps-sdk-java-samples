@@ -1,27 +1,32 @@
 {
     "category": "OGC",
-    "description": "Dsiplay tiles from a Web Map Tile Service.",
+    "description": "Display a layer from a Web Map Tile Service.",
     "ignore": false,
     "images": [
         "WmtsLayer.png"
     ],
     "keywords": [
-        "ArcGISMap",
-        "Basemap",
-        "MapView",
+        "OGC",
+        "layer",
+        "raster",
+        "tiled",
+        "web map tile service",
         "WmtsLayer",
-        "WmtsService"
+        "WmtsLayerInfo",
+        "WmtsService",
+        "WmtsServiceInfo"
     ],
-    "redirect_from": "/java/latest/sample-code/wmts-layer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/wmts-layer.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
-        "MapView",
         "WmtsLayer",
-        "WmtsService"
+        "WmtsLayerInfo",
+        "WmtsService",
+        "WmtsServiceInfo"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/wmts_layer/WmtsLayerSample.java"
     ],
-    "title": "WMTS Layer"
+    "title": "WMTS layer"
 }

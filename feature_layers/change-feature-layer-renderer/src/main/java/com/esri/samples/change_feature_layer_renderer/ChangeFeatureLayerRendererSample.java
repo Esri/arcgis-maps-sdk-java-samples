@@ -52,7 +52,7 @@ public class ChangeFeatureLayerRendererSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/change_feature_layer_renderer/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Change Feature Layer Renderer Sample");

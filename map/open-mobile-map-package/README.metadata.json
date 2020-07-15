@@ -6,10 +6,15 @@
         "OpenMobileMapPackage.png"
     ],
     "keywords": [
+        "mmpk",
+        "mobile map package",
+        "offline",
         "MapView",
         "MobileMapPackage"
     ],
-    "redirect_from": "/java/latest/sample-code/open-mobile-map-package.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/open-mobile-map-package.htm"
+    ],
     "relevant_apis": [
         "MapView",
         "MobileMapPackage"
@@ -17,5 +22,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/open_mobile_map_package/OpenMobileMapPackageSample.java"
     ],
-    "title": "Open Mobile Map Package"
+    "title": "Open mobile map package"
 }

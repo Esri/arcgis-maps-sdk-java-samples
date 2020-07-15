@@ -1,29 +1,36 @@
 {
-  "category": "Analysis",
-  "description": "Adjust the position, angles, range, and style of a viewshed.",
-  "ignore": false,
-  "images": [
-    "ViewshedLocation.png"
-  ],
-  "keywords": [
-    "Geoprocessing",
-    "GeoprocessingJob",
-    "GeoprocessingParameters",
-    "GeoprocessingResult"
-  ],
-  "redirect_from": "/java/latest/sample-code/viewshed-location.htm",
-  "relevant_apis": [
-    "ArcGISMapImageLayer",
-    "GeoprocessingJob",
-    "GeoprocessingParameters",
-    "GeoprocessingResult",
-    "GeoprocessingString",
-    "GeoprocessingTask"
-  ],
-  "snippets": [
-    "src/main/java/com/esri/samples/viewshed_location/ViewshedLocationSample.java",
-    "src/main/java/com/esri/samples/viewshed_location/ViewshedLocationController.java",
-    "src/main/resources/viewshed_location.fxml"
-  ],
-  "title": "Viewshed Location"
+    "category": "Analysis",
+    "description": "Perform a viewshed analysis from a defined vantage point.",
+    "ignore": false,
+    "images": [
+        "ViewshedLocation.png"
+    ],
+    "keywords": [
+        "3D",
+        "Scene",
+        "frustum",
+        "viewshed",
+        "visibility analysis",
+        "AnalysisOverlay",
+        "ArcGISSceneLayer",
+        "ArcGISTiledElevationSource",
+        "LocationViewshed",
+        "Viewshed"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/viewshed-location.htm"
+    ],
+    "relevant_apis": [
+        "AnalysisOverlay",
+        "ArcGISSceneLayer",
+        "ArcGISTiledElevationSource",
+        "LocationViewshed",
+        "Viewshed"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/viewshed_location/ViewshedLocationController.java",
+        "src/main/java/com/esri/samples/viewshed_location/ViewshedLocationSample.java",
+        "src/main/resources/viewshed_location/main.fxml"
+    ],
+    "title": "Viewshed location"
 }

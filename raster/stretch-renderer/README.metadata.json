@@ -1,33 +1,47 @@
 {
     "category": "Raster",
-    "description": "Apply a stretch renderer to a raster.",
+    "description": "Use a stretch renderer to enhance the visual contrast of raster data for analysis.",
     "ignore": false,
     "images": [
         "StretchRenderer.png"
     ],
     "keywords": [
-        "ArcGISMap",
-        "Basemap",
-        "MapView",
+        "analysis",
+        "deviation",
+        "histogram",
+        "imagery",
+        "interpretation",
+        "min-max",
+        "percent clip",
+        "pixel",
+        "raster",
+        "stretch",
+        "symbology",
+        "visualization",
+        "MinMaxStretchParameters",
+        "PercentClipStretchParameters",
         "Raster",
         "RasterLayer",
+        "StandardDeviationStretchParameters",
         "StretchParameters",
         "StretchRenderer"
     ],
-    "redirect_from": "/java/latest/sample-code/stretch-renderer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/stretch-renderer.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
-        "MapView",
+        "MinMaxStretchParameters",
+        "PercentClipStretchParameters",
         "Raster",
         "RasterLayer",
+        "StandardDeviationStretchParameters",
         "StretchParameters",
         "StretchRenderer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/stretch_renderer/StretchRendererSample.java",
         "src/main/java/com/esri/samples/stretch_renderer/StretchRendererController.java",
-        "src/main/resources/stretch_renderer.fxml"
+        "src/main/java/com/esri/samples/stretch_renderer/StretchRendererSample.java",
+        "src/main/resources/stretch_renderer/main.fxml"
     ],
-    "title": "Stretch Renderer"
+    "title": "Stretch renderer"
 }

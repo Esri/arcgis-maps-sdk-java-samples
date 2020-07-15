@@ -1,39 +1,38 @@
 {
     "category": "Network analysis",
-    "description": "Find the service area for a point.",
+    "description": "Find the service area within a network from a given point.",
     "ignore": false,
     "images": [
         "ServiceAreaTask.gif"
     ],
     "keywords": [
-        "ArcGISMap",
-        "GraphicsOverlay",
-        "MapView",
+        "barriers",
+        "facilities",
+        "impedance",
+        "logistics",
+        "routing",
         "PolylineBarrier",
         "ServiceAreaFacility",
         "ServiceAreaParameters",
         "ServiceAreaPolygon",
         "ServiceAreaResult",
-        "ServiceAreaTask",
-        "PolylineBuilder"
+        "ServiceAreaTask"
     ],
-    "redirect_from": "/java/latest/sample-code/service-area-task.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/service-area-task.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "GraphicsOverlay",
-        "MapView",
         "PolylineBarrier",
         "ServiceAreaFacility",
         "ServiceAreaParameters",
         "ServiceAreaPolygon",
         "ServiceAreaResult",
-        "ServiceAreaTask",
-        "PolylineBuilder"
+        "ServiceAreaTask"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskSample.java",
         "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskController.java",
-        "src/main/resources/service_area_task.fxml"
+        "src/main/java/com/esri/samples/service_area_task/ServiceAreaTaskSample.java",
+        "src/main/resources/service_area_task/main.fxml"
     ],
-    "title": "Service Area Task"
+    "title": "Service area task"
 }

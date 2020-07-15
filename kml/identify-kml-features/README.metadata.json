@@ -1,25 +1,34 @@
 {
     "category": "KML",
-    "description": "Get clicked features in a KML Layer.",
+    "description": "Show a callout with formatted content for a KML feature.",
     "ignore": false,
     "images": [
         "IdentifyKMLFeatures.png"
     ],
     "keywords": [
+        "KML",
+        "KMZ",
+        "Keyhole",
+        "NOAA",
+        "NWS",
+        "OGC",
+        "weather",
         "IdentifyLayerResult",
-        "KmlDataset",
         "KmlLayer",
-        "KmlPlacemark"
+        "KmlPlacemark",
+        "MapView"
     ],
-    "redirect_from": "/java/latest/sample-code/identify-kml-features.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/identify-kml-features.htm"
+    ],
     "relevant_apis": [
         "IdentifyLayerResult",
-        "KmlDataset",
         "KmlLayer",
-        "KmlPlacemark"
+        "KmlPlacemark",
+        "MapView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/identify_kml_features/IdentifyKMLFeaturesSample.java"
     ],
-    "title": "Identify KML Features"
+    "title": "Identify KML features"
 }

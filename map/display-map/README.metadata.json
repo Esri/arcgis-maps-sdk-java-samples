@@ -1,16 +1,20 @@
 {
     "category": "Map",
-    "description": "Display a map with some imagery.",
+    "description": "Display a map with an imagery basemap.",
     "ignore": false,
     "images": [
         "DisplayMap.png"
     ],
     "keywords": [
+        "basemap",
+        "map",
         "ArcGISMap",
         "Basemap",
         "MapView"
     ],
-    "redirect_from": "/java/latest/sample-code/display-a-map.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/display-a-map.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
         "Basemap",
@@ -19,5 +23,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/display_map/DisplayMapSample.java"
     ],
-    "title": "Display a Map"
+    "title": "Display map"
 }
