@@ -81,7 +81,7 @@ public class SurfacePlacementSample extends Application {
       sceneView.setArcGISScene(scene);
 
       // add a camera and initial camera position
-      sceneView.setViewpointCamera(new Camera(48.3889, -4.4595, 80, 330, 90, 0));
+      sceneView.setViewpointCamera(new Camera(48.3889, -4.4595, 90, 330, 90, 0));
 
       // add base surface for elevation data
       Surface surface = new Surface();
@@ -116,27 +116,27 @@ public class SurfacePlacementSample extends Application {
       Point sceneRelatedPoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
 
       // create a red triangle symbol
-      SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 10);
+      SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 12);
 
       // create a text symbol for each surface placement type
       TextSymbol drapedBillboardedText =
-          new TextSymbol(10, "DRAPED BILLBOARDED", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+          new TextSymbol(14, "DRAPED BILLBOARDED", 0xFF0000CC, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
       drapedBillboardedText.setOffsetX(20);
 
       TextSymbol drapedFlatText =
-          new TextSymbol(10, "DRAPED FLAT", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+          new TextSymbol(12, "DRAPED FLAT", 0xFF0000CC, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
       drapedFlatText.setOffsetX(20);
 
       TextSymbol relativeText =
-          new TextSymbol(10, "RELATIVE", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+          new TextSymbol(14, "RELATIVE", 0xFF0000CC, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
       relativeText.setOffsetX(20);
 
       TextSymbol absoluteText =
-          new TextSymbol(10, "ABSOLUTE", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+          new TextSymbol(14, "ABSOLUTE", 0xFF0000CC, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
       absoluteText.setOffsetX(20);
 
       TextSymbol relativeToSceneText =
-        new TextSymbol(10, "RELATIVE TO SCENE", 0xFFFFFFFF, HorizontalAlignment.RIGHT, VerticalAlignment.MIDDLE);
+        new TextSymbol(14, "RELATIVE TO SCENE", 0xFF0000CC, HorizontalAlignment.RIGHT, VerticalAlignment.MIDDLE);
       relativeToSceneText.setOffsetX(-20);
 
       // add the point graphic and text graphic to the corresponding graphics overlay
