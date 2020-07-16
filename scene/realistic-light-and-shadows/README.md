@@ -1,4 +1,4 @@
-# Realistic Lighting and Shadows
+# Realistic lighting and shadows
 
 Show realistic lighting and shadows for the time of day.
 

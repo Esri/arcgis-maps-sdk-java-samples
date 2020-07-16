@@ -16,40 +16,36 @@
 
 package com.esri.samples.realistic_lighting_and_shadows;
 
-import com.esri.arcgisruntime.mapping.view.LightingMode;
-import javafx.fxml.FXML;
-import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.util.StringConverter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.util.StringConverter;
+
+import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.AtmosphereEffect;
-import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.view.LightingMode;
+import com.esri.arcgisruntime.mapping.view.SceneView;
+
 
 public class RealisticLightingAndShadowsController {
 
-  @FXML
-  private SceneView sceneView;
-  @FXML
-  private Label time;
-  @FXML
-  private Slider timeSlider;
-  @FXML
-  private Button noSunButton;
-  @FXML
-  private Button sunOnlyButton;
-  @FXML
-  private Button sunAndShadowsButton;
+  @FXML private SceneView sceneView;
+  @FXML private Label time;
+  @FXML private Slider timeSlider;
+  @FXML private Button noSunButton;
+  @FXML private Button sunOnlyButton;
+  @FXML private Button sunAndShadowsButton;
   private Surface surface;
   private Calendar calendar;
 
@@ -60,38 +56,36 @@ public class RealisticLightingAndShadowsController {
       ArcGISScene scene = new ArcGISScene();
       scene.setBasemap(Basemap.createTopographic());
 
-      // add the SceneView to the stack pane
+      // add the scene to the scene view
       sceneView.setArcGISScene(scene);
 
-      // add base surface for elevation data
+      // add a base surface for elevation data to the scene
       surface = new Surface();
-      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
-        ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
+      ArcGISTiledElevationSource elevationSource = new
+        ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 
       // add a scene layer
-      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services" +
-        "/DevA_BuildingShells" +
-        "/SceneServer/layers/0";
+      final String buildings =
+        "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer/layers/0";
       ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
       scene.getOperationalLayers().add(sceneLayer);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(45.54605153789073, -122.69033380511073, 941.0002111233771, 162.58544227544266, 60.0,
-        0.0);
+      Camera camera = new Camera(45.54605153789073, -122.69033380511073, 941.0002111233771, 162.58544227544266, 60.0,0.0);
       sceneView.setViewpointCamera(camera);
 
       // set atmosphere effect to realistic
       sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC);
 
-      //set the time label on the control panel
+      // set the time label on the control panel
       setTimeLabel();
 
       // set the slider to display tick labels as time strings
       setSliderLabels();
 
-      //update the atmosphere effect based on the button clicked
+      // update the atmosphere effect based on the button clicked
       noSunButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.NO_LIGHT));
       sunOnlyButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT));
       sunAndShadowsButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT_AND_SHADOWS));
@@ -193,7 +187,7 @@ public class RealisticLightingAndShadowsController {
   }
 
   /**
-   * Disposes application resources.
+   * Disposes of application resources.
    */
   void terminate() {
     if (sceneView != null) {

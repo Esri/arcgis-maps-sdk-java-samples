@@ -38,7 +38,7 @@ public class RealisticLightingAndShadowsSample extends Application {
     Scene scene = new Scene(root);
 
     // set title, size, and add JavaFX scene to stage
-    stage.setTitle("Realistic Environmental Atmosphere Sample");
+    stage.setTitle("Realistic Lighting and Shadows Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
@@ -46,7 +46,6 @@ public class RealisticLightingAndShadowsSample extends Application {
   }
 
   /**
-   * /**
    * Stops and releases all resources used in application.
    */
   @Override
@@ -63,6 +62,4 @@ public class RealisticLightingAndShadowsSample extends Application {
 
     Application.launch(args);
   }
-
 }
-

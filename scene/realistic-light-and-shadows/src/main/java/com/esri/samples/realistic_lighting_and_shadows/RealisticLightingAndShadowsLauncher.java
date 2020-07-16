@@ -6,6 +6,7 @@ package com.esri.samples.realistic_lighting_and_shadows;
 public class RealisticLightingAndShadowsLauncher {
 
   public static void main(String[] args) {
+
     RealisticLightingAndShadowsSample.main(args);
   }
 }
