@@ -18,6 +18,7 @@ package com.esri.samples.surface_placement;
 
 import java.util.Arrays;
 
+import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -78,7 +79,7 @@ public class SurfacePlacementSample extends Application {
       sceneView.setArcGISScene(scene);
 
       // add a camera and initial camera position
-      sceneView.setViewpointCamera(new Camera(53.05, -4.01, 1115, 299, 88, 0));
+      sceneView.setViewpointCamera(new Camera(48.3889, -4.4595, 80, 330, 90, 0));
 
       // add base surface for elevation data
       Surface surface = new Surface();
@@ -86,6 +87,11 @@ public class SurfacePlacementSample extends Application {
           "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
+
+      // add a scene layer
+      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
+      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
+      scene.getOperationalLayers().add(sceneLayer);
 
       // create overlays with surface placement types
       GraphicsOverlay drapedBillboardedOverlay = new GraphicsOverlay();
@@ -101,7 +107,7 @@ public class SurfacePlacementSample extends Application {
       absoluteOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.ABSOLUTE);
 
       // create point for graphic location
-      Point point = new Point(-4.04, 53.06, 1000, SpatialReferences.getWgs84());
+      Point point = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
 
       // create a red triangle symbol
       SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 10);
