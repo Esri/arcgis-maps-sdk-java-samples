@@ -106,13 +106,18 @@ public class SurfacePlacementSample extends Application {
       GraphicsOverlay absoluteOverlay = new GraphicsOverlay();
       absoluteOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.ABSOLUTE);
 
-      // create point for graphic location
-      Point point = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
+      GraphicsOverlay relativeToSceneOverlay = new GraphicsOverlay();
+      relativeToSceneOverlay.getSceneProperties().setSurfacePlacement(SurfacePlacement.RELATIVE_TO_SCENE);
+
+      // create points for graphic locations
+      Point surfaceRelatedPoint = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
+
+      Point sceneRelatedPoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
 
       // create a red triangle symbol
       SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 10);
 
-      // create a text symbol for each elevation mode
+      // create a text symbol for each surface placement type
       TextSymbol drapedBillboardedText =
           new TextSymbol(10, "DRAPED BILLBOARDED", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
       drapedBillboardedText.setOffsetX(20);
@@ -129,20 +134,28 @@ public class SurfacePlacementSample extends Application {
           new TextSymbol(10, "ABSOLUTE", 0xFFFFFFFF, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
       absoluteText.setOffsetX(20);
 
+      TextSymbol relativeToSceneText =
+        new TextSymbol(10, "RELATIVE TO SCENE", 0xFFFFFFFF, HorizontalAlignment.RIGHT, VerticalAlignment.MIDDLE);
+      relativeToSceneText.setOffsetX(-20);
+
       // add the point graphic and text graphic to the corresponding graphics overlay
-      drapedBillboardedOverlay.getGraphics().add(new Graphic(point, triangleSymbol));
-      drapedBillboardedOverlay.getGraphics().add(new Graphic(point, drapedBillboardedText));
+      drapedBillboardedOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
+      drapedBillboardedOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, drapedBillboardedText));
 
-      drapedFlatOverlay.getGraphics().add(new Graphic(point, triangleSymbol));
-      drapedFlatOverlay.getGraphics().add(new Graphic(point, drapedFlatText));
+      drapedFlatOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
+      drapedFlatOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, drapedFlatText));
 
-      relativeOverlay.getGraphics().add(new Graphic(point, triangleSymbol));
-      relativeOverlay.getGraphics().add(new Graphic(point, relativeText));
+      relativeOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
+      relativeOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, relativeText));
 
-      absoluteOverlay.getGraphics().add(new Graphic(point, triangleSymbol));
-      absoluteOverlay.getGraphics().add(new Graphic(point, absoluteText));
+      absoluteOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
+      absoluteOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, absoluteText));
 
-      sceneView.getGraphicsOverlays().addAll(Arrays.asList(drapedBillboardedOverlay, relativeOverlay, absoluteOverlay));
+      relativeToSceneOverlay.getGraphics().add(new Graphic(sceneRelatedPoint, triangleSymbol));
+      relativeToSceneOverlay.getGraphics().add(new Graphic(sceneRelatedPoint, relativeToSceneText));
+
+      // add graphics overlays to the scene view
+      sceneView.getGraphicsOverlays().addAll(Arrays.asList(drapedBillboardedOverlay, relativeOverlay, absoluteOverlay, relativeToSceneOverlay));
 
       // create radio buttons to toggle between billboarded and flat draped surface placement modes
       ToggleGroup toggleGroup = new ToggleGroup();
