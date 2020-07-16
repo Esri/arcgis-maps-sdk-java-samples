@@ -5,3 +5,11 @@
 .panel-region .radio-button {
    -fx-text-fill: white;
 }
+
+.panel-region .slider:vertical {
+  -fx-pref-height:160px;
+}
+
+.panel-region .slider .axis {
+  -fx-tick-label-fill: white;
+}

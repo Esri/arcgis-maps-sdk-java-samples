@@ -21,10 +21,12 @@ import java.util.Arrays;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -111,7 +113,6 @@ public class SurfacePlacementSample extends Application {
 
       // create points for graphic locations
       Point surfaceRelatedPoint = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
-
       Point sceneRelatedPoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
 
       // create a red triangle symbol
@@ -187,10 +188,57 @@ public class SurfacePlacementSample extends Application {
       controlsVBox.getChildren()
           .addAll(toggleGroupLabel, drapedBillboardedRadioButton, drapedFlatRadioButton);
 
-      // add the scene view and control box to the stack pane
-      stackPane.getChildren().addAll(sceneView, controlsVBox);
+      // create slider to adjust the z-value
+      Slider zValueSlider = new Slider(0, 150, 70);
+      Label zValueSliderLabel = new Label("Z-Value:");
+      zValueSlider.setShowTickMarks(true);
+      zValueSlider.setShowTickLabels(true);
+      zValueSlider.setMajorTickUnit(50);
+      zValueSlider.setOrientation(Orientation.VERTICAL);
+
+      zValueSlider.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+
+        // get z-value from slider
+        Double zValueFromSlider = zValueSlider.getValue();
+
+        // create new points with updated z-value
+        Point newSurfaceRelatedPoint = new Point(surfaceRelatedPoint.getX(), surfaceRelatedPoint.getY(), zValueFromSlider, surfaceRelatedPoint.getSpatialReference());
+        Point newSceneRelatedPoint = new Point(sceneRelatedPoint.getX(), sceneRelatedPoint.getY(), zValueFromSlider, sceneRelatedPoint.getSpatialReference());
+
+        // update the geometry of each of the existing graphics (both the symbol and label) to the relevant new point
+        drapedBillboardedOverlay.getGraphics().get(0).setGeometry(newSurfaceRelatedPoint);
+        drapedBillboardedOverlay.getGraphics().get(1).setGeometry(newSurfaceRelatedPoint);
+
+        drapedFlatOverlay.getGraphics().get(0).setGeometry(newSurfaceRelatedPoint);
+        drapedFlatOverlay.getGraphics().get(1).setGeometry(newSurfaceRelatedPoint);
+
+        relativeOverlay.getGraphics().get(0).setGeometry(newSurfaceRelatedPoint);
+        relativeOverlay.getGraphics().get(1).setGeometry(newSurfaceRelatedPoint);
+
+        absoluteOverlay.getGraphics().get(0).setGeometry(newSurfaceRelatedPoint);
+        absoluteOverlay.getGraphics().get(1).setGeometry(newSurfaceRelatedPoint);
+
+        relativeToSceneOverlay.getGraphics().get(0).setGeometry(newSceneRelatedPoint);
+        relativeToSceneOverlay.getGraphics().get(1).setGeometry(newSceneRelatedPoint);
+
+      });
+
+      // create a controls area for the z-value slider
+      VBox sliderVBox = new VBox();
+      sliderVBox.setBackground(
+        new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY, Insets.EMPTY)));
+      sliderVBox.setPadding(new Insets(10.0));
+      sliderVBox.setMaxSize(70, 200);
+      sliderVBox.getStyleClass().add("panel-region");
+      sliderVBox.getChildren()
+        .addAll(zValueSliderLabel, zValueSlider);
+
+      // add the scene view, radio buttons control box and slider control box to the stack pane
+      stackPane.getChildren().addAll(sceneView, controlsVBox, sliderVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      StackPane.setAlignment(sliderVBox, Pos.TOP_RIGHT);
+      StackPane.setMargin(sliderVBox, new Insets(10, 10, 0, 0));
 
     } catch (Exception e) {
       // on any error, display the stack trace
