@@ -47,6 +47,7 @@ public class RealisticLightingAndShadowsController {
   @FXML private Button sunAndShadowsButton;
   private Surface surface;
   private Calendar calendar;
+  private SimpleDateFormat dateFormat;
 
   public void initialize() {
     try {
@@ -76,8 +77,20 @@ public class RealisticLightingAndShadowsController {
       // set atmosphere effect to realistic
       sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC);
 
+      // set a new calendar and add a date and time
+      calendar = new GregorianCalendar(2018, 7, 10, 12, 00, 0);
+      calendar.setTimeZone(TimeZone.getTimeZone("PST"));
+
       // set the time label on the control panel
-      setTimeLabel();
+      sceneView.setSunTime(calendar);
+
+      // tidy string to just return date and time (hours and minutes)
+      dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm");
+      dateFormat.setTimeZone(TimeZone.getTimeZone("PST"));
+      String dateAndTimeTidied = dateFormat.format(calendar.getTime());
+
+      // set a label to display the tidied date and time
+      time.setText(dateAndTimeTidied);
 
       // set the slider to display tick labels as time strings
       setSliderLabels();
@@ -119,14 +132,13 @@ public class RealisticLightingAndShadowsController {
           int minuteFromSlider = Math.round(actualMinutes);
 
           // set the calendar for given hour and minute from slider value
-          calendar.set(2018, 7, 10, hourFromSlider, minuteFromSlider);
+          calendar.set(Calendar.HOUR_OF_DAY, hourFromSlider);
+          calendar.set(Calendar.MINUTE, minuteFromSlider);
 
         } else {
           calendar.set(2018, 7, 10, hourFromSlider, 00);
         }
         // tidy string to just return date and time (hours and minutes)
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("PST"));
         String dynamicDateAndTimeTidied = dateFormat.format(calendar.getTime());
 
         // update label to reflect current date and time
