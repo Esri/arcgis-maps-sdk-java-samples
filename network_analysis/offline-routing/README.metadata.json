@@ -1,43 +1,39 @@
 {
     "category": "Network analysis",
-    "description": "Solve a route on-the-fly using only offline data.",
+    "description": "Solve a route on-the-fly using offline data.",
     "ignore": false,
     "images": [
         "OfflineRouting.gif"
     ],
     "keywords": [
-        "ArcGISMap",
-        "ArcGISTiledLayer",
-        "Graphic",
-        "GraphicsOverlay",
-        "MapView",
-        "Route",
-        "RouteTask",
+        "connectivity",
+        "disconnected",
+        "fastest",
+        "locator",
+        "navigation",
+        "network analysis",
+        "offline",
+        "routing",
+        "shortest",
+        "turn-by-turn",
         "RouteParameters",
         "RouteResult",
-        "SimpleLineSymbol",
+        "RouteTask",
         "Stop",
-        "TextSymbol",
-        "TileCache"
+        "TravelMode"
     ],
-    "redirect_from": "/java/latest/sample-code/offline-routing.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/offline-routing.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "ArcGISTiledLayer",
-        "Graphic",
-        "GraphicsOverlay",
-        "MapView",
-        "Route",
-        "RouteTask",
         "RouteParameters",
         "RouteResult",
-        "SimpleLineSymbol",
+        "RouteTask",
         "Stop",
-        "TextSymbol",
-        "TileCache"
+        "TravelMode"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/offline_routing/OfflineRoutingSample.java"
     ],
-    "title": "Offline Routing"
+    "title": "Offline routing"
 }

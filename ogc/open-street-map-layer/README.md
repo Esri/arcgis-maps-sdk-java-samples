@@ -19,7 +19,7 @@ When the sample opens, it will automatically display the map with the OpenStreet
 
 ## Relevant API
 
-* Map
+* ArcGISMap
 * MapView
 
 ## Additional information

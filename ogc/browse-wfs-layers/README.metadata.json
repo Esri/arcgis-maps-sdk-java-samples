@@ -8,19 +8,21 @@
     "keywords": [
         "OGC",
         "WFS",
-        "feature",
-        "web",
-        "service",
-        "layers",
         "browse",
         "catalog",
+        "feature",
+        "layers",
+        "service",
+        "web",
         "FeatureLayer",
         "WfsFeatureTable",
         "WfsLayerInfo",
         "WfsService",
         "WfsServiceInfo"
     ],
-    "redirect_from": "/java/latest/sample-code/browse-wfs-layers.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/browse-wfs-layers.htm"
+    ],
     "relevant_apis": [
         "FeatureLayer",
         "WfsFeatureTable",

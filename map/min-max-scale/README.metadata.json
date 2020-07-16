@@ -1,17 +1,25 @@
 {
     "category": "Map",
-    "description": "Restrict zooming to a specific scale range.",
+    "description": "Restrict zooming between specific scale ranges.",
     "ignore": false,
     "images": [
         "MinMaxScale.png"
     ],
     "keywords": [
+        "area of interest",
+        "level of detail",
+        "maximum",
+        "minimum",
+        "scale",
+        "viewpoint",
         "ArcGISMap",
         "Basemap",
         "MapView",
         "Viewpoint"
     ],
-    "redirect_from": "/java/latest/sample-code/min-max-scale.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/min-max-scale.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
         "Basemap",
@@ -21,5 +29,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/min_max_scale/MinMaxScaleSample.java"
     ],
-    "title": "Min Max Scale"
+    "title": "Min max scale"
 }

@@ -1,39 +1,40 @@
 {
     "category": "Search",
-    "description": "Find places of interest near a location or within an specific area.",
+    "description": "Find places of interest near a location or within a specific area.",
     "ignore": false,
     "images": [
         "FindPlace.png"
     ],
     "keywords": [
-        "ArcGISMap",
+        "POI",
+        "businesses",
+        "geocode",
+        "locations",
+        "locator",
+        "places of interest",
+        "point of interest",
+        "search",
+        "suggestions",
         "GeocodeParameters",
         "GeocodeResult",
-        "Graphic",
-        "GraphicsOverlay",
         "LocatorTask",
-        "MapView",
-        "PictureMarkerSymbol",
-        "ReverseGeocodeParameters",
-        "TileCache"
+        "SuggestParameters",
+        "SuggestResult"
     ],
-    "redirect_from": "/java/latest/sample-code/find-place.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/find-place.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "GeocodeParameters",
         "GeocodeResult",
-        "Graphic",
-        "GraphicsOverlay",
         "LocatorTask",
-        "MapView",
-        "PictureMarkerSymbol",
-        "ReverseGeocodeParameters",
-        "TileCache"
+        "SuggestParameters",
+        "SuggestResult"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/find_place/FindPlaceSample.java",
         "src/main/java/com/esri/samples/find_place/FindPlaceController.java",
+        "src/main/java/com/esri/samples/find_place/FindPlaceSample.java",
         "src/main/resources/find_place/main.fxml"
     ],
-    "title": "Find Place"
+    "title": "Find place"
 }

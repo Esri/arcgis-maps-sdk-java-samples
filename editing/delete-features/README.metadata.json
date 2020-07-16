@@ -6,22 +6,25 @@
         "DeleteFeatures.gif"
     ],
     "keywords": [
-        "ArcGISMap",
+        "Service",
+        "deletion",
+        "feature",
+        "online",
+        "table",
         "Feature",
         "FeatureLayer",
-        "MapView",
         "ServiceFeatureTable"
     ],
-    "redirect_from": "/java/latest/sample-code/delete-features.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/delete-features.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "Feature",
         "FeatureLayer",
-        "MapView",
         "ServiceFeatureTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/delete_features/DeleteFeaturesSample.java"
     ],
-    "title": "Delete Features"
+    "title": "Delete features"
 }

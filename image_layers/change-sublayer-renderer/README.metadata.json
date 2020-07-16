@@ -6,34 +6,27 @@
         "ChangeSublayerRenderer.png"
     ],
     "keywords": [
-        "ArcGISMap",
+        "class breaks",
+        "dynamic layer",
+        "dynamic rendering",
+        "renderer",
+        "sublayer",
+        "symbology",
+        "visualization",
         "ArcGISMapImageLayer",
-        "ArcGISMapImageSublayer",
-        "Basemap",
-        "ClassBreaksRenderer",
-        "ClassBreaksRenderer.ClassBreak",
-        "LoadStatus",
-        "MapView",
-        "SimpleFillSymbol",
-        "SimpleLineSymbol",
-        "SublayerList"
+        "ArcGISMapImageSubLayer",
+        "ClassBreaksRenderer"
     ],
-    "redirect_from": "/java/latest/sample-code/change-sublayer-renderer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/change-sublayer-renderer.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "ArcGISMapImageLayer",
-        "ArcGISMapImageSublayer",
-        "Basemap",
-        "ClassBreaksRenderer",
-        "ClassBreaksRenderer.ClassBreak",
-        "LoadStatus",
-        "MapView",
-        "SimpleFillSymbol",
-        "SimpleLineSymbol",
-        "SublayerList"
+        "ArcGISMapImageSubLayer",
+        "ClassBreaksRenderer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/change_sublayer_renderer/ChangeSublayerRendererSample.java"
     ],
-    "title": "Change Sublayer Renderer"
+    "title": "Change sublayer renderer"
 }

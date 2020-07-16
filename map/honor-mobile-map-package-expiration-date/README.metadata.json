@@ -7,7 +7,9 @@
     ],
     "keywords": [
         "expiration",
-        "mmpk"
+        "mmpk",
+        "Expiration",
+        "MobileMapPackage"
     ],
     "redirect_from": "",
     "relevant_apis": [

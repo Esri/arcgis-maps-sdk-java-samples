@@ -1,31 +1,33 @@
 {
     "category": "Portal",
-    "description": "Find webmaps within a portal using a keyword.",
+    "description": "Find webmap portal items by using a search term.",
     "ignore": false,
     "images": [
         "WebmapKeywordSearch.png"
     ],
     "keywords": [
-        "ArcGISMap",
-        "MapView",
+        "keyword",
+        "query",
+        "search",
+        "webmap",
         "Portal",
         "PortalItem",
         "PortalQueryParameters",
         "PortalQueryResultSet"
     ],
-    "redirect_from": "/java/latest/sample-code/webmap-keyword-search.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/webmap-keyword-search.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "MapView",
         "Portal",
         "PortalItem",
         "PortalQueryParameters",
         "PortalQueryResultSet"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/webmap_keyword_search/WebmapKeywordSearchSample.java",
         "src/main/java/com/esri/samples/webmap_keyword_search/WebmapKeywordSearchController.java",
+        "src/main/java/com/esri/samples/webmap_keyword_search/WebmapKeywordSearchSample.java",
         "src/main/resources/webmap_keyword_search/main.fxml"
     ],
-    "title": "Webmap Keyword Search"
+    "title": "Webmap keyword search"
 }
