@@ -124,7 +124,7 @@ public class SurfacePlacementSample extends Application {
       drapedBillboardedText.setOffsetX(20);
 
       TextSymbol drapedFlatText =
-          new TextSymbol(12, "DRAPED FLAT", 0xFF0000CC, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+          new TextSymbol(14, "DRAPED FLAT", 0xFF0000CC, HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
       drapedFlatText.setOffsetX(20);
 
       TextSymbol relativeText =
