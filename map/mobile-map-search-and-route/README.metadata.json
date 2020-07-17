@@ -1,20 +1,14 @@
 {
     "category": "Map",
-    "description": "Display maps and use locators to enable search and routing offline using a mobile map package.",
+    "description": "Use locators and networks saved in an offline map.",
     "ignore": false,
     "images": [
         "MobileMapSearchAndRoute.png"
     ],
     "keywords": [
-        "disconnected",
-        "field mobility",
-        "geocode",
-        "network",
-        "network analysis",
-        "offline",
-        "routing",
-        "search",
-        "transportation",
+        "Offline",
+        "Routing",
+        "Search",
         "GeocodeResult",
         "MobileMapPackage",
         "ReverseGeocodeParameters",
@@ -24,9 +18,7 @@
         "RouteTask",
         "TransportationNetworkDataset"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/mobile-map-search-and-route.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/mobile-map-search-and-route.htm",
     "relevant_apis": [
         "GeocodeResult",
         "MobileMapPackage",
@@ -40,5 +32,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/mobile_map_search_and_route/MobileMapSearchAndRouteSample.java"
     ],
-    "title": "Mobile map (search and route)"
+    "title": "Mobile Map Search And Route"
 }

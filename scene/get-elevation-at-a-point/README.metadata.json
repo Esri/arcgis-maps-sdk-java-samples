@@ -7,15 +7,14 @@
     ],
     "keywords": [
         "elevation",
+        "point",
         "surface",
         "ArcGISTiledElevationSource",
         "BaseSurface",
         "ElevationSourcesList",
         "SceneView"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/get-elevation-at-a-point.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/get-elevation-at-a-point.htm",
     "relevant_apis": [
         "ArcGISTiledElevationSource",
         "BaseSurface",

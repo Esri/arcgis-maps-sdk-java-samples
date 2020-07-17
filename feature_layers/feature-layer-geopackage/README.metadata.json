@@ -6,28 +6,24 @@
         "FeatureLayerGeoPackage.png"
     ],
     "keywords": [
-        "OGC",
-        "feature table",
-        "geopackage",
-        "gpkg",
-        "package",
-        "standards",
         "ArcGISMap",
+        "Basemap",
         "FeatureLayer",
         "GeoPackage",
-        "GeoPackageFeatureTable"
+        "GeoPackageFeatureTable",
+        "MapView"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/feature-layer-geopackage.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-geopackage.htm",
     "relevant_apis": [
         "ArcGISMap",
+        "Basemap",
         "FeatureLayer",
         "GeoPackage",
-        "GeoPackageFeatureTable"
+        "GeoPackageFeatureTable",
+        "MapView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_geopackage/FeatureLayerGeoPackageSample.java"
     ],
-    "title": "Feature layer (GeoPackage)"
+    "title": "Feature Layer GeoPackage"
 }

@@ -51,17 +51,13 @@ public class BrowseWfsLayersSample extends Application {
   private ArcGISMap map;
   private ProgressIndicator progressIndicator;
 
-  // keep loadables in scope to avoid garbage collection
-  private WfsService wfsService;
-  private WfsFeatureTable wfsFeatureTable;
-
   @Override
   public void start(Stage stage) throws Exception {
 
     // create stack pane and JavaFX app scene
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
-    scene.getStylesheets().add(getClass().getResource("/browse_wfs_layers/style.css").toExternalForm());
+    scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
     // set title, size, and add JavaFX scene to stage
     stage.setTitle("Browse WFS Layers");
@@ -84,7 +80,7 @@ public class BrowseWfsLayersSample extends Application {
     mapView.setMap(map);
 
     // create a WFS service with a URL and load it
-    wfsService = new WfsService("https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities");
+    WfsService wfsService = new WfsService("https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities");
     wfsService.loadAsync();
 
     // when the WFS service has loaded, add its layer information to the list view for browsing
@@ -138,7 +134,7 @@ public class BrowseWfsLayersSample extends Application {
     map.getOperationalLayers().clear();
 
     // create a WFSFeatureTable from the WFSLayerInfo
-    wfsFeatureTable = new WfsFeatureTable(wfsLayerInfo);
+    WfsFeatureTable wfsFeatureTable = new WfsFeatureTable(wfsLayerInfo);
 
     // set the feature request mode to manual. The table must be manually populated as panning and zooming won't request features automatically.
     wfsFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);

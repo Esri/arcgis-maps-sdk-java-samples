@@ -1,29 +1,29 @@
 {
     "category": "Map",
-    "description": "Access and create bookmarks on a map.",
+    "description": "Use bookmarks in a map.",
     "ignore": false,
     "images": [
         "ManageBookmarks.png"
     ],
     "keywords": [
-        "bookmark",
-        "extent",
-        "location",
-        "zoom",
+        "ArcGISMap",
+        "Basemap",
         "Bookmark",
         "BookmarkList",
+        "MapView",
         "Viewpoint"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/manage-bookmarks.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/manage-bookmarks.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
         "Bookmark",
         "BookmarkList",
+        "MapView",
         "Viewpoint"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/manage_bookmarks/ManageBookmarksSample.java"
     ],
-    "title": "Manage bookmarks"
+    "title": "Manage Bookmarks"
 }

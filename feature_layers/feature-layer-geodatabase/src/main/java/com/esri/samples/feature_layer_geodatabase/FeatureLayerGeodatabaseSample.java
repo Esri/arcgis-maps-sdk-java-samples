@@ -35,9 +35,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class FeatureLayerGeodatabaseSample extends Application {
 
   private MapView mapView;
-  // keep loadables in scope to avoid garbage collection
-  private Geodatabase geodatabase;
-  private FeatureLayer featureLayer;
 
   @Override
   public void start(Stage stage) {
@@ -63,14 +60,14 @@ public class FeatureLayerGeodatabaseSample extends Application {
       // create geodatabase from local resource
       File geodatabaseFile = new File(System.getProperty("data.dir"), "./samples-data/los_angeles/LA_Trails" +
               ".geodatabase");
-      geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
+      Geodatabase geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
       geodatabase.addDoneLoadingListener(() -> {
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
           // access the geodatabase's feature table Trailheads
           GeodatabaseFeatureTable geodatabaseFeatureTable = geodatabase.getGeodatabaseFeatureTable("Trailheads");
           geodatabaseFeatureTable.loadAsync();
           // create a layer from the geodatabase feature table above and add to map
-          featureLayer = new FeatureLayer(geodatabaseFeatureTable);
+          FeatureLayer featureLayer = new FeatureLayer(geodatabaseFeatureTable);
           featureLayer.addDoneLoadingListener(() -> {
             if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
               // set viewpoint to the location of feature layer's features

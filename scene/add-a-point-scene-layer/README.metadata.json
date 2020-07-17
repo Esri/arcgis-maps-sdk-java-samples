@@ -7,18 +7,16 @@
     ],
     "keywords": [
         "3D",
-        "layers",
         "point scene layer",
+        "layers",
         "ArcGISSceneLayer"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/add-a-point-scene-layer.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/add-a-point-scene-layer.htm",
     "relevant_apis": [
         "ArcGISSceneLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/add_a_point_scene_layer/AddAPointSceneLayerSample.java"
     ],
-    "title": "Add point scene layer"
+    "title": "Add a point scene layer"
 }

@@ -20,11 +20,11 @@ class GenerateOfflineMapDialog extends Dialog<Boolean> {
   @FXML
   private ButtonType downloadBasemapButton;
 
-  private final StringProperty referencedBasemapFileName = new SimpleStringProperty();
+  private StringProperty referencedBasemapFileName = new SimpleStringProperty();
 
   GenerateOfflineMapDialog() {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/generate_offline_map_with_local_basemap" +
-            "/basemap_dialog.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/generate_offline_map_with_local_basemap_dialog" +
+        ".fxml"));
     loader.setRoot(this);
     loader.setController(this);
 

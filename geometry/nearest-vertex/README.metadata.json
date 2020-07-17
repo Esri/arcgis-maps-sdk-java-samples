@@ -1,23 +1,15 @@
 {
     "category": "Geometry",
-    "description": "Find the closest vertex and coordinate of a geometry to a point.",
+    "description": "Get the vertex of a geometry closest to a point.",
     "ignore": false,
     "images": [
         "NearestVertex.png"
     ],
     "keywords": [
-        "analysis",
-        "coordinate",
-        "geometry",
-        "nearest",
-        "proximity",
-        "vertex",
         "GeometryEngine",
         "ProximityResult"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/nearest-vertex.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/nearest-vertex.htm",
     "relevant_apis": [
         "GeometryEngine",
         "ProximityResult"
@@ -25,5 +17,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/nearest_vertex/NearestVertexSample.java"
     ],
-    "title": "Nearest vertex"
+    "title": "Nearest Vertex"
 }

@@ -1,37 +1,26 @@
-# Export tiles
+# Export Tiles
 
-Download tiles to a local tile cache file stored on the device.
+Export tiles from an online tile service.
 
-![Image of export tiles](ExportTiles.png)
-
-## Use case
-
-Field workers with limited network connectivity can use exported tiles as a basemap for use offline.
-
-## How to use the sample
-
-Pan and zoom into the desired area, making sure the area is within the red boundary. Click the 'Export Tiles' button to start the process. On successful completion you will see a preview of the downloaded tile package.
+![](ExportTiles.png)
 
 ## How it works
 
-1. Create an `ExportTileCacheTask`, passing in the URI of the tiled layer.
-2. Create default `ExportTileCacheParameters` for the task, specifying extent, minimum scale and maximum scale.
-3. Use the parameters and a path to create an `ExportTileCacheJob` from the task.
-4. Start the job, and when it completes successfully, get the resulting `TileCache`.
-5. Use the tile cache to create an `ArcGISTiledLayer`, and display it in the map.
+To export tiles from an `ArcGISTiledLayer`:
+
+1. Create an `ExportTileCacheTask`, passing in the URI of the tiled layer
+2. Create default `ExportTileCacheParameters` with `task.createDefaultExportTileCacheParametersAsync(extent, minScale, maxScale)`
+3. Call `task.exportTileCacheAsync(defaultParams, downloadFile)` to create the `ExportTileCacheJob`
+4. Call `job.start()` to start the job
+5. When the job is done, use `job.getResult()` to get the resulting `TileCache`
 
 ## Relevant API
 
+* ArcGISMap
 * ArcGISTiledLayer
+* Basemap
 * ExportTileCacheJob
-* ExportTileCacheParameters
+* ExportTileCacheParamters
 * ExportTileCacheTask
+* MapView
 * TileCache
-
-## Additional information
-
-ArcGIS tiled layers do not support reprojection, query, select, identify, or editing. Visit the [ArcGIS Online Developer's portal](https://developers.arcgis.com/java/latest/guide/layer-types-described.htm#ESRI_SECTION1_30E7379BE7FE4EC2AF7D8FBFEA7BB4CC) to learn more about the characteristics of ArcGIS tiled layers.
-
-## Tags
-
-cache, download, offline

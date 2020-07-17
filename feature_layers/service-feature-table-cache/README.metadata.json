@@ -1,28 +1,27 @@
 {
     "category": "Feature layers",
-    "description": "Display a feature layer from a service using the **on interaction cache** feature request mode.",
+    "description": "Cache features on the client when the user interacts.",
     "ignore": false,
     "images": [
         "ServiceFeatureTableCache.png"
     ],
     "keywords": [
-        "cache",
-        "feature request mode",
-        "performance",
+        "ArcGISMap",
         "FeatureLayer",
+        "MapView",
         "ServiceFeatureTable",
         "ServiceFeatureTable.FeatureRequestMode"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/service-feature-table-cache-.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/service-feature-table-cache-.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "FeatureLayer",
+        "MapView",
         "ServiceFeatureTable",
         "ServiceFeatureTable.FeatureRequestMode"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/service_feature_table_cache/ServiceFeatureTableCacheSample.java"
     ],
-    "title": "Service feature table (cache)"
+    "title": "Service Feature Table (Cache)"
 }

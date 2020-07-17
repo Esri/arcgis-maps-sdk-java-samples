@@ -1,36 +1,33 @@
 {
     "category": "Raster",
-    "description": "Blend a hillshade with a raster by specifying the elevation data. The resulting raster looks similar to the original raster, but with some terrain shading, giving it a textured look.",
+    "description": "Apply a blend renderer to a raster.",
     "ignore": false,
     "images": [
         "BlendRenderer.png"
     ],
     "keywords": [
-        "color ramp",
-        "elevation",
-        "hillshade",
-        "image",
-        "raster",
-        "raster layer",
-        "visualization",
+        "ArcGISMap",
+        "Basemap",
         "BlendRenderer",
         "ColorRamp",
+        "MapView",
         "Raster",
         "RasterLayer"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/blend-renderer.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/blend-renderer.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
         "BlendRenderer",
         "ColorRamp",
+        "MapView",
         "Raster",
         "RasterLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/blend_renderer/BlendRendererController.java",
         "src/main/java/com/esri/samples/blend_renderer/BlendRendererSample.java",
-        "src/main/resources/blend_renderer/main.fxml"
+        "src/main/resources/blend_renderer.fxml"
     ],
-    "title": "Blend renderer"
+    "title": "Blend Renderer"
 }

@@ -22,7 +22,6 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -46,6 +45,7 @@ import com.esri.arcgisruntime.raster.RenderingRule;
 
 public class RasterRenderingRuleSample extends Application {
 
+  private ComboBox<RenderingRuleInfo> renderingRuleInfoComboBox;
   private MapView mapView;
 
   @Override
@@ -55,7 +55,7 @@ public class RasterRenderingRuleSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/raster_rendering_rule/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Raster Rendering Rule Sample");
@@ -76,7 +76,7 @@ public class RasterRenderingRuleSample extends Application {
       progressIndicator.setVisible(false);
 
       // create drop down menu of Rendering Rules
-      ComboBox<RenderingRuleInfo> renderingRuleInfoComboBox = new ComboBox<>();
+      renderingRuleInfoComboBox = new ComboBox<>();
       renderingRuleInfoComboBox.setMaxWidth(260.0);
       renderingRuleInfoComboBox.setConverter(new StringConverter<>() {
         @Override
@@ -106,12 +106,12 @@ public class RasterRenderingRuleSample extends Application {
       mapView.setMap(map);
 
       // create an Image Service Raster as a raster layer and add to map
-      String ImageServiceRasterUri = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
-      ImageServiceRaster imageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
-      RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
+      final String ImageServiceRasterUri = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer";
+      final ImageServiceRaster imageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
+      final RasterLayer imageRasterLayer = new RasterLayer(imageServiceRaster);
       map.getOperationalLayers().add(imageRasterLayer);
 
-      // show alert if layer fails to load
+      // add event listener to loading of Image Service Raster and wait until loaded
       imageRasterLayer.addDoneLoadingListener(() -> {
         if (imageRasterLayer.getLoadStatus() == LoadStatus.LOADED) {
           // zoom to extent of the raster
@@ -122,7 +122,7 @@ public class RasterRenderingRuleSample extends Application {
 
           // populate the drop down menu with the rendering rule names
           renderingRuleInfoComboBox.getItems().addAll(renderingRuleInfos);
-
+          
           // listen to selection in the drop-down menu
           renderingRuleInfoComboBox.getSelectionModel().selectedItemProperty().addListener(o -> {
 
@@ -143,8 +143,8 @@ public class RasterRenderingRuleSample extends Application {
             ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
 
             // show progress indicator while rule is loading
-            appliedImageServiceRaster.addLoadStatusChangedListener((e) -> {
-              if (e.getNewLoadStatus() == LoadStatus.LOADING) {
+            appliedImageServiceRaster.addLoadStatusChangedListener((e)->{
+              if (e.getNewLoadStatus() == LoadStatus.LOADING){
                 progressIndicator.setVisible(true);
               } else {
                 progressIndicator.setVisible(false);
@@ -160,9 +160,6 @@ public class RasterRenderingRuleSample extends Application {
 
           // automatically select the first rendering rule
           renderingRuleInfoComboBox.getSelectionModel().selectFirst();
-
-        } else {
-          new Alert(Alert.AlertType.ERROR, "Error loading Image Raster Layer.").show();
         }
       });
 

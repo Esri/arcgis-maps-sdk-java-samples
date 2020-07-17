@@ -31,7 +31,7 @@ public class DistanceMeasurementAnalysisSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/distance_measurement_analysis/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/distance_measurement_analysis.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

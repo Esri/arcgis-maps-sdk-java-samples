@@ -1,40 +1,26 @@
 {
     "category": "Scene",
-    "description": "Show various kinds of 3D symbols in a scene.",
+    "description": "Create graphics with simple 3D shapes.",
     "ignore": false,
     "images": [
         "Symbols.png"
     ],
     "keywords": [
-        "3D",
-        "cone",
-        "cube",
-        "cylinder",
-        "diamond",
-        "geometry",
-        "pyramid",
-        "scene",
-        "shape",
-        "sphere",
-        "symbol",
-        "tetrahedron",
-        "tube",
-        "visualization",
+        "ArcGISScene",
         "Graphic",
         "GraphicsOverlay",
-        "SceneSymbol.AnchorPosition",
         "SimpleMarkerSceneSymbol",
-        "SimpleMarkerSceneSymbol.Style"
+        "SimpleMarkerSceneSymbol.STYLE",
+        "SceneSymbol.AnchorPosition"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/symbols.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/symbols.htm",
     "relevant_apis": [
+        "ArcGISScene",
         "Graphic",
         "GraphicsOverlay",
-        "SceneSymbol.AnchorPosition",
         "SimpleMarkerSceneSymbol",
-        "SimpleMarkerSceneSymbol.Style"
+        "SimpleMarkerSceneSymbol.STYLE",
+        "SceneSymbol.AnchorPosition"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/symbols/SymbolsSample.java"

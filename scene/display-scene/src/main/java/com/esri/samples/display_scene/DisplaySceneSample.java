@@ -32,7 +32,7 @@ public class DisplaySceneSample extends Application {
 
   private SceneView sceneView;
   private static final String ELEVATION_IMAGE_SERVICE =
-      "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
+      "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
 
   @Override
   public void start(Stage stage) {

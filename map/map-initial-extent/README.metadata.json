@@ -1,24 +1,18 @@
 {
     "category": "Map",
-    "description": "Display the map at an initial viewpoint representing a bounding geometry.",
+    "description": "Display the map at an initial viewpoint.",
     "ignore": false,
     "images": [
         "MapInitialExtent.png"
     ],
     "keywords": [
-        "envelope",
-        "extent",
-        "initial viewpoint",
-        "zoom",
         "ArcGISMap",
         "Envelope",
         "MapView",
         "Point",
         "Viewpoint"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/map-initial-extent.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/map-initial-extent.htm",
     "relevant_apis": [
         "ArcGISMap",
         "Envelope",
@@ -29,5 +23,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/map_initial_extent/MapInitialExtentSample.java"
     ],
-    "title": "Map initial extent"
+    "title": "Map Initial Extent"
 }

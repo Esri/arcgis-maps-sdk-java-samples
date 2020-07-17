@@ -1,37 +1,31 @@
 {
     "category": "Map view",
-    "description": "Determine if a layer is currently being viewed.",
+    "description": "Determine if a layer is currently visible.",
     "ignore": false,
     "images": [
         "DisplayLayerViewState.png"
     ],
     "keywords": [
-        "layer",
-        "map",
-        "status",
-        "view",
         "ArcGISMap",
         "ArcGISMapImageLayer",
         "Layer",
-        "LayerViewStateChangedEvent",
-        "LayerViewStateChangedListener",
         "LayerViewStatus",
-        "MapView"
+        "LayerViewStateChangedEvent",
+        "MapView",
+        "Viewpoint"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/display-layer-view-state.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/display-layer-view-state.htm",
     "relevant_apis": [
         "ArcGISMap",
         "ArcGISMapImageLayer",
         "Layer",
-        "LayerViewStateChangedEvent",
-        "LayerViewStateChangedListener",
         "LayerViewStatus",
-        "MapView"
+        "LayerViewStateChangedEvent",
+        "MapView",
+        "Viewpoint"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/display_layer_view_state/DisplayLayerViewStateSample.java"
     ],
-    "title": "Display layer view state"
+    "title": "Display Layer View State"
 }

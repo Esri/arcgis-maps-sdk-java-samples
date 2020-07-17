@@ -70,7 +70,7 @@ public class LineOfSightLocationSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource("https://elevation3d.arcgis" +
+      surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis" +
           ".com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
       scene.setBaseSurface(surface);
 

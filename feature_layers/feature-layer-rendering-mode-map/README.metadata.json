@@ -1,32 +1,35 @@
 {
     "category": "Feature layers",
-    "description": "Render features statically or dynamically by setting the feature layer rendering mode.",
+    "description": "Render features statically or dynamically.",
     "ignore": false,
     "images": [
         "FeatureLayerRenderingModeMap.gif"
     ],
     "keywords": [
-        "dynamic",
-        "feature layer",
-        "features",
-        "rendering",
-        "static",
         "ArcGISMap",
         "FeatureLayer",
+        "FeatureLayer.RenderingMode",
         "LoadSettings",
-        "MapView"
+        "Point",
+        "Polyline",
+        "Polygon",
+        "ServiceFeatureTable",
+        "Viewpoint"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/feature-layer-rendering-mode-map-.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-rendering-mode-map-.htm",
     "relevant_apis": [
         "ArcGISMap",
         "FeatureLayer",
+        "FeatureLayer.RenderingMode",
         "LoadSettings",
-        "MapView"
+        "Point",
+        "Polyline",
+        "Polygon",
+        "ServiceFeatureTable",
+        "Viewpoint"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_rendering_mode_map/FeatureLayerRenderingModeMapSample.java"
     ],
-    "title": "Feature layer rendering mode (map)"
+    "title": "Feature Layer Rendering Mode (Map)"
 }

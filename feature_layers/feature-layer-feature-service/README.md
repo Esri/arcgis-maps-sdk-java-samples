@@ -2,11 +2,7 @@
 
 Show features from an online feature service.
 
-<<<<<<< HEAD
 ![Image of feature layer feature service](screenshot.png)
-=======
-![Image of feature layer feature service](FeatureLayerFeatureService.png)
->>>>>>> master
 
 ## Use case
 

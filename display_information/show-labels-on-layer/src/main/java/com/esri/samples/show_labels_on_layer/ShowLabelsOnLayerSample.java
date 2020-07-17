@@ -41,6 +41,7 @@ import com.esri.arcgisruntime.symbology.TextSymbol;
 public class ShowLabelsOnLayerSample extends Application {
 
   private MapView mapView;
+  private FeatureLayer featureLayer;
 
   @Override
   public void start(Stage stage) {
@@ -68,17 +69,20 @@ public class ShowLabelsOnLayerSample extends Application {
       // create a feature layer from an online feature service of US Congressional Districts
       String serviceUrl = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_116th_Congressional_Districts/FeatureServer/0";
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceUrl);
-      FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
+      featureLayer = new FeatureLayer(serviceFeatureTable);
 
-      // add the feature layer to the map
-      map.getOperationalLayers().add(featureLayer);
-
-      // show alert if layer fails to load
+      // wait for the feature layer to load
       featureLayer.addDoneLoadingListener(() -> {
-        if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+
+          // add the feature layer to the map
+          map.getOperationalLayers().add(featureLayer);
+
+        } else {
           new Alert(Alert.AlertType.ERROR, "Error loading Feature Layer.").show();
         }
       });
+      featureLayer.loadAsync();
 
       // use red text with white halo for republican district labels
       TextSymbol republicanTextSymbol = new TextSymbol();

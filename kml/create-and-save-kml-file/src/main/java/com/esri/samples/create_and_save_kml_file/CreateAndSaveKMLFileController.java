@@ -49,7 +49,6 @@ public class CreateAndSaveKMLFileController {
   @FXML private ComboBox<SketchCreationMode> sketchCreationModeComboBox;
   @FXML private MapView mapView;
 
-  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private KmlDocument kmlDocument;
   private SketchEditor sketchEditor;
   private FileChooser fileChooser;
@@ -58,7 +57,7 @@ public class CreateAndSaveKMLFileController {
   public void initialize() {
 
     // create a map and add it to the map view
-    map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
+    ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
     mapView.setMap(map);
 
     // create a sketch editor and add it to the map view
@@ -81,12 +80,12 @@ public class CreateAndSaveKMLFileController {
     // set the images for the icon selection combo box
     List<String> iconLinks = Arrays.asList(
             null, // for the default symbol
-            "https://static.arcgis.com/images/Symbols/Shapes/BlueCircleLargeB.png",
-            "https://static.arcgis.com/images/Symbols/Shapes/BlueDiamondLargeB.png",
-            "https://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png",
-            "https://static.arcgis.com/images/Symbols/Shapes/BluePin2LargeB.png",
-            "https://static.arcgis.com/images/Symbols/Shapes/BlueSquareLargeB.png",
-            "https://static.arcgis.com/images/Symbols/Shapes/BlueStarLargeB.png");
+            "http://static.arcgis.com/images/Symbols/Shapes/BlueCircleLargeB.png",
+            "http://static.arcgis.com/images/Symbols/Shapes/BlueDiamondLargeB.png",
+            "http://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png",
+            "http://static.arcgis.com/images/Symbols/Shapes/BluePin2LargeB.png",
+            "http://static.arcgis.com/images/Symbols/Shapes/BlueSquareLargeB.png",
+            "http://static.arcgis.com/images/Symbols/Shapes/BlueStarLargeB.png");
     pointSymbolComboBox.getItems().addAll(iconLinks);
     pointSymbolComboBox.setCellFactory(comboBox -> new ImageURLListCell());
     pointSymbolComboBox.setButtonCell(new ImageURLListCell());

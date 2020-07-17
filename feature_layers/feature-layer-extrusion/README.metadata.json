@@ -6,35 +6,20 @@
         "FeatureLayerExtrusion.gif"
     ],
     "keywords": [
-        "3D",
-        "extrude",
-        "extrusion",
-        "extrusion expression",
-        "height",
-        "renderer",
-        "scene",
-        "ExtrusionExpression",
-        "ExtrusionMode",
-        "FeatureLayer",
         "FeatureLayer",
         "SceneProperties",
         "ServiceFeatureTable",
-        "SimpleRenderer"
+        "FeatureLayer"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/feature-layer-extrusion.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-extrusion.htm",
     "relevant_apis": [
-        "ExtrusionExpression",
-        "ExtrusionMode",
-        "FeatureLayer",
         "FeatureLayer",
         "SceneProperties",
         "ServiceFeatureTable",
-        "SimpleRenderer"
+        "FeatureLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_extrusion/FeatureLayerExtrusionSample.java"
     ],
-    "title": "Feature layer extrusion"
+    "title": "Feature Layer Extrusion"
 }

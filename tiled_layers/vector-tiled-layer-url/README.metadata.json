@@ -1,28 +1,25 @@
 {
     "category": "Tiled layers",
-    "description": "Load an ArcGIS vector tiled layer from a URL.",
+    "description": "Display tiles from an ArcGIS vector tile service.",
     "ignore": false,
     "images": [
         "VectorTiledLayerURL.png"
     ],
     "keywords": [
-        "tiles",
-        "vector",
-        "vector basemap",
-        "vector tiled layer",
-        "vector tiles",
+        "ArcGISMap",
         "ArcGISVectorTiledLayer",
-        "Basemap"
+        "Basemap",
+        "MapView"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/vector-tiled-layer-url.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/vector-tiled-layer-url.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "ArcGISVectorTiledLayer",
-        "Basemap"
+        "Basemap",
+        "MapView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/vector_tiled_layer_url/VectorTiledLayerURLSample.java"
     ],
-    "title": "Vector tiled layer URL"
+    "title": "Vector Tiled Layer URL"
 }

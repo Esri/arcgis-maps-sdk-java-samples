@@ -6,31 +6,42 @@
         "SpatialRelationships.png"
     ],
     "keywords": [
-        "geometries",
-        "relationship",
-        "spatial analysis",
+        "ArcGISMap",
+        "Basemap",
         "Geometry",
         "GeometryEngine",
         "GeometryType",
         "Graphic",
+        "GraphicsOverlay",
+        "MapView",
         "Point",
+        "PointCollection",
         "Polygon",
-        "Polyline"
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/spatial-relationships.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/spatial-relationships.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
         "Geometry",
         "GeometryEngine",
         "GeometryType",
         "Graphic",
+        "GraphicsOverlay",
+        "MapView",
         "Point",
+        "PointCollection",
         "Polygon",
-        "Polyline"
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SimpleMarkerSymbol"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/spatial_relationships/SpatialRelationshipsSample.java"
     ],
-    "title": "Spatial relationships"
+    "title": "Spatial Relationships"
 }

@@ -6,25 +6,21 @@
         "ConvexHullList.png"
     ],
     "keywords": [
-        "analysis",
-        "geometry",
-        "outline",
-        "perimeter",
-        "union",
+        "Analysis",
+        "ConvexHull",
         "GeometryEngine",
-        "Graphic",
-        "GraphicsOverlay"
+        "GeometryEngine.ConvexHull",
+        "GraphicsOverlay",
+        "PointCollection"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/convex-hull-list.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/convex-hull-list.htm",
     "relevant_apis": [
         "GeometryEngine",
-        "Graphic",
-        "GraphicsOverlay"
+        "GraphicsOverlay",
+        "PointCollection"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/convex_hull_list/ConvexHullListSample.java"
     ],
-    "title": "Convex hull list"
+    "title": "Convex Hull List"
 }

@@ -8,17 +8,15 @@
     "keywords": [
         "OGC",
         "WFS",
-        "XML",
         "feature",
-        "query",
-        "service",
         "web",
+        "service",
+        "XML",
+        "query",
         "FeatureLayer",
         "WfsFeatureTable"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/load-wfs-with-xml-query.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/load-wfs-with-xml-query.htm",
     "relevant_apis": [
         "FeatureLayer",
         "WfsFeatureTable"

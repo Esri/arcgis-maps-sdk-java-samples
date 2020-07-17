@@ -1,35 +1,33 @@
 {
     "category": "Display information",
-    "description": "Use a symbol style to display a graphic on a graphics overlay.",
+    "description": "Draw simple graphics with marker, line, polygon, and text symbols.",
     "ignore": false,
     "images": [
         "AddGraphicsWithSymbols.png"
     ],
     "keywords": [
-        "display",
-        "fill",
-        "graphics",
-        "line",
-        "marker",
-        "overlay",
-        "point",
-        "symbol",
-        "Geometry",
         "Graphic",
         "GraphicsOverlay",
-        "SimpleFillSymbol",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimepleFillSymbol",
         "SimpleLineSymbol",
         "SimpleMarkerSymbol",
         "TextSymbol"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/add-graphics-with-symbols.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/add-graphics-with-symbols.htm",
     "relevant_apis": [
-        "Geometry",
         "Graphic",
         "GraphicsOverlay",
-        "SimpleFillSymbol",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimepleFillSymbol",
         "SimpleLineSymbol",
         "SimpleMarkerSymbol",
         "TextSymbol"
@@ -37,5 +35,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/add_graphics_with_symbols/AddGraphicsWithSymbolsSample.java"
     ],
-    "title": "Add graphics with symbols"
+    "title": "Add Graphics with Symbols"
 }

@@ -1,21 +1,15 @@
 {
     "category": "Feature layers",
-    "description": "Open a shapefile stored on the device and display it as a feature layer with default symbology.",
+    "description": "Display features from a local shapefile.",
     "ignore": false,
     "images": [
         "FeatureLayerShapefile.png"
     ],
     "keywords": [
-        "Layers",
-        "shapefile",
-        "shp",
-        "vector",
         "FeatureLayer",
         "ShapefileFeatureTable"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/feature-layer-shapefile.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-shapefile.htm",
     "relevant_apis": [
         "FeatureLayer",
         "ShapefileFeatureTable"
@@ -23,5 +17,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_shapefile/FeatureLayerShapefileSample.java"
     ],
-    "title": "Feature layer shapefile"
+    "title": "Feature Layer Shapefile"
 }

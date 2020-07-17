@@ -49,7 +49,6 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class ListTransformationsBySuitabilitySample extends Application {
 
-  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -59,7 +58,7 @@ public class ListTransformationsBySuitabilitySample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/list_transformations_by_suitability/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("List Transformations by Suitability Sample");
@@ -69,7 +68,7 @@ public class ListTransformationsBySuitabilitySample extends Application {
       stage.show();
 
       // create a map with light gray canvas basemap and add it to the map view
-      map = new ArcGISMap(Basemap.createLightGrayCanvas());
+      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
       mapView = new MapView();
       mapView.setMap(map);
 

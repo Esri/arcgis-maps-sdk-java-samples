@@ -1,33 +1,31 @@
 {
     "category": "Map",
-    "description": "Add rasters and feature tables from a GeoPackage to a map.",
+    "description": "Display rasters and features from local GeoPackages.",
     "ignore": false,
     "images": [
         "ReadGeoPackage.png"
     ],
     "keywords": [
-        "OGC",
-        "container",
-        "geopackage",
-        "layer",
-        "map",
-        "package",
-        "raster",
-        "table",
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
         "GeoPackage",
-        "GeoPackageFeatureTable",
-        "GeoPackageRaster"
+        "Layer",
+        "MapView",
+        "RasterLayer"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/read-geopackage.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/read-geopackage.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
         "GeoPackage",
-        "GeoPackageFeatureTable",
-        "GeoPackageRaster"
+        "Layer",
+        "MapView",
+        "RasterLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/read_geopackage/ReadGeoPackageSample.java"
     ],
-    "title": "Read a GeoPackage"
+    "title": "Read GeoPackage"
 }

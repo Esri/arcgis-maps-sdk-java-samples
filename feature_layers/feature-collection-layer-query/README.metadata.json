@@ -1,39 +1,38 @@
 {
     "category": "Feature layers",
-    "description": "Create a feature collection layer to show a query result from a service feature table.",
+    "description": "Create a feature collection layer which shows the result of a SQL query from a service feature table.",
     "ignore": false,
     "images": [
         "FeatureCollectionLayerQuery.png"
     ],
     "keywords": [
-        "layer",
+        "FeatureQueryResult",
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "FeatureCollectionTable",
         "query",
-        "search",
-        "table",
         "FeatureCollection",
         "FeatureCollectionLayer",
         "FeatureCollectionTable",
         "FeatureLayer",
-        "FeatureQueryResult",
         "FeatureTable",
+        "FeatureQueryResult",
         "QueryParameters",
         "ServiceFeatureTable"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/feature-collection-layer-query.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/feature-collection-layer-query.htm",
     "relevant_apis": [
         "FeatureCollection",
         "FeatureCollectionLayer",
         "FeatureCollectionTable",
         "FeatureLayer",
-        "FeatureQueryResult",
         "FeatureTable",
+        "FeatureQueryResult",
         "QueryParameters",
         "ServiceFeatureTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_collection_layer_query/FeatureCollectionLayerQuerySample.java"
     ],
-    "title": "Feature collection layer query"
+    "title": "Feature Collection Layer Query"
 }

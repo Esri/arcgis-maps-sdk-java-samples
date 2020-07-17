@@ -64,7 +64,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     // create stack pane and application scene
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
-    scene.getStylesheets().add(getClass().getResource("/find_service_areas_for_multiple_facilities/style.css").toExternalForm());
+    scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
     // set title, size, and add scene to stage
     stage.setTitle("Find Service Areas for Multiple Facilities Sample");
@@ -106,7 +106,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     FeatureLayer facilitiesFeatureLayer = new FeatureLayer(facilitiesTable);
 
     // create a symbol used to display the facilities
-    PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("https://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
+    PictureMarkerSymbol facilitySymbol = new PictureMarkerSymbol("http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png");
     facilitySymbol.setHeight(25);
     facilitySymbol.setWidth(25);
     // set the renderer of the facilities feature layer to use the facilities symbol

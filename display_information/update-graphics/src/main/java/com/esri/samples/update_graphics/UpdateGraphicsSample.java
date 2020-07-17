@@ -16,6 +16,10 @@
 
 package com.esri.samples.update_graphics;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -34,13 +38,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -53,11 +55,7 @@ public class UpdateGraphicsSample extends Application {
 
   private boolean isUpdateLocationActive;
   private List<SimpleMarkerSymbol> markers;
-  private Button updateLocationButton;
-  private Button updateDescriptionButton;
-  private ComboBox<String> symbolBox;
 
-  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
   private Graphic selectedGraphic;
   private GraphicsOverlay graphicsOverlay;
@@ -76,7 +74,7 @@ public class UpdateGraphicsSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/update_graphics/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Update Graphics Sample");
@@ -88,53 +86,18 @@ public class UpdateGraphicsSample extends Application {
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-              Insets.EMPTY)));
+          Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 150);
       controlsVBox.getStyleClass().add("panel-region");
 
       // create buttons for user interaction
-      updateLocationButton = new Button("Update Location");
-      updateDescriptionButton = new Button("Update Description");
+      Button updateLocationButton = new Button("Update Location");
+      Button updateDescriptionButton = new Button("Update Description");
       updateLocationButton.setMaxWidth(Double.MAX_VALUE);
       updateDescriptionButton.setMaxWidth(Double.MAX_VALUE);
       updateLocationButton.setDisable(true);
       updateDescriptionButton.setDisable(true);
-
-      // create section for combo box
-      Label symbolLabel = new Label("Update Symbol:");
-      symbolLabel.getStyleClass().add("panel-label");
-      symbolBox = new ComboBox<>();
-      symbolBox.getItems().addAll("CIRCLE", "TRIANGLE", "CROSS", "DIAMOND");
-      symbolBox.getSelectionModel().selectFirst();
-      symbolBox.setMaxWidth(Double.MAX_VALUE);
-      symbolBox.setDisable(true);
-
-      // set the symbol of the graphic
-      symbolBox.showingProperty().addListener((obs, wasShowing, isShowing) -> {
-        if (selectedGraphic.isSelected() && !isShowing) {
-          selectedGraphic.setSymbol(markers.get(symbolBox.getSelectionModel().getSelectedIndex()));
-        }
-      });
-
-      // add label, dropdown and buttons to the control panel
-      controlsVBox.getChildren().addAll(updateLocationButton, updateDescriptionButton, symbolLabel, symbolBox);
-
-      // create a ArcGISMap with basemap light gray canvas
-      map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
-
-      // create a map view and set the map to it
-      mapView = new MapView();
-      mapView.setMap(map);
-
-      // create a graphics overlay
-      graphicsOverlay = new GraphicsOverlay();
-
-      // add graphics overlay to the map view
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
-
-      // create default graphics for graphics overlay
-      createGraphics();
 
       // when clicked allow user to move graphic's location
       updateLocationButton.setOnAction(e -> {
@@ -165,8 +128,56 @@ public class UpdateGraphicsSample extends Application {
         }
       });
 
+      // create section for combo box
+      Label symbolLabel = new Label("Update Symbol:");
+      symbolLabel.getStyleClass().add("panel-label");
+      ComboBox<String> symbolBox = new ComboBox<>();
+      symbolBox.getItems().addAll("CIRCLE", "TRIANGLE", "CROSS", "DIAMOND");
+      symbolBox.getSelectionModel().selectFirst();
+      symbolBox.setMaxWidth(Double.MAX_VALUE);
+      symbolBox.setDisable(true);
+
+      // set the symbol of the graphic
+      symbolBox.showingProperty().addListener((obs, wasShowing, isShowing) -> {
+        if (selectedGraphic.isSelected() && !isShowing) {
+          selectedGraphic.setSymbol(markers.get(symbolBox.getSelectionModel().getSelectedIndex()));
+        }
+      });
+
+      // add label, dropdown and buttons to the control panel
+      controlsVBox.getChildren().addAll(updateLocationButton, updateDescriptionButton, symbolLabel, symbolBox);
+
+      // create a graphics overlay
+      graphicsOverlay = new GraphicsOverlay();
+      selectedGraphic = new Graphic();
+
+      // create a ArcGISMap with basemap light gray canvas
+      ArcGISMap map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
+
+      // enable buttons when map view is done loading
+      map.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          symbolBox.setDisable(false);
+          updateLocationButton.setDisable(false);
+          updateDescriptionButton.setDisable(false);
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Map Failed to Load!");
+          alert.show();
+        }
+      });
+
+      // create a map view and set the map to it
+      mapView = new MapView();
+      mapView.setMap(map);
+
+      // add graphics overlay to the map view
+      mapView.getGraphicsOverlays().add(graphicsOverlay);
+
+      // create default graphics for graphics overlay
+      createGraphics();
+
       mapView.setOnMouseClicked(e -> {
-        if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+        if (e.getButton() == MouseButton.PRIMARY) {
           // clear any selected graphic
           graphicsOverlay.clearSelection();
 
@@ -190,13 +201,10 @@ public class UpdateGraphicsSample extends Application {
                   selectedGraphic.setSelected(true);
                   String style = ((SimpleMarkerSymbol) selectedGraphic.getSymbol()).getStyle().toString();
                   symbolBox.getSelectionModel().select(style);
-
-                  enableUI(false);
-                } else {
-                  enableUI(true);
                 }
               } catch (Exception x) {
-                new Alert(Alert.AlertType.ERROR, "Error identifying clicked graphic").show();
+                // on any error, display the stack trace
+                x.printStackTrace();
               }
             });
           }
@@ -258,12 +266,6 @@ public class UpdateGraphicsSample extends Application {
       graphic.getAttributes().put("DESCRIPTION", descriptions.get(i));
       graphicsOverlay.getGraphics().add(graphic);
     }
-  }
-
-  private void enableUI(boolean enable) {
-    updateDescriptionButton.setDisable(enable);
-    updateLocationButton.setDisable(enable);
-    symbolBox.setDisable(enable);
   }
 
   /**

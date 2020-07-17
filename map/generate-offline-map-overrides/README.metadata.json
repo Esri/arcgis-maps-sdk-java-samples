@@ -6,17 +6,7 @@
         "GenerateOfflineMapOverrides.png"
     ],
     "keywords": [
-        "LOD",
-        "adjust",
-        "download",
-        "extent",
-        "filter",
-        "offline",
-        "override",
-        "parameters",
-        "reduce",
-        "scale range",
-        "setting",
+        "Offline",
         "ExportTileCacheParameters",
         "GenerateGeodatabaseParameters",
         "GenerateLayerOption",
@@ -27,9 +17,7 @@
         "OfflineMapParametersKey",
         "OfflineMapTask"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/generate-offline-map-overrides-.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/generate-offline-map-overrides-.htm",
     "relevant_apis": [
         "ExportTileCacheParameters",
         "GenerateGeodatabaseParameters",
@@ -42,9 +30,9 @@
         "OfflineMapTask"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/generate_offline_map_overrides/GenerateOfflineMapOverridesController.java",
         "src/main/java/com/esri/samples/generate_offline_map_overrides/GenerateOfflineMapOverridesSample.java",
-        "src/main/resources/generate_offline_map_overrides/main.fxml"
+        "src/main/java/com/esri/samples/generate_offline_map_overrides/GenerateOfflineMapOverridesController.java",
+        "src/main/resources/generate_offline_map_overrides.fxml"
     ],
-    "title": "Generate offline map (overrides)"
+    "title": "Generate Offline Map (Overrides)"
 }

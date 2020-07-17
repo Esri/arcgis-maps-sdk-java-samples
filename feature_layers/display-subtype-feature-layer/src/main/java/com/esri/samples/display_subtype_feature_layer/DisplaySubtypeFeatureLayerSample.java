@@ -31,7 +31,7 @@ public class DisplaySubtypeFeatureLayerSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/display_subtype_feature_layer/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/display_subtype_feature_layer.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

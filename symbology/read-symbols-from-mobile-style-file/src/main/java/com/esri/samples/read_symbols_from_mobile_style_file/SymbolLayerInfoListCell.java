@@ -2,7 +2,6 @@ package com.esri.samples.read_symbols_from_mobile_style_file;
 
 import java.util.concurrent.ExecutionException;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
@@ -20,7 +19,6 @@ class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
   SymbolLayerInfoListCell() {
     // set the cell to display only a graphic
     setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-    setAlignment(Pos.CENTER);
   }
 
   @Override

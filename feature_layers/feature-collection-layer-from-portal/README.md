@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # Feature Collection Layer From Portal
-=======
-# Feature collection layer from portal
->>>>>>> master
 
 Create a feature collection layer from a portal item.
 

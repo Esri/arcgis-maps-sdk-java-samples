@@ -1,36 +1,27 @@
 {
     "category": "Map view",
-    "description": "Set the map view to a new viewpoint.",
+    "description": "Set or animate to a new viewpoint.",
     "ignore": false,
     "images": [
         "ChangeViewpoint.png"
     ],
     "keywords": [
-        "animate",
-        "extent",
-        "pan",
-        "rotate",
-        "scale",
-        "view",
-        "zoom",
         "ArcGISMap",
-        "Geometry",
-        "MapView",
+        "Basemap",
         "Point",
+        "SpatialReference",
         "Viewpoint"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/change-viewpoint.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/change-viewpoint.htm",
     "relevant_apis": [
         "ArcGISMap",
-        "Geometry",
-        "MapView",
+        "Basemap",
         "Point",
+        "SpatialReference",
         "Viewpoint"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/change_viewpoint/ChangeViewpointSample.java"
     ],
-    "title": "Change viewpoint"
+    "title": "Change Viewpoint"
 }

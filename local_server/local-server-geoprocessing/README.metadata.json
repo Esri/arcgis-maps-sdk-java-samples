@@ -1,18 +1,11 @@
 {
     "category": "Local server",
-    "description": "Create contour lines from local raster data using a local geoprocessing package `.gpk` and the contour geoprocessing tool.",
+    "description": "Create contour lines from local raster data and Local Server.",
     "ignore": false,
     "images": [
         "LocalServerGeoprocessing.png"
     ],
     "keywords": [
-        "",
-        "geoprocessing",
-        "local",
-        "offline",
-        "parameters",
-        "processing",
-        "service",
         "GeoprocessingDouble",
         "GeoprocessingJob",
         "GeoprocessingParameter",
@@ -23,9 +16,7 @@
         "LocalServer",
         "LocalServerStatus"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/local-server-geoprocessing.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/local-server-geoprocessing.htm",
     "relevant_apis": [
         "GeoprocessingDouble",
         "GeoprocessingJob",
@@ -38,9 +29,9 @@
         "LocalServerStatus"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingController.java",
         "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingSample.java",
-        "src/main/resources/local_server_geoprocessing/main.fxml"
+        "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingController.java",
+        "src/main/resources/local_server_geoprocessing.fxml"
     ],
-    "title": "Local Server geoprocessing"
+    "title": "Local Server Geoprocessing"
 }

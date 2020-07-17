@@ -6,21 +6,24 @@
         "PictureMarkerSymbol.png"
     ],
     "keywords": [
-        "graphics",
-        "marker",
-        "picture",
-        "symbol",
-        "visualization",
-        "PictureMarkerSymbol"
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PictureMarkerSymbol",
+        "Point"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/picture-marker-symbol.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/picture-marker-symbol.htm",
     "relevant_apis": [
-        "PictureMarkerSymbol"
+        "ArcGISMap",
+        "Graphic",
+        "GraphicsOverlay",
+        "MapView",
+        "PictureMarkerSymbol",
+        "Point"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/picture_marker_symbol/PictureMarkerSymbolSample.java"
     ],
-    "title": "Picture marker symbol"
+    "title": "Picture Marker Symbol"
 }

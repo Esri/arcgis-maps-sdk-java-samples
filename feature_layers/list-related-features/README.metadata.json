@@ -1,35 +1,35 @@
 {
     "category": "Feature layers",
-    "description": "List features related to the selected feature.",
+    "description": "Find features related to the selected feature.",
     "ignore": false,
     "images": [
         "ListRelatedFeatures.png"
     ],
     "keywords": [
-        "features",
-        "identify",
-        "query",
-        "related",
-        "relationship",
-        "search",
         "ArcGISFeature",
         "ArcGISFeatureTable",
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
         "FeatureQueryResult",
         "FeatureTable",
+        "MapView",
         "RelatedFeatureQueryResult"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/list-related-features.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/list-related-features.htm",
     "relevant_apis": [
         "ArcGISFeature",
         "ArcGISFeatureTable",
+        "ArcGISMap",
+        "Feature",
+        "FeatureLayer",
         "FeatureQueryResult",
         "FeatureTable",
+        "MapView",
         "RelatedFeatureQueryResult"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/list_related_features/ListRelatedFeaturesSample.java"
     ],
-    "title": "List related features"
+    "title": "List Related Features"
 }

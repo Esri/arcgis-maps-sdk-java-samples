@@ -56,8 +56,7 @@ public class MapImageLayerTablesSample extends Application {
   private GraphicsOverlay graphicsOverlay;
   private ServiceFeatureTable commentsTable;
   private ListView<Feature> commentsListView;
-  private ArcGISFeature relatedFeature; // keep loadable in scope to avoid garbage collection
-  
+
   /**
    * Starting point of this application.
    *
@@ -75,7 +74,7 @@ public class MapImageLayerTablesSample extends Application {
       // create a stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/map_image_layer_tables/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // size the stage and add a title
       stage.setTitle("Map Image Layer Tables Sample");
@@ -199,7 +198,7 @@ public class MapImageLayerTablesSample extends Application {
               RelatedFeatureQueryResult relatedResult = results.get(0);
               if (relatedResult.iterator().hasNext()) {
                 // get the first related feature
-                relatedFeature = (ArcGISFeature) relatedResult.iterator().next();
+                ArcGISFeature relatedFeature = (ArcGISFeature) relatedResult.iterator().next();
                 // load the feature and get its geometry to show as a graphic on the map
                 relatedFeature.loadAsync();
                 relatedFeature.addDoneLoadingListener(() -> {

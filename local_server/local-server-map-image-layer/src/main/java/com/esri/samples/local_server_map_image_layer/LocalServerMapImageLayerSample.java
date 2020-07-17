@@ -44,7 +44,6 @@ public class LocalServerMapImageLayerSample extends Application {
 
   private static final int APPLICATION_WIDTH = 800;
 
-  private ArcGISMapImageLayer imageLayer; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
   private LocalMapService mapImageService;
   private ProgressIndicator imageLayerProgress;
@@ -120,7 +119,7 @@ public class LocalServerMapImageLayerSample extends Application {
       // get the url of where map service is located
       String url = mapImageService.getUrl();
       // create a map image layer using url
-      imageLayer = new ArcGISMapImageLayer(url);
+      ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(url);
       // set viewpoint once layer has loaded
       imageLayer.addDoneLoadingListener(() -> {
         Envelope extent = imageLayer.getFullExtent();

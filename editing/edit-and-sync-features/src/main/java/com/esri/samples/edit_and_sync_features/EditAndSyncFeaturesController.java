@@ -77,8 +77,6 @@ public class EditAndSyncFeaturesController {
   private ArcGISMap map;
   private ViewpointChangedListener viewpointChangedListener;
   private Feature selectedFeature;
-  
-  private ServiceFeatureTable onlineFeatureTable; // keep loadable in scope to avoid garbage collection
 
   @FXML
   private void initialize() {
@@ -130,7 +128,7 @@ public class EditAndSyncFeaturesController {
             String featureLayerURL = featureServiceUrl + "/" + layerInfo.getId();
 
             // create the service feature table
-            onlineFeatureTable = new ServiceFeatureTable(featureLayerURL);
+            ServiceFeatureTable onlineFeatureTable = new ServiceFeatureTable(featureLayerURL);
             onlineFeatureTable.loadAsync();
 
             // add feature layers to the map from feature tables with point geometries (to make editing easier)

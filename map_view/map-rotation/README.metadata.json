@@ -6,22 +6,22 @@
         "MapRotation.png"
     ],
     "keywords": [
-        "compass",
-        "rotate",
-        "rotation",
-        "viewpoint",
         "ArcGISMap",
-        "MapView"
+        "Compass",
+        "Envelope",
+        "MapView",
+        "Point"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/map-rotation.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/map-rotation.htm",
     "relevant_apis": [
         "ArcGISMap",
-        "MapView"
+        "Compass",
+        "Envelope",
+        "MapView",
+        "Point"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/map_rotation/MapRotationSample.java"
     ],
-    "title": "Map rotation"
+    "title": "Map Rotation"
 }

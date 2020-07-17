@@ -2,19 +2,15 @@
 
 Display MIL-STD-2525. military symbology in 3D.
 
-![Image of graphics overlay dictionary renderer 3D](GraphicsOverlayDictionaryRenderer3D.png)
+The dictionary renderer creates these graphics using a local mil2525d style file included in the SDK's resources/symbols directory plus an XML file with key-value attributes for each graphic.
 
-## Use case
-
-Use a dictionary renderer on a graphics overlay to display more transient data, such as military messages coming through a local tactical network.
-
-## How to use the sample
-
-When launched, this sample displays a scene with a dictionary renderer. Pan and zoom to explore the scene.
+![](GraphicsOverlayDictionaryRenderer3D.png)
 
 ## How it works
 
-1. Create a `SymbolDictionary` from a dictionary (stylx) file.
+To apply a `DictionaryRenderer` and display mil2525d graphics in 3D:
+
+1. Create a `SymbolDicitonary` with the "mil2525d" specification type: `SymbolDictionary("mil2525d")`.
 2. Create a `DictionaryRenderer` with the symbol dictionary.
 3. Set the renderer on a graphics overlay with `graphicsOverlay.setRenderer(dictionaryRenderer)`.
 4. Parse an XML file conforming to the specification. It should have key-value pairs to use as attributes for each graphic:
@@ -29,10 +25,6 @@ When launched, this sample displays a scene with a dictionary renderer. Pan and 
 * DictionaryRenderer
 * DictionarySymbolStyle
 
-## Additional information
-
-The dictionary renderer creates these graphics using a local mil2525d style file included in the SDK's resources/symbols directory plus an XML file with key-value attributes for each graphic.
-
 ## Tags
 
-defense, military, situational awareness, tactical, visualization
+Graphics, Symbology, 3D

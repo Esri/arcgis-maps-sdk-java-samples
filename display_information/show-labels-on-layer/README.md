@@ -1,4 +1,4 @@
-# Show labels on layer
+# Show labels on layers
 
 Display custom labels on a feature layer.
 

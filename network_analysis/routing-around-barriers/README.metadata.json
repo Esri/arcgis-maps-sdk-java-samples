@@ -1,42 +1,33 @@
 {
-    "category": "Network analysis",
-    "description": "Find a route that reaches all stops without crossing any barriers.",
-    "ignore": false,
-    "images": [
-        "RoutingAroundBarriers.png"
-    ],
-    "keywords": [
-        "barriers",
-        "best sequence",
-        "directions",
-        "maneuver",
-        "network analysis",
-        "routing",
-        "sequence",
-        "stop order",
-        "stops",
-        "DirectionManeuver",
-        "PolygonBarrier",
-        "Route",
-        "RouteParameters",
-        "RouteResult",
-        "RouteTask",
-        "Stop"
-    ],
-    "redirect_from": "",
-    "relevant_apis": [
-        "DirectionManeuver",
-        "PolygonBarrier",
-        "Route",
-        "RouteParameters",
-        "RouteResult",
-        "RouteTask",
-        "Stop"
-    ],
-    "snippets": [
-        "src/main/java/com/esri/samples/routing_around_barriers/RoutingAroundBarriersController.java",
-        "src/main/java/com/esri/samples/routing_around_barriers/RoutingAroundBarriersSample.java",
-        "src/main/resources/routing_around_barriers/main.fxml"
-    ],
-    "title": "Routing around barriers"
+  "category": "Network analysis",
+  "description": "Find a route with multiple stops and barriers.",
+  "ignore": false,
+  "images": [
+    "RoutingAroundBarriers.png"
+  ],
+  "keywords": [
+    "barriers",
+    "best sequence",
+    "directions",
+    "maneuver",
+    "network analysis",
+    "routing",
+    "sequence",
+    "stop order",
+    "stops"
+  ],
+  "relevant_apis": [
+    "DirectionManeuver",
+    "PolygonBarrier",
+    "Route",
+    "RouteParameters",
+    "RouteResult",
+    "RouteTask",
+    "Stop"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/routing_around_barriers/RoutingAroundBarriersSample.java",
+    "src/main/java/com/esri/samples/routing_around_barriers/RoutingAroundBarriersController.java"
+  ],
+  "title": "Routing Around Barriers"
 }

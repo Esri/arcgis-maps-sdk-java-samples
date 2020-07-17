@@ -53,7 +53,7 @@ public class DeleteFeaturesSample extends Application {
   private ListenableFuture<FeatureQueryResult> selectionResult;
 
   private static final String FEATURE_LAYER_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {

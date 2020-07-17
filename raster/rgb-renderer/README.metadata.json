@@ -1,43 +1,33 @@
 {
     "category": "Raster",
-    "description": "Apply an RGB renderer to a raster layer to enhance feature visibility.",
+    "description": "Apply an RGB renderer to a raster.",
     "ignore": false,
     "images": [
         "RgbRenderer.png"
     ],
     "keywords": [
-        "analysis",
-        "color",
-        "composite",
-        "imagery",
-        "multiband",
-        "multispectral",
-        "pan-sharpen",
-        "photograph",
-        "raster",
-        "spectrum",
-        "stretch",
-        "visualization",
+        "ArcGISMap",
         "Basemap",
+        "MapView",
         "Raster",
         "RasterLayer",
-        "RGBRenderer",
+        "RgbRenderer",
         "StretchParameters"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/rgb-renderer.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/rgb-renderer.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "Basemap",
+        "MapView",
         "Raster",
         "RasterLayer",
-        "RGBRenderer",
+        "RgbRenderer",
         "StretchParameters"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/rgb_renderer/RgbRendererController.java",
         "src/main/java/com/esri/samples/rgb_renderer/RgbRendererSample.java",
-        "src/main/resources/rgb_renderer/main.fxml"
+        "src/main/java/com/esri/samples/rgb_renderer/RgbRendererController.java",
+        "src/main/resources/rgb_renderer.fxml"
     ],
-    "title": "RGB renderer"
+    "title": "Rgb Renderer"
 }

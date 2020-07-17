@@ -6,17 +6,13 @@
         "GeometryEngineSimplify.png"
     ],
     "keywords": [
-        "geometry",
-        "polygon",
-        "simplify",
-        "spatial operations",
-        "topology",
         "Geometry",
-        "GeometryEngine"
+        "Polygon",
+        "Simplify",
+        "Spatial operations",
+        "Topology"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/geometry-engine-simplify.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/geometry-engine-simplify.htm",
     "relevant_apis": [
         "Geometry",
         "GeometryEngine"
@@ -24,5 +20,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/geometry_engine_simplify/GeometryEngineSimplifySample.java"
     ],
-    "title": "Geometry engine simplify"
+    "title": "Geometry Engine Simplify"
 }

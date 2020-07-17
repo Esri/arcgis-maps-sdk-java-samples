@@ -6,24 +6,20 @@
         "OrbitTheCameraAroundAnObject.png"
     ],
     "keywords": [
+        "OrbitGeoElementCameraController",
+        "Camera",
+        "SceneView",
         "3D",
-        "camera",
-        "object",
-        "orbit",
-        "rotate",
-        "scene",
         "OrbitGeoElementCameraController"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/orbit-the-camera-around-an-object.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/orbit-the-camera-around-an-object.htm",
     "relevant_apis": [
         "OrbitGeoElementCameraController"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/orbit_the_camera_around_an_object/OrbitTheCameraAroundAnObjectController.java",
         "src/main/java/com/esri/samples/orbit_the_camera_around_an_object/OrbitTheCameraAroundAnObjectSample.java",
-        "src/main/resources/orbit_the_camera_around_an_object/main.fxml"
+        "src/main/java/com/esri/samples/orbit_the_camera_around_an_object/OrbitTheCameraAroundAnObjectController.java",
+        "src/main/resources/orbit_the_camera_around_an_object.fxml"
     ],
-    "title": "Orbit camera around object"
+    "title": "Orbit the camera around an object"
 }

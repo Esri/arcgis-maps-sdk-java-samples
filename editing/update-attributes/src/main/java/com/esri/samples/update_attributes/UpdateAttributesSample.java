@@ -53,11 +53,15 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class UpdateAttributesSample extends Application {
 
-  private ArcGISFeature identifiedFeature;
-  private ServiceFeatureTable featureTable;
   private MapView mapView;
 
+  private ArcGISFeature selected;
+  private FeatureLayer featureLayer;
+  private ServiceFeatureTable featureTable;
   private ComboBox<String> comboBox;
+
+  private static final String FEATURE_LAYER_URL =
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
@@ -66,7 +70,7 @@ public class UpdateAttributesSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/update_attributes/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // size the stage, add a title, and set scene to stage
       stage.setTitle("Update Attributes Sample");
@@ -102,9 +106,9 @@ public class UpdateAttributesSample extends Application {
 
       // handle type damage selection
       comboBox.getSelectionModel().selectedItemProperty().addListener((o, p, n) -> {
-        if (!identifiedFeature.getAttributes().get("typdamage").equals(n)) {
+        if (!selected.getAttributes().get("typdamage").equals(n)) {
           try {
-            updateAttributes(identifiedFeature);
+            updateAttributes(selected);
           } catch (Exception e) {
             displayMessage("Cannot update attributes", e.getCause().getMessage());
           }
@@ -114,28 +118,20 @@ public class UpdateAttributesSample extends Application {
       // add damage type label and comboBox to the control panel
       controlsVBox.getChildren().addAll(typeDamageLabel, comboBox);
 
-      // create a map view
+      // create a map with streets basemap
+      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
+
+      // create view for this ArcGISMap
       mapView = new MapView();
 
-      // create a map with streets basemap and set it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
-      mapView.setMap(map);
-
       // create service feature table from URL
-      featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+      featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
 
-      // create a feature layer with the feature table
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      // create a feature layer from table
+      featureLayer = new FeatureLayer(featureTable);
 
-      // add the feature layer to the map
+      // add the layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);
-
-      // show alert if layer fails to load
-      featureLayer.addDoneLoadingListener(()->{
-        if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
-          displayMessage("Error", "Error loading feature layer");
-        }
-      });
 
       mapView.setOnMouseClicked(event -> {
         // accept only primary mouse click
@@ -153,16 +149,16 @@ public class UpdateAttributesSample extends Application {
             try {
               IdentifyLayerResult layer = results.get();
               List<GeoElement> identified = layer.getElements();
-              if (!identified.isEmpty()) {
+              if (identified.size() > 0) {
                 GeoElement element = identified.get(0);
                 // get selected feature
                 if (element instanceof ArcGISFeature) {
-                  identifiedFeature = (ArcGISFeature) element;
-                  featureLayer.selectFeature(identifiedFeature);
-                  identifiedFeature.loadAsync();
-                  identifiedFeature.addDoneLoadingListener(() -> {
-                    if (identifiedFeature.getLoadStatus() == LoadStatus.LOADED) {
-                      comboBox.getSelectionModel().select((String) identifiedFeature.getAttributes().get("typdamage"));
+                  selected = (ArcGISFeature) element;
+                  featureLayer.selectFeature(selected);
+                  selected.loadAsync();
+                  selected.addDoneLoadingListener(() -> {
+                    if (selected.getLoadStatus() == LoadStatus.LOADED) {
+                      comboBox.getSelectionModel().select((String) selected.getAttributes().get("typdamage"));
                     } else {
                       Alert alert = new Alert(Alert.AlertType.ERROR, "Element Failed to Load!");
                       alert.show();
@@ -177,6 +173,8 @@ public class UpdateAttributesSample extends Application {
           });
         }
       });
+      // set ArcGISMap to be displayed in view
+      mapView.setMap(map);
 
       // add the map view and control box to stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
@@ -196,7 +194,7 @@ public class UpdateAttributesSample extends Application {
 
     if (featureTable.canUpdate(feature)) {
       // update attribute
-      identifiedFeature.getAttributes().put("typdamage", comboBox.getValue());
+      selected.getAttributes().put("typdamage", comboBox.getValue());
 
       // update feature in the feature table
       ListenableFuture<Void> editResult = featureTable.updateFeatureAsync(feature);

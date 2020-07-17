@@ -38,7 +38,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class StyleWmsLayerSample extends Application {
 
   private MapView mapView;
-  private WmsLayer wmsLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -68,7 +67,7 @@ public class StyleWmsLayerSample extends Application {
       // create a WMS layer
       List<String> wmsLayerNames = Collections.singletonList("fsa2017");
       String url = "http://geoint.lmic.state.mn.us/cgi-bin/wms?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetCapabilities";
-      wmsLayer = new WmsLayer(url, wmsLayerNames);
+      WmsLayer wmsLayer = new WmsLayer(url, wmsLayerNames);
       wmsLayer.addDoneLoadingListener(() -> {
         if (wmsLayer.getLoadStatus() == LoadStatus.LOADED) {
           // add the layer to the map

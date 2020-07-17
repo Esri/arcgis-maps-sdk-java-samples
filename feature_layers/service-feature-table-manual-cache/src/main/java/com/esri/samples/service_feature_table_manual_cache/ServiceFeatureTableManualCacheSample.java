@@ -52,13 +52,12 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class ServiceFeatureTableManualCacheSample extends Application {
 
   private MapView mapView;
-  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
   private Label featuresReturnLabel;
   private ServiceFeatureTable featureTable;
   private ListenableFuture<FeatureQueryResult> tableResult;
 
   private static final String SERVICE_FEATURE_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
@@ -67,7 +66,7 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/service_feature_table_manual_cache/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Service Feature Table Manual Cache Sample");
@@ -105,7 +104,7 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       featureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
       // create a feature layer from the service feature table
-      featureLayer = new FeatureLayer(featureTable);
+      final FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
       // enable button when feature layer is done loading
       featureLayer.addDoneLoadingListener(() -> {

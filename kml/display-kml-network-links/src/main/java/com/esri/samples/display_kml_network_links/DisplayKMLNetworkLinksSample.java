@@ -43,7 +43,7 @@ public class DisplayKMLNetworkLinksSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/display_kml_network_links/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Display KML Network Links Sample");

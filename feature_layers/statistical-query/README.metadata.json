@@ -1,47 +1,35 @@
 {
     "category": "Feature layers",
-    "description": "Query a table to get aggregated statistics back for a specific field.",
+    "description": "Get aggregated feature statistics for a specified field.",
     "ignore": false,
     "images": [
         "StatisticalQuery.png"
     ],
     "keywords": [
-        "analysis",
-        "average",
-        "bounding geometry",
-        "filter",
-        "intersect",
-        "maximum",
-        "mean",
-        "minimum",
-        "query",
-        "spatial query",
-        "standard deviation",
-        "statistics",
-        "sum",
-        "variance",
+        "ArcGISMap",
+        "FeatureLayer",
         "QueryParameters",
         "ServiceFeatureTable",
         "StatisticDefinition",
         "StatisticRecord",
+        "StatisticType",
         "StatisticsQueryParameters",
-        "StatisticsQueryResult",
-        "StatisticType"
+        "StatisticsQueryResult"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/statistical-query.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/statistical-query.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
         "QueryParameters",
         "ServiceFeatureTable",
         "StatisticDefinition",
         "StatisticRecord",
+        "StatisticType",
         "StatisticsQueryParameters",
-        "StatisticsQueryResult",
-        "StatisticType"
+        "StatisticsQueryResult"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/statistical_query/StatisticalQuerySample.java"
     ],
-    "title": "Statistical query"
+    "title": "Statistical Query"
 }

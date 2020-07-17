@@ -31,7 +31,7 @@ public class TerrainExaggerationSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/terrain_exaggeration/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/terrain_exaggeration.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

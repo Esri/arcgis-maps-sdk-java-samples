@@ -45,7 +45,7 @@ public class MapImageLayerSample extends Application {
       stage.show();
 
       // create new ArcGISMap image Layer from service url
-      String serviceFeatureUrl = "https://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
+      String serviceFeatureUrl = "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
       final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(serviceFeatureUrl);
 
       final ArcGISMap map = new ArcGISMap();

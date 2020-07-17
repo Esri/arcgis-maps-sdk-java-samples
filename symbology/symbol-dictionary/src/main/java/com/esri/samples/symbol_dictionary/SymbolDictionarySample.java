@@ -26,7 +26,7 @@ public class SymbolDictionarySample extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("/symbol_dictionary/main.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/symbol_dictionary.fxml"));
     Scene scene = new Scene(root);
 
     // set title, size, and add scene to stage

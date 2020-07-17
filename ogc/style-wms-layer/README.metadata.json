@@ -1,29 +1,19 @@
 {
     "category": "OGC",
-    "description": "Change the style of a Web Map Service (WMS) layer.",
+    "description": "Change the style of a WMS layer.",
     "ignore": false,
     "images": [
         "StyleWmsLayer.png"
     ],
     "keywords": [
-        "WMS",
-        "imagery",
-        "styles",
-        "visualization",
-        "WmsLayer",
-        "WmsSublayer",
-        "WmsSublayerInfo"
+        "WmsLayer"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/style-wms-layer.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/style-wms-layer.htm",
     "relevant_apis": [
-        "WmsLayer",
-        "WmsSublayer",
-        "WmsSublayerInfo"
+        "WmsLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/style_wms_layer/StyleWmsLayerSample.java"
     ],
-    "title": "Style WMS layer"
+    "title": "Style WMS Layer"
 }

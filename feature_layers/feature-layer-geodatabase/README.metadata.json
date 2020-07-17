@@ -6,23 +6,24 @@
         "FeatureLayerGeodatabase.png"
     ],
     "keywords": [
-        "geodatabase",
-        "mobile",
-        "offline",
+        "Basemap",
         "FeatureLayer",
         "Geodatabase",
-        "GeodatabaseFeatureTable"
+        "GeodatabaseFeatureTable",
+        "Map",
+        "MapView"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/feature-layer-geodatabase-.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-geodatabase-.htm",
     "relevant_apis": [
+        "Basemap",
         "FeatureLayer",
         "Geodatabase",
-        "GeodatabaseFeatureTable"
+        "GeodatabaseFeatureTable",
+        "Map",
+        "MapView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_geodatabase/FeatureLayerGeodatabaseSample.java"
     ],
-    "title": "Feature layer (geodatabase)"
+    "title": "Feature Layer (Geodatabase)"
 }

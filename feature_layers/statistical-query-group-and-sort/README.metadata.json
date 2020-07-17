@@ -1,49 +1,23 @@
 {
     "category": "Feature layers",
-    "description": "Query a feature table for statistics, grouping and sorting by different fields.",
+    "description": "Group and sort feature statistics by different fields.",
     "ignore": false,
     "images": [
         "StatisticalQueryGroupAndSort.png"
     ],
     "keywords": [
-        "correlation",
-        "data",
-        "fields",
-        "filter",
-        "group",
-        "sort",
-        "statistics",
-        "table",
-        "Field",
-        "QueryParameters",
-        "QueryParameters.OrderBy",
-        "ServiceFeatureTable",
-        "StatisticDefinition",
-        "StatisticRecord",
-        "StatisticsQueryParameters",
-        "StatisticsQueryResult",
-        "StatisticType"
+        "*** PLEASE ADD ADDITIONAL KEYWORDS ***"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/statistical-query-group-and-sort.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/statistical-query-group-and-sort.htm",
     "relevant_apis": [
-        "Field",
-        "QueryParameters",
-        "QueryParameters.OrderBy",
-        "ServiceFeatureTable",
-        "StatisticDefinition",
-        "StatisticRecord",
-        "StatisticsQueryParameters",
-        "StatisticsQueryResult",
-        "StatisticType"
+        "*** PLEASE ADD RELEVANT APIS ***"
     ],
     "snippets": [
+        "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortSample.java",
+        "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortController.java",
         "src/main/java/com/esri/samples/statistical_query_group_and_sort/GroupField.java",
         "src/main/java/com/esri/samples/statistical_query_group_and_sort/OrderByField.java",
-        "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortController.java",
-        "src/main/java/com/esri/samples/statistical_query_group_and_sort/StatisticalQueryGroupAndSortSample.java",
-        "src/main/resources/statistical_query_group_and_sort/main.fxml"
+        "src/main/resources/statistical_query_group_and_sort.fxml"
     ],
-    "title": "Statistical query group and sort"
+    "title": "Statistical Query Group And Sort"
 }

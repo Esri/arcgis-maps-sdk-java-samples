@@ -1,8 +1,8 @@
-# Add point scene layer
+# Add a point scene layer
 
 View a point scene layer from a scene service.
 
-![Image of a point scene layer](AddAPointSceneLayer.png)
+![](AddAPointSceneLayer.png)
 
 ## Use case
 
@@ -32,4 +32,4 @@ Point scene layers can also be retrieved from scene layer packages (.slpk) and m
 
 ## Tags
 
-3D, layers, point scene layer
+3D, point scene layer, layers

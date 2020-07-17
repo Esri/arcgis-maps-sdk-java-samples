@@ -1,48 +1,34 @@
-# Find place
+# Find Place
 
-Find places of interest near a location or within a specific area.
+Find places of interest near a location or within an specific area.
 
-![Image of find place](FindPlace.png)
-
-## Use case
-
-When getting directions or looking for nearby places, users may only know what the place has ("food"), the type of place ("gym"), or the generic place name ("Starbucks"), rather than the specific address. You can get suggestions and locations for these places of interest (POIs) using a natural language query. Additionally, you can filter the results to a specific area.
+![](FindPlace.png)
 
 ## How to use the sample
 
-Choose a type of place in the first field and an area to search within in the second field. Click the "Search" button to show the results of the query on the map. Click on a result pin to show its name and address. If you pan away from the result area, the "Redo search in this area" button at the bottom of the screen will become active. Click it to query again for the currently viewed area on the map.
+Choose from the dropdown or input your own place and location to search near. Click the search button to find matching places. A redo search button will appear if you pan the map after a search.
 
 ## How it works
 
-1. Create a `LocatorTask` using a URL to a locator service.
-2. Find the location for an address (or city name) to build an envelope to search within:
-    * Create `GeocodeParameters`.
-    * Add return fields to the parameters' `resultAttributeNames` collection. Only add a single "\*" option to return all fields.
-    * Call `locatorTask.geocodeAsync(locationQueryString, geocodeParameters)` to get a list of `GeocodeResult`s.
-    * Use `getDisplayLocation` from each of the results to build an `Envelope` to view.
-3. Get place of interest (POI) suggestions based on a place name query:
-    * Create `SuggestParameters`.
-    * Add "POI" to the parameters' categories collection with `getCategories().add("POI")`.
-    * Call `locatorTask.suggestAsync(placeQueryString, suggestParameters)` to get a list of `SuggestResult`s.
-    * The `SuggestResult` will have a label to display in the search suggestions list.
-4. Use one of the suggestions or a user-written query to find the locations of POIs:
-    * Create `GeocodeParameters`.
-    * Set the parameters' search area to the envelope.
-    * Call `locatorTask.geocodeAsync(suggestionLabelOrPlaceQueryString, geocodeParameters)` to get a list of `GeocodeResult`s.
-    * Display the places of interest using the results' `displayLocation`s.
+To find locations matching a query and a search area:
 
-## About the data  
-
-This sample uses the [world locator service](https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer).
+1. Create an `ArcGISMap`'s with `Basemap`.
+    * basemap is created using a `TileCache` to represent an offline resource.
+2. Add the map to the `MapView`, `MapView.setMap()`.
+3. Create a `LocatorTask` using a URL and set the `GeocodeParameters`.
+4. To reverse geocode near a location, pass the location's position into `GeocodeParameters.setSearchArea(Geometry)` to set the search area.
+5. Limit results to the view's visible area using the `MapView.getVisibleArea()` method.
+6. Show the matching retrieved results from the `LocatorTask.geocodeAsync(String, GeocodeParameters)` via `PictureMarkerSymbol`s with a `Graphic` in a `GraphicsOverlay`.
 
 ## Relevant API
 
+* ArcGISMap
 * GeocodeParameters
 * GeocodeResult
+* Graphic
+* GraphicsOverlay
 * LocatorTask
-* SuggestParameters
-* SuggestResult
-
-## Tags
-
-businesses, geocode, locations, locator, places of interest, POI, point of interest, search, suggestions
+* MapView
+* PictureMarkerSymbol
+* ReverseGeocodeParameters
+* TileCache

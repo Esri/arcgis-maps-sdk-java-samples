@@ -1,28 +1,23 @@
 {
     "category": "Scene",
-    "description": "Open a web scene from a portal item.",
+    "description": "Display a web scene.",
     "ignore": false,
     "images": [
         "OpenScenePortalItem.png"
     ],
     "keywords": [
-        "portal",
-        "scene",
-        "web scene",
         "ArcGISScene",
-        "PortalItem",
-        "SceneView"
+        "Portal",
+        "PortalItem"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/open-scene-portal-item-.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/open-scene-portal-item-.htm",
     "relevant_apis": [
         "ArcGISScene",
-        "PortalItem",
-        "SceneView"
+        "Portal",
+        "PortalItem"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/open_scene_portal_item/OpenScenePortalItemSample.java"
     ],
-    "title": "Open scene (portal item)"
+    "title": "Open Scene (Portal Item)"
 }

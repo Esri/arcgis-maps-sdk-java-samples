@@ -6,10 +6,6 @@
         "ClosestFacility.png"
     ],
     "keywords": [
-        "incident",
-        "network analysis",
-        "route",
-        "search",
         "ClosestFacilityParameters",
         "ClosestFacilityResult",
         "ClosestFacilityRoute",
@@ -20,9 +16,7 @@
         "Incident",
         "MapView"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/closest-facility.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/closest-facility.htm",
     "relevant_apis": [
         "ClosestFacilityParameters",
         "ClosestFacilityResult",
@@ -37,5 +31,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/closest_facility/ClosestFacilitySample.java"
     ],
-    "title": "Closest facility"
+    "title": "Closest Facility"
 }

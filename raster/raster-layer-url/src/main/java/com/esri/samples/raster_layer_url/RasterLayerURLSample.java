@@ -34,7 +34,6 @@ import com.esri.arcgisruntime.raster.ImageServiceRaster;
 public class RasterLayerURLSample extends Application {
 
   private MapView mapView;
-  private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -55,7 +54,7 @@ public class RasterLayerURLSample extends Application {
       ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://gis.ngdc.noaa.gov/arcgis/rest/services/bag_hillshades/ImageServer");
 
       // create a raster layer
-      rasterLayer = new RasterLayer(imageServiceRaster);
+      RasterLayer rasterLayer = new RasterLayer(imageServiceRaster);
 
       rasterLayer.addDoneLoadingListener(() -> {
         if (rasterLayer.getLoadStatus() != LoadStatus.LOADED) {

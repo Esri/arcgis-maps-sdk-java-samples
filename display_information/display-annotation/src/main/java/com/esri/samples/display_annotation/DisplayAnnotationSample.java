@@ -18,14 +18,12 @@ package com.esri.samples.display_annotation;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.AnnotationLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -67,24 +65,8 @@ public class DisplayAnnotationSample extends Application {
             // add the annotation layer to the map
             map.getOperationalLayers().add(annotationLayer);
 
-            // show alert if layer fails to load
-            riverFeatureLayer.addDoneLoadingListener(() -> {
-                if (riverFeatureLayer.getLoadStatus() != LoadStatus.LOADED) {
-                    new Alert(Alert.AlertType.ERROR, "Error loading Feature Layer.").show();
-                }
-            });
-
-            // add a done loading listener, with a runnable that gets triggered asynchronously when the feature layer has loaded
-            // check for the load status of the layer and if it hasn't loaded, report an error
-            annotationLayer.addDoneLoadingListener(() -> {
-                if (annotationLayer.getLoadStatus() != LoadStatus.LOADED) {
-                    new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer.").show();
-                }
-            });
-
             // add the map view to stack pane
             stackPane.getChildren().add(mapView);
-
         } catch (Exception e) {
             e.printStackTrace();
         }

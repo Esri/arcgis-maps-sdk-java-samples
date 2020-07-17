@@ -1,22 +1,11 @@
 {
     "category": "Display information",
-    "description": "Display coordinate system grids including Latitude/Longitude, MGRS, UTM and USNG on a map view. Also, toggle label visibility and change the color of grid lines and grid labels.",
+    "description": "Display a variety of grids on a map.",
     "ignore": false,
     "images": [
         "DisplayGrid.png"
     ],
     "keywords": [
-        "MGRS",
-        "USNG",
-        "UTM",
-        "coordinates",
-        "degrees",
-        "graticule",
-        "grid",
-        "latitude",
-        "longitude",
-        "minutes",
-        "seconds",
         "Grid",
         "LatitudeLongitudeGrid",
         "LineSymbol",
@@ -27,9 +16,7 @@
         "UsngGrid",
         "UtmGrid"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/display-grid.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/display-grid.htm",
     "relevant_apis": [
         "Grid",
         "LatitudeLongitudeGrid",
@@ -42,9 +29,9 @@
         "UtmGrid"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/display_grid/DisplayGridController.java",
         "src/main/java/com/esri/samples/display_grid/DisplayGridSample.java",
-        "src/main/resources/display_grid/main.fxml"
+        "src/main/java/com/esri/samples/display_grid/DisplayGridController.java",
+        "src/main/resources/display_grid.fxml"
     ],
-    "title": "Display grid"
+    "title": "Display Grid"
 }

@@ -1,35 +1,35 @@
 {
     "category": "Symbology",
-    "description": "Change a graphic's fill color, outline color, and fill style properties.",
+    "description": "Change a graphic's fill color, outline, and style properties.",
     "ignore": false,
     "images": [
         "SimpleFillSymbol.png"
     ],
     "keywords": [
-        "fill",
-        "graphic",
-        "line",
-        "symbol",
+        "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
-        "PointCollection",
+        "MapView",
         "Polygon",
+        "PointCollection",
         "SimpleFillSymbol",
+        "SimpleFillSymbol.Style",
         "SimpleLineSymbol"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/simple-fill-symbol.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/simple-fill-symbol.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
-        "PointCollection",
+        "MapView",
         "Polygon",
+        "PointCollection",
         "SimpleFillSymbol",
+        "SimpleFillSymbol.Style",
         "SimpleLineSymbol"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/simple_fill_symbol/SimpleFillSymbolSample.java"
     ],
-    "title": "Simple fill symbol"
+    "title": "Simple Fill Symbol"
 }

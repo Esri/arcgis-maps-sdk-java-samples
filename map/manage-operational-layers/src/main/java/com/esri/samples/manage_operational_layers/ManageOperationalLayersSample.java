@@ -46,11 +46,11 @@ public class ManageOperationalLayersSample extends Application {
   private LayerList mapAddedLayers;
 
   private static final String ELEVATION_LAYER =
-      "https://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
+      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
   private static final String CENSUS_LAYER =
-      "https://sampleserver5.arcgisonline.com/arcgis/rest/services/Census/MapServer";
+      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Census/MapServer";
   private static final String DAMAGE_LAYER =
-      "https://sampleserver5.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer";
+      "http://sampleserver5.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer";
 
   @Override
   public void start(Stage stage) {
@@ -59,7 +59,7 @@ public class ManageOperationalLayersSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/manage_operational_layers/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Manage Operational Layers Sample");

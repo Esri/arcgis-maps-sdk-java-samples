@@ -7,17 +7,13 @@
     ],
     "keywords": [
         "3D",
-        "LERC",
-        "elevation",
-        "surface",
-        "terrain",
-        "tile cache",
+        "Tile Cache",
+        "Elevation",
+        "Surface",
         "ArcGISTiledElevationSource",
         "Surface"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/create-terrain-from-a-local-tile-package.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/create-terrain-from-a-local-tile-package.htm",
     "relevant_apis": [
         "ArcGISTiledElevationSource",
         "Surface"
@@ -25,5 +21,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/create_terrain_surface_from_local_tile_package/CreateTerrainSurfaceFromLocalTilePackageSample.java"
     ],
-    "title": "Create terrain from a local tile package"
+    "title": "Create Terrain from a Local Tile Package"
 }

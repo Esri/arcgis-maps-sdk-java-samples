@@ -1,6 +1,6 @@
 {
     "category": "Display information",
-    "description": "Use the Sketch Editor to edit or sketch a new point, line, or polygon geometry on to a map.",
+    "description": "Use the Sketch Editor to edit, or sketch a new point, line, or polygon geometry on to a map.",
     "ignore": false,
     "images": [
         "SketchOnMap.png"
@@ -11,13 +11,16 @@
         "Geometry",
         "Graphic",
         "GraphicsOverlay",
+        "SketchCreationMode",
+        "SketchEditor",
+        "Geometry",
+        "Graphic",
+        "GraphicsOverlay",
         "MapView",
         "SketchCreationMode",
         "SketchEditor"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/sketch-on-map.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/sketch-on-map.htm",
     "relevant_apis": [
         "Geometry",
         "Graphic",
@@ -27,9 +30,9 @@
         "SketchEditor"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/sketch_on_map/SketchOnMapController.java",
         "src/main/java/com/esri/samples/sketch_on_map/SketchOnMapSample.java",
-        "src/main/resources/sketch_on_map/main.fxml"
+        "src/main/java/com/esri/samples/sketch_on_map/SketchOnMapController.java",
+        "src/main/resources/sketch_on_map.fxml"
     ],
-    "title": "Sketch on map"
+    "title": "Sketch on Map"
 }

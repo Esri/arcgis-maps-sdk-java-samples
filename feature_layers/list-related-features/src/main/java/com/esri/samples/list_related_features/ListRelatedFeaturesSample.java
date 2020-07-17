@@ -50,7 +50,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class ListRelatedFeaturesSample extends Application {
 
   private MapView mapView;
-  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -77,7 +76,7 @@ public class ListRelatedFeaturesSample extends Application {
       accordion.setMaxSize(200, 300);
 
       // use the Alaska National Parks and Preserves Species web map
-      map = new ArcGISMap("https://arcgisruntime.maps.arcgis.com/home/item.html?id=dcc7466a91294c0ab8f7a094430ab437");
+      ArcGISMap map = new ArcGISMap("https://arcgisruntime.maps.arcgis.com/home/item.html?id=dcc7466a91294c0ab8f7a094430ab437");
 
       // add the map to the map view
       mapView = new MapView();

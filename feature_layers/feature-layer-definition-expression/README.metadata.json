@@ -1,30 +1,25 @@
 {
     "category": "Feature layers",
-    "description": "Limit the features displayed on a map with a definition expression.",
+    "description": "Filter which features are shown using an expression.",
     "ignore": false,
     "images": [
-        "FeatureLayerDefinitionExpression.png"
+        "FeatureLayerDefinitionExpression.gif"
     ],
     "keywords": [
-        "SQL",
-        "definition expression",
-        "filter",
-        "limit data",
-        "query",
-        "restrict data",
-        "where clause",
+        "ArcGISMap",
         "FeatureLayer",
+        "MapView",
         "ServiceFeatureTable"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/feature-layer-definition-expression.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-definition-expression.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "FeatureLayer",
+        "MapView",
         "ServiceFeatureTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_definition_expression/FeatureLayerDefinitionExpressionSample.java"
     ],
-    "title": "Feature layer definition expression"
+    "title": "Feature Layer Definition Expression"
 }

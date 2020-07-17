@@ -1,27 +1,23 @@
 {
     "category": "Tiled layers",
-    "description": "Load an offline copy of a tiled map service as a basemap.",
+    "description": "Create a basemap from a local tile cache.",
     "ignore": false,
     "images": [
         "TileCache.png"
     ],
     "keywords": [
-        "cache",
         "layers",
-        "offline",
         "tile",
+        "TileCache",
+        "ArcGISTiledLayer",
         "ArcGISMap",
         "ArcGISTiledLayer",
-        "Basemap",
         "TileCache"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/tile-cache.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/tile-cache.htm",
     "relevant_apis": [
         "ArcGISMap",
         "ArcGISTiledLayer",
-        "Basemap",
         "TileCache"
     ],
     "snippets": [

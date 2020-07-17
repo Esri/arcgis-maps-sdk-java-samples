@@ -1,30 +1,27 @@
 {
     "category": "Feature layers",
-    "description": "Select features in a feature layer.",
+    "description": "Select clicked features.",
     "ignore": false,
     "images": [
         "FeatureLayerSelection.png"
     ],
     "keywords": [
-        "features",
-        "layers",
-        "select",
-        "selection",
-        "tolerance",
+        "ArcGISMap",
         "Feature",
         "FeatureLayer",
+        "MapView",
         "ServiceFeatureTable"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/feature-layer-selection.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-selection.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "Feature",
         "FeatureLayer",
+        "MapView",
         "ServiceFeatureTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_selection/FeatureLayerSelectionSample.java"
     ],
-    "title": "Feature layer selection"
+    "title": "Feature Layer Selection"
 }

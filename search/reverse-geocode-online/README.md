@@ -1,30 +1,31 @@
-# Reverse geocode online
+# Reverse Geocode Online
 
-Use an online service to find the address for a point on the map.
+Find the address of a location.
 
-![Image of reverse geocode](ReverseGeocodeOnline.png)
-
-## Use case
-
-You might use a geocoder to find a customer's delivery address based on the location returned by their device's GPS.
+![](ReverseGeocodeOnline.png)
 
 ## How to use the sample
 
-Click on the map to see the nearest address displayed in a callout.
+You can click on the ArcGISMap to perform online reverse geocoding and show the matching results in the ArcGISMap.
 
 ## How it works
 
-1. Create a `LocatorTask` object using a URL to a geocoder service.
-2. Set the `GeocodeParameters` for the `LocatorTask` and specify the geocoder's attributes.
-3. Get the matching results from the `GeocodeResult` using  `LocatorTask.reverseGeocodeAsync`.
-4. Show the results using a `PictureMarkerSymbol` and add the symbol to a `Graphic` in the `GraphicsOverlay`.
+To perform online reverse geocode:
+
+1. Create the `ArcGISMap`'s with `Basemap`.
+* basemap is created using a `TileCache` to represent an offline resource
+2. Create a `LocatorTask` using a URL.
+3. Set the `GeocodeParameters` for the LocatorTask and specify the geocodes' attributes.
+4. Get the matching results from the `GeocodeResult` using `LocatorTask.reverseGeocodeAsync()`.
+5. Lastly, to show the results using a `PictureMarkerSymbol` with attributes and add the symbol to a `Graphic` in th. `GraphicsOverlay`.
 
 ## Relevant API
 
+* ArcGISMap
 * GeocodeParameters
+* GraphicsOverlay
 * LocatorTask
+* MapView
+* PictureMarkerSymbol
 * ReverseGeocodeParameters
-
-## Tags
-
-address, geocode, locate, reverse geocode, search
+* TileCache

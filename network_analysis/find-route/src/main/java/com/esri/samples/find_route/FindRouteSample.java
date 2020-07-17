@@ -74,7 +74,7 @@ public class FindRouteSample extends Application {
   private static final int BLUE_COLOR = 0xff0000ff;
 
   private static final String ROUTE_TASK_SANDIEGO =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route";
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route";
 
   @Override
   public void start(Stage stage) {
@@ -83,7 +83,7 @@ public class FindRouteSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/find_route/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Find Route Sample");
@@ -97,7 +97,7 @@ public class FindRouteSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
           Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(450, 300);
+      controlsVBox.setMaxSize(400, 300);
       controlsVBox.getStyleClass().add("panel-region");
 
       Label directionsLabel = new Label("Route directions:");

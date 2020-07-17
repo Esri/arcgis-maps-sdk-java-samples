@@ -13,7 +13,6 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class ViewContentBeneathTerrainSurfaceSample extends Application {
 
   private SceneView sceneView;
-  private ArcGISScene scene; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -30,7 +29,7 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     stage.show();
 
     // create a scene from a web scene Url and set it to the scene view
-    scene = new ArcGISScene("https://www.arcgis.com/home/item.html?id=91a4fafd747a47c7bab7797066cb9272");
+    ArcGISScene scene = new ArcGISScene("https://www.arcgis.com/home/item.html?id=91a4fafd747a47c7bab7797066cb9272");
     sceneView = new SceneView();
     sceneView.setArcGISScene(scene);
 

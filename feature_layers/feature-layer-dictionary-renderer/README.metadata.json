@@ -6,21 +6,30 @@
         "FeatureLayerDictionaryRenderer.png"
     ],
     "keywords": [
-        "dictionary",
-        "military",
-        "symbol",
+        "ArcGISMap",
+        "Basemap",
         "DictionaryRenderer",
-        "DictionarySymbolStyle"
+        "Envelope",
+        "FeatureLayer",
+        "Geodatabase",
+        "GeometryEngine",
+        "MapView",
+        "SymbolDictionary"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/dictionary-renderer-with-feature-layer.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/dictionary-renderer-with-feature-layer.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
         "DictionaryRenderer",
-        "DictionarySymbolStyle"
+        "Envelope",
+        "FeatureLayer",
+        "Geodatabase",
+        "GeometryEngine",
+        "MapView",
+        "SymbolDictionary"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_dictionary_renderer/FeatureLayerDictionaryRendererSample.java"
     ],
-    "title": "Dictionary renderer with feature layer"
+    "title": "Dictionary Renderer with Feature Layer"
 }

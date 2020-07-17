@@ -40,7 +40,6 @@ import com.esri.arcgisruntime.symbology.SimpleRenderer;
 public class SymbolizeShapefileSample extends Application {
 
   private MapView mapView;
-  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -69,7 +68,7 @@ public class SymbolizeShapefileSample extends Application {
       ShapefileFeatureTable shapefileFeatureTable = new ShapefileFeatureTable(shapefile.getAbsolutePath());
 
       // use the shapefile feature table to create a feature layer
-      featureLayer = new FeatureLayer(shapefileFeatureTable);
+      FeatureLayer featureLayer = new FeatureLayer(shapefileFeatureTable);
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
           // zoom to the feature layer's extent

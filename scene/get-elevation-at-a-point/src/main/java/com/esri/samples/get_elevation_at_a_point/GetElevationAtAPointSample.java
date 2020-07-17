@@ -54,7 +54,7 @@ public class GetElevationAtAPointSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/get_elevation_at_a_point/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Get Elevation at a Point Sample");
@@ -74,7 +74,7 @@ public class GetElevationAtAPointSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource("https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
+      surface.getElevationSources().add(new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
       scene.setBaseSurface(surface);
 
       // create a point symbol and graphic to mark where elevation is being measured

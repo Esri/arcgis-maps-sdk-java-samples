@@ -6,28 +6,22 @@
         "UpdateAttributes.gif"
     ],
     "keywords": [
-        "amend",
-        "attribute",
-        "details",
-        "edit",
-        "editing",
-        "information",
-        "update",
-        "value",
-        "ArcGISFeature",
+        "ArcGISMap",
+        "Feature",
         "FeatureLayer",
+        "MapView",
         "ServiceFeatureTable"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/update-attributes.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/update-attributes.htm",
     "relevant_apis": [
-        "ArcGISFeature",
+        "ArcGISMap",
+        "Feature",
         "FeatureLayer",
+        "MapView",
         "ServiceFeatureTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/update_attributes/UpdateAttributesSample.java"
     ],
-    "title": "Update attributes"
+    "title": "Update Attributes"
 }

@@ -6,32 +6,32 @@
         "ExportVectorTiles.png"
     ],
     "keywords": [
-        "cache",
-        "download",
-        "offline",
-        "vector",
         "ArcGISVectorTiledLayer",
         "ExportVectorTilesJob",
-        "ExportVectorTilesParameters",
+        "ExportVectorTilesParamters",
         "ExportVectorTilesResult",
         "ExportVectorTilesTask",
         "ItemResourceCache",
+        "Portal",
+        "PortalItem",
+        "UserCredential",
         "VectorTileCache"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/export-vector-tiles.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/export-vector-tiles.htm",
     "relevant_apis": [
         "ArcGISVectorTiledLayer",
         "ExportVectorTilesJob",
-        "ExportVectorTilesParameters",
+        "ExportVectorTilesParamters",
         "ExportVectorTilesResult",
         "ExportVectorTilesTask",
         "ItemResourceCache",
+        "Portal",
+        "PortalItem",
+        "UserCredential",
         "VectorTileCache"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/export_vector_tiles/ExportVectorTilesSample.java"
     ],
-    "title": "Export vector tiles"
+    "title": "Export Vector Tiles"
 }

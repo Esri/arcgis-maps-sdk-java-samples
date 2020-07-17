@@ -1,28 +1,29 @@
 {
     "category": "Feature layers",
-    "description": "Find features in a feature table which match an SQL query.",
+    "description": "Find features matching a SQL query.",
     "ignore": false,
     "images": [
         "FeatureLayerQuery.png"
     ],
     "keywords": [
-        "search",
+        "ArcGISMap",
         "FeatureLayer",
         "FeatureQueryResult",
+        "MapView",
         "QueryParameters",
         "ServiceFeatureTable"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/feature-layer-query.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/feature-layer-query.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "FeatureLayer",
         "FeatureQueryResult",
+        "MapView",
         "QueryParameters",
         "ServiceFeatureTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/feature_layer_query/FeatureLayerQuerySample.java"
     ],
-    "title": "Feature layer query"
+    "title": "Feature Layer Query"
 }

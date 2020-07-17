@@ -91,11 +91,11 @@ public class CreateAndSaveMapController {
 
     // set operational layer options
     String worldElevationService =
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
+            "http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
     ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(worldElevationService);
     worldElevation.loadAsync();
 
-    String worldCensusService = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
+    String worldCensusService = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
     ArcGISMapImageLayer worldCensus = new ArcGISMapImageLayer(worldCensusService);
     worldCensus.loadAsync();
 
@@ -143,7 +143,7 @@ public class CreateAndSaveMapController {
         // add the OAuth configuration
         AuthenticationManager.addOAuthConfiguration(configuration);
 
-        portal = new Portal("https://" + configuration.getPortalUrl(), true);
+        portal = new Portal("http://" + configuration.getPortalUrl(), true);
         portal.addDoneLoadingListener(() -> {
           if (portal.getLoadStatus() == LoadStatus.LOADED) {
             try {

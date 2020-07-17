@@ -7,16 +7,13 @@
     ],
     "keywords": [
         "3D",
-        "elevation",
-        "raster",
-        "surface",
-        "terrain",
+        "Raster",
+        "Elevation",
+        "Surface",
         "RasterElevationSource",
         "Surface"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/create-terrain-surface-from-a-local-raster.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/create-terrain-surface-from-a-local-raster.htm",
     "relevant_apis": [
         "RasterElevationSource",
         "Surface"
@@ -24,5 +21,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/create_terrain_surface_from_local_raster/CreateTerrainSurfaceFromLocalRasterSample.java"
     ],
-    "title": "Create terrain from a local raster"
+    "title": "Create Terrain Surface from a Local Raster"
 }

@@ -2,11 +2,7 @@
 
 Analyze the viewshed for an object (GeoElement) in a scene.
 
-<<<<<<< HEAD
 ![Image of viewshed for geoelement](ViewshedGeoElement.png)
-=======
-![Image of viewshed for geoelement](ViewshedGeoElement.gif)
->>>>>>> master
 
 ## Use case
 

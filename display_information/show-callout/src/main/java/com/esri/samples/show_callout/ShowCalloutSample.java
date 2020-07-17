@@ -59,31 +59,31 @@ public class ShowCalloutSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // get the map view's callout
-      Callout callout = mapView.getCallout();
-
       // click event to display the callout
       mapView.setOnMouseClicked(e -> {
-
-        // check that the primary mouse button was clicked and user is not panning
-        if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-
+        // check that the primary mouse button was clicked and user is not
+        // panning
+        if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
           // create a point from where the user clicked
           Point2D point = new Point2D(e.getX(), e.getY());
 
           // create a map point from a point
           Point mapPoint = mapView.screenToLocation(point);
 
-          // set the callout's details
-          callout.setTitle("Location");
-          callout.setDetail(String.format("x: %.2f, y: %.2f", mapPoint.getX(), mapPoint.getY()));
+          // get the map view's callout
+          Callout callout = mapView.getCallout();
 
-          // show the callout where the user clicked
-          callout.showCalloutAt(mapPoint, DURATION);
+          if (!callout.isVisible()) {
+            // set the callout's details
+            callout.setTitle("Location");
+            callout.setDetail(String.format("x: %.2f, y: %.2f", mapPoint.getX(), mapPoint.getY()));
 
-          // dismiss the callout on secondary click
-        } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
-          callout.dismiss();
+            // show the callout where the user clicked
+            callout.showCalloutAt(mapPoint, DURATION);
+          } else {
+            // hide the callout
+            callout.dismiss();
+          }
         }
       });
 
@@ -110,7 +110,7 @@ public class ShowCalloutSample extends Application {
 
   /**
    * Opens and runs application.
-   *
+   * 
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {

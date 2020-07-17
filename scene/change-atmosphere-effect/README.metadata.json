@@ -1,21 +1,19 @@
 {
     "category": "Scene",
-    "description": "Changes the appearance of the atmosphere in a scene.",
+    "description": "Change the appearance of the atmosphere in a scene.",
     "ignore": false,
     "images": [
         "ChangeAtmosphereEffect.gif"
     ],
     "keywords": [
-        "atmosphere",
-        "horizon",
-        "sky",
+        "3D",
+        "AtmosphereEffect",
+        "Scene",
         "ArcGISScene",
         "AtmosphereEffect",
         "SceneView"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/change-atmosphere-effect.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/change-atmosphere-effect.htm",
     "relevant_apis": [
         "ArcGISScene",
         "AtmosphereEffect",
@@ -24,5 +22,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/change_atmosphere_effect/ChangeAtmosphereEffectSample.java"
     ],
-    "title": "Change atmosphere effect"
+    "title": "Change Atmosphere Effect"
 }

@@ -2,11 +2,7 @@
 
 Start the Local Server and Local Map Service, create an ArcGIS Map Image Layer from the Local Map Service, and add it to a map.
 
-<<<<<<< HEAD
 ![Image of local server map image layer](screenshot.png)
-=======
-![Image of local server map image layer](LocalServerMapImageLayer.png)
->>>>>>> master
 
 ## Use case
 

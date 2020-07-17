@@ -11,9 +11,7 @@
         "layers",
         "IntegratedMeshLayer"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/add-an-integrated-mesh-layer.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/add-an-integrated-mesh-layer.htm",
     "relevant_apis": [
         "IntegratedMeshLayer"
     ],

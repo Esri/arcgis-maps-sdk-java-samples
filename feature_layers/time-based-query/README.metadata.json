@@ -1,22 +1,25 @@
 {
     "category": "Feature layers",
-    "description": "Query data using a time extent.",
+    "description": "Filter features within a time range.",
     "ignore": false,
     "images": [
         "TimeBasedQuery.png"
     ],
     "keywords": [
-        "query",
-        "time",
-        "time extent",
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "MapView",
         "QueryParameters",
         "ServiceFeatureTable",
         "TimeExtent"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/time-based-query.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/time-based-query.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "FeatureLayer",
+        "MapView",
         "QueryParameters",
         "ServiceFeatureTable",
         "TimeExtent"
@@ -24,5 +27,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/time_based_query/TimeBasedQuerySample.java"
     ],
-    "title": "Time-based query"
+    "title": "Time Based Query"
 }

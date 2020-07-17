@@ -1,34 +1,43 @@
 {
     "category": "Search",
-    "description": "Geocode addresses to locations and reverse geocode locations to addresses offline.",
+    "description": "Geocode with offline data.",
     "ignore": false,
     "images": [
         "OfflineGeocode.png"
     ],
     "keywords": [
-        "geocode",
-        "geocoder",
-        "locator",
-        "offline",
-        "package",
-        "query",
-        "search",
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Callout",
+        "MapView",
+        "LocatorTask",
         "GeocodeParameters",
         "GeocodeResult",
-        "LocatorTask",
-        "ReverseGeocodeParameters"
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/offline-geocode.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/offline-geocode.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Callout",
+        "MapView",
+        "LocatorTask",
         "GeocodeParameters",
         "GeocodeResult",
-        "LocatorTask",
-        "ReverseGeocodeParameters"
+        "Graphic",
+        "GraphicsOverlay",
+        "Point",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/offline_geocode/OfflineGeocodeSample.java"
     ],
-    "title": "Offline geocode"
+    "title": "Offline Geocode"
 }

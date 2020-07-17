@@ -50,11 +50,11 @@ public class DisplayLayerViewStateSample extends Application {
   private static final int FEATURE_LAYER = 2;
 
   private static final String SERVICE_TIME_ZONES =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
   private static final String SERVICE_CENSUS =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
   private static final String SERVICE_RECREATION =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0";
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
@@ -63,7 +63,7 @@ public class DisplayLayerViewStateSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/display_layer_view_state/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Display Layer View State Sample");

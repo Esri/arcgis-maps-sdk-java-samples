@@ -1,26 +1,41 @@
 {
     "category": "Scene",
-    "description": "Change a graphic's symbol based on the camera's proximity to it.",
+    "description": "Change a graphic's symbol based on camera proximity.",
     "ignore": false,
     "images": [
         "DistanceCompositeSymbol.gif"
     ],
     "keywords": [
-        "3D",
-        "data",
-        "graphic",
+        "ArcGISScene",
+        "ArcGISTiledElevationSource",
+        "Camera",
         "DistanceCompositeSceneSymbol",
-        "DistanceCompositeSceneSymbol.Range"
+        "DistanceCompositeSceneSymbol.Range",
+        "Graphic",
+        "GraphicsOverlay",
+        "ModelSceneSymbol",
+        "Range",
+        "RangeCollection",
+        "SceneView",
+        "SimpleMarkerSceneSymbol"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/distance-composite-symbol.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/distance-composite-symbol.htm",
     "relevant_apis": [
+        "ArcGISScene",
+        "ArcGISTiledElevationSource",
+        "Camera",
         "DistanceCompositeSceneSymbol",
-        "DistanceCompositeSceneSymbol.Range"
+        "DistanceCompositeSceneSymbol.Range",
+        "Graphic",
+        "GraphicsOverlay",
+        "ModelSceneSymbol",
+        "Range",
+        "RangeCollection",
+        "SceneView",
+        "SimpleMarkerSceneSymbol"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/distance_composite_symbol/DistanceCompositeSymbolSample.java"
     ],
-    "title": "Distance composite symbol"
+    "title": "Distance Composite Symbol"
 }

@@ -6,21 +6,22 @@
         "MapImageLayerSublayerVisibility.png"
     ],
     "keywords": [
-        "layer",
-        "sublayer",
-        "visibility",
+        "ArcGISMap",
         "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
         "SubLayerList"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/map-image-layer-sublayer-visibility.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/map-image-layer-sublayer-visibility.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "ArcGISMapImageLayer",
+        "Basemap",
+        "MapView",
         "SubLayerList"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/map_image_layer_sublayer_visibility/MapImageLayerSublayerVisibilitySample.java"
     ],
-    "title": "Map image layer sublayer visibility"
+    "title": "Map Image Layer Sublayer Visibility"
 }

@@ -1,35 +1,32 @@
 {
     "category": "Map",
-    "description": "Take a web map offline using a local basemap on the device.",
+    "description": "Take a web map offline, but instead of downloading an online basemap, use one which is already on the device.",
     "ignore": false,
     "images": [
         "GenerateOfflineMapWithLocalBasemap.png"
     ],
     "keywords": [
-        "basemap",
-        "download",
-        "local",
         "offline",
-        "save",
-        "web map",
-        "GenerateOfflineMapJob",
+        "local basemap",
+        "OfflineMapTask",
+        "OfflineMapTask",
         "GenerateOfflineMapParameters",
-        "GenerateOfflineMapResult",
-        "OfflineMapTask"
+        "GenerateOfflineMapParameterOverrides",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapResult"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/generate-offline-map-with-local-basemap.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/generate-offline-map-with-local-basemap.htm",
     "relevant_apis": [
-        "GenerateOfflineMapJob",
+        "OfflineMapTask",
         "GenerateOfflineMapParameters",
-        "GenerateOfflineMapResult",
-        "OfflineMapTask"
+        "GenerateOfflineMapParameterOverrides",
+        "GenerateOfflineMapJob",
+        "GenerateOfflineMapResult"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/generate_offline_map_with_local_basemap/GenerateOfflineMapDialog.java",
         "src/main/java/com/esri/samples/generate_offline_map_with_local_basemap/GenerateOfflineMapWithLocalBasemapSample.java",
-        "src/main/resources/generate_offline_map_with_local_basemap/basemap_dialog.fxml"
+        "src/main/java/com/esri/samples/generate_offline_map_with_local_basemap/GenerateOfflineMapDialog.java",
+        "src/main/resources/generate_offline_map_with_local_basemap_dialog.fxml"
     ],
     "title": "Generate offline map with local basemap"
 }

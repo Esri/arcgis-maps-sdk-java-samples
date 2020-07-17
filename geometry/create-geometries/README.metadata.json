@@ -6,24 +6,18 @@
         "CreateGeometries.png"
     ],
     "keywords": [
-        "area",
-        "boundary",
-        "line",
-        "marker",
-        "path",
-        "shape",
         "Envelope",
+        "Graphic",
         "Multipoint",
         "Point",
         "PointCollection",
         "Polygon",
         "Polyline"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/create-geometries.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/create-geometries.htm",
     "relevant_apis": [
         "Envelope",
+        "Graphic",
         "Multipoint",
         "Point",
         "PointCollection",
@@ -33,5 +27,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/create_geometries/CreateGeometriesSample.java"
     ],
-    "title": "Create geometries"
+    "title": "Create Geometries"
 }

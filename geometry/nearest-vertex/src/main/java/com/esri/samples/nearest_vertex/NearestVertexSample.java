@@ -60,7 +60,7 @@ public class NearestVertexSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/nearest_vertex/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Nearest Vertex Sample");
@@ -123,20 +123,14 @@ public class NearestVertexSample extends Application {
       // get the nearest vertex and coordinate where the user clicks
       mapView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
-          // create a point from where the user clicked
-          Point2D point = new Point2D(e.getX(), e.getY());
-
-          // create a map point from a point
-          Point mapPoint = mapView.screenToLocation(point);
-
-          // the map point should be normalized to the central meridian when wrapping around a map, so its value stays within the coordinate system of the map view
-          Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
           // show where the user clicked
-          clickedLocationGraphic.setGeometry(normalizedMapPoint);
+          Point2D point2D = new Point2D(e.getX(), e.getY());
+          Point point = mapView.screenToLocation(point2D);
+          clickedLocationGraphic.setGeometry(point);
 
           // show the nearest coordinate and vertex
-          ProximityResult nearestCoordinateResult = GeometryEngine.nearestCoordinate(polygon, normalizedMapPoint);
-          ProximityResult nearestVertexResult = GeometryEngine.nearestVertex(polygon, normalizedMapPoint);
+          ProximityResult nearestCoordinateResult = GeometryEngine.nearestCoordinate(polygon, point);
+          ProximityResult nearestVertexResult = GeometryEngine.nearestVertex(polygon, point);
           nearestVertexGraphic.setGeometry(nearestVertexResult.getCoordinate());
           nearestCoordinateGraphic.setGeometry(nearestCoordinateResult.getCoordinate());
 

@@ -1,30 +1,23 @@
 {
     "category": "Scene",
-    "description": "Position graphics relative to a surface using different surface placement modes.",
+    "description": "Position graphics relative to terrain.",
     "ignore": false,
     "images": [
         "SurfacePlacement.png"
     ],
     "keywords": [
         "3D",
-        "absolute",
-        "altitude",
-        "draped",
-        "elevation",
-        "floating",
-        "relative",
-        "scenes",
-        "sea level",
-        "surface placement",
-        "Graphic",
-        "GraphicsOverlay",
-        "LayerSceneProperties.SurfacePlacement",
-        "SceneProperties",
-        "Surface"
+        "Absolute",
+        "Altitude",
+        "Draped",
+        "Elevation",
+        "Floating",
+        "Relative",
+        "Scene",
+        "Sea level",
+        "Surface placement"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/elevation-mode.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/elevation-mode.htm",
     "relevant_apis": [
         "Graphic",
         "GraphicsOverlay",
@@ -33,7 +26,8 @@
         "Surface"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/surface_placement/SurfacePlacementSample.java"
+        "src/main/java/com/esri/samples/surface_placement/SurfacePlacementSample.java",
+        "src/main/java/com/esri/samples/surface_placement/SurfacePlacementLauncher.java"
     ],
-    "title": "Surface placement"
+    "title": "Surface Placement"
 }

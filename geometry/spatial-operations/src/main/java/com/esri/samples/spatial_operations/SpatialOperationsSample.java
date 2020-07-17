@@ -45,7 +45,6 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
 public class SpatialOperationsSample extends Application {
 
-  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
   private GraphicsOverlay resultGeomOverlay;
   private Graphic polygon1;
@@ -66,7 +65,7 @@ public class SpatialOperationsSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/spatial_operations/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Spatial Operations Sample");
@@ -110,7 +109,7 @@ public class SpatialOperationsSample extends Application {
       });
 
       // create ArcGISMap with topographic basemap
-      map = new ArcGISMap(Basemap.createLightGrayCanvas());
+      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
 
       // enable geometry operations when ArcGISMap is done loading
       map.addDoneLoadingListener(() -> {

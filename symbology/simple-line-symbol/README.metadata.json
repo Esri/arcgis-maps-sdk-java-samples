@@ -1,32 +1,33 @@
 {
     "category": "Symbology",
-    "description": "Change a line graphic's color, width and style.",
+    "description": "Change a line graphic's color and style.",
     "ignore": false,
     "images": [
         "SimpleLineSymbol.png"
     ],
     "keywords": [
-        "graphic",
-        "line",
-        "symbol",
+        "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
-        "PointCollection",
+        "MapView",
         "Polyline",
-        "SimpleLineSymbol"
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleLineSymbol.Style"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/simple-line-symbol.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/simple-line-symbol.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
-        "PointCollection",
+        "MapView",
         "Polyline",
-        "SimpleLineSymbol"
+        "PointCollection",
+        "SimpleLineSymbol",
+        "SimpleLineSymbol.Style"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/simple_line_symbol/SimpleLineSymbolSample.java"
     ],
-    "title": "Simple line symbol"
+    "title": "Simple Line Symbol"
 }

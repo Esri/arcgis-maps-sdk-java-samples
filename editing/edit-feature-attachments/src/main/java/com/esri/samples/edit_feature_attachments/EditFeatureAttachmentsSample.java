@@ -16,7 +16,6 @@
 
 package com.esri.samples.edit_feature_attachments;
 
-import org.apache.commons.io.IOUtils;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -39,6 +38,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import org.apache.commons.io.IOUtils;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Attachment;
@@ -56,11 +57,18 @@ public class EditFeatureAttachmentsSample extends Application {
 
   private ListView<String> attachmentList;
   private Label attachmentsLabel;
+  private Button addAttachmentButton;
+  private Button deleteAttachmentButton;
+
+  private MapView mapView;
+  private FeatureLayer featureLayer;
+  private ServiceFeatureTable featureTable;
 
   private ArcGISFeature selected;
   private List<Attachment> attachments;
-  private ServiceFeatureTable featureTable;
-  private MapView mapView;
+
+  private static final String SERVICE_FEATURE_URL =
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
@@ -69,7 +77,7 @@ public class EditFeatureAttachmentsSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/edit_feature_attachments/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Edit Feature Attachments Sample");
@@ -81,28 +89,28 @@ public class EditFeatureAttachmentsSample extends Application {
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-              Insets.EMPTY)));
+          Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 250);
       controlsVBox.getStyleClass().add("panel-region");
-
-      // create add/delete buttons
-      Button addAttachmentButton = new Button("Add Attachment");
-      addAttachmentButton.setMaxWidth(Double.MAX_VALUE);
-      addAttachmentButton.setDisable(true);
-
-      Button deleteAttachmentButton = new Button("Delete Attachment");
-      deleteAttachmentButton.setMaxWidth(Double.MAX_VALUE);
-      deleteAttachmentButton.setDisable(true);
 
       // create a list to show selected feature's attachments
       attachmentList = new ListView<>();
       attachmentsLabel = new Label("Attachments: ");
       attachmentsLabel.getStyleClass().add("panel-label");
-      attachmentList.getSelectionModel().selectedItemProperty().addListener(event -> deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1));
+      attachmentList.getSelectionModel().selectedItemProperty().addListener((event) -> deleteAttachmentButton.setDisable(attachmentList.getSelectionModel().getSelectedIndex() == -1));
+
+      // create add/delete buttons
+      addAttachmentButton = new Button("Add Attachment");
+      addAttachmentButton.setMaxWidth(Double.MAX_VALUE);
+      addAttachmentButton.setDisable(true);
+
+      deleteAttachmentButton = new Button("Delete Attachment");
+      deleteAttachmentButton.setMaxWidth(Double.MAX_VALUE);
+      deleteAttachmentButton.setDisable(true);
 
       // get image attachment
-      byte[] image = IOUtils.toByteArray(getClass().getResourceAsStream("/edit_feature_attachments/destroyed.png"));
+      byte[] image = IOUtils.toByteArray(getClass().getResourceAsStream("/destroyed.png"));
 
       // button click to add image attachment to selected feature
       addAttachmentButton.setOnAction(e -> addAttachment(image));
@@ -113,31 +121,26 @@ public class EditFeatureAttachmentsSample extends Application {
       // add controls to the panel
       controlsVBox.getChildren().addAll(addAttachmentButton, deleteAttachmentButton, attachmentsLabel, attachmentList);
 
-      // create a map view
-      mapView = new MapView();
-
-      // create a map with streets basemap and set it to the map view
+      // create a map with streets basemap
       ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
-      mapView.setMap(map);
-
-      // set selection color
-      mapView.getSelectionProperties().setColor(0xff0000ff);
 
       // create service feature table from URL
-      featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+      featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
 
       // create a feature layer from service feature table
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      featureLayer = new FeatureLayer(featureTable);
 
       // add the feature layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);
 
-      // show alert if layer fails to load
-      featureLayer.addDoneLoadingListener(() -> {
-        if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
-          displayMessage("Error", "Error loading feature layer");
-        }
-      });
+      // create a view for this ArcGISMap
+      mapView = new MapView();
+
+      // set ArcGISMap to be displayed in the view
+      mapView.setMap(map);
+
+      // set selection color
+      mapView.getSelectionProperties().setColor(0xff0000ff);
 
       mapView.setOnMouseClicked(event -> {
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
@@ -166,7 +169,8 @@ public class EditFeatureAttachmentsSample extends Application {
                     if (selected.getLoadStatus() == LoadStatus.LOADED) {
                       fetchAttachments(selected);
                     } else {
-                      displayMessage("Error", "Element failed to load!");
+                      Alert alert = new Alert(Alert.AlertType.ERROR, "Element Failed to Load!");
+                      alert.show();
                     }
                   });
                   addAttachmentButton.setDisable(false);
@@ -216,14 +220,14 @@ public class EditFeatureAttachmentsSample extends Application {
 
   /**
    * Adds an attachment to a Feature.
-   *
+   * 
    * @param attachment byte array of attachment
    */
   private void addAttachment(byte[] attachment) {
 
     if (selected.canEditAttachments()) {
       ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(attachment, "image/png",
-              "edit_feature_attachments/destroyed.png");
+          "destroyed.png");
       addResult.addDoneListener(() -> {
         // update feature table
         ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);
@@ -286,7 +290,7 @@ public class EditFeatureAttachmentsSample extends Application {
   /**
    * Shows a message in an alert dialog.
    *
-   * @param title   title of alert
+   * @param title title of alert
    * @param message message to display
    */
   private void displayMessage(String title, String message) {
@@ -314,7 +318,7 @@ public class EditFeatureAttachmentsSample extends Application {
 
   /**
    * Opens and runs application.
-   *
+   * 
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {

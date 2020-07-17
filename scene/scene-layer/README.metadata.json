@@ -1,28 +1,31 @@
 {
     "category": "Scene",
-    "description": "Add a scene layer to a scene.",
+    "description": "Display a scene layer with 3. buildings.",
     "ignore": false,
     "images": [
         "SceneLayer.png"
     ],
     "keywords": [
         "3D",
-        "layer",
-        "scene",
         "ArcGISScene",
         "ArcGISSceneLayer",
-        "SceneView"
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "SceneView",
+        "Surface"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/scene-layer.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/scene-layer.htm",
     "relevant_apis": [
+        "3D",
         "ArcGISScene",
         "ArcGISSceneLayer",
-        "SceneView"
+        "ArcGISTiledElevationSource",
+        "Camera",
+        "SceneView",
+        "Surface"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/scene_layer/SceneLayerSample.java"
     ],
-    "title": "Scene layer"
+    "title": "Scene Layer"
 }

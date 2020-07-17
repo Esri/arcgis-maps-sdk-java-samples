@@ -6,25 +6,24 @@
         "ColormapRenderer.png"
     ],
     "keywords": [
-        "colormap",
-        "data",
-        "raster",
-        "renderer",
-        "visualization",
+        "ArcGISMap",
+        "Basemap",
         "ColormapRenderer",
+        "MapView",
         "Raster",
         "RasterLayer"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/colormap-renderer.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/colormap-renderer.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
         "ColormapRenderer",
+        "MapView",
         "Raster",
         "RasterLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/colormap_renderer/ColormapRendererSample.java"
     ],
-    "title": "Colormap renderer"
+    "title": "Colormap Renderer"
 }

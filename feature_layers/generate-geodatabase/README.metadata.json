@@ -6,26 +6,26 @@
         "GenerateGeodatabase.png"
     ],
     "keywords": [
-        "disconnected",
-        "local geodatabase",
-        "offline",
-        "sync",
+        "ArcGISMap",
+        "FeatureLayer",
+        "Geodatabase",
         "GenerateGeodatabaseJob",
         "GenerateGeodatabaseParameters",
-        "Geodatabase",
-        "GeodatabaseSyncTask"
+        "MapView",
+        "ServiceFeatureTable"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/generate-geodatabase.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/generate-geodatabase.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "FeatureLayer",
+        "Geodatabase",
         "GenerateGeodatabaseJob",
         "GenerateGeodatabaseParameters",
-        "Geodatabase",
-        "GeodatabaseSyncTask"
+        "MapView",
+        "ServiceFeatureTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/generate_geodatabase/GenerateGeodatabaseSample.java"
     ],
-    "title": "Generate geodatabase"
+    "title": "Generate Geodatabase"
 }

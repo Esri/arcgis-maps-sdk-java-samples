@@ -1,18 +1,16 @@
 # Routing around barriers
 
-Find a route that reaches all stops without crossing any barriers.
+Find a route with multiple stops and barriers.
 
-![Image of routing around barriers](RoutingAroundBarriers.png)
+![](RoutingAroundBarriers.png)
 
 ## Use case
 
-You can define barriers to avoid unsafe areas, for example flooded roads, when planning the most efficient route to evacuate a hurricane zone. When solving a route, barriers allow you to define portions of the road network that cannot be traversed. You could also use this functionality to plan routes when you know an area will be inaccessible due to a community activity like an organized race or a market night.
-
-In some situations, it is further beneficial to find the most efficient route that reaches all stops, reordering them to reduce travel time. For example, a delivery service may target a number of drop-off addresses, specifically looking to avoid congested areas or closed roads, arranging the stops in the most time-effective order.
+Delivery trucks need to find efficient routes to multiple stops, taking into account barriers such as traffic accidents or blocked roads. The route may be optimized to reduce overall travel time or travel distance. If stops are added to an existing route, it may be more efficient to reorder the stops to achieve the most efficient route.
 
 ## How to use the sample
 
-Use the "Edit Mode" toggle buttons to select whether to add Stops or Barriers to the route. The route will be solved automatically as you add stops and barriers, and information about the length of the route and directions will be shown in the controls area. Select "Find best sequence" to allow stops to be re-ordered in order to find an optimum route. Select "Preserve first stop" to preserve the first stop. Select "Preserve last stop" to preserve the last stop. You can use the "Reset" button to reset the sample.
+Use the Edit Mode toggle buttons to select whether to add Stops or Barriers to the route. Click 'Determine Route' to find the route and display it. Select 'Find best sequence' to allow stops to be re-ordered in order to find an optimum route. Select 'Preserve first stop' to preserve the first stop. Select 'Preserve last stop' to preserve the last stop.
 
 ## How it works
 

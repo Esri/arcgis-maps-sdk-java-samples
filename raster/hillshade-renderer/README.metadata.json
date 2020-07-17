@@ -6,30 +6,26 @@
         "HillshadeRenderer.png"
     ],
     "keywords": [
-        "altitude",
-        "angle",
-        "azimuth",
-        "raster",
-        "slope",
-        "visualization",
+        "ArcGISMap",
         "Basemap",
         "HillshadeRenderer",
+        "MapView",
         "Raster",
         "RasterLayer"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/hillshade-renderer.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/hillshade-renderer.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "Basemap",
         "HillshadeRenderer",
+        "MapView",
         "Raster",
         "RasterLayer"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererController.java",
         "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererSample.java",
-        "src/main/resources/hillshade_renderer/main.fxml"
+        "src/main/java/com/esri/samples/hillshade_renderer/HillshadeRendererController.java",
+        "src/main/resources/hillshade_renderer.fxml"
     ],
-    "title": "Hillshade renderer"
+    "title": "Hillshade Renderer"
 }

@@ -46,8 +46,6 @@ public class IntegratedWindowsAuthenticationController {
   @FXML private ProgressIndicator progressIndicator;
   @FXML private Text loadWebMapTextView;
 
-  private Portal iwaSecuredPortal; // keep loadable in scope to avoid garbage collection
-
   public void initialize() {
     try {
 
@@ -111,7 +109,7 @@ public class IntegratedWindowsAuthenticationController {
       }
 
       // keep hold of the portal we are searching and set a variable indicating that this is a secure portal, to allow retrieving portal items later
-      iwaSecuredPortal = new Portal(portalUrl, true);
+      Portal iwaSecuredPortal = new Portal(portalUrl, true);
 
       // clear any existing items in the list view
       resultsListView.getItems().clear();
@@ -133,7 +131,7 @@ public class IntegratedWindowsAuthenticationController {
 
           // search the portal for web maps
           ListenableFuture<PortalQueryResultSet<PortalItem>> portalItemResultFuture = iwaSecuredPortal.findItemsAsync(
-            portalQueryParameters);
+                  portalQueryParameters);
           portalItemResultFuture.addDoneListener(() -> {
             try {
               // get the result

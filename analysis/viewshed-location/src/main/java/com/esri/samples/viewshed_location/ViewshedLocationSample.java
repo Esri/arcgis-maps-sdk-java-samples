@@ -31,7 +31,7 @@ public class ViewshedLocationSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/viewshed_location/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/viewshed_location.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

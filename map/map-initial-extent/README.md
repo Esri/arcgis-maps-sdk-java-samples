@@ -1,24 +1,22 @@
-# Map initial extent
+# Map Initial Extent
 
-Display the map at an initial viewpoint representing a bounding geometry.
+Display the map at an initial viewpoint.
 
-![Image of map initial extent](MapInitialExtent.png)
-
-## Use case
-
-Setting the initial viewpoint is useful when a user wishes to first load the map at a particular area of interest. 
+![](MapInitialExtent.png)
 
 ## How to use the sample
 
-As the application is loading, the initial view point is set and the map view opens at the given location.
+As application is loading, initial view point is set and map view zooms to that location.
 
 ## How it works
 
+To set an initial `Viewpoint`:
+
 1. Create an `ArcGISMap`.
-2. Create a `Viewpoint` using an `Envelope`.
-3. Set the starting location of the map with `setInitialViewpoint(Viewpoint)`.
-4. Set the map to a `MapView`.
- 
+2. Create a view point using an `Envelope`, `Viewpoint(Envelope)`.
+3. Set the starting location of the ArcGIS map, `ArcGISMap.setInitialViewpoint(Viewpoint)`.
+4. Set the ArcGIS map to the `MapView`.
+
 ## Relevant API
 
 * ArcGISMap
@@ -26,8 +24,3 @@ As the application is loading, the initial view point is set and the map view op
 * MapView
 * Point
 * Viewpoint
-
-
-## Tags
-
-initial viewpoint, extent, zoom, envelope

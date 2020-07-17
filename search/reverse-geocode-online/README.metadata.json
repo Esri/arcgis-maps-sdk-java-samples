@@ -1,30 +1,33 @@
 {
     "category": "Search",
-    "description": "Use an online service to find the address for a point on the map.",
+    "description": "Find the address of a location.",
     "ignore": false,
     "images": [
         "ReverseGeocodeOnline.png"
     ],
     "keywords": [
-        "address",
-        "geocode",
-        "locate",
-        "reverse geocode",
-        "search",
+        "ArcGISMap",
         "GeocodeParameters",
+        "GraphicsOverlay",
         "LocatorTask",
-        "ReverseGeocodeParameters"
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/reverse-geocode-online.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/reverse-geocode-online.htm",
     "relevant_apis": [
+        "ArcGISMap",
         "GeocodeParameters",
+        "GraphicsOverlay",
         "LocatorTask",
-        "ReverseGeocodeParameters"
+        "MapView",
+        "PictureMarkerSymbol",
+        "ReverseGeocodeParameters",
+        "TileCache"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/reverse_geocode_online/ReverseGeocodeOnlineSample.java"
     ],
-    "title": "Reverse geocode online"
+    "title": "Reverse Geocode Online"
 }

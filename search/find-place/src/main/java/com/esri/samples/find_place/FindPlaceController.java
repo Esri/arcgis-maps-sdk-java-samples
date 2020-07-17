@@ -85,7 +85,7 @@ public class FindPlaceController {
     locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
     // create a pin graphic
-    Image img = new Image(getClass().getResourceAsStream("/find_place/pin.png"), 0, 80, true, true);
+    Image img = new Image(getClass().getResourceAsStream("/pin.png"), 0, 80, true, true);
     pinSymbol = new PictureMarkerSymbol(img);
     pinSymbol.loadAsync();
 

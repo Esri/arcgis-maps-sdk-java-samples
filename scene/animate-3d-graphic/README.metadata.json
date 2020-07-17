@@ -1,51 +1,54 @@
 {
     "category": "Scene",
-    "description": "A camera follows a graphic while the graphic's position and rotation are animated.",
+    "description": "Animate a graphic's position and orientation and follow it with the camera.",
     "ignore": false,
     "images": [
         "Animate3dGraphic.png"
     ],
     "keywords": [
-        "animation",
-        "camera",
-        "heading",
-        "pitch",
-        "roll",
-        "rotation",
-        "visualize",
+        "3D",
+        "ArcGISMap",
         "ArcGISScene",
         "Camera",
         "GlobeCameraController",
         "Graphic",
         "GraphicsOverlay",
+        "LayerSceneProperties.SurfacePlacement",
+        "MapView",
         "ModelSceneSymbol",
         "OrbitGeoElementCameraController",
+        "Point",
+        "Polyline",
         "Renderer",
-        "SceneProperties",
+        "Renderer.SceneProperties",
         "SceneView",
-        "SurfacePlacement"
+        "Viewpoint"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/animate-3d-graphic.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/animate-3d-graphic.htm",
     "relevant_apis": [
+        "3D",
+        "ArcGISMap",
         "ArcGISScene",
         "Camera",
         "GlobeCameraController",
         "Graphic",
         "GraphicsOverlay",
+        "LayerSceneProperties.SurfacePlacement",
+        "MapView",
         "ModelSceneSymbol",
         "OrbitGeoElementCameraController",
+        "Point",
+        "Polyline",
         "Renderer",
-        "SceneProperties",
+        "Renderer.SceneProperties",
         "SceneView",
-        "SurfacePlacement"
+        "Viewpoint"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/animate_3d_graphic/Animate3dGraphicController.java",
         "src/main/java/com/esri/samples/animate_3d_graphic/Animate3dGraphicSample.java",
+        "src/main/java/com/esri/samples/animate_3d_graphic/Animate3dGraphicController.java",
         "src/main/java/com/esri/samples/animate_3d_graphic/AnimationModel.java",
-        "src/main/resources/animate_3d_graphic/main.fxml"
+        "src/main/resources/animate_3d_graphic.fxml"
     ],
-    "title": "Animate 3D graphic"
+    "title": "Animate 3D Graphic"
 }

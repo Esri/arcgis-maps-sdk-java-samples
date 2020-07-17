@@ -1,24 +1,22 @@
 {
     "category": "KML",
-    "description": "Display KML from a URL, portal item, or local KML file.",
+    "description": "Display a KML layer from a URL, portal item, or local KML file.",
     "ignore": false,
     "images": [
         "DisplayKML.png"
     ],
     "keywords": [
-        "KML",
-        "KMZ",
-        "OGC",
-        "keyhole",
         "KmlDataset",
-        "KmlLayer"
+        "KmlLayer",
+        "Portal",
+        "PortalItem"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/display-kml.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/display-kml.htm",
     "relevant_apis": [
         "KmlDataset",
-        "KmlLayer"
+        "KmlLayer",
+        "Portal",
+        "PortalItem"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/display_kml/DisplayKMLSample.java"

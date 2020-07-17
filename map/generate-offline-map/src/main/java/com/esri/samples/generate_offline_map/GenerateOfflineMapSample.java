@@ -51,7 +51,6 @@ import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 
 public class GenerateOfflineMapSample extends Application {
 
-  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -81,7 +80,7 @@ public class GenerateOfflineMapSample extends Application {
       PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
       // create a map with the portal item
-      map = new ArcGISMap(portalItem);
+      ArcGISMap map = new ArcGISMap(portalItem);
       map.addDoneLoadingListener(() -> {
         // enable the button when the map is loaded
         if (map.getLoadStatus() == LoadStatus.LOADED) {

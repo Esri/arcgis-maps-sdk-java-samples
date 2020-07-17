@@ -36,9 +36,6 @@ import java.io.File;
 public class FeatureLayerDictionaryRendererSample extends Application {
 
   private MapView mapView;
-  // keep loadables in scope to avoid garbage collection
-  private Geodatabase geodatabase;
-  private FeatureLayer featureLayer;
 
   @Override
   public void start(Stage stage) {
@@ -60,7 +57,7 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     // load geo-database from local location
     File geodatabaseFile = new File(System.getProperty("data.dir"), "./samples-data/dictionary/militaryoverlay" +
             ".geodatabase");
-    geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
+    Geodatabase geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
     geodatabase.loadAsync();
 
     // render tells layer what symbols to apply to what features
@@ -72,7 +69,7 @@ public class FeatureLayerDictionaryRendererSample extends Application {
       if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
         geodatabase.getGeodatabaseFeatureTables().forEach(table -> {
           // add each layer to map
-          featureLayer = new FeatureLayer(table);
+          FeatureLayer featureLayer = new FeatureLayer(table);
           featureLayer.loadAsync();
           // Features no longer show after this scale
           featureLayer.setMinScale(1000000);

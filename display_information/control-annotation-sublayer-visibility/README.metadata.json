@@ -6,14 +6,9 @@
         "ControlAnnotationSublayerVisibility.png"
     ],
     "keywords": [
-        "annotation",
         "scale",
         "text",
-        "utilities",
-        "visualization",
-        "AnnotationLayer",
-        "AnnotationSublayer",
-        "LayerContent"
+        "utilities"
     ],
     "redirect_from": "",
     "relevant_apis": [

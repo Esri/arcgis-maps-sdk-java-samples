@@ -1,30 +1,29 @@
 {
     "category": "Display information",
-    "description": "Format coordinates in a variety of common notations.",
+    "description": "Write coordinates in a variety of common formats.",
     "ignore": false,
     "images": [
         "FormatCoordinates.png"
     ],
     "keywords": [
-        "USNG",
-        "UTM",
-        "convert",
-        "coordinate",
-        "decimal degrees",
-        "degree minutes seconds",
-        "format",
-        "latitude",
-        "longitude",
-        "CoordinateFormatter"
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Basemap",
+        "Callout",
+        "CoordinateFormatter",
+        "MapView"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/format-coordinates.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/format-coordinates.htm",
     "relevant_apis": [
-        "CoordinateFormatter"
+        "ArcGISMap",
+        "ArcGISTiledLayer",
+        "Basemap",
+        "Callout",
+        "CoordinateFormatter",
+        "MapView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/format_coordinates/FormatCoordinatesSample.java"
     ],
-    "title": "Format coordinates"
+    "title": "Format Coordinates"
 }

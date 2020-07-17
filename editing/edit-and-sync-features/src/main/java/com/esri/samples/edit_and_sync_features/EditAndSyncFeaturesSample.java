@@ -31,7 +31,7 @@ public class EditAndSyncFeaturesSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_and_sync_features/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_and_sync_features.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

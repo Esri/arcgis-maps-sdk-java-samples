@@ -30,7 +30,7 @@ public class TraceAUtilityNetworkSample extends Application {
   public void start(Stage stage) throws Exception {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/trace_a_utility_network/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/trace_a_utility_network.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

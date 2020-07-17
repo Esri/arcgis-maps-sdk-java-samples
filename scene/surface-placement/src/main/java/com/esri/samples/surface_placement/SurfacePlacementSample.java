@@ -61,7 +61,7 @@ public class SurfacePlacementSample extends Application {
       // create stack pane and JavaFX app scene
       StackPane stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
-      fxScene.getStylesheets().add(getClass().getResource("/surface_placement/style.css").toExternalForm());
+      fxScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
       // set title, size, and add JavaFX scene to stage
       stage.setTitle("Surface Placement Sample");
@@ -83,7 +83,7 @@ public class SurfacePlacementSample extends Application {
       // add base surface for elevation data
       Surface surface = new Surface();
       ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource(
-          "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
+          "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 

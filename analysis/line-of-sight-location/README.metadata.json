@@ -1,29 +1,22 @@
 {
-    "category": "Analysis",
-    "description": "Perform a line of sight analysis between two points in real time.",
-    "ignore": false,
-    "images": [
-        "LineOfSightLocation.gif"
-    ],
-    "keywords": [
-        "3D",
-        "line of sight",
-        "visibility",
-        "visibility analysis",
-        "AnalysisOverlay",
-        "LocationLineOfSight",
-        "SceneView"
-    ],
-    "redirect_from": [
-        "/java/latest/sample-code/line-of-sight-location.htm"
-    ],
-    "relevant_apis": [
-        "AnalysisOverlay",
-        "LocationLineOfSight",
-        "SceneView"
-    ],
-    "snippets": [
-        "src/main/java/com/esri/samples/line_of_sight_location/LineOfSightLocationSample.java"
-    ],
-    "title": "Line of sight location"
+  "category": "Analysis",
+  "description": "Perform line of sight analysis in real-time.",
+  "ignore": false,
+  "images": [
+    "LineOfSightLocation.gif"
+  ],
+  "keywords": [],
+  "redirect_from": "/java/latest/sample-code/line-of-sight-location.htm",
+  "relevant_apis": [
+    "ArcGISMapImageLayer",
+    "GeoprocessingJob",
+    "GeoprocessingParameters",
+    "GeoprocessingResult",
+    "GeoprocessingString",
+    "GeoprocessingTask"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/line_of_sight_location/LineOfSightLocationSample.java"
+  ],
+  "title": "Line of Sight Location"
 }

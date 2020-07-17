@@ -35,7 +35,7 @@ public class FeatureLayerFeatureServiceSample extends Application {
   private MapView mapView;
 
   private static final String GEOLOGY_FEATURE_SERVICE =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/9";
+      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Geology/FeatureServer/9";
 
   @Override
   public void start(Stage stage) {

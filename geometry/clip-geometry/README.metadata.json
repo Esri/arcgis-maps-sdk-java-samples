@@ -1,32 +1,47 @@
 {
     "category": "Geometry",
-    "description": "Clip a geometry with another geometry.",
+    "description": "Clip a geometry to an envelope.",
     "ignore": false,
     "images": [
-        "ClipGeometry.png"
+        "ClipGeometry.gif"
     ],
     "keywords": [
-        "analysis",
-        "clip",
-        "geometry",
+        "ArcGISMap",
+        "Basemap",
         "Envelope",
         "Geometry",
         "GeometryEngine",
         "Graphic",
-        "GraphicsOverlay"
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SpatialReferences"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/clip-geometry.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/clip-geometry.htm",
     "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
         "Envelope",
         "Geometry",
         "GeometryEngine",
         "Graphic",
-        "GraphicsOverlay"
+        "GraphicsOverlay",
+        "MapView",
+        "Point",
+        "PointCollection",
+        "Polygon",
+        "Polyline",
+        "SimpleFillSymbol",
+        "SimpleLineSymbol",
+        "SpatialReferences"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/clip_geometry/ClipGeometrySample.java"
     ],
-    "title": "Clip geometry"
+    "title": "Clip Geometry"
 }

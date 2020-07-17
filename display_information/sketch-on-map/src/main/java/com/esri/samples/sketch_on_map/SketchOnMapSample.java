@@ -33,7 +33,7 @@ public class SketchOnMapSample extends Application {
   public void start(Stage stage) throws IOException {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/sketch_on_map/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/sketch_on_map.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

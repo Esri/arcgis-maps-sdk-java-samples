@@ -30,7 +30,7 @@ public class CreateAndSaveKMLFileSample extends Application {
   public void start(Stage stage) throws Exception {
 
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/create_and_save_kml_file/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/create_and_save_KML_file.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

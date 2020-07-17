@@ -1,12 +1,12 @@
-# Read symbols from a mobile style file
+# Read symbols from a mobile style
 
 Combine multiple symbols from a mobile style file into a single symbol.
 
-![Image of read symbols from mobile style file](ReadSymbolsFromMobileStyleFile.png)
+![](ReadSymbolsFromMobileStyleFile.png)
 
 ## Use case
 
-You may choose to display individual elements of a dataset like a water infrastructure network (such as valves, nodes, or endpoints) with the same basic shape, but wish to modify characteristics of elements according to some technical specifications. Multilayer symbols lets you add or remove components or modify the colors to create advanced symbol styles.
+Individual elements of a water infrastructure network, such as valves, nodes, or endpoints, can be represented on the map as symbols of the same base shape, with additional components or colors added to represent their unique characteristics, such as technical specifications.
 
 ## How to use the sample
 
@@ -15,9 +15,9 @@ Select a symbol and a color from each of the category lists to create an emoji. 
 ## How it works
 
 1. Create a new `SymbolStyle` from a stylx file, and load it.
-2. Get a set of default search parameters using `symbolStyle.getDefaultSearchParametersAsync()`, and use these to retrieve a list of all symbols within the style file: `symbolStyle.searchSymbolsAsync(defaultSearchParameters)`.
+2. Get a set of default search parameters, `symbolStyle.getDefaultSearchParametersAsync()`, and use these to retrieve a list of all symbols within the style file: `symbolStyle.searchSymbolsAsync(defaultSearchParameters)`.
 3. Get the `SymbolStyleSearchResult`, which contains the symbols, as well as their names, keys, and categories.
-4. Use a `List` of keys of the desired symbols to build a composite symbol using `symbolStyle.getSymbolAsync(symbolKeys)`.
+4. Use a `List` of keys of the desired symbols to build a composite symbol, `symbolStyle.getSymbolAsync(symbolKeys)`.
 5. Create a `Graphic` using the `MultilayerPointSymbol`.
 
 ## Relevant API
@@ -32,7 +32,7 @@ Select a symbol and a color from each of the category lists to create an emoji. 
 
 The mobile style file used in this sample was created using ArcGIS Pro, and is hosted on [ArcGIS Online](https://www.arcgis.com/home/item.html?id=1bd036f221f54a99abc9e46ff3511cbf). It contains symbol layers that can be combined to create emojis.
 
-## Additional information
+## Additional Information
 
 While each of these symbols can be created from scratch, a more convenient workflow is to author them using ArcGIS Pro and store them in a mobile style file (.stylx). ArcGIS Runtime can read symbols from a mobile style, and you can modify and combine them as needed in your app.
 

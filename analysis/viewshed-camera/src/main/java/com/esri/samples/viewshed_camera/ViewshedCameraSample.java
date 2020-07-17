@@ -68,12 +68,13 @@ public class ViewshedCameraSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      final String localElevationImageService = "https://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
+      final String localElevationImageService = "http://scene.arcgis" +
+          ".com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
       surface.getElevationSources().add(new ArcGISTiledElevationSource(localElevationImageService));
       scene.setBaseSurface(surface);
 
       // add a scene layer
-      final String buildings = "https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
+      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
       ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
       scene.getOperationalLayers().add(sceneLayer);
 

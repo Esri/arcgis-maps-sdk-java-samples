@@ -20,9 +20,7 @@
         "GraphicsOverlay",
         "Incident"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/closest-facility-static-.htm"
-    ],
+    "redirect_from": "/java/latest/sample-code/closest-facility-static-.htm",
     "relevant_apis": [
         "ClosestFacilityParameters",
         "ClosestFacilityResult",
@@ -36,5 +34,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/closest_facility_static/ClosestFacilityStaticSample.java"
     ],
-    "title": "Closest facility (static)"
+    "title": "Closest Facility (Static)"
 }
