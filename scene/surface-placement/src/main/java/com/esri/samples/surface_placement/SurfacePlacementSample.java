@@ -91,8 +91,8 @@ public class SurfacePlacementSample extends Application {
       scene.setBaseSurface(surface);
 
       // add a scene layer
-      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
-      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
+      ArcGISSceneLayer sceneLayer = new
+        ArcGISSceneLayer("http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0");
       scene.getOperationalLayers().add(sceneLayer);
 
       // create overlays with surface placement types
@@ -199,7 +199,7 @@ public class SurfacePlacementSample extends Application {
       zValueSlider.valueProperty().addListener((observableValue, oldValue, newValue) -> {
 
         // get z-value from slider
-        Double zValueFromSlider = zValueSlider.getValue();
+        double zValueFromSlider = zValueSlider.getValue();
 
         // create new points with updated z-value
         Point newSurfaceRelatedPoint = new Point(surfaceRelatedPoint.getX(), surfaceRelatedPoint.getY(), zValueFromSlider, surfaceRelatedPoint.getSpatialReference());
