@@ -11,11 +11,7 @@
     "attachment",
     "connectivity",
     "containment",
-    "relationships",
-    "GraphicsOverlay",
-    "UtilityAssociation",
-    "UtilityAssociationType",
-    "UtilityNetwork"
+    "relationships"
   ],
   "relevant_apis": [
     "GraphicsOverlay",
