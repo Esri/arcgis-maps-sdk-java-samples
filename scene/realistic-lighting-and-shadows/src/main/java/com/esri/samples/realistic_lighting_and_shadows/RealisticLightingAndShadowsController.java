@@ -99,7 +99,7 @@ public class RealisticLightingAndShadowsController {
       noSunButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.NO_LIGHT));
       sunOnlyButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT));
       sunAndShadowsButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT_AND_SHADOWS));
-
+      
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -107,7 +107,7 @@ public class RealisticLightingAndShadowsController {
   }
 
   /**
-   * Update the hour of the day based on the value of the slider.
+   * Update lighting mode based on the button selected slider.
    */
   @FXML
   public void changeTimeOfDay() {
@@ -174,25 +174,6 @@ public class RealisticLightingAndShadowsController {
         return null;
       }
     });
-  }
-
-  /**
-   * Set the time to display in a label.
-   */
-  public void setTimeLabel() {
-
-    // set a new calendar and add a date and time
-    calendar = new GregorianCalendar(2018, 7, 10, 12, 00, 0);
-    calendar.setTimeZone(TimeZone.getTimeZone("PST"));
-    sceneView.setSunTime(calendar);
-
-    // tidy string to just return date and time (hours and minutes)
-    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("PST"));
-    String dateAndTimeTidied = dateFormat.format(calendar.getTime());
-
-    // set a label to display the tidied date and time
-    time.setText(dateAndTimeTidied);
   }
 
   /**
