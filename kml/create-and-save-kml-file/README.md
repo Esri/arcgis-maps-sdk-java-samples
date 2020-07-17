@@ -2,7 +2,11 @@
 
 Construct a KML document and save it as a KMZ file.
 
+<<<<<<< HEAD
 ![Image of create and save KML file](CreateAndSaveKmlFile.png)
+=======
+![Image of create and save KML file](CreateAndSaveKMLFile.png)
+>>>>>>> master
 
 ## Use case
 

@@ -49,7 +49,7 @@ public class AddFeaturesSample extends Application {
   private ServiceFeatureTable featureTable;
 
   private static final String SERVICE_LAYER_URL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {

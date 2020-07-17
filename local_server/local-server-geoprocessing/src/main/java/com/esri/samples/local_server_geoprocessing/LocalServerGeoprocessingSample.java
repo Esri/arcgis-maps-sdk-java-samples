@@ -31,7 +31,7 @@ public class LocalServerGeoprocessingSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/local_server_geoprocessing.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/local_server_geoprocessing/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2019 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.scene.control.ComboBox?>
+<StackPane
+        fx:controller="com.esri.samples.trace_a_utility_network.TraceAUtilityNetworkController"
+        xmlns:fx="http://javafx.com/fxml" stylesheets="/trace_a_utility_network/style.css">
+    <!--SDK MapView-->
+    <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"/>
+    <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
+    <!--Controls Area-->
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="200" maxHeight="160" styleClass="panel-region" spacing="10">
+        <!--Control Panel Styling-->
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.75"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+
+        <fx:define>
+            <ToggleGroup fx:id="toggleGroup"/>
+        </fx:define>
+        <RadioButton toggleGroup="$toggleGroup" fx:id="startingLocationsRadioButton" text="Add Starting Location(s)" selected="true"/>
+        <RadioButton toggleGroup="$toggleGroup" text="Add Barrier(s)"/>
+
+        <Label text="Trace type:"/>
+        <ComboBox fx:id="traceTypeSelectionCombobox" promptText="Select trace type"/>
+
+        <Separator/>
+
+        <HBox alignment="CENTER" spacing="10">
+            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true"/>
+            <Button fx:id="resetButton" text="Reset" onAction="#handleResetClick" disable="true"/>
+        </HBox>
+        <Label fx:id="statusLabel" StackPane.alignment="CENTER" text="Loading Utility Network..."/>
+    </VBox>
+</StackPane>

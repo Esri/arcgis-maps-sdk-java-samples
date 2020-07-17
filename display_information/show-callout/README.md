@@ -26,7 +26,6 @@ Click anywhere on the map. A callout showing the WGS84 coordinates for the click
 * Callout
 * MapView
 * Point
-* Point2D
 
 ## Tags
 

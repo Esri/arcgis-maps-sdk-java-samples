@@ -6,11 +6,13 @@
         "GroupLayers.png"
     ],
     "keywords": [
-        "Layers",
         "group layer",
+        "layers",
         "GroupLayer"
     ],
-    "redirect_from": "/java/latest/sample-code/group-layers.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/group-layers.htm"
+    ],
     "relevant_apis": [
         "GroupLayer"
     ],

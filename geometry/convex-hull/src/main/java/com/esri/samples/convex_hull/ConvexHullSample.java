@@ -26,8 +26,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -89,6 +93,7 @@ public class ConvexHullSample extends Application {
 
       // create a button to create and show the convex hull
       Button convexHullButton = new Button("Create Convex Hull");
+      convexHullButton.setMaxWidth(130);
       convexHullButton.setDisable(true);
       convexHullButton.setOnAction(e -> {
         convexHullButton.setDisable(true);
@@ -110,6 +115,7 @@ public class ConvexHullSample extends Application {
 
       // create a button to clear all graphics
       Button clearButton = new Button("Clear");
+      clearButton.setMaxWidth(130);
       clearButton.setDisable(true);
       clearButton.setOnAction(e -> {
         inputs.clear();
@@ -121,14 +127,26 @@ public class ConvexHullSample extends Application {
 
       VBox vBox = new VBox(6);
       vBox.setPickOnBounds(false);
+      vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
+      vBox.setPadding(new Insets(10.0));
+      vBox.setMaxSize(150, 50);
+      vBox.getStyleClass().add("panel-region");
       vBox.getChildren().addAll(convexHullButton, clearButton);
 
-      // add a point where the user clicks on the map
+      // create a point from where the user clicked
       mapView.setOnMouseClicked(e -> {
         if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
-          Point2D point2D = new Point2D(e.getX(), e.getY());
-          Point point = mapView.screenToLocation(point2D);
-          inputs.add(point);
+
+          Point2D point = new Point2D(e.getX(), e.getY());
+
+          // create a map point from a point
+          Point mapPoint = mapView.screenToLocation(point);
+
+          // the map point should be normalized to the central meridian when wrapping around a map, so its value stays within the coordinate system of the map view
+          Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
+
+          // add a point where the user clicks on the map
+          inputs.add(normalizedMapPoint);
           // update the inputs graphic geometry
           Multipoint inputsGeometry = new Multipoint(new PointCollection(inputs));
           inputsGraphic.setGeometry(inputsGeometry);

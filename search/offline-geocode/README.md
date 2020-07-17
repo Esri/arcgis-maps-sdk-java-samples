@@ -1,36 +1,29 @@
-# Offline Geocode
+# Offline geocode
 
-Geocode with offline data.
+Geocode addresses to locations and reverse geocode locations to addresses offline.
 
-![](OfflineGeocode.png)
+![Image of offline geocode](OfflineGeocode.png)
+
+## Use case
+
+You can use an address locator file to geocode addresses and locations. For example, you could provide offline geocoding capabilities to field workers repairing critical infrastructure in a disaster when network availability is limited.
 
 ## How to use the sample
 
-For simplicity, the sample comes loaded with a set of addresses. You can select any address to perform geocoding and show it's location on map. You can select the pin and move the mouse to perform reverse geocoding in real-time.
+Select an address from the drop-down list to geocode the address and view the result on the map. Click the location you want to reverse geocode. Click on the pin to highlight it and then move the mouse to perform reverse geocoding in real-time.
 
 ## How it works
 
-To perform geocoding with offline resources:
-
-1. Create an `ArcGISMap`'s using a `Basemap` and add it to the map view.
-    * basemap is created using a `TileCache`, which represent our offline resource
-2. Create a `LocatorTask` using a URI to the offline locator file and define the `ReverseGeocodeParameters`/`GeocodeParameters` fo. the LocatorTask.
-3. To geocode an address, set the geocode parameters and use `LocatorTask.geocodeAsync(query, geocodeParameters)`.
-4. To reverse geocode a location, get the `Point` location on the map view and use `LocatorTask.reverseGeocodeAsync(point, reverseGeocodeParameters)`.
-5. Show the retrieved results by creating a `PictureMarkerSymbol` with attributes from the result and add that symbol to a `Graphic. in the `GraphicsOverlay`.
+1. Use the path of a .loc file to create a `LocatorTask` object. 
+2. Set up `GeocodeParameters` and call `GeocodeAsync` to get geocode results.
 
 ## Relevant API
 
-* ArcGISMap
-* ArcGISTiledLayer
-* Callout
-* MapView
-* LocatorTask
 * GeocodeParameters
 * GeocodeResult
-* Graphic
-* GraphicsOverlay
-* Point
-* PictureMarkerSymbol
+* LocatorTask
 * ReverseGeocodeParameters
-* TileCache
+
+## Tags
+
+geocode, geocoder, locator, offline, package, query, search

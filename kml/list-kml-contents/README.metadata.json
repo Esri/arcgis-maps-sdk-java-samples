@@ -1,6 +1,6 @@
 {
     "category": "KML",
-    "description": "Show KML nodes in their nested hierarchy.",
+    "description": "List the contents of a KML file.",
     "ignore": false,
     "images": [
         "ListKMLContents.png"
@@ -8,8 +8,9 @@
     "keywords": [
         "KML",
         "KMZ",
-        "OGC",
         "Keyhole",
+        "OGC",
+        "layers",
         "KmlContainer",
         "KmlDataset",
         "KmlDocument",
@@ -21,7 +22,9 @@
         "KmlPlacemark",
         "KmlScreenOverlay"
     ],
-    "redirect_from": "/java/latest/sample-code/list-kml-contents.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/list-kml-contents.htm"
+    ],
     "relevant_apis": [
         "KmlContainer",
         "KmlDataset",
@@ -37,5 +40,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/list_kml_contents/ListKMLContentsSample.java"
     ],
-    "title": "List KML Contents"
+    "title": "List KML contents"
 }

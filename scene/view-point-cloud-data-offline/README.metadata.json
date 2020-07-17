@@ -1,17 +1,19 @@
 {
     "category": "Scene",
-    "description": "Display local 3. point cloud data.",
+    "description": "Display local 3D point cloud data.",
     "ignore": false,
     "images": [
         "ViewPointCloudDataOffline.png"
     ],
     "keywords": [
         "3D",
-        "point cloud",
         "lidar",
+        "point cloud",
         "PointCloudLayer"
     ],
-    "redirect_from": "/java/latest/sample-code/view-point-cloud-data-offline.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/view-point-cloud-data-offline.htm"
+    ],
     "relevant_apis": [
         "PointCloudLayer"
     ],

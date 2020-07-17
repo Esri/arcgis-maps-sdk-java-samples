@@ -32,7 +32,7 @@ public class MapSpatialReferenceSample extends Application {
   private MapView mapView;
 
   private static final String IMAGE_LAYER_URL =
-      "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer";
 
   @Override
   public void start(Stage stage) {

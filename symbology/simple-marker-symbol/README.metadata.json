@@ -1,31 +1,29 @@
 {
     "category": "Symbology",
-    "description": "Show simple markers.",
+    "description": "Show a simple marker symbol on a map.",
     "ignore": false,
     "images": [
         "SimpleMarkerSymbol.png"
     ],
     "keywords": [
-        "ArcGISMap",
+        "symbol",
+        "visualization",
         "Graphic",
         "GraphicsOverlay",
-        "MapView",
         "Point",
-        "SimpleMarkerSymbol",
-        "SimpleMarkerSymbol.Style"
+        "SimpleMarkerSymbol"
     ],
-    "redirect_from": "/java/latest/sample-code/simple-marker-symbol.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/simple-marker-symbol.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
-        "MapView",
         "Point",
-        "SimpleMarkerSymbol",
-        "SimpleMarkerSymbol.Style"
+        "SimpleMarkerSymbol"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/simple_marker_symbol/SimpleMarkerSymbolSample.java"
     ],
-    "title": "Simple Marker Symbol"
+    "title": "Simple marker symbol"
 }

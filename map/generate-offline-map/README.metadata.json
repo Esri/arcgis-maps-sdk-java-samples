@@ -1,25 +1,33 @@
 {
     "category": "Map",
-    "description": "Take an extent of a web map offline.",
+    "description": "Take a web map offline.",
     "ignore": false,
     "images": [
         "GenerateOfflineMap.png"
     ],
     "keywords": [
+        "download",
+        "offline",
+        "save",
+        "web map",
         "GenerateOfflineMapJob",
         "GenerateOfflineMapParameters",
         "GenerateOfflineMapResult",
-        "OfflineMapTask"
+        "OfflineMapTask",
+        "Portal"
     ],
-    "redirect_from": "/java/latest/sample-code/generate-offline-map.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/generate-offline-map.htm"
+    ],
     "relevant_apis": [
         "GenerateOfflineMapJob",
         "GenerateOfflineMapParameters",
         "GenerateOfflineMapResult",
-        "OfflineMapTask"
+        "OfflineMapTask",
+        "Portal"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/generate_offline_map/GenerateOfflineMapSample.java"
     ],
-    "title": "Generate Offline Map"
+    "title": "Generate offline map"
 }

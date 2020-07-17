@@ -29,7 +29,7 @@ public class StatisticalQueryGroupAndSortSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/statistical_query_group_and_sort.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/statistical_query_group_and_sort/main.fxml"));
     Parent root = loader.load();
     loader.getController();
     Scene scene = new Scene(root);

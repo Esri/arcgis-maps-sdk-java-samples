@@ -1,12 +1,18 @@
-# OpenStreetMap Layer
+# OpenStreetMap layer
 
-Display tiles from OpenStreetMap.
+Add OpenStreetMap as a basemap layer.
 
-![](OpenStreetMapLayer.png)
+![Image of OpenStreetMap layer](OpenStreetMapLayer.png)
+
+## Use case
+
+[OpenStreetMap](https://www.openstreetmap.org) is a free community-edited basemap.
+
+## How to use the sample
+
+When the sample opens, it will automatically display the map with the OpenStreetMap basemap. Pan and zoom to observe the basemap.
 
 ## How it works
-
-To create a map with an OpenStreetMap basemap:
 
 1. Create an `ArcGISMap` with a `Basemap.Type.OPEN_STREET_MAP`.
 2. Set the map to a `MapView`.
@@ -14,10 +20,16 @@ To create a map with an OpenStreetMap basemap:
 ## Relevant API
 
 * ArcGISMap
-* Basemap
-* Basemap.Type
 * MapView
+
+## Additional information
+
+The attribution text will be set to the required OpenStreetMap attribution automatically. 
+
+Apps that expect to make many requests to OpenStreetMap should consider using an alternative tile server via the `WebTiledLayer` class. See [layer types described](https://developers.arcgis.com/java/latest/guide/layer-types-described.htm#ESRI_SECTION1_B995CCAB20584F91890B3614CF16CF43) in the *ArcGIS Runtime SDK for Java* documentation for more information on OpenStreetMap usage restrictions and alternatives.
+
+Esri now hosts an [OpenStreetMap vector layer on ArcGIS Online](https://www.arcgis.com/home/item.html?id=3e1a00aeae81496587988075fe529f71) that uses recent OpenStreetMap data in conjunction with a style matching the default OpenStreetMap style. This layer is not subject to the tile access restrictions that apply to tiles fetched from OpenStreetMap.org.
 
 ## Tags
 
-Layers, OpenStreetMap
+basemap, layers, map, open, OpenStreetMap, OSM, street

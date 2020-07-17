@@ -1,23 +1,33 @@
 {
     "category": "Scene",
-    "description": "Select clicked features in a scene.",
+    "description": "Identify features in a scene to select.",
     "ignore": false,
     "images": [
         "SceneLayerSelection.png"
     ],
     "keywords": [
+        "3D",
+        "Berlin",
+        "buildings",
+        "identify",
+        "model",
+        "query",
+        "search",
+        "select",
         "ArcGISSceneLayer",
-        "GeoElement",
-        "IdentifyLayerResult"
+        "Scene",
+        "SceneView"
     ],
-    "redirect_from": "/java/latest/sample-code/scene-layer-selection.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/scene-layer-selection.htm"
+    ],
     "relevant_apis": [
         "ArcGISSceneLayer",
-        "GeoElement",
-        "IdentifyLayerResult"
+        "Scene",
+        "SceneView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/scene_layer_selection/SceneLayerSelectionSample.java"
     ],
-    "title": "Scene Layer Selection"
+    "title": "Scene layer selection"
 }

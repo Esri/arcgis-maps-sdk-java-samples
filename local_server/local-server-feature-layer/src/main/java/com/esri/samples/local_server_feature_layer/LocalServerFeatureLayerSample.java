@@ -44,8 +44,9 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class LocalServerFeatureLayerSample extends Application {
 
   private ArcGISMap map;
-  private MapView mapView;
+  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
   private LocalFeatureService featureService;
+  private MapView mapView;
   private ProgressIndicator featureLayerProgress;
 
   private static LocalServer server;
@@ -125,7 +126,7 @@ public class LocalServerFeatureLayerSample extends Application {
       // create a feature layer using the url
       ServiceFeatureTable featureTable = new ServiceFeatureTable(url);
       featureTable.loadAsync();
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      featureLayer = new FeatureLayer(featureTable);
       featureLayer.addDoneLoadingListener(() -> {
         Envelope extent = featureLayer.getFullExtent();
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED && extent != null) {

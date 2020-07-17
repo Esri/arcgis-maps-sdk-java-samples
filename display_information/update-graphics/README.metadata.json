@@ -6,13 +6,23 @@
         "UpdateGraphics.gif"
     ],
     "keywords": [
+        "adjust",
+        "attributes",
+        "description",
+        "geometry",
+        "location",
+        "marker",
+        "modify",
+        "symbol",
         "ArcGISMap",
         "Graphic",
         "GraphicsOverlay",
         "MapView",
         "SimpleMarkerSymbol"
     ],
-    "redirect_from": "/java/latest/sample-code/update-graphics.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/update-graphics.htm"
+    ],
     "relevant_apis": [
         "ArcGISMap",
         "Graphic",
@@ -23,5 +33,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/update_graphics/UpdateGraphicsSample.java"
     ],
-    "title": "Update Graphics"
+    "title": "Update graphics"
 }

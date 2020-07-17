@@ -6,10 +6,9 @@
         "ChooseCameraController.png"
     ],
     "keywords": [
-        "camera controller",
-        "Camera",
-        "SceneView",
         "3D",
+        "camera",
+        "camera controller",
         "ArcGISScene",
         "Camera",
         "GlobeCameraController",
@@ -17,7 +16,9 @@
         "OrbitLocationCameraController",
         "SceneView"
     ],
-    "redirect_from": "/java/latest/sample-code/choose-camera-controller.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/choose-camera-controller.htm"
+    ],
     "relevant_apis": [
         "ArcGISScene",
         "Camera",

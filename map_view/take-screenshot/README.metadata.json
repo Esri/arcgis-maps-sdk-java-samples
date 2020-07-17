@@ -1,0 +1,31 @@
+{
+    "category": "Map view",
+    "description": "Take a screenshot of the map.",
+    "ignore": false,
+    "images": [
+        "TakeScreenshot.png"
+    ],
+    "keywords": [
+        "capture",
+        "export",
+        "image",
+        "print",
+        "screen capture",
+        "screenshot",
+        "share",
+        "shot",
+        "ArcGISMap",
+        "MapView"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/take-screen-shot.htm"
+    ],
+    "relevant_apis": [
+        "ArcGISMap",
+        "MapView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/take_screenshot/TakeScreenshotSample.java"
+    ],
+    "title": "Take Screenshot"
+}
