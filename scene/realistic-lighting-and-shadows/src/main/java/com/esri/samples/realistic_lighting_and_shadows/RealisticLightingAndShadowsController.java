@@ -22,7 +22,6 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -38,6 +37,8 @@ import com.esri.arcgisruntime.mapping.view.AtmosphereEffect;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.LightingMode;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+
+import static java.lang.StrictMath.floor;
 
 public class RealisticLightingAndShadowsController {
 
@@ -95,7 +96,14 @@ public class RealisticLightingAndShadowsController {
       // set the slider to display tick labels as time strings
       setSliderLabels();
 
-      
+      // set the combo box to display the lighting modes as strings
+      setComboBoxLabels();
+
+      // update the atmosphere effect based on the lighting mode chosen from the combo box
+      comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+        sceneView.setSunLighting(comboBox.getSelectionModel().getSelectedItem());
+      });
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -103,42 +111,29 @@ public class RealisticLightingAndShadowsController {
   }
 
   /**
-   * Update lighting mode based on the button selected slider.
+   * Set the sun time based on the time from the slider.
    */
   @FXML
   public void changeTimeOfDay() {
     // when the slider changes, update the hour of the day based on the value of the slider
     timeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 
-        // get value from the slider
-        Double timeFromSlider = timeSlider.getValue();
-        // to get minutes from timer value, split double to the two values after decimal place
-        String timeAsString = timeFromSlider.toString();
-
         // get the hour value from the slider
-        int hourFromSlider = timeFromSlider.intValue();
+        int hours = newValue.intValue();
 
-        if (timeAsString.length() > 4) {
-          String subString = timeAsString.substring(3, 5);
+        // get the minutes from the slider
+        double afterDecimal = newValue.doubleValue() - floor(newValue.doubleValue());
+        int minutes = (int) (afterDecimal * 60);
 
-          int minutes = Integer.valueOf(subString);
-          // convert figures into minutes
-          float actualMinutes = ((float) minutes / (float) 100) * (float) 60;
-          // round into an integer
-          int minuteFromSlider = Math.round(actualMinutes);
+        // set the calendar for given hour and minute from slider value
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
+        calendar.set(Calendar.MINUTE, minutes);
 
-          // set the calendar for given hour and minute from slider value
-          calendar.set(Calendar.HOUR_OF_DAY, hourFromSlider);
-          calendar.set(Calendar.MINUTE, minuteFromSlider);
-
-        } else {
-          calendar.set(2018, 7, 10, hourFromSlider, 00);
-        }
         // tidy string to just return date and time (hours and minutes)
-        String dynamicDateAndTimeTidied = dateFormat.format(calendar.getTime());
+        String dateAndTimeTidied = dateFormat.format(calendar.getTime());
 
         // update label to reflect current date and time
-        time.setText(dynamicDateAndTimeTidied);
+        time.setText(dateAndTimeTidied);
 
         // set the sun time to calendar
         sceneView.setSunTime(calendar);
@@ -154,13 +149,13 @@ public class RealisticLightingAndShadowsController {
     timeSlider.setLabelFormatter(new StringConverter<Double>() {
 
       @Override
-      public String toString(Double object) {
+      public String toString(Double hour) {
 
-        if (object == 4) return "4am";
-        if (object == 8) return "8am";
-        if (object == 12) return "Midday";
-        if (object == 16) return "4pm";
-        if (object == 20) return "8pm";
+        if (hour == 4) return "4am";
+        if (hour == 8) return "8am";
+        if (hour == 12) return "Midday";
+        if (hour == 16) return "4pm";
+        if (hour == 20) return "8pm";
 
         return "Midnight";
       }
@@ -182,10 +177,11 @@ public class RealisticLightingAndShadowsController {
       @Override
       public String toString(LightingMode mode) {
 
-        if (mode == LightingMode.LIGHT) return "Light Only";
-        if (mode == LightingMode.LIGHT_AND_SHADOWS) return "Light and Shadows";
-        if (mode == LightingMode.NO_LIGHT) return "No Light";
-        else return "Light only";
+        if (mode == LightingMode.LIGHT) return "Sun light only";
+        if (mode == LightingMode.LIGHT_AND_SHADOWS) return "Sun light with shadows";
+        if (mode == LightingMode.NO_LIGHT) return "No sun light effect";
+
+        else return "Sun light only";
       }
 
       @Override
@@ -201,10 +197,11 @@ public class RealisticLightingAndShadowsController {
 
         super.updateItem(mode, empty);
 
-        if (mode == LightingMode.LIGHT) setText("Light Only");
-        else if (mode == LightingMode.LIGHT_AND_SHADOWS) setText("Light and Shadows");
-        else if (mode == LightingMode.NO_LIGHT) setText("No Light");
-        else setText("Light only");
+        if (mode == LightingMode.LIGHT) setText("Sun light only");
+        else if (mode == LightingMode.LIGHT_AND_SHADOWS) setText("Sun light with shadows");
+        else if (mode == LightingMode.NO_LIGHT) setText("No sun light effect");
+
+        else setText("Sun light only");
       }
     });
   }

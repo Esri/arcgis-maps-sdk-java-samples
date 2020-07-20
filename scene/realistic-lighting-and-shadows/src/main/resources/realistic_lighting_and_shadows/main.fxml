@@ -17,14 +17,12 @@
 <?import javafx.scene.layout.*?>
 
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
+<?import com.esri.arcgisruntime.mapping.view.LightingMode?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
-
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.collections.FXCollections?>
-<?import com.esri.arcgisruntime.mapping.view.LightingMode?>
-
 <StackPane fx:controller="com.esri.samples.realistic_lighting_and_shadows.RealisticLightingAndShadowsController"
            xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/realistic_lighting_and_shadows/style.css">
