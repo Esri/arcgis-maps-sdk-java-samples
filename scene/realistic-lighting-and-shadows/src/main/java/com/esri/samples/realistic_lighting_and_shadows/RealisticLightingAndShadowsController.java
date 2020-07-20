@@ -23,7 +23,9 @@ import java.util.TimeZone;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.Slider;
 import javafx.util.StringConverter;
 
@@ -42,9 +44,7 @@ public class RealisticLightingAndShadowsController {
   @FXML private SceneView sceneView;
   @FXML private Label time;
   @FXML private Slider timeSlider;
-  @FXML private Button noSunButton;
-  @FXML private Button sunOnlyButton;
-  @FXML private Button sunAndShadowsButton;
+  @FXML private ComboBox<LightingMode> comboBox;
   private Surface surface;
   private Calendar calendar;
   private SimpleDateFormat dateFormat;
@@ -95,10 +95,6 @@ public class RealisticLightingAndShadowsController {
       // set the slider to display tick labels as time strings
       setSliderLabels();
 
-      // update the atmosphere effect based on the button clicked
-      noSunButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.NO_LIGHT));
-      sunOnlyButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT));
-      sunAndShadowsButton.setOnAction(event -> sceneView.setSunLighting(LightingMode.LIGHT_AND_SHADOWS));
       
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -172,6 +168,43 @@ public class RealisticLightingAndShadowsController {
       @Override
       public Double fromString(String string) {
         return null;
+      }
+    });
+  }
+
+  /**
+   * Set labels to display in the combo box.
+   */
+  private void setComboBoxLabels() {
+
+    comboBox.setConverter(new StringConverter<LightingMode>() {
+
+      @Override
+      public String toString(LightingMode mode) {
+
+        if (mode == LightingMode.LIGHT) return "Light Only";
+        if (mode == LightingMode.LIGHT_AND_SHADOWS) return "Light and Shadows";
+        if (mode == LightingMode.NO_LIGHT) return "No Light";
+        else return "Light only";
+      }
+
+      @Override
+      public LightingMode fromString(String string) {
+        return null;
+      }
+    });
+
+    comboBox.setCellFactory(comboBox -> new ListCell<LightingMode>() {
+
+      @Override
+      protected void updateItem(LightingMode mode, boolean empty) {
+
+        super.updateItem(mode, empty);
+
+        if (mode == LightingMode.LIGHT) setText("Light Only");
+        else if (mode == LightingMode.LIGHT_AND_SHADOWS) setText("Light and Shadows");
+        else if (mode == LightingMode.NO_LIGHT) setText("No Light");
+        else setText("Light only");
       }
     });
   }
