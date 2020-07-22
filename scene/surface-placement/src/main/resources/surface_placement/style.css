@@ -1,15 +1,38 @@
-.panel-region .label {
-  -fx-text-fill: white;
+.panel-region {
+  -fx-background-color: rgba(0, 0, 0, 0.3);
+  -fx-padding: 10;
 }
 
-.panel-region .radio-button {
+.panel-region .label {
+  -fx-text-fill: white;
+  -fx-padding: 10;
+}
+
+.toggle-controls {
+  -fx-max-width: 210;
+  -fx-max-height: 120;
+  -fx-spacing: 6;
+}
+
+.toggle-controls .radio-button {
    -fx-text-fill: white;
 }
 
-.panel-region .slider:vertical {
-  -fx-pref-height:160px;
+.slider-controls {
+  -fx-max-width: 90;
+  -fx-max-height: 230;
+  -fx-spacing: 3;
 }
 
-.panel-region .slider .axis {
+.slider-controls .slider {
+  -fx-orientation: vertical;
+  -fx-pref-height:160;
+  -fx-show-tick-marks: true;
+  -fx-show-tick-labels: true;
+  -fx-major-tick-unit: 50;
+  -fx-minor-tick-count: 1;
+}
+
+.slider-controls .slider .axis {
   -fx-tick-label-fill: white;
 }
