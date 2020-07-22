@@ -17,6 +17,10 @@ VBox {
 
 .slider {
   -fx-padding: 10;
+  -fx-show-tick-labels: true;
+  -fx-show-tick-marks: true;
+  -fx-major-tick-unit: 240;
+  -fx-minor-tick-count: 60;
 }
 
 .slider .axis {

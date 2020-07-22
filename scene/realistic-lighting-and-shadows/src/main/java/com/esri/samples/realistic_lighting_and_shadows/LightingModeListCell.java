@@ -19,7 +19,9 @@ package com.esri.samples.realistic_lighting_and_shadows;
 import javafx.scene.control.ListCell;
 
 import com.esri.arcgisruntime.mapping.view.LightingMode;
-
+/**
+ * Converts the LightningMode values to strings to display in the open ComboBox.
+ */
 public class LightingModeListCell extends ListCell<LightingMode> {
 
   @Override

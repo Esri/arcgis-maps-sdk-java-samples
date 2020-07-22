@@ -44,7 +44,7 @@ public class RealisticLightingAndShadowsController {
   @FXML private ComboBox<LightingMode> comboBox;
   private Surface surface;
   private Calendar calendar;
-  private SimpleDateFormat formatted;
+  private SimpleDateFormat dateFormat;
 
   public void initialize() {
     try {
@@ -81,9 +81,9 @@ public class RealisticLightingAndShadowsController {
       sceneView.setSunTime(calendar);
 
       // format the string to just return the date and time (hours and minutes)
-      formatted = new SimpleDateFormat("EEE MMM dd HH:mm");
-      formatted.setTimeZone(TimeZone.getTimeZone("PST"));
-      String formattedDateAndTime = formatted.format(calendar.getTime());
+      dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm");
+      dateFormat.setTimeZone(TimeZone.getTimeZone("PST"));
+      String formattedDateAndTime = dateFormat.format(calendar.getTime());
 
       // set a label to display the formatted date and time
       timeLabel.setText(formattedDateAndTime);
@@ -135,7 +135,7 @@ public class RealisticLightingAndShadowsController {
         calendar.set(Calendar.MINUTE, minutes);
 
         // format the string to just return the date and time (hours and minutes)
-        String formattedDateAndTime = formatted.format(calendar.getTime());
+        String formattedDateAndTime = dateFormat.format(calendar.getTime());
 
         // update the label to reflect the current date and time
         timeLabel.setText(formattedDateAndTime);

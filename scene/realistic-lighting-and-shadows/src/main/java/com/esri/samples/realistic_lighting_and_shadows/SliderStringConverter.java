@@ -17,7 +17,9 @@
 package com.esri.samples.realistic_lighting_and_shadows;
 
 import javafx.util.StringConverter;
-
+/**
+ * Converts time values to strings to display on the slider.
+ */
 public class SliderStringConverter extends StringConverter<Double> {
 
   @Override
