@@ -23,6 +23,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
 
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
@@ -168,28 +170,22 @@ public class SurfacePlacementController {
 
   @FXML
   private void changeZValue(){
-        // get z-value from slider
-        double zValueFromSlider = zValueSlider.getValue();
+    // get z-value from slider
+    double zValueFromSlider = zValueSlider.getValue();
 
-        // create new points with updated z-value
-        Point newSurfaceRelatedPoint = new Point(surfaceRelatedPoint.getX(), surfaceRelatedPoint.getY(), zValueFromSlider, surfaceRelatedPoint.getSpatialReference());
-        Point newSceneRelatedPoint = new Point(sceneRelatedPoint.getX(), sceneRelatedPoint.getY(), zValueFromSlider, sceneRelatedPoint.getSpatialReference());
-
-        // update the geometry of each of the existing graphics (both the symbol and label) to the relevant new point
-        drapedBillboardedOverlay.getGraphics().get(0).setGeometry(newSurfaceRelatedPoint);
-        drapedBillboardedOverlay.getGraphics().get(1).setGeometry(newSurfaceRelatedPoint);
-
-        drapedFlatOverlay.getGraphics().get(0).setGeometry(newSurfaceRelatedPoint);
-        drapedFlatOverlay.getGraphics().get(1).setGeometry(newSurfaceRelatedPoint);
-
-        relativeOverlay.getGraphics().get(0).setGeometry(newSurfaceRelatedPoint);
-        relativeOverlay.getGraphics().get(1).setGeometry(newSurfaceRelatedPoint);
-
-        absoluteOverlay.getGraphics().get(0).setGeometry(newSurfaceRelatedPoint);
-        absoluteOverlay.getGraphics().get(1).setGeometry(newSurfaceRelatedPoint);
-
-        relativeToSceneOverlay.getGraphics().get(0).setGeometry(newSceneRelatedPoint);
-        relativeToSceneOverlay.getGraphics().get(1).setGeometry(newSceneRelatedPoint);
+    // update the geometry of each of the existing graphics to include the new z-value
+    for(int i = 0; i < sceneView.getGraphicsOverlays().size(); i++){
+      GraphicsOverlay currentGraphicsLayer =  sceneView.getGraphicsOverlays().get(i);
+      for(int j =0; j < currentGraphicsLayer.getGraphics().size(); j++){
+        Graphic currentGraphic = currentGraphicsLayer.getGraphics().get(j);
+        Geometry geometry = currentGraphic.getGeometry();
+        if (geometry.getGeometryType().equals(GeometryType.POINT)) {
+          Point currentPoint = (Point) geometry;
+          Point updatedPoint = new Point(currentPoint.getX(), currentPoint.getY(), zValueFromSlider, currentPoint.getSpatialReference());
+          currentGraphic.setGeometry(updatedPoint);
+        }
+      }
+    }
   }
 
   /**

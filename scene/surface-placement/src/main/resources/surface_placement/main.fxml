@@ -41,7 +41,7 @@
         <RadioButton toggleGroup="$toggleGroup" fx:id="drapedBillboardedRadioButton" text="Draped Billboarded" selected="true" />
         <RadioButton toggleGroup="$toggleGroup" fx:id="drapedFlatRadioButton" text="Draped Flat" />
     </VBox>
-    <!--Slider controls for z-value slider-->
+    <!--Slider controls for z-value-->
     <VBox StackPane.alignment="TOP_RIGHT" styleClass="panel-region, slider-controls" >
         <StackPane.margin>
             <Insets topRightBottomLeft="10"/>
