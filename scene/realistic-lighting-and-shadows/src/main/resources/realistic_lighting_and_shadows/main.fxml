@@ -17,34 +17,25 @@
 <?import javafx.scene.layout.*?>
 
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
-<?import com.esri.arcgisruntime.mapping.view.LightingMode?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.collections.FXCollections?>
 <StackPane fx:controller="com.esri.samples.realistic_lighting_and_shadows.RealisticLightingAndShadowsController"
            xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/realistic_lighting_and_shadows/style.css">
     <!--SDK SceneView-->
     <SceneView fx:id="sceneView"/>
     <StackPane.margin>
-        <Insets topRightBottomLeft="10" />
+        <Insets topRightBottomLeft="10"/>
     </StackPane.margin>
     <!--Slider box-->
     <VBox styleClass="panel-region">
-        <Label fx:id="time"/>
+        <Label fx:id="timeLabel"/>
         <ComboBox fx:id="comboBox" maxWidth="Infinity">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <LightingMode fx:value="NO_LIGHT"/>
-                    <LightingMode fx:value="LIGHT"/>
-                    <LightingMode fx:value="LIGHT_AND_SHADOWS"/>
-                </FXCollections>
-            </items>
         </ComboBox>
-        <Slider fx:id="timeSlider" value="12" max="24" majorTickUnit="4" minorTickCount="60" showTickMarks="true"
-                showTickLabels="true" onMouseDragged="#changeTimeOfDay">
+        <Slider fx:id="timeSlider" max="1440" majorTickUnit="240" minorTickCount="3600" value="720" showTickMarks="true"
+                showTickLabels="true" onMouseDragged="#updateTimeOfDay">
         </Slider>
     </VBox>
 </StackPane>

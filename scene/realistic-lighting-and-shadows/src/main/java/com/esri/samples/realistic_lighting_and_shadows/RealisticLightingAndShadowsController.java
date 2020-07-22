@@ -24,9 +24,7 @@ import java.util.TimeZone;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.Slider;
-import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
@@ -38,17 +36,15 @@ import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.LightingMode;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-import static java.lang.StrictMath.floor;
-
 public class RealisticLightingAndShadowsController {
 
   @FXML private SceneView sceneView;
-  @FXML private Label time;
+  @FXML private Label timeLabel;
   @FXML private Slider timeSlider;
   @FXML private ComboBox<LightingMode> comboBox;
   private Surface surface;
   private Calendar calendar;
-  private SimpleDateFormat dateFormat;
+  private SimpleDateFormat formatted;
 
   public void initialize() {
     try {
@@ -67,8 +63,7 @@ public class RealisticLightingAndShadowsController {
       scene.setBaseSurface(surface);
 
       // add a scene layer
-      final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer/layers/0";
-      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
+      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer("http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer/layers/0");
       scene.getOperationalLayers().add(sceneLayer);
 
       // add a camera and initial camera position
@@ -78,26 +73,32 @@ public class RealisticLightingAndShadowsController {
       // set atmosphere effect to realistic
       sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC);
 
-      // set a new calendar and add a date and time
+      // set a calendar with a date and time
       calendar = new GregorianCalendar(2018, 7, 10, 12, 00, 0);
       calendar.setTimeZone(TimeZone.getTimeZone("PST"));
 
-      // set the time label on the control panel
+      // set the sun time to the calendar
       sceneView.setSunTime(calendar);
 
-      // tidy string to just return date and time (hours and minutes)
-      dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm");
-      dateFormat.setTimeZone(TimeZone.getTimeZone("PST"));
-      String dateAndTimeTidied = dateFormat.format(calendar.getTime());
+      // format the string to just return the date and time (hours and minutes)
+      formatted = new SimpleDateFormat("EEE MMM dd HH:mm");
+      formatted.setTimeZone(TimeZone.getTimeZone("PST"));
+      String formattedDateAndTime = formatted.format(calendar.getTime());
 
-      // set a label to display the tidied date and time
-      time.setText(dateAndTimeTidied);
+      // set a label to display the formatted date and time
+      timeLabel.setText(formattedDateAndTime);
 
       // set the slider to display tick labels as time strings
-      setSliderLabels();
+      timeSlider.setLabelFormatter(new SliderStringConverter());
 
-      // set the combo box to display the lighting modes as strings
-      setComboBoxLabels();
+      // add the lighting modes to the combo box
+      comboBox.getItems().add(LightingMode.NO_LIGHT);
+      comboBox.getItems().add(LightingMode.LIGHT);
+      comboBox.getItems().add(LightingMode.LIGHT_AND_SHADOWS);
+
+      // show the name of the lighting modes in the combo box
+      comboBox.setConverter(new ComboBoxStringConverter());
+      comboBox.setCellFactory(comboBox -> new LightingModeListCell());
 
       // update the atmosphere effect based on the lighting mode chosen from the combo box
       comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
@@ -114,96 +115,35 @@ public class RealisticLightingAndShadowsController {
    * Set the sun time based on the time from the slider.
    */
   @FXML
-  public void changeTimeOfDay() {
+  public void updateTimeOfDay() {
     // when the slider changes, update the hour of the day based on the value of the slider
     timeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 
-        // get the hour value from the slider
-        int hours = newValue.intValue();
+        // get the value from the slider
+        int sliderValue = newValue.intValue();
+
+        // get the hour from the slider
+        int hours = sliderValue / 60;
 
         // get the minutes from the slider
-        double afterDecimal = newValue.doubleValue() - floor(newValue.doubleValue());
-        int minutes = (int) (afterDecimal * 60);
+        int minutes = sliderValue % 60;
 
-        // set the calendar for given hour and minute from slider value
+        // set the calendar with the hour and minute values from the slider
+        calendar.set(Calendar.MONTH, 7);
+        calendar.set(Calendar.DAY_OF_MONTH, 10);
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);
 
-        // tidy string to just return date and time (hours and minutes)
-        String dateAndTimeTidied = dateFormat.format(calendar.getTime());
+        // format the string to just return the date and time (hours and minutes)
+        String formattedDateAndTime = formatted.format(calendar.getTime());
 
-        // update label to reflect current date and time
-        time.setText(dateAndTimeTidied);
+        // update the label to reflect the current date and time
+        timeLabel.setText(formattedDateAndTime);
 
-        // set the sun time to calendar
+        // set the sun time to the calendar
         sceneView.setSunTime(calendar);
       }
     );
-  }
-
-  /**
-   * Set labels to display on the slider.
-   */
-  private void setSliderLabels() {
-
-    timeSlider.setLabelFormatter(new StringConverter<Double>() {
-
-      @Override
-      public String toString(Double hour) {
-
-        if (hour == 4) return "4am";
-        if (hour == 8) return "8am";
-        if (hour == 12) return "Midday";
-        if (hour == 16) return "4pm";
-        if (hour == 20) return "8pm";
-
-        return "Midnight";
-      }
-
-      @Override
-      public Double fromString(String string) {
-        return null;
-      }
-    });
-  }
-
-  /**
-   * Set labels to display in the combo box.
-   */
-  private void setComboBoxLabels() {
-
-    comboBox.setConverter(new StringConverter<LightingMode>() {
-
-      @Override
-      public String toString(LightingMode mode) {
-
-        if (mode == LightingMode.LIGHT) return "Sun light only";
-        if (mode == LightingMode.LIGHT_AND_SHADOWS) return "Sun light with shadows";
-        if (mode == LightingMode.NO_LIGHT) return "No sun light effect";
-
-        else return "Sun light only";
-      }
-
-      @Override
-      public LightingMode fromString(String string) {
-        return null;
-      }
-    });
-
-    comboBox.setCellFactory(comboBox -> new ListCell<LightingMode>() {
-
-      @Override
-      protected void updateItem(LightingMode mode, boolean empty) {
-
-        super.updateItem(mode, empty);
-
-        if (mode == LightingMode.LIGHT) setText("Sun light only");
-        else if (mode == LightingMode.LIGHT_AND_SHADOWS) setText("Sun light with shadows");
-        else if (mode == LightingMode.NO_LIGHT) setText("No sun light effect");
-
-        else setText("Sun light only");
-      }
-    });
   }
 
   /**

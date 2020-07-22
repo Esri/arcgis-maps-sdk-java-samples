@@ -2,7 +2,7 @@
 
 Show realistic lighting and shadows for the time of day.
 
-![Image of realistic lighting and shadows](RealisticLightingAndShadows.png)
+![Image of realistic lighting and shadows](RealisticLightingAndShadows.gif)
 
 ## Use case
 
