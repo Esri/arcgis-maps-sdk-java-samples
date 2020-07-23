@@ -47,6 +47,6 @@
             <Insets topRightBottomLeft="10"/>
         </StackPane.margin>
         <Label fx:id="zValueSliderLabel" text="Z-Value: " />
-        <Slider fx:id="zValueSlider" min="0" max="150" value="70" onMouseDragged="#changeZValue" onMouseReleased="#changeZValue"  />
+        <Slider fx:id="zValueSlider" min="0" max="150" value="70" onMouseDragged="#changeZValue" onMouseReleased="#changeZValue" />
     </VBox>
 </StackPane>

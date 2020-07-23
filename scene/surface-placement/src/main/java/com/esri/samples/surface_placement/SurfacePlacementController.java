@@ -47,14 +47,6 @@ public class SurfacePlacementController {
   @FXML private ToggleGroup toggleGroup;
   @FXML private RadioButton drapedBillboardedRadioButton;
   @FXML private RadioButton drapedFlatRadioButton;
-  private Surface surface;
-  private Point surfaceRelatedPoint;
-  private Point sceneRelatedPoint;
-  private GraphicsOverlay drapedBillboardedOverlay;
-  private GraphicsOverlay drapedFlatOverlay;
-  private GraphicsOverlay absoluteOverlay;
-  private GraphicsOverlay relativeOverlay;
-  private GraphicsOverlay relativeToSceneOverlay;
 
   public void initialize() {
 
@@ -67,7 +59,7 @@ public class SurfacePlacementController {
       sceneView.setArcGISScene(scene);
 
       // add base surface for elevation data
-      surface = new Surface();
+      Surface surface = new Surface();
       ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource(
         "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
       surface.getElevationSources().add(elevationSource);
@@ -82,25 +74,24 @@ public class SurfacePlacementController {
       sceneView.setViewpointCamera(new Camera(48.3889, -4.4595, 90, 330, 90, 0));
 
       // create overlays with surface placement types
-      drapedBillboardedOverlay = new GraphicsOverlay();
+      GraphicsOverlay drapedBillboardedOverlay = new GraphicsOverlay();
       drapedBillboardedOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.DRAPED_BILLBOARDED);
 
-      drapedFlatOverlay = new GraphicsOverlay();
+      GraphicsOverlay drapedFlatOverlay = new GraphicsOverlay();
       drapedFlatOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.DRAPED_FLAT);
 
-      relativeOverlay = new GraphicsOverlay();
+      GraphicsOverlay relativeOverlay = new GraphicsOverlay();
       relativeOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
 
-      absoluteOverlay = new GraphicsOverlay();
+      GraphicsOverlay absoluteOverlay = new GraphicsOverlay();
       absoluteOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
 
-      relativeToSceneOverlay = new GraphicsOverlay();
+      GraphicsOverlay relativeToSceneOverlay = new GraphicsOverlay();
       relativeToSceneOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE_TO_SCENE);
 
       // create points for graphic locations
-      surfaceRelatedPoint = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
-
-      sceneRelatedPoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
+      Point surfaceRelatedPoint = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
+      Point sceneRelatedPoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
 
       // create a red triangle symbol
       SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 12);
@@ -149,7 +140,7 @@ public class SurfacePlacementController {
       drapedBillboardedRadioButton.setUserData(drapedBillboardedOverlay);
       drapedFlatRadioButton.setUserData(drapedFlatOverlay);
 
-      // listener for toggles between billboarded and flat draped surface placement modes on the JavaFX ToggleGroup
+      // add a listener to the toggle group to switch between billboarded and flat draped surface placement modes
       toggleGroup.selectedToggleProperty().addListener((observableValue, oldToggle, newToggle) -> {
         if (toggleGroup.getSelectedToggle() != null) {
           sceneView.getGraphicsOverlays().remove(oldToggle.getUserData());
@@ -165,24 +156,21 @@ public class SurfacePlacementController {
   }
 
   /**
-   * Sets the Z-Value to the value selected by the JavaFX slider.
+   * Sets the Z-Value to the value selected by the slider.
    */
-
   @FXML
   private void changeZValue(){
-    // get z-value from slider
-    double zValueFromSlider = zValueSlider.getValue();
+    // get the z-value from the slider
+    double zValue = zValueSlider.getValue();
 
     // update the geometry of each of the existing graphics to include the new z-value
-    for(int i = 0; i < sceneView.getGraphicsOverlays().size(); i++){
-      GraphicsOverlay currentGraphicsLayer =  sceneView.getGraphicsOverlays().get(i);
-      for(int j =0; j < currentGraphicsLayer.getGraphics().size(); j++){
-        Graphic currentGraphic = currentGraphicsLayer.getGraphics().get(j);
-        Geometry geometry = currentGraphic.getGeometry();
+    for (GraphicsOverlay graphicsOverlay : sceneView.getGraphicsOverlays()) {
+      for (Graphic graphic : graphicsOverlay.getGraphics()) {
+        Geometry geometry = graphic.getGeometry();
         if (geometry.getGeometryType().equals(GeometryType.POINT)) {
           Point currentPoint = (Point) geometry;
-          Point updatedPoint = new Point(currentPoint.getX(), currentPoint.getY(), zValueFromSlider, currentPoint.getSpatialReference());
-          currentGraphic.setGeometry(updatedPoint);
+          Point updatedPoint = new Point(currentPoint.getX(), currentPoint.getY(), zValue, currentPoint.getSpatialReference());
+          graphic.setGeometry(updatedPoint);
         }
       }
     }
