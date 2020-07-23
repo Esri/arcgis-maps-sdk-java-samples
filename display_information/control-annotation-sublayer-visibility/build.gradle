@@ -10,7 +10,7 @@ ext {
 }
 
 javafx {
-    version = "11.0.1"
+    version = "11.0.2"
     modules = [ 'javafx.controls' ]
 }
 
@@ -73,5 +73,5 @@ task productionZip(type: Zip) {
     }
 
 wrapper {
-    gradleVersion = '5.0'
+    gradleVersion = '6.5.1'
 }

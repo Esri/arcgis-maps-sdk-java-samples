@@ -1,22 +1,29 @@
 {
-  "category": "Analysis",
-  "description": "Show a line of sight between two moving objects.",
-  "ignore": false,
-  "images": [
-    "LineOfSightGeoElement.gif"
-  ],
-  "keywords": [],
-  "redirect_from": "/java/latest/sample-code/line-of-sight-geoelement.htm",
-  "relevant_apis": [
-    "ArcGISMapImageLayer",
-    "GeoprocessingJob",
-    "GeoprocessingParameters",
-    "GeoprocessingResult",
-    "GeoprocessingString",
-    "GeoprocessingTask"
-  ],
-  "snippets": [
-    "src/main/java/com/esri/samples/line_of_sight_geoelement/LineOfSightGeoElementSample.java"
-  ],
-  "title": "Line of Sight GeoElement"
+    "category": "Analysis",
+    "description": "Show a line of sight between two moving objects.",
+    "ignore": false,
+    "images": [
+        "LineOfSightGeoElement.gif"
+    ],
+    "keywords": [
+        "3D",
+        "line of sight",
+        "visibility",
+        "visibility analysis",
+        "AnalysisOverlay",
+        "GeoElementLineOfSight",
+        "LineOfSight.getTargetVisibility"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/line-of-sight-geoelement.htm"
+    ],
+    "relevant_apis": [
+        "AnalysisOverlay",
+        "GeoElementLineOfSight",
+        "LineOfSight.getTargetVisibility"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/line_of_sight_geoelement/LineOfSightGeoElementSample.java"
+    ],
+    "title": "Line of sight geoelement"
 }

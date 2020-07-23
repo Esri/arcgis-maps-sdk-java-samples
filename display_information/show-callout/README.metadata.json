@@ -1,25 +1,34 @@
 {
     "category": "Display information",
-    "description": "Show a callout at the clicked location.",
+    "description": "Show a callout with the latitude and longitude of user-clicked points.",
     "ignore": false,
     "images": [
         "ShowCallout.png"
     ],
     "keywords": [
-        "ArcGISMap",
+        "balloon",
+        "bubble",
+        "callout",
+        "click",
+        "flyout",
+        "flyover",
+        "info window",
+        "popup",
         "Callout",
         "MapView",
         "Point"
     ],
-    "redirect_from": "/java/latest/sample-code/show-callout.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/show-callout.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "Callout",
         "MapView",
-        "Point"
+        "Point",
+        "Point2D"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/show_callout/ShowCalloutSample.java"
     ],
-    "title": "Show Callout"
+    "title": "Show callout"
 }

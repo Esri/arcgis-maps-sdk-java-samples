@@ -1,25 +1,30 @@
 {
     "category": "Tiled layers",
-    "description": "Display map tiles from any custom (non-ArcGIS) service.",
+    "description": "Display a tiled web layer.",
     "ignore": false,
     "images": [
         "WebTiledLayer.png"
     ],
     "keywords": [
-        "ArcGISMap",
+        "OGC",
+        "Open Street Map",
+        "OpenStreetMap",
+        "layer",
+        "stamen.com",
+        "tiled",
+        "tiles",
         "Basemap",
-        "MapView",
         "WebTiledLayer"
     ],
-    "redirect_from": "/java/latest/sample-code/web-tiled-layer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/web-tiled-layer.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
         "Basemap",
-        "MapView",
         "WebTiledLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/web_tiled_layer/WebTiledLayerSample.java"
     ],
-    "title": "Web Tiled Layer"
+    "title": "Web tiled layer"
 }
