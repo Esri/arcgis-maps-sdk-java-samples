@@ -49,9 +49,7 @@ public class SurfacePlacementController {
   @FXML private RadioButton drapedFlatRadioButton;
 
   public void initialize() {
-
     try {
-
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene(Basemap.Type.IMAGERY);
 
@@ -147,12 +145,10 @@ public class SurfacePlacementController {
           sceneView.getGraphicsOverlays().add((GraphicsOverlay) toggleGroup.getSelectedToggle().getUserData());
         }
       });
-
     } catch (Exception e) {
       // on any exception, print the stack trace
       e.printStackTrace();
     }
-
   }
 
   /**

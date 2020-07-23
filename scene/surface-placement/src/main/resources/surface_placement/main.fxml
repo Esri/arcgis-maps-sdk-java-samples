@@ -15,38 +15,39 @@
   ~ the License.
   -->
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.geometry.Insets?>
-
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
-
-<StackPane fx:controller="com.esri.samples.surface_placement.SurfacePlacementController" xmlns:fx="http://javafx.com/fxml"
+<StackPane fx:controller="com.esri.samples.surface_placement.SurfacePlacementController"
+           xmlns:fx="http://javafx.com/fxml"
            stylesheets="/surface_placement/style.css">
     <!--SDK SceneView-->
-    <SceneView fx:id="sceneView" />
+    <SceneView fx:id="sceneView"/>
     <!--Toggle controls for draped mode selection-->
     <VBox StackPane.alignment="TOP_LEFT" styleClass="panel-region, toggle-controls">
         <StackPane.margin>
-            <Insets topRightBottomLeft="10" />
+            <Insets topRightBottomLeft="10"/>
         </StackPane.margin>
-        <Label fx:id="toggleGroupLabel" text="Toggle draped mode: " />
+        <Label fx:id="toggleGroupLabel" text="Toggle draped mode: "/>
         <fx:define>
-            <ToggleGroup fx:id="toggleGroup" />
+            <ToggleGroup fx:id="toggleGroup"/>
         </fx:define>
-        <RadioButton toggleGroup="$toggleGroup" fx:id="drapedBillboardedRadioButton" text="Draped Billboarded" selected="true" />
-        <RadioButton toggleGroup="$toggleGroup" fx:id="drapedFlatRadioButton" text="Draped Flat" />
+        <RadioButton toggleGroup="$toggleGroup" fx:id="drapedBillboardedRadioButton" text="Draped Billboarded"
+                     selected="true"/>
+        <RadioButton toggleGroup="$toggleGroup" fx:id="drapedFlatRadioButton" text="Draped Flat"/>
     </VBox>
     <!--Slider controls for z-value-->
-    <VBox StackPane.alignment="TOP_RIGHT" styleClass="panel-region, slider-controls" >
+    <VBox StackPane.alignment="TOP_RIGHT" styleClass="panel-region, slider-controls">
         <StackPane.margin>
             <Insets topRightBottomLeft="10"/>
         </StackPane.margin>
-        <Label fx:id="zValueSliderLabel" text="Z-Value: " />
-        <Slider fx:id="zValueSlider" min="0" max="150" value="70" onMouseDragged="#changeZValue" onMouseReleased="#changeZValue" />
+        <Label fx:id="zValueSliderLabel" text="Z-Value: "/>
+        <Slider fx:id="zValueSlider" min="0" max="150" value="70" onMouseDragged="#changeZValue"
+                onMouseReleased="#changeZValue"/>
     </VBox>
 </StackPane>
