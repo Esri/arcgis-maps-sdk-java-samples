@@ -7,10 +7,16 @@
     ],
     "keywords": [
         "offline",
-        "preplanned",
         "pre-planned",
+        "preplanned",
         "synchronize",
-        "update"
+        "update",
+        "MobileMapPackage",
+        "OfflineMapSyncJob",
+        "OfflineMapSyncParameters",
+        "OfflineMapSyncResult",
+        "OfflineMapSyncTask",
+        "OfflineMapUpdatesInfo"
     ],
     "redirect_from": "",
     "relevant_apis": [

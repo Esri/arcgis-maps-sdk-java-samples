@@ -17,13 +17,16 @@
         "mil2525d",
         "military",
         "military symbology",
+        "search",
         "symbology",
         "StyleSymbolSearchParameters",
         "StyleSymbolSearchResult",
         "Symbol",
         "SymbolDictionary"
     ],
-    "redirect_from": "/java/latest/sample-code/symbol-dictionary.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/symbol-dictionary.htm"
+    ],
     "relevant_apis": [
         "StyleSymbolSearchParameters",
         "StyleSymbolSearchResult",
@@ -31,11 +34,11 @@
         "SymbolDictionary"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/symbol_dictionary/SymbolDictionarySample.java",
         "src/main/java/com/esri/samples/symbol_dictionary/SymbolDictionaryController.java",
+        "src/main/java/com/esri/samples/symbol_dictionary/SymbolDictionarySample.java",
         "src/main/java/com/esri/samples/symbol_dictionary/SymbolView.java",
         "src/main/resources/symbol_dictionary/main.fxml",
         "src/main/resources/symbol_dictionary/symbol_view.fxml"
     ],
-    "title": "Symbol Dictionary"
+    "title": "Search symbol dictionary"
 }

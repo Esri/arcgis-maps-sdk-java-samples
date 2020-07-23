@@ -6,18 +6,20 @@
         "MapImageLayer.png"
     ],
     "keywords": [
-        "ArcGISMapImageLayer",
-        "ArcGISMap",
-        "MapView"
+        "display",
+        "image",
+        "layer",
+        "map",
+        "ArcGISMapImageLayer"
     ],
-    "redirect_from": "/java/latest/sample-code/map-image-layer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/map-image-layer.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMapImageLayer",
-        "ArcGISMap",
-        "MapView"
+        "ArcGISMapImageLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/map_image_layer/MapImageLayerSample.java"
     ],
-    "title": "Map Image Layer"
+    "title": "Map image layer"
 }

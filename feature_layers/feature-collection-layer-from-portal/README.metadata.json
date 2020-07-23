@@ -6,16 +6,22 @@
         "FeatureCollectionLayerFromPortal.png"
     ],
     "keywords": [
-        "collection", 
-        "feature collection", 
-        "feature collection layer", 
-        "id", 
-        "item", 
-        "map",
-        "notes",
-        "portal"
+        "collection",
+        "feature collection",
+        "feature collection layer",
+        "id",
+        "item",
+        "map notes",
+        "portal",
+        "Feature",
+        "FeatureCollection",
+        "FeatureCollectionLayer",
+        "Portal",
+        "PortalItem"
     ],
+    "redirect_from": "",
     "relevant_apis": [
+        "Feature",
         "FeatureCollection",
         "FeatureCollectionLayer",
         "Portal",
@@ -24,5 +30,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/feature_collection_layer_from_portal/FeatureCollectionLayerFromPortalSample.java"
     ],
-    "title": "Feature Collection Layer from Portal"
+    "title": "Feature Collection Layer From Portal"
 }

@@ -6,12 +6,16 @@
         "QueryMapImageSublayer.png"
     ],
     "keywords": [
+        "query",
+        "search",
         "ArcGISMapImageLayer",
         "ArcGISMapImageSublayer",
         "QueryParameters",
         "ServiceFeatureTable"
     ],
-    "redirect_from": "/java/latest/sample-code/query-map-image-sublayer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/query-map-image-sublayer.htm"
+    ],
     "relevant_apis": [
         "ArcGISMapImageLayer",
         "ArcGISMapImageSublayer",
@@ -21,5 +25,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/query_map_image_sublayer/QueryMapImageSublayerSample.java"
     ],
-    "title": "Query Map Image Sublayer"
+    "title": "Query map image sublayer"
 }

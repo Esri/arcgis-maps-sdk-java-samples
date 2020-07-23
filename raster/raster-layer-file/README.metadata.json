@@ -1,27 +1,29 @@
 {
     "category": "Raster",
-    "description": "Display raster data from a local file.",
+    "description": "Create and use a raster layer made from a local raster file.",
     "ignore": false,
     "images": [
         "RasterLayerFile.png"
     ],
     "keywords": [
-        "ArcGISMap",
-        "Basemap",
-        "MapView",
+        "data",
+        "image",
+        "import",
+        "layer",
+        "raster",
+        "visualization",
         "Raster",
         "RasterLayer"
     ],
-    "redirect_from": "/java/latest/sample-code/raster-layer-file.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/raster-layer-file.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
-        "MapView",
         "Raster",
         "RasterLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/raster_layer_file/RasterLayerFileSample.java"
     ],
-    "title": "Raster Layer File"
+    "title": "Raster layer (file)"
 }

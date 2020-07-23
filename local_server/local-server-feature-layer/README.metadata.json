@@ -6,13 +6,20 @@
         "LocalServerFeatureLayer.png"
     ],
     "keywords": [
+        "feature service",
+        "local",
+        "offline",
+        "server",
+        "service",
         "FeatureLayer",
         "LocalFeatureService",
         "LocalServer",
         "LocalServerStatus",
         "StatusChangedEvent"
     ],
-    "redirect_from": "/java/latest/sample-code/local-server-feature-layer.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/local-server-feature-layer.htm"
+    ],
     "relevant_apis": [
         "FeatureLayer",
         "LocalFeatureService",
@@ -23,5 +30,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/local_server_feature_layer/LocalServerFeatureLayerSample.java"
     ],
-    "title": "Local Server Feature Layer"
+    "title": "Local Server feature layer"
 }

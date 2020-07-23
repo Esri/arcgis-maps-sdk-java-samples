@@ -1,4 +1,4 @@
-# Update Graphics
+# Update graphics
 
 Change a graphic's symbol, attributes, and geometry.
 

@@ -1,27 +1,27 @@
 {
     "category": "Map view",
-    "description": "Get clicked features from multiple layers.",
+    "description": "Identify features in all layers in a map.",
     "ignore": false,
     "images": [
         "IdentifyLayers.png"
     ],
     "keywords": [
-        "ArcGISMapImageLayer",
-        "FeatureLayer",
-        "FeatureTable",
+        "identify",
+        "recursion",
+        "recursive",
+        "sublayers",
         "IdentifyLayerResult",
         "MapView"
     ],
-    "redirect_from": "/java/latest/sample-code/identify-layers.htm",
+    "redirect_from": [
+        "/java/latest/sample-code/identify-layers.htm"
+    ],
     "relevant_apis": [
-        "ArcGISMapImageLayer",
-        "FeatureLayer",
-        "FeatureTable",
         "IdentifyLayerResult",
         "MapView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/identify_layers/IdentifyLayersSample.java"
     ],
-    "title": "Identify Layers"
+    "title": "Identify layers"
 }

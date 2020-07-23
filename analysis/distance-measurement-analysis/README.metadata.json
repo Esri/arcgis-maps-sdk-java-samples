@@ -1,24 +1,29 @@
 {
-  "category": "Analysis",
-  "description": "Measure distances within a scene.",
-  "ignore": false,
-  "images": [
-    "DistanceMeasurementAnalysis.png"
-  ],
-  "keywords": [],
-  "redirect_from": "/java/latest/sample-code/distance-measurement-analysis.htm",
-  "relevant_apis": [
-    "ArcGISMapImageLayer",
-    "GeoprocessingJob",
-    "GeoprocessingParameters",
-    "GeoprocessingResult",
-    "GeoprocessingString",
-    "GeoprocessingTask"
-  ],
-  "snippets": [
-    "src/main/java/com/esri/samples/distance_measurement_analysis/DistanceMeasurementAnalysisSample.java",
-    "src/main/java/com/esri/samples/distance_measurement_analysis/DistanceMeasurementAnalysisController.java",
-    "src/main/resources/distance_measurement_analysis/main.fxml"
-  ],
-  "title": "Distance Measurement Analysis"
+    "category": "Analysis",
+    "description": "Measure distances between two points in 3D.",
+    "ignore": false,
+    "images": [
+        "DistanceMeasurementAnalysis.png"
+    ],
+    "keywords": [
+        "3D",
+        "analysis",
+        "distance",
+        "measure",
+        "AnalysisOverlay",
+        "LocationDistanceMeasurement"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/distance-measurement-analysis.htm"
+    ],
+    "relevant_apis": [
+        "AnalysisOverlay",
+        "LocationDistanceMeasurement"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/distance_measurement_analysis/DistanceMeasurementAnalysisController.java",
+        "src/main/java/com/esri/samples/distance_measurement_analysis/DistanceMeasurementAnalysisSample.java",
+        "src/main/resources/distance_measurement_analysis/main.fxml"
+    ],
+    "title": "Distance measurement analysis"
 }
