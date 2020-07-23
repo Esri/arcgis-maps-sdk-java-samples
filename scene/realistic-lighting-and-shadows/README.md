@@ -10,15 +10,14 @@ You can use realistic lighting to evaluate the shadow impact of buildings and ut
 
 ## How to use the sample
 
-Select one of the three lighting options to show that lighting effect on the SceneView. Select a time of day from the slider (based on a 24hr clock) to show the lighting for that time of day in the SceneView.
+Select one of the three available lighting options to display that lighting effect. Adjust the slider to show the lighting effect for a particular time of day. The 3D buildings will display shadows when "Sun light with shadows" is selected. 
 
 ## How it works
-To add realistic lighting and shadows to the SceneView:
 
 1. Create an `ArcGISScene` and display it in a `SceneView`.
 2. Create a `Calendar` to define the time of day.
 3. Set the sun time to that calendar with `sceneView.setSunTime(calendar)`.
-4. Set the lighting mode of the SceneView to **no light**, **light**, or **light and shadows** with `sceneView.setSunLighting(LightingMode)`.
+4. Set the `LightingMode` of the scene view to `NO_LIGHT`, `LIGHT`, or `LIGHT_AND_SHADOWS` with `sceneView.setSunLighting(LightingMode)`.
 
 ## Relevant API
 

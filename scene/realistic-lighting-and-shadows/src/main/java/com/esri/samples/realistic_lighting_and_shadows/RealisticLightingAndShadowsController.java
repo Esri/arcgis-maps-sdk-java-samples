@@ -24,6 +24,7 @@ import java.util.TimeZone;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.Slider;
 
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
@@ -35,6 +36,7 @@ import com.esri.arcgisruntime.mapping.view.AtmosphereEffect;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.LightingMode;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+import javafx.util.StringConverter;
 
 public class RealisticLightingAndShadowsController {
 
@@ -42,7 +44,6 @@ public class RealisticLightingAndShadowsController {
   @FXML private Label timeLabel;
   @FXML private Slider timeSlider;
   @FXML private ComboBox<LightingMode> comboBox;
-  private Surface surface;
   private Calendar calendar;
   private SimpleDateFormat dateFormat;
 
@@ -56,17 +57,17 @@ public class RealisticLightingAndShadowsController {
       // add the scene to the scene view
       sceneView.setArcGISScene(scene);
 
-      // add a base surface for elevation data to the scene
-      surface = new Surface();
+      // add a base surface with an elevation source to the scene
+      Surface surface = new Surface();
       ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer");
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 
-      // add a scene layer
+      // add 3D building shells with a scene layer
       ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer("http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer/layers/0");
       scene.getOperationalLayers().add(sceneLayer);
 
-      // add a camera and initial camera position
+      // add a camera and set the scene view's viewpoint to it
       Camera camera = new Camera(45.54605153789073, -122.69033380511073, 941.0002111233771, 162.58544227544266, 60.0,0.0);
       sceneView.setViewpointCamera(camera);
 
@@ -74,7 +75,7 @@ public class RealisticLightingAndShadowsController {
       sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC);
 
       // set a calendar with a date and time
-      calendar = new GregorianCalendar(2018, 7, 10, 12, 00, 0);
+      calendar = new GregorianCalendar(2018, Calendar.AUGUST, 10, 12, 0, 0);
       calendar.setTimeZone(TimeZone.getTimeZone("PST"));
 
       // set the sun time to the calendar
@@ -92,18 +93,19 @@ public class RealisticLightingAndShadowsController {
       timeSlider.setLabelFormatter(new SliderStringConverter());
 
       // add the lighting modes to the combo box
-      comboBox.getItems().add(LightingMode.NO_LIGHT);
-      comboBox.getItems().add(LightingMode.LIGHT);
-      comboBox.getItems().add(LightingMode.LIGHT_AND_SHADOWS);
+      comboBox.getItems().addAll(LightingMode.NO_LIGHT, LightingMode.LIGHT, LightingMode.LIGHT_AND_SHADOWS);
 
       // show the name of the lighting modes in the combo box
       comboBox.setConverter(new ComboBoxStringConverter());
       comboBox.setCellFactory(comboBox -> new LightingModeListCell());
 
-      // update the atmosphere effect based on the lighting mode chosen from the combo box
+      // update the sun lighting based on the lighting mode chosen from the combo box
       comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
         sceneView.setSunLighting(comboBox.getSelectionModel().getSelectedItem());
       });
+
+      // launch the app with lighting mode set to NO_LIGHT
+      comboBox.getSelectionModel().select(0);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -144,6 +146,66 @@ public class RealisticLightingAndShadowsController {
         sceneView.setSunTime(calendar);
       }
     );
+  }
+
+  /**
+   * Converts the LightingMode values to strings to display in the open ComboBox.
+   */
+  public class LightingModeListCell extends ListCell<LightingMode> {
+
+    @Override
+    protected void updateItem(LightingMode lightingMode, boolean empty) {
+
+      super.updateItem(lightingMode, empty);
+      if (lightingMode != null) {
+        if (lightingMode == LightingMode.LIGHT) setText("Light");
+        else if (lightingMode == LightingMode.LIGHT_AND_SHADOWS) setText("Light and shadows");
+        else if (lightingMode == LightingMode.NO_LIGHT) setText("No light");
+      }
+    }
+  }
+
+  /**
+   * Converts the LightingMode values to strings to display in the ComboBox.
+   */
+  public class ComboBoxStringConverter extends StringConverter<LightingMode> {
+
+    @Override
+    public String toString(LightingMode lightingMode) {
+      if (lightingMode != null) {
+        if (lightingMode == LightingMode.LIGHT) return "Light";
+        else if (lightingMode == LightingMode.LIGHT_AND_SHADOWS) return "Light and shadows";
+        else if (lightingMode == LightingMode.NO_LIGHT) return "No light";
+      }
+      return "";
+    }
+
+    @Override
+    public LightingMode fromString(String string) {
+      return null;
+    }
+  }
+
+  /**
+   * Converts time values to strings to display on the slider.
+   */
+  public class SliderStringConverter extends StringConverter<Double> {
+
+    @Override
+    public String toString(Double hour) {
+      if (hour == 240) return "4am";
+      if (hour == 480) return "8am";
+      if (hour == 720) return "Midday";
+      if (hour == 960) return "4pm";
+      if (hour == 1200) return "8pm";
+
+      return "Midnight";
+    }
+
+    @Override
+    public Double fromString(String string) {
+      return null;
+    }
   }
 
   /**
