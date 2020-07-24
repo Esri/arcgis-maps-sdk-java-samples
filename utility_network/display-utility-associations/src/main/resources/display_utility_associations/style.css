@@ -1,8 +1,5 @@
 .grid-pane {
   -fx-padding: 10;
-  -fx-background-color: rgba(255,255,255,0.5);
-  -fx-max-height: 80;
-  -fx-max-width: 100;
   -fx-vgap: 20;
   -fx-alignment: center;
 }

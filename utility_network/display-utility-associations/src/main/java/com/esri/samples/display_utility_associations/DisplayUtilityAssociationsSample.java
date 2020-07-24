@@ -30,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -142,6 +143,10 @@ public class DisplayUtilityAssociationsSample extends Application {
       gridPane.add(attachmentLabel, 1, 0);
       gridPane.add(connectivityImageView, 0, 1);
       gridPane.add(connectivityLabel, 1, 1);
+      gridPane.setMaxWidth(80);
+      gridPane.setMaxHeight(100);
+      gridPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+              Insets.EMPTY)));
       
       // add the map view and legend to the stack pane
       stackPane.getChildren().addAll(mapView, gridPane);
