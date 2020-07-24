@@ -53,7 +53,7 @@ public class SurfacePlacementController {
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene(Basemap.Type.IMAGERY);
 
-      // add the SceneView to the stack pane
+      // set the scene to the scene view
       sceneView.setArcGISScene(scene);
 
       // add base surface for elevation data
@@ -63,12 +63,12 @@ public class SurfacePlacementController {
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 
-      // add a scene layer
+      // add buildings to the scene with a scene layer URI
       ArcGISSceneLayer sceneLayer = new
         ArcGISSceneLayer("http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0");
       scene.getOperationalLayers().add(sceneLayer);
 
-      // add a camera and initial camera position
+      // set an initial viewpoint camera position to the scene view
       sceneView.setViewpointCamera(new Camera(48.3889, -4.4595, 90, 330, 90, 0));
 
       // create overlays with surface placement types
