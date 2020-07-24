@@ -71,65 +71,33 @@ public class SurfacePlacementController {
       // set an initial viewpoint camera position to the scene view
       sceneView.setViewpointCamera(new Camera(48.3889, -4.4595, 90, 330, 90, 0));
 
-      // create overlays with surface placement types
+      // create a text symbol for each surface placement type
+      TextSymbol drapedBillboardedText = createTextSymbol("DRAPED BILLBOARDED");
+      TextSymbol drapedFlatText = createTextSymbol("DRAPED FLAT");
+      TextSymbol relativeText = createTextSymbol("RELATIVE");
+      TextSymbol absoluteText = createTextSymbol("ABSOLUTE");
+      TextSymbol relativeToSceneText = createTextSymbol("RELATIVE TO SCENE");
+
+      // create graphics overlays with surface placement types, and add graphics to them
       GraphicsOverlay drapedBillboardedOverlay = new GraphicsOverlay();
       drapedBillboardedOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.DRAPED_BILLBOARDED);
+      addGraphicsToGraphicsOverlay(drapedBillboardedOverlay, drapedBillboardedText);
 
       GraphicsOverlay drapedFlatOverlay = new GraphicsOverlay();
       drapedFlatOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.DRAPED_FLAT);
+      addGraphicsToGraphicsOverlay(drapedFlatOverlay, drapedFlatText);
 
       GraphicsOverlay relativeOverlay = new GraphicsOverlay();
       relativeOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
+      addGraphicsToGraphicsOverlay(relativeOverlay, relativeText);
 
       GraphicsOverlay absoluteOverlay = new GraphicsOverlay();
       absoluteOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
+      addGraphicsToGraphicsOverlay(absoluteOverlay, absoluteText);
 
       GraphicsOverlay relativeToSceneOverlay = new GraphicsOverlay();
       relativeToSceneOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE_TO_SCENE);
-
-      // create points for graphic locations
-      Point surfaceRelatedPoint = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
-      Point sceneRelatedPoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
-
-      // create a red triangle symbol
-      SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 12);
-
-      // create a text symbol for each surface placement type
-      TextSymbol drapedBillboardedText =
-          new TextSymbol(14, "DRAPED BILLBOARDED", 0xFF0000FF, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.MIDDLE);
-      drapedBillboardedText.setOffsetX(20);
-
-      TextSymbol drapedFlatText =
-          new TextSymbol(14, "DRAPED FLAT", 0xFF0000FF, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.MIDDLE);
-      drapedFlatText.setOffsetX(20);
-
-      TextSymbol relativeText =
-          new TextSymbol(14, "RELATIVE", 0xFF0000FF, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.MIDDLE);
-      relativeText.setOffsetX(20);
-
-      TextSymbol absoluteText =
-          new TextSymbol(14, "ABSOLUTE", 0xFF0000FF, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.MIDDLE);
-      absoluteText.setOffsetX(20);
-
-      TextSymbol relativeToSceneText =
-        new TextSymbol(14, "RELATIVE TO SCENE", 0xFF0000FF, TextSymbol.HorizontalAlignment.RIGHT, TextSymbol.VerticalAlignment.MIDDLE);
-      relativeToSceneText.setOffsetX(-20);
-
-      // add the point graphic and text graphic to the corresponding graphics overlay
-      drapedBillboardedOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
-      drapedBillboardedOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, drapedBillboardedText));
-
-      drapedFlatOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
-      drapedFlatOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, drapedFlatText));
-
-      relativeOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
-      relativeOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, relativeText));
-
-      absoluteOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
-      absoluteOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, absoluteText));
-
-      relativeToSceneOverlay.getGraphics().add(new Graphic(sceneRelatedPoint, triangleSymbol));
-      relativeToSceneOverlay.getGraphics().add(new Graphic(sceneRelatedPoint, relativeToSceneText));
+      addGraphicsToGraphicsOverlay(relativeToSceneOverlay, relativeToSceneText);
 
       // add graphics overlays to the scene view
       sceneView.getGraphicsOverlays().addAll(Arrays.asList(drapedBillboardedOverlay, relativeOverlay, absoluteOverlay, relativeToSceneOverlay));
@@ -168,6 +136,49 @@ public class SurfacePlacementController {
         Point updatedPoint = new Point(currentPoint.getX(), currentPoint.getY(), zValue, currentPoint.getSpatialReference());
         graphic.setGeometry(updatedPoint);
       }));
+  }
+
+  /**
+   * Creates a new TextSymbol from a string used to identify a surface placement type.
+   * @param text string to be used as text within the TextSymbol constructor
+   * @return a new TextSymbol
+   *
+   */
+  private TextSymbol createTextSymbol(String text) {
+
+    TextSymbol textSymbol = new TextSymbol(14, text, 0xFF0000FF,
+      TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.MIDDLE);
+    textSymbol.setOffsetX(20);
+
+    if (text == "RELATIVE TO SCENE") {
+      textSymbol.setOffsetX(-20);
+      textSymbol.setHorizontalAlignment(TextSymbol.HorizontalAlignment.RIGHT);
+    }
+
+    return textSymbol;
+  }
+
+  /**
+   * Creates a graphic from a Point, SimpleMarkerSymbol, and TextSymbol and adds it to a GraphicsOverlay.
+   *
+   * @param graphicsOverlay the graphics overlay to add graphics to
+   * @param textSymbol the text symbol to create a graphic from
+   */
+  private void addGraphicsToGraphicsOverlay(GraphicsOverlay graphicsOverlay, TextSymbol textSymbol) {
+
+    // create points for graphic locations
+    Point sceneRelatedPoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
+    Point surfaceRelatedPoint = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
+    // create a red triangle symbol
+    SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 12);
+
+    if (graphicsOverlay.getSceneProperties().getSurfacePlacement() != LayerSceneProperties.SurfacePlacement.RELATIVE_TO_SCENE) {
+      graphicsOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
+      graphicsOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, textSymbol));
+    } else {
+      graphicsOverlay.getGraphics().add(new Graphic(sceneRelatedPoint, triangleSymbol));
+      graphicsOverlay.getGraphics().add(new Graphic(sceneRelatedPoint, textSymbol));
+    }
   }
 
   /**
