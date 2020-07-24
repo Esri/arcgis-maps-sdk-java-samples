@@ -151,7 +151,7 @@ public class RealisticLightingAndShadowsController {
   /**
    * Converts the LightingMode values to strings to display in the open ComboBox.
    */
-  public class LightingModeListCell extends ListCell<LightingMode> {
+  private class LightingModeListCell extends ListCell<LightingMode> {
 
     @Override
     protected void updateItem(LightingMode lightingMode, boolean empty) {
@@ -168,7 +168,7 @@ public class RealisticLightingAndShadowsController {
   /**
    * Converts the LightingMode values to strings to display in the ComboBox.
    */
-  public class ComboBoxStringConverter extends StringConverter<LightingMode> {
+  private class ComboBoxStringConverter extends StringConverter<LightingMode> {
 
     @Override
     public String toString(LightingMode lightingMode) {
@@ -189,7 +189,7 @@ public class RealisticLightingAndShadowsController {
   /**
    * Converts time values to strings to display on the slider.
    */
-  public class SliderStringConverter extends StringConverter<Double> {
+  private class SliderStringConverter extends StringConverter<Double> {
 
     @Override
     public String toString(Double hour) {

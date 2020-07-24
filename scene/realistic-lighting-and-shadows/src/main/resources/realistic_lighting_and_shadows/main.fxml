@@ -34,6 +34,10 @@
         <Label fx:id="timeLabel"/>
         <ComboBox fx:id="comboBox" maxWidth="Infinity">
         </ComboBox>
-        <Slider fx:id="timeSlider" showTickLabels="true" showTickMarks="true" majorTickUnit="240" minorTickCount="60" max="1440" value="720" onMouseDragged="#updateTimeOfDay"/>
+        <Slider fx:id="timeSlider" showTickLabels="true" showTickMarks="true" majorTickUnit="240" minorTickCount="60" max="1440" value="720" onMouseDragged="#updateTimeOfDay" >
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+        </Slider>
     </VBox>
 </StackPane>

@@ -19,9 +19,7 @@
         "SceneView.setSunLighting",
         "SceneView.setSunTime"
     ],
-    "redirect_from": [
-        ""
-    ],
+    "redirect_from": "",
     "relevant_apis": [
         "ArcGISScene",
         "LightingMode",

@@ -15,10 +15,6 @@ VBox {
   -fx-text-fill: white;
 }
 
-.slider {
-  -fx-padding: 10;
-}
-
 .slider .axis {
     -fx-tick-label-fill: white;
 }
