@@ -160,16 +160,14 @@ public class SurfacePlacementController {
     double zValue = zValueSlider.getValue();
 
     // update the geometry of each of the existing graphics to include the new z-value
-    for (GraphicsOverlay graphicsOverlay : sceneView.getGraphicsOverlays()) {
-      for (Graphic graphic : graphicsOverlay.getGraphics()) {
+    sceneView.getGraphicsOverlays().forEach(graphicsOverlay ->
+      graphicsOverlay.getGraphics().stream().filter(
+        graphic -> graphic.getGeometry().getGeometryType() == GeometryType.POINT).forEach(graphic -> {
         Geometry geometry = graphic.getGeometry();
-        if (geometry.getGeometryType().equals(GeometryType.POINT)) {
-          Point currentPoint = (Point) geometry;
-          Point updatedPoint = new Point(currentPoint.getX(), currentPoint.getY(), zValue, currentPoint.getSpatialReference());
-          graphic.setGeometry(updatedPoint);
-        }
-      }
-    }
+        Point currentPoint = (Point) geometry;
+        Point updatedPoint = new Point(currentPoint.getX(), currentPoint.getY(), zValue, currentPoint.getSpatialReference());
+        graphic.setGeometry(updatedPoint);
+      }));
   }
 
   /**
