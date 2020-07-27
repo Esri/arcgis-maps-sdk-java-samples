@@ -167,17 +167,17 @@ public class SurfacePlacementController {
   private void addGraphicsToGraphicsOverlay(GraphicsOverlay graphicsOverlay, TextSymbol textSymbol) {
 
     // create points for graphic locations
-    Point sceneRelatedPoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
-    Point surfaceRelatedPoint = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
+    Point relativeToScenePoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
+    Point relativeToSurfacePoint = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
     // create a red triangle symbol
     SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 12);
 
     if (graphicsOverlay.getSceneProperties().getSurfacePlacement() != LayerSceneProperties.SurfacePlacement.RELATIVE_TO_SCENE) {
-      graphicsOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, triangleSymbol));
-      graphicsOverlay.getGraphics().add(new Graphic(surfaceRelatedPoint, textSymbol));
+      graphicsOverlay.getGraphics().add(new Graphic(relativeToSurfacePoint, triangleSymbol));
+      graphicsOverlay.getGraphics().add(new Graphic(relativeToSurfacePoint, textSymbol));
     } else {
-      graphicsOverlay.getGraphics().add(new Graphic(sceneRelatedPoint, triangleSymbol));
-      graphicsOverlay.getGraphics().add(new Graphic(sceneRelatedPoint, textSymbol));
+      graphicsOverlay.getGraphics().add(new Graphic(relativeToScenePoint, triangleSymbol));
+      graphicsOverlay.getGraphics().add(new Graphic(relativeToScenePoint, textSymbol));
     }
   }
 
