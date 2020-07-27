@@ -64,8 +64,8 @@ public class SurfacePlacementController {
       scene.setBaseSurface(surface);
 
       // add buildings to the scene with a scene layer URI
-      ArcGISSceneLayer sceneLayer = new
-        ArcGISSceneLayer("http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0");
+      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(
+        "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0");
       scene.getOperationalLayers().add(sceneLayer);
 
       // set an initial viewpoint camera position to the scene view
@@ -100,7 +100,8 @@ public class SurfacePlacementController {
       addGraphicsToGraphicsOverlay(relativeToSceneOverlay, relativeToSceneText);
 
       // add graphics overlays to the scene view
-      sceneView.getGraphicsOverlays().addAll(Arrays.asList(drapedBillboardedOverlay, relativeOverlay, absoluteOverlay, relativeToSceneOverlay));
+      sceneView.getGraphicsOverlays().addAll(Arrays.asList(
+        drapedBillboardedOverlay, relativeOverlay, absoluteOverlay, relativeToSceneOverlay));
 
       // link up the ToggleGroup RadioButtons to the corresponding draped overlay
       drapedBillboardedRadioButton.setUserData(drapedBillboardedOverlay);
@@ -123,7 +124,7 @@ public class SurfacePlacementController {
    * Sets the Z-Value to the value selected by the slider.
    */
   @FXML
-  private void changeZValue(){
+  private void changeZValue() {
     // get the z-value from the slider
     double zValue = zValueSlider.getValue();
 
@@ -135,14 +136,15 @@ public class SurfacePlacementController {
         Point currentPoint = (Point) geometry;
         Point updatedPoint = new Point(currentPoint.getX(), currentPoint.getY(), zValue, currentPoint.getSpatialReference());
         graphic.setGeometry(updatedPoint);
-      }));
+      })
+    );
   }
 
   /**
    * Creates a new TextSymbol from a string used to identify a surface placement type.
+   *
    * @param text string to be used as text within the TextSymbol constructor
    * @return a new TextSymbol
-   *
    */
   private TextSymbol createTextSymbol(String text) {
 
@@ -150,7 +152,7 @@ public class SurfacePlacementController {
       TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.MIDDLE);
     textSymbol.setOffsetX(20);
 
-    if (text == "RELATIVE TO SCENE") {
+    if (text.equals("RELATIVE TO SCENE")) {
       textSymbol.setOffsetX(-20);
       textSymbol.setHorizontalAlignment(TextSymbol.HorizontalAlignment.RIGHT);
     }
