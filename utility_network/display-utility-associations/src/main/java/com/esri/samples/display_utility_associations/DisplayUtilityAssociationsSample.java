@@ -62,8 +62,7 @@ public class DisplayUtilityAssociationsSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/display_utility_associations/style.css").toExternalForm());
-      
+
       // set title, size, and add scene to stage
       stage.setTitle("Display Utility Associations Sample");
       stage.setWidth(800);
@@ -137,7 +136,6 @@ public class DisplayUtilityAssociationsSample extends Application {
       
       // create a legend
       GridPane gridPane = new GridPane();
-      gridPane.getStyleClass().add("grid-pane");
       gridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(25), new ColumnConstraints(100)));
       gridPane.add(attachmentImageView, 0, 0);
       gridPane.add(attachmentLabel, 1, 0);
@@ -147,7 +145,10 @@ public class DisplayUtilityAssociationsSample extends Application {
       gridPane.setMaxHeight(80);
       gridPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
-      
+      gridPane.setPadding(new Insets(10));
+      gridPane.setVgap(20);
+      gridPane.setAlignment(Pos.CENTER);
+
       // add the map view and legend to the stack pane
       stackPane.getChildren().addAll(mapView, gridPane);
       StackPane.setAlignment(gridPane, Pos.TOP_LEFT);
