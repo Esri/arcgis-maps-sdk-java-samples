@@ -33,7 +33,9 @@
         "Surface"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/surface_placement/SurfacePlacementSample.java"
+        "src/main/java/com/esri/samples/surface_placement/SurfacePlacementController.java",
+        "src/main/java/com/esri/samples/surface_placement/SurfacePlacementSample.java",
+        "src/main/resources/surface_placement/main.fxml"
     ],
     "title": "Surface placement"
 }
