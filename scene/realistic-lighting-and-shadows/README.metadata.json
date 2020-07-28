@@ -1,0 +1,36 @@
+{
+    "category": "Scene",
+    "description": "Show realistic lighting and shadows for the time of day.",
+    "ignore": false,
+    "images": [
+        "RealisticLightingAndShadows.png"
+    ],
+    "keywords": [
+        "3D",
+        "lighting",
+        "realism",
+        "realistic",
+        "rendering",
+        "shadows",
+        "sun",
+        "time",
+        "ArcGISScene",
+        "LightingMode",
+        "SceneView.setSunLighting",
+        "SceneView.setSunTime"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "ArcGISScene",
+        "LightingMode",
+        "SceneView.setSunLighting",
+        "SceneView.setSunTime"
+    ],
+    "snippets": [
+        "build/resources/main/realistic_lighting_and_shadows/main.fxml",
+        "src/main/java/com/esri/samples/realistic_lighting_and_shadows/RealisticLightingAndShadowsController.java",
+        "src/main/java/com/esri/samples/realistic_lighting_and_shadows/RealisticLightingAndShadowsSample.java",
+        "src/main/resources/realistic_lighting_and_shadows/main.fxml"
+    ],
+    "title": "Realistic lighting and shadows"
+}

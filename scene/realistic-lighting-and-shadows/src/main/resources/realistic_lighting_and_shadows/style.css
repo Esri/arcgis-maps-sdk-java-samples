@@ -1,0 +1,20 @@
+StackPane {
+  -fx-alignment: top-right
+}
+
+VBox {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-padding: 10;
+    -fx-max-width: 265;
+    -fx-max-height: 110;
+    -fx-spacing: 6;
+    -fx-alignment: top-left
+}
+
+.panel-region .label {
+  -fx-text-fill: white;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: white;
+}
