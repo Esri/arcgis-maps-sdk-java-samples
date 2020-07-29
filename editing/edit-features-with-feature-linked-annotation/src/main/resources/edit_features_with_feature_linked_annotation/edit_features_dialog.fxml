@@ -21,7 +21,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ButtonType?>
-<?import javafx.geometry.Insets?>
 <fx:root type="javafx.scene.control.Dialog"
          xmlns:fx="http://javafx.com/fxml">
     <dialogPane>
@@ -32,9 +31,6 @@
                     <TextField fx:id="addressTextField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                     <Label text="ST_STR_NAM:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                     <TextField fx:id="streetNameTextField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-<!--                    <padding>-->
-<!--                        <Insets bottom="10.0" left="10.0" right="150.0" top="20.0"/>-->
-<!--                    </padding>-->
                 </GridPane>
             </content>
             <ButtonType fx:id="okButton" buttonData="OK_DONE" text="Ok"/>

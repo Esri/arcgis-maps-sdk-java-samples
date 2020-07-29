@@ -20,11 +20,11 @@ The feature-linked annotation will update accordingly.
 2. Create `FeatureLayer`s from `GeodatabaseFeatureTable`s found in the geodatabase with `geodatabase.getGeodatabaseFeatureTable`.
 3. Create `AnnotationLayer`s from `GeodatabaseFeatureTable`s found in the geodatabase with `geodatabase.getGeodatabaseAnnotationTables`.
 4. Add the `FeatureLayer`s and `AnnotationLayer`s to the map's operational layers.
-5. Use the `.setOnMouseClicked()` method to listen for clicks on the map to either select address points or parcel polyline features.  NOTE: Selection is only enabled for points and straight (single segment) polylines.
+5. Use `MapView.setOnMouseClicked()` to handle clicks on the map to either select address points or parcel polyline features. NOTE: Selection is only enabled for points and straight (single segment) polylines.
 6. For the address points, a dialog opens to allow editing of the address number (AD_ADDRESS) and street name (ST_STR_NAM) attributes, which use the expression `$feature.AD_ADDRESS + " " + $feature.ST_STR_NAM` for annotation.
 7. For the parcel lines, a second mouse click will change one of the polyline's vertices. Note that the dimension annotation updates according to the expression `Round(Length(Geometry($feature), 'feet'), 2)`.
 
-Both expressions werje defined by the data author in ArcGIS Pro using [the Arcade expression language](https://developers.arcgis.com/arcade/).
+Both expressions were defined by the data author in ArcGIS Pro using [the Arcade expression language](https://developers.arcgis.com/arcade/).
 
 ## Relevant API
 

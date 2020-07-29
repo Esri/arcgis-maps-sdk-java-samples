@@ -143,7 +143,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
         List<IdentifyLayerResult> identifyLayersResults = identifyLayerResultFuture.get();
         // iterate all the layers in the identify results list
         identifyLayersResults.forEach(result -> {
-          // iterate each result and check for Feature results
+          // iterate the results and check for Feature results
           result.getElements().forEach(identifiedElement -> {
             if (identifiedElement instanceof Feature) {
               // get a reference to the identified feature
@@ -151,7 +151,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
             }
             // if the selected feature is a polyline
             if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
-              // create a poly line builder from the selected feature
+              // create a polyline builder from the selected feature
               PolylineBuilder polylineBuilder = new PolylineBuilder((Polyline) selectedFeature.getGeometry());
               // get a list of parts of the selected polyline
               List<Part> parts = polylineBuilder.getParts();
@@ -189,7 +189,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
   }
 
   /**
-   * Create an alert dialog with edit texts to allow editing of the given feature's 'AD_ADDRESS' and
+   * Create an alert dialog with text fields to allow editing of the given feature's 'AD_ADDRESS' and
    * 'ST_STR_NAM' attributes.
    */
   private void showEditableAttributes(Feature selectedFeature) {
@@ -219,7 +219,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
   }
 
   /**
-   * Move the last of the vertex point of the currently selected polyline to the given map point, by updating the
+   * Move the last of the vertex point of the currently selected polyline to the given map point by updating the
    * selected feature's geometry and feature table.
    */
   private void movePolylineVertex(Point mapPoint) {

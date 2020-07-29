@@ -45,7 +45,7 @@ public class EditAttributesDialog extends Dialog<String>{
       e.printStackTrace();
     }
 
-    // populate edit texts with current attribute values
+    // populate text fields with current attribute values
     addressTextField.setText(selectedFeature.getAttributes().get("AD_ADDRESS").toString());
     streetNameTextField.setText(selectedFeature.getAttributes().get("ST_STR_NAM").toString());
 
@@ -53,10 +53,10 @@ public class EditAttributesDialog extends Dialog<String>{
     setResultConverter(dialogButton -> {
       if (dialogButton == continueButton) {
         try {
-          // set AD_ADDRESS value to the int from the edit text
+          // set AD_ADDRESS value to the int from the text field
           selectedFeature.getAttributes().put("AD_ADDRESS", Integer.parseInt(addressTextField.getText()));
 
-          // set ST_STR_NAM value to the string from edit text
+          // set ST_STR_NAM value to the string from the text field
           selectedFeature.getAttributes().put("ST_STR_NAM", streetNameTextField.getText());
 
           // update the selected feature's feature table

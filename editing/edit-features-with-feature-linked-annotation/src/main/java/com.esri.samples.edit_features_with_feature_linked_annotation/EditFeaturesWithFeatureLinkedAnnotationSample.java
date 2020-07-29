@@ -62,4 +62,3 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
     Application.launch(args);
   }
 }
-
