@@ -8,4 +8,3 @@ public class EditFeaturesWithFeatureLinkedAnnotationLauncher {
     EditFeaturesWithFeatureLinkedAnnotationSample.main(args);
   }
 }
-

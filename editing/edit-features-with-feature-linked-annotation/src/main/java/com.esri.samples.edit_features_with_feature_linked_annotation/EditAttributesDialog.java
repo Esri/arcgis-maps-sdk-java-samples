@@ -32,7 +32,7 @@ public class EditAttributesDialog extends Dialog<String>{
   @FXML private ButtonType continueButton;
 
   EditAttributesDialog(Feature selectedFeature){
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_features_with_feature_linked_annotation/edit_features_dialog.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_features_with_feature_linked_annotation/edit_attributes_dialog.fxml"));
     loader.setRoot(this);
     loader.setController(this);
 
