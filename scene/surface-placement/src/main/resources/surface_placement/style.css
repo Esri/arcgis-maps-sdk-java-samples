@@ -27,10 +27,6 @@
 .slider-controls .slider {
   -fx-orientation: vertical;
   -fx-pref-height:160;
-  -fx-show-tick-marks: true;
-  -fx-show-tick-labels: true;
-  -fx-major-tick-unit: 50;
-  -fx-minor-tick-count: 1;
 }
 
 .slider-controls .slider .axis {
