@@ -30,7 +30,6 @@ public class EditAttributesDialog extends Dialog<String>{
   @FXML private TextField addressTextField;
   @FXML private TextField streetNameTextField;
   @FXML private ButtonType continueButton;
-  @FXML private ButtonType cancelButton;
 
   EditAttributesDialog(Feature selectedFeature){
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_features_with_feature_linked_annotation/edit_features_dialog.fxml"));

@@ -38,7 +38,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
     Scene scene = new Scene(root);
 
     // set title, size, and add JavaFX scene to stage
-    stage.setTitle("Edit Features With Feature Linked Annotation Sample");
+    stage.setTitle("Edit Features With Feature-linked Annotation Sample");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);

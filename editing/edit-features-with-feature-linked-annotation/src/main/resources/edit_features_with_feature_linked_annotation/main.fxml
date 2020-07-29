@@ -17,7 +17,7 @@
 
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.layout.StackPane?>
-<StackPane xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.esri.samples.edit_features_with_feature_linked_annotation.EditFeaturesWithFeatureLinkedAnnotationController">
+<StackPane fx:controller="com.esri.samples.edit_features_with_feature_linked_annotation.EditFeaturesWithFeatureLinkedAnnotationController"
+           xmlns:fx="http://javafx.com/fxml">
     <MapView fx:id="mapView"/>
 </StackPane>
