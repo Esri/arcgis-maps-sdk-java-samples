@@ -37,6 +37,7 @@ import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -45,16 +46,16 @@ public class DisplayLayerViewStateSample extends Application {
   private MapView mapView;
 
   private static final int MIN_SCALE = 40000000;
-  private static final int TILED_LAYER = 0;
-  private static final int IMAGE_LAYER = 1;
-  private static final int FEATURE_LAYER = 2;
-
-  private static final String SERVICE_TIME_ZONES =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
-  private static final String SERVICE_CENSUS =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
-  private static final String SERVICE_RECREATION =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0";
+//  private static final int TILED_LAYER = 0;
+//  private static final int IMAGE_LAYER = 1;
+//  private static final int FEATURE_LAYER = 2;
+//
+//  private static final String SERVICE_TIME_ZONES =
+//      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
+//  private static final String SERVICE_CENSUS =
+//      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
+//  private static final String SERVICE_RECREATION =
+//      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
@@ -71,6 +72,16 @@ public class DisplayLayerViewStateSample extends Application {
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+
+      // create a map with the topographic basemap
+      ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+
+      // create a map view and set the ArcGISMap to it
+      mapView = new MapView();
+      mapView.setMap(map);
+
+      // set viewpoint
+      mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), MIN_SCALE));
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
@@ -92,51 +103,44 @@ public class DisplayLayerViewStateSample extends Application {
       // add labels to the control panel
       controlsVBox.getChildren().addAll(worldTimeZonesLabel, censusLabel, facilitiesLabel);
 
-      // create three layers to add to the ArcGISMap
-      final ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(SERVICE_TIME_ZONES);
+//      // create three layers to add to the ArcGISMap
+//      final ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(SERVICE_TIME_ZONES);
 
-      // this layer will be OUT_OF_SCALE outside of its set min/max scales
-      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(SERVICE_CENSUS);
-      imageLayer.setMinScale(MIN_SCALE);
-      imageLayer.setMaxScale(MIN_SCALE / 10);
+//      // this layer will be OUT_OF_SCALE outside of its set min/max scales
+//      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(SERVICE_CENSUS);
+//      imageLayer.setMinScale(MIN_SCALE);
+//      imageLayer.setMaxScale(MIN_SCALE / 10);
 
-      // creating a layer from a service feature table
-      final ServiceFeatureTable featureTable = new ServiceFeatureTable(SERVICE_RECREATION);
-      final FeatureLayer featureLayer = new FeatureLayer(featureTable);
+//      // creating a layer from a service feature table
+//      final ServiceFeatureTable featureTable = new ServiceFeatureTable(SERVICE_RECREATION);
+//      final FeatureLayer featureLayer = new FeatureLayer(featureTable);
+//
+//      // adding layers to the ArcGISMaps' layer list
+//      final ArcGISMap map = new ArcGISMap();
+//      map.getOperationalLayers().add(tiledLayer);
+//      map.getOperationalLayers().add(imageLayer);
+//      map.getOperationalLayers().add(featureLayer);
 
-      // adding layers to the ArcGISMaps' layer list
-      final ArcGISMap map = new ArcGISMap();
-      map.getOperationalLayers().add(tiledLayer);
-      map.getOperationalLayers().add(imageLayer);
-      map.getOperationalLayers().add(featureLayer);
-
-      // create a view and set ArcGISMap to it
-      mapView = new MapView();
-      mapView.setMap(map);
-
-      // set viewpoint
-      mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), MIN_SCALE));
-
-      // fires every time a layers' view status has changed
-      mapView.addLayerViewStateChangedListener(e -> {
-        // holds the label that needs to be changed
-        Layer layer = e.getLayer();
-
-        String viewStatus = e.getLayerViewStatus().iterator().next().toString();
-        final int layerIndex = map.getOperationalLayers().indexOf(layer);
-
-        // finding and updating label that needs to be changed
-        switch (layerIndex) {
-          case TILED_LAYER:
-            worldTimeZonesLabel.setText("World Time Zones: " + viewStatus);
-            break;
-          case IMAGE_LAYER:
-            censusLabel.setText("Census: " + viewStatus);
-            break;
-          case FEATURE_LAYER:
-            facilitiesLabel.setText("Facilities: " + viewStatus);
-        }
-      });
+//      // fires every time a layers' view status has changed
+//      mapView.addLayerViewStateChangedListener(e -> {
+//        // holds the label that needs to be changed
+//        Layer layer = e.getLayer();
+//
+//        String viewStatus = e.getLayerViewStatus().iterator().next().toString();
+//        final int layerIndex = map.getOperationalLayers().indexOf(layer);
+//
+//        // finding and updating label that needs to be changed
+//        switch (layerIndex) {
+//          case TILED_LAYER:
+//            worldTimeZonesLabel.setText("World Time Zones: " + viewStatus);
+//            break;
+//          case IMAGE_LAYER:
+//            censusLabel.setText("Census: " + viewStatus);
+//            break;
+//          case FEATURE_LAYER:
+//            facilitiesLabel.setText("Facilities: " + viewStatus);
+//        }
+//      });
 
       // add the map view and control panel to stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
