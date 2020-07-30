@@ -40,22 +40,14 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
 
 public class DisplayLayerViewStateSample extends Application {
 
   private MapView mapView;
 
   private static final int MIN_SCALE = 40000000;
-//  private static final int TILED_LAYER = 0;
-//  private static final int IMAGE_LAYER = 1;
-//  private static final int FEATURE_LAYER = 2;
-//
-//  private static final String SERVICE_TIME_ZONES =
-//      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
-//  private static final String SERVICE_CENSUS =
-//      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
-//  private static final String SERVICE_RECREATION =
-//      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0";
 
   @Override
   public void start(Stage stage) {
@@ -92,34 +84,22 @@ public class DisplayLayerViewStateSample extends Application {
       controlsVBox.getStyleClass().add("panel-region");
 
       // create labels to display the view status of each layer
-      Label worldTimeZonesLabel = new Label("World Time Zones: ");
-      Label censusLabel = new Label("Census: ");
-      Label facilitiesLabel = new Label("Facilities: ");
+      Label currentStatusLabel = new Label("Current view Status: ");
 
-      worldTimeZonesLabel.getStyleClass().add("panel-label");
-      censusLabel.getStyleClass().add("panel-label");
-      facilitiesLabel.getStyleClass().add("panel-label");
+      currentStatusLabel.getStyleClass().add("panel-label");
 
       // add labels to the control panel
-      controlsVBox.getChildren().addAll(worldTimeZonesLabel, censusLabel, facilitiesLabel);
+      controlsVBox.getChildren().add(currentStatusLabel);
 
-//      // create three layers to add to the ArcGISMap
-//      final ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(SERVICE_TIME_ZONES);
+      // creating a layer from a portal item
+      final PortalItem portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
+        "b8f4033069f141729ffb298b7418b653");
+      final FeatureLayer featureLayer = new FeatureLayer(portalItem, 0);
 
-//      // this layer will be OUT_OF_SCALE outside of its set min/max scales
-//      final ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(SERVICE_CENSUS);
-//      imageLayer.setMinScale(MIN_SCALE);
-//      imageLayer.setMaxScale(MIN_SCALE / 10);
-
-//      // creating a layer from a service feature table
-//      final ServiceFeatureTable featureTable = new ServiceFeatureTable(SERVICE_RECREATION);
-//      final FeatureLayer featureLayer = new FeatureLayer(featureTable);
-//
-//      // adding layers to the ArcGISMaps' layer list
-//      final ArcGISMap map = new ArcGISMap();
-//      map.getOperationalLayers().add(tiledLayer);
-//      map.getOperationalLayers().add(imageLayer);
-//      map.getOperationalLayers().add(featureLayer);
+      featureLayer.setMinScale(400_000_000.0);
+      featureLayer.setMaxScale(400_000_000.0 / 10);
+      // add the layer on the map to load it
+      map.getOperationalLayers().add(featureLayer);
 
 //      // fires every time a layers' view status has changed
 //      mapView.addLayerViewStateChangedListener(e -> {
