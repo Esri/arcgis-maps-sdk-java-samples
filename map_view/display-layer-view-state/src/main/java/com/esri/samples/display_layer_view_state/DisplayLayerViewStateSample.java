@@ -29,13 +29,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
-import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -46,8 +42,7 @@ import com.esri.arcgisruntime.portal.PortalItem;
 public class DisplayLayerViewStateSample extends Application {
 
   private MapView mapView;
-
-  private static final int MIN_SCALE = 40000000;
+  private Label currentStatusLabel;
 
   @Override
   public void start(Stage stage) {
@@ -65,66 +60,60 @@ public class DisplayLayerViewStateSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with the topographic basemap
+      // create an ArcGISMap with the topographic basemap
       ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
 
       // create a map view and set the ArcGISMap to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set viewpoint
-      mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), MIN_SCALE));
+      // set the initial viewpoint for the map view
+      mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), 40000000));
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
           Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(220, 90);
+      controlsVBox.setMaxSize(350, 40);
       controlsVBox.getStyleClass().add("panel-region");
 
-      // create labels to display the view status of each layer
-      Label currentStatusLabel = new Label("Current view Status: ");
-
+      // create a label to display the view status of the layer
+      currentStatusLabel = new Label("Current view Status: ");
       currentStatusLabel.getStyleClass().add("panel-label");
 
-      // add labels to the control panel
+      // add the label to the control panel
       controlsVBox.getChildren().add(currentStatusLabel);
 
-      // creating a layer from a portal item
+      // create a feature layer from a portal item
       final PortalItem portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
         "b8f4033069f141729ffb298b7418b653");
       final FeatureLayer featureLayer = new FeatureLayer(portalItem, 0);
 
-      featureLayer.setMinScale(400_000_000.0);
-      featureLayer.setMaxScale(400_000_000.0 / 10);
-      // add the layer on the map to load it
+      //  set a minimum and maximum scale for the visibility of the feature layer
+      featureLayer.setMinScale(40000000);
+      featureLayer.setMaxScale(40000000 / 10);
+
+      // add the feature layer to the map to load it
       map.getOperationalLayers().add(featureLayer);
 
-//      // fires every time a layers' view status has changed
-//      mapView.addLayerViewStateChangedListener(e -> {
-//        // holds the label that needs to be changed
-//        Layer layer = e.getLayer();
-//
-//        String viewStatus = e.getLayerViewStatus().iterator().next().toString();
-//        final int layerIndex = map.getOperationalLayers().indexOf(layer);
-//
-//        // finding and updating label that needs to be changed
-//        switch (layerIndex) {
-//          case TILED_LAYER:
-//            worldTimeZonesLabel.setText("World Time Zones: " + viewStatus);
-//            break;
-//          case IMAGE_LAYER:
-//            censusLabel.setText("Census: " + viewStatus);
-//            break;
-//          case FEATURE_LAYER:
-//            facilitiesLabel.setText("Facilities: " + viewStatus);
-//        }
-//      });
+      // create a listener that fires every time a layers' view status has changed
+      mapView.addLayerViewStateChangedListener(statusChangeEvent -> {
 
-      // add the map view and control panel to stack pane
+        // get the layer view status
+        String layerViewStatus = statusChangeEvent.getLayerViewStatus().iterator().next().toString();
+
+        //////// ********** print out layer view for testing
+        System.out.println(layerViewStatus);
+
+        // update the status label to display the layer view status
+        currentStatusLabel.setText("Current view status: " + layerViewStatus);
+
+      });
+
+      // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_CENTER);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace

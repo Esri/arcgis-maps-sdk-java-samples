@@ -1,27 +1,8 @@
 .panel-region .label {
   -fx-text-fill: white;
+  -fx-font-size: 16px;
 }
 
-.label {
-  -fx-text-fill: black;
-}
-
-.slider .axis {
-    -fx-tick-label-fill: white;
-}
-
-.range-slider .axis {
-    -fx-tick-label-fill: white;
-}
-
-.panel-region .check-box {
-   -fx-text-fill: white;
-}
-
-.panel-region .radio-button {
-   -fx-text-fill: white;
-}
-
-.color-picker .color-picker-label {
-   -fx-text-fill: black;
+.panel-label {
+  -fx-alignment: center;
 }
