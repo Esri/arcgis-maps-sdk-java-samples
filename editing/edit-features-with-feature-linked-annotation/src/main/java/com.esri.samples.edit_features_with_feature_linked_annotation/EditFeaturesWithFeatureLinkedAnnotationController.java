@@ -91,9 +91,9 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
         // check that the primary mouse button was clicked
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
           // create a point where the user clicked
-          Point2D screenpoint = new Point2D(event.getX(), event.getY());
+          Point2D screenPoint = new Point2D(event.getX(), event.getY());
           // call select or move method to move to the point
-          selectOrMove(screenpoint);
+          selectOrMove(screenPoint);
         }
       });
     } catch (Exception e) {
@@ -109,7 +109,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
 
     // if a feature hasn't been selected, select the feature
     if (selectedFeature == null) {
-      selectFeature(screenPoint);
+      identifyFeature(screenPoint);
     } else {
       // convert the screen point to a map point
       Point mapPoint = mapView.screenToLocation(screenPoint);
@@ -124,10 +124,9 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
   }
 
   /**
-   * Select a feature near the given screen point using identify and, for a point feature, show a
-   * dialog to edit attributes. Future clicks will call move functions.
+   * Select a feature near the given screen point using identify.
    */
-  private void selectFeature(Point2D screenPoint) {
+  private void identifyFeature(Point2D screenPoint) {
 
     // clear any previously selected features
     clearSelection();
@@ -140,45 +139,17 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
     identifyLayerResultFuture.addDoneListener(() -> {
       try {
         // get the list of results from the future
-        List<IdentifyLayerResult> identifyLayersResults = identifyLayerResultFuture.get();
+        List<IdentifyLayerResult> identifyLayerResults = identifyLayerResultFuture.get();
         // iterate all the layers in the identify results list
-        identifyLayersResults.forEach(result -> {
+        identifyLayerResults.forEach(layerResult -> {
           // iterate the results and check for Feature results
-          result.getElements().forEach(identifiedElement -> {
+          layerResult.getElements().forEach(identifiedElement -> {
             if (identifiedElement instanceof Feature) {
               // get a reference to the identified feature
               selectedFeature = (Feature) identifiedElement;
-            }
-            // if the selected feature is a polyline
-            if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
-              // create a polyline builder from the selected feature
-              PolylineBuilder polylineBuilder = new PolylineBuilder((Polyline) selectedFeature.getGeometry());
-              // get a list of parts of the selected polyline
-              List<Part> parts = polylineBuilder.getParts();
-              parts.forEach(part -> {
-                // if the selected feature is a polyline with any part containing more than one segment
-                // (i.e. a curve)
-                if (part.getPointCount() > 2) {
-                  // set the selected feature to null
-                  selectedFeature = null;
-                  // show message reminding user to select straight (single segment) polylines only
-                  new Alert(Alert.AlertType.WARNING, "Select straight (single segment) polylines only.").show();
-                  // return early, effectively disallowing selection of multi segmented polylines
-                  return;
-                } else {
-                  // select the identified straight polyline
-                  ((FeatureLayer) result.getLayerContent()).selectFeature(selectedFeature);
-                  selectedFeatureIsPolyline = true;
-                }
-              });
-            }
-            // if the selected feature is a point, select the feature
-            else if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POINT) {
-              ((FeatureLayer) result.getLayerContent()).selectFeature(selectedFeature);
-              // open a dialog to edit the feature's attributes
-              showEditableAttributes(selectedFeature);
-            } else {
-              new Alert(Alert.AlertType.WARNING, "Feature of unexpected geometry type selected.").show();
+
+              // check the geometry of the feature
+              selectFeature(selectedFeature, layerResult);
             }
           });
         });
@@ -189,12 +160,49 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
   }
 
   /**
-   * Create an alert dialog with text fields to allow editing of the given feature's 'AD_ADDRESS' and
+   * Check the geometry of the feature, and for a point show a
+   * dialog to edit attributes. Future clicks will call move functions.
+   */
+  private void selectFeature(Feature selectedFeature, IdentifyLayerResult layerResult) {
+
+    // if the selected feature is a polyline
+    if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+      // create a polyline builder from the selected feature
+      PolylineBuilder polylineBuilder = new PolylineBuilder((Polyline) selectedFeature.getGeometry());
+      // get a list of parts of the selected polyline
+      List<Part> parts = polylineBuilder.getParts();
+      parts.forEach(part -> {
+        // if the selected feature is a polyline with any part containing more than one segment
+        // (i.e. a curve)
+        if (part.getPointCount() > 2) {
+          // show message reminding user to select straight (single segment) polylines only
+          new Alert(Alert.AlertType.WARNING, "Select straight (single segment) polylines only.").show();
+          // return early, effectively disallowing selection of multi segmented polylines
+          return;
+        } else {
+          // select the identified polyline feature
+          ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
+          selectedFeatureIsPolyline = true;
+        }
+      });
+    }
+    // if the selected feature is a point, select the feature
+    else if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POINT) {
+      ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
+      // open a dialog to edit the feature's attributes
+      showEditableAttributes(selectedFeature);
+    } else {
+      new Alert(Alert.AlertType.WARNING, "Feature of unexpected geometry type selected.").show();
+    }
+  }
+
+  /**
+   * Create a dialog with text fields to allow editing of the given feature's 'AD_ADDRESS' and
    * 'ST_STR_NAM' attributes.
    */
   private void showEditableAttributes(Feature selectedFeature) {
 
-    // create a dialog to edit the selected feature
+    // create a dialog to edit the attributes of the selected feature
     EditAttributesDialog editAttributesDialog = new EditAttributesDialog(selectedFeature);
 
     // show the dialog and wait for the user response
