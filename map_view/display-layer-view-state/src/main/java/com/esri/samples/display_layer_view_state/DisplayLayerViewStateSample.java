@@ -24,6 +24,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -48,7 +49,7 @@ public class DisplayLayerViewStateSample extends Application {
   private MapView mapView;
   private FeatureLayer featureLayer;
   private Label layerViewStatusLabel;
-  private Button showLayerButton;
+  private Button loadLayerButton;
   private Button hideLayerButton;
   private VBox controlsVBox;
 
@@ -83,7 +84,7 @@ public class DisplayLayerViewStateSample extends Application {
       controlsVBox.getStyleClass().add("panel-region");
 
       // create a label to display the view status and add to the control panel
-      layerViewStatusLabel = new Label("Current view status:\n" + " ");
+      layerViewStatusLabel = new Label("Click button to load feature layer\n ");
       layerViewStatusLabel.getStyleClass().add("panel-label");
       controlsVBox.getChildren().add(layerViewStatusLabel);
 
@@ -100,25 +101,26 @@ public class DisplayLayerViewStateSample extends Application {
         EnumSet<LayerViewStatus> layerViewStatus = statusChangeEvent.getLayerViewStatus();
         displayViewStateText(layerViewStatus);
 
-        // if there is an error or warning, display the message on the page
+        // if there is an error or warning, display the message as an alert
         ArcGISRuntimeException error = statusChangeEvent.getError();
         if (error != null){
           Throwable cause = error.getCause();
           String message = (cause != null) ? cause.toString() : error.toString();
-          System.out.println(message);
+          Alert alert = new Alert(Alert.AlertType.ERROR, message);
+          alert.show();
         }
       });
 
       // create buttons to toggle the visibility of the feature layer
-      showLayerButton = new Button("Show Layer");
-      showLayerButton.getStyleClass().add("panel-button");
+      loadLayerButton = new Button("Load Layer");
+      loadLayerButton.getStyleClass().add("panel-button");
       hideLayerButton = new Button("Hide Layer");
       hideLayerButton.getStyleClass().add("panel-button");
       // initially add show layer button to control panel
-      controlsVBox.getChildren().add(showLayerButton);
+      controlsVBox.getChildren().add(loadLayerButton);
 
       // create a listener for clicks on the showLayerButton
-      showLayerButton.setOnAction(event -> {
+      loadLayerButton.setOnAction(event -> {
 
         // if the feature layer already exists and is hidden, toggle it's visibility to visible
         if (featureLayer != null && !featureLayer.isVisible()) {
@@ -146,7 +148,7 @@ public class DisplayLayerViewStateSample extends Application {
 
         if (featureLayer.isVisible()) {
           featureLayer.setVisible(false);
-          displayShowButton();
+          displayLoadButton();
         }
         else {
           featureLayer.setVisible(true);
@@ -192,21 +194,22 @@ public class DisplayLayerViewStateSample extends Application {
     }
 
     layerViewStatusLabel.setText("Current view status:\n" + String.join(", ", stringList));
+    layerViewStatusLabel.setVisible(true);
   }
 
   /**
    * Display show button
    */
-  public void displayShowButton(){
+  public void displayLoadButton(){
     controlsVBox.getChildren().remove(hideLayerButton);
-    controlsVBox.getChildren().add(showLayerButton);
+    controlsVBox.getChildren().add(loadLayerButton);
   }
 
   /**
    * Display hide button
    */
   public void displayHideButton(){
-    controlsVBox.getChildren().remove(showLayerButton);
+    controlsVBox.getChildren().remove(loadLayerButton);
     controlsVBox.getChildren().add(hideLayerButton);
   }
 
