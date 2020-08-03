@@ -16,6 +16,7 @@
 
 package com.esri.samples.edit_features_with_feature_linked_annotation;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -24,6 +25,8 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.data.Feature;
+
+import java.util.concurrent.ExecutionException;
 
 public class EditAttributesDialog extends Dialog<String>{
 
@@ -58,9 +61,18 @@ public class EditAttributesDialog extends Dialog<String>{
           // set ST_STR_NAM value to the string from the text field
           selectedFeature.getAttributes().put("ST_STR_NAM", streetNameTextField.getText());
 
-          // update the selected feature's feature table
-          selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
-
+          // update feature in the feature table
+          ListenableFuture<Void> editResult = selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
+          editResult.addDoneListener(() -> {
+                    try {
+                      if (editResult.isDone()) {
+                        editResult.get();
+                      }
+                    } catch (InterruptedException | ExecutionException e) {
+                      new Alert(Alert.AlertType.ERROR, "Error updating attributes: " + e.getCause().getMessage()).show();
+                    }
+                  }
+          );
         } catch (Exception e) {
           new Alert(Alert.AlertType.ERROR, "Cannot update attributes " + e.getMessage()).show();
         }

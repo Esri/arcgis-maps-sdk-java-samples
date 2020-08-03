@@ -17,6 +17,7 @@
 package com.esri.samples.edit_features_with_feature_linked_annotation;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -124,7 +125,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
   }
 
   /**
-   * Select a feature near the given screen point using identify.
+   * Identify a feature near the given screen point.
    */
   private void identifyFeature(Point2D screenPoint) {
 
@@ -160,8 +161,8 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
   }
 
   /**
-   * Check the geometry of the feature, and for a point show a
-   * dialog to edit attributes. Future clicks will call move functions.
+   * Check if the identified feature is a straight polyline or a point, and select the feature.
+   * For a point feature, show a dialog to edit attributes. Future clicks will call move functions.
    */
   private void selectFeature(Feature selectedFeature, IdentifyLayerResult layerResult) {
 
@@ -180,7 +181,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
           // return early, effectively disallowing selection of multi segmented polylines
           return;
         } else {
-          // select the identified polyline feature
+          // select the polyline feature
           ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
           selectedFeatureIsPolyline = true;
         }
@@ -210,6 +211,25 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
   }
 
   /**
+   * Update the attributes of the selected feature.
+   */
+  private void updateAttributes(Feature selectedFeature) {
+
+    // update feature in the feature table
+    ListenableFuture<Void> editResult = selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
+    editResult.addDoneListener(() -> {
+              try {
+                if (editResult.isDone()) {
+                  editResult.get();
+                }
+              } catch (InterruptedException | ExecutionException e) {
+                new Alert(Alert.AlertType.ERROR, "Error updating attributes: " + e.getCause().getMessage()).show();
+              }
+            }
+    );
+  }
+
+  /**
    * Move the currently selected point feature to the given map point by updating the selected
    * feature's geometry and feature table.
    */
@@ -219,7 +239,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
     selectedFeature.setGeometry(mapPoint);
 
     // update the selected feature's feature table
-    selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
+    updateAttributes(selectedFeature);
 
     // clear selection of the point
     clearSelection();
@@ -235,11 +255,11 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
     // get the selected feature's geometry as a polyline
     Polyline polyline = (Polyline) selectedFeature.getGeometry();
 
-    // get the nearest vertex to the map point on the polyline
-    ProximityResult nearestVertex = GeometryEngine.nearestVertex(polyline, (Point) GeometryEngine.project(mapPoint, polyline.getSpatialReference()));
-
     // create a polyline builder to add and remove parts from the polyline
     PolylineBuilder polylineBuilder = new PolylineBuilder(polyline);
+
+    // get the nearest vertex to the map point on the polyline
+    ProximityResult nearestVertex = GeometryEngine.nearestVertex(polyline, (Point) GeometryEngine.project(mapPoint, polyline.getSpatialReference()));
 
     // get the part of the polyline nearest to the map point
     Part part = polylineBuilder.getParts().get((int) nearestVertex.getPartIndex());
@@ -257,7 +277,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
     selectedFeature.setGeometry(polylineBuilder.toGeometry());
 
     // update the selected feature's feature table
-    selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
+    updateAttributes(selectedFeature);
 
     // clear selection of the polyline
     clearSelection();
