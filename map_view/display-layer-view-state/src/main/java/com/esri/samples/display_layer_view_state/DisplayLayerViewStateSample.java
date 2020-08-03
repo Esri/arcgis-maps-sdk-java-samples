@@ -88,12 +88,12 @@ public class DisplayLayerViewStateSample extends Application {
       layerViewStatusLabel.getStyleClass().add("panel-label");
       controlsVBox.getChildren().add(layerViewStatusLabel);
 
-      // create a listener that fires every time a layer's view status has changed
+      // create a listener that fires every time a layer's view status changes
       mapView.addLayerViewStateChangedListener(statusChangeEvent -> {
 
         // get the layer whose state has changed
         Layer layer = statusChangeEvent.getLayer();
-        // only update the status if the layer is the feature layer
+        // only update the status if the layer is the feature layer being tracked
         if (layer != featureLayer) {
           return ;
         }
@@ -101,7 +101,7 @@ public class DisplayLayerViewStateSample extends Application {
         EnumSet<LayerViewStatus> layerViewStatus = statusChangeEvent.getLayerViewStatus();
         displayViewStateText(layerViewStatus);
 
-        // if there is an error or warning, display the message as an alert
+        // if there is an error or warning, format and display the message as an alert
         ArcGISRuntimeException error = statusChangeEvent.getError();
         if (error != null){
           Throwable cause = error.getCause();
@@ -116,10 +116,10 @@ public class DisplayLayerViewStateSample extends Application {
       loadLayerButton.getStyleClass().add("panel-button");
       hideLayerButton = new Button("Hide Layer");
       hideLayerButton.getStyleClass().add("panel-button");
-      // initially add show layer button to control panel
+      // initially add load layer button to the control panel
       controlsVBox.getChildren().add(loadLayerButton);
 
-      // create a listener for clicks on the showLayerButton
+      // create a listener for clicks on the load layer button
       loadLayerButton.setOnAction(event -> {
 
         // if the feature layer already exists and is hidden, toggle it's visibility to visible
@@ -141,7 +141,7 @@ public class DisplayLayerViewStateSample extends Application {
         displayHideButton();
       });
 
-      // create a listener for clicks on the hideLayerButton to toggle visibility of the feature layer
+      // create a listener for clicks on the hide layer button to toggle visibility of the feature layer
       hideLayerButton.setOnAction(event -> {
 
         if (featureLayer == null) return;
@@ -194,11 +194,10 @@ public class DisplayLayerViewStateSample extends Application {
     }
 
     layerViewStatusLabel.setText("Current view status:\n" + String.join(", ", stringList));
-    layerViewStatusLabel.setVisible(true);
   }
 
   /**
-   * Display show button
+   * Display load layer button and hide hide layer button
    */
   public void displayLoadButton(){
     controlsVBox.getChildren().remove(hideLayerButton);
@@ -206,7 +205,7 @@ public class DisplayLayerViewStateSample extends Application {
   }
 
   /**
-   * Display hide button
+   * Display hide layer button and hide load layer button
    */
   public void displayHideButton(){
     controlsVBox.getChildren().remove(loadLayerButton);
