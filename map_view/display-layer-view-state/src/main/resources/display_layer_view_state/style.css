@@ -1,8 +1,22 @@
-.panel-region .label {
-  -fx-text-fill: white;
-  -fx-font-size: 16px;
+StackPane {
+
+}
+
+.panel-region {
+  -fx-padding: 10;
+  -fx-background-color: rgba(0, 0, 0, 0.5);
+  -fx-max-width: 400;
+  -fx-max-height: 120;
+  -fx-spacing: 6;
+  -fx-alignment: center;
 }
 
 .panel-label {
-  -fx-alignment: center;
+  -fx-text-fill: white;
+  -fx-font-size: 16px;
+  -fx-text-alignment: center;
+}
+
+.panel-button {
+  -fx-max-width: 130;
 }

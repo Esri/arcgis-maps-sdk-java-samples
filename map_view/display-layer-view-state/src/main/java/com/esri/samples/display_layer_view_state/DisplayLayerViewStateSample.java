@@ -16,20 +16,21 @@
 
 package com.esri.samples.display_layer_view_state;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeException;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -37,6 +38,7 @@ import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.LayerViewStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
@@ -45,9 +47,10 @@ public class DisplayLayerViewStateSample extends Application {
 
   private MapView mapView;
   private FeatureLayer featureLayer;
-  private Label currentStatusLabel;
-  private Button loadButton;
-  private Button hideButton;
+  private Label layerViewStatusLabel;
+  private Button showLayerButton;
+  private Button hideLayerButton;
+  private VBox controlsVBox;
 
   @Override
   public void start(Stage stage) {
@@ -76,102 +79,135 @@ public class DisplayLayerViewStateSample extends Application {
       mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), 40000000));
 
       // create a control panel
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-          Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(350, 40);
+      controlsVBox = new VBox();
       controlsVBox.getStyleClass().add("panel-region");
 
-      // create a label to display the view status of the layer
-      currentStatusLabel = new Label("Current view Status: ");
-      currentStatusLabel.getStyleClass().add("panel-label");
+      // create a label to display the view status and add to the control panel
+      layerViewStatusLabel = new Label("Current view status:\n" + " ");
+      layerViewStatusLabel.getStyleClass().add("panel-label");
+      controlsVBox.getChildren().add(layerViewStatusLabel);
 
-      // add the label to the control panel
-      controlsVBox.getChildren().add(currentStatusLabel);
-
-      // create a listener that fires every time a layers' view status has changed
+      // create a listener that fires every time a layer's view status has changed
       mapView.addLayerViewStateChangedListener(statusChangeEvent -> {
 
-        // get the layer which state has changed
+        // get the layer whose state has changed
         Layer layer = statusChangeEvent.getLayer();
-        // only update if the layer is the feature layer we're tracking
+        // only update the status if the layer is the feature layer
         if (layer != featureLayer) {
           return ;
         }
+        // get the layer's view status and display the status
+        EnumSet<LayerViewStatus> layerViewStatus = statusChangeEvent.getLayerViewStatus();
+        displayViewStateText(layerViewStatus);
 
-        // get the layer view status
-        String layerViewStatus = statusChangeEvent.getLayerViewStatus().iterator().next().toString();
-
-        //////// ********** print out layer view for testing
-        System.out.println(layerViewStatus);
-
-        // update the status label to display the layer view status
-        currentStatusLabel.setText("Current view status: " + layerViewStatus);
-
+        // if there is an error or warning, display the message on the page
+        ArcGISRuntimeException error = statusChangeEvent.getError();
+        if (error != null){
+          Throwable cause = error.getCause();
+          String message = (cause != null) ? cause.toString() : error.toString();
+          System.out.println(message);
+        }
       });
 
-      VBox buttonsVBox = new VBox(6);
-      buttonsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-        Insets.EMPTY)));
-      buttonsVBox.setPadding(new Insets(10.0));
-      buttonsVBox.setMaxSize(150, 20);
-      buttonsVBox.getStyleClass().add("panel-region");
-      loadButton = new Button("Show Layer");
-      loadButton.setMaxWidth(130);
-      hideButton = new Button("Hide Layer");
-      hideButton.setMaxWidth(130);
-      buttonsVBox.getChildren().add(loadButton);
+      // create buttons to toggle the visibility of the feature layer
+      showLayerButton = new Button("Show Layer");
+      showLayerButton.getStyleClass().add("panel-button");
+      hideLayerButton = new Button("Hide Layer");
+      hideLayerButton.getStyleClass().add("panel-button");
+      // initially add show layer button to control panel
+      controlsVBox.getChildren().add(showLayerButton);
 
-      loadButton.setOnAction(event -> {
+      // create a listener for clicks on the showLayerButton
+      showLayerButton.setOnAction(event -> {
 
-        if (featureLayer != null && !featureLayer.isVisible()){
+        // if the feature layer already exists and is hidden, toggle it's visibility to visible
+        if (featureLayer != null && !featureLayer.isVisible()) {
           featureLayer.setVisible(true);
-        }
-        else {
+        } else {
           // create a feature layer from a portal item
           final PortalItem portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
             "b8f4033069f141729ffb298b7418b653");
           featureLayer = new FeatureLayer(portalItem, 0);
-
-          //  set a minimum and maximum scale for the visibility of the feature layer
+          //  set a minimum and a maximum scale for the visibility of the feature layer
           featureLayer.setMinScale(40000000);
           featureLayer.setMaxScale(40000000 / 10);
-
-          // add the feature layer to the map to load it
+          // add the feature layer to the map
           map.getOperationalLayers().add(featureLayer);
         }
 
-          // hide the load button
-          buttonsVBox.getChildren().clear();
-          buttonsVBox.getChildren().add(hideButton);
+        // toggle the visibility of the buttons
+        displayHideButton();
       });
 
-      hideButton.setOnAction(event -> {
+      // create a listener for clicks on the hideLayerButton to toggle visibility of the feature layer
+      hideLayerButton.setOnAction(event -> {
+
         if (featureLayer == null) return;
 
         if (featureLayer.isVisible()) {
           featureLayer.setVisible(false);
-          buttonsVBox.getChildren().clear();
-          buttonsVBox.getChildren().add(loadButton);
+          displayShowButton();
         }
         else {
           featureLayer.setVisible(true);
-          buttonsVBox.getChildren().clear();
-          buttonsVBox.getChildren().add(hideButton);
+          displayHideButton();
         }
       });
 
       // add the map view and control panel to the stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox, buttonsVBox);
+      stackPane.getChildren().addAll(mapView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_CENTER);
-      StackPane.setAlignment(buttonsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(buttonsVBox, new Insets(10, 0, 0, 10));
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 0));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Formats and displays all relevant layer view status flags
+   *
+   * @param layerViewStatus to display
+   */
+  public void displayViewStateText(EnumSet<LayerViewStatus> layerViewStatus){
+    List<String> stringList = new ArrayList<>();
+
+    if (layerViewStatus.contains(LayerViewStatus.ACTIVE)) {
+      stringList.add("Active");
+    }
+    if (layerViewStatus.contains(LayerViewStatus.ERROR)) {
+      stringList.add("Error");
+    }
+    if (layerViewStatus.contains(LayerViewStatus.LOADING)) {
+      stringList.add("Loading");
+    }
+    if (layerViewStatus.contains(LayerViewStatus.NOT_VISIBLE)) {
+      stringList.add("Not Visible");
+    }
+    if (layerViewStatus.contains(LayerViewStatus.OUT_OF_SCALE)) {
+      stringList.add("Out of Scale");
+    }
+    if (layerViewStatus.contains(LayerViewStatus.WARNING)) {
+      stringList.add("Warning");
+    }
+
+    layerViewStatusLabel.setText("Current view status:\n" + String.join(", ", stringList));
+  }
+
+  /**
+   * Display show button
+   */
+  public void displayShowButton(){
+    controlsVBox.getChildren().remove(hideLayerButton);
+    controlsVBox.getChildren().add(showLayerButton);
+  }
+
+  /**
+   * Display hide button
+   */
+  public void displayHideButton(){
+    controlsVBox.getChildren().remove(showLayerButton);
+    controlsVBox.getChildren().add(hideLayerButton);
   }
 
   /**
