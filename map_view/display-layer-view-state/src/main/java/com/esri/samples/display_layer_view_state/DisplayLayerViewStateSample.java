@@ -95,7 +95,7 @@ public class DisplayLayerViewStateSample extends Application {
         Layer layer = statusChangeEvent.getLayer();
         // only update the status if the layer is the feature layer being tracked
         if (layer != featureLayer) {
-          return ;
+          return;
         }
         // get the layer's view status and display the status
         EnumSet<LayerViewStatus> layerViewStatus = statusChangeEvent.getLayerViewStatus();
@@ -103,7 +103,7 @@ public class DisplayLayerViewStateSample extends Application {
 
         // if there is an error or warning, format and display the message as an alert
         ArcGISRuntimeException error = statusChangeEvent.getError();
-        if (error != null){
+        if (error != null) {
           Throwable cause = error.getCause();
           String message = (cause != null) ? cause.toString() : error.toString();
           Alert alert = new Alert(Alert.AlertType.ERROR, message);
@@ -149,8 +149,7 @@ public class DisplayLayerViewStateSample extends Application {
         if (featureLayer.isVisible()) {
           featureLayer.setVisible(false);
           displayLoadButton();
-        }
-        else {
+        } else {
           featureLayer.setVisible(true);
           displayHideButton();
         }
@@ -171,7 +170,7 @@ public class DisplayLayerViewStateSample extends Application {
    *
    * @param layerViewStatus to display
    */
-  public void displayViewStateText(EnumSet<LayerViewStatus> layerViewStatus){
+  public void displayViewStateText(EnumSet<LayerViewStatus> layerViewStatus) {
     List<String> stringList = new ArrayList<>();
 
     if (layerViewStatus.contains(LayerViewStatus.ACTIVE)) {
@@ -199,7 +198,7 @@ public class DisplayLayerViewStateSample extends Application {
   /**
    * Display load layer button and hide hide layer button
    */
-  public void displayLoadButton(){
+  public void displayLoadButton() {
     controlsVBox.getChildren().remove(hideLayerButton);
     controlsVBox.getChildren().add(loadLayerButton);
   }
@@ -207,7 +206,7 @@ public class DisplayLayerViewStateSample extends Application {
   /**
    * Display hide layer button and hide load layer button
    */
-  public void displayHideButton(){
+  public void displayHideButton() {
     controlsVBox.getChildren().remove(loadLayerButton);
     controlsVBox.getChildren().add(hideLayerButton);
   }
