@@ -16,7 +16,8 @@
 
 package com.esri.samples.edit_features_with_feature_linked_annotation;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import java.util.concurrent.ExecutionException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -25,8 +26,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.data.Feature;
-
-import java.util.concurrent.ExecutionException;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 
 public class EditAttributesDialog extends Dialog<String>{
 
