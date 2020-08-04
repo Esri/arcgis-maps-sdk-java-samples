@@ -7,12 +7,12 @@
   -fx-alignment: center;
 }
 
-.panel-label {
+.panel-region .label {
   -fx-text-fill: white;
   -fx-font-size: 16px;
   -fx-text-alignment: center;
 }
 
-.panel-button {
+.panel-region .button {
   -fx-max-width: 130;
 }

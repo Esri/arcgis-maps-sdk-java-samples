@@ -49,20 +49,18 @@ public class DisplayLayerViewStateSample extends Application {
   private MapView mapView;
   private FeatureLayer featureLayer;
   private Label layerViewStatusLabel;
-  private Button loadLayerButton;
-  private Button hideLayerButton;
-  private VBox controlsVBox;
+  private Button toggleLayerButton;
 
   @Override
   public void start(Stage stage) {
 
     try {
-      // create stack pane and application scene
+      // create the stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
       scene.getStylesheets().add(getClass().getResource("/display_layer_view_state/style.css").toExternalForm());
 
-      // set title, size, and add scene to stage
+      // set a title, size, and add the scene to the stage
       stage.setTitle("Display Layer View State Sample");
       stage.setWidth(800);
       stage.setHeight(700);
@@ -79,14 +77,8 @@ public class DisplayLayerViewStateSample extends Application {
       // set the initial viewpoint for the map view
       mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), 40000000));
 
-      // create a control panel
-      controlsVBox = new VBox();
-      controlsVBox.getStyleClass().add("panel-region");
-
-      // create a label to display the view status and add to the control panel
+      // create a label to display the view status
       layerViewStatusLabel = new Label("Click button to load feature layer\n ");
-      layerViewStatusLabel.getStyleClass().add("panel-label");
-      controlsVBox.getChildren().add(layerViewStatusLabel);
 
       // create a listener that fires every time a layer's view status changes
       mapView.addLayerViewStateChangedListener(statusChangeEvent -> {
@@ -101,59 +93,49 @@ public class DisplayLayerViewStateSample extends Application {
         EnumSet<LayerViewStatus> layerViewStatus = statusChangeEvent.getLayerViewStatus();
         displayViewStateText(layerViewStatus);
 
-        // if there is an error or warning, format and display the message as an alert
+        // if there is an error or warning, format and display a message as an Alert
         ArcGISRuntimeException error = statusChangeEvent.getError();
         if (error != null) {
           Throwable cause = error.getCause();
-          String message = (cause != null) ? cause.toString() : error.toString();
+          String message = (cause != null) ? "Network issue, unable to load layer" : error.getMessage();
           Alert alert = new Alert(Alert.AlertType.ERROR, message);
           alert.show();
         }
       });
 
       // create buttons to toggle the visibility of the feature layer
-      loadLayerButton = new Button("Load Layer");
-      loadLayerButton.getStyleClass().add("panel-button");
-      hideLayerButton = new Button("Hide Layer");
-      hideLayerButton.getStyleClass().add("panel-button");
-      // initially add load layer button to the control panel
-      controlsVBox.getChildren().add(loadLayerButton);
+      toggleLayerButton = new Button("Load Layer");
 
       // create a listener for clicks on the load layer button
-      loadLayerButton.setOnAction(event -> {
+      toggleLayerButton.setOnAction(event -> {
 
-        // if the feature layer already exists and is hidden, toggle it's visibility to visible
-        if (featureLayer != null && !featureLayer.isVisible()) {
-          featureLayer.setVisible(true);
+        // if the feature layer already exists toggle it's visibility to visible
+        if (featureLayer != null) {
+          featureLayer.setVisible(!featureLayer.isVisible());
         } else {
-          // create a feature layer from a portal item
+          // if the feature layer doesn't exist, create a new feature layer from a portal item
           final PortalItem portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
             "b8f4033069f141729ffb298b7418b653");
           featureLayer = new FeatureLayer(portalItem, 0);
           //  set a minimum and a maximum scale for the visibility of the feature layer
           featureLayer.setMinScale(40000000);
-          featureLayer.setMaxScale(40000000 / 10);
+          featureLayer.setMaxScale(4000000);
           // add the feature layer to the map
           map.getOperationalLayers().add(featureLayer);
         }
 
-        // toggle the visibility of the buttons
-        displayHideButton();
-      });
-
-      // create a listener for clicks on the hide layer button to toggle visibility of the feature layer
-      hideLayerButton.setOnAction(event -> {
-
-        if (featureLayer == null) return;
-
-        if (featureLayer.isVisible()) {
-          featureLayer.setVisible(false);
-          displayLoadButton();
+        // toggle the text on the button
+        if (toggleLayerButton.getText().equals("Load Layer")){
+          toggleLayerButton.setText("Hide Layer");
         } else {
-          featureLayer.setVisible(true);
-          displayHideButton();
+          toggleLayerButton.setText("Load Layer");
         }
       });
+
+      // create a control panel and add label and button
+      VBox controlsVBox = new VBox();
+      controlsVBox.getStyleClass().add("panel-region");
+      controlsVBox.getChildren().addAll(layerViewStatusLabel, toggleLayerButton);
 
       // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
@@ -193,22 +175,6 @@ public class DisplayLayerViewStateSample extends Application {
     }
 
     layerViewStatusLabel.setText("Current view status:\n" + String.join(", ", stringList));
-  }
-
-  /**
-   * Display load layer button and hide hide layer button
-   */
-  public void displayLoadButton() {
-    controlsVBox.getChildren().remove(hideLayerButton);
-    controlsVBox.getChildren().add(loadLayerButton);
-  }
-
-  /**
-   * Display hide layer button and hide load layer button
-   */
-  public void displayHideButton() {
-    controlsVBox.getChildren().remove(loadLayerButton);
-    controlsVBox.getChildren().add(hideLayerButton);
   }
 
   /**
