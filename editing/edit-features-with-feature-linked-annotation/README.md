@@ -17,8 +17,8 @@ The feature-linked annotation will update accordingly.
 ## How it works
 
 1. Load the geodatabase. NOTE: Read/write geodatabases should normally come from a `GeodatabaseSyncTask`, but this has been omitted here. That functionality is covered in the sample *Generate geodatabase*.
-2. Create `FeatureLayer`s from `GeodatabaseFeatureTable`s found in the geodatabase with `geodatabase.getGeodatabaseFeatureTable`.
-3. Create `AnnotationLayer`s from `GeodatabaseFeatureTable`s found in the geodatabase with `geodatabase.getGeodatabaseAnnotationTables`.
+2. Create `FeatureLayer`s from `GeodatabaseFeatureTable`s found in the geodatabase with `Geodatabase.getGeodatabaseFeatureTable()`.
+3. Create `AnnotationLayer`s from `GeodatabaseFeatureTable`s found in the geodatabase with `Geodatabase.getGeodatabaseAnnotationTables()`.
 4. Add the `FeatureLayer`s and `AnnotationLayer`s to the map's operational layers.
 5. Use `MapView.setOnMouseClicked()` to handle clicks on the map to either select address points or parcel polyline features. NOTE: Selection is only enabled for points and straight (single segment) polylines.
 6. For the address points, a dialog opens to allow editing of the address number (AD_ADDRESS) and street name (ST_STR_NAM) attributes, which use the expression `$feature.AD_ADDRESS + " " + $feature.ST_STR_NAM` for annotation.

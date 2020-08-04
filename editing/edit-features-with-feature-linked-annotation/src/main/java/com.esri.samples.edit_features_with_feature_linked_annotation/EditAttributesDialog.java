@@ -69,12 +69,12 @@ public class EditAttributesDialog extends Dialog<String>{
                         editResult.get();
                       }
                     } catch (InterruptedException | ExecutionException e) {
-                      new Alert(Alert.AlertType.ERROR, "Error updating attributes: " + e.getCause().getMessage()).show();
+                      new Alert(Alert.AlertType.ERROR, "Cannot update attributes: " + e.getCause().getMessage()).show();
                     }
                   }
           );
         } catch (Exception e) {
-          new Alert(Alert.AlertType.ERROR, "Cannot update attributes " + e.getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
       }
       return null;

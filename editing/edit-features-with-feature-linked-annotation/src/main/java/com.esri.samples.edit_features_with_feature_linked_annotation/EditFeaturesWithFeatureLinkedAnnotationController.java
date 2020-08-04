@@ -98,7 +98,6 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
         }
       });
     } catch (Exception e) {
-      // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
@@ -134,26 +133,23 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
     selectedFeature = null;
 
     // identify across all layers
-    ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultFuture = mapView.identifyLayersAsync(screenPoint, 1, false, 20);
-
-    // add a listener to the future
-    identifyLayerResultFuture.addDoneListener(() -> {
+    ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture = mapView.identifyLayersAsync(screenPoint, 1, false);
+    identifyLayerResultsFuture.addDoneListener(() -> {
       try {
         // get the list of results from the future
-        List<IdentifyLayerResult> identifyLayerResults = identifyLayerResultFuture.get();
-        // iterate all the layers in the identify results list
-        identifyLayerResults.forEach(layerResult -> {
-          // iterate the results and check for Feature results
-          layerResult.getElements().forEach(identifiedElement -> {
-            if (identifiedElement instanceof Feature) {
-              // get a reference to the identified feature
-              selectedFeature = (Feature) identifiedElement;
-
-              // check the geometry of the feature
-              selectFeature(selectedFeature, layerResult);
-            }
-          });
-        });
+        List<IdentifyLayerResult> identifyLayerResults = identifyLayerResultsFuture.get();
+        // if one or more results have been identified
+        if (identifyLayerResults.size() > 0) {
+          // retrieve the first result
+          IdentifyLayerResult layerResult = identifyLayerResults.get(0);
+          // check that the result is a feature layer, thereby excluding annotation layers
+          if (layerResult.getLayerContent() instanceof FeatureLayer) {
+            // get a reference to the identified feature
+            selectedFeature = (Feature) layerResult.getElements().get(0);
+            // check the geometry and select the feature
+            selectFeature(layerResult);
+          }
+        }
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -164,36 +160,41 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
    * Check if the identified feature is a straight polyline or a point, and select the feature.
    * For a point feature, show a dialog to edit attributes. Future clicks will call move functions.
    */
-  private void selectFeature(Feature selectedFeature, IdentifyLayerResult layerResult) {
+  private void selectFeature(IdentifyLayerResult layerResult) {
 
-    // if the selected feature is a polyline
-    if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
-      // create a polyline builder from the selected feature
-      PolylineBuilder polylineBuilder = new PolylineBuilder((Polyline) selectedFeature.getGeometry());
-      // get a list of parts of the selected polyline
-      List<Part> parts = polylineBuilder.getParts();
-      parts.forEach(part -> {
-        // if the selected feature is a polyline with any part containing more than one segment
-        // (i.e. a curve)
-        if (part.getPointCount() > 2) {
-          // show message reminding user to select straight (single segment) polylines only
-          new Alert(Alert.AlertType.WARNING, "Select straight (single segment) polylines only.").show();
-          // return early, effectively disallowing selection of multi segmented polylines
-          return;
-        } else {
-          // select the polyline feature
-          ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
-          selectedFeatureIsPolyline = true;
-        }
-      });
-    }
-    // if the selected feature is a point, select the feature
-    else if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POINT) {
-      ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
-      // open a dialog to edit the feature's attributes
-      showEditableAttributes(selectedFeature);
-    } else {
-      new Alert(Alert.AlertType.WARNING, "Feature of unexpected geometry type selected.").show();
+    try {
+      // if the selected feature is a polyline
+      if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+        // create a polyline builder from the selected feature
+        PolylineBuilder polylineBuilder = new PolylineBuilder((Polyline) selectedFeature.getGeometry());
+        // get a list of parts of the selected polyline
+        List<Part> parts = polylineBuilder.getParts();
+        parts.forEach(part -> {
+          // if the selected feature is a polyline with any part containing more than one segment
+          // (i.e. a curve)
+          if (part.getPointCount() > 2) {
+            selectedFeature = null;
+            // show message reminding user to select straight (single segment) polylines only
+            new Alert(Alert.AlertType.WARNING, "Select straight (single segment) polylines only.").show();
+            // return early, effectively disallowing selection of multi segmented polylines
+            return;
+          } else {
+            // select the polyline feature
+            ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
+            selectedFeatureIsPolyline = true;
+          }
+        });
+      }
+      // if the selected feature is a point, select the feature
+      else if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POINT) {
+        ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
+        // open a dialog to edit the feature's attributes
+        showEditableAttributes(selectedFeature);
+      } else {
+        new Alert(Alert.AlertType.WARNING, "Feature of unexpected geometry type selected.").show();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
@@ -223,14 +224,14 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
                   editResult.get();
                 }
               } catch (InterruptedException | ExecutionException e) {
-                new Alert(Alert.AlertType.ERROR, "Error updating attributes: " + e.getCause().getMessage()).show();
+                new Alert(Alert.AlertType.ERROR, "Cannot update attributes: " + e.getCause().getMessage()).show();
               }
             }
     );
   }
 
   /**
-   * Move the currently selected point feature to the given map point by updating the selected
+   * Move the selected point feature to the given map point by updating the selected
    * feature's geometry and feature table.
    */
   private void movePoint(Point mapPoint) {
@@ -264,10 +265,10 @@ public class EditFeaturesWithFeatureLinkedAnnotationController {
     // get the part of the polyline nearest to the map point
     Part part = polylineBuilder.getParts().get((int) nearestVertex.getPartIndex());
 
-    // remove the nearest vertex to the map point from the part
+    // remove the nearest point to the map point from the part
     part.removePoint((int) nearestVertex.getPointIndex());
 
-    // add the new map point to the part
+    // add the map point as the new point on the part
     part.addPoint((Point) GeometryEngine.project(mapPoint, polyline.getSpatialReference()));
 
     // add the part to the polyline
