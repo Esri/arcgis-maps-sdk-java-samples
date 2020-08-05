@@ -1,1 +1,16 @@
 rootProject.name = 'edit-features-with-feature-linked-annotation'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/74c0c9fa80f4498c9739cc42531e9948/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./src/main/resources/edit_features_with_feature_linked_annotation/loudon")
+    )
+    delete file("./data.zip")
+}
