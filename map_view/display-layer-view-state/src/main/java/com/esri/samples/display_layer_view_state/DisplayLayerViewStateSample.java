@@ -27,8 +27,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeException;
@@ -79,6 +84,8 @@ public class DisplayLayerViewStateSample extends Application {
 
       // create a label to display the view status
       layerViewStatusLabel = new Label("Click button to load feature layer\n ");
+      layerViewStatusLabel.setTextAlignment(TextAlignment.CENTER);
+      layerViewStatusLabel.setStyle("-fx-font-size: 16;");
 
       // create a listener that fires every time a layer's view status changes
       mapView.addLayerViewStateChangedListener(statusChangeEvent -> {
@@ -91,7 +98,29 @@ public class DisplayLayerViewStateSample extends Application {
         }
         // get the layer's view status and display the status
         EnumSet<LayerViewStatus> layerViewStatus = statusChangeEvent.getLayerViewStatus();
-        displayViewStateText(layerViewStatus);
+
+        List<String> stringList = new ArrayList<>();
+
+        if (layerViewStatus.contains(LayerViewStatus.ACTIVE)) {
+          stringList.add("Active");
+        }
+        if (layerViewStatus.contains(LayerViewStatus.ERROR)) {
+          stringList.add("Error");
+        }
+        if (layerViewStatus.contains(LayerViewStatus.LOADING)) {
+          stringList.add("Loading");
+        }
+        if (layerViewStatus.contains(LayerViewStatus.NOT_VISIBLE)) {
+          stringList.add("Not Visible");
+        }
+        if (layerViewStatus.contains(LayerViewStatus.OUT_OF_SCALE)) {
+          stringList.add("Out of Scale");
+        }
+        if (layerViewStatus.contains(LayerViewStatus.WARNING)) {
+          stringList.add("Warning");
+        }
+
+        layerViewStatusLabel.setText("Current view status:\n" + String.join(", ", stringList));
 
         // if there is an error or warning, format and display a message as an Alert
         ArcGISRuntimeException error = statusChangeEvent.getError();
@@ -105,6 +134,7 @@ public class DisplayLayerViewStateSample extends Application {
 
       // create buttons to toggle the visibility of the feature layer
       toggleLayerButton = new Button("Load Layer");
+      toggleLayerButton.setMaxWidth(130);
 
       // create a listener for clicks on the load layer button
       toggleLayerButton.setOnAction(event -> {
@@ -133,7 +163,12 @@ public class DisplayLayerViewStateSample extends Application {
       });
 
       // create a control panel and add label and button
-      VBox controlsVBox = new VBox();
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setAlignment(Pos.TOP_CENTER);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
+        Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(400, 120);
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren().addAll(layerViewStatusLabel, toggleLayerButton);
 
@@ -145,36 +180,6 @@ public class DisplayLayerViewStateSample extends Application {
       // on any error, display the stack trace
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Formats and displays all relevant layer view status flags
-   *
-   * @param layerViewStatus to display
-   */
-  public void displayViewStateText(EnumSet<LayerViewStatus> layerViewStatus) {
-    List<String> stringList = new ArrayList<>();
-
-    if (layerViewStatus.contains(LayerViewStatus.ACTIVE)) {
-      stringList.add("Active");
-    }
-    if (layerViewStatus.contains(LayerViewStatus.ERROR)) {
-      stringList.add("Error");
-    }
-    if (layerViewStatus.contains(LayerViewStatus.LOADING)) {
-      stringList.add("Loading");
-    }
-    if (layerViewStatus.contains(LayerViewStatus.NOT_VISIBLE)) {
-      stringList.add("Not Visible");
-    }
-    if (layerViewStatus.contains(LayerViewStatus.OUT_OF_SCALE)) {
-      stringList.add("Out of Scale");
-    }
-    if (layerViewStatus.contains(LayerViewStatus.WARNING)) {
-      stringList.add("Warning");
-    }
-
-    layerViewStatusLabel.setText("Current view status:\n" + String.join(", ", stringList));
   }
 
   /**
