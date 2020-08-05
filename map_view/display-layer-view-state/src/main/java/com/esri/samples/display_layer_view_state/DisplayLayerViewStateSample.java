@@ -132,7 +132,7 @@ public class DisplayLayerViewStateSample extends Application {
         }
       });
 
-      // create buttons to toggle the visibility of the feature layer
+      // create a button to toggle the visibility of the feature layer
       toggleLayerButton = new Button("Load Layer");
       toggleLayerButton.setMaxWidth(130);
 
@@ -162,7 +162,7 @@ public class DisplayLayerViewStateSample extends Application {
         }
       });
 
-      // create a control panel and add label and button
+      // create a control panel and add the label and button
       VBox controlsVBox = new VBox(6);
       controlsVBox.setAlignment(Pos.TOP_CENTER);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
