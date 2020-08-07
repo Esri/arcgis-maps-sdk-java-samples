@@ -20,6 +20,14 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javafx.application.Application;
+import javafx.geometry.Point2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.Geodatabase;
@@ -37,14 +45,6 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import javafx.application.Application;
-
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
 
@@ -81,24 +81,18 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
       
-      // create the geodatabase from local resource
+      // create and load the geodatabase
       File geodatabaseFile = new File(System.getProperty("data.dir"),
         "./src/main/resources/edit_features_with_feature_linked_annotation/loudon/loudoun_anno.geodatabase");
       Geodatabase geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
-
       geodatabase.addDoneLoadingListener(() -> {
-        //load the geodatabase
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
           // create feature layers from tables in the geodatabase
-          addressPointFeatureLayer = new FeatureLayer(geodatabase.getGeodatabaseFeatureTable(
-            "Loudoun_Address_Points_1"));
+          addressPointFeatureLayer = new FeatureLayer(geodatabase.getGeodatabaseFeatureTable("Loudoun_Address_Points_1"));
           parcelLinesFeatureLayer = new FeatureLayer(geodatabase.getGeodatabaseFeatureTable("ParcelLines_1"));
-
           // create annotation layers from tables in the geodatabase
-          addressPointsAnnotationLayer = new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable(
-            "Loudoun_Address_PointsAnno_1"));
-          parcelLinesAnnotationLayer = new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable(
-            "ParcelLinesAnno_1"));
+          addressPointsAnnotationLayer = new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable("Loudoun_Address_PointsAnno_1"));
+          parcelLinesAnnotationLayer = new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable("ParcelLinesAnno_1"));
 
           // add the feature layers to the map
           map.getOperationalLayers().add(addressPointFeatureLayer);
@@ -130,7 +124,9 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   }
 
   /**
-   * Select the nearest feature, or move the point or polyline vertex to the given screen point.
+   * Selects the nearest feature, or move the point or polyline vertex to the given screen point.
+   *
+   * @param screenPoint location the user clicked
    */
   private void selectOrMove(Point2D screenPoint) {
 
@@ -151,7 +147,9 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   }
 
   /**
-   * Identify a feature near the given screen point.
+   * Identifies a feature near the given screen point.
+   *
+   * @param screenPoint location the user clicked
    */
   private void identifyFeature(Point2D screenPoint) {
 
@@ -183,8 +181,10 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   }
 
   /**
-   * Check if the identified feature is a straight polyline or a point, and select the feature.
+   * Checks if the identified feature is a straight polyline or a point, and select the feature.
    * For a point feature, show a dialog to edit attributes. Future clicks will call move functions.
+   *
+   * @param layerResult identified layer
    */
   private void selectFeature(IdentifyLayerResult layerResult) {
 
@@ -225,8 +225,10 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   }
 
   /**
-   * Create a dialog with text fields to allow editing of the given feature's 'AD_ADDRESS' and
+   * Creates a dialog with text fields to allow editing of the given feature's 'AD_ADDRESS' and
    * 'ST_STR_NAM' attributes.
+   *
+   * @param selectedFeature feature to update
    */
   private void showEditableAttributes(Feature selectedFeature) {
 
@@ -238,7 +240,9 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   }
 
   /**
-   * Update the attributes of the selected feature.
+   * Updates the attributes of the selected feature.
+   *
+   * @param selectedFeature feature to update
    */
   static void updateAttributes(Feature selectedFeature) {
 
@@ -255,8 +259,10 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   }
 
   /**
-   * Move the selected point feature to the given map point by updating the selected
+   * Moves the selected point feature to the given map point by updating the selected
    * feature's geometry and feature table.
+   *
+   * @param mapPoint location to move point feature
    */
   private void movePoint(Point mapPoint) {
 
@@ -271,8 +277,10 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   }
 
   /**
-   * Move the last of the vertex point of the currently selected polyline to the given map point by updating the
+   * Moves the last of the vertex point of the currently selected polyline to the given map point by updating the
    * selected feature's geometry and feature table.
+   *
+   * @param mapPoint location to move polyline feature
    */
   private void movePolylineVertex(Point mapPoint) {
 
@@ -309,7 +317,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   }
 
   /**
-   * Clear any previously selected feature layers.
+   * Clears any previously selected feature layers.
    */
   private void clearSelection() {
 
