@@ -18,7 +18,6 @@ package com.esri.samples.edit_features_with_feature_linked_annotation;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
@@ -63,7 +62,7 @@ public class EditAttributesDialog extends Dialog<Feature>{
 
           return selectedFeature;
         } catch (Exception e) {
-          new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+          e.printStackTrace();
         }
       }
       return null;

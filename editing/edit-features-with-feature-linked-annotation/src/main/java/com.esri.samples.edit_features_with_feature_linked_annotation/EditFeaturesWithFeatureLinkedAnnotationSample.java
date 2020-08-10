@@ -184,7 +184,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
    * Checks if the identified feature is a straight polyline or a point, and select the feature.
    * For a point feature, show a dialog to edit attributes. Future clicks will call move functions.
    *
-   * @param layerResult identified layer
+   * @param layerResult identify layer result
    */
   private void selectFeature(IdentifyLayerResult layerResult) {
 
