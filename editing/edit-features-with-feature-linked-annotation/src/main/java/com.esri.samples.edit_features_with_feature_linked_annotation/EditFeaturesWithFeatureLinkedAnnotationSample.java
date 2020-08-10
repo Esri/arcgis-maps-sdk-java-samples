@@ -237,6 +237,9 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
 
     // show the dialog and wait for the user response
     editAttributesDialog.showAndWait();
+
+    // update the selected feature's feature table
+    updateAttributes(selectedFeature);
   }
 
   /**
