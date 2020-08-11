@@ -10,7 +10,7 @@ Shapefiles store location, shape and attributes of geospatial vector data. Shape
 
 ## How to use the sample
 
-When the sample starts, a feature layer from a shapefile is added to the map. Pan and zoom to inspect the feature layer.
+Pan and zoom around the map. View the data loaded from the shapefile.
 
 ## How it works
 

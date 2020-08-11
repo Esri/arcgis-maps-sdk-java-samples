@@ -27,6 +27,22 @@ If the selected transformation is not usable (has missing grid files) then an er
 * GeometryEngine
 * TransformationCatalog
 
+## Additional information
+
+Some transformations aren't available until transformation data is provided.
+
+This sample uses a `GeographicTransformation`, which extends the `DatumTransformation` class. As of 100.9, ArcGIS Runtime also includes a `HorizontalVerticalTransformation`, which also extends `DatumTransformation`. The `HorizontalVerticalTrasnformation` class is used to transform coordinates of z-aware geometries between spatial references that have different geographic and/or vertical coordinate systems.
+
+This sample can be used with or without provisioning projection engine data to your device. If you do not provision data, a limited number of transformations will be available.
+
+To download projection engine data to your device:
+
+1. Login to the [ArcGIS for Developers site](https://developers.arcgis.com/sign-in/) using your Developer account.
+2. In the Dashboard page, click '[Download APIs and SDKs](https://developers.arcgis.com/downloads/data)' and go to the `Supplemental ArcGIS Runtime Data` tab.
+3. Click the download button next to `Projection Engine Data` to download projection engine data to your computer.
+4. Unzip the downloaded data on your computer.
+5. Create an `~/ArcGIS/Runtime/Data/PEDataRuntime` directory on your device and copy the files to this directory.
+
 ## About the data
 
 The map starts out zoomed into the grounds of the Royal Observatory, Greenwich. The initial point is in the [British National Grid](https://epsg.io/27700) spatial reference, which was created by the United Kingdom Ordnance Survey. The spatial reference after projection is in [web mercator](https://epsg.io/3857).
