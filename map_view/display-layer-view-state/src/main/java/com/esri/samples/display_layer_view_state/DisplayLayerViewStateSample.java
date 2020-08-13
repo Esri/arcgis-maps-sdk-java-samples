@@ -53,8 +53,6 @@ public class DisplayLayerViewStateSample extends Application {
 
   private MapView mapView;
   private FeatureLayer featureLayer;
-  private Label layerViewStatusLabel;
-  private Button toggleLayerButton;
 
   @Override
   public void start(Stage stage) {
@@ -83,7 +81,7 @@ public class DisplayLayerViewStateSample extends Application {
       mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), 40000000));
 
       // create a label to display the view status
-      layerViewStatusLabel = new Label("Click button to load feature layer\n ");
+      Label layerViewStatusLabel = new Label("Click button to load feature layer\n ");
       layerViewStatusLabel.setTextAlignment(TextAlignment.CENTER);
       layerViewStatusLabel.setStyle("-fx-font-size: 16;");
 
@@ -126,20 +124,20 @@ public class DisplayLayerViewStateSample extends Application {
         ArcGISRuntimeException error = statusChangeEvent.getError();
         if (error != null) {
           Throwable cause = error.getCause();
-          String message = (cause != null) ? "Network issue, unable to load layer" : error.getMessage();
+          String message = (cause != null) ? "Unable to load layer" : error.getMessage();
           Alert alert = new Alert(Alert.AlertType.ERROR, message);
           alert.show();
         }
       });
 
       // create a button to toggle the visibility of the feature layer
-      toggleLayerButton = new Button("Load Layer");
+      Button toggleLayerButton = new Button("Load Layer");
       toggleLayerButton.setMaxWidth(130);
 
       // create a listener for clicks on the load layer button
       toggleLayerButton.setOnAction(event -> {
 
-        // if the feature layer already exists toggle it's visibility to visible
+        // if the feature layer already exists, toggle it's visibility
         if (featureLayer != null) {
           featureLayer.setVisible(!featureLayer.isVisible());
         } else {
@@ -155,10 +153,10 @@ public class DisplayLayerViewStateSample extends Application {
         }
 
         // toggle the text on the button
-        if (toggleLayerButton.getText().equals("Load Layer")){
-          toggleLayerButton.setText("Hide Layer");
+        if (toggleLayerButton.getText().equals("Hide Layer")){
+          toggleLayerButton.setText("Show Layer");
         } else {
-          toggleLayerButton.setText("Load Layer");
+          toggleLayerButton.setText("Hide Layer");
         }
       });
 

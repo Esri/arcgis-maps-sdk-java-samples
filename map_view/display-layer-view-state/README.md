@@ -12,7 +12,7 @@ The view status includes information on the loading state of layers and whether 
 
 Click the *Load Layer* button to create a new layer and add it to the map. As you pan and zoom around the map, note how the `LayerViewStatus` flags change; for example, `OUT_OF_SCALE` becomes true when the map is scaled outside of the layer's min and max scale range. Click the *Hide Layer* button to hide the layer and observe the view state change to `NOT_VISIBLE`.
 
-If your device supports airplane mode, you can turn this on and pan around the map to see layers display the `WARNING` status when they cannot online fetch data. Turn airplane mode back off to see the warning disappear.
+If you disconnect your device from the network, you can pan around the map to see layers display the `WARNING` status when they cannot fetch online data. Reconnect to the network to see the warning disappear.
 
 ## How it works
 
