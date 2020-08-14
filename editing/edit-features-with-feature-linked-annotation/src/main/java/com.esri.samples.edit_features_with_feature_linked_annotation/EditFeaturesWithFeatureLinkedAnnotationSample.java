@@ -85,6 +85,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       File geodatabaseFile = new File(System.getProperty("data.dir"),
         "./src/main/resources/edit_features_with_feature_linked_annotation/loudon/loudoun_anno.geodatabase");
       Geodatabase geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
+
       geodatabase.addDoneLoadingListener(() -> {
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
           // create feature layers from tables in the geodatabase
@@ -126,7 +127,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   /**
    * Selects the nearest feature, or move the point or polyline vertex to the given screen point.
    *
-   * @param screenPoint location the user clicked
+   * @param screenPoint the screen point at which to select a feature, or to move a feature to
    */
   private void selectOrMove(Point2D screenPoint) {
 
@@ -149,7 +150,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   /**
    * Identifies a feature near the given screen point.
    *
-   * @param screenPoint location the user clicked
+   * @param screenPoint the screen point at which to identify a feature
    */
   private void identifyFeature(Point2D screenPoint) {
 
@@ -157,25 +158,24 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
     clearSelection();
 
     // identify across all layers
-    ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture = mapView.identifyLayersAsync(screenPoint, 1, false);
+    ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture = mapView.identifyLayersAsync(screenPoint, 10, false);
     identifyLayerResultsFuture.addDoneListener(() -> {
       try {
         // get the list of results from the future
         List<IdentifyLayerResult> identifyLayerResults = identifyLayerResultsFuture.get();
-        // if one or more results have been identified
-        if (!identifyLayerResults.isEmpty()) {
-          // retrieve the first result
-          IdentifyLayerResult layerResult = identifyLayerResults.get(0);
-          // check that the result is a feature layer, thereby excluding annotation layers
+        // for each layer from which an element was identified
+        for (IdentifyLayerResult layerResult : identifyLayerResults) {
+          // check if the layer is a feature layer, thereby excluding annotation layers
           if (layerResult.getLayerContent() instanceof FeatureLayer) {
             // get a reference to the identified feature
             selectedFeature = (Feature) layerResult.getElements().get(0);
             // check the geometry and select the feature
             selectFeature(layerResult);
+            return;
           }
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        new Alert(Alert.AlertType.ERROR, "Error identifying the clicked feature.").show();
       }
     });
   }
@@ -184,43 +184,36 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
    * Checks if the identified feature is a straight polyline or a point, and select the feature.
    * For a point feature, show a dialog to edit attributes. Future clicks will call move functions.
    *
-   * @param layerResult identify layer result
+   * @param layerResult the identify layer result from which to select a feature
    */
   private void selectFeature(IdentifyLayerResult layerResult) {
 
-    try {
-      // if the selected feature is a polyline
-      if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
-        // create a polyline builder from the selected feature
-        PolylineBuilder polylineBuilder = new PolylineBuilder((Polyline) selectedFeature.getGeometry());
-        // get a list of parts of the selected polyline
-        List<Part> parts = polylineBuilder.getParts();
-        parts.forEach(part -> {
-          // if the selected feature is a polyline with any part containing more than one segment
-          // (i.e. a curve)
-          if (part.getPointCount() > 2) {
-            selectedFeature = null;
-            // show message reminding user to select straight (single segment) polylines only
-            new Alert(Alert.AlertType.WARNING, "Select straight (single segment) polylines only.").show();
-            // return early, effectively disallowing selection of multi segmented polylines
-            return;
-          } else {
-            // select the polyline feature
-            ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
-            selectedFeatureIsPolyline = true;
-          }
-        });
-      }
-      // if the selected feature is a point, select the feature
-      else if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POINT) {
-        ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
-        // open a dialog to edit the feature's attributes
-        showEditableAttributes(selectedFeature);
-      } else {
-        new Alert(Alert.AlertType.WARNING, "Feature of unexpected geometry type selected.").show();
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    // if the selected feature is a polyline
+    if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+      // create a polyline builder from the selected feature
+      PolylineBuilder polylineBuilder = new PolylineBuilder((Polyline) selectedFeature.getGeometry());
+      // get a list of parts of the selected polyline
+      List<Part> parts = polylineBuilder.getParts();
+      parts.forEach(part -> {
+        // only select single segment lines
+        if (part.getPointCount() <= 2) {
+          // select the polyline feature
+          ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
+          selectedFeatureIsPolyline = true;
+        } else {
+          selectedFeature = null;
+          // show message reminding user to select straight (single segment) polylines only
+          new Alert(Alert.AlertType.WARNING, "Select straight (single segment) polylines only.").show();
+        }
+      });
+    }
+    // if the selected feature is a point, select the feature
+    else if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POINT) {
+      ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
+      // open a dialog to edit the feature's attributes
+      showEditableAttributes(selectedFeature);
+    } else {
+      new Alert(Alert.AlertType.WARNING, "Feature of unexpected geometry type selected.").show();
     }
   }
 
@@ -228,7 +221,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
    * Creates a dialog with text fields to allow editing of the given feature's 'AD_ADDRESS' and
    * 'ST_STR_NAM' attributes.
    *
-   * @param selectedFeature feature to update
+   * @param selectedFeature the feature to update
    */
   private void showEditableAttributes(Feature selectedFeature) {
 
@@ -245,7 +238,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   /**
    * Updates the attributes of the selected feature.
    *
-   * @param selectedFeature feature to update
+   * @param selectedFeature the feature to update
    */
   static void updateAttributes(Feature selectedFeature) {
 
@@ -265,7 +258,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
    * Moves the selected point feature to the given map point by updating the selected
    * feature's geometry and feature table.
    *
-   * @param mapPoint location to move point feature
+   * @param mapPoint the location to move point feature
    */
   private void movePoint(Point mapPoint) {
 
@@ -283,7 +276,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
    * Moves the last of the vertex point of the currently selected polyline to the given map point by updating the
    * selected feature's geometry and feature table.
    *
-   * @param mapPoint location to move polyline feature
+   * @param mapPoint the location to move polyline feature
    */
   private void movePolylineVertex(Point mapPoint) {
 

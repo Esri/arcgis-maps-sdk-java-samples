@@ -59,8 +59,6 @@ public class EditAttributesDialog extends Dialog<Feature>{
 
           // set ST_STR_NAM value to the string from the text field
           selectedFeature.getAttributes().put("ST_STR_NAM", streetNameTextField.getText());
-
-          return selectedFeature;
         } catch (Exception e) {
           e.printStackTrace();
         }
