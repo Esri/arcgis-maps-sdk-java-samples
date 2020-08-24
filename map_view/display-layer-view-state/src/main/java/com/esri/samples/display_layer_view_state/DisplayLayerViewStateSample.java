@@ -120,13 +120,10 @@ public class DisplayLayerViewStateSample extends Application {
 
         layerViewStatusLabel.setText("Current view status:\n" + String.join(", ", stringList));
 
-        // if there is an error or warning, format and display a message as an Alert
-        ArcGISRuntimeException error = statusChangeEvent.getError();
-        if (error != null) {
-          Throwable cause = error.getCause();
-          String message = (cause != null) ? "Unable to load layer" : error.getMessage();
-          Alert alert = new Alert(Alert.AlertType.ERROR, message);
-          alert.show();
+        // show an alert if a warning is detected from the state change
+        ArcGISRuntimeException statusError = statusChangeEvent.getError();
+        if (statusError != null) {
+         new Alert(Alert.AlertType.ERROR, "Unable to update layer view status").show();
         }
       });
 
