@@ -52,7 +52,7 @@ public class OpenScenePortalItemSample extends Application {
 
       // create a scene from a web scene portal item and set it to the scene view
       Portal portal = new Portal("http://www.arcgis.com/");
-      PortalItem webScene = new PortalItem(portal, "63a16e0c9f364d0fab9d55f40bf71771");
+      PortalItem webScene = new PortalItem(portal, "31874da8a16d45bfbc1273422f772270");
       ArcGISScene scene = new ArcGISScene(webScene);
       sceneView.setArcGISScene(scene);
 
