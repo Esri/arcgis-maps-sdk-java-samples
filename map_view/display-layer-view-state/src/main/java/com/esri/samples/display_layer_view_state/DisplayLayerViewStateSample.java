@@ -26,6 +26,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -33,14 +34,13 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeException;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.layers.Layer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -58,7 +58,7 @@ public class DisplayLayerViewStateSample extends Application {
   public void start(Stage stage) {
 
     try {
-      // create the stack pane and application scene
+      // create the stack pane and the application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
       scene.getStylesheets().add(getClass().getResource("/display_layer_view_state/style.css").toExternalForm());
@@ -81,96 +81,100 @@ public class DisplayLayerViewStateSample extends Application {
       mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), 40000000));
 
       // create a label to display the view status
-      Label layerViewStatusLabel = new Label("Click button to load feature layer\n ");
-      layerViewStatusLabel.setTextAlignment(TextAlignment.CENTER);
-      layerViewStatusLabel.setStyle("-fx-font-size: 16;");
+      Label layerViewStatusLabel = new Label("Current view status: ");
+
+      // create a checkbox UI that toggles the visibility of the feature layer
+      CheckBox visibilityCheckBox = new CheckBox();
+      visibilityCheckBox.setText("Layer active");
+      visibilityCheckBox.setSelected(true);
+      visibilityCheckBox.setDisable(true);
+      visibilityCheckBox.setOnAction(event -> featureLayer.setVisible(visibilityCheckBox.isSelected()));
+
+      // create a button and a listener to load a feature layer
+      Button loadLayerButton = new Button("Load Layer");
+
+      loadLayerButton.setOnAction(event -> {
+
+        if (!visibilityCheckBox.isDisabled()) {
+          visibilityCheckBox.setDisable(true);
+        }
+
+        if (featureLayer != null) {
+          map.getOperationalLayers().clear();
+        }
+
+        // create a new feature layer from a portal item
+        final PortalItem portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
+          "b8f4033069f141729ffb298b7418b653");
+        featureLayer = new FeatureLayer(portalItem, 0);
+        //  set a minimum and a maximum scale for the visibility of the feature layer
+        featureLayer.setMinScale(400000000);
+        featureLayer.setMaxScale(4000000);
+        // add the feature layer to the map
+        map.getOperationalLayers().add(featureLayer);
+
+        // add a done loading listener to the feature layer
+        featureLayer.addDoneLoadingListener(() -> {
+          if (featureLayer.getLoadStatus() == LoadStatus.LOADED){
+            visibilityCheckBox.setDisable(false);
+            featureLayer.setVisible(visibilityCheckBox.isSelected());
+            loadLayerButton.setText("Reload Layer");
+          } else {
+            new Alert(Alert.AlertType.ERROR, "Feature layer failed to load").show();
+          }
+        });
+      });
 
       // create a listener that fires every time a layer's view status changes
       mapView.addLayerViewStateChangedListener(statusChangeEvent -> {
 
-        // get the layer whose state has changed
-        Layer layer = statusChangeEvent.getLayer();
-        // only update the status if the layer is the feature layer being tracked
-        if (layer != featureLayer) {
-          return;
-        }
-        // get the layer's view status and display the status
-        EnumSet<LayerViewStatus> layerViewStatus = statusChangeEvent.getLayerViewStatus();
+        // check the layer whose state has changed is the feature layer
+        if (statusChangeEvent.getLayer() == featureLayer) {
 
-        List<String> stringList = new ArrayList<>();
+          // get the layer's view status and display the status
+          EnumSet<LayerViewStatus> layerViewStatus = statusChangeEvent.getLayerViewStatus();
+          List<String> stringList = new ArrayList<>();
+          if (layerViewStatus.contains(LayerViewStatus.ACTIVE)) {
+            stringList.add("Active");
+          }
+          if (layerViewStatus.contains(LayerViewStatus.ERROR)) {
+            stringList.add("Error");
+          }
+          if (layerViewStatus.contains(LayerViewStatus.LOADING)) {
+            stringList.add("Loading");
+          }
+          if (layerViewStatus.contains(LayerViewStatus.NOT_VISIBLE)) {
+            stringList.add("Not Visible");
+          }
+          if (layerViewStatus.contains(LayerViewStatus.OUT_OF_SCALE)) {
+            stringList.add("Out of Scale");
+          }
+          if (layerViewStatus.contains(LayerViewStatus.WARNING)) {
+            stringList.add("Warning");
+          }
+          layerViewStatusLabel.setText("Current view status: " + String.join(", ", stringList));
 
-        if (layerViewStatus.contains(LayerViewStatus.ACTIVE)) {
-          stringList.add("Active");
-        }
-        if (layerViewStatus.contains(LayerViewStatus.ERROR)) {
-          stringList.add("Error");
-        }
-        if (layerViewStatus.contains(LayerViewStatus.LOADING)) {
-          stringList.add("Loading");
-        }
-        if (layerViewStatus.contains(LayerViewStatus.NOT_VISIBLE)) {
-          stringList.add("Not Visible");
-        }
-        if (layerViewStatus.contains(LayerViewStatus.OUT_OF_SCALE)) {
-          stringList.add("Out of Scale");
-        }
-        if (layerViewStatus.contains(LayerViewStatus.WARNING)) {
-          stringList.add("Warning");
-        }
-
-        layerViewStatusLabel.setText("Current view status:\n" + String.join(", ", stringList));
-
-        // show an alert if a warning is detected from the state change
-        ArcGISRuntimeException statusError = statusChangeEvent.getError();
-        if (statusError != null) {
-         new Alert(Alert.AlertType.ERROR, "Unable to update layer view status").show();
+          // show an alert if a warning is detected from the state change
+          ArcGISRuntimeException statusError = statusChangeEvent.getError();
+          if (statusError != null) {
+            new Alert(Alert.AlertType.ERROR, "Unable to update layer view status").show();
+          }
         }
       });
 
-      // create a button to toggle the visibility of the feature layer
-      Button toggleLayerButton = new Button("Load Layer");
-      toggleLayerButton.setMaxWidth(130);
-
-      // create a listener for clicks on the load layer button
-      toggleLayerButton.setOnAction(event -> {
-
-        // if the feature layer already exists, toggle it's visibility
-        if (featureLayer != null) {
-          featureLayer.setVisible(!featureLayer.isVisible());
-        } else {
-          // if the feature layer doesn't exist, create a new feature layer from a portal item
-          final PortalItem portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
-            "b8f4033069f141729ffb298b7418b653");
-          featureLayer = new FeatureLayer(portalItem, 0);
-          //  set a minimum and a maximum scale for the visibility of the feature layer
-          featureLayer.setMinScale(40000000);
-          featureLayer.setMaxScale(4000000);
-          // add the feature layer to the map
-          map.getOperationalLayers().add(featureLayer);
-        }
-
-        // toggle the text on the button
-        if (toggleLayerButton.getText().equals("Hide Layer")){
-          toggleLayerButton.setText("Show Layer");
-        } else {
-          toggleLayerButton.setText("Hide Layer");
-        }
-      });
-
-      // create a control panel and add the label and button
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setAlignment(Pos.TOP_CENTER);
+      // create a control panel and add the label, checkbox and button UI components
+      VBox controlsVBox = new VBox(15);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(400, 120);
+      controlsVBox.setMaxSize(320, 120);
       controlsVBox.getStyleClass().add("panel-region");
-      controlsVBox.getChildren().addAll(layerViewStatusLabel, toggleLayerButton);
+      controlsVBox.getChildren().addAll(layerViewStatusLabel, visibilityCheckBox, loadLayerButton);
 
       // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_CENTER);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 0));
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();

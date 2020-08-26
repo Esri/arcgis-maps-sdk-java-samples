@@ -10,9 +10,7 @@ The view status includes information on the loading state of layers and whether 
 
 ## How to use the sample
 
-Click the *Load Layer* button to create a new layer and add it to the map. As you pan and zoom around the map, note how the `LayerViewStatus` flags change; for example, `OUT_OF_SCALE` becomes true when the map is scaled outside of the layer's min and max scale range. Click the *Hide Layer* button to hide the layer and observe the view state change to `NOT_VISIBLE`.
-
-If you disconnect your device from the network, you can pan around the map to see layers display the `WARNING` status when they cannot fetch online data. Reconnect to the network to see the warning disappear.
+Click "Load Layer" to add a new layer to the map. The current view status of the layer will display at the top of the sample. Zoom in and out of the map and note that the layer disappears when the map is scaled outside of its min and max scale range. If you disconnect your device from the network and pan around the map, a warning alert will display. Reconnect to the network to remove the warning. Turn the layer's visibility off by unchecking the "layer active" checkbox. The layer's current view status will update accordingly as you carry out these actions.
 
 ## How it works
 
