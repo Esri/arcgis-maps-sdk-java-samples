@@ -85,16 +85,16 @@ public class DisplayLayerViewStateSample extends Application {
 
       // create a checkbox UI that toggles the visibility of the feature layer
       CheckBox visibilityCheckBox = new CheckBox();
-      visibilityCheckBox.setText("Layer active");
+      visibilityCheckBox.setText("Layer visible");
       visibilityCheckBox.setSelected(true);
       visibilityCheckBox.setDisable(true);
       visibilityCheckBox.setOnAction(event -> featureLayer.setVisible(visibilityCheckBox.isSelected()));
 
       // create a button and a listener to load a feature layer
       Button loadLayerButton = new Button("Load Layer");
-
       loadLayerButton.setOnAction(event -> {
 
+        // disable the checkbox when loading/reloading the feature layer, and, if it exists, remove it by clearing the map's operational layers
         if (!visibilityCheckBox.isDisabled()) {
           visibilityCheckBox.setDisable(true);
         }
@@ -108,14 +108,14 @@ public class DisplayLayerViewStateSample extends Application {
           "b8f4033069f141729ffb298b7418b653");
         featureLayer = new FeatureLayer(portalItem, 0);
         //  set a minimum and a maximum scale for the visibility of the feature layer
-        featureLayer.setMinScale(400000000);
+        featureLayer.setMinScale(40000000);
         featureLayer.setMaxScale(4000000);
         // add the feature layer to the map
         map.getOperationalLayers().add(featureLayer);
 
-        // add a done loading listener to the feature layer
+        // enable UI interactions once the feature layer has loaded
         featureLayer.addDoneLoadingListener(() -> {
-          if (featureLayer.getLoadStatus() == LoadStatus.LOADED){
+          if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
             visibilityCheckBox.setDisable(false);
             featureLayer.setVisible(visibilityCheckBox.isSelected());
             loadLayerButton.setText("Reload Layer");
