@@ -126,8 +126,7 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
                     new Alert(Alert.AlertType.ERROR, "Portal item failed to load").show();
                 }
             });
-        } else
-        {
+        } else {
             new Alert(Alert.AlertType.ERROR, "Portal Item ID is empty").show();
         }
 

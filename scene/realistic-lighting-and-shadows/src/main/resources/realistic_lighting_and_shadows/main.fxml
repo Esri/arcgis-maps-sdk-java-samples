@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2020 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+<?import javafx.scene.layout.*?>
+
+<?import com.esri.arcgisruntime.mapping.view.SceneView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ComboBox?>
+<StackPane fx:controller="com.esri.samples.realistic_lighting_and_shadows.RealisticLightingAndShadowsController"
+           xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/realistic_lighting_and_shadows/style.css">
+    <!--SceneView-->
+    <SceneView fx:id="sceneView"/>
+    <StackPane.margin>
+        <Insets topRightBottomLeft="10"/>
+    </StackPane.margin>
+    <!--Slider box-->
+    <VBox styleClass="panel-region">
+        <Label fx:id="timeLabel"/>
+        <ComboBox fx:id="comboBox" maxWidth="Infinity">
+        </ComboBox>
+        <Slider fx:id="timeSlider" showTickLabels="true" showTickMarks="true" majorTickUnit="240" minorTickCount="60" max="1440" value="720" onMouseDragged="#updateTimeOfDay" >
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+        </Slider>
+    </VBox>
+</StackPane>

@@ -1,4 +1,4 @@
-# Graphics Overlay Dictionary Renderer 3D
+# Graphics overlay dictionary renderer 3D
 
 Display MIL-STD-2525. military symbology in 3D.
 
