@@ -10,7 +10,7 @@ if (!file("./samples-data").exists()) {
     )
     ant.unzip(
             src: file("./data.zip"),
-            dest: file("./src/main/resources/edit_features_with_feature_linked_annotation/loudon")
+            dest: file("./samples-data/loudon")
     )
     delete file("./data.zip")
 }

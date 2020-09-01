@@ -83,7 +83,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       
       // create and load the geodatabase
       File geodatabaseFile = new File(System.getProperty("data.dir"),
-        "./src/main/resources/edit_features_with_feature_linked_annotation/loudon/loudoun_anno.geodatabase");
+        "./samples-data/loudon/loudoun_anno.geodatabase");
       Geodatabase geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
 
       geodatabase.addDoneLoadingListener(() -> {
