@@ -7,12 +7,12 @@
     ],
     "keywords": [
         "layer",
+        "load",
         "map",
         "status",
         "view",
+        "visibility",
         "ArcGISMap",
-        "ArcGISMapImageLayer",
-        "Layer",
         "LayerViewStateChangedEvent",
         "LayerViewStateChangedListener",
         "LayerViewStatus",
@@ -23,8 +23,6 @@
     ],
     "relevant_apis": [
         "ArcGISMap",
-        "ArcGISMapImageLayer",
-        "Layer",
         "LayerViewStateChangedEvent",
         "LayerViewStateChangedListener",
         "LayerViewStatus",

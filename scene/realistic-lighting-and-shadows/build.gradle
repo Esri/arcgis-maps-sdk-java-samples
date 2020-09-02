@@ -6,7 +6,11 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
+<<<<<<< HEAD
     arcgisVersion = '100.9.0-2838'
+=======
+    arcgisVersion = '100.9.0'
+>>>>>>> master
 }
 
 javafx {

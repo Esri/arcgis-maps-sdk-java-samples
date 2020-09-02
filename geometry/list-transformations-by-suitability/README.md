@@ -27,6 +27,10 @@ If the selected transformation is not usable (has missing grid files) then an er
 * GeometryEngine
 * TransformationCatalog
 
+## Additional information
+
+`DatumTransformation` has two subclasses, `GeographicTransformation` and `HorizontalVerticalTransformation`. `GeographicTransformation` is used to transform coordinates of geometries between spatial references that have two different geographic coordinate systems. `HorizontalVerticalTransformation` is used to transform coordinates of z-aware geometries between spatial references that have different geographic and/or vertical coordinate systems.
+
 ## About the data
 
 The map starts out zoomed into the grounds of the Royal Observatory, Greenwich. The initial point is in the [British National Grid](https://epsg.io/27700) spatial reference, which was created by the United Kingdom Ordnance Survey. The spatial reference after projection is in [web mercator](https://epsg.io/3857).
