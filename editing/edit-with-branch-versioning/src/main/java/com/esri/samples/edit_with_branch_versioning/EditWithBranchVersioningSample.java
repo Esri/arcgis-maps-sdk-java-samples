@@ -16,46 +16,33 @@
 
 package com.esri.samples.edit_with_branch_versioning;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
+public class EditWithBranchVersioningSample extends Application {
 
-public class EditWithBranchVersioningSample {
-  private MapView mapView;
+  private static EditWithBranchVersioningController controller;
 
   @Override
-  public void start(Stage stage) {
+  public void start(Stage stage) throws IOException {
 
-    try {
-      // create stack pane and application scene
-      StackPane stackPane = new StackPane();
-      Scene scene = new Scene(stackPane);
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_with_branch_versioning/main.fxml"));
+    Parent root = loader.load();
+    controller = loader.getController();
+    Scene scene = new Scene(root);
 
-      // set title, size, and add scene to stage
-      stage.setTitle("Display Map Sample");
-      stage.setWidth(800);
-      stage.setHeight(700);
-      stage.setScene(scene);
-      stage.show();
+    // set title, size, and add scene to stage
+    stage.setTitle("Edit With Branch Versioning Sample");
+    stage.setWidth(800);
+    stage.setHeight(700);
+    stage.setScene(scene);
+    stage.show();
 
-      // create a map with the imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
-
-      // create a map view and set its map
-      mapView = new MapView();
-      mapView.setMap(map);
-
-      // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
-    } catch (Exception e) {
-      // on any error, display the stack trace.
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -63,10 +50,7 @@ public class EditWithBranchVersioningSample {
    */
   @Override
   public void stop() {
-
-    if (mapView != null) {
-      mapView.dispose();
-    }
+    controller.terminate();
   }
 
   /**

@@ -1,27 +1,18 @@
 {
-    "category": "Map",
-    "description": "Display a map with an imagery basemap.",
-    "ignore": false,
-    "images": [
-        "DisplayMap.png"
-    ],
-    "keywords": [
-        "basemap",
-        "map",
-        "ArcGISMap",
-        "Basemap",
-        "MapView"
-    ],
-    "redirect_from": [
-        "/java/latest/sample-code/display-a-map.htm"
-    ],
-    "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
-        "MapView"
-    ],
-    "snippets": [
-        "src/main/java/com/esri/samples/display_map/DisplayMapSample.java"
-    ],
-    "title": "Display map"
+  "category": "Editing",
+  "description": "Create, query and edit a specific server version using service geodatabase.",
+  "ignore": false,
+  "images": [
+    ""
+  ],
+  "keywords": [
+  ],
+  "redirect_from": [
+  ],
+  "relevant_apis": [
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/edit_with_branch_versioning/EditWithBranchVersioningSample.java"
+  ],
+  "title": "Edit with branch versioning"
 }
