@@ -85,7 +85,7 @@ public class ExtrudeGraphicsSample extends Application {
 
       // add a graphics overlay
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-      graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.DRAPED);
+      graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.DRAPED_BILLBOARDED);
 
       // set renderer with extrusion property
       SimpleRenderer renderer = new SimpleRenderer();
