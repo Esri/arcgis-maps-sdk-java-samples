@@ -43,6 +43,8 @@ import com.esri.arcgisruntime.raster.MosaicRule;
 import com.esri.arcgisruntime.raster.MosaicMethod;
 import com.esri.arcgisruntime.raster.MosaicOperation;
 
+import java.util.*;
+
 public class ApplyMosaicRuleToRastersSample extends Application {
 
   private MapView mapView;
@@ -78,7 +80,6 @@ public class ApplyMosaicRuleToRastersSample extends Application {
         CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(260,50);
-      controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.setVisible(false);
 
       // create a label
@@ -111,7 +112,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
           // enable UI interaction once raster layer has loaded
           controlsVBox.setVisible(true);
 
-          // add the mosaic methods to the combo box
+          // add the mosaic rules to the combo box
           comboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
 
           // set the default combo box value
@@ -122,7 +123,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
             mosaicRule = new MosaicRule();
             imageServiceRaster.setMosaicRule(mosaicRule);
           }
-          // update the mosaic rule based on the mosaic method chosen from the combo box
+          // set the mosaic rule based on rule chosen from the combo box
           comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
             setMosaicRule(comboBox.getSelectionModel().getSelectedItem());
           });
@@ -132,7 +133,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
         }
       });
 
-      // add the map view and the control panel to stack pane
+      // add the map view and the control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
@@ -150,35 +151,34 @@ public class ApplyMosaicRuleToRastersSample extends Application {
    */
   private void setMosaicRule(String mosaicMethod) {
 
-    if (mosaicMethod == "Default" ) {
+    if (mosaicMethod == "Default") {
+      mosaicRule = new MosaicRule();
       mosaicRule.setMosaicMethod(MosaicMethod.NONE);
     }
 
-    if (mosaicMethod == "Northwest" ) {
+    if (mosaicMethod == "Northwest") {
+      mosaicRule = new MosaicRule();
       mosaicRule.setMosaicMethod(MosaicMethod.NORTHWEST);
       mosaicRule.setMosaicOperation(MosaicOperation.FIRST);
-
     }
-    if (mosaicMethod =="Center") {
+    if (mosaicMethod == "Center") {
+      mosaicRule = new MosaicRule();
       mosaicRule.setMosaicMethod(MosaicMethod.CENTER);
       mosaicRule.setMosaicOperation(MosaicOperation.BLEND);
-
     }
-    if (mosaicMethod =="By attribute") {
+    if (mosaicMethod == "By attribute") {
+      mosaicRule = new MosaicRule();
       mosaicRule.setMosaicMethod(MosaicMethod.ATTRIBUTE);
       mosaicRule.setSortField("OBJECTID");
-
     }
     if (mosaicMethod == "Lock raster") {
+      mosaicRule = new MosaicRule();
       mosaicRule.setMosaicMethod(MosaicMethod.LOCK_RASTER);
+      mosaicRule.getLockRasterIds().clear();
       mosaicRule.getLockRasterIds().add((long) 1);
       mosaicRule.getLockRasterIds().add((long) 7);
       mosaicRule.getLockRasterIds().add((long) 12);
-
-    } else {
-      mosaicRule.setMosaicMethod(MosaicMethod.NONE);
     }
-
     imageServiceRaster.setMosaicRule(mosaicRule);
   }
 
