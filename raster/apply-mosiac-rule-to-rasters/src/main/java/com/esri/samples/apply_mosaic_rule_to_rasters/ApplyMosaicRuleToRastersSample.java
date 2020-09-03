@@ -17,9 +17,21 @@
 package com.esri.samples.apply_mosaic_rule_to_rasters;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
+import javafx.scene.control.Label;
+
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 
@@ -51,7 +63,28 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // create a map view and set the ArcGISMap to it
       mapView = new MapView();
       mapView.setMap(map);
-      stackPane.getChildren().addAll(mapView);
+      
+      // set up the control panel UI
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
+        CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(260,50);
+      controlsVBox.getStyleClass().add("panel-region");
+      controlsVBox.setVisible(false);
+
+      // create a label
+      Label mosaicRuleLabel = new Label ("Choose a mosaic rule for the image service: ");
+      mosaicRuleLabel.setTextFill(Color.WHITE);
+
+      // create a combo box
+      comboBox = new ComboBox<>();
+      comboBox.setMaxWidth(Double.MAX_VALUE);
+
+      // add the map view and the control panel to stack pane
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace
