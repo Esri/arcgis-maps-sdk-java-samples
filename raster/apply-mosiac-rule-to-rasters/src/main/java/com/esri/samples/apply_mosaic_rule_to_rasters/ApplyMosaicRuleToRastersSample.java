@@ -39,6 +39,9 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
+import com.esri.arcgisruntime.raster.MosaicRule;
+import com.esri.arcgisruntime.raster.MosaicMethod;
+import com.esri.arcgisruntime.raster.MosaicOperation;
 
 public class ApplyMosaicRuleToRastersSample extends Application {
 
@@ -114,6 +117,15 @@ public class ApplyMosaicRuleToRastersSample extends Application {
           // set the default combo box value
           comboBox.setValue("Default");
 
+          // check if a mosaic rule exists. If not, create one
+          if (imageServiceRaster.getMosaicRule() == null) {
+            mosaicRule = new MosaicRule();
+            imageServiceRaster.setMosaicRule(mosaicRule);
+          }
+          // update the mosaic rule based on the mosaic method chosen from the combo box
+          comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+            setMosaicRule(comboBox.getSelectionModel().getSelectedItem());
+          });
         } else {
           // show alert if raster layer fails to load.
           new Alert(Alert.AlertType.ERROR, "Error loading raster layer.").show();
@@ -129,6 +141,46 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // on any error, display the stack trace
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Applies one of the predefined mosaic rules to the image service raster.
+   *
+   * @param mosaicMethod one of "Default", "Northwest", "Center", "By attribute", and "Lock raster"
+   */
+  private void setMosaicRule(String mosaicMethod) {
+
+    if (mosaicMethod == "Default" ) {
+      mosaicRule.setMosaicMethod(MosaicMethod.NONE);
+    }
+
+    if (mosaicMethod == "Northwest" ) {
+      mosaicRule.setMosaicMethod(MosaicMethod.NORTHWEST);
+      mosaicRule.setMosaicOperation(MosaicOperation.FIRST);
+
+    }
+    if (mosaicMethod =="Center") {
+      mosaicRule.setMosaicMethod(MosaicMethod.CENTER);
+      mosaicRule.setMosaicOperation(MosaicOperation.BLEND);
+
+    }
+    if (mosaicMethod =="By attribute") {
+      mosaicRule.setMosaicMethod(MosaicMethod.ATTRIBUTE);
+      mosaicRule.setSortField("OBJECTID");
+
+    }
+    if (mosaicMethod == "Lock raster") {
+      mosaicRule.setMosaicMethod(MosaicMethod.LOCK_RASTER);
+      mosaicRule.getLockRasterIds().add((long) 1);
+      mosaicRule.getLockRasterIds().add((long) 7);
+      mosaicRule.getLockRasterIds().add((long) 12);
+
+    } else {
+      mosaicRule.setMosaicMethod(MosaicMethod.NONE);
+    }
+
+    imageServiceRaster.setMosaicRule(mosaicRule);
+  }
 
   /**
    * Stops and releases all resources used in application.
