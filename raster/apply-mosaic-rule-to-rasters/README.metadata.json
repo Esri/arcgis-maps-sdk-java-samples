@@ -1,0 +1,29 @@
+{
+    "category": "Raster",
+    "description": "Apply mosaic rule to a mosaic dataset of rasters.",
+    "ignore": false,
+    "images": [
+        "apply-mosaic-rule-to-rasters.png"
+    ],
+    "keywords": [
+        "image service",
+        "mosaic method",
+        "mosaic rule",
+        "raster",
+        "AGSImageServiceRaster",
+        "AGSMosaicMethod",
+        "AGSMosaicOperation",
+        "AGSMosaicRule"
+    ],
+    "redirect_from":"",
+    "relevant_apis": [
+        "AGSImageServiceRaster",
+        "AGSMosaicMethod",
+        "AGSMosaicOperation",
+        "AGSMosaicRule"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/apply_mosaic_rule_to_rasters/ApplyMosaicRuleToRastersSample.java"
+    ],
+    "title": "Apply mosaic rule to rasters"
+}
