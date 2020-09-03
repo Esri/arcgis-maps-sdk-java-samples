@@ -32,8 +32,13 @@ import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 
+import com.esri.arcgisruntime.layers.RasterLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.raster.ImageServiceRaster;
 
 public class ApplyMosaicRuleToRastersSample extends Application {
 
@@ -63,7 +68,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // create a map view and set the ArcGISMap to it
       mapView = new MapView();
       mapView.setMap(map);
-      
+
       // set up the control panel UI
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
@@ -80,6 +85,40 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // create a combo box
       comboBox = new ComboBox<>();
       comboBox.setMaxWidth(Double.MAX_VALUE);
+
+      // add the label and combo box to the control panel
+      controlsVBox.getChildren().addAll(mosaicRuleLabel, comboBox);
+
+      // create an image service raster from a url for an image service
+      imageServiceRaster = new ImageServiceRaster(imageServiceURL);
+
+      // create a raster layer from the image service raster
+      RasterLayer rasterLayer = new RasterLayer(imageServiceRaster);
+
+      // add raster layer as an operational layer to the map
+      map.getOperationalLayers().add(rasterLayer);
+
+      // listen for the raster layer to finish loading
+      rasterLayer.addDoneLoadingListener(() -> {
+        if (rasterLayer.getLoadStatus() == LoadStatus.LOADED) {
+
+          // when loaded, set map view's viewpoint to the image service raster's center
+          mapView.setViewpoint(new Viewpoint(imageServiceRaster.getServiceInfo().getFullExtent().getCenter(), 25000.0));
+
+          // enable UI interaction once raster layer has loaded
+          controlsVBox.setVisible(true);
+
+          // add the mosaic methods to the combo box
+          comboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
+
+          // set the default combo box value
+          comboBox.setValue("Default");
+
+        } else {
+          // show alert if raster layer fails to load.
+          new Alert(Alert.AlertType.ERROR, "Error loading raster layer.").show();
+        }
+      });
 
       // add the map view and the control panel to stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
