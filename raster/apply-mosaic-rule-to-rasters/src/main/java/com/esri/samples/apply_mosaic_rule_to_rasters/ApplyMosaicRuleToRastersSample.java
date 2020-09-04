@@ -43,7 +43,8 @@ import com.esri.arcgisruntime.raster.MosaicRule;
 import com.esri.arcgisruntime.raster.MosaicMethod;
 import com.esri.arcgisruntime.raster.MosaicOperation;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class ApplyMosaicRuleToRastersSample extends Application {
 
@@ -175,9 +176,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       mosaicRule = new MosaicRule();
       mosaicRule.setMosaicMethod(MosaicMethod.LOCK_RASTER);
       mosaicRule.getLockRasterIds().clear();
-      mosaicRule.getLockRasterIds().add((long) 1);
-      mosaicRule.getLockRasterIds().add((long) 7);
-      mosaicRule.getLockRasterIds().add((long) 12);
+      mosaicRule.getLockRasterIds().addAll(Arrays.asList(Long.valueOf(1), Long.valueOf(7), Long.valueOf(12)));
     }
     imageServiceRaster.setMosaicRule(mosaicRule);
   }
