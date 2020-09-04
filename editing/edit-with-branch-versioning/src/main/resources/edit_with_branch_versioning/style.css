@@ -2,3 +2,7 @@
   -fx-text-fill: white;
   -fx-font-size: 14;
 }
+
+.panel-region .header-label {
+  -fx-font-size: 16;
+}

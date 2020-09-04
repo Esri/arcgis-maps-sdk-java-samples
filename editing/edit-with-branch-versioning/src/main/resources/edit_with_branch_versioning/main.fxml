@@ -35,8 +35,8 @@
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator" maxWidth="25" maxHeight="25"/>
-    <!--Controls box-->
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="250" maxHeight="350" spacing="2" styleClass="panel-region">
+    <!--Controls box for version controls-->
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="250" maxHeight="170" spacing="10" styleClass="panel-region">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -45,32 +45,53 @@
                 <fills>
                     <BackgroundFill>
                         <fill>
-                            <Color opacity="0.3"/>
+                            <Color opacity="0.6"/>
                         </fill>
                     </BackgroundFill>
                 </fills>
             </Background>
         </background>
         <Label fx:id="currentVersionLabel" text="Current version: "/>
+        <Button fx:id="switchVersionButton" text="Switch version" onMouseClicked="#switchVersion"/>
         <Separator/>
-        <Button fx:id="switchVersionButton" text="Switch version" onMouseClicked="#switchVersionButtonEvent"/>
-        <!--Create new version box-->
-        <VBox fx:id="createVersionVBox" StackPane.alignment="TOP_LEFT" maxWidth="300" maxHeight="350" spacing="5" styleClass="panel-region">
-            <VBox>
-                <Label text="Enter a name"/>
-                <TextField fx:id="name"/>
-            </VBox>
-            <VBox>
-                <Label text="Select a version access level"/>
-                <ComboBox fx:id="accessComboBox" promptText="Select"/>
-            </VBox>
-            <VBox>
-                <Label text="Enter a description"/>
-                <TextArea fx:id="description"/>
-            </VBox>
-            <VBox>
-                <Button fx:id="createVersionButton" text="Create version" onMouseClicked="#createVersion"/>
-            </VBox>
+        <!--Controls box for editing features-->
+        <VBox fx:id="editFeatureVBox">
+            <Label text="Edit attribute" styleClass="header-label"/>
+            <Label text="Damage Type:"/>
+            <ComboBox fx:id="damageTypeComboBox" />
+        </VBox>
+    </VBox>
+    <!--Controls box for creating new version-->
+    <VBox fx:id="createVersionVBox" StackPane.alignment="TOP_RIGHT" maxWidth="250" maxHeight="220" spacing="5" styleClass="panel-region">
+        <padding>
+            <Insets topRightBottomLeft="20"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.6"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+        <Label text="Create a new version" styleClass="header-label"/>
+        <VBox>
+            <Label text="Enter a name"/>
+            <TextField fx:id="name"/>
+        </VBox>
+        <VBox>
+            <Label text="Select a version access level"/>
+            <ComboBox fx:id="accessComboBox" promptText="Select"/>
+        </VBox>
+        <VBox>
+            <Label text="Enter a description"/>
+            <TextField fx:id="description"/>
+        </VBox>
+        <VBox>
+            <Button fx:id="createVersionButton" text="Create version" onMouseClicked="#createVersion"/>
         </VBox>
     </VBox>
 </StackPane>
