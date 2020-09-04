@@ -10,8 +10,7 @@ Annotation is useful for displaying text that you don't want to move or resize w
 
 ## How to use the sample
 
-Pan and zoom the map to see that the text on the map is annotation, not labels. Click one of the address points to update the house number (AD_ADDRESS) and street name (ST_STR_NAM). Click one of the dashed parcel polylines and click another location to change its geometry. NOTE: Selection is only enabled for points and straight (single segment) polylines.
-
+Pan and zoom the map to see that the text on the map is annotation, not labels. Click one of the address points to update the house number (AD_ADDRESS) and street name (ST_STR_NAM). Once you have edited the feature attributes, click "Update" and then click again on the map to move the address point to a new location. You can also click one of the dashed parcel polylines and click another location to change its geometry and update its annotation (distance in feet). NOTE: Selection is only enabled for points and straight (single segment) polylines.
 The feature-linked annotation will update accordingly.
 
 ## How it works

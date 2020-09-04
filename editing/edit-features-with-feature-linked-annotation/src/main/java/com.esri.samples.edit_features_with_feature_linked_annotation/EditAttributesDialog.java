@@ -18,6 +18,7 @@ package com.esri.samples.edit_features_with_feature_linked_annotation;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
@@ -31,7 +32,7 @@ public class EditAttributesDialog extends Dialog<Feature>{
 
   @FXML private TextField addressTextField;
   @FXML private TextField streetNameTextField;
-  @FXML private ButtonType continueButton;
+  @FXML private ButtonType updateButton;
 
   EditAttributesDialog(Feature selectedFeature){
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_features_with_feature_linked_annotation/edit_attributes_dialog.fxml"));
@@ -50,13 +51,17 @@ public class EditAttributesDialog extends Dialog<Feature>{
     addressTextField.setText(selectedFeature.getAttributes().get("AD_ADDRESS").toString());
     streetNameTextField.setText(selectedFeature.getAttributes().get("ST_STR_NAM").toString());
 
-    // convert the result to an address and street name when the ok button is clicked.
+    // convert the result to an address and street name when the ok button is clicked
     setResultConverter(dialogButton -> {
-      if (dialogButton == continueButton) {
+      if (dialogButton == updateButton) {
         try {
-          // set AD_ADDRESS value to the int from the text field
-          selectedFeature.getAttributes().put("AD_ADDRESS", Integer.parseInt(addressTextField.getText()));
-
+          // ensure input is equal to or less than 5 characters (max length for addresses in area)
+          if (addressTextField.getLength() <= 5){
+            // set AD_ADDRESS value to the int from the text field
+            selectedFeature.getAttributes().put("AD_ADDRESS", Integer.parseInt(addressTextField.getText()));
+          } else  {
+            new Alert(Alert.AlertType.WARNING, "Field not updated. Integer must be less than 6 characters").showAndWait();
+          }
           // set ST_STR_NAM value to the string from the text field
           selectedFeature.getAttributes().put("ST_STR_NAM", streetNameTextField.getText());
         } catch (Exception e) {

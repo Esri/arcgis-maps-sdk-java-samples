@@ -32,7 +32,7 @@
                     <TextField fx:id="streetNameTextField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                 </GridPane>
             </content>
-            <ButtonType fx:id="continueButton" buttonData="OK_DONE" text="Ok"/>
+            <ButtonType fx:id="updateButton" buttonData="FINISH" text="Update"/>
             <ButtonType buttonData="CANCEL_CLOSE" text="Cancel"/>
         </DialogPane>
     </dialogPane>

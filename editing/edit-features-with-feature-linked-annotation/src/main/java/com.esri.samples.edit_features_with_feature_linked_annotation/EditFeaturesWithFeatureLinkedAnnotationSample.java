@@ -17,6 +17,7 @@
 package com.esri.samples.edit_features_with_feature_linked_annotation;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -49,10 +50,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
 
   private MapView mapView;
-  private FeatureLayer addressPointFeatureLayer;
-  private FeatureLayer parcelLinesFeatureLayer;
-  private AnnotationLayer addressPointsAnnotationLayer;
-  private AnnotationLayer parcelLinesAnnotationLayer;
+  private Geodatabase geodatabase; // keep loadable in scope to avoid garbage collection
   private Feature selectedFeature = null;
   private boolean selectedFeatureIsPolyline = false;
 
@@ -80,70 +78,58 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
-      
+
       // create and load the geodatabase
       File geodatabaseFile = new File(System.getProperty("data.dir"),
         "./samples-data/loudon/loudoun_anno.geodatabase");
-      Geodatabase geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
+      geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
 
+      geodatabase.loadAsync();
       geodatabase.addDoneLoadingListener(() -> {
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
           // create feature layers from tables in the geodatabase
-          addressPointFeatureLayer = new FeatureLayer(geodatabase.getGeodatabaseFeatureTable("Loudoun_Address_Points_1"));
-          parcelLinesFeatureLayer = new FeatureLayer(geodatabase.getGeodatabaseFeatureTable("ParcelLines_1"));
+          var addressPointFeatureLayer =
+            new FeatureLayer(geodatabase.getGeodatabaseFeatureTable("Loudoun_Address_Points_1"));
+          var parcelLinesFeatureLayer =
+            new FeatureLayer(geodatabase.getGeodatabaseFeatureTable("ParcelLines_1"));
           // create annotation layers from tables in the geodatabase
-          addressPointsAnnotationLayer = new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable("Loudoun_Address_PointsAnno_1"));
-          parcelLinesAnnotationLayer = new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable("ParcelLinesAnno_1"));
+          var addressPointsAnnotationLayer =
+            new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable("Loudoun_Address_PointsAnno_1"));
+          var parcelLinesAnnotationLayer =
+            new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable("ParcelLinesAnno_1"));
 
-          // add the feature layers to the map
-          map.getOperationalLayers().add(addressPointFeatureLayer);
-          map.getOperationalLayers().add(parcelLinesFeatureLayer);
-
-          // add the annotation layers to the map
-          map.getOperationalLayers().add(addressPointsAnnotationLayer);
-          map.getOperationalLayers().add(parcelLinesAnnotationLayer);
+          // add the annotation and feature layers to the map
+          map.getOperationalLayers().addAll(Arrays.asList(
+            addressPointFeatureLayer, parcelLinesFeatureLayer, addressPointsAnnotationLayer, parcelLinesAnnotationLayer));
         } else {
           // show alert if geodatabase fails to load
           new Alert(Alert.AlertType.ERROR, "Error loading Geodatabase.").show();
         }
       });
-      geodatabase.loadAsync();
 
-      // set on click behaviour
+      // select the nearest feature from where the user clicked, or move the selected feature to the given screen point
       mapView.setOnMouseClicked(event -> {
-        // check that the primary mouse button was clicked
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
           // create a point where the user clicked
           Point2D screenPoint = new Point2D(event.getX(), event.getY());
-          // call select or move method to move to the point
-          selectOrMove(screenPoint);
+          // if a feature hasn't been selected, select the feature
+          if (selectedFeature == null) {
+            identifyFeature(screenPoint);
+          } else {
+            // convert the screen point to a map point
+            Point mapPoint = mapView.screenToLocation(screenPoint);
+            // if the feature is a polyline, move the polyline
+            if (selectedFeatureIsPolyline) {
+              movePolylineVertex(mapPoint);
+            } else {
+              // if the feature is a point, move the point
+              movePoint(mapPoint);
+            }
+          }
         }
       });
     } catch (Exception e) {
       e.printStackTrace();
-    }
-  }
-
-  /**
-   * Selects the nearest feature, or move the point or polyline vertex to the given screen point.
-   *
-   * @param screenPoint the screen point at which to select a feature, or to move a feature to
-   */
-  private void selectOrMove(Point2D screenPoint) {
-
-    // if a feature hasn't been selected, select the feature
-    if (selectedFeature == null) {
-      identifyFeature(screenPoint);
-    } else {
-      // convert the screen point to a map point
-      Point mapPoint = mapView.screenToLocation(screenPoint);
-      // if the feature is a polyline, move the polyline
-      if (selectedFeatureIsPolyline) {
-        movePolylineVertex(mapPoint);
-      } else {
-        // if the feature is a point, move the point
-        movePoint(mapPoint);
-      }
     }
   }
 
