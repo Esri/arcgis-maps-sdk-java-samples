@@ -52,7 +52,6 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
   private MapView mapView;
   private Geodatabase geodatabase; // keep loadable in scope to avoid garbage collection
   private Feature selectedFeature = null;
-  private boolean selectedFeatureIsPolyline = false;
 
   @Override
   public void start(Stage stage) {
@@ -88,17 +87,17 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       geodatabase.addDoneLoadingListener(() -> {
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
           // create feature layers from tables in the geodatabase
-          var addressPointFeatureLayer =
-            new FeatureLayer(geodatabase.getGeodatabaseFeatureTable("Loudoun_Address_Points_1"));
-          var parcelLinesFeatureLayer =
-            new FeatureLayer(geodatabase.getGeodatabaseFeatureTable("ParcelLines_1"));
+          var addressPointFeatureLayer = new FeatureLayer(
+            geodatabase.getGeodatabaseFeatureTable("Loudoun_Address_Points_1"));
+          var parcelLinesFeatureLayer = new FeatureLayer(
+            geodatabase.getGeodatabaseFeatureTable("ParcelLines_1"));
           // create annotation layers from tables in the geodatabase
-          var addressPointsAnnotationLayer =
-            new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable("Loudoun_Address_PointsAnno_1"));
-          var parcelLinesAnnotationLayer =
-            new AnnotationLayer(geodatabase.getGeodatabaseAnnotationTable("ParcelLinesAnno_1"));
+          var addressPointsAnnotationLayer = new AnnotationLayer(
+            geodatabase.getGeodatabaseAnnotationTable("Loudoun_Address_PointsAnno_1"));
+          var parcelLinesAnnotationLayer = new AnnotationLayer(
+            geodatabase.getGeodatabaseAnnotationTable("ParcelLinesAnno_1"));
 
-          // add the annotation and feature layers to the map
+          // add the feature layers and annotation layers to the map
           map.getOperationalLayers().addAll(Arrays.asList(
             addressPointFeatureLayer, parcelLinesFeatureLayer, addressPointsAnnotationLayer, parcelLinesAnnotationLayer));
         } else {
@@ -118,13 +117,41 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
           } else {
             // convert the screen point to a map point
             Point mapPoint = mapView.screenToLocation(screenPoint);
+
             // if the feature is a polyline, move the polyline
-            if (selectedFeatureIsPolyline) {
-              movePolylineVertex(mapPoint);
-            } else {
+            if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
+              // get the selected feature's geometry as a polyline
+              Polyline polyline = (Polyline) selectedFeature.getGeometry();
+
+              // create a polyline builder to add and remove parts from the polyline
+              PolylineBuilder polylineBuilder = new PolylineBuilder(polyline);
+
+              // get the nearest vertex to the map point on the polyline
+              ProximityResult nearestVertex =
+                GeometryEngine.nearestVertex(polyline, (Point) GeometryEngine.project(mapPoint, polyline.getSpatialReference()));
+
+              // get the part of the polyline nearest to the map point
+              Part part = polylineBuilder.getParts().get((int) nearestVertex.getPartIndex());
+
+              // remove the nearest point to the map point from the part
+              part.removePoint((int) nearestVertex.getPointIndex());
+
+              // add the map point as the new point on the part
+              part.addPoint((Point) GeometryEngine.project(mapPoint, polyline.getSpatialReference()));
+
+              // set the selected feature's geometry to the new polyline
+              selectedFeature.setGeometry(polylineBuilder.toGeometry());
+
               // if the feature is a point, move the point
-              movePoint(mapPoint);
+            } else if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POINT) {
+              // set the selected features' geometry to a new map point
+              selectedFeature.setGeometry(mapPoint);
             }
+            // update the selected feature's feature table
+            updateAttributes(selectedFeature);
+
+            // clear the selected feature
+            clearSelection();
           }
         }
       });
@@ -184,7 +211,6 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
         if (part.getPointCount() <= 2) {
           // select the polyline feature
           ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
-          selectedFeatureIsPolyline = true;
         } else {
           selectedFeature = null;
           // show message reminding user to select straight (single segment) polylines only
@@ -195,31 +221,19 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
     // if the selected feature is a point, select the feature
     else if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POINT) {
       ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
-      // open a dialog to edit the feature's attributes
-      showEditableAttributes(selectedFeature);
+
+      // create a dialog to edit the attributes of the selected feature
+      EditAttributesDialog editAttributesDialog = new EditAttributesDialog(selectedFeature);
+
+      // show the dialog and wait for the user response
+      editAttributesDialog.showAndWait();
+
+      // update the selected feature's feature table
+      updateAttributes(selectedFeature);
     } else {
       new Alert(Alert.AlertType.WARNING, "Feature of unexpected geometry type selected.").show();
     }
   }
-
-  /**
-   * Creates a dialog with text fields to allow editing of the given feature's 'AD_ADDRESS' and
-   * 'ST_STR_NAM' attributes.
-   *
-   * @param selectedFeature the feature to update
-   */
-  private void showEditableAttributes(Feature selectedFeature) {
-
-    // create a dialog to edit the attributes of the selected feature
-    EditAttributesDialog editAttributesDialog = new EditAttributesDialog(selectedFeature);
-
-    // show the dialog and wait for the user response
-    editAttributesDialog.showAndWait();
-
-    // update the selected feature's feature table
-    updateAttributes(selectedFeature);
-  }
-
   /**
    * Updates the attributes of the selected feature.
    *
@@ -231,70 +245,12 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
     ListenableFuture<Void> editResultFuture = selectedFeature.getFeatureTable().updateFeatureAsync(selectedFeature);
     editResultFuture.addDoneListener(() -> {
         try {
-            editResultFuture.get();
+          editResultFuture.get();
         } catch (InterruptedException | ExecutionException e) {
           new Alert(Alert.AlertType.ERROR, "Error updating attributes.").show();
         }
       }
     );
-  }
-
-  /**
-   * Moves the selected point feature to the given map point by updating the selected
-   * feature's geometry and feature table.
-   *
-   * @param mapPoint the location to move point feature
-   */
-  private void movePoint(Point mapPoint) {
-
-    // set the selected features' geometry to a new map point
-    selectedFeature.setGeometry(mapPoint);
-
-    // update the selected feature's feature table
-    updateAttributes(selectedFeature);
-
-    // clear selection of the point
-    clearSelection();
-  }
-
-  /**
-   * Moves the last of the vertex point of the currently selected polyline to the given map point by updating the
-   * selected feature's geometry and feature table.
-   *
-   * @param mapPoint the location to move polyline feature
-   */
-  private void movePolylineVertex(Point mapPoint) {
-
-    // get the selected feature's geometry as a polyline
-    Polyline polyline = (Polyline) selectedFeature.getGeometry();
-
-    // create a polyline builder to add and remove parts from the polyline
-    PolylineBuilder polylineBuilder = new PolylineBuilder(polyline);
-
-    // get the nearest vertex to the map point on the polyline
-    ProximityResult nearestVertex =
-      GeometryEngine.nearestVertex(polyline, (Point) GeometryEngine.project(mapPoint, polyline.getSpatialReference()));
-
-    // get the part of the polyline nearest to the map point
-    Part part = polylineBuilder.getParts().get(Math.toIntExact(nearestVertex.getPartIndex()));
-
-    // remove the nearest point to the map point from the part
-    part.removePoint((int) nearestVertex.getPointIndex());
-
-    // add the map point as the new point on the part
-    part.addPoint((Point) GeometryEngine.project(mapPoint, polyline.getSpatialReference()));
-
-    // add the part to the polyline
-    polylineBuilder.getParts().add(part);
-
-    // set the selected feature's geometry to the new polyline
-    selectedFeature.setGeometry(polylineBuilder.toGeometry());
-
-    // update the selected feature's feature table
-    updateAttributes(selectedFeature);
-
-    // clear selection of the polyline
-    clearSelection();
   }
 
   /**
@@ -307,8 +263,6 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
         ((FeatureLayer) layer).clearSelection();
       }
     });
-
-    selectedFeatureIsPolyline = false;
     selectedFeature = null;
   }
 
