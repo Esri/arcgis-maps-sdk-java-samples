@@ -201,7 +201,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
    */
   private void selectFeature(IdentifyLayerResult layerResult) {
 
-    // if the selected feature is a polyline
+    // if the selected feature is a polyline, select the feature
     if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
       // create a polyline builder from the selected feature
       PolylineBuilder polylineBuilder = new PolylineBuilder((Polyline) selectedFeature.getGeometry());
@@ -209,7 +209,6 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       polylineBuilder.getParts().forEach(part -> {
         // only select single segment lines
         if (part.getPointCount() <= 2) {
-          // select the polyline feature
           ((FeatureLayer) layerResult.getLayerContent()).selectFeature(selectedFeature);
         } else {
           selectedFeature = null;
