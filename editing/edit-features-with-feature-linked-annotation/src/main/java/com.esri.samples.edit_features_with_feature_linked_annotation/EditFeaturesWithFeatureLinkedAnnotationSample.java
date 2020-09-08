@@ -131,7 +131,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
                 GeometryEngine.nearestVertex(polyline, (Point) GeometryEngine.project(mapPoint, polyline.getSpatialReference()));
 
               // get the part of the polyline nearest to the map point
-              Part part = polylineBuilder.getParts().get((int) nearestVertex.getPartIndex());
+              Part part = polylineBuilder.getParts().get(Math.toIntExact(nearestVertex.getPartIndex()));
 
               // remove the nearest point to the map point from the part
               part.removePoint((int) nearestVertex.getPointIndex());
