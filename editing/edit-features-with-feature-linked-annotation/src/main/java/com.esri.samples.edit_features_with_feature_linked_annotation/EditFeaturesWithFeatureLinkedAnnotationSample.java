@@ -178,9 +178,8 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
     if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POLYLINE) {
       // create a polyline builder from the selected feature
       PolylineBuilder polylineBuilder = new PolylineBuilder((Polyline) selectedFeature.getGeometry());
-      // get a list of parts of the selected polyline
-      List<Part> parts = polylineBuilder.getParts();
-      parts.forEach(part -> {
+      // iterate through the parts of the selected polyline
+      polylineBuilder.getParts().forEach(part -> {
         // only select single segment lines
         if (part.getPointCount() <= 2) {
           // select the polyline feature
@@ -277,7 +276,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       GeometryEngine.nearestVertex(polyline, (Point) GeometryEngine.project(mapPoint, polyline.getSpatialReference()));
 
     // get the part of the polyline nearest to the map point
-    Part part = polylineBuilder.getParts().get((int) nearestVertex.getPartIndex());
+    Part part = polylineBuilder.getParts().get(Math.toIntExact(nearestVertex.getPartIndex()));
 
     // remove the nearest point to the map point from the part
     part.removePoint((int) nearestVertex.getPointIndex());
