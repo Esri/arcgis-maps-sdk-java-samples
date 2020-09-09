@@ -97,7 +97,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
           var parcelLinesAnnotationLayer = new AnnotationLayer(
             geodatabase.getGeodatabaseAnnotationTable("ParcelLinesAnno_1"));
 
-          // add the feature layers and annotation layers to the map
+          // add the feature and annotation layers to the map
           map.getOperationalLayers().addAll(Arrays.asList(
             addressPointFeatureLayer, parcelLinesFeatureLayer, addressPointsAnnotationLayer, parcelLinesAnnotationLayer));
         } else {
@@ -144,13 +144,13 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
 
               // if the feature is a point, move the point
             } else if (selectedFeature.getGeometry().getGeometryType() == GeometryType.POINT) {
-              // set the selected features' geometry to a new map point
+              // set the selected feature's geometry to a new map point
               selectedFeature.setGeometry(mapPoint);
             }
             // update the selected feature's feature table
             updateAttributes(selectedFeature);
 
-            // clear the selected feature
+            // remove the selection of the feature
             clearSelection();
           }
         }
