@@ -31,8 +31,8 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.layers.WmsLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class StyleWmsLayerSample extends Application {
@@ -55,8 +55,10 @@ public class StyleWmsLayerSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map and add it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      // create a map with spatial reference appropriate for the service
+      ArcGISMap map = new ArcGISMap(SpatialReference.create(26915));
+      map.setMinScale(7000000.0);
+      // set the map to the map view
       mapView = new MapView();
       mapView.setMap(map);
 
