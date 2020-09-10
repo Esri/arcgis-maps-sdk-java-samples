@@ -19,7 +19,6 @@ package com.esri.samples.edit_with_branch_versioning;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -28,7 +27,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Point2D;
 
@@ -51,34 +49,30 @@ import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
-import com.esri.arcgisruntime.security.UserCredential;
 
 public class EditWithBranchVersioningController {
 
-  // elements from fxml
-  @FXML public ComboBox<String> damageTypeComboBox;
   @FXML private MapView mapView;
-  @FXML private Label currentVersionLabel;
+  @FXML private ProgressIndicator progressIndicator;
   @FXML private Button createVersionButton;
   @FXML private Button switchVersionButton;
-  @FXML private ProgressIndicator progressIndicator;
+  @FXML private VBox editFeatureVBox;
+  @FXML private ComboBox<VersionAccess> accessComboBox;
+  @FXML private ComboBox<String> damageTypeComboBox;
+  @FXML private Label currentVersionLabel;
   @FXML private VBox createVersionVBox;
   @FXML private TextField name;
   @FXML private TextField description;
-  @FXML private ComboBox<VersionAccess> accessComboBox;
-  @FXML private VBox editFeatureVBox;
 
   private ServiceGeodatabase serviceGeodatabase; // keeps loadable in scope to avoid garbage collection
   private FeatureLayer featureLayer; // keeps loadable in scope to avoid garbage collection
   private ArcGISFeature selectedFeature; // keeps loadable in scope to avoid garbage collection
   private ServiceFeatureTable serviceFeatureTable;
-  private String userCreatedVersion;
   private String defaultVersion;
+  private String userCreatedVersion;
 
   public void initialize() {
-
     try {
-
       // create a map with the streets vector basemap
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
 
@@ -98,15 +92,13 @@ public class EditWithBranchVersioningController {
       damageTypeComboBox.getSelectionModel().selectedItemProperty().addListener((o, p, n) -> {
         if (!selectedFeature.getAttributes().get("typdamage").equals(n)) {
           try {
-            updateAttributes(selectedFeature);
+            selectedFeature.getAttributes().put("typdamage", damageTypeComboBox.getValue());
+            updateFeature(selectedFeature);
           } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Feature attributes failed to update.").show();
+            new Alert(Alert.AlertType.ERROR, "Feature attributes failed to update").show();
           }
         }
       });
-
-      // set a user credential
-      UserCredential userCredential = new UserCredential("editor01", "editor01.password");
 
       // handle authentication for the service geodatabase
       AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
@@ -114,14 +106,9 @@ public class EditWithBranchVersioningController {
       // create and load a service geodatabase
       serviceGeodatabase = new ServiceGeodatabase("https://sampleserver7.arcgisonline" +
         ".com/arcgis/rest/services/DamageAssessment/FeatureServer");
-      serviceGeodatabase.setCredential(userCredential);
       serviceGeodatabase.loadAsync();
       serviceGeodatabase.addDoneLoadingListener(() -> {
-
         if (serviceGeodatabase.getLoadStatus() == LoadStatus.LOADED) {
-
-          //for testing remove
-          printOutAllVersions();
 
           // when the service geodatabase has loaded get the default version
           defaultVersion = serviceGeodatabase.getDefaultVersionName();
@@ -133,84 +120,46 @@ public class EditWithBranchVersioningController {
             // create a feature layer from the service feature table and add it to the map
             featureLayer = new FeatureLayer(serviceFeatureTable);
             map.getOperationalLayers().add(featureLayer);
-
             featureLayer.addDoneLoadingListener(() -> {
               if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
-                // when the feature layer has loaded remove the progress indicator and set the viewpoint
-                progressIndicator.setVisible(false);
+                // when the feature layer has loaded set the viewpoint and update the UI
                 mapView.setViewpointAsync(new Viewpoint(featureLayer.getFullExtent()));
-
-                // update the UI
+                progressIndicator.setVisible(false);
                 createVersionButton.setDisable(false);
                 currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-
-                // listener for mouse click events to select features
-                mapView.setOnMouseClicked(event -> {
-
-                  if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
-
-                    // reset the UI
-                    featureLayer.clearSelection();
-                    editFeatureVBox.setDisable(true);
-
-                    // create point where the user clicked
-                    Point2D point = new Point2D(event.getX(), event.getY());
-
-                    // check if a feature is selected
-                    ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1
-                      , false);
-                    results.addDoneListener(() -> {
-                      try {
-                        IdentifyLayerResult layer = results.get();
-                        List<GeoElement> identified = layer.getElements();
-                        if (!identified.isEmpty()) {
-                          GeoElement element = identified.get(0);
-                          // get the selected feature
-                          if (element instanceof ArcGISFeature) {
-                            selectedFeature = (ArcGISFeature) element;
-                            featureLayer.selectFeature(selectedFeature);
-                            selectedFeature.loadAsync();
-                            selectedFeature.addDoneLoadingListener(() -> {
-                              if (selectedFeature.getLoadStatus() == LoadStatus.LOADED) {
-                                // when a feature has been selected set the damage combo box to the feature's attribute value
-                                damageTypeComboBox.getSelectionModel().select((String) selectedFeature.getAttributes().get("typdamage"));
-
-                                // enable feature editing UI if not on default branch version
-                                if (!serviceGeodatabase.getVersionName().equals(defaultVersion)) {
-                                  editFeatureVBox.setDisable(false);
-                                }
-                              } else {
-                                // if the selected feature failed to load display an error
-                                new Alert(Alert.AlertType.ERROR, "Feature failed to load!").show();
-                              }
-                            });
-                          }
-                        }
-                      } catch (InterruptedException | ExecutionException e) {
-                        new Alert(Alert.AlertType.ERROR, "Exception getting identify result").show();
-                      }
-                    });
-                  }
-
-                  if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
-                    if(selectedFeature != null && !serviceGeodatabase.getVersionName().equals(defaultVersion)){
-                      Point2D secondaryClickPoint = new Point2D(event.getX(), event.getY());
-                      Point mapPoint = mapView.screenToLocation(secondaryClickPoint);
-                      selectedFeature.setGeometry(mapPoint);
-                      updateAttributes(selectedFeature);
-                    }
-                  }
-                });
               } else {
-                new Alert(Alert.AlertType.ERROR, "Feature layer failed to load.").show();
+                new Alert(Alert.AlertType.ERROR, "Feature layer failed to load").show();
               }
             });
           } else {
-            new Alert(Alert.AlertType.ERROR, "Unable to get the service feature table.").show();
+            new Alert(Alert.AlertType.ERROR, "Unable to get the service feature table").show();
           }
         } else {
-          new Alert(Alert.AlertType.ERROR, "Service geodatabase failed to load.").show();
+          progressIndicator.setVisible(false);
+          new Alert(Alert.AlertType.ERROR, "Service geodatabase failed to load").show();
+        }
+      });
+
+      mapView.setOnMouseClicked(event -> {
+        if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
+          // reset the UI
+          featureLayer.clearSelection();
+          editFeatureVBox.setDisable(true);
+
+          // select a feature
+          Point2D point = new Point2D(event.getX(), event.getY());
+          selectFeature(point);
+        }
+
+        if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
+          // if a feature is selected and the current branch version is not the default, update the feature's geometry
+          if(selectedFeature != null && !serviceGeodatabase.getVersionName().equals(defaultVersion)){
+            Point2D secondaryClickPoint = new Point2D(event.getX(), event.getY());
+            Point mapPoint = mapView.screenToLocation(secondaryClickPoint);
+            selectedFeature.setGeometry(mapPoint);
+            updateFeature(selectedFeature);
+          }
         }
       });
     } catch (Exception e) {
@@ -219,18 +168,164 @@ public class EditWithBranchVersioningController {
     }
   }
 
-  private void updateAttributes(ArcGISFeature featureToUpdate) {
-    // only allow editing if not on the default branch version and if identified feature can be edited
-    if (!serviceGeodatabase.getVersionName().equals(defaultVersion) && serviceFeatureTable.canUpdate(featureToUpdate)) {
-      featureToUpdate.getAttributes().put("typdamage", damageTypeComboBox.getValue());
+  /**
+   * Create a new branch version using user defined values
+   */
+  @FXML
+  private void handleCreateVersionButtonClicked() {
+
+    // validate version name input
+    if (name.getText().contains(".") || name.getText().contains(";") || name.getText().contains("'") ||
+      name.getText().contains("\"")) {
+      new Alert(Alert.AlertType.ERROR, "Please enter a valid version name").show();
+      return;
+    } else if (name.getText().length()> 0 && Character.isWhitespace(name.getText().charAt(0))) {
+      new Alert(Alert.AlertType.ERROR, "Version name cannot begin with a space").show();
+      return;
+    } else if (name.getText().length() > 62) {
+      new Alert(Alert.AlertType.ERROR, "Version name must not exceed 62 characters").show();
+      return;
+    } else if (name.getText().length() == 0) {
+      new Alert(Alert.AlertType.ERROR, "Please enter a version name").show();
+      return;
+    }
+
+    // validate version access input
+    if (accessComboBox.getSelectionModel().getSelectedItem() == null) {
+      new Alert(Alert.AlertType.ERROR, "Please select an access level").show();
+      return;
+    }
+
+    // set the user defined name, access level and description as service version parameters
+    ServiceVersionParameters newVersionParameters = new ServiceVersionParameters();
+    newVersionParameters.setName(name.getText());
+    newVersionParameters.setAccess(accessComboBox.getSelectionModel().getSelectedItem());
+    newVersionParameters.setDescription(description.getText());
+
+    // create a new version with the specified parameters
+    ListenableFuture<ServiceVersionInfo> createdVersion = serviceGeodatabase.createVersionAsync(newVersionParameters);
+    createVersionButton.setText("Creating version....");
+    createVersionButton.setDisable(true);
+    createdVersion.addDoneListener(() -> {
+      try {
+        // get the name of the created version and switch to it
+        ServiceVersionInfo createdVersionInfo = createdVersion.get();
+        userCreatedVersion = createdVersionInfo.getName();
+        switchVersion(userCreatedVersion);
+
+        // hide the form from the UI as the sample only allows 1 version to be created
+        createVersionVBox.setVisible(false);
+        switchVersionButton.setDisable(false);
+      } catch (Exception ex) {
+        // if there is an error creating a new version, reset the UI and display an alert
+        createVersionButton.setText("Create version");
+        createVersionButton.setDisable(false);
+        new Alert(Alert.AlertType.ERROR, "Error creating new version").show();
+      }
+    });
+  }
+
+  /**
+   * Apply local edits to the server and switch version
+   */
+  @FXML
+  private void handleSwitchVersionButtonClicked() {
+    if (serviceGeodatabase.getVersionName().equals(userCreatedVersion)) {
+      if (serviceGeodatabase.hasLocalEdits()) {
+        ListenableFuture<List<FeatureTableEditResult>> resultOfApplyEdits = serviceGeodatabase.applyEditsAsync();
+        resultOfApplyEdits.addDoneListener(() -> {
+          try {
+            // check if the server edit was successful
+            List<FeatureTableEditResult> edits = resultOfApplyEdits.get();
+            if (edits == null || edits.size() == 0) {
+              new Alert(Alert.AlertType.ERROR, "Error applying edits on server").show();
+            }
+          } catch (InterruptedException | ExecutionException e) {
+            new Alert(Alert.AlertType.ERROR, "Error applying edits on server").show();
+          } finally {
+            switchVersion(defaultVersion);
+          }
+        });
+      } else {
+        switchVersion(defaultVersion);
+      }
+    } else if (serviceGeodatabase.getVersionName().equals(defaultVersion)) {
+      switchVersion(userCreatedVersion);
+    }
+  }
+
+  /**
+   * Switch the active branch version
+   *
+   * @param versionName name of the version to switch to
+   */
+  private void switchVersion(String versionName) {
+    // switch to the version name given
+    ListenableFuture<Void> switchVersionResult = serviceGeodatabase.switchVersionAsync(versionName);
+    switchVersionResult.addDoneListener(() -> {
+      if (serviceGeodatabase.getVersionName().equals(versionName)) {
+        currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
+        // reset the UI when version has been switched
+        editFeatureVBox.setDisable(true);
+      } else {
+        new Alert(Alert.AlertType.ERROR, "Error switching version.").show();
+      }
+    });
+  }
+
+  /**
+   * Select a feature if one exists where the user clicked
+   *
+   * @param point location where the user clicked
+   */
+  private void selectFeature(Point2D point){
+    ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false);
+    results.addDoneListener(() -> {
+      try {
+        IdentifyLayerResult layer = results.get();
+        List<GeoElement> identified = layer.getElements();
+        if (!identified.isEmpty()) {
+          GeoElement element = identified.get(0);
+          // get the selected feature
+          if (element instanceof ArcGISFeature) {
+            selectedFeature = (ArcGISFeature) element;
+            featureLayer.selectFeature(selectedFeature);
+            selectedFeature.loadAsync();
+            selectedFeature.addDoneLoadingListener(() -> {
+              if (selectedFeature.getLoadStatus() == LoadStatus.LOADED) {
+                // when a feature has been selected set the damage combo box to the feature's attribute value
+                damageTypeComboBox.getSelectionModel().select((String) selectedFeature.getAttributes().get("typdamage"));
+
+                // enable feature editing UI if not on default branch version
+                if (!serviceGeodatabase.getVersionName().equals(defaultVersion)) {
+                  editFeatureVBox.setDisable(false);
+                }
+              } else {
+                new Alert(Alert.AlertType.ERROR, "Feature failed to load.").show();
+              }
+            });
+          }
+        }
+      } catch (InterruptedException | ExecutionException e) {
+        new Alert(Alert.AlertType.ERROR, "Exception getting identify result").show();
+      }
+    });
+  }
+
+  /**
+   * Update the selected feature in the service feature table
+   *
+   * @param selectedFeature the selected feature to be updated
+   */
+  private void updateFeature(ArcGISFeature selectedFeature) {
+    if (serviceFeatureTable.canUpdate(selectedFeature) && !serviceGeodatabase.getVersionName().equals(defaultVersion)) {
       // update feature in the feature table
-      ListenableFuture<Void> editResult = serviceFeatureTable.updateFeatureAsync(featureToUpdate);
-      editResult.addDoneListener(() -> {
-        new Alert(Alert.AlertType.INFORMATION, "Feature has been updated locally. Changes will be synced when you switch branch.").show();
-        System.out.println("local edits " + serviceFeatureTable.hasLocalEdits());
-      });
+      ListenableFuture<Void> editResult = serviceFeatureTable.updateFeatureAsync(selectedFeature);
+      editResult.addDoneListener(() ->
+        new Alert(Alert.AlertType.INFORMATION,
+          "Feature updated. Changes will be synced to the\nservice geodatabase when you switch branch.").show());
     } else {
-      new Alert(Alert.AlertType.ERROR, "Feature cannot be updated.").show();
+      new Alert(Alert.AlertType.ERROR, "Feature cannot be updated").show();
     }
   }
 
@@ -241,99 +336,5 @@ public class EditWithBranchVersioningController {
     if (mapView != null) {
       mapView.dispose();
     }
-  }
-
-  public void createVersion(MouseEvent mouseEvent) {
-    ServiceVersionParameters newVersionParameters = new ServiceVersionParameters();
-    newVersionParameters.setName(name.getText());
-    newVersionParameters.setAccess(accessComboBox.getSelectionModel().getSelectedItem());
-    newVersionParameters.setDescription(description.getText());
-    ListenableFuture<ServiceVersionInfo> createdVersion = serviceGeodatabase.createVersionAsync(newVersionParameters);
-    createVersionButton.setText("Creating version....");
-    createVersionButton.setDisable(true);
-    switchVersionButton.setDisable(false);
-    createdVersion.addDoneListener(() -> {
-      try {
-        //for testing, remove once done
-        printOutAllVersions();
-
-        //hide form from UI as sample only allows 1 version to be created
-        createVersionVBox.setDisable(true);
-        createVersionButton.setText("Version Created");
-
-        //get the name of the created version and switch to it
-        ServiceVersionInfo createdVersionInfo = createdVersion.get();
-        userCreatedVersion = createdVersionInfo.getName();
-        switchVersion();
-
-      } catch (Exception ex) {
-        new Alert(Alert.AlertType.ERROR, "Unable to create new version.").show();
-      }
-    });
-  }
-
-  public void switchVersion() {
-    // reset UI when version switched
-    editFeatureVBox.setDisable(true);
-
-    // apply edits at time of switch if the current version is not the default version
-    if (serviceGeodatabase.hasLocalEdits() && !serviceGeodatabase.getVersionName().equals(defaultVersion)) {
-      ListenableFuture<List<FeatureTableEditResult>> resultOfApplyEdits = serviceGeodatabase.applyEditsAsync();
-      resultOfApplyEdits.addDoneListener(() -> {
-        try {
-          List<FeatureTableEditResult> edits = resultOfApplyEdits.get();
-          // check if the server edit was successful
-          if (edits != null && edits.size() > 0) {
-            ListenableFuture<Void> switchVersionResult = serviceGeodatabase.switchVersionAsync(defaultVersion);
-            switchVersionResult.addDoneListener(() -> {
-              try {
-                currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-              } catch (Exception ex){
-                ex.printStackTrace();
-              }
-            });
-          } else {
-            new Alert(Alert.AlertType.ERROR, "Local edits have not been applied.").show();
-          }
-        } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Error applying edits on server.").show();
-        }
-      });
-    } else if (!serviceGeodatabase.getVersionName().equals(defaultVersion)) {
-      ListenableFuture<Void> switchVersionResult = serviceGeodatabase.switchVersionAsync(defaultVersion);
-      switchVersionResult.addDoneListener(() -> {
-        try {
-          currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-        } catch (Exception ex){
-          ex.printStackTrace();
-        }
-      });
-    } else {
-      ListenableFuture<Void> switchVersionResult = serviceGeodatabase.switchVersionAsync(userCreatedVersion);
-      switchVersionResult.addDoneListener(() -> {
-        try {
-          currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-        } catch (Exception ex){
-          ex.printStackTrace();
-        }
-      });
-    }
-  }
-
-  //only for testing remove
-  public void printOutAllVersions() {
-    ListenableFuture<List<ServiceVersionInfo>> allVersions = serviceGeodatabase.fetchVersionsAsync();
-    allVersions.addDoneListener(() -> {
-      try {
-        List<ServiceVersionInfo> allVersionsList = allVersions.get();
-        for (ServiceVersionInfo serviceVersionInfo : allVersionsList) {
-          System.out.println(serviceVersionInfo.getName());
-          System.out.println(serviceVersionInfo.getAccess());
-          System.out.println(serviceVersionInfo.getDescription());
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    });
   }
 }
