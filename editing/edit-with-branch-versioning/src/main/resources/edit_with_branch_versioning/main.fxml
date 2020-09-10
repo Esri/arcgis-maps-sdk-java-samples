@@ -16,8 +16,6 @@
   -->
 
 <?import javafx.scene.layout.StackPane?>
-<?import com.esri.arcgisruntime.mapping.view.MapView?>
-
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.Background?>
@@ -29,6 +27,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.ComboBox?>
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+
 <StackPane fx:controller="com.esri.samples.edit_with_branch_versioning.EditWithBranchVersioningController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/edit_with_branch_versioning/style.css">
     <!--SDK MapView-->
