@@ -202,10 +202,12 @@ public class EditWithBranchVersioningController {
     newVersionParameters.setAccess(accessComboBox.getSelectionModel().getSelectedItem());
     newVersionParameters.setDescription(description.getText());
 
-    // create a new version with the specified parameters
-    ListenableFuture<ServiceVersionInfo> createdVersion = serviceGeodatabase.createVersionAsync(newVersionParameters);
+    // update the UI
     createVersionButton.setText("Creating version....");
     createVersionButton.setDisable(true);
+
+    // create a new version with the specified parameters
+    ListenableFuture<ServiceVersionInfo> createdVersion = serviceGeodatabase.createVersionAsync(newVersionParameters);
     createdVersion.addDoneListener(() -> {
       try {
         // get the name of the created version and switch to it
@@ -217,20 +219,25 @@ public class EditWithBranchVersioningController {
         createVersionVBox.setVisible(false);
         switchVersionButton.setDisable(false);
       } catch (Exception ex) {
-        // if there is an error creating a new version, reset the UI and display an alert
+        // if there is an error creating a new version, display an alert and reset the UI
+        if (ex.getCause().toString().contains("The version already exists")) {
+          new Alert(Alert.AlertType.ERROR, "Please enter a unique version name").show();
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Error creating new version").show();
+        }
         createVersionButton.setText("Create version");
         createVersionButton.setDisable(false);
-        new Alert(Alert.AlertType.ERROR, "Error creating new version").show();
       }
     });
   }
 
   /**
-   * Apply local edits to the server and switch version
+   * Apply local edits to the service geodatabase and switch branch version
    */
   @FXML
   private void handleSwitchVersionButtonClicked() {
     if (serviceGeodatabase.getVersionName().equals(userCreatedVersion)) {
+      // if the user created version has local edits, apply the edits to the service geodatabase
       if (serviceGeodatabase.hasLocalEdits()) {
         ListenableFuture<List<FeatureTableEditResult>> resultOfApplyEdits = serviceGeodatabase.applyEditsAsync();
         resultOfApplyEdits.addDoneListener(() -> {
@@ -239,17 +246,20 @@ public class EditWithBranchVersioningController {
             List<FeatureTableEditResult> edits = resultOfApplyEdits.get();
             if (edits == null || edits.size() == 0) {
               new Alert(Alert.AlertType.ERROR, "Error applying edits on server").show();
+            } else {
+              // if the edits were successful, switch to the default version
+              switchVersion(defaultVersion);
             }
           } catch (InterruptedException | ExecutionException e) {
             new Alert(Alert.AlertType.ERROR, "Error applying edits on server").show();
-          } finally {
-            switchVersion(defaultVersion);
           }
         });
       } else {
+        // if there are no local edits, switch to the default version
         switchVersion(defaultVersion);
       }
     } else if (serviceGeodatabase.getVersionName().equals(defaultVersion)) {
+      // if the current version is the default version, switch to the user created version
       switchVersion(userCreatedVersion);
     }
   }
@@ -260,12 +270,11 @@ public class EditWithBranchVersioningController {
    * @param versionName name of the version to switch to
    */
   private void switchVersion(String versionName) {
-    // switch to the version name given
     ListenableFuture<Void> switchVersionResult = serviceGeodatabase.switchVersionAsync(versionName);
     switchVersionResult.addDoneListener(() -> {
+      // check if the active version has switched successfully and update the UI
       if (serviceGeodatabase.getVersionName().equals(versionName)) {
         currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-        // reset the UI when version has been switched
         editFeatureVBox.setDisable(true);
       } else {
         new Alert(Alert.AlertType.ERROR, "Error switching version.").show();
@@ -286,8 +295,8 @@ public class EditWithBranchVersioningController {
         List<GeoElement> identified = layer.getElements();
         if (!identified.isEmpty()) {
           GeoElement element = identified.get(0);
-          // get the selected feature
           if (element instanceof ArcGISFeature) {
+            // get the selected feature
             selectedFeature = (ArcGISFeature) element;
             featureLayer.selectFeature(selectedFeature);
             selectedFeature.loadAsync();
@@ -296,7 +305,7 @@ public class EditWithBranchVersioningController {
                 // when a feature has been selected set the damage combo box to the feature's attribute value
                 damageTypeComboBox.getSelectionModel().select((String) selectedFeature.getAttributes().get("typdamage"));
 
-                // enable feature editing UI if not on default branch version
+                // enable feature editing UI if not on the default branch version
                 if (!serviceGeodatabase.getVersionName().equals(defaultVersion)) {
                   editFeatureVBox.setDisable(false);
                 }
@@ -319,11 +328,14 @@ public class EditWithBranchVersioningController {
    */
   private void updateFeature(ArcGISFeature selectedFeature) {
     if (serviceFeatureTable.canUpdate(selectedFeature) && !serviceGeodatabase.getVersionName().equals(defaultVersion)) {
-      // update feature in the feature table
+      // update the feature in the feature table
       ListenableFuture<Void> editResult = serviceFeatureTable.updateFeatureAsync(selectedFeature);
-      editResult.addDoneListener(() ->
-        new Alert(Alert.AlertType.INFORMATION,
-          "Feature updated. Changes will be synced to the\nservice geodatabase when you switch branch.").show());
+      editResult.addDoneListener(() -> {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Feature updated");
+        alert.setContentText("Changes will be synced to the service geodatabase\nwhen you switch branch.");
+        alert.show();
+      });
     } else {
       new Alert(Alert.AlertType.ERROR, "Feature cannot be updated").show();
     }

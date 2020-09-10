@@ -61,7 +61,7 @@
         </VBox>
     </VBox>
     <!--Controls box for creating new version-->
-    <VBox fx:id="createVersionVBox" StackPane.alignment="TOP_RIGHT" maxWidth="200" maxHeight="170" spacing="5" styleClass="panel-region">
+    <VBox fx:id="createVersionVBox" StackPane.alignment="TOP_RIGHT" maxWidth="250" maxHeight="220" spacing="5" styleClass="panel-region">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -79,7 +79,7 @@
         <Label text="Create new version" styleClass="header-label"/>
         <VBox>
             <Label text="Name"/>
-            <TextField fx:id="name"/>
+            <TextField fx:id="name" maxWidth="220"/>
         </VBox>
         <VBox>
             <Label text="Access level"/>
@@ -87,7 +87,7 @@
         </VBox>
         <VBox>
             <Label text="Description"/>
-            <TextField fx:id="description" promptText="(optional)"/>
+            <TextField fx:id="description" promptText="(optional)" maxWidth="220"/>
         </VBox>
         <VBox>
             <Button fx:id="createVersionButton" text="Create version" onMouseClicked="#handleCreateVersionButtonClicked"/>
