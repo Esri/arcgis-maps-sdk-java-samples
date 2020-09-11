@@ -42,7 +42,6 @@ public class EditWithBranchVersioningSample extends Application {
     stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
-
   }
 
   /**
@@ -62,5 +61,4 @@ public class EditWithBranchVersioningSample extends Application {
 
     Application.launch(args);
   }
-
 }
