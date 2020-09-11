@@ -55,9 +55,9 @@ public class StyleWmsLayerSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with spatial reference appropriate for the service
+      // create a map with spatial reference appropriate for the service (North American Datum 83)
       ArcGISMap map = new ArcGISMap(SpatialReference.create(26915));
-      map.setMinScale(7000000.0);
+      map.setMinScale(7000000);
       // set the map to the map view
       mapView = new MapView();
       mapView.setMap(map);
