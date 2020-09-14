@@ -155,7 +155,7 @@ public class EditWithBranchVersioningController {
 
         if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
           // if a feature is selected and the current branch version is not the default, update the feature's geometry
-          if(selectedFeature != null && !serviceGeodatabase.getVersionName().equals(defaultVersion)){
+          if (selectedFeature != null && !serviceGeodatabase.getVersionName().equals(defaultVersion)) {
             Point2D point = new Point2D(event.getX(), event.getY());
             Point mapPoint = mapView.screenToLocation(point);
             selectedFeature.setGeometry(mapPoint);
@@ -208,11 +208,11 @@ public class EditWithBranchVersioningController {
     createVersionButton.setDisable(true);
 
     // create a new version with the specified parameters
-    ListenableFuture<ServiceVersionInfo> createdVersion = serviceGeodatabase.createVersionAsync(newVersionParameters);
-    createdVersion.addDoneListener(() -> {
+    ListenableFuture<ServiceVersionInfo> newVersion = serviceGeodatabase.createVersionAsync(newVersionParameters);
+    newVersion.addDoneListener(() -> {
       try {
         // get the name of the created version and switch to it
-        ServiceVersionInfo createdVersionInfo = createdVersion.get();
+        ServiceVersionInfo createdVersionInfo = newVersion.get();
         userCreatedVersion = createdVersionInfo.getName();
         switchVersion(userCreatedVersion);
 
