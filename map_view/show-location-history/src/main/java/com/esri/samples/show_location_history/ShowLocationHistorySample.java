@@ -19,17 +19,26 @@ package com.esri.samples.show_location_history;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 public class ShowLocationHistorySample extends Application {
 
   private MapView mapView;
-  private boolean isTrackLocation = false;
+  private boolean isTrackingEnabled = false;
 
   @Override
   public void start(Stage stage) {
@@ -53,14 +62,26 @@ public class ShowLocationHistorySample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a center point for the data in Redlands, California
-      Point center = new Point(-13185535.98, 4037766.28, SpatialReference.create(102100));
+      // set the map views's viewpoint centered on Los Angeles, California and scaled
+      Point center = new Point(-13185535.98, 4037766.28, SpatialReference.create(3857));
+      mapView.setViewpoint(new Viewpoint(center, 7000));
 
-      // set the viewpoint of the map
-      mapView.setViewpoint(new Viewpoint(center, 7000.0));
+      // create a graphics overlay for the points and use a red circle for the symbols
+      GraphicsOverlay locationHistoryOverlay = new GraphicsOverlay();
+      SimpleMarkerSymbol locationSymbol = new SimpleMarkerSymbol(
+        SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10f);
+      SimpleRenderer locationHistoryRenderer = new SimpleRenderer(locationSymbol);
+      locationHistoryOverlay.setRenderer(locationHistoryRenderer);
 
-        // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
+      // create a graphics overlay for the lines connecting the points and use a green line for the symbol
+      GraphicsOverlay locationHistoryLineOverlay = new GraphicsOverlay();
+      SimpleLineSymbol locationLineSymbol = new SimpleLineSymbol(
+        SimpleLineSymbol.Style.SOLID, 0xFF00FF00, 2.0f);
+      SimpleRenderer locationHistoryLineRenderer = new SimpleRenderer(locationLineSymbol);
+      locationHistoryLineOverlay.setRenderer(locationHistoryLineRenderer);
+
+      // add the graphics overlays to the map view
+      mapView.getGraphicsOverlays().addAll(Arrays.asList(locationHistoryOverlay, locationHistoryLineOverlay));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
