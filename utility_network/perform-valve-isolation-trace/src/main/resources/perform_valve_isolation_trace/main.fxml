@@ -22,7 +22,7 @@
 <?import javafx.scene.paint.Color?>
 <StackPane
         fx:controller="com.esri.samples.perform_valve_isolation_trace.PerformValveIsolationTraceController"
-        xmlns:fx="http://javafx.com/fxml" stylesheets="style.css">
+        xmlns:fx="http://javafx.com/fxml" stylesheets="/perform_valve_isolation_trace/style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
@@ -35,7 +35,7 @@
             <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true"/>
         </HBox>
 
-        <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include isolated features"/>
+        <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include isolated features" disable="true"/>
         <Label fx:id="statusLabel" StackPane.alignment="CENTER" text="Loading Utility Network..."/>
     </VBox>
 </StackPane>

@@ -33,7 +33,3 @@ public class UtilityCategoryListCell extends ListCell<UtilityCategory> {
         }
     }
 }
-
-
-
-

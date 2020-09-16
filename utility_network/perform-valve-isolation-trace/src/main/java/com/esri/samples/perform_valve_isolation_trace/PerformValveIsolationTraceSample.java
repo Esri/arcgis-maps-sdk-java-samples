@@ -60,5 +60,4 @@ public class PerformValveIsolationTraceSample extends Application {
 
     Application.launch(args);
   }
-
 }

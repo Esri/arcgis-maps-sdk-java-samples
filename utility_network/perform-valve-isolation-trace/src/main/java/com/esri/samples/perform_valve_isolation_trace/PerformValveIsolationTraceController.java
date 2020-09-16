@@ -103,7 +103,7 @@ public class PerformValveIsolationTraceController {
       GraphicsOverlay startingLocationGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(startingLocationGraphicsOverlay);
 
-      // create and apply renderers for the starting point graphics overlay
+      // create and apply a renderer for the starting point graphics overlay
       SimpleMarkerSymbol startingPointSymbol =
               new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.LIGHTGREEN), 25);
       startingLocationGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
@@ -140,27 +140,27 @@ public class PerformValveIsolationTraceController {
               if (!startingLocationFeatures.isEmpty()) {
                 Geometry startingLocationGeometry = startingLocationFeatures.get(0).getGeometry();
 
-                if (startingLocationGeometry instanceof Point){
+                if (startingLocationGeometry instanceof Point) {
                   Point startingLocationGeometryPoint = (Point) startingLocationGeometry;
 
-                // create a graphic for the starting location and add it to the graphics overlay
-                Graphic startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
-                startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
+                  // create a graphic for the starting location and add it to the graphics overlay
+                  Graphic startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
+                  startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
 
-                // set the map's viewpoint to the starting location
-                mapView.setViewpointAsync(new Viewpoint(startingLocationGeometryPoint, 3000));
+                  // set the map's viewpoint to the starting location
+                  mapView.setViewpointAsync(new Viewpoint(startingLocationGeometryPoint, 3000));
 
-                // build the choice list for categories populated with the 'Name' property of each 'UtilityCategory' in the 'UtilityNetworkDefinition'
-                categorySelectionComboBox.getItems().addAll(networkDefinition.getCategories());
-                categorySelectionComboBox.getSelectionModel().select(0);
-                categorySelectionComboBox.setCellFactory(param -> new UtilityCategoryListCell());
-                categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
+                  // build the choice list for categories populated with the 'Name' property of each 'UtilityCategory' in the 'UtilityNetworkDefinition'
+                  categorySelectionComboBox.getItems().addAll(networkDefinition.getCategories());
+                  categorySelectionComboBox.getSelectionModel().select(0);
+                  categorySelectionComboBox.setCellFactory(param -> new UtilityCategoryListCell());
+                  categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
 
-                // enable the UI
-                enableUI(true);
+                  // enable the UI
+                  enableUI(true);
 
-                // update the status text
-                statusLabel.setText("Utility network loaded. Ready to perform trace...");
+                  // update the status text
+                  statusLabel.setText("Utility network loaded. Ready to perform trace...");
                 }
 
               } else {
@@ -199,8 +199,8 @@ public class PerformValveIsolationTraceController {
       statusLabel.setText("Running isolation trace...");
 
       // get the selected utility category
-      if (categorySelectionComboBox.getSelectionModel().getSelectedItem() != null) {
-        UtilityCategory selectedCategory = categorySelectionComboBox.getSelectionModel().getSelectedItem();
+      UtilityCategory selectedCategory = categorySelectionComboBox.getSelectionModel().getSelectedItem();
+      if (selectedCategory != null) {
         // create a category comparison for the trace
         // NOTE: UtilityNetworkAttributeComparison or UtilityCategoryComparison with Operator.DoesNotExists
         // can also be used. These conditions can be joined with either UtilityTraceOrCondition or UtilityTraceAndCondition.
@@ -290,9 +290,9 @@ public class PerformValveIsolationTraceController {
    */
   private void enableUI(boolean enable) {
     progressIndicator.setVisible(!enable);
-    traceButton.setDisable(enable);
-    categorySelectionComboBox.setDisable(enable);
-    includeIsolatedFeaturesCheckbox.setDisable(enable);
+    traceButton.setDisable(!enable);
+    categorySelectionComboBox.setDisable(!enable);
+    includeIsolatedFeaturesCheckbox.setDisable(!enable);
   }
 
   /**

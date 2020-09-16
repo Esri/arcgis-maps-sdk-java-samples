@@ -10,7 +10,7 @@ Determine the set of operable features required to stop a network's resource, ef
 
 ## How to use the sample
 
-Create and set the configuration's filter barriers by selecting a category. Check or "Include isolated features". Click "Trace" to run a subnetwork-based isolation trace.
+Create and set the configuration's filter barriers by selecting a category. Check or uncheck 'Include Isolated Features'. Click 'Trace' to run a subnetwork-based isolation trace.
 
 ## How it works
 
@@ -23,10 +23,10 @@ Create and set the configuration's filter barriers by selecting a category. Chec
 7. Get a default `UtilityTraceConfiguration` from a given tier in a domain network. Set its filter with a new `UtilityTraceFilter`.
 8. When "Trace" is clicked,
     - Create a new `UtilityCategoryComparison` with the selected category and `UtilityCategoryComparisonOperator.EXISTS`. 
-    - Assign this condition to `utilityTraceFilter.setBarriers()` from the default configuration from step 7. Update this configuration's `.isIncludeIsolatedFeatures` property.
+    - Assign this condition to `utilityTraceFilter.setBarriers()` from the default configuration from step 7. Update this configuration's `isIncludeIsolatedFeatures()` property.
     - Create a `UtilityTraceParameters` with `UtilityTraceType.ISOLATION` and default starting location from step 4. 
-    - Set its utility trace configuration with this configuration and then, run a `utilityNetwork.TraceAsync`.
-9. For every `FeatureLayer` in the map, select the features returned by `GetFeaturesForElementsAsync` from the elements matching their `NetworkSource.getName()` with the layer's `FeatureTable.getName()`.
+    - Set its utility trace configuration with this configuration and then, run a `utilityNetwork.traceAsync()`.
+9. For every `FeatureLayer` in the map, select the features returned by `fetchFeaturesForElementsAsync()` from the elements matching their `NetworkSource.getName()` with the layer's `FeatureTable.getName()`.
 
 ## Relevant API
 
