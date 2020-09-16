@@ -11,11 +11,11 @@ If you need to create and save data on the fly, you can use KML to create points
 ## How to use the sample
 
 Select the geometry type for sketching with the first combo box.  Change the
- style for the KML feature using the second combo box. 
+ style for the KML feature using the second combo box.
 
-Click anywhere on the map to sketch. Press ENTER to commit the sketch or ESCAPE to discard the sketch. 
- 
- When finished, click the 'Save KMZ file' button to save the KML document to a KMZ file. 
+Click anywhere on the map to sketch. Press ENTER to commit the sketch or ESCAPE to discard the sketch.
+
+ When finished, click the 'Save KMZ file' button to save the KML document to a KMZ file.
 
 ## How it works
 
