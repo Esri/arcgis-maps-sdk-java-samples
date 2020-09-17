@@ -132,19 +132,19 @@ public class ShowLocationHistorySample extends Application {
         if (!isTrackingEnabled) {
           return;
         }
-        // get the point from the location changed event
-        Point nextPoint = locationChangedEvent.getLocation().getPosition();
+        // get the position as a point from locationChangedEvent
+        Point position = locationChangedEvent.getLocation().getPosition();
 
-        // add the new point to the polyline builder
-        polylineBuilder.addPoint(nextPoint);
+        // add the new point to the polyline
+        polylineBuilder.addPoint(position);
 
-        // add the new point to the two graphics overlays and reset the line connecting the points
-        locationHistoryOverlay.getGraphics().add(new Graphic(nextPoint));
+        // add the new point to the graphics overlay
+        locationHistoryOverlay.getGraphics().add(new Graphic(position));
 
-        // remove the old line
+        // reset the old polyline connecting the points
         locationHistoryLineOverlay.getGraphics().clear();
 
-        // add the updated line
+        // add the updated polyline to the graphics overlay
         locationHistoryLineOverlay.getGraphics().add(new Graphic(polylineBuilder.toGeometry()));
       });
 
@@ -153,12 +153,12 @@ public class ShowLocationHistorySample extends Application {
       mapView.getLocationDisplay().setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
       mapView.getLocationDisplay().setInitialZoomScale(7000);
 
-      // reset the location display and toggle the location tracking when the button is clicked
       trackingButton.setOnAction(event -> {
         // if the user has panned away from the location display, turn it on again
         if (mapView.getLocationDisplay().getAutoPanMode() == LocationDisplay.AutoPanMode.OFF) {
           mapView.getLocationDisplay().setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
         }
+        // toggle the location tracking when the button is clicked
         if (isTrackingEnabled) {
           trackingButton.setText("Start Tracking");
           isTrackingEnabled = false;
