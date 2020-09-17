@@ -84,7 +84,7 @@
         </VBox>
         <VBox>
             <Label text="Access level"/>
-            <ComboBox fx:id="accessComboBox" promptText="Select"/>
+            <ComboBox fx:id="accessTypeComboBox" promptText="Select"/>
         </VBox>
         <VBox>
             <Label text="Description"/>
