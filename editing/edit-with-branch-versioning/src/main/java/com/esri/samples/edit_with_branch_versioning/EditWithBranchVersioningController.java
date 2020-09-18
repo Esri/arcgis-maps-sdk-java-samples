@@ -84,7 +84,7 @@ public class EditWithBranchVersioningController {
       damageTypeComboBox.getItems().addAll("Destroyed", "Inaccessible", "Major", "Minor", "Affected");
       // add a listener to handle damage type attribute selections and update the selected feature with the new value
       damageTypeComboBox.getSelectionModel().selectedItemProperty().addListener((o, p, n) -> {
-        if (!selectedFeature.getAttributes().get("TYPDAMAGE").equals(n)) {
+        if (selectedFeature != null && !selectedFeature.getAttributes().get("TYPDAMAGE").equals(n)) {
           selectedFeature.getAttributes().put("TYPDAMAGE", damageTypeComboBox.getValue());
           updateFeature(selectedFeature);
         }
@@ -293,7 +293,7 @@ public class EditWithBranchVersioningController {
         IdentifyLayerResult identifyLayerResult = identifyLayerResultFuture.get();
         List<GeoElement> identifiedElements = identifyLayerResult.getElements();
         if (!identifiedElements.isEmpty()) {
-          var element = identifiedElements.get(0);
+          GeoElement element = identifiedElements.get(0);
           if (element instanceof ArcGISFeature) {
 
             // get the selected feature
@@ -338,14 +338,10 @@ public class EditWithBranchVersioningController {
       // update the feature in the feature table
       ListenableFuture<Void> updateFuture = serviceFeatureTable.updateFeatureAsync(selectedFeature);
       updateFuture.addDoneListener(() -> {
-        try {
-          Alert alert = new Alert(Alert.AlertType.INFORMATION);
-          alert.setHeaderText("Feature updated");
-          alert.setContentText("Changes will be synced to the service geodatabase\nwhen you switch version.");
-          alert.show();
-        } catch (Exception ex) {
-          new Alert(Alert.AlertType.ERROR, "Error updating feature").show();
-        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Feature updated");
+        alert.setContentText("Changes will be synced to the service geodatabase\nwhen you switch version.");
+        alert.show();
       });
     } else {
       new Alert(Alert.AlertType.ERROR, "Feature cannot be updated").show();
