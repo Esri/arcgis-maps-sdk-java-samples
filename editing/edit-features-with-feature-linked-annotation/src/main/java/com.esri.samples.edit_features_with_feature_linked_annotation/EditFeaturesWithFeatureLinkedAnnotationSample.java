@@ -19,6 +19,7 @@ package com.esri.samples.edit_features_with_feature_linked_annotation;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
@@ -225,14 +226,22 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       EditAttributesDialog editAttributesDialog = new EditAttributesDialog(selectedFeature);
 
       // show the dialog and wait for the user response
-      editAttributesDialog.showAndWait();
+      Optional<Boolean> updatingFeature = editAttributesDialog.showAndWait();
 
-      // update the selected feature's feature table
-      updateAttributes(selectedFeature);
+      // if the user chose to update the feature's attributes
+      if (updatingFeature.isPresent()) {
+        // update the selected feature's feature table
+        updateAttributes(selectedFeature);
+      }
+      else{
+        // if the user chose to cancel, clear selection of the feature
+        clearSelection();
+      }
     } else {
       new Alert(Alert.AlertType.WARNING, "Feature of unexpected geometry type selected.").show();
     }
   }
+
   /**
    * Updates the attributes of the selected feature.
    *

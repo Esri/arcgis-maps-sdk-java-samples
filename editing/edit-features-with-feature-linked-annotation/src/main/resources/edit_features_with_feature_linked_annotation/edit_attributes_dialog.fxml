@@ -33,7 +33,7 @@
                 </GridPane>
             </content>
             <ButtonType fx:id="updateButton" buttonData="FINISH" text="Update"/>
-            <ButtonType buttonData="CANCEL_CLOSE" text="Cancel"/>
+            <ButtonType fx:id= "cancelButton" buttonData="CANCEL_CLOSE" text="Cancel"/>
         </DialogPane>
     </dialogPane>
 </fx:root>

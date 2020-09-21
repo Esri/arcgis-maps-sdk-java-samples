@@ -28,10 +28,11 @@ import com.esri.arcgisruntime.data.Feature;
 /**
  * Custom dialog for editing feature attributes.
  */
-public class EditAttributesDialog extends Dialog<Feature>{
+public class EditAttributesDialog extends Dialog<Boolean>{
 
   @FXML private TextField addressTextField;
   @FXML private TextField streetNameTextField;
+  @FXML private ButtonType cancelButton;
   @FXML private ButtonType updateButton;
 
   EditAttributesDialog(Feature selectedFeature){
@@ -51,7 +52,7 @@ public class EditAttributesDialog extends Dialog<Feature>{
     addressTextField.setText(selectedFeature.getAttributes().get("AD_ADDRESS").toString());
     streetNameTextField.setText(selectedFeature.getAttributes().get("ST_STR_NAM").toString());
 
-    // convert the result to an address and street name when the ok button is clicked
+    // convert the result to an address and street name when the update button is clicked
     setResultConverter(dialogButton -> {
       if (dialogButton == updateButton) {
         try {
@@ -67,6 +68,7 @@ public class EditAttributesDialog extends Dialog<Feature>{
         } catch (Exception e) {
           e.printStackTrace();
         }
+        return true;
       }
       return null;
     });
