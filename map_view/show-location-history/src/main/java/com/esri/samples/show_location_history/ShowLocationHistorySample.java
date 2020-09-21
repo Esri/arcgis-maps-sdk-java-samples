@@ -110,23 +110,23 @@ public class ShowLocationHistorySample extends Application {
       // create a polyline builder to connect the location points
       PolylineBuilder polylineBuilder = new PolylineBuilder(SpatialReferences.getWebMercator());
 
+      try {
+        // access the json of the location points
+        String polylineData = IOUtils.toString(getClass().getResourceAsStream("/show_location_history/polyline_data.json"),
+          StandardCharsets.UTF_8);
+        // create a polyline from the location points
+        routePolyline = (Polyline) Geometry.fromJson(polylineData,
+          SpatialReferences.getWebMercator());
+
+      } catch (IOException e) {
+        new Alert(Alert.AlertType.ERROR, "Error loading simulated data").show();
+      }
+
       // enable the button interactions when the map is loaded
       map.addDoneLoadingListener(() -> {
 
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           trackingButton.setDisable(false);
-
-          try {
-            // access the json of the location points
-            String polylineData = IOUtils.toString(getClass().getResourceAsStream("/show_location_history/polyline_data.json"),
-              StandardCharsets.UTF_8);
-            // create a polyline from the location points
-            routePolyline = (Polyline) Geometry.fromJson(polylineData,
-              SpatialReferences.getWebMercator());
-
-          } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR, "Error loading simulated data").show();
-          }
 
           // create a simulated location data source
           SimulatedLocationDataSource simulatedLocationDataSource = new SimulatedLocationDataSource();
@@ -142,6 +142,11 @@ public class ShowLocationHistorySample extends Application {
             if (!isTrackingEnabled) {
               return;
             }
+//            // get the position as a point from the simulated location data source
+//            LocationDataSource.Location nextPointLocation =
+//              simulatedLocationDataSource.getLocations().get(simulatedLocationDataSource.getCurrentLocationIndex()-1);
+//            Point position = new Point(nextPointLocation.getPosition().getX(),nextPointLocation.getPosition().getY());
+//
             // get the position as a point from locationChangedEvent
             Point position = locationChangedEvent.getLocation().getPosition();
 
@@ -166,8 +171,8 @@ public class ShowLocationHistorySample extends Application {
 
           trackingButton.setOnAction(event -> {
             // if the user has panned away from the location display, turn it on again
-            if (mapView.getLocationDisplay().getAutoPanMode() == LocationDisplay.AutoPanMode.OFF) {
-              mapView.getLocationDisplay().setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+            if (locationDisplay.getAutoPanMode() == LocationDisplay.AutoPanMode.OFF) {
+              locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
             }
             // toggle the location tracking when the button is clicked
             if (isTrackingEnabled) {
