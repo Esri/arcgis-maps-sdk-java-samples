@@ -14,19 +14,21 @@ Create and set the configuration's filter barriers by selecting a category. Chec
 
 ## How it works
 
-1. Create a `MapView`.
-2. Create and load a `UtilityNetwork` with a feature service URL.
-3. Create a `Map` that contains `FeatureLayer`(s) that are part of this utility network.
-4. Create a default starting location from a given asset type and global id.
+1. Create an `ArcGISMap` and add it to a `MapView`.
+2. Using the URL to a utility network's feature service, create `FeatureLayer`s that contain the utility network's features, and add them to the operational layers of the map.
+3. Create and load a `UtilityNetwork` with the same feature service URL and map.
+4. Create a `UtilityElement` to represent a default starting location from the `UtilityNetwork`, using a given asset type and global id.
 5. Add a `GraphicsOverlay` with a `Graphic` that represents this starting location.
-6. Populate the combo box for choosing the filter barrier category from `UtilityNetworkDefinition.getCategories()`.
-7. Get a default `UtilityTraceConfiguration` from a given tier in a domain network. Set its filter with a new `UtilityTraceFilter`.
-8. When "Trace" is clicked,
+6. Use `utilityNetwork.fetchFeaturesForElementsAsync()` to obtain the geometry of this element, and place the created graphic at that geometry.
+7. Populate the combo box for choosing the filter barrier category from `UtilityNetworkDefinition.getCategories()`.
+8. Get a default `UtilityTraceConfiguration` from a given tier in a domain network. Set its filter with a new `UtilityTraceFilter`.
+9. When "Trace" is clicked,
     - Create a new `UtilityCategoryComparison` with the selected category and `UtilityCategoryComparisonOperator.EXISTS`. 
     - Assign this condition to `utilityTraceFilter.setBarriers()` from the default configuration from step 7. Update this configuration's `utilityTraceConfiguration.isIncludeIsolatedFeatures()` property.
     - Create a `UtilityTraceParameters` with `UtilityTraceType.ISOLATION` and default starting location from step 4. 
     - Set its utility trace configuration with this configuration and then, run a `utilityNetwork.traceAsync()`.
-9. For every `FeatureLayer` in the map, select the features returned by `utilityNetwork.fetchFeaturesForElementsAsync()` from the elements matching their `NetworkSource.getName()` with the layer's `FeatureTable.getName()`.
+10. Get the list of `UtilityElement`s from the first trace result.
+11. For every feature layer in the map, select all the features for which the layer's `FeatureTable.getTableName()` matches the `NetworkSource.getName()` of one of the utility elements.
 
 ## Relevant API
 
