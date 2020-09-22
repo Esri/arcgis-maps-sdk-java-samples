@@ -2,7 +2,7 @@
 
 Display your location history on the map.
 
-![](ShowLocationHistory.png)
+![Image of show location history](ShowLocationHistory.png)
 
 ## Use case
 
