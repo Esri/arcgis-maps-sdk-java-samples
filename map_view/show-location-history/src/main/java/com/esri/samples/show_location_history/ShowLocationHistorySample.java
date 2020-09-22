@@ -37,7 +37,6 @@ import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.location.LocationDataSource;
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
 import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
