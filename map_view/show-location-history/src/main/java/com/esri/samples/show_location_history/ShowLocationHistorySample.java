@@ -37,6 +37,8 @@ import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.location.LocationDataSource;
+import com.esri.arcgisruntime.location.LocationDataSource.LocationChangedListener;
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
 import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -52,10 +54,12 @@ import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 import org.apache.commons.io.IOUtils;
 
+
 public class ShowLocationHistorySample extends Application {
 
   private MapView mapView;
   private boolean isTrackingEnabled = false;
+  private Point position;
 
   @Override
   public void start(Stage stage) {
@@ -127,6 +131,26 @@ public class ShowLocationHistorySample extends Application {
         locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
         locationDisplay.setInitialZoomScale(7000);
 
+        // track previous location to ensure the route line appears behind the location display symbol
+        LocationChangedListener locationChangedListener = (LocationDataSource.LocationChangedEvent locationChangedEvent) -> {
+
+          // reset the old polyline connecting the points
+            locationHistoryLineOverlay.getGraphics().clear();
+
+            // add any previous position to the history
+            if (position != null) {
+              // add the new point to the polyline
+              polylineBuilder.addPoint(position);
+              // add the new point to the graphics overlay
+              locationHistoryOverlay.getGraphics().add(new Graphic(position));
+            }
+            // store the current position
+            position = locationChangedEvent.getLocation().getPosition();
+
+            // add the updated polyline to the graphics overlay
+            locationHistoryLineOverlay.getGraphics().add(new Graphic(polylineBuilder.toGeometry()));
+          };
+
         trackingButton.setOnAction(event -> {
           // if the user has panned away from the location display, turn it on again
           if (locationDisplay.getAutoPanMode() == LocationDisplay.AutoPanMode.OFF) {
@@ -135,8 +159,10 @@ public class ShowLocationHistorySample extends Application {
           // toggle the location tracking when the button is clicked
           if (isTrackingEnabled) {
             trackingButton.setText("Start Tracking");
+            simulatedLocationDataSource.removeLocationChangedListener(locationChangedListener);
           } else {
             trackingButton.setText("Stop Tracking");
+            simulatedLocationDataSource.addLocationChangedListener(locationChangedListener);
           }
           isTrackingEnabled = !isTrackingEnabled;
         });
@@ -149,27 +175,7 @@ public class ShowLocationHistorySample extends Application {
 
             // start the simulated location data source
             simulatedLocationDataSource.startAsync();
-            simulatedLocationDataSource.addLocationChangedListener(locationChangedEvent -> {
 
-              // if location tracking is turned off, do not draw points or extend the polyline
-              if (!isTrackingEnabled) {
-                return;
-              }
-              // get the position as a point from locationChangedEvent
-              Point position = locationChangedEvent.getLocation().getPosition();
-
-              // add the new point to the polyline
-              polylineBuilder.addPoint(position);
-
-              // add the new point to the graphics overlay
-              locationHistoryOverlay.getGraphics().add(new Graphic(position));
-
-              // reset the old polyline connecting the points
-              locationHistoryLineOverlay.getGraphics().clear();
-
-              // add the updated polyline to the graphics overlay
-              locationHistoryLineOverlay.getGraphics().add(new Graphic(polylineBuilder.toGeometry()));
-            });
           } else {
             new Alert(Alert.AlertType.ERROR, "Map failed to load").show();
           }
