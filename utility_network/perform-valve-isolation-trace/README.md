@@ -17,11 +17,11 @@ Create and set the configuration's filter barriers by selecting a category. Chec
 1. Create an `ArcGISMap` and add it to a `MapView`.
 2. Using the URL to a utility network's feature service, create `FeatureLayer`s that contain the utility network's features, and add them to the operational layers of the map.
 3. Create and load a `UtilityNetwork` with the same feature service URL and map.
-4. Create a `UtilityElement` to represent a default starting location from the `UtilityNetwork`, using a given asset type and global id.
-5. Add a `GraphicsOverlay` with a `Graphic` that represents this starting location.
-6. Use `utilityNetwork.fetchFeaturesForElementsAsync()` to obtain the geometry of this element, and place the created graphic at that geometry.
-7. Populate the combo box for choosing the filter barrier category from `UtilityNetworkDefinition.getCategories()`.
-8. Get a default `UtilityTraceConfiguration` from a given tier in a domain network. Set its filter with a new `UtilityTraceFilter`.
+4. Get a default `UtilityTraceConfiguration` from a given tier in a domain network. Set its filter with a new `UtilityTraceFilter`.
+5. Create a `UtilityElement` to represent a default starting location from the `UtilityNetwork`, using a given asset type and global ID.
+6. Use `utilityNetwork.fetchFeaturesForElementsAsync()` to obtain the `Geometry` of this element, and create a `Graphic` with that geometry.
+7. Add a `GraphicsOverlay` with the graphic that represents the starting location.
+8. Populate the combo box for choosing the filter barrier category from `UtilityNetworkDefinition.getCategories()`.
 9. When "Trace" is clicked,
     - Create a new `UtilityCategoryComparison` with the selected category and `UtilityCategoryComparisonOperator.EXISTS`. 
     - Assign this condition to `utilityTraceFilter.setBarriers()` from the default configuration from step 7. Update this configuration's `utilityTraceConfiguration.isIncludeIsolatedFeatures()` property.
