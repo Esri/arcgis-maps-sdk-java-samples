@@ -233,7 +233,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
         // update the selected feature's feature table
         updateAttributes(selectedFeature);
       }
-      else{
+      else {
         // if the user chose to cancel, clear selection of the feature
         clearSelection();
       }
