@@ -131,7 +131,7 @@ public class ShowLocationHistorySample extends Application {
         locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
         locationDisplay.setInitialZoomScale(7000);
 
-        // track previous location to ensure the route line appears behind the location display symbol
+        // create a listener to track the previous location, to draw a route line behind the location display symbol
         LocationChangedListener locationChangedListener = (LocationDataSource.LocationChangedEvent locationChangedEvent) -> {
 
           // reset the old polyline connecting the points
