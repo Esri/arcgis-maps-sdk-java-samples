@@ -114,7 +114,7 @@ public class ListRelatedFeaturesSample extends Application {
                 IdentifyLayerResult identifiedLayer = identifyLayerResult.get();
                 List<GeoElement> identifiedLayerGeoElements = identifiedLayer.getElements();
                 // get the first selected feature
-                for (var geoElement : identifiedLayerGeoElements) {
+                for (GeoElement geoElement : identifiedLayerGeoElements) {
                   ArcGISFeature selectedFeature = (ArcGISFeature) geoElement;
                   featureLayer.selectFeature(selectedFeature);
                   // get the feature's feature table
