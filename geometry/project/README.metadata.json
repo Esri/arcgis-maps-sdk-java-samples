@@ -28,7 +28,6 @@
         "SpatialReference"
     ],
     "snippets": [
-        "ProjectSample.java",
         "src/main/java/com/esri/samples/project/ProjectSample.java"
     ],
     "title": "Project"
