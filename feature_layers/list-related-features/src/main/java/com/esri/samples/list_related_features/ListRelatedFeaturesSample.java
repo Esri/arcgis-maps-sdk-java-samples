@@ -16,7 +16,6 @@
 
 package com.esri.samples.list_related_features;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -37,14 +36,12 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.ArcGISFeatureTable;
 import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.data.FeatureQueryResult;
-import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.RelatedFeatureQueryResult;
-import com.esri.arcgisruntime.geometry.GeometryEngine;
-import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ListRelatedFeaturesSample extends Application {
@@ -102,44 +99,43 @@ public class ListRelatedFeaturesSample extends Application {
           // check for primary or secondary mouse click
           if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
 
+            // clear previous selections
+            featureLayer.clearSelection();
+
             // create a point from where the user clicked
             Point2D point = new Point2D(event.getX(), event.getY());
 
-            // convert to map coordinate
-            Point mapPoint = mapView.screenToLocation(point);
-
             // identify the clicked features
-            QueryParameters queryParameters = new QueryParameters();
-            queryParameters.setGeometry(GeometryEngine.buffer(mapPoint, 10));
-            final ListenableFuture<FeatureQueryResult> selectFeatureQuery = featureLayer.selectFeaturesAsync
-                (queryParameters, FeatureLayer.SelectionMode.NEW);
-            selectFeatureQuery.addDoneListener(() -> {
+            ListenableFuture<IdentifyLayerResult> identifyLayerResult =
+              mapView.identifyLayerAsync(featureLayer, point, 10, false, 1);
+            identifyLayerResult.addDoneListener(() -> {
 
               try {
-                FeatureQueryResult result = selectFeatureQuery.get();
+                IdentifyLayerResult identifiedLayer = identifyLayerResult.get();
+                List<GeoElement> identifiedLayerGeoElements = identifiedLayer.getElements();
                 // get the first selected feature
-                Iterator<Feature> iterator = result.iterator();
-                if (iterator.hasNext()) {
-                  ArcGISFeature selectedFeature = (ArcGISFeature) iterator.next();
+                for (GeoElement geoElement : identifiedLayerGeoElements) {
+                  ArcGISFeature selectedFeature = (ArcGISFeature) geoElement;
+                  featureLayer.selectFeature(selectedFeature);
                   // get the feature's feature table
                   ArcGISFeatureTable featureTable = selectedFeature.getFeatureTable();
 
                   // query related features
                   final ListenableFuture<List<RelatedFeatureQueryResult>> relatedFeatureQuery = featureTable
-                      .queryRelatedFeaturesAsync(selectedFeature);
+                    .queryRelatedFeaturesAsync(selectedFeature);
                   relatedFeatureQuery.addDoneListener(() -> {
                     try {
                       //clear previous results
                       accordion.getPanes().clear();
                       // add all related features (grouped) into panes of the accordion
                       List<RelatedFeatureQueryResult> results = relatedFeatureQuery.get();
-                      for(RelatedFeatureQueryResult relatedFeatureQueryResult : results){
+                      for (RelatedFeatureQueryResult relatedFeatureQueryResult : results) {
                         ListView<String> featureList = new ListView<>();
                         String relatedTableName = relatedFeatureQueryResult.getRelatedTable().getTableName();
                         // create a pane for the feature table with a list for its features
                         TitledPane tablePane = new TitledPane(relatedTableName, featureList);
                         accordion.getPanes().add(tablePane);
-                        for(Feature relatedFeature : relatedFeatureQueryResult) {
+                        for (Feature relatedFeature : relatedFeatureQueryResult) {
                           // show the related feature with its display field value in the list
                           ArcGISFeature feature = (ArcGISFeature) relatedFeature;
                           String displayFieldName = feature.getFeatureTable().getLayerInfo().getDisplayFieldName();
@@ -155,7 +151,6 @@ public class ListRelatedFeaturesSample extends Application {
                     }
                   });
                 }
-
               } catch (InterruptedException | ExecutionException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to get identify the selected feature");
                 alert.show();
