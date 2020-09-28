@@ -26,6 +26,7 @@ import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -47,6 +48,7 @@ public class DisplayMapSample extends Application {
   private String nmeaSentence;
   private SerialPort serialPort;
   private NmeaLocationDataSource nmeaLocationDataSource;
+  private LocationDisplay locationDisplay;
 
   @Override
   public void start(Stage stage) {
@@ -64,7 +66,6 @@ public class DisplayMapSample extends Application {
       stage.show();
       scene.getStylesheets().add(getClass().getResource("/display_device_location/style.css").toExternalForm());
 
-
       // create combo box
       ComboBox<String> comboBox= new ComboBox<>();
       comboBox.setMaxWidth(Double.MAX_VALUE);
@@ -75,6 +76,8 @@ public class DisplayMapSample extends Application {
 
       // add a label
       Label autopanModeLabel = new Label("Choose an autopan mode:");
+      // add a checkbox
+      CheckBox checkbox = new CheckBox("Show device location");
 
       // show a background behind the slider
       VBox controlsVBox = new VBox(6);
@@ -83,7 +86,7 @@ public class DisplayMapSample extends Application {
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 50);
       controlsVBox.getStyleClass().add("panel-region");
-      controlsVBox.getChildren().addAll(autopanModeLabel, comboBox);
+      controlsVBox.getChildren().addAll(checkbox, autopanModeLabel, comboBox);
 
       // create a map with the imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());
@@ -94,32 +97,65 @@ public class DisplayMapSample extends Application {
 
       // make location data source and link to Location Display
       nmeaLocationDataSource = new NmeaLocationDataSource();
+      locationDisplay = mapView.getLocationDisplay();
 
-      // configure the map view's location display to follow the NMEA location data source
-      LocationDisplay locationDisplay = mapView.getLocationDisplay();
-      locationDisplay.setLocationDataSource(nmeaLocationDataSource);
-      // start location data source and wait for it to be ready
-      nmeaLocationDataSource.startAsync();
-      nmeaLocationDataSource.addStartedListener(()-> {
-        System.out.println("lds started");
-        gpsStart();
+      checkbox.setOnAction(event -> {
 
-        // set the autopan mode of the location display based on the mode chosen from the combo box
-        comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+        if (checkbox.isSelected()) {
+          // start location data source and wait for it to be ready
+          nmeaLocationDataSource.startAsync();
+          nmeaLocationDataSource.addStartedListener(() -> {
+            gpsStart();
 
-          locationDisplay.setInitialZoomScale(7000);
+          });
+          // configure the map view's location display to follow the NMEA location data source
+          locationDisplay.setLocationDataSource(nmeaLocationDataSource);
 
-          switch (comboBox.getSelectionModel().getSelectedItem()){
-            case "Navigation": locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.NAVIGATION);
-            case "Compass Navigation": locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.COMPASS_NAVIGATION);
-            case "Recenter": locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
-            case "Stop": locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
-          }
-        });
+        }
+        else{
+          gpsStop();
+          locationDisplay.stop();
+        }
       });
 
+      // set the autopan mode of the location display based on the mode chosen from the combo box
+      comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
 
-      // add the map view and control panel to the stack pane
+        if (nmeaLocationDataSource.isStarted()) {
+          switch (comboBox.getSelectionModel().getSelectedItem()) {
+            case "Navigation":
+              locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.NAVIGATION);
+              if (locationDisplay.isStarted()){
+              locationDisplay.startAsync();
+              }
+              locationDisplay.setInitialZoomScale(7000);
+              break;
+            case "Compass Navigation":
+              locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.COMPASS_NAVIGATION);
+              if (locationDisplay.isStarted()){
+                locationDisplay.startAsync();
+              }
+              locationDisplay.setInitialZoomScale(7000);
+              break;
+            case "Recenter":
+              locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+              if (locationDisplay.isStarted()){
+                locationDisplay.startAsync();
+              }
+              locationDisplay.setInitialZoomScale(7000);
+              break;
+            case "Stop":
+              locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
+              if (locationDisplay.isStarted()){
+                locationDisplay.startAsync();
+              }
+              locationDisplay.setInitialZoomScale(7000);
+              break;
+          }
+        }
+        });
+
+        // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
@@ -135,7 +171,7 @@ public class DisplayMapSample extends Application {
     serialPort = SerialPort.getCommPorts()[0];
     System.out.println("port name " + serialPort.getSystemPortName() + " open " + serialPort.isOpen());
     //set up the serial port
-    serialPort.setComPortParameters(4800,8,1,0);
+    serialPort.setComPortParameters(9600,8,1,0);
     serialPort.openPort();
     // set up a listen for new data
     serialPort.addDataListener(new SerialPortDataListener() {
@@ -179,8 +215,14 @@ public class DisplayMapSample extends Application {
       mapView.dispose();
     }
 
+    gpsStop();
+  }
+
+  /**
+   * Stops the NMEA messages and closes the serial port.
+   */
+  public void gpsStop(){
     if (serialPort != null) {
-      System.out.println("closing port");
       serialPort.closePort();
     }
   }
