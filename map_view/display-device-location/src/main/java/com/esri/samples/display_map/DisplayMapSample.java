@@ -18,11 +18,6 @@ package com.esri.samples.display_map;
 
 import java.nio.charset.StandardCharsets;
 
-import com.esri.arcgisruntime.location.NmeaLocationDataSource;
-import com.esri.arcgisruntime.mapping.view.LocationDisplay;
-import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -40,7 +35,13 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.location.NmeaLocationDataSource;
+
+import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortDataListener;
+import com.fazecast.jSerialComm.SerialPortEvent;
 
 public class DisplayMapSample extends Application {
 
@@ -96,8 +97,10 @@ public class DisplayMapSample extends Application {
       mapView.setMap(map);
 
       // make location data source and link to Location Display
-      nmeaLocationDataSource = new NmeaLocationDataSource();
       locationDisplay = mapView.getLocationDisplay();
+
+      // make location data source and link to Location Display
+      nmeaLocationDataSource = new NmeaLocationDataSource();
 
       checkbox.setOnAction(event -> {
 
