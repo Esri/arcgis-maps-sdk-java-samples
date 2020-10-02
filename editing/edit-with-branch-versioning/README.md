@@ -18,7 +18,7 @@ Click the "Switch version" button in the top left corner to switch back and fort
 
 ## How it works
 
-1. Create and load a `ServiceGeodatabase` with a feature service URL that has enabled Version Management.
+1. Create and load a `ServiceGeodatabase` with a feature service URL that has enabled [Version Management](https://developers.arcgis.com/java/latest/guide/use-branch-versioning.htm).
 2. Get the `ServiceFeatureTable` from the service geodatabase.
 3. Create a `FeatureLayer` from the service feature table.
 4. Create `ServiceVersionParameters` with a unique name, `VersionAccess`, and description.
