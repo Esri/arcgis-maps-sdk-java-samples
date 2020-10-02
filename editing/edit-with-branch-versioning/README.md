@@ -26,9 +26,8 @@ Click the "Switch version" button in the top left corner to switch back and fort
 5. Create a new version by calling `ServiceGeodatabase.createVersionAsync()` and passing in the service version parameters.
 6. Retrieve the result of the async call, to obtain the `ServiceVersionInfo` of the version created.
 7. Switch to the version you have just created using `ServiceGeodatabase.switchVersionAsync()`, passing in the version name obtained from the service version info.
-8. Select a `Feature` from the map to edit it's "TYPDAMAGE" attribute and location.
+8. Select a `Feature` from the map to edit its "TYPDAMAGE" attribute and location.
 9. Apply these edits to your version by calling `ServiceGeodatabase.applyEditsAsync()`.
-10. Switch back and forth between your version and the default version to see how the two versions differ.
 
 ## Relevant API
 
