@@ -68,10 +68,11 @@ public class EditWithBranchVersioningController {
   private FeatureLayer featureLayer;
   private ServiceFeatureTable serviceFeatureTable;
   private ServiceGeodatabase serviceGeodatabase; // keeps loadable in scope to avoid garbage collection
-  private String defaultVersion;
-  private String userCreatedVersion;
+  private String defaultVersionName;
+  private String userCreatedVersionName;
 
   public void initialize() {
+
     try {
       // create a map with the streets vector basemap and set it to the map view
       ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
@@ -101,7 +102,7 @@ public class EditWithBranchVersioningController {
         if (serviceGeodatabase.getLoadStatus() == LoadStatus.LOADED) {
 
           // when the service geodatabase has loaded get the default version
-          defaultVersion = serviceGeodatabase.getDefaultVersionName();
+          defaultVersionName = serviceGeodatabase.getDefaultVersionName();
 
           // get the service feature table from the service geodatabase
           if (serviceGeodatabase.getTable(0) != null) {
@@ -118,13 +119,9 @@ public class EditWithBranchVersioningController {
                 progressIndicator.setVisible(false);
                 createVersionButton.setDisable(false);
                 currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-              } else {
-                new Alert(Alert.AlertType.ERROR, "Feature layer failed to load").show();
-              }
+              } else new Alert(Alert.AlertType.ERROR, "Feature layer failed to load").show();
             });
-          } else {
-            new Alert(Alert.AlertType.ERROR, "Unable to get the service feature table").show();
-          }
+          } else new Alert(Alert.AlertType.ERROR, "Unable to get the service feature table").show();
         } else {
           progressIndicator.setVisible(false);
           new Alert(Alert.AlertType.ERROR, "Service geodatabase failed to load").show();
@@ -133,20 +130,22 @@ public class EditWithBranchVersioningController {
 
       // listen to clicks on the map to select or move features
       mapView.setOnMouseClicked(event -> {
+
+        // create a point from where the user clicked
+        Point2D point = new Point2D(event.getX(), event.getY());
+
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
           // reset the UI
           featureLayer.clearSelection();
           editFeatureVBox.setDisable(true);
 
           // select the clicked feature
-          Point2D point = new Point2D(event.getX(), event.getY());
           selectFeature(point);
         }
 
         if (event.isStillSincePress() && event.getButton() == MouseButton.SECONDARY) {
           // if a feature is selected and the current version is not the default, update the feature's geometry
-          if (selectedFeature != null && !serviceGeodatabase.getVersionName().equals(defaultVersion)) {
-            Point2D point = new Point2D(event.getX(), event.getY());
+          if (selectedFeature != null && !serviceGeodatabase.getVersionName().equals(defaultVersionName)) {
             Point mapPoint = mapView.screenToLocation(point);
             selectedFeature.setGeometry(mapPoint);
             updateFeature(selectedFeature);
@@ -205,8 +204,8 @@ public class EditWithBranchVersioningController {
 
         // get the name of the created version and switch to it
         ServiceVersionInfo createdVersionInfo = newVersion.get();
-        userCreatedVersion = createdVersionInfo.getName();
-        switchVersion(userCreatedVersion);
+        userCreatedVersionName = createdVersionInfo.getName();
+        switchVersion(userCreatedVersionName);
 
         // hide the form from the UI as the sample only allows 1 version to be created
         createVersionVBox.setVisible(false);
@@ -230,15 +229,15 @@ public class EditWithBranchVersioningController {
   @FXML
   private void handleSwitchVersionButtonClicked() {
 
-    if (serviceGeodatabase.getVersionName().equals(defaultVersion)) {
+    if (serviceGeodatabase.getVersionName().equals(defaultVersionName)) {
       // if the current version is the default version, switch to the user created version
-      switchVersion(userCreatedVersion);
+      switchVersion(userCreatedVersionName);
 
-    } else if (serviceGeodatabase.getVersionName().equals(userCreatedVersion)) {
+    } else if (serviceGeodatabase.getVersionName().equals(userCreatedVersionName)) {
       // if the current version is the user created version, check if there are local edits
       if (!serviceGeodatabase.hasLocalEdits()) {
         // if there are no local edits switch to the default version
-        switchVersion(defaultVersion);
+        switchVersion(defaultVersionName);
 
       } else {
         // if local edits exist apply the edits
@@ -253,7 +252,7 @@ public class EditWithBranchVersioningController {
 
             } else {
               // if the edits were successful, switch to the default version
-              switchVersion(defaultVersion);
+              switchVersion(defaultVersionName);
             }
           } catch (InterruptedException | ExecutionException e) {
             new Alert(Alert.AlertType.ERROR, "Error applying edits on server").show();
@@ -312,7 +311,7 @@ public class EditWithBranchVersioningController {
                 }
 
                 // enable feature editing UI if not on the default version
-                if (!serviceGeodatabase.getVersionName().equals(defaultVersion)) {
+                if (!serviceGeodatabase.getVersionName().equals(defaultVersionName)) {
                   editFeatureVBox.setDisable(false);
                 }
               } else {
@@ -333,7 +332,7 @@ public class EditWithBranchVersioningController {
    * @param selectedFeature the selected feature to be updated
    */
   private void updateFeature(ArcGISFeature selectedFeature) {
-    if (serviceFeatureTable.canUpdate(selectedFeature) && !serviceGeodatabase.getVersionName().equals(defaultVersion)) {
+    if (serviceFeatureTable.canUpdate(selectedFeature) && !serviceGeodatabase.getVersionName().equals(defaultVersionName)) {
 
       // update the feature in the feature table
       ListenableFuture<Void> updateFuture = serviceFeatureTable.updateFeatureAsync(selectedFeature);
