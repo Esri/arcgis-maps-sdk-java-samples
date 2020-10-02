@@ -119,12 +119,12 @@ public class EditWithBranchVersioningController {
                 progressIndicator.setVisible(false);
                 createVersionButton.setDisable(false);
                 currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-              } else new Alert(Alert.AlertType.ERROR, "Feature layer failed to load").show();
+              } else showAlert("Feature layer failed to load");
             });
-          } else new Alert(Alert.AlertType.ERROR, "Unable to get the service feature table").show();
+          } else showAlert("Unable to get the service feature table");
         } else {
           progressIndicator.setVisible(false);
-          new Alert(Alert.AlertType.ERROR, "Service geodatabase failed to load").show();
+          showAlert("Service geodatabase failed to load");
         }
       });
 
@@ -167,23 +167,22 @@ public class EditWithBranchVersioningController {
     // validate version name input
     String inputName = nameTextField.getText();
     if (inputName.contains(".") || inputName.contains(";") || inputName.contains("'") || inputName.contains("\"")) {
-      new Alert(Alert.AlertType.ERROR,
-        "Please enter a valid version name.\nThe name cannot contain the following characters:\n. ; ' \" ").show();
+      showAlert("Please enter a valid version name.\nThe name cannot contain the following characters:\n. ; ' \" ");
       return;
     } else if (inputName.length() > 0 && Character.isWhitespace(nameTextField.getText().charAt(0))) {
-      new Alert(Alert.AlertType.ERROR, "Version name cannot begin with a space").show();
+      showAlert("Version name cannot begin with a space");
       return;
     } else if (inputName.length() > 62) {
-      new Alert(Alert.AlertType.ERROR, "Version name must not exceed 62 characters").show();
+      showAlert("Version name must not exceed 62 characters");
       return;
     } else if (inputName.length() == 0) {
-      new Alert(Alert.AlertType.ERROR, "Please enter a version name").show();
+      showAlert("Please enter a version name");
       return;
     }
 
     // validate version access input
     if (accessTypeComboBox.getSelectionModel().getSelectedItem() == null) {
-      new Alert(Alert.AlertType.ERROR, "Please select an access level").show();
+      showAlert("Please select an access level");
       return;
     }
 
@@ -213,9 +212,9 @@ public class EditWithBranchVersioningController {
       } catch (Exception ex) {
         // if there is an error creating a new version, display an alert and reset the UI
         if (ex.getCause().toString().contains("The version already exists")) {
-          new Alert(Alert.AlertType.ERROR, "A version with this name already exists.\nPlease enter a unique name").show();
+          showAlert("A version with this name already exists.\\nPlease enter a unique name");
         } else {
-          new Alert(Alert.AlertType.ERROR, "Error creating new version").show();
+          showAlert("Error creating new version");
         }
         createVersionButton.setText("Create version");
         createVersionButton.setDisable(false);
@@ -248,14 +247,13 @@ public class EditWithBranchVersioningController {
             // check if the server edit was successful
             List<FeatureTableEditResult> edits = resultOfApplyEdits.get();
             if (edits == null || edits.isEmpty()) {
-              new Alert(Alert.AlertType.ERROR, "Error applying edits on server").show();
-
+              showAlert("Error applying edits on server");
             } else {
               // if the edits were successful, switch to the default version
               switchVersion(defaultVersionName);
             }
           } catch (InterruptedException | ExecutionException e) {
-            new Alert(Alert.AlertType.ERROR, "Error applying edits on server").show();
+            showAlert("Error applying edits on server");
           }
         });
       }
@@ -275,7 +273,7 @@ public class EditWithBranchVersioningController {
         currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
         editFeatureVBox.setDisable(true);
       } else {
-        new Alert(Alert.AlertType.ERROR, "Error switching version.").show();
+        showAlert("Error switching version");
       }
     });
   }
@@ -307,7 +305,7 @@ public class EditWithBranchVersioningController {
                 if (damageTypeComboBox.getItems().contains(selectedFeatureAttributeValue)) {
                   damageTypeComboBox.getSelectionModel().select(selectedFeatureAttributeValue);
                 } else {
-                  new Alert(Alert.AlertType.ERROR, "Unexpected attribute value").show();
+                  showAlert("Unexpected attribute value");
                 }
 
                 // enable feature editing UI if not on the default version
@@ -315,13 +313,13 @@ public class EditWithBranchVersioningController {
                   editFeatureVBox.setDisable(false);
                 }
               } else {
-                new Alert(Alert.AlertType.ERROR, "Feature failed to load.").show();
+                showAlert("Feature failed to load");
               }
             });
           }
         }
       } catch (InterruptedException | ExecutionException e) {
-        new Alert(Alert.AlertType.ERROR, "Failed to identify the feature").show();
+        showAlert("Failed to identify the feature");
       }
     });
   }
@@ -343,8 +341,17 @@ public class EditWithBranchVersioningController {
         alert.show();
       });
     } else {
-      new Alert(Alert.AlertType.ERROR, "Feature cannot be updated").show();
+      showAlert("Feature cannot be updated");
     }
+  }
+
+  /**
+   * Display an error alert to the user with the given message.
+   *
+   * @param message text to display in the alert
+   */
+  private void showAlert(String message) {
+    new Alert(Alert.AlertType.ERROR, message).show();
   }
 
   /**
