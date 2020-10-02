@@ -166,19 +166,9 @@ public class EditWithBranchVersioningController {
 
     // validate version name input
     String inputName = nameTextField.getText();
-    if (inputName.contains(".") || inputName.contains(";") || inputName.contains("'") || inputName.contains("\"")) {
-      showAlert("Please enter a valid version name.\nThe name cannot contain the following characters:\n. ; ' \" ");
-      return;
-    } else if (inputName.length() > 0 && Character.isWhitespace(nameTextField.getText().charAt(0))) {
-      showAlert("Version name cannot begin with a space");
-      return;
-    } else if (inputName.length() > 62) {
-      showAlert("Version name must not exceed 62 characters");
-      return;
-    } else if (inputName.length() == 0) {
-      showAlert("Please enter a version name");
-      return;
-    }
+   if (!isTextInputValid(inputName)) {
+     return;
+   };
 
     // validate version access input
     if (accessTypeComboBox.getSelectionModel().getSelectedItem() == null) {
@@ -342,6 +332,29 @@ public class EditWithBranchVersioningController {
       });
     } else {
       showAlert("Feature cannot be updated");
+    }
+  }
+
+  /**
+   * Validate the text input.
+   *
+   * @param inputText the text to be validated
+   */
+  private boolean isTextInputValid(String inputText){
+    if (inputText.contains(".") || inputText.contains(";") || inputText.contains("'") || inputText.contains("\"")) {
+      showAlert("Please enter a valid version name.\nThe name cannot contain the following characters:\n. ; ' \" ");
+      return false;
+    } else if (inputText.length() > 0 && Character.isWhitespace(nameTextField.getText().charAt(0))) {
+      showAlert("Version name cannot begin with a space");
+      return false;
+    } else if (inputText.length() > 62) {
+      showAlert("Version name must not exceed 62 characters");
+      return false;
+    } else if (inputText.length() == 0) {
+      showAlert("Please enter a version name");
+      return false;
+    } else {
+      return true;
     }
   }
 
