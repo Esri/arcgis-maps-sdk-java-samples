@@ -34,9 +34,6 @@ public class ShowCalloutSample extends Application {
 
   private MapView mapView;
 
-  // callout show and hide animation duration
-  private static final Duration DURATION = new Duration(500);
-
   @Override
   public void start(Stage stage) {
 
@@ -79,7 +76,7 @@ public class ShowCalloutSample extends Application {
           callout.setDetail(String.format("x: %.2f, y: %.2f", mapPoint.getX(), mapPoint.getY()));
 
           // show the callout where the user clicked
-          callout.showCalloutAt(mapPoint, DURATION);
+          callout.showCalloutAt(mapPoint);
 
           // dismiss the callout on secondary click
         } else if (e.getButton() == MouseButton.SECONDARY && e.isStillSincePress()) {
