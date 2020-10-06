@@ -21,7 +21,7 @@ ComboBox {
 }
 
 Button {
--fx-min-width: 50;
+-fx-min-width: 75;
 }
 
 CheckBox {
