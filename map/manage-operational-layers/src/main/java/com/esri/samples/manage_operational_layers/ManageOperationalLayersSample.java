@@ -43,15 +43,8 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ManageOperationalLayersSample extends Application {
 
-  private MapView mapView;
   private LayerList mapLayers;
-
-  private static final String CENSUS_LAYER =
-    "https://sampleserver5.arcgisonline.com/arcgis/rest/services/Census/MapServer";
-  private static final String DAMAGE_LAYER =
-    "https://sampleserver5.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer";
-  private static final String ELEVATION_LAYER =
-    "https://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer";
+  private MapView mapView;
 
   @Override
   public void start(Stage stage) {
@@ -69,26 +62,21 @@ public class ManageOperationalLayersSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a ArcGISMap with the topographic basemap
+      // create an ArcGISMap with the topographic basemap
       ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
 
-      // create a view and added ArcGISMap to it
+      // create a view and add the ArcGISMap to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set the initial viewpoint for the map view
       mapView.setViewpoint(new Viewpoint(34.056295, -117.195800, 100000));
 
-      // create the elevation, census, and damage image layers
-      final ArcGISMapImageLayer censusImageLayer = new ArcGISMapImageLayer(CENSUS_LAYER);
-      final ArcGISMapImageLayer damageImageLayer = new ArcGISMapImageLayer(DAMAGE_LAYER);
-      final ArcGISMapImageLayer elevationImageLayer = new ArcGISMapImageLayer(ELEVATION_LAYER);
-
       // add the image layers to the list of operational layers on the map
       mapLayers = map.getOperationalLayers();
-      mapLayers.add(elevationImageLayer);
-      mapLayers.add(damageImageLayer);
-      mapLayers.add(censusImageLayer);
+      addMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer");
+      addMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer");
+      addMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/Census/MapServer");
 
       // create a list to hold deleted layers
       ArrayList<Layer> deletedLayers = new ArrayList<>();
@@ -182,8 +170,6 @@ public class ManageOperationalLayersSample extends Application {
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(200, 260);
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren().addAll(addedLayersLabel, addedLayerNamesList, deletedLayersLabel, deletedLayerNamesList);
 
@@ -218,4 +204,13 @@ public class ManageOperationalLayersSample extends Application {
     Application.launch(args);
   }
 
+  /**
+   * Creates and adds an ArcGISMapImageLayer to the operational layers on the map.
+   *
+   * @param serviceUrl url string for the service
+   */
+  public void addMapImageLayer(String serviceUrl) {
+    ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(serviceUrl);
+    mapLayers.add(imageLayer);
+  }
 }
