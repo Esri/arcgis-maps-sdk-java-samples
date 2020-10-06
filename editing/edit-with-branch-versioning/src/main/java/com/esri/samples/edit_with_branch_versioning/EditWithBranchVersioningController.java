@@ -67,7 +67,7 @@ public class EditWithBranchVersioningController {
   private ArcGISFeature selectedFeature;
   private FeatureLayer featureLayer;
   private ServiceFeatureTable serviceFeatureTable;
-  private ServiceGeodatabase serviceGeodatabase; // keeps loadable in scope to avoid garbage collection
+  private ServiceGeodatabase serviceGeodatabase;
   private String defaultVersionName;
   private String userCreatedVersionName;
 
@@ -166,9 +166,7 @@ public class EditWithBranchVersioningController {
 
     // validate version name input
     String inputName = nameTextField.getText();
-   if (!isTextInputValid(inputName)) {
-     return;
-   };
+    if (!isTextInputValid(inputName)) return;
 
     // validate version access input
     if (accessTypeComboBox.getSelectionModel().getSelectedItem() == null) {
@@ -202,10 +200,8 @@ public class EditWithBranchVersioningController {
       } catch (Exception ex) {
         // if there is an error creating a new version, display an alert and reset the UI
         if (ex.getCause().toString().contains("The version already exists")) {
-          showAlert("A version with this name already exists.\\nPlease enter a unique name");
-        } else {
-          showAlert("Error creating new version");
-        }
+          showAlert("A version with this name already exists.\nPlease enter a unique name");
+        } else showAlert("Error creating new version");
         createVersionButton.setText("Create version");
         createVersionButton.setDisable(false);
       }
@@ -262,9 +258,7 @@ public class EditWithBranchVersioningController {
       if (serviceGeodatabase.getVersionName().equals(versionName)) {
         currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
         editFeatureVBox.setDisable(true);
-      } else {
-        showAlert("Error switching version");
-      }
+      } else showAlert("Error switching version");
     });
   }
 
@@ -294,17 +288,13 @@ public class EditWithBranchVersioningController {
 
                 if (damageTypeComboBox.getItems().contains(selectedFeatureAttributeValue)) {
                   damageTypeComboBox.getSelectionModel().select(selectedFeatureAttributeValue);
-                } else {
-                  showAlert("Unexpected attribute value");
-                }
+                } else showAlert("Unexpected attribute value");
 
                 // enable feature editing UI if not on the default version
                 if (!serviceGeodatabase.getVersionName().equals(defaultVersionName)) {
                   editFeatureVBox.setDisable(false);
                 }
-              } else {
-                showAlert("Feature failed to load");
-              }
+              } else showAlert("Feature failed to load");
             });
           }
         }
@@ -330,9 +320,7 @@ public class EditWithBranchVersioningController {
         alert.setContentText("Changes will be synced to the service geodatabase\nwhen you switch version.");
         alert.show();
       });
-    } else {
-      showAlert("Feature cannot be updated");
-    }
+    } else showAlert("Feature cannot be updated");
   }
 
   /**
@@ -353,9 +341,7 @@ public class EditWithBranchVersioningController {
     } else if (inputText.length() == 0) {
       showAlert("Please enter a version name");
       return false;
-    } else {
-      return true;
-    }
+    } else return true;
   }
 
   /**
