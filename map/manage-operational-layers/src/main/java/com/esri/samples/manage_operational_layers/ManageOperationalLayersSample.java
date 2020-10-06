@@ -70,7 +70,7 @@ public class ManageOperationalLayersSample extends Application {
       mapView.setMap(map);
 
       // set the initial viewpoint for the map view
-      mapView.setViewpoint(new Viewpoint(34.056295, -117.195800, 100000));
+      mapView.setViewpoint(new Viewpoint(37.056295, -111.195800, 10000000));
 
       // add the image layers to the list of operational layers on the map
       mapLayers = map.getOperationalLayers();
