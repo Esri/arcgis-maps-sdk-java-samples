@@ -17,7 +17,6 @@
 
 package com.esri.samples.show_location_history;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -27,7 +26,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -54,11 +52,9 @@ import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 import org.apache.commons.io.IOUtils;
 
-
 public class ShowLocationHistorySample extends Application {
 
   private MapView mapView;
-  private boolean isTrackingEnabled = false;
   private Point position;
 
   @Override
@@ -88,7 +84,7 @@ public class ShowLocationHistorySample extends Application {
         SpatialReferences.getWebMercator()), 7000));
 
       // create a button that toggles the location tracking
-      Button trackingButton = new Button("Start tracking");
+      ToggleButton trackingButton = new ToggleButton("Start");
       trackingButton.setDisable(true);
 
       // create a graphics overlay for the points and use a red circle for the symbols
@@ -111,84 +107,80 @@ public class ShowLocationHistorySample extends Application {
       // create a polyline builder to connect the location points
       PolylineBuilder polylineBuilder = new PolylineBuilder(SpatialReferences.getWebMercator());
 
-      try {
-        // access the json of the location points
-        String polylineData = IOUtils.toString(getClass().getResourceAsStream("/show_location_history/polyline_data.json"),
-          StandardCharsets.UTF_8);
-        // create a polyline from the location points
-        Polyline routePolyline = (Polyline) Geometry.fromJson(polylineData,
-          SpatialReferences.getWebMercator());
+      // access the json of the location points
+      String polylineData = IOUtils.toString(getClass().getResourceAsStream("/show_location_history/polyline_data.json"), StandardCharsets.UTF_8);
+      // create a polyline from the location points
+      Polyline routePolyline = (Polyline) Geometry.fromJson(polylineData, SpatialReferences.getWebMercator());
 
-        // create a simulated location data source
-        SimulatedLocationDataSource simulatedLocationDataSource = new SimulatedLocationDataSource();
-        // set the location of the simulated location data source with simulation parameters to set a consistent velocity
-        simulatedLocationDataSource.setLocations(
-          routePolyline, new SimulationParameters(Calendar.getInstance(), 30.0, 0.0, 0.0));
+      // create a simulated location data source
+      SimulatedLocationDataSource simulatedLocationDataSource = new SimulatedLocationDataSource();
+      // set the location of the simulated location data source with simulation parameters to set a consistent velocity
+      simulatedLocationDataSource.setLocations(
+        routePolyline, new SimulationParameters(Calendar.getInstance(), 30.0, 0.0, 0.0));
 
-        // configure the map view's location display to follow the simulated location data source
-        LocationDisplay locationDisplay = mapView.getLocationDisplay();
-        locationDisplay.setLocationDataSource(simulatedLocationDataSource);
-        locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
-        locationDisplay.setInitialZoomScale(7000);
+      // configure the map view's location display to follow the simulated location data source
+      LocationDisplay locationDisplay = mapView.getLocationDisplay();
+      locationDisplay.setLocationDataSource(simulatedLocationDataSource);
+      locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+      locationDisplay.setInitialZoomScale(7000);
 
-        // create a listener to track the previous location, to draw a route line behind the location display symbol
-        LocationChangedListener locationChangedListener = (LocationDataSource.LocationChangedEvent locationChangedEvent) -> {
+      // create a listener to track the previous location, to draw a route line behind the location display symbol
+      LocationChangedListener locationChangedListener =
+        (LocationDataSource.LocationChangedEvent locationChangedEvent) -> {
 
-          // reset the old polyline connecting the points
-            locationHistoryLineOverlay.getGraphics().clear();
+        // reset the old polyline connecting the points
+        locationHistoryLineOverlay.getGraphics().clear();
 
-            // add any previous position to the history
-            if (position != null) {
-              // add the new point to the polyline
-              polylineBuilder.addPoint(position);
-              // add the new point to the graphics overlay
-              locationHistoryOverlay.getGraphics().add(new Graphic(position));
-            }
-            // store the current position
-            position = locationChangedEvent.getLocation().getPosition();
+        // add any previous position to the history
+        if (position != null) {
+          // add the new point to the polyline
+          polylineBuilder.addPoint(position);
+          // add the new point to the graphics overlay
+          locationHistoryOverlay.getGraphics().add(new Graphic(position));
+        }
+        // store the current position
+        position = locationChangedEvent.getLocation().getPosition();
 
-            // add the updated polyline to the graphics overlay
-            locationHistoryLineOverlay.getGraphics().add(new Graphic(polylineBuilder.toGeometry()));
-          };
+        // add the updated polyline to the graphics overlay
+        locationHistoryLineOverlay.getGraphics().add(new Graphic(polylineBuilder.toGeometry()));
+      };
 
-        trackingButton.setOnAction(event -> {
-          // if the user has panned away from the location display, turn it on again
-          if (locationDisplay.getAutoPanMode() == LocationDisplay.AutoPanMode.OFF) {
-            locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
-          }
-          // toggle the location tracking when the button is clicked
-          if (isTrackingEnabled) {
-            trackingButton.setText("Start Tracking");
-            simulatedLocationDataSource.removeLocationChangedListener(locationChangedListener);
-          } else {
-            trackingButton.setText("Stop Tracking");
-            simulatedLocationDataSource.addLocationChangedListener(locationChangedListener);
-          }
-          isTrackingEnabled = !isTrackingEnabled;
-        });
+      trackingButton.setOnAction(event -> {
+        // if the user has panned away from the location display, turn it on again
+        if (locationDisplay.getAutoPanMode() == LocationDisplay.AutoPanMode.OFF) {
+          locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+        }
+        // toggle the location tracking when the button is clicked
+        if (trackingButton.isSelected()) {
+          trackingButton.setText("Active");
+          trackingButton.setStyle("-fx-background-color: #00ff00;");
+          simulatedLocationDataSource.addLocationChangedListener(locationChangedListener);
+        } else {
+          trackingButton.setText("Stopped");
+          trackingButton.setStyle("-fx-background-color: #f16345;");
+          simulatedLocationDataSource.removeLocationChangedListener(locationChangedListener);
+        }
+      });
 
-        // enable the button interactions when the map is loaded
-        map.addDoneLoadingListener(() -> {
+      // enable the button interactions when the map is loaded
+      map.addDoneLoadingListener(() -> {
 
-          if (map.getLoadStatus() == LoadStatus.LOADED) {
-            trackingButton.setDisable(false);
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          trackingButton.setDisable(false);
 
-            // start the simulated location data source
-            simulatedLocationDataSource.startAsync();
+          // start the simulated location data source
+          simulatedLocationDataSource.startAsync();
 
-          } else {
-            new Alert(Alert.AlertType.ERROR, "Map failed to load").show();
-          }
-        });
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
+        }
+      });
 
-        // add the map view and tracking button to the stack pane
-        stackPane.getChildren().addAll(mapView, trackingButton);
-        StackPane.setAlignment(trackingButton, Pos.TOP_LEFT);
-        StackPane.setMargin(trackingButton, new Insets(10, 0, 0, 10));
+      // add the map view and tracking button to the stack pane
+      stackPane.getChildren().addAll(mapView, trackingButton);
+      StackPane.setAlignment(trackingButton, Pos.TOP_LEFT);
+      StackPane.setMargin(trackingButton, new Insets(10, 0, 0, 10));
 
-      } catch (IOException e) {
-        new Alert(Alert.AlertType.ERROR, "Error loading simulated data").show();
-      }
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
