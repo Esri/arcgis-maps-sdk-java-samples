@@ -10,22 +10,18 @@ You can track device location history and display it as lines and points on the 
 
 ## How to use the sample
 
-Click the button to start tracking your location, which will appear as points on the map. A line will connect the points for easier visualization. Click the button again to stop updating the location history. This sample uses a simulated data source to allow the sample to be useful on devices without a location data source.
-
+The sample loads with a moving simulated location data source. Click the button to start tracking the location, which will appear as red points on the map. A green line will connect the points for easier visualization. Click the button again to stop updating the location history.
 ## How it works
 
 1. Create a `GraphicsOverlay` to show each point and another `GraphicsOverlay` for displaying the route line.
-2. Create a `SimulatedLocationDataSource` and initialize it with a polyline. Start the `SimulatedLocationDataSource` to begin receiving location updates.
+2. Create a `SimulatedLocationDataSource` and initialize it with a `Polyline`. Start the `SimulatedLocationDataSource` to begin receiving location updates.
 3. Use a `LocationChangedListener` on the `simulatedLocationDataSource` to get location updates.
 4. When the location updates store that location, display a point on the map at the location, and re-create the route polyline.
 
 ## Relevant API
 
-* LocationDataSource
-* LocationDataSource.Location
 * LocationDataSource.LocationChangedEvent
 * LocationDataSource.LocationChangedListener
-* LocationDataSource.Position
 * LocationDisplay.AutoPanMode
 * MapView.LocationDisplay
 * SimulatedLocationDataSource
@@ -33,7 +29,7 @@ Click the button to start tracking your location, which will appear as points on
 
 ## About the data
 
-A custom set of points is used to create a `Polyline` and initialize a `SimulatedLocationDataSource`. The simulated location data source enables easier testing and allows the sample to be used on devices without an actively updating GPS signal. To track a user's real position, use the `LocationDataSource` instead. 
+A custom set of points (provided in JSON format) is used to create a `Polyline` and initialize a `SimulatedLocationDataSource`. The simulated location data source enables easier testing and allows the sample to be used on devices without an actively updating GPS signal. To track a user's real position, use `NMEALocationDataSource` instead. 
 
 ## Tags
 
