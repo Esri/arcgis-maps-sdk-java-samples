@@ -32,7 +32,6 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.CodedValue;
 import com.esri.arcgisruntime.data.CodedValueDomain;
 import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetGroup;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetType;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAttributeComparisonOperator;
@@ -240,6 +239,8 @@ public class ConfigureSubnetworkTraceController {
               attributeComparison.getComparisonOperator().name()));
 
       if (utilityNetworkAttribute.getDomain() instanceof CodedValueDomain) {
+        // for CodedValueDomains, add the name of a CodedValue that matches the network attribute's comparison value
+        // (if any)
         CodedValueDomain codedValueDomain = (CodedValueDomain) utilityNetworkAttribute.getDomain();
 
         if (!codedValueDomain.getCodedValues().isEmpty()) {
@@ -262,6 +263,8 @@ public class ConfigureSubnetworkTraceController {
         }
 
       } else {
+        // for other types of domain, add the name of the "other" attribute in the comparison, or the value in the
+        // comparison if there's no "other" attribute
         if (attributeComparison.getOtherNetworkAttribute() != null) {
           stringBuilder.append(
               String.format(" '%1$s'", attributeComparison.getOtherNetworkAttribute().getName()));
