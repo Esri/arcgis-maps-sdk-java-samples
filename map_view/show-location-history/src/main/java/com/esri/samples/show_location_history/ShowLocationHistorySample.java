@@ -26,7 +26,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -61,6 +68,7 @@ public class ShowLocationHistorySample extends Application {
   public void start(Stage stage) {
 
     try {
+
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
@@ -71,6 +79,7 @@ public class ShowLocationHistorySample extends Application {
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+      scene.getStylesheets().add(getClass().getResource("/show_location_history/style.css").toExternalForm());
 
       // create a map with a dark gray canvas basemap
       ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
@@ -83,8 +92,12 @@ public class ShowLocationHistorySample extends Application {
       mapView.setViewpoint(new Viewpoint(new Point(-13185535.98, 4037766.28,
         SpatialReferences.getWebMercator()), 7000));
 
+      // create a label
+      Label trackingLabel = new Label("Tracking Status: ");
+
       // create a button that toggles the location tracking
       ToggleButton trackingButton = new ToggleButton("Start");
+      trackingButton.maxWidth(Double.MAX_VALUE);
       trackingButton.setDisable(true);
 
       // create a graphics overlay for the points and use a red circle for the symbols
@@ -152,13 +165,13 @@ public class ShowLocationHistorySample extends Application {
         }
         // toggle the location tracking when the button is clicked
         if (trackingButton.isSelected()) {
-          trackingButton.setText("Active");
-          trackingButton.setStyle("-fx-background-color: #00ff00;");
           simulatedLocationDataSource.addLocationChangedListener(locationChangedListener);
+          trackingButton.setText("Active");
+          trackingButton.setStyle("-fx-focus-color: #00ff00;");
         } else {
-          trackingButton.setText("Stopped");
-          trackingButton.setStyle("-fx-background-color: #f16345;");
           simulatedLocationDataSource.removeLocationChangedListener(locationChangedListener);
+          trackingButton.setText("Stopped");
+          trackingButton.setStyle("-fx-focus-color: #f16345;");
         }
       });
 
@@ -176,10 +189,18 @@ public class ShowLocationHistorySample extends Application {
         }
       });
 
-      // add the map view and tracking button to the stack pane
-      stackPane.getChildren().addAll(mapView, trackingButton);
-      StackPane.setAlignment(trackingButton, Pos.TOP_LEFT);
-      StackPane.setMargin(trackingButton, new Insets(10, 0, 0, 10));
+      // create a control panel and add the label and button UI components
+      HBox controlsHBox = new HBox(6);
+      controlsHBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsHBox.setPadding(new Insets(10.0));
+      controlsHBox.setMaxSize(180, 50);
+      controlsHBox.getStyleClass().add("panel-region");
+      controlsHBox.getChildren().addAll(trackingLabel, trackingButton);
+
+      // add the map view and control panel to the stack pane
+      stackPane.getChildren().addAll(mapView, controlsHBox);
+      StackPane.setAlignment(controlsHBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsHBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.
