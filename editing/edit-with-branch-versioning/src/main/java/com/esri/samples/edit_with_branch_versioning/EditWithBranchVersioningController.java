@@ -119,12 +119,12 @@ public class EditWithBranchVersioningController {
                 progressIndicator.setVisible(false);
                 createVersionButton.setDisable(false);
                 currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-              } else showAlert("Feature layer failed to load" + featureLayer.getLoadError().getMessage());
+              } else showAlert("Feature layer failed to load" + featureLayer.getLoadError().getCause().getMessage());
             });
           } else showAlert("Unable to get the service feature table");
         } else {
           progressIndicator.setVisible(false);
-          showAlert("Service geodatabase failed to load" + serviceGeodatabase.getLoadError().getMessage());
+          showAlert("Service geodatabase failed to load\n" + serviceGeodatabase.getLoadError().getCause().getMessage());
         }
       });
 
@@ -201,7 +201,7 @@ public class EditWithBranchVersioningController {
         // if there is an error creating a new version, display an alert and reset the UI
         if (ex.getCause().toString().contains("The version already exists")) {
           showAlert("A version with this name already exists.\nPlease enter a unique name");
-        } else showAlert("Error creating new version");
+        } else showAlert("Error creating new version\n" + ex.getCause().getMessage());
         createVersionButton.setText("Create version");
         createVersionButton.setDisable(false);
       }
