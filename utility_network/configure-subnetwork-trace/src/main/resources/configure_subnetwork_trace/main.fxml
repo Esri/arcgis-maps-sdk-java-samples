@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2020 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane stylesheets="/configure_subnetwork_trace/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.esri.samples.configure_subnetwork_trace.ConfigureSubnetworkTraceController">
+
+    <VBox>
+        <HBox>
+            <Label text="Trace options:"/>
+            <CheckBox fx:id="includeBarriersCheckBox" text="Include Barriers"/>
+            <CheckBox fx:id="includeContainersCheckBox" text="Include Containers"/>
+        </HBox>
+
+        <HBox alignment="CENTER_LEFT">
+            <Label text="Define new conditions"/>
+            <ComboBox fx:id="comparisonSourcesComboBox" onAction="#onComparisonSourceChanged"/>
+            <ComboBox fx:id="comparisonOperatorsComboBox"/>
+
+            <StackPane styleClass="comparison-choice-elements">
+                <ComboBox fx:id="comparisonValuesComboBox"/>
+                <TextField fx:id="comparisonValuesTextField"/>
+            </StackPane>
+
+            <Button text="Add" onAction="#onAddConditionClick" styleClass="add-button"/>
+        </HBox>
+
+        <Label styleClass="example-label"
+               text="Example barrier condition for this data: 'Transformer Load' Equal '15'"/>
+
+        <HBox>
+            <Label text="Trace conditions:"/>
+            <TextArea fx:id="traceConditionsTextArea" editable="false"/>
+        </HBox>
+
+        <HBox>
+            <Button text="Trace" onAction="#onTraceClick" styleClass="trace-button"/>
+            <Button text="Reset" onAction="#onResetClick" styleClass="reset-button"/>
+        </HBox>
+    </VBox>
+
+</StackPane>
