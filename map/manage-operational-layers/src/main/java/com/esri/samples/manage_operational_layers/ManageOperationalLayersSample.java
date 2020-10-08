@@ -17,11 +17,13 @@
 package com.esri.samples.manage_operational_layers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseButton;
@@ -35,6 +37,7 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.Layer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.LayerList;
@@ -43,7 +46,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ManageOperationalLayersSample extends Application {
 
-  private LayerList mapLayers;
   private MapView mapView;
 
   @Override
@@ -70,13 +72,24 @@ public class ManageOperationalLayersSample extends Application {
       mapView.setMap(map);
 
       // set the initial viewpoint for the map view
-      mapView.setViewpoint(new Viewpoint(37.056295, -111.195800, 10000000));
+      mapView.setViewpoint(new Viewpoint(41.056295, -106.195800, 20000000));
 
-      // add the image layers to the list of operational layers on the map
-      mapLayers = map.getOperationalLayers();
-      addMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer");
-      addMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer");
-      addMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/Census/MapServer");
+      // create and add new image layers to the map's operational layers
+      LayerList mapLayers = map.getOperationalLayers();
+      mapLayers.addAll(Arrays.asList(
+        (new ArcGISMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer")),
+        (new ArcGISMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer")),
+        (new ArcGISMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/Census/MapServer"))
+      ));
+
+      // check that the layer has loaded correctly and if not display an error message
+      mapLayers.forEach(layer ->
+        layer.addDoneLoadingListener(() -> {
+          if (layer.getLoadStatus() != LoadStatus.LOADED) {
+            new Alert(Alert.AlertType.ERROR, "Map image layer failed to load: " + layer.getLoadError().getCause().getMessage()).show();
+          }
+        })
+      );
 
       // create a list to hold deleted layers
       ArrayList<Layer> deletedLayers = new ArrayList<>();
@@ -202,15 +215,5 @@ public class ManageOperationalLayersSample extends Application {
   public static void main(String[] args) {
 
     Application.launch(args);
-  }
-
-  /**
-   * Creates and adds an ArcGISMapImageLayer to the operational layers on the map.
-   *
-   * @param serviceUrl url string for the service
-   */
-  public void addMapImageLayer(String serviceUrl) {
-    ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(serviceUrl);
-    mapLayers.add(imageLayer);
   }
 }
