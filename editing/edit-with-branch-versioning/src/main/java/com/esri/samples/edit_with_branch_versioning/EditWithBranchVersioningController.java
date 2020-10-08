@@ -119,12 +119,12 @@ public class EditWithBranchVersioningController {
                 progressIndicator.setVisible(false);
                 createVersionButton.setDisable(false);
                 currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-              } else showAlert("Feature layer failed to load");
+              } else showAlert("Feature layer failed to load" + featureLayer.getLoadError().getMessage());
             });
           } else showAlert("Unable to get the service feature table");
         } else {
           progressIndicator.setVisible(false);
-          showAlert("Service geodatabase failed to load");
+          showAlert("Service geodatabase failed to load" + serviceGeodatabase.getLoadError().getMessage());
         }
       });
 
@@ -225,21 +225,23 @@ public class EditWithBranchVersioningController {
         switchVersion(defaultVersionName);
 
       } else {
-        // if local edits exist apply the edits
+        // if local edits exist apply the edits to the service geodatabase
         ListenableFuture<List<FeatureTableEditResult>> resultOfApplyEdits = serviceGeodatabase.applyEditsAsync();
         resultOfApplyEdits.addDoneListener(() -> {
           try {
-
-            // check if the server edit was successful
+            // retrieve the edits
             List<FeatureTableEditResult> edits = resultOfApplyEdits.get();
-            if (edits == null || edits.isEmpty()) {
-              showAlert("Error applying edits on server");
-            } else {
-              // if the edits were successful, switch to the default version
-              switchVersion(defaultVersionName);
+            // if the edits were successful, switch to the default version
+            if (edits != null && !edits.isEmpty()) {
+              if (!edits.get(0).getEditResult().get(0).hasCompletedWithErrors()) {
+                new Alert(Alert.AlertType.INFORMATION, "Applied edits successfully on the server").show();
+                switchVersion(defaultVersionName);
+              } else {
+                throw edits.get(0).getEditResult().get(0).getError();
+              }
             }
           } catch (InterruptedException | ExecutionException e) {
-            showAlert("Error applying edits on server");
+            showAlert("Error applying edits on server\n" + e.getCause().getMessage());
           }
         });
       }
@@ -254,11 +256,15 @@ public class EditWithBranchVersioningController {
   private void switchVersion(String versionName) {
     ListenableFuture<Void> switchVersionFuture = serviceGeodatabase.switchVersionAsync(versionName);
     switchVersionFuture.addDoneListener(() -> {
-      // check if the active version has switched successfully and update the UI
-      if (serviceGeodatabase.getVersionName().equals(versionName)) {
-        currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
-        editFeatureVBox.setDisable(true);
-      } else showAlert("Error switching version");
+      try {
+        // check if the active version has switched successfully and update the UI
+        if (serviceGeodatabase.getVersionName().equals(versionName)) {
+          currentVersionLabel.setText("Current version: " + serviceGeodatabase.getVersionName());
+          editFeatureVBox.setDisable(true);
+        } else showAlert("Error switching version");
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     });
   }
 
@@ -294,12 +300,12 @@ public class EditWithBranchVersioningController {
                 if (!serviceGeodatabase.getVersionName().equals(defaultVersionName)) {
                   editFeatureVBox.setDisable(false);
                 }
-              } else showAlert("Feature failed to load");
+              } else showAlert(selectedFeature.getLoadError().getCause().getMessage());
             });
           }
         }
       } catch (InterruptedException | ExecutionException e) {
-        showAlert("Failed to identify the feature");
+        showAlert("Failed to identify the feature.\n" + e.getCause().getMessage());
       }
     });
   }
