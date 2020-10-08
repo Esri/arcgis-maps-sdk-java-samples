@@ -98,7 +98,7 @@ public class FindAddressSample extends Application {
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
 
       // create a locatorTask
-      locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
+      locatorTask = new LocatorTask("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
       // create geocode task parameters
       GeocodeParameters geocodeParameters = new GeocodeParameters();
