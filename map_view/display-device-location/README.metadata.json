@@ -1,15 +1,20 @@
 {
     "category": "Map",
-    "description": "Display a map with an imagery basemap.",
+    "description": "Display your current position on the map, as well as switch between different types of auto pan modes.",
     "ignore": false,
     "images": [
-        "DisplayMap.png"
+        "DisplayDeviceLocation.png"
     ],
     "keywords": [
-        "basemap",
+        "GPS",
+        "compass",
+        "location",
         "map",
+        "mobile",
+        "navigation",
         "ArcGISMap",
-        "Basemap",
+        "LocationDisplay",
+        "LocationDisplay.AutoPanMode",
         "MapView"
     ],
     "redirect_from": [
@@ -17,11 +22,12 @@
     ],
     "relevant_apis": [
         "ArcGISMap",
-        "Basemap",
+        "LocationDisplay",
+        "LocationDisplay.AutoPanMode",
         "MapView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/display_map/DisplayMapSample.java"
+        "src/main/java/com/esri/samples/display_device_location/DisplayDeviceLocationSample.java"
     ],
-    "title": "Display map"
+    "title": "Display device location"
 }

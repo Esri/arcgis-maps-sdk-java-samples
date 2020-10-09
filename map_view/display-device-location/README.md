@@ -1,39 +1,42 @@
 # Display device location
 
-Display your current position on the map, as well as switch between different types of auto pan modes.
+Display your position on the map and switch between different types of autopan modes.
 
-![Image of display device location](display-device-location.png)
+![Image of display device location](DisplayDeviceLocation.png)
 
 ## Use case
 
-When using a map within a GIS, it may be helpful for a user to know their own location within a map, whether that's to aid the user's navigation or to provide an easy means of identifying/collecting geospatial information at their location.
+When using a map within a GIS, it may be helpful for a user to know their own location within a map, whether that's to aid the user's navigation or to provide an easy means of identifying/collecting geospatial information at their location.You can use an simulated data source in place of a connection to a GPS device. A simulated data source is useful if you're giving a demonstration or are working with previously collected data.
 
 ## How to use the sample
 
-Tap the button in the lower right (which starts in Stop mode). A menu will appear with the following options:
+Click the checkbox to show the location symbol on the map. Select one of the autopan modes from the drop down box:
 
-* Stop - Stops the location display.
-* On - Starts the location display with no `AutoPanMode` mode set.
-* Re-Center - Starts the location display with `AutoPanMode` set to `RECENTER`.
-* Navigation - Starts the location display with `AutoPanMode` set to `NAVIGATION`.
-* Compass - Starts the location display with `AutoPanMode` set to `COMPASS_NAVIGATION`.
+* Off - Shows the location with no autopan mode set.
+* Re-Center - In this mode, the map re-centers on the location symbol when the symbol moves outside a "wander extent".
+* Navigation -  This mode is best suited for in-vehicle navigation.
+* Compass - This mode is better suited for waypoint navigation when the user is walking.
 
 ## How it works
 
 1. Create a `MapView`.
-2. Get the `LocationDisplay` object by calling `getLocationDisplay()` on the map view.
-3. Use `start()` and `stop()` on the `LocationDisplay` object as necessary.
+2. Get the `LocationDisplay` object by calling `getLocationDisplay()` on `MapView`.
+2. Create a `SimulatedLocationDataSource` and initialize it with a list of `LocationDataSource.Location` objects. Start the `SimulatedLocationDataSource` to begin receiving location updates.
+3. Use the `locationDisplay.setAutoPanMode` to change how the map behaves when location updates are received.
+4. Use `startAsync()` and `stop()` on the `LocationDisplay` object as necessary. 
 
 ## Relevant API
 
 * ArcGISMap
 * LocationDisplay
 * LocationDisplay.AutoPanMode
+* LocationDisplay.Location
 * MapView
+* SimulatedLocationDataSource
 
 ## Additional information
 
-Location permissions are required for this sample.
+This sample uses a `SimulatedLocationDataSource` allowing the sample to be used on devices without an actively updating GPS signal. To track a user's real position, use `NMEALocationDataSource` instead. 
 
 ## Tags
 
