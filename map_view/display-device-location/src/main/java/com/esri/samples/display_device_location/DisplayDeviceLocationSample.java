@@ -16,10 +16,12 @@
 
 package com.esri.samples.display_device_location;
 
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -55,26 +57,33 @@ public class DisplayDeviceLocationSample extends Application {
       // set title, size, and add scene to stage
       stage.setTitle("Display Device Location Sample");
       stage.setWidth(800);
-      stage.setHeight(700);
+      stage.setHeight(600);
       stage.setScene(scene);
       stage.show();
       scene.getStylesheets().add(getClass().getResource("/display_device_location/style.css").toExternalForm());
 
+      // create ArcGISMap with the imagery basemap
+      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+
+      // create a map view and set its map
+      mapView = new MapView();
+      mapView.setMap(map);
+
       // create combo box
       ComboBox<String> comboBox = new ComboBox<>();
       comboBox.setMaxWidth(Double.MAX_VALUE);
-      comboBox.setValue("Off");
       comboBox.setDisable(true);
-
       // add the autopan modes to the combo box
-      comboBox.getItems().addAll("Off","Recenter", "Navigation", "Compass Navigation");
+      comboBox.getItems().addAll("Off", "Recenter", "Navigation", "Compass");
+      comboBox.setValue("Off");
 
       // add a label
       Label autopanModeLabel = new Label("Choose an autopan mode:");
-      // add a checkbox
+      // add a checkbox that toggles the visibility of the location symbol
       CheckBox checkbox = new CheckBox("Show device location");
+      checkbox.setDisable(true);
 
-      // show a background behind checkbox and combo box
+      // show a background behind the label, checkbox and combo box
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
@@ -83,17 +92,63 @@ public class DisplayDeviceLocationSample extends Application {
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren().addAll(checkbox, autopanModeLabel, comboBox);
 
-      // create ArcGISMap with imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      // create a simulated location data source
+      SimulatedLocationDataSource simulatedLocationDataSource = new SimulatedLocationDataSource();
 
-      // create a map view and set its map
-      mapView = new MapView();
-      mapView.setMap(map);
+      // set the location of the simulated location data source
+      simulatedLocationDataSource.setLocations(position);
+
+      // configure the map view's location display to follow the simulated location data source
+      LocationDisplay locationDisplay = mapView.getLocationDisplay();
+      locationDisplay.setLocationDataSource(simulatedLocationDataSource);
+      // toggle location display visibility on check
+      checkbox.setOnAction(event -> {
+        if (checkbox.isSelected()) {
+          // enable to combo box
+          comboBox.setDisable(false);
+
+          // start the location display
+          locationDisplay.startAsync();
+
+          // set the autopan mode of the location display based on the mode chosen from the combo box
+          comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+            switch (comboBox.getSelectionModel().getSelectedItem()) {
+              case "Off":
+                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
+                break;
+              case "Recenter":
+                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+                break;
+              case "Navigation":
+                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.NAVIGATION);
+                break;
+              case "Compass":
+                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.COMPASS_NAVIGATION);
+                break;
+            }
+            // set the map scale that the map view will zoom to when the autopan mode is changed
+            locationDisplay.setInitialZoomScale(1000);
+          });
+        } else {
+          // turn off the location display and disable to combo box when the checkbox is unchecked
+          locationDisplay.stop();
+          comboBox.setDisable(true);
+        }
+      });
+
+      // enable the checkbox interactions when the map is loaded
+      map.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          checkbox.setDisable(false);
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
+        }
+      });
 
       // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      StackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 10, 0, 0));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
