@@ -82,7 +82,7 @@ public class ManageOperationalLayersSample extends Application {
         (new ArcGISMapImageLayer("https://sampleserver5.arcgisonline.com/arcgis/rest/services/Census/MapServer"))
       ));
 
-      // check that the layer has loaded correctly and if not display an error message
+      // check that each layer has loaded correctly and if not display an error message
       mapLayers.forEach(layer ->
         layer.addDoneLoadingListener(() -> {
           if (layer.getLoadStatus() != LoadStatus.LOADED) {
