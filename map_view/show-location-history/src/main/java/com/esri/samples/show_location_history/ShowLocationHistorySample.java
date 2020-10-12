@@ -190,7 +190,7 @@ public class ShowLocationHistorySample extends Application {
       });
 
       // create a control panel and add the label and button UI components
-      HBox controlsHBox = new HBox(6);
+      HBox controlsHBox = new HBox();
       controlsHBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsHBox.setPadding(new Insets(10.0));
       controlsHBox.setMaxSize(180, 50);
