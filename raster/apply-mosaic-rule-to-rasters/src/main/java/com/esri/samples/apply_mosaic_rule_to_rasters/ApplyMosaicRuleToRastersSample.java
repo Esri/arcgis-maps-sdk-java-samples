@@ -39,7 +39,6 @@ import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
-import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
@@ -50,8 +49,8 @@ import com.esri.arcgisruntime.raster.MosaicOperation;
 public class ApplyMosaicRuleToRastersSample extends Application {
 
   private MapView mapView;
-  private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
   private MosaicRule mosaicRule;
+  private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -173,7 +172,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
         imageServiceRaster.setMosaicRule(mosaicRule);
       });
 
-      // add the map view and the control panel to the stack pane
+      // add the map view, control panel and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView,controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
