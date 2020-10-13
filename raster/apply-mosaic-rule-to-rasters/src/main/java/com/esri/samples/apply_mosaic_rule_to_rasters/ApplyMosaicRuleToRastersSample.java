@@ -24,6 +24,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -37,6 +38,7 @@ import javafx.scene.control.Label;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -48,7 +50,7 @@ import com.esri.arcgisruntime.raster.MosaicOperation;
 public class ApplyMosaicRuleToRastersSample extends Application {
 
   private MapView mapView;
-  private ImageServiceRaster imageServiceRaster;
+  private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
   private MosaicRule mosaicRule;
 
   @Override
@@ -66,38 +68,50 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // set up the control panel UI
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-              CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(260, 50);
-      controlsVBox.setVisible(false);
+      // add a progress indicator to show the scene is loading
+      ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
 
       // create a label
-      Label mosaicRuleLabel = new Label("Choose a mosaic rule for the image service: ");
+      Label mosaicRuleLabel = new Label("Choose a mosaic rule: ");
       mosaicRuleLabel.setTextFill(Color.WHITE);
 
       // create a combo box
       ComboBox<String> comboBox = new ComboBox<>();
       comboBox.setMaxWidth(Double.MAX_VALUE);
 
+      // set up the control panel UI
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
+        CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(260, 50);
+      controlsVBox.setVisible(false);
       // add the label and combo box to the control panel
       controlsVBox.getChildren().addAll(mosaicRuleLabel, comboBox);
 
-      // create a map with the topographic vector basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createTopographicVector());
-
-      // create a map view and set the ArcGISMap to it
+      // create a map view
       mapView = new MapView();
+
+      // add draw status listener to the map view
+      mapView.addDrawStatusChangedListener (drawStatusChangedEvent -> {
+        //show progress indicator while map is drawing
+        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS) {
+          progressIndicator.setVisible(true);
+        }
+        else {
+          progressIndicator.setVisible(false);
+        }
+      });
+      // create an ArcGISMap map
+      ArcGISMap map = new ArcGISMap();
+
+      // set the ArcGISMap to the map view
       mapView.setMap(map);
 
-      String imageServiceURL = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/amberg_germany/ImageServer";
-
-      imageServiceRaster = new ImageServiceRaster(imageServiceURL);
-
       // create a raster layer from the image service raster
-      RasterLayer rasterLayer = new RasterLayer(imageServiceRaster);
+      String imageServiceURL = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/amberg_germany/ImageServer";
+      ImageServiceRaster imageServiceRaster = new ImageServiceRaster(imageServiceURL);
+      rasterLayer = new RasterLayer(imageServiceRaster);
 
       // add raster layer as an operational layer to the map
       map.getOperationalLayers().add(rasterLayer);
@@ -105,7 +119,6 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // listen for the raster layer to finish loading
       rasterLayer.addDoneLoadingListener(() -> {
         if (rasterLayer.getLoadStatus() == LoadStatus.LOADED) {
-
           // when loaded, set map view's viewpoint to the image service raster's center
           mapView.setViewpoint(new Viewpoint(imageServiceRaster.getServiceInfo().getFullExtent().getCenter(), 25000.0));
 
@@ -123,48 +136,47 @@ public class ApplyMosaicRuleToRastersSample extends Application {
             mosaicRule = new MosaicRule();
             imageServiceRaster.setMosaicRule(mosaicRule);
           }
-
-          // set the mosaic rule of the image service raster based on rule chosen from the combo box
-          comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
-            // create a new mosaic rule
-            mosaicRule = new MosaicRule();
-
-            switch (comboBox.getSelectionModel().getSelectedItem()) {
-              case "Default":
-                mosaicRule.setMosaicMethod(MosaicMethod.NONE);
-                break;
-              case "Northwest":
-                mosaicRule.setMosaicMethod(MosaicMethod.NORTHWEST);
-                mosaicRule.setMosaicOperation(MosaicOperation.FIRST);
-                break;
-              case "Center":
-                mosaicRule.setMosaicMethod(MosaicMethod.CENTER);
-                mosaicRule.setMosaicOperation(MosaicOperation.BLEND);
-                break;
-              case "By attribute":
-                mosaicRule.setMosaicMethod(MosaicMethod.ATTRIBUTE);
-                mosaicRule.setSortField("OBJECTID");
-                break;
-              case "Lock raster":
-                mosaicRule.setMosaicMethod(MosaicMethod.LOCK_RASTER);
-                mosaicRule.getLockRasterIds().clear();
-                mosaicRule.getLockRasterIds().addAll(Arrays.asList(1L, 7L, 12L));
-                break;
-            }
-            // set the mosaic rule of the image service raster
-            imageServiceRaster.setMosaicRule(mosaicRule);
-          });
         } else {
           // show alert if raster layer fails to load.
           new Alert(Alert.AlertType.ERROR, "Error loading raster layer.").show();
         }
       });
 
+      // set the mosaic rule of the image service raster based on rule chosen from the combo box
+      comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+        // create a new mosaic rule
+        mosaicRule = new MosaicRule();
+
+        switch (comboBox.getSelectionModel().getSelectedItem()) {
+          case "Default":
+            mosaicRule.setMosaicMethod(MosaicMethod.NONE);
+            break;
+          case "Northwest":
+            mosaicRule.setMosaicMethod(MosaicMethod.NORTHWEST);
+            mosaicRule.setMosaicOperation(MosaicOperation.FIRST);
+            break;
+          case "Center":
+            mosaicRule.setMosaicMethod(MosaicMethod.CENTER);
+            mosaicRule.setMosaicOperation(MosaicOperation.BLEND);
+            break;
+          case "By attribute":
+            mosaicRule.setMosaicMethod(MosaicMethod.ATTRIBUTE);
+            mosaicRule.setSortField("OBJECTID");
+            break;
+          case "Lock raster":
+            mosaicRule.setMosaicMethod(MosaicMethod.LOCK_RASTER);
+            mosaicRule.getLockRasterIds().clear();
+            mosaicRule.getLockRasterIds().addAll(Arrays.asList(1L, 7L, 12L));
+            break;
+        }
+        // set the mosaic rule of the image service raster
+        imageServiceRaster.setMosaicRule(mosaicRule);
+      });
+
       // add the map view and the control panel to the stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox);
+      stackPane.getChildren().addAll(mapView,controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
-
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
