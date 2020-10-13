@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.10.0-2915'
+    arcgisVersion = '100.10.0-2934'
 }
 
 javafx {
@@ -31,6 +31,7 @@ configurations {
 }
 
 dependencies {
+    compile 'commons-io:commons-io:2.4'
     compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
