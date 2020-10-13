@@ -15,7 +15,9 @@
         "ArcGISMap",
         "LocationDisplay",
         "LocationDisplay.AutoPanMode",
-        "MapView"
+        "MapView",
+        "SimulatedLocationDataSource",
+        "SimulationParameters"
     ],
     "redirect_from": [
         "/java/latest/sample-code/display-a-map.htm"
@@ -24,7 +26,9 @@
         "ArcGISMap",
         "LocationDisplay",
         "LocationDisplay.AutoPanMode",
-        "MapView"
+        "MapView",
+        "SimulatedLocationDataSource",
+        "SimulationParameters"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/display_device_location/DisplayDeviceLocationSample.java"
