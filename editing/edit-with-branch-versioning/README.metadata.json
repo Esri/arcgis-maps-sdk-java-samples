@@ -1,0 +1,35 @@
+{
+    "category": "Editing",
+    "description": "Create, query and edit a specific server version using service geodatabase.",
+    "ignore": false,
+    "images": [
+        "EditWithBranchVersioning.png"
+    ],
+    "keywords": [
+        "branch versioning",
+        "edit",
+        "version control",
+        "version management server",
+        "FeatureLayer",
+        "ServiceFeatureTable",
+        "ServiceGeodatabase",
+        "ServiceVersionInfo",
+        "ServiceVersionParameters",
+        "VersionAccess"
+    ],
+    "redirect_from": [],
+    "relevant_apis": [
+        "FeatureLayer",
+        "ServiceFeatureTable",
+        "ServiceGeodatabase",
+        "ServiceVersionInfo",
+        "ServiceVersionParameters",
+        "VersionAccess"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/edit_with_branch_versioning/EditWithBranchVersioningController.java",
+        "src/main/java/com/esri/samples/edit_with_branch_versioning/EditWithBranchVersioningSample.java",
+        "src/main/resources/edit_with_branch_versioning/main.fxml"
+    ],
+    "title": "Edit with branch versioning"
+}
