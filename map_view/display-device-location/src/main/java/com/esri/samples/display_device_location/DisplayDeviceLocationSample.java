@@ -16,7 +16,9 @@
 
 package com.esri.samples.display_device_location;
 
-import com.esri.arcgisruntime.loadable.LoadStatus;
+import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,14 +35,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
+import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+
+import org.apache.commons.io.IOUtils;
 
 public class DisplayDeviceLocationSample extends Application {
 
@@ -57,7 +63,7 @@ public class DisplayDeviceLocationSample extends Application {
       // set title, size, and add scene to stage
       stage.setTitle("Display Device Location Sample");
       stage.setWidth(800);
-      stage.setHeight(600);
+      stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
       scene.getStylesheets().add(getClass().getResource("/display_device_location/style.css").toExternalForm());
@@ -79,32 +85,29 @@ public class DisplayDeviceLocationSample extends Application {
 
       // add a label
       Label autopanModeLabel = new Label("Choose an autopan mode:");
-      // add a checkbox that toggles the visibility of the location symbol
+      // add a checkbox that toggles the visibility of the location display
       CheckBox checkbox = new CheckBox("Show device location");
       checkbox.setDisable(true);
 
-      // show a background behind the label, checkbox and combo box
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-        Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 50);
-      controlsVBox.getStyleClass().add("panel-region");
-      controlsVBox.getChildren().addAll(checkbox, autopanModeLabel, comboBox);
+      // access the json of the location points
+      String polylineData = IOUtils.toString(getClass().getResourceAsStream("/display_device_location/polyline_data.json"), StandardCharsets.UTF_8);
+      // create a polyline from the location points
+      Polyline locations = (Polyline) Geometry.fromJson(polylineData, SpatialReferences.getWgs84());
 
       // create a simulated location data source
       SimulatedLocationDataSource simulatedLocationDataSource = new SimulatedLocationDataSource();
-
-      // set the location of the simulated location data source
-      simulatedLocationDataSource.setLocations(position);
+      // set the location of the simulated location data source with simulation parameters to set a consistent velocity
+      simulatedLocationDataSource.setLocations(
+        locations, new SimulationParameters(Calendar.getInstance(), 5.0, 0.0, 0.0));
 
       // configure the map view's location display to follow the simulated location data source
       LocationDisplay locationDisplay = mapView.getLocationDisplay();
       locationDisplay.setLocationDataSource(simulatedLocationDataSource);
-      // toggle location display visibility on check
+
+      // toggle the location display visibility on check
       checkbox.setOnAction(event -> {
         if (checkbox.isSelected()) {
-          // enable to combo box
+          // enable to combo box interactions
           comboBox.setDisable(false);
 
           // start the location display
@@ -112,6 +115,13 @@ public class DisplayDeviceLocationSample extends Application {
 
           // set the autopan mode of the location display based on the mode chosen from the combo box
           comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+
+            // set the scale that the map view will zoom to when the autopan mode is changed
+            locationDisplay.setInitialZoomScale(1000);
+
+            // set the iteration rate to control the time between location updates
+            simulatedLocationDataSource.setIterationRate(1.0);
+
             switch (comboBox.getSelectionModel().getSelectedItem()) {
               case "Off":
                 locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
@@ -124,13 +134,12 @@ public class DisplayDeviceLocationSample extends Application {
                 break;
               case "Compass":
                 locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.COMPASS_NAVIGATION);
+                simulatedLocationDataSource.setIterationRate(0.5);
                 break;
             }
-            // set the map scale that the map view will zoom to when the autopan mode is changed
-            locationDisplay.setInitialZoomScale(1000);
           });
         } else {
-          // turn off the location display and disable to combo box when the checkbox is unchecked
+          // turn off the location display
           locationDisplay.stop();
           comboBox.setDisable(true);
         }
@@ -144,6 +153,16 @@ public class DisplayDeviceLocationSample extends Application {
           new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
         }
       });
+
+      // create a control panel
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+        Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(180, 50);
+      controlsVBox.getStyleClass().add("panel-region");
+      // add the checkbox, label and combo box to the control panel
+      controlsVBox.getChildren().addAll(checkbox, autopanModeLabel, comboBox);
 
       // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
