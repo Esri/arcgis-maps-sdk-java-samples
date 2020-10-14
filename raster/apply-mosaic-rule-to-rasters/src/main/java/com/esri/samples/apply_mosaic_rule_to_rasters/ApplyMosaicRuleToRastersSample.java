@@ -38,6 +38,7 @@ import javafx.scene.control.Label;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -102,8 +103,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
         }
       });
       // create an ArcGISMap map
-      ArcGISMap map = new ArcGISMap();
-
+      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvasVector());
       // set the ArcGISMap to the map view
       mapView.setMap(map);
 
