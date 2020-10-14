@@ -184,6 +184,9 @@ public class ManageOperationalLayersSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
       controlsVBox.getStyleClass().add("panel-region");
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxWidth(200);
+      controlsVBox.setMaxHeight(260);
       controlsVBox.getChildren().addAll(addedLayersLabel, addedLayerNamesList, deletedLayersLabel, deletedLayerNamesList);
 
       // add the map view and control panel to stack pane
