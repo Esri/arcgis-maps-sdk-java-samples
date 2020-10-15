@@ -10,7 +10,7 @@ When using a map within a GIS, it may be helpful for a user to know their own lo
 
 ## How to use the sample
 
-Click the checkbox to show the location symbol on the map. Select one of the autopan modes from the drop down box:
+Click the checkbox to show the location symbol at a simulated location on the map. Select one of the autopan modes from the drop down box:
 
 * Off - Shows the location with no autopan mode set.
 * Re-Center - In this mode, the map re-centers on the location symbol when the symbol moves outside a "wander extent".
