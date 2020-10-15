@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.display_device_location;
+package com.esri.samples.display_device_location_with_autopan_modes;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
@@ -48,7 +48,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 import org.apache.commons.io.IOUtils;
 
-public class DisplayDeviceLocationSample extends Application {
+public class DisplayDeviceLocationWithAutopanModesSample extends Application {
 
   private MapView mapView;
 
