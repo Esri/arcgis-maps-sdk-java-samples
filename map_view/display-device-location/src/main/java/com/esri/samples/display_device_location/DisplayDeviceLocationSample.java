@@ -56,11 +56,11 @@ public class DisplayDeviceLocationSample extends Application {
   public void start(Stage stage) {
 
     try {
-      // create stack pane and application scene
+      // create the stack pane and the application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
 
-      // set title, size, and add scene to stage
+      // set a title, size, and add the scene to stage
       stage.setTitle("Display Device Location Sample");
       stage.setWidth(800);
       stage.setHeight(700);
@@ -68,14 +68,14 @@ public class DisplayDeviceLocationSample extends Application {
       stage.show();
       scene.getStylesheets().add(getClass().getResource("/display_device_location/style.css").toExternalForm());
 
-      // create ArcGISMap with the imagery basemap
+      // create an ArcGISMap with the imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());
 
-      // create a map view and set its map
+      // create a view and add the ArcGISMap to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create combo box
+      // create a combo box
       ComboBox<String> comboBox = new ComboBox<>();
       comboBox.setMaxWidth(Double.MAX_VALUE);
       comboBox.setDisable(true);
@@ -86,8 +86,8 @@ public class DisplayDeviceLocationSample extends Application {
       // add a label
       Label autopanModeLabel = new Label("Choose an autopan mode:");
       // add a checkbox that toggles the visibility of the location display
-      CheckBox checkbox = new CheckBox("Show device location");
-      checkbox.setDisable(true);
+      CheckBox checkBox = new CheckBox("Show device location");
+      checkBox.setDisable(true);
 
       // access the json of the location points
       String polylineData = IOUtils.toString(getClass().getResourceAsStream("/display_device_location/polyline_data.json"), StandardCharsets.UTF_8);
@@ -105,50 +105,45 @@ public class DisplayDeviceLocationSample extends Application {
       locationDisplay.setLocationDataSource(simulatedLocationDataSource);
 
       // toggle the location display visibility on check
-      checkbox.setOnAction(event -> {
-        if (checkbox.isSelected()) {
-          // enable to combo box interactions
-          comboBox.setDisable(false);
-
+      checkBox.setOnAction(event -> {
+        if (checkBox.isSelected()) {
           // start the location display
           locationDisplay.startAsync();
 
-          // set the autopan mode of the location display based on the mode chosen from the combo box
-          comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
-
-            // set the scale that the map view will zoom to when the autopan mode is changed
-            locationDisplay.setInitialZoomScale(1000);
-
-            // set the iteration rate to control the time between location updates
-            simulatedLocationDataSource.setIterationRate(1.0);
-
-            switch (comboBox.getSelectionModel().getSelectedItem()) {
-              case "Off":
-                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
-                break;
-              case "Recenter":
-                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
-                break;
-              case "Navigation":
-                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.NAVIGATION);
-                break;
-              case "Compass":
-                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.COMPASS_NAVIGATION);
-                simulatedLocationDataSource.setIterationRate(0.5);
-                break;
-            }
-          });
         } else {
           // turn off the location display
           locationDisplay.stop();
-          comboBox.setDisable(true);
         }
+        // toggle the combo box interactions
+        comboBox.setDisable(!checkBox.isSelected());
       });
 
+      // set the autopan mode of the location display based on the mode chosen from the combo box
+      comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+
+        // set the scale that the map view will zoom to when the autopan mode is changed
+        locationDisplay.setInitialZoomScale(1000);
+
+        switch (comboBox.getSelectionModel().getSelectedItem()) {
+          case "Off":
+            locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
+            break;
+          case "Recenter":
+            locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+            break;
+          case "Navigation":
+            locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.NAVIGATION);
+            break;
+          case "Compass":
+            locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.COMPASS_NAVIGATION);
+            break;
+        }
+      });
+      
       // enable the checkbox interactions when the map is loaded
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
-          checkbox.setDisable(false);
+          checkBox.setDisable(false);
         } else {
           new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
         }
@@ -162,7 +157,7 @@ public class DisplayDeviceLocationSample extends Application {
       controlsVBox.setMaxSize(180, 50);
       controlsVBox.getStyleClass().add("panel-region");
       // add the checkbox, label and combo box to the control panel
-      controlsVBox.getChildren().addAll(checkbox, autopanModeLabel, comboBox);
+      controlsVBox.getChildren().addAll(checkBox, autopanModeLabel, comboBox);
 
       // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
