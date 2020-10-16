@@ -124,6 +124,9 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
         // set the scale that the map view will zoom to when the autopan mode is changed
         locationDisplay.setInitialZoomScale(1000);
 
+        // set the iteration rate to control the time between location updates
+        //simulatedLocationDataSource.setIterationRate(1.0);
+
         switch (comboBox.getSelectionModel().getSelectedItem()) {
           case "Off":
             locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
@@ -136,6 +139,7 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
             break;
           case "Compass":
             locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.COMPASS_NAVIGATION);
+            //simulatedLocationDataSource.setIterationRate(0.5);
             break;
         }
       });

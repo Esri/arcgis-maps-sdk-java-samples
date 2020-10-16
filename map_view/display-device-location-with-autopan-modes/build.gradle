@@ -50,7 +50,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.display_device_location.DisplayDeviceLocationLauncher'
+    mainClassName = 'com.esri.samples.display_device_location_with_autopan_modes.DisplayDeviceLocationWithAutopanModesLauncher'
 }
 
 jar {
