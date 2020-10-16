@@ -40,7 +40,7 @@ Click the "Switch version" button in the top left corner to switch back and fort
 
 ## About the data
 
-The feature layer used in this sample is [Damage to commercial buildings]("https://sampleserver7.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0") located in Naperville, Illinois.
+The feature layer used in this sample is [Damage to commercial buildings](https://sampleserver7.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0) located in Naperville, Illinois.
 
 ## Additional information
 
