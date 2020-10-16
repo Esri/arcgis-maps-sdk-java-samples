@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
-
 import os
 import re
 import json
 import typing
 import argparse
+import glob
+from pathlib import Path
 
 
 def check_special_char(string: str) -> bool:
@@ -13,7 +13,6 @@ def check_special_char(string: str) -> bool:
     :param string: The input string.
     :return: True if there are special characters.
     """
-    # regex = re.compile('[@_!#$%^&*()<>?/\\|}{~:]')
     regex = re.compile('[@_!#$%^&*<>?|/\\}{~:]')
     if not regex.search(string):
         return False
@@ -43,19 +42,22 @@ def parse_apis(apis_string: str) -> typing.List[str]:
     apis = list(filter(bool, apis_string.splitlines()))
     if not apis:
         raise Exception('README Relevant API parse failure!')
-    return sorted([api.lstrip('*- ').rstrip() for api in apis])
+
+    expression = re.compile(r' \(.*\)')
+    apis = list(map(lambda x: re.sub(expression, '', x), apis)) # remove text in brackets behind relevant api entries
+
+    return sorted(api.lstrip('*- ') for api in apis)
 
 
 def parse_tags(tags_string: str) -> typing.List[str]:
     """
     Parse the `Tags` section and get a list of tags.
-    :param tags_string: A string containing all tags, with comma or newline as delimiter.
+    :param tags_string: A string containing all tags, with comma as delimiter.
     :return: A sorted list of stripped tags.
     """
-    tags = re.split(r'[,\n]', tags_string)
+    tags = tags_string.split(',')
     if not tags:
         raise Exception('README Tags parse failure!')
-    tags = [x for x in tags if x != '']
     return sorted([tag.strip() for tag in tags])
 
 
@@ -70,20 +72,16 @@ def get_folder_name_from_path(path: str) -> str:
 
 class MetadataUpdater:
 
-    def __init__(self, folder_path: str, single_update: bool = False):
+    def __init__(self, folder_path: str):
         """
-        The standard format of metadata.json for Android platform. Read more at:
+        The standard format of metadata.json. Read more at:
         https://devtopia.esri.com/runtime/common-samples/wiki/README.metadata.json
         """
         self.category = ''          # Populate from json.
         self.description = ''       # Populate from README.
-        self.formal_name = ''       # Populate from README.
         self.ignore = False         # Default to False.
         self.images = []            # Populate from folder paths.
         self.keywords = []          # Populate from README.
-        self.language = ''          # Populate from folder paths.
-        self.provision_from = []    # Populate from json.
-        self.provision_to = []      # Populate from json.
         self.redirect_from = []     # Populate from json.
         self.relevant_apis = []     # Populate from README.
         self.snippets = []          # Populate from folder paths.
@@ -94,50 +92,35 @@ class MetadataUpdater:
         self.readme_path = os.path.join(folder_path, 'README.md')
         self.json_path = os.path.join(folder_path, 'README.metadata.json')
 
-        self.single_update = single_update
-
     def get_source_code_paths(self) -> typing.List[str]:
         """
         Traverse the directory and get all filenames for source code.
-        Ignores any code files in the `/build/` directory.
-        :return: A list of java or kotlin source code filenames starting from `/src/`.
+        :return: A list of java source code filenames.
         """
         results = []
-        for dp, dn, filenames in os.walk(self.folder_path):
-            if ("/build/" not in dp):
-                for file in filenames:
-                    extension = os.path.splitext(file)[1]
-                    if extension in ['.java'] or extension in ['.kt']:
-                        # get the programming language of the sample
-                        self.language = 'java' if extension in ['.java'] else 'kotlin'
-                        # get the snippet path
-                        snippet = os.path.join(dp, file)
-                        if snippet.startswith(self.folder_path):
-                            # add 1 to remove the leading slash
-                            snippet = snippet[len(self.folder_path):]
-                        results.append(snippet)
-        if not results:
-            raise Exception('Unable to get java/kotlin source code paths.')
-        return sorted(results)
 
-    def get_images_paths(self):
-        """
-        Traverse the directory and get all filenames for images in the top level directory.
-        :return: A list of image filenames.
-        """
-        results = []
-        list_subfolders_with_paths = [f.name for f in os.scandir(self.folder_path) if f.is_file()]
-        for file in list_subfolders_with_paths:
-            if os.path.splitext(file)[1].lower() in ['.png']:
-                results.append(file)
+        paths = Path(self.folder_path).glob('**/*.java')
+        for path in paths:
+            results.append(os.path.relpath(path, self.folder_path))
+
+        paths = Path(self.folder_path).glob('**/*.fxml')
+        for path in paths:
+            results.append(os.path.relpath(path, self.folder_path))
+
         if not results:
-            raise Exception('Unable to get images paths.')
+            raise Exception('Unable to get java source code paths.')
+
+        results = list(filter(lambda x: 'build/' not in x, results)) # exclude \build folder
+        results = list(filter(lambda x: 'out/' not in x, results)) # exclude \out folder
+        results = list(filter(lambda x: 'Launcher' not in x, results)) # exclude *Launcher.java
+        results = list(map(lambda x: x.replace(os.sep, '/'), results)) # eliminate double backslashes in the paths
+
         return sorted(results)
 
     def populate_from_json(self) -> None:
         """
-        Read 'category', 'redirect_from', 'provision_to', and 'provision_from'
-        fields from json, as they should not be changed.
+        Read 'category' and 'redirect_from' fields from json, as they should
+        not be changed.
         """
         try:
             json_file = open(self.json_path, 'r')
@@ -159,20 +142,6 @@ class MetadataUpdater:
                 self.redirect_from = json_data['redirect_from']
             else:
                 print(f'No redirect_from in - {self.json_path}, abort.')
-        if 'provision_from' in keys:
-            if isinstance(json_data['provision_from'], str):
-                self.provision_from = [json_data['provision_from']]
-            elif isinstance(json_data['provision_from'], typing.List):
-                self.provision_from = json_data['provision_from']
-            else:
-                print(f'No provision_from in - {self.json_path}, abort.')
-        if 'provision_to' in keys:
-            if isinstance(json_data['provision_to'], str):
-                self.provision_to = [json_data['provision_to']]
-            elif isinstance(json_data['provision_to'], typing.List):
-                self.provision_to = json_data['provision_to']
-            else:
-                print(f'No provision_to in - {self.json_path}, abort.')
 
     def populate_from_readme(self) -> None:
         """
@@ -194,28 +163,35 @@ class MetadataUpdater:
         # are separated into paragraphs.
         pattern = re.compile(r'^#{2}(?!#)\s(.*)', re.MULTILINE)
         readme_parts = re.split(pattern, readme_contents)
+
         try:
             api_section_index = readme_parts.index('Relevant API') + 1
             tags_section_index = readme_parts.index('Tags') + 1
             self.title, self.description = parse_head(readme_parts[0])
-            # create a formal name key from a pascal case version of the title
-            # with parentheses removed.
-            formal_name = ''.join(x for x in self.title.title() if not x.isspace())
-            self.formal_name = re.sub('[()]','', formal_name)
-
             if check_special_char(self.title + self.description):
                 print(f'Info: special char in README - {self.folder_name}')
             self.relevant_apis = parse_apis(readme_parts[api_section_index])
+            self.relevant_apis = sorted(self.relevant_apis, key=str.lower)
             keywords = parse_tags(readme_parts[tags_section_index])
-            # Do not include relevant apis in the keywords
+            # De-duplicate API names in README's Tags section.
             self.keywords = [w for w in keywords if w not in self.relevant_apis]
 
-            # This is left in from the iOS script:
             # "It combines the Tags and the Relevant APIs in the README."
             # See /runtime/common-samples/wiki/README.metadata.json#keywords
-            # self.keywords += self.relevant_apis
+            self.keywords += self.relevant_apis
         except Exception as err:
             print(f'Error parsing README - {self.readme_path} - {err}.')
+            raise err
+
+        # extract the image hyperlink to get the image file name
+        try:
+        ## save the image file name
+            image_link = re.search('\\!\\[.*\\]\\(.*\\.*\\)', readme_contents).group(0)
+            image_name = re.sub(r'\!\[.*\]\(', '', str(image_link))
+            image_name = re.sub(r'\)', '', image_name)
+            self.images = [image_name]
+        except Exception as err:
+            print(f'Error getting image path from README - {self.readme_path} - {err}.')
             raise err
 
     def populate_from_paths(self) -> None:
@@ -223,8 +199,8 @@ class MetadataUpdater:
         Populate source code and image filenames from a sample's folder.
         """
         try:
-            self.images = self.get_images_paths()
             self.snippets = self.get_source_code_paths()
+            self.snippets = sorted(self.snippets, key=str.lower)
         except Exception as err:
             print(f"Error parsing paths - {self.folder_name} - {err}.")
             raise err
@@ -236,33 +212,12 @@ class MetadataUpdater:
         """
         data = dict()
 
-        if not self.category and self.single_update:
-            data["category"] = "TODO"
-        else:
-            data["category"] = self.category
-
+        data["category"] = self.category
         data["description"] = self.description
-        data["formal_name"] = self.formal_name
         data["ignore"] = self.ignore
         data["images"] = self.images
         data["keywords"] = self.keywords
-        data["language"] = self.language
-
-        if self.provision_from:
-             data["provision_from"] = self.provision_from
-        elif self.single_update:
-            data["provision_from"] = "TODO"
-
-        if self.provision_to:
-             data["provision_to"] = self.provision_to
-        elif self.single_update:
-            data["provision_to"] = "TODO"
-
-        if self.redirect_from and self.redirect_from[0] is not '':
-            data["redirect_from"] = self.redirect_from
-        elif self.single_update:
-            data["redirect_from"] = "TODO"
-
+        data["redirect_from"] = self.redirect_from
         data["relevant_apis"] = self.relevant_apis
         data["snippets"] = self.snippets
         data["title"] = self.title
@@ -274,9 +229,12 @@ class MetadataUpdater:
 
 def update_1_sample(path: str):
     """
-    Fixes 1 sample's metadata by running the script on a single sample's directory.
+    A handy helper function to fix 1 sample's metadata by running the script
+    without passing in arguments.
+    The path may look like
+    '~/arcgis-runtime-samples-java/analysis/analyze-hotspots'
     """
-    single_updater = MetadataUpdater(path, True)
+    single_updater = MetadataUpdater(path)
     try:
         single_updater.populate_from_json()
         single_updater.populate_from_readme()
@@ -286,43 +244,56 @@ def update_1_sample(path: str):
         return
     single_updater.flush_to_json(os.path.join(path, 'README.metadata.json'))
 
+def update_category(category_root_dir: str):
+    category_name = get_folder_name_from_path(category_root_dir)
+    print(f'Processing category - `{category_name}`...')
+    for root, dirs, files in os.walk(category_root_dir):
+        for dir_name in dirs: ## sample directories
+            current_path = os.path.join(root, dir_name)
+            files = os.listdir(current_path)
+            if ("README.metadata.json" in files): ## only process if there is a metadata.json file in the folder
+                updater = MetadataUpdater(current_path)
+                if (updater.readme_path):
+                    try:
+                        updater.populate_from_json()
+                        updater.populate_from_readme()
+                        updater.populate_from_paths()
+                    except Exception:
+                        print(f'Error populate failed for - {updater.folder_name}.')
+                        continue
+                    updater.flush_to_json(updater.json_path)
+                    print(f'Successfully updated README.metadata.json: {updater.folder_name}')
+
+def update_all_categories(path: str):
+    directories = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
+    ignored_folders = ['.git', '.github', '.gradle', '.idea', 'gradle']
+    for category in directories:
+        if (category not in ignored_folders):
+            update_category(os.path.join(path, category))
+            print(f'Category {category} successfully updated!')
 
 def main():
     # Initialize parser.
-    msg = 'Metadata helper script. Run it against the top level folder of an ' \
-          'Android platform language (ie. kotlin or java) with the -m flag ' \
-          'or against a single sample using the -s flag and passing in eg. kotlin/my-sample-dir'
+    msg = 'Metadata helper script. Run it against the samples repo root, top level folder of a ' \
+          'category or a single sample.'
     parser = argparse.ArgumentParser(description=msg)
-    parser.add_argument('-m', '--multiple', help='input directory of the language')
-    parser.add_argument('-s', '--single', help='input directory of the sample')
+    parser.add_argument('-a', '--all', help='path to the samples repo root')
+    parser.add_argument('-c', '--cat', help='path to a category')
+    parser.add_argument('-s', '--single', help='path to a single sample')
     args = parser.parse_args()
 
-    if args.multiple:
-        category_root_dir = args.multiple
-        category_name = get_folder_name_from_path(category_root_dir)
-        print(f'Processing category - `{category_name}`...')
-
-        list_subfolders_with_paths = [f.path for f in os.scandir(category_root_dir) if f.is_dir()]
-        for current_path in list_subfolders_with_paths:
-            print(current_path)
-            updater = MetadataUpdater(current_path)
-            try:
-                updater.populate_from_json()
-                updater.populate_from_readme()
-                updater.populate_from_paths()
-            except Exception:
-                print(f'Error populate failed for - {updater.folder_name}.')
-                continue
-            updater.flush_to_json(updater.json_path)
+    if args.all:
+        # Updates all categories
+        update_all_categories(args.all)
+    elif args.cat:
+        # Updates a category.
+        update_category(args.cat)
     elif args.single:
+        # Updates one sample.
         update_1_sample(args.single)
     else:
-        update_1_sample()
         print('Invalid arguments, abort.')
 
 
 if __name__ == '__main__':
-    # Use main function for a full category.
     main()
-    # Use test function for a single sample.
-    # update_1_sample()
