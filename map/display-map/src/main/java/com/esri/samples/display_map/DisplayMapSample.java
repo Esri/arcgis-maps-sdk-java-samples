@@ -33,7 +33,7 @@ public class DisplayMapSample extends Application {
   public void start(Stage stage) {
 
     try {
-      // create stack pane and application scene
+      // create a stack pane and an application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
 
