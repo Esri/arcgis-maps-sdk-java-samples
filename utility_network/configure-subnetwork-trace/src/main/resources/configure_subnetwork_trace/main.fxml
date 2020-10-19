@@ -35,13 +35,11 @@
             <CheckBox fx:id="includeContainersCheckBox" text="Include Containers"/>
         </HBox>
 
-        <HBox>
-            <Label text="Define new conditions:"/>
-        </HBox>
+        <Label text="Define new conditions:"/>
 
         <HBox>
-            <ComboBox fx:id="comparisonSourcesComboBox" onAction="#onComparisonSourceChanged" styleClass="comparison-sources-combobox"/>
-            <ComboBox fx:id="comparisonOperatorsComboBox" styleClass="comparison-operators-combobox"/>
+            <ComboBox fx:id="comparisonSourcesComboBox" onAction="#onComparisonSourceChanged"/>
+            <ComboBox fx:id="comparisonOperatorsComboBox"/>
 
             <StackPane styleClass="comparison-choice-elements">
                 <ComboBox fx:id="comparisonValuesComboBox"/>

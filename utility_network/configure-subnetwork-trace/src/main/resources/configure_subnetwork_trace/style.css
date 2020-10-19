@@ -18,7 +18,7 @@ HBox {
 }
 
 TextArea {
-  -fx-min-height: 181;
+  -fx-min-height: 180;
   -fx-min-width: 630;
 }
 
@@ -34,22 +34,12 @@ TextArea {
   -fx-min-width: 175;
 }
 
-.comparison-sources-combobox {
+#comparisonSourcesComboBox, #comparisonOperatorsComboBox {
   -fx-min-width: 240;
   -fx-max-width: 240;
 }
 
-.comparison-operators-combobox {
-  -fx-min-width: 240;
-  -fx-max-width: 240;
-}
-
-.comparison-choice-elements TextField {
-  -fx-min-width: 175;
-  -fx-max-width: 175;
-}
-
-.comparison-choice-elements ComboBox {
+.comparison-choice-elements {
   -fx-min-width: 175;
   -fx-max-width: 175;
 }
