@@ -1,9 +1,3 @@
-.panel-region {
-  -fx-padding: 10;
-  -fx-max-width: 200;
-  -fx-max-height: 260;
-}
-
 .panel-region .label {
   -fx-text-fill: white;
 }
