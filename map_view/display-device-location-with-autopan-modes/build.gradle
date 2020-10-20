@@ -35,7 +35,6 @@ dependencies {
     compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
-    compile 'com.fazecast:jSerialComm:[2.0.0,3.0.0)'
 }
 
 task copyNatives(type: Copy) {
