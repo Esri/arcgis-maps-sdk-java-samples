@@ -61,12 +61,12 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set a title, size, and add the scene to stage
-      stage.setTitle("Display Device Location Sample");
+      stage.setTitle("Display Device Location With Autopan Modes Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
-      scene.getStylesheets().add(getClass().getResource("/display_device_location/style.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource("/display_device_location_with_autopan_modes/style.css").toExternalForm());
 
       // create an ArcGISMap with the imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());
@@ -90,7 +90,8 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       checkBox.setDisable(true);
 
       // access the json of the location points
-      String polylineData = IOUtils.toString(getClass().getResourceAsStream("/display_device_location/polyline_data.json"), StandardCharsets.UTF_8);
+      String polylineData = IOUtils.toString(getClass().getResourceAsStream(
+        "/display_device_location_with_autopan_modes/polyline_data.json"), StandardCharsets.UTF_8);
       // create a polyline from the location points
       Polyline locations = (Polyline) Geometry.fromJson(polylineData, SpatialReferences.getWgs84());
 
