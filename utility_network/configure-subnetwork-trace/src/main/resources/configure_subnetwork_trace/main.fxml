@@ -28,15 +28,16 @@
 <StackPane stylesheets="/configure_subnetwork_trace/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.esri.samples.configure_subnetwork_trace.ConfigureSubnetworkTraceController">
 
-    <VBox>
+    <VBox StackPane.alignment="TOP_LEFT">
         <HBox>
             <Label text="Trace options:"/>
             <CheckBox fx:id="includeBarriersCheckBox" text="Include Barriers"/>
             <CheckBox fx:id="includeContainersCheckBox" text="Include Containers"/>
         </HBox>
 
-        <HBox alignment="CENTER_LEFT">
-            <Label text="Define new conditions"/>
+        <Label text="Define new conditions:"/>
+
+        <HBox>
             <ComboBox fx:id="comparisonSourcesComboBox" onAction="#onComparisonSourceChanged"/>
             <ComboBox fx:id="comparisonOperatorsComboBox"/>
 
