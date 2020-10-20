@@ -80,8 +80,8 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       comboBox.setMaxWidth(Double.MAX_VALUE);
       comboBox.setDisable(true);
       // add the autopan modes to the combo box
-      comboBox.getItems().addAll("Off", "Recenter", "Navigation", "Compass");
-      comboBox.setValue("Off");
+      comboBox.getItems().addAll("Recenter", "Navigation", "Compass", "Off");
+      comboBox.setValue("Recenter");
 
       // add a label
       Label autopanModeLabel = new Label("Choose an autopan mode:");
@@ -104,6 +104,8 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       // configure the map view's location display to follow the simulated location data source
       LocationDisplay locationDisplay = mapView.getLocationDisplay();
       locationDisplay.setLocationDataSource(simulatedLocationDataSource);
+      locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+      locationDisplay.setInitialZoomScale(1000);
 
       // toggle the location display visibility on check
       checkBox.setOnAction(event -> {
@@ -140,11 +142,16 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
             break;
         }
       });
-      
-      // enable the checkbox interactions when the map is loaded
+
+      // enable the checkbox and combo box interactions when the map is loaded
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           checkBox.setDisable(false);
+          checkBox.setSelected(true);
+          comboBox.setDisable(false);
+
+          // start the location display
+          locationDisplay.startAsync();
         } else {
           new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
         }
