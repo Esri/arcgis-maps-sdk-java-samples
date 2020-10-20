@@ -90,14 +90,15 @@ public class EditWithBranchVersioningController {
         }
       });
 
-      // set the user credentials required to authenticate with the service geodatabase
-      // alternatively authentication could be handled with an AuthenticationChallengeHandler
-      UserCredential userCredential = new UserCredential("editor01", "editor01.password");
-
-      // create and load a service geodatabase
+      // create a service geodatabase
       serviceGeodatabase = new ServiceGeodatabase("https://sampleserver7.arcgisonline" +
         ".com/arcgis/rest/services/DamageAssessment/FeatureServer");
+
+      // set the user credentials required to authenticate with the service geodatabase
+      UserCredential userCredential = new UserCredential("editor01", "editor01.password");
       serviceGeodatabase.setCredential(userCredential);
+
+      // load the service geodatabase
       serviceGeodatabase.loadAsync();
 
       serviceGeodatabase.addDoneLoadingListener(() -> {
