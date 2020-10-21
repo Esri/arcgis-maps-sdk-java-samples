@@ -27,9 +27,9 @@ def run_style_check(dirname: str):
     #code2 = sp.call(f'python3 /title_differ.py -s "{dirname}"', shell=True)
     #print("**** description_differ ****")
     #code3 = sp.call(f'python3 /description_differ.py -s "{dirname}"', shell=True)
-    #print("**** metadata_style_checker ****")
-    #code4 = sp.call(f'python3 /metadata_style_checker.py -s "{dirname}"', shell=True)
-    return code1
+    print("**** metadata_style_checker ****")
+    code4 = sp.call(f'python3 /metadata_style_checker.py -s "{dirname}"', shell=True)
+    return code1 + code4
 
 
 def read_json(filenames_json_data):
@@ -70,6 +70,7 @@ def main():
     samples_set = set()
 
     for f in files:
+
         if not os.path.exists(f):
             # The changed file is deleted, no need to style check.
             continue
@@ -90,27 +91,30 @@ def main():
         if dir_path not in samples_set:
             print(f'*** Checking {dir_path} ***')
 
-        # Check if the capitalization of doc filenames are correct.
-        if l_name == 'readme.md' and filename != 'README.md':
-            print(f'Error: {dir_path} filename has wrong capitalization')
-            return_code += 1
-            continue
-        if l_name == 'readme.metadata.json' and filename != 'README.metadata.json':
-            print(f'Error: {dir_path} filename has wrong capitalization')
-            return_code += 1
-            continue
+        # Only continue with checks if it is not src/main or gradle directories.
+        if "src/main/" not in dir_path or "gradle" not in dir_path:
 
-        # Run the markdownlint linter on README file.
-        if filename == 'README.md':
-            # Run the linter on markdown file.
-            return_code += run_mdl(f)
+            # Check if the capitalization of doc filenames are correct.
+            if l_name == 'readme.md' and filename != 'README.md':
+                print(f'Error: {dir_path} filename has wrong capitalization')
+                return_code += 1
+                continue
+            if l_name == 'readme.metadata.json' and filename != 'README.metadata.json':
+                print(f'Error: {dir_path} filename has wrong capitalization')
+                return_code += 1
+                continue
 
-        # Run the other Python checks on the whole sample folder.
-        if dir_path not in samples_set:
-            samples_set.add(dir_path)
-            return_code += run_style_check(dir_path)
+            # Run the markdownlint linter on README file.
+            if filename == 'README.md':
+                # Run the linter on markdown file.
+                return_code += run_mdl(f)
 
-        # Changed file is not a README or metadata file, omit.
+            # Run the other Python checks on the whole sample folder.
+            if dir_path not in samples_set:
+                samples_set.add(dir_path)
+                return_code += run_style_check(dir_path)
+
+            # Changed file is not a README or metadata file, omit.
 
     if return_code != 0:
         # Non-zero code occurred during the process.

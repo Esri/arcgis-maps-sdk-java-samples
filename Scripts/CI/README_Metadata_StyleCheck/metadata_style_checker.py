@@ -6,18 +6,15 @@ import argparse
 import glob
 from pathlib import Path
 
-
-def check_special_char(string: str) -> bool:
+def sub_special_char(string: str) -> str:
     """
-    Check if a string contains special characters.
+    Check and substitute if a string contains special characters.
     :param string: The input string.
-    :return: True if there are special characters.
+    :return: A new string
     """
-    regex = re.compile('[@_!#$%^&*<>?|/\\}{~:]')
-    if not regex.search(string):
-        return False
-    return True
-
+    # regex = re.compile('[@_!#$%^&*<>?|/\\}{~:]')
+    regex = re.compile(r'[@_!#$%^&*<>?|/\\}{~:]')
+    return re.sub(regex, '', string)
 
 def parse_head(head_string: str) -> (str, str):
     """
@@ -70,12 +67,12 @@ def get_folder_name_from_path(path: str) -> str:
     return os.path.normpath(path).split(os.path.sep)[-1]
 
 
-class MetadataUpdater:
+class MetadataCreator:
 
     def __init__(self, folder_path: str):
         """
         The standard format of metadata.json. Read more at:
-        https://devtopia.esri.com/runtime/common-samples/wiki/README.metadata.json
+        /common-samples/wiki/README.metadata.json
         """
         self.category = ''          # Populate from json.
         self.description = ''       # Populate from README.
@@ -117,31 +114,31 @@ class MetadataUpdater:
 
         return sorted(results)
 
-    def populate_from_json(self) -> None:
-        """
-        Read 'category' and 'redirect_from' fields from json, as they should
-        not be changed.
-        """
-        try:
-            json_file = open(self.json_path, 'r')
-            json_data = json.load(json_file)
-        except Exception as err:
-            print(f'Error reading JSON - {self.json_path} - {err}')
-            raise err
-        else:
-            json_file.close()
+    # def populate_from_json(self) -> None:
+    #     """
+    #     Read 'category' and 'redirect_from' fields from json, as they should
+    #     not be changed.
+    #     """
+    #     try:
+    #         json_file = open(self.json_path, 'r')
+    #         json_data = json.load(json_file)
+    #     except Exception as err:
+    #         print(f'Error reading JSON - {self.json_path} - {err}')
+    #         raise err
+    #     else:
+    #         json_file.close()
 
-        keys = json_data.keys()
-        for key in ['category']:
-            if key in keys:
-                setattr(self, key, json_data[key])
-        if 'redirect_from' in keys:
-            if isinstance(json_data['redirect_from'], str):
-                self.redirect_from = [json_data['redirect_from']]
-            elif isinstance(json_data['redirect_from'], typing.List):
-                self.redirect_from = json_data['redirect_from']
-            else:
-                print(f'No redirect_from in - {self.json_path}, abort.')
+    #     keys = json_data.keys()
+    #     for key in ['category']:
+    #         if key in keys:
+    #             setattr(self, key, json_data[key])
+    #     if 'redirect_from' in keys:
+    #         if isinstance(json_data['redirect_from'], str):
+    #             self.redirect_from = [json_data['redirect_from']]
+    #         elif isinstance(json_data['redirect_from'], typing.List):
+    #             self.redirect_from = json_data['redirect_from']
+    #         else:
+    #             print(f'No redirect_from in - {self.json_path}, abort.')
 
     def populate_from_readme(self) -> None:
         """
@@ -163,15 +160,11 @@ class MetadataUpdater:
         # are separated into paragraphs.
         pattern = re.compile(r'^#{2}(?!#)\s(.*)', re.MULTILINE)
         readme_parts = re.split(pattern, readme_contents)
-
         try:
             api_section_index = readme_parts.index('Relevant API') + 1
             tags_section_index = readme_parts.index('Tags') + 1
             self.title, self.description = parse_head(readme_parts[0])
-            if check_special_char(self.title + self.description):
-                print(f'Info: special char in README - {self.folder_name}')
             self.relevant_apis = parse_apis(readme_parts[api_section_index])
-            self.relevant_apis = sorted(self.relevant_apis, key=str.lower)
             keywords = parse_tags(readme_parts[tags_section_index])
             # De-duplicate API names in README's Tags section.
             self.keywords = [w for w in keywords if w not in self.relevant_apis]
@@ -205,10 +198,10 @@ class MetadataUpdater:
             print(f"Error parsing paths - {self.folder_name} - {err}.")
             raise err
 
-    def flush_to_json(self, path_to_json: str) -> None:
+    def flush_to_json_string(self) -> str:
         """
-        Write the metadata to a json file.
-        :param path_to_json: The path to the json file.
+        Write the metadata to a json string.
+        :return: json string
         """
         data = dict()
 
@@ -222,78 +215,121 @@ class MetadataUpdater:
         data["snippets"] = self.snippets
         data["title"] = self.title
 
-        with open(path_to_json, 'w+') as json_file:
-            json.dump(data, json_file, indent=4, sort_keys=True)
-            json_file.write('\n')
+        return json.dumps(data, indent=4, sort_keys=True)
+
+        # with open(path_to_json, 'w+') as json_file:
+        #     json.dump(data, json_file, indent=4, sort_keys=True)
+        #     json_file.write('\n')
 
 
-def update_1_sample(path: str):
+def compare_one_metadata(folder_path: str):
     """
-    A handy helper function to fix 1 sample's metadata by running the script
-    without passing in arguments.
+    A handy helper function to create 1 sample's metadata by running the script
+    without passing in arguments, and write to a separate json for comparison.
     The path may look like
     '~/arcgis-runtime-samples-java/analysis/analyze-hotspots'
     """
-    single_updater = MetadataUpdater(path)
+    single_updater = MetadataCreator(folder_path)
     try:
-        single_updater.populate_from_json()
         single_updater.populate_from_readme()
         single_updater.populate_from_paths()
-    except Exception:
+
+    except Exception as err:
         print(f'Error populate failed for - {single_updater.folder_name}.')
-        return
-    single_updater.flush_to_json(os.path.join(path, 'README.metadata.json'))
+        raise err
 
-def update_category(category_root_dir: str):
-    category_name = get_folder_name_from_path(category_root_dir)
-    print(f'Processing category - `{category_name}`...')
-    for root, dirs, files in os.walk(category_root_dir):
-        for dir_name in dirs: ## sample directories
-            current_path = os.path.join(root, dir_name)
-            files = os.listdir(current_path)
-            if ("README.metadata.json" in files): ## only process if there is a metadata.json file in the folder
-                updater = MetadataUpdater(current_path)
-                if (updater.readme_path):
-                    try:
-                        updater.populate_from_json()
-                        updater.populate_from_readme()
-                        updater.populate_from_paths()
-                    except Exception:
-                        print(f'Error populate failed for - {updater.folder_name}.')
-                        continue
-                    updater.flush_to_json(updater.json_path)
-                    print(f'Successfully updated README.metadata.json: {updater.folder_name}')
+    json_path = os.path.join(folder_path, 'README.metadata.json')
 
-def update_all_categories(path: str):
-    directories = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
-    ignored_folders = ['.git', '.github', '.gradle', '.idea', 'gradle']
-    for category in directories:
-        if (category not in ignored_folders):
-            update_category(os.path.join(path, category))
-            print(f'Category {category} successfully updated!')
+    try:
+        json_file = open(json_path, 'r')
+        json_data = json.load(json_file)
+    except Exception as err:
+        print(f'Error reading JSON - {folder_path} = {err}')
+        raise err
+    else:
+        json_file.close()
+    # The special rule not to compare the redirect_from.
+    single_updater.redirect_from = json_data['redirect_from']
+
+    # The special rule to be lenient on shortened description
+    # If the original json has a shortened/special char purged description,
+    # then no need to raise an error.
+    if json_data['description'] in sub_special_char(single_updater.description):
+        single_updater.description = json_data['description']
+    # The special rule to ignore the order of src filenames
+    # If the original json has all the filenames, then it is good
+    if sorted(json_data['snippets']) == single_updater.snippets:
+        single_updater.snippets = json_data['snippets']
+
+    new = single_updater.flush_to_json_string()
+    original = json.dumps(json_data, indent=4, sort_keys=True)
+    if new != original:
+        raise Exception(f'Error inconsistent metadata - {folder_path}')
+
+# def update_category(category_root_dir: str):
+#     category_name = get_folder_name_from_path(category_root_dir)
+#     print(f'Processing category - `{category_name}`...')
+#     for root, dirs, files in os.walk(category_root_dir):
+#         for dir_name in dirs: ## sample directories
+#             current_path = os.path.join(root, dir_name)
+#             files = os.listdir(current_path)
+#             if ("README.metadata.json" in files): ## only process if there is a metadata.json file in the folder
+#                 updater = MetadataUpdater(current_path)
+#                 if (updater.readme_path):
+#                     try:
+#                         updater.populate_from_json()
+#                         updater.populate_from_readme()
+#                         updater.populate_from_paths()
+#                     except Exception:
+#                         print(f'Error populate failed for - {updater.folder_name}.')
+#                         continue
+#                     updater.flush_to_json(updater.json_path)
+#                     print(f'Successfully updated README.metadata.json: {updater.folder_name}')
+
+# def update_all_categories(path: str):
+#     directories = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
+#     ignored_folders = ['.git', '.github', '.gradle', '.idea', 'gradle']
+#     for category in directories:
+#         if (category not in ignored_folders):
+#             update_category(os.path.join(path, category))
+#             print(f'Category {category} successfully updated!')
 
 def main():
     # Initialize parser.
-    msg = 'Metadata helper script. Run it against the samples repo root, top level folder of a ' \
-          'category or a single sample.'
+    msg = 'Check metadata style. Run it against the samples repo root, or a single sample folder. ' \
+          'On success: Script will exit with zero. ' \
+          'On failure: Title incosistency will print to console and the ' \
+          'script will exit with non-zero code.'
     parser = argparse.ArgumentParser(description=msg)
     parser.add_argument('-a', '--all', help='path to the samples repo root')
     parser.add_argument('-c', '--cat', help='path to a category')
     parser.add_argument('-s', '--single', help='path to a single sample')
     args = parser.parse_args()
 
-    if args.all:
-        # Updates all categories
-        update_all_categories(args.all)
-    elif args.cat:
-        # Updates a category.
-        update_category(args.cat)
-    elif args.single:
-        # Updates one sample.
-        update_1_sample(args.single)
+    if args.single:
+        try:
+            compare_one_metadata(args.single)
+        except Exception as err:
+            raise err
     else:
-        print('Invalid arguments, abort.')
+        raise Exception('Invalid arguments, abort.')
+
+    # if args.all:
+    #     # Updates all categories
+    #     update_all_categories(args.all)
+    # elif args.cat:
+    #     # Updates a category.
+    #     update_category(args.cat)
+    # elif args.single:
+    #     # Updates one sample.
+    #     update_1_sample(args.single)
+    # else:
+    #     print('Invalid arguments, abort.')
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as error:
+        print(f'{error}')
+        exit(1)
