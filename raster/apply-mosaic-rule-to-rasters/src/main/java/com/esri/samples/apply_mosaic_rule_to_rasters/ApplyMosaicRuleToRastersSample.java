@@ -16,6 +16,7 @@
 
 package com.esri.samples.apply_mosaic_rule_to_rasters;
 
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 
 import javafx.application.Application;
@@ -46,6 +47,9 @@ import com.esri.arcgisruntime.raster.ImageServiceRaster;
 import com.esri.arcgisruntime.raster.MosaicRule;
 import com.esri.arcgisruntime.raster.MosaicMethod;
 import com.esri.arcgisruntime.raster.MosaicOperation;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.SelfSignedCertificateListener;
+import com.esri.arcgisruntime.security.SelfSignedResponse;
 
 public class ApplyMosaicRuleToRastersSample extends Application {
 
@@ -68,9 +72,6 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // add a progress indicator to show the scene is loading
-      ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
-
       // create a label
       Label mosaicRuleLabel = new Label("Choose a mosaic rule: ");
       mosaicRuleLabel.setTextFill(Color.WHITE);
@@ -89,12 +90,15 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // add the label and combo box to the control panel
       controlsVBox.getChildren().addAll(mosaicRuleLabel, comboBox);
 
+      // add a progress indicator to show the scene is loading
+      ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
+
       // create a map view
       mapView = new MapView();
 
       // add draw status listener to the map view
       mapView.addDrawStatusChangedListener (drawStatusChangedEvent -> {
-        //show progress indicator while map is drawing
+        // show progress indicator while map is drawing
         if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS) {
           progressIndicator.setVisible(true);
         }
@@ -102,13 +106,22 @@ public class ApplyMosaicRuleToRastersSample extends Application {
           progressIndicator.setVisible(false);
         }
       });
+
       // create an ArcGISMap map
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvasVector());
       // set the ArcGISMap to the map view
       mapView.setMap(map);
 
+      // create a self signed certificate listener to trust untrused hosts
+      AuthenticationManager.setSelfSignedCertificateListener(new SelfSignedCertificateListener() {
+        @Override
+        public SelfSignedResponse checkServerTrusted(X509Certificate[] x509Certificates, String s) {
+          return new SelfSignedResponse(true, true);
+        }
+      });
+
       // create a raster layer from the image service raster
-      String imageServiceURL = "https://sampleserver7.arcgisonline.com/arcgis/rest/services/amberg_germany/ImageServer";
+      String imageServiceURL = "https://sampleserver7.arcgisonline.com/server/rest/services/amberg_germany/ImageServer";
       ImageServiceRaster imageServiceRaster = new ImageServiceRaster(imageServiceURL);
       rasterLayer = new RasterLayer(imageServiceRaster);
 
