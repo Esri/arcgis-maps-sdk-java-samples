@@ -74,12 +74,12 @@ class MetadataCreator:
         The standard format of metadata.json. Read more at:
         /common-samples/wiki/README.metadata.json
         """
-        self.category = ''          # Populate from json.
+        self.category = ''          # Populate from folder path.
         self.description = ''       # Populate from README.
         self.ignore = False         # Default to False.
         self.images = []            # Populate from folder paths.
         self.keywords = []          # Populate from README.
-        self.redirect_from = []     # Populate from json.
+        self.redirect_from = []     # Default to empty list.
         self.relevant_apis = []     # Populate from README.
         self.snippets = []          # Populate from folder paths.
         self.title = ''             # Populate from README.
