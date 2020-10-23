@@ -2,7 +2,7 @@
 name: README and metadata formatting
 
 # Controls when the action will run.
-# Below triggers the workflow on pull requests to `master` or `v.next` branch.
+# Below triggers the workflow on pull requests to the specified branches.
 on:
   pull_request:
     branches:
@@ -44,11 +44,13 @@ jobs:
       - name: Print changed file paths
         run: |
           echo 'Below shows a list of changed file paths'
-          echo '${{ steps.file_changes.outputs.files}}'
-      #    echo '${{ steps.file_changes.outputs.files_modified}}'
-      #    echo '${{ steps.file_changes.outputs.files_added}}'
-      #    echo '${{ steps.file_changes.outputs.files_removed}}'
+          echo '${{ steps.file_changes.outputs.files }}'
+      #    echo '${{ steps.file_changes.outputs.files_modified }}'
+      #    echo '${{ steps.file_changes.outputs.files_added }}'
+      #    echo '${{ steps.file_changes.outputs.files_removed }}'
 
+      # Run the style checks using the scripts in the './Scripts/CI/README_Metadata_StyleCheck' directory
+      # The scripts will run on any detected changed files from the 'file_changes' step
       - name: Run style checks
         uses: ./Scripts/CI/README_Metadata_StyleCheck
         with:
