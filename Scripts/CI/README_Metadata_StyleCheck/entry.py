@@ -8,17 +8,33 @@ import subprocess as sp
 # A set of category folder names in current sample viewer.
 # Only run the checks when a file path is within one of these category folders.
 categories = {
+    'analysis',
+    'display_information',
+    'editing',
+    'feature_layers',
+    'geometry',
+    'group_layers',
+    'hydrography',
+    'image_layers',
+    'kml',
+    'local_server',
     'map',
     'map_view',
-    'scene'
+    'network_analysis',
+    'ogc',
+    'portal',
+    'raster',
+    'scene',
+    'search',
+    'symbology',
+    'tiled_layers',
+    'utility_network'
 }
 
-
 def run_mdl(readme_path: str):
-    print("**** mdl ****")
+    print("**** markdownlint style checker (mdl) ****")
     code = sp.call(f'mdl --style /style.rb "{readme_path}"', shell=True)
     return code
-
 
 def run_style_check(dirname: str):
     print("**** README_style_checker ****")
@@ -59,6 +75,10 @@ def main():
     if args.string:
         files = read_json(json.loads(args.string))
         if not files:
+          if files == []:
+            print('No changed files detected.')
+            exit(0)
+          else:
             print('Invalid input file paths string, abort.')
             exit(1)
     else:
@@ -77,44 +97,42 @@ def main():
 
         path_parts = os.path.normpath(f).split(os.path.sep)
 
-        if len(path_parts) < 3:
-            # A file not in samples folder, omit.
-            # E.g. might be in the root folder or other unrelated folders.
-            continue
+        if len(path_parts) == 3:
+            # If the file is not in the root folder for the individual sample, omit.
+            # E.g. might be in unrelated folders such as root category folders or '/gradle', '/src' etc.
 
-        # Get filename and folder name of the changed sample.
-        filename = os.path.basename(f)
-        dir_path = os.path.dirname(f)
-        l_name = filename.lower()
+          # Get filename and folder name of the changed sample.
+          filename = os.path.basename(f)
+          dir_path = os.path.dirname(f)
+          l_name = filename.lower()
 
-        # Print debug information for current sample.
-        if dir_path not in samples_set:
-            print(f'*** Checking {dir_path} ***')
+          # Print debug information for current sample.
+          if dir_path not in samples_set:
+              print(f'*** Checking {dir_path} ***')
 
-        # Only continue with checks if it is not src/main or gradle directories.
-        if "src/main/" not in dir_path or "gradle" not in dir_path:
+              # Check if the capitalization of doc filenames are correct.
+              if l_name == 'readme.md' and filename != 'README.md':
+                  print(f'Error: {dir_path} filename has wrong capitalization')
+                  return_code += 1
+                  continue
+              if l_name == 'readme.metadata.json' and filename != 'README.metadata.json':
+                  print(f'Error: {dir_path} filename has wrong capitalization')
+                  return_code += 1
+                  continue
 
-            # Check if the capitalization of doc filenames are correct.
-            if l_name == 'readme.md' and filename != 'README.md':
-                print(f'Error: {dir_path} filename has wrong capitalization')
-                return_code += 1
-                continue
-            if l_name == 'readme.metadata.json' and filename != 'README.metadata.json':
-                print(f'Error: {dir_path} filename has wrong capitalization')
-                return_code += 1
-                continue
+              # Run the markdownlint linter on README file.
+              if filename == 'README.md':
+                  # Run the linter on markdown file.
+                  return_code += run_mdl(f)
 
-            # Run the markdownlint linter on README file.
-            if filename == 'README.md':
-                # Run the linter on markdown file.
-                return_code += run_mdl(f)
+              # Run the other Python checks on the whole sample folder.
+              if dir_path not in samples_set:
+                  samples_set.add(dir_path)
+                  return_code += run_style_check(dir_path)
 
-            # Run the other Python checks on the whole sample folder.
-            if dir_path not in samples_set:
-                samples_set.add(dir_path)
-                return_code += run_style_check(dir_path)
-
-            # Changed file is not a README or metadata file, omit.
+        else:
+          print('No changes detected in root sample directory, exiting checks.')
+          exit(0)
 
     if return_code != 0:
         # Non-zero code occurred during the process.
