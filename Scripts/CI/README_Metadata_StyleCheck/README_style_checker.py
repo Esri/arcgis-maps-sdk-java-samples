@@ -31,19 +31,27 @@ exception_proper_nouns = {
 
 # A set of category folder names in current sample viewer.
 categories = {
-    'Maps',
-    'Layers',
-    'Features',
-    'Display information',
-    'Search',
-    'Edit data',
-    'Geometry',
-    'Route and directions',
-    'Analysis',
-    'Cloud and portal',
-    'Scenes',
-    'Utility network',
-    'Augmented reality'
+    'analysis',
+    'display_information',
+    'editing',
+    'feature_layers',
+    'geometry',
+    'group_layers',
+    'hydrography',
+    'image_layers',
+    'kml',
+    'local_server',
+    'map',
+    'map_view',
+    'network_analysis',
+    'ogc',
+    'portal',
+    'raster',
+    'scene',
+    'search',
+    'symbology',
+    'tiled_layers',
+    'utility_network'
 }
 # endregion
 
@@ -392,8 +400,8 @@ def all_designs(path: str):
 
 def main():
 
-    msg = 'README checker script. Run it against the /arcgis-ios-sdk-samples ' \
-          'folder or a single sample folder. ' \
+    msg = 'README checker script. Run it against the root folder' \
+          'or a single sample folder. ' \
           'On success: Script will exit with zero. ' \
           'On failure: Style violations will print to console and the script ' \
           'will exit with non-zero code.'

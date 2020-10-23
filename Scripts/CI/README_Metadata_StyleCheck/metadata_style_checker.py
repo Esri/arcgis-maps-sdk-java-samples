@@ -114,32 +114,6 @@ class MetadataCreator:
 
         return sorted(results)
 
-    # def populate_from_json(self) -> None:
-    #     """
-    #     Read 'category' and 'redirect_from' fields from json, as they should
-    #     not be changed.
-    #     """
-    #     try:
-    #         json_file = open(self.json_path, 'r')
-    #         json_data = json.load(json_file)
-    #     except Exception as err:
-    #         print(f'Error reading JSON - {self.json_path} - {err}')
-    #         raise err
-    #     else:
-    #         json_file.close()
-
-    #     keys = json_data.keys()
-    #     for key in ['category']:
-    #         if key in keys:
-    #             setattr(self, key, json_data[key])
-    #     if 'redirect_from' in keys:
-    #         if isinstance(json_data['redirect_from'], str):
-    #             self.redirect_from = [json_data['redirect_from']]
-    #         elif isinstance(json_data['redirect_from'], typing.List):
-    #             self.redirect_from = json_data['redirect_from']
-    #         else:
-    #             print(f'No redirect_from in - {self.json_path}, abort.')
-
     def populate_from_readme(self) -> None:
         """
         Read and parse the sections from README, and fill in the 'title',
@@ -217,11 +191,6 @@ class MetadataCreator:
 
         return json.dumps(data, indent=4, sort_keys=True)
 
-        # with open(path_to_json, 'w+') as json_file:
-        #     json.dump(data, json_file, indent=4, sort_keys=True)
-        #     json_file.write('\n')
-
-
 def compare_one_metadata(folder_path: str):
     """
     A handy helper function to create 1 sample's metadata by running the script
@@ -266,43 +235,41 @@ def compare_one_metadata(folder_path: str):
     if new != original:
         raise Exception(f'Error inconsistent metadata - {folder_path}')
 
-# def update_category(category_root_dir: str):
-#     category_name = get_folder_name_from_path(category_root_dir)
-#     print(f'Processing category - `{category_name}`...')
-#     for root, dirs, files in os.walk(category_root_dir):
-#         for dir_name in dirs: ## sample directories
-#             current_path = os.path.join(root, dir_name)
-#             files = os.listdir(current_path)
-#             if ("README.metadata.json" in files): ## only process if there is a metadata.json file in the folder
-#                 updater = MetadataUpdater(current_path)
-#                 if (updater.readme_path):
-#                     try:
-#                         updater.populate_from_json()
-#                         updater.populate_from_readme()
-#                         updater.populate_from_paths()
-#                     except Exception:
-#                         print(f'Error populate failed for - {updater.folder_name}.')
-#                         continue
-#                     updater.flush_to_json(updater.json_path)
-#                     print(f'Successfully updated README.metadata.json: {updater.folder_name}')
+def all_samples(path: str):
+    """
+    Run the check on all samples.
 
-# def update_all_categories(path: str):
-#     directories = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
-#     ignored_folders = ['.git', '.github', '.gradle', '.idea', 'gradle']
-#     for category in directories:
-#         if (category not in ignored_folders):
-#             update_category(os.path.join(path, category))
-#             print(f'Category {category} successfully updated!')
+    :param path: The path to root Java samples folder.
+    :return: None. Throws if exception occurs.
+    """
+    exception_count = 0
+    for root, dirs, files in os.walk(path):
+        # Get the sample directories and directories to ignore
+        directories = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
+        ignored_folders = ['.git', '.github', '.gradle', '.idea', 'gradle']
+        # If parent folder name is a valid category name.
+        for category in directories:
+          if (category not in ignored_folders and category in categories):
+            for dir_name in dirs:
+                sample_path = os.path.join(root, dir_name)
+                try:
+                    compare_one_metadata(sample_path)
+                except Exception as err:
+                    exception_count += 1
+                    print(f'{exception_count}. {err}')
+
+    # Throw once if there are exceptions.
+    if exception_count > 0:
+        raise Exception('Error(s) occurred during checking all samples.')
 
 def main():
     # Initialize parser.
     msg = 'Check metadata style. Run it against the samples repo root, or a single sample folder. ' \
           'On success: Script will exit with zero. ' \
-          'On failure: Title incosistency will print to console and the ' \
+          'On failure: Title inconsistency will print to console and the ' \
           'script will exit with non-zero code.'
     parser = argparse.ArgumentParser(description=msg)
     parser.add_argument('-a', '--all', help='path to the samples repo root')
-    parser.add_argument('-c', '--cat', help='path to a category')
     parser.add_argument('-s', '--single', help='path to a single sample')
     args = parser.parse_args()
 
@@ -311,21 +278,13 @@ def main():
             compare_one_metadata(args.single)
         except Exception as err:
             raise err
+    elif args.all:
+        try:
+            all_samples(args.all)
+        except Exception as err:
+            raise err
     else:
         raise Exception('Invalid arguments, abort.')
-
-    # if args.all:
-    #     # Updates all categories
-    #     update_all_categories(args.all)
-    # elif args.cat:
-    #     # Updates a category.
-    #     update_category(args.cat)
-    # elif args.single:
-    #     # Updates one sample.
-    #     update_1_sample(args.single)
-    # else:
-    #     print('Invalid arguments, abort.')
-
 
 if __name__ == '__main__':
     try:
