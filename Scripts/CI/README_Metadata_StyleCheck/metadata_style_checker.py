@@ -6,6 +6,33 @@ import argparse
 import glob
 from pathlib import Path
 
+# region Global sets
+# A set of category folder names in current sample viewer.
+categories = {
+    'analysis',
+    'display_information',
+    'editing',
+    'feature_layers',
+    'geometry',
+    'group_layers',
+    'hydrography',
+    'image_layers',
+    'kml',
+    'local_server',
+    'map',
+    'map_view',
+    'network_analysis',
+    'ogc',
+    'portal',
+    'raster',
+    'scene',
+    'search',
+    'symbology',
+    'tiled_layers',
+    'utility_network'
+}
+# endregion
+
 def sub_special_char(string: str) -> str:
     """
     Check and substitute if a string contains special characters.
@@ -29,7 +56,6 @@ def parse_head(head_string: str) -> (str, str):
     description = parts[1].strip()
     return title, description
 
-
 def parse_apis(apis_string: str) -> typing.List[str]:
     """
     Parse the `Relevant API` section and get a list of APIs.
@@ -45,7 +71,6 @@ def parse_apis(apis_string: str) -> typing.List[str]:
 
     return sorted(api.lstrip('*- ') for api in apis)
 
-
 def parse_tags(tags_string: str) -> typing.List[str]:
     """
     Parse the `Tags` section and get a list of tags.
@@ -57,15 +82,33 @@ def parse_tags(tags_string: str) -> typing.List[str]:
         raise Exception('README Tags parse failure!')
     return sorted([tag.strip() for tag in tags])
 
-
-def get_folder_name_from_path(path: str) -> str:
+def get_folder_name_from_path(path: str, index: int = -1) -> str:
     """
     Get the folder name from a full path.
     :param path: A string of a full/absolute path to a folder.
     :return: The folder name.
     """
-    return os.path.normpath(path).split(os.path.sep)[-1]
+    return os.path.normpath(path).split(os.path.sep)[index]
 
+def format_category_name_from_folder_name(folder_name: str) -> str:
+    """
+    Format the category name so that it is as required by the developer site
+    and sample viewer.
+    e.g.  'map_view' becomes 'Map view', 'scene' becomes 'Scene'.
+    :param folder_name: A string of the category folder name.
+    :return: A formatted string of the category name.
+    """
+    if folder_name not in categories:
+        raise Exception("Invalid category folder name.")
+
+    if folder_name == "ogc" or folder_name == "kml":
+        return folder_name.upper()
+    else:
+        if "_" not in folder_name:
+            return folder_name.capitalize()
+        else:
+            insert_spaces = folder_name.replace("_", " ")
+            return insert_spaces.capitalize()
 
 class MetadataCreator:
 
@@ -163,8 +206,15 @@ class MetadataCreator:
 
     def populate_from_paths(self) -> None:
         """
-        Populate source code and image filenames from a sample's folder.
+        Populate category name and snippets from a sample's folder.
         """
+        try:
+            category_folder = get_folder_name_from_path(self.folder_path, -2)
+            self.category = format_category_name_from_folder_name(category_folder)
+        except Exception as err:
+            print(f'Error getting category folder name from path - {self.folder_path} - {err}')
+            raise err
+
         try:
             self.snippets = self.get_source_code_paths()
             self.snippets = sorted(self.snippets, key=str.lower)
@@ -219,16 +269,6 @@ def compare_one_metadata(folder_path: str):
         json_file.close()
     # The special rule not to compare the redirect_from.
     single_updater.redirect_from = json_data['redirect_from']
-
-    # The special rule to be lenient on shortened description
-    # If the original json has a shortened/special char purged description,
-    # then no need to raise an error.
-    if json_data['description'] in sub_special_char(single_updater.description):
-        single_updater.description = json_data['description']
-    # The special rule to ignore the order of src filenames
-    # If the original json has all the filenames, then it is good
-    if sorted(json_data['snippets']) == single_updater.snippets:
-        single_updater.snippets = json_data['snippets']
 
     new = single_updater.flush_to_json_string()
     original = json.dumps(json_data, indent=4, sort_keys=True)
