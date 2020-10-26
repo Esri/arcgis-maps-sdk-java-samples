@@ -53,6 +53,7 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/control_annotation_sublayer_visibility/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Control Annotation Sublayer Visibility");
@@ -67,10 +68,9 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // create checkboxes for toggling the sublayer visibility manually
       CheckBox closedSublayerCheckbox = new CheckBox();
       closedSublayerCheckbox.setSelected(true);
-      closedSublayerCheckbox.setTextFill(Color.WHITE);
       CheckBox openSublayerCheckbox = new CheckBox();
       openSublayerCheckbox.setSelected(true);
-      openSublayerCheckbox.setTextFill(Color.DARKGRAY);
+      openSublayerCheckbox.setStyle("-fx-text-fill: darkgrey");
 
       // create a control panel and label for the checkboxes
       VBox controlsVBox = new VBox(6);
@@ -82,7 +82,6 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
 
       // show current map scale in a label within the control panel
       Label currentMapScaleLabel = new Label();
-      currentMapScaleLabel.setTextFill(Color.WHITE);
       mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
               currentMapScaleLabel.setText("Scale: 1:" + Math.round(mapView.getMapScale()))
       );
@@ -120,9 +119,9 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
                   // gray out the open sublayer when the layer is out of scale
                   mapView.addMapScaleChangedListener(mapScaleChangedEvent -> {
                     if (openSublayer.isVisibleAtScale(mapView.getMapScale())) {
-                      openSublayerCheckbox.setTextFill(Color.WHITE);
+                      openSublayerCheckbox.setStyle("-fx-text-fill: white");
                     } else {
-                      openSublayerCheckbox.setTextFill(Color.DARKGRAY);
+                      openSublayerCheckbox.setStyle("-fx-text-fill: darkgrey");
                     }
                   });
 
