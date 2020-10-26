@@ -22,12 +22,10 @@ import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.geoanalysis.LocationViewshed;
 import com.esri.arcgisruntime.geoanalysis.Viewshed;
@@ -54,9 +52,6 @@ public class ViewshedLocationController {
   @FXML private Slider verticalAngleSlider;
   @FXML private Slider minDistanceSlider;
   @FXML private Slider maxDistanceSlider;
-  @FXML private ColorPicker visibleColorPicker;
-  @FXML private ColorPicker obstructedColorPicker;
-  @FXML private ColorPicker frustumColorPicker;
 
   public void initialize() {
     // create a scene and add a basemap to it
@@ -81,6 +76,11 @@ public class ViewshedLocationController {
     LocationViewshed viewshed = new LocationViewshed(location, headingSlider.getValue(), pitchSlider.getValue(),
         horizontalAngleSlider.getValue(), verticalAngleSlider.getValue(), minDistanceSlider.getValue(),
         maxDistanceSlider.getValue());
+    // set the colors of the visible and obstructed areas
+    Viewshed.setVisibleColor(0xCC00FF00);
+    Viewshed.setObstructedColor(0xCCFF0000);
+    // set the color of the frustum outline
+    Viewshed.setFrustumOutlineColor(0xCC0000FF);
 
     // set the camera
     Camera camera = new Camera(location, 200.0, 20.0, 70.0, 0.0);
@@ -146,32 +146,6 @@ public class ViewshedLocationController {
     // distance sliders
     minDistanceSlider.valueProperty().addListener(e -> viewshed.setMinDistance(minDistanceSlider.getValue()));
     maxDistanceSlider.valueProperty().addListener(e -> viewshed.setMaxDistance(maxDistanceSlider.getValue()));
-    // colors
-    visibleColorPicker.setValue(Color.rgb(0, 255, 0, 0.8));
-    visibleColorPicker.valueProperty().addListener(e -> Viewshed.setVisibleColor(colorToInt(visibleColorPicker
-        .getValue())));
-    obstructedColorPicker.setValue(Color.rgb(255, 0, 0, 0.8));
-    obstructedColorPicker.valueProperty().addListener(e -> Viewshed.setObstructedColor(colorToInt(obstructedColorPicker
-        .getValue())));
-    frustumColorPicker.setValue(Color.rgb(0, 0, 255, 0.8));
-    frustumColorPicker.valueProperty().addListener(e -> Viewshed.setFrustumOutlineColor(colorToInt(frustumColorPicker
-        .getValue())));
-  }
-
-  /**
-   * Parses a Color into an ARGB integer.
-   *
-   * @param c color
-   * @return integer representation of the color
-   */
-  private int colorToInt(Color c) {
-    String hex = String.format("0x%02X%02X%02X%02X",
-        (int)(c.getOpacity() * 255),
-        (int)(c.getRed() * 255),
-        (int)(c.getGreen() * 255),
-        (int)(c.getBlue() * 255)
-    );
-    return Long.decode(hex).intValue();
   }
 
   /**
@@ -183,5 +157,4 @@ public class ViewshedLocationController {
       sceneView.dispose();
     }
   }
-
 }

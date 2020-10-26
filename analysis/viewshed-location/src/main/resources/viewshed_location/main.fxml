@@ -15,7 +15,6 @@
   ~ the License.
   -->
 
-<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
@@ -29,7 +28,7 @@
            prefHeight="450.0" prefWidth="600.0" stylesheets="/viewshed_location/style.css">
     <SceneView fx:id="sceneView"/>
     <GridPane StackPane.alignment="TOP_LEFT" pickOnBounds="false" styleClass="panel-region" maxWidth="300"
-              maxHeight="460" hgap="10" vgap="10">
+              maxHeight="300" hgap="10" vgap="10">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -73,14 +72,5 @@
         <Label text="Max Distance" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
         <Slider fx:id="maxDistanceSlider" min="1" max="2000" value="500" GridPane.rowIndex="7"
                  GridPane.columnIndex="1" showTickLabels="true" majorTickUnit="Infinity"/>
-
-        <Label text="Visible Color" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-        <ColorPicker fx:id="visibleColorPicker" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
-
-        <Label text="Obstructed Color" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
-        <ColorPicker fx:id="obstructedColorPicker" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
-
-        <Label text="Frustum Outline Color" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
-        <ColorPicker fx:id="frustumColorPicker" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
     </GridPane>
 </StackPane>
