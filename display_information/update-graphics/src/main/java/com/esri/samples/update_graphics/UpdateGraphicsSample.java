@@ -160,14 +160,14 @@ public class UpdateGraphicsSample extends Application {
       mapView.setOnMouseClicked(e -> {
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
 
-          // create a point from location clicked
-          mapViewPoint = new Point2D(e.getX(), e.getY());
-
           // clear any selected graphic
           graphicsOverlay.clearSelection();
 
           // set the cursor to default
           mapView.setCursor(Cursor.DEFAULT);
+
+          // create a point from location clicked
+          mapViewPoint = new Point2D(e.getX(), e.getY());
 
           // identify graphics on the graphics overlay
           identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
