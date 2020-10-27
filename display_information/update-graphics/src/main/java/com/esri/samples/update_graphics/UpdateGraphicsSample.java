@@ -27,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -216,6 +217,19 @@ public class UpdateGraphicsSample extends Application {
 
           // update the location of the graphic to the dragged location
           selectedGraphic.setGeometry(mapPoint);
+          mapView.requestFocus();
+        }
+      });
+
+      mapView.setOnKeyPressed(e -> {
+        // if the user presses the Escape key
+        if (e.getCode() == KeyCode.ESCAPE) {
+          // set the cursor to default
+          mapView.setCursor(Cursor.DEFAULT);
+
+          // de-select the graphic to stop moving it
+          selectedGraphic.setSelected(false);
+          disableUI(true);
         }
       });
 
