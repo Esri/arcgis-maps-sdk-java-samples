@@ -2,6 +2,6 @@
   -fx-text-fill: white;
 }
 
-.panel-region .check-box {
+#closedSublayerCheckbox  {
    -fx-text-fill: white;
 }
