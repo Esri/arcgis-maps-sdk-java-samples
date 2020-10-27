@@ -20,6 +20,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -41,6 +42,7 @@ import java.util.Optional;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -53,7 +55,6 @@ public class UpdateGraphicsSample extends Application {
 
   private boolean isUpdateLocationActive;
   private List<SimpleMarkerSymbol> markers;
-  private Button updateLocationButton;
   private Button updateDescriptionButton;
   private ComboBox<String> symbolBox;
 
@@ -62,6 +63,7 @@ public class UpdateGraphicsSample extends Application {
   private Graphic selectedGraphic;
   private GraphicsOverlay graphicsOverlay;
   private ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
+  private Point2D mapViewPoint;
 
   // colors for symbols
   private static final int PURPLE = 0xFF800080;
@@ -90,18 +92,15 @@ public class UpdateGraphicsSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
               Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 150);
+      controlsVBox.setMaxSize(180, 100);
       controlsVBox.getStyleClass().add("panel-region");
 
       // create buttons for user interaction
-      updateLocationButton = new Button("Update Location");
       updateDescriptionButton = new Button("Update Description");
-      updateLocationButton.setMaxWidth(Double.MAX_VALUE);
       updateDescriptionButton.setMaxWidth(Double.MAX_VALUE);
-      updateLocationButton.setDisable(true);
       updateDescriptionButton.setDisable(true);
 
-      // create section for combo box
+      // create combo box
       Label symbolLabel = new Label("Update Symbol:");
       symbolLabel.getStyleClass().add("panel-label");
       symbolBox = new ComboBox<>();
@@ -114,11 +113,12 @@ public class UpdateGraphicsSample extends Application {
       symbolBox.showingProperty().addListener((obs, wasShowing, isShowing) -> {
         if (selectedGraphic.isSelected() && !isShowing) {
           selectedGraphic.setSymbol(markers.get(symbolBox.getSelectionModel().getSelectedIndex()));
+          isUpdateLocationActive = false;
         }
       });
 
-      // add label, dropdown and buttons to the control panel
-      controlsVBox.getChildren().addAll(updateLocationButton, updateDescriptionButton, symbolLabel, symbolBox);
+      // add label, combo box and buttons to the control panel
+      controlsVBox.getChildren().addAll(updateDescriptionButton, symbolLabel, symbolBox);
 
       // create a ArcGISMap with basemap light gray canvas
       map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
@@ -135,13 +135,6 @@ public class UpdateGraphicsSample extends Application {
 
       // create default graphics for graphics overlay
       createGraphics();
-
-      // when clicked allow user to move graphic's location
-      updateLocationButton.setOnAction(e -> {
-        if (selectedGraphic.isSelected()) {
-          isUpdateLocationActive = true;
-        }
-      });
 
       updateDescriptionButton.setOnAction(e -> {
         if (selectedGraphic.isSelected()) {
@@ -167,39 +160,62 @@ public class UpdateGraphicsSample extends Application {
 
       mapView.setOnMouseClicked(e -> {
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
-          // clear any selected graphic
-          graphicsOverlay.clearSelection();
 
           // create a point from location clicked
-          Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
+          mapViewPoint = new Point2D(e.getX(), e.getY());
 
-          if (isUpdateLocationActive) {
-            // add new location to selected graphic
-            Point mapPoint = mapView.screenToLocation(mapViewPoint);
-            selectedGraphic.setGeometry(mapPoint);
-            isUpdateLocationActive = false;
-          } else {
-            // identify the graphic that was selected
+          // if the graphic is not being moved
+          if (isUpdateLocationActive == false) {
+
+            // clear any selected graphic
+            graphicsOverlay.clearSelection();
+
+            // set the cursor to default
+            mapView.setCursor(Cursor.DEFAULT);
+
+            // identify graphics on the graphics overlay
             identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
 
             identifyGraphics.addDoneListener(() -> {
               try {
                 if (!identifyGraphics.get().getGraphics().isEmpty()) {
-                  // store the selected graphic
+                  // get the first identified graphic
                   selectedGraphic = identifyGraphics.get().getGraphics().get(0);
+                  // select the identified graphic
                   selectedGraphic.setSelected(true);
+                  // update the drop down box with the identified graphic's current symbol
                   String style = ((SimpleMarkerSymbol) selectedGraphic.getSymbol()).getStyle().toString();
                   symbolBox.getSelectionModel().select(style);
-
-                  enableUI(false);
+                  // show the UI and allow the graphic to be moved
+                  disableUI(false);
+                  if (!selectedGraphic.isSelected()) {
+                    isUpdateLocationActive = true;
+                  }
                 } else {
-                  enableUI(true);
+                  disableUI(true);
                 }
               } catch (Exception x) {
                 new Alert(Alert.AlertType.ERROR, "Error identifying clicked graphic").show();
               }
             });
           }
+        }
+      });
+
+      mapView.setOnMouseDragged(e -> {
+        if (selectedGraphic.isSelected()) {
+          // set the cursor to the move
+          mapView.setCursor(Cursor.MOVE);
+
+          // disable to UI while moving the graphics
+          disableUI(true);
+
+          // create a point from the dragged location
+          mapViewPoint = new Point2D(e.getX(), e.getY());
+          Point mapPoint = mapView.screenToLocation(mapViewPoint);
+
+          // update the location of the graphic to the dragged location
+          selectedGraphic.setGeometry(mapPoint);
         }
       });
 
@@ -221,7 +237,7 @@ public class UpdateGraphicsSample extends Application {
 
     Graphic graphic;
     // create spatial reference for the points
-    SpatialReference spatialReference = SpatialReference.create(4326);
+    SpatialReference spatialReference = SpatialReferences.getWgs84();
 
     // create points to place markers
     List<Point> points = new ArrayList<>();
@@ -260,10 +276,14 @@ public class UpdateGraphicsSample extends Application {
     }
   }
 
-  private void enableUI(boolean enable) {
-    updateDescriptionButton.setDisable(enable);
-    updateLocationButton.setDisable(enable);
-    symbolBox.setDisable(enable);
+  /**
+   * Disables the visibility of the UI controls
+   *
+   * @param disable The visibility of the UI
+   */
+  private void disableUI(boolean disable) {
+    updateDescriptionButton.setDisable(disable);
+    symbolBox.setDisable(disable);
   }
 
   /**
@@ -286,5 +306,4 @@ public class UpdateGraphicsSample extends Application {
 
     Application.launch(args);
   }
-
 }
