@@ -54,7 +54,6 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 public class UpdateGraphicsSample extends Application {
 
-  private boolean isUpdateLocationActive;
   private List<SimpleMarkerSymbol> markers;
   private Button updateDescriptionButton;
   private ComboBox<String> symbolBox;
@@ -114,7 +113,6 @@ public class UpdateGraphicsSample extends Application {
       symbolBox.showingProperty().addListener((obs, wasShowing, isShowing) -> {
         if (selectedGraphic.isSelected() && !isShowing) {
           selectedGraphic.setSymbol(markers.get(symbolBox.getSelectionModel().getSelectedIndex()));
-          isUpdateLocationActive = false;
         }
       });
 
@@ -165,41 +163,34 @@ public class UpdateGraphicsSample extends Application {
           // create a point from location clicked
           mapViewPoint = new Point2D(e.getX(), e.getY());
 
-          // if the graphic is not being moved
-          if (isUpdateLocationActive == false) {
+          // clear any selected graphic
+          graphicsOverlay.clearSelection();
 
-            // clear any selected graphic
-            graphicsOverlay.clearSelection();
+          // set the cursor to default
+          mapView.setCursor(Cursor.DEFAULT);
 
-            // set the cursor to default
-            mapView.setCursor(Cursor.DEFAULT);
+          // identify graphics on the graphics overlay
+          identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
 
-            // identify graphics on the graphics overlay
-            identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
-
-            identifyGraphics.addDoneListener(() -> {
-              try {
-                if (!identifyGraphics.get().getGraphics().isEmpty()) {
-                  // get the first identified graphic
-                  selectedGraphic = identifyGraphics.get().getGraphics().get(0);
-                  // select the identified graphic
-                  selectedGraphic.setSelected(true);
-                  // update the drop down box with the identified graphic's current symbol
-                  String style = ((SimpleMarkerSymbol) selectedGraphic.getSymbol()).getStyle().toString();
-                  symbolBox.getSelectionModel().select(style);
-                  // show the UI and allow the graphic to be moved
-                  disableUI(false);
-                  if (!selectedGraphic.isSelected()) {
-                    isUpdateLocationActive = true;
-                  }
-                } else {
-                  disableUI(true);
-                }
-              } catch (Exception x) {
-                new Alert(Alert.AlertType.ERROR, "Error identifying clicked graphic").show();
+          identifyGraphics.addDoneListener(() -> {
+            try {
+              if (!identifyGraphics.get().getGraphics().isEmpty()) {
+                // get the first identified graphic
+                selectedGraphic = identifyGraphics.get().getGraphics().get(0);
+                // select the identified graphic
+                selectedGraphic.setSelected(true);
+                // update the drop down box with the identified graphic's current symbol
+                String style = ((SimpleMarkerSymbol) selectedGraphic.getSymbol()).getStyle().toString();
+                symbolBox.getSelectionModel().select(style);
+                // show the UI
+                disableUI(false);
+              } else {
+                disableUI(true);
               }
-            });
-          }
+            } catch (Exception x) {
+              new Alert(Alert.AlertType.ERROR, "Error identifying clicked graphic").show();
+            }
+          });
         }
       });
 
@@ -208,7 +199,7 @@ public class UpdateGraphicsSample extends Application {
           // set the cursor to the move
           mapView.setCursor(Cursor.MOVE);
 
-          // disable to UI while moving the graphics
+          // disable to UI while moving the graphic
           disableUI(true);
 
           // create a point from the dragged location
@@ -293,7 +284,7 @@ public class UpdateGraphicsSample extends Application {
   /**
    * Disables the visibility of the UI controls
    *
-   * @param disable The visibility of the UI
+   * @param disable visibility of the UI
    */
   private void disableUI(boolean disable) {
     updateDescriptionButton.setDisable(disable);
