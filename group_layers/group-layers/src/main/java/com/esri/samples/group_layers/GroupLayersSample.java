@@ -46,7 +46,8 @@ public class GroupLayersSample extends Application {
   private SceneView sceneView;
   // keep loadables in scope to avoid garbage collection
   private ArcGISScene scene;
-  private GroupLayer groupLayer;
+  private GroupLayer projectAreaGroupLayer;
+  private GroupLayer buildingsGroupLayer;
 
   @Override
   public void start(Stage stage) {
@@ -86,18 +87,21 @@ public class GroupLayersSample extends Application {
       FeatureLayer devProjectArea = new FeatureLayer(new ServiceFeatureTable("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevelopmentProjectArea/FeatureServer/0"));
 
       // create a group layer from scratch by adding the layers as children
-      groupLayer = new GroupLayer();
-      groupLayer.setName("Group: Dev A");
-      groupLayer.getLayers().addAll(Arrays.asList(devATrees, devAPathways, devABuildings));
+      projectAreaGroupLayer = new GroupLayer();
+      projectAreaGroupLayer.setName("Project area group");
+      projectAreaGroupLayer.getLayers().addAll(Arrays.asList(devProjectArea, devATrees, devAPathways));
 
-      // add the group layer and other layers to the scene as operational layers
-      scene.getOperationalLayers().addAll(Arrays.asList(groupLayer, devBBuildings, devProjectArea));
+      buildingsGroupLayer = new GroupLayer();
+      buildingsGroupLayer.setName("Buildings group");
+      buildingsGroupLayer.getLayers().addAll(Arrays.asList(devABuildings, devBBuildings));
+
+      scene.getOperationalLayers().addAll(Arrays.asList(projectAreaGroupLayer, buildingsGroupLayer));
 
       // zoom to the extent of the group layer when the child layers are loaded
-      groupLayer.getLayers().forEach(childLayer ->
+      projectAreaGroupLayer.getLayers().forEach(childLayer ->
         childLayer.addDoneLoadingListener(() -> {
           if (childLayer.getLoadStatus() == LoadStatus.LOADED) {
-            sceneView.setViewpointCamera(new Camera(groupLayer.getFullExtent().getCenter(), 700, 0, 60, 0));
+            sceneView.setViewpointCamera(new Camera(projectAreaGroupLayer.getFullExtent().getCenter(), 700, 0, 60, 0));
           }
         })
       );
