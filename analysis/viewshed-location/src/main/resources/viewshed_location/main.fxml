@@ -47,7 +47,7 @@
         <ToggleButton fx:id="visibilityToggle" selected="true" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
         <Label text="Frustum" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <ToggleButton fx:id="frustumToggle" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <ToggleButton fx:id="frustumToggle" selected="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
         <Label text="Heading" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <Slider fx:id="headingSlider" value="10" max="360" GridPane.rowIndex="2" GridPane.columnIndex="1"

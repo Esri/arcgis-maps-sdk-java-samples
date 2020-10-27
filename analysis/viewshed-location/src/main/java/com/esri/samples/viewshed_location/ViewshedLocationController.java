@@ -79,8 +79,9 @@ public class ViewshedLocationController {
     // set the colors of the visible and obstructed areas
     Viewshed.setVisibleColor(0xCC00FF00);
     Viewshed.setObstructedColor(0xCCFF0000);
-    // set the color of the frustum outline
+    // set the color and show the frustum outline
     Viewshed.setFrustumOutlineColor(0xCC0000FF);
+    viewshed.setFrustumOutlineVisible(true);
 
     // set the camera
     Camera camera = new Camera(location, 200.0, 20.0, 70.0, 0.0);
