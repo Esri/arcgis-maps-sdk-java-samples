@@ -10,7 +10,7 @@ Workflows often progress in discrete stages, with each stage requiring the alloc
 
 ## How to use the sample
 
-Upon opening the sample, you will be prompted to enter credentials for the service (un: editor01 / pwd: editor01.password). Once loaded, the map will zoom to the extent of the feature layer. The current version is indicated in the top left corner of the map. You can create a new version by specifying the version information (name, access, and description) in the form in the top right corner, and then clicking "Create version". See the *Additional Information* section for restrictions on the version name.
+Once loaded, the map will zoom to the extent of the feature layer. The current version is indicated in the top left corner of the map. You can create a new version by specifying the version information (name, access, and description) in the form in the top right corner, and then clicking "Create version". See the *Additional Information* section for restrictions on the version name.
 
 Select a feature using the primary mouse button to edit an attribute and/or click again with the secondary mouse button to relocate the point.
 
@@ -43,10 +43,6 @@ Click the "Switch version" button in the top left corner to switch back and fort
 The feature layer used in this sample is [Damage to commercial buildings](https://sampleserver7.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0) located in Naperville, Illinois.
 
 ## Additional information
-
-Credentials:
-- Username: editor01
-- Password: editor01.password
 
 The name of the version must meet the following criteria:
 
