@@ -16,8 +16,8 @@ public class LayerTreeCell extends TreeCell<Layer> {
     super.updateItem(layer, empty);
     if (!empty) {
 
-      // use the layer's name for the text
-      setText(layer.getName());
+      // set the label to the layer's name
+      setText(formatName(layer.getName()));
 
       if (layer.getName().equals("DevA_BuildingShells") || layer.getName().equals("DevB_BuildingShells")) {
 
@@ -42,6 +42,29 @@ public class LayerTreeCell extends TreeCell<Layer> {
     } else {
       setText(null);
       setGraphic(null);
+    }
+  }
+
+  /**
+   * Format the layer's name property to a user-friendly string.
+   *
+   * @param layerName the name of the layer
+   * @return a formatted string
+   */
+  private String formatName(String layerName) {
+    switch (layerName) {
+      case "DevA_Trees":
+        return "Trees";
+      case "DevA_Pathways":
+        return "Pathways";
+      case "DevA_BuildingShells":
+        return "Buildings A";
+      case "DevB_BuildingShells":
+        return "Buildings B";
+      case "DevelopmentProjectArea":
+        return "Project Area";
+      default:
+        return layerName;
     }
   }
 }
