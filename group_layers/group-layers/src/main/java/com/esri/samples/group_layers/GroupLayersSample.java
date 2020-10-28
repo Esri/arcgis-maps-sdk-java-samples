@@ -23,6 +23,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.StackPane;
@@ -32,6 +33,7 @@ import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.GroupLayer;
+import com.esri.arcgisruntime.layers.GroupVisibilityMode;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
@@ -43,11 +45,9 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 
 public class GroupLayersSample extends Application {
 
+  private GroupLayer projectAreaGroupLayer; // keep loadable in scope to avoid garbage collection
   private SceneView sceneView;
-  // keep loadables in scope to avoid garbage collection
-  private ArcGISScene scene;
-  private GroupLayer projectAreaGroupLayer;
-  private GroupLayer buildingsGroupLayer;
+  static ToggleGroup buildingsToggleGroup;
 
   @Override
   public void start(Stage stage) {
@@ -70,7 +70,7 @@ public class GroupLayersSample extends Application {
       stackPane.getChildren().add(sceneView);
 
       // create a scene with a basemap and add it to the scene view
-      scene = new ArcGISScene();
+      ArcGISScene scene = new ArcGISScene();
       scene.setBasemap(Basemap.createImagery());
       sceneView.setArcGISScene(scene);
 
@@ -86,18 +86,21 @@ public class GroupLayersSample extends Application {
       FeatureLayer devAPathways = new FeatureLayer(new ServiceFeatureTable(" https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Pathways/FeatureServer/1"));
       FeatureLayer devProjectArea = new FeatureLayer(new ServiceFeatureTable("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevelopmentProjectArea/FeatureServer/0"));
 
-      // create a group layer from scratch by adding the layers as children
+      // create two group layers, add layers and set the visibility mode
       projectAreaGroupLayer = new GroupLayer();
       projectAreaGroupLayer.setName("Project area group");
       projectAreaGroupLayer.getLayers().addAll(Arrays.asList(devProjectArea, devATrees, devAPathways));
+      projectAreaGroupLayer.setVisibilityMode(GroupVisibilityMode.INDEPENDENT);
 
-      buildingsGroupLayer = new GroupLayer();
+      GroupLayer buildingsGroupLayer = new GroupLayer();
       buildingsGroupLayer.setName("Buildings group");
       buildingsGroupLayer.getLayers().addAll(Arrays.asList(devABuildings, devBBuildings));
+      buildingsGroupLayer.setVisibilityMode(GroupVisibilityMode.EXCLUSIVE);
 
+      // add the group layers to the scene operational layers
       scene.getOperationalLayers().addAll(Arrays.asList(projectAreaGroupLayer, buildingsGroupLayer));
 
-      // zoom to the extent of the group layer when the child layers are loaded
+      // zoom to the extent of the project area group layer when the child layers are loaded
       projectAreaGroupLayer.getLayers().forEach(childLayer ->
         childLayer.addDoneLoadingListener(() -> {
           if (childLayer.getLoadStatus() == LoadStatus.LOADED) {
@@ -115,6 +118,9 @@ public class GroupLayersSample extends Application {
       StackPane.setAlignment(layerTreeView, Pos.TOP_RIGHT);
       StackPane.setMargin(layerTreeView, new Insets(10));
       stackPane.getChildren().add(layerTreeView);
+
+      // create a toggle group for the tree view UI
+      buildingsToggleGroup = new ToggleGroup();
 
       // display each layer with a custom tree cell
       layerTreeView.setCellFactory(p -> new LayerTreeCell());
@@ -173,5 +179,4 @@ public class GroupLayersSample extends Application {
 
     Application.launch(args);
   }
-
 }
