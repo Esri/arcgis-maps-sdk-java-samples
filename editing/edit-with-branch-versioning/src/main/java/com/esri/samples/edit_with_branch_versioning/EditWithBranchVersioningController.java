@@ -47,8 +47,7 @@ import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.security.AuthenticationManager;
-import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
+import com.esri.arcgisruntime.security.UserCredential;
 
 public class EditWithBranchVersioningController {
 
@@ -91,13 +90,17 @@ public class EditWithBranchVersioningController {
         }
       });
 
-      // handle authentication for the service geodatabase
-      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
-
-      // create and load a service geodatabase
+      // create a service geodatabase
       serviceGeodatabase = new ServiceGeodatabase("https://sampleserver7.arcgisonline" +
         ".com/arcgis/rest/services/DamageAssessment/FeatureServer");
+
+      // set the user credentials required to authenticate with the service geodatabase
+      UserCredential userCredential = new UserCredential("editor01", "editor01.password");
+      serviceGeodatabase.setCredential(userCredential);
+
+      // load the service geodatabase
       serviceGeodatabase.loadAsync();
+
       serviceGeodatabase.addDoneLoadingListener(() -> {
         if (serviceGeodatabase.getLoadStatus() == LoadStatus.LOADED) {
 
