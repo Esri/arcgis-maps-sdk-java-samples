@@ -100,7 +100,7 @@ public class UpdateGraphicsSample extends Application {
       updateDescriptionButton.setMaxWidth(Double.MAX_VALUE);
       updateDescriptionButton.setDisable(true);
 
-      // create combo box
+      // create combo box for the UI
       Label symbolLabel = new Label("Update Symbol:");
       symbolLabel.getStyleClass().add("panel-label");
       symbolBox = new ComboBox<>();
@@ -116,7 +116,7 @@ public class UpdateGraphicsSample extends Application {
         }
       });
 
-      // add label, combo box and buttons to the control panel
+      // add the button, label, and combo box to the control panel
       controlsVBox.getChildren().addAll(updateDescriptionButton, symbolLabel, symbolBox);
 
       // create a ArcGISMap with basemap light gray canvas
