@@ -27,7 +27,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -58,11 +57,9 @@ public class UpdateGraphicsSample extends Application {
   private Button updateDescriptionButton;
   private ComboBox<String> symbolBox;
 
-  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
-  private Graphic selectedGraphic;
+  private Graphic identifiedGraphic = null;
   private GraphicsOverlay graphicsOverlay;
-  private ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
   private Point2D mapViewPoint;
 
   // colors for symbols
@@ -111,8 +108,8 @@ public class UpdateGraphicsSample extends Application {
 
       // set the symbol of the graphic
       symbolBox.showingProperty().addListener((obs, wasShowing, isShowing) -> {
-        if (selectedGraphic.isSelected() && !isShowing) {
-          selectedGraphic.setSymbol(markers.get(symbolBox.getSelectionModel().getSelectedIndex()));
+        if (identifiedGraphic.isSelected() && !isShowing) {
+          identifiedGraphic.setSymbol(markers.get(symbolBox.getSelectionModel().getSelectedIndex()));
         }
       });
 
@@ -120,7 +117,7 @@ public class UpdateGraphicsSample extends Application {
       controlsVBox.getChildren().addAll(updateDescriptionButton, symbolLabel, symbolBox);
 
       // create a ArcGISMap with basemap light gray canvas
-      map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
+      ArcGISMap map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS, 56.075844, -2.681572, 13);
 
       // create a map view and set the map to it
       mapView = new MapView();
@@ -136,9 +133,9 @@ public class UpdateGraphicsSample extends Application {
       createGraphics();
 
       updateDescriptionButton.setOnAction(e -> {
-        if (selectedGraphic.isSelected()) {
+        if (identifiedGraphic.isSelected()) {
           // get attributes from selected graphic
-          java.util.Map<String, Object> attributes = selectedGraphic.getAttributes();
+          java.util.Map<String, Object> attributes = identifiedGraphic.getAttributes();
 
           // create input dialog
           TextInputDialog dialog = new TextInputDialog();
@@ -159,30 +156,30 @@ public class UpdateGraphicsSample extends Application {
 
       mapView.setOnMouseClicked(e -> {
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+          // set the cursor to default
+          mapView.setCursor(Cursor.DEFAULT);
 
           // clear any selected graphic
           graphicsOverlay.clearSelection();
 
-          // set the cursor to default
-          mapView.setCursor(Cursor.DEFAULT);
-
-          // create a point from location clicked
+          // create a point where the user clicked
           mapViewPoint = new Point2D(e.getX(), e.getY());
 
           // identify graphics on the graphics overlay
-          identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
+          ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics =
+            mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
 
           identifyGraphics.addDoneListener(() -> {
             try {
               if (!identifyGraphics.get().getGraphics().isEmpty()) {
                 // get the first identified graphic
-                selectedGraphic = identifyGraphics.get().getGraphics().get(0);
-                // select the identified graphic
-                selectedGraphic.setSelected(true);
+                identifiedGraphic = identifyGraphics.get().getGraphics().get(0);
+                // select the graphic
+                identifiedGraphic.setSelected(true);
+
                 // update the drop down box with the identified graphic's current symbol
-                String style = ((SimpleMarkerSymbol) selectedGraphic.getSymbol()).getStyle().toString();
+                String style = ((SimpleMarkerSymbol) identifiedGraphic.getSymbol()).getStyle().toString();
                 symbolBox.getSelectionModel().select(style);
-                // show the UI
                 disableUI(false);
               } else {
                 disableUI(true);
@@ -195,32 +192,16 @@ public class UpdateGraphicsSample extends Application {
       });
 
       mapView.setOnMouseDragged(e -> {
-        if (selectedGraphic.isSelected()) {
+        if (identifiedGraphic.isSelected() && identifiedGraphic != null) {
           // set the cursor to the move
           mapView.setCursor(Cursor.MOVE);
-
-          // disable to UI while moving the graphic
-          disableUI(true);
 
           // create a point from the dragged location
           mapViewPoint = new Point2D(e.getX(), e.getY());
           Point mapPoint = mapView.screenToLocation(mapViewPoint);
 
           // update the location of the graphic to the dragged location
-          selectedGraphic.setGeometry(mapPoint);
-          mapView.requestFocus();
-        }
-      });
-
-      mapView.setOnKeyPressed(e -> {
-        // if the user presses the Escape key
-        if (e.getCode() == KeyCode.ESCAPE) {
-          // set the cursor to default
-          mapView.setCursor(Cursor.DEFAULT);
-
-          // de-select the graphic to stop moving it
-          selectedGraphic.setSelected(false);
-          disableUI(true);
+          identifiedGraphic.setGeometry(mapPoint);
         }
       });
 
