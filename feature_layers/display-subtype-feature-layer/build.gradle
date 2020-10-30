@@ -32,7 +32,7 @@ configurations {
 
 dependencies {
     compile 'commons-io:commons-io:2.4'
-    compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
+    implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
