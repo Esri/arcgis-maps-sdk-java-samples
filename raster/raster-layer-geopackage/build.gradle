@@ -67,7 +67,7 @@ task productionZip(type: Zip) {
         into "samples-data"
     }
     from copyNatives
-    from jar.destinationDir
+    from jar.destinationDirectory
     into (project.name)
     baseName = project.name
 }

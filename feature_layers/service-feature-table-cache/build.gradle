@@ -64,7 +64,7 @@ jar {
 task productionZip(type: Zip) {
     group = 'distribution'
     from copyNatives
-    from jar.destinationDir
+    from jar.destinationDirectory
     into (project.name)
     baseName = project.name
 }
