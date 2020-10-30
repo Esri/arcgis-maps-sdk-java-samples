@@ -174,12 +174,12 @@ public class UpdateGraphicsSample extends Application {
               if (!identifyGraphics.get().getGraphics().isEmpty()) {
                 // get the first identified graphic
                 identifiedGraphic = identifyGraphics.get().getGraphics().get(0);
-                // select the graphic
+                // select the identified graphic
                 identifiedGraphic.setSelected(true);
-
                 // update the drop down box with the identified graphic's current symbol
                 String style = ((SimpleMarkerSymbol) identifiedGraphic.getSymbol()).getStyle().toString();
                 symbolBox.getSelectionModel().select(style);
+                // show the UI
                 disableUI(false);
               } else {
                 disableUI(true);
