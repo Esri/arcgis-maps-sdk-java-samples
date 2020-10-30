@@ -23,6 +23,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -45,7 +46,9 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 
 public class GroupLayersSample extends Application {
 
+  private GroupLayer buildingsGroupLayer; // keep loadable in scope to avoid garbage collection
   private GroupLayer projectAreaGroupLayer; // keep loadable in scope to avoid garbage collection
+
   private SceneView sceneView;
   static ToggleGroup buildingsToggleGroup;
 
@@ -79,39 +82,49 @@ public class GroupLayersSample extends Application {
       surface.getElevationSources().add(new ArcGISTiledElevationSource("https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
       scene.setBaseSurface(surface);
 
-      // create different types of layers
-      ArcGISSceneLayer devABuildings = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer");
-      ArcGISSceneLayer devBBuildings = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevB_BuildingShells/SceneServer");
-      ArcGISSceneLayer devATrees = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Trees/SceneServer");
-      FeatureLayer devAPathways = new FeatureLayer(new ServiceFeatureTable(" https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Pathways/FeatureServer/1"));
-      FeatureLayer devProjectArea = new FeatureLayer(new ServiceFeatureTable("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevelopmentProjectArea/FeatureServer/0"));
-
-      // create two group layers, add layers and set the visibility mode
+      // create two group layers, set the visibility modes and add layers
       projectAreaGroupLayer = new GroupLayer();
       projectAreaGroupLayer.setName("Project area group");
-      projectAreaGroupLayer.getLayers().addAll(Arrays.asList(devProjectArea, devATrees, devAPathways));
       projectAreaGroupLayer.setVisibilityMode(GroupVisibilityMode.INDEPENDENT);
+      projectAreaGroupLayer.getLayers().addAll(Arrays.asList(
+        (new FeatureLayer(new ServiceFeatureTable("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevelopmentProjectArea/FeatureServer/0"))),
+        (new FeatureLayer(new ServiceFeatureTable("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Pathways/FeatureServer/1"))),
+        (new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Trees/SceneServer"))
+      ));
 
-      GroupLayer buildingsGroupLayer = new GroupLayer();
+      buildingsGroupLayer = new GroupLayer();
       buildingsGroupLayer.setName("Buildings group");
-      buildingsGroupLayer.getLayers().addAll(Arrays.asList(devABuildings, devBBuildings));
       buildingsGroupLayer.setVisibilityMode(GroupVisibilityMode.EXCLUSIVE);
+      buildingsGroupLayer.getLayers().addAll(Arrays.asList(
+        (new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer")),
+        (new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevB_BuildingShells/SceneServer"))
+      ));
 
-      // add the group layers to the scene operational layers
-      scene.getOperationalLayers().addAll(Arrays.asList(projectAreaGroupLayer, buildingsGroupLayer));
-
-      // zoom to the extent of the project area group layer when the child layers are loaded
-      projectAreaGroupLayer.getLayers().forEach(childLayer ->
-        childLayer.addDoneLoadingListener(() -> {
-          if (childLayer.getLoadStatus() == LoadStatus.LOADED) {
+      // Display an alert if the child layers in the group layers fail to load
+      projectAreaGroupLayer.getLayers().forEach(layer ->
+        layer.addDoneLoadingListener(() -> {
+          if (layer.getLoadStatus() == LoadStatus.LOADED) {
+            // zoom to the extent of the project area group layer when the child layers are loaded
             sceneView.setViewpointCamera(new Camera(projectAreaGroupLayer.getFullExtent().getCenter(), 700, 0, 60, 0));
+          } else new Alert(Alert.AlertType.ERROR, "Layer failed to load:\n" + layer.getLoadError().getCause().getMessage()).show();
+        })
+      );
+
+      buildingsGroupLayer.getLayers().forEach(layer ->
+        layer.addDoneLoadingListener(() -> {
+          if (layer.getLoadStatus() != LoadStatus.LOADED) {
+            new Alert(Alert.AlertType.ERROR, "Layer failed to load:\n" + layer.getLoadError().getCause().getMessage()).show();
           }
         })
       );
 
+      // add the group layers to the scene operational layers
+      scene.getOperationalLayers().addAll(Arrays.asList(projectAreaGroupLayer, buildingsGroupLayer));
+
       // create a JavaFX tree view to show the layers in the scene
       TreeView<Layer> layerTreeView = new TreeView<>();
       layerTreeView.setMaxSize(250, 200);
+      layerTreeView.setPadding(new Insets(10, 0, 0, 5));
       TreeItem<Layer> rootTreeItem = new TreeItem<>();
       layerTreeView.setRoot(rootTreeItem);
       layerTreeView.setShowRoot(false);

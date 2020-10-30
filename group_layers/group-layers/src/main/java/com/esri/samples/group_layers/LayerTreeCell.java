@@ -7,7 +7,8 @@ import javafx.scene.control.TreeCell;
 import com.esri.arcgisruntime.layers.Layer;
 
 /**
- * A custom tree cell for displaying a layer in a tree view. Includes a check box for toggling the layer's visibility.
+ * A custom tree cell for displaying a layer in a tree view. Includes a check box or radio button
+ * for toggling the layer's visibility.
  */
 public class LayerTreeCell extends TreeCell<Layer> {
 
