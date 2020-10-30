@@ -66,7 +66,7 @@ task productionZip(type: Zip) {
     from copyNatives
     from jar.destinationDirectory
     into(project.name)
-    baseName = project.name
+    archiveBaseName = project.name
 }
 
 wrapper {
