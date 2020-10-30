@@ -34,7 +34,7 @@ dependencies {
     implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
-    compile 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
+    implementation 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
 }
 
 task copyNatives(type: Copy) {

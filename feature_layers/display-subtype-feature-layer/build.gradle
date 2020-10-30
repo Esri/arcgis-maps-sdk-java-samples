@@ -31,7 +31,7 @@ configurations {
 }
 
 dependencies {
-    compile 'commons-io:commons-io:2.4'
+    implementation 'commons-io:commons-io:2.4'
     implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"

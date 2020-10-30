@@ -34,7 +34,7 @@ dependencies {
     implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
-    compile "com.google.code.gson:gson:2.8.5"
+    implementation "com.google.code.gson:gson:2.8.5"
 }
 
 task copyNatives(type: Copy) {
