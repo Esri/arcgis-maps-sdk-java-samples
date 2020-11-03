@@ -39,13 +39,9 @@ def run_mdl(readme_path: str):
 def run_style_check(dirname: str):
     print("**** README_style_checker ****")
     code1 = sp.call(f'python3 /README_style_checker.py -s "{dirname}"', shell=True)
-    #print("**** title_differ ****")
-    #code2 = sp.call(f'python3 /title_differ.py -s "{dirname}"', shell=True)
-    #print("**** description_differ ****")
-    #code3 = sp.call(f'python3 /description_differ.py -s "{dirname}"', shell=True)
     print("**** metadata_style_checker ****")
-    code4 = sp.call(f'python3 /metadata_style_checker.py -s "{dirname}"', shell=True)
-    return code1 + code4
+    code2 = sp.call(f'python3 /metadata_style_checker.py -s "{dirname}"', shell=True)
+    return code1 + code2
 
 
 def read_json(filenames_json_data):

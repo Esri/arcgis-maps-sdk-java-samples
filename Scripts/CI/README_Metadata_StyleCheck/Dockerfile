@@ -4,10 +4,8 @@ ENV PYTHONUNBUFFERED=1
 # Add scripts for the check.
 ADD entry.py /entry.py
 ADD style.rb /style.rb
-ADD description_differ.py /description_differ.py
 ADD metadata_style_checker.py /metadata_style_checker.py
 ADD README_style_checker.py /README_style_checker.py
-ADD title_differ.py /title_differ.py
 # Install dependencies.
 RUN echo "**** Install Ruby and mdl ****" && \
     apk add --update --no-cache ruby-full && \
