@@ -2,7 +2,7 @@
 
 Display your position on the map and switch between different types of autopan modes.
 
-![Image of display device location with autopan modes](DisplayDeviceLocationWithAutopanModes.png)
+![Image of display device location with autopan modes](DisplayDeviceLocationWithAutopanModes.gif)
 
 ## Use case
 
