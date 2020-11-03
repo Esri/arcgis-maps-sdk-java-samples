@@ -163,7 +163,7 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
         if (event.getButton() == MouseButton.PRIMARY) {
           // if the user has panned away from the location display
           if (locationDisplay.getAutoPanMode() == LocationDisplay.AutoPanMode.OFF) {
-            // set the combo box to "Off"
+            // set the combo box
             comboBox.setValue("Off");
           }
         }
