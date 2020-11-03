@@ -19,6 +19,7 @@ package com.esri.samples.display_device_location_with_autopan_modes;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -81,8 +82,8 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       comboBox.setMaxWidth(Double.MAX_VALUE);
       comboBox.setDisable(true);
       // add the autopan modes to the combo box
-      comboBox.getItems().addAll("Recenter", "Navigation", "Compass", "Off");
-      comboBox.setValue("Recenter");
+      comboBox.getItems().addAll("Re-Center", "Navigation", "Compass", "Off");
+      comboBox.setValue("Re-Center");
 
       // add a label
       Label autopanModeLabel = new Label("Choose an autopan mode:");
