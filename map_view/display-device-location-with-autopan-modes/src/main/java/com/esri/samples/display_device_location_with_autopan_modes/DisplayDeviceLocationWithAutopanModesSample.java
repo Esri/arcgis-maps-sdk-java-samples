@@ -108,7 +108,16 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
       locationDisplay.setInitialZoomScale(1000);
 
-      // toggle the location display visibility on check
+      // enable the checkbox and combo box interactions when the map is loaded
+      map.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          checkBox.setDisable(false);
+          checkBox.setSelected(true);
+          comboBox.setDisable(false);
+
+          // start the location display
+          locationDisplay.startAsync();
+        } else {
           new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
         }
       });
