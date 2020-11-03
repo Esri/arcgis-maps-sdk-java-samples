@@ -28,7 +28,6 @@ Uncheck the box to stop the location display.
 
 ## Relevant API
 
-* ArcGISMap
 * LocationDisplay
 * LocationDisplay.AutoPanMode
 * MapView

@@ -12,7 +12,6 @@
         "map",
         "mobile",
         "navigation",
-        "ArcGISMap",
         "LocationDisplay",
         "LocationDisplay.AutoPanMode",
         "MapView",
@@ -23,7 +22,6 @@
         ""
     ],
     "relevant_apis": [
-        "ArcGISMap",
         "LocationDisplay",
         "LocationDisplay.AutoPanMode",
         "MapView",
