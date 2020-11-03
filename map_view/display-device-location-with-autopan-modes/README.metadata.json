@@ -1,9 +1,9 @@
 {
-    "category": "Map",
-    "description": "Display your current position on the map, as well as switch between different types of auto pan modes.",
+    "category": "Map view",
+    "description": "Display your position on the map and switch between different types of autopan modes.",
     "ignore": false,
     "images": [
-        "DisplayDeviceLocation.png"
+        "DisplayDeviceLocationWithAutopanModes.png"
     ],
     "keywords": [
         "GPS",
@@ -20,7 +20,7 @@
         "SimulationParameters"
     ],
     "redirect_from": [
-        "/java/latest/sample-code/display-a-map.htm"
+        ""
     ],
     "relevant_apis": [
         "ArcGISMap",
@@ -31,7 +31,7 @@
         "SimulationParameters"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/display_device_location/DisplayDeviceLocationSample.java"
+        "src/main/java/com/esri/samples/display_device_location_with_autopan_modes/DisplayDeviceLocationWithAutopanModesSample.java"
     ],
-    "title": "Display device location"
+    "title": "Display device location with autopan modes"
 }

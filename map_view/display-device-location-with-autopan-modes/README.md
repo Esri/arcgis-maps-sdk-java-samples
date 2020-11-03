@@ -10,20 +10,21 @@ When using a map within a GIS, it may be helpful for a user to know their own lo
 
 ## How to use the sample
 
-Click the checkbox to show the location symbol at a simulated location on the map. Select one of the autopan modes from the drop down box:
-
+The sample loads with a symbol marking a simulated location on the map. Explore the available autopan modes by selecting an option from the drop down box :
 * Off - Shows the location with no autopan mode set.
 * Re-Center - In this mode, the map re-centers on the location symbol when the symbol moves outside a "wander extent".
 * Navigation -  This mode is best suited for in-vehicle navigation.
 * Compass - This mode is better suited for waypoint navigation when the user is walking.
 
+Uncheck the box to stop the location display. 
+
 ## How it works
 
 1. Create a `MapView`.
-2. Get the `LocationDisplay` object by calling `getLocationDisplay()` on the `MapView`.
+2. Get the `LocationDisplay` object by calling `getLocationDisplay()` on the map view.
 2. Create a `SimulatedLocationDataSource` and call its `setLocations()` method, passing the route `Polyline` and new `SimulationParameters` as parameters. 
-3. Start the `LocationDisplay` with `startAsync()` to begin receiving location updates.
-5. Use `locationDisplay.setAutoPanMode` to change how the map behaves when location updates are received.
+3. Start the location display with `startAsync()` to begin receiving location updates.
+5. Use `locationDisplay.setAutoPanMode()` to change how the map view behaves when location updates are received.
 
 ## Relevant API
 
@@ -40,4 +41,4 @@ A custom set of points (provided in JSON format) is used to create a `Polyline` 
 
 ## Tags
 
-compass, GPS, location, map, mobile, navigation
+compass, GPS, location, map view, mobile, navigation
