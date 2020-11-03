@@ -27,6 +27,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -71,7 +72,7 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       // create an ArcGISMap with the imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createImagery());
 
-      // create a view and add the ArcGISMap to it
+      // create a map view and add the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -108,13 +109,18 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       locationDisplay.setInitialZoomScale(1000);
 
       // toggle the location display visibility on check
+          new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
+        }
+      });
+
+      // control location display updates and visibility
       checkBox.setOnAction(event -> {
         if (checkBox.isSelected()) {
-          // start the location display
+          // start receiving location updates and display the current location with a default round blue symbol
           locationDisplay.startAsync();
 
         } else {
-          // turn off the location display
+          // stop receiving location updates and displaying location symbol
           locationDisplay.stop();
         }
         // toggle the combo box interactions
@@ -131,7 +137,7 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
           case "Off":
             locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
             break;
-          case "Recenter":
+          case "Re-Center":
             locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
             break;
           case "Navigation":
@@ -143,17 +149,13 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
         }
       });
 
-      // enable the checkbox and combo box interactions when the map is loaded
-      map.addDoneLoadingListener(() -> {
-        if (map.getLoadStatus() == LoadStatus.LOADED) {
-          checkBox.setDisable(false);
-          checkBox.setSelected(true);
-          comboBox.setDisable(false);
-
-          // start the location display
-          locationDisplay.startAsync();
-        } else {
-          new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
+      mapView.setOnMousePressed(event -> {
+        if (event.getButton() == MouseButton.PRIMARY) {
+          // if the user has panned away from the location display
+          if (locationDisplay.getAutoPanMode() == LocationDisplay.AutoPanMode.OFF) {
+            // set the combo box to "Off"
+            comboBox.setValue("Off");
+          }
         }
       });
 
