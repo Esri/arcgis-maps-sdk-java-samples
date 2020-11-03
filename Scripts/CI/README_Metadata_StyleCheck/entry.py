@@ -93,42 +93,40 @@ def main():
 
         path_parts = os.path.normpath(f).split(os.path.sep)
 
-        if len(path_parts) == 3:
+        if len(path_parts) != 3:
             # If the file is not in the root folder for the individual sample, omit.
             # E.g. might be in unrelated folders such as root category folders or '/gradle', '/src' etc.
+            continue
 
-          # Get filename and folder name of the changed sample.
-          filename = os.path.basename(f)
-          dir_path = os.path.dirname(f)
-          l_name = filename.lower()
+        # Get filename and folder name of the changed sample.
+        filename = os.path.basename(f)
+        dir_path = os.path.dirname(f)
+        l_name = filename.lower()
 
-          # Print debug information for current sample.
-          if dir_path not in samples_set:
-              print(f'*** Checking {dir_path} ***')
+        # Print debug information for current sample.
+        if dir_path not in samples_set:
+            print(f'*** Checking {dir_path} ***')
 
-              # Check if the capitalization of doc filenames are correct.
-              if l_name == 'readme.md' and filename != 'README.md':
-                  print(f'Error: {dir_path} filename has wrong capitalization')
-                  return_code += 1
-                  continue
-              if l_name == 'readme.metadata.json' and filename != 'README.metadata.json':
-                  print(f'Error: {dir_path} filename has wrong capitalization')
-                  return_code += 1
-                  continue
+            # Check if the capitalization of doc filenames are correct.
+            if l_name == 'readme.md' and filename != 'README.md':
+                print(f'Error: {dir_path} filename has wrong capitalization')
+                return_code += 1
+                continue
+                
+            if l_name == 'readme.metadata.json' and filename != 'README.metadata.json':
+                print(f'Error: {dir_path} filename has wrong capitalization')
+                return_code += 1
+                continue
 
-              # Run the markdownlint linter on README file.
-              if filename == 'README.md':
-                  # Run the linter on markdown file.
-                  return_code += run_mdl(f)
+            # Run the markdownlint linter on README file.
+            if filename == 'README.md':
+                # Run the linter on markdown file.
+                return_code += run_mdl(f)
 
-              # Run the other Python checks on the whole sample folder.
-              if dir_path not in samples_set:
-                  samples_set.add(dir_path)
-                  return_code += run_style_check(dir_path)
-
-        else:
-          print('No changes detected in root sample directory, exiting checks.')
-          exit(0)
+            # Run the other Python checks on the whole sample folder.
+            if dir_path not in samples_set:
+                samples_set.add(dir_path)
+                return_code += run_style_check(dir_path)
 
     if return_code != 0:
         # Non-zero code occurred during the process.
