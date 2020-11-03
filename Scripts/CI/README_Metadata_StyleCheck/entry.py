@@ -103,6 +103,10 @@ def main():
         dir_path = os.path.dirname(f)
         l_name = filename.lower()
 
+        if l_name != 'readme.md' and l_name != 'readme.metadata.json':
+            # If the file is not a readme or readme.metadata file, omit.
+            continue
+
         # Print debug information for current sample.
         if dir_path not in samples_set:
             print(f'*** Checking {dir_path} ***')
@@ -112,7 +116,7 @@ def main():
                 print(f'Error: {dir_path} filename has wrong capitalization')
                 return_code += 1
                 continue
-                
+
             if l_name == 'readme.metadata.json' and filename != 'README.metadata.json':
                 print(f'Error: {dir_path} filename has wrong capitalization')
                 return_code += 1
