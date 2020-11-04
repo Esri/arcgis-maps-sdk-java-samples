@@ -12,6 +12,7 @@ A field worker may want to update a graphic's properties to adjust which real-wo
 
 Update Graphic's Location:
   - click on a graphic, then drag the graphic to a new location
+  - click again outside of a graphic to de-select it 
 
 Update Graphic's Description:
   - click on a graphic, then click the update description button
