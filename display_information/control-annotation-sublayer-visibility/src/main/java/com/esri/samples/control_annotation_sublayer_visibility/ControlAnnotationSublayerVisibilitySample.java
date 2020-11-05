@@ -70,7 +70,6 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       closedSublayerCheckbox.setSelected(true);
       CheckBox openSublayerCheckbox = new CheckBox();
       openSublayerCheckbox.setSelected(true);
-      openSublayerCheckbox.setStyle("-fx-text-fill: darkgrey");
 
       // create a control panel and label for the checkboxes
       VBox controlsVBox = new VBox(6);
