@@ -100,6 +100,10 @@ public class GroupLayersSample extends Application {
         (new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevB_BuildingShells/SceneServer"))
       ));
 
+      // load the group layers
+      projectAreaGroupLayer.loadAsync();
+      buildingsGroupLayer.loadAsync();
+
       // Display an alert if the child layers in the group layers fail to load
       projectAreaGroupLayer.getLayers().forEach(layer ->
         layer.addDoneLoadingListener(() -> {
@@ -155,17 +159,18 @@ public class GroupLayersSample extends Application {
    */
   private void buildLayersView(TreeItem<Layer> parentItem, List<Layer> operationalLayers) {
     for (Layer layer : operationalLayers) {
-      // load each layer before adding to ensure all metadata is ready for display
-      layer.loadAsync();
+      // check the layer has loaded before creating UI
       layer.addDoneLoadingListener(() -> {
-        // add a tree item for the layer to the parent tree item
-        if (layer.canShowInLegend()) {
-          TreeItem<Layer> layerItem = new TreeItem<>(layer);
-          layerItem.setExpanded(true);
-          parentItem.getChildren().add(layerItem);
-          // if the layer is a group layer, continue building with its children
-          if (layer instanceof GroupLayer && ((GroupLayer) layer).isShowChildrenInLegend()) {
-            buildLayersView(layerItem, ((GroupLayer) layer).getLayers());
+        if (layer.getLoadStatus() == LoadStatus.LOADED) {
+          // add a tree item for the layer to the parent tree item
+          if (layer.canShowInLegend()) {
+            TreeItem<Layer> layerItem = new TreeItem<>(layer);
+            layerItem.setExpanded(true);
+            parentItem.getChildren().add(layerItem);
+            // if the layer is a group layer, continue building with its children
+            if (layer instanceof GroupLayer && ((GroupLayer) layer).isShowChildrenInLegend()) {
+              buildLayersView(layerItem, ((GroupLayer) layer).getLayers());
+            }
           }
         }
       });
