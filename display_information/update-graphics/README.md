@@ -10,16 +10,7 @@ A field worker may want to update a graphic's properties to adjust which real-wo
 
 ## How to use the sample
 
-Update Graphic's Location:
-  - click on a graphic, then drag the graphic to a new location
-  - click again outside of a graphic to de-select it 
-
-Update Graphic's Description:
-  - click on a graphic, then click the update description button
-  - enter a new description and click ok
-
-Update Graphic's Symbol:
-  - click on a graphic, then choose a symbol from the update symbol drop down box
+To update the graphic's location, click on a graphic and then drag it to a new location. Use the "Update Description" button to provide a new description for the graphic, and use the "Update Symbol" drop down menu to choose a new symbol. Click away from the graphic to de-select it. 
 
 ## How it works
 
