@@ -100,10 +100,13 @@ public class ListTransformationsBySuitabilitySample extends Application {
       transformationsListView.setCellFactory(list -> new ListCell<DatumTransformation>() {
 
         @Override
-        protected void updateItem(DatumTransformation transformation, boolean bln) {
+        protected void updateItem(DatumTransformation transformation, boolean isEmpty) {
 
-          super.updateItem(transformation, bln);
-          if (transformation != null) {
+          super.updateItem(transformation, isEmpty);
+          if (isEmpty) {
+            setText(null);
+          }
+          else if (transformation != null) {
             setText(transformation.getName());
           }
         }

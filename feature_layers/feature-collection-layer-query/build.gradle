@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.5'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 group = 'com.esri.samples'
@@ -22,7 +22,7 @@ repositories {
         url 'https://esri.bintray.com/arcgis'
     }
     maven {
-        url 'http://olympus.esri.com/artifactory/arcgisruntime-repo'
+        url 'https://olympus.esri.com/artifactory/arcgisruntime-repo'
     }
 }
 
@@ -31,7 +31,7 @@ configurations {
 }
 
 dependencies {
-    compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
+    implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
@@ -64,9 +64,9 @@ jar {
 task productionZip(type: Zip) {
     group = 'distribution'
     from copyNatives
-    from jar.destinationDir
+    from jar.destinationDirectory
     into (project.name)
-    baseName = project.name
+    archiveBaseName = project.name
 }
 
 wrapper {

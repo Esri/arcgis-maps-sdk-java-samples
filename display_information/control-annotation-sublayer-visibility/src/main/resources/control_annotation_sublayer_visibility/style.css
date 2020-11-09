@@ -1,0 +1,11 @@
+.panel-region .label {
+  -fx-text-fill: white;
+}
+
+#openSublayerCheckbox  {
+   -fx-text-fill: darkgrey;
+}
+
+#closedSublayerCheckbox  {
+   -fx-text-fill: white;
+}
