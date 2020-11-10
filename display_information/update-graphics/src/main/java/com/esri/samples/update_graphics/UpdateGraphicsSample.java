@@ -58,7 +58,7 @@ public class UpdateGraphicsSample extends Application {
   private ComboBox<String> symbolBox;
 
   private MapView mapView;
-  private Graphic identifiedGraphic = null;
+  private Graphic identifiedGraphic;
   private GraphicsOverlay graphicsOverlay;
   private Point2D mapViewPoint;
 
@@ -181,6 +181,19 @@ public class UpdateGraphicsSample extends Application {
                 symbolBox.getSelectionModel().select(style);
                 // show the UI
                 disableUI(false);
+
+                // enable dragging of the identified graphic to move its location
+                mapView.setOnMouseDragged(event -> {
+                  if (identifiedGraphic.isSelected() && identifiedGraphic != null) {
+                    // set the cursor to closed hand to indicate graphic dragging is active
+                    mapView.setCursor(Cursor.CLOSED_HAND);
+                    // create a point from the dragged location
+                    mapViewPoint = new Point2D(event.getX(), event.getY());
+                    Point mapPoint = mapView.screenToLocation(mapViewPoint);
+                    // update the location of the graphic to the dragged location
+                    identifiedGraphic.setGeometry(mapPoint);
+                  } else new Alert(Alert.AlertType.ERROR, "Error selecting graphic").show();
+                });
               } else {
                 disableUI(true);
               }
@@ -188,20 +201,6 @@ public class UpdateGraphicsSample extends Application {
               new Alert(Alert.AlertType.ERROR, "Error identifying clicked graphic").show();
             }
           });
-        }
-      });
-
-      mapView.setOnMouseDragged(e -> {
-        if (identifiedGraphic.isSelected() && identifiedGraphic != null) {
-          // set the cursor to the move
-          mapView.setCursor(Cursor.MOVE);
-
-          // create a point from the dragged location
-          mapViewPoint = new Point2D(e.getX(), e.getY());
-          Point mapPoint = mapView.screenToLocation(mapViewPoint);
-
-          // update the location of the graphic to the dragged location
-          identifiedGraphic.setGeometry(mapPoint);
         }
       });
 
@@ -263,13 +262,13 @@ public class UpdateGraphicsSample extends Application {
   }
 
   /**
-   * Disables the visibility of the UI controls
+   * Disables the visibility of the UI controls.
    *
-   * @param disable visibility of the UI
+   * @param isDisabled visibility of the UI
    */
-  private void disableUI(boolean disable) {
-    updateDescriptionButton.setDisable(disable);
-    symbolBox.setDisable(disable);
+  private void disableUI(boolean isDisabled) {
+    updateDescriptionButton.setDisable(isDisabled);
+    symbolBox.setDisable(isDisabled);
   }
 
   /**
