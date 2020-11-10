@@ -122,7 +122,7 @@ class MetadataCreator:
         self.ignore = False         # Default to False.
         self.images = []            # Populate from folder paths.
         self.keywords = []          # Populate from README.
-        self.redirect_from = []     # Default to empty list.
+        self.redirect_from = ""     # Default to empty string.
         self.relevant_apis = []     # Populate from README.
         self.snippets = []          # Populate from folder paths.
         self.title = ''             # Populate from README.
@@ -267,8 +267,12 @@ def compare_one_metadata(folder_path: str):
         raise err
     else:
         json_file.close()
-    # The special rule not to compare the redirect_from.
-    single_updater.redirect_from = json_data['redirect_from']
+
+    # Specific check to ensure redirect_from is not [""] which breaks the website build
+    if json_data['redirect_from'] != [""]:
+        single_updater.redirect_from = json_data['redirect_from']
+    else:
+        raise Exception('Error in metadata: redirect_from cannot be [""]')
 
     new = single_updater.flush_to_json_string()
     original = json.dumps(json_data, indent=4, sort_keys=True)
