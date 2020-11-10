@@ -159,7 +159,7 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
         }
       });
 
-      mapView.setOnMousePressed(event -> {
+      mapView.setOnMouseClicked(event -> {
         if (event.getButton() == MouseButton.PRIMARY) {
           // if the user has panned away from the location display
           if (locationDisplay.getAutoPanMode() == LocationDisplay.AutoPanMode.OFF) {
