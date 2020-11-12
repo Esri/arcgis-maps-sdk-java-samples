@@ -18,8 +18,7 @@
     "SimulatedLocationDataSource",
     "SimulationParameters"
   ],
-  "redirect_from":
-    "",
+  "redirect_from": "",
   "relevant_apis": [
     "LocationDisplay",
     "LocationDisplay.AutoPanMode",
