@@ -3,7 +3,7 @@
   "description": "Display your position on the map and switch between different types of autopan modes.",
   "ignore": false,
   "images": [
-    "DisplayDeviceLocationWithAutopanModes.png"
+    "DisplayDeviceLocationWithAutopanModes.gif"
   ],
   "keywords": [
     "GPS",
