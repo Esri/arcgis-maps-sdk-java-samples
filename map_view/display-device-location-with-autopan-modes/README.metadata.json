@@ -9,7 +9,7 @@
     "GPS",
     "compass",
     "location",
-    "map",
+    "map view",
     "mobile",
     "navigation",
     "LocationDisplay",
@@ -18,9 +18,8 @@
     "SimulatedLocationDataSource",
     "SimulationParameters"
   ],
-  "redirect_from": [
-    ""
-  ],
+  "redirect_from":
+    "",
   "relevant_apis": [
     "LocationDisplay",
     "LocationDisplay.AutoPanMode",
