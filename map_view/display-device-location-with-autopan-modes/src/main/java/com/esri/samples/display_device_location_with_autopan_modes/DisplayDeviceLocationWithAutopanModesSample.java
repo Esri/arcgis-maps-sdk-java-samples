@@ -19,7 +19,6 @@ package com.esri.samples.display_device_location_with_autopan_modes;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
