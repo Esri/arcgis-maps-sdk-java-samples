@@ -22,7 +22,7 @@ repositories {
         url 'https://esri.jfrog.io/artifactory/arcgis'
     }
     maven {
-        url 'http://olympus.esri.com/artifactory/arcgisruntime-repo'
+        url 'https://olympus.esri.com/artifactory/arcgisruntime-repo'
     }
 }
 
