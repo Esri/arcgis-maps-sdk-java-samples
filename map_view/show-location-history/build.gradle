@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.5'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 group = 'com.esri.samples'
@@ -31,8 +31,8 @@ configurations {
 }
 
 dependencies {
-    compile 'commons-io:commons-io:2.4'
-    compile "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
+    implementation 'commons-io:commons-io:2.4'
+    implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
@@ -65,9 +65,9 @@ jar {
 task productionZip(type: Zip) {
     group = 'distribution'
     from copyNatives
-    from jar.destinationDir
+    from jar.destinationDirectory
     into (project.name)
-    baseName = project.name
+    archivesBaseName = project.name
 }
 
 wrapper {
