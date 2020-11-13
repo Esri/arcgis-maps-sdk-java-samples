@@ -19,7 +19,7 @@ compileJava.options.encoding = 'UTF-8'
 repositories {
     jcenter()
     maven {
-        url 'https://esri.bintray.com/arcgis'
+        url 'https://esri.jfrog.io/artifactory/arcgis'
     }
     maven {
         url 'https://olympus.esri.com/artifactory/arcgisruntime-repo'
