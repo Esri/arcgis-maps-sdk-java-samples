@@ -8,13 +8,15 @@
     "keywords": [
         "group layer",
         "layers",
-        "GroupLayer"
+        "GroupLayer",
+        "GroupVisibilityMode"
     ],
     "redirect_from": [
         "/java/latest/sample-code/group-layers.htm"
     ],
     "relevant_apis": [
-        "GroupLayer"
+        "GroupLayer",
+        "GroupVisibilityMode"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/group_layers/GroupLayersSample.java",
