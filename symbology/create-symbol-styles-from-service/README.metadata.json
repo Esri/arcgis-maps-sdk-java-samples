@@ -1,0 +1,25 @@
+{
+    "category": "Symbology",
+    "description": "",
+    "ignore": false,
+    "images": [
+        ""
+    ],
+    "keywords": [
+        "basemap",
+        "map",
+        "ArcGISMap",
+        "Basemap",
+        "MapView"
+    ],
+    "redirect_from": [],
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "MapView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/create_symbol_styles_from_service/CreateSymbolStylesFromServiceSample.java"
+    ],
+    "title": "Create symbol styles from service"
+}
