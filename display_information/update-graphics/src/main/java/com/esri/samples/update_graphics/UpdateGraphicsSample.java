@@ -16,6 +16,10 @@
 
 package com.esri.samples.update_graphics;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -35,9 +39,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
