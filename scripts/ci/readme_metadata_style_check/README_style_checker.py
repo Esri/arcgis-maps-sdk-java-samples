@@ -11,7 +11,7 @@ import typing
 import argparse
 
 # region Global sets
-# A set of words that get omitted during letter-case checks.
+# A set of words that get omitted during letter-case checks for title and tags.
 exception_proper_nouns = {
     'WmsLayer',
     'ArcGIS Online',
