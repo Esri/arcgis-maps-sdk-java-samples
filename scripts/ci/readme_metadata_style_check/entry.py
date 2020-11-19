@@ -43,10 +43,8 @@ def run_style_check(dirname: str):
     code2 = sp.call(f'python3 /metadata_style_checker.py -s "{dirname}"', shell=True)
     return code1 + code2
 
-
 def read_json(filenames_json_data):
     return [filename for filename in filenames_json_data]
-
 
 def load_json_file(path: str):
     try:
