@@ -34,6 +34,7 @@ categories = {
 def run_mdl(readme_path: str):
     print("**** markdownlint style checker (mdl) ****")
     code = sp.call(f'mdl --style /style.rb "{readme_path}"', shell=True)
+    # Returns 0 if mdl style checks pass. Returns 1 if errors occur.
     return code
 
 def run_style_check(dirname: str):
@@ -41,12 +42,12 @@ def run_style_check(dirname: str):
     code1 = sp.call(f'python3 /README_style_checker.py -s "{dirname}"', shell=True)
     print("**** metadata_style_checker ****")
     code2 = sp.call(f'python3 /metadata_style_checker.py -s "{dirname}"', shell=True)
+    # Adds together exit codes from README_style_checker and metadata_style_checker.
+    # Returns 0 if both style checks pass. Returns > 0 if either fails with an exit code of 1.
     return code1 + code2
-
 
 def read_json(filenames_json_data):
     return [filename for filename in filenames_json_data]
-
 
 def load_json_file(path: str):
     try:
