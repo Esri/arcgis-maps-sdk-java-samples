@@ -39,7 +39,6 @@ def sub_special_char(string: str) -> str:
     :param string: The input string.
     :return: A new string
     """
-    # regex = re.compile('[@_!#$%^&*<>?|/\\}{~:]')
     regex = re.compile(r'[@_!#$%^&*<>?|/\\}{~:]')
     return re.sub(regex, '', string)
 
