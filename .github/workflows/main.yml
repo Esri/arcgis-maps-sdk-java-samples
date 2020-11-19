@@ -49,13 +49,13 @@ jobs:
       #    echo '${{ steps.file_changes.outputs.files_added }}'
       #    echo '${{ steps.file_changes.outputs.files_removed }}'
 
-      # Run the style checks using the scripts in the './Scripts/CI/README_Metadata_StyleCheck' directory
+      # Run the style checks using the scripts in the './scripts/ci/readme_metadata_style_check' directory
       # The scripts will run on any detected changed files from the 'file_changes' step
       - name: Run style checks
-        uses: ./Scripts/CI/README_Metadata_StyleCheck
+        uses: ./scripts/ci/readme_metadata_style_check
         with:
           FILE_PATHS: ${{ steps.file_changes.outputs.files }}
 
       # Runs a single command using the runners shell
       # - name: Run a script with Python
-      #   run: python ./Scripts/README-formatter.py
+      #   run: python ./scripts/README-formatter.py
