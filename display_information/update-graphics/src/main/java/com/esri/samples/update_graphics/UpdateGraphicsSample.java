@@ -193,7 +193,7 @@ public class UpdateGraphicsSample extends Application {
                     Point mapPoint = mapView.screenToLocation(mapViewPoint);
                     // update the location of the graphic to the dragged location
                     identifiedGraphic.setGeometry(mapPoint);
-                  } else new Alert(Alert.AlertType.ERROR, "Error selecting graphic").show();
+                  }
                 });
               } else {
                 disableUI(true);
