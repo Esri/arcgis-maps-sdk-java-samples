@@ -25,40 +25,38 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.internal.jni.CoreSymbolStyle;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
-import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
-import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 
 public class CreateSymbolStylesFromServiceSample extends Application {
 
   private MapView mapView;
-//  UniqueValueRenderer.UniqueValue postal;
-    UniqueValueRenderer.UniqueValue school;
-  Symbol schoolSymbol;
-//  Symbol defaultSymbol;
+  private UniqueValueRenderer.UniqueValue school;
+  private Symbol schoolSymbol;
+  private Symbol parkSymbol;
+  private Symbol cityHallSymbol;
+  private Symbol beachSymbol;
+  Symbol airportSymbol;
+  Symbol airport;
+  Symbol po;
+
+
+  List<SymbolStyleSearchResult> symbolSearchResults;
 
   @Override
   public void start(Stage stage) {
@@ -82,190 +80,129 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a feature layer from a feature service
-      FeatureLayer featureLayer = new FeatureLayer(new ServiceFeatureTable("http://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/LA_County_Points_of_Interest/FeatureServer/0"));
+      // create a feature layer from a service
+      FeatureLayer featureLayer = new FeatureLayer(new ServiceFeatureTable(
+        "http://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/LA_County_Points_of_Interest/FeatureServer/0"));
 
-//      UniqueValueRenderer uniqueRenderer = new UniqueValueRenderer();
+      // create a unique value renderer and add the relevant field from the feature layer to match symbols with
+      UniqueValueRenderer uniqueValueRenderer = new UniqueValueRenderer();
+//      uniqueValueRenderer.setDefaultSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xFFFF0000, 10));
+//      ArrayList<String> fields = new ArrayList<>();
+//      fields.add("cat1");
+//      fields.add("cat2");
+//      fields.add("cat2");
+//      fields.add("cat2");
+//      uniqueValueRenderer.getFieldNames().addAll(fields);
+      uniqueValueRenderer.getFieldNames().add("cat2");
+//      uniqueValueRenderer.getFieldNames().add("cat1");
 
+      // create a simple renderer
+      SimpleRenderer simpleRenderer = new SimpleRenderer();
+
+      // set the renderer on the feature layer
+      featureLayer.setRenderer(uniqueValueRenderer);
+//      featureLayer.setRenderer(simpleRenderer);
+
+      // create a symbol style from a portal
       SymbolStyle symbolStyle = new SymbolStyle("Esri2DPointSymbolsStyle", null);
 
-      SymbolStyleSearchParameters searchParams = new SymbolStyleSearchParameters();
-      searchParams.getKeys().add("school");
-//      searchParams.getKeys().add("post-office");
-//      searchParams.getKeys().add("hexagon-3");
+//      // display an error if the symbol style does not load
+//      symbolStyle.loadAsync();
+//      symbolStyle.addDoneLoadingListener(() -> {
+//          if (symbolStyle.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+//            new Alert(Alert.AlertType.ERROR, "Error: could not load symbol style. Details: \n"
+//              + symbolStyle.getLoadError().getMessage()).show();
+//          }
+//        });
 
-//      List<String> keys = new ArrayList<>();
-//      keys.add("hexagon-3");
+      ///////
+      // below works for manually setting up each symbol, adding multiple categories
+      ///////
 
-      UniqueValueRenderer renderer = new UniqueValueRenderer();
-            Symbol dftSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 12);
+      // create the symbols
 
-
-      ListenableFuture<List<SymbolStyleSearchResult>> searchSymbolResult = symbolStyle.searchSymbolsAsync(searchParams);
-
-      searchSymbolResult.addDoneListener(() -> {
-        try {
-          ListenableFuture<Symbol> symbolResultOne = searchSymbolResult.get().get(0).getSymbolAsync();
-          symbolResultOne.addDoneListener(() -> {
-            try{
-              System.out.println("inside the done listener");
-              schoolSymbol = symbolResultOne.get();
-              school = new UniqueValueRenderer.UniqueValue("", "Education", schoolSymbol, Collections.singletonList("Education"));
-              featureLayer.setRenderer(new UniqueValueRenderer(Collections.singletonList("cat1"), Arrays.asList(school), "", dftSymbol));
-//              featureLayer.setRenderer(renderer);
-            } catch (Exception e) {
-              // on any error, display the stack trace
-              e.printStackTrace();
-            }
-          });
-//          ListenableFuture<Symbol> symbolResultTwo = searchSymbolResult.get().get(1).getSymbolAsync();
-//          symbolResultOne.addDoneListener(() -> {
-//            try{
-//              postal = new UniqueValueRenderer.UniqueValue("N/A", "Postal", symbolResultTwo.get(), Collections.singletonList(50));
-//            } catch (Exception e) {
-//              // on any error, display the stack trace
-//              e.printStackTrace();
-//            }
-//          });
-//          ListenableFuture<Symbol> symbolResultThree = searchSymbolResult.get().get(1).getSymbolAsync();
-//          symbolResultOne.addDoneListener(() -> {
-//            try{
-//              defaultSymbol = symbolResultThree.get();
-//            } catch (Exception e) {
-//              // on any error, display the stack trace
-//              e.printStackTrace();
-//            }
-//          });
-        } catch (Exception e) {
-          // on any error, display the stack trace
-          e.printStackTrace();
-        }
-      });
-
-//      ArrayList<String> fieldNames = new ArrayList<>();
-//      fieldNames.add("category");
-//
-//      ArrayList<UniqueValueRenderer.UniqueValue> uniqueValues = new ArrayList<>();
-//      uniqueValues.add(school);
-//
-//      Symbol dftSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 12);
-//
-//      SimpleMarkerSymbol defaultSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 12);
-//
-//      UniqueValueRenderer renderer = new UniqueValueRenderer(fieldNames, uniqueValues, "other", dftSymbol);
-
-
-      //      // create and apply a renderer for the electric distribution lines feature layer
-//      UniqueValueRenderer.UniqueValue mediumVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Medium Voltage",
-//        new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
-//        Collections.singletonList(5));
-//      UniqueValueRenderer.UniqueValue lowVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Low Voltage",
-//        new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
-//        Collections.singletonList(3));
-//      distributionLineLayer.setRenderer(new UniqueValueRenderer(Collections.singletonList("ASSETGROUP"),
-//        Arrays.asList(mediumVoltageValue, lowVoltageValue), "", new SimpleLineSymbol()));
-
-      // working with simple renderer:
-
-//      SimpleRenderer renderer = new SimpleRenderer();
-//
-//      SymbolStyle symbolStyle = new SymbolStyle("Esri2DPointSymbolsStyle", null);
-//
-//      SymbolStyleSearchParameters searchParams = new SymbolStyleSearchParameters();
-//      searchParams.getKeys().add("hexagon-3");
-//
-////      List<String> keys = new ArrayList<>();
-////      keys.add("hexagon-3");
-//
-//      ListenableFuture<List<SymbolStyleSearchResult>> searchSymbolResult = symbolStyle.searchSymbolsAsync(searchParams);
-//
-//      searchSymbolResult.addDoneListener(() -> {
+//      List<String> schoolSearch = new ArrayList<>();
+//      schoolSearch.add("school");
+//      ListenableFuture<Symbol> schoolSearchResult = symbolStyle.getSymbolAsync(schoolSearch);
+//      schoolSearchResult.addDoneListener(() -> {
 //        try {
-//          ListenableFuture<Symbol> symbolResult = searchSymbolResult.get().get(0).getSymbolAsync();
-//          symbolResult.addDoneListener(() -> {
-//            try{
-//              renderer.setSymbol(symbolResult.get());
-//              featureLayer.setRenderer(renderer);
-//            } catch (Exception e) {
-//              // on any error, display the stack trace
-//              e.printStackTrace();
-//            }
-//          });
+//          schoolSymbol = schoolSearchResult.get();
+//          List<String> schoolValue = new ArrayList<>();
+//          schoolValue.add("Colleges and Universities");
+//          UniqueValueRenderer.UniqueValue educationOverall = new UniqueValueRenderer.UniqueValue("", "Colleges and Universities", schoolSymbol, null);
+//          educationOverall.getValues().addAll(schoolValue);
+////          educationOverall.getValues().add("Government");
+//          uniqueValueRenderer.getUniqueValues().add(educationOverall);
+//          System.out.println(educationOverall.getValues().size());
+//
+//        } catch (Exception e) {
+//          // on any error, display the stack trace
+//          e.printStackTrace();
+//        }
+//      });
+
+      ArrayList<String> listOfKeys = new ArrayList<>();
+//      listOfKeys.add("post-office");
+      listOfKeys.add("airport");
+      listOfKeys.add("beach");
+      listOfKeys.add("school");
+
+//      List<String> poSearch = new ArrayList<>();
+//      poSearch.add("post-office");
+//      ListenableFuture<Symbol> poSearchResult = symbolStyle.getSymbolAsync(poSearch);
+//      poSearchResult.addDoneListener(() -> {
+//        try {
+//          po = poSearchResult.get();
+//          List<Object> poCategoryValue = new ArrayList<>();
+//          poCategoryValue.add("Postal");
+//          UniqueValueRenderer.UniqueValue uniqueValue = new UniqueValueRenderer.UniqueValue("", "postal", po, poCategoryValue);
+//          uniqueValueRenderer.getUniqueValues().add(uniqueValue);
+////          System.out.println("index 0 unique values: " + uniqueValueRenderer.getUniqueValues().get(0).getValues().get(0));
+////          System.out.println("renderer field 0: " + uniqueValueRenderer.getFieldNames().get(0));
+////          System.out.println("renderer field 1: " + uniqueValueRenderer.getFieldNames().get(1));
 //        } catch (Exception e) {
 //          // on any error, display the stack trace
 //          e.printStackTrace();
 //        }
 //      });
 //
-////      ListenableFuture<Symbol> symbolResult = symbolStyle.getSymbolAsync(keys);
-////
-////      symbolResult.addDoneListener(() -> {
-////        try {
-////          renderer.setSymbol(symbolResult.get());
-////          featureLayer.setRenderer(renderer);
-////        } catch (Exception e) {
-////          // on any error, display the stack trace
-////          e.printStackTrace();
-////        }
-////      });
+//      List<String> airportSearch = new ArrayList<>();
+//      poSearch.add("airport");
+//      ListenableFuture<Symbol> airportSearchResult = symbolStyle.getSymbolAsync(airportSearch);
+//      airportSearchResult.addDoneListener(() -> {
+//        try {
+//          airport = airportSearchResult.get();
+//          List<Object> airportCategoryValue = new ArrayList<>();
+//          airportCategoryValue.add("Airports");
+//          UniqueValueRenderer.UniqueValue airportUniqueVal = new UniqueValueRenderer.UniqueValue("", "airports", airport, airportCategoryValue);
+//          uniqueValueRenderer.getUniqueValues().add(airportUniqueVal);
+////          System.out.println("index 1 unique values: " + uniqueValueRenderer.getUniqueValues().get(0).getValues().get(1));
+//        } catch (Exception e) {
+//          // on any error, display the stack trace
+//          e.printStackTrace();
+//        }
+//      });
 
-//      UniqueValueRenderer uniqueValueRenderer = new UniqueValueRenderer();
-//
-//      SymbolStyle symbolStyle = new SymbolStyle("hexagon-3", null);
-//      SimpleFillSymbol defaultFillSymbol = new SimpleFillSymbol();
-//      defaultFillSymbol.setStyle(symbolStyle);
-//
-//      uniqueValueRenderer.setDefaultSymbol(defaultFillSymbol);
-//      uniqueValueRenderer.setDefaultLabel("Other");
-//
-//      featureLayer.setRenderer(uniqueValueRenderer);
-
-      // unique value renderer sample stuff:
-
-//      // override the feature layer renderer with a new unique value renderer
-//      UniqueValueRenderer uniqueValueRenderer = new UniqueValueRenderer();
-//      // field name is a key, in a key/value pair, of a feature's attributes
-//      // can be a list but only looking for one in this case
-//      uniqueValueRenderer.getFieldNames().add("STATE_ABBR");
-//
-//      // create the symbols to be used in the renderer
-//      SimpleFillSymbol defaultFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, 0x00000000,
-//        new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, GRAY, 2));
-//      SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, RED,
-//        new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, RED, 2));
-//      SimpleFillSymbol arizonaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, GREEN,
-//        new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, GREEN, 2));
-//      SimpleFillSymbol nevadaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, BLUE, new SimpleLineSymbol(
-//        SimpleLineSymbol.Style.SOLID, BLUE, 2));
-//
-//      // set the default symbol
-//      uniqueValueRenderer.setDefaultSymbol(defaultFillSymbol);
-//      uniqueValueRenderer.setDefaultLabel("Other");
-//
-//      // set value for California, Arizona, and Nevada
-//      List<Object> californiaValue = new ArrayList<>();
-//      californiaValue.add("CA");
-//      uniqueValueRenderer.getUniqueValues().add(new UniqueValue("State of California", "California",
-//        californiaFillSymbol, californiaValue));
-//
-//      List<Object> arizonaValue = new ArrayList<>();
-//      arizonaValue.add("AZ");
-//      uniqueValueRenderer.getUniqueValues().add(new UniqueValue("State of Arizona", "Arizona", arizonaFillSymbol,
-//        arizonaValue));
-//
-//      List<Object> nevadaValue = new ArrayList<>();
-//      nevadaValue.add("NV");
-//      uniqueValueRenderer.getUniqueValues().add(new UniqueValue("State of Nevada", "Nevada", nevadaFillSymbol,
-//        nevadaValue));
-//
-//      // set the renderer on the feature layer
-//      featureLayer.setRenderer(uniqueValueRenderer);
-
-
-
-
-
-
+      for (String key : listOfKeys) {
+        List<String> keySearch = new ArrayList<>();
+        keySearch.add(key);
+        ListenableFuture<Symbol> searchResult = symbolStyle.getSymbolAsync(keySearch);
+        searchResult.addDoneListener(() -> {
+          try {
+            Symbol symbol = searchResult.get();
+            List<String> categories = figureOutCategories(key);
+            for (String category : categories) {
+              List<Object> categoryValue = new ArrayList<>();
+              categoryValue.add(category);
+              UniqueValueRenderer.UniqueValue uniqueValue = new UniqueValueRenderer.UniqueValue("", key, symbol, categoryValue);
+              uniqueValueRenderer.getUniqueValues().add(uniqueValue);
+            }
+          } catch (Exception e) {
+            // on any error, display the stack trace
+            e.printStackTrace();
+          }
+        });
+      }
 
       // add the feature layer to the map
       map.getOperationalLayers().add(featureLayer);
@@ -277,22 +214,9 @@ public class CreateSymbolStylesFromServiceSample extends Application {
           // set the map views's viewpoint centered on Los Angeles, California and scaled
           mapView.setViewpoint(new Viewpoint(new Point(-13185535.98, 4037766.28,
             SpatialReferences.getWebMercator()), 7000));
+//          featureLayer.setMinScale(400000);
         } else new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!").show();
       });
-
-      // adding a simple point with a simple marker symbol to the map:
-
-//      // create new graphics overlay and add it to the map view
-//      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-//      mapView.getGraphicsOverlays().add(graphicsOverlay);
-//
-//      // create a red (0xFFFF0000) simple marker symbol
-//      SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 12);
-//      Point point = new Point(-13185535.98, 4037766.28, SpatialReferences.getWebMercator());
-//
-//      // create a new graphic with a our point and symbol
-//      Graphic graphic = new Graphic(point, symbol);
-//      graphicsOverlay.getGraphics().add(graphic);
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
@@ -300,6 +224,27 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       // on any error, display the stack trace.
       e.printStackTrace();
     }
+  }
+
+  private List<String> figureOutCategories(String key) {
+
+    List<String> categories = new ArrayList<>();
+
+    switch (key) {
+      case "beach":
+        categories.add("Beaches and Marinas");
+        break;
+      case "school":
+        categories.add("Colleges and Universities");
+        categories.add("Public High Schools");
+      case "airport":
+        categories.add("Airports");
+        break;
+      case "post-office":
+        categories.add("Postal");
+        break;
+    }
+    return categories;
   }
 
   /**
@@ -324,3 +269,50 @@ public class CreateSymbolStylesFromServiceSample extends Application {
   }
 
 }
+
+//      //////////
+//      // simple renderer working for one specific key
+//      ///////////
+//
+//      //
+//      List<String> searchKey = new ArrayList<>();
+//      searchKey.add("push-pin-1");
+//
+//      ListenableFuture<Symbol> searchResult = symbolStyle.getSymbolAsync(searchKey);
+//      searchResult.addDoneListener(() -> {
+//        try {
+//          simpleRenderer.setSymbol(searchResult.get());
+//        } catch (Exception e) {
+//          // on any error, display the stack trace
+//          e.printStackTrace();
+//        }
+//      });
+
+// System.out.println(symbolStyle.getStyleName());
+// this prints out Esri2DPointSymbolsStyle
+
+// below prints out what information you can get back after creating the style
+//      ListenableFuture<SymbolStyleSearchParameters> symbolStyleSearchParametersListenableFuture = symbolStyle.getDefaultSearchParametersAsync();
+//      symbolStyleSearchParametersListenableFuture.addDoneListener(() -> {
+//        try{
+//          List<String> keys = symbolStyleSearchParametersListenableFuture.get().getKeys();
+//          List<String> names = symbolStyleSearchParametersListenableFuture.get().getNames();
+//          List<String> categories = symbolStyleSearchParametersListenableFuture.get().getCategories();
+//
+//          for (String key : keys) {
+//            System.out.println("key: " + key);
+//          }
+//
+//          for (String name : names) {
+//            System.out.println("name: " + name);
+//          }
+//
+//          for (String category : categories) {
+//            System.out.println("category: " + category);
+//          }
+//
+//        } catch (Exception e) {
+//          // on any error, display the stack trace
+//          e.printStackTrace();
+//        }
+//      });
