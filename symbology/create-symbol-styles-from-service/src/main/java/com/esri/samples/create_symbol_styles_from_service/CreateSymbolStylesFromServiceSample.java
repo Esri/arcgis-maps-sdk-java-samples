@@ -22,9 +22,18 @@ import java.util.Collections;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -86,102 +95,59 @@ public class CreateSymbolStylesFromServiceSample extends Application {
 
       // create a unique value renderer and add the relevant field from the feature layer to match symbols with
       UniqueValueRenderer uniqueValueRenderer = new UniqueValueRenderer();
-//      uniqueValueRenderer.setDefaultSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xFFFF0000, 10));
-//      ArrayList<String> fields = new ArrayList<>();
-//      fields.add("cat1");
-//      fields.add("cat2");
-//      fields.add("cat2");
-//      fields.add("cat2");
-//      uniqueValueRenderer.getFieldNames().addAll(fields);
       uniqueValueRenderer.getFieldNames().add("cat2");
 //      uniqueValueRenderer.getFieldNames().add("cat1");
 
-      // create a simple renderer
-      SimpleRenderer simpleRenderer = new SimpleRenderer();
-
       // set the renderer on the feature layer
       featureLayer.setRenderer(uniqueValueRenderer);
-//      featureLayer.setRenderer(simpleRenderer);
 
       // create a symbol style from a portal
       SymbolStyle symbolStyle = new SymbolStyle("Esri2DPointSymbolsStyle", null);
 
 //      // display an error if the symbol style does not load
-//      symbolStyle.loadAsync();
-//      symbolStyle.addDoneLoadingListener(() -> {
-//          if (symbolStyle.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-//            new Alert(Alert.AlertType.ERROR, "Error: could not load symbol style. Details: \n"
-//              + symbolStyle.getLoadError().getMessage()).show();
-//          }
-//        });
+      symbolStyle.loadAsync();
+      symbolStyle.addDoneLoadingListener(() -> {
+          if (symbolStyle.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+            new Alert(Alert.AlertType.ERROR, "Error: could not load symbol style. Details: \n"
+              + symbolStyle.getLoadError().getMessage()).show();
+          }
+        });
 
-      ///////
-      // below works for manually setting up each symbol, adding multiple categories
-      ///////
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY,
+        Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(250, 80);
+      Label heading = new Label();
+      heading.setText("Symbol Style: " + symbolStyle.getStyleName());
+      heading.setTextFill(Color.WHITE);
+      controlsVBox.getChildren().add(heading);
 
-      // create the symbols
-
-//      List<String> schoolSearch = new ArrayList<>();
-//      schoolSearch.add("school");
-//      ListenableFuture<Symbol> schoolSearchResult = symbolStyle.getSymbolAsync(schoolSearch);
-//      schoolSearchResult.addDoneListener(() -> {
-//        try {
-//          schoolSymbol = schoolSearchResult.get();
-//          List<String> schoolValue = new ArrayList<>();
-//          schoolValue.add("Colleges and Universities");
-//          UniqueValueRenderer.UniqueValue educationOverall = new UniqueValueRenderer.UniqueValue("", "Colleges and Universities", schoolSymbol, null);
-//          educationOverall.getValues().addAll(schoolValue);
-////          educationOverall.getValues().add("Government");
-//          uniqueValueRenderer.getUniqueValues().add(educationOverall);
-//          System.out.println(educationOverall.getValues().size());
-//
-//        } catch (Exception e) {
-//          // on any error, display the stack trace
-//          e.printStackTrace();
-//        }
-//      });
+//      ArrayList<String> listOfKeys = new ArrayList<>();
+////      listOfKeys.add("post-office");
+//      listOfKeys.add("airport");
+//      listOfKeys.add("beach");
+////      listOfKeys.add("campground");
+//      listOfKeys.add("trail");
+//      listOfKeys.add("information");
+////      listOfKeys.add("museum");
+//      listOfKeys.add("city-hall");
+//      listOfKeys.add("shopping-center");
+//      listOfKeys.add("sports-complex");
+//      listOfKeys.add("school");
+//      listOfKeys.add("train-station");
+//      listOfKeys.add("theatre");
+////      listOfKeys.add("subway-station");
+//      listOfKeys.add("park");
+////      listOfKeys.add("golf-course");
 
       ArrayList<String> listOfKeys = new ArrayList<>();
-//      listOfKeys.add("post-office");
-      listOfKeys.add("airport");
-      listOfKeys.add("beach");
+      listOfKeys.add("post-office");
+      listOfKeys.add("atm");
+      listOfKeys.add("place-of-worship");
+      listOfKeys.add("police-station");
       listOfKeys.add("school");
-
-//      List<String> poSearch = new ArrayList<>();
-//      poSearch.add("post-office");
-//      ListenableFuture<Symbol> poSearchResult = symbolStyle.getSymbolAsync(poSearch);
-//      poSearchResult.addDoneListener(() -> {
-//        try {
-//          po = poSearchResult.get();
-//          List<Object> poCategoryValue = new ArrayList<>();
-//          poCategoryValue.add("Postal");
-//          UniqueValueRenderer.UniqueValue uniqueValue = new UniqueValueRenderer.UniqueValue("", "postal", po, poCategoryValue);
-//          uniqueValueRenderer.getUniqueValues().add(uniqueValue);
-////          System.out.println("index 0 unique values: " + uniqueValueRenderer.getUniqueValues().get(0).getValues().get(0));
-////          System.out.println("renderer field 0: " + uniqueValueRenderer.getFieldNames().get(0));
-////          System.out.println("renderer field 1: " + uniqueValueRenderer.getFieldNames().get(1));
-//        } catch (Exception e) {
-//          // on any error, display the stack trace
-//          e.printStackTrace();
-//        }
-//      });
-//
-//      List<String> airportSearch = new ArrayList<>();
-//      poSearch.add("airport");
-//      ListenableFuture<Symbol> airportSearchResult = symbolStyle.getSymbolAsync(airportSearch);
-//      airportSearchResult.addDoneListener(() -> {
-//        try {
-//          airport = airportSearchResult.get();
-//          List<Object> airportCategoryValue = new ArrayList<>();
-//          airportCategoryValue.add("Airports");
-//          UniqueValueRenderer.UniqueValue airportUniqueVal = new UniqueValueRenderer.UniqueValue("", "airports", airport, airportCategoryValue);
-//          uniqueValueRenderer.getUniqueValues().add(airportUniqueVal);
-////          System.out.println("index 1 unique values: " + uniqueValueRenderer.getUniqueValues().get(0).getValues().get(1));
-//        } catch (Exception e) {
-//          // on any error, display the stack trace
-//          e.printStackTrace();
-//        }
-//      });
+      listOfKeys.add("hospital");
 
       for (String key : listOfKeys) {
         List<String> keySearch = new ArrayList<>();
@@ -191,6 +157,10 @@ public class CreateSymbolStylesFromServiceSample extends Application {
           try {
             Symbol symbol = searchResult.get();
             List<String> categories = figureOutCategories(key);
+            Label label = new Label();
+            label.setText(key);
+            label.setTextFill(Color.WHITE);
+            controlsVBox.getChildren().add(label);
             for (String category : categories) {
               List<Object> categoryValue = new ArrayList<>();
               categoryValue.add(category);
@@ -212,14 +182,17 @@ public class CreateSymbolStylesFromServiceSample extends Application {
           // set viewpoint to the location of feature layer's features
 //          mapView.setViewpointCenterAsync(featureLayer.getFullExtent().getCenter(), 10000000);
           // set the map views's viewpoint centered on Los Angeles, California and scaled
-          mapView.setViewpoint(new Viewpoint(new Point(-13185535.98, 4037766.28,
+          mapView.setViewpoint(new Viewpoint(new Point(-13185668.186639601, 4066176.418652561,
             SpatialReferences.getWebMercator()), 7000));
 //          featureLayer.setMinScale(400000);
         } else new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!").show();
       });
 
       // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView);
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -234,14 +207,67 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       case "beach":
         categories.add("Beaches and Marinas");
         break;
-      case "school":
-        categories.add("Colleges and Universities");
-        categories.add("Public High Schools");
+      case "campground":
+        categories.add("Campgrounds");
       case "airport":
         categories.add("Airports");
         break;
+      case "trail":
+        categories.add("Trails");
+        break;
+      case "museum":
+        categories.add("Museums and Aquariums");
+        break;
+      case "subway-station":
+        categories.add("Metro Stations");
+        break;
+      case "park":
+        categories.add("Environment");
+        break;
+      case "shopping-center":
+        categories.add("Shopping Centers");
+        break;
+      case "sports-complex":
+        categories.add("Sports Venues");
+        break;
+      case "information":
+        categories.add("Tourist Assistance");
+        break;
+      case "golf-course":
+        categories.add("Golf Courses");
+        break;
       case "post-office":
-        categories.add("Postal");
+        categories.add("USPS Mail Collection Boxes");
+        categories.add("Federal Express Locations");
+        break;
+      case "school":
+        categories.add("Education");
+        categories.add("Guidance and Tutoring Programs");
+        categories.add("Public Elementary Schools");
+        categories.add("Private and Charter Schools");
+        break;
+      case "city-hall":
+        categories.add("Government");
+        break;
+      case "train-station":
+        categories.add("Transportation");
+        break;
+      case "theatre":
+        categories.add("Arts and Recreation");
+        break;
+      case "atm":
+        categories.add("Banking and Finance");
+        break;
+      case "place-of-worship":
+        categories.add("Churches");
+        break;
+      case "police-station":
+        categories.add("Sheriff and Police Stations");
+        break;
+      case "hospital":
+        categories.add("Health Screening and Testing");
+        categories.add("Health Centers");
+        categories.add("Medicare and Medicaid Offices");
         break;
     }
     return categories;
