@@ -36,6 +36,16 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
+task apiKey {
+    def apiKeyFile = new File("${System.properties.getProperty("user.home")}/.gradle/gradle.properties")
+    if (!apiKeyFile.exists()) {
+        print("Go to " + new URL("https://developers.arcgis.com/") + " to get an API key.")
+        print(" Add your API Key to ${System.properties.getProperty("user.home")}\\.gradle\\gradle.properties.")
+        String apiKeyFileContents = "apiKey = "
+        apiKeyFile.write(apiKeyFileContents)
+    }
+}
+
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -47,6 +57,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
+    systemProperty 'apiKey', apiKey
     dependsOn copyNatives
     mainClassName = 'com.esri.samples.add_enc_exchange_set.AddEncExchangeSetLauncher'
 }
