@@ -6,7 +6,7 @@ Browse the category directories to explore the samples. Each sample is an indivi
 
 Installing Gradle is not necessary since each sample includes the Gradle wrapper.
 
-An API key is required to enable access to ArcGIS services, such as basemaps, geocoding, routing, and others. Visit your [developer dashboard](https://developers.arcgis.com) to get your default API key.
+An API key is required to enable access to ArcGIS services, such as basemaps, geocoding, routing, and others. Visit your [developer dashboard](https://developers.arcgis.com/dashboard) to get your default API key.
 
 ## Instructions
 
@@ -15,9 +15,9 @@ An API key is required to enable access to ArcGIS services, such as basemaps, ge
 1. Open IntelliJ IDEA and select _File > Open..._.
 2. Choose one of the sample project directories (not the category folder) and click _OK_.
 3. Select _File > Project Structure..._ and ensure that the Project SDK and language level are set to use Java 11.
-4. Open the Gradle view with _View > Tool Windows > Gradle_.
-5. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
-5. In the Gradle view, double-click the `run` task under _Tasks > application_ to run the app.
+4. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+5. Open the Gradle view with _View > Tool Windows > Gradle_.
+6. In the Gradle view, double-click the `run` task under _Tasks > application_ to run the app.
 
 ### Eclipse
 
@@ -25,8 +25,8 @@ An API key is required to enable access to ArcGIS services, such as basemaps, ge
 2. In the import wizard, choose _Gradle > Existing Gradle Project_, then click _Next_.
 3. Choose one of the sample project directories (not the category folder) as the project root directory.
 4. Click _Finish_ to complete the import.
-5. Open the Gradle Tasks view with _Window > Show View > Other... > Gradle > Gradle Tasks_.
-6. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+5. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+6. Open the Gradle Tasks view with _Window > Show View > Other... > Gradle > Gradle Tasks_.
 7. In the Gradle Tasks view, double-click the `run` task under _{project_name} > application_ to run the app.
 
 ### Terminal
