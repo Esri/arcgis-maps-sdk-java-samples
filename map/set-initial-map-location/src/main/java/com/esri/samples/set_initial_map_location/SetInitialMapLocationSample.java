@@ -21,8 +21,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class SetInitialMapLocationSample extends Application {
@@ -44,11 +46,17 @@ public class SetInitialMapLocationSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map using National Geographic basemap centred over East
-      // Scotland at zoom level 10.
-      ArcGISMap map = new ArcGISMap(Basemap.Type.NATIONAL_GEOGRAPHIC, 56.075844, -2.681572, 10);
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create the MapView
+      // create a map with the topographic basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+
+      // set the initial viewpoint for the map specifying latitude, longitude and scale
+      map.setInitialViewpoint(new Viewpoint(56.075844, -2.681572, 700000.0));
+
+      // create the map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 

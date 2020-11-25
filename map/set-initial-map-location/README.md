@@ -14,14 +14,16 @@ When the map loads, note the specific location and scale of the initial map view
 
 ## How it works
 
-1. Create a `Map`, specifying a basemap type, latitude and longitude in WGS84, and a level of detail.
+1. Create a `Map`, specifying a basemap style.
+2. Set the initial `Viewpoint`, specifying the latitude, longitude and scale.
 2. Display the map in a map view.
 
 ## Relevant API
 
-* Basemap
 * ArcGISMap
+* BasemapStyle
 * MapView
+* Viewpoint
 
 ## About the data
 
