@@ -66,7 +66,7 @@
         </VBox>
         <VBox>
             <Label text="Basemap"/>
-            <ListView fx:id="basemapList"/>
+            <ListView fx:id="basemapStyleList"/>
         </VBox>
         <VBox>
             <Label text="Operational layers"/>
