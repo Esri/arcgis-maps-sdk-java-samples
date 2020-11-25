@@ -32,8 +32,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class AccessLoadStatusSample extends Application {
@@ -57,6 +58,10 @@ public class AccessLoadStatusSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
@@ -74,12 +79,12 @@ public class AccessLoadStatusSample extends Application {
       Button reloadMapButton = new Button("Reload ArcGISMap");
       reloadMapButton.setMaxWidth(Double.MAX_VALUE);
 
-      // reload ArcGISMap when button clicked
+      // reload the map when the button is clicked
       reloadMapButton.setOnAction(event -> {
         loadStatusText.clear();
 
-        // reload the same ArcGISMap
-        map = new ArcGISMap(Basemap.createImagery());
+        // reload the map
+        map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
         map.addLoadStatusChangedListener(e -> {
           String loadingStatus;
@@ -112,10 +117,10 @@ public class AccessLoadStatusSample extends Application {
       // add label, text and button to the control panel
       controlsVBox.getChildren().addAll(loadStatusLabel, loadStatusText, reloadMapButton);
 
-      // create ArcGISMap with the imagery basemap
-      map = new ArcGISMap(Basemap.createImagery());
+      // create a map with the imagery standard basemap style
+      map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // create a view for this ArcGISMap and set ArcGISMap to it
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
