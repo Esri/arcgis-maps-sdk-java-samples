@@ -14,14 +14,14 @@ Run the sample to view the map. Pan and zoom to navigate the map.
 
 ## How it works
 
-1. Create an ArcGIS map using a default `Basemap` such use `Basemap.createImagery()`.
+1. Create an ArcGIS map using a default `BasemapStyle` such as `BasemapStyle.ARCGIS_IMAGERY_STANDARD`.
 2. Create a `MapView` object to display the map.
 3. Set the map to the map view.
 
 ## Relevant API
 
 * ArcGISMap
-* Basemap
+* BasemapStyle
 * MapView
 
 ## Tags
