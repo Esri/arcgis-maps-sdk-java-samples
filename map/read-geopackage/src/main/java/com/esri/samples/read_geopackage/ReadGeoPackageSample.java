@@ -24,12 +24,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.GeoPackage;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ReadGeoPackageSample extends Application {
@@ -52,8 +54,13 @@ public class ReadGeoPackageSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a map and add it to the map view
-      final ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 39.7294, -104.8319, 11);
+      final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+      map.setInitialViewpoint(new Viewpoint(39.7294, -104.8319, 300000.0));
       mapView = new MapView();
       mapView.setMap(map);
 
