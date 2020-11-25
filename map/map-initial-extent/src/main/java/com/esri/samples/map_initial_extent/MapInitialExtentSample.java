@@ -21,11 +21,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -48,8 +49,12 @@ public class MapInitialExtentSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a ArcGISMap with the basemap
-      final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with the topographic basemap style
+      final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
       // create an initial extent envelope
       Point leftPoint = new Point(-12211308.778729, 4645116.003309, SpatialReferences.getWebMercator());
