@@ -13,7 +13,7 @@
         "scale",
         "viewpoint",
         "ArcGISMap",
-        "Basemap",
+        "BasemapStyle",
         "MapView",
         "Viewpoint"
     ],
@@ -22,7 +22,7 @@
     ],
     "relevant_apis": [
         "ArcGISMap",
-        "Basemap",
+        "BasemapStyle",
         "MapView",
         "Viewpoint"
     ],
