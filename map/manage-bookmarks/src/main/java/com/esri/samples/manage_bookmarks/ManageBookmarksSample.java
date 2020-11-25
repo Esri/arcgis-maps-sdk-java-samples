@@ -36,8 +36,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Bookmark;
 import com.esri.arcgisruntime.mapping.BookmarkList;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -64,6 +65,10 @@ public class ManageBookmarksSample extends Application {
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
@@ -117,9 +122,10 @@ public class ManageBookmarksSample extends Application {
       // add label and bookmarks to the control panel
       controlsVBox.getChildren().addAll(bookmarkLabel, bookmarkNames, addBookmarkButton);
 
-      ArcGISMap map = new ArcGISMap(Basemap.createImageryWithLabels());
+      // create a map with the imagery standard basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // create a view for this map and set map to it
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
