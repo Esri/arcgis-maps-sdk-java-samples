@@ -30,6 +30,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.arcgisservices.ServiceVersionInfo;
 import com.esri.arcgisruntime.arcgisservices.ServiceVersionParameters;
 import com.esri.arcgisruntime.arcgisservices.VersionAccess;
@@ -42,7 +43,7 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
@@ -73,8 +74,12 @@ public class EditWithBranchVersioningController {
   public void initialize() {
 
     try {
-      // create a map with the streets vector basemap and set it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with the streets vector basemap style and set it to the map view
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
       mapView.setMap(map);
 
       // add the version access types to the access type combo box
