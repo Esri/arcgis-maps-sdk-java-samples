@@ -26,12 +26,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.TimeExtent;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -55,9 +56,15 @@ public class TimeBasedQuerySample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map and set it to a map view
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
+
+      // create a map view and set its map
       mapView = new MapView();
-      ArcGISMap map = new ArcGISMap(Basemap.createOceans());
       mapView.setMap(map);
 
       // create a feature table with the URL of the feature service
