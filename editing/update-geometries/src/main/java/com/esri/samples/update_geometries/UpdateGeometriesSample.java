@@ -30,6 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Feature;
@@ -39,8 +40,9 @@ import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.GeoElement;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -69,8 +71,15 @@ public class UpdateGeometriesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with streets basemap and set it to a map view
-      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with streets basemap style and set the initial viewpoint
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+      map.setInitialViewpoint(new Viewpoint(40, -95, 40000000));
+
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
