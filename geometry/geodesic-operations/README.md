@@ -26,7 +26,7 @@ Click anywhere on the map. A line graphic will display the geodesic line between
 
 ## About the data
 
-The Imagery basemap provides the global context for the displayed geodesic line.
+The Imagery basemap style provides the global context for the displayed geodesic line.
 
 ## Tags
 
