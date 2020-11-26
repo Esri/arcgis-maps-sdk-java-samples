@@ -35,6 +35,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
@@ -46,7 +47,7 @@ import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
@@ -79,6 +80,10 @@ public class FeatureLayerQuerySample extends Application {
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
@@ -148,15 +153,15 @@ public class FeatureLayerQuerySample extends Application {
       // set renderer for feature layer
       featureLayer.setRenderer(new SimpleRenderer(fillSymbol));
 
-      // create a ArcGISMap with basemap topographic
-      final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      // create a map with a basemap style
+      final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+
+      // create a map view and set its map
+      mapView = new MapView();
+      mapView.setMap(map);
 
       // add feature layer to operational layers
       map.getOperationalLayers().add(featureLayer);
-
-      // create a view for this ArcGISMap
-      mapView = new MapView();
-      mapView.setMap(map);
 
       // set viewpoint to the start point
       mapView.setViewpointCenterAsync(startPoint, SCALE);
