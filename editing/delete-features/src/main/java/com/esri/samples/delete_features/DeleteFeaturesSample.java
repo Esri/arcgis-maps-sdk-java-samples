@@ -33,6 +33,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureEditResult;
@@ -40,7 +41,8 @@ import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -70,6 +72,10 @@ public class DeleteFeaturesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a delete button and fill the width of the screen
       deleteButton = new Button("Delete");
       deleteButton.setMaxWidth(130);
@@ -90,8 +96,9 @@ public class DeleteFeaturesSample extends Application {
         });
       });
 
-      // create a map with streets basemap
-      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
+      // create a map with streets basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+      map.setInitialViewpoint(new Viewpoint(40, -95, 40000000));
 
       // create a view for this ArcGISMap
       mapView = new MapView();
