@@ -21,12 +21,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -52,11 +53,15 @@ public class FeatureLayerFeatureServiceSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a view for this ArcGISMap
       mapView = new MapView();
 
-      // create a ArcGISMap with the terrain with labels basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createTerrainWithLabels());
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TERRAIN);
 
       // set an initial viewpoint
       map.setInitialViewpoint(new Viewpoint(new Point(-13176752, 4090404, SpatialReferences.getWebMercator()), 500000));
