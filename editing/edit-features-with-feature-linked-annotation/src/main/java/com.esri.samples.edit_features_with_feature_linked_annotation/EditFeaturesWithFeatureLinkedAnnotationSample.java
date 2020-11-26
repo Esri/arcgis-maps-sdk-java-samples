@@ -30,6 +30,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.Geodatabase;
@@ -44,7 +45,8 @@ import com.esri.arcgisruntime.layers.AnnotationLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -69,8 +71,13 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create the map with a light gray canvas basemap centered on Loudoun, Virginia
-      ArcGISMap map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS_VECTOR, 39.0204, -77.4159, 18);
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create the map with a light gray canvas basemap style centered on Loudoun, Virginia
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
+      map.setInitialViewpoint(new Viewpoint(39.0204, -77.4159, 2000));
 
       // create a map view and set its map
       mapView = new MapView();
