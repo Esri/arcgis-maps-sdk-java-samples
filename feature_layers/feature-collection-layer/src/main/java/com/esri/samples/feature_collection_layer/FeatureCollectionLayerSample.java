@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureCollection;
 import com.esri.arcgisruntime.data.FeatureCollectionTable;
@@ -38,7 +39,7 @@ import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
@@ -67,8 +68,14 @@ public class FeatureCollectionLayerSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create amp and set it to be displayed in this view
-      ArcGISMap map = new ArcGISMap(Basemap.createOceans());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
+
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
