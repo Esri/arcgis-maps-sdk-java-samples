@@ -24,12 +24,13 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class FeatureLayerDefinitionExpressionSample extends Application {
@@ -56,6 +57,10 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create renderer toggle switch
       ToggleButton definitionSwitch = new ToggleButton();
       definitionSwitch.setText("expression");
@@ -76,8 +81,8 @@ public class FeatureLayerDefinitionExpressionSample extends Application {
       // create feature layer from service feature table
       featureLayer = new FeatureLayer(featureTable);
 
-      // create a ArcGISMap using the basemap topographic
-      final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      // create a map with a basemap style
+      final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
       // add the feature layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);
