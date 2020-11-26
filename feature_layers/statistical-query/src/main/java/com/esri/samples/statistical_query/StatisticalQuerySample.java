@@ -37,6 +37,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -47,7 +48,7 @@ import com.esri.arcgisruntime.data.StatisticsQueryParameters;
 import com.esri.arcgisruntime.data.StatisticsQueryResult;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class StatisticalQuerySample extends Application {
@@ -70,8 +71,14 @@ public class StatisticalQuerySample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create and set a map with the streets vector basemap
-      final ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a basemap style
+      final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
