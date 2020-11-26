@@ -23,6 +23,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseButton;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.GeodesicEllipseParameters;
 import com.esri.arcgisruntime.geometry.GeodesicSectorParameters;
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -31,7 +32,7 @@ import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -63,11 +64,16 @@ public class GeodesicSectorAndEllipseController {
   private MarkerSymbol sectorMarkerSymbol;
 
   public void initialize() {
-    // initialize a map to a viewpoint and set it to the map view
-    ArcGISMap map = new ArcGISMap(Basemap.createImagery());
-    center = new Point(-13574921.207495, 4378809.903179, SpatialReference.create
-        (3857));
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+    // create a map with a basemap style and set the initial viewpoint
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY);
+    center = new Point(-13574921.207495, 4378809.903179, SpatialReference.create(3857));
     map.setInitialViewpoint(new Viewpoint(center, 10000));
+
+    // set the map to the map view
     mapView.setMap(map);
 
     // create a graphics overlay for showing the geometries as graphics
