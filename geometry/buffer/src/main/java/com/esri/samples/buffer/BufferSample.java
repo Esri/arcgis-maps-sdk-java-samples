@@ -28,6 +28,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.GeodeticCurveType;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.LinearUnit;
@@ -37,6 +38,7 @@ import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -62,9 +64,15 @@ public class BufferSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with a basemap and add it to the map view
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a basemap style and a spatial reference
       ArcGISMap map = new ArcGISMap(SpatialReferences.getWebMercator());
-      map.setBasemap(Basemap.createTopographic());
+      map.setBasemap(new Basemap(BasemapStyle.ARCGIS_TOPOGRAPHIC));
+
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
