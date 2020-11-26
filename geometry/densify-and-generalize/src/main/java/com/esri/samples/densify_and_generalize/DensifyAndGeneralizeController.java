@@ -20,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Multipoint;
 import com.esri.arcgisruntime.geometry.Point;
@@ -27,7 +28,7 @@ import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -49,9 +50,14 @@ public class DensifyAndGeneralizeController {
 
   @FXML
   public void initialize() {
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map with a basemap and add it to the map view
-    ArcGISMap map = new ArcGISMap(Basemap.createStreetsNightVector());
+    // create a map with a basemap style
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
+
+    // set the map to the map view
     mapView.setMap(map);
 
     // create a graphics overlay
