@@ -26,11 +26,12 @@ import javafx.application.Application;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.FeatureCollection;
 import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
@@ -58,8 +59,12 @@ public class FeatureCollectionLayerFromPortalSample extends Application {
             stage.setScene(scene);
             stage.show();
 
-            // create a new ArcGISMap with the oceans basemap
-            map = new ArcGISMap(Basemap.createOceans());
+            // authentication with an API key or named user is required to access basemaps and other location services
+            String yourAPIKey = System.getProperty("apiKey");
+            ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+            // create a map with the oceans basemap style
+            map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
 
             // create a map view and set the map to it
             mapView = new MapView();
