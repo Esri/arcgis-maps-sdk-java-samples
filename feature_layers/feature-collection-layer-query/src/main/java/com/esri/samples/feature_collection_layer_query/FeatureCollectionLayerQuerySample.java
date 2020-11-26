@@ -16,6 +16,7 @@
 
 package com.esri.samples.feature_collection_layer_query;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.FeatureCollection;
 import com.esri.arcgisruntime.data.FeatureCollectionTable;
@@ -25,7 +26,7 @@ import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -51,9 +52,12 @@ public class FeatureCollectionLayerQuerySample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a ArcGISMap with a imagery basemap
-      ArcGISMap map = new ArcGISMap();
-      map.setBasemap(Basemap.createTopographic());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
       // create a map view and set the map to it
       mapView = new MapView();
