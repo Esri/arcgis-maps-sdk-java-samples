@@ -22,92 +22,99 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.AnnotationLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class DisplayAnnotationSample extends Application {
 
-    private MapView mapView;
+  private MapView mapView;
 
-    @Override
-    public void start(Stage stage) {
-        try {
-            // create stack pane and application scene
-            StackPane stackPane = new StackPane();
-            Scene scene = new Scene(stackPane);
+  @Override
+  public void start(Stage stage) {
+    try {
+      // create stack pane and application scene
+      StackPane stackPane = new StackPane();
+      Scene scene = new Scene(stackPane);
 
-            // set title, size, and add scene to stage
-            stage.setTitle("Display Annotation Sample");
-            stage.setWidth(800);
-            stage.setHeight(700);
-            stage.setScene(scene);
-            stage.show();
+      // set title, size, and add scene to stage
+      stage.setTitle("Display Annotation Sample");
+      stage.setWidth(800);
+      stage.setHeight(700);
+      stage.setScene(scene);
+      stage.show();
 
-            // create a map
-            ArcGISMap map = new ArcGISMap(Basemap.Type.LIGHT_GRAY_CANVAS_VECTOR, 55.882436, -2.725610, 13);
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-            // create a map view and set the map to it
-            mapView = new MapView();
-            mapView.setMap(map);
+      // create a map and set its initial viewpoint
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
+      map.setInitialViewpoint(new Viewpoint(55.882436, -2.725610, 70000));
 
-            // create a feature layer from a feature service
-            FeatureLayer riverFeatureLayer = new FeatureLayer(new ServiceFeatureTable("https://services1.arcgis.com/6677msI40mnLuuLr/arcgis/rest/services/East_Lothian_Rivers/FeatureServer/0"));
+      // create a map view and set the map to it
+      mapView = new MapView();
+      mapView.setMap(map);
 
-            // add the feature layer to the map
-            map.getOperationalLayers().add(riverFeatureLayer);
+      // create a feature layer from a feature service
+      FeatureLayer riverFeatureLayer = new FeatureLayer(new ServiceFeatureTable("https://services1.arcgis.com/6677msI40mnLuuLr/arcgis/rest/services/East_Lothian_Rivers/FeatureServer/0"));
 
-            // create an annotation layer from a feature service
-            AnnotationLayer annotationLayer = new AnnotationLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/RiversAnnotation/FeatureServer/0");
+      // add the feature layer to the map
+      map.getOperationalLayers().add(riverFeatureLayer);
 
-            // add the annotation layer to the map
-            map.getOperationalLayers().add(annotationLayer);
+      // create an annotation layer from a feature service
+      AnnotationLayer annotationLayer = new AnnotationLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/RiversAnnotation/FeatureServer/0");
 
-            // show alert if layer fails to load
-            riverFeatureLayer.addDoneLoadingListener(() -> {
-                if (riverFeatureLayer.getLoadStatus() != LoadStatus.LOADED) {
-                    new Alert(Alert.AlertType.ERROR, "Error loading Feature Layer.").show();
-                }
-            });
+      // add the annotation layer to the map
+      map.getOperationalLayers().add(annotationLayer);
 
-            // add a done loading listener, with a runnable that gets triggered asynchronously when the feature layer has loaded
-            // check for the load status of the layer and if it hasn't loaded, report an error
-            annotationLayer.addDoneLoadingListener(() -> {
-                if (annotationLayer.getLoadStatus() != LoadStatus.LOADED) {
-                    new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer.").show();
-                }
-            });
-
-            // add the map view to stack pane
-            stackPane.getChildren().add(mapView);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+      // show alert if layer fails to load
+      riverFeatureLayer.addDoneLoadingListener(() -> {
+        if (riverFeatureLayer.getLoadStatus() != LoadStatus.LOADED) {
+          new Alert(Alert.AlertType.ERROR, "Error loading Feature Layer.").show();
         }
-    }
+      });
 
-    /**
-     * Stops and releases all resources used in application.
-     */
-    @Override
-    public void stop() {
-
-        if (mapView != null) {
-            mapView.dispose();
+      // add a done loading listener, with a runnable that gets triggered asynchronously when the feature layer has loaded
+      // check for the load status of the layer and if it hasn't loaded, report an error
+      annotationLayer.addDoneLoadingListener(() -> {
+        if (annotationLayer.getLoadStatus() != LoadStatus.LOADED) {
+          new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer.").show();
         }
-    }
+      });
 
-    /**
-     * Opens and runs application.
-     *
-     * @param args arguments passed to this application
-     */
-    public static void main(String[] args) {
+      // add the map view to stack pane
+      stackPane.getChildren().add(mapView);
 
-        Application.launch(args);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
+
+    if (mapView != null) {
+      mapView.dispose();
+    }
+  }
+
+  /**
+   * Opens and runs application.
+   *
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
+
+    Application.launch(args);
+  }
 }
