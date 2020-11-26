@@ -23,10 +23,11 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Grid;
 import com.esri.arcgisruntime.mapping.view.LatitudeLongitudeGrid;
@@ -58,9 +59,17 @@ public class DisplayGridController {
   }
 
   public void initialize() {
-    ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+    // create a map and set its initial viewpoint
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
     map.setInitialViewpoint(new Viewpoint(new Point(-10336141.70018318, 5418213.05332071, SpatialReference.create
         (3857)), 6450785));
+
+    // set the map to the map view
     mapView.setMap(map);
 
     // set initial values for options
