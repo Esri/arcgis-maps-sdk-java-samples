@@ -22,13 +22,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -55,13 +56,15 @@ public class ServiceFeatureTableCacheSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map view
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
+
+      // create a map view and set its map
       mapView = new MapView();
-
-      // create a ArcGISMap with the light Gray Canvas basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
-
-      // set ArcGISMap to be displayed in ArcGISMap view
       mapView.setMap(map);
 
       // set an initial viewpoint
