@@ -26,6 +26,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -33,7 +34,7 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -57,17 +58,19 @@ public class FeatureLayerSelectionSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a view for this ArcGISMap
-      mapView = new MapView();
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a ArcGISMap with the streets basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
       // set an initial viewpoint
       map.setInitialViewpoint(new Viewpoint(new Envelope(-6603299.491810, 1679677.742046, 9002253.947487,
           8691318.054732, 0, 0, SpatialReferences.getWebMercator())));
 
-      // set the map to the map view
+      // create a map view and set its map
+      mapView = new MapView();
       mapView.setMap(map);
 
       // create the service feature table
