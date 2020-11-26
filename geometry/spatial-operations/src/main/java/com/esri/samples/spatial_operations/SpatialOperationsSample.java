@@ -26,6 +26,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Part;
@@ -36,7 +37,7 @@ import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -75,6 +76,10 @@ public class SpatialOperationsSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // initialise comboBox items
       ComboBox<OPERATION_TYPE> geomOperationBox = new ComboBox<>(FXCollections.observableArrayList(OPERATION_TYPE
           .values()));
@@ -109,8 +114,8 @@ public class SpatialOperationsSample extends Application {
         resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
       });
 
-      // create ArcGISMap with topographic basemap
-      map = new ArcGISMap(Basemap.createLightGrayCanvas());
+      // create a map with a basemap style
+      map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
       // enable geometry operations when ArcGISMap is done loading
       map.addDoneLoadingListener(() -> {
@@ -122,6 +127,7 @@ public class SpatialOperationsSample extends Application {
         }
       });
 
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
