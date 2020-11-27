@@ -32,9 +32,10 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class TakeScreenshotSample extends Application {
@@ -56,8 +57,14 @@ public class TakeScreenshotSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create map and set to map view
-      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
