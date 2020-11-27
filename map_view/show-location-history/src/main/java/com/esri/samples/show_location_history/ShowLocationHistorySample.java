@@ -36,6 +36,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polyline;
@@ -47,7 +48,7 @@ import com.esri.arcgisruntime.location.LocationDataSource.LocationChangedListene
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
 import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -81,8 +82,12 @@ public class ShowLocationHistorySample extends Application {
       stage.show();
       scene.getStylesheets().add(getClass().getResource("/show_location_history/style.css").toExternalForm());
 
-      // create a map with a dark gray canvas basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a dark gray basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
 
       // create a map view and set its map
       mapView = new MapView();
