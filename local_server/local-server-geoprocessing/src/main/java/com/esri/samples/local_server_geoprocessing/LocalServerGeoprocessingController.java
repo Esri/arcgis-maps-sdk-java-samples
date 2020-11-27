@@ -27,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.data.TileCache;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
@@ -37,7 +38,7 @@ import com.esri.arcgisruntime.localserver.LocalGeoprocessingService.ServiceType;
 import com.esri.arcgisruntime.localserver.LocalServer;
 import com.esri.arcgisruntime.localserver.LocalServerStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingDouble;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingJob;
@@ -65,8 +66,14 @@ public class LocalServerGeoprocessingController {
   public void initialize() {
 
     try {
-      // create a view with a map and basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
+
+      // set the map to the map view
       mapView.setMap(map);
 
       //load tiled layer and zoom to location
