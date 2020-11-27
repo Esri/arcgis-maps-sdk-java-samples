@@ -16,6 +16,10 @@
 
 package com.esri.samples.identify_raster_cell;
 
+import java.io.File;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -24,16 +28,14 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import java.io.File;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.view.Callout;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
@@ -63,13 +65,15 @@ public class IdentifyRasterCellSample extends Application {
             stage.setScene(scene);
             stage.show();
 
-            // create a map view
+            // authentication with an API key or named user is required to access basemaps and other location services
+            String yourAPIKey = System.getProperty("apiKey");
+            ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+            // create a ap with an oceans basemap style
+            ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
+
+            // create a map view and set its map
             mapView = new MapView();
-
-            // create a Map with an oceans basemap
-            ArcGISMap map = new ArcGISMap(Basemap.createOceans());
-
-            // add the map to a map view
             mapView.setMap(map);
 
             // create a raster from a local raster file
