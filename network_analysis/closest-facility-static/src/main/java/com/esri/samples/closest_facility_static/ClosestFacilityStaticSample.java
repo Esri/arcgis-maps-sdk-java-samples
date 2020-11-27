@@ -31,6 +31,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
@@ -43,7 +44,7 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -77,6 +78,10 @@ public class ClosestFacilityStaticSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create buttons
       Button solveRoutesButton = new Button("Solve Routes");
       solveRoutesButton.setMaxWidth(150);
@@ -86,10 +91,10 @@ public class ClosestFacilityStaticSample extends Application {
       ProgressIndicator progressIndicator = new ProgressIndicator();
       progressIndicator.setVisible(true);
 
-      // create a ArcGISMap with a Basemap instance with an Imagery base layer
-      ArcGISMap map = new ArcGISMap(Basemap.createStreetsWithReliefVector());
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_RELIEF);
 
-      // set the map to be displayed in this view
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
