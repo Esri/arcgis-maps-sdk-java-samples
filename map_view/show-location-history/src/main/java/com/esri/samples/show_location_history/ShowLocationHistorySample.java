@@ -194,7 +194,7 @@ public class ShowLocationHistorySample extends Application {
       controlsHBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsHBox.setPadding(new Insets(10.0));
       controlsHBox.setAlignment(Pos.CENTER);
-      controlsHBox.setMaxSize(190, 50);
+      controlsHBox.setMaxSize(210, 50);
       controlsHBox.getStyleClass().add("panel-region");
       controlsHBox.getChildren().addAll(trackingLabel, trackingButton);
 
