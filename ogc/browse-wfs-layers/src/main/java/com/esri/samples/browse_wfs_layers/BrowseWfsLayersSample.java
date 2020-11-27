@@ -16,22 +16,6 @@
 
 package com.esri.samples.browse_wfs_layers;
 
-import com.esri.arcgisruntime.data.QueryParameters;
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.ogc.wfs.OgcAxisOrder;
-import com.esri.arcgisruntime.ogc.wfs.WfsFeatureTable;
-import com.esri.arcgisruntime.ogc.wfs.WfsLayerInfo;
-import com.esri.arcgisruntime.ogc.wfs.WfsService;
-import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -42,6 +26,23 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.data.QueryParameters;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.ogc.wfs.OgcAxisOrder;
+import com.esri.arcgisruntime.ogc.wfs.WfsFeatureTable;
+import com.esri.arcgisruntime.ogc.wfs.WfsLayerInfo;
+import com.esri.arcgisruntime.ogc.wfs.WfsService;
+import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 import java.util.List;
 
@@ -70,6 +71,10 @@ public class BrowseWfsLayersSample extends Application {
     stage.setScene(scene);
     stage.show();
 
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
     // create a list view to show all of the layers in a WFS service
     ListView<WfsLayerInfo> wfsLayerNamesListView = new ListView<>();
     wfsLayerNamesListView.setMaxSize(200, 160);
@@ -78,8 +83,10 @@ public class BrowseWfsLayersSample extends Application {
     progressIndicator = new ProgressIndicator();
     progressIndicator.setVisible(true);
 
-    // create an ArcGISMap with topographic basemap and set it to the map view
-    map = new ArcGISMap(Basemap.createImagery());
+    // create a map with a basemap style
+    map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
+
+    // create a map view and set its map
     mapView = new MapView();
     mapView.setMap(map);
 
