@@ -35,11 +35,12 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.arcgisservices.RenderingRuleInfo;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
 import com.esri.arcgisruntime.raster.RenderingRule;
@@ -63,6 +64,10 @@ public class RasterRenderingRuleSample extends Application {
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a control panel
       VBox controlsVBox = new VBox(8);
@@ -98,8 +103,8 @@ public class RasterRenderingRuleSample extends Application {
       // add the ComboBox and Label to the controlsVBox
       controlsVBox.getChildren().addAll(renderingRuleInfoComboBox, renderingRuleInfoLabel);
 
-      // create a Streets BaseMap
-      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+      // create a map with a streets basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
       // add the map to a new map view
       mapView = new MapView();
