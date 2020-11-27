@@ -25,13 +25,14 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.toolkit.Compass;
@@ -56,6 +57,10 @@ public class MapRotationSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a slider with a range of 360 units and start it half way
       Slider slider = new Slider(-180.0, 180.0, 0.0);
       slider.setMaxWidth(240.0);
@@ -70,8 +75,8 @@ public class MapRotationSample extends Application {
         mapView.setViewpointRotationAsync(slider.getValue());
       });
 
-      // create a ArcGISMap with topographic basemap
-      map = new ArcGISMap(Basemap.createStreetsVector());
+      // create a ArcGISMap with a basemap style
+      map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
       // enable slider when map view is done loading
       map.addDoneLoadingListener(() -> {
@@ -83,7 +88,7 @@ public class MapRotationSample extends Application {
         }
       });
 
-      // create a view and add a ArcGISMap to it
+      // create a view and add an ArcGISMap to it
       mapView = new MapView();
       mapView.setMap(map);
 
