@@ -32,6 +32,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
@@ -43,7 +44,7 @@ import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.ArcGISMapImageSublayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -72,8 +73,12 @@ public class QueryMapImageSublayerSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with a basemap and set its initial viewpoint
-      ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a basemap style and set its initial viewpoint
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
       Point initialLocation = new Point(-12716000.00, 4170400.00, SpatialReferences.getWebMercator());
       Viewpoint viewpoint = new Viewpoint(initialLocation, 6000000);
       map.setInitialViewpoint(viewpoint);
