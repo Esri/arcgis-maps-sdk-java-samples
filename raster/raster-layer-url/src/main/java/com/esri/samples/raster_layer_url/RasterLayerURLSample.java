@@ -22,12 +22,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
 
@@ -51,6 +52,10 @@ public class RasterLayerURLSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create an image service raster from an online raster service
       ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://gis.ngdc.noaa.gov/arcgis/rest/services/bag_hillshades/ImageServer");
 
@@ -63,8 +68,8 @@ public class RasterLayerURLSample extends Application {
         }
       });
 
-      // create a map with dark canvas vector basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
+      // create a map with dark gray basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
 
       // add the map to a map view
       mapView = new MapView();
