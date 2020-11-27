@@ -32,6 +32,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
@@ -39,7 +40,7 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -83,8 +84,12 @@ public class RoutingAroundBarriersController {
 
   @FXML
   public void initialize() {
-    // add a map with the streets basemap to the map view, centered on San Diego
-    ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+    // add a map with the streets basemap style to the map view, centered on San Diego
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
     mapView.setMap(map);
     mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
