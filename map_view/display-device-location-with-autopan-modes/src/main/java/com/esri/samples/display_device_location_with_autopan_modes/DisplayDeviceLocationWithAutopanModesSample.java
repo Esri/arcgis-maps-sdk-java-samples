@@ -36,6 +36,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -43,7 +44,7 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
 import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -69,8 +70,12 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       stage.show();
       scene.getStylesheets().add(getClass().getResource("/display_device_location_with_autopan_modes/style.css").toExternalForm());
 
-      // create an ArcGISMap with the imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with the imagery basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
       // create a map view and add the map to it
       mapView = new MapView();
