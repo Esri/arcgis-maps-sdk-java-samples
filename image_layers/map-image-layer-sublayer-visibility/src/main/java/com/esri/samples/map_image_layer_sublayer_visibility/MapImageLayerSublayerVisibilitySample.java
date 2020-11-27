@@ -30,11 +30,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.SublayerList;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class MapImageLayerSublayerVisibilitySample extends Application {
@@ -57,6 +59,10 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
@@ -73,11 +79,12 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       controlsVBox.getChildren().addAll(citiesBox, continentsBox, worldBox);
       controlsVBox.getChildren().forEach(c -> ((CheckBox) c).setSelected(true));
 
-      // create a map view
-      mapView = new MapView();
+      // create a map with a basemap style and set an initial viewpoint
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+      map.setInitialViewpoint(new Viewpoint(48.354406, -99.998267, 150000000));
 
-      // create an ArcGISMap with the topographic basemap and set it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, 48.354406, -99.998267, 2);
+      // create a map view and set its map
+      mapView = new MapView();
       mapView.setMap(map);
 
       // create a Image Layer with dynamically generated ArcGISMap images
