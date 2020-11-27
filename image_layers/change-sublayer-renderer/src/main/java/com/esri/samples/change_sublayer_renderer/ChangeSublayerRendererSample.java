@@ -28,12 +28,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.ArcGISMapImageSublayer;
 import com.esri.arcgisruntime.layers.SublayerList;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.ClassBreaksRenderer;
 import com.esri.arcgisruntime.symbology.ClassBreaksRenderer.ClassBreak;
@@ -63,8 +65,15 @@ public class ChangeSublayerRendererSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map and set it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 48.354406, -99.998267, 2);
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+      map.setInitialViewpoint(new Viewpoint(48.354406, -99.998267, 40000));
+
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
