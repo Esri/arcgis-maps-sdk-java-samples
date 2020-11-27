@@ -31,6 +31,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeatureTable;
 import com.esri.arcgisruntime.data.QueryParameters;
@@ -38,7 +39,7 @@ import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
@@ -73,6 +74,10 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     stage.setScene(scene);
     stage.show();
 
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
     // create button
     Button findServiceAreasButton = new Button("Find Service Areas");
     findServiceAreasButton.setMaxWidth(150);
@@ -82,10 +87,10 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     ProgressIndicator progressIndicator = new ProgressIndicator();
     progressIndicator.setVisible(false);
 
-    // create an ArcGISMap with a streets basemap
-    ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
+    // create a map with a basemap style
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
-    // set the ArcGISMap to be displayed in the map view
+    // create a map view and set its map
     mapView = new MapView();
     mapView.setMap(map);
 
