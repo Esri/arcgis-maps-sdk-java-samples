@@ -27,9 +27,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.UnitSystem;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.toolkit.Scalebar;
 
@@ -51,9 +53,16 @@ public class ScaleBarSample extends Application {
     stage.setScene(scene);
     stage.show();
 
-    // create a map view
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+    // create a map with a basemap style
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
+    map.setInitialViewpoint(new Viewpoint(64.1405, -16.2426, 9000));
+
+    // create a map view and set its map
     mapView = new MapView();
-    ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY, 64.1405, -16.2426, 16);
     mapView.setMap(map);
 
     // create a scale bar for the map view
