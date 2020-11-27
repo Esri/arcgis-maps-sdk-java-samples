@@ -26,10 +26,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ImageServiceRaster;
 import com.esri.arcgisruntime.raster.Raster;
@@ -56,10 +57,14 @@ public class RasterFunctionSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with dark canvas vector basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // add the map to a map view
+      // create a map with a dark gray basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
+
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
