@@ -57,7 +57,7 @@ public class CustomDictionaryStyleSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a new map with a streets basemap style
+      // create a map with a streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
       // create a map view and set its map
