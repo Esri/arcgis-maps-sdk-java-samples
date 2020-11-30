@@ -28,12 +28,13 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -69,15 +70,19 @@ public class PictureMarkerSymbolSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a ArcGISMap with the topographic basemap
-      map = new ArcGISMap(Basemap.createTopographic());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create view for this map
+      // create a ArcGISMap with the topographic basemap style
+      map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+
+      // create a map view and set its map
       mapView = new MapView();
+      mapView.setMap(map);
 
       // create graphics overlay and add it to the mapview
       graphicsOverlay = new GraphicsOverlay();
-
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create points for displaying graphics
@@ -111,9 +116,6 @@ public class PictureMarkerSymbolSample extends Application {
           alert.show();
         }
       });
-
-      // set ArcGISMap to be displayed in mapview
-      mapView.setMap(map);
 
       // set viewpoint on mapview with padding
       Envelope envelope = new Envelope(leftPoint, rightPoint);
