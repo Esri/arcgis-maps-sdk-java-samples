@@ -32,11 +32,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Callout;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -67,9 +68,14 @@ public class FindPlaceController {
 
   @FXML
   public void initialize() {
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create ArcGISMap with streets basemap and add it to map view
-    ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+    // create ArcGISMap with streets basemap style
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+
+    // set the map to the map view
     mapView.setMap(map);
     mapView.setWrapAroundMode(WrapAroundMode.DISABLED);
 
@@ -82,7 +88,7 @@ public class FindPlaceController {
     callout.setLeaderPosition(Callout.LeaderPosition.BOTTOM);
 
     // create a locatorTask task
-    locatorTask = new LocatorTask("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
+    locatorTask = new LocatorTask("https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
     // create a pin graphic
     Image img = new Image(getClass().getResourceAsStream("/find_place/pin.png"), 0, 80, true, true);
