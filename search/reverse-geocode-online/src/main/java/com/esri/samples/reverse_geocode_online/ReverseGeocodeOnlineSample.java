@@ -32,10 +32,12 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Callout;
 import com.esri.arcgisruntime.mapping.view.Callout.LeaderPosition;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -69,14 +71,19 @@ public class ReverseGeocodeOnlineSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // add a progress indicator
       progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
       progressIndicator.setMaxSize(40, 40);
       progressIndicator.setStyle("-fx-progress-color: white;");
       progressIndicator.setVisible(false);
 
-      // create ArcGISMap with imagery basemap centered over the US
-      ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY_WITH_LABELS, 40, -95, 4);
+      // create ArcGISMap with imagery basemap style centered over the US
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY);
+      map.setInitialViewpoint(new Viewpoint(40, -95, 35000000));
 
       // create a view and set ArcGISMap to it
       mapView = new MapView();
@@ -91,7 +98,7 @@ public class ReverseGeocodeOnlineSample extends Application {
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
 
       // create a locator task
-      locatorTask = new LocatorTask("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
+      locatorTask = new LocatorTask("https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
       // create geocode task parameters
       ReverseGeocodeParameters reverseGeocodeParameters = new ReverseGeocodeParameters();
