@@ -120,12 +120,12 @@ public class UpdateAttributesSample extends Application {
       // add damage type label and comboBox to the control panel
       controlsVBox.getChildren().addAll(typeDamageLabel, comboBox);
 
-      // create a map view
-      mapView = new MapView();
-
-      // create a map with streets basemap style and set it to the map view
+      // create a map with streets basemap style and an initial viewpoint
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
       map.setInitialViewpoint(new Viewpoint(40, -95,40000000));
+
+      // create a map view and set its map
+      mapView = new MapView();
       mapView.setMap(map);
 
       // create service feature table from URL

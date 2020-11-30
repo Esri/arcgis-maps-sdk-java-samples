@@ -119,12 +119,12 @@ public class EditFeatureAttachmentsSample extends Application {
       // add controls to the panel
       controlsVBox.getChildren().addAll(addAttachmentButton, deleteAttachmentButton, attachmentsLabel, attachmentList);
 
-      // create a map view
-      mapView = new MapView();
-
-      // create a map with streets basemap style and set it to the map view
+      // create a map with streets basemap style and an initial viewpoint
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
       map.setInitialViewpoint(new Viewpoint(40, -95, 40000000));
+
+      // create a map view and set its map
+      mapView = new MapView();
       mapView.setMap(map);
 
       // set selection color

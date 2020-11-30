@@ -78,8 +78,10 @@ public class EditWithBranchVersioningController {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the streets vector basemap style and set it to the map view
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+
+      // set the map to the map view
       mapView.setMap(map);
 
       // add the version access types to the access type combo box
