@@ -64,7 +64,7 @@ public class ProjectSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style a web mercator spatial reference
+      // create a map with a web mercator spatial reference and a basemap style
       ArcGISMap map = new ArcGISMap(SpatialReference.create(3857));
       map.setBasemap(new Basemap(BasemapStyle.ARCGIS_TOPOGRAPHIC));
 
