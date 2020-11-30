@@ -37,18 +37,6 @@ dependencies {
     implementation 'commons-io:commons-io:2.4'
 }
 
-task apiKey {
-    description = "Creates a new gradle.properties file with an empty API key variable in the user home ./gradle folder if the file doesn't already exist."
-    group = "build"
-    def apiKeyFile = new File("${System.properties.getProperty("user.home")}/.gradle/gradle.properties")
-    if (!apiKeyFile.exists()) {
-        print("Go to " + new URL("https://developers.arcgis.com") + " to get an API key.")
-        print(" Add your API key to ${System.properties.getProperty("user.home")}\\.gradle\\gradle.properties.")
-        String apiKeyFileContents = "apiKey = "
-        apiKeyFile.write(apiKeyFileContents)
-    }
-}
-
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -60,7 +48,6 @@ task copyNatives(type: Copy) {
 }
 
 run {
-    systemProperty 'apiKey', apiKey
     dependsOn copyNatives
     mainClassName = 'com.esri.samples.apply_scheduled_updates_to_preplanned_map_area.ApplyScheduledUpdatesToPreplannedMapAreaLauncher'
 }
