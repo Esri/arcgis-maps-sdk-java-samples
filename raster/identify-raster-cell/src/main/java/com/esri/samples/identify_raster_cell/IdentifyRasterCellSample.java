@@ -69,7 +69,7 @@ public class IdentifyRasterCellSample extends Application {
             String yourAPIKey = System.getProperty("apiKey");
             ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-            // create a ap with an oceans basemap style
+            // create a map with an oceans basemap style
             ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
 
             // create a map view and set its map
