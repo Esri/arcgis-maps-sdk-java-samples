@@ -33,11 +33,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -64,9 +65,13 @@ public class ReadSymbolsFromMobileStyleFileController {
 
   @FXML
   public void initialize() {
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map
-    ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+    // create a map with a topographic basemap style
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+
     // add the map to the map view
     mapView.setMap(map);
 
