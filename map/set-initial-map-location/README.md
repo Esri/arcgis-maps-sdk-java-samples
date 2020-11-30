@@ -27,7 +27,7 @@ When the map loads, note the specific location and scale of the initial map view
 
 ## About the data
 
-The map opens with a National Geographic basemap centred over East Scotland.
+The map opens with a basemap centred over East Scotland.
 
 ## Tags
 

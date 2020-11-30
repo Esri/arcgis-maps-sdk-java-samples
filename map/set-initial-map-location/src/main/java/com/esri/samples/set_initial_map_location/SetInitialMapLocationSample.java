@@ -50,8 +50,8 @@ public class SetInitialMapLocationSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the topographic basemap style
-      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+      // create a map with the navigation basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_NAVIGATION);
 
       // set the initial viewpoint for the map specifying latitude, longitude and scale
       map.setInitialViewpoint(new Viewpoint(56.075844, -2.681572, 700000.0));
