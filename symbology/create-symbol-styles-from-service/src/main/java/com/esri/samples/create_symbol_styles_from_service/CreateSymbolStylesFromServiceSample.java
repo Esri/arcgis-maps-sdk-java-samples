@@ -17,8 +17,6 @@
 package com.esri.samples.create_symbol_styles_from_service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javafx.application.Application;
@@ -46,26 +44,13 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
-import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 
 public class CreateSymbolStylesFromServiceSample extends Application {
 
   private MapView mapView;
-  private UniqueValueRenderer.UniqueValue school;
-  private Symbol schoolSymbol;
-  private Symbol parkSymbol;
-  private Symbol cityHallSymbol;
-  private Symbol beachSymbol;
-  Symbol airportSymbol;
-  Symbol airport;
-  Symbol po;
-
-
-  List<SymbolStyleSearchResult> symbolSearchResults;
 
   @Override
   public void start(Stage stage) {
@@ -84,6 +69,7 @@ public class CreateSymbolStylesFromServiceSample extends Application {
 
       // create a map with the imagery basemap
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvasVector());
+      map.setReferenceScale(100000);
 
       // create a map view and set its map
       mapView = new MapView();
@@ -96,7 +82,6 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       // create a unique value renderer and add the relevant field from the feature layer to match symbols with
       UniqueValueRenderer uniqueValueRenderer = new UniqueValueRenderer();
       uniqueValueRenderer.getFieldNames().add("cat2");
-//      uniqueValueRenderer.getFieldNames().add("cat1");
 
       // set the renderer on the feature layer
       featureLayer.setRenderer(uniqueValueRenderer);
@@ -104,14 +89,14 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       // create a symbol style from a portal
       SymbolStyle symbolStyle = new SymbolStyle("Esri2DPointSymbolsStyle", null);
 
-//      // display an error if the symbol style does not load
+      // display an error if the symbol style does not load
       symbolStyle.loadAsync();
       symbolStyle.addDoneLoadingListener(() -> {
-          if (symbolStyle.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-            new Alert(Alert.AlertType.ERROR, "Error: could not load symbol style. Details: \n"
-              + symbolStyle.getLoadError().getMessage()).show();
-          }
-        });
+        if (symbolStyle.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+          new Alert(Alert.AlertType.ERROR, "Error: could not load symbol style. Details: \n"
+            + symbolStyle.getLoadError().getMessage()).show();
+        }
+      });
 
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY,
@@ -123,24 +108,6 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       heading.setTextFill(Color.WHITE);
       controlsVBox.getChildren().add(heading);
 
-//      ArrayList<String> listOfKeys = new ArrayList<>();
-////      listOfKeys.add("post-office");
-//      listOfKeys.add("airport");
-//      listOfKeys.add("beach");
-////      listOfKeys.add("campground");
-//      listOfKeys.add("trail");
-//      listOfKeys.add("information");
-////      listOfKeys.add("museum");
-//      listOfKeys.add("city-hall");
-//      listOfKeys.add("shopping-center");
-//      listOfKeys.add("sports-complex");
-//      listOfKeys.add("school");
-//      listOfKeys.add("train-station");
-//      listOfKeys.add("theatre");
-////      listOfKeys.add("subway-station");
-//      listOfKeys.add("park");
-////      listOfKeys.add("golf-course");
-
       ArrayList<String> listOfKeys = new ArrayList<>();
       listOfKeys.add("post-office");
       listOfKeys.add("atm");
@@ -148,6 +115,12 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       listOfKeys.add("police-station");
       listOfKeys.add("school");
       listOfKeys.add("hospital");
+      listOfKeys.add("beach");
+      listOfKeys.add("trail");
+      listOfKeys.add("city-hall");
+      listOfKeys.add("park");
+      listOfKeys.add("library");
+      listOfKeys.add("campground");
 
       for (String key : listOfKeys) {
         List<String> keySearch = new ArrayList<>();
@@ -156,7 +129,7 @@ public class CreateSymbolStylesFromServiceSample extends Application {
         searchResult.addDoneListener(() -> {
           try {
             Symbol symbol = searchResult.get();
-            List<String> categories = figureOutCategories(key);
+            List<String> categories = mapSymbolKeyToCategories(key);
             Label label = new Label();
             label.setText(key);
             label.setTextFill(Color.WHITE);
@@ -179,13 +152,15 @@ public class CreateSymbolStylesFromServiceSample extends Application {
 
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
-          // set viewpoint to the location of feature layer's features
-//          mapView.setViewpointCenterAsync(featureLayer.getFullExtent().getCenter(), 10000000);
           // set the map views's viewpoint centered on Los Angeles, California and scaled
           mapView.setViewpoint(new Viewpoint(new Point(-13185668.186639601, 4066176.418652561,
             SpatialReferences.getWebMercator()), 7000));
-//          featureLayer.setMinScale(400000);
-        } else new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!").show();
+        } else new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!\n" +
+          featureLayer.getLoadError().getCause().getMessage()).show();
+      });
+
+      mapView.addMapScaleChangedListener(mapScaleChangedEvent -> {
+        featureLayer.setScaleSymbols(!(mapView.getMapScale() < 80000));
       });
 
       // add the map view to stack pane
@@ -199,7 +174,7 @@ public class CreateSymbolStylesFromServiceSample extends Application {
     }
   }
 
-  private List<String> figureOutCategories(String key) {
+  private List<String> mapSymbolKeyToCategories(String key) {
 
     List<String> categories = new ArrayList<>();
 
@@ -207,53 +182,24 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       case "beach":
         categories.add("Beaches and Marinas");
         break;
-      case "campground":
-        categories.add("Campgrounds");
-      case "airport":
-        categories.add("Airports");
-        break;
       case "trail":
         categories.add("Trails");
         break;
-      case "museum":
-        categories.add("Museums and Aquariums");
-        break;
-      case "subway-station":
-        categories.add("Metro Stations");
-        break;
       case "park":
-        categories.add("Environment");
-        break;
-      case "shopping-center":
-        categories.add("Shopping Centers");
-        break;
-      case "sports-complex":
-        categories.add("Sports Venues");
-        break;
-      case "information":
-        categories.add("Tourist Assistance");
-        break;
-      case "golf-course":
-        categories.add("Golf Courses");
+        categories.add("Parks and Gardens");
         break;
       case "post-office":
-        categories.add("USPS Mail Collection Boxes");
+        categories.add("DHL Locations");
         categories.add("Federal Express Locations");
         break;
       case "school":
-        categories.add("Education");
-        categories.add("Guidance and Tutoring Programs");
+        categories.add("Public High Schools");
         categories.add("Public Elementary Schools");
         categories.add("Private and Charter Schools");
         break;
       case "city-hall":
-        categories.add("Government");
-        break;
-      case "train-station":
-        categories.add("Transportation");
-        break;
-      case "theatre":
-        categories.add("Arts and Recreation");
+        categories.add("City Halls");
+        categories.add("Government Offices");
         break;
       case "atm":
         categories.add("Banking and Finance");
@@ -265,9 +211,16 @@ public class CreateSymbolStylesFromServiceSample extends Application {
         categories.add("Sheriff and Police Stations");
         break;
       case "hospital":
+        categories.add("Hospitals and Medical Centers");
         categories.add("Health Screening and Testing");
         categories.add("Health Centers");
-        categories.add("Medicare and Medicaid Offices");
+        categories.add("Mental Health Centers");
+        break;
+      case "library":
+        categories.add("Libraries");
+        break;
+      case "campground":
+        categories.add("Campgrounds");
         break;
     }
     return categories;
