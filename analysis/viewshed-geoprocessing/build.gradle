@@ -36,14 +36,15 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task apiKey {
+task createProperties {
     description = "Creates a new gradle.properties file with an empty API key variable in the user home ./gradle folder if the file doesn't already exist."
     group = "build"
-    def apiKeyFile = new File("${System.properties.getProperty("user.home")}/.gradle/gradle.properties")
-    if (!apiKeyFile.exists()) {
-        print("Go to " + new URL("https://developers.arcgis.com") + " to get an API key.")
+    def propertiesFile = new File("${System.properties.getProperty("user.home")}/.gradle/gradle.properties")
+    if (!propertiesFile.exists()) {
+        print("Go to " + new URL("https://developers.arcgis.com/dashboard") + " to get an API key.")
         print(" Add your API key to ${System.properties.getProperty("user.home")}\\.gradle\\gradle.properties.")
-        apiKeyFile.write("apiKey = ")
+        String propertiesFileContents = "apiKey = "
+        propertiesFile.write(propertiesFileContents)
     }
 }
 
