@@ -19,7 +19,7 @@ Click anywhere on the map. A callout showing the WGS84 coordinates for the click
 3. Get the screen point's location on the map using `MapView.screenToLocation(Point2D)`.
 4. Get the `MapView`'s callout.
 5. Set the title and detail of the callout to display the map point's coordinates.
-6. Display the callout at the map point and specify an animation duration by using `callout.showCalloutAt(mapPoint, duration)`.
+6. Display the callout at the map point `callout.showCalloutAt(mapPoint)`.
 
 ## Relevant API
 

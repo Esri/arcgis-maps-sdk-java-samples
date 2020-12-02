@@ -82,7 +82,7 @@ public class FindPlaceController {
     callout.setLeaderPosition(Callout.LeaderPosition.BOTTOM);
 
     // create a locatorTask task
-    locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
+    locatorTask = new LocatorTask("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
     // create a pin graphic
     Image img = new Image(getClass().getResourceAsStream("/find_place/pin.png"), 0, 80, true, true);

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2020 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<StackPane
+        fx:controller="com.esri.samples.perform_valve_isolation_trace.PerformValveIsolationTraceController"
+        xmlns:fx="http://javafx.com/fxml" stylesheets="/perform_valve_isolation_trace/style.css">
+    <!--SDK MapView-->
+    <MapView fx:id="mapView"/>
+    <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
+    <!--Controls Area-->
+    <VBox StackPane.alignment="TOP_LEFT">
+        <Label text="Choose category for filter barrier:" styleClass="title"/>
+
+        <HBox>
+            <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true"/>
+            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true"/>
+        </HBox>
+
+        <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include isolated features" disable="true"/>
+        <Label fx:id="statusLabel" StackPane.alignment="CENTER" text="Loading Utility Network..."/>
+    </VBox>
+</StackPane>

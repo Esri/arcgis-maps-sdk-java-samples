@@ -1,0 +1,54 @@
+{
+    "category": "Utility network",
+    "description": "Run a filtered trace to locate operable features that will isolate an area from the flow of network resources.",
+    "ignore": false,
+    "images": [
+        "PerformValveIsolationTrace.png"
+    ],
+    "keywords": [
+        "category comparison",
+        "condition barriers",
+        "isolated features",
+        "network analysis",
+        "subnetwork trace",
+        "trace configuration",
+        "trace filter",
+        "utility network",
+        "UtilityCategory",
+        "UtilityCategoryComparison",
+        "UtilityCategoryComparisonOperator",
+        "UtilityDomainNetwork",
+        "UtilityElement",
+        "UtilityElementTraceResult",
+        "UtilityNetwork",
+        "UtilityNetworkDefinition",
+        "UtilityTier",
+        "UtilityTraceFilter",
+        "UtilityTraceParameters",
+        "UtilityTraceResult",
+        "UtilityTraceType"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "UtilityCategory",
+        "UtilityCategoryComparison",
+        "UtilityCategoryComparisonOperator",
+        "UtilityDomainNetwork",
+        "UtilityElement",
+        "UtilityElementTraceResult",
+        "UtilityNetwork",
+        "UtilityNetworkDefinition",
+        "UtilityTier",
+        "UtilityTraceFilter",
+        "UtilityTraceParameters",
+        "UtilityTraceResult",
+        "UtilityTraceType"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/perform_valve_isolation_trace/PerformValveIsolationTraceController.java",
+        "src/main/java/com/esri/samples/perform_valve_isolation_trace/PerformValveIsolationTraceSample.java",
+        "src/main/java/com/esri/samples/perform_valve_isolation_trace/UtilityCategoryListCell.java",
+        "src/main/resources/perform_valve_isolation_trace/main.fxml"
+    ],
+    "title": "Perform valve isolation trace"
+}
