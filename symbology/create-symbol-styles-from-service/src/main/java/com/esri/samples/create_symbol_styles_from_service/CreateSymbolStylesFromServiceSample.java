@@ -17,7 +17,9 @@
 package com.esri.samples.create_symbol_styles_from_service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -25,12 +27,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -98,29 +102,28 @@ public class CreateSymbolStylesFromServiceSample extends Application {
         }
       });
 
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY,
+      // create a legend
+      GridPane gridPane = new GridPane();
+      gridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(70), new ColumnConstraints(120)));
+      Label legendTitle = new Label("Style: " + symbolStyle.getStyleName());
+      legendTitle.setStyle("-fx-font-weight: bold");
+      gridPane.add(legendTitle, 0, 0,2,1);
+      Label symbolTitle = new Label("Symbol");
+      symbolTitle.setStyle("-fx-font-weight: bold");
+      Label nameTitle = new Label("Name");
+      nameTitle.setStyle("-fx-font-weight: bold");
+      gridPane.add(symbolTitle, 0, 1);
+      gridPane.add(nameTitle, 1, 1);
+      gridPane.setMaxWidth(175);
+      gridPane.setMaxHeight(570);
+      gridPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255, 0.9)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(250, 80);
-      Label heading = new Label();
-      heading.setText("Symbol Style: " + symbolStyle.getStyleName());
-      heading.setTextFill(Color.WHITE);
-      controlsVBox.getChildren().add(heading);
+      gridPane.setPadding(new Insets(10));
+      gridPane.setVgap(12);
 
       ArrayList<String> listOfKeys = new ArrayList<>();
-      listOfKeys.add("post-office");
-      listOfKeys.add("atm");
-      listOfKeys.add("place-of-worship");
-      listOfKeys.add("police-station");
-      listOfKeys.add("school");
-      listOfKeys.add("hospital");
-      listOfKeys.add("beach");
-      listOfKeys.add("trail");
-      listOfKeys.add("city-hall");
-      listOfKeys.add("park");
-      listOfKeys.add("library");
-      listOfKeys.add("campground");
+      listOfKeys.addAll(Arrays.asList("atm", "beach", "campground", "city-hall", "hospital", "library", "park",
+        "place-of-worship", "police-station", "post-office", "school", "trail"));
 
       for (String key : listOfKeys) {
         List<String> keySearch = new ArrayList<>();
@@ -129,11 +132,11 @@ public class CreateSymbolStylesFromServiceSample extends Application {
         searchResult.addDoneListener(() -> {
           try {
             Symbol symbol = searchResult.get();
+            ImageView imageView = addSymbolToImageView(symbol);
+            Label gridPaneLabel = new Label(key);
+            gridPane.add(imageView, 0, listOfKeys.indexOf(key)+2);
+            gridPane.add(gridPaneLabel, 1, listOfKeys.indexOf(key)+2);
             List<String> categories = mapSymbolKeyToCategories(key);
-            Label label = new Label();
-            label.setText(key);
-            label.setTextFill(Color.WHITE);
-            controlsVBox.getChildren().add(label);
             for (String category : categories) {
               List<Object> categoryValue = new ArrayList<>();
               categoryValue.add(category);
@@ -153,7 +156,7 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
           // set the map views's viewpoint centered on Los Angeles, California and scaled
-          mapView.setViewpoint(new Viewpoint(new Point(-13185668.186639601, 4066176.418652561,
+          mapView.setViewpoint(new Viewpoint(new Point(-13184975, 4066890,
             SpatialReferences.getWebMercator()), 7000));
         } else new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!\n" +
           featureLayer.getLoadError().getCause().getMessage()).show();
@@ -164,9 +167,9 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       });
 
       // add the map view to stack pane
-      stackPane.getChildren().addAll(mapView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, gridPane);
+      StackPane.setAlignment(gridPane, Pos.TOP_LEFT);
+      StackPane.setMargin(gridPane, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -174,35 +177,38 @@ public class CreateSymbolStylesFromServiceSample extends Application {
     }
   }
 
+  /**
+   * Returns a list of categories to be matched to a symbol key.
+   *
+   * @param key the name of a symbol
+   * @return categories a list of categories matched to the provided symbol key
+   */
   private List<String> mapSymbolKeyToCategories(String key) {
 
     List<String> categories = new ArrayList<>();
 
     switch (key) {
+      case "atm":
+        categories.add("Banking and Finance");
+        break;
       case "beach":
         categories.add("Beaches and Marinas");
         break;
-      case "trail":
-        categories.add("Trails");
+      case "campground":
+        categories.add("Campgrounds");
+        break;
+      case "city-hall":
+        categories.addAll(Arrays.asList("City Halls", "Government Offices"));
+        break;
+      case "hospital":
+        categories.addAll(Arrays.asList("Hospitals and Medical Centers", "Health Screening and Testing", "Health Centers",
+          "Mental Health Centers"));
+        break;
+      case "library":
+        categories.add("Libraries");
         break;
       case "park":
         categories.add("Parks and Gardens");
-        break;
-      case "post-office":
-        categories.add("DHL Locations");
-        categories.add("Federal Express Locations");
-        break;
-      case "school":
-        categories.add("Public High Schools");
-        categories.add("Public Elementary Schools");
-        categories.add("Private and Charter Schools");
-        break;
-      case "city-hall":
-        categories.add("City Halls");
-        categories.add("Government Offices");
-        break;
-      case "atm":
-        categories.add("Banking and Finance");
         break;
       case "place-of-worship":
         categories.add("Churches");
@@ -210,20 +216,39 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       case "police-station":
         categories.add("Sheriff and Police Stations");
         break;
-      case "hospital":
-        categories.add("Hospitals and Medical Centers");
-        categories.add("Health Screening and Testing");
-        categories.add("Health Centers");
-        categories.add("Mental Health Centers");
+      case "post-office":
+        categories.addAll(Arrays.asList("DHL Locations", "Federal Express Locations"));
         break;
-      case "library":
-        categories.add("Libraries");
+      case "school":
+        categories.addAll(Arrays.asList("Public High Schools", "Public Elementary Schools", "Private and Charter Schools"));
         break;
-      case "campground":
-        categories.add("Campgrounds");
+      case "trail":
+        categories.add("Trails");
         break;
     }
     return categories;
+  }
+
+  /**
+   * Returns an imageView populated with a symbol.
+   *
+   * @param symbol the symbol to display in the imageView
+   * @return imageView the imageView populated with the symbol
+   */
+  private ImageView addSymbolToImageView(Symbol symbol) {
+
+    // add the symbol to the image view to display it in the legend
+    ImageView imageView = new ImageView();
+    ListenableFuture<Image> image = symbol.createSwatchAsync(0x00000000);
+    image.addDoneListener(() -> {
+      try {
+        // display the image in the image view
+        imageView.setImage(image.get());
+      } catch (InterruptedException | ExecutionException e) {
+        new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided symbol").show();
+      }
+    });
+    return imageView;
   }
 
   /**
@@ -248,50 +273,3 @@ public class CreateSymbolStylesFromServiceSample extends Application {
   }
 
 }
-
-//      //////////
-//      // simple renderer working for one specific key
-//      ///////////
-//
-//      //
-//      List<String> searchKey = new ArrayList<>();
-//      searchKey.add("push-pin-1");
-//
-//      ListenableFuture<Symbol> searchResult = symbolStyle.getSymbolAsync(searchKey);
-//      searchResult.addDoneListener(() -> {
-//        try {
-//          simpleRenderer.setSymbol(searchResult.get());
-//        } catch (Exception e) {
-//          // on any error, display the stack trace
-//          e.printStackTrace();
-//        }
-//      });
-
-// System.out.println(symbolStyle.getStyleName());
-// this prints out Esri2DPointSymbolsStyle
-
-// below prints out what information you can get back after creating the style
-//      ListenableFuture<SymbolStyleSearchParameters> symbolStyleSearchParametersListenableFuture = symbolStyle.getDefaultSearchParametersAsync();
-//      symbolStyleSearchParametersListenableFuture.addDoneListener(() -> {
-//        try{
-//          List<String> keys = symbolStyleSearchParametersListenableFuture.get().getKeys();
-//          List<String> names = symbolStyleSearchParametersListenableFuture.get().getNames();
-//          List<String> categories = symbolStyleSearchParametersListenableFuture.get().getCategories();
-//
-//          for (String key : keys) {
-//            System.out.println("key: " + key);
-//          }
-//
-//          for (String name : names) {
-//            System.out.println("name: " + name);
-//          }
-//
-//          for (String category : categories) {
-//            System.out.println("category: " + category);
-//          }
-//
-//        } catch (Exception e) {
-//          // on any error, display the stack trace
-//          e.printStackTrace();
-//        }
-//      });
