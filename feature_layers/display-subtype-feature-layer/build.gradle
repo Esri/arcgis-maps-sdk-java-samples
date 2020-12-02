@@ -44,8 +44,7 @@ task apiKey {
     if (!apiKeyFile.exists()) {
         print("Go to " + new URL("https://developers.arcgis.com") + " to get an API key.")
         print(" Add your API key to ${System.properties.getProperty("user.home")}\\.gradle\\gradle.properties.")
-        String apiKeyFileContents = "apiKey = "
-        apiKeyFile.write(apiKeyFileContents)
+        apiKeyFile.write("apiKey = ")
     }
 }
 
