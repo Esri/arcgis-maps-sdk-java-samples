@@ -37,14 +37,13 @@ dependencies {
 }
 
 task createProperties {
-    description = "Creates a new gradle.properties file with an empty API key variable in the user home ./gradle folder if the file doesn't already exist."
+    description = "Creates a new gradle.properties file with an empty API key variable in the user home ./gradle folder, if the file doesn't already exist."
     group = "build"
     def propertiesFile = new File("${System.properties.getProperty("user.home")}/.gradle/gradle.properties")
     if (!propertiesFile.exists()) {
         print("Go to " + new URL("https://developers.arcgis.com/dashboard") + " to get an API key.")
         print(" Add your API key to ${System.properties.getProperty("user.home")}\\.gradle\\gradle.properties.")
-        String propertiesFileContents = "apiKey = "
-        propertiesFile.write(propertiesFileContents)
+        propertiesFile.write("apiKey = ")
     }
 }
 
