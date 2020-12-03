@@ -66,7 +66,7 @@ public class ProjectSample extends Application {
 
       // create a map with a web mercator spatial reference and a basemap style
       ArcGISMap map = new ArcGISMap(SpatialReference.create(3857));
-      map.setBasemap(new Basemap(BasemapStyle.ARCGIS_TOPOGRAPHIC));
+      map.setBasemap(new Basemap(BasemapStyle.ARCGIS_NAVIGATION));
 
       // create a map view and set its map
       mapView = new MapView();
