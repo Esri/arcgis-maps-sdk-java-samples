@@ -36,7 +36,7 @@ Accessing Esri location services, including basemaps, routing, and geocoding, re
 ### Terminal
 
 1. `cd` into one of the sample project directories (not the category folder).
-3. Build the sample project with `./gradlew build`
+3. Run `gradle wrapper` to create the Gradle Wrapper
 4. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
 2. Run `./gradlew run` on Linux/Mac or `gradlew.bat run` on Windows to run the app.
 
