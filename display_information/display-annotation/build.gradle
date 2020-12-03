@@ -37,7 +37,7 @@ dependencies {
     implementation 'org.jooq:joox:1.4.0'
 }
 
-task createProperties {
+task apiKey {
     description = "Creates a new gradle.properties file with an empty API key variable in the user home ./gradle folder, if the file doesn't already exist."
     group = "build"
     def propertiesFile = new File("${System.properties.getProperty("user.home")}/.gradle/gradle.properties")
