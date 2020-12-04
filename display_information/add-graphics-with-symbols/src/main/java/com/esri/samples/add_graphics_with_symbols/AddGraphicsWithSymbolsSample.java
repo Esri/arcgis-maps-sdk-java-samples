@@ -69,13 +69,15 @@ public class AddGraphicsWithSymbolsSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the oceans basemap type and set an initial viewpoint
+      // create a map with the oceans basemap type
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
-      map.setInitialViewpoint(new Viewpoint(56.075844, -2.681572, 70000));
 
       // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(56.075844, -2.681572, 70000));
 
       // create the graphics overlay
       graphicsOverlay = new GraphicsOverlay();
