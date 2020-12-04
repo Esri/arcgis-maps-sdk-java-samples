@@ -74,10 +74,13 @@ public class AddFeaturesSample extends Application {
 
       // create a map with streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
-      map.setInitialViewpoint(new Viewpoint(40, -95, 40000000));
 
-      // create a view for this ArcGISMap
+      // create a map view and set its map
       mapView = new MapView();
+      mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(40, -95, 40000000));
 
       // create service feature table from URL
       featureTable = new ServiceFeatureTable(SERVICE_LAYER_URL);
@@ -105,9 +108,6 @@ public class AddFeaturesSample extends Application {
           addFeature(normalizedMapPoint, featureTable);
         }
       });
-
-      // set ArcGISMap to be displayed in map view
-      mapView.setMap(map);
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
