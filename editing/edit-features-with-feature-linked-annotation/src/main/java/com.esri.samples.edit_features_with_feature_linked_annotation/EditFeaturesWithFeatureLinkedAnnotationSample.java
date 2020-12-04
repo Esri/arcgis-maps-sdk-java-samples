@@ -75,13 +75,15 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create the map with a light gray basemap style centered on Loudoun, Virginia
+      // create the map with a light gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
-      map.setInitialViewpoint(new Viewpoint(39.0204, -77.4159, 2000));
 
       // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view centered on Loudoun, Virginia
+      mapView.setViewpoint(new Viewpoint(39.0204, -77.4159, 2000));
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
