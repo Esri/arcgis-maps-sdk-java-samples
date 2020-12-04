@@ -79,13 +79,15 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       controlsVBox.getChildren().addAll(citiesBox, continentsBox, worldBox);
       controlsVBox.getChildren().forEach(c -> ((CheckBox) c).setSelected(true));
 
-      // create a map with a basemap style and set an initial viewpoint
+      // create a map with a basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
-      map.setInitialViewpoint(new Viewpoint(48.354406, -99.998267, 150000000));
 
       // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(48.354406, -99.998267, 150000000));
 
       // create a Image Layer with dynamically generated ArcGISMap images
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer");
