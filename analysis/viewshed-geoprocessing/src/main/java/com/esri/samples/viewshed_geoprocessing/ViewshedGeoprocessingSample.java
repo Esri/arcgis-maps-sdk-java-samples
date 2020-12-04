@@ -87,13 +87,15 @@ public class ViewshedGeoprocessingSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the topographic basemap style and set the initial view point
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
-      map.setInitialViewpoint(new Viewpoint(45.3790902612337, 6.84905317262762, 140000));
 
       // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(45.3790902612337, 6.84905317262762, 140000));
 
       // create an input graphics overlay to show red point markers where the user clicks
       SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
