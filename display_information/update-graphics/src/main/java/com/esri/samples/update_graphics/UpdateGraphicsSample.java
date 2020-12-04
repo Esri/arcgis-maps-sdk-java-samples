@@ -123,13 +123,15 @@ public class UpdateGraphicsSample extends Application {
       // add the button, label, and combo box to the control panel
       controlsVBox.getChildren().addAll(updateDescriptionButton, symbolLabel, symbolBox);
 
-      // create a map with a basemap style and set the initial viewpoint
+      // create a map with a basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
-      map.setInitialViewpoint(new Viewpoint(56.075844, -2.681572, 70000));
 
       // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(56.075844, -2.681572, 70000));
 
       // create a graphics overlay
       graphicsOverlay = new GraphicsOverlay();
