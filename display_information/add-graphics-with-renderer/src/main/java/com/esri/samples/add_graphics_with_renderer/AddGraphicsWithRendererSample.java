@@ -60,13 +60,15 @@ public class AddGraphicsWithRendererSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the topographic basemap style and set an initial viewpoint
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
-      map.setInitialViewpoint(new Viewpoint(15.169193, 16.333479, 1000000000));
 
       // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(15.169193, 16.333479, 1000000000));
 
       // create a graphics overlay for displaying point graphic
       GraphicsOverlay pointGraphicOverlay = new GraphicsOverlay();
