@@ -57,13 +57,15 @@ public class ScaleBarSample extends Application {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map with a basemap style and an initial viewpoint
+    // create a map with a basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
-    map.setInitialViewpoint(new Viewpoint(64.1405, -16.2426, 9000));
 
     // create a map view and set its map
     mapView = new MapView();
     mapView.setMap(map);
+
+    // set a viewpoint on the map view
+    mapView.setViewpoint(new Viewpoint(64.1405, -16.2426, 9000));
 
     // create a scale bar for the map view
     Scalebar scaleBar = new Scalebar(mapView);
