@@ -50,13 +50,15 @@ public class OpenStreetMapLayerSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with an OpenStreetMap basemap style and set the initial viewpoint
+      // create a map with an OpenStreetMap basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.OSM_STANDARD);
-      map.setInitialViewpoint(new Viewpoint(34.056295, -117.195800, 500000));
 
       // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(34.056295, -117.195800, 500000));
 
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
