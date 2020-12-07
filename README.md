@@ -36,9 +36,9 @@ Accessing Esri location services, including basemaps, routing, and geocoding, re
 ### Terminal
 
 1. `cd` into one of the sample project directories (not the category folder).
-3. Run `gradle wrapper` to create the Gradle Wrapper
-4. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
-2. Run `./gradlew run` on Linux/Mac or `gradlew.bat run` on Windows to run the app.
+2. Run `gradle wrapper` to create the Gradle Wrapper
+3. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+4. Run `./gradlew run` on Linux/Mac or `gradlew.bat run` on Windows to run the app.
 
 ### Java 11
 Java 11 users may find exceptions when running the project if their library path is still set for Oracle JDK 1.8 (see the [OpenJavaFX docs](https://openjfx.io/openjfx-docs/) for more information). A workaround for this is to add the following argument in the `run` task of the Gradle buildscript:
