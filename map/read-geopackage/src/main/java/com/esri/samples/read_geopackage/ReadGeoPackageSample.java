@@ -60,9 +60,11 @@ public class ReadGeoPackageSample extends Application {
 
       // create a map and add it to the map view
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
-      map.setInitialViewpoint(new Viewpoint(39.7294, -104.8319, 300000.0));
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(39.7294, -104.8319, 300000.0));
 
       // load the local GeoPackage
       File geoPackageFile = new File(System.getProperty("data.dir"), "./samples-data/auroraCO/AuroraCO.gpkg");
