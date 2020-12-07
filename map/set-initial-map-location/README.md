@@ -15,8 +15,8 @@ When the map loads, note the specific location and scale of the initial map view
 ## How it works
 
 1. Create a `Map`, specifying a basemap style.
-2. Set the initial `Viewpoint`, specifying the latitude, longitude and scale.
 2. Display the map in a map view.
+3. Set a `Viewpoint` on the map view, specifying the latitude, longitude and scale.
 
 ## Relevant API
 

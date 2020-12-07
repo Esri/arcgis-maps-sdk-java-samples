@@ -53,12 +53,12 @@ public class SetInitialMapLocationSample extends Application {
       // create a map with the navigation basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_NAVIGATION);
 
-      // set the initial viewpoint for the map specifying latitude, longitude and scale
-      map.setInitialViewpoint(new Viewpoint(56.075844, -2.681572, 700000.0));
-
       // create the map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view specifying latitude, longitude and scale
+      mapView.setViewpoint(new Viewpoint(56.075844, -2.681572, 700000));
 
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
