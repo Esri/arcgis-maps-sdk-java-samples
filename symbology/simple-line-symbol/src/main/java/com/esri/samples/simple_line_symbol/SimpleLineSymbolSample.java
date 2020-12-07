@@ -82,14 +82,14 @@ public class SimpleLineSymbolSample extends Application {
       // create a map with the imagery basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // set initial map view point
-      Point point = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(point, 7200); // point, scale
-      map.setInitialViewpoint(viewpoint);
-
-      // create a view for this ArcGISMap and set ArcGISMap to it
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      Point point = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
+      Viewpoint viewpoint = new Viewpoint(point, 7200); // point, scale
+      mapView.setViewpoint(viewpoint);
 
       // creates a line from two points
       PointCollection points = new PointCollection(SpatialReferences.getWebMercator());
