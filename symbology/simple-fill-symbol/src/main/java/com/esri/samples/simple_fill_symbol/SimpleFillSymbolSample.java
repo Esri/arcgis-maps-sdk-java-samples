@@ -88,14 +88,14 @@ public class SimpleFillSymbolSample extends Application {
       // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // set initial map view point
-      Point initialPoint = new Point(-12000000, 5400000, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(initialPoint, 10000000); // point, scale
-      map.setInitialViewpoint(viewpoint);
-
-      // create a view for this ArcGISMap and set ArcGISMap to it
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      Point initialPoint = new Point(-12000000, 5400000, SpatialReferences.getWebMercator());
+      Viewpoint viewpoint = new Viewpoint(initialPoint, 10000000); // point, scale
+      mapView.setViewpoint(viewpoint);
 
       // creates a square from four points
       PointCollection points = new PointCollection(SpatialReferences.getWebMercator());
