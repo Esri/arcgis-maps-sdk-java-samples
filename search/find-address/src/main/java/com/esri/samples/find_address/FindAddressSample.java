@@ -88,13 +88,15 @@ public class FindAddressSample extends Application {
       };
       searchBox.getItems().addAll(examples);
 
-      // create ArcGISMap with imagery basemap style and an initial viewpoint
+      // create a map with a basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
-      map.setInitialViewpoint(new Viewpoint(48.354406, -99.998267, 150000000));
 
-      // create a view and set ArcGISMap to it
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(48.354406, -99.998267, 150000000));
 
       // add a graphics overlay
       graphicsOverlay = new GraphicsOverlay();
