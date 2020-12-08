@@ -125,12 +125,12 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       // create a map with a basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // add feature layer to the ArcGISMap
-      map.getOperationalLayers().add(featureLayer);
-
-      // create a view for this ArcGISMap and set ArcGISMap to it
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // add the feature layer to the operational layers
+      map.getOperationalLayers().add(featureLayer);
 
       // set the starting viewpoint for the map view
       mapView.setViewpoint(new Viewpoint(new Point(-13630484, 4545415, SpatialReferences.getWebMercator()), 150000));
