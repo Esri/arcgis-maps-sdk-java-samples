@@ -57,14 +57,14 @@ public class SimpleRendererSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a ArcGISMap with the imagery basemap style
+      // create a map with the imagery basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY);
 
-      // create a view and set ArcGISMap to it
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create SpatialReference for points
+      // create a spatial reference for the points
       final SpatialReference spatialReference = SpatialReferences.getWgs84();
 
       // create points for displaying graphics
