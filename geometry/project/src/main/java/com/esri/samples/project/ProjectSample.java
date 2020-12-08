@@ -33,7 +33,6 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Callout;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -64,9 +63,8 @@ public class ProjectSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a web mercator spatial reference and a basemap style
-      ArcGISMap map = new ArcGISMap(SpatialReference.create(3857));
-      map.setBasemap(new Basemap(BasemapStyle.ARCGIS_NAVIGATION));
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_NAVIGATION);
 
       // create a map view and set its map
       mapView = new MapView();
