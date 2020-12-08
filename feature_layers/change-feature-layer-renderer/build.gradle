@@ -35,7 +35,7 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
-task createProperties {
+task createGradlePropertiesAndWriteApiKey {
     description = "Creates a new gradle.properties file with an empty API key variable in the user home ./gradle folder, if the file doesn't already exist."
     group = "build"
     def propertiesFile = new File("${System.properties.getProperty("user.home")}/.gradle/gradle.properties")
