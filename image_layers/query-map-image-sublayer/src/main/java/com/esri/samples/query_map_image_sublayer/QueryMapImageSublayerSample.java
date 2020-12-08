@@ -38,8 +38,6 @@ import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.ArcGISMapImageSublayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -77,19 +75,19 @@ public class QueryMapImageSublayerSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style and set its initial viewpoint
+      // create a map with a basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
-      Point initialLocation = new Point(-12716000.00, 4170400.00, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(initialLocation, 6000000);
-      map.setInitialViewpoint(viewpoint);
 
       // create and add a map image layer to the map
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
       map.getOperationalLayers().add(imageLayer);
 
-      // create a map view and set the map to it
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(36.75056, -115.44154, 9000000));
 
       // create a graphics overlay to show the results in
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
