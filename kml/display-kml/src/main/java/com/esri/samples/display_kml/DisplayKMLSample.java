@@ -67,8 +67,10 @@ public class DisplayKMLSample extends Application {
       ProgressIndicator progressIndicator = new ProgressIndicator();
       progressIndicator.setVisible(false);
 
-      // create a map and add it to the map view
+      // create a map with a basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
+
+      // create a map view and set its map
       mapView = new MapView();
       mapView.setMap(map);
 
