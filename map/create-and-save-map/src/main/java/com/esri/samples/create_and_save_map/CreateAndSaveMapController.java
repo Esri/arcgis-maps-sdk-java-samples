@@ -62,7 +62,7 @@ public class CreateAndSaveMapController {
   @FXML
   private ComboBox<PortalFolder> folderList;
   @FXML
-  private ListView<BasemapStyle> basemapStyleList;
+  private ListView<BasemapStyle> basemapStyleListView;
   @FXML
   private ListView<Layer> layersList;
   @FXML
@@ -81,29 +81,31 @@ public class CreateAndSaveMapController {
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
     // set the basemap style options
-    basemapStyleList.getItems().addAll(BasemapStyle.ARCGIS_STREETS, BasemapStyle.ARCGIS_IMAGERY_STANDARD,
-      BasemapStyle.ARCGIS_TOPOGRAPHIC, BasemapStyle.ARCGIS_OCEANS);
+    basemapStyleListView.getItems().addAll(
+      BasemapStyle.ARCGIS_STREETS,
+      BasemapStyle.ARCGIS_IMAGERY_STANDARD,
+      BasemapStyle.ARCGIS_TOPOGRAPHIC,
+      BasemapStyle.ARCGIS_OCEANS);
+
+    basemapStyleListView.setCellFactory(c -> new BasemapCell());
 
     // update the basemap when the selection changes
-    basemapStyleList.getSelectionModel().select(0);
-    basemapStyleList.getSelectionModel().selectedItemProperty()
-      .addListener(o -> map.setBasemap(new Basemap(basemapStyleList.getSelectionModel().getSelectedItem())));
-
-    basemapStyleList.setCellFactory(c -> new BasemapCell());
-    mapView.setMap(map);
+    basemapStyleListView.getSelectionModel().select(0);
+    basemapStyleListView.getSelectionModel().selectedItemProperty()
+      .addListener(o -> map.setBasemap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem())));
 
     // create a basemap with the first basemap style option and set it to the map
-    Basemap basemap = new Basemap(basemapStyleList.getSelectionModel().getSelectedItem());
+    Basemap basemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
     map = new ArcGISMap(basemap);
     mapView.setMap(map);
 
     // set operational layer options
-    String worldElevationService = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
-    ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(worldElevationService);
+    ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer");
     worldElevation.loadAsync();
 
-    String worldCensusService = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
-    ArcGISMapImageLayer worldCensus = new ArcGISMapImageLayer(worldCensusService);
+    ArcGISMapImageLayer worldCensus = new ArcGISMapImageLayer(
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer");
     worldCensus.loadAsync();
 
     layersList.getItems().addAll(worldElevation, worldCensus);
