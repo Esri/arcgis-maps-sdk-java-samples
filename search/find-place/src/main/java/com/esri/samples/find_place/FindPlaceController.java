@@ -72,7 +72,7 @@ public class FindPlaceController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create ArcGISMap with streets basemap style
+    // create a map with a basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
     // set the map to the map view
@@ -87,7 +87,7 @@ public class FindPlaceController {
     callout = mapView.getCallout();
     callout.setLeaderPosition(Callout.LeaderPosition.BOTTOM);
 
-    // create a locatorTask task
+    // create a locator task
     locatorTask = new LocatorTask("https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
     // create a pin graphic
