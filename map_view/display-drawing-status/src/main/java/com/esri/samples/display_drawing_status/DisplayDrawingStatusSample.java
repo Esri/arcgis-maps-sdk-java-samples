@@ -64,17 +64,17 @@ public class DisplayDrawingStatusSample extends Application {
       ProgressBar progressBar = new ProgressBar();
       progressBar.setMaxWidth(240.0);
 
-      // create an ArcGISMap with a topographic basemap style
+      // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a starting viewpoint for the ArcGISMap
+      // create a starting viewpoint for the map
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
       Point bottomLeftPoint = new Point(-1.5054808160556655E7, 2718975.702666207, spatialReference);
       Point topRightPoint = new Point(-6810317.90634398, 6850505.377826911, spatialReference);
       Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
       Viewpoint viewpoint = new Viewpoint(envelope);
 
-      // set the initial viewpoint of ArcGISMap to viewpoint
+      // set the initial viewpoint of the map
       map.setInitialViewpoint(viewpoint);
 
       // create a feature table from a service URL
@@ -84,13 +84,11 @@ public class DisplayDrawingStatusSample extends Application {
       // create a feature layer from service table
       final FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
-      // add feature layer to ArcGISMap
+      // add the feature layer to the map
       map.getOperationalLayers().add(featureLayer);
 
-      // create a view for this ArcGISMap
+      // create a map view and set its map
       mapView = new MapView();
-
-      // set map to be displayed in map view
       mapView.setMap(map);
 
       mapView.addDrawStatusChangedListener(e -> {
