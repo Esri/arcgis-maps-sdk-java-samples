@@ -68,7 +68,7 @@ public class RasterLayerURLSample extends Application {
         }
       });
 
-      // create a map with dark gray basemap style
+      // create a map with a basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
 
       // add the map to a map view

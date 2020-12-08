@@ -61,7 +61,7 @@ public class RasterFunctionSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a dark gray basemap style
+      // create a map with a basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
 
       // create a map view and set its map
