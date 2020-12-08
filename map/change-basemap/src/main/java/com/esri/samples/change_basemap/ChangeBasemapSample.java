@@ -58,25 +58,25 @@ public class ChangeBasemapSample extends Application {
       // creates a map view
       mapView = new MapView();
 
-      // setup a listview of basemaps styles
-      ListView<BasemapStyle> basemapStyleList = new ListView<>(FXCollections.observableArrayList(BasemapStyle.values()));
-      basemapStyleList.setMaxSize(250, 150);
+      // setup a list view of basemap styles
+      ListView<BasemapStyle> basemapStyleListView = new ListView<>(FXCollections.observableArrayList(BasemapStyle.values()));
+      basemapStyleListView.setMaxSize(250, 150);
 
       // change the basemap when a list option is selected
-      basemapStyleList.getSelectionModel().selectedItemProperty().addListener(o -> {
-        BasemapStyle selectedBasemapStyle = basemapStyleList.getSelectionModel().getSelectedItem();
+      basemapStyleListView.getSelectionModel().selectedItemProperty().addListener(o -> {
+        BasemapStyle selectedBasemapStyle = basemapStyleListView.getSelectionModel().getSelectedItem();
         map = new ArcGISMap(selectedBasemapStyle);
         mapView.setMap(map);
         mapView.setViewpoint(new Viewpoint(57.5000, -5.0000, 10000000.0));
       });
 
       // select the first basemap style
-      basemapStyleList.getSelectionModel().selectFirst();
+      basemapStyleListView.getSelectionModel().selectFirst();
 
       // add the map view and control panel to stack pane
-      stackPane.getChildren().addAll(mapView, basemapStyleList);
-      StackPane.setAlignment(basemapStyleList, Pos.TOP_LEFT);
-      StackPane.setMargin(basemapStyleList, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, basemapStyleListView);
+      StackPane.setAlignment(basemapStyleListView, Pos.TOP_LEFT);
+      StackPane.setMargin(basemapStyleListView, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.
