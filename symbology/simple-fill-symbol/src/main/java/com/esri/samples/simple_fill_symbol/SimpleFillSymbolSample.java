@@ -93,9 +93,7 @@ public class SimpleFillSymbolSample extends Application {
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      Point initialPoint = new Point(-12000000, 5400000, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(initialPoint, 10000000); // point, scale
-      mapView.setViewpoint(viewpoint);
+      mapView.setViewpoint(new Viewpoint(43.03922, -108.55818, 10000000));
 
       // creates a square from four points
       PointCollection points = new PointCollection(SpatialReferences.getWebMercator());
