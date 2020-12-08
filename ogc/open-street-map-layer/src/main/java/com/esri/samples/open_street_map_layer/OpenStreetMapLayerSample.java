@@ -50,7 +50,7 @@ public class OpenStreetMapLayerSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with an OpenStreetMap basemap style
+      // create a map with the OpenStreetMap basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.OSM_STANDARD);
 
       // create a map view and set its map

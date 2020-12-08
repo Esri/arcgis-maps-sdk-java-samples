@@ -14,7 +14,7 @@ When the sample opens, it will automatically display the map with the OpenStreet
 
 ## How it works
 
-1. Create an `ArcGISMap` with a `BasemapStyle.OSM_STANDARD`.
+1. Create an `ArcGISMap` with the OSM standard basemap style `BasemapStyle.OSM_STANDARD`.
 2. Set the map to a `MapView`.
 
 ## Relevant API
