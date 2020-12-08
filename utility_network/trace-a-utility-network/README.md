@@ -14,7 +14,7 @@ Click on one or more features while 'Add starting locations' or 'Add barriers' i
 
 ## How it works
 
-1. Create a `Map` and add it to a `MapView`.
+1. Create an `ArcGISMap` and add it to a `MapView`.
 2. Using the URL to a utility network's feature service, create `FeatureLayer`s that contain the utility network's features, and add them to the operational layers of the map.
 3. Create and load a `UtilityNetwork` with the same feature service URL and map.
 4. Add a `GraphicsOverlay` with symbology that distinguishes starting points from barriers.
