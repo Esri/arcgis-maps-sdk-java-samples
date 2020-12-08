@@ -74,7 +74,7 @@ public class PictureMarkerSymbolSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a ArcGISMap with the topographic basemap style
+      // create a map with a basemap style
       map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
       // create a map view and set its map
