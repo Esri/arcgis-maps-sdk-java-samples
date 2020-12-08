@@ -58,7 +58,7 @@ public class DisplaySubtypeFeatureLayerController {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with streets night vector basemap style and add it to the map view
+      // create a map with the streets night vector basemap style and add it to the map view
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
       mapView.setMap(map);
       // display the current map scale 
