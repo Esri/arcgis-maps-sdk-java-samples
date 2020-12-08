@@ -58,6 +58,7 @@ task copyNatives(type: Copy) {
 }
 
 run {
+    // sets the API key from the gradle.properties file as a Java system property
     systemProperty 'apiKey', apiKey
     dependsOn copyNatives
     mainClassName = 'com.esri.samples.sketch_on_map.SketchOnMapLauncher'
