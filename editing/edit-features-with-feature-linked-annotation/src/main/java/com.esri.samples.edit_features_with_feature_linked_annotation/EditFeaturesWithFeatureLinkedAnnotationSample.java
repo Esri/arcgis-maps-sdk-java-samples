@@ -75,7 +75,7 @@ public class EditFeaturesWithFeatureLinkedAnnotationSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create the map with a light gray basemap style
+      // create a map with a basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
       // create a map view and set its map

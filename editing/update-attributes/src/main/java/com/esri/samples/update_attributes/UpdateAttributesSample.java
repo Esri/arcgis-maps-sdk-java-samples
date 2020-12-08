@@ -120,7 +120,7 @@ public class UpdateAttributesSample extends Application {
       // add damage type label and comboBox to the control panel
       controlsVBox.getChildren().addAll(typeDamageLabel, comboBox);
 
-      // create a map with streets basemap style
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
       // create a map view and set its map

@@ -75,7 +75,7 @@ public class UpdateGeometriesSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with streets basemap style
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
       // create a map view and set its map
