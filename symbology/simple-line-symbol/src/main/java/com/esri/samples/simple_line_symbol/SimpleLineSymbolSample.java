@@ -31,7 +31,6 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -87,9 +86,7 @@ public class SimpleLineSymbolSample extends Application {
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      Point point = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(point, 7200); // point, scale
-      mapView.setViewpoint(viewpoint);
+      mapView.setViewpoint(new Viewpoint(50.59778, -2.03718, 7200));
 
       // creates a line from two points
       PointCollection points = new PointCollection(SpatialReferences.getWebMercator());

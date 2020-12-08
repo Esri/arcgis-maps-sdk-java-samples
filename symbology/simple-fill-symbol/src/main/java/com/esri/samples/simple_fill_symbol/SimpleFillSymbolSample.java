@@ -34,7 +34,6 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
