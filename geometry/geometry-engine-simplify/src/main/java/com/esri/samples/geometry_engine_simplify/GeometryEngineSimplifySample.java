@@ -127,7 +127,7 @@ public class GeometryEngineSimplifySample extends Application {
       // create a map with a basemap style
       map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
-      // enable geometry operations when ArcGISMap is done loading
+      // enable geometry operations when the map is done loading
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           simplifyButton.setDisable(false);
