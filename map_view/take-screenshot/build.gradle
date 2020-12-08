@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.take_screen_shot.TakeScreenShotLauncher'
+    mainClassName = 'com.esri.samples.take_screenshot.TakeScreenshotLauncher'
 }
 
 jar {
