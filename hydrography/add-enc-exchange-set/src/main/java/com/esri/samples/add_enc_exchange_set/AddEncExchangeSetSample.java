@@ -68,9 +68,12 @@ public class AddEncExchangeSetSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map view and add it to the stack pane
+      // create a map with the oceans basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
+
+      // create a map view and set its map
       mapView = new MapView();
-      stackPane.getChildren().add(mapView);
+      mapView.setMap(map);
 
       // show progress indicator when map is drawing
       ProgressIndicator progressIndicator = new ProgressIndicator();
@@ -87,10 +90,6 @@ public class AddEncExchangeSetSample extends Application {
           progressIndicator.setVisible(false);
         }
       });
-
-      // create a map with the oceans basemap style and set it on the map view
-      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
-      mapView.setMap(map);
 
       // load the ENC exchange set from local data
       File encPath = new File(System.getProperty("data.dir"), "./samples-data/enc/ExchangeSetwithoutUpdates/ENC_ROOT/CATALOG.031");
@@ -123,6 +122,10 @@ public class AddEncExchangeSetSample extends Application {
           new Alert(Alert.AlertType.ERROR, "Failed to load ENC exchange set.").show();
         }
       });
+
+      // add the map view to the stack pane
+      stackPane.getChildren().add(mapView);
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
