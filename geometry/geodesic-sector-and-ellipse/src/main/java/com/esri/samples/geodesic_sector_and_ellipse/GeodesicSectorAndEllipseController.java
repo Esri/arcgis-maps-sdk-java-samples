@@ -31,6 +31,7 @@ import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -68,13 +69,15 @@ public class GeodesicSectorAndEllipseController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map with a basemap style and set the initial viewpoint
-    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY);
-    center = new Point(-13574921.207495, 4378809.903179, SpatialReference.create(3857));
-    map.setInitialViewpoint(new Viewpoint(center, 10000));
+    // create a map with a basemap style
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
     // set the map to the map view
     mapView.setMap(map);
+
+    // set a viewpoint on the map view
+    center = new Point(-13574921.207495, 4378809.903179, SpatialReferences.getWebMercator());
+    mapView.setViewpoint(new Viewpoint(center, 10000));
 
     // create a graphics overlay for showing the geometries as graphics
     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
