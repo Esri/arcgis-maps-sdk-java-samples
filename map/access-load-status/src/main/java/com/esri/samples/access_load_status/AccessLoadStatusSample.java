@@ -117,7 +117,7 @@ public class AccessLoadStatusSample extends Application {
       // add label, text and button to the control panel
       controlsVBox.getChildren().addAll(loadStatusLabel, loadStatusText, reloadMapButton);
 
-      // create a map with the imagery standard basemap style
+      // create a map with the standard imagery basemap style
       map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
       // create a map view and set its map
