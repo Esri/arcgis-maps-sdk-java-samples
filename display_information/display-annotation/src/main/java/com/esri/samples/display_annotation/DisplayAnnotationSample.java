@@ -54,7 +54,7 @@ public class DisplayAnnotationSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the light gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
       // create a map view and set the map to it
@@ -62,7 +62,7 @@ public class DisplayAnnotationSample extends Application {
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(55.882436, -2.725610, 70000));
+      mapView.setViewpoint(new Viewpoint(55.882436, -2.725610, 72223));
 
       // create a feature layer from a feature service
       FeatureLayer riverFeatureLayer = new FeatureLayer(new ServiceFeatureTable("https://services1.arcgis.com/6677msI40mnLuuLr/arcgis/rest/services/East_Lothian_Rivers/FeatureServer/0"));

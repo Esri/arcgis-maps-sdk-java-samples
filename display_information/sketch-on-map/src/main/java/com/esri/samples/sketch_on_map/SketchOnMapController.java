@@ -67,14 +67,14 @@ public class SketchOnMapController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map with a basemap style
+    // create a map with the standard imagery basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
     // set the map to the map view
     mapView.setMap(map);
 
     // set a viewpoint on the map view
-    mapView.setViewpoint(new Viewpoint(64.3286, -15.5314, 70000));
+    mapView.setViewpoint(new Viewpoint(64.3286, -15.5314, 72223));
 
     // create a graphics overlay for the graphics
     graphicsOverlay = new GraphicsOverlay();

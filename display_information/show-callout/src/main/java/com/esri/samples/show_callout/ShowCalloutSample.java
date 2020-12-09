@@ -53,7 +53,7 @@ public class ShowCalloutSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the streets relief basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_RELIEF);
 
       // create a view and set the map to it

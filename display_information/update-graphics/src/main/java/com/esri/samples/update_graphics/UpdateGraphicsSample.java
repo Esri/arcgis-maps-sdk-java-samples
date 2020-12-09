@@ -123,7 +123,7 @@ public class UpdateGraphicsSample extends Application {
       // add the button, label, and combo box to the control panel
       controlsVBox.getChildren().addAll(updateDescriptionButton, symbolLabel, symbolBox);
 
-      // create a map with a basemap style
+      // create a map with the light gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
       // create a map view and set the map to it
