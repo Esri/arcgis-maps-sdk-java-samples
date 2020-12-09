@@ -90,12 +90,12 @@ public class ViewshedGeoprocessingSample extends Application {
       // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(45.3790902612337, 6.84905317262762, 140000));
+      mapView.setViewpoint(new Viewpoint(45.3790902612337, 6.84905317262762, 144447));
 
       // create an input graphics overlay to show red point markers where the user clicks
       SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
