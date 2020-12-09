@@ -57,14 +57,15 @@ public class FeatureLayerFeatureServiceSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a view for this ArcGISMap
-      mapView = new MapView();
-
-      // create a map with a basemap style
+      // create a map with the terrain basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TERRAIN);
 
-      // set an initial viewpoint
-      map.setInitialViewpoint(new Viewpoint(new Point(-13176752, 4090404, SpatialReferences.getWebMercator()), 500000));
+      // create a map view and set the map to it
+      mapView = new MapView();
+      mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(new Point(-13176752, 4090404, SpatialReferences.getWebMercator()), 500000));
 
       // create feature layer with its service feature table
       // create the service feature table
@@ -73,11 +74,8 @@ public class FeatureLayerFeatureServiceSample extends Application {
       // create the feature layer using the service feature table
       FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
-      // add the layer to the ArcGISMap
+      // add the layer to the map
       map.getOperationalLayers().add(featureLayer);
-
-      // set the ArcGISMap to be displayed in the view
-      mapView.setMap(map);
 
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
