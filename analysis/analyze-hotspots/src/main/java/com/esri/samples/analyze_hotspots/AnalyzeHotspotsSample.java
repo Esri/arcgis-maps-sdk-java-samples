@@ -113,7 +113,7 @@ public class AnalyzeHotspotsSample extends Application {
       controlsVBox.setMaxSize(180, 110);
       controlsVBox.getChildren().addAll(begDatePicker, endDatePicker, analyzeButton);
 
-      // and the map view, controls, and progress indicator to the stack pane
+      // add the map view, controls, and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox, progress);
       StackPane.setAlignment(progress, Pos.CENTER);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);

@@ -56,7 +56,7 @@ public class ShowCalloutSample extends Application {
       // create a map with the streets relief basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_RELIEF);
 
-      // create a view and set the map to it
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
