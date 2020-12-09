@@ -41,7 +41,7 @@ import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -79,11 +79,15 @@ public class AnalyzeHotspotsSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a view with a map and topographic basemap
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
-      map.setInitialViewpoint(new Viewpoint(new Point(-13671170, 5693633, SpatialReference.create(3857)), 57779));
+
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(new Point(-13671170, 5693633, SpatialReferences.getWebMercator()), 57779));
 
       // show progress indicator when geoprocessing task is loading or geoprocessing job is running
       ProgressIndicator progress = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
@@ -109,7 +113,7 @@ public class AnalyzeHotspotsSample extends Application {
       controlsVBox.setMaxSize(180, 110);
       controlsVBox.getChildren().addAll(begDatePicker, endDatePicker, analyzeButton);
 
-      // and the mapView, controls, and progress indicator to the stack pane
+      // and the map view, controls, and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox, progress);
       StackPane.setAlignment(progress, Pos.CENTER);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
