@@ -89,13 +89,14 @@ public class ChangeFeatureLayerRendererSample extends Application {
       // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create starting envelope for the ArcGISMap
+      // create a map view and set the map to it
+      mapView = new MapView();
+      mapView.setMap(map);
+
+      // set a viewpoint on the map view
       Point topLeftPoint = new Point(-9177811, 4247000);
       Point bottomRightPoint = new Point(-9176791, 4247784);
-      Envelope envelope = new Envelope(topLeftPoint, bottomRightPoint);
-
-      // set starting envelope for the ArcGISMap
-      map.setInitialViewpoint(new Viewpoint(envelope));
+      mapView.setViewpoint(new Viewpoint(new Envelope(topLeftPoint, bottomRightPoint)));
 
       // create a service feature table using the url
       final ServiceFeatureTable featureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);
@@ -113,10 +114,6 @@ public class ChangeFeatureLayerRendererSample extends Application {
           new Alert(Alert.AlertType.ERROR, "Error loading Feature Table from service").show();
         }
       });
-
-      // create a view for the ArcGISMap and set ArcGISMap to it
-      mapView = new MapView();
-      mapView.setMap(map);
 
       // add the map view and control panel to stack pane
       stackPane.getChildren().addAll(mapView, rendererSwitch);
