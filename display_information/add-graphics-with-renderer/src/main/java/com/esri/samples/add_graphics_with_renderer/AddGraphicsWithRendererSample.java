@@ -63,12 +63,12 @@ public class AddGraphicsWithRendererSample extends Application {
       // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(15.169193, 16.333479, 1000000000));
+      mapView.setViewpoint(new Viewpoint(15.169193, 16.333479, 1479143818));
 
       // create a graphics overlay for displaying point graphic
       GraphicsOverlay pointGraphicOverlay = new GraphicsOverlay();
