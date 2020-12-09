@@ -59,7 +59,7 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map with a basemap style and set it to the map view
+    // create a map with the topographic basemap style and set it to the map view
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
     mapView.setMap(map);
 

@@ -153,10 +153,10 @@ public class FeatureLayerQuerySample extends Application {
       // set renderer for feature layer
       featureLayer.setRenderer(new SimpleRenderer(fillSymbol));
 
-      // create a map with a basemap style
+      // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 

@@ -60,10 +60,10 @@ public class TimeBasedQuerySample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the oceans basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -101,7 +101,7 @@ public class TimeBasedQuerySample extends Application {
       // create the feature layer using the service feature table
       FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
-      // add the layer to the map
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
       // add the map view to stack pane

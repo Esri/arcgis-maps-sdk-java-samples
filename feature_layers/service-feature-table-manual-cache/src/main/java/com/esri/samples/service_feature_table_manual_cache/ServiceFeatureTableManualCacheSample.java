@@ -122,14 +122,14 @@ public class ServiceFeatureTableManualCacheSample extends Application {
         }
       });
 
-      // create a map with a basemap style
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add the feature layer to the operational layers
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
       // set the starting viewpoint for the map view

@@ -17,6 +17,12 @@ package com.esri.samples.display_subtype_feature_layer;
 
 import java.nio.charset.StandardCharsets;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import org.apache.commons.io.IOUtils;
+
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -32,12 +38,6 @@ import com.esri.arcgisruntime.symbology.Renderer;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.symbology.Symbol;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import org.apache.commons.io.IOUtils;
 
 public class DisplaySubtypeFeatureLayerController {
   
@@ -58,17 +58,17 @@ public class DisplaySubtypeFeatureLayerController {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the streets night vector basemap style and add it to the map view
+      // create a map with the streets night basemap style and add it to the map view
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
       mapView.setMap(map);
       // display the current map scale 
       mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
         currentMapScaleLabel.setText("Current map scale: 1:" + Math.round(mapView.getMapScale())));
       
-      // set the viewpoint to Naperville, Illinois
+      // set a viewpoint on the map view, to Naperville, Illinois
       Viewpoint initialViewpoint = new Viewpoint(new Envelope(-9812691.11079696, 5128687.20710657,
         -9812377.9447607, 5128865.36767282, SpatialReferences.getWebMercator()));
-      map.setInitialViewpoint(initialViewpoint);
+      mapView.setViewpoint(initialViewpoint);
 
       // create a subtype feature layer from the service feature table, and add it to the map
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable("https://sampleserver7.arcgisonline" +

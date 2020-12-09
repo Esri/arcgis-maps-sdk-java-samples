@@ -58,15 +58,15 @@ public class ServiceFeatureTableNoCacheSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the light gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set an initial viewpoint
-      map.setInitialViewpoint(new Viewpoint(new Envelope(-140.740858094945, 14.1552479740679, -47.693259181055,
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(new Envelope(-140.740858094945, 14.1552479740679, -47.693259181055,
               64.8874243113506, SpatialReferences.getWgs84())));
 
       // create the service feature table
@@ -83,7 +83,7 @@ public class ServiceFeatureTableNoCacheSample extends Application {
           // create the feature layer using the service feature table
           featureLayer = new FeatureLayer(serviceFeatureTable);
 
-          // add the layer to the ArcGISMap
+          // add the feature layer to the map's operational layers
           map.getOperationalLayers().add(featureLayer);
 
         } else {
