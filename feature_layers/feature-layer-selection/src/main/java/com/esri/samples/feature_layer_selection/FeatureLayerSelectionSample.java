@@ -62,16 +62,16 @@ public class FeatureLayerSelectionSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the light gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
-      // set an initial viewpoint
-      map.setInitialViewpoint(new Viewpoint(new Envelope(-6603299.491810, 1679677.742046, 9002253.947487,
-          8691318.054732, 0, 0, SpatialReferences.getWebMercator())));
-
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(new Envelope(-6603299.491810, 1679677.742046, 9002253.947487,
+        8691318.054732, 0, 0, SpatialReferences.getWebMercator())));
 
       // create the service feature table
       String damageAssessmentFeatureService = "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/GDP_per_capita_1960_2016/FeatureServer/0";
@@ -80,7 +80,7 @@ public class FeatureLayerSelectionSample extends Application {
       // create the feature layer
       final FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
-      // add the layer to the ArcGISMap
+      // add the layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
       mapView.setOnMouseClicked(event -> {
