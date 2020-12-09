@@ -25,7 +25,7 @@ import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -64,13 +64,15 @@ public class DisplayGridController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map and set its initial viewpoint
+    // create a map with the standard imagery basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
-    map.setInitialViewpoint(new Viewpoint(new Point(-10336141.70018318, 5418213.05332071, SpatialReference.create
-        (3857)), 6450785));
 
     // set the map to the map view
     mapView.setMap(map);
+
+    // set a viewpoint on the map view
+    mapView.setViewpoint(new Viewpoint(new Point(-10336141.70018318, 5418213.05332071,
+      SpatialReferences.getWebMercator()), 6450785));
 
     // set initial values for options
     gridTypeComboBox.getItems().addAll(GridType.values());
