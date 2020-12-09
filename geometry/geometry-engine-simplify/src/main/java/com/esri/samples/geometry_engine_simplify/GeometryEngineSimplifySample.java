@@ -124,7 +124,7 @@ public class GeometryEngineSimplifySample extends Application {
       // add buttons to the control panel
       controlsVBox.getChildren().addAll(simplifyButton, resetButton);
 
-      // create a map with a basemap style
+      // create a map with the light gray basemap style
       map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
       // enable geometry operations when the map is done loading
@@ -137,13 +137,12 @@ public class GeometryEngineSimplifySample extends Application {
         }
       });
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set the map views's viewpoint centred on London and scaled
-      Point viewPoint = new Point(-13500, 6710327, SpatialReferences.getWebMercator());
-      mapView.setViewpointCenterAsync(viewPoint, 25000);
+      // set a viewpoint on the map view, centered on London
+      mapView.setViewpointCenterAsync(new Point(-13500, 6710327, SpatialReferences.getWebMercator()), 25000);
 
       // create geometry layers
       GraphicsOverlay geomOverlay = new GraphicsOverlay();
