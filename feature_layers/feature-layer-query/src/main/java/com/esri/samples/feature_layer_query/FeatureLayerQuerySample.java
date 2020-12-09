@@ -160,7 +160,7 @@ public class FeatureLayerQuerySample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add feature layer to operational layers
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
       // set viewpoint to the start point

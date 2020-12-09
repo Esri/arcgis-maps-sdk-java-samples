@@ -74,7 +74,7 @@ public class FeatureLayerFeatureServiceSample extends Application {
       // create the feature layer using the service feature table
       FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
-      // add the layer to the map
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
       // add the map view to stack pane
