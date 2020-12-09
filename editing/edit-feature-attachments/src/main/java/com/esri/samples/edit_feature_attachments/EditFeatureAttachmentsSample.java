@@ -122,12 +122,12 @@ public class EditFeatureAttachmentsSample extends Application {
       // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set the viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(40, -95, 40000000));
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(40, -95, 36978595));
 
       // set selection color
       mapView.getSelectionProperties().setColor(0xff0000ff);

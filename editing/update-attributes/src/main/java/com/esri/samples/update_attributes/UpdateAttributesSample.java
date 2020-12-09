@@ -123,12 +123,12 @@ public class UpdateAttributesSample extends Application {
       // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(40, -95,40000000));
+      mapView.setViewpoint(new Viewpoint(40, -95,36978595));
 
       // create service feature table from URL
       featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
