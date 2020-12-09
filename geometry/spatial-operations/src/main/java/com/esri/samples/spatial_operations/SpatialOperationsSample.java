@@ -114,10 +114,10 @@ public class SpatialOperationsSample extends Application {
         resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
       });
 
-      // create a map with a basemap style
+      // create a map with the light gray basemap style
       map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
-      // enable geometry operations when ArcGISMap is done loading
+      // enable geometry operations when the map is done loading
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           geomOperationBox.setDisable(false);
@@ -127,13 +127,12 @@ public class SpatialOperationsSample extends Application {
         }
       });
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set the map views's viewpoint centred on London and scaled
-      Point viewPoint = new Point(-14153, 6710527, SpatialReferences.getWebMercator());
-      mapView.setViewpointCenterAsync(viewPoint, 30000);
+      // set a viewpoint on the map view centered on London
+      mapView.setViewpointCenterAsync(new Point(-14153, 6710527, SpatialReferences.getWebMercator()), 30000);
 
       // create geometry overlays
       GraphicsOverlay geomOverlay = new GraphicsOverlay();
