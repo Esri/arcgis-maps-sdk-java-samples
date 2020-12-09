@@ -35,9 +35,7 @@ import com.esri.arcgisruntime.geometry.LinearUnit;
 import com.esri.arcgisruntime.geometry.LinearUnitId;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polygon;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -68,11 +66,10 @@ public class BufferSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style and a spatial reference
-      ArcGISMap map = new ArcGISMap(SpatialReferences.getWebMercator());
-      map.setBasemap(new Basemap(BasemapStyle.ARCGIS_TOPOGRAPHIC));
+      // create a map with the topographic basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
