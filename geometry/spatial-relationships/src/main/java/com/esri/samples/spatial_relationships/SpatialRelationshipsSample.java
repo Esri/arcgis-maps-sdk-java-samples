@@ -79,10 +79,10 @@ public class SpatialRelationshipsSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -184,7 +184,7 @@ public class SpatialRelationshipsSample extends Application {
         }
       });
 
-      // add the scene view and label box to the stack pane
+      // add the map view and label box to the stack pane
       stackPane.getChildren().addAll(mapView, relationships);
       StackPane.setMargin(relationships, new Insets(10, 0, 0, 10));
       StackPane.setAlignment(relationships, Pos.TOP_LEFT);

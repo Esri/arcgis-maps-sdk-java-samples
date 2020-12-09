@@ -74,15 +74,15 @@ public class ConvexHullListSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(30.0, 0.0, 600000000));
+      mapView.setViewpoint(new Viewpoint(30.0, 0.0, 147914381));
 
       // create a graphics overlay for the two input polygons
       GraphicsOverlay polygonGraphicsOverlay = new GraphicsOverlay();

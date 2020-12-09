@@ -54,7 +54,7 @@ public class DensifyAndGeneralizeController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map with a basemap style
+    // create a map with the streets night basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
 
     // set the map to the map view

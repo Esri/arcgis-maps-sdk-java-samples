@@ -76,7 +76,7 @@ public class ListTransformationsBySuitabilitySample extends Application {
       // create a map with the light gray basemap style
       map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
