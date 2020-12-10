@@ -36,6 +36,17 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
 }
 
+task createGradlePropertiesAndWriteApiKey {
+    description = "Creates a new gradle.properties file with an empty API key variable in the user home ./gradle folder, if the file doesn't already exist."
+    group = "build"
+    def propertiesFile = new File("${System.properties.getProperty("user.home")}/.gradle/gradle.properties")
+    if (!propertiesFile.exists()) {
+        print("Go to " + new URL("https://developers.arcgis.com/dashboard") + " to get an API key.")
+        print(" Add your API key to ${System.properties.getProperty("user.home")}\\.gradle\\gradle.properties.")
+        propertiesFile.write("apiKey = ")
+    }
+}
+
 task copyNatives(type: Copy) {
     description = "Copies the arcgis native libraries into the project build directory for development."
     group = "build"
@@ -47,6 +58,10 @@ task copyNatives(type: Copy) {
 }
 
 run {
+    doFirst {
+        // sets the API key from the gradle.properties file as a Java system property
+        systemProperty 'apiKey', apiKey
+    }
     dependsOn copyNatives
     mainClassName = 'com.esri.samples.edit_with_branch_versioning.EditWithBranchVersioningLauncher'
 }
