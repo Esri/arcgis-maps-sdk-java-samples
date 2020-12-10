@@ -79,20 +79,20 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       controlsVBox.getChildren().addAll(citiesBox, continentsBox, worldBox);
       controlsVBox.getChildren().forEach(c -> ((CheckBox) c).setSelected(true));
 
-      // create a map with a basemap style
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(48.354406, -99.998267, 150000000));
+      mapView.setViewpoint(new Viewpoint(48.354406, -99.998267, 147914382));
 
-      // create a Image Layer with dynamically generated ArcGISMap images
+      // create an image Layer with dynamically generated ArcGISMap images
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer");
 
-      // add world cities layers as ArcGISMap operational layer
+      // add the image layer to the map's operational layers
       map.getOperationalLayers().add(imageLayer);
 
       // set the image layer's opacity so that the basemap is visible behind it
@@ -115,7 +115,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
         }
       });
 
-      // add the MapView and checkboxes
+      // add the map view and controls to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));

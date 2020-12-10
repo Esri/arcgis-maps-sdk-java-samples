@@ -69,15 +69,15 @@ public class ChangeSublayerRendererSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(48.354406, -99.998267, 40000));
+      mapView.setViewpoint(new Viewpoint(48.354406, -99.998267, 147914382));
 
       // create a button to apply the render (set up later)
       Button rendererButton = new Button("Change sublayer renderer");
@@ -102,7 +102,7 @@ public class ChangeSublayerRendererSample extends Application {
         }
       });
 
-      // add the layer to the map
+      // add the map image layer to the map's operational layers
       map.getOperationalLayers().add(imageLayer);
 
       // create a class breaks renderer to switch to
@@ -115,7 +115,7 @@ public class ChangeSublayerRendererSample extends Application {
         rendererButton.setDisable(true);
       });
 
-      // add the MapView and checkboxes
+      // add the map view and button to the stack pane
       stackPane.getChildren().addAll(mapView, rendererButton);
       StackPane.setAlignment(rendererButton, Pos.TOP_LEFT);
       StackPane.setMargin(rendererButton, new Insets(10, 0, 0, 10));

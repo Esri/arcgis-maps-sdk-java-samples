@@ -67,10 +67,10 @@ public class DisplayKMLSample extends Application {
       ProgressIndicator progressIndicator = new ProgressIndicator();
       progressIndicator.setVisible(false);
 
-      // create a map with a basemap style
+      // create a map with the dark gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 

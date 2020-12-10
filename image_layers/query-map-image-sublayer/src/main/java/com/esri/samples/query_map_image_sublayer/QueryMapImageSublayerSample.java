@@ -75,19 +75,19 @@ public class QueryMapImageSublayerSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // create and add a map image layer to the map
+      // create and add a map image layer to the map's operational layers
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer");
       map.getOperationalLayers().add(imageLayer);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(36.75056, -115.44154, 9000000));
+      mapView.setViewpoint(new Viewpoint(36.75056, -115.44154, 6000000));
 
       // create a graphics overlay to show the results in
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();

@@ -89,10 +89,10 @@ public class MapImageLayerTablesSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // create and add a map image layer to the map
+      // create and add a map image layer to the map's operational layers
       // the map image layer contains a feature table with related spatial and non-spatial comment features
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(
           "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/MapServer");
@@ -160,7 +160,7 @@ public class MapImageLayerTablesSample extends Application {
         }
       });
 
-      // add the mapview and controls to the stack pane
+      // add the map view and list view to the stack pane
       stackPane.getChildren().addAll(mapView, commentsListView);
       StackPane.setAlignment(commentsListView, Pos.TOP_LEFT);
       StackPane.setMargin(commentsListView, new Insets(10, 0, 0, 10));
