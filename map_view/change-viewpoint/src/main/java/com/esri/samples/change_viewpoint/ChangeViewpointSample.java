@@ -116,10 +116,10 @@ public class ChangeViewpointSample extends Application {
       // add controls to the user interface panel
       controlsVBox.getChildren().addAll(animateButton, centerButton, geometryButton);
 
-      // create a map with an imagery basemap style
+      // create a map with the imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 

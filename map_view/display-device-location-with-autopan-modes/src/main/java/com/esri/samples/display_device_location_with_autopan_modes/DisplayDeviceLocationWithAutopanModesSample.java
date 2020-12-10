@@ -74,10 +74,10 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the imagery basemap style
+      // create a map with the standard imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // create a map view and add the map to it
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 

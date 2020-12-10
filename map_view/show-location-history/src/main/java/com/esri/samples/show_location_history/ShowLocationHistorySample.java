@@ -89,13 +89,12 @@ public class ShowLocationHistorySample extends Application {
       // create a map with the dark gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set the map views's viewpoint centered on Los Angeles, California and scaled
-      mapView.setViewpoint(new Viewpoint(new Point(-13185535.98, 4037766.28,
-        SpatialReferences.getWebMercator()), 7000));
+      // set a viewpoint on the map view centered on Los Angeles, California
+      mapView.setViewpoint(new Viewpoint(new Point(-13185535.98, 4037766.28, SpatialReferences.getWebMercator()), 7000));
 
       // create a label
       Label trackingLabel = new Label("Tracking Status: ");

@@ -78,10 +78,10 @@ public class IdentifyLayersSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -101,7 +101,7 @@ public class IdentifyLayersSample extends Application {
       });
       map.getOperationalLayers().add(mapImageLayer);
 
-      // add a feature layer
+      // add a feature layer to the map's operational layers
       FeatureTable featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
       featureLayer = new FeatureLayer(featureTable);
       featureLayer.addDoneLoadingListener(() -> {

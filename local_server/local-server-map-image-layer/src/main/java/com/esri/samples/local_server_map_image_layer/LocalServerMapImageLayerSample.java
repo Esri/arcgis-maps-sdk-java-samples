@@ -69,10 +69,10 @@ public class LocalServerMapImageLayerSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -104,7 +104,7 @@ public class LocalServerMapImageLayerSample extends Application {
         });
       }
 
-      // add view to application window with progress bar
+      // add the map view and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, imageLayerProgress);
       StackPane.setAlignment(imageLayerProgress, Pos.CENTER);
     } catch (Exception e) {

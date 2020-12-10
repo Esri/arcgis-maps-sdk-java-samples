@@ -75,7 +75,7 @@ public class MapRotationSample extends Application {
         mapView.setViewpointRotationAsync(slider.getValue());
       });
 
-      // create a map with a basemap style
+      // create a map with the streets basemap style
       map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
       // enable slider when map view is done loading
@@ -88,7 +88,7 @@ public class MapRotationSample extends Application {
         }
       });
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
