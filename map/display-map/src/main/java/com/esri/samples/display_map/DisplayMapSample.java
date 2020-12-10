@@ -49,14 +49,14 @@ public class DisplayMapSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the imagery standard basemap style
+      // create a map with the standard imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add the map view to stack pane
+      // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView);
     } catch (Exception e) {
       // on any error, display the stack trace.

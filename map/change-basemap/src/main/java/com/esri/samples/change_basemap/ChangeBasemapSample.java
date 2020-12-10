@@ -67,7 +67,7 @@ public class ChangeBasemapSample extends Application {
         BasemapStyle selectedBasemapStyle = basemapStyleListView.getSelectionModel().getSelectedItem();
         map = new ArcGISMap(selectedBasemapStyle);
         mapView.setMap(map);
-        mapView.setViewpoint(new Viewpoint(57.5000, -5.0000, 10000000.0));
+        mapView.setViewpoint(new Viewpoint(57.5000, -5.0000, 9244648));
       });
 
       // select the first basemap style
