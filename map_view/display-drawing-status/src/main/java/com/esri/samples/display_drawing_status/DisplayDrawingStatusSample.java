@@ -67,16 +67,6 @@ public class DisplayDrawingStatusSample extends Application {
       // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a starting viewpoint for the map
-      SpatialReference spatialReference = SpatialReferences.getWebMercator();
-      Point bottomLeftPoint = new Point(-1.5054808160556655E7, 2718975.702666207, spatialReference);
-      Point topRightPoint = new Point(-6810317.90634398, 6850505.377826911, spatialReference);
-      Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
-      Viewpoint viewpoint = new Viewpoint(envelope);
-
-      // set the initial viewpoint of the map
-      map.setInitialViewpoint(viewpoint);
-
       // create a feature table from a service URL
       final ServiceFeatureTable featureTable = new ServiceFeatureTable(
           "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
@@ -84,12 +74,18 @@ public class DisplayDrawingStatusSample extends Application {
       // create a feature layer from service table
       final FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
-      // add the feature layer to the map
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // create a viewpoint and set it to the map view
+      Point bottomLeftPoint = new Point(-1.5054808160556655E7, 2718975.702666207, SpatialReferences.getWebMercator());
+      Point topRightPoint = new Point(-6810317.90634398, 6850505.377826911, SpatialReferences.getWebMercator());
+      Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
+      mapView.setViewpoint(new Viewpoint(envelope));
 
       mapView.addDrawStatusChangedListener(e -> {
         // check to see if draw status is in progress
@@ -104,7 +100,7 @@ public class DisplayDrawingStatusSample extends Application {
         }
       });
 
-      // add map view and progressBar to stack pane
+      // add the map view and progress bar to stack pane
       stackPane.getChildren().addAll(mapView, progressBar);
       StackPane.setAlignment(progressBar, Pos.TOP_LEFT);
       StackPane.setMargin(progressBar, new Insets(10, 0, 0, 10));
