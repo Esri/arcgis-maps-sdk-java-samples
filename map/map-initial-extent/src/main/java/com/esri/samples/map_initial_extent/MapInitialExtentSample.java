@@ -64,10 +64,10 @@ public class MapInitialExtentSample extends Application {
       // create a viewpoint from envelope
       Viewpoint viewPoint = new Viewpoint(initialExtent);
 
-      // set initial ArcGISMap extent
+      // set an initial extent on the map
       map.setInitialViewpoint(viewPoint);
 
-      // create a view and set ArcGISMap to it
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 

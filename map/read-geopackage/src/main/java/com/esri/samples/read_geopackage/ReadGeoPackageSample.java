@@ -58,13 +58,15 @@ public class ReadGeoPackageSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map and add it to the map view
+      // create a map with the streets basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(39.7294, -104.8319, 300000.0));
+      mapView.setViewpoint(new Viewpoint(39.7294, -104.8319, 288895));
 
       // load the local GeoPackage
       File geoPackageFile = new File(System.getProperty("data.dir"), "./samples-data/auroraCO/AuroraCO.gpkg");

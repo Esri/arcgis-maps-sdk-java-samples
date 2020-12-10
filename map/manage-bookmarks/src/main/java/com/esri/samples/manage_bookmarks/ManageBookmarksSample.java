@@ -122,14 +122,14 @@ public class ManageBookmarksSample extends Application {
       // add label and bookmarks to the control panel
       controlsVBox.getChildren().addAll(bookmarkLabel, bookmarkNames, addBookmarkButton);
 
-      // create a map with the imagery standard basemap style
+      // create a map with the standard imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // get all the bookmarks from the ArcGISMap
+      // get all the bookmarks from the map
       bookmarkList = map.getBookmarks();
 
       // add default bookmarks
@@ -139,7 +139,7 @@ public class ManageBookmarksSample extends Application {
       bookmark = new Bookmark("Mysterious Desert Pattern", viewpoint);
       bookmarkList.add(bookmark);
       bookmarkNames.getItems().add(bookmark.getName());
-      // set this bookmark as the ArcGISMap's initial viewpoint
+      // set this bookmark as the map's initial viewpoint
       mapView.setBookmarkAsync(bookmarkList.get(0));
 
       viewpoint = new Viewpoint(37.401573, -116.867808, 6e3);

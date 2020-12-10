@@ -59,11 +59,11 @@ public class MinMaxScaleSample extends Application {
       map.setMinScale(8000);
       map.setMaxScale(2000);
 
-      // create a view for this ArcGISMap and set ArcGISMap to it
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // a point where the map view will focus and zoom to
+      // set a viewpoint on the map view
       mapView.setViewpoint(new Viewpoint(new Point(-355453, 7548720, SpatialReferences.getWebMercator()), 3000));
 
       // add the map view to stack pane

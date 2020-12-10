@@ -72,11 +72,11 @@ public class ManageOperationalLayersSample extends Application {
       // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set the initial viewpoint for the map view
+      // set a viewpoint on the map view
       mapView.setViewpoint(new Viewpoint(41.056295, -106.195800, 20000000));
 
       // create and add new image layers to the map's operational layers
