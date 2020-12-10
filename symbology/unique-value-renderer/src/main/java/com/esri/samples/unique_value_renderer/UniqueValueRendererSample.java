@@ -124,7 +124,7 @@ public class UniqueValueRendererSample extends Application {
       // set the renderer on the feature layer
       featureLayer.setRenderer(uniqueValueRenderer);
 
-      // add the feature layer to the map
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
       // add the map view and control panel to stack pane
