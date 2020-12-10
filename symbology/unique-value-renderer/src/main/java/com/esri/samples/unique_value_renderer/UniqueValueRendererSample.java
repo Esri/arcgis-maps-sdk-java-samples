@@ -26,6 +26,8 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
@@ -68,12 +70,13 @@ public class UniqueValueRendererSample extends Application {
       // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(36.74938, -118.64617, 15000000));
+      mapView.setViewpoint(new Viewpoint(new Envelope(-13893029.0, 3573174.0, -12038972.0, 5309823.0,
+        SpatialReferences.getWebMercator())));
 
       // create service feature table
       String sampleServiceUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3";

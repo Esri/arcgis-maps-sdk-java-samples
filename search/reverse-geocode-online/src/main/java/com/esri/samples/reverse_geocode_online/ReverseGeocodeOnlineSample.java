@@ -81,15 +81,15 @@ public class ReverseGeocodeOnlineSample extends Application {
       progressIndicator.setStyle("-fx-progress-color: white;");
       progressIndicator.setVisible(false);
 
-      // create a map with a basemap style
+      // create a map with the imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(40, -95, 35000000));
+      mapView.setViewpoint(new Viewpoint(40, -95, 36978595));
 
       // add a graphics overlay
       graphicsOverlay = new GraphicsOverlay();

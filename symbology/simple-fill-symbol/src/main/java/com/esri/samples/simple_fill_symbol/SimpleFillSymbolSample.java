@@ -87,7 +87,7 @@ public class SimpleFillSymbolSample extends Application {
       // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 

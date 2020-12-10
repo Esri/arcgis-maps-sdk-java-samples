@@ -69,10 +69,10 @@ public class ReadSymbolsFromMobileStyleFileController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map with a topographic basemap style
+    // create a map with the topographic basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-    // add the map to the map view
+    // set the map to the map view
     mapView.setMap(map);
 
     // create a graphics overlay and add it to the map

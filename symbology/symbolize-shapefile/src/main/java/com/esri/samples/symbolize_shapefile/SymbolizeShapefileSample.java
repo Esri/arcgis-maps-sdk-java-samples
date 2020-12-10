@@ -62,10 +62,10 @@ public class SymbolizeShapefileSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // set the map to the map view
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -85,7 +85,7 @@ public class SymbolizeShapefileSample extends Application {
         }
       });
 
-      // add the feature layer to the map
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
       // create the symbols and renderer

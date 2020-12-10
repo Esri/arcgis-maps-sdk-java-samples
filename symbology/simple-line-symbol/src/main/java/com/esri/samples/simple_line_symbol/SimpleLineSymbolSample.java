@@ -78,10 +78,10 @@ public class SimpleLineSymbolSample extends Application {
 
       createSymbolFunctionality(controlsVBox);
 
-      // create a map with the imagery basemap style
+      // create a map with the standard imagery basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
