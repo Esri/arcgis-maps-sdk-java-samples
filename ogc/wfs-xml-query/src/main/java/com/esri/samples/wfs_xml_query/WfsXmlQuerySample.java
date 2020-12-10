@@ -62,14 +62,14 @@ public class WfsXmlQuerySample extends Application {
     ProgressIndicator progressIndicator = new ProgressIndicator();
     progressIndicator.setVisible(true);
 
-    // create a map with a basemap style
+    // create a map with the navigation basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_NAVIGATION);
 
-    // create a map view and set its map
+    // create a map view and set the map to it
     mapView = new MapView();
     mapView.setMap(map);
 
-     // create a FeatureTable from the WFS service URL and layer name
+     // create a feature table from the WFS service URL and layer name
     WfsFeatureTable wfsFeatureTable = new WfsFeatureTable(
             "https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities",
             "Seattle_Downtown_Features:Trees");
@@ -95,7 +95,7 @@ public class WfsXmlQuerySample extends Application {
       progressIndicator.setVisible(false);
     });
 
-    // add the mapview to the stackpane
+    // add the map view to the stack pane
     stackPane.getChildren().addAll(mapView, progressIndicator);
   }
 

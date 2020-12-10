@@ -91,17 +91,17 @@ public class ClosestFacilitySample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add the mapview to stack pane
+      // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
 
-      // set view to be over San Diego
+      // set a viewpoint on the map view to be over San Diego
       mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
       facilityGraphicsOverlay = new GraphicsOverlay();

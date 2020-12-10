@@ -153,10 +153,10 @@ public class FindRouteSample extends Application {
       // add buttons and direction list and label to the control panel
       controlsVBox.getChildren().addAll(directionsLabel, directionsList, findButton, resetButton);
 
-      // create a map with a basemap style
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 

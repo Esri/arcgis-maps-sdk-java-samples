@@ -88,9 +88,11 @@ public class RoutingAroundBarriersController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // add a map with the streets basemap style to the map view, centered on San Diego
+    // create a map with the streets basemap style and set it to the map view
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
     mapView.setMap(map);
+
+    // set a viewpoint on the map view
     mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
     // add the graphics overlays to the map view

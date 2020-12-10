@@ -87,10 +87,10 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     ProgressIndicator progressIndicator = new ProgressIndicator();
     progressIndicator.setVisible(false);
 
-    // create a map with a basemap style
+    // create a map with the light gray basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
-    // create a map view and set its map
+    // create a map view and set the map to it
     mapView = new MapView();
     mapView.setMap(map);
 
@@ -117,7 +117,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
     // set the renderer of the facilities feature layer to use the facilities symbol
     facilitiesFeatureLayer.setRenderer(new SimpleRenderer(facilitySymbol));
 
-    // add the facilities feature layer to the map
+    // add the facilities feature layer to the map's operational layers
     map.getOperationalLayers().add(facilitiesFeatureLayer);
 
     // wait for the facilities feature layer to load

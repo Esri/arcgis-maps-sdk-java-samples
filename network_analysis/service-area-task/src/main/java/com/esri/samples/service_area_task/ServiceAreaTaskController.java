@@ -88,9 +88,11 @@ public class ServiceAreaTaskController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
+    // create a map with the streets basemap style and set it to the map view
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
     mapView.setMap(map);
-    // set mapview to San Diego
+
+    // set a viewpoint on the map view
     mapView.setViewpoint(new Viewpoint(32.73, -117.14, 60000));
 
     // create service area task from url

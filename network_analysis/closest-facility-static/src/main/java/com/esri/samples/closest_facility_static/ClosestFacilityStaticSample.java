@@ -91,10 +91,10 @@ public class ClosestFacilityStaticSample extends Application {
       ProgressIndicator progressIndicator = new ProgressIndicator();
       progressIndicator.setVisible(true);
 
-      // create a map with a basemap style
+      // create a map with the streets relief basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_RELIEF);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 

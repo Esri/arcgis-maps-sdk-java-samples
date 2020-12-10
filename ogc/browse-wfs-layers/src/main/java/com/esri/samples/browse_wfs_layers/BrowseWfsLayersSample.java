@@ -83,10 +83,10 @@ public class BrowseWfsLayersSample extends Application {
     progressIndicator = new ProgressIndicator();
     progressIndicator.setVisible(true);
 
-    // create a map with a basemap style
+    // create a map with the standard imagery basemap style
     map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-    // create a map view and set its map
+    // create a map view and set the map to it
     mapView = new MapView();
     mapView.setMap(map);
 

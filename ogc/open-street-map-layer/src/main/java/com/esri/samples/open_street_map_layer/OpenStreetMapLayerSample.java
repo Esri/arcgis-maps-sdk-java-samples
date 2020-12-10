@@ -53,12 +53,12 @@ public class OpenStreetMapLayerSample extends Application {
       // create a map with the OpenStreetMap basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.OSM_STANDARD);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(34.056295, -117.195800, 500000));
+      mapView.setViewpoint(new Viewpoint(34.056295, -117.195800, 577790));
 
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
