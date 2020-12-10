@@ -48,7 +48,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.create_symbol_styles_from_service.CreateSymbolStylesFromServiceLauncher'
+    mainClassName = 'com.esri.samples.create_symbols_from_web_styles.CreateSymbolsFromWebStylesLauncher'
 }
 
 jar {

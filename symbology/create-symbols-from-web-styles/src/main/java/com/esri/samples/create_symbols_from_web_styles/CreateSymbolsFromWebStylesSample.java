@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.create_symbol_styles_from_service;
+package com.esri.samples.create_symbols_from_web_styles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +52,7 @@ import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 
-public class CreateSymbolStylesFromServiceSample extends Application {
+public class CreateSymbolsFromWebStylesSample extends Application {
 
   private MapView mapView;
 
@@ -65,7 +65,7 @@ public class CreateSymbolStylesFromServiceSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Create Symbol Styles From Service Sample");
+      stage.setTitle("Create Symbols From Web Styles Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

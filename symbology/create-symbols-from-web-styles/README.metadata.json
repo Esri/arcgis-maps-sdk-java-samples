@@ -19,7 +19,7 @@
         "MapView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/create_symbol_styles_from_service/CreateSymbolStylesFromServiceSample.java"
+        "src/main/java/com/esri/samples/create_symbols_from_web_styles/CreateSymbolsFromWebStylesSample.java"
     ],
-    "title": "Create symbol styles from service"
+    "title": "Create symbols from web styles"
 }

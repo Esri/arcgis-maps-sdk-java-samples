@@ -1,4 +1,4 @@
-# Create symbol styles from service
+# Create symbols from web styles
 
 Display a map with an imagery basemap.
 
