@@ -173,7 +173,7 @@ public class DisplayDeviceLocationWithAutopanModesSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(180, 50);
+      controlsVBox.setMaxSize(230, 50);
       controlsVBox.getStyleClass().add("panel-region");
       // add the checkbox, label and combo box to the control panel
       controlsVBox.getChildren().addAll(checkBox, autopanModeLabel, comboBox);
