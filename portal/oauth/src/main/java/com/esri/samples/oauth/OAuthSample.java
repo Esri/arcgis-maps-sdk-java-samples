@@ -54,10 +54,10 @@ public class OAuthSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with a basemap style
+      // create a map with the standard imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // set the map to the map view
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
