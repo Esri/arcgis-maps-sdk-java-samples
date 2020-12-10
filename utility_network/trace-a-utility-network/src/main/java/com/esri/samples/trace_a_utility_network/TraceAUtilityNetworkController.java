@@ -108,9 +108,10 @@ public class TraceAUtilityNetworkController {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a basemap and set it to the map view
+      // create a map with the streets night basemap style and set it to the map view
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
       mapView.setMap(map);
+
       // set the viewpoint to a subsection of the utility network
       mapView.setViewpointAsync(new Viewpoint(
           new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,

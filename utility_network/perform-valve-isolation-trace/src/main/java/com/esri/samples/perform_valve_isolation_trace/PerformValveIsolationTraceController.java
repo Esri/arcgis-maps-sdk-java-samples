@@ -87,7 +87,7 @@ public class PerformValveIsolationTraceController {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a basemap and set it to the map view
+      // create a map with the streets night basemap style and set it to the map view
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
       mapView.setMap(map);
 
