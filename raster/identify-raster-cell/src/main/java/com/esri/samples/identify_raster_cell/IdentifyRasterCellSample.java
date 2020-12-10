@@ -72,7 +72,7 @@ public class IdentifyRasterCellSample extends Application {
       // create a map with the oceans basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
 
-      // create a map view and set its map
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -82,7 +82,7 @@ public class IdentifyRasterCellSample extends Application {
       // create a raster layer
       rasterLayer = new RasterLayer(raster);
 
-      // add the raster as an operational layer
+      // add the raster layer to the map's operational layers
       map.getOperationalLayers().add(rasterLayer);
 
       // set viewpoint on the raster

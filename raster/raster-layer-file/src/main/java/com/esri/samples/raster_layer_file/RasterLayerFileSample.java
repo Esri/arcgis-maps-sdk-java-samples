@@ -61,14 +61,14 @@ public class RasterLayerFileSample extends Application {
       // create a raster layer
       RasterLayer rasterLayer = new RasterLayer(raster);
 
-      // create a map with an imagery basemap style
+      // create a map with the standard imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // add the map to a map view
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add the raster as an operational layer
+      // add the raster layer to the map's operational layers
       map.getOperationalLayers().add(rasterLayer);
 
       // set viewpoint on the raster

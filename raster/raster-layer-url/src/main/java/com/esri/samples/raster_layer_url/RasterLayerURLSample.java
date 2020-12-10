@@ -68,10 +68,10 @@ public class RasterLayerURLSample extends Application {
         }
       });
 
-      // create a map with a basemap style
+      // create a map with the dark gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
 
-      // add the map to a map view
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 

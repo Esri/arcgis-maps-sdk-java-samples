@@ -103,10 +103,10 @@ public class RasterRenderingRuleSample extends Application {
       // add the ComboBox and Label to the controlsVBox
       controlsVBox.getChildren().addAll(renderingRuleInfoComboBox, renderingRuleInfoLabel);
 
-      // create a map with a streets basemap style
+      // create a map with the streets basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // add the map to a new map view
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
