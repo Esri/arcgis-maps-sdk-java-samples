@@ -113,14 +113,22 @@ public class TraceAUtilityNetworkController {
           new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,
               SpatialReferences.getWebMercator())));
 
+      // define user credentials for authenticating with the service
+      // NOTE: a licensed user is required to perform utility network operations
+      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+
       // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
           "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
 
-      ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/115");
+      ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/3");
+      // set user credentials to authenticate with the service
+      distributionLineFeatureTable.setCredential(userCredential);
       FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
 
-      ServiceFeatureTable electricDeviceFeatureTable = new ServiceFeatureTable(featureServiceURL + "/100");
+      ServiceFeatureTable electricDeviceFeatureTable = new ServiceFeatureTable(featureServiceURL + "/0");
+      // set user credentials to authenticate with the service
+      electricDeviceFeatureTable.setCredential(userCredential);
       FeatureLayer electricDeviceLayer = new FeatureLayer(electricDeviceFeatureTable);
 
       // create and apply a renderer for the electric distribution lines feature layer
@@ -160,12 +168,8 @@ public class TraceAUtilityNetworkController {
 
       // create and load the utility network
       utilityNetwork = new UtilityNetwork(featureServiceURL, map);
-
       // set user credentials to authenticate with the service
-      // NOTE: a licensed user is required to perform utility network operations
-      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
       utilityNetwork.setCredential(userCredential);
-
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
