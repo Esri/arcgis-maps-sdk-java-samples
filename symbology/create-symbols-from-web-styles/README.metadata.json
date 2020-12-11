@@ -1,22 +1,27 @@
 {
     "category": "Symbology",
-    "description": "",
+    "description": "Create symbols from a style file hosted on a portal.",
     "ignore": false,
     "images": [
-        ""
+        "CreateSymbolsFromWebStyles.png"
     ],
     "keywords": [
-        "basemap",
-        "map",
-        "ArcGISMap",
-        "Basemap",
-        "MapView"
+        "renderer",
+        "symbol",
+        "symbology",
+        "FeatureLayer",
+        "Symbol",
+        "SymbolStyle",
+        "UniqueValue",
+        "UniqueValueRenderer"
     ],
     "redirect_from": [],
     "relevant_apis": [
-        "ArcGISMap",
-        "Basemap",
-        "MapView"
+        "FeatureLayer",
+        "Symbol",
+        "SymbolStyle",
+        "UniqueValue",
+        "UniqueValueRenderer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/create_symbols_from_web_styles/CreateSymbolsFromWebStylesSample.java"

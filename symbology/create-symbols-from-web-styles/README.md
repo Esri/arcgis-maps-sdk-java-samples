@@ -1,29 +1,46 @@
 # Create symbols from web styles
 
-Display a map with an imagery basemap.
+Create symbols from a style file hosted on a portal.
 
-![Image of create symbol styles from service]()
+![Image of create symbols from web styles](CreateSymbolsFromWebStyles.png)
 
 ## Use case
 
-The map is the fundamental building block of any GIS application and is used to specify how geographic data is organized and communicated to your users.
+Style files hosted on an ArcGIS Online or Enterprise portal are known as web styles. They can be used to style symbols on a feature layer or graphic overlay.
 
 ## How to use the sample
 
-Run the sample to view the map. Pan and zoom to navigate the map.
+The sample displays a map with a set of symbols that represent the categories of the features within the dataset. Pan and zoom on the map and view the legend to explore the appearance and names of the different symbols from the selected symbol style.
 
 ## How it works
 
-1. Create an ArcGIS map using a default `Basemap` such use `Basemap.createImagery()`.
-2. Create a `MapView` object to display the map.
-3. Set the map to the map view.
+1. Create a `FeatureLayer` and add it to the map.
+2. Create a `UniqueValueRenderer` and set it to the feature layer.
+3. Create a `SymbolStyle` from a portal by passing in the web style name and portal URL. 
+       * Note: passing `null` as the portal will default to ArcGIS.com.
+4. Search for symbols in the symbol style by name using `symbolStyle.getSymbolAsync(symbolName)`.
+5. Create a `Symbol` from the search result.
+6. Create `UniqueValue` objects for each symbol with defined values to map the symbol to features on the feature layer.
+7. Add each `UniqueValue` to the `UniqueValueRenderer`.
 
 ## Relevant API
 
-* ArcGISMap
-* Basemap
-* MapView
+* FeatureLayer
+* Symbol
+* SymbolStyle
+* UniqueValue
+* UniqueValueRenderer
+
+## About the data
+
+The sample uses the ['Esri2DPointSymbolsStyle'](https://developers.arcgis.com/javascript/latest/guide/esri-web-style-symbols-2d) Web Style.
+
+The map shows features from the [LA County Points of Interest service](https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/LA_County_Points_of_Interest/FeatureServer/0) hosted on ArcGIS Online.
+
+## Additional information
+
+2D web styles, dictionary web styles and 3D web styles can all be hosted on an ArcGIS Online or Enterprise portal.
 
 ## Tags
 
-basemap, map
+renderer, symbol, symbology
