@@ -10,17 +10,17 @@
         "mosaic method",
         "mosaic rule",
         "raster",
-        "AGSImageServiceRaster",
-        "AGSMosaicMethod",
-        "AGSMosaicOperation",
-        "AGSMosaicRule"
+        "ImageServiceRaster",
+        "MosaicMethod",
+        "MosaicOperation",
+        "MosaicRule"
     ],
     "redirect_from":"",
     "relevant_apis": [
-        "AGSImageServiceRaster",
-        "AGSMosaicMethod",
-        "AGSMosaicOperation",
-        "AGSMosaicRule"
+        "ImageServiceRaster",
+        "MosaicMethod",
+        "MosaicOperation",
+        "MosaicRule"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/apply_mosaic_rule_to_rasters/ApplyMosaicRuleToRastersSample.java"
