@@ -42,6 +42,10 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.SelfSignedCertificateListener;
+import com.esri.arcgisruntime.security.SelfSignedResponse;
+import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssociation;
@@ -82,10 +86,15 @@ public class DisplayUtilityAssociationsSample extends Application {
       // create a map view, set the map, and add the graphics overlay
       mapView = new MapView();
       mapView.setMap(map);
-      
+
       // create the utility network
-      utilityNetwork = new UtilityNetwork("https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer");
-      
+      utilityNetwork = new UtilityNetwork("https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer");
+
+      // set user credentials to authenticate with the service
+      // NOTE: a licensed user is required to perform utility network operations
+      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+      utilityNetwork.setCredential(userCredential);
+
       // load the utility network and get all of the edges and junctions in the network
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {

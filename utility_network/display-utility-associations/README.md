@@ -34,7 +34,7 @@ Pan and zoom around the map. Observe graphics that show utility associations bet
 
 ## About the data
 
-The [Naperville electrical](https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer) network feature service, hosted on ArcGIS Online, contains a utility network used to display the utility associations in this sample.
+The [Naperville electrical](https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer) network feature service, hosted on ArcGIS Online, contains a utility network used to display the utility associations in this sample.
 
 ## Tags
 
