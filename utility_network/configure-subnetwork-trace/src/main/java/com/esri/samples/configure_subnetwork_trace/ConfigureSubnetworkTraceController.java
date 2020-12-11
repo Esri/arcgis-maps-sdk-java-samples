@@ -32,6 +32,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.CodedValue;
 import com.esri.arcgisruntime.data.CodedValueDomain;
 import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetGroup;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssetType;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAttributeComparisonOperator;
@@ -87,8 +88,14 @@ public class ConfigureSubnetworkTraceController {
 
       // load the utility network
       utilityNetwork = new UtilityNetwork(
-          "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric" +
+          "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleElectric" +
               "/FeatureServer");
+
+      // set user credentials to authenticate with the service
+      // NOTE: a licensed user is required to perform utility network operations
+      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+      utilityNetwork.setCredential(userCredential);
+
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
