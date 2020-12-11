@@ -45,6 +45,7 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
@@ -88,7 +89,7 @@ public class PerformValveIsolationTraceController {
 
       // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
-              "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleGas/FeatureServer";
+              "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleGas/FeatureServer";
 
       ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/3");
       FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
@@ -110,6 +111,12 @@ public class PerformValveIsolationTraceController {
 
       // create and load the utility network
       utilityNetwork = new UtilityNetwork(featureServiceURL);
+
+      // set user credentials to authenticate with the service
+      // NOTE: a licensed user is required to perform utility network operations
+      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+      utilityNetwork.setCredential(userCredential);
+
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
