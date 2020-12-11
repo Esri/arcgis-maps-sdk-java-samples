@@ -60,6 +60,7 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.security.UserCredential;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -114,7 +115,7 @@ public class TraceAUtilityNetworkController {
 
       // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
-          "https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
+          "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
 
       ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/115");
       FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
@@ -159,6 +160,12 @@ public class TraceAUtilityNetworkController {
 
       // create and load the utility network
       utilityNetwork = new UtilityNetwork(featureServiceURL, map);
+
+      // set user credentials to authenticate with the service
+      // NOTE: a licensed user is required to perform utility network operations
+      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+      utilityNetwork.setCredential(userCredential);
+
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
         if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
