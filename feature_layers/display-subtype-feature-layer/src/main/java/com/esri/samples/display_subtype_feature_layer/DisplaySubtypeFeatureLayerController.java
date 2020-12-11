@@ -17,29 +17,31 @@ package com.esri.samples.display_subtype_feature_layer;
 
 import java.nio.charset.StandardCharsets;
 
-import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.SubtypeFeatureLayer;
-import com.esri.arcgisruntime.layers.SubtypeSublayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.Renderer;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import com.esri.arcgisruntime.symbology.Symbol;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.apache.commons.io.IOUtils;
 
+import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.SubtypeFeatureLayer;
+import com.esri.arcgisruntime.layers.SubtypeSublayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.security.UserCredential;
+import com.esri.arcgisruntime.symbology.Renderer;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
+import com.esri.arcgisruntime.symbology.Symbol;
+
 public class DisplaySubtypeFeatureLayerController {
-  
+
   @FXML private MapView mapView;
   @FXML private Label currentMapScaleLabel;
   @FXML private Label minScaleLabel;
@@ -61,7 +63,7 @@ public class DisplaySubtypeFeatureLayerController {
       // display the current map scale 
       mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
         currentMapScaleLabel.setText("Current map scale: 1:" + Math.round(mapView.getMapScale())));
-      
+
       // set the viewpoint to Naperville, Illinois
       Viewpoint initialViewpoint = new Viewpoint(new Envelope(-9812691.11079696, 5128687.20710657,
         -9812377.9447607, 5128865.36767282, SpatialReferences.getWebMercator()));
@@ -69,10 +71,15 @@ public class DisplaySubtypeFeatureLayerController {
 
       // create a subtype feature layer from the service feature table, and add it to the map
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable("https://sampleserver7.arcgisonline" +
-        ".com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/100");
+        ".com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/0");
+
+      // set user credentials to authenticate with the service
+      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+      serviceFeatureTable.setCredential(userCredential);
+
       SubtypeFeatureLayer subtypeFeatureLayer = new SubtypeFeatureLayer(serviceFeatureTable);
       map.getOperationalLayers().add(subtypeFeatureLayer);
-      
+
       // access the json required for sublayer label definitions
       final String json = IOUtils.toString(getClass().getResourceAsStream("/display_subtype_feature_layer/label_definition.json"), StandardCharsets.UTF_8);
 
@@ -81,7 +88,7 @@ public class DisplaySubtypeFeatureLayerController {
       subtypeFeatureLayer.addDoneLoadingListener(() -> {
         // show the UI for interaction with the sublayer once it has loaded
         vBox.setVisible(true);
-        
+
         // get the Street Light sublayer and define its labels
         sublayer = subtypeFeatureLayer.getSublayerWithSubtypeName("Street Light");
         sublayer.setLabelsEnabled(true);
@@ -114,9 +121,9 @@ public class DisplaySubtypeFeatureLayerController {
    */
   @FXML
   private void handleSublayerVisibility() {
-      sublayer.setVisible(sublayerVisibilityCheckbox.isSelected());
+    sublayer.setVisible(sublayerVisibilityCheckbox.isSelected());
   }
-  
+
   /**
    * Sets the renderer of the sublayer to its original format (a white and black circular icon). 
    */
@@ -132,7 +139,7 @@ public class DisplaySubtypeFeatureLayerController {
   private void handleAlternativeRendererButtonClicked() {
     sublayer.setRenderer(alternativeRenderer);
   }
-  
+
   /**
    * Disposes application resources.
    */
