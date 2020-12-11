@@ -87,7 +87,7 @@ public class CreateSymbolsFromWebStylesSample extends Application {
       mapView.setMap(map);
 
       // set a viewpoint on the map view
-      mapView.setViewpoint(new Viewpoint(34.28883, -118.43455, 7000));
+      mapView.setViewpoint(new Viewpoint(34.28301, -118.44186, 7000));
 
       // create a feature layer from a service
       FeatureLayer featureLayer = new FeatureLayer(new ServiceFeatureTable(
@@ -279,7 +279,6 @@ public class CreateSymbolsFromWebStylesSample extends Application {
       try {
         // add the symbol image to the image view
         imageView.setImage(imageOfSymbol.get());
-        System.out.println(imageOfSymbol.getClass());
       } catch (InterruptedException | ExecutionException e) {
         new Alert(Alert.AlertType.ERROR, "Error creating preview ImageView from provided symbol").show();
       }
