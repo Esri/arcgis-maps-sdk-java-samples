@@ -81,7 +81,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
         CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(260, 50);
+      controlsVBox.setMaxSize(210, 50);
       controlsVBox.setVisible(false);
       // add the label and combo box to the control panel
       controlsVBox.getChildren().addAll(mosaicRuleLabel, comboBox);
@@ -103,9 +103,9 @@ public class ApplyMosaicRuleToRastersSample extends Application {
         }
       });
 
-      // create an ArcGISMap map with a basemap style
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
-      
+      // create an ArcGISMap map
+      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvasVector());
+
       // set the ArcGISMap to the map view
       mapView.setMap(map);
 
