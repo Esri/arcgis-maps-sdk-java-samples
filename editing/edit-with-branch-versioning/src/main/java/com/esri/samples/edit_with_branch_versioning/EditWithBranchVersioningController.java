@@ -92,10 +92,10 @@ public class EditWithBranchVersioningController {
 
       // create a service geodatabase
       serviceGeodatabase = new ServiceGeodatabase("https://sampleserver7.arcgisonline" +
-        ".com/arcgis/rest/services/DamageAssessment/FeatureServer");
+        ".com/server/rest/services/DamageAssessment/FeatureServer");
 
       // set the user credentials required to authenticate with the service geodatabase
-      UserCredential userCredential = new UserCredential("editor01", "editor01.password");
+      UserCredential userCredential = new UserCredential("editor01", "S7#i2LWmYH75");
       serviceGeodatabase.setCredential(userCredential);
 
       // load the service geodatabase
