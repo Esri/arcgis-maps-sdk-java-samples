@@ -193,23 +193,29 @@ public class CreateSymbolsFromWebStylesSample extends Application {
    *
    */
   private void setupLegend() {
+
+    // create a grid pane and set the size, background color and spacing
     gridPane = new GridPane();
     gridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(70), new ColumnConstraints(120)));
-    Label legendTitle = new Label("Style: " + symbolStyle.getStyleName());
-    legendTitle.setStyle("-fx-font-weight: bold");
-    gridPane.add(legendTitle, 0, 0,2,1);
-    Label symbolTitle = new Label("Symbol");
-    symbolTitle.setStyle("-fx-font-weight: bold");
-    Label nameTitle = new Label("Name");
-    nameTitle.setStyle("-fx-font-weight: bold");
-    gridPane.add(symbolTitle, 0, 1);
-    gridPane.add(nameTitle, 1, 1);
     gridPane.setMaxWidth(175);
     gridPane.setMaxHeight(570);
     gridPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255, 0.9)"), CornerRadii.EMPTY,
       Insets.EMPTY)));
     gridPane.setPadding(new Insets(10));
     gridPane.setVgap(12);
+
+    // create a label to display the symbol style name as the title of the legend and add to the grid pane
+    Label legendTitle = new Label("Style: " + symbolStyle.getStyleName());
+    legendTitle.setStyle("-fx-font-weight: bold");
+    gridPane.add(legendTitle, 0, 0,2,1);
+
+    // create labels for the column headings and add to the grid pane
+    Label symbolTitle = new Label("Symbol");
+    symbolTitle.setStyle("-fx-font-weight: bold");
+    Label nameTitle = new Label("Name");
+    nameTitle.setStyle("-fx-font-weight: bold");
+    gridPane.add(symbolTitle, 0, 1);
+    gridPane.add(nameTitle, 1, 1);
   }
 
   /**
