@@ -91,7 +91,7 @@ public class ReverseGeocodeOnlineSample extends Application {
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
 
       // create a locator task
-      locatorTask = new LocatorTask("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
+      locatorTask = new LocatorTask("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
       // create geocode task parameters
       ReverseGeocodeParameters reverseGeocodeParameters = new ReverseGeocodeParameters();

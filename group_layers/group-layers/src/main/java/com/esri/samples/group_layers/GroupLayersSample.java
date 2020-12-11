@@ -23,6 +23,8 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.StackPane;
@@ -32,6 +34,7 @@ import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.GroupLayer;
+import com.esri.arcgisruntime.layers.GroupVisibilityMode;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
@@ -44,9 +47,7 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 public class GroupLayersSample extends Application {
 
   private SceneView sceneView;
-  // keep loadables in scope to avoid garbage collection
-  private ArcGISScene scene;
-  private GroupLayer groupLayer;
+  static ToggleGroup buildingsToggleGroup;
 
   @Override
   public void start(Stage stage) {
@@ -69,35 +70,49 @@ public class GroupLayersSample extends Application {
       stackPane.getChildren().add(sceneView);
 
       // create a scene with a basemap and add it to the scene view
-      scene = new ArcGISScene();
+      ArcGISScene scene = new ArcGISScene();
       scene.setBasemap(Basemap.createImagery());
       sceneView.setArcGISScene(scene);
 
       // set the base surface with world elevation
       Surface surface = new Surface();
-      surface.getElevationSources().add(new ArcGISTiledElevationSource("https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
+      surface.getElevationSources().add(new ArcGISTiledElevationSource(
+        "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
       scene.setBaseSurface(surface);
 
-      // create different types of layers
-      ArcGISSceneLayer devABuildings = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer");
-      ArcGISSceneLayer devBBuildings = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevB_BuildingShells/SceneServer");
-      ArcGISSceneLayer devATrees = new ArcGISSceneLayer("https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Trees/SceneServer");
-      FeatureLayer devAPathways = new FeatureLayer(new ServiceFeatureTable(" https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Pathways/FeatureServer/1"));
-      FeatureLayer devProjectArea = new FeatureLayer(new ServiceFeatureTable("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevelopmentProjectArea/FeatureServer/0"));
+      // create a group layer for project areas, set the visibility mode and add layers to it
+      GroupLayer projectAreaGroupLayer = new GroupLayer();
+      projectAreaGroupLayer.setName("Project area group");
+      projectAreaGroupLayer.setVisibilityMode(GroupVisibilityMode.INDEPENDENT);
+      projectAreaGroupLayer.getLayers().addAll(Arrays.asList(
+        (new FeatureLayer(new ServiceFeatureTable(
+          "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevelopmentProjectArea/FeatureServer/0"))),
+        (new FeatureLayer(new ServiceFeatureTable(
+          "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Pathways/FeatureServer/1"))),
+        (new ArcGISSceneLayer(
+          "https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_Trees/SceneServer"))
+      ));
 
-      // create a group layer from scratch by adding the layers as children
-      groupLayer = new GroupLayer();
-      groupLayer.setName("Group: Dev A");
-      groupLayer.getLayers().addAll(Arrays.asList(devATrees, devAPathways, devABuildings));
+      // create a group layer for buildings, set the visibility mode and add layers to it
+      GroupLayer buildingsGroupLayer = new GroupLayer();
+      buildingsGroupLayer.setName("Buildings group");
+      buildingsGroupLayer.setVisibilityMode(GroupVisibilityMode.EXCLUSIVE);
+      buildingsGroupLayer.getLayers().addAll(Arrays.asList(
+        (new ArcGISSceneLayer(
+          "https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevA_BuildingShells/SceneServer")),
+        (new ArcGISSceneLayer(
+          "https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/DevB_BuildingShells/SceneServer"))
+      ));
 
-      // add the group layer and other layers to the scene as operational layers
-      scene.getOperationalLayers().addAll(Arrays.asList(groupLayer, devBBuildings, devProjectArea));
+      // add the group layers to the scene as operational layers
+      scene.getOperationalLayers().addAll(Arrays.asList(projectAreaGroupLayer, buildingsGroupLayer));
 
-      // zoom to the extent of the group layer when the child layers are loaded
-      groupLayer.getLayers().forEach(childLayer ->
+      // display an alert if the child layers in the group layers fail to load
+      projectAreaGroupLayer.getLayers().forEach(childLayer ->
         childLayer.addDoneLoadingListener(() -> {
           if (childLayer.getLoadStatus() == LoadStatus.LOADED) {
-            sceneView.setViewpointCamera(new Camera(groupLayer.getFullExtent().getCenter(), 700, 0, 60, 0));
+            // zoom to the extent of the project area group layer when the child layers are loaded
+            sceneView.setViewpointCamera(new Camera(projectAreaGroupLayer.getFullExtent().getCenter(), 700, 0, 60, 0));
           }
         })
       );
@@ -105,12 +120,16 @@ public class GroupLayersSample extends Application {
       // create a JavaFX tree view to show the layers in the scene
       TreeView<Layer> layerTreeView = new TreeView<>();
       layerTreeView.setMaxSize(250, 200);
+      layerTreeView.setPadding(new Insets(10, 0, 0, 5));
       TreeItem<Layer> rootTreeItem = new TreeItem<>();
       layerTreeView.setRoot(rootTreeItem);
       layerTreeView.setShowRoot(false);
       StackPane.setAlignment(layerTreeView, Pos.TOP_RIGHT);
       StackPane.setMargin(layerTreeView, new Insets(10));
       stackPane.getChildren().add(layerTreeView);
+
+      // create a toggle group for the tree view UI
+      buildingsToggleGroup = new ToggleGroup();
 
       // display each layer with a custom tree cell
       layerTreeView.setCellFactory(p -> new LayerTreeCell());
@@ -135,16 +154,18 @@ public class GroupLayersSample extends Application {
       // load each layer before adding to ensure all metadata is ready for display
       layer.loadAsync();
       layer.addDoneLoadingListener(() -> {
-        // add a tree item for the layer to the parent tree item
-        if (layer.canShowInLegend()) {
-          TreeItem<Layer> layerItem = new TreeItem<>(layer);
-          layerItem.setExpanded(true);
-          parentItem.getChildren().add(layerItem);
-          // if the layer is a group layer, continue building with its children
-          if (layer instanceof GroupLayer && ((GroupLayer) layer).isShowChildrenInLegend()) {
-            buildLayersView(layerItem, ((GroupLayer) layer).getLayers());
+        if (layer.getLoadStatus() == LoadStatus.LOADED) {
+          // add a tree item for the layer to the parent tree item
+          if (layer.canShowInLegend()) {
+            TreeItem<Layer> layerItem = new TreeItem<>(layer);
+            layerItem.setExpanded(true);
+            parentItem.getChildren().add(layerItem);
+            // if the layer is a group layer, continue building with its children
+            if (layer instanceof GroupLayer && ((GroupLayer) layer).isShowChildrenInLegend()) {
+              buildLayersView(layerItem, ((GroupLayer) layer).getLayers());
+            }
           }
-        }
+        } else new Alert(Alert.AlertType.ERROR, "Layer failed to load:\n" + layer.getLoadError().getCause().getMessage()).show();
       });
     }
   }
@@ -169,5 +190,4 @@ public class GroupLayersSample extends Application {
 
     Application.launch(args);
   }
-
 }
