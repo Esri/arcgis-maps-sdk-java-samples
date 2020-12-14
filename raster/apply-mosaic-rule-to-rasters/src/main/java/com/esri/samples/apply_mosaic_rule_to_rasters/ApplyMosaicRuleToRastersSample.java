@@ -103,10 +103,10 @@ public class ApplyMosaicRuleToRastersSample extends Application {
         }
       });
 
-      // create an ArcGISMap map
+      // create a map with the light gray canvas vector basemap
       ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvasVector());
 
-      // set the ArcGISMap to the map view
+      // set the map to the map view
       mapView.setMap(map);
 
       // create a raster layer from the image service raster
