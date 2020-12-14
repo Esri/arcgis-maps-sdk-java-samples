@@ -35,10 +35,11 @@ import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -67,6 +68,10 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a label
       Label mosaicRuleLabel = new Label("Choose a mosaic rule: ");
@@ -103,8 +108,8 @@ public class ApplyMosaicRuleToRastersSample extends Application {
         }
       });
 
-      // create a map with the light gray canvas vector basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvasVector());
+      // create a map with the light gray basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
       // set the map to the map view
       mapView.setMap(map);
