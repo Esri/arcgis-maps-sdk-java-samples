@@ -3,7 +3,7 @@
     "description": "Apply mosaic rule to a mosaic dataset of rasters.",
     "ignore": false,
     "images": [
-        "apply-mosaic-rule-to-rasters.png"
+        "ApplyMosaicRuleToRasters.png"
     ],
     "keywords": [
         "image service",
