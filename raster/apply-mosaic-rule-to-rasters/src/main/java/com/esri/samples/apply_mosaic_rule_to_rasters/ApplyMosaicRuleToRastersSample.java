@@ -85,10 +85,9 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       comboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
 
       // set the default combo box value
-      // comboBox.setValue("Default");
       comboBox.getSelectionModel().select(0);
 
-        // set up the control panel UI
+      // set up the control panel UI
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
         CornerRadii.EMPTY, Insets.EMPTY)));
