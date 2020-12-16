@@ -18,6 +18,7 @@ package com.esri.samples.create_symbols_from_web_styles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -149,10 +150,8 @@ public class CreateSymbolsFromWebStylesSample extends Application {
             for (String category : categories) {
 
               // create a unique value for each category
-              List<Object> categoryValue = new ArrayList<>();
-              categoryValue.add(category);
               UniqueValueRenderer.UniqueValue uniqueValue = new UniqueValueRenderer.UniqueValue(
-                "", symbolName, symbol, categoryValue);
+                "", symbolName, symbol, Collections.singletonList(category));
 
               // add each unique value to the unique value renderer
               uniqueValueRenderer.getUniqueValues().add(uniqueValue);
@@ -172,9 +171,8 @@ public class CreateSymbolsFromWebStylesSample extends Application {
       }
 
       // add a map scale changed listener on the map view to control the symbol sizes at different scales
-      mapView.addMapScaleChangedListener(mapScaleChangedEvent -> {
-        featureLayer.setScaleSymbols(!(mapView.getMapScale() < 80000));
-      });
+      mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
+        featureLayer.setScaleSymbols(mapView.getMapScale() >= 80000));
 
       // add the map view and grid pane to the stack pane
       stackPane.getChildren().addAll(mapView, gridPane);
