@@ -81,7 +81,14 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       ComboBox<String> comboBox = new ComboBox<>();
       comboBox.setMaxWidth(Double.MAX_VALUE);
 
-      // set up the control panel UI
+      // add the mosaic rules to the combo box
+      comboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
+
+      // set the default combo box value
+      // comboBox.setValue("Default");
+      comboBox.getSelectionModel().select(0);
+
+        // set up the control panel UI
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
         CornerRadii.EMPTY, Insets.EMPTY)));
@@ -130,12 +137,6 @@ public class ApplyMosaicRuleToRastersSample extends Application {
 
           // enable UI interaction once the raster layer has loaded
           controlsVBox.setVisible(true);
-
-          // add the mosaic rules to the combo box
-          comboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
-
-          // set the default combo box value
-          comboBox.setValue("Default");
 
           // create a mosaic rule for the image service raster if one does not already exist
           if (imageServiceRaster.getMosaicRule() == null) {
