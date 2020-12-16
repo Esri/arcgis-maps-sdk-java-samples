@@ -121,8 +121,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       mapView.setMap(map);
 
       // create a raster layer from the image service raster
-      String imageServiceURL = "https://sampleserver7.arcgisonline.com/server/rest/services/amberg_germany/ImageServer";
-      ImageServiceRaster imageServiceRaster = new ImageServiceRaster(imageServiceURL);
+      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://sampleserver7.arcgisonline.com/server/rest/services/amberg_germany/ImageServer");
       rasterLayer = new RasterLayer(imageServiceRaster);
 
       // add raster layer as an operational layer to the map
