@@ -103,9 +103,8 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // create a map view
       mapView = new MapView();
 
-      // add draw status listener to the map view
+      // show progress indicator while map view is drawing
       mapView.addDrawStatusChangedListener (drawStatusChangedEvent -> {
-        // show progress indicator while map view is drawing
         if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS) {
           progressIndicator.setVisible(true);
         }
