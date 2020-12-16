@@ -78,14 +78,14 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       mosaicRuleLabel.setTextFill(Color.WHITE);
 
       // create a combo box
-      ComboBox<String> comboBox = new ComboBox<>();
-      comboBox.setMaxWidth(Double.MAX_VALUE);
+      ComboBox<String> mosaicRuleComboBox = new ComboBox<>();
+      mosaicRuleComboBox.setMaxWidth(Double.MAX_VALUE);
 
       // add the mosaic rules to the combo box
-      comboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
+      mosaicRuleComboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
 
       // set the default combo box value
-      comboBox.getSelectionModel().select(0);
+      mosaicRuleComboBox.getSelectionModel().select(0);
 
       // set up the control panel UI
       VBox controlsVBox = new VBox(6);
@@ -95,7 +95,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       controlsVBox.setMaxSize(210, 50);
       controlsVBox.setVisible(false);
       // add the label and combo box to the control panel
-      controlsVBox.getChildren().addAll(mosaicRuleLabel, comboBox);
+      controlsVBox.getChildren().addAll(mosaicRuleLabel, mosaicRuleComboBox);
 
       // create a progress indicator
       ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
@@ -124,13 +124,13 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://sampleserver7.arcgisonline.com/server/rest/services/amberg_germany/ImageServer");
       rasterLayer = new RasterLayer(imageServiceRaster);
 
-      // add raster layer as an operational layer to the map
+      // add a raster layer as an operational layer to the map
       map.getOperationalLayers().add(rasterLayer);
 
-      // listen for the raster layer to finish loading
+      // wait for the raster layer to finish loading
       rasterLayer.addDoneLoadingListener(() -> {
         if (rasterLayer.getLoadStatus() == LoadStatus.LOADED) {
-          // when loaded, set map view's viewpoint to the image service raster's center
+          // when loaded, set the map view's viewpoint to the image service raster's center
           mapView.setViewpoint(new Viewpoint(imageServiceRaster.getServiceInfo().getFullExtent().getCenter(), 25000.0));
 
           // enable UI interaction once the raster layer has loaded
@@ -148,11 +148,11 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       });
 
       // set the mosaic rule of the image service raster based on rule chosen from the combo box
-      comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+      mosaicRuleComboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
         // create a new mosaic rule
         mosaicRule = new MosaicRule();
 
-        switch (comboBox.getSelectionModel().getSelectedItem()) {
+        switch (mosaicRuleComboBox.getSelectionModel().getSelectedItem()) {
           case "Default":
             mosaicRule.setMosaicMethod(MosaicMethod.NONE);
             break;
