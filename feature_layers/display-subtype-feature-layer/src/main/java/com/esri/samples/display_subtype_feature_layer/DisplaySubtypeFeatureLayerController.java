@@ -70,8 +70,8 @@ public class DisplaySubtypeFeatureLayerController {
       map.setInitialViewpoint(initialViewpoint);
 
       // create a subtype feature layer from the service feature table, and add it to the map
-      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable("https://sampleserver7.arcgisonline" +
-        ".com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/0");
+      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(
+        "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer/0");
 
       // set user credentials to authenticate with the service
       UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
