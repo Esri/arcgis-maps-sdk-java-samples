@@ -55,7 +55,8 @@ import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 public class CreateSymbolsFromWebStylesSample extends Application {
 
   private MapView mapView;
-  private GridPane gridPane;
+  private GridPane legendGridPane;
+  private GridPane headerGridPane;
   private SymbolStyle symbolStyle;
 
   @Override
@@ -136,9 +137,7 @@ public class CreateSymbolsFromWebStylesSample extends Application {
       for (String symbolName : symbolNames) {
 
         // search for each symbol in the symbol style
-        List<String> searchKey = new ArrayList<>();
-        searchKey.add(symbolName);
-        ListenableFuture<Symbol> searchResult = symbolStyle.getSymbolAsync(searchKey);
+        ListenableFuture<Symbol> searchResult = symbolStyle.getSymbolAsync(Collections.singletonList(symbolName));
         searchResult.addDoneListener(() -> {
           try {
             // get the symbol from the search result
@@ -160,8 +159,8 @@ public class CreateSymbolsFromWebStylesSample extends Application {
             // create and add an image view and a label for the symbol to the legend on the UI
             ImageView imageView = createImageView(symbol);
             Label gridPaneLabel = new Label(symbolName);
-            gridPane.add(imageView, 0, symbolNames.indexOf(symbolName) + 2);
-            gridPane.add(gridPaneLabel, 1, symbolNames.indexOf(symbolName) + 2);
+            legendGridPane.add(imageView, 0, symbolNames.indexOf(symbolName));
+            legendGridPane.add(gridPaneLabel, 1, symbolNames.indexOf(symbolName));
 
           } catch (Exception e) {
             // on any error, display the stack trace.
@@ -175,9 +174,11 @@ public class CreateSymbolsFromWebStylesSample extends Application {
         featureLayer.setScaleSymbols(mapView.getMapScale() >= 80000));
 
       // add the map view and grid pane to the stack pane
-      stackPane.getChildren().addAll(mapView, gridPane);
-      StackPane.setAlignment(gridPane, Pos.TOP_LEFT);
-      StackPane.setMargin(gridPane, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, headerGridPane, legendGridPane);
+      StackPane.setAlignment(headerGridPane, Pos.TOP_LEFT);
+      StackPane.setAlignment(legendGridPane, Pos.TOP_LEFT);
+      StackPane.setMargin(headerGridPane, new Insets(10, 0, 0, 10));
+      StackPane.setMargin(legendGridPane, new Insets(80, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -192,27 +193,32 @@ public class CreateSymbolsFromWebStylesSample extends Application {
   private void setupLegend() {
 
     // create a grid pane and set the size, background color and spacing
-    gridPane = new GridPane();
-    gridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(70), new ColumnConstraints(120)));
-    gridPane.setMaxWidth(175);
-    gridPane.setMaxHeight(570);
-    gridPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255, 0.9)"), CornerRadii.EMPTY,
+    legendGridPane = new GridPane();
+    legendGridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(70), new ColumnConstraints(120)));
+    legendGridPane.setPadding(new Insets(10));
+    legendGridPane.setVgap(12);
+
+    headerGridPane = new GridPane();
+    headerGridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(70), new ColumnConstraints(120)));
+    headerGridPane.setMaxWidth(175);
+    headerGridPane.setMaxHeight(570);
+    headerGridPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255, 0.9)"), CornerRadii.EMPTY,
       Insets.EMPTY)));
-    gridPane.setPadding(new Insets(10));
-    gridPane.setVgap(12);
+    headerGridPane.setPadding(new Insets(10));
+    headerGridPane.setVgap(12);
 
     // create a label to display the symbol style name as the title of the legend and add to the grid pane
-    Label legendTitle = new Label("Style: " + symbolStyle.getStyleName());
-    legendTitle.setStyle("-fx-font-weight: bold");
-    gridPane.add(legendTitle, 0, 0,2,1);
+    Label legendHeader = new Label("Style: " + symbolStyle.getStyleName());
+    legendHeader.setStyle("-fx-font-weight: bold");
+    headerGridPane.add(legendHeader, 0, 0,2,1);
 
     // create labels for the column headings and add to the grid pane
-    Label symbolTitle = new Label("Symbol");
-    symbolTitle.setStyle("-fx-font-weight: bold");
-    Label nameTitle = new Label("Name");
-    nameTitle.setStyle("-fx-font-weight: bold");
-    gridPane.add(symbolTitle, 0, 1);
-    gridPane.add(nameTitle, 1, 1);
+    Label symbolHeader = new Label("Symbol");
+    symbolHeader.setStyle("-fx-font-weight: bold");
+    Label nameHeader = new Label("Name");
+    nameHeader.setStyle("-fx-font-weight: bold");
+    headerGridPane.add(symbolHeader, 0, 1);
+    headerGridPane.add(nameHeader, 1, 1);
   }
 
   /**
