@@ -129,9 +129,8 @@ public class CreateSymbolsFromWebStylesSample extends Application {
       setupLegend();
 
       // create a list of the required symbol names from the web style
-      ArrayList<String> symbolNames = new ArrayList<>();
-      symbolNames.addAll(Arrays.asList("atm", "beach", "campground", "city-hall", "hospital", "library", "park",
-        "place-of-worship", "police-station", "post-office", "school", "trail"));
+      ArrayList<String> symbolNames = new ArrayList<>(Arrays.asList("atm", "beach", "campground", "city-hall", "hospital",
+        "library", "park", "place-of-worship", "police-station", "post-office", "school", "trail"));
 
       for (String symbolName : symbolNames) {
 
