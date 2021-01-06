@@ -132,6 +132,7 @@ public class CreateSymbolsFromWebStylesSample extends Application {
       ArrayList<String> symbolNames = new ArrayList<>(Arrays.asList("atm", "beach", "campground", "city-hall", "hospital",
         "library", "park", "place-of-worship", "police-station", "post-office", "school", "trail"));
 
+      // create unique values for the renderer and construct a symbol for each feature
       for (String symbolName : symbolNames) {
 
         // search for each symbol in the symbol style
@@ -187,7 +188,6 @@ public class CreateSymbolsFromWebStylesSample extends Application {
 
   /**
    * Creates a legend on the UI for the symbol styles.
-   *
    */
   private void setupLegend() {
 
@@ -268,10 +268,10 @@ public class CreateSymbolsFromWebStylesSample extends Application {
   }
 
   /**
-   * Returns an imageView populated with a symbol.
+   * Returns an image view populated with a symbol.
    *
-   * @param symbol the symbol to display in the imageView
-   * @return imageView the imageView populated with the symbol
+   * @param symbol the symbol to display in the image view
+   * @return imageView the image view populated with the symbol
    */
   private ImageView createImageView(Symbol symbol) {
 
