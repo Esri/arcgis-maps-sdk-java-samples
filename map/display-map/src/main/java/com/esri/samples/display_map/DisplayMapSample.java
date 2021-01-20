@@ -21,8 +21,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class DisplayMapSample extends Application {
@@ -44,14 +45,18 @@ public class DisplayMapSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with the imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map view and set its map
+      // create a map with the standard imagery basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
+
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add the map view to stack pane
+      // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView);
     } catch (Exception e) {
       // on any error, display the stack trace.
