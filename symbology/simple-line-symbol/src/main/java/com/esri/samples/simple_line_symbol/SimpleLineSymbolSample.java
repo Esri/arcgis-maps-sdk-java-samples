@@ -30,12 +30,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -64,6 +64,10 @@ public class SimpleLineSymbolSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
@@ -74,16 +78,15 @@ public class SimpleLineSymbolSample extends Application {
 
       createSymbolFunctionality(controlsVBox);
 
-      final ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      // create a map with the standard imagery basemap style
+      final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // set initial map view point
-      Point point = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
-      Viewpoint viewpoint = new Viewpoint(point, 7200); // point, scale
-      map.setInitialViewpoint(viewpoint);
-
-      // create a view for this ArcGISMap and set ArcGISMap to it
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(50.59778, -2.03718, 7200));
 
       // creates a line from two points
       PointCollection points = new PointCollection(SpatialReferences.getWebMercator());
