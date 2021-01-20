@@ -22,13 +22,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -55,17 +56,19 @@ public class ServiceFeatureTableCacheSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map view
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with the light gray basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
+
+      // create a map view and set the map to it
       mapView = new MapView();
-
-      // create a ArcGISMap with the light Gray Canvas basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
-
-      // set ArcGISMap to be displayed in ArcGISMap view
       mapView.setMap(map);
 
-      // set an initial viewpoint
-      map.setInitialViewpoint(new Viewpoint(new Envelope(-140.740858094945, 14.1552479740679, -47.693259181055,
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(new Envelope(-140.740858094945, 14.1552479740679, -47.693259181055,
               64.8874243113506, SpatialReferences.getWgs84())));
 
       // create the service feature table
@@ -83,7 +86,7 @@ public class ServiceFeatureTableCacheSample extends Application {
           // create the feature layer using the service feature table
           FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
-          // add the layer to the ArcGISMap
+          // add the feature layer to the map's operational layers
           map.getOperationalLayers().add(featureLayer);
 
         } else {
