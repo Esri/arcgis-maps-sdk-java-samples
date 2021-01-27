@@ -39,6 +39,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Attachment;
@@ -47,8 +48,9 @@ import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.GeoElement;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -77,6 +79,10 @@ public class EditFeatureAttachmentsSample extends Application {
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
@@ -113,12 +119,15 @@ public class EditFeatureAttachmentsSample extends Application {
       // add controls to the panel
       controlsVBox.getChildren().addAll(addAttachmentButton, deleteAttachmentButton, attachmentsLabel, attachmentList);
 
-      // create a map view
-      mapView = new MapView();
+      // create a map with the streets basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
-      // create a map with streets basemap and set it to the map view
-      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
+      // create a map view and set the map to it
+      mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(40, -95, 36978595));
 
       // set selection color
       mapView.getSelectionProperties().setColor(0xff0000ff);

@@ -16,23 +16,25 @@
 
 package com.esri.samples.wfs_xml_query;
 
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.ogc.wfs.OgcAxisOrder;
-import com.esri.arcgisruntime.ogc.wfs.WfsFeatureTable;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.ogc.wfs.OgcAxisOrder;
+import com.esri.arcgisruntime.ogc.wfs.WfsFeatureTable;
+
+import org.apache.commons.io.IOUtils;
 
 public class WfsXmlQuerySample extends Application {
 
@@ -52,16 +54,22 @@ public class WfsXmlQuerySample extends Application {
     stage.setScene(scene);
     stage.show();
 
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
     // create a progress indicator
     ProgressIndicator progressIndicator = new ProgressIndicator();
     progressIndicator.setVisible(true);
 
-    // create an ArcGISMap with topographic basemap and set it to the map view
-    ArcGISMap map = new ArcGISMap(Basemap.createNavigationVector());
+    // create a map with the navigation basemap style
+    ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_NAVIGATION);
+
+    // create a map view and set the map to it
     mapView = new MapView();
     mapView.setMap(map);
 
-     // create a FeatureTable from the WFS service URL and layer name
+     // create a feature table from the WFS service URL and layer name
     WfsFeatureTable wfsFeatureTable = new WfsFeatureTable(
             "https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities",
             "Seattle_Downtown_Features:Trees");
@@ -87,7 +95,7 @@ public class WfsXmlQuerySample extends Application {
       progressIndicator.setVisible(false);
     });
 
-    // add the mapview to the stackpane
+    // add the map view to the stack pane
     stackPane.getChildren().addAll(mapView, progressIndicator);
   }
 

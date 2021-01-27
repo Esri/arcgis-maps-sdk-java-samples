@@ -31,6 +31,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureEditResult;
@@ -39,7 +40,8 @@ import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class AddFeaturesSample extends Application {
@@ -66,11 +68,19 @@ public class AddFeaturesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with streets basemap
-      ArcGISMap map = new ArcGISMap(Basemap.Type.STREETS, 40, -95, 4);
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a view for this ArcGISMap
+      // create a map with the streets basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+
+      // create a map view and set the map to it
       mapView = new MapView();
+      mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(40, -95, 36978595));
 
       // create service feature table from URL
       featureTable = new ServiceFeatureTable(SERVICE_LAYER_URL);
@@ -98,9 +108,6 @@ public class AddFeaturesSample extends Application {
           addFeature(normalizedMapPoint, featureTable);
         }
       });
-
-      // set ArcGISMap to be displayed in map view
-      mapView.setMap(map);
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);

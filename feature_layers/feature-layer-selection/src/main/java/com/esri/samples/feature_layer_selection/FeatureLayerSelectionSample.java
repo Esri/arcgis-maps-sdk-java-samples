@@ -26,6 +26,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -33,7 +34,7 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -57,18 +58,20 @@ public class FeatureLayerSelectionSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a view for this ArcGISMap
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with the light gray basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
+
+      // create a map view and set the map to it
       mapView = new MapView();
-
-      // create a ArcGISMap with the streets basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createLightGrayCanvas());
-
-      // set an initial viewpoint
-      map.setInitialViewpoint(new Viewpoint(new Envelope(-6603299.491810, 1679677.742046, 9002253.947487,
-          8691318.054732, 0, 0, SpatialReferences.getWebMercator())));
-
-      // set the map to the map view
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(new Envelope(-6603299.491810, 1679677.742046, 9002253.947487,
+        8691318.054732, 0, 0, SpatialReferences.getWebMercator())));
 
       // create the service feature table
       String damageAssessmentFeatureService = "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/GDP_per_capita_1960_2016/FeatureServer/0";
@@ -77,7 +80,7 @@ public class FeatureLayerSelectionSample extends Application {
       // create the feature layer
       final FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
-      // add the layer to the ArcGISMap
+      // add the layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
       mapView.setOnMouseClicked(event -> {

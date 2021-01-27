@@ -1,10 +1,18 @@
 # ArcGIS Runtime Java SDK Samples
 
+![Gradle build](https://github.com/Esri/arcgis-runtime-samples-java/workflows/Java%20CI%20with%20Gradle/badge.svg)
+
 This repo contains a set of sample projects demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime SDK for Java.
 
 Browse the category directories to explore the samples. Each sample is an individual [Gradle](https://docs.gradle.org/current/userguide/userguide.html) project that can be run standalone. The Gradle buildscripts have tasks for running the application, building a jar, and distributing the app as a zip.
 
 Installing Gradle is not necessary since each sample includes the Gradle wrapper.
+
+Accessing Esri location services, including basemaps, routing, and geocoding, requires authentication using either an ArcGIS identity or an API Key:
+ 1. ArcGIS identity: An ArcGIS named user account that is a member of an organization in ArcGIS Online or ArcGIS Enterprise.
+ 2. API key: A permanent key that gives your application access to Esri location services. Visit your [ArcGIS Developers Dashboard](https://developers.arcgis.com/dashboard) to create a new API key or access an existing API key.
+
+Note: *in the following instructions for setting the API key, if a `gradle.properties` file does not already exist in the `/.gradle` folder within your home directory, a Gradle task in the samples build.gradle file will generate one for you.*
 
 ## Instructions
 
@@ -13,8 +21,9 @@ Installing Gradle is not necessary since each sample includes the Gradle wrapper
 1. Open IntelliJ IDEA and select _File > Open..._.
 2. Choose one of the sample project directories (not the category folder) and click _OK_.
 3. Select _File > Project Structure..._ and ensure that the Project SDK and language level are set to use Java 11.
-4. Open the Gradle view with _View > Tool Windows > Gradle_.
-5. In the Gradle view, double-click the `run` task under _Tasks > application_ to run the app.
+4. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+5. Open the Gradle view with _View > Tool Windows > Gradle_.
+6. In the Gradle view, double-click the `run` task under _Tasks > application_ to run the app.
 
 ### Eclipse
 
@@ -22,13 +31,16 @@ Installing Gradle is not necessary since each sample includes the Gradle wrapper
 2. In the import wizard, choose _Gradle > Existing Gradle Project_, then click _Next_.
 3. Choose one of the sample project directories (not the category folder) as the project root directory.
 4. Click _Finish_ to complete the import.
-5. Open the Gradle Tasks view with _Window > Show View > Other... > Gradle > Gradle Tasks_.
-6. In the Gradle Tasks view, double-click the `run` task under _{project_name} > application_ to run the app.
+5. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+6. Open the Gradle Tasks view with _Window > Show View > Other... > Gradle > Gradle Tasks_.
+7. In the Gradle Tasks view, double-click the `run` task under _{project_name} > application_ to run the app.
 
 ### Terminal
 
 1. `cd` into one of the sample project directories (not the category folder).
-2. Run `./gradlew run` on Linux/Mac or `gradlew.bat run` on Windows to run the app.
+2. Run `gradle wrapper` to create the Gradle Wrapper
+3. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+4. Run `./gradlew run` on Linux/Mac or `gradlew.bat run` on Windows to run the app.
 
 ### Java 11
 Java 11 users may find exceptions when running the project if their library path is still set for Oracle JDK 1.8 (see the [OpenJavaFX docs](https://openjfx.io/openjfx-docs/) for more information). A workaround for this is to add the following argument in the `run` task of the Gradle buildscript:

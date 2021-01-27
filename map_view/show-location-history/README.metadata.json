@@ -1,0 +1,39 @@
+{
+    "category": "Map view",
+    "description": "Display your location history on the map.",
+    "ignore": false,
+    "images": [
+        "ShowLocationHistory.gif"
+    ],
+    "keywords": [
+        "GPS",
+        "bread crumb",
+        "breadcrumb",
+        "history",
+        "movement",
+        "navigation",
+        "real-time",
+        "trace",
+        "track",
+        "trail",
+        "LocationDataSource.LocationChangedEvent",
+        "LocationDataSource.LocationChangedListener",
+        "LocationDisplay.AutoPanMode",
+        "MapView.LocationDisplay",
+        "SimulatedLocationDataSource",
+        "SimulationParameters"
+    ],
+    "redirect_from": [],
+    "relevant_apis": [
+        "LocationDataSource.LocationChangedEvent",
+        "LocationDataSource.LocationChangedListener",
+        "LocationDisplay.AutoPanMode",
+        "MapView.LocationDisplay",
+        "SimulatedLocationDataSource",
+        "SimulationParameters"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/show_location_history/ShowLocationHistorySample.java"
+    ],
+    "title": "Show location history"
+}

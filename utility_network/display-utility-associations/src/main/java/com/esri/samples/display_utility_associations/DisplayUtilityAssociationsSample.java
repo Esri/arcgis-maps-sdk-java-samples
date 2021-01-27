@@ -33,11 +33,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -69,9 +70,13 @@ public class DisplayUtilityAssociationsSample extends Application {
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
       
-      // create a map with the topographic vector basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createTopographicVector());
+      // create a map with the topographic basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
       
       // create a viewpoint to focus on the utility networks' extent
       Viewpoint viewPoint = new Viewpoint(41.8057655, -88.1489692, 23);

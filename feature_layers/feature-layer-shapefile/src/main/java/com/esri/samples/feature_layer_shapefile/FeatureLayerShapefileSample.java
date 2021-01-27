@@ -24,11 +24,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ShapefileFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class FeatureLayerShapefileSample extends Application {
@@ -51,10 +52,14 @@ public class FeatureLayerShapefileSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with a basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // set the map to the map view
+      // create a map with the streets basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
