@@ -29,6 +29,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.arcgisservices.RelationshipInfo;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
@@ -42,7 +43,7 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -84,10 +85,14 @@ public class MapImageLayerTablesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with a basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createStreetsVector());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create and add a map image layer to the map
+      // create a map with the streets basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+
+      // create and add a map image layer to the map's operational layers
       // the map image layer contains a feature table with related spatial and non-spatial comment features
       ArcGISMapImageLayer imageLayer = new ArcGISMapImageLayer(
           "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/MapServer");
@@ -155,7 +160,7 @@ public class MapImageLayerTablesSample extends Application {
         }
       });
 
-      // add the mapview and controls to the stack pane
+      // add the map view and list view to the stack pane
       stackPane.getChildren().addAll(mapView, commentsListView);
       StackPane.setAlignment(commentsListView, Pos.TOP_LEFT);
       StackPane.setMargin(commentsListView, new Insets(10, 0, 0, 10));

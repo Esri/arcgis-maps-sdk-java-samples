@@ -32,12 +32,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalFolder;
@@ -60,7 +62,7 @@ public class CreateAndSaveMapController {
   @FXML
   private ComboBox<PortalFolder> folderList;
   @FXML
-  private ListView<Basemap> basemapList;
+  private ListView<BasemapStyle> basemapStyleListView;
   @FXML
   private ListView<Layer> layersList;
   @FXML
@@ -74,29 +76,36 @@ public class CreateAndSaveMapController {
   @FXML
   private void initialize() {
 
-    // set basemap options
-    basemapList.getItems().addAll(Basemap.createStreets(), Basemap.createImagery(), Basemap
-            .createTopographic(), Basemap.createOceans());
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // update basemap when selection changes
-    basemapList.getSelectionModel().select(0);
-    basemapList.getSelectionModel().selectedItemProperty()
-            .addListener(o -> map.setBasemap(basemapList.getSelectionModel().getSelectedItem()));
+    // set the basemap style options
+    basemapStyleListView.getItems().addAll(
+      BasemapStyle.ARCGIS_STREETS,
+      BasemapStyle.ARCGIS_IMAGERY_STANDARD,
+      BasemapStyle.ARCGIS_TOPOGRAPHIC,
+      BasemapStyle.ARCGIS_OCEANS);
 
-    basemapList.setCellFactory(c -> new BasemapCell());
+    basemapStyleListView.setCellFactory(c -> new BasemapCell());
 
-    // create and set a map with the first basemap option
-    map = new ArcGISMap(basemapList.getSelectionModel().getSelectedItem());
+    // update the basemap when the selection changes
+    basemapStyleListView.getSelectionModel().select(0);
+    basemapStyleListView.getSelectionModel().selectedItemProperty()
+      .addListener(o -> map.setBasemap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem())));
+
+    // create a basemap with the first basemap style option and set it to the map
+    Basemap basemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
+    map = new ArcGISMap(basemap);
     mapView.setMap(map);
 
     // set operational layer options
-    String worldElevationService =
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer";
-    ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(worldElevationService);
+    ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer");
     worldElevation.loadAsync();
 
-    String worldCensusService = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
-    ArcGISMapImageLayer worldCensus = new ArcGISMapImageLayer(worldCensusService);
+    ArcGISMapImageLayer worldCensus = new ArcGISMapImageLayer(
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer");
     worldCensus.loadAsync();
 
     layersList.getItems().addAll(worldElevation, worldCensus);
@@ -171,14 +180,14 @@ public class CreateAndSaveMapController {
   }
 
   /**
-   * Shows a Basemap title in a ListView.
+   * Shows a BasemapStyle title in a ListView.
    */
-  private class BasemapCell extends ListCell<Basemap> {
+  private class BasemapCell extends ListCell<BasemapStyle> {
 
     @Override
-    protected void updateItem(Basemap basemap, boolean empty) {
-      super.updateItem(basemap, empty);
-      setText(empty || basemap == null ? null : basemap.getName());
+    protected void updateItem(BasemapStyle basemapStyle, boolean empty) {
+      super.updateItem(basemapStyle, empty);
+      setText(empty || basemapStyle == null ? null : basemapStyle.name());
       setGraphic(null);
     }
   }
@@ -204,7 +213,7 @@ public class CreateAndSaveMapController {
     progress.setVisible(true);
     try {
       ListenableFuture<PortalItem> result = map.saveAsAsync(portal, folderList.getSelectionModel().getSelectedItem(),
-              title.getText(), Arrays.asList(tags.getText().split(",")), description.getText(), null, true);
+        title.getText(), Arrays.asList(tags.getText().split(",")), description.getText(), null, true);
       result.addDoneListener(() -> {
         try {
           PortalItem portalItem = result.get();

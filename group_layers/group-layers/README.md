@@ -18,11 +18,16 @@ The layers in the map will be displayed in a table of contents. Toggle the check
 
 1. Create an empty `GroupLayer`.
 2. Add a child layer to the group layer's layers collection.
-3. To toggle the visibility of the group, simply change the group layer's visibility property using `layer.setVisible(boolean)`.
+3. Set the group layer's `GroupVisibilityMode` to change its behavior.
+- `GroupVisibilityMode.INDEPENDENT` allows each sublayer to change its visibility independently.
+- `GroupVisibilityMode.EXCLUSIVE` allows only one sublayer to be visible at a time.
+- `GroupVisibilityMode.INHERITED` treats the group layer as if it is one merged layer.
+4. To toggle the visibility of the group, simply change the group layer's visibility property using `layer.setVisible(boolean)`.
 
 ## Relevant API
 
 * GroupLayer
+* GroupVisibilityMode
 
 ## Additional information
 

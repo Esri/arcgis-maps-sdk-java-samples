@@ -31,13 +31,14 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -86,14 +87,21 @@ public class ClosestFacilitySample extends Application {
 
     try {
 
-      // create a map with streets basemap and add to view
-      ArcGISMap map = new ArcGISMap(Basemap.createStreets());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with the streets basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
-      // add the mapview to stack pane
+
+      // add the map view to stack pane
       stackPane.getChildren().addAll(mapView);
 
-      // set view to be over San Diego
+      // set a viewpoint on the map view to be over San Diego
       mapView.setViewpoint(new Viewpoint(32.727, -117.1750, 40000));
 
       facilityGraphicsOverlay = new GraphicsOverlay();

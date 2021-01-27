@@ -16,12 +16,13 @@
 
 package com.esri.samples.create_and_save_kml_file;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.KmlLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
 import com.esri.arcgisruntime.mapping.view.SketchEditor;
@@ -57,8 +58,12 @@ public class CreateAndSaveKMLFileController {
   @FXML
   public void initialize() {
 
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
     // create a map and add it to the map view
-    map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
+    map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
     mapView.setMap(map);
 
     // create a sketch editor and add it to the map view

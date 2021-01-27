@@ -21,8 +21,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class OpenStreetMapLayerSample extends Application {
@@ -44,12 +46,19 @@ public class OpenStreetMapLayerSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create map with an OpenStreetMap basemap
-      ArcGISMap map = new ArcGISMap(Basemap.Type.OPEN_STREET_MAP, 34.056295, -117.195800, 10);
-      
-      // set the map to a map view
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with the OpenStreetMap basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.OSM_STANDARD);
+
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(34.056295, -117.195800, 577790));
 
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
