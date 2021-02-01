@@ -54,7 +54,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
   private ComboBox<String> mosaicRuleComboBox;
   private MapView mapView;
   private MosaicRule mosaicRule;
-  //private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
+  private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
   private VBox controlsVBox;
 
   @Override
@@ -80,7 +80,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       setupUI();
 
       // create a progress indicator
-      ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
+      ProgressIndicator progressIndicator = new ProgressIndicator();
 
       // create a map with the light gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
@@ -98,7 +98,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // create a raster layer from the image service raster
       ImageServiceRaster imageServiceRaster = new ImageServiceRaster(
         "https://sampleserver7.arcgisonline.com/arcgis/rest/services/amberg_germany/ImageServer");
-      RasterLayer rasterLayer = new RasterLayer(imageServiceRaster);
+      rasterLayer = new RasterLayer(imageServiceRaster);
 
       // add a raster layer as an operational layer to the map
       map.getOperationalLayers().add(rasterLayer);
