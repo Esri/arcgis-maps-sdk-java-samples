@@ -27,11 +27,12 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ShapefileFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
@@ -57,10 +58,14 @@ public class SymbolizeShapefileSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map with a basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // set the map to the map view
+      // create a map with the topographic basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
@@ -80,7 +85,7 @@ public class SymbolizeShapefileSample extends Application {
         }
       });
 
-      // add the feature layer to the map
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
       // create the symbols and renderer

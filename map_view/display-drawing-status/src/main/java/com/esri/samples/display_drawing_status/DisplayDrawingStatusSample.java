@@ -24,6 +24,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
@@ -31,7 +32,7 @@ import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -55,22 +56,16 @@ public class DisplayDrawingStatusSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create progress bar
       ProgressBar progressBar = new ProgressBar();
       progressBar.setMaxWidth(240.0);
 
-      // create a ArcGISMap with topographic basemap
-      final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
-
-      // create a starting viewpoint for the ArcGISMap
-      SpatialReference spatialReference = SpatialReferences.getWebMercator();
-      Point bottomLeftPoint = new Point(-1.5054808160556655E7, 2718975.702666207, spatialReference);
-      Point topRightPoint = new Point(-6810317.90634398, 6850505.377826911, spatialReference);
-      Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
-      Viewpoint viewpoint = new Viewpoint(envelope);
-
-      // set the initial viewpoint of ArcGISMap to viewpoint
-      map.setInitialViewpoint(viewpoint);
+      // create a map with the topographic basemap style
+      final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
       // create a feature table from a service URL
       final ServiceFeatureTable featureTable = new ServiceFeatureTable(
@@ -79,14 +74,18 @@ public class DisplayDrawingStatusSample extends Application {
       // create a feature layer from service table
       final FeatureLayer featureLayer = new FeatureLayer(featureTable);
 
-      // add feature layer to ArcGISMap
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
 
-      // create a view for this ArcGISMap
+      // create a map view and set the map to it
       mapView = new MapView();
-
-      // set map to be displayed in map view
       mapView.setMap(map);
+
+      // create a viewpoint and set it to the map view
+      Point bottomLeftPoint = new Point(-1.5054808160556655E7, 2718975.702666207, SpatialReferences.getWebMercator());
+      Point topRightPoint = new Point(-6810317.90634398, 6850505.377826911, SpatialReferences.getWebMercator());
+      Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
+      mapView.setViewpoint(new Viewpoint(envelope));
 
       mapView.addDrawStatusChangedListener(e -> {
         // check to see if draw status is in progress
@@ -101,7 +100,7 @@ public class DisplayDrawingStatusSample extends Application {
         }
       });
 
-      // add map view and progressBar to stack pane
+      // add the map view and progress bar to stack pane
       stackPane.getChildren().addAll(mapView, progressBar);
       StackPane.setAlignment(progressBar, Pos.TOP_LEFT);
       StackPane.setMargin(progressBar, new Insets(10, 0, 0, 10));

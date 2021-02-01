@@ -14,18 +14,20 @@ When the map loads, note the specific location and scale of the initial map view
 
 ## How it works
 
-1. Create a `Map`, specifying a basemap type, latitude and longitude in WGS84, and a level of detail.
+1. Create an `ArcGISMap`, specifying a basemap style.
 2. Display the map in a map view.
+3. Set a `Viewpoint` on the map view, specifying the latitude, longitude and scale.
 
 ## Relevant API
 
-* Basemap
 * ArcGISMap
+* BasemapStyle
 * MapView
+* Viewpoint
 
 ## About the data
 
-The map opens with a National Geographic basemap centred over East Scotland.
+The map opens with a basemap centred over East Scotland.
 
 ## Tags
 

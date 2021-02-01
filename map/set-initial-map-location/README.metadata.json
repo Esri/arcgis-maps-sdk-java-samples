@@ -21,16 +21,18 @@
         "scale",
         "zoom level",
         "ArcGISMap",
-        "Basemap",
-        "MapView"
+        "BasemapStyle",
+        "MapView",
+        "Viewpoint"
     ],
     "redirect_from": [
         "/java/latest/sample-code/set-initial-map-location.htm"
     ],
     "relevant_apis": [
         "ArcGISMap",
-        "Basemap",
-        "MapView"
+        "BasemapStyle",
+        "MapView",
+        "Viewpoint"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/set_initial_map_location/SetInitialMapLocationSample.java"

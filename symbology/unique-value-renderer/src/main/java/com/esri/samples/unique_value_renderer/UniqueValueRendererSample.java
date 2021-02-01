@@ -24,12 +24,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
@@ -62,12 +63,20 @@ public class UniqueValueRendererSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create ArcGISMap with topographic basemap
-      final ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a view and set ArcGISMap to it
+      // create a map with the topographic basemap style
+      final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(new Envelope(-13893029.0, 3573174.0, -12038972.0, 5309823.0,
+        SpatialReferences.getWebMercator())));
 
       // create service feature table
       String sampleServiceUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3";
@@ -115,16 +124,8 @@ public class UniqueValueRendererSample extends Application {
       // set the renderer on the feature layer
       featureLayer.setRenderer(uniqueValueRenderer);
 
-      // add the layer to the ArcGISMap
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
-
-      // create initial viewpoint using a envelope
-      Envelope envelope = new Envelope(-13893029.0, 3573174.0, -12038972.0, 5309823.0, SpatialReferences
-          .getWebMercator());
-
-      // set viewpoint on ArcGISMap
-      Viewpoint viewpoint = new Viewpoint(envelope);
-      map.setInitialViewpoint(viewpoint);
 
       // add the map view and control panel to stack pane
       stackPane.getChildren().add(mapView);

@@ -27,6 +27,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.hydrography.EncCell;
@@ -35,7 +36,7 @@ import com.esri.arcgisruntime.hydrography.EncExchangeSet;
 import com.esri.arcgisruntime.layers.EncLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -63,9 +64,16 @@ public class AddEncExchangeSetSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a map view and add it to the stack pane
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with the oceans basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
+
+      // create a map view and set the map to it
       mapView = new MapView();
-      stackPane.getChildren().add(mapView);
+      mapView.setMap(map);
 
       // show progress indicator when map is drawing
       ProgressIndicator progressIndicator = new ProgressIndicator();
@@ -82,10 +90,6 @@ public class AddEncExchangeSetSample extends Application {
           progressIndicator.setVisible(false);
         }
       });
-
-      // create a map with the Oceans basemap and set it on the map view
-      ArcGISMap map = new ArcGISMap(Basemap.createOceans());
-      mapView.setMap(map);
 
       // load the ENC exchange set from local data
       File encPath = new File(System.getProperty("data.dir"), "./samples-data/enc/ExchangeSetwithoutUpdates/ENC_ROOT/CATALOG.031");
@@ -118,6 +122,10 @@ public class AddEncExchangeSetSample extends Application {
           new Alert(Alert.AlertType.ERROR, "Failed to load ENC exchange set.").show();
         }
       });
+
+      // add the map view to the stack pane
+      stackPane.getChildren().add(mapView);
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
