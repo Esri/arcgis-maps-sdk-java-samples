@@ -100,6 +100,9 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // create a progress indicator
       ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
 
+      // create a map with the light gray basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
+
       // create a map view
       mapView = new MapView();
 
@@ -112,9 +115,6 @@ public class ApplyMosaicRuleToRastersSample extends Application {
           progressIndicator.setVisible(false);
         }
       });
-
-      // create a map with the light gray basemap style
-      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
       // set the map to the map view
       mapView.setMap(map);
