@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Esri.
+ * Copyright 2021 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,6 +19,7 @@ package com.esri.samples.apply_mosaic_rule_to_rasters;
 import java.util.Arrays;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -53,7 +54,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
   private ComboBox<String> mosaicRuleComboBox;
   private MapView mapView;
   private MosaicRule mosaicRule;
-  private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
+  //private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
   private VBox controlsVBox;
 
   @Override
@@ -95,8 +96,9 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       mapView.setMap(map);
 
       // create a raster layer from the image service raster
-      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://sampleserver7.arcgisonline.com/server/rest/services/amberg_germany/ImageServer");
-      rasterLayer = new RasterLayer(imageServiceRaster);
+      ImageServiceRaster imageServiceRaster = new ImageServiceRaster(
+        "https://sampleserver7.arcgisonline.com/arcgis/rest/services/amberg_germany/ImageServer");
+      RasterLayer rasterLayer = new RasterLayer(imageServiceRaster);
 
       // add a raster layer as an operational layer to the map
       map.getOperationalLayers().add(rasterLayer);
@@ -153,7 +155,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       });
 
       // add the map view, control panel and progress indicator to the stack pane
-      stackPane.getChildren().addAll(mapView,controlsVBox, progressIndicator);
+      stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
@@ -171,11 +173,9 @@ public class ApplyMosaicRuleToRastersSample extends Application {
     mosaicRuleLabel.setTextFill(Color.WHITE);
 
     // create a combo box
-    mosaicRuleComboBox = new ComboBox<>();
+    mosaicRuleComboBox = new ComboBox<>(
+      FXCollections.observableArrayList("Default", "Northwest", "Center", "By attribute", "Lock raster"));
     mosaicRuleComboBox.setMaxWidth(Double.MAX_VALUE);
-
-    // add the mosaic rules to the combo box
-    mosaicRuleComboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
 
     // set the default combo box value
     mosaicRuleComboBox.getSelectionModel().select(0);
