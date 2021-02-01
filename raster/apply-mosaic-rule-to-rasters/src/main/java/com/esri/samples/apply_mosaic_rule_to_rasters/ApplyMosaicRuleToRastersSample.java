@@ -50,9 +50,11 @@ import com.esri.arcgisruntime.raster.MosaicOperation;
 
 public class ApplyMosaicRuleToRastersSample extends Application {
 
+  private ComboBox<String> mosaicRuleComboBox;
   private MapView mapView;
   private MosaicRule mosaicRule;
   private RasterLayer rasterLayer; // keep loadable in scope to avoid garbage collection
+  private VBox controlsVBox;
 
   @Override
   public void start(Stage stage) {
@@ -73,29 +75,8 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a label
-      Label mosaicRuleLabel = new Label("Choose a mosaic rule: ");
-      mosaicRuleLabel.setTextFill(Color.WHITE);
-
-      // create a combo box
-      ComboBox<String> mosaicRuleComboBox = new ComboBox<>();
-      mosaicRuleComboBox.setMaxWidth(Double.MAX_VALUE);
-
-      // add the mosaic rules to the combo box
-      mosaicRuleComboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
-
-      // set the default combo box value
-      mosaicRuleComboBox.getSelectionModel().select(0);
-
-      // set up the control panel UI
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-        CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(210, 50);
-      controlsVBox.setVisible(false);
-      // add the label and combo box to the control panel
-      controlsVBox.getChildren().addAll(mosaicRuleLabel, mosaicRuleComboBox);
+      // setup the UI
+      setupUI();
 
       // create a progress indicator
       ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
@@ -179,6 +160,35 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       // on any error, display the stack trace
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Creates a UI with a drop down box.
+   */
+  private void setupUI() {
+    // create a label
+    Label mosaicRuleLabel = new Label("Choose a mosaic rule: ");
+    mosaicRuleLabel.setTextFill(Color.WHITE);
+
+    // create a combo box
+    mosaicRuleComboBox = new ComboBox<>();
+    mosaicRuleComboBox.setMaxWidth(Double.MAX_VALUE);
+
+    // add the mosaic rules to the combo box
+    mosaicRuleComboBox.getItems().addAll("Default", "Northwest", "Center", "By attribute", "Lock raster");
+
+    // set the default combo box value
+    mosaicRuleComboBox.getSelectionModel().select(0);
+
+    // set up the control panel UI
+    controlsVBox = new VBox(6);
+    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
+      CornerRadii.EMPTY, Insets.EMPTY)));
+    controlsVBox.setPadding(new Insets(10.0));
+    controlsVBox.setMaxSize(210, 50);
+    controlsVBox.setVisible(false);
+    // add the label and combo box to the control panel
+    controlsVBox.getChildren().addAll(mosaicRuleLabel, mosaicRuleComboBox);
   }
 
   /**
