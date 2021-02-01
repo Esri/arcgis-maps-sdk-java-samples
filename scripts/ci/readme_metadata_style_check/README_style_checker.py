@@ -146,8 +146,8 @@ def check_sentence_case(string: str) -> None:
     """
     Check if a sentence follows 'sentence case'. A few examples below.
     Hello world! -> YES
-    I'm a good guy. -> YES
-    a man and a gun. -> NO
+    We're a mapping company. -> YES
+    a map and a globe. -> NO
     A WMS layer -> YES, as it's allowed to include proper nouns
     :param string: Input sentence, typically the title string.
     :return: None. Throws if is not sentence case.
