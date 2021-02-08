@@ -1,8 +1,8 @@
-# Create symbols from web styles
+# Create symbol styles from web styles
 
-Create symbols from a style file hosted on a portal.
+Create symbol styles from a style file hosted on a portal.
 
-![Image of create symbols from web styles](CreateSymbolsFromWebStyles.png)
+![Image of create symbol styles from web styles](CreateSymbolStylesFromWebStyles.png)
 
 ## Use case
 
