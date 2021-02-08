@@ -1,5 +1,5 @@
 FROM alpine:3.12
-MAINTAINER Ting Chen <tchen@esri.com>
+MAINTAINER Jen Merritt <jmerritt@esri.com>
 ENV PYTHONUNBUFFERED=1
 # Add scripts for the check.
 ADD entry.py /entry.py
