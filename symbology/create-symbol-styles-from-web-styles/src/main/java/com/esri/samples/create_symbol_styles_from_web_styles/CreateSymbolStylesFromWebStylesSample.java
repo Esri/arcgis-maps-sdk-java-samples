@@ -116,6 +116,7 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
       featureLayer.setRenderer(uniqueValueRenderer);
 
       // create a symbol style from a web style
+      // note: ArcGIS Online is used as the default portal when null is passed as the portal parameter
       symbolStyle = new SymbolStyle("Esri2DPointSymbolsStyle", null);
 
       // display an error if the symbol style fails to load
