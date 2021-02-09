@@ -197,6 +197,7 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
     legendGridPane = new GridPane();
     legendGridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(70), new ColumnConstraints(120)));
     legendGridPane.setPadding(new Insets(10));
+    legendGridPane.setMaxWidth(175);
     legendGridPane.setVgap(12);
 
     headerGridPane = new GridPane();
