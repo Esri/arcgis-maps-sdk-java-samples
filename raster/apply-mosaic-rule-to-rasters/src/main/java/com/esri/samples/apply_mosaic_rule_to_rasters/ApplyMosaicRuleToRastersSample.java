@@ -54,7 +54,6 @@ public class ApplyMosaicRuleToRastersSample extends Application {
   private ComboBox<String> mosaicRuleComboBox;
   private MapView mapView;
   private MosaicRule mosaicRule;
-  private ProgressIndicator progressIndicator;
   private VBox controlsVBox;
 
   @Override
@@ -76,9 +75,6 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // setup the UI
-      setupUI();
-
       // create a map with the light gray basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_LIGHT_GRAY);
 
@@ -86,11 +82,15 @@ public class ApplyMosaicRuleToRastersSample extends Application {
       mapView = new MapView();
 
       // show progress indicator while map view is drawing
+      var progressIndicator = new ProgressIndicator();
       mapView.addDrawStatusChangedListener(drawStatusChangedEvent ->
         progressIndicator.setVisible(drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS));
 
       // set the map to the map view
       mapView.setMap(map);
+
+      // setup the UI
+      setupUI();
 
       // create a raster layer from the image service raster
       ImageServiceRaster imageServiceRaster = new ImageServiceRaster(
@@ -144,6 +144,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
           case "Lock raster":
             mosaicRule.setMosaicMethod(MosaicMethod.LOCK_RASTER);
             mosaicRule.getLockRasterIds().clear();
+            // lock the display of multiple rasters based on the ObjectID
             mosaicRule.getLockRasterIds().addAll(Arrays.asList(1L, 7L, 12L));
             break;
         }
@@ -165,9 +166,6 @@ public class ApplyMosaicRuleToRastersSample extends Application {
    * Creates a UI with a drop down box.
    */
   private void setupUI() {
-    // create a progress indicator
-    progressIndicator = new ProgressIndicator();
-
     // create a label
     Label mosaicRuleLabel = new Label("Choose a mosaic rule: ");
     mosaicRuleLabel.setTextFill(Color.WHITE);
