@@ -9,6 +9,7 @@
         "renderer",
         "symbol",
         "symbology",
+        "web style",
         "FeatureLayer",
         "Symbol",
         "SymbolStyle",
