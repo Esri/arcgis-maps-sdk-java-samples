@@ -16,14 +16,14 @@ The sample loads with a symbol marking a simulated location on the map. Explore 
 * Navigation -  This mode is best suited for in-vehicle navigation.
 * Compass - This mode is better suited for waypoint navigation when the user is walking.
 
-Uncheck the box to stop the location display. 
+Uncheck the box to stop the location display.
 
 ## How it works
 
 1. Create a `MapView`.
 2. Get the `LocationDisplay` object by calling `getLocationDisplay()` on the map view.
-2. Create a `SimulatedLocationDataSource` and call its `setLocations()` method, passing the route `Polyline` and new `SimulationParameters` as parameters. 
-3. Start the location display with `startAsync()` to begin receiving location updates.
+3. Create a `SimulatedLocationDataSource` and call its `setLocations()` method, passing the route `Polyline` and new `SimulationParameters` as parameters.
+4. Start the location display with `startAsync()` to begin receiving location updates.
 5. Use `locationDisplay.setAutoPanMode()` to change how the map view behaves when location updates are received.
 
 ## Relevant API
