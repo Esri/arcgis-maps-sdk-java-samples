@@ -31,10 +31,6 @@ Choose a type of place in the first field and an area to search within in the se
     * Call `locatorTask.geocodeAsync(suggestionLabelOrPlaceQueryString, geocodeParameters)` to get a list of `GeocodeResult`s.
     * Display the places of interest using the results' `displayLocation`s.
 
-## About the data
-
-This sample uses the [world locator service](https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer).
-
 ## Relevant API
 
 * GeocodeParameters
@@ -42,6 +38,10 @@ This sample uses the [world locator service](https://geocode-api.arcgis.com/arcg
 * LocatorTask
 * SuggestParameters
 * SuggestResult
+
+## About the data
+
+This sample uses the [world locator service](https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer).
 
 ## Tags
 

@@ -10,7 +10,8 @@ When using a map within a GIS, it may be helpful for a user to know their own lo
 
 ## How to use the sample
 
-The sample loads with a symbol marking a simulated location on the map. Explore the available autopan modes by selecting an option from the drop down box :
+The sample loads with a symbol marking a simulated location on the map. Explore the available autopan modes by selecting an option from the drop down box:
+
 * Off - Shows the location with no autopan mode set.
 * Re-Center - In this mode, the map re-centers on the location symbol when the symbol moves outside a "wander extent".
 * Navigation -  This mode is best suited for in-vehicle navigation.
