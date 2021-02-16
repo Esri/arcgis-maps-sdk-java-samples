@@ -19,6 +19,7 @@ Select a basemap style from the list to set it to the map.
 3. Choose a new basemap style with `BasemapStyle` and set it on the map.
 
 ## Relevant API
+
 * ArcGISMap
 * BasemapStyle
 * MapView

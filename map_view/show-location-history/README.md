@@ -11,6 +11,7 @@ You can track device location history and display it as lines and points on the 
 ## How to use the sample
 
 The sample loads with a moving simulated location data source. Click the button to start tracking the location, which will appear as red points on the map. A green line will connect the points for easier visualization. Click the button again to stop updating the location history.
+
 ## How it works
 
 1. Create a `GraphicsOverlay` to show each point and another `GraphicsOverlay` for displaying the route line.
@@ -29,8 +30,8 @@ The sample loads with a moving simulated location data source. Click the button 
 
 ## About the data
 
-A custom set of points (provided in JSON format) is used to create a `Polyline` and configure a `SimulatedLocationDataSource`. The simulated location data source enables easier testing and allows the sample to be used on devices without an actively updating GPS signal. To track a user's real position, use `NMEALocationDataSource` instead. 
+A custom set of points (provided in JSON format) is used to create a `Polyline` and configure a `SimulatedLocationDataSource`. The simulated location data source enables easier testing and allows the sample to be used on devices without an actively updating GPS signal. To track a user's real position, use `NMEALocationDataSource` instead.
 
 ## Tags
 
-GPS, bread crumb, breadcrumb, history, movement, navigation, real-time, trace, track, trail
+bread crumb, breadcrumb, GPS, history, movement, navigation, real-time, trace, track, trail
