@@ -24,7 +24,7 @@ When the sample opens, it will automatically display the map with the OpenStreet
 
 ## Additional information
 
-The attribution text will be set to the required OpenStreetMap attribution automatically. 
+The attribution text will be set to the required OpenStreetMap attribution automatically.
 
 Apps that expect to make many requests to OpenStreetMap should consider using an alternative tile server via the `WebTiledLayer` class. See [layer types described](https://developers.arcgis.com/java/latest/guide/layer-types-described.htm#ESRI_SECTION1_B995CCAB20584F91890B3614CF16CF43) in the *ArcGIS Runtime SDK for Java* documentation for more information on OpenStreetMap usage restrictions and alternatives.
 
