@@ -21,7 +21,10 @@ Note: *in the following instructions for setting the API key, if a `gradle.prope
 1. Open IntelliJ IDEA and select _File > Open..._.
 2. Choose one of the sample project directories (not the category folder) and click _OK_.
 3. Select _File > Project Structure..._ and ensure that the Project SDK and language level are set to use Java 11.
-4. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+4. Set your API key as a system property in the `gradle.properties` file located in the `/.gradle` folder within your home directory:
+   ```
+   apiKey = yourApiKey
+   ```
 5. Open the Gradle view with _View > Tool Windows > Gradle_.
 6. In the Gradle view, double-click the `run` task under _Tasks > application_ to run the app.
 
@@ -31,7 +34,10 @@ Note: *in the following instructions for setting the API key, if a `gradle.prope
 2. In the import wizard, choose _Gradle > Existing Gradle Project_, then click _Next_.
 3. Choose one of the sample project directories (not the category folder) as the project root directory.
 4. Click _Finish_ to complete the import.
-5. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+5. Set your API key as a system property in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+   ```
+   apiKey = yourApiKey
+   ```
 6. Open the Gradle Tasks view with _Window > Show View > Other... > Gradle > Gradle Tasks_.
 7. In the Gradle Tasks view, double-click the `run` task under _{project_name} > application_ to run the app.
 
@@ -39,7 +45,7 @@ Note: *in the following instructions for setting the API key, if a `gradle.prope
 
 1. `cd` into one of the sample project directories (not the category folder).
 2. Run `gradle wrapper` to create the Gradle Wrapper
-3. Set your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+3. Set your API key as a system property in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
 4. Run `./gradlew run` on Linux/Mac or `gradlew.bat run` on Windows to run the app.
 
 ### Java 11
