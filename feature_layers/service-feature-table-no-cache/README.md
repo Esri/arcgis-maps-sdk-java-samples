@@ -20,8 +20,8 @@ Run the sample and pan and zoom around the map. With each interaction, new featu
 ## Relevant API
 
 * FeatureLayer
-* ServiceFeatureTable.FeatureRequestMode
 * ServiceFeatureTable
+* ServiceFeatureTable.FeatureRequestMode
 
 ## About the data
 

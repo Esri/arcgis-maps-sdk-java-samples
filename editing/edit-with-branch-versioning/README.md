@@ -50,7 +50,7 @@ The name of the version must meet the following criteria:
 2. Must not include: Period (.), Semicolon (;), Single quotation mark ('), Double quotation mark (")
 3. Must not include a space for the first character
 
-- Note: the version name will have the username and a period (.) prepended to it. E.g "editor01.MyNewUniqueVersionName"
+**Note**: the version name will have the username and a period (.) prepended to it. E.g "editor01.MyNewUniqueVersionName"
 
 Branch versioning access permission:
 

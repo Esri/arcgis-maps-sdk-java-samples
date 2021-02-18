@@ -6,7 +6,7 @@ Take a map offline using a preplanned map area.
 
 ## Use case
 
-Generating offline maps on demand for a specific area can be time consuming for users and a processing load on the server. If areas of interest are known ahead of time, a web map author can pre-create packages for these areas. This way, the generation only needs to happen once, making the workflow more efficient for users and servers. 
+Generating offline maps on demand for a specific area can be time consuming for users and a processing load on the server. If areas of interest are known ahead of time, a web map author can pre-create packages for these areas. This way, the generation only needs to happen once, making the workflow more efficient for users and servers.
 
 An archaeology team could define preplanned map areas for dig sites which can be taken offline for field use.
 
@@ -51,4 +51,4 @@ For more information about offline workflows, see [Offline maps, scenes, and dat
 
 ## Tags
 
-map area, offline, preplanned, pre-planned
+map area, offline, pre-planned, preplanned
