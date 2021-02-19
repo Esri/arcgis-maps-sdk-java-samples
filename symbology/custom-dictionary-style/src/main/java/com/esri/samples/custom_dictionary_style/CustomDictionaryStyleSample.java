@@ -54,8 +54,7 @@ import java.util.Map;
 public class CustomDictionaryStyleSample extends Application {
 
   private MapView mapView;
-  // keep loadables in scope to avoid garbage collection
-  private DictionarySymbolStyle dictionarySymbolStyle;
+  private DictionarySymbolStyle dictionarySymbolStyle; // keep loadables in scope to avoid garbage collection
   private DictionaryRenderer dictionaryRenderer;
 
   private VBox controlsVBox;
