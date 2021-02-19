@@ -115,8 +115,6 @@ public class CustomDictionaryStyleSample extends Application {
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/Redlands_Restaurants/FeatureServer/0");
       // create the restaurants feature layer using the service feature table
       FeatureLayer restaurantLayer = new FeatureLayer(serviceFeatureTable);
-      // add the layer to the map
-      map.getOperationalLayers().add(restaurantLayer);
 
       // map the input fields in the feature layer to the dictionary symbol style's expected fields for symbols and text
       Map<String, String> fieldMap = new HashMap<>();
