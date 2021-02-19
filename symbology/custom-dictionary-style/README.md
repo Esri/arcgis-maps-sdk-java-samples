@@ -39,4 +39,4 @@ To learn more about how styles in dictionary renderers work, see the topic [Disp
 
 ## Tags
 
-dictionary, portal, portal item, military, renderer, style, stylx, unique value, visualization
+dictionary, military, portal, portal item, renderer, style, stylx, unique value, visualization
