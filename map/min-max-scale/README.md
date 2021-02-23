@@ -17,11 +17,11 @@ Zoom in and out of the map. The zoom extents of the map are limited between the 
 1. Instantiate an `ArcGISMap` object.
 2. Set min and max scales of map with `setMaxScale()` and `setMinScale()`.
 3. Set the map to a `MapView` object.
- 
+
 ## Relevant API
 
 * ArcGISMap
-* Basemap
+* BasemapStyle
 * MapView
 * Viewpoint
 

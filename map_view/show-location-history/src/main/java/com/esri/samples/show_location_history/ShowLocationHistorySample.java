@@ -36,6 +36,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polyline;
@@ -47,7 +48,7 @@ import com.esri.arcgisruntime.location.LocationDataSource.LocationChangedListene
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
 import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -81,16 +82,19 @@ public class ShowLocationHistorySample extends Application {
       stage.show();
       scene.getStylesheets().add(getClass().getResource("/show_location_history/style.css").toExternalForm());
 
-      // create a map with a dark gray canvas basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map view and set its map
+      // create a map with the dark gray basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
+
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set the map views's viewpoint centered on Los Angeles, California and scaled
-      mapView.setViewpoint(new Viewpoint(new Point(-13185535.98, 4037766.28,
-        SpatialReferences.getWebMercator()), 7000));
+      // set a viewpoint on the map view centered on Los Angeles, California
+      mapView.setViewpoint(new Viewpoint(new Point(-13185535.98, 4037766.28, SpatialReferences.getWebMercator()), 7000));
 
       // create a label
       Label trackingLabel = new Label("Tracking Status: ");
@@ -194,7 +198,7 @@ public class ShowLocationHistorySample extends Application {
       controlsHBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsHBox.setPadding(new Insets(10.0));
       controlsHBox.setAlignment(Pos.CENTER);
-      controlsHBox.setMaxSize(180, 50);
+      controlsHBox.setMaxSize(210, 50);
       controlsHBox.getStyleClass().add("panel-region");
       controlsHBox.getChildren().addAll(trackingLabel, trackingButton);
 
