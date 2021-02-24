@@ -11,6 +11,7 @@ You can track device location history and display it as lines and points on the 
 ## How to use the sample
 
 The sample loads with a moving simulated location data source. Click the button to start tracking the location, which will appear as red points on the map. A green line will connect the points for easier visualization. Click the button again to stop updating the location history.
+
 ## How it works
 
 1. Create a `GraphicsOverlay` to show each point and another `GraphicsOverlay` for displaying the route line.
