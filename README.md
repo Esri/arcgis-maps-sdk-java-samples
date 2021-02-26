@@ -34,7 +34,7 @@ Note: *in the following instructions for setting the API key, if a `gradle.prope
 2. In the import wizard, choose _Gradle > Existing Gradle Project_, then click _Next_.
 3. Choose one of the sample project directories (not the category folder) as the project root directory.
 4. Click _Finish_ to complete the import.
-5. Set your API key as a system property in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+5. Store your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory. The API key will be set as a Java system property when the sample is run.
    ```
    apiKey = yourApiKey
    ```
