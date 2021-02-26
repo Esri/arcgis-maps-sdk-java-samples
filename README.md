@@ -21,7 +21,7 @@ Note: *in the following instructions for setting the API key, if a `gradle.prope
 1. Open IntelliJ IDEA and select _File > Open..._.
 2. Choose one of the sample project directories (not the category folder) and click _OK_.
 3. Select _File > Project Structure..._ and ensure that the Project SDK and language level are set to use Java 11.
-4. Set your API key as a system property in the `gradle.properties` file located in the `/.gradle` folder within your home directory:
+4. Store your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory. The API key will be set as a Java system property when the sample is run.
    ```
    apiKey = yourApiKey
    ```
