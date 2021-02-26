@@ -45,7 +45,7 @@ Note: *in the following instructions for setting the API key, if a `gradle.prope
 
 1. `cd` into one of the sample project directories (not the category folder).
 2. Run `gradle wrapper` to create the Gradle Wrapper
-3. Set your API key as a system property in the `gradle.properties` file located in the `/.gradle` folder within your home directory.
+3. Store your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory. The API key will be set as a Java system property when the sample is run.
 4. Run `./gradlew run` on Linux/Mac or `gradlew.bat run` on Windows to run the app.
 
 ### Java 11
