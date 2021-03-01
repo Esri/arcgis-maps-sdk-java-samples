@@ -2,7 +2,7 @@
 
 Display custom labels in a 3D scene.
 
-![Display 3D Labels in Scene](display-3d-labels-in-scene.png)
+![Display 3D labels in scene](display-3d-labels-in-scene.png)
 
 ## Use case
 
@@ -15,18 +15,16 @@ Pan and zoom to explore the scene. Notice the labels showing installation dates 
 ## How it works
 
 1. Create an `ArcGISScene` using a URL.
-2. Apply the scene to an `SceneView` and load it.
-3. After loading is complete, obtain the `FeatureLayer` from the scene's `operationalLayers`.
-4. Set the feature layer's `labelsEnabled` property to `true`.
-5. Create an `TextSymbol` to use for displaying the label text.
-6. Create a JSON string for the label definition.
-    * Set the "labelExpressionInfo.expression" key to define what text the label should display. You can use fields of the feature by using `$feature.NAME` in the expression.
-    * To use a text symbol, set the "symbol" key in the JSON representation using `TextSymbol.toJSON()`.
-5. Create a label definition from the JSON using `AGSJSONSerializable.fromJSON(_:)`. 
-6. Add the definition to the feature layer's `labelDefinitions` array.
+2. Apply the scene to a `SceneView` and load it.
+3. After loading is complete, obtain the `FeatureLayer` from the scene's operational layers.
+4. Set the feature layer's `setLabelsEnabled` property to `true`.
+5. Create a `TextSymbol` to use for displaying the label text.
+6. Create a `LabelDefinition` using an `ArcadeLabelExpression`.
+7. Add the definition to the feature layer's `labelDefinitions` list.
 
 ## Relevant API
 
+* ArcadeLabelExpression
 * ArcGISScene
 * FeatureLayer
 * LabelDefinition
