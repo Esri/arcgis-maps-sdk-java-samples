@@ -17,26 +17,16 @@
 
 package com.esri.samples.display_3d_labels_in_scene;
 
+import com.esri.arcgisruntime.arcgisservices.LabelingPlacement;
 import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.labeling.ArcadeLabelExpression;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.layers.GroupLayer;
-import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.portal.Portal;
@@ -76,36 +66,22 @@ public class Display3dLabelsInSceneSample extends Application {
       scene.addDoneLoadingListener(() -> {
         if (scene.getLoadStatus() == LoadStatus.LOADED) {
 
-          // get the scene's operational layers
-          // look through them to find layers called "Gas"
-          // look through the "Gas" layer to find a sub layer called "Gas Main"
-          // convert that layer to a Feature Layer
-          // apply the label definition to it
-
-          // filter the scene's list of layers to retrieve the "Gas" layer: there is only one in the data
-          List<Layer> gasLayers = scene.getOperationalLayers()
-            .stream()
+          // filter through the scene's operational layers to find the layer named "Gas",
+          // and find the sublayer within that called "Gas Main" to apply the label definition to
+          scene.getOperationalLayers().stream()
             .filter(layer -> layer.getName().equals("Gas"))
-            .collect(Collectors.toList());
-
-          // access the "Gas Main" feature layer from the first gas layer returned
-          if (!gasLayers.isEmpty()) {
-            // for all the layers under "Gas"
-            for (Layer layer : gasLayers) {
-              // loop through the layers under gas for how many times there are layers and convert them to feature layers
-              for (int i = 0; i < layer.getSubLayerContents().size(); i++) {
-                FeatureLayer featureLayer = (FeatureLayer) layer.getSubLayerContents().get(i);
-
-                // find the layer which has 3D labels enabled - "Gas Main" - and add a label definition
-                if (featureLayer.getName().equals("Gas Main")) {
-                  featureLayer.setLabelsEnabled(true);
-                  featureLayer.getLabelDefinitions().add(createLabelDefinition());
-                }
+            .flatMap(gasLayer -> gasLayer.getSubLayerContents().stream())
+            .forEach(subLayer -> {
+              if (subLayer.getName().equals("Gas Main")) {
+                FeatureLayer featureLayer = (FeatureLayer) subLayer;
+                featureLayer.setLabelsEnabled(true);
+                // clear any existing label definitions on the layer
+                featureLayer.getLabelDefinitions().clear();
+                featureLayer.getLabelDefinitions().add(createLabelDefinition());
               }
-            }
-          }
-        } else {
+            });
 
+        } else {
           System.out.println("Scene failed to load " + scene.getLoadError().getCause());
         }
 
@@ -119,22 +95,18 @@ public class Display3dLabelsInSceneSample extends Application {
   private LabelDefinition createLabelDefinition() {
 
     TextSymbol textSymbol = new TextSymbol();
-    textSymbol.setAngle(0);
-    textSymbol.setOutlineColor(0xFFFFFFFF); //white
     textSymbol.setColor(0xFFFFAB00); //orange
     textSymbol.setHaloColor(0xFFFFFFFF); //white
     textSymbol.setHaloWidth(2);
-    textSymbol.setSize(14);
+    textSymbol.setSize(16);
 
-    JsonObject json = new JsonObject();
-    JsonObject labelExpressionInfo = new JsonObject();
-    labelExpressionInfo.add("expression", new JsonPrimitive("$feature.INSTALLATIONDATE"));
-    json.add("labelExpressionInfo", labelExpressionInfo);
-    json.add("labelPlacement", new JsonPrimitive("esriServerLinePlacementAboveAlong"));
-    json.add("useCodedValues", new JsonPrimitive(true));
-    json.add("symbol", new JsonParser().parse(textSymbol.toJson()));
+    LabelDefinition labelDefinition = new LabelDefinition();
+    labelDefinition.setExpression(new ArcadeLabelExpression("Text($feature.INSTALLATIONDATE, `DD MMM YY`)"));
+    labelDefinition.setPlacement(LabelingPlacement.LINE_ABOVE_ALONG);
+    labelDefinition.setUseCodedValues(true);
+    labelDefinition.setTextSymbol(textSymbol);
 
-    return LabelDefinition.fromJson(json.toString());
+    return labelDefinition;
   }
 
   /**
@@ -159,3 +131,26 @@ public class Display3dLabelsInSceneSample extends Application {
   }
 
 }
+
+//          // filter the scene's list of layers to retrieve the "Gas" layer: there is only one in the data
+//          List<Layer> gasLayers = scene.getOperationalLayers()
+//            .stream()
+//            .filter(layer -> layer.getName().equals("Gas"))
+//            .collect(Collectors.toList());
+//
+//          // access the "Gas Main" feature layer from the first gas layer returned
+//          if (!gasLayers.isEmpty()) {
+//            // for all the layers under "Gas"
+//            for (Layer layer : gasLayers) {
+//              // loop through the layers under gas for how many times there are layers and convert them to feature layers
+//              for (int i = 0; i < layer.getSubLayerContents().size(); i++) {
+//                FeatureLayer featureLayer = (FeatureLayer) layer.getSubLayerContents().get(i);
+//
+//                // find the layer which has 3D labels enabled - "Gas Main" - and add a label definition
+//                if (featureLayer.getName().equals("Gas Main")) {
+//                  featureLayer.setLabelsEnabled(true);
+//                  featureLayer.getLabelDefinitions().add(createLabelDefinition());
+//                }
+//              }
+//            }
+//          }
