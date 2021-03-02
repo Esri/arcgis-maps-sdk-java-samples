@@ -49,7 +49,6 @@ import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Map;
 
 public class CustomDictionaryStyleSample extends Application {
 
@@ -117,10 +116,13 @@ public class CustomDictionaryStyleSample extends Application {
       FeatureLayer restaurantLayer = new FeatureLayer(serviceFeatureTable);
 
       // map the input fields in the feature layer to the dictionary symbol style's expected fields for symbols and text
-      Map<String, String> fieldMap = new HashMap<>();
+      HashMap<String, String> fieldMap = new HashMap<>();
       fieldMap.put("healthgrade", "Inspection");
 
-      toggleGroup.selectedToggleProperty().addListener(changed -> {
+      toggleGroup.selectedToggleProperty().addListener((observableValue, oldToggle, newToggle) -> {
+        if (newToggle == null)
+          toggleGroup.selectToggle(oldToggle);
+
         // clear the existing dictionary symbol style and feature layer on the map
         map.getOperationalLayers().clear();
         dictionarySymbolStyle = null;
@@ -161,6 +163,8 @@ public class CustomDictionaryStyleSample extends Application {
           progressIndicator.setVisible(false);
         }
       });
+      // show the style file symbols by default
+      toggleGroup.selectToggle(fileStyleButton);
 
       // and the control panel, map view, and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
@@ -186,8 +190,7 @@ public class CustomDictionaryStyleSample extends Application {
 
     // set the radio buttons to a toggle group
     toggleGroup = new ToggleGroup();
-    webStyleButton.setToggleGroup(toggleGroup);
-    fileStyleButton.setToggleGroup(toggleGroup);
+    toggleGroup.getToggles().addAll(webStyleButton, fileStyleButton);
 
     // show progress indicator when the dictionary symbol styles are loading
     progressIndicator = new ProgressIndicator();
