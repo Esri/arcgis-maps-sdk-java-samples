@@ -15,7 +15,7 @@
  */
 
 
-package com.esri.samples.display_3d_labels_in_scene;
+package com.esri.samples.show_labels_on_layer_in_3d;
 
 import com.esri.arcgisruntime.arcgisservices.LabelingPlacement;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -35,7 +35,7 @@ import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 
-public class Display3dLabelsInSceneSample extends Application {
+public class ShowLabelsOnLayerIn3dSample extends Application {
 
   private SceneView sceneView;
 
@@ -49,7 +49,7 @@ public class Display3dLabelsInSceneSample extends Application {
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add the JavaFX scene to stage
-      stage.setTitle("Display 3D Labels in Scene Sample");
+      stage.setTitle("Show Labels on Layer in 3D");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(fxScene);

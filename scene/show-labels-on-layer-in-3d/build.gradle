@@ -49,7 +49,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.display_3d_labels_in_scene.Display3dLabelsInSceneLauncher'
+    mainClassName = 'com.esri.samples.show_labels_on_layer_in_3d.ShowLabelsOnLayerIn3dLauncher'
 }
 
 jar {
