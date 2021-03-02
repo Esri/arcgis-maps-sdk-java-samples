@@ -18,11 +18,10 @@ Use the radio buttons to toggle between the dictionary symbols from the web styl
 2. Based on the style selected:
 -  If the web style toggle has been selected, create a new `DictionarySymbolStyle` from the portal item using `new DictionarySymbolStyle(portalItem)`
 -  If the file style toggle has been selected, create a new dictionary symbol style using `DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath())`
-3. If the file style toggle has been selected, create a new dictionary symbol style using `DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath())`
-4. Load the symbol dictionary asynchronously using `dictionarySymbolStyle.loadAsync()` and wait for it to completely load using `dictionarySymbolStyle.addDoneLoadingListener()`.
-5. Create a new `DictionaryRenderer`, providing the dictionary symbol style.
-6. Apply the dictionary renderer to a feature layer using `FeatureLayer.setRenderer(dictionaryRenderer)`.
-7. Add the feature layer to map using `Map.getOperationalLayers().add(FeatureLayer)`.
+3. Load the symbol dictionary asynchronously using `dictionarySymbolStyle.loadAsync()` and wait for it to completely load using `dictionarySymbolStyle.addDoneLoadingListener()`.
+4. Create a new `DictionaryRenderer`, providing the dictionary symbol style.
+5. Apply the dictionary renderer to a feature layer using `FeatureLayer.setRenderer(dictionaryRenderer)`.
+6. Add the feature layer to map using `Map.getOperationalLayers().add(FeatureLayer)`.
 
 ## Relevant API
 
