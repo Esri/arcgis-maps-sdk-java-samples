@@ -20,9 +20,7 @@
         "Portal",
         "PortalItem"
     ],
-    "redirect_from": [
-        ""
-    ],
+    "redirect_from": "",
     "relevant_apis": [
         "DictionaryRenderer",
         "DictionarySymbolStyle",
