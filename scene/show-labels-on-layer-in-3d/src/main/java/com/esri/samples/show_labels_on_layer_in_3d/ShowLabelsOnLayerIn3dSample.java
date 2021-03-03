@@ -23,6 +23,7 @@ import com.esri.arcgisruntime.mapping.labeling.ArcadeLabelExpression;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -63,10 +64,15 @@ public class ShowLabelsOnLayerIn3dSample extends Application {
       // set the scene to the sceneview, and add the sceneview to the JavaFX stack pane
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
-      stackPane.getChildren().addAll(sceneView);
+      // create a progress indicator and display it to indicate loading is in progress
+      var progressIndicator = new ProgressIndicator();
+      progressIndicator.setVisible(true);
+      stackPane.getChildren().addAll(sceneView, progressIndicator);
 
       scene.addDoneLoadingListener(() -> {
         if (scene.getLoadStatus() == LoadStatus.LOADED) {
+          // remove the progress indicator when the scene loads
+          progressIndicator.setVisible(false);
 
           // filter through the scene's operational layers to find the layer named "Gas",
           // and find the "Gas Main" sublayer to apply the label definition to
