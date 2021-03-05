@@ -17,23 +17,24 @@
 
 package com.esri.samples.show_labels_on_layer_in_3d;
 
-import com.esri.arcgisruntime.arcgisservices.LabelingPlacement;
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.mapping.labeling.ArcadeLabelExpression;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.arcgisservices.LabelingPlacement;
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.labeling.ArcadeLabelExpression;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
+import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 
 public class ShowLabelsOnLayerIn3dSample extends Application {
@@ -56,7 +57,7 @@ public class ShowLabelsOnLayerIn3dSample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // create a scene from an ArcGISOnline portal item
+      // create a scene from an ArcGIS Online portal item
       var portalItem = new PortalItem(
         new Portal("https://www.arcgis.com", false), "850dfee7d30f4d9da0ebca34a533c169");
       ArcGISScene scene = new ArcGISScene(portalItem);
@@ -82,6 +83,7 @@ public class ShowLabelsOnLayerIn3dSample extends Application {
             .forEach(subLayer -> {
               if (subLayer.getName().equals("Gas Main")) {
                 FeatureLayer featureLayer = (FeatureLayer) subLayer;
+                // enable the labelling for the feature layer
                 featureLayer.setLabelsEnabled(true);
                 // clear any existing label definitions on the layer
                 featureLayer.getLabelDefinitions().clear();
@@ -105,7 +107,7 @@ public class ShowLabelsOnLayerIn3dSample extends Application {
               }
             });
         } else {
-          System.out.println("Scene failed to load " + scene.getLoadError().getCause());
+          new Alert(Alert.AlertType.ERROR, "Scene failed to load " + scene.getLoadError().getCause()).show();
         }
       });
     } catch (Exception e) {
