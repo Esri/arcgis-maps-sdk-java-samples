@@ -53,8 +53,6 @@ import java.util.HashMap;
 public class CustomDictionaryStyleSample extends Application {
 
   private MapView mapView;
-  private DictionarySymbolStyle dictionarySymbolStyle; // keep loadables in scope to avoid garbage collection
-  private DictionaryRenderer dictionaryRenderer;
 
   private VBox controlsVBox;
   private ToggleGroup toggleGroup;
@@ -89,12 +87,13 @@ public class CustomDictionaryStyleSample extends Application {
       mapView.setMap(map);
 
       // set the initial viewpoint to the Esri Redlands campus
-      map.setInitialViewpoint(new Viewpoint(new Point(-1.304630524635E7, 4036698.1412000023, map.getSpatialReference()), 5000));
+      map.setInitialViewpoint(
+        new Viewpoint(new Point(-1.304630524635E7, 4036698.1412000023, map.getSpatialReference()), 5000));
 
       // set up the UI
       setupUI();
 
-      // enable UI interactions once the feature layer has loaded
+      // enable UI interactions once the map has loaded
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           controlsVBox.setDisable(false);
@@ -111,8 +110,8 @@ public class CustomDictionaryStyleSample extends Application {
       File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/Restaurant.stylx");
 
       // create a service feature table
-      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/Redlands_Restaurants/FeatureServer/0");
-      // create the restaurants feature layer using the service feature table
+      var serviceFeatureTable =
+        new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/Redlands_Restaurants/FeatureServer/0");      // create the restaurants feature layer using the service feature table
       FeatureLayer restaurantLayer = new FeatureLayer(serviceFeatureTable);
 
       // map the input fields in the feature layer to the dictionary symbol style's expected fields for symbols and text
@@ -125,21 +124,21 @@ public class CustomDictionaryStyleSample extends Application {
 
         // clear the existing dictionary symbol style and feature layer on the map
         map.getOperationalLayers().clear();
-        dictionarySymbolStyle = null;
-        dictionaryRenderer = null;
+//        dictionarySymbolStyle = null;
+//        dictionaryRenderer = null;
 
         // turn on the progress indicator when the symbols are loading
         progressIndicator.setVisible(true);
 
         if (toggleGroup.getSelectedToggle() == webStyleButton) {
-          dictionarySymbolStyle = new DictionarySymbolStyle(portalItem);
+          var dictionarySymbolStyle = new DictionarySymbolStyle(portalItem);
           // load the symbol dictionary
           dictionarySymbolStyle.loadAsync();
           dictionarySymbolStyle.addDoneLoadingListener(() -> {
             if (dictionarySymbolStyle.getLoadStatus() == LoadStatus.LOADED) {
               // create a dictionary renderer with the dictionary symbol style
-              dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle, fieldMap, fieldMap);
-              // renderer tells layer what symbols to apply to what features
+              var dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle, fieldMap, fieldMap);
+              // set the dictionary renderer as the feature layer's renderer to apply symbols to features
               restaurantLayer.setRenderer(dictionaryRenderer);
               // add the layer to the map
               map.getOperationalLayers().add(restaurantLayer);
@@ -152,10 +151,10 @@ public class CustomDictionaryStyleSample extends Application {
         }
         if (toggleGroup.getSelectedToggle() == fileStyleButton){
           // create a symbol dictionary from the local symbol style file
-          dictionarySymbolStyle = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
+          var dictionarySymbolStyle = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
           // create a dictionary renderer with the dictionary symbol style
-          dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle);
-          // renderer tells layer what symbols to apply to what features
+          var dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle);
+          // set the dictionary renderer as the feature layer's renderer to apply symbols to features
           restaurantLayer.setRenderer(dictionaryRenderer);
           // add the layer to the map
           map.getOperationalLayers().add(restaurantLayer);
@@ -166,7 +165,7 @@ public class CustomDictionaryStyleSample extends Application {
       // show the style file symbols by default
       toggleGroup.selectToggle(fileStyleButton);
 
-      // and the control panel, map view, and progress indicator to the stack pane
+      // add the control panel, map view, and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setAlignment(progressIndicator, Pos.CENTER);

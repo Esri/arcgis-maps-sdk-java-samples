@@ -20,8 +20,8 @@ Use the radio buttons to toggle between the dictionary symbols from the web styl
 -  If the file style toggle has been selected, create a new dictionary symbol style using `DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath())`
 3. Load the symbol dictionary asynchronously using `dictionarySymbolStyle.loadAsync()` and wait for it to completely load using `dictionarySymbolStyle.addDoneLoadingListener()`.
 4. Create a new `DictionaryRenderer`, providing the dictionary symbol style.
-5. Apply the dictionary renderer to a feature layer using `FeatureLayer.setRenderer(dictionaryRenderer)`.
-6. Add the feature layer to map using `Map.getOperationalLayers().add(FeatureLayer)`.
+5. Apply the dictionary renderer to a feature layer using `featureLayer.setRenderer(dictionaryRenderer)`.
+6. Add the feature layer to the map's operational layers using `Map.getOperationalLayers().add(FeatureLayer)`.
 
 ## Relevant API
 
