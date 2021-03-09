@@ -62,7 +62,7 @@ public class SceneLayerSelectionSample extends Application {
 
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createImagery());
+      scene.setBasemap(Basemap.createTopographic());
 
       // set the scene to the scene view
       sceneView = new SceneView();

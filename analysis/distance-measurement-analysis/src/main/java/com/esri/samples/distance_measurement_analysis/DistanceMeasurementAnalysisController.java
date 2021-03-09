@@ -56,7 +56,7 @@ public class DistanceMeasurementAnalysisController {
 
     // create a scene and set it to the scene view
     ArcGISScene scene = new ArcGISScene();
-    scene.setBasemap(Basemap.createImagery());
+    scene.setBasemap(Basemap.createTopographic());
     sceneView.setArcGISScene(scene);
 
     // add base surface for elevation data
@@ -66,6 +66,7 @@ public class DistanceMeasurementAnalysisController {
 
     final String buildings = "http://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
     ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
+    sceneLayer.setAltitudeOffset(1); // offset for visual purposes
     scene.getOperationalLayers().add(sceneLayer);
 
     // create an analysis overlay and add it to the scene view
