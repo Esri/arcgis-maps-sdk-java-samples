@@ -128,9 +128,10 @@ public class CustomDictionaryStyleSample extends Application {
 
       dictSymbStyleFromPortal.addDoneLoadingListener(() -> {
         if (dictSymbStyleFromPortal.getLoadStatus() == LoadStatus.LOADED) {
-          // handle UI
+          // enable the UI
           controlsVBox.setDisable(false);
-          // create a dictionary renderer with the dictionary symbol style
+          // create a dictionary renderer with the dictionary symbol style, and manually map the feature layer's attribute name
+          // to those expected by the dictionary symbol style
           webStyleDictionaryRenderer = new DictionaryRenderer(dictSymbStyleFromPortal, fieldMap, fieldMap);
           // set the renderer from web style to the UI
           webStyleButton.setUserData(webStyleDictionaryRenderer);
@@ -157,7 +158,7 @@ public class CustomDictionaryStyleSample extends Application {
 
       // show the style file symbols by default
       toggleGroup.selectToggle(fileStyleButton);
-      // and the control panel, map view, and progress indicator to the stack pane
+      // add the control panel, map view, and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setAlignment(progressIndicator, Pos.CENTER);
