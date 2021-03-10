@@ -16,7 +16,6 @@
 
 package com.esri.samples.viewshed_camera;
 
-import com.esri.arcgisruntime.layers.IntegratedMeshLayer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,7 +25,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geoanalysis.LocationViewshed;
-import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
+import com.esri.arcgisruntime.layers.IntegratedMeshLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
