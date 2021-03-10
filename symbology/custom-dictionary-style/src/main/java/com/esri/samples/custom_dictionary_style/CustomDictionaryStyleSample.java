@@ -109,7 +109,7 @@ public class CustomDictionaryStyleSample extends Application {
       File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/Restaurant.stylx");
       // create a dictionary symbol style from the stylx file, and create a new dictionary renderer from it
       DictionarySymbolStyle dictSymbStyleFromFile = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
-      var dictRendFromFile = new DictionaryRenderer(dictSymbStyleFromFile);
+      DictionaryRenderer dictRendFromFile = new DictionaryRenderer(dictSymbStyleFromFile);
       // set the renderer from the style file to the UI
       fileStyleButton.setUserData(dictRendFromFile);
 
@@ -130,8 +130,8 @@ public class CustomDictionaryStyleSample extends Application {
         if (dictSymbStyleFromPortal.getLoadStatus() == LoadStatus.LOADED) {
           // enable the UI
           controlsVBox.setDisable(false);
-          // create a dictionary renderer with the dictionary symbol style, and manually map the feature layer's attribute name
-          // to those expected by the dictionary symbol style
+          // create a dictionary renderer with the dictionary symbol style,
+          // and manually map the feature layer's attribute name to those expected by the dictionary symbol style
           webStyleDictionaryRenderer = new DictionaryRenderer(dictSymbStyleFromPortal, fieldMap, fieldMap);
           // set the renderer from web style to the UI
           webStyleButton.setUserData(webStyleDictionaryRenderer);
@@ -158,6 +158,7 @@ public class CustomDictionaryStyleSample extends Application {
 
       // show the style file symbols by default
       toggleGroup.selectToggle(fileStyleButton);
+
       // add the control panel, map view, and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
