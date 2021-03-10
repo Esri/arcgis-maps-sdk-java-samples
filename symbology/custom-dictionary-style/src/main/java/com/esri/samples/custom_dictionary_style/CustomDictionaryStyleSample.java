@@ -46,6 +46,7 @@ import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
+import com.esri.arcgisruntime.symbology.Renderer;
 
 import java.io.File;
 import java.util.HashMap;
@@ -53,6 +54,8 @@ import java.util.HashMap;
 public class CustomDictionaryStyleSample extends Application {
 
   private MapView mapView;
+  private DictionarySymbolStyle dictSymbStyleFromPortal; // keep loadables in scope to avoid garbage collection
+  private DictionaryRenderer webStyleDictionaryRenderer;
 
   private VBox controlsVBox;
   private ToggleGroup toggleGroup;
@@ -102,75 +105,63 @@ public class CustomDictionaryStyleSample extends Application {
         }
       });
 
+      // create a stylex file from a local location
+      File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/Restaurant.stylx");
+      // create a dictionary symbol style from the stylx file, and create a new dictionary renderer from it
+      DictionarySymbolStyle dictSymbStyleFromFile = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
+      DictionaryRenderer dictRendFromFile = new DictionaryRenderer(dictSymbStyleFromFile);
+      // set the renderer from the style file to the UI
+      fileStyleButton.setUserData(dictRendFromFile);
+
       // create a portal item using the portal and the item id of the dictionary web style
       Portal portal = new Portal("https://arcgisruntime.maps.arcgis.com");
       PortalItem portalItem = new PortalItem(portal, "adee951477014ec68d7cf0ea0579c800");
-
-      // create a stylex file from a local location
-      File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/Restaurant.stylx");
-
-      // create a service feature table
-      var serviceFeatureTable =
-        new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/Redlands_Restaurants/FeatureServer/0");      // create the restaurants feature layer using the service feature table
-      FeatureLayer restaurantLayer = new FeatureLayer(serviceFeatureTable);
 
       // map the input fields in the feature layer to the dictionary symbol style's expected fields for symbols and text
       HashMap<String, String> fieldMap = new HashMap<>();
       fieldMap.put("healthgrade", "Inspection");
 
-      toggleGroup.selectedToggleProperty().addListener((observableValue, oldToggle, newToggle) -> {
-        if (newToggle == null)
-          toggleGroup.selectToggle(oldToggle);
+      // create a new dictionary symbol style from the web style in the portal item
+      dictSymbStyleFromPortal = new DictionarySymbolStyle(portalItem);
+      // load the symbol dictionary
+      dictSymbStyleFromPortal.loadAsync();
 
-        // clear the existing dictionary symbol style and feature layer on the map
-        map.getOperationalLayers().clear();
-//        dictionarySymbolStyle = null;
-//        dictionaryRenderer = null;
-
-        // turn on the progress indicator when the symbols are loading
-        progressIndicator.setVisible(true);
-
-        if (toggleGroup.getSelectedToggle() == webStyleButton) {
-          var dictionarySymbolStyle = new DictionarySymbolStyle(portalItem);
-          // load the symbol dictionary
-          dictionarySymbolStyle.loadAsync();
-          dictionarySymbolStyle.addDoneLoadingListener(() -> {
-            if (dictionarySymbolStyle.getLoadStatus() == LoadStatus.LOADED) {
-              // create a dictionary renderer with the dictionary symbol style
-              var dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle, fieldMap, fieldMap);
-              // set the dictionary renderer as the feature layer's renderer to apply symbols to features
-              restaurantLayer.setRenderer(dictionaryRenderer);
-              // add the layer to the map
-              map.getOperationalLayers().add(restaurantLayer);
-              // hide the progress indicator when the symbols have been applied to the features
-              progressIndicator.setVisible(false);
-            } else {
-              new Alert(Alert.AlertType.ERROR, "Dictionary symbol style failed to load!").show();
-            }
-          });
-        }
-        if (toggleGroup.getSelectedToggle() == fileStyleButton){
-          // create a symbol dictionary from the local symbol style file
-          var dictionarySymbolStyle = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
+      dictSymbStyleFromPortal.addDoneLoadingListener(() -> {
+        if (dictSymbStyleFromPortal.getLoadStatus() == LoadStatus.LOADED) {
+          // handle UI
+          controlsVBox.setDisable(false);
           // create a dictionary renderer with the dictionary symbol style
-          var dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle);
-          // set the dictionary renderer as the feature layer's renderer to apply symbols to features
-          restaurantLayer.setRenderer(dictionaryRenderer);
-          // add the layer to the map
-          map.getOperationalLayers().add(restaurantLayer);
-          // hide the progress indicator when the symbols have been applied to the features
+          webStyleDictionaryRenderer = new DictionaryRenderer(dictSymbStyleFromPortal, fieldMap, fieldMap);
+          // set the renderer from web style to the UI
+          webStyleButton.setUserData(webStyleDictionaryRenderer);
           progressIndicator.setVisible(false);
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Dictionary symbol style failed to load!").show();
         }
       });
+
+      // create a service feature table and create a feature layer from it (restaurant data)
+      var serviceFeatureTable =
+        new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/Redlands_Restaurants/FeatureServer/0");
+      FeatureLayer restaurantLayer = new FeatureLayer(serviceFeatureTable);
+      map.getOperationalLayers().add(restaurantLayer);
+
+      // add a listener to the radio button toggle group to change the dictionary renderer
+      toggleGroup.selectedToggleProperty().addListener((observable -> {
+          if (toggleGroup.getSelectedToggle() != null) {
+            // set the chosen dictionary renderer to the feature layer
+            restaurantLayer.setRenderer((Renderer) toggleGroup.getSelectedToggle().getUserData());
+          }
+        })
+      );
+
       // show the style file symbols by default
       toggleGroup.selectToggle(fileStyleButton);
-
-      // add the control panel, map view, and progress indicator to the stack pane
+      // and the control panel, map view, and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox, progressIndicator);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setAlignment(progressIndicator, Pos.CENTER);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
-
     } catch (Exception e) {
       e.printStackTrace();
     }
