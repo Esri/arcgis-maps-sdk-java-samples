@@ -109,7 +109,7 @@ public class CustomDictionaryStyleSample extends Application {
       File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/Restaurant.stylx");
       // create a dictionary symbol style from the stylx file, and create a new dictionary renderer from it
       DictionarySymbolStyle dictSymbStyleFromFile = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
-      DictionaryRenderer dictRendFromFile = new DictionaryRenderer(dictSymbStyleFromFile);
+      var dictRendFromFile = new DictionaryRenderer(dictSymbStyleFromFile);
       // set the renderer from the style file to the UI
       fileStyleButton.setUserData(dictRendFromFile);
 
