@@ -17,11 +17,11 @@ Use the radio buttons to toggle between the dictionary symbols from the web styl
 1. Create a `PortalItem`, referring to a `Portal` and the item ID of the web style.
 2. Based on the style selected:
 -  If the web style toggle has been selected, create a new `DictionarySymbolStyle` from the portal item using `new DictionarySymbolStyle(portalItem)`
--  If the file style toggle has been selected, create a new dictionary symbol style using `DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath())`
-3. Load the symbol dictionary asynchronously using `dictionarySymbolStyle.loadAsync()` and wait for it to completely load using `dictionarySymbolStyle.addDoneLoadingListener()`.
+-  If the file style toggle has been selected, create a new `DictionarySymbolStyle` using `DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath())`
+3. Load the dictionary symbol style. Once it has loaded, create a new `DictionaryRenderer`, providing the dictionary symbol style.
 4. Create a new `DictionaryRenderer`, providing the dictionary symbol style.
 5. Apply the dictionary renderer to a feature layer using `featureLayer.setRenderer(dictionaryRenderer)`.
-6. Add the feature layer to the map's operational layers using `Map.getOperationalLayers().add(FeatureLayer)`.
+6. Add the feature layer to the map's operational layers using `getOperationalLayers().add(featureLayer)`.
 
 ## Relevant API
 
@@ -32,7 +32,9 @@ Use the radio buttons to toggle between the dictionary symbols from the web styl
 
 ## About the data
 
-The data used in this sample is from a feature layer showing a subset of [restaurants in Redlands, CA](https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/Redlands_Restaurants/FeatureServer) hosted as a feature service with attributes for rating, style, health score, and open hours. The feature layer is symbolized using a dictionary renderer that displays a single symbol for all of these variables. The renderer uses symbols from a custom restaurant dictionary style created from a [stylex file](https://arcgisruntime.maps.arcgis.com/home/item.html?id=751138a2e0844e06853522d54103222a) and a [web style](https://arcgisruntime.maps.arcgis.com/home/item.html?id=adee951477014ec68d7cf0ea0579c800), available as an items from ArcGIS Online, to show unique symbols based on several feature attributes. The symbols it contains were created using ArcGIS Pro. The logic used to apply the symbols comes from an Arcade script embedded in the stylx file (which is a SQLite database), along with a JSON string that defines expected attribute names and configuration properties.
+The data used in this sample is from a feature layer showing a subset of [restaurants in Redlands, CA](https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/Redlands_Restaurants/FeatureServer) hosted as a feature service with attributes for rating, style, health score, and open hours. 
+
+The feature layer is symbolized using a dictionary renderer that displays a single symbol for all of these variables. The renderer uses symbols from a custom restaurant dictionary style created from a [stylex file](https://arcgisruntime.maps.arcgis.com/home/item.html?id=751138a2e0844e06853522d54103222a) and a [web style](https://arcgisruntime.maps.arcgis.com/home/item.html?id=adee951477014ec68d7cf0ea0579c800), available as an items from ArcGIS Online, to show unique symbols based on several feature attributes. The symbols it contains were created using ArcGIS Pro. The logic used to apply the symbols comes from an Arcade script embedded in the stylx file (which is a SQLite database), along with a JSON string that defines expected attribute names and configuration properties.
 
 ## Additional information
 
