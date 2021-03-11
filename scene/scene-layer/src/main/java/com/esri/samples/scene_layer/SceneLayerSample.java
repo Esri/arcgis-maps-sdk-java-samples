@@ -51,9 +51,9 @@ public class SceneLayerSample extends Application {
 
       // create a scene and add a basemap to it
       ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createImagery());
+      scene.setBasemap(Basemap.createTopographic());
 
-      // add the SceneView to the stack pane
+      // set the scene to the scene view, and add the scene view to the stack pane
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
       stackPane.getChildren().addAll(sceneView);
