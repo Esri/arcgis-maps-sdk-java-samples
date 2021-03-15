@@ -80,9 +80,10 @@ public class ShowLabelsOnLayerIn3dSample extends Application {
           scene.getOperationalLayers().stream()
             .filter(layer -> layer.getName().equals("Gas"))
             .flatMap(gasLayer -> gasLayer.getSubLayerContents().stream())
-            .forEach(subLayer -> {
-              if (subLayer.getName().equals("Gas Main")) {
-                FeatureLayer featureLayer = (FeatureLayer) subLayer;
+            .filter(subLayer -> subLayer.getName().equals("Gas Main"))
+            .findFirst()
+            .ifPresent(gasMainSubLayer -> {
+                FeatureLayer featureLayer = (FeatureLayer) gasMainSubLayer;
                 // enable the labelling for the feature layer
                 featureLayer.setLabelsEnabled(true);
                 // clear any existing label definitions on the layer
@@ -104,7 +105,6 @@ public class ShowLabelsOnLayerIn3dSample extends Application {
 
                 // add the label definition to the feature layer
                 featureLayer.getLabelDefinitions().add(labelDefinition);
-              }
             });
         } else {
           new Alert(Alert.AlertType.ERROR, "Scene failed to load " + scene.getLoadError().getCause()).show();
