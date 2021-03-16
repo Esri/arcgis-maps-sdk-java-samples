@@ -19,7 +19,7 @@ The Local Server and local map service will automatically be started and, once r
 3. Wait for server to be in the  `LocalServerStatus.STARTED` state.
    * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
 4. Create and run a local service, example of running a `LocalMapService`.
-    1. Instantiate `LocalMapService(Url)` to create a local map service with the given URL path to the map package (`mpk` file).
+    1. Instantiate `LocalMapService(Url)` to create a local map service with the given URL path to the map package (`mpkx` file).
     2. Start the service asynchronously with `LocalFeatureService.startAsync()`. The service is added to the Local Server automatically.
 5. Wait for the state of the map service to be `LocalServerStatus.STARTED`.
    * Callbacks attached to `LocalFeatureService.addStatusChangedListener()` will invoke whenever the status of the local service has changed.
