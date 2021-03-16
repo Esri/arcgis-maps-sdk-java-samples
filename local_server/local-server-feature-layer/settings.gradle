@@ -4,13 +4,9 @@ rootProject.name = 'local-server-feature-layer'
 def ant = new groovy.util.AntBuilder()
 
 if (!file("./samples-data").exists()) {
+    file("./samples-data/local_server").mkdirs()
     ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/40e0d95e515745ee93b9d06cb75697bc/data",
-            dest: file("./data.zip")
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/92ca5cdb3ff1461384bf80dc008e297b/data",
+            dest: file("./samples-data/local_server/PointsofInterest.mpkx")
     )
-    ant.unzip(
-            src: file("./data.zip"),
-            dest: file("./samples-data/local_server")
-    )
-    delete file("./data.zip")
 }

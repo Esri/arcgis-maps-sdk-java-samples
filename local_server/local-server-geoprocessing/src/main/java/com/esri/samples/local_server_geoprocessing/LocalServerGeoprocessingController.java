@@ -99,7 +99,7 @@ public class LocalServerGeoprocessingController {
         server.addStatusChangedListener(status -> {
           if (server.getStatus() == LocalServerStatus.STARTED) {
             try {
-              String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server/Contour.gpk").getAbsolutePath();
+              String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server/Contour.gpkx").getAbsolutePath();
               // need map server result to add contour lines to map
               localGPService =
                   new LocalGeoprocessingService(gpServiceURL, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
