@@ -1,7 +1,6 @@
 # Local Server services
 
-Demonstrates how to start and stop the Local Server and start and stop a local map, feature, and geoprocessing service
-running on the Local Server.
+Demonstrates how to start and stop the Local Server and start and stop a local map, feature, and geoprocessing service running on the Local Server.
 
 ![Image of local server services](LocalServerServices.png)
 
@@ -11,11 +10,9 @@ For executing offline geoprocessing tasks in your ArcGIS Runtime apps via an off
 
 ## How to use the sample
 
-Choose an option from the dropdown control to filter packages by service type. Then click the Open button to choose a
-package. Finally, click the Start button to start the service. The service's status will be displayed in the center log.
+Choose an option from the dropdown control to filter packages by service type. Then click the Open button to choose a package. Finally, click the Start button to start the service. The service's status will be displayed in the center log.
 
-To stop a service, select it from the Running Services list and click the Stop Service button. To go to the service's
-URL in your default web browser, select it and click the Go to URL button.
+To stop a service, select it from the Running Services list and click the Stop Service button. To go to the service's URL in your default web browser, select it and click the Go to URL button.
 
 ## How it works
 
@@ -24,8 +21,7 @@ To start a `LocalServer` and attach a `LocalService`:
 1. Create and run a local server with `LocalServer.INSTANCE`.
 2. Start the server asynchronously with `Server.startAsync()`.
 3. Wait for server to be in the  `LocalServerStatus.STARTED` state.
-    * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has
-      changed.
+    * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
 4. Create and run a local service. Here is an example of running a `LocalMapService`:
     1. Instantiate `LocalMapService(Url)` to create a local map service with the given URL path to map package (`mpk`
        or `mpkx` file).
@@ -36,8 +32,7 @@ To stop a `LocalServer` and any attached `LocalServices`:
 
 1. If required, you can retrieve a list of all running services with `LocalServer.INSTANCE.getServices()`.
 2. Stop the services asynchronously using `LocalService.stopAsync()`.
-3. Use `LocalServer.INSTANCE.stopAsync()` to stop the server asynchronously. You can use `.addDoneListener()` on this
-   process to perform additional actions after the server is successfully stopped, such as removing temporary files.
+3. Use `LocalServer.INSTANCE.stopAsync()` to stop the server asynchronously. You can use `.addDoneListener()` on this process to perform additional actions after the server is successfully stopped, such as removing temporary files.
 
 ## Relevant API
 
@@ -50,14 +45,9 @@ To stop a `LocalServer` and any attached `LocalServices`:
 
 ## Additional information
 
-Local Server can be downloaded for Windows and Linux platforms from
-your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server
-is not supported on macOS.
+Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server is not supported on macOS.
 
-Note: You may wish to reference earlier releases of Local Server. For example, the ArcGIS Runtime API for Java v100.10.0
-is configured for Local Server v100.10.0. If you wish to access Local Server 100.9.0, you will have to locate the Local
-Server install directory and rename it from `LocalServer100.9` to `LocalServer100.10`, and also update the environment
-variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
+Note: You may wish to reference earlier releases of Local Server. For example, the ArcGIS Runtime API for Java v100.10.0 is configured for Local Server v100.10.0. If you wish to access Local Server 100.9.0, you will have to locate the Local Server install directory and rename it from `LocalServer100.9` to `LocalServer100.10`, and also update the environment variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
 
 ## Tags
 

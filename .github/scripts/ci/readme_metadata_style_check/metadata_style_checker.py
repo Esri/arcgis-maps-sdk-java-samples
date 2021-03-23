@@ -79,7 +79,7 @@ def parse_tags(tags_string: str) -> typing.List[str]:
     tags = tags_string.split(',')
     if not tags:
         raise Exception('README Tags parse failure!')
-    return sorted([tag.strip() for tag in tags])
+    return sorted([tag.strip() for tag in tags], , key=str.casefold)
 
 def get_folder_name_from_path(path: str, index: int = -1) -> str:
     """
