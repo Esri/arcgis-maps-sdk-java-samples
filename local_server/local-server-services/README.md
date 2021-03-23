@@ -24,7 +24,7 @@ To start a `LocalServer` and attach a `LocalService`:
     * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
 4. Create and run a local service. Here is an example of running a `LocalMapService`:
     1. Instantiate `LocalMapService(Url)` to create a local map service with the given URL path to map package (`mpk` or `mpkx` file).
-    2. Start the job with `LocalMapServic.estartAsync()`.
+    2. Start the job with `LocalMapService.startAsync()`.
         * The service is added to the `LocalServer` automatically.
 
 To stop a `LocalServer` and any attached `LocalServices`:
