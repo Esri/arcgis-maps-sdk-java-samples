@@ -26,12 +26,10 @@ Contour Line Controls (Top Left):
 4. Start a `LocalGeoprocessingService` and run a `GeoprocessingTask`.
     1. Instantiate `LocalGeoprocessingService(Url, ServiceType)` to create a local geoprocessing service.
     2. Invoke `LocalGeoprocessingService.start()` to start the service asynchronously.
-    3. Instantiate `GeoprocessingTask(LocalGeoprocessingService.url() + "/Contour")` to create a geoprocessing task that
-       uses the contour lines tool.
+    3. Instantiate `GeoprocessingTask(LocalGeoprocessingService.url() + "/Contour")` to create a geoprocessing task that uses the contour lines tool.
 5. Create an instance of `GeoprocessingParameters` and add a `GeoprocessingDouble` as a parameter using `setInterval`.
     1. Instantiate `GeoprocessingParameters(ExecutionType)` creates geoprocessing parameters.
-    2. Create a parameter using `GeoprocessingParameters.getInputs().put("Interval", new GeoprocessingDouble(double))`
-       with name "Interval" and with the interval set as its value.
+    2. Create a parameter using `GeoprocessingParameters.getInputs().put("Interval", new GeoprocessingDouble(double))`with name "Interval" and with the interval set as its value.
 6. Create and start a `GeoprocessingJob` using the previous parameters.
     1. Create a geoprocessing job with `GeoprocessingTask.createJob(GeoprocessingParameters)`.
     2. Start the job with `GeoprocessingJob.start()`.
@@ -55,14 +53,9 @@ Contour Line Controls (Top Left):
 
 ## Additional information
 
-Local Server can be downloaded for Windows and Linux platforms from
-your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server
-is not supported on macOS.
+Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server is not supported on macOS.
 
-Note: You may wish to reference earlier releases of Local Server. For example, the ArcGIS Runtime API for Java v100.10.0
-is configured for Local Server v100.10.0. If you wish to access Local Server 100.9.0, you will have to locate the Local
-Server install directory and rename it from `LocalServer100.9` to `LocalServer100.10`, and also update the environment
-variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
+Note: You may wish to reference earlier releases of Local Server. For example, the ArcGIS Runtime API for Java v100.10.0 is configured for Local Server v100.10.0. If you wish to access Local Server 100.9.0, you will have to locate the Local Server install directory and rename it from `LocalServer100.9` to `LocalServer100.10`, and also update the environment variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
 
 ## Tags
 
