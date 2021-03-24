@@ -43,7 +43,13 @@ A Local Server and Local Feature Service will automatically be started. Once sta
 
 Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server is not supported on macOS.
 
-Note: You may wish to reference earlier releases of Local Server. For example, the ArcGIS Runtime API for Java v100.10.0 is configured for Local Server v100.10.0. If you wish to access Local Server 100.9.0, you will have to locate the Local Server install directory and rename it from `LocalServer100.9` to `LocalServer100.10`, and also update the environment variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
+Specific versions of ArcGIS Runtime Local Server are compatible with the version of ArcGIS Pro you use to create geoprocessing and map packages. For example, the ArcGIS Runtime API for Java v100.10.0 is configured for Local Server v100.10.0 which provides compatibility for packages created with ArcGIS Pro 2.7.x. For more information see https://developers.arcgis.com/java/reference/system-requirements/#local-server-version-compatibility-with-arcgis-desktop-and-arcgis-pro.
+
+To configure the ArcGIS Runtime API for Java v100.10.0 to work with Local Server 100.9.0:
+- Development machine:
+    - Locate the Local Server installation directory and rename the folder from `LocalServer100.9` to `LocalServer100.10`.
+    - Update the environment variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
+- Deployment machine(s): Rename the deployment folder included with your application (or referenced by the LocalServerEnvironment.InstallPath property) from `LocalServer100.9` to `LocalServer100.10`.
 
 ## Tags
 
