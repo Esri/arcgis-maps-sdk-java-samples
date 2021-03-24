@@ -51,8 +51,8 @@ Specific versions of ArcGIS Runtime Local Server are compatible with the version
 To configure the ArcGIS Runtime API for Java v100.10.0 to work with Local Server 100.9.0:
 
 * Development machine:
-    - Locate the Local Server installation directory and rename the folder from `LocalServer100.9` to `LocalServer100.10`.
-    - Update the environment variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
+    * Locate the Local Server installation directory and rename the folder from `LocalServer100.9` to `LocalServer100.10`.
+    * Update the environment variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
 * Deployment machine(s): Rename the deployment folder included with your application (or referenced by the LocalServerEnvironment.InstallPath property) from `LocalServer100.9` to `LocalServer100.10`.
 
 ## Tags
