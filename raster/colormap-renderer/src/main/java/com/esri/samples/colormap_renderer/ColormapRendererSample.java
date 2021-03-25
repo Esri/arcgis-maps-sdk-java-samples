@@ -27,10 +27,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.raster.ColormapRenderer;
 import com.esri.arcgisruntime.raster.Raster;
@@ -54,20 +55,24 @@ public class ColormapRendererSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a raster from a local raster file
       Raster raster = new Raster(new File(System.getProperty("data.dir"), "./samples-data/raster/ShastaBW.tif").getAbsolutePath());
 
       // create a raster layer
       RasterLayer rasterLayer = new RasterLayer(raster);
 
-      // create a Map with imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      // create a map with the standard imagery basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // add the map to a map view
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
 
-      // add the raster as an operational layer
+      // add the raster to the map's operational layers
       map.getOperationalLayers().add(rasterLayer);
 
       // create a color map where values 0-149 are red (0xFFFF0000) and 150-250 are yellow (0xFFFFFF00)

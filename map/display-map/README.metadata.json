@@ -9,7 +9,7 @@
         "basemap",
         "map",
         "ArcGISMap",
-        "Basemap",
+        "BasemapStyle",
         "MapView"
     ],
     "redirect_from": [
@@ -17,7 +17,7 @@
     ],
     "relevant_apis": [
         "ArcGISMap",
-        "Basemap",
+        "BasemapStyle",
         "MapView"
     ],
     "snippets": [

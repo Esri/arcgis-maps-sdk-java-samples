@@ -33,10 +33,12 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Callout;
 import com.esri.arcgisruntime.mapping.view.Callout.LeaderPosition;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -70,6 +72,10 @@ public class FindAddressSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create search box
       searchBox = new ComboBox<>();
       searchBox.setPromptText("Search");
@@ -82,12 +88,15 @@ public class FindAddressSample extends Application {
       };
       searchBox.getItems().addAll(examples);
 
-      // create ArcGISMap with imagery basemap
-      ArcGISMap map = new ArcGISMap(Basemap.Type.IMAGERY, 48.354406, -99.998267, 2);
+      // create a map with the standard imagery basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // create a view and set ArcGISMap to it
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(48.354406, -99.998267, 147914382));
 
       // add a graphics overlay
       graphicsOverlay = new GraphicsOverlay();
@@ -98,7 +107,7 @@ public class FindAddressSample extends Application {
       callout.setLeaderPosition(LeaderPosition.BOTTOM);
 
       // create a locatorTask
-      locatorTask = new LocatorTask("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
+      locatorTask = new LocatorTask("https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer");
 
       // create geocode task parameters
       GeocodeParameters geocodeParameters = new GeocodeParameters();

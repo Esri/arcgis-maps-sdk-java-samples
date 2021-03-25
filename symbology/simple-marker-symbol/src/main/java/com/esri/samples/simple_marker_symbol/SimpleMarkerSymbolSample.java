@@ -21,11 +21,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -51,22 +51,20 @@ public class SimpleMarkerSymbolSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create ArcGISMap with imagery basemap
-      final ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create spatial reference for WGS 1948
-      final SpatialReference webMercator = SpatialReferences.getWebMercator();
+      // create a map with the standard imagery basemap style
+      final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-      // create a initial viewpoint with a center point and scale
-      Point point = new Point(-226773, 6550477, webMercator);
-      Viewpoint viewpoint = new Viewpoint(point, 7500);
-
-      // set initial view point to the ArcGISMap
-      map.setInitialViewpoint(viewpoint);
-
-      // create a view and set ArcGISMap to it
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // set a viewpoint to the map view centered on a point
+      Point point = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
+      mapView.setViewpoint(new Viewpoint(point, 7200));
 
       // create new graphics overlay and add it to the map view
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();

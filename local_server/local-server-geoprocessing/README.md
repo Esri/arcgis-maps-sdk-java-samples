@@ -21,7 +21,7 @@ Contour Line Controls (Top Left):
 1. Create and run a local server with `LocalServer.INSTANCE`.
 2. Start the server asynchronously with `Server.startAsync()`.
 3. Wait for server to be in the  `LocalServerStatus.STARTED` state.
-   * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
+    * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
 4. Start a `LocalGeoprocessingService` and run a `GeoprocessingTask`.
     1. Instantiate `LocalGeoprocessingService(Url, ServiceType)` to create a local geoprocessing service.
     2. Invoke `LocalGeoprocessingService.start()` to start the service asynchronously.
@@ -52,8 +52,17 @@ Contour Line Controls (Top Left):
 
 ## Additional information
 
-Local Server can be downloaded for Windows and Linux platforms. Local Server is not supported on macOS.
+Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server is not supported on macOS.
+
+Specific versions of ArcGIS Runtime Local Server are compatible with the version of ArcGIS Pro you use to create geoprocessing and map packages. For example, the ArcGIS Runtime API for Java v100.10.0 is configured for Local Server v100.10.0 which provides compatibility for packages created with ArcGIS Pro 2.7.x. For more information see the [ArcGIS Developers guide](https://developers.arcgis.com/java/reference/system-requirements/#local-server-version-compatibility-with-arcgis-desktop-and-arcgis-pro).
+
+To configure the ArcGIS Runtime API for Java v100.10.0 to work with Local Server 100.9.0:
+
+* Development machine:
+    * Locate the Local Server installation directory and rename the folder from `LocalServer100.9` to `LocalServer100.10`.
+    * Update the environment variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
+* Deployment machine(s): Rename the deployment folder included with your application (or referenced by the LocalServerEnvironment.InstallPath property) from `LocalServer100.9` to `LocalServer100.10`.
 
 ## Tags
 
-geoprocessing, local, offline, parameters, processing, service,
+geoprocessing, local, offline, parameters, processing, service

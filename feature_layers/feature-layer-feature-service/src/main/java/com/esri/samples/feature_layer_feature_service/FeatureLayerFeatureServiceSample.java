@@ -21,12 +21,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -52,14 +53,19 @@ public class FeatureLayerFeatureServiceSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a view for this ArcGISMap
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a map with the terrain basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TERRAIN);
+
+      // create a map view and set the map to it
       mapView = new MapView();
+      mapView.setMap(map);
 
-      // create a ArcGISMap with the terrain with labels basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createTerrainWithLabels());
-
-      // set an initial viewpoint
-      map.setInitialViewpoint(new Viewpoint(new Point(-13176752, 4090404, SpatialReferences.getWebMercator()), 500000));
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(new Point(-13176752, 4090404, SpatialReferences.getWebMercator()), 500000));
 
       // create feature layer with its service feature table
       // create the service feature table
@@ -68,11 +74,8 @@ public class FeatureLayerFeatureServiceSample extends Application {
       // create the feature layer using the service feature table
       FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
 
-      // add the layer to the ArcGISMap
+      // add the feature layer to the map's operational layers
       map.getOperationalLayers().add(featureLayer);
-
-      // set the ArcGISMap to be displayed in the view
-      mapView.setMap(map);
 
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);

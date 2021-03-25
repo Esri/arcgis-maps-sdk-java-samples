@@ -23,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.apache.commons.io.IOUtils;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -31,7 +32,7 @@ import com.esri.arcgisruntime.layers.SubtypeFeatureLayer;
 import com.esri.arcgisruntime.layers.SubtypeSublayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.security.UserCredential;
@@ -55,19 +56,21 @@ public class DisplaySubtypeFeatureLayerController {
   public void initialize() {
 
     try {
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with streets night vector basemap and add it to the map view
-      ArcGISMap map = new ArcGISMap();
-      map.setBasemap(Basemap.createStreetsNightVector());
+      // create a map with the streets night basemap style and add it to the map view
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
       mapView.setMap(map);
-      // display the current map scale 
+      // display the current map scale
       mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
         currentMapScaleLabel.setText("Current map scale: 1:" + Math.round(mapView.getMapScale())));
 
-      // set the viewpoint to Naperville, Illinois
+      // set a viewpoint on the map view, to Naperville, Illinois
       Viewpoint initialViewpoint = new Viewpoint(new Envelope(-9812691.11079696, 5128687.20710657,
         -9812377.9447607, 5128865.36767282, SpatialReferences.getWebMercator()));
-      map.setInitialViewpoint(initialViewpoint);
+      mapView.setViewpoint(initialViewpoint);
 
       // create a subtype feature layer from the service feature table, and add it to the map
       ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(
@@ -125,7 +128,7 @@ public class DisplaySubtypeFeatureLayerController {
   }
 
   /**
-   * Sets the renderer of the sublayer to its original format (a white and black circular icon). 
+   * Sets the renderer of the sublayer to its original format (a white and black circular icon).
    */
   @FXML
   private void handleOriginalRendererButtonClicked() {

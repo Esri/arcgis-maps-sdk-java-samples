@@ -36,6 +36,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.QueryParameters;
@@ -45,7 +46,7 @@ import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -75,6 +76,10 @@ public class ServiceFeatureTableManualCacheSample extends Application {
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
+
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a control panel
       VBox controlsVBox = new VBox(6);
@@ -117,15 +122,15 @@ public class ServiceFeatureTableManualCacheSample extends Application {
         }
       });
 
-      // create a ArcGISMap with topographic basemap
-      ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+      // create a map with the topographic basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      // add feature layer to the ArcGISMap
-      map.getOperationalLayers().add(featureLayer);
-
-      // create a view for this ArcGISMap and set ArcGISMap to it
+      // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
+
+      // add the feature layer to the map's operational layers
+      map.getOperationalLayers().add(featureLayer);
 
       // set the starting viewpoint for the map view
       mapView.setViewpoint(new Viewpoint(new Point(-13630484, 4545415, SpatialReferences.getWebMercator()), 150000));

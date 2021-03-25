@@ -6,7 +6,7 @@ Display a feature layer from a service using the **manual cache** feature reques
 
 ## Use case
 
-`ServiceFeatureTable` supports three request modes, which define how features are requested from the service and stored in the local table. The feature request modes have different performance characteristics. Use **manual cache** in scenarios where you want to explicitly control requests for features. See [Table performance concepts](https://developers.arcgis.com/net/latest/wpf/guide/layers.htm#ESRI_SECTION1_40F10593308A4718971C9A8F5FB9EC7D) to learn more.
+`ServiceFeatureTable` supports three request modes, which define how features are requested from the service and stored in the local table. The feature request modes have different performance characteristics. Use **manual cache** in scenarios where you want to explicitly control requests for features.
 
 ## How to use the sample
 
@@ -23,13 +23,13 @@ Note: Maximum of Features returned is set to 1000.
 ## Relevant API
 
 * FeatureLayer
-* ServiceFeatureTable.FeatureRequestMode
 * ServiceFeatureTable
+* ServiceFeatureTable.FeatureRequestMode
 
 ## About the data
 
 The samples uses an [incident feature layer](https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0) queried to show tree maintenance or damage. The sample opens with an initial visible extent centered over San Francisco.
- 
+
 ## Additional information
 
 In **manual cache** mode, features are never automatically populated from the service. All features are loaded manually using calls to `PopulateFromServiceAsync`.
