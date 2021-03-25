@@ -20,7 +20,7 @@ The sample loads with the sublayer visible on the map. Toggle its visibility wit
 4. Set the visibility status using this sublayer's `IsVisible` property.
 5. Change the sublayer's symbology with `.setRenderer(Renderer)`.
 6. Update the sublayer's minimum scale value with `.setMinScale()`.
- 
+
 ## Relevant API
 
 * LabelDefinition

@@ -31,7 +31,6 @@ Example barrier conditions for the default dataset:
 9. Display the count of elements returned within the `UtilityElementTraceResult`.
 10. When the 'Reset' button is clicked, set the trace configurations expression back to its original value.
 
-
 ## Relevant API
 
 * CodedValueDomain
@@ -67,4 +66,4 @@ The [feature service](https://sampleserver7.arcgisonline.com/server/rest/service
 
 ## Tags
 
-category comparison, condition barriers, network analysis, network attribute comparison, trace configuration, traversability, utility network, validate consistency, subnetwork trace
+category comparison, condition barriers, network analysis, network attribute comparison, subnetwork trace, trace configuration, traversability, utility network, validate consistency
