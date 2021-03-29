@@ -23,10 +23,10 @@ Create and set the configuration's filter barriers by selecting a category. Chec
 7. Add a `GraphicsOverlay` with the graphic that represents the starting location.
 8. Populate the combo box for choosing the filter barrier category from `UtilityNetworkDefinition.getCategories()`.
 9. When "Trace" is clicked,
-    - Create a new `UtilityCategoryComparison` with the selected category and `UtilityCategoryComparisonOperator.EXISTS`. 
-    - Assign this condition to `utilityTraceFilter.setBarriers()` from the default configuration from step 7. Update this configuration's `utilityTraceConfiguration.isIncludeIsolatedFeatures()` property.
-    - Create a `UtilityTraceParameters` with `UtilityTraceType.ISOLATION` and default starting location from step 4. 
-    - Set its utility trace configuration with this configuration and then, run a `utilityNetwork.traceAsync()`.
+    * Create a new `UtilityCategoryComparison` with the selected category and `UtilityCategoryComparisonOperator.EXISTS`.
+    * Assign this condition to `utilityTraceFilter.setBarriers()` from the default configuration from step 7. Update this configuration's `utilityTraceConfiguration.isIncludeIsolatedFeatures()` property.
+    * Create a `UtilityTraceParameters` with `UtilityTraceType.ISOLATION` and default starting location from step 4.
+    * Set its utility trace configuration with this configuration and then, run a `utilityNetwork.traceAsync()`.
 10. Get the list of `UtilityElement`s from the first trace result.
 11. For every feature layer in the map, select all the features for which the layer's `FeatureTable.getTableName()` matches the `NetworkSource.getName()` of one of the utility elements.
 
@@ -40,16 +40,16 @@ Create and set the configuration's filter barriers by selecting a category. Chec
 * UtilityElementTraceResult
 * UtilityNetwork
 * UtilityNetworkDefinition
-* UtilityTraceFilter
 * UtilityTier
+* UtilityTraceFilter
 * UtilityTraceParameters
 * UtilityTraceResult
 * UtilityTraceType
 
 ## About the data
 
-The [Naperville gas](https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleGas/FeatureServer) network feature service, hosted on ArcGIS Online, contains a utility network used to run the isolation trace shown in this sample.
-    
+The [Naperville gas](https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleGas/FeatureServer) network feature service, hosted on ArcGIS Online, contains a utility network used to run the isolation trace shown in this sample.
+
 ## Tags
 
 category comparison, condition barriers, isolated features, network analysis, subnetwork trace, trace configuration, trace filter, utility network
