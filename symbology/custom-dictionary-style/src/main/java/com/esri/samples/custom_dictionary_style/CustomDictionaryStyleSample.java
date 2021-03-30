@@ -91,7 +91,7 @@ public class CustomDictionaryStyleSample extends Application {
 
       // set the initial viewpoint to the Esri Redlands campus
       map.setInitialViewpoint(
-        new Viewpoint(new Point(-1.304630524635E7, 4036698.1412000023, map.getSpatialReference()), 5000));
+        new Viewpoint(new Point(-13046305, 4036698.1412000, map.getSpatialReference()), 5000));
 
       // set up the UI
       setupUI();
@@ -178,7 +178,7 @@ public class CustomDictionaryStyleSample extends Application {
 
     // create radio buttons for toggling between the web and file styles
     webStyleButton = new RadioButton("Web style");
-    fileStyleButton = new RadioButton("Style file ");
+    fileStyleButton = new RadioButton("Local style file");
 
     // set the radio buttons to a toggle group
     toggleGroup = new ToggleGroup();
@@ -187,7 +187,7 @@ public class CustomDictionaryStyleSample extends Application {
     // show progress indicator when the dictionary symbol styles are loading
     progressIndicator = new ProgressIndicator();
     progressIndicator.setMaxWidth(30);
-    progressIndicator.setVisible(false);
+    progressIndicator.setVisible(true);
 
     // create a control panel
     controlsVBox = new VBox(6);
