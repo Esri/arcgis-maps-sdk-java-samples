@@ -95,13 +95,13 @@ public class ShowLabelsOnLayerIn3dSample extends Application {
                 textSymbol.setHaloColor(ColorUtil.colorToArgb(Color.WHITE));
                 textSymbol.setHaloWidth(2);
                 textSymbol.setSize(16);
+
                 // create a label definition with an Arcade expression script
-                var labelDefinition = new LabelDefinition();
-                labelDefinition.setExpression(
-                  new ArcadeLabelExpression("Text($feature.INSTALLATIONDATE, `DD MMM YY`)"));
+                var arcadeLabelExpression = new ArcadeLabelExpression("Text($feature.INSTALLATIONDATE, `DD MMM YY`)");
+
+                var labelDefinition = new LabelDefinition(arcadeLabelExpression, textSymbol);
                 labelDefinition.setPlacement(LabelingPlacement.LINE_ABOVE_ALONG);
                 labelDefinition.setUseCodedValues(true);
-                labelDefinition.setTextSymbol(textSymbol);
 
                 // add the label definition to the feature layer
                 featureLayer.getLabelDefinitions().add(labelDefinition);
