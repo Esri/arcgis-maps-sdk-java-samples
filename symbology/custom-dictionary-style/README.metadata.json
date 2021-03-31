@@ -1,6 +1,6 @@
 {
     "category": "Symbology",
-    "description": "Use a custom dictionary style created from a web style or style file to symbolize features using a variety of attribute values.",
+    "description": "Use a custom dictionary style created from a web style or local style file (.stylx) to symbolize features using a variety of attribute values.",
     "ignore": false,
     "images": [
         "CustomDictionaryStyle.png"
