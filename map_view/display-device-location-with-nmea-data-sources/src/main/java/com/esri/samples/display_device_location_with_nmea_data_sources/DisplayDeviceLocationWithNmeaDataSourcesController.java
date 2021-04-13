@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.esri.arcgisruntime.location.NmeaLocationDataSource;
+import com.esri.arcgisruntime.location.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -48,10 +48,7 @@ import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.location.LocationDataSource;
 import com.esri.arcgisruntime.location.LocationDataSource.LocationChangedListener;
-import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
-import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -71,16 +68,13 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
   @FXML private MapView mapView;
   private NmeaLocationDataSource nmeaLocationDataSource;
   private LocationDisplay locationDisplay;
-  private List<String> nmeaData;
+  private List<NmeaSatelliteInfo> satelliteInfos;
   private int count = 0;
   @FXML private Label satelliteCount;
   @FXML private Label systemInfo;
   @FXML private Label satelliteID;
   @FXML private Button startButton;
   @FXML private Button resetButton;
-  @FXML private Button recenterButton;
-
-  private Point position;
 
   public void initialize() {
 
@@ -98,6 +92,9 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
 
       // set a viewpoint on the map view centered on Los Angeles, California
       mapView.setViewpoint(new Viewpoint(new Point(-117.191, 34.0306, SpatialReferences.getWgs84()), 100000));
+      // disable mapview interaction, the location display will automatically center on the mock device location
+      mapView.setEnableMousePan(false);
+      mapView.setEnableKeyboardNavigation(false);
 
       // create a new NMEA location data source
       nmeaLocationDataSource = new NmeaLocationDataSource(SpatialReferences.getWgs84());
@@ -107,9 +104,6 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
 
       start();
 
-
-
-
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -117,7 +111,7 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
   }
 
   @FXML
-  private void start () throws IOException {
+  private void start () {
 
     // enable receiving NMEA location data from external device
     nmeaLocationDataSource.startAsync();
@@ -129,13 +123,14 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
     if (simulatedNmeaDataFile.exists()) {
 
       try  {
+        // read the nmea file contents
         List<String> lines = Files.readAllLines(simulatedNmeaDataFile.toPath(), StandardCharsets.UTF_8);
 
         List<String> sortedLines = new ArrayList<>();
 
         lines.forEach(line -> {
-          if (line.startsWith("$GPGGA")) {
-            sortedLines.add(line);
+          if (line.contains("$GPGGA")) {
+            sortedLines.add(line + "\n");
           } else {
             int index = sortedLines.size() - 1;
             sortedLines.add(index, line + "\n" );
@@ -143,22 +138,43 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
 
         });
 
+        retrieveSatelliteInformation();
+
         Timeline timeline = new Timeline();
         timeline.setCycleCount(-1); // loop count
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(), event -> {
-          String nmeaLine = sortedLines.get(count);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), event -> {
+          String nmeaLine = lines.get(count);
           nmeaLocationDataSource.pushData(sortedLines.get(count++).getBytes(StandardCharsets.UTF_8)); // post increment step
+//          System.out.println(nmeaLocationDataSource.addSatellitesChangedListener(););
 //          count++;
-          System.out.println(count);
-          System.out.println(nmeaLine);
-          if (count >= lines.size()) count = 0;
+//          System.out.println(count);
+//          System.out.println(nmeaLine);
+
+
+
+//          nmeaLocationDataSource.addLocationChangedListener(locationChangedEvent -> {
+//            LocationDataSource.LocationChangedEvent mLocationChangedEvent = locationChangedEvent;
+//
+//            NmeaLocationDataSource.NmeaLocation location = (NmeaLocationDataSource.NmeaLocation) mLocationChangedEvent.getLocation();
+//
+//            List<NmeaSatelliteInfo> satelliteInfos = location.getSatellites();
+////            System.out.println("Satellite info" + satelliteInfos.get(0).getId());
+//
+//          });
+
+//          System.out.println("Lines " + nmeaLine);
+//          System.out.println("Sorted lines " + sortedLines.get(count));
+
+
+          if (count == sortedLines.size()) count = 0;
 
         }));
         timeline.play();
 
 
 
-        System.out.println(sortedLines);
+        System.out.println("Sorted lines " + sortedLines);
+        System.out.println("Lines " + lines);
 
 
 
@@ -198,9 +214,30 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
       new Alert(Alert.AlertType.ERROR, "File not found").show();
     }
 
+  }
 
+  private void retrieveSatelliteInformation() {
 
+    HashSet<Integer> uniqueValues = new HashSet<>();
 
+    nmeaLocationDataSource.addSatellitesChangedListener(satellitesChangedEvent -> {
+      // get satellite information from the nmea location data source every time the satellites change
+      satelliteInfos = satellitesChangedEvent.getSatelliteInfos();
+
+      satelliteCount.setText("Satellite count: " + satelliteInfos.size());
+
+      for (NmeaSatelliteInfo satInfo : satelliteInfos) {
+
+        // collect unique satellite ids
+        uniqueValues.add(satInfo.getId());
+        // sort the ids numerically
+        List<Integer> sorted = new ArrayList<>(uniqueValues);
+        Collections.sort(sorted);
+        // display the satellite system and id information
+        systemInfo.setText("System: " + satInfo.getSystem());
+        satelliteID.setText("Satellite IDs " + sorted);
+      }
+    });
 
 
   }
