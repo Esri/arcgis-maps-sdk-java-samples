@@ -1,0 +1,16 @@
+rootProject.name = 'display-device-location-with-nmea-data-sources'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/d5bad9f4fee9483791e405880fb466da/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/redlands")
+    )
+    delete file("./data.zip")
+}
