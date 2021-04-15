@@ -1,2 +1,31 @@
 {
+  "category": "Map view",
+  "description": "This sample demonstrates how to parse NMEA sentences and use the results to show device location on the map.",
+  "ignore": false,
+  "images": [
+    "DisplayDeviceLocationWithNMEADataSources.png"
+  ],
+  "keywords": [
+    "GPS",
+    "history",
+    "navigation",
+    "NMEA",
+    "real-time",
+    "trace",
+    "LocationDisplay",
+    "NmeaLocationDataSource",
+    "NmeaSatelliteInfo"
+  ],
+  "redirect_from": "",
+  "relevant_apis": [
+    "LocationDisplay",
+    "NmeaLocationDataSource",
+    "NmeaSatelliteInfo"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/display_device_location_with_nmea_data_sources/DisplayDeviceLocationWithNmeaDataSourcesController.java",
+    "src/main/java/com/esri/samples/display_device_location_with_nmea_data_sources/DisplayDeviceLocationWithNmeaDataSourcesSample.java",
+    "src/main/resources/display_device_location_with_nmea_data_sources/main.fxml"
+  ],
+  "title": "Display device location with NMEA data sources"
 }
