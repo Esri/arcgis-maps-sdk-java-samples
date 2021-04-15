@@ -34,4 +34,5 @@ This sample reads lines from a local file to simulate the feed of data into the 
 The route taken in this sample features a [one minute driving trip around Redlands, CA](https://arcgis.com/home/item.html?id=d5bad9f4fee9483791e405880fb466da).
 
 ## Tags
+
 GPS, history, navigation, NMEA, real-time, trace
