@@ -18,7 +18,7 @@ Click the "Switch version" button in the top left corner to switch back and fort
 
 ## How it works
 
-1. Create and load a `ServiceGeodatabase` with a feature service URL that has enabled [Version Management](https://developers.arcgis.com/java/latest/guide/use-branch-versioning.htm).
+1. Create and load a `ServiceGeodatabase` with a feature service URL that has enabled [Version Management](https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/overview/publish-branch-versioned-data.htm).
 2. Get the `ServiceFeatureTable` from the service geodatabase.
 3. Create a `FeatureLayer` from the service feature table.
 4. Create `ServiceVersionParameters` with a unique name, `VersionAccess`, and description.
@@ -40,7 +40,7 @@ Click the "Switch version" button in the top left corner to switch back and fort
 
 ## About the data
 
-The feature layer used in this sample is [Damage to commercial buildings](https://sampleserver7.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0) located in Naperville, Illinois.
+The feature layer used in this sample is [Damage to commercial buildings](https://sampleserver7.arcgisonline.com/server/rest/services/DamageAssessment/FeatureServer/0) located in Naperville, Illinois.
 
 ## Additional information
 
@@ -50,7 +50,7 @@ The name of the version must meet the following criteria:
 2. Must not include: Period (.), Semicolon (;), Single quotation mark ('), Double quotation mark (")
 3. Must not include a space for the first character
 
-- Note: the version name will have the username and a period (.) prepended to it. E.g "editor01.MyNewUniqueVersionName"
+**Note**: the version name will have the username and a period (.) prepended to it. E.g "editor01.MyNewUniqueVersionName"
 
 Branch versioning access permission:
 

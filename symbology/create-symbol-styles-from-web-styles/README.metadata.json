@@ -1,0 +1,31 @@
+{
+    "category": "Symbology",
+    "description": "Create symbol styles from a style file hosted on a portal.",
+    "ignore": false,
+    "images": [
+        "CreateSymbolStylesFromWebStyles.png"
+    ],
+    "keywords": [
+        "renderer",
+        "symbol",
+        "symbology",
+        "web style",
+        "FeatureLayer",
+        "Symbol",
+        "SymbolStyle",
+        "UniqueValue",
+        "UniqueValueRenderer"
+    ],
+    "redirect_from": [],
+    "relevant_apis": [
+        "FeatureLayer",
+        "Symbol",
+        "SymbolStyle",
+        "UniqueValue",
+        "UniqueValueRenderer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/create_symbol_styles_from_web_styles/CreateSymbolStylesFromWebStylesSample.java"
+    ],
+    "title": "Create symbol styles from web styles"
+}

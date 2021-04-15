@@ -25,7 +25,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.geoanalysis.LocationViewshed;
-import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
+import com.esri.arcgisruntime.layers.IntegratedMeshLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -63,19 +63,19 @@ public class ViewshedCameraSample extends Application {
       sceneView.setArcGISScene(scene);
 
       // set the camera
-      Camera camera = new Camera(48.3808, -4.49492, 48.2511, 344.488, 74.1212, 0.0);
+      Camera camera = new Camera(41.985, 2.82691, 124.987, 332.131, 82.4732, 0.0);
       sceneView.setViewpointCamera(camera);
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      final String localElevationImageService = "https://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
-      surface.getElevationSources().add(new ArcGISTiledElevationSource(localElevationImageService));
+      final String elevationSourceUri = "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
+      surface.getElevationSources().add(new ArcGISTiledElevationSource(elevationSourceUri));
       scene.setBaseSurface(surface);
 
-      // add a scene layer
-      final String buildings = "https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
-      ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
-      scene.getOperationalLayers().add(sceneLayer);
+      // add an integrated mesh layer (city of Girona, Spain)
+      IntegratedMeshLayer gironaMeshLayer =
+        new IntegratedMeshLayer("https://tiles.arcgis.com/tiles/z2tnIkrLQ2BRzr6P/arcgis/rest/services/Girona_Spain/SceneServer");
+      scene.getOperationalLayers().add(gironaMeshLayer);
 
       // create a viewshed from the camera
       LocationViewshed viewshed = new LocationViewshed(camera, 1.0, 500.0);
