@@ -21,10 +21,6 @@
 
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 
-<?import javafx.scene.layout.Background?>
-<?import javafx.scene.layout.BackgroundFill?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
 <StackPane fx:controller="com.esri.samples.display_device_location_with_nmea_data_sources.DisplayDeviceLocationWithNmeaDataSourcesController" xmlns:fx="http://javafx.com/fxml"
@@ -32,27 +28,13 @@
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <!--Controls box-->
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="350" maxHeight="50" spacing="5" styleClass="panel-region">
-        <padding>
-            <Insets topRightBottomLeft="10"/>
-        </padding>
-        <background>
-            <Background>
-                <fills>
-                    <BackgroundFill>
-                        <fill>
-                            <Color opacity="0.3"/>
-                        </fill>
-                    </BackgroundFill>
-                </fills>
-            </Background>
-        </background>
+    <VBox StackPane.alignment="TOP_LEFT" styleClass="panel-region">
         <Label fx:id="satelliteCount" text="Satellite count: ... "/>
         <Label fx:id="systemInfo" text="System: ... "/>
         <Label fx:id="satelliteID" text="Satellite IDs: ... "/>
         <HBox>
-            <Button fx:id="startButton"/>
-            <Button fx:id="resetButton"/>
+            <Button fx:id="startButton" text="Start" onAction="#start"/>
+            <Button fx:id="stopButton" text="Stop" onAction="#stop"/>
         </HBox>
 
     </VBox>

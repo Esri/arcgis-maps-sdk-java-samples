@@ -12,19 +12,20 @@ The NMEA location data source allows for detailed interrogation of the informati
 
 ## How to use the sample
 
-Click "Start" to parse the NMEA sentences into a simulated location data source, and initiate the location display. Click "Reset" to reset the location display.
+Click "Start" to parse the provided NMEA sentences into a location data source, and display the location position and related satellite information. Click "Stop" to stop displaying the location information. The sample will automatically re-center the location data source as it moves across the map.
 
 ## How it works
 
 1. Load NMEA sentences from a local file.
 2. Parse the NMEA sentence strings, and push data into `NmeaLocationDataSource`.
-3. Set the `NmeaLocationDataSource` to the location display's data source.
+3. Set the `NmeaLocationDataSource` to the `LocationDisplay`'s data source.
 4. Start the location display to begin receiving location and satellite updates.
 
 ## Relevant API
 
-* LocationDisplay - UPDATE
-* NMEALocationDataSource - UPDATE
+* LocationDisplay
+* NmeaLocationDataSource
+* NmeaSatelliteInfo
 
 ## About the data
 

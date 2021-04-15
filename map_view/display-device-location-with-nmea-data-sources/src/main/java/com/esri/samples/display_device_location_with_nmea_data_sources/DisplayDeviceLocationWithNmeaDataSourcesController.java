@@ -17,64 +17,47 @@
 
 package com.esri.samples.display_device_location_with_nmea_data_sources;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
-import com.esri.arcgisruntime.location.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.Polyline;
-import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.location.LocationDataSource.LocationChangedListener;
+import com.esri.arcgisruntime.location.NmeaLocationDataSource;
+import com.esri.arcgisruntime.location.NmeaSatelliteInfo;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
-
-import javafx.util.Duration;
-import org.apache.commons.io.IOUtils;
 
 public class DisplayDeviceLocationWithNmeaDataSourcesController {
 
   @FXML private MapView mapView;
-  private NmeaLocationDataSource nmeaLocationDataSource;
-  private LocationDisplay locationDisplay;
-  private List<NmeaSatelliteInfo> satelliteInfos;
-  private int count = 0;
   @FXML private Label satelliteCount;
-  @FXML private Label systemInfo;
   @FXML private Label satelliteID;
   @FXML private Button startButton;
-  @FXML private Button resetButton;
+  @FXML private Button stopButton;
+  @FXML private Label systemInfo;
+
+  private int count = 0;
+  private NmeaLocationDataSource nmeaLocationDataSource;
+  private List<NmeaSatelliteInfo> nmeaSatelliteInfo;
+  private Timeline timeline;
 
   public void initialize() {
 
@@ -84,25 +67,23 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the dark gray basemap style
+      // create a map with the navigation basemap style and set it to the map view
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_NAVIGATION);
-
-      // create a map view and set the map to it
       mapView.setMap(map);
 
-      // set a viewpoint on the map view centered on Los Angeles, California
+      // set a viewpoint on the map view centered on Redlands, California
       mapView.setViewpoint(new Viewpoint(new Point(-117.191, 34.0306, SpatialReferences.getWgs84()), 100000));
-      // disable mapview interaction, the location display will automatically center on the mock device location
-      mapView.setEnableMousePan(false);
-      mapView.setEnableKeyboardNavigation(false);
 
       // create a new NMEA location data source
       nmeaLocationDataSource = new NmeaLocationDataSource(SpatialReferences.getWgs84());
-      locationDisplay = mapView.getLocationDisplay();
+      // set the NMEA location data source onto the map view's location display
+      LocationDisplay locationDisplay = mapView.getLocationDisplay();
       locationDisplay.setLocationDataSource(nmeaLocationDataSource);
       locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
-
-      start();
+      // disable map view interaction, the location display will automatically center on the mock device location
+      mapView.setEnableMousePan(false);
+      mapView.setEnableKeyboardNavigation(false);
+      stopButton.setDisable(true);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -110,105 +91,59 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
     }
   }
 
+  /**
+   * Initializes the location data source, reads the mock data NMEA sentences, and displays location updates from that file
+   * on the location display. Data is pushed to the data source using a time line to simulate live updates, as they would
+   * appear if using real-time data from a GPS dongle.
+   */
   @FXML
   private void start () {
 
-    // enable receiving NMEA location data from external device
+    // initialize the location data source and prepare to begin receiving location updates when data is pushed. As
+    // updates are received, they will be displayed on the map
     nmeaLocationDataSource.startAsync();
-    // display the user's location
-    locationDisplay.startAsync();
 
-    // load simulated NMEA sentences for sample
+    // prepare the mock data NMEA sentences
     File simulatedNmeaDataFile = new File(System.getProperty("data.dir"), "./samples-data/redlands/Redlands.nmea");
     if (simulatedNmeaDataFile.exists()) {
 
       try  {
-        // read the nmea file contents
-        List<String> lines = Files.readAllLines(simulatedNmeaDataFile.toPath(), StandardCharsets.UTF_8);
+        // read the nmea file contents using a buffered reader and store the mock data sentences in a list
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(simulatedNmeaDataFile.getPath()));
+        String nmeaSentence;
+        List<String> nmeaSentences = new ArrayList<>();
 
-        List<String> sortedLines = new ArrayList<>();
+        while ((nmeaSentence = bufferedReader.readLine()) != null) {
+          // add carriage return for NMEA location data source parser
+          nmeaSentences.add(nmeaSentence + "\n");
+        }
+        // close the stream and release resources
+        bufferedReader.close();
 
-        lines.forEach(line -> {
-          if (line.contains("$GPGGA")) {
-            sortedLines.add(line + "\n");
-          } else {
-            int index = sortedLines.size() - 1;
-            sortedLines.add(index, line + "\n" );
-          }
+        // add a satellite changed listener to the NMEA location data source and display satellite information on the app
+        setupSatelliteChangedListener();
 
-        });
-
-        retrieveSatelliteInformation();
-
-        Timeline timeline = new Timeline();
+        // create a new time line to push the mock data NMEA sentences into the data source every 250 ms
+        timeline = new Timeline();
         timeline.setCycleCount(-1); // loop count
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), event -> {
-          String nmeaLine = lines.get(count);
-          nmeaLocationDataSource.pushData(sortedLines.get(count++).getBytes(StandardCharsets.UTF_8)); // post increment step
-//          System.out.println(nmeaLocationDataSource.addSatellitesChangedListener(););
-//          count++;
-//          System.out.println(count);
-//          System.out.println(nmeaLine);
 
-
-
-//          nmeaLocationDataSource.addLocationChangedListener(locationChangedEvent -> {
-//            LocationDataSource.LocationChangedEvent mLocationChangedEvent = locationChangedEvent;
-//
-//            NmeaLocationDataSource.NmeaLocation location = (NmeaLocationDataSource.NmeaLocation) mLocationChangedEvent.getLocation();
-//
-//            List<NmeaSatelliteInfo> satelliteInfos = location.getSatellites();
-////            System.out.println("Satellite info" + satelliteInfos.get(0).getId());
-//
-//          });
-
-//          System.out.println("Lines " + nmeaLine);
-//          System.out.println("Sorted lines " + sortedLines.get(count));
-
-
-          if (count == sortedLines.size()) count = 0;
+          // note: you can also use real-time NMEA sentences obtained via a GPS dongle
+          nmeaLocationDataSource.pushData(nmeaSentences.get(count++).getBytes(StandardCharsets.UTF_8)); // post increment step
+          // reset the count after the last data point is reached
+          if (count == nmeaSentences.size()) count = 0;
 
         }));
+        // start the time line
         timeline.play();
 
+        startButton.setDisable(true);
+        stopButton.setDisable(false);
 
-
-        System.out.println("Sorted lines " + sortedLines);
-        System.out.println("Lines " + lines);
-
-
-
-//        nmeaLocationDataSource.pushData(lines.get(1).getBytes(StandardCharsets.UTF_8));
-
-
-//        lines.forEach(line -> {
-//          nmeaLocationDataSource.pushData(line.getBytes(StandardCharsets.UTF_8));
-//
-//        });
-//        nmeaData =  lines.collect(Collectors.toList());
-//        System.out.println(nmeaData.size());
-
-//        nmeaLocationDataSource.pushData(nmeaData.get(1).getBytes(StandardCharsets.UTF_8));
       } catch (Exception e) {
+        new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
         e.printStackTrace();
       }
-
-//      String content = Files.readString(simulatedNmeaDataFile.toPath(), StandardCharsets.UTF_8);
-//      List<String> splitStrings = Arrays.asList(content.split("\n").clone());
-//      splitStrings.forEach(line -> {
-//        if (line.startsWith("$GPGGA")) {
-//          nmeaData.add(line + "\n");
-//        } else {
-//          nmeaData.set(nmeaData.size() - 1, (line + "\n"));
-//        }
-//
-//        System.out.println(nmeaData);
-//      });
-
-//      System.out.println(Arrays.toString(content.getBytes(StandardCharsets.UTF_8)));
-//
-//      nmeaLocationDataSource.pushData(content.getBytes(StandardCharsets.UTF_8));
-//
 
     } else {
       new Alert(Alert.AlertType.ERROR, "File not found").show();
@@ -216,32 +151,45 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
 
   }
 
-  private void retrieveSatelliteInformation() {
+  /**
+   * Obtains NMEA satellite information from the NMEA location data source, and displays satellite information on the app.
+   */
+  private void setupSatelliteChangedListener() {
 
-    HashSet<Integer> uniqueValues = new HashSet<>();
+    HashSet<Integer> uniqueSatelliteIds = new HashSet<>();
 
     nmeaLocationDataSource.addSatellitesChangedListener(satellitesChangedEvent -> {
       // get satellite information from the nmea location data source every time the satellites change
-      satelliteInfos = satellitesChangedEvent.getSatelliteInfos();
+      nmeaSatelliteInfo = satellitesChangedEvent.getSatelliteInfos();
+      // set the text of the satellite count label
+      satelliteCount.setText("Satellite count: " + nmeaSatelliteInfo.size());
 
-      satelliteCount.setText("Satellite count: " + satelliteInfos.size());
-
-      for (NmeaSatelliteInfo satInfo : satelliteInfos) {
-
+      for (NmeaSatelliteInfo satInfo : nmeaSatelliteInfo) {
         // collect unique satellite ids
-        uniqueValues.add(satInfo.getId());
+        uniqueSatelliteIds.add(satInfo.getId());
         // sort the ids numerically
-        List<Integer> sorted = new ArrayList<>(uniqueValues);
+        List<Integer> sorted = new ArrayList<>(uniqueSatelliteIds);
         Collections.sort(sorted);
         // display the satellite system and id information
         systemInfo.setText("System: " + satInfo.getSystem());
-        satelliteID.setText("Satellite IDs " + sorted);
+        satelliteID.setText("Satellite IDs: " + sorted);
       }
     });
-
-
   }
 
+  /**
+   * Stops displaying the mock data location, stops receiving location data, and stops the time line.
+   */
+  @FXML
+  private void stop() {
+
+    // stop receiving and displaying location data
+    nmeaLocationDataSource.stop();
+    // stop the time line
+    timeline.stop();
+    stopButton.setDisable(true);
+    startButton.setDisable(false);
+  }
 
   /**
    * Disposes application resources.
@@ -251,6 +199,5 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
       mapView.dispose();
     }
   }
-
 
 }
