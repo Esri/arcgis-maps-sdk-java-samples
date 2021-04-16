@@ -100,6 +100,8 @@ public class DisplayUtilityAssociationsSample extends Application {
       UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
       utilityNetwork.setCredential(userCredential);
 
+      // add the utility network to the map before loading
+      map.getUtilityNetworks().add(utilityNetwork);
       // load the utility network and get all of the edges and junctions in the network
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
