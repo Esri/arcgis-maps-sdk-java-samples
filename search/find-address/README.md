@@ -26,6 +26,10 @@ Select an entry from the drop-down menu at the top left of the screen to zoom to
 * GeocodeResult
 * LocatorTask
 
+## About the data
+
+This sample uses the [World Geocoding Service](https://www.arcgis.com/home/item.html?id=305f2e55e67f4389bef269669fc2e284).
+
 ## Tags
 
 address, geocode, locator, search
