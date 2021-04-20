@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -76,10 +77,12 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
 
       // create a new NMEA location data source
       nmeaLocationDataSource = new NmeaLocationDataSource(SpatialReferences.getWgs84());
+
       // set the NMEA location data source onto the map view's location display
       LocationDisplay locationDisplay = mapView.getLocationDisplay();
       locationDisplay.setLocationDataSource(nmeaLocationDataSource);
       locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+
       // disable map view interaction, the location display will automatically center on the mock device location
       mapView.setEnableMousePan(false);
       mapView.setEnableKeyboardNavigation(false);
@@ -93,7 +96,7 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
 
   /**
    * Initializes the location data source, reads the mock data NMEA sentences, and displays location updates from that file
-   * on the location display. Data is pushed to the data source using a time line to simulate live updates, as they would
+   * on the location display. Data is pushed to the data source using a timeline to simulate live updates, as they would
    * appear if using real-time data from a GPS dongle.
    */
   @FXML
@@ -107,23 +110,19 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
     File simulatedNmeaDataFile = new File(System.getProperty("data.dir"), "./samples-data/redlands/Redlands.nmea");
     if (simulatedNmeaDataFile.exists()) {
 
-      try  {
+      try {
         // read the nmea file contents using a buffered reader and store the mock data sentences in a list
         BufferedReader bufferedReader = new BufferedReader(new FileReader(simulatedNmeaDataFile.getPath()));
-        String nmeaSentence;
-        List<String> nmeaSentences = new ArrayList<>();
+        // add carriage return for NMEA location data source parser
+        List<String> nmeaSentences = bufferedReader.lines().map(nmeaSentence -> nmeaSentence + "\n").collect(Collectors.toList());
 
-        while ((nmeaSentence = bufferedReader.readLine()) != null) {
-          // add carriage return for NMEA location data source parser
-          nmeaSentences.add(nmeaSentence + "\n");
-        }
         // close the stream and release resources
         bufferedReader.close();
 
         // add a satellite changed listener to the NMEA location data source and display satellite information on the app
         setupSatelliteChangedListener();
 
-        // create a new time line to push the mock data NMEA sentences into the data source every 250 ms
+        // create a new timeline to push the mock data NMEA sentences into the data source every 250 ms
         timeline = new Timeline();
         timeline.setCycleCount(-1); // loop count
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), event -> {
@@ -134,7 +133,8 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
           if (count == nmeaSentences.size()) count = 0;
 
         }));
-        // start the time line
+
+        // start the timeline
         timeline.play();
 
         startButton.setDisable(true);
@@ -159,7 +159,8 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
     HashSet<Integer> uniqueSatelliteIds = new HashSet<>();
 
     nmeaLocationDataSource.addSatellitesChangedListener(satellitesChangedEvent -> {
-      // get satellite information from the nmea location data source every time the satellites change
+
+      // get satellite information from the NMEA location data source every time the satellites change
       nmeaSatelliteInfo = satellitesChangedEvent.getSatelliteInfos();
       // set the text of the satellite count label
       satelliteCount.setText("Satellite count: " + nmeaSatelliteInfo.size());
@@ -178,14 +179,15 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
   }
 
   /**
-   * Stops displaying the mock data location, stops receiving location data, and stops the time line.
+   * Stops displaying the mock data location, stops receiving location data, and stops the timeline.
    */
   @FXML
   private void stop() {
 
     // stop receiving and displaying location data
     nmeaLocationDataSource.stop();
-    // stop the time line
+
+    // stop the timeline
     timeline.stop();
     stopButton.setDisable(true);
     startButton.setDisable(false);
