@@ -11,7 +11,9 @@
         "LERC",
         "surface",
         "terrain",
-        "tile cache"
+        "tile cache",
+        "ArcGISTiledElevationSource",
+        "Surface"
     ],
     "redirect_from": [
         "/java/latest/sample-code/create-terrain-from-a-local-tile-package.htm"
