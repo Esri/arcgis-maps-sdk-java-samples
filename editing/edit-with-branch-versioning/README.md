@@ -45,6 +45,7 @@ The feature layer used in this sample is [Damage to commercial buildings](https:
 ## Additional information
 
 Credentials:
+
 * Username: editor01
 * Passowrd: S7#i2LWmYH75
 

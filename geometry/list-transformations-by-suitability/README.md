@@ -10,7 +10,7 @@ Transformations (sometimes known as datum or geographic transformations) are use
 
 ## How to use the sample
 
-Select a transformation from the list and click 'Transform' to see the result of projecting the point from EPSG:27700 to EPSG:3857 using that transformation. The result is shown as a red cross; you can visually compare the original blue point with the projected red cross. 
+Select a transformation from the list and click 'Transform' to see the result of projecting the point from EPSG:27700 to EPSG:3857 using that transformation. The result is shown as a red cross; you can visually compare the original blue point with the projected red cross.
 
 Select 'Order by extent suitability' to limit the transformations that are appropriate for the current extent.
 
@@ -27,6 +27,10 @@ If the selected transformation is not usable (has missing grid files) then an er
 * GeometryEngine
 * TransformationCatalog
 
+## About the data
+
+The map starts out zoomed into the grounds of the Royal Observatory, Greenwich. The initial point is in the [British National Grid](https://epsg.io/27700) spatial reference, which was created by the United Kingdom Ordnance Survey. The spatial reference after projection is in [web mercator](https://epsg.io/3857).
+
 ## Additional information
 
 Some transformations aren't available until transformation data is provided.
@@ -36,15 +40,12 @@ Some transformations aren't available until transformation data is provided.
 This sample can be used with or without provisioning projection engine data to your device. If you do not provision data, a limited number of transformations will be available.
 
 To download projection engine data to your device:
+
 1. Log in to the [ArcGIS for Developers site](https://developers.arcgis.com/sign-in/) using your Developer account.
 2. In the Dashboard page, click '[Download APIs and SDKs](https://developers.arcgis.com/downloads/data)' and go to the `Supplemental ArcGIS Runtime Data` tab.
 3. Click the download button next to `Projection Engine Data` to download projection engine data to your computer.
 4. Unzip the downloaded data on your computer.
 5. Create an `~/ArcGIS/Runtime/Data/PEDataRuntime` directory on your device and copy the files to this directory.
-
-## About the data
-
-The map starts out zoomed into the grounds of the Royal Observatory, Greenwich. The initial point is in the [British National Grid](https://epsg.io/27700) spatial reference, which was created by the United Kingdom Ordnance Survey. The spatial reference after projection is in [web mercator](https://epsg.io/3857).
 
 ## Tags
 

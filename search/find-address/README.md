@@ -10,7 +10,7 @@ A user can input a raw address into your app's search bar and zoom to the addres
 
 ## How to use the sample
 
-Select an entry from the drop-down menu at the top left of the screen to zoom to the address, marked with a pin. 
+Select an entry from the drop-down menu at the top left of the screen to zoom to the address, marked with a pin.
 
 ## How it works
 

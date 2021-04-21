@@ -22,9 +22,9 @@ Click "Load Layer" to add a feature layer to the map. The current view status of
 ## Relevant API
 
 * ArcGISMap
-* LayerViewStatus
 * LayerViewStateChangedEvent
 * LayerViewStateChangedListener
+* LayerViewStatus
 * MapView
 
 ## About the data
