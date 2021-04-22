@@ -4,11 +4,11 @@ rootProject.name = 'local-server-geoprocessing'
 def ant = new groovy.util.AntBuilder()
 
 if (!file("./samples-data").exists()) {
-            file("./samples-data/local_server").mkdirs()
-            ant.get(
-                    src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f7c7b4a30fb9415896ba0d1921fe014b/data",
-                    dest: file("./samples-data/local_server/RasterHillshade.tpk")
-            )
+    file("./samples-data/local_server").mkdirs()
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f7c7b4a30fb9415896ba0d1921fe014b/data",
+            dest: file("./samples-data/local_server/RasterHillshade.tpk")
+    )
 
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a9788a0e8ef241ec89182f87f6967ec9/data",
