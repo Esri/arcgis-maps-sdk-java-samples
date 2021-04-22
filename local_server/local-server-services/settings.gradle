@@ -35,14 +35,9 @@ if (!file("./samples-data").exists()) {
     delete file("./c.zip")
 
     ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/9053a46b205142f0864682d5152642b5/data",
-            dest: file("./d.zip")
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f7c7b4a30fb9415896ba0d1921fe014b/data",
+            dest: file("./samples-data/local_server/RasterHillshade.tpk")
     )
-    ant.unzip(
-            src: file("./d.zip"),
-            dest: file("./samples-data/local_server")
-    )
-    delete file("./d.zip")
 
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a9788a0e8ef241ec89182f87f6967ec9/data",
