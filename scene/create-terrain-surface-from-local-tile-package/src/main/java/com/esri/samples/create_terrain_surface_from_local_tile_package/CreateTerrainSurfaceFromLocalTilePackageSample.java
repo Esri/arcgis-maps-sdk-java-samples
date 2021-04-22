@@ -58,9 +58,9 @@ public class CreateTerrainSurfaceFromLocalTilePackageSample extends Application 
       sceneView.setArcGISScene(scene);
       stackPane.getChildren().add(sceneView);
 
-      // create an elevation source from the local LERC encoded tile package
+      // create an elevation source from the local CompactV2 (.tpkx) tile package
       ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource(
-          new File(System.getProperty("data.dir"), "./samples-data/monterey_elevation/MontereyElevation.tpk"
+          new File(System.getProperty("data.dir"), "./samples-data/monterey_elevation/MontereyElevation.tpkx"
       ).getAbsolutePath());
 
       // create a surface, adding the elevation source
