@@ -76,7 +76,7 @@ public class IdentifyKMLFeaturesSample extends Application {
       mapView.setViewpointGeometryAsync(new Envelope(-19195297.778679, 512343.939994, -3620418.579987, 8658913.035426, 0.0, 0.0, SpatialReferences.getWebMercator()));
 
       // create a KML dataset of weather forecasts
-      KmlDataset forecastDataset = new KmlDataset("https://www.wpc.ncep.noaa.gov/kml/noaa_chart/WPC_Day1_SigWx.kml");
+      KmlDataset forecastDataset = new KmlDataset("https://www.wpc.ncep.noaa.gov/kml/noaa_chart/WPC_Day1_SigWx_latest.kml");
 
       // create a KML layer and add it as an operational layer
       KmlLayer forecastLayer = new KmlLayer(forecastDataset);
@@ -99,6 +99,13 @@ public class IdentifyKMLFeaturesSample extends Application {
                 if (geoElement instanceof KmlPlacemark) {
                   // show a callout at the placemark with custom content using the placemark's "balloon content"
                   KmlPlacemark placemark = (KmlPlacemark) geoElement;
+
+                  // Google Earth only displays the placemarks with description or extended data. To
+                  // match its behavior, add a description placeholder if the data source is empty
+                  if (placemark.getDescription().isEmpty()) {
+                    placemark.setDescription("Weather condition");
+                  }
+
                   VBox vBox = new VBox();
                   WebView webView = new WebView();
                   webView.setMaxSize(400, 100);
