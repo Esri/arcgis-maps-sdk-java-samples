@@ -1,6 +1,6 @@
 # Viewshed location
 
-Perform a viewshed analysis from a defined vantage point. 
+Perform a viewshed analysis from a defined vantage point.
 
 ![Image of viewshed location](ViewshedLocation.png)
 
@@ -15,7 +15,7 @@ Use the sliders to change the properties (heading, pitch, etc.), of the viewshed
 ## How it works
 
 1. Create a `LocationViewshed` passing in the observer location, heading, pitch, horizontal/vertical angles, and min/max distances.
-2. Set the property values on the viewshed instance for location, direction, range, and visibility properties. 
+2. Set the property values on the viewshed instance for location, direction, range, and visibility properties.
 
 ## Relevant API
 
@@ -31,4 +31,4 @@ The scene shows a [buildings layer in Brest, France](https://tiles.arcgis.com/ti
 
 ## Tags
 
-3D, frustum, Scene, viewshed, visibility analysis
+3D, frustum, scene, viewshed, visibility analysis
