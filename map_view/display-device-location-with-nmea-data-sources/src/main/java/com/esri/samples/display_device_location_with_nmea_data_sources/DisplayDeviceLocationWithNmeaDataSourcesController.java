@@ -100,11 +100,7 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
    * appear if using real-time data from a GPS dongle.
    */
   @FXML
-  private void start () {
-
-    // initialize the location data source and prepare to begin receiving location updates when data is pushed. As
-    // updates are received, they will be displayed on the map
-    nmeaLocationDataSource.startAsync();
+  private void start() {
 
     // prepare the mock data NMEA sentences
     File simulatedNmeaDataFile = new File(System.getProperty("data.dir"), "./samples-data/redlands/Redlands.nmea");
@@ -118,6 +114,10 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
 
         // close the stream and release resources
         bufferedReader.close();
+
+        // initialize the location data source and prepare to begin receiving location updates when data is pushed. As
+        // updates are received, they will be displayed on the map
+        nmeaLocationDataSource.startAsync();
 
         // add a satellite changed listener to the NMEA location data source and display satellite information on the app
         setupSatelliteChangedListener();
@@ -148,7 +148,7 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
     } else {
       new Alert(Alert.AlertType.ERROR, "File not found").show();
     }
-
+    
   }
 
   /**
@@ -169,11 +169,11 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
         // collect unique satellite ids
         uniqueSatelliteIds.add(satInfo.getId());
         // sort the ids numerically
-        List<Integer> sorted = new ArrayList<>(uniqueSatelliteIds);
-        Collections.sort(sorted);
+        List<Integer> sortedIds = new ArrayList<>(uniqueSatelliteIds);
+        Collections.sort(sortedIds);
         // display the satellite system and id information
         systemInfo.setText("System: " + satInfo.getSystem());
-        satelliteID.setText("Satellite IDs: " + sorted);
+        satelliteID.setText("Satellite IDs: " + sortedIds);
       }
     });
   }
@@ -198,6 +198,7 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
    */
   void terminate() {
     if (mapView != null) {
+      nmeaLocationDataSource.stop();
       mapView.dispose();
     }
   }
