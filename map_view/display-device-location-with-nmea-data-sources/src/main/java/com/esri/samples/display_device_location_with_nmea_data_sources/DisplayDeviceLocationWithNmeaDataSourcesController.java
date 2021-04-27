@@ -119,26 +119,34 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
         // updates are received, they will be displayed on the map
         nmeaLocationDataSource.startAsync();
 
-        // add a satellite changed listener to the NMEA location data source and display satellite information on the app
-        setupSatelliteChangedListener();
+        nmeaLocationDataSource.addStartedListener(() -> {
 
-        // create a new timeline to push the mock data NMEA sentences into the data source every 250 ms
-        timeline = new Timeline();
-        timeline.setCycleCount(-1); // loop count
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), event -> {
+          if (nmeaLocationDataSource.isStarted()) {
 
-          // note: you can also use real-time NMEA sentences obtained via a GPS dongle
-          nmeaLocationDataSource.pushData(nmeaSentences.get(count++).getBytes(StandardCharsets.UTF_8)); // post increment step
-          // reset the count after the last data point is reached
-          if (count == nmeaSentences.size()) count = 0;
+            // add a satellite changed listener to the NMEA location data source and display satellite information on the app
+            setupSatelliteChangedListener();
 
-        }));
+            // create a new timeline to push the mock data NMEA sentences into the data source every 250 ms
+            timeline = new Timeline();
+            timeline.setCycleCount(-1); // loop count
+            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), event -> {
 
-        // start the timeline
-        timeline.play();
+              // note: you can also use real-time NMEA sentences obtained via a GPS dongle
+              nmeaLocationDataSource.pushData(nmeaSentences.get(count++).getBytes(StandardCharsets.UTF_8)); // post increment step
+              // reset the count after the last data point is reached
+              if (count == nmeaSentences.size()) count = 0;
 
-        startButton.setDisable(true);
-        stopButton.setDisable(false);
+            }));
+
+            // start the timeline
+            timeline.play();
+
+            startButton.setDisable(true);
+            stopButton.setDisable(false);
+
+          }
+
+      });
 
       } catch (Exception e) {
         new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
@@ -148,7 +156,7 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
     } else {
       new Alert(Alert.AlertType.ERROR, "File not found").show();
     }
-    
+
   }
 
   /**
