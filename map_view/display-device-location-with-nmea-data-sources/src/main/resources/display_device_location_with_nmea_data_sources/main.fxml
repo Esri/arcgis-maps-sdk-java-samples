@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+
+<StackPane fx:controller="com.esri.samples.display_device_location_with_nmea_data_sources.DisplayDeviceLocationWithNmeaDataSourcesController" xmlns:fx="http://javafx.com/fxml"
+           stylesheets="/display_device_location_with_nmea_data_sources/style.css">
+    <!--SDK MapView-->
+    <MapView fx:id="mapView"/>
+    <!--Controls box-->
+    <VBox StackPane.alignment="TOP_LEFT" styleClass="panel-region">
+        <Label fx:id="satelliteCount" text="Satellite count: ... "/>
+        <Label fx:id="systemInfo" text="System: ... "/>
+        <Label fx:id="satelliteID" text="Satellite IDs: ... "/>
+        <HBox>
+            <Button fx:id="startButton" text="Start" onAction="#start"/>
+            <Button fx:id="stopButton" text="Stop" onAction="#stop"/>
+        </HBox>
+    </VBox>
+</StackPane>
