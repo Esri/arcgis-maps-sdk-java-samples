@@ -6,7 +6,7 @@ Some samples require you to configure your own portal for authentication. This p
 Login to your [ArcGIS Developers site](http://developers.arcgis.com) account and [register](https://developers.arcgis.com/applications/#/new/) an app.
 
 ### Portal URL
-For an app registered and hosted on ArcGIS.com, use `http://www.arcgis.com/` as the portal URL.
+For an app registered and hosted on ArcGIS.com, use `https://www.arcgis.com/` as the portal URL.
 
 ### Client ID
 Once registered, select the Authentication tab to get your **Client ID**.
