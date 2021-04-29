@@ -5,10 +5,16 @@ def ant = new groovy.util.AntBuilder()
 
 if (!file("./samples-data").exists()) {
     file("./samples-data/local_server").mkdirs()
+
     ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f7c7b4a30fb9415896ba0d1921fe014b/data",
-            dest: file("./samples-data/local_server/RasterHillshade.tpk")
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/3f38e1ae7c5948cc95334ba3a142a4ec/data",
+            dest: file("./a.zip")
     )
+    ant.unzip(
+            src: file("./a.zip"),
+            dest: file("./samples-data/local_server")
+    )
+    delete file("./a.zip")
 
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a680362d6a7447e8afe2b1eb85fcde30/data",
