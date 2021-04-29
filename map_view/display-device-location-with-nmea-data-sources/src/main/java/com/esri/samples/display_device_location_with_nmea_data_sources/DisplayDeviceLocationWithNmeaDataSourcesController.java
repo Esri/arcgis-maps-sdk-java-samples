@@ -201,10 +201,12 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
   @FXML
   private void stop() {
 
-    // stop receiving and displaying location data
-    nmeaLocationDataSource.stop();
     // stop the timeline
     timeline.stop();
+
+    // stop receiving and displaying location data
+    nmeaLocationDataSource.stop();
+
     stopButton.setDisable(true);
     startButton.setDisable(false);
 
