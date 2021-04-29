@@ -7,22 +7,18 @@ if (!file("./samples-data").exists()) {
     file("./samples-data/local_server").mkdirs()
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/3f38e1ae7c5948cc95334ba3a142a4ec/data",
-            dest: file("./a.zip")
+            dest: file("./data.zip")
     )
     ant.unzip(
-            src: file("./a.zip"),
+            src: file("./data.zip"),
             dest: file("./samples-data/local_server")
     )
 
-    delete file("./a.zip")
+    delete file("./data.zip")
 
     ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a9788a0e8ef241ec89182f87f6967ec9/data",
-            dest: file("./contour.zip")
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a680362d6a7447e8afe2b1eb85fcde30/data",
+            dest: file("./samples-data/local_server/Contour.gpkx")
     )
-    ant.unzip(
-            src: file("./contour.zip"),
-            dest: file("./samples-data/local_server")
-    )
-    delete file("./contour.zip")
+
 }
