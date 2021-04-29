@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.esri.arcgisruntime.location.LocationDataSource;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -115,38 +116,46 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
         // close the stream and release resources
         bufferedReader.close();
 
+        LocationDataSource.StatusChangedListener listener = new LocationDataSource.StatusChangedListener() {
+          @Override
+          public void statusChanged(LocationDataSource.StatusChangedEvent statusChangedEvent) {
+            // check that the location data source has started
+            if (statusChangedEvent.getStatus() == LocationDataSource.Status.STARTED) {
+
+              // add a satellite changed listener to the NMEA location data source and display satellite information on the app
+              setupSatelliteChangedListener();
+
+              // create a new timeline
+              timeline = new Timeline();
+              timeline.setCycleCount(-1); // loop count
+              // push the mock data NMEA sentences into the data source every 250 ms
+              timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), event -> {
+
+                // note: you can also use real-time NMEA sentences obtained via a GPS dongle
+                nmeaLocationDataSource.pushData(nmeaSentences.get(count++).getBytes(StandardCharsets.UTF_8)); // post increment step
+                // reset the count after the last data point is reached
+                if (count == nmeaSentences.size()) {
+                  count = 0;
+                }
+
+              }));
+
+              // start the timeline
+              timeline.play();
+              // handle UI interactions
+              startButton.setDisable(true);
+              stopButton.setDisable(false);
+
+              nmeaLocationDataSource.removeStatusChangedListener(this);
+
+            }
+          }
+        };
+
         // initialize the location data source and prepare to begin receiving location updates when data is pushed. As
         // updates are received, they will be displayed on the map
+        nmeaLocationDataSource.addStatusChangedListener(listener);
         nmeaLocationDataSource.startAsync();
-
-        nmeaLocationDataSource.addStartedListener(() -> {
-
-          if (nmeaLocationDataSource.isStarted()) {
-
-            // add a satellite changed listener to the NMEA location data source and display satellite information on the app
-            setupSatelliteChangedListener();
-
-            // create a new timeline to push the mock data NMEA sentences into the data source every 250 ms
-            timeline = new Timeline();
-            timeline.setCycleCount(-1); // loop count
-            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), event -> {
-
-              // note: you can also use real-time NMEA sentences obtained via a GPS dongle
-              nmeaLocationDataSource.pushData(nmeaSentences.get(count++).getBytes(StandardCharsets.UTF_8)); // post increment step
-              // reset the count after the last data point is reached
-              if (count == nmeaSentences.size()) count = 0;
-
-            }));
-
-            // start the timeline
-            timeline.play();
-
-            startButton.setDisable(true);
-            stopButton.setDisable(false);
-
-          }
-
-      });
 
       } catch (Exception e) {
         new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
@@ -194,11 +203,11 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
 
     // stop receiving and displaying location data
     nmeaLocationDataSource.stop();
-
     // stop the timeline
     timeline.stop();
     stopButton.setDisable(true);
     startButton.setDisable(false);
+
   }
 
   /**
