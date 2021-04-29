@@ -281,7 +281,9 @@ public class EditFeatureAttachmentsSample extends Application {
           if (!edits.get(0).hasCompletedWithErrors()) {
             displayMessage(null, "Edited feature successfully");
           } else {
-            throw edits.get(0).getError();
+            if (edits.get(0).getError() != null) {
+              throw edits.get(0).getError();
+            }
           }
         }
         // update the displayed list of attachments

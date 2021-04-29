@@ -94,7 +94,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
 
       // create a raster layer from the image service raster
       ImageServiceRaster imageServiceRaster = new ImageServiceRaster(
-        "https://sampleserver7.arcgisonline.com/arcgis/rest/services/amberg_germany/ImageServer");
+        "https://sampleserver7.arcgisonline.com/server/rest/services/amberg_germany/ImageServer");
       RasterLayer rasterLayer = new RasterLayer(imageServiceRaster);
 
       // add a raster layer as an operational layer to the map

@@ -9,6 +9,7 @@ if (!file("./samples-data").exists()) {
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f7c7b4a30fb9415896ba0d1921fe014b/data",
             dest: file("./samples-data/local_server/RasterHillshade.tpk")
     )
+
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a680362d6a7447e8afe2b1eb85fcde30/data",
             dest: file("./samples-data/local_server/Contour.gpkx")
