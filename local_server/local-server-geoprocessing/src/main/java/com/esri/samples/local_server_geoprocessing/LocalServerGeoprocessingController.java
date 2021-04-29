@@ -77,7 +77,7 @@ public class LocalServerGeoprocessingController {
       mapView.setMap(map);
 
       //load tiled layer and zoom to location
-      String rasterURL = new File(System.getProperty("data.dir"), "./samples-data/local_server/RasterHillshade.tpkx").getAbsolutePath();
+      String rasterURL = new File(System.getProperty("data.dir"), "./samples-data/local_server/RasterHillshade.tpk").getAbsolutePath();
       TileCache tileCache = new TileCache(rasterURL);
       tiledLayer = new ArcGISTiledLayer(tileCache);
       tiledLayer.loadAsync();
@@ -108,20 +108,13 @@ public class LocalServerGeoprocessingController {
             }
 
             localGPService.addStatusChangedListener(s -> {
-              System.out.println(localGPService.getStatus());
               // create geoprocessing task once local geoprocessing service is started 
               if (s.getNewStatus() == LocalServerStatus.STARTED) {
-                System.out.println("local server status started");
                 // add `/Contour` to use contour geoprocessing tool 
                 gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Contour");
                 btnClear.disableProperty().bind(btnGenerate.disabledProperty().not());
                 btnGenerate.setDisable(false);
                 progressBar.setVisible(false);
-              } else {
-                if (localGPService.getError() != null) {
-                  System.out.println(localGPService.getError().getMessage());
-                  System.out.println(localGPService.getError().getAdditionalMessage());
-                }
               }
             });
             localGPService.startAsync();
