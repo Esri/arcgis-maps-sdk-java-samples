@@ -27,7 +27,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.esri.arcgisruntime.location.LocationDataSource;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -39,6 +38,7 @@ import javafx.util.Duration;
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.location.LocationDataSource;
 import com.esri.arcgisruntime.location.NmeaLocationDataSource;
 import com.esri.arcgisruntime.location.NmeaSatelliteInfo;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
