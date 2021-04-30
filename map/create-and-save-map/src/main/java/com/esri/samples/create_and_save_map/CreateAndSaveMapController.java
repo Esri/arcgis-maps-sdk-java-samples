@@ -62,7 +62,7 @@ public class CreateAndSaveMapController {
   @FXML
   private ComboBox<PortalFolder> folderList;
   @FXML
-  private ListView<BasemapStyle> basemapStyleListView;
+  private ListView<Basemap> basemapListView;
   @FXML
   private ListView<Layer> layersList;
   @FXML
@@ -80,22 +80,22 @@ public class CreateAndSaveMapController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // set the basemap style options
-    basemapStyleListView.getItems().addAll(
-      BasemapStyle.ARCGIS_STREETS,
-      BasemapStyle.ARCGIS_IMAGERY_STANDARD,
-      BasemapStyle.ARCGIS_TOPOGRAPHIC,
-      BasemapStyle.ARCGIS_OCEANS);
+    // set the basemap options
+    basemapListView.getItems().addAll(
+      new Basemap(BasemapStyle.ARCGIS_STREETS),
+      new Basemap(BasemapStyle.ARCGIS_IMAGERY_STANDARD),
+      new Basemap(BasemapStyle.ARCGIS_TOPOGRAPHIC),
+      new Basemap(BasemapStyle.ARCGIS_OCEANS));
 
-    basemapStyleListView.setCellFactory(c -> new BasemapCell());
+    basemapListView.setCellFactory(c -> new BasemapCell());
 
     // update the basemap when the selection changes
-    basemapStyleListView.getSelectionModel().select(0);
-    basemapStyleListView.getSelectionModel().selectedItemProperty()
-      .addListener(o -> map.setBasemap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem())));
+    basemapListView.getSelectionModel().select(0);
+    basemapListView.getSelectionModel().selectedItemProperty()
+      .addListener(o -> map.setBasemap(basemapListView.getSelectionModel().getSelectedItem()));
 
     // create a basemap with the first basemap style option and set it to the map
-    Basemap basemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
+    Basemap basemap = basemapListView.getSelectionModel().getSelectedItem();
     map = new ArcGISMap(basemap);
     mapView.setMap(map);
 
@@ -182,12 +182,12 @@ public class CreateAndSaveMapController {
   /**
    * Shows a BasemapStyle title in a ListView.
    */
-  private class BasemapCell extends ListCell<BasemapStyle> {
+  private class BasemapCell extends ListCell<Basemap> {
 
     @Override
-    protected void updateItem(BasemapStyle basemapStyle, boolean empty) {
-      super.updateItem(basemapStyle, empty);
-      setText(empty || basemapStyle == null ? null : basemapStyle.name());
+    protected void updateItem(Basemap basemap, boolean empty) {
+      super.updateItem(basemap, empty);
+      setText(empty || basemap == null ? null : basemap.getName());
       setGraphic(null);
     }
   }
