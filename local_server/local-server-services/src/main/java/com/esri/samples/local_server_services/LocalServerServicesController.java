@@ -93,7 +93,7 @@ public class LocalServerServicesController {
     packageChooser = new FileChooser();
     packagePath.textProperty().bind(packageChooser.initialFileNameProperty());
     packageChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/local_server"));
-    packageChooser.setInitialFileName(packageChooser.getInitialDirectory().getAbsolutePath() + "/PointsOfInterest.mpk");
+    packageChooser.setInitialFileName(packageChooser.getInitialDirectory().getAbsolutePath() + "/PointsOfInterest.mpkx");
 
     // create filters to choose files for specific services
     ExtensionFilter mpkFilter = new ExtensionFilter("Map Packages (*.mpk, *.mpkx)", "*.mpk", "*.mpkx");
