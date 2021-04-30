@@ -88,8 +88,8 @@ public class LocalServerFeatureLayerSample extends Application {
         server.addStatusChangedListener(status -> {
           if (server.getStatus() == LocalServerStatus.STARTED) {
             // start feature service
-            File mpkFile = new File(System.getProperty("data.dir"), "./samples-data/local_server/PointsofInterest.mpk");
-            featureService = new LocalFeatureService(mpkFile.getAbsolutePath());
+            File mpkxFile = new File(System.getProperty("data.dir"), "./samples-data/local_server/PointsofInterest.mpkx");
+            featureService = new LocalFeatureService(mpkxFile.getAbsolutePath());
             featureService.addStatusChangedListener(this::addLocalFeatureLayer);
             featureService.startAsync();
           }

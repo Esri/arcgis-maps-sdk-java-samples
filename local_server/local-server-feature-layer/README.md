@@ -19,7 +19,7 @@ A Local Server and Local Feature Service will automatically be started. Once sta
 3. Wait for server to be in the  `LocalServerStatus.STARTED` state.
     * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
 4. Create and run a local feature service.
-    1. Instantiate `LocalFeatureService(Url)` to create a local feature service with the given url path to mpk file.
+    1. Instantiate `LocalFeatureService(Url)` to create a local feature service with the given url path to mpkx file.
     2. Start the service asynchronously with `LocalFeatureService.startAsync()`.
         * The service will be added to the local server automatically.
 5. Wait for state of the feature service to be `LocalServerStatus.STARTED`.
@@ -43,9 +43,9 @@ A Local Server and Local Feature Service will automatically be started. Once sta
 
 Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server is not supported on macOS.
 
-Specific versions of ArcGIS Runtime Local Server are compatible with the version of ArcGIS Pro you use to create geoprocessing and map packages. For example, the ArcGIS Runtime API for Java v100.10.0 is configured for Local Server v100.10.0 which provides compatibility for packages created with ArcGIS Pro 2.7.x. For more information see the [ArcGIS Developers guide](https://developers.arcgis.com/java/reference/system-requirements/#local-server-version-compatibility-with-arcgis-desktop-and-arcgis-pro).
+Specific versions of ArcGIS Runtime Local Server are compatible with the version of ArcGIS Pro you use to create geoprocessing and map packages. For example, the ArcGIS Runtime API for Java v100.11.0 is configured for Local Server v100.10.0 which provides compatibility for packages created with ArcGIS Pro 2.7.x. For more information see the [ArcGIS Developers guide](https://developers.arcgis.com/java/reference/system-requirements/#local-server-version-compatibility-with-arcgis-desktop-and-arcgis-pro).
 
-To configure the ArcGIS Runtime API for Java v100.10.0 to work with Local Server 100.9.0:
+To configure the ArcGIS Runtime API for Java v100.11.0 to work with Local Server 100.9.0:
 
 * Development machine:
     * Locate the Local Server installation directory and rename the folder from `LocalServer100.9` to `LocalServer100.10`.
