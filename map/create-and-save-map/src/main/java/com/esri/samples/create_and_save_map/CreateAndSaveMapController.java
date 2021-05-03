@@ -90,14 +90,15 @@ public class CreateAndSaveMapController {
     basemapStyleListView.setCellFactory(c -> new BasemapCell());
 
     // update the basemap when the selection changes
-    basemapStyleListView.getSelectionModel().select(0);
     basemapStyleListView.getSelectionModel().selectedItemProperty()
-      .addListener(o -> map.setBasemap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem())));
+      .addListener(o -> {
+        // create a map from the selected basemap style and set it to the map view
+        map = new ArcGISMap(basemapStyleListView.getSelectionModel().getSelectedItem());
+        mapView.setMap(map);
+      });
 
-    // create a basemap with the first basemap style option and set it to the map
-    Basemap basemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
-    map = new ArcGISMap(basemap);
-    mapView.setMap(map);
+    // select the first basemap style from the list to display on the map
+    basemapStyleListView.getSelectionModel().selectFirst();
 
     // set operational layer options
     ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(
@@ -119,7 +120,7 @@ public class CreateAndSaveMapController {
     layersList.setCellFactory(c -> new LayerCell());
 
     // set portal folder title converter
-    folderList.setConverter(new StringConverter<PortalFolder>() {
+    folderList.setConverter(new StringConverter<>() {
 
       @Override
       public String toString(PortalFolder folder) {
@@ -182,7 +183,7 @@ public class CreateAndSaveMapController {
   /**
    * Shows a BasemapStyle title in a ListView.
    */
-  private class BasemapCell extends ListCell<BasemapStyle> {
+  private static class BasemapCell extends ListCell<BasemapStyle> {
 
     @Override
     protected void updateItem(BasemapStyle basemapStyle, boolean empty) {
@@ -195,7 +196,7 @@ public class CreateAndSaveMapController {
   /**
    * Shows a Layer title in a ListView.
    */
-  private class LayerCell extends ListCell<Layer> {
+  private static class LayerCell extends ListCell<Layer> {
 
     @Override
     protected void updateItem(Layer layer, boolean empty) {
