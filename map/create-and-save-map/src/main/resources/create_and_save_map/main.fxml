@@ -65,7 +65,7 @@
             <ComboBox fx:id="folderList"/>
         </VBox>
         <VBox>
-            <Label text="Basemap"/>
+            <Label text="Basemap Style"/>
             <ListView fx:id="basemapStyleListView"/>
         </VBox>
         <VBox>
