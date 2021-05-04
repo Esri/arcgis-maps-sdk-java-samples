@@ -59,7 +59,6 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
   private int count = 0;
   private NmeaLocationDataSource nmeaLocationDataSource;
   private List<NmeaSatelliteInfo> nmeaSatelliteInfo;
-  private Timeline timeline;
 
   public void initialize() {
 
@@ -117,6 +116,10 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
         bufferedReader.close();
 
         LocationDataSource.StatusChangedListener listener = new LocationDataSource.StatusChangedListener() {
+
+          // create a new timeline to simulate a stream of NMEA data
+          final Timeline timeline = new Timeline();
+
           @Override
           public void statusChanged(LocationDataSource.StatusChangedEvent statusChangedEvent) {
             // check that the location data source has started
@@ -125,8 +128,6 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
               // add a satellite changed listener to the NMEA location data source and display satellite information on the app
               setupSatelliteChangedListener();
 
-              // create a new timeline
-              timeline = new Timeline();
               timeline.setCycleCount(-1); // loop count
               // push the mock data NMEA sentences into the data source every 250 ms
               timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), event -> {
@@ -146,7 +147,14 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
               startButton.setDisable(true);
               stopButton.setDisable(false);
 
+              // stop the timeline and remove the status changed listener when the location data source has stopped
+            } if (statusChangedEvent.getStatus() == LocationDataSource.Status.STOPPED) {
+
+              timeline.stop();
               nmeaLocationDataSource.removeStatusChangedListener(this);
+              // handle UI interactions
+              stopButton.setDisable(true);
+              startButton.setDisable(false);
 
             }
           }
@@ -196,19 +204,13 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
   }
 
   /**
-   * Stops displaying the mock data location, stops receiving location data, and stops the timeline.
+   * Stops displaying the mock data location and receiving location data.
    */
   @FXML
   private void stop() {
 
-    // stop the timeline
-    timeline.stop();
-
     // stop receiving and displaying location data
     nmeaLocationDataSource.stop();
-
-    stopButton.setDisable(true);
-    startButton.setDisable(false);
 
   }
 

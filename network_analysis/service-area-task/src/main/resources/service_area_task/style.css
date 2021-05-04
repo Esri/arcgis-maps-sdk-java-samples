@@ -1,19 +1,19 @@
 .stack-pane VBox {
     -fx-background-color: rgba(0, 0, 0, 0.3);
     -fx-padding: 10;
-    -fx-max-width: 200;
+    -fx-max-width: 250;
     -fx-max-height: 120;
     -fx-spacing: 10;
 }
 
 .stack-pane Button {
     -fx-display: block;
-    -fx-max-width: 180;
+    -fx-max-width: 240;
 }
 
 .stack-pane ToggleButton {
     -fx-display: block;
-    -fx-min-width: 90;
+    -fx-min-width: 120;
 }
 
 .stack-pane ProgressIndicator {
