@@ -90,15 +90,14 @@ public class CreateAndSaveMapController {
     basemapStyleListView.setCellFactory(c -> new BasemapCell());
 
     // update the basemap when the selection changes
+    basemapStyleListView.getSelectionModel().select(0);
     basemapStyleListView.getSelectionModel().selectedItemProperty()
-      .addListener(o -> {
-        // create a map from the selected basemap style and set it to the map view
-        map = new ArcGISMap(basemapStyleListView.getSelectionModel().getSelectedItem());
-        mapView.setMap(map);
-      });
+      .addListener(o -> map.setBasemap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem())));
 
-    // select the first basemap style from the list to display on the map
-    basemapStyleListView.getSelectionModel().selectFirst();
+    // create a basemap with the first basemap style option and set it to the map
+    Basemap basemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
+    map = new ArcGISMap(basemap);
+    mapView.setMap(map);
 
     // set operational layer options
     ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(
