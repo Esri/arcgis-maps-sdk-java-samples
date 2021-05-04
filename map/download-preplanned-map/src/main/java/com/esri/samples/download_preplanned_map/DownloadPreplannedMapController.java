@@ -136,7 +136,7 @@ public class DownloadPreplannedMapController {
 
           // set the viewpoint to the preplanned map area's area of interest
           Envelope areaOfInterest = GeometryEngine.buffer(selectedPreplannedMapArea.getAreaOfInterest(), 100).getExtent();
-          mapView.setViewpointAsync(new Viewpoint(areaOfInterest), 1.5f);
+          mapView.setViewpointAsync(new Viewpoint(areaOfInterest), 0.5f);
         }
       });
 
@@ -177,9 +177,14 @@ public class DownloadPreplannedMapController {
 
                 new Alert(Alert.AlertType.ERROR, "One or more errors occurred with the Offline Map Result: " + stringBuilder.toString()).show();
               } else {
-                // show the offline map in the map view
-                ArcGISMap downloadOfflineMap = result.getOfflineMap();
-                mapView.setMap(downloadOfflineMap);
+                mapView.addNavigationChangedListener(listener -> {
+                  // if the mapview is navigating to a new pleplanned map area, wait for it to finish
+                  if (!listener.isNavigating()) {
+                    // show the offline map in the map view
+                    ArcGISMap downloadOfflineMap = result.getOfflineMap();
+                    mapView.setMap(downloadOfflineMap);
+                  }
+                });
               }
 
             } else {

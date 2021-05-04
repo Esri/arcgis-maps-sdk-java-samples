@@ -33,6 +33,11 @@ This sample reads lines from a local file to simulate the feed of data into the 
 
 The route taken in this sample features a [one minute driving trip around Redlands, CA](https://arcgis.com/home/item.html?id=d5bad9f4fee9483791e405880fb466da).
 
+## Additional information
+
+To learn more about using the ArcGIS Runtime API for Java for retrieving NMEA sentences from a GPS dongle, see the
+Esri Community blog post [Adding GPS data to your ArcGIS Runtime API for Java App](https://community.esri.com/t5/arcgis-runtime-sdks-blog/adding-gps-data-to-your-arcgis-runtime-api-for-java-app/ba-p/1054145/jump-to/first-unread-message).
+
 ## Tags
 
 GPS, history, navigation, NMEA, real-time, trace

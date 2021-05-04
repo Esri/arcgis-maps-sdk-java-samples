@@ -55,8 +55,10 @@ public class ChangeBasemapSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // creates a map view
+      // create a map view
       mapView = new MapView();
+      // create a new view point centered on Scotland, UK
+      var viewpoint = new Viewpoint(57.5000, -5.0000, 9244648);
 
       // setup a list view of basemap styles
       ListView<BasemapStyle> basemapStyleListView = new ListView<>(FXCollections.observableArrayList(BasemapStyle.values()));
@@ -67,7 +69,7 @@ public class ChangeBasemapSample extends Application {
         BasemapStyle selectedBasemapStyle = basemapStyleListView.getSelectionModel().getSelectedItem();
         map = new ArcGISMap(selectedBasemapStyle);
         mapView.setMap(map);
-        mapView.setViewpoint(new Viewpoint(57.5000, -5.0000, 9244648));
+        mapView.setViewpoint(viewpoint);
       });
 
       // select the first basemap style

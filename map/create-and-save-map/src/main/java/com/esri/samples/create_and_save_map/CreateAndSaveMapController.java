@@ -119,7 +119,7 @@ public class CreateAndSaveMapController {
     layersList.setCellFactory(c -> new LayerCell());
 
     // set portal folder title converter
-    folderList.setConverter(new StringConverter<PortalFolder>() {
+    folderList.setConverter(new StringConverter<>() {
 
       @Override
       public String toString(PortalFolder folder) {
@@ -182,7 +182,7 @@ public class CreateAndSaveMapController {
   /**
    * Shows a BasemapStyle title in a ListView.
    */
-  private class BasemapCell extends ListCell<BasemapStyle> {
+  private static class BasemapCell extends ListCell<BasemapStyle> {
 
     @Override
     protected void updateItem(BasemapStyle basemapStyle, boolean empty) {
@@ -195,7 +195,7 @@ public class CreateAndSaveMapController {
   /**
    * Shows a Layer title in a ListView.
    */
-  private class LayerCell extends ListCell<Layer> {
+  private static class LayerCell extends ListCell<Layer> {
 
     @Override
     protected void updateItem(Layer layer, boolean empty) {
