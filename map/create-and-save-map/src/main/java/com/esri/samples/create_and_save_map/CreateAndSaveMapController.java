@@ -88,15 +88,18 @@ public class CreateAndSaveMapController {
       BasemapStyle.ARCGIS_OCEANS);
 
     basemapStyleListView.setCellFactory(c -> new BasemapCell());
-
     // update the basemap when the selection changes
-    basemapStyleListView.getSelectionModel().select(0);
-    basemapStyleListView.getSelectionModel().selectedItemProperty()
-      .addListener(o -> map.setBasemap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem())));
+    basemapStyleListView.getSelectionModel().selectFirst();
+    basemapStyleListView.getSelectionModel().selectedItemProperty().addListener(o -> {
+
+      Basemap selectedBasemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
+      // authenticate the base map with an API key
+      selectedBasemap.setApiKey(yourAPIKey);
+      map.setBasemap(selectedBasemap);
+    });
 
     // create a basemap with the first basemap style option and set it to the map
-    Basemap basemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
-    map = new ArcGISMap(basemap);
+    map = new ArcGISMap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem()));
     mapView.setMap(map);
 
     // set operational layer options
