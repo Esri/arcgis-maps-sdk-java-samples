@@ -18,10 +18,14 @@ package com.esri.samples.show_labels_on_layer;
 
 import java.util.Arrays;
 
+import com.esri.arcgisruntime.arcgisservices.LabelingPlacement;
+import com.esri.arcgisruntime.mapping.labeling.ArcadeLabelExpression;
+import com.esri.arcgisruntime.symbology.ColorUtil;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.google.gson.JsonObject;
@@ -88,49 +92,15 @@ public class ShowLabelsOnLayerSample extends Application {
         }
       });
 
-      // use red text with white halo for republican district labels
-      TextSymbol republicanTextSymbol = new TextSymbol();
-      republicanTextSymbol.setSize(10);
-      republicanTextSymbol.setColor(0xFFFF0000);
-      republicanTextSymbol.setHaloColor(0xFFFFFFFF);
-      republicanTextSymbol.setHaloWidth(2);
+      // create label definitions each party
+      LabelDefinition republicanLabelDefinition = makeLabelDefinition("Republican", Color.RED);
+      LabelDefinition democratLabelDefinition = makeLabelDefinition("Democrat", Color.BLUE);
 
-      // use blue text with white halo for democrat district labels
-      TextSymbol democratTextSymbol = new TextSymbol();
-      democratTextSymbol.setSize(10);
-      democratTextSymbol.setColor(0xFF0000FF);
-      democratTextSymbol.setHaloColor(0xFFFFFFFF);
-      democratTextSymbol.setHaloWidth(2);
-
-      // construct a json label definition
-      JsonObject json = new JsonObject();
-      // use a custom label expression combining some of the feature's fields
-      JsonObject expressionInfo = new JsonObject();
-      expressionInfo.add("expression", new JsonPrimitive("$feature.NAME + \" (\" + left($feature.PARTY,1) + \")\\nDistrict \" + $feature.CDFIPS"));
-      json.add("labelExpressionInfo", expressionInfo);
-      // position the label in the center of the feature
-      json.add("labelPlacement", new JsonPrimitive("esriServerPolygonPlacementAlwaysHorizontal"));
-
-      // create a copy of the json with a custom where clause and symbol only for republican districts
-      JsonObject republicanJson = json.deepCopy();
-      republicanJson.add("where", new JsonPrimitive("PARTY = 'Republican'"));
-      republicanJson.add("symbol", new JsonParser().parse(republicanTextSymbol.toJson()));
-
-      // create a copy of the json with a custom where clause and symbol only for democrat districts
-      JsonObject democratJson = json.deepCopy();
-      democratJson.add("where", new JsonPrimitive("PARTY = 'Democrat'"));
-      democratJson.add("symbol", new JsonParser().parse(democratTextSymbol.toJson()));
-
-      // create label definitions from the JSON strings
-      LabelDefinition republicanLabelDefinition = LabelDefinition.fromJson(republicanJson.toString());
-      LabelDefinition democratLabelDefinition = LabelDefinition.fromJson(democratJson.toString());
+      // enable labels on the feature layer
+      featureLayer.setLabelsEnabled(true);
 
       // add the definitions to the feature layer
       featureLayer.getLabelDefinitions().addAll(Arrays.asList(republicanLabelDefinition, democratLabelDefinition));
-      featureLayer.getLabelDefinitions().add(democratLabelDefinition);
-
-      // enable labels
-      featureLayer.setLabelsEnabled(true);
 
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
@@ -139,6 +109,34 @@ public class ShowLabelsOnLayerSample extends Application {
       // on any error, display stack trace
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Creates a label definition for the given PARTY field value and color to populate a text symbol with.
+   *
+   * @param party the name of the party to be passed into the label definition's WHERE clause
+   * @param color the color to be passed into the text symbol
+   *
+   * @return label definition created from the given arcade expression
+   */
+  private LabelDefinition makeLabelDefinition(String party, Color color) {
+
+    // create text symbol for styling the label
+    TextSymbol textSymbol = new TextSymbol();
+    textSymbol.setSize(12);
+    textSymbol.setColor(ColorUtil.colorToArgb(color));
+    textSymbol.setHaloColor(0xFFFFFFFF);
+    textSymbol.setHaloWidth(2);
+
+    ArcadeLabelExpression arcadeLabelExpression =
+      new ArcadeLabelExpression("$feature.NAME + \" (\" + left($feature.PARTY,1) + \")\\nDistrict \" + $feature.CDFIPS");
+    LabelDefinition labelDefinition = new LabelDefinition(arcadeLabelExpression, textSymbol);
+    labelDefinition.setPlacement(LabelingPlacement.POLYGON_ALWAYS_HORIZONTAL);
+    String where = String.format("PARTY = '%s'", party);
+    labelDefinition.setWhereClause(where);
+
+    return labelDefinition;
+
   }
 
   /**
