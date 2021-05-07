@@ -18,9 +18,6 @@ package com.esri.samples.show_labels_on_layer;
 
 import java.util.Arrays;
 
-import com.esri.arcgisruntime.arcgisservices.LabelingPlacement;
-import com.esri.arcgisruntime.mapping.labeling.ArcadeLabelExpression;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -28,12 +25,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
+import com.esri.arcgisruntime.arcgisservices.LabelingPlacement;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -41,7 +35,9 @@ import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.labeling.ArcadeLabelExpression;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 
 public class ShowLabelsOnLayerSample extends Application {
@@ -79,8 +75,8 @@ public class ShowLabelsOnLayerSample extends Application {
 
       // create a feature layer from an online feature service of US Congressional Districts
       String serviceUrl = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_116th_Congressional_Districts/FeatureServer/0";
-      ServiceFeatureTable serviceFeatureTable = new ServiceFeatureTable(serviceUrl);
-      FeatureLayer featureLayer = new FeatureLayer(serviceFeatureTable);
+      var serviceFeatureTable = new ServiceFeatureTable(serviceUrl);
+      var featureLayer = new FeatureLayer(serviceFeatureTable);
 
       // add the feature layer to the map
       map.getOperationalLayers().add(featureLayer);
@@ -92,7 +88,7 @@ public class ShowLabelsOnLayerSample extends Application {
         }
       });
 
-      // create label definitions each party
+      // create label definitions for each party
       LabelDefinition republicanLabelDefinition = makeLabelDefinition("Republican", Color.RED);
       LabelDefinition democratLabelDefinition = makeLabelDefinition("Democrat", Color.BLUE);
 
@@ -112,7 +108,7 @@ public class ShowLabelsOnLayerSample extends Application {
   }
 
   /**
-   * Creates a label definition for the given PARTY field value and color to populate a text symbol with.
+   * Creates a label definition for a given party (field value) and color to populate a text symbol with.
    *
    * @param party the name of the party to be passed into the label definition's WHERE clause
    * @param color the color to be passed into the text symbol
@@ -128,12 +124,12 @@ public class ShowLabelsOnLayerSample extends Application {
     textSymbol.setHaloColor(0xFFFFFFFF);
     textSymbol.setHaloWidth(2);
 
-    ArcadeLabelExpression arcadeLabelExpression =
+    // create a label definition with an Arcade expression script
+    var arcadeLabelExpression =
       new ArcadeLabelExpression("$feature.NAME + \" (\" + left($feature.PARTY,1) + \")\\nDistrict \" + $feature.CDFIPS");
-    LabelDefinition labelDefinition = new LabelDefinition(arcadeLabelExpression, textSymbol);
+    var labelDefinition = new LabelDefinition(arcadeLabelExpression, textSymbol);
     labelDefinition.setPlacement(LabelingPlacement.POLYGON_ALWAYS_HORIZONTAL);
-    String where = String.format("PARTY = '%s'", party);
-    labelDefinition.setWhereClause(where);
+    labelDefinition.setWhereClause(String.format("PARTY = '%s'", party));
 
     return labelDefinition;
 
