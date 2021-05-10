@@ -118,10 +118,10 @@ public class ShowLabelsOnLayerSample extends Application {
   private LabelDefinition makeLabelDefinition(String party, Color color) {
 
     // create text symbol for styling the label
-    TextSymbol textSymbol = new TextSymbol();
+    var textSymbol = new TextSymbol();
     textSymbol.setSize(12);
     textSymbol.setColor(ColorUtil.colorToArgb(color));
-    textSymbol.setHaloColor(0xFFFFFFFF);
+    textSymbol.setHaloColor(ColorUtil.colorToArgb(Color.WHITE));
     textSymbol.setHaloWidth(2);
 
     // create a label definition with an Arcade expression script
