@@ -16,7 +16,6 @@
 
 package com.esri.samples.change_basemap;
 
-import com.esri.arcgisruntime.mapping.Basemap;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -28,6 +27,7 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
