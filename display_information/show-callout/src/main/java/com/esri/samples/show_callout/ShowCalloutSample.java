@@ -24,7 +24,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Callout;
@@ -75,9 +77,12 @@ public class ShowCalloutSample extends Application {
           // create a map point from a point
           Point mapPoint = mapView.screenToLocation(point);
 
+          // project user-tapped map point location
+          Point projectedPoint = (Point)GeometryEngine.project(mapPoint, SpatialReferences.getWgs84());
+
           // set the callout's details
           callout.setTitle("Location");
-          callout.setDetail(String.format("x: %.2f, y: %.2f", mapPoint.getX(), mapPoint.getY()));
+          callout.setDetail(String.format("Lat: %.3f, Long: %.3f", projectedPoint.getY(), projectedPoint.getX()));
 
           // show the callout where the user clicked
           callout.showCalloutAt(mapPoint);
