@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -57,8 +58,11 @@ public class ChangeBasemapSample extends Application {
 
       // create a map view
       mapView = new MapView();
+      // create a new map and set it to the map view: a basemap style will be added to the map once the sample loads
+      map = new ArcGISMap();
+      mapView.setMap(map);
       // create a new view point centered on Scotland, UK
-      var viewpoint = new Viewpoint(57.5000, -5.0000, 9244648);
+      mapView.setViewpoint(new Viewpoint(57.5000, -5.0000, 9244648));
 
       // setup a list view of basemap styles
       ListView<BasemapStyle> basemapStyleListView = new ListView<>(FXCollections.observableArrayList(BasemapStyle.values()));
@@ -67,9 +71,8 @@ public class ChangeBasemapSample extends Application {
       // change the basemap when a list option is selected
       basemapStyleListView.getSelectionModel().selectedItemProperty().addListener(o -> {
         BasemapStyle selectedBasemapStyle = basemapStyleListView.getSelectionModel().getSelectedItem();
-        map = new ArcGISMap(selectedBasemapStyle);
-        mapView.setMap(map);
-        mapView.setViewpoint(viewpoint);
+        Basemap basemap = new Basemap(selectedBasemapStyle);
+        map.setBasemap(basemap);
       });
 
       // select the first basemap style
