@@ -1,6 +1,6 @@
 # Create and save map
 
-Create and save a map as an ArcGIS `PortalItem` (i.e. web map). 
+Create and save a map as an ArcGIS `PortalItem` (i.e. web map).
 
 ![Image of create and save map](CreateAndSaveMap.png)
 
@@ -10,7 +10,7 @@ Maps can be created programmatically in code and then serialized and saved as an
 
 ## How to use the sample
 
-This sample requires you to setup your own app on arcgis.com. See https://github.com/Esri/arcgis-runtime-samples-java/blob/master/OAuth.md for instructions.
+This sample requires you to setup your own app on arcgis.com. Read the [OAuth wiki](https://github.com/Esri/arcgis-runtime-samples-java/blob/master/OAuth.md) for instructions.
 
 Fill in your portal and registered app credentials in the starting dialog to authenticate. Then, choose the basemap and layers for your new map. To save the map, choose a title, tags and description (optional), and a folder on your portal (you will need to create one in your portal's My Content). Click the Save button to save the map to the chosen folder.
 
