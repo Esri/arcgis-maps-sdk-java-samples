@@ -51,24 +51,15 @@ import com.esri.arcgisruntime.security.OAuthConfiguration;
 
 public class CreateAndSaveMapController {
 
-  @FXML
-  private MapView mapView;
-  @FXML
-  private TextField title;
-  @FXML
-  private TextField tags;
-  @FXML
-  private TextArea description;
-  @FXML
-  private ComboBox<PortalFolder> folderList;
-  @FXML
-  private ListView<BasemapStyle> basemapStyleListView;
-  @FXML
-  private ListView<Layer> layersList;
-  @FXML
-  private Button saveButton;
-  @FXML
-  private ProgressIndicator progress;
+  @FXML private MapView mapView;
+  @FXML private TextField title;
+  @FXML private TextField tags;
+  @FXML private TextArea description;
+  @FXML private ComboBox<PortalFolder> folderList;
+  @FXML private ListView<BasemapStyle> basemapStyleListView;
+  @FXML private ListView<Layer> layersList;
+  @FXML private Button saveButton;
+  @FXML private ProgressIndicator progress;
 
   private ArcGISMap map;
   private Portal portal;
@@ -78,7 +69,6 @@ public class CreateAndSaveMapController {
 
     // authentication with an API key or named user is required to access basemaps and other location services
     String yourAPIKey = System.getProperty("apiKey");
-    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
     // set the basemap style options
     basemapStyleListView.getItems().addAll(
@@ -98,8 +88,9 @@ public class CreateAndSaveMapController {
       map.setBasemap(selectedBasemap);
     });
 
-    // create a basemap with the first basemap style option and set it to the map
+    // create a basemap with the first basemap style option, authenticate it with an API key, and set it to the map
     map = new ArcGISMap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem()));
+    map.getBasemap().setApiKey(yourAPIKey);
     mapView.setMap(map);
 
     // set operational layer options
