@@ -67,7 +67,7 @@ public class CreateAndSaveMapController {
   @FXML
   private void initialize() {
 
-    // authentication with an API key or named user is required to access basemaps and other location services
+    // get your API key
     String yourAPIKey = System.getProperty("apiKey");
 
     // set the basemap style options
@@ -83,12 +83,12 @@ public class CreateAndSaveMapController {
     basemapStyleListView.getSelectionModel().selectedItemProperty().addListener(o -> {
 
       Basemap selectedBasemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
-      // authenticate the base map with an API key
+      // authenticate the base map to access it using your API key
       selectedBasemap.setApiKey(yourAPIKey);
       map.setBasemap(selectedBasemap);
     });
 
-    // create a basemap with the first basemap style option, authenticate it with an API key, and set it to the map
+    // create a map with the first basemap style option, and authenticate the basemap to access it using your API key
     map = new ArcGISMap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem()));
     map.getBasemap().setApiKey(yourAPIKey);
     mapView.setMap(map);
