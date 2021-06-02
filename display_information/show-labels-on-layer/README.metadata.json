@@ -6,6 +6,7 @@
         "ShowLabelsOnLayer.png"
     ],
     "keywords": [
+        "arcade",
         "attribute",
         "deconfliction",
         "label",
@@ -14,6 +15,7 @@
         "symbol",
         "text",
         "visualization",
+        "ArcadeLabelExpression",
         "FeatureLayer",
         "LabelDefinition",
         "TextSymbol"
@@ -22,6 +24,7 @@
         "/java/latest/sample-code/show-labels-on-layer.htm"
     ],
     "relevant_apis": [
+        "ArcadeLabelExpression",
         "FeatureLayer",
         "LabelDefinition",
         "TextSymbol"

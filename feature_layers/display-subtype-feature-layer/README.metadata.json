@@ -16,6 +16,7 @@
         "visible scale range",
         "LabelDefinition",
         "ServiceFeatureTable",
+        "SimpleLabelExpression",
         "SubtypeFeatureLayer",
         "SubtypeSublayer"
     ],
@@ -23,6 +24,7 @@
     "relevant_apis": [
         "LabelDefinition",
         "ServiceFeatureTable",
+        "SimpleLabelExpression",
         "SubtypeFeatureLayer",
         "SubtypeSublayer"
     ],
