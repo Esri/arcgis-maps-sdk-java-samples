@@ -16,7 +16,7 @@ The sample loads with the sublayer visible on the map. Toggle its visibility wit
 
 1. Create a `SubtypeFeatureLayer` from a `ServiceFeatureTable` that defines a subtype, and add it to the `ArcGISMap`.
 2. Get a `SubtypeSublayer` from the subtype feature using its name.
-3. Enable the sublayer's labels and define them with `LabelDefinitions`.
+3. Enable the sublayer's labels and define them with a `LabelDefinition`.
 4. Set the visibility status using this sublayer's `IsVisible` property.
 5. Change the sublayer's symbology with `.setRenderer(Renderer)`.
 6. Update the sublayer's minimum scale value with `.setMinScale()`.
@@ -25,6 +25,7 @@ The sample loads with the sublayer visible on the map. Toggle its visibility wit
 
 * LabelDefinition
 * ServiceFeatureTable
+* SimpleLabelExpression
 * SubtypeFeatureLayer
 * SubtypeSublayer
 
