@@ -46,7 +46,6 @@ import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.portal.PortalUserContent;
 import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
-import com.esri.arcgisruntime.security.OAuthConfiguration;
 
 public class CreateAndSaveMapController {
 
@@ -66,8 +65,32 @@ public class CreateAndSaveMapController {
   @FXML
   private void initialize() {
 
-    // get your API key
-    String yourAPIKey = System.getProperty("apiKey");
+    // set up the authentication manager to handle authentication challenges
+    DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
+    AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
+
+    portal = new Portal("https://www.arcgis.com", true);
+    portal.addDoneLoadingListener(() -> {
+      if (portal.getLoadStatus() == LoadStatus.LOADED) {
+        try {
+          PortalUserContent portalUserContent = portal.getUser().fetchContentAsync().get();
+          List<PortalFolder> portalFolders = portalUserContent.getFolders();
+          folderList.getItems().addAll(portalFolders);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+//
+        saveButton.setDisable(false);
+//
+      } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+//
+        // show alert message on error
+        new Alert(Alert.AlertType.ERROR, "Authentication failed: " + portal.getLoadError().getMessage()).show();
+      }
+    });
+//
+//    // load the portal info of a secured resource. This will invoke the authentication challenge
+    portal.loadAsync();
 
     // set the basemap style options
     basemapStyleListView.getItems().addAll(
@@ -82,14 +105,11 @@ public class CreateAndSaveMapController {
     basemapStyleListView.getSelectionModel().selectedItemProperty().addListener(o -> {
 
       Basemap selectedBasemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
-      // authenticate the base map to access it using your API key
-      selectedBasemap.setApiKey(yourAPIKey);
       map.setBasemap(selectedBasemap);
     });
 
     // create a map with the first basemap style option, and authenticate the basemap to access it using your API key
     map = new ArcGISMap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem()));
-    map.getBasemap().setApiKey(yourAPIKey);
     mapView.setMap(map);
 
     // set operational layer options
@@ -124,52 +144,6 @@ public class CreateAndSaveMapController {
         return null;
       }
     });
-  }
-
-  /**
-   * Open a dialog to create and log into a portal.
-   */
-  void authenticate() {
-
-    AuthenticationDialog authenticationDialog = new AuthenticationDialog();
-    authenticationDialog.show();
-    authenticationDialog.setOnCloseRequest(r -> {
-
-      OAuthConfiguration configuration = authenticationDialog.getResult();
-      // check authentication went through
-      if (configuration != null) {
-
-        // set up the authentication manager to handle authentication challenges
-        DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
-        AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
-        // add the OAuth configuration
-        AuthenticationManager.addOAuthConfiguration(configuration);
-
-        portal = new Portal("https://" + configuration.getPortalUrl(), true);
-        portal.addDoneLoadingListener(() -> {
-          if (portal.getLoadStatus() == LoadStatus.LOADED) {
-            try {
-              PortalUserContent portalUserContent = portal.getUser().fetchContentAsync().get();
-              List<PortalFolder> portalFolders = portalUserContent.getFolders();
-              folderList.getItems().addAll(portalFolders);
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-
-            saveButton.setDisable(false);
-
-          } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-
-            // show alert message on error
-            new Alert(Alert.AlertType.ERROR, "Authentication failed: " + portal.getLoadError().getMessage()).show();
-          }
-        });
-
-        // load the portal info of a secured resource. This will invoke the authentication challenge
-        portal.loadAsync();
-      }
-    });
-
   }
 
   /**
