@@ -6,7 +6,7 @@ Create and save a map as an ArcGIS `PortalItem` (i.e. web map).
 
 ## Use case
 
-Maps can be created programmatically in code and then serialized and saved as an ArcGIS `web map`. A `web map` can be shared with others and opened in various applications and APIs throughout the platform, such as ArcGIS Pro, ArcGIS Online, the JavaScript API, Collector, and Explorer.
+Maps can be created programmatically in code and then serialized and saved as an ArcGIS portal item. In this case, the portal item is a web map which can be shared with others and opened in various applications and APIs throughout the platform, such as ArcGIS Pro, ArcGIS Online, the JavaScript API, Collector, and Explorer.
 
 ## How to use the sample
 
@@ -16,7 +16,7 @@ When you run the sample, you will be challenged for an ArcGIS Online login. Ente
 
 1. An `ArcGISMap` is created with a `Basemap` and a few operational layers.
 2. A `Portal` object is created and loaded. This will issue an authentication challenge, prompting the user to provide credentials.
-3. Once the user is authenticated, `Map.saveMapAsAsync()` is called and a new `ArcGISMap` is saved with the specified title, tags, and folder.
+3. Once the user is authenticated, `map.saveMapAsAsync()` is called and a new `ArcGISMap` is saved with the specified title, tags, and folder.
 
 ## Relevant API
 
