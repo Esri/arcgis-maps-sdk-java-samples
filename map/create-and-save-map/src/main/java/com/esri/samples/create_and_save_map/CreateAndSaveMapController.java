@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -30,6 +31,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -58,6 +60,7 @@ public class CreateAndSaveMapController {
   @FXML private ListView<Layer> layersList;
   @FXML private Button saveButton;
   @FXML private ProgressIndicator progress;
+  @FXML private VBox vBox;
 
   private ArcGISMap map;
   private Portal portal;
@@ -73,77 +76,80 @@ public class CreateAndSaveMapController {
     portal.addDoneLoadingListener(() -> {
       if (portal.getLoadStatus() == LoadStatus.LOADED) {
         try {
+          // get the users list of portal folders
           PortalUserContent portalUserContent = portal.getUser().fetchContentAsync().get();
           List<PortalFolder> portalFolders = portalUserContent.getFolders();
           folderList.getItems().addAll(portalFolders);
         } catch (Exception e) {
           e.printStackTrace();
         }
-//
+
         saveButton.setDisable(false);
-//
+
+        // set the basemap style options
+        basemapStyleListView.getItems().addAll(
+          BasemapStyle.ARCGIS_STREETS,
+          BasemapStyle.ARCGIS_IMAGERY_STANDARD,
+          BasemapStyle.ARCGIS_TOPOGRAPHIC,
+          BasemapStyle.ARCGIS_OCEANS);
+
+        basemapStyleListView.setCellFactory(c -> new BasemapCell());
+        // update the basemap when the selection changes
+        basemapStyleListView.getSelectionModel().selectFirst();
+        basemapStyleListView.getSelectionModel().selectedItemProperty().addListener(o -> {
+
+          Basemap selectedBasemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
+          map.setBasemap(selectedBasemap);
+        });
+
+        // create a map with the first basemap style option, and authenticate the basemap to access it using your API key
+        map = new ArcGISMap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem()));
+        mapView.setMap(map);
+        mapView.setViewInsets(new Insets(0, 0, 0, vBox.getWidth()));
+
+        // set operational layer options
+        ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(
+          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer");
+        worldElevation.loadAsync();
+
+        ArcGISMapImageLayer worldCensus = new ArcGISMapImageLayer(
+          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer");
+        worldCensus.loadAsync();
+
+        layersList.getItems().addAll(worldElevation, worldCensus);
+        layersList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        layersList.getSelectionModel().selectedItemProperty().addListener(o -> {
+          map.getOperationalLayers().clear();
+          map.getOperationalLayers().addAll(layersList.getSelectionModel().getSelectedItems());
+        });
+
+        layersList.setCellFactory(c -> new LayerCell());
+
+        // set portal folder title converter
+        folderList.setConverter(new StringConverter<>() {
+
+          @Override
+          public String toString(PortalFolder folder) {
+            return folder != null ? folder.getTitle() : "";
+          }
+
+          @Override
+          public PortalFolder fromString(String string) {
+            return null;
+          }
+        });
+
       } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-//
+
         // show alert message on error
         new Alert(Alert.AlertType.ERROR, "Authentication failed: " + portal.getLoadError().getMessage()).show();
       }
     });
-//
-//    // load the portal info of a secured resource. This will invoke the authentication challenge
+
+    // load the portal info of a secured resource. This will invoke the authentication challenge
     portal.loadAsync();
 
-    // set the basemap style options
-    basemapStyleListView.getItems().addAll(
-      BasemapStyle.ARCGIS_STREETS,
-      BasemapStyle.ARCGIS_IMAGERY_STANDARD,
-      BasemapStyle.ARCGIS_TOPOGRAPHIC,
-      BasemapStyle.ARCGIS_OCEANS);
-
-    basemapStyleListView.setCellFactory(c -> new BasemapCell());
-    // update the basemap when the selection changes
-    basemapStyleListView.getSelectionModel().selectFirst();
-    basemapStyleListView.getSelectionModel().selectedItemProperty().addListener(o -> {
-
-      Basemap selectedBasemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
-      map.setBasemap(selectedBasemap);
-    });
-
-    // create a map with the first basemap style option, and authenticate the basemap to access it using your API key
-    map = new ArcGISMap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem()));
-    mapView.setMap(map);
-
-    // set operational layer options
-    ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer");
-    worldElevation.loadAsync();
-
-    ArcGISMapImageLayer worldCensus = new ArcGISMapImageLayer(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer");
-    worldCensus.loadAsync();
-
-    layersList.getItems().addAll(worldElevation, worldCensus);
-    layersList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-    layersList.getSelectionModel().selectedItemProperty().addListener(o -> {
-      map.getOperationalLayers().clear();
-      map.getOperationalLayers().addAll(layersList.getSelectionModel().getSelectedItems());
-    });
-
-    layersList.setCellFactory(c -> new LayerCell());
-
-    // set portal folder title converter
-    folderList.setConverter(new StringConverter<>() {
-
-      @Override
-      public String toString(PortalFolder folder) {
-        return folder != null ? folder.getTitle() : "";
-      }
-
-      @Override
-      public PortalFolder fromString(String string) {
-        return null;
-      }
-    });
   }
 
   /**

@@ -10,9 +10,7 @@ Maps can be created programmatically in code and then serialized and saved as an
 
 ## How to use the sample
 
-This sample requires you to setup your own app on arcgis.com. Read the [OAuth wiki](https://github.com/Esri/arcgis-runtime-samples-java/blob/master/OAuth.md) for instructions.
-
-Fill in your portal and registered app credentials in the starting dialog to authenticate. Then, choose the basemap and layers for your new map. To save the map, choose a title, tags and description (optional), and a folder on your portal (you will need to create one in your portal's My Content). Click the Save button to save the map to the chosen folder.
+When you run the sample, you will be challenged for an ArcGIS Online login. Enter a user name and password for an ArcGIS Online named user account (such as your ArcGIS for Developers account). Then, choose the basemap and layers for your new map. To save the map, choose a title, tags and description (optional), and a folder on your portal (you will need to create one in your portal's My Content section). Click the Save button to save the map to the chosen folder.
 
 ## How it works
 
@@ -24,10 +22,6 @@ Fill in your portal and registered app credentials in the starting dialog to aut
 
 * ArcGISMap
 * Portal
-
-## Additional information
-
-In this sample, an API key is set directly on `Basemap` objects rather than on the whole app using the `ArcGISRuntimeEnvironment` class. This is useful in a scenario where an individual developer is part of an organisation within ArcGIS Online that uses an API key to access a range of `BasemapStyle`s. In the case that an individual member of the organisation wants to save a map locally to their account, and not that of the organisation, they can set the organization's API key on the basemap, and log in to their own account when challenged.  The individual can then save the final map to their own ArcGIS Online account.
 
 ## Tags
 
