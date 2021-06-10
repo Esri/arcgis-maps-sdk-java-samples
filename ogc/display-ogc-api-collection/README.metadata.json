@@ -1,0 +1,37 @@
+{
+    "category": "OGC",
+    "description": "",
+    "ignore": false,
+    "images": [
+        ".png"
+    ],
+    "keywords": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    ],
+    "redirect_from": [
+        ""
+    ],
+    "relevant_apis": [
+        "",
+        "",
+        "",
+        "",
+        ""
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/browse_wfs_layers/DisplayOgcAPICollectionSample.java"
+    ],
+    "title": ""
+}
