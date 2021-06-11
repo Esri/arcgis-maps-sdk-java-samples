@@ -1,6 +1,6 @@
 {
     "category": "Map",
-    "description": "Create and save a map as an ArcGIS `PortalItem` (i.e. web map).",
+    "description": "Create and save a map as a web map item to an ArcGIS portal.",
     "ignore": false,
     "images": [
         "CreateAndSaveMap.png"
@@ -23,10 +23,8 @@
         "Portal"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/create_and_save_map/AuthenticationDialog.java",
         "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapController.java",
         "src/main/java/com/esri/samples/create_and_save_map/CreateAndSaveMapSample.java",
-        "src/main/resources/create_and_save_map/auth_dialog.fxml",
         "src/main/resources/create_and_save_map/main.fxml"
     ],
     "title": "Create and save map"

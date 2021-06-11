@@ -26,11 +26,9 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
@@ -51,15 +49,6 @@ public class IntegratedWindowsAuthenticationController {
 
   public void initialize() {
     try {
-      // authentication with an API key or named user is required to access basemaps and other location services
-      String yourAPIKey = System.getProperty("apiKey");
-      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
-
-      // create a map with the streets basemap style
-      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
-
-      // set the map to the map view
-      mapView.setMap(map);
 
       // set authentication challenge handler
       AuthenticationManager.setAuthenticationChallengeHandler(new IWAChallengeHandler());
@@ -78,9 +67,10 @@ public class IntegratedWindowsAuthenticationController {
             ArcGISMap webMap = new ArcGISMap(portalItem);
             // set the map to the map view
             mapView.setMap(webMap);
+            loadWebMapTextView.setText("Loaded web map from item " + portalItem.getItemId());
+
           }
 
-          loadWebMapTextView.setText("Loaded web map from item " + portalItem);
         }
       });
 
@@ -161,6 +151,7 @@ public class IntegratedWindowsAuthenticationController {
 
           // report error
           new Alert(Alert.AlertType.ERROR, "Portal sign in failed").show();
+
         }
       });
     }
