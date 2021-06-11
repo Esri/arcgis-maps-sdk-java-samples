@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -30,9 +31,9 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.Layer;
@@ -47,28 +48,19 @@ import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.portal.PortalUserContent;
 import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
-import com.esri.arcgisruntime.security.OAuthConfiguration;
 
 public class CreateAndSaveMapController {
 
-  @FXML
-  private MapView mapView;
-  @FXML
-  private TextField title;
-  @FXML
-  private TextField tags;
-  @FXML
-  private TextArea description;
-  @FXML
-  private ComboBox<PortalFolder> folderList;
-  @FXML
-  private ListView<BasemapStyle> basemapStyleListView;
-  @FXML
-  private ListView<Layer> layersList;
-  @FXML
-  private Button saveButton;
-  @FXML
-  private ProgressIndicator progress;
+  @FXML private MapView mapView;
+  @FXML private TextField title;
+  @FXML private TextField tags;
+  @FXML private TextArea description;
+  @FXML private ComboBox<PortalFolder> folderList;
+  @FXML private ListView<BasemapStyle> basemapStyleListView;
+  @FXML private ListView<Layer> layersList;
+  @FXML private Button saveButton;
+  @FXML private ProgressIndicator progress;
+  @FXML private VBox vBox;
 
   private ArcGISMap map;
   private Portal portal;
@@ -76,106 +68,87 @@ public class CreateAndSaveMapController {
   @FXML
   private void initialize() {
 
-    // authentication with an API key or named user is required to access basemaps and other location services
-    String yourAPIKey = System.getProperty("apiKey");
-    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+    // set up the authentication manager to handle authentication challenges
+    DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
+    AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
 
-    // set the basemap style options
-    basemapStyleListView.getItems().addAll(
-      BasemapStyle.ARCGIS_STREETS,
-      BasemapStyle.ARCGIS_IMAGERY_STANDARD,
-      BasemapStyle.ARCGIS_TOPOGRAPHIC,
-      BasemapStyle.ARCGIS_OCEANS);
+    portal = new Portal("https://www.arcgis.com", true);
+    portal.addDoneLoadingListener(() -> {
+      if (portal.getLoadStatus() == LoadStatus.LOADED) {
+        try {
+          // get the users list of portal folders
+          PortalUserContent portalUserContent = portal.getUser().fetchContentAsync().get();
+          List<PortalFolder> portalFolders = portalUserContent.getFolders();
+          folderList.getItems().addAll(portalFolders);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
 
-    basemapStyleListView.setCellFactory(c -> new BasemapCell());
+        saveButton.setDisable(false);
 
-    // update the basemap when the selection changes
-    basemapStyleListView.getSelectionModel().select(0);
-    basemapStyleListView.getSelectionModel().selectedItemProperty()
-      .addListener(o -> map.setBasemap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem())));
+        // set the basemap style options
+        basemapStyleListView.getItems().addAll(
+          BasemapStyle.ARCGIS_STREETS,
+          BasemapStyle.ARCGIS_IMAGERY_STANDARD,
+          BasemapStyle.ARCGIS_TOPOGRAPHIC,
+          BasemapStyle.ARCGIS_OCEANS);
 
-    // create a basemap with the first basemap style option and set it to the map
-    Basemap basemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
-    map = new ArcGISMap(basemap);
-    mapView.setMap(map);
+        basemapStyleListView.setCellFactory(c -> new BasemapCell());
+        // update the basemap when the selection changes
+        basemapStyleListView.getSelectionModel().selectFirst();
+        basemapStyleListView.getSelectionModel().selectedItemProperty().addListener(o -> {
 
-    // set operational layer options
-    ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer");
-    worldElevation.loadAsync();
+          Basemap selectedBasemap = new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem());
+          map.setBasemap(selectedBasemap);
+        });
 
-    ArcGISMapImageLayer worldCensus = new ArcGISMapImageLayer(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer");
-    worldCensus.loadAsync();
+        // create a map with the first basemap style option, and authenticate the basemap to access it using your API key
+        map = new ArcGISMap(new Basemap(basemapStyleListView.getSelectionModel().getSelectedItem()));
+        mapView.setMap(map);
+        mapView.setViewInsets(new Insets(0, 0, 0, vBox.getWidth()));
 
-    layersList.getItems().addAll(worldElevation, worldCensus);
-    layersList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        // set operational layer options
+        ArcGISMapImageLayer worldElevation = new ArcGISMapImageLayer(
+          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer");
+        worldElevation.loadAsync();
 
-    layersList.getSelectionModel().selectedItemProperty().addListener(o -> {
-      map.getOperationalLayers().clear();
-      map.getOperationalLayers().addAll(layersList.getSelectionModel().getSelectedItems());
-    });
+        ArcGISMapImageLayer worldCensus = new ArcGISMapImageLayer(
+          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer");
+        worldCensus.loadAsync();
 
-    layersList.setCellFactory(c -> new LayerCell());
+        layersList.getItems().addAll(worldElevation, worldCensus);
+        layersList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-    // set portal folder title converter
-    folderList.setConverter(new StringConverter<>() {
+        layersList.getSelectionModel().selectedItemProperty().addListener(o -> {
+          map.getOperationalLayers().clear();
+          map.getOperationalLayers().addAll(layersList.getSelectionModel().getSelectedItems());
+        });
 
-      @Override
-      public String toString(PortalFolder folder) {
-        return folder != null ? folder.getTitle() : "";
-      }
+        layersList.setCellFactory(c -> new LayerCell());
 
-      @Override
-      public PortalFolder fromString(String string) {
-        return null;
-      }
-    });
-  }
+        // set portal folder title converter
+        folderList.setConverter(new StringConverter<>() {
 
-  /**
-   * Open a dialog to create and log into a portal.
-   */
-  void authenticate() {
+          @Override
+          public String toString(PortalFolder folder) {
+            return folder != null ? folder.getTitle() : "";
+          }
 
-    AuthenticationDialog authenticationDialog = new AuthenticationDialog();
-    authenticationDialog.show();
-    authenticationDialog.setOnCloseRequest(r -> {
-
-      OAuthConfiguration configuration = authenticationDialog.getResult();
-      // check authentication went through
-      if (configuration != null) {
-
-        // set up the authentication manager to handle authentication challenges
-        DefaultAuthenticationChallengeHandler defaultAuthenticationChallengeHandler = new DefaultAuthenticationChallengeHandler();
-        AuthenticationManager.setAuthenticationChallengeHandler(defaultAuthenticationChallengeHandler);
-        // add the OAuth configuration
-        AuthenticationManager.addOAuthConfiguration(configuration);
-
-        portal = new Portal("https://" + configuration.getPortalUrl(), true);
-        portal.addDoneLoadingListener(() -> {
-          if (portal.getLoadStatus() == LoadStatus.LOADED) {
-            try {
-              PortalUserContent portalUserContent = portal.getUser().fetchContentAsync().get();
-              List<PortalFolder> portalFolders = portalUserContent.getFolders();
-              folderList.getItems().addAll(portalFolders);
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-
-            saveButton.setDisable(false);
-
-          } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-
-            // show alert message on error
-            new Alert(Alert.AlertType.ERROR, "Authentication failed: " + portal.getLoadError().getMessage()).show();
+          @Override
+          public PortalFolder fromString(String string) {
+            return null;
           }
         });
 
-        // load the portal info of a secured resource. This will invoke the authentication challenge
-        portal.loadAsync();
+      } else if (portal.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+
+        // show alert message on error
+        new Alert(Alert.AlertType.ERROR, "Authentication failed: " + portal.getLoadError().getMessage()).show();
       }
     });
+
+    // load the portal info of a secured resource. This will invoke the authentication challenge
+    portal.loadAsync();
 
   }
 
