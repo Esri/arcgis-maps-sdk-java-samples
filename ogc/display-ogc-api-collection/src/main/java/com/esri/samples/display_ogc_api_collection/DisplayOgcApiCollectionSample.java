@@ -16,168 +16,84 @@
 
 package com.esri.samples.display_ogc_api_collection;
 
+import com.esri.arcgisruntime.data.OgcFeatureCollectionTable;
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.layers.OgcFeatureCollectionInfo;
+import com.esri.arcgisruntime.symbology.ColorUtil;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.data.QueryParameters;
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.ogc.wfs.OgcAxisOrder;
-import com.esri.arcgisruntime.ogc.wfs.WfsFeatureTable;
-import com.esri.arcgisruntime.ogc.wfs.WfsLayerInfo;
-import com.esri.arcgisruntime.ogc.wfs.WfsService;
-import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
-
-import java.util.List;
 
 public class DisplayOgcApiCollectionSample extends Application {
 
   private MapView mapView;
-  private ArcGISMap map;
-  private ProgressIndicator progressIndicator;
-
-  // keep loadables in scope to avoid garbage collection
-  private WfsService wfsService;
-  private WfsFeatureTable wfsFeatureTable;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
 
-    // create stack pane and JavaFX app scene
-    StackPane stackPane = new StackPane();
-    Scene scene = new Scene(stackPane);
-    scene.getStylesheets().add(getClass().getResource("/browse_wfs_layers/style.css").toExternalForm());
+    try {
+      // create stack pane and JavaFX app scene
+      StackPane stackPane = new StackPane();
+      Scene scene = new Scene(stackPane);
 
-    // set title, size, and add JavaFX scene to stage
-    stage.setTitle("Browse WFS Layers");
-    stage.setWidth(800);
-    stage.setHeight(700);
-    stage.setScene(scene);
-    stage.show();
+      // set title, size, and add JavaFX scene to stage
+      stage.setTitle("Display OGC API Collection");
+      stage.setWidth(800);
+      stage.setHeight(700);
+      stage.setScene(scene);
+      stage.show();
 
-    // authentication with an API key or named user is required to access basemaps and other location services
-    String yourAPIKey = System.getProperty("apiKey");
-    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a list view to show all of the layers in a WFS service
-    ListView<WfsLayerInfo> wfsLayerNamesListView = new ListView<>();
-    wfsLayerNamesListView.setMaxSize(200, 160);
+      // create a map with the standard imagery basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-    // create a progress indicator
-    progressIndicator = new ProgressIndicator();
-    progressIndicator.setVisible(true);
+      // create a map view and set the map to it
+      mapView = new MapView();
+      mapView.setMap(map);
 
-    // create a map with the standard imagery basemap style
-    map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
+      // add the map view to the stack pane
+      stackPane.getChildren().addAll(mapView);
 
-    // create a map view and set the map to it
-    mapView = new MapView();
-    mapView.setMap(map);
+      // define strings for the service URL and collection id
+      // note that the service defines the collection id which can be accessed via OgcFeatureCollectionInfo.getCollectionId().
+      var serviceUrl = "https://demo.ldproxy.net/daraa";
+      var collectionId = "TransportationGroundCrv";
 
-    // create a WFS service with a URL and load it
-    wfsService = new WfsService("https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities");
-    wfsService.loadAsync();
+      // create an OGC feature collection table from the service url and collection id
+      var ogcFeatureCollectionTable = new OgcFeatureCollectionTable(serviceUrl, collectionId);
 
-    // when the WFS service has loaded, add its layer information to the list view for browsing
-    wfsService.addDoneLoadingListener(() -> {
-      progressIndicator.setVisible(false);
-      if (wfsService.getLoadStatus() == LoadStatus.LOADED) {
-        // add the list of WFS layers to the list view
-        List<WfsLayerInfo> wfsLayerInfos = wfsService.getServiceInfo().getLayerInfos();
-        wfsLayerNamesListView.getItems().addAll(wfsLayerInfos);
-      } else {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "WFS Service Failed to Load!");
-        alert.show();
-      }
-    });
+      // set the feature request mode to manual (only manual is currently supported).
+      // in this mode, the table must be manually populated - panning and zooming won't request features automatically
+      ogcFeatureCollectionTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
-    // populate the list view with layer names
-    wfsLayerNamesListView.setCellFactory(list -> new ListCell<>() {
+      // load the table
+      ogcFeatureCollectionTable.loadAsync();
 
-      @Override
-      protected void updateItem(WfsLayerInfo wfsLayerInfo, boolean bln) {
-        super.updateItem(wfsLayerInfo, bln);
-        if (wfsLayerInfo != null) {
-          String fullNameOfWfsLayer = wfsLayerInfo.getName();
-          String[] split = fullNameOfWfsLayer.split(":");
-          String smallName = split[1];
-          setText(smallName);
-        }
-      }
-    });
+      // create a feature layer and set a renderer to it to visualize the OGC API features
+      var featureLayer = new FeatureLayer(ogcFeatureCollectionTable);
+      var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), 3));
+      featureLayer.setRenderer(simpleRenderer);
 
-    // load the selected layer from the list view when the layer is selected
-    wfsLayerNamesListView.getSelectionModel().selectedItemProperty().addListener(observable ->
-      updateMap(wfsLayerNamesListView.getSelectionModel().getSelectedItem())
-    );
+      // add the layer to the map
+      map.getOperationalLayers().add(featureLayer);
 
-    // add the controls to the stack pane
-    stackPane.getChildren().addAll(mapView, wfsLayerNamesListView, progressIndicator);
-    StackPane.setAlignment(wfsLayerNamesListView, Pos.TOP_LEFT);
-    StackPane.setMargin(wfsLayerNamesListView, new Insets(10));
-  }
-
-  /**
-   * Adds a WfsLayerInfo to the map's operational layers, with a random color renderer.
-   * @param wfsLayerInfo the WfsLayerInfo that the map will display
-   */
-  private void updateMap(WfsLayerInfo wfsLayerInfo){
-
-    progressIndicator.setVisible(true);
-
-    // clear the map's operational layers
-    map.getOperationalLayers().clear();
-
-    // create a WFSFeatureTable from the WFSLayerInfo
-    wfsFeatureTable = new WfsFeatureTable(wfsLayerInfo);
-
-    // set the feature request mode to manual. The table must be manually populated as panning and zooming won't request features automatically.
-    wfsFeatureTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
-    // define the coordinate order for the WFS service
-    wfsFeatureTable.setAxisOrder(OgcAxisOrder.NO_SWAP);
-
-    // create a feature layer to visualize the WFS features
-    FeatureLayer wfsFeatureLayer = new FeatureLayer(wfsFeatureTable);
-
-    // populate the table and then remove progress indicator and set the viewpoint to that of the layer's full extent when done.
-    wfsFeatureTable.populateFromServiceAsync(new QueryParameters(), false, null ).addDoneListener(()->{
-      progressIndicator.setVisible(false);
-      mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
-    });
-
-    // apply a renderer to the feature layer once the table is loaded (the renderer is based on the table's geometry type)
-    wfsFeatureTable.addDoneLoadingListener(()->{
-      switch (wfsFeatureTable.getGeometryType()) {
-        case POINT:
-          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xff00f5ff, 4)));
-          break;
-        case POLYGON:
-          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xfff8ff00, null)));
-          break;
-        case POLYLINE:
-          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xffff0000, 2)));
-          break;
-      }
-    });
-
-    // add the layer to the map's operational layers
-    map.getOperationalLayers().add(wfsFeatureLayer);
+    } catch (Exception e) {
+      // on any error, display the stack trace.
+      e.printStackTrace();
+    }
   }
 
   /**

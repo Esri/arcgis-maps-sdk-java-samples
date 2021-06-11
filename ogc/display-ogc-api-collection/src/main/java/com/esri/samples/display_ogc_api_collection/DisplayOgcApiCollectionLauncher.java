@@ -6,6 +6,6 @@ package com.esri.samples.display_ogc_api_collection;
 public class DisplayOgcApiCollectionLauncher {
 
   public static void main(String[] args) {
-    DisplayOgcApiCollection.main(args);
+    DisplayOgcApiCollectionSample.main(args);
   }
 }
