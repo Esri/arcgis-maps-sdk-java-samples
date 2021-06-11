@@ -43,7 +43,6 @@ public class CreateAndSaveMapSample extends Application {
     stage.setScene(scene);
     stage.show();
 
-    controller.authenticate();
   }
 
   /**

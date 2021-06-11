@@ -21,9 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
@@ -50,16 +48,8 @@ public class OAuthSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // authentication with an API key or named user is required to access basemaps and other location services
-      String yourAPIKey = System.getProperty("apiKey");
-      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
-
-      // create a map with the standard imagery basemap style
-      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
-
-      // create a map view and set the map to it
+      // create a map view
       mapView = new MapView();
-      mapView.setMap(map);
 
       // set up an oauth config with url to portal, a client id and a re-direct url
       OAuthConfiguration oAuthConfiguration = new OAuthConfiguration("https://www.arcgis.com/", "lgAdHkYZYlwwfAhC", "urn:ietf:wg:oauth:2.0:oob");
