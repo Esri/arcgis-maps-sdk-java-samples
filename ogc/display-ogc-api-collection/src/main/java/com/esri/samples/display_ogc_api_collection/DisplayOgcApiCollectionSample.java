@@ -42,7 +42,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class DisplayOgcApiCollectionSample extends Application {
 
   private MapView mapView;
-//  private ProgressIndicator progressIndicator;
+  private OgcFeatureCollectionTable ogcFeatureCollectionTable;
 
   @Override
   public void start(Stage stage) {
@@ -82,7 +82,7 @@ public class DisplayOgcApiCollectionSample extends Application {
       var collectionId = "TransportationGroundCrv";
 
       // create an OGC feature collection table from the service url and collection id
-      var ogcFeatureCollectionTable = new OgcFeatureCollectionTable(serviceUrl, collectionId);
+      ogcFeatureCollectionTable = new OgcFeatureCollectionTable(serviceUrl, collectionId);
 
       // set the feature request mode to manual (only manual is currently supported).
       // in this mode, the table must be manually populated - panning and zooming won't request features automatically
