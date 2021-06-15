@@ -17,14 +17,19 @@
 package com.esri.samples.display_ogc_api_collection;
 
 import com.esri.arcgisruntime.data.OgcFeatureCollectionTable;
+import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.OgcFeatureCollectionInfo;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -37,6 +42,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 public class DisplayOgcApiCollectionSample extends Application {
 
   private MapView mapView;
+//  private ProgressIndicator progressIndicator;
 
   @Override
   public void start(Stage stage) {
@@ -64,8 +70,11 @@ public class DisplayOgcApiCollectionSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+      // create a progress indicator
+      var progressIndicator = new ProgressIndicator();
+
       // add the map view to the stack pane
-      stackPane.getChildren().addAll(mapView);
+      stackPane.getChildren().addAll(mapView, progressIndicator);
 
       // define strings for the service URL and collection id
       // note that the service defines the collection id which can be accessed via OgcFeatureCollectionInfo.getCollectionId().
@@ -79,16 +88,58 @@ public class DisplayOgcApiCollectionSample extends Application {
       // in this mode, the table must be manually populated - panning and zooming won't request features automatically
       ogcFeatureCollectionTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
+      ogcFeatureCollectionTable.addDoneLoadingListener(() -> {
+        if (ogcFeatureCollectionTable.getLoadStatus() == LoadStatus.LOADED) {
+
+          // create a feature layer and set a renderer to it to visualize the OGC API features
+          var featureLayer = new FeatureLayer(ogcFeatureCollectionTable);
+          var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), 3));
+          featureLayer.setRenderer(simpleRenderer);
+
+          // add the layer to the map
+          map.getOperationalLayers().add(featureLayer);
+
+          Envelope datasetExtent = ogcFeatureCollectionTable.getExtent();
+          if (datasetExtent != null && !datasetExtent.isEmpty()) {
+            mapView.setViewpointGeometryAsync(
+              new Envelope(datasetExtent.getCenter(), datasetExtent.getWidth() / 3, datasetExtent.getHeight() / 3));
+          }
+
+        } else {
+          // show an alert dialog if there is a loading failure
+          new Alert(Alert.AlertType.ERROR, "Failed to load OGC Feature Collection Table");
+        }
+      });
+
       // load the table
       ogcFeatureCollectionTable.loadAsync();
 
-      // create a feature layer and set a renderer to it to visualize the OGC API features
-      var featureLayer = new FeatureLayer(ogcFeatureCollectionTable);
-      var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), 3));
-      featureLayer.setRenderer(simpleRenderer);
+      mapView.addNavigationChangedListener(e -> {
+        if (!e.isNavigating()) {
 
-      // add the layer to the map
-      map.getOperationalLayers().add(featureLayer);
+          // get the current extent
+          Envelope currentExtent = mapView.getVisibleArea().getExtent();
+
+          // create a query based on the current visible extent
+          QueryParameters visibleExtentQuery = new QueryParameters();
+          visibleExtentQuery.setGeometry(currentExtent);
+          visibleExtentQuery.setSpatialRelationship(QueryParameters.SpatialRelationship.INTERSECTS);
+          // set a limit of 5000 on the number of returned features per request, the default on some services
+          // could be as low as 10
+          visibleExtentQuery.setMaxFeatures(5000);
+
+          try {
+            // populate the table with the query, leaving existing table entries intact
+            // setting the outfields parameter to null requests all fields
+            ogcFeatureCollectionTable.populateFromServiceAsync(visibleExtentQuery, false, null);
+            progressIndicator.setVisible(false);
+
+          } catch (Exception exception) {
+            exception.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, exception.getMessage()).show();
+          }
+        }
+      });
 
     } catch (Exception e) {
       // on any error, display the stack trace.

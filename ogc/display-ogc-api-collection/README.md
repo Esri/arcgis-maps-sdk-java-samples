@@ -14,10 +14,10 @@ Pan the map and observe how new features are loaded from the OGC API feature ser
 
 ## How it works
 
-1. Create an `OgcFeatureCollectionTable` object using a URL to an OGC API feature service and a collection ID.
+1. Create an `OgcFeatureCollectionTable` using a URL to an OGC API feature service and a collection ID.
 2. Set the feature table's `FeatureRequestMode` property to `FeatureRequestMode.ManualCache`.
 3. Call `OgcFeatureCollectionTable.LoadAsync()`
-4. Create a `FeatureLayer` using the feature table and add it to the map view.
+4. Create a `FeatureLayer` using the feature collection table and add it to the map view.
 5. Every time the map view navigation completes:
     1. Create `QueryParameters`.
     2. Set the parameter's `Geometry` to the current extent of the map view.
