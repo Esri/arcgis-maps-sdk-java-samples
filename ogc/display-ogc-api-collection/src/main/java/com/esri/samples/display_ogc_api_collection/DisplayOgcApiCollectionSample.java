@@ -98,6 +98,7 @@ public class DisplayOgcApiCollectionSample extends Application {
           // add the layer to the map
           map.getOperationalLayers().add(featureLayer);
 
+          // zoom to a small area within the dataset by default
           Envelope datasetExtent = ogcFeatureCollectionTable.getExtent();
           if (datasetExtent != null && !datasetExtent.isEmpty()) {
             mapView.setViewpointGeometryAsync(
