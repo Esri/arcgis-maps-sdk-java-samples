@@ -14,7 +14,7 @@ Select an address from the drop-down list to geocode the address and view the re
 
 ## How it works
 
-1. Use the path of a .loc file to create a `LocatorTask` object. 
+1. Use the path of a .loc file to create a `LocatorTask` object.
 2. Set up `GeocodeParameters` and call `GeocodeAsync` to get geocode results.
 
 ## Relevant API
