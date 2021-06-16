@@ -24,6 +24,10 @@ Select an address from the drop-down list to geocode the address and view the re
 * LocatorTask
 * ReverseGeocodeParameters
 
+## Additional information
+
+This sample uses the [San Diego Streets Tile Package](https://www.arcgis.com/home/item.html?id=22c3083d4fa74e3e9b25adfc9f8c0496) and the [San Diego Offline Locator](https://arcgis.com/home/item.html?id=3424d442ebe54f3cbf34462382d3aebe).
+
 ## Tags
 
 geocode, geocoder, locator, offline, package, query, search

@@ -91,10 +91,11 @@ public class OfflineGeocodeSample extends Application {
 
       // add example address suggestions
       String[] recent = {
-          "1455 Market St, San Francisco, CA 94103", "2011 Mission St, San Francisco  CA  94110",
-          "820 Bryant St, San Francisco  CA  94103", "1 Zoo Rd, San Francisco, 944132",
-          "1201 Mason Street, San Francisco, CA 94108", "151 Third Street, San Francisco, CA 94103",
-          "1050 Lombard Street, San Francisco, CA 94109"
+        "910 N Harbor Dr, San Diego, CA 92101",
+        "2920 Zoo Dr, San Diego, CA 92101",
+        "111 W Harbor Dr, San Diego, CA 92101",
+        "868 4th Ave, San Diego, CA 92101",
+        "750 A St, San Diego, CA 92101"
       };
       searchBox.getItems().addAll(recent);
 
@@ -124,8 +125,8 @@ public class OfflineGeocodeSample extends Application {
       });
 
       // create a basemap from a local tile package
-      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/sanfrancisco/SanFrancisco.tpk");
-      TileCache tileCache = new TileCache(tpkFile.getAbsolutePath());
+      File tpkxFile = new File(System.getProperty("data.dir"), "./samples-data/sandiego/streetmap_SD.tpkx");
+      TileCache tileCache = new TileCache(tpkxFile.getAbsolutePath());
       tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
 
@@ -163,7 +164,7 @@ public class OfflineGeocodeSample extends Application {
 
       // create a locator task
       final String locatorPath =
-              new File(System.getProperty("data.dir"), "./samples-data/sanfrancisco/SanFranciscoLocator.loc").getAbsolutePath();
+              new File(System.getProperty("data.dir"), "./samples-data/sandiego/SanDiego_StreetAddress.loc").getAbsolutePath();
       locatorTask = new LocatorTask(locatorPath);
 
       // set geocode task parameters
