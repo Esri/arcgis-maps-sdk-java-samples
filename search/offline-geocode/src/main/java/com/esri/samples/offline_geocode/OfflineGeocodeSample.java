@@ -275,6 +275,7 @@ public class OfflineGeocodeSample extends Application {
 
         } catch (Exception e) {
           // mouse is out of bounds
+          e.printStackTrace();
         }
         // re-enable the mouse move listener
         mapView.setOnMouseMoved(this);
