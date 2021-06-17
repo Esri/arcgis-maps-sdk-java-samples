@@ -41,7 +41,7 @@ import javafx.stage.Stage;
 public class DisplayOgcApiCollectionSample extends Application {
 
   private MapView mapView;
-  private OgcFeatureCollectionTable ogcFeatureCollectionTable;
+  private OgcFeatureCollectionTable ogcFeatureCollectionTable; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
@@ -62,7 +62,7 @@ public class DisplayOgcApiCollectionSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the standard imagery basemap style
+      // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
       // create a map view and set the map to it
@@ -72,13 +72,13 @@ public class DisplayOgcApiCollectionSample extends Application {
       // create a progress indicator
       var progressIndicator = new ProgressIndicator();
 
-      // add the map view to the stack pane
+      // add the map view and progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, progressIndicator);
 
       // define strings for the service URL and collection id
       // note that the service defines the collection id which can be accessed via OgcFeatureCollectionInfo.getCollectionId().
-      var serviceUrl = "https://demo.ldproxy.net/daraa";
-      var collectionId = "TransportationGroundCrv";
+      String serviceUrl = "https://demo.ldproxy.net/daraa";
+      String collectionId = "TransportationGroundCrv";
 
       // create an OGC feature collection table from the service url and collection id
       ogcFeatureCollectionTable = new OgcFeatureCollectionTable(serviceUrl, collectionId);
@@ -87,6 +87,10 @@ public class DisplayOgcApiCollectionSample extends Application {
       // in this mode, the table must be manually populated - panning and zooming won't request features automatically
       ogcFeatureCollectionTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
+      // load the table
+      ogcFeatureCollectionTable.loadAsync();
+
+      // ensure the feature collection table has loaded successfully before creating a feature layer from it to display on the map
       ogcFeatureCollectionTable.addDoneLoadingListener(() -> {
         if (ogcFeatureCollectionTable.getLoadStatus() == LoadStatus.LOADED) {
 
@@ -111,9 +115,8 @@ public class DisplayOgcApiCollectionSample extends Application {
         }
       });
 
-      // load the table
-      ogcFeatureCollectionTable.loadAsync();
-
+      // once the map view navigation has completed, query the OGC API feature table for
+      // additional features within the new visible extent.
       mapView.addNavigationChangedListener(e -> {
         if (!e.isNavigating()) {
 
