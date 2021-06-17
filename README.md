@@ -28,6 +28,8 @@ Note: *in the following instructions for setting the API key, if a `gradle.prope
 5. Open the Gradle view with _View > Tool Windows > Gradle_.
 6. In the Gradle view, double-click the `run` task under _Tasks > application_ to run the app.
 
+Note: *if you encounter the error `Could not get unknown property 'apiKey' for task ':run' of type org.gradle.api.tasks.JavaExec.` you may have to set the Gradle user home in the IntelliJ Gradle settings to the `/.gradle` folder in your home directory.
+
 ### Eclipse
 
 1. Open Eclipse and select _File > Import_.
