@@ -28,8 +28,8 @@ Create and set the configuration's filter barriers by selecting a category. Chec
     2. Assign this condition to `utilityTraceFilter.setBarriers()` from the default configuration from step 5. Update this configuration's `utilityTraceConfiguration.isIncludeIsolatedFeatures()` property.
     3. Create a `UtilityTraceParameters` with `UtilityTraceType.ISOLATION` and default starting location from step 6.
     4. Set its utility trace configuration with this configuration and then, run a `utilityNetwork.traceAsync()`.
-10. Get the list of `UtilityElement`s from the first trace result.
-11. For every feature layer in the map, select all the features for which the layer's `FeatureTable.getTableName()` matches the `NetworkSource.getName()` of one of the utility elements.
+11. Get the list of `UtilityElement`s from the first trace result.
+12. For every feature layer in the map, select all the features for which the layer's `FeatureTable.getTableName()` matches the `NetworkSource.getName()` of one of the utility elements.
 
 ## Relevant API
 
