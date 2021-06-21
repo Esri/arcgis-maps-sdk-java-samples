@@ -24,10 +24,10 @@ Create and set the configuration's filter barriers by selecting a category. Chec
 8. Add a `GraphicsOverlay` with the graphic that represents the starting location.
 9. Populate the combo box for choosing the filter barrier category from `UtilityNetworkDefinition.getCategories()`.
 10. When "Trace" is clicked,
-    * Create a new `UtilityCategoryComparison` with the selected category and `UtilityCategoryComparisonOperator.EXISTS`.
-    * Assign this condition to `utilityTraceFilter.setBarriers()` from the default configuration from step 5. Update this configuration's `utilityTraceConfiguration.isIncludeIsolatedFeatures()` property.
-    * Create a `UtilityTraceParameters` with `UtilityTraceType.ISOLATION` and default starting location from step 6.
-    * Set its utility trace configuration with this configuration and then, run a `utilityNetwork.traceAsync()`.
+    1. Create a new `UtilityCategoryComparison` with the selected category and `UtilityCategoryComparisonOperator.EXISTS`.
+    2. Assign this condition to `utilityTraceFilter.setBarriers()` from the default configuration from step 5. Update this configuration's `utilityTraceConfiguration.isIncludeIsolatedFeatures()` property.
+    3. Create a `UtilityTraceParameters` with `UtilityTraceType.ISOLATION` and default starting location from step 6.
+    4. Set its utility trace configuration with this configuration and then, run a `utilityNetwork.traceAsync()`.
 10. Get the list of `UtilityElement`s from the first trace result.
 11. For every feature layer in the map, select all the features for which the layer's `FeatureTable.getTableName()` matches the `NetworkSource.getName()` of one of the utility elements.
 
