@@ -13,7 +13,7 @@
         "subnetwork trace",
         "trace configuration",
         "trace filter",
-        "service geodatabase",
+        "ServiceGeodatabase",
         "utility network",
         "UtilityCategory",
         "UtilityCategoryComparison",

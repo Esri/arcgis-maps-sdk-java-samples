@@ -92,14 +92,13 @@ public class PerformValveIsolationTraceController {
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
       mapView.setMap(map);
 
-      // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
               "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleGas/FeatureServer";
-
-      var serviceGeodatabase = new ServiceGeodatabase(featureServiceURL);
       // set user credentials to authenticate with the service
       // NOTE: a licensed user is required to perform utility network operations
-      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+      var userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+      // create a new service geodatabase from the feature service url and set the user credential
+      var serviceGeodatabase = new ServiceGeodatabase(featureServiceURL);
       serviceGeodatabase.setCredential(userCredential);
 
       // load the service geodatabase and get tables by their layer IDs
