@@ -13,6 +13,7 @@
         "subnetwork trace",
         "trace configuration",
         "trace filter",
+        "service geodatabase",
         "utility network",
         "UtilityCategory",
         "UtilityCategoryComparison",
@@ -30,6 +31,7 @@
     ],
     "redirect_from": "",
     "relevant_apis": [
+        "ServiceGeodatabase",
         "UtilityCategory",
         "UtilityCategoryComparison",
         "UtilityCategoryComparisonOperator",
