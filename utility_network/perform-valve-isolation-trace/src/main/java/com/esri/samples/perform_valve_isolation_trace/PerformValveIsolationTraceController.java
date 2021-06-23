@@ -35,7 +35,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.QueryParameters;
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.ServiceGeodatabase;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -92,101 +92,110 @@ public class PerformValveIsolationTraceController {
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
       mapView.setMap(map);
 
-      // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
               "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleGas/FeatureServer";
-
-      ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/3");
-      FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
-
-      ServiceFeatureTable deviceFeatureTable = new ServiceFeatureTable(featureServiceURL + "/0");
-      FeatureLayer deviceLayer = new FeatureLayer(deviceFeatureTable);
-
-      // add the feature layers to the map
-      map.getOperationalLayers().addAll(Arrays.asList(distributionLineLayer, deviceLayer));
-
-      // create a graphics overlay for the starting location and add it to the map view
-      GraphicsOverlay startingLocationGraphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(startingLocationGraphicsOverlay);
-
-      // create and apply a renderer for the starting point graphics overlay
-      SimpleMarkerSymbol startingPointSymbol =
-              new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.LIGHTGREEN), 25);
-      startingLocationGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
-
-      // create and load the utility network
-      utilityNetwork = new UtilityNetwork(featureServiceURL);
-
       // set user credentials to authenticate with the service
       // NOTE: a licensed user is required to perform utility network operations
-      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
-      utilityNetwork.setCredential(userCredential);
+      var userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+      // create a new service geodatabase from the feature service url and set the user credential
+      var serviceGeodatabase = new ServiceGeodatabase(featureServiceURL);
+      serviceGeodatabase.setCredential(userCredential);
 
-      utilityNetwork.loadAsync();
-      utilityNetwork.addDoneLoadingListener(() -> {
-        if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
+      // load the service geodatabase and get tables by their layer IDs
+      serviceGeodatabase.loadAsync();
+      serviceGeodatabase.addDoneLoadingListener(() -> {
+        if (serviceGeodatabase.getLoadStatus() == LoadStatus.LOADED) {
+          // the gas device layer ./0 and gas line layer ./3 are created from the service geodatabase
+          var gasDeviceFeatureLayer = new FeatureLayer(serviceGeodatabase.getTable(0));
+          var gasLineFeatureLayer = new FeatureLayer(serviceGeodatabase.getTable(3));
+          // add the utility network feature layers to the map for display
+          map.getOperationalLayers().addAll(Arrays.asList(gasDeviceFeatureLayer, gasLineFeatureLayer));
 
-          // get a trace configuration from a tier
-          UtilityNetworkDefinition networkDefinition = utilityNetwork.getDefinition();
-          UtilityDomainNetwork domainNetwork = networkDefinition.getDomainNetwork("Pipeline");
-          UtilityTier tier = domainNetwork.getTier("Pipe Distribution System");
-          traceConfiguration = tier.getTraceConfiguration();
+          // create and add the utility network to the map before loading
+          utilityNetwork = new UtilityNetwork(featureServiceURL);
+          map.getUtilityNetworks().add(utilityNetwork);
+          // load the utility network
+          utilityNetwork.loadAsync();
+          utilityNetwork.addDoneLoadingListener(() -> {
+            if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
 
-          // create a trace filter
-          traceConfiguration.setFilter(new UtilityTraceFilter());
+              // get a trace configuration from a tier
+              UtilityNetworkDefinition networkDefinition = utilityNetwork.getDefinition();
+              UtilityDomainNetwork domainNetwork = networkDefinition.getDomainNetwork("Pipeline");
+              UtilityTier tier = domainNetwork.getTier("Pipe Distribution System");
+              traceConfiguration = tier.getTraceConfiguration();
 
-          // get a default starting location
-          UtilityNetworkSource networkSource = networkDefinition.getNetworkSource("Gas Device");
-          UtilityAssetGroup assetGroup = networkSource.getAssetGroup("Meter");
-          UtilityAssetType assetType = assetGroup.getAssetType("Customer");
-          startingLocation = utilityNetwork.createElement(assetType, UUID.fromString("98A06E95-70BE-43E7-91B7-E34C9D3CB9FF"));
+              // create a trace filter
+              traceConfiguration.setFilter(new UtilityTraceFilter());
 
-          // get the first feature for the starting location, and get its geometry
-          ListenableFuture<List<ArcGISFeature>> elementFeaturesFuture =
-                  utilityNetwork.fetchFeaturesForElementsAsync(Collections.singletonList(startingLocation));
+              // get a default starting location
+              UtilityNetworkSource networkSource = networkDefinition.getNetworkSource("Gas Device");
+              UtilityAssetGroup assetGroup = networkSource.getAssetGroup("Meter");
+              UtilityAssetType assetType = assetGroup.getAssetType("Customer");
+              startingLocation = utilityNetwork.createElement(assetType, UUID.fromString("98A06E95-70BE-43E7-91B7-E34C9D3CB9FF"));
 
-          elementFeaturesFuture.addDoneListener(() -> {
-            try {
-              List<ArcGISFeature> startingLocationFeatures = elementFeaturesFuture.get();
+              // get the first feature for the starting location, and get its geometry
+              ListenableFuture<List<ArcGISFeature>> elementFeaturesFuture =
+                utilityNetwork.fetchFeaturesForElementsAsync(Collections.singletonList(startingLocation));
 
-              if (!startingLocationFeatures.isEmpty()) {
-                Geometry startingLocationGeometry = startingLocationFeatures.get(0).getGeometry();
+              elementFeaturesFuture.addDoneListener(() -> {
+                try {
+                  List<ArcGISFeature> startingLocationFeatures = elementFeaturesFuture.get();
 
-                if (startingLocationGeometry instanceof Point) {
-                  Point startingLocationGeometryPoint = (Point) startingLocationGeometry;
+                  if (!startingLocationFeatures.isEmpty()) {
+                    Geometry startingLocationGeometry = startingLocationFeatures.get(0).getGeometry();
 
-                  // create a graphic for the starting location and add it to the graphics overlay
-                  Graphic startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
-                  startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
+                    if (startingLocationGeometry instanceof Point) {
+                      Point startingLocationGeometryPoint = (Point) startingLocationGeometry;
 
-                  // set the map's viewpoint to the starting location
-                  mapView.setViewpointAsync(new Viewpoint(startingLocationGeometryPoint, 3000));
+                      // create a graphics overlay for the starting location and add it to the map view
+                      GraphicsOverlay startingLocationGraphicsOverlay = new GraphicsOverlay();
+                      mapView.getGraphicsOverlays().add(startingLocationGraphicsOverlay);
 
-                  // build the choice list for categories populated with the 'Name' property of each 'UtilityCategory' in the 'UtilityNetworkDefinition'
-                  categorySelectionComboBox.getItems().addAll(networkDefinition.getCategories());
-                  categorySelectionComboBox.getSelectionModel().select(0);
-                  categorySelectionComboBox.setCellFactory(param -> new UtilityCategoryListCell());
-                  categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
+                      // create and apply a renderer for the starting point graphics overlay
+                      SimpleMarkerSymbol startingPointSymbol =
+                        new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.LIGHTGREEN), 25);
+                      startingLocationGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
 
-                  // enable the UI
-                  enableUI(true);
+                      // create a graphic for the starting location and add it to the graphics overlay
+                      Graphic startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
+                      startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
 
-                  // update the status text
-                  statusLabel.setText("Utility network loaded. Ready to perform trace...");
+                      // set the map's viewpoint to the starting location
+                      mapView.setViewpointAsync(new Viewpoint(startingLocationGeometryPoint, 3000));
+
+                      // build the choice list for categories populated with the 'Name' property of each 'UtilityCategory' in the 'UtilityNetworkDefinition'
+                      categorySelectionComboBox.getItems().addAll(networkDefinition.getCategories());
+                      categorySelectionComboBox.getSelectionModel().select(0);
+                      categorySelectionComboBox.setCellFactory(param -> new UtilityCategoryListCell());
+                      categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
+
+                      // enable the UI
+                      enableUI(true);
+
+                      // update the status text
+                      statusLabel.setText("Utility network loaded. Ready to perform trace...");
+                    }
+
+                  } else {
+                    new Alert(Alert.AlertType.ERROR, "Error getting starting location geometry.").show();
+                  }
+                } catch (ExecutionException | InterruptedException e) {
+                  new Alert(Alert.AlertType.ERROR, "Error getting starting location feature.").show();
                 }
+              });
 
-              } else {
-                new Alert(Alert.AlertType.ERROR, "Error getting starting location geometry.").show();
-              }
-            } catch (ExecutionException | InterruptedException e) {
-              new Alert(Alert.AlertType.ERROR, "Error getting starting location feature.").show();
+            } else {
+              new Alert(Alert.AlertType.ERROR, "Error loading Utility Network.").show();
             }
           });
 
         } else {
-          new Alert(Alert.AlertType.ERROR, "Error loading Utility Network.").show();
+          new Alert(Alert.AlertType.ERROR, "Failed to load service geodatabase").show();
         }
       });
+
+
     } catch (Exception e) {
       e.printStackTrace();
     }

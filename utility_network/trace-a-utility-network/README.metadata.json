@@ -15,6 +15,7 @@
         "upstream trace",
         "utility network",
         "validate consistency",
+        "ServiceGeodatabase",
         "UtilityAssetType",
         "UtilityDomainNetwork",
         "UtilityElement",
@@ -31,6 +32,7 @@
     ],
     "redirect_from": "",
     "relevant_apis": [
+        "ServiceGeodatabase",
         "UtilityAssetType",
         "UtilityDomainNetwork",
         "UtilityElement",

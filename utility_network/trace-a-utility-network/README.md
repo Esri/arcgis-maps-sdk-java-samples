@@ -15,22 +15,24 @@ Click on one or more features while 'Add starting locations' or 'Add barriers' i
 ## How it works
 
 1. Create an `ArcGISMap` and set it on a `MapView`.
-2. Using the URL to a utility network's feature service, create `FeatureLayer`s that contain the utility network's features, and add them to the operational layers of the map.
-3. Create and load a `UtilityNetwork` with the same feature service URL and map.
-4. Add a `GraphicsOverlay` with symbology that distinguishes starting points from barriers.
-5. Add a listener for clicks on the map view, and use `mapView.identifyLayersAsync()` to identify clicked features.
-6. Create a `UtilityElement` that represents its purpose (starting point or barrier) at the location of each identified feature, and save it to a list.
-7. Determine the type of the identified feature using `utilityNetwork.getDefinition().getNetworkSource()` passing its table name.
-8. If a junction, display a terminal picker when more than one `UtilityTerminal` is found and create a `UtilityElement` with the selected terminal or the single terminal if there is only one.
-9. If an edge, create a utility element from the identified feature and set its `FractionAlongEdge` using `GeometryEngine.fractionAlong()`.
-10. Create `UtilityTraceParameters` with the selected trace type along with the collected starting locations and barriers (if applicable).
-11. Set the `TraceConfiguration` of the utility trace parameters to the the utility tier's trace configuration property.
-12. Run a `utilityNetwork.traceAsync()` with the specified parameters, and get the `UtilityTraceResult`.
-13. From the utility trace result, get the `UtilityElementTraceResult`.
-14. For each feature layer in the map, create `QueryParameters` to find features from the result whose network source name matches the layer's feature table name, and use `FeatureLayer.selectFeaturesAsync()` to select these features.
+2. Create and load a `ServiceGeodatabase` with a feature service URL and get tables with their layer IDs.
+3. Create `FeatureLayer`s created from the service geodatabase's tables, and add them to the operational layers of the map.
+4. Create a `UtilityNetwork` with the same feature service URL and add it to the map's utility networks list, then load it.
+5. Add a `GraphicsOverlay` with symbology that distinguishes starting points from barriers.
+6. Add a listener for clicks on the map view, and use `mapView.identifyLayersAsync()` to identify clicked features.
+7. Create a `UtilityElement` that represents its purpose (starting point or barrier) at the location of each identified feature, and save it to a list.
+8. Determine the type of the identified feature using `utilityNetwork.getDefinition().getNetworkSource()` passing its table name.
+9. If a junction, display a terminal picker when more than one `UtilityTerminal` is found and create a `UtilityElement` with the selected terminal or the single terminal if there is only one.
+10. If an edge, create a utility element from the identified feature and set its `FractionAlongEdge` using `GeometryEngine.fractionAlong()`.
+11. Create `UtilityTraceParameters` with the selected trace type along with the collected starting locations and barriers (if applicable).
+12. Set the `TraceConfiguration` of the utility trace parameters to the the utility tier's trace configuration property.
+13. Run a `utilityNetwork.traceAsync()` with the specified parameters, and get the `UtilityTraceResult`.
+14. From the utility trace result, get the `UtilityElementTraceResult`.
+15. For each feature layer in the map, create `QueryParameters` to find features from the result whose network source name matches the layer's feature table name, and use `FeatureLayer.selectFeaturesAsync()` to select these features.
 
 ## Relevant API
 
+* ServiceGeodatabase
 * UtilityAssetType
 * UtilityDomainNetwork
 * UtilityElement
