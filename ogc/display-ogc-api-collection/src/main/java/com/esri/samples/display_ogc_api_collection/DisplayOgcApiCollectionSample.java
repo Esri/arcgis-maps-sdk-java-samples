@@ -92,7 +92,6 @@ public class DisplayOgcApiCollectionSample extends Application {
 
       // ensure the feature collection table has loaded successfully before creating a feature layer from it to display on the map
       ogcFeatureCollectionTable.addDoneLoadingListener(() -> {
-        System.out.println(ogcFeatureCollectionTable.getLoadStatus());
         if (ogcFeatureCollectionTable.getLoadStatus() == LoadStatus.LOADED) {
 
           // create a feature layer and set a renderer to it to visualize the OGC API features
