@@ -6,7 +6,7 @@ Display an OGC API feature collection and query features while navigating the ma
 
 ## Use case
 
-When panning the map view, it may be necessary to query the OGC API feature table for additional features within the new visible extent.
+When panning the map view, it is necessary to query the OGC API feature table to obtain additional features within the new visible extent.
 
 ## How to use the sample
 

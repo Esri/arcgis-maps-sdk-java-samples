@@ -92,6 +92,7 @@ public class DisplayOgcApiCollectionSample extends Application {
 
       // ensure the feature collection table has loaded successfully before creating a feature layer from it to display on the map
       ogcFeatureCollectionTable.addDoneLoadingListener(() -> {
+        System.out.println(ogcFeatureCollectionTable.getLoadStatus());
         if (ogcFeatureCollectionTable.getLoadStatus() == LoadStatus.LOADED) {
 
           // create a feature layer and set a renderer to it to visualize the OGC API features
@@ -111,7 +112,8 @@ public class DisplayOgcApiCollectionSample extends Application {
 
         } else {
           // show an alert dialog if there is a loading failure
-          new Alert(Alert.AlertType.ERROR, "Failed to load OGC Feature Collection Table");
+          new Alert(Alert.AlertType.ERROR, "Failed to load OGC Feature Collection Table: " +
+            ogcFeatureCollectionTable.getLoadError().getCause().getMessage()).show();
         }
       });
 
@@ -134,8 +136,9 @@ public class DisplayOgcApiCollectionSample extends Application {
           try {
             // populate the table with the query, leaving existing table entries intact
             // setting the outfields parameter to null requests all fields
-            ogcFeatureCollectionTable.populateFromServiceAsync(visibleExtentQuery, false, null);
-            progressIndicator.setVisible(false);
+            ogcFeatureCollectionTable.populateFromServiceAsync(visibleExtentQuery, false, null).addDoneListener(() -> {
+              progressIndicator.setVisible(false);
+            });
 
           } catch (Exception exception) {
             exception.printStackTrace();
