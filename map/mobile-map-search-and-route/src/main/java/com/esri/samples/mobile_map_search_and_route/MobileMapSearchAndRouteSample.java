@@ -91,8 +91,8 @@ public class MobileMapSearchAndRouteSample extends Application {
 
       // create a file chooser to find local mmpk files
       FileChooser fileChooser = new FileChooser();
-      FileChooser.ExtensionFilter mpkFilter = new FileChooser.ExtensionFilter("Map Packages (*.mmpk)", "*.mmpk");
-      fileChooser.getExtensionFilters().add(mpkFilter);
+      FileChooser.ExtensionFilter mmpkFilter = new FileChooser.ExtensionFilter("Map Packages (*.mmpk)", "*.mmpk");
+      fileChooser.getExtensionFilters().add(mmpkFilter);
       fileChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/mmpk"));
 
       // click a button to open the file chooser

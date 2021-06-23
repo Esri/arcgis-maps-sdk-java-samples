@@ -6,15 +6,15 @@ Display maps and use locators to enable search and routing offline using a mobil
 
 ## Use case
 
-Mobile map packages make it easy to transmit and store the necessary components for an offline map experience including: transportation networks (for routing/navigation), locators (address search, forward and reverse geocoding), and maps. 
+Mobile map packages make it easy to transmit and store the necessary components for an offline map experience including: transportation networks (for routing/navigation), locators (address search, forward and reverse geocoding), and maps.
 
 A field worker might download a mobile map package to support their operations while working offline, for example to navigate remote oil field roads.
 
 ## How to use the sample
 
-Click the "Open mobile map package" button to bring up a file choosing dialog. Browse to and select a .mmpk file. When chosen, the maps inside the mobile map package will be displayed in a list view. Click on a map in the list to open it. 
+Click the "Open mobile map package" button to bring up a file choosing dialog. Browse to and select a .mmpk file. When chosen, the maps inside the mobile map package will be displayed in a list view. Click on a map in the list to open it.
 
-If the mobile map package has a locator task, the list items will have a pin icon. Click on the map to reverse geocode the clicked locations's address if a locator task is available. 
+If the mobile map package has a locator task, the list items will have a pin icon. Click on the map to reverse geocode the clicked locations's address if a locator task is available.
 
 If the map contains transportation networks, it will have a navigation icon. Click on the map to add locations. If transportation networks are available, a route will be calculated between  locations.
 
@@ -35,6 +35,10 @@ If the map contains transportation networks, it will have a navigation icon. Cli
 * RouteResult
 * RouteTask
 * TransportationNetworkDataset
+
+## Offline data
+
+This sample uses the [San Francisco](https://www.arcgis.com/home/item.html?id=260eb6535c824209964cf281766ebe43) mobile map package and the [Yellowstone](https://www.arcgis.com/home/item.html?id=e1f3a7254cb845b09450f54937c16061) mobile map package. Both are downloaded from ArcGIS Online automatically.
 
 ## Tags
 
