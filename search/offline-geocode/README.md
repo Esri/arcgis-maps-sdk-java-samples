@@ -14,7 +14,7 @@ Select an address from the drop-down list to geocode the address and view the re
 
 ## How it works
 
-1. Use the path of a .loc file to create a `LocatorTask` object. 
+1. Use the path of a .loc file to create a `LocatorTask` object.
 2. Set up `GeocodeParameters` and call `GeocodeAsync` to get geocode results.
 
 ## Relevant API
@@ -23,6 +23,10 @@ Select an address from the drop-down list to geocode the address and view the re
 * GeocodeResult
 * LocatorTask
 * ReverseGeocodeParameters
+
+## Additional information
+
+This sample uses the [San Diego Streets Tile Package](https://www.arcgis.com/home/item.html?id=22c3083d4fa74e3e9b25adfc9f8c0496) and the [San Diego Offline Locator](https://arcgis.com/home/item.html?id=3424d442ebe54f3cbf34462382d3aebe).
 
 ## Tags
 

@@ -4,23 +4,20 @@ rootProject.name = 'offline-geocode'
 def ant = new groovy.util.AntBuilder()
 
 if (!file("./samples-data").exists()) {
-    ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/793a4620fbba443a931ac1fa52ad7f45/data",
-            dest: file("./sanfrancisco_tpk.zip")
-    )
-    ant.unzip(
-            src: file("./sanfrancisco_tpk.zip"),
-            dest: file("./samples-data/sanfrancisco")
-    )
-    delete file("./sanfrancisco_tpk.zip")
+    file("./samples-data/sandiego").mkdirs()
 
     ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/1455c3dbfc43497983572117c7d6064c/data",
-            dest: file("./sanfrancisco_loc.zip")
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/22c3083d4fa74e3e9b25adfc9f8c0496/data",
+            dest: file("./samples-data/sandiego/streetmap_SD.tpkx")
+    )
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/3424d442ebe54f3cbf34462382d3aebe/data",
+            dest: file("./SanDiego_StreetAddress.zip")
     )
     ant.unzip(
-            src: file("./sanfrancisco_loc.zip"),
-            dest: file("./samples-data/sanfrancisco")
+            src: file("./SanDiego_StreetAddress.zip"),
+            dest: file("./samples-data/sandiego")
     )
-    delete file("./sanfrancisco_loc.zip")
+    delete file("./SanDiego_StreetAddress.zip")
 }

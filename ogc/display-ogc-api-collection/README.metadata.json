@@ -1,0 +1,29 @@
+{
+    "category": "OGC",
+    "description": "Display an OGC API feature collection and query features while navigating the map view.",
+    "ignore": false,
+    "images": [
+        "DisplayOGCAPICollection.png"
+    ],
+    "keywords": [
+        "feature",
+        "feature layer",
+        "feature table",
+        "OGC",
+        "OGC API",
+        "service",
+        "table",
+        "web",
+        "OgcFeatureCollectionTable",
+        "QueryParameters"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "OgcFeatureCollectionTable",
+        "QueryParameters"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/display_ogc_api_collection/DisplayOgcApiCollectionSample.java"
+    ],
+    "title": "Display OGC API collection"
+}

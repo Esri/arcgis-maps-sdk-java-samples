@@ -42,7 +42,7 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.QueryParameters;
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.ServiceGeodatabase;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
@@ -118,38 +118,66 @@ public class TraceAUtilityNetworkController {
           new Envelope(-9813547.35557238, 5129980.36635111, -9813185.0602376, 5130215.41254146,
               SpatialReferences.getWebMercator())));
 
-      // define user credentials for authenticating with the service
-      // NOTE: a licensed user is required to perform utility network operations
-      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
-
-      // load the utility network data from the feature service and create feature layers
       String featureServiceURL =
           "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
+      // set user credentials for authenticating with the service
+      // NOTE: a licensed user is required to perform utility network operations
+      UserCredential userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
+      // create a new service geodatabase from the feature service url and set the user credential
+      var serviceGeodatabase = new ServiceGeodatabase(featureServiceURL);
+      serviceGeodatabase.setCredential(userCredential);
 
-      ServiceFeatureTable distributionLineFeatureTable = new ServiceFeatureTable(featureServiceURL + "/3");
-      // set user credentials to authenticate with the service
-      distributionLineFeatureTable.setCredential(userCredential);
-      FeatureLayer distributionLineLayer = new FeatureLayer(distributionLineFeatureTable);
+      // load the service geodatabase and get tables by their layer IDs
+      serviceGeodatabase.loadAsync();
+      serviceGeodatabase.addDoneLoadingListener(() -> {
+        if (serviceGeodatabase.getLoadStatus() == LoadStatus.LOADED) {
 
-      ServiceFeatureTable electricDeviceFeatureTable = new ServiceFeatureTable(featureServiceURL + "/0");
-      // set user credentials to authenticate with the service
-      electricDeviceFeatureTable.setCredential(userCredential);
-      FeatureLayer electricDeviceLayer = new FeatureLayer(electricDeviceFeatureTable);
+          // the electric device layer ./0 and distribution line layer ./3 are created from the service geodatabase
+          var electricDeviceFeatureLayer = new FeatureLayer(serviceGeodatabase.getTable(0));
+          var distributionLineFeatureLayer = new FeatureLayer(serviceGeodatabase.getTable(3));
+          // add the utility network feature layers to the map for display
+          map.getOperationalLayers().addAll(Arrays.asList(electricDeviceFeatureLayer, distributionLineFeatureLayer));
 
-      // create and apply a renderer for the electric distribution lines feature layer
-      UniqueValueRenderer.UniqueValue mediumVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Medium Voltage",
-          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
-          Collections.singletonList(5));
-      UniqueValueRenderer.UniqueValue lowVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Low Voltage",
-          new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
-          Collections.singletonList(3));
-      distributionLineLayer.setRenderer(new UniqueValueRenderer(Collections.singletonList("ASSETGROUP"),
-          Arrays.asList(mediumVoltageValue, lowVoltageValue), "", new SimpleLineSymbol()));
+          // create and apply a renderer for the electric distribution lines feature layer
+          UniqueValueRenderer.UniqueValue mediumVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Medium Voltage",
+            new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
+            Collections.singletonList(5));
+          UniqueValueRenderer.UniqueValue lowVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Low Voltage",
+            new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
+            Collections.singletonList(3));
+          distributionLineFeatureLayer.setRenderer(new UniqueValueRenderer(Collections.singletonList("ASSETGROUP"),
+            Arrays.asList(mediumVoltageValue, lowVoltageValue), "", new SimpleLineSymbol()));
 
-      // add the feature layers to the map
-      map.getOperationalLayers().addAll(Arrays.asList(distributionLineLayer, electricDeviceLayer));
+          // create and add the utility network to the map before loading
+          utilityNetwork = new UtilityNetwork(featureServiceURL);
+          map.getUtilityNetworks().add(utilityNetwork);
+          // load the utility network
+          utilityNetwork.loadAsync();
+          utilityNetwork.addDoneLoadingListener(() -> {
+            if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
 
-      // create graphics overlays and them to the map view
+              // get the utility tier used for traces in this network. For this data set, the "Medium Voltage Radial"
+              // tier from the "ElectricDistribution" domain network is used.
+              UtilityDomainNetwork domainNetwork = utilityNetwork.getDefinition().getDomainNetwork("ElectricDistribution");
+              mediumVoltageTier = domainNetwork.getTier("Medium Voltage Radial");
+
+              // enable the UI
+              enableButtonInteraction();
+
+              // hide the progress indicator
+              progressIndicator.setVisible(false);
+
+              // update the status text
+              statusLabel.setText("");
+
+            } else {
+              new Alert(Alert.AlertType.ERROR, "Error loading Utility Network.").show();
+            }
+          });
+        }
+      });
+
+      // create graphics overlays and add them to the map view
       startingLocationsGraphicsOverlay = new GraphicsOverlay();
       barriersGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().addAll(Arrays.asList(startingLocationsGraphicsOverlay, barriersGraphicsOverlay));
@@ -170,33 +198,6 @@ public class TraceAUtilityNetworkController {
       // build the trace configuration selection ComboBox and select the first value
       traceTypeSelectionCombobox.getItems().addAll(UtilityTraceType.CONNECTED, UtilityTraceType.DOWNSTREAM, UtilityTraceType.UPSTREAM, UtilityTraceType.SUBNETWORK);
       traceTypeSelectionCombobox.getSelectionModel().select(0);
-
-      // create and load the utility network
-      utilityNetwork = new UtilityNetwork(featureServiceURL, map);
-      // set user credentials to authenticate with the service
-      utilityNetwork.setCredential(userCredential);
-      utilityNetwork.loadAsync();
-      utilityNetwork.addDoneLoadingListener(() -> {
-        if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED) {
-
-          // get the utility tier used for traces in this network. For this data set, the "Medium Voltage Radial"
-          // tier from the "ElectricDistribution" domain network is used.
-          UtilityDomainNetwork domainNetwork = utilityNetwork.getDefinition().getDomainNetwork("ElectricDistribution");
-          mediumVoltageTier = domainNetwork.getTier("Medium Voltage Radial");
-
-          // enable the UI
-          enableButtonInteraction();
-
-          // hide the progress indicator
-          progressIndicator.setVisible(false);
-
-          // update the status text
-          statusLabel.setText("");
-
-        } else {
-          new Alert(Alert.AlertType.ERROR, "Error loading Utility Network.").show();
-        }
-      });
 
     } catch (Exception e) {
       e.printStackTrace();
