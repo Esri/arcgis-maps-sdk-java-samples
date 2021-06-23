@@ -16,7 +16,7 @@ Create and set the configuration's filter barriers by selecting a category. Chec
 
 1. Create an `ArcGISMap` and add it to a `MapView`.
 2. Create and load a `ServiceGeodatabase` with a feature service URL and get tables with their layer IDs.
-3. Create `FeatureLayer`s created from the service geodatabase's tables, and add them to the operational layers of the map.
+3. Create `FeatureLayer`s from the service geodatabase's tables, and add them to the operational layers of the map.
 4. Create a `UtilityNetwork` with the same feature service URL and add it to the map's utility networks list, then load it.
 5. Get a default `UtilityTraceConfiguration` from a given tier in a domain network. Set its filter with a new `UtilityTraceFilter`.
 6. Create a `UtilityElement` to represent a default starting location from the `UtilityNetwork`, using a given asset type and global ID.
