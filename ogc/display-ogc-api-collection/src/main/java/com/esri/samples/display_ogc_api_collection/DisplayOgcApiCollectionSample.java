@@ -83,7 +83,7 @@ public class DisplayOgcApiCollectionSample extends Application {
       // create an OGC feature collection table from the service url and collection id
       ogcFeatureCollectionTable = new OgcFeatureCollectionTable(serviceUrl, collectionId);
 
-      // set the feature request mode to manual (only manual is currently supported).
+      // set the feature request mode to manual
       // in this mode, the table must be manually populated - panning and zooming won't request features automatically
       ogcFeatureCollectionTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
@@ -118,8 +118,8 @@ public class DisplayOgcApiCollectionSample extends Application {
 
       // once the map view navigation has completed, query the OGC API feature table for
       // additional features within the new visible extent.
-      mapView.addNavigationChangedListener(e -> {
-        if (!e.isNavigating()) {
+      mapView.addViewpointChangedListener(e -> {
+        if (!e.getSource().isNavigating()) {
 
           // get the current extent
           Envelope currentExtent = mapView.getVisibleArea().getExtent();

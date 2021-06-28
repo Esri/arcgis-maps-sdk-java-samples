@@ -17,6 +17,8 @@
 package com.esri.samples.browse_ogc_api_feature_service;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.OgcFeatureCollectionTable;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
@@ -29,8 +31,11 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.ogc.wfs.OgcAxisOrder;
-import com.esri.arcgisruntime.symbology.*;
+import com.esri.arcgisruntime.symbology.ColorUtil;
+import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -46,22 +51,16 @@ import java.util.List;
 
 public class BrowseOgcApiFeatureServiceSample extends Application {
 
-  private MapView mapView;
   private ArcGISMap map;
+  private MapView mapView;
+  private ListView<OgcFeatureCollectionInfo> ogcLayerNamesListView;
+  private OgcFeatureService ogcFeatureService; // keep loadable in scope to avoid garbage collection
 
   // UI class variables
   private ProgressIndicator progressIndicator;
   private TextField textField;
   private Button loadButton;
   private Button loadSelectedLayerButton;
-  private Label label;
-
-  private ListView<OgcFeatureCollectionInfo> ogcLayerNamesListView;
-
-  private OgcFeatureCollectionTable ogcFeatureCollectionTable;
-
-  // keep loadables in scope to avoid garbage collection
-
 
   @Override
   public void start(Stage stage) {
@@ -93,41 +92,40 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
     mapView = new MapView();
     mapView.setMap(map);
 
+    // add the map view, UI controls, and the progress indicator to the stack pane
     stackPane.getChildren().addAll(mapView, uiControlsVBox(), progressIndicator);
 
     // when the load button is clicked, load the provided OGC API service url
     loadButton.setOnAction(e -> loadOgcApiService(textField.getText()));
 
     // when the load selected layer button is clicked, load the selected layer from the list view when the layer is selected
-    loadSelectedLayerButton.setOnAction(e -> {
-
-        updateMap(ogcLayerNamesListView.getSelectionModel().getSelectedItem());
-
-    });
-
-
+    loadSelectedLayerButton.setOnAction(e -> updateMap(ogcLayerNamesListView.getSelectionModel().getSelectedItem()));
 
   }
 
+  /**
+   * Loads an OGC feature service from the provided service URL string.
+   *
+   * @param serviceUrl the service url of the OGC feature service
+   */
   private void loadOgcApiService(String serviceUrl) {
 
+    // clear any previously loaded OGC layers from the list view, and show the progress indicator
     ogcLayerNamesListView.getItems().clear();
     progressIndicator.setVisible(true);
 
-    System.out.println("Button clicked");
-    progressIndicator.setVisible(true);
-
+    // check if the text box is populated before instantiating a new OGC feature service from the provided URL, and loading it
     if (!textField.getText().isEmpty()) {
-      System.out.println("text field isn't empty");
 
-      var ogcFeatureService = new OgcFeatureService(serviceUrl);
+      ogcFeatureService = new OgcFeatureService(serviceUrl);
       ogcFeatureService.loadAsync();
+
+      // when the feature service has loaded, get its list of layers and add them to the list view
       ogcFeatureService.addDoneLoadingListener(() -> {
         if (ogcFeatureService.getLoadStatus() == LoadStatus.LOADED) {
 
-          loadSelectedLayerButton.setDisable(false);
+          // hide progress indicator
           progressIndicator.setVisible(false);
-          label.setText("OGC feature service loaded. Select another layer.");
 
           // get the service metadata and then a list of available collections
           OgcFeatureServiceInfo serviceInfo = ogcFeatureService.getServiceInfo();
@@ -141,24 +139,101 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
             protected void updateItem(OgcFeatureCollectionInfo ogcFeatureCollectionInfo, boolean bln) {
               super.updateItem(ogcFeatureCollectionInfo, bln);
               if (ogcFeatureCollectionInfo != null) {
-                String fullNameOfOgcFeatureServiceLayer = ogcFeatureCollectionInfo.getTitle();
-                setText(fullNameOfOgcFeatureServiceLayer);
+                String titleOfOgcFeatureServiceLayer = ogcFeatureCollectionInfo.getTitle();
+                setText(titleOfOgcFeatureServiceLayer);
               }
             }
           });
+          // when a layer is selected, enable the load selected layer button
+          ogcLayerNamesListView.setOnMouseClicked(e -> loadSelectedLayerButton.setDisable(false));
 
+          // if the feature service fails to load, display an error
         } else {
-          System.out.println(ogcFeatureService.getLoadStatus());
           new Alert(Alert.AlertType.ERROR, "Failed to load OGC feature service: " +
             ogcFeatureService.getLoadError().getCause().getLocalizedMessage()).show();
         }
       });
+
+      // if the text field is blank and the load button is clicked, display an error
     } else {
       new Alert(Alert.AlertType.ERROR, "Enter a service url to continue").show();
     }
+  }
+
+  /**
+   * Adds a OGCFeatureCollectionInfo to the map's operational layers.
+   *
+   * @param ogcFeatureCollectionInfo the ogcFeatureCollectionInfo that the map will display
+   */
+  private void updateMap(OgcFeatureCollectionInfo ogcFeatureCollectionInfo) {
+
+    progressIndicator.setVisible(true);
+
+    // clear the map's operational layers
+    map.getOperationalLayers().clear();
+
+    // create an OGC feature collection table from the feature collection info
+    var ogcFeatureCollectionTable = new OgcFeatureCollectionTable(ogcFeatureCollectionInfo);
+
+    // set the feature request mode to manual
+    // in this mode, the table must be manually populated as panning and zooming won't request features automatically.
+    ogcFeatureCollectionTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
+
+    // populate the table and then remove progress indicator and set the viewpoint to that of the layer's full extent when done
+    var queryParameters = new QueryParameters();
+    // set a limit of 1000 on the number of returned features per request, the default on some services could be as low as 10
+    queryParameters.setMaxFeatures(1000);
+
+    try {
+      // populate the table with the query, leaving existing table entries intact, setting the outfields parameter to null requests all fields
+      ListenableFuture<FeatureQueryResult> result = ogcFeatureCollectionTable.populateFromServiceAsync(queryParameters, false, null);
+      result.addDoneListener(() -> progressIndicator.setVisible(false));
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      new Alert(Alert.AlertType.ERROR, exception.getMessage()).show();
+    }
+
+    // apply a renderer to the feature layer once the table is loaded (the renderer is based on the table's geometry type)
+    ogcFeatureCollectionTable.addDoneLoadingListener(() -> {
+
+      // create a feature layer to visualize the OGC features
+      FeatureLayer ogcFeatureLayer = new FeatureLayer(ogcFeatureCollectionTable);
+
+      switch (ogcFeatureCollectionTable.getGeometryType()) {
+        case POINT:
+        case MULTIPOINT:
+          ogcFeatureLayer.setRenderer(new SimpleRenderer(
+            new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, ColorUtil.colorToArgb(Color.BLUE), 5)));
+          break;
+        case POLYGON:
+        case ENVELOPE:
+          ogcFeatureLayer.setRenderer(new SimpleRenderer(
+            new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), null)));
+          break;
+        case POLYLINE:
+          ogcFeatureLayer.setRenderer(new SimpleRenderer(
+            new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), 1)));
+          break;
+      }
+
+      // add the layer to the map's operational layers
+      map.getOperationalLayers().add(ogcFeatureLayer);
+
+      // set the map view's viewpoint to the extent of the layer
+      Envelope collectionExtent = ogcFeatureLayer.getFullExtent();
+      if (!collectionExtent.isEmpty()) {
+        mapView.setViewpointGeometryAsync(collectionExtent, 100);
+      }
+    });
 
   }
 
+  /**
+   * Sets up the user interaction controls by adding a text field, load button, list view and load selected layer button in a VBox.
+   *
+   * @return a VBox containing user interaction controls
+   */
   private VBox uiControlsVBox() {
 
     // create a control panel
@@ -184,75 +259,15 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
     loadSelectedLayerButton = new Button("Load selected layer");
     loadSelectedLayerButton.setDisable(true);
 
-    // create a label with user prompts
-    label = new Label("Enter a valid service URL and click Load");
-
     HBox hbox = new HBox(6);
     hbox.getChildren().addAll(textField, loadButton);
-    hbox.setMaxSize(300, 250);
-//    hbox.setMaxWidth(300);
-    controlsVBox.getChildren().addAll(hbox, ogcLayerNamesListView, loadSelectedLayerButton, label);
+    HBox.setHgrow(textField, Priority.ALWAYS);
+    controlsVBox.getChildren().addAll(hbox, ogcLayerNamesListView, loadSelectedLayerButton);
     StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
     StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
 
     return controlsVBox;
 
-  }
-
-  /**
-   * Adds a OGCFeatureCollectionInfo to the map's operational layers.
-   * @param ogcFeatureCollectionInfo the ogcFeatureCollectionInfo that the map will display
-   */
-  private void updateMap(OgcFeatureCollectionInfo ogcFeatureCollectionInfo){
-
-    progressIndicator.setVisible(true);
-
-    // clear the map's operational layers
-    map.getOperationalLayers().clear();
-
-    // create an OGC feature collection table from the feature collection info
-    ogcFeatureCollectionTable = new OgcFeatureCollectionTable(ogcFeatureCollectionInfo);
-
-    // set the feature request mode to manual (only manual is currently supported)
-    // in this mode, the table must be manually populated as panning and zooming won't request features automatically.
-    ogcFeatureCollectionTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
-
-    // populate the table and then remove progress indicator and set the viewpoint to that of the layer's full extent when done.
-    var queryParameters = new QueryParameters();
-    queryParameters.setMaxFeatures(1000);
-    ogcFeatureCollectionTable.populateFromServiceAsync(queryParameters, false, null).addDoneListener(() -> {
-      progressIndicator.setVisible(false);
-    });
-
-    // create a feature layer to visualize the OGC features
-    FeatureLayer ogcFeatureLayer = new FeatureLayer(ogcFeatureCollectionTable);
-
-    ogcFeatureCollectionTable.loadAsync();
-    // apply a renderer to the feature layer once the table is loaded (the renderer is based on the table's geometry type)
-    ogcFeatureCollectionTable.addDoneLoadingListener(() -> {
-      switch (ogcFeatureCollectionTable.getGeometryType()) {
-        case POINT:
-        case MULTIPOINT:
-          ogcFeatureLayer.setRenderer(new SimpleRenderer(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, ColorUtil.colorToArgb(Color.BLUE), 5)));
-          break;
-        case POLYGON:
-        case ENVELOPE:
-          ogcFeatureLayer.setRenderer(new SimpleRenderer(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), null)));
-          break;
-        case POLYLINE:
-          ogcFeatureLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), 1)));
-          break;
-      }
-
-      Envelope collectionExtent = ogcFeatureCollectionInfo.getExtent();
-      if (!collectionExtent.isEmpty()) {
-        mapView.setViewpointGeometryAsync(collectionExtent, 100);
-      }
-
-    });
-
-    // add the layer to the map's operational layers
-    map.getOperationalLayers().add(ogcFeatureLayer);
   }
 
   /**

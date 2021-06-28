@@ -1,37 +1,33 @@
 {
     "category": "OGC",
-    "description": "Browse a WFS service for layers and add them to the map.",
+    "description": "Browse an OGC API feature service for layers and add them to the map.",
     "ignore": false,
     "images": [
-        "BrowseWfsLayers.png"
+        "BrowseOGCAPIFeatureService.png"
     ],
     "keywords": [
-        "OGC",
-        "WFS",
         "browse",
         "catalog",
         "feature",
         "layers",
+        "OGC",
+        "OGC API",
         "service",
         "web",
-        "FeatureLayer",
-        "WfsFeatureTable",
-        "WfsLayerInfo",
-        "WfsService",
-        "WfsServiceInfo"
+        "OgcFeatureCollectionInfo",
+        "OgcFeatureCollectionTable",
+        "OgcFeatureService",
+        "OgcFeatureServiceInfo"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/browse-wfs-layers.htm"
-    ],
+    "redirect_from": "",
     "relevant_apis": [
-        "FeatureLayer",
-        "WfsFeatureTable",
-        "WfsLayerInfo",
-        "WfsService",
-        "WfsServiceInfo"
+        "OgcFeatureCollectionInfo",
+        "OgcFeatureCollectionTable",
+        "OgcFeatureService",
+        "OgcFeatureServiceInfo"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/browse_wfs_layers/BrowseWfsLayersSample.java"
+        "src/main/java/com/esri/samples/browse_ogc_api_feature_service/BrowseOgcApiFeatureServiceSample.java"
     ],
-    "title": "Browse WFS layers"
+    "title": "Browse OGC API feature service"
 }
