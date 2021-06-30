@@ -98,7 +98,7 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
     // when the load button is clicked, load the provided OGC API service url
     loadButton.setOnAction(e -> loadOgcApiService(textField.getText()));
 
-    // when the load selected layer button is clicked, load the selected layer from the list view when the layer is selected
+    // when the load selected layer button is clicked, load the selected layer from the list view
     loadSelectedLayerButton.setOnAction(e -> updateMap(ogcLayerNamesListView.getSelectionModel().getSelectedItem()));
 
   }
@@ -114,13 +114,13 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
     ogcLayerNamesListView.getItems().clear();
     progressIndicator.setVisible(true);
 
-    // check if the text box is populated before instantiating a new OGC feature service from the provided URL, and loading it
+    // check if the text box is populated before instantiating and loading a new OGC feature service from the provided URL
     if (!textField.getText().isEmpty()) {
 
       ogcFeatureService = new OgcFeatureService(serviceUrl);
       ogcFeatureService.loadAsync();
 
-      // when the feature service has loaded, get its list of layers and add them to the list view
+      // when the feature service has loaded, get a list of its layers and add them to the list view
       ogcFeatureService.addDoneLoadingListener(() -> {
         if (ogcFeatureService.getLoadStatus() == LoadStatus.LOADED) {
 
@@ -161,7 +161,7 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
   }
 
   /**
-   * Adds a OGCFeatureCollectionInfo to the map's operational layers.
+   * Adds an OGCFeatureCollectionInfo to the map's operational layers.
    *
    * @param ogcFeatureCollectionInfo the ogcFeatureCollectionInfo that the map will display
    */
@@ -179,13 +179,14 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
     // in this mode, the table must be manually populated as panning and zooming won't request features automatically.
     ogcFeatureCollectionTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
-    // populate the table and then remove progress indicator and set the viewpoint to that of the layer's full extent when done
+    // create new query parameters
     var queryParameters = new QueryParameters();
     // set a limit of 1000 on the number of returned features per request, the default on some services could be as low as 10
     queryParameters.setMaxFeatures(1000);
 
     try {
-      // populate the table with the query, leaving existing table entries intact, setting the outfields parameter to null requests all fields
+      // populate and load the table with the query parameters
+      // set the clearCache parameter to false to include existing table entries, and set the outfields parameter to null to request all fields
       ListenableFuture<FeatureQueryResult> result = ogcFeatureCollectionTable.populateFromServiceAsync(queryParameters, false, null);
       result.addDoneListener(() -> progressIndicator.setVisible(false));
 
@@ -230,7 +231,7 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
   }
 
   /**
-   * Sets up the user interaction controls by adding a text field, load button, list view and load selected layer button in a VBox.
+   * Sets up the user interaction controls by adding a text field, load button, list view and load selected layer button to a VBox.
    *
    * @return a VBox containing user interaction controls
    */
@@ -251,7 +252,7 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
     // create a button that allows the provided service to be loaded
     loadButton = new Button("Load");
 
-    // create a list view to show all of the layers in a OGC API feature service
+    // create a list view to show all of the layers in an OGC API feature service
     ogcLayerNamesListView = new ListView<>();
     ogcLayerNamesListView.setMaxSize(300, 250);
 
