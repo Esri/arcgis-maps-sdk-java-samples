@@ -41,7 +41,7 @@ public class OpenMapURLSample extends Application {
   private List<ArcGISMap> webMaps; // keep loadable in scope to avoid garbage collection
 
   private static final String[] portalItemIDs = new String[] {
-      "01f052c8995e4b9e889d73c3e210ebe3", "0edea1c7bbb84ba5842d20483af11679"
+      "01f052c8995e4b9e889d73c3e210ebe3", "92ad152b9da94dee89b9e387dfe21acd"
   };
 
   @Override
@@ -84,7 +84,7 @@ public class OpenMapURLSample extends Application {
     });
 
     // show the name of the map in the combo box
-    webMapComboBox.setConverter(new StringConverter<ArcGISMap>() {
+    webMapComboBox.setConverter(new StringConverter<>() {
 
       @Override
       public String toString(ArcGISMap map) {
@@ -97,7 +97,7 @@ public class OpenMapURLSample extends Application {
       }
     });
 
-    webMapComboBox.setCellFactory(comboBox -> new ListCell<ArcGISMap>() {
+    webMapComboBox.setCellFactory(comboBox -> new ListCell<>() {
 
       @Override
       protected void updateItem(ArcGISMap map, boolean empty) {
