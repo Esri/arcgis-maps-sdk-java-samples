@@ -149,14 +149,19 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
 
           // if the feature service fails to load, display an error
         } else {
-          new Alert(Alert.AlertType.ERROR, "Failed to load OGC feature service: " +
-            ogcFeatureService.getLoadError().getCause().getLocalizedMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Failed to load OGC feature service").show();
+          if (ogcFeatureService.getLoadError() !=  null) {
+            ogcFeatureService.getLoadError().printStackTrace();
+          }
+          textField.clear();
+          progressIndicator.setVisible(false);
         }
       });
 
       // if the text field is blank and the load button is clicked, display an error
     } else {
       new Alert(Alert.AlertType.ERROR, "Enter a service url to continue").show();
+      progressIndicator.setVisible(false);
     }
   }
 
