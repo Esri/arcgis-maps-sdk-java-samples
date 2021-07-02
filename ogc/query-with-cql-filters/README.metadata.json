@@ -1,0 +1,29 @@
+{
+    "category": "OGC",
+    "description": "",
+    "ignore": false,
+    "images": [
+        ""
+    ],
+    "keywords": [
+        "feature",
+        "feature layer",
+        "feature table",
+        "OGC",
+        "OGC API",
+        "service",
+        "table",
+        "web",
+        "OgcFeatureCollectionTable",
+        "QueryParameters"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "OgcFeatureCollectionTable",
+        "QueryParameters"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/display_ogc_api_collection/DisplayOgcApiCollectionSample.java"
+    ],
+    "title": "Display OGC API collection"
+}
