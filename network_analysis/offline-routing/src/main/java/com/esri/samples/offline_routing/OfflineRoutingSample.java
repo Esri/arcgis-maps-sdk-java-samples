@@ -87,7 +87,7 @@ public class OfflineRoutingSample extends Application {
       stage.show();
 
       // create the map's basemap from a local tile package
-      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/san_diego/streetmap_SD.tpk");
+      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/san_diego/streetmap_SD.tpkx");
       TileCache tileCache = new TileCache(tpkFile.getAbsolutePath());
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
