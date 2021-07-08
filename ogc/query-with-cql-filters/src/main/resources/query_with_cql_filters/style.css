@@ -6,10 +6,8 @@
   -fx-text-fill: black;
 }
 
-.panel-region .check-box {
-   -fx-text-fill: white;
+.date-picker .label {
+  -fx-text-fill: black;
+
 }
 
-.panel-region .radio-button {
-   -fx-text-fill: white;
-}
