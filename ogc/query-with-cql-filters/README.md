@@ -10,18 +10,16 @@ CQL (Common Query Language) is an OGC-created query language used to query for s
 
 ## How to use the sample
 
-Enter a CQL query. Press the "Apply query" button to see the query applied to the OGC API features shown on the map.
+The sample loads displaying all features within the OGC API feature service. Select a sample CQL query from the drop down menu. Optionally, adjust the max features value in the text box, and toggle the time extent check box to query the data with a time extent. Press the "Apply query" button to see the query applied to the OGC API features shown on the map.
 
 ## How it works
 
 1. Create an `OgcFeatureCollectionTable` object using a URL to an OGC API feature service and a collection ID.
-2. Create a `QueryParameters` object.
-3. Set the `QueryParameters.WhereClause` property.
-4. Set the `QueryParameters.MaxFeatures` property.
-5. Create `Datetime` objects for the start time and end time being queried.
-6. Create a `TimeExtent` object using the start and end `Datetime` objects. Set the `QueryParameters.TimeExtent` property
-7. Populate the `OgcFeatureCollectionTable` using `PopulateFromServiceAsync()` with the custom `QueryParameters` created in the previous steps.
-8. Use `MapView.SetViewpointGeometryAsync()` with the `OgcFeatureCollectionTable.Extent` to view the newly-queried features.
+2. Create `QueryParameters` and set a CQL filter string to it using `queryParameters.setWhereClause()`.
+3. Set the maximum amount of features to be returned with `queryParamters.setMaxFeatures()`.
+4. Create a new `TimeExtent` from start and end date values, and set it to the `queryParameters.setTimeExtent()` method.
+5. Populate the OGC feature collection table using `.populateFromServiceAsync()` with the custom `QueryParameters` created in the previous steps.
+6. Use `mapView.setViewpointGeometryAsync()` with the OGC feature collection table extent to view the newly-queried features.
 
 ## Relevant API
 
