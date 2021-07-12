@@ -123,7 +123,7 @@ public class PerformValveIsolationTraceController {
               UtilityNetworkDefinition networkDefinition = utilityNetwork.getDefinition();
               UtilityDomainNetwork domainNetwork = networkDefinition.getDomainNetwork("Pipeline");
               UtilityTier tier = domainNetwork.getTier("Pipe Distribution System");
-              traceConfiguration = tier.getTraceConfiguration();
+              traceConfiguration = tier.getDefaultTraceConfiguration();
 
               // create a trace filter
               traceConfiguration.setFilter(new UtilityTraceFilter());
