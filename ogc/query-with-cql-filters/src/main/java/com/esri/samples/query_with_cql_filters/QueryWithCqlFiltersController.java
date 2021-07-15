@@ -44,6 +44,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
@@ -56,16 +57,18 @@ import java.util.concurrent.ExecutionException;
 
 public class QueryWithCqlFiltersController {
 
+  @FXML private Button applyQueryButton;
+  @FXML private Button revertToInitialQueryButton;
+  @FXML private CheckBox timeExtentCheckBox;
+  @FXML private ComboBox<String> comboBox;
+  @FXML private DatePicker endDatePicker;
+  @FXML private DatePicker startDatePicker;
+  @FXML private Label featureNumberLabel;
   @FXML private MapView mapView;
   @FXML private ProgressIndicator progressIndicator;
-  @FXML private ComboBox<String> comboBox;
   @FXML private TextField textField;
-  @FXML private DatePicker startDatePicker;
-  @FXML private DatePicker endDatePicker;
-  @FXML private Button applyQueryButton;
-  @FXML private Label featureNumberLabel;
-  @FXML private CheckBox timeExtentCheckBox;
 
+  private Envelope datasetExtent;
   private OgcFeatureCollectionTable ogcFeatureCollectionTable; // keep loadable in scope to avoid garbage collection
 
   public void initialize() {
@@ -112,30 +115,10 @@ public class QueryWithCqlFiltersController {
           // add the layer to the map
           map.getOperationalLayers().add(featureLayer);
 
-          // zoom to the dataset extent
-          Envelope datasetExtent = ogcFeatureCollectionTable.getExtent();
-          if (datasetExtent != null && !datasetExtent.isEmpty()) {
-            mapView.setViewpointGeometryAsync(datasetExtent);
-          }
+          datasetExtent = ogcFeatureCollectionTable.getExtent();
 
-          // create a query based on the current visible extent
-          QueryParameters visibleExtentQuery = new QueryParameters();
-          visibleExtentQuery.setGeometry(datasetExtent);
-          // set a limit of 3000 on the number of returned features per request, the default on some services could be as low as 10
-          visibleExtentQuery.setMaxFeatures(3000);
-
-          try {
-            // populate and load the table with the query parameters
-            // set the clearCache parameter to false to include existing table entries, set the outfields parameter to null to request all fields
-            ogcFeatureCollectionTable.populateFromServiceAsync(visibleExtentQuery, false, null).addDoneListener(() -> {
-              progressIndicator.setVisible(false);
-              applyQueryButton.setDisable(false);
-            });
-
-          } catch (Exception exception) {
-            exception.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, exception.getMessage()).show();
-          }
+          // display result of query on the map
+          setInitialQueryOnOgcFeatureTable();
 
         } else {
           // show an alert dialog if there is a loading failure
@@ -151,16 +134,63 @@ public class QueryWithCqlFiltersController {
   }
 
   /**
+   * Gets the total extent of the OGC feature collection table, and uses a basic query parameters to return 3000 features
+   * from the service.
+   */
+  @FXML
+  private void setInitialQueryOnOgcFeatureTable() {
+
+    progressIndicator.setVisible(true);
+
+    // zoom to the dataset extent
+    if (datasetExtent != null && !datasetExtent.isEmpty()) {
+      mapView.setViewpointGeometryAsync(datasetExtent);
+    }
+
+    QueryParameters ogcFeatureExtentQueryParameters = new QueryParameters();
+    // create a query based on the current visible extent
+    ogcFeatureExtentQueryParameters.setGeometry(datasetExtent);
+    // set a limit of 3000 on the number of returned features per request, the default on some services could be as low as 10
+    ogcFeatureExtentQueryParameters.setMaxFeatures(3000);
+
+    try {
+      // populate and load the table with the query parameters
+      // set the clearCache parameter to true to clear existing table entries, set the outfields parameter to null to request all fields
+      ogcFeatureCollectionTable.populateFromServiceAsync(ogcFeatureExtentQueryParameters, true, null).addDoneListener(() -> {
+        progressIndicator.setVisible(false);
+        applyQueryButton.setDisable(false);
+        // display number of features returned
+        featureNumberLabel.setText("Query returned: " + ogcFeatureCollectionTable.getTotalFeatureCount() + " features");
+      });
+
+      // handle UI
+      revertToInitialQueryButton.setDisable(true);
+      // reset combo box and show original prompt text
+      comboBox.getSelectionModel().clearSelection();
+      comboBox.setButtonCell(new ListCell<>() {
+        @Override
+        protected void updateItem(String item, boolean empty) {
+          setText(item);
+        }
+      });
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      new Alert(Alert.AlertType.ERROR, exception.getMessage()).show();
+    }
+  }
+
+  /**
    * Populates features from provided query parameters, and displays the result on the map.
    */
   @FXML
   private void query() {
 
-    var queryParameters = new QueryParameters();
+    QueryParameters cqlQueryParameters = new QueryParameters();
     // set the query parameter's where clause with the CQL query in the combo box
-    queryParameters.setWhereClause(comboBox.getSelectionModel().getSelectedItem());
+    cqlQueryParameters.setWhereClause(comboBox.getSelectionModel().getSelectedItem());
     // set the max features to the number entered in the text field
-    queryParameters.setMaxFeatures(Integer.parseInt(textField.getText()));
+    cqlQueryParameters.setMaxFeatures(Integer.parseInt(textField.getText()));
 
     // if the time extent checkbox is selected, retrieve the date selected from the date picker and set it to the
     // query parameters time extent
@@ -174,12 +204,12 @@ public class QueryWithCqlFiltersController {
       Calendar end = new Calendar.Builder().setDate(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth()).build();
 
       // set the query parameters time extent
-      queryParameters.setTimeExtent(new TimeExtent(start, end));
+      cqlQueryParameters.setTimeExtent(new TimeExtent(start, end));
     }
 
     // populate and load the table with the query parameters
     // set the clearCache parameter to true to clear existing table entries and set the outfields parameter to null requests all fields
-    ListenableFuture<FeatureQueryResult> result = ogcFeatureCollectionTable.populateFromServiceAsync(queryParameters, true, null);
+    ListenableFuture<FeatureQueryResult> result = ogcFeatureCollectionTable.populateFromServiceAsync(cqlQueryParameters, true, null);
     result.addDoneListener(() -> {
 
       // display number of features returned
@@ -204,6 +234,9 @@ public class QueryWithCqlFiltersController {
       } catch (InterruptedException | ExecutionException e) {
         e.printStackTrace();
       }
+
+      revertToInitialQueryButton.setDisable(false);
+
     });
 
   }
@@ -228,6 +261,16 @@ public class QueryWithCqlFiltersController {
 
     startDatePicker.setDisable(!timeExtentCheckBox.isSelected());
     endDatePicker.setDisable(!timeExtentCheckBox.isSelected());
+
+  }
+
+  /**
+   * Gets the total feature count from the OGC feature collection table and displays the number on the label.
+   */
+  private void setFeatureNumberLabelText() {
+
+    // display number of features returned
+    featureNumberLabel.setText("Query returned: " + ogcFeatureCollectionTable.getTotalFeatureCount() + " features");
 
   }
 

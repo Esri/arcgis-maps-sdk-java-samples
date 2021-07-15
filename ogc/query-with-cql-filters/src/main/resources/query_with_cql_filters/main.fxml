@@ -77,6 +77,7 @@
             <DatePicker fx:id="endDatePicker" onAction="#handleDatePickerInteraction" onMouseClicked="#handleDatePickerInteraction" GridPane.rowIndex="1" GridPane.columnIndex="1" disable="true" styleClass="date-picker"/>
         </GridPane>
         <Button fx:id="applyQueryButton" text="Apply query" onMouseClicked="#query" alignment="CENTER" disable="true" maxWidth="250"/>
+        <Button fx:id="revertToInitialQueryButton" text="Revert to initial query" onMouseClicked="#setInitialQueryOnOgcFeatureTable" alignment="CENTER" disable="true" maxWidth="250"/>
         <Label fx:id="featureNumberLabel" alignment="CENTER"/>
     </VBox>
 </StackPane>
