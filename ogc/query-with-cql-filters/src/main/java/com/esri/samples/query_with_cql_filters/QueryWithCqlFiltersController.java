@@ -38,7 +38,14 @@ import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 import java.time.LocalDate;
@@ -118,8 +125,8 @@ public class QueryWithCqlFiltersController {
           visibleExtentQuery.setMaxFeatures(3000);
 
           try {
-            // populate the table with the query, leaving existing table entries intact
-            // setting the outfields parameter to null requests all fields
+            // populate and load the table with the query parameters
+            // set the clearCache parameter to false to include existing table entries, set the outfields parameter to null to request all fields
             ogcFeatureCollectionTable.populateFromServiceAsync(visibleExtentQuery, false, null).addDoneListener(() -> {
               progressIndicator.setVisible(false);
               applyQueryButton.setDisable(false);
@@ -170,7 +177,8 @@ public class QueryWithCqlFiltersController {
       queryParameters.setTimeExtent(new TimeExtent(start, end));
     }
 
-    // populate the table with the query, clear existing table entries and set the outfields parameter to null requests all fields
+    // populate and load the table with the query parameters
+    // set the clearCache parameter to true to clear existing table entries and set the outfields parameter to null requests all fields
     ListenableFuture<FeatureQueryResult> result = ogcFeatureCollectionTable.populateFromServiceAsync(queryParameters, true, null);
     result.addDoneListener(() -> {
 
@@ -245,7 +253,7 @@ public class QueryWithCqlFiltersController {
     // add sample CQL queries to the UI combobox
     comboBox.getItems().addAll(cqlQueryList);
 
-    // set the date picker to an date relevant to the data
+    // set the date picker to a date relevant to the data
     startDatePicker.setValue(LocalDate.of(2011, 6, 13));
     endDatePicker.setValue(LocalDate.of(2012, 1, 7));
 
