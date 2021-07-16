@@ -6,7 +6,7 @@ def ant = new groovy.util.AntBuilder()
 if (!file("./samples-data").exists()) {
     file("./samples-data/naperville").mkdirs()
     ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/628e8e3521cf45e9a28a12fe10c02c4d/data",
-            dest: file("./samples-data/naperville/naperville_imagery.tpk")
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/85282f2aaa2844d8935cdb8722e22a93/data",
+            dest: file("./samples-data/naperville/naperville_imagery.tpkx")
     )
 }
