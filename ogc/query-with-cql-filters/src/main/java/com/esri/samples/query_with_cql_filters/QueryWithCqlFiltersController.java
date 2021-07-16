@@ -160,11 +160,12 @@ public class QueryWithCqlFiltersController {
         progressIndicator.setVisible(false);
         applyQueryButton.setDisable(false);
         // display number of features returned
-        featureNumberLabel.setText("Query returned: " + ogcFeatureCollectionTable.getTotalFeatureCount() + " features");
+        setFeatureNumberLabelText();
       });
 
       // handle UI
       revertToInitialQueryButton.setDisable(true);
+      textField.setText("3000");
       // reset combo box and show original prompt text
       comboBox.getSelectionModel().clearSelection();
       comboBox.setButtonCell(new ListCell<>() {
@@ -213,7 +214,7 @@ public class QueryWithCqlFiltersController {
     result.addDoneListener(() -> {
 
       // display number of features returned
-      featureNumberLabel.setText("Query returned: " + ogcFeatureCollectionTable.getTotalFeatureCount() + " features");
+      setFeatureNumberLabelText();
 
       try {
         // create a new list to store returned geometries in
