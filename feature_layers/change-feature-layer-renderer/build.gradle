@@ -71,7 +71,7 @@ jar {
         attributes("Main-Class": "$mainClassName")
     }
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
