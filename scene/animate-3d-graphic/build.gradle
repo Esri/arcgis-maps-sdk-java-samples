@@ -57,8 +57,13 @@ jar {
         attributes("Main-Class": "$mainClassName")
     }
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+
+    // exclude signing files that come from dependencies
+    exclude "META-INF/*.SF"
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
 }
 
 task productionZip(type: Zip) {
@@ -73,5 +78,5 @@ task productionZip(type: Zip) {
 }
 
 wrapper {
-    gradleVersion = '6.5.1'
+    gradleVersion = '7.0.2'
 }
