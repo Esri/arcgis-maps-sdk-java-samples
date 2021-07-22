@@ -149,7 +149,7 @@ public class PerformValveIsolationTraceController {
               UtilityAssetGroup assetGroup = networkSource.getAssetGroup("Meter");
               UtilityAssetType assetType = assetGroup.getAssetType("Customer");
               startingLocation = utilityNetwork.createElement(assetType, UUID.fromString("98A06E95-70BE-43E7-91B7-E34C9D3CB9FF"));
-
+              // create new base trace parameters
               utilityTraceParameters = new UtilityTraceParameters(UtilityTraceType.ISOLATION, Collections.singletonList(startingLocation));
 
               // get the first feature for the starting location, and get its geometry
