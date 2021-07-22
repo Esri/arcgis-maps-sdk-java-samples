@@ -22,10 +22,34 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.ProximityResult;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
-import com.esri.arcgisruntime.utilitynetworks.*;
+import com.esri.arcgisruntime.utilitynetworks.UtilityAssetGroup;
+import com.esri.arcgisruntime.utilitynetworks.UtilityAssetType;
+import com.esri.arcgisruntime.utilitynetworks.UtilityCategory;
+import com.esri.arcgisruntime.utilitynetworks.UtilityCategoryComparison;
+import com.esri.arcgisruntime.utilitynetworks.UtilityCategoryComparisonOperator;
+import com.esri.arcgisruntime.utilitynetworks.UtilityDomainNetwork;
+import com.esri.arcgisruntime.utilitynetworks.UtilityElement;
+import com.esri.arcgisruntime.utilitynetworks.UtilityElementTraceResult;
+import com.esri.arcgisruntime.utilitynetworks.UtilityNetwork;
+import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkDefinition;
+import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkSource;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTier;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTraceConfiguration;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTraceFilter;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTraceParameters;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTraceResult;
+import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -74,8 +98,8 @@ public class PerformValveIsolationTraceController {
   private UtilityElement startingLocation;
 
   public void initialize() {
-    try {
 
+    try {
       // authentication with an API key or named user is required to access basemaps and other location services
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
@@ -407,7 +431,7 @@ public class PerformValveIsolationTraceController {
         } finally {
           progressIndicator.setVisible(false);
         }
-        
+
       });
     }
   }
