@@ -20,7 +20,7 @@ Click on one or more features on the map to add filter barriers (marked as red c
 4. Create a `UtilityNetwork` with the same feature service URL and add it to the map's utility networks list, then load it.
 5. Get a default `UtilityTraceConfiguration` from a given tier in a domain network. Set its filter with a new `UtilityTraceFilter`.
 6. Create a `UtilityElement` to represent a default starting location from the `UtilityNetwork`, using a given asset type and global ID.
-7. Create a `UtilityTraceParameters` with a `UtilityTraceType.ISOLATION` and the starting location.  
+7. Create a `UtilityTraceParameters` with a `UtilityTraceType.ISOLATION` and the starting location.
 8. Use `utilityNetwork.fetchFeaturesForElementsAsync()` to obtain the `Geometry` of this element, and create a `Graphic` with that geometry.
 9. Add a `GraphicsOverlay` with the graphic that represents the starting location.
 10. Populate the combo box for choosing the filter barrier category from `UtilityNetworkDefinition.getCategories()`.
