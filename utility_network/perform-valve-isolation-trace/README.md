@@ -10,7 +10,7 @@ Determine the set of operable features required to stop a network's resource, ef
 
 ## How to use the sample
 
-Click on one or more features on the map to add filter barriers (marked as red crosses) and/or create and set the configuration's filter barriers by selecting a utility category. Toggle "Isolated Features" to update trace configuration. Click "Trace" to run a subnetwork-based isolation trace, and click "Reset" to clear filter barriers and trace results.
+Click on one or more features on the map to add filter barriers (marked as red crosses) or create and set the configuration's filter barriers by selecting a utility category from the drop down menu. Toggle "Isolated Features" to update trace configuration. Click "Trace" to run a subnetwork-based isolation trace, and click "Reset" to clear filter barriers and trace results.
 
 ## How it works
 

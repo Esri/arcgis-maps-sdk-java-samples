@@ -88,6 +88,7 @@ public class PerformValveIsolationTraceController {
   @FXML private ComboBox<UtilityCategory> categorySelectionComboBox;
   @FXML private Button resetButton;
   @FXML private Button traceButton;
+  @FXML private Label promptLabel;
   @FXML private Label statusLabel;
   @FXML private CheckBox includeIsolatedFeaturesCheckbox;
 
@@ -198,6 +199,7 @@ public class PerformValveIsolationTraceController {
                       categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
 
                       // enable the UI
+                      categorySelectionComboBox.setDisable(false);
                       enableUI(true);
 
                       // update the status text
@@ -335,6 +337,10 @@ public class PerformValveIsolationTraceController {
    */
   @FXML
   private void handleMapViewClicked(MouseEvent e) {
+
+    categorySelectionComboBox.setDisable(true);
+    promptLabel.setText("Add another filter barrier by clicking the map or click Trace");
+
     // ensure the utility network is loaded before processing clicks on the map view
     if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED && e.getButton() == MouseButton.PRIMARY &&
       e.isStillSincePress()) {
@@ -470,7 +476,6 @@ public class PerformValveIsolationTraceController {
     progressIndicator.setVisible(!enable);
     traceButton.setDisable(!enable);
     resetButton.setDisable(!enable);
-    categorySelectionComboBox.setDisable(!enable);
     includeIsolatedFeaturesCheckbox.setDisable(!enable);
   }
 
@@ -480,6 +485,8 @@ public class PerformValveIsolationTraceController {
    */
   @FXML
   private void handleResetButtonClick() {
+    promptLabel.setText("Choose category for filter barrier:");
+    categorySelectionComboBox.setDisable(false);
     clearSelectedFeatureLayersOnMap();
     utilityTraceParameters.getFilterBarriers().clear();
     filterBarriersGraphicsOverlay.getGraphics().clear();

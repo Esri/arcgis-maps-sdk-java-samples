@@ -26,7 +26,7 @@
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
     <!--Controls Area-->
     <VBox StackPane.alignment="TOP_LEFT">
-        <Label text="Choose category for filter barrier:" styleClass="title"/>
+        <Label fx:id="promptLabel" text="Choose category for filter barrier:" styleClass="title"/>
         <GridPane vgap="10" hgap="10">
             <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
             <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
