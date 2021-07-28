@@ -100,32 +100,31 @@ public class QueryWithCqlFiltersController {
       // in this mode, the table must be manually populated - panning and zooming won't request features automatically
       ogcFeatureCollectionTable.setFeatureRequestMode(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
-      // load the table
-      ogcFeatureCollectionTable.loadAsync();
+      // create a feature layer from the feature collection table and
+      var featureLayer = new FeatureLayer(ogcFeatureCollectionTable);
+      // add the layer to the map
+      map.getOperationalLayers().add(featureLayer);
 
-      // ensure the feature collection table has loaded successfully before creating a feature layer from it to display on the map
-      ogcFeatureCollectionTable.addDoneLoadingListener(() -> {
-        if (ogcFeatureCollectionTable.getLoadStatus() == LoadStatus.LOADED) {
+      // once the feature layer has loaded, set a renderer to it to visualize the OGC API features and zoom to features
+      featureLayer.addDoneLoadingListener(() -> {
+        if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
-          // create a feature layer and set a renderer to it to visualize the OGC API features
-          var featureLayer = new FeatureLayer(ogcFeatureCollectionTable);
           var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKMAGENTA), 3));
           featureLayer.setRenderer(simpleRenderer);
 
-          // add the layer to the map
-          map.getOperationalLayers().add(featureLayer);
-
+          // get the extent of the dataset
           datasetExtent = ogcFeatureCollectionTable.getExtent();
-
           // display result of query on the map
           setInitialQueryOnOgcFeatureTable();
 
         } else {
           // show an alert dialog if there is a loading failure
-          new Alert(Alert.AlertType.ERROR, "Failed to load OGC Feature Collection Table: " +
-            ogcFeatureCollectionTable.getLoadError().getCause().getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Failed to load feature layer: " +
+            featureLayer.getLoadError().getCause().getMessage()).show();
         }
       });
+
+
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -134,7 +133,7 @@ public class QueryWithCqlFiltersController {
   }
 
   /**
-   * Gets the total extent of the OGC feature collection table, and uses a basic query parameters to return 3000 features
+   * Sets the map view's viewpoint with the extent of the OGC feature collection table, and uses a basic query parameters to return 3000 features
    * from the service.
    */
   @FXML
@@ -182,7 +181,7 @@ public class QueryWithCqlFiltersController {
   }
 
   /**
-   * Populates features from provided query parameters, and displays the result on the map.
+   * Populates features from query parameters, and displays the result on the map.
    */
   @FXML
   private void query() {
@@ -191,7 +190,11 @@ public class QueryWithCqlFiltersController {
     // set the query parameter's where clause with the CQL query in the combo box
     cqlQueryParameters.setWhereClause(comboBox.getSelectionModel().getSelectedItem());
     // set the max features to the number entered in the text field
-    cqlQueryParameters.setMaxFeatures(Integer.parseInt(textField.getText()));
+    try {
+      cqlQueryParameters.setMaxFeatures(Integer.parseInt(textField.getText()));
+    } catch (NumberFormatException e) {
+      new Alert(Alert.AlertType.ERROR, "Value entered must be numerical").show();
+    }
 
     // if the time extent checkbox is selected, retrieve the date selected from the date picker and set it to the
     // query parameters time extent
@@ -209,7 +212,7 @@ public class QueryWithCqlFiltersController {
     }
 
     // populate and load the table with the query parameters
-    // set the clearCache parameter to true to clear existing table entries and set the outfields parameter to null requests all fields
+    // set the clearCache parameter to true to clear existing table entries and set the outfields parameter to null to request all fields
     ListenableFuture<FeatureQueryResult> result = ogcFeatureCollectionTable.populateFromServiceAsync(cqlQueryParameters, true, null);
     result.addDoneListener(() -> {
 
@@ -221,10 +224,7 @@ public class QueryWithCqlFiltersController {
         List<Geometry> featureGeometryList = new ArrayList<>();
 
         // iterate through each result to get its geometry and add it to the geometry list
-        result.get().iterator().forEachRemaining(feature -> {
-          featureGeometryList.add(feature.getGeometry());
-          feature.getGeometry();
-        });
+        result.get().iterator().forEachRemaining(feature -> featureGeometryList.add(feature.getGeometry()));
 
         if (!featureGeometryList.isEmpty()) {
           // zoom to the total extent of the geometries returned by the query
@@ -239,7 +239,6 @@ public class QueryWithCqlFiltersController {
       revertToInitialQueryButton.setDisable(false);
 
     });
-
   }
 
   /**
