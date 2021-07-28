@@ -16,30 +16,31 @@
 
 package com.esri.samples.perform_valve_isolation_trace;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.ArcGISFeature;
+import com.esri.arcgisruntime.data.FeatureQueryResult;
+import com.esri.arcgisruntime.data.QueryParameters;
+import com.esri.arcgisruntime.data.ServiceGeodatabase;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.ProximityResult;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
-import com.esri.arcgisruntime.utilitynetworks.UtilityAssetGroup;
-import com.esri.arcgisruntime.utilitynetworks.UtilityAssetType;
-import com.esri.arcgisruntime.utilitynetworks.UtilityCategory;
-import com.esri.arcgisruntime.utilitynetworks.UtilityCategoryComparison;
-import com.esri.arcgisruntime.utilitynetworks.UtilityCategoryComparisonOperator;
-import com.esri.arcgisruntime.utilitynetworks.UtilityDomainNetwork;
-import com.esri.arcgisruntime.utilitynetworks.UtilityElement;
-import com.esri.arcgisruntime.utilitynetworks.UtilityElementTraceResult;
-import com.esri.arcgisruntime.utilitynetworks.UtilityNetwork;
-import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkDefinition;
-import com.esri.arcgisruntime.utilitynetworks.UtilityNetworkSource;
-import com.esri.arcgisruntime.utilitynetworks.UtilityTerminal;
-import com.esri.arcgisruntime.utilitynetworks.UtilityTier;
-import com.esri.arcgisruntime.utilitynetworks.UtilityTraceConfiguration;
-import com.esri.arcgisruntime.utilitynetworks.UtilityTraceFilter;
-import com.esri.arcgisruntime.utilitynetworks.UtilityTraceParameters;
-import com.esri.arcgisruntime.utilitynetworks.UtilityTraceResult;
-import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.security.UserCredential;
+import com.esri.arcgisruntime.symbology.ColorUtil;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
+import com.esri.arcgisruntime.utilitynetworks.*;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -55,31 +56,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
-
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.data.ArcGISFeature;
-import com.esri.arcgisruntime.data.FeatureQueryResult;
-import com.esri.arcgisruntime.data.QueryParameters;
-import com.esri.arcgisruntime.data.ServiceGeodatabase;
-import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.security.UserCredential;
-import com.esri.arcgisruntime.symbology.ColorUtil;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
 public class PerformValveIsolationTraceController {
 
@@ -330,7 +308,7 @@ public class PerformValveIsolationTraceController {
 
   /**
    *  Uses the clicked map point to identify any utility elements in the utility network at the clicked location. The
-   *  clicked utility element is added either to the utility trace parameter's filter barrier list. A graphic is created
+   *  clicked utility element is added to the utility trace parameter's filter barrier list. A graphic is created
    *  at the clicked location to mark the element as a filter barrier.
    *
    *  @param e event registered when the map view is clicked on
@@ -363,68 +341,74 @@ public class PerformValveIsolationTraceController {
 
           // return if no features are identified
           if (!identifyLayerResults.isEmpty()) {
-            // retrieve the first result and get its contents
-            ArcGISFeature identifiedFeature = (ArcGISFeature) identifyLayerResults.get(0).getElements().get(0);
 
-            // create element from the identified feature
-            var utilityElement = utilityNetwork.createElement(identifiedFeature);
+            // get and store a list of features from the result of the query (there may be more than one)
+            List<ArcGISFeature> listOfFeatures = new ArrayList<>();
+            identifyLayerResults.forEach(result -> listOfFeatures.add((ArcGISFeature) result.getElements().get(0)));
 
-            // check if the network source is a junction or an edge
-            if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
+            // create an utility element for each feature and store it in a list
+            List<UtilityElement> utilityElementList = new ArrayList<>();
+            listOfFeatures.forEach(feature -> utilityElementList.add(utilityNetwork.createElement(feature)));
 
-              // check if the feature has a terminal configuration and multiple terminals
-              if (utilityElement.getAssetType().getTerminalConfiguration() != null) {
-                var utilityTerminalConfiguration = utilityElement.getAssetType().getTerminalConfiguration();
-                List<UtilityTerminal> terminals = utilityTerminalConfiguration.getTerminals();
+            // check the utility network source type of every utility element
+            utilityElementList.forEach(utilityElement -> {
 
-                if (terminals.size() > 1) {
-                  // prompt the user to select a terminal for this feature
-                  Optional<UtilityTerminal> userSelectedTerminal = promptForTerminalSelection(terminals);
+              // check if the network source is a junction or an edge
+              if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
 
-                  // apply the selected terminal
-                  if (userSelectedTerminal.isPresent()) {
-                    UtilityTerminal terminal = userSelectedTerminal.get();
-                    utilityElement.setTerminal(terminal);
-                    // show the terminals name in the status label
-                    String terminalName = terminal.getName() != null ? terminal.getName() : "default";
-                    statusLabel.setText("Feature added at terminal: " + terminalName);
+                // check if the feature has a terminal configuration and multiple terminals
+                if (utilityElement.getAssetType().getTerminalConfiguration() != null) {
+                  UtilityTerminalConfiguration utilityTerminalConfiguration = utilityElement.getAssetType().getTerminalConfiguration();
+                  List<UtilityTerminal> terminals = utilityTerminalConfiguration.getTerminals();
 
-                    // don't create the element if no terminal was selected
-                  } else {
-                    statusLabel.setText("No terminal selected - no feature added");
-                    return;
+                  if (terminals.size() > 1) {
+                    // prompt the user to select a terminal for this feature
+                    Optional<UtilityTerminal> userSelectedTerminal = promptForTerminalSelection(terminals);
+
+                    // apply the selected terminal
+                    if (userSelectedTerminal.isPresent()) {
+                      UtilityTerminal terminal = userSelectedTerminal.get();
+                      utilityElement.setTerminal(terminal);
+                      // show the terminals name in the status label
+                      String terminalName = terminal.getName() != null ? terminal.getName() : "default";
+                      statusLabel.setText("Feature added at terminal: " + terminalName);
+
+                      // don't create the element if no terminal was selected
+                    } else {
+                      statusLabel.setText("No terminal selected - no feature added");
+                    }
                   }
                 }
+
+              } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE) {
+
+                // get the geometry of the identified feature as a polyline, and remove the z component
+                Polyline polyline = (Polyline) GeometryEngine.removeZ(listOfFeatures.get(0).getGeometry());
+
+                // compute how far the clicked location is along the edge feature
+                double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
+                if (Double.isNaN(fractionAlongEdge)) {
+                  new Alert(Alert.AlertType.ERROR, "Cannot add starting location / barrier here.");
+                  return;
+                }
+
+                // set the fraction along edge
+                utilityElement.setFractionAlongEdge(fractionAlongEdge);
+
+                // update the status label text
+                statusLabel.setText("Fraction along edge: " + Math.round(utilityElement.getFractionAlongEdge() * 1000d) / 1000d);
               }
-
-            } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE) {
-
-              // get the geometry of the identified feature as a polyline, and remove the z component
-              Polyline polyline = (Polyline) GeometryEngine.removeZ(identifiedFeature.getGeometry());
-
-              // compute how far the clicked location is along the edge feature
-              double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
-              if (Double.isNaN(fractionAlongEdge)) {
-                new Alert(Alert.AlertType.ERROR, "Cannot add starting location / barrier here.");
-                return;
-              }
-
-              // set the fraction along edge
-              utilityElement.setFractionAlongEdge(fractionAlongEdge);
-
-              // update the status label text
-              statusLabel.setText("Fraction along edge: " + Math.round(utilityElement.getFractionAlongEdge() * 1000d) / 1000d);
-            }
+            });
 
             // add the element to the list of filter barriers
-            utilityTraceParameters.getFilterBarriers().add(utilityElement);
+            utilityTraceParameters.getFilterBarriers().add(utilityElementList.get(0));
 
             // create a graphic for the new utility element
             Graphic traceLocationGraphic = new Graphic();
 
             // find the closest coordinate on the selected element to the clicked point
             ProximityResult proximityResult =
-              GeometryEngine.nearestCoordinate(identifiedFeature.getGeometry(), mapPoint);
+              GeometryEngine.nearestCoordinate(listOfFeatures.get(0).getGeometry(), mapPoint);
 
             // set the graphic's geometry to the coordinate on the element and add it to the graphics overlay
             traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
@@ -437,7 +421,6 @@ public class PerformValveIsolationTraceController {
         } finally {
           progressIndicator.setVisible(false);
         }
-
       });
     }
   }
@@ -485,6 +468,7 @@ public class PerformValveIsolationTraceController {
    */
   @FXML
   private void handleResetButtonClick() {
+    statusLabel.setText("Ready to perform trace");
     promptLabel.setText("Choose category for filter barrier:");
     categorySelectionComboBox.setDisable(false);
     clearSelectedFeatureLayersOnMap();
