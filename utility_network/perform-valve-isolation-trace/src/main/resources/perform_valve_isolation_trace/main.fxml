@@ -16,26 +16,24 @@
   -->
 
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.Color?>
 <StackPane
         fx:controller="com.esri.samples.perform_valve_isolation_trace.PerformValveIsolationTraceController"
         xmlns:fx="http://javafx.com/fxml" stylesheets="/perform_valve_isolation_trace/style.css">
     <!--SDK MapView-->
-    <MapView fx:id="mapView"/>
+    <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"/>
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
     <!--Controls Area-->
     <VBox StackPane.alignment="TOP_LEFT">
-        <Label text="Choose category for filter barrier:" styleClass="title"/>
+        <Label fx:id="promptLabel" text="Choose category for filter barrier:" styleClass="title"/>
+        <GridPane vgap="10" hgap="10">
+            <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include isolated features" disable="true" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Button fx:id="resetButton" text="Reset" onAction="#handleResetButtonClick" disable="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        </GridPane>
 
-        <HBox>
-            <ComboBox fx:id="categorySelectionComboBox" promptText="Utility Category" disable="true"/>
-            <Button fx:id="traceButton" text="Trace" onAction="#handleTraceClick" disable="true"/>
-        </HBox>
-
-        <CheckBox fx:id="includeIsolatedFeaturesCheckbox" text="Include isolated features" disable="true"/>
         <Label fx:id="statusLabel" StackPane.alignment="CENTER" text="Loading Utility Network..."/>
     </VBox>
 </StackPane>
