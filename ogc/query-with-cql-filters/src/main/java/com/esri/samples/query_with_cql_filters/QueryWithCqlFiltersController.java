@@ -123,9 +123,7 @@ public class QueryWithCqlFiltersController {
             featureLayer.getLoadError().getCause().getMessage()).show();
         }
       });
-
-
-
+      
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -254,13 +252,13 @@ public class QueryWithCqlFiltersController {
   }
 
   /**
-   * Handle checkbox interaction to control if the date picker is enabled or not.
+   * Binds the enabled status of the start and end date pickers with the checkbox selected property.
    */
   @FXML
   private void handleCheckBoxInteraction() {
 
-    startDatePicker.setDisable(!timeExtentCheckBox.isSelected());
-    endDatePicker.setDisable(!timeExtentCheckBox.isSelected());
+    startDatePicker.disableProperty().bind(timeExtentCheckBox.selectedProperty().not());
+    endDatePicker.disableProperty().bind(timeExtentCheckBox.selectedProperty().not());
 
   }
 
