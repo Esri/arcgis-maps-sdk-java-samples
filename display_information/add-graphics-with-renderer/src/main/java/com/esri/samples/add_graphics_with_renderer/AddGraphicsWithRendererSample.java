@@ -16,15 +16,16 @@
 
 package com.esri.samples.add_graphics_with_renderer;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.geometry.CubicBezierSegment;
+import com.esri.arcgisruntime.geometry.EllipticArcSegment;
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.Part;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PolygonBuilder;
 import com.esri.arcgisruntime.geometry.PolylineBuilder;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
@@ -32,10 +33,19 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+import java.util.Arrays;
 
 public class AddGraphicsWithRendererSample extends Application {
 
@@ -76,8 +86,8 @@ public class AddGraphicsWithRendererSample extends Application {
       Point point = new Point(40e5, 40e5, SpatialReferences.getWebMercator());
       // create graphic for point
       Graphic pointGraphic = new Graphic(point);
-      // red (0xFFFF0000) diamond point symbol
-      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xFFFF0000, 10);
+      // red diamond point symbol
+      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, ColorUtil.colorToArgb(Color.RED), 10);
       // create simple renderer
       SimpleRenderer pointRenderer = new SimpleRenderer(pointSymbol);
       // set renderer on graphics overlay
@@ -87,19 +97,19 @@ public class AddGraphicsWithRendererSample extends Application {
       // add graphics overlay to the MapView
       mapView.getGraphicsOverlays().add(pointGraphicOverlay);
 
-      // solid blue (0xFF0000FF) line graphic
+      // solid blue line graphic
       GraphicsOverlay lineGraphicOverlay = new GraphicsOverlay();
       PolylineBuilder lineGeometry = new PolylineBuilder(SpatialReferences.getWebMercator());
       lineGeometry.addPoint(-10e5, 40e5);
       lineGeometry.addPoint(20e5, 50e5);
       Graphic lineGraphic = new Graphic(lineGeometry.toGeometry());
       lineGraphicOverlay.getGraphics().add(lineGraphic);
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 5);
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), 5);
       SimpleRenderer lineRenderer = new SimpleRenderer(lineSymbol);
       lineGraphicOverlay.setRenderer(lineRenderer);
       mapView.getGraphicsOverlays().add(lineGraphicOverlay);
 
-      // solid yellow (0xFFFFFF00) polygon graphic
+      // solid yellow polygon graphic
       GraphicsOverlay polygonGraphicOverlay = new GraphicsOverlay();
       PolygonBuilder polygonGeometry = new PolygonBuilder(SpatialReferences.getWebMercator());
       polygonGeometry.addPoint(-20e5, 20e5);
@@ -108,16 +118,81 @@ public class AddGraphicsWithRendererSample extends Application {
       polygonGeometry.addPoint(-20e5, -20e5);
       Graphic polygonGraphic = new Graphic(polygonGeometry.toGeometry());
       polygonGraphicOverlay.getGraphics().add(polygonGraphic);
-      SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFFFFF00, null);
+      SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.YELLOW), null);
       SimpleRenderer polygonRenderer = new SimpleRenderer(polygonSymbol);
       polygonGraphicOverlay.setRenderer(polygonRenderer);
       mapView.getGraphicsOverlays().add(polygonGraphicOverlay);
 
+      // polygon with curve segments (red heart) graphic
+      GraphicsOverlay curvedGraphicOverlay = new GraphicsOverlay();
+      // create a simple fill symbol with outline
+      SimpleLineSymbol curvedLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLACK), 1);
+      SimpleFillSymbol curvedFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.RED), curvedLineSymbol);
+      SimpleRenderer curvedRenderer = new SimpleRenderer(curvedFillSymbol);
+      curvedGraphicOverlay.setRenderer(curvedRenderer);
+      // create a heart shaped graphic and add it to the map view
+      Point originPointForHeart = new Point(40e5, 5e5, SpatialReferences.getWebMercator());
+      Geometry heartGeometry = makeHeartGeometry(originPointForHeart);
+      Graphic heartGraphic = new Graphic(heartGeometry);
+      curvedGraphicOverlay.getGraphics().add(heartGraphic);
+      mapView.getGraphicsOverlays().add(curvedGraphicOverlay);
+
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
+
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Create a heart-shape geometry with bezier and elliptic arc segments.
+   *
+   * @param centerOfHeart the center of the square that contains the heart shape
+   * @return a heart-shape geometry
+   */
+  private Geometry makeHeartGeometry(Point centerOfHeart) {
+
+    // define the side length of the square that contains the heart shape
+    double sideLength = 10e5;
+
+    SpatialReference spatialReference = centerOfHeart.getSpatialReference();
+    // define the x and y coordinates to simplify the calculation
+    double minX = centerOfHeart.getX() - 0.5 * sideLength;
+    double minY = centerOfHeart.getY() - 0.5 * sideLength;
+    // define the radius of the arcs
+    double arcRadius = sideLength * 0.25;
+
+    // construct the bottom left curve
+    Point leftCurveStart = new Point(centerOfHeart.getX(), minY);
+    Point leftCurveEnd = new Point(minX, minY + 0.75 * sideLength);
+    Point leftControlPoint1 = new Point(centerOfHeart.getX(), minY + 0.25 * sideLength);
+    Point leftControlPoint2 = new Point(minX, centerOfHeart.getY());
+    CubicBezierSegment leftCurve = new CubicBezierSegment(leftCurveStart, leftControlPoint1, leftControlPoint2, leftCurveEnd, spatialReference);
+
+    // construct the top left arc
+    Point leftArcCenter = new Point(minX + 0.25 * sideLength, minY + 0.75 * sideLength);
+    EllipticArcSegment leftArc = EllipticArcSegment.createCircularEllipticArc(leftArcCenter, arcRadius, Math.PI, -Math.PI, spatialReference);
+
+    // construct the top right arc
+    Point rightArcCenter = new Point(minX + 0.75 * sideLength, minY + 0.75 * sideLength);
+    EllipticArcSegment rightArc = EllipticArcSegment.createCircularEllipticArc(rightArcCenter, arcRadius, Math.PI, -Math.PI, spatialReference);
+
+    // construct the bottom right curve
+    Point rightCurveStart = new Point(minX + sideLength, minY + 0.75 * sideLength);
+    Point rightControlPoint1 = new Point(minX + sideLength, centerOfHeart.getY());
+    CubicBezierSegment rightCurve = new CubicBezierSegment(rightCurveStart, rightControlPoint1, leftControlPoint1, leftCurveStart, spatialReference);
+
+    // create a part and add a collection of segments to it to define the heart shape
+    Part part = new Part(spatialReference);
+    part.addAll(Arrays.asList(leftCurve, leftArc, rightArc, rightCurve));
+
+    // use a polygon builder to construct a heart shape from the parts above
+    PolygonBuilder heartShape = new PolygonBuilder(spatialReference);
+    heartShape.getParts().add(part);
+
+    // return the geometry of the heart shape polygon
+    return heartShape.toGeometry();
   }
 
   /**
