@@ -86,8 +86,8 @@ public class AddGraphicsWithRendererSample extends Application {
       Point point = new Point(40e5, 40e5, SpatialReferences.getWebMercator());
       // create graphic for point
       Graphic pointGraphic = new Graphic(point);
-      // red diamond point symbol
-      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, ColorUtil.colorToArgb(Color.RED), 10);
+      // green diamond point symbol
+      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, ColorUtil.colorToArgb(Color.GREEN), 10);
       // create simple renderer
       SimpleRenderer pointRenderer = new SimpleRenderer(pointSymbol);
       // set renderer on graphics overlay
