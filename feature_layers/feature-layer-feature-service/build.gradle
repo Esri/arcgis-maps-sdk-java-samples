@@ -16,7 +16,7 @@ javafx {
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven {
         url 'https://esri.jfrog.io/artifactory/arcgis'
     }
