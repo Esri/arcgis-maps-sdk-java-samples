@@ -16,7 +16,6 @@
 
 package com.esri.samples.add_graphics_with_renderer;
 
-
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.CubicBezierSegment;
 import com.esri.arcgisruntime.geometry.EllipticArcSegment;
