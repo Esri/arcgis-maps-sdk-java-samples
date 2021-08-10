@@ -1,6 +1,6 @@
 # Add graphics with renderer
 
-A renderer allows you to change the style of all graphics in a graphics overlay by referencing a single symbol style. A renderer will only effect graphics that do not specify their own symbol style.
+A renderer allows you to change the style of all graphics in a graphics overlay by referencing a single symbol style. A renderer will only affect graphics that do not specify their own symbol style.
 
 ![Image of adding graphics with renderer](AddGraphicsWithRenderer.png)
 

@@ -130,7 +130,7 @@ public class AddGraphicsWithRendererSample extends Application {
       SimpleFillSymbol curvedFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.RED), curvedLineSymbol);
       SimpleRenderer curvedRenderer = new SimpleRenderer(curvedFillSymbol);
       curvedGraphicOverlay.setRenderer(curvedRenderer);
-      // create a heart shaped graphic and add it to the map view
+      // create a heart-shaped graphic and add it to the map view
       Point originPointForHeart = new Point(40e5, 5e5, SpatialReferences.getWebMercator());
       Geometry heartGeometry = makeHeartGeometry(originPointForHeart);
       Graphic heartGraphic = new Graphic(heartGeometry);
@@ -146,16 +146,16 @@ public class AddGraphicsWithRendererSample extends Application {
   }
 
   /**
-   * Create a heart-shape geometry with bezier and elliptic arc segments.
+   * Create a heart-shaped geometry with bezier and elliptic arc segments.
    *
    * @param centerOfHeart the center of the square that contains the heart shape
-   * @return a heart-shape geometry
+   * @return a heart-shaped geometry
    */
   private Geometry makeHeartGeometry(Point centerOfHeart) {
 
     // define the side length of the square that contains the heart shape
     double sideLength = 10e5;
-
+    // define a spatial reference to create segments with
     SpatialReference spatialReference = centerOfHeart.getSpatialReference();
     // define the x and y coordinates to simplify the calculation
     double minX = centerOfHeart.getX() - 0.5 * sideLength;
@@ -191,7 +191,7 @@ public class AddGraphicsWithRendererSample extends Application {
     PolygonBuilder heartShape = new PolygonBuilder(spatialReference);
     heartShape.getParts().add(part);
 
-    // return the geometry of the heart shape polygon
+    // return the geometry of the heart-shaped polygon
     return heartShape.toGeometry();
   }
 
