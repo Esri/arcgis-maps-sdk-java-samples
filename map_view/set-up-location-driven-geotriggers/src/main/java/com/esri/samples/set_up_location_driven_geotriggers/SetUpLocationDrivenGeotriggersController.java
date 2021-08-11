@@ -21,12 +21,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geotriggers.*;
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.location.*;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -38,14 +45,12 @@ import javafx.util.Duration;
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.location.LocationDataSource;
-import com.esri.arcgisruntime.location.NmeaLocationDataSource;
-import com.esri.arcgisruntime.location.NmeaSatelliteInfo;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import org.apache.commons.io.IOUtils;
 
 public class SetUpLocationDrivenGeotriggersController {
 
@@ -57,7 +62,8 @@ public class SetUpLocationDrivenGeotriggersController {
   @FXML private Label systemInfo;
 
   private int count = 0;
-  private NmeaLocationDataSource nmeaLocationDataSource;
+  private LocationGeotriggerFeed locationGeotriggerFeed;
+  private SimulatedLocationDataSource simulatedLocationDataSource;
   private List<NmeaSatelliteInfo> nmeaSatelliteInfo;
 
   public void initialize() {
@@ -68,30 +74,81 @@ public class SetUpLocationDrivenGeotriggersController {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the navigation basemap style and set it to the map view
-      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_NAVIGATION);
+      // create a map with a predefined tile basemap, feature styles and labels in the Santa Barbara Botanic Garden and set it to the map view
+      Portal portal = new Portal("https://www.arcgis.com/");
+      ArcGISMap map = new ArcGISMap(new PortalItem(portal, "6ab0e91dc39e478cae4f408e1a36a308"));
       mapView.setMap(map);
 
-      // set a viewpoint on the map view centered on Redlands, California
-      mapView.setViewpoint(new Viewpoint(new Point(-117.191, 34.0306, SpatialReferences.getWgs84()), 100000));
+      // create service feature tables to add geotrigger monitors for later
+      ServiceFeatureTable gardenSectionFeatureTable = new ServiceFeatureTable(new PortalItem(portal,"1ba816341ea04243832136379b8951d9"), 0);
+      ServiceFeatureTable gardenPOIFeatureTable = new ServiceFeatureTable(new PortalItem(portal,"7c6280c290c34ae8aeb6b5c4ec841167"), 0);
 
-      // create a new NMEA location data source
-      nmeaLocationDataSource = new NmeaLocationDataSource(SpatialReferences.getWgs84());
+      // create geotriggers for each of the service feature tables
+      createGeotriggerMonitor(gardenSectionFeatureTable, 0.0, "Section Geotrigger");
+      createGeotriggerMonitor(gardenPOIFeatureTable, 0.0, "POI Geotrigger");
 
-      // set the NMEA location data source onto the map view's location display
+      // access the json of the walking route points
+      String polylineData = IOUtils.toString(getClass().getResourceAsStream(
+        "/set_up_location_driven_geotriggers/polyline_data.json"), StandardCharsets.UTF_8);
+      // create a polyline from the location points
+      Polyline locations = (Polyline) Geometry.fromJson(polylineData, SpatialReferences.getWgs84());
+
+
+      // create a new simulated location data source to replicate the path walked around the garden
+      simulatedLocationDataSource = new SimulatedLocationDataSource();
+      // set the location of the simulated location data source with simulation parameters to set a consistent velocity
+      simulatedLocationDataSource.setLocations(
+        locations, new SimulationParameters(Calendar.getInstance(), 5.0, 0.0, 0.0 ));
+
+      // configure the map view's location display to follow the simulated location data source
       LocationDisplay locationDisplay = mapView.getLocationDisplay();
-      locationDisplay.setLocationDataSource(nmeaLocationDataSource);
+      locationDisplay.setLocationDataSource(simulatedLocationDataSource);
       locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+      locationDisplay.setInitialZoomScale(1000);
 
       // disable map view interaction, the location display will automatically center on the mock device location
       mapView.setEnableMousePan(false);
       mapView.setEnableKeyboardNavigation(false);
-      stopButton.setDisable(true);
+
+      // start the location display when the map is loaded
+      map.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+
+          // start the location display
+          locationDisplay.startAsync();
+
+          locationGeotriggerFeed = new LocationGeotriggerFeed(simulatedLocationDataSource);
+
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
+        }
+      });
+
+
 
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Creates a geotrigger monitor for a given service feature table
+   * @param serviceFeatureTable
+   * @param bufferSize
+   * @param geotriggerName
+   */
+  private void createGeotriggerMonitor(ServiceFeatureTable serviceFeatureTable, double bufferSize, String geotriggerName) {
+
+    FeatureFenceParameters featureFenceParameters = new FeatureFenceParameters(serviceFeatureTable, bufferSize);
+    // define an arcade expression that returns the value for the "name" field of the feaeture that triggered the monitor
+    FenceGeotrigger fenceGeotrigger = new FenceGeotrigger(locationGeotriggerFeed, FenceRuleType.ENTER_OR_EXIT, featureFenceParameters);
+    GeotriggerMonitor geotriggerMonitor = new GeotriggerMonitor(fenceGeotrigger);
+
+    connect(geotriggerMonitor, geotriggerNotification, handleGeotriggerNotification);
+
+    geotriggerMonitor.startAsync();
+
   }
 
   /**
@@ -177,49 +234,11 @@ public class SetUpLocationDrivenGeotriggersController {
   }
 
   /**
-   * Obtains NMEA satellite information from the NMEA location data source, and displays satellite information on the app.
-   */
-  private void setupSatelliteChangedListener() {
-
-    HashSet<Integer> uniqueSatelliteIds = new HashSet<>();
-
-    nmeaLocationDataSource.addSatellitesChangedListener(satellitesChangedEvent -> {
-
-      // get satellite information from the NMEA location data source every time the satellites change
-      nmeaSatelliteInfo = satellitesChangedEvent.getSatelliteInfos();
-      // set the text of the satellite count label
-      satelliteCount.setText("Satellite count: " + nmeaSatelliteInfo.size());
-
-      for (NmeaSatelliteInfo satInfo : nmeaSatelliteInfo) {
-        // collect unique satellite ids
-        uniqueSatelliteIds.add(satInfo.getId());
-        // sort the ids numerically
-        List<Integer> sortedIds = new ArrayList<>(uniqueSatelliteIds);
-        Collections.sort(sortedIds);
-        // display the satellite system and id information
-        systemInfo.setText("System: " + satInfo.getSystem());
-        satelliteID.setText("Satellite IDs: " + sortedIds);
-      }
-    });
-  }
-
-  /**
-   * Stops displaying the mock data location and receiving location data.
-   */
-  @FXML
-  private void stop() {
-
-    // stop receiving and displaying location data
-    nmeaLocationDataSource.stop();
-
-  }
-
-  /**
    * Disposes application resources.
    */
   void terminate() {
     if (mapView != null) {
-      nmeaLocationDataSource.stop();
+      simulatedLocationDataSource.stop();
       mapView.dispose();
     }
   }
