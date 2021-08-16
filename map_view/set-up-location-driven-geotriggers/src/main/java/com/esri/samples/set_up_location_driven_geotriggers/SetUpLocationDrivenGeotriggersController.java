@@ -195,7 +195,6 @@ public class SetUpLocationDrivenGeotriggersController {
         ArcGISFeature fenceFeature = (ArcGISFeature) fenceGeotriggerNotificationInfo.getFenceGeoElement();
         String description = fenceFeature.getAttributes().get("description").toString().replaceAll("<.*?>", " ");
 
-
         String geoTriggerName = geotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
 
         // fetch the fence feature's attachments
