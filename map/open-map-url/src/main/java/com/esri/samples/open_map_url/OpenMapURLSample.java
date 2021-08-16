@@ -41,7 +41,7 @@ public class OpenMapURLSample extends Application {
   private List<ArcGISMap> webMaps; // keep loadable in scope to avoid garbage collection
 
   private static final String[] portalItemIDs = new String[] {
-      "01f052c8995e4b9e889d73c3e210ebe3", "92ad152b9da94dee89b9e387dfe21acd"
+      "92ad152b9da94dee89b9e387dfe21acd", "5be0bc3ee36c4e058f7b3cebc21c74e6", "064f2e898b094a17b84e4a4cd5e5f549"
   };
 
   @Override
