@@ -26,6 +26,8 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.esri.arcgisruntime.arcade.ArcadeExpression;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -59,35 +61,29 @@ public class SetUpLocationDrivenGeotriggersController {
 
   @FXML private MapView mapView;
   @FXML private ImageView gardenSectionImageView;
-  @FXML private ImageView gardenPOIImageView;
   @FXML private Label currentGardenSectionTitle;
   @FXML private Label currentGardenSectionDescription;
   @FXML private Label pointsOfInterestDescription;
   @FXML private Label pointsOfInterestTitle;
-  @FXML private Button startButton;
-  @FXML private Button stopButton;
-  @FXML private Label systemInfo;
 
   private LocationGeotriggerFeed locationGeotriggerFeed;
   private SimulatedLocationDataSource simulatedLocationDataSource;
-  private List<String> currentSections;
   private GeotriggerMonitor gardenSectionGeotriggerMonitor;
   private GeotriggerMonitor gardenPOIGeotriggerMonitor;
   private FenceGeotrigger gardenSectionFenceGeotrigger;
   private FenceGeotrigger gardenPOIFenceGeotrigger;
+  private HashSet<String> names;
 
   public void initialize() {
 
     try {
 
-      // authentication with an API key or named user is required to access basemaps and other location services
-      String yourAPIKey = System.getProperty("apiKey");
-      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
-
       // create a map with a predefined tile basemap, feature styles and labels in the Santa Barbara Botanic Garden and set it to the map view
       Portal portal = new Portal("https://www.arcgis.com/");
       ArcGISMap map = new ArcGISMap(new PortalItem(portal, "6ab0e91dc39e478cae4f408e1a36a308"));
       mapView.setMap(map);
+
+      names = new HashSet<>();
 
       // create service feature tables to add geotrigger monitors for later
       ServiceFeatureTable gardenSectionFeatureTable = new ServiceFeatureTable(new PortalItem(portal,"1ba816341ea04243832136379b8951d9"), 0);
@@ -173,10 +169,9 @@ public class SetUpLocationDrivenGeotriggersController {
     FeatureFenceParameters featureFenceParameters = new FeatureFenceParameters(serviceFeatureTable, bufferSize);
     // define an arcade expression that returns the value for the "name" field of the feaeture that triggered the monitor
     ArcadeExpression arcadeExpression = new ArcadeExpression("$fenceFeature.name");
-    FenceGeotrigger fenceGeotrigger = new FenceGeotrigger(
-      locationGeotriggerFeed, FenceRuleType.ENTER_OR_EXIT, featureFenceParameters, arcadeExpression, geotriggerName);
 
-    return fenceGeotrigger;
+    return new FenceGeotrigger(
+      locationGeotriggerFeed, FenceRuleType.ENTER_OR_EXIT, featureFenceParameters, arcadeExpression, geotriggerName);
   }
 
   private void handleGeotriggerNotification(GeotriggerNotificationInfo geotriggerNotificationInfo) {
@@ -186,14 +181,16 @@ public class SetUpLocationDrivenGeotriggersController {
 
       // name of the fence feature
       String fenceFeatureName = fenceGeotriggerNotificationInfo.getMessage();
-    System.out.println(fenceFeatureName);
 
-      if (fenceGeotriggerNotificationInfo.getFenceNotificationType() == FenceNotificationType.ENTERED) {
+
+    if (fenceGeotriggerNotificationInfo.getFenceNotificationType() == FenceNotificationType.ENTERED) {
         // if the user enters a given geofence, add the feature's information to the UI and save the feature for querying
 
         // get the fence Geoelement as an ArcGISFeature, and the description from the feature's attributes
         ArcGISFeature fenceFeature = (ArcGISFeature) fenceGeotriggerNotificationInfo.getFenceGeoElement();
-        String description = fenceFeature.getAttributes().get("description").toString().replaceAll("<.*?>", " ");
+        String description = fenceFeature.getAttributes().get("description").toString();
+        String[] split = description.split("\\.");
+        String splitDescription = split[0];
 
         String geoTriggerName = geotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
 
@@ -204,9 +201,7 @@ public class SetUpLocationDrivenGeotriggersController {
           // get the feature attachments
           try {
             List<Attachment> attachments = attachmentsFuture.get();
-            System.out.println("first try");
             if (!attachments.isEmpty()) {
-              System.out.println("attachments aren't empty");
               // get the first (and only) attachment for the feature, which is an image
               Attachment imageAttachment = attachments.get(0);
               // fetch the attachment's data
@@ -214,24 +209,28 @@ public class SetUpLocationDrivenGeotriggersController {
               // listen for fetch data to complete
               attachmentDataFuture.addDoneListener(() -> {
                 // get the attachments data as an input stream
-                System.out.println("attachment future done");
                 try {
                   InputStream attachmentInputStream = attachmentDataFuture.get();
                   // save the input stream to a temporary directory and get a reference to its URI
                   Image imageFromStream = new Image(attachmentInputStream);
+                  attachmentInputStream.close();
+
 
                   // if the geotrigger notification belongs to the garden section, populate the garden section part of the UI
                   if (geoTriggerName.equals(gardenSectionFenceGeotrigger.getName())) {
+                    // add details to the UI
                     currentGardenSectionTitle.setText(fenceFeatureName);
-                    currentGardenSectionDescription.setText(description);
+                    currentGardenSectionDescription.setText(splitDescription + ".");
                     gardenSectionImageView.setImage(imageFromStream);
 
-                  } else {
-                    pointsOfInterestTitle.setText(fenceFeatureName);
-                    pointsOfInterestDescription.setText(description);
-                    gardenPOIImageView.setImage(imageFromStream);
+                  } else if (geoTriggerName.equals(gardenPOIFenceGeotrigger.getName())) {
+                    // add details to the UI
+                    names.add(fenceFeatureName);
+                    String str = String.join(", ", names);
+                    pointsOfInterestTitle.setText(str);
+
+
                   }
-                  attachmentInputStream.close();
 
 
                 } catch (Exception e) {
@@ -247,10 +246,11 @@ public class SetUpLocationDrivenGeotriggersController {
 
       } else if (fenceGeotriggerNotificationInfo.getFenceNotificationType() == FenceNotificationType.EXITED) {
         // otherwise remove the feature's information
-        pointsOfInterestDescription.setText("");
-        pointsOfInterestTitle.setText("");
-        gardenPOIImageView.setImage(null);
-//        currentSections.remove(fenceFeatureName);
+      names.remove(fenceFeatureName);
+      String str = String.join(", ", names);
+      pointsOfInterestTitle.setText(str);
+
+
       }
   }
 

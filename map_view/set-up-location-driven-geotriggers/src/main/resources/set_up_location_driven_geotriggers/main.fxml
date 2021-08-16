@@ -31,14 +31,13 @@
         <viewInsets><Insets right="290"/></viewInsets>
     </MapView>
     <!--Controls box-->
-    <VBox fx:id="vBox" StackPane.alignment="TOP_RIGHT" styleClass="panel-region" maxHeight="Infinity" >
-        <Label fx:id="currentGardenSectionTitle"/>
-        <Label fx:id="currentGardenSectionDescription" wrapText="true" VBox.vgrow="ALWAYS" maxHeight="Infinity" />
-        <ImageView fx:id="gardenSectionImageView" fitWidth="250" fitHeight="250" preserveRatio="true"/>
+    <VBox StackPane.alignment="TOP_RIGHT" styleClass="panel-region" maxHeight="Infinity" >
+        <Label fx:id="currentGardenSectionTitle" styleClass="title-label"/>
+        <Label fx:id="currentGardenSectionDescription" wrapText="true" VBox.vgrow="ALWAYS" styleClass="content"/>
+        <ImageView fx:id="gardenSectionImageView" fitWidth="300" preserveRatio="true"/>
         <Separator/>
-        <Label fx:id="pointsOfInterestTitle"/>
-        <Label fx:id="pointsOfInterestDescription" wrapText="true" VBox.vgrow="ALWAYS" maxHeight="Infinity"/>
-        <ImageView fx:id="gardenPOIImageView" fitWidth="250" fitHeight="250" preserveRatio="true"/>
+        <Label text="Nearby points of interest: " styleClass="title-label"/>
+        <Label fx:id="pointsOfInterestTitle" styleClass="poi-detail" wrapText="true" VBox.vgrow="ALWAYS"/>
     </VBox>
 
 </StackPane>

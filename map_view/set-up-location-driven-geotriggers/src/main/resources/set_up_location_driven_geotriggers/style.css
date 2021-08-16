@@ -5,10 +5,31 @@ VBox {
     -fx-max-height: Infinity;
     -fx-spacing: 5;
     -fx-alignment: top-left;
+}
 
-
+.separator .line {
+  -fx-background-color: #ac901e;
+  -fx-border-width: 5px;
 }
 
 .panel-region .label {
   -fx-text-fill: white;
+}
+
+.content {
+  -fx-font-size: 15;
+}
+
+.poi-detail {
+  -fx-background-color: #ac901e;
+  -fx-background-radius: 30px;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+.title-label {
+
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+
 }
