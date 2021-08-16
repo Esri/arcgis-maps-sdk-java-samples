@@ -1,7 +1,14 @@
-.panel-region .label {
-  -fx-text-fill: white;
+VBox {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+    -fx-padding: 20;
+    -fx-max-width: 250;
+    -fx-max-height: Infinity;
+    -fx-spacing: 5;
+    -fx-alignment: top-left;
+
+
 }
 
-.panel-region .check-box {
-   -fx-text-fill: white;
+.panel-region .label {
+  -fx-text-fill: white;
 }

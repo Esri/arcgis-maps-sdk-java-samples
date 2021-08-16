@@ -20,12 +20,25 @@
 
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.set_up_location_driven_geotriggers.SetUpLocationDrivenGeotriggersController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/set_up_location_driven_geotriggers/style.css">
     <!--SDK MapView-->
-    <MapView fx:id="mapView"/>
+    <MapView fx:id="mapView">
+        <viewInsets><Insets right="290"/></viewInsets>
+    </MapView>
     <!--Controls box-->
-    <VBox StackPane.alignment="TOP_LEFT" styleClass="panel-region">
-
+    <VBox fx:id="vBox" StackPane.alignment="TOP_RIGHT" styleClass="panel-region" maxHeight="Infinity" >
+        <Label fx:id="currentGardenSectionTitle"/>
+        <Label fx:id="currentGardenSectionDescription" wrapText="true" VBox.vgrow="ALWAYS" maxHeight="Infinity" />
+        <ImageView fx:id="gardenSectionImageView" fitWidth="250" fitHeight="250" preserveRatio="true"/>
+        <Separator/>
+        <Label fx:id="pointsOfInterestTitle"/>
+        <Label fx:id="pointsOfInterestDescription" wrapText="true" VBox.vgrow="ALWAYS" maxHeight="Infinity"/>
+        <ImageView fx:id="gardenPOIImageView" fitWidth="250" fitHeight="250" preserveRatio="true"/>
     </VBox>
+
 </StackPane>

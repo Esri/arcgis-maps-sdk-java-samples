@@ -17,54 +17,64 @@
 
 package com.esri.samples.set_up_location_driven_geotriggers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import com.esri.arcgisruntime.arcade.ArcadeExpression;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.ArcGISFeature;
+import com.esri.arcgisruntime.data.Attachment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geotriggers.*;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.location.*;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.util.Duration;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import javafx.scene.layout.VBox;
 import org.apache.commons.io.IOUtils;
+
+import javax.swing.text.html.HTMLEditorKit;
 
 public class SetUpLocationDrivenGeotriggersController {
 
   @FXML private MapView mapView;
-  @FXML private Label satelliteCount;
-  @FXML private Label satelliteID;
+  @FXML private ImageView gardenSectionImageView;
+  @FXML private ImageView gardenPOIImageView;
+  @FXML private Label currentGardenSectionTitle;
+  @FXML private Label currentGardenSectionDescription;
+  @FXML private Label pointsOfInterestDescription;
+  @FXML private Label pointsOfInterestTitle;
   @FXML private Button startButton;
   @FXML private Button stopButton;
   @FXML private Label systemInfo;
 
-  private int count = 0;
   private LocationGeotriggerFeed locationGeotriggerFeed;
   private SimulatedLocationDataSource simulatedLocationDataSource;
-  private List<NmeaSatelliteInfo> nmeaSatelliteInfo;
+  private List<String> currentSections;
+  private GeotriggerMonitor gardenSectionGeotriggerMonitor;
+  private GeotriggerMonitor gardenPOIGeotriggerMonitor;
+  private FenceGeotrigger gardenSectionFenceGeotrigger;
+  private FenceGeotrigger gardenPOIFenceGeotrigger;
 
   public void initialize() {
 
@@ -83,48 +93,43 @@ public class SetUpLocationDrivenGeotriggersController {
       ServiceFeatureTable gardenSectionFeatureTable = new ServiceFeatureTable(new PortalItem(portal,"1ba816341ea04243832136379b8951d9"), 0);
       ServiceFeatureTable gardenPOIFeatureTable = new ServiceFeatureTable(new PortalItem(portal,"7c6280c290c34ae8aeb6b5c4ec841167"), 0);
 
-      // create geotriggers for each of the service feature tables
-      createGeotriggerMonitor(gardenSectionFeatureTable, 0.0, "Section Geotrigger");
-      createGeotriggerMonitor(gardenPOIFeatureTable, 0.0, "POI Geotrigger");
+      initializeSimulatedLocationDisplay();
 
-      // access the json of the walking route points
-      String polylineData = IOUtils.toString(getClass().getResourceAsStream(
-        "/set_up_location_driven_geotriggers/polyline_data.json"), StandardCharsets.UTF_8);
-      // create a polyline from the location points
-      Polyline locations = (Polyline) Geometry.fromJson(polylineData, SpatialReferences.getWgs84());
-
-
-      // create a new simulated location data source to replicate the path walked around the garden
-      simulatedLocationDataSource = new SimulatedLocationDataSource();
-      // set the location of the simulated location data source with simulation parameters to set a consistent velocity
-      simulatedLocationDataSource.setLocations(
-        locations, new SimulationParameters(Calendar.getInstance(), 5.0, 0.0, 0.0 ));
-
-      // configure the map view's location display to follow the simulated location data source
-      LocationDisplay locationDisplay = mapView.getLocationDisplay();
-      locationDisplay.setLocationDataSource(simulatedLocationDataSource);
-      locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
-      locationDisplay.setInitialZoomScale(1000);
-
-      // disable map view interaction, the location display will automatically center on the mock device location
-      mapView.setEnableMousePan(false);
-      mapView.setEnableKeyboardNavigation(false);
-
-      // start the location display when the map is loaded
-      map.addDoneLoadingListener(() -> {
-        if (map.getLoadStatus() == LoadStatus.LOADED) {
-
+      simulatedLocationDataSource.addStartedListener(() -> {
+        if (simulatedLocationDataSource.isStarted()) {
+          locationGeotriggerFeed = new LocationGeotriggerFeed(simulatedLocationDataSource);
+          // configure the map view's location display to follow the simulated location data source
+          LocationDisplay locationDisplay = mapView.getLocationDisplay();
+          locationDisplay.setLocationDataSource(simulatedLocationDataSource);
+          locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+          locationDisplay.setInitialZoomScale(1000);
           // start the location display
           locationDisplay.startAsync();
 
-          locationGeotriggerFeed = new LocationGeotriggerFeed(simulatedLocationDataSource);
+          // create geotriggers for each of the service feature tables
 
-        } else {
-          new Alert(Alert.AlertType.ERROR, "Map failed to load: " + map.getLoadError().getCause().getMessage()).show();
+          createFenceGeotrigger(gardenSectionFeatureTable, 0.0, "Section Geotrigger");
+          createFenceGeotrigger(gardenPOIFeatureTable, 10.0, "POI Geotrigger");
+
+          gardenSectionFenceGeotrigger = createFenceGeotrigger(gardenSectionFeatureTable, 0.0, "Section Geotrigger");
+          gardenPOIFenceGeotrigger = createFenceGeotrigger(gardenPOIFeatureTable, 10.0, "POI Geotrigger");
+
+          gardenSectionGeotriggerMonitor = new GeotriggerMonitor(gardenSectionFenceGeotrigger);
+          gardenPOIGeotriggerMonitor = new GeotriggerMonitor(gardenPOIFenceGeotrigger);
+
+          gardenPOIGeotriggerMonitor.startAsync();
+          gardenSectionGeotriggerMonitor.startAsync();
+
+          gardenSectionGeotriggerMonitor.addGeotriggerMonitorNotificationEventListener(e -> {
+            handleGeotriggerNotification(e.getGeotriggerNotificationInfo());
+          });
+
+          gardenPOIGeotriggerMonitor.addGeotriggerMonitorNotificationEventListener(e -> {
+            handleGeotriggerNotification(e.getGeotriggerNotificationInfo());
+          });
+
         }
       });
-
-
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -133,104 +138,121 @@ public class SetUpLocationDrivenGeotriggersController {
   }
 
   /**
+   *
+   */
+  private void initializeSimulatedLocationDisplay() throws IOException {
+
+    // access the json of the walking route points
+    String polylineData = IOUtils.toString(getClass().getResourceAsStream(
+      "/set_up_location_driven_geotriggers/polyline_data.json"), StandardCharsets.UTF_8);
+    // create a polyline from the location points
+    Polyline locations = (Polyline) Geometry.fromJson(polylineData, SpatialReferences.getWgs84());
+
+    // create a new simulated location data source to replicate the path walked around the garden
+    simulatedLocationDataSource = new SimulatedLocationDataSource();
+    // set the location of the simulated location data source with simulation parameters to set a consistent velocity
+    simulatedLocationDataSource.setLocations(
+      locations, new SimulationParameters(Calendar.getInstance(), 2.0, 0.0, 0.0 ));
+
+    simulatedLocationDataSource.startAsync();
+
+    // disable map view interaction, the location display will automatically center on the mock device location
+    mapView.setEnableMousePan(false);
+    mapView.setEnableKeyboardNavigation(false);
+
+  }
+
+  /**
    * Creates a geotrigger monitor for a given service feature table
    * @param serviceFeatureTable
    * @param bufferSize
    * @param geotriggerName
    */
-  private void createGeotriggerMonitor(ServiceFeatureTable serviceFeatureTable, double bufferSize, String geotriggerName) {
+  private FenceGeotrigger createFenceGeotrigger(ServiceFeatureTable serviceFeatureTable, double bufferSize, String geotriggerName) {
 
     FeatureFenceParameters featureFenceParameters = new FeatureFenceParameters(serviceFeatureTable, bufferSize);
     // define an arcade expression that returns the value for the "name" field of the feaeture that triggered the monitor
-    FenceGeotrigger fenceGeotrigger = new FenceGeotrigger(locationGeotriggerFeed, FenceRuleType.ENTER_OR_EXIT, featureFenceParameters);
-    GeotriggerMonitor geotriggerMonitor = new GeotriggerMonitor(fenceGeotrigger);
+    ArcadeExpression arcadeExpression = new ArcadeExpression("$fenceFeature.name");
+    FenceGeotrigger fenceGeotrigger = new FenceGeotrigger(
+      locationGeotriggerFeed, FenceRuleType.ENTER_OR_EXIT, featureFenceParameters, arcadeExpression, geotriggerName);
 
-    connect(geotriggerMonitor, geotriggerNotification, handleGeotriggerNotification);
-
-    geotriggerMonitor.startAsync();
-
+    return fenceGeotrigger;
   }
 
-  /**
-   * Initializes the location data source, reads the mock data NMEA sentences, and displays location updates from that file
-   * on the location display. Data is pushed to the data source using a timeline to simulate live updates, as they would
-   * appear if using real-time data from a GPS dongle.
-   */
-  @FXML
-  private void start() {
+  private void handleGeotriggerNotification(GeotriggerNotificationInfo geotriggerNotificationInfo) {
 
-    // prepare the mock data NMEA sentences
-    File simulatedNmeaDataFile = new File(System.getProperty("data.dir"), "./samples-data/redlands/Redlands.nmea");
-    if (simulatedNmeaDataFile.exists()) {
+      // fence geotrigger notification info provides access to the feature that triggered the notification
+      var fenceGeotriggerNotificationInfo = (FenceGeotriggerNotificationInfo) geotriggerNotificationInfo;
 
-      try {
-        // read the nmea file contents using a buffered reader and store the mock data sentences in a list
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(simulatedNmeaDataFile.getPath()));
-        // add carriage return for NMEA location data source parser
-        List<String> nmeaSentences = bufferedReader.lines().map(nmeaSentence -> nmeaSentence + "\n").collect(Collectors.toList());
+      // name of the fence feature
+      String fenceFeatureName = fenceGeotriggerNotificationInfo.getMessage();
+    System.out.println(fenceFeatureName);
 
-        // close the stream and release resources
-        bufferedReader.close();
+      if (fenceGeotriggerNotificationInfo.getFenceNotificationType() == FenceNotificationType.ENTERED) {
+        // if the user enters a given geofence, add the feature's information to the UI and save the feature for querying
 
-        LocationDataSource.StatusChangedListener listener = new LocationDataSource.StatusChangedListener() {
+        // get the fence Geoelement as an ArcGISFeature, and the description from the feature's attributes
+        ArcGISFeature fenceFeature = (ArcGISFeature) fenceGeotriggerNotificationInfo.getFenceGeoElement();
+        String description = fenceFeature.getAttributes().get("description").toString().replaceAll("<.*?>", " ");
 
-          // create a new timeline to simulate a stream of NMEA data
-          final Timeline timeline = new Timeline();
 
-          @Override
-          public void statusChanged(LocationDataSource.StatusChangedEvent statusChangedEvent) {
-            // check that the location data source has started
-            if (statusChangedEvent.getStatus() == LocationDataSource.Status.STARTED) {
+        String geoTriggerName = geotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
 
-              // add a satellite changed listener to the NMEA location data source and display satellite information on the app
-              setupSatelliteChangedListener();
+        // fetch the fence feature's attachments
+        ListenableFuture<List<Attachment>> attachmentsFuture = fenceFeature.fetchAttachmentsAsync();
+        // listen for fetch attachments to complete
+        attachmentsFuture.addDoneListener(() -> {
+          // get the feature attachments
+          try {
+            List<Attachment> attachments = attachmentsFuture.get();
+            System.out.println("first try");
+            if (!attachments.isEmpty()) {
+              System.out.println("attachments aren't empty");
+              // get the first (and only) attachment for the feature, which is an image
+              Attachment imageAttachment = attachments.get(0);
+              // fetch the attachment's data
+              ListenableFuture<InputStream> attachmentDataFuture = imageAttachment.fetchDataAsync();
+              // listen for fetch data to complete
+              attachmentDataFuture.addDoneListener(() -> {
+                // get the attachments data as an input stream
+                System.out.println("attachment future done");
+                try {
+                  InputStream attachmentInputStream = attachmentDataFuture.get();
+                  // save the input stream to a temporary directory and get a reference to its URI
+                  Image imageFromStream = new Image(attachmentInputStream);
 
-              timeline.setCycleCount(-1); // loop count
-              // push the mock data NMEA sentences into the data source every 250 ms
-              timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), event -> {
+                  // if the geotrigger notification belongs to the garden section, populate the garden section part of the UI
+                  if (geoTriggerName.equals(gardenSectionFenceGeotrigger.getName())) {
+                    currentGardenSectionTitle.setText(fenceFeatureName);
+                    currentGardenSectionDescription.setText(description);
+                    gardenSectionImageView.setImage(imageFromStream);
 
-                // note: you can also use real-time NMEA sentences obtained via a GPS dongle
-                nmeaLocationDataSource.pushData(nmeaSentences.get(count++).getBytes(StandardCharsets.UTF_8)); // post increment step
-                // reset the count after the last data point is reached
-                if (count == nmeaSentences.size()) {
-                  count = 0;
+                  } else {
+                    pointsOfInterestTitle.setText(fenceFeatureName);
+                    pointsOfInterestDescription.setText(description);
+                    gardenPOIImageView.setImage(imageFromStream);
+                  }
+                  attachmentInputStream.close();
+
+
+                } catch (Exception e) {
+                  e.printStackTrace();
                 }
 
-              }));
-
-              // start the timeline
-              timeline.play();
-              // handle UI interactions
-              startButton.setDisable(true);
-              stopButton.setDisable(false);
-
-              // stop the timeline and remove the status changed listener when the location data source has stopped
-            } if (statusChangedEvent.getStatus() == LocationDataSource.Status.STOPPED) {
-
-              timeline.stop();
-              nmeaLocationDataSource.removeStatusChangedListener(this);
-              // handle UI interactions
-              stopButton.setDisable(true);
-              startButton.setDisable(false);
-
+              });
             }
+          } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
           }
-        };
+        });
 
-        // initialize the location data source and prepare to begin receiving location updates when data is pushed. As
-        // updates are received, they will be displayed on the map
-        nmeaLocationDataSource.addStatusChangedListener(listener);
-        nmeaLocationDataSource.startAsync();
-
-      } catch (Exception e) {
-        new Alert(Alert.AlertType.ERROR, e.getCause().getMessage()).show();
-        e.printStackTrace();
+      } else if (fenceGeotriggerNotificationInfo.getFenceNotificationType() == FenceNotificationType.EXITED) {
+        // otherwise remove the feature's information
+        pointsOfInterestDescription.setText("");
+        pointsOfInterestTitle.setText("");
+        gardenPOIImageView.setImage(null);
+//        currentSections.remove(fenceFeatureName);
       }
-
-    } else {
-      new Alert(Alert.AlertType.ERROR, "File not found").show();
-    }
-
   }
 
   /**

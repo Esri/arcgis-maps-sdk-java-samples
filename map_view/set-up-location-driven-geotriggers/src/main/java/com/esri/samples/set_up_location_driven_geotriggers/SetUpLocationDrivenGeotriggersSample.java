@@ -21,8 +21,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
@@ -57,7 +59,7 @@ public class SetUpLocationDrivenGeotriggersSample extends Application {
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/display_device_location_with_nmea_data_sources/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/set_up_location_driven_geotriggers/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
