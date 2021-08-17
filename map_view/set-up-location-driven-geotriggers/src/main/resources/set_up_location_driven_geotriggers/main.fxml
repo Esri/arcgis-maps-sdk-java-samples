@@ -24,20 +24,23 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
 <StackPane fx:controller="com.esri.samples.set_up_location_driven_geotriggers.SetUpLocationDrivenGeotriggersController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/set_up_location_driven_geotriggers/style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView">
-        <viewInsets><Insets right="290"/></viewInsets>
+        <viewInsets><Insets right="220"/></viewInsets>
     </MapView>
     <!--Controls box-->
-    <VBox StackPane.alignment="TOP_RIGHT" styleClass="panel-region" maxHeight="Infinity" >
-        <Label fx:id="currentGardenSectionTitle" styleClass="title-label"/>
-        <Label fx:id="currentGardenSectionDescription" wrapText="true" VBox.vgrow="ALWAYS" styleClass="content"/>
-        <ImageView fx:id="gardenSectionImageView" fitWidth="300" preserveRatio="true"/>
-        <Separator/>
-        <Label text="Nearby points of interest: " styleClass="title-label"/>
-        <Label fx:id="pointsOfInterestTitle" styleClass="poi-detail" wrapText="true" VBox.vgrow="ALWAYS"/>
-    </VBox>
+        <VBox StackPane.alignment="CENTER_RIGHT" styleClass="panel-region">
+            <Label fx:id="currentGardenSectionTitle" styleClass="title-label"/>
+            <Label fx:id="currentGardenSectionDescription" wrapText="true" styleClass="content"/>
+        <ImageView fx:id="gardenSectionImageView" fitHeight="200" preserveRatio="true"/>
+        <Separator />
+            <Label text="Nearby: " styleClass="title-label" wrapText="true"/>
+            <Label fx:id="pointsOfInterestTitle" text="No features nearby" styleClass="poi-detail" wrapText="true"/>
+        </VBox>
+
+<!--    </HBox>-->
 
 </StackPane>

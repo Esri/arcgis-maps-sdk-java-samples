@@ -1,15 +1,18 @@
 VBox {
     -fx-background-color: rgba(0, 0, 0, 0.6);
     -fx-padding: 20;
-    -fx-max-width: 250;
-    -fx-max-height: Infinity;
     -fx-spacing: 5;
     -fx-alignment: top-left;
+    -fx-max-height: Infinity;
+    -fx-max-width: 300;
+    -fx-min-width: 300;
+
 }
 
-.separator .line {
+.separator {
   -fx-background-color: #ac901e;
-  -fx-border-width: 5px;
+  -fx-border-width: 3px;
+  -fx-background-radius: 2;
 }
 
 .panel-region .label {
@@ -22,14 +25,12 @@ VBox {
 
 .poi-detail {
   -fx-background-color: #ac901e;
-  -fx-background-radius: 30px;
-    -fx-font-size: 18;
-    -fx-font-weight: bold;
+  -fx-background-radius: 50px;
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
 }
 
 .title-label {
-
     -fx-font-size: 20;
     -fx-font-weight: bold;
-
 }
