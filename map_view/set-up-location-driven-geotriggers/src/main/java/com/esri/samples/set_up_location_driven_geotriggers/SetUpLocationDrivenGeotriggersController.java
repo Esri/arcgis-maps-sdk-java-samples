@@ -117,41 +117,31 @@ public class SetUpLocationDrivenGeotriggersController {
         geotriggerMonitors.forEach(monitor -> {
           // start each geotrigger monitor and add a notification event listener
           monitor.startAsync();
-          System.out.println("After start async: " + monitor.getStatus());
 //          monitor.addGeotriggerMonitorStatusChangedEventListener(statusChangedEvent -> {
 
-            System.out.println("After adding the listener: " + monitor.getStatus());
 
 //            if (statusChangedEvent.getStatus() == GeotriggerMonitorStatus.STARTED) {
-              System.out.println("After check it's started: " + monitor.getStatus());
 
-              monitor.addGeotriggerMonitorNotificationEventListener(notificationEvent -> {
-                // fence geotrigger notification info provides access to the feature that triggered the notification
-                var fenceGeotriggerNotificationInfo = (FenceGeotriggerNotificationInfo) notificationEvent.getGeotriggerNotificationInfo();
+          monitor.addGeotriggerMonitorNotificationEventListener(notificationEvent -> {
+            // fence geotrigger notification info provides access to the feature that triggered the notification
+            var fenceGeotriggerNotificationInfo = (FenceGeotriggerNotificationInfo) notificationEvent.getGeotriggerNotificationInfo();
 
-                // name of the fence feature
-                fenceFeatureName = fenceGeotriggerNotificationInfo.getMessage();
-                FenceNotificationType fenceNotificationType = fenceGeotriggerNotificationInfo.getFenceNotificationType();
+            // name of the fence feature
+            fenceFeatureName = fenceGeotriggerNotificationInfo.getMessage();
+            FenceNotificationType fenceNotificationType = fenceGeotriggerNotificationInfo.getFenceNotificationType();
 
-                // when entering a given geofence, add the feature's information to the UI and save the feature for querying
-                if (fenceNotificationType == FenceNotificationType.ENTERED) {
-                  // get the fence Geoelement as an ArcGISFeature, and the description from the feature's attributes
-                  ArcGISFeature fenceFeature = (ArcGISFeature) fenceGeotriggerNotificationInfo.getFenceGeoElement();
-                  handleAddingFeatureInfoToUI(fenceFeature, fenceGeotriggerNotificationInfo);
+            // when entering a given geofence, add the feature's information to the UI and save the feature for querying
+            if (fenceNotificationType == FenceNotificationType.ENTERED) {
+              // get the fence Geoelement as an ArcGISFeature, and the description from the feature's attributes
+              ArcGISFeature fenceFeature = (ArcGISFeature) fenceGeotriggerNotificationInfo.getFenceGeoElement();
+              handleAddingFeatureInfoToUI(fenceFeature, fenceGeotriggerNotificationInfo);
 
-                  // when exiting a given geofence, remove its information from the UI
-                } else if (fenceNotificationType == FenceNotificationType.EXITED) {
+              // when exiting a given geofence, remove its information from the UI
+            } else if (fenceNotificationType == FenceNotificationType.EXITED) {
 
-                  handleRemovingFeatureInfoFromUI();
-                }
-              });
-//            } else {
-//              new Alert(Alert.AlertType.ERROR, "Geotrigger has not started").show();
-//              System.out.println("stopped");
-//            };
-
-//          });
-
+              handleRemovingFeatureInfoFromUI();
+            }
+          });
         });
       }
     });
@@ -159,7 +149,7 @@ public class SetUpLocationDrivenGeotriggersController {
   }
 
   /**
-   *
+   * Creates and starts a simulated location data source based on a json file containing a set polyline data path.
    */
   private void initializeSimulatedLocationDisplay() throws IOException {
 
@@ -183,6 +173,13 @@ public class SetUpLocationDrivenGeotriggersController {
 
   }
 
+  /**
+   * Gets information from the fence geotrigger notification information and the fence feature itself and adds the information
+   * to the UI either as a formatted string or as an image.
+   *
+   * @param fenceFeature                    the feature
+   * @param fenceGeotriggerNotificationInfo the fence geotrigger notification info
+   */
   private void handleAddingFeatureInfoToUI(ArcGISFeature fenceFeature, FenceGeotriggerNotificationInfo fenceGeotriggerNotificationInfo) {
 
     String geoTriggerName = fenceGeotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
@@ -236,6 +233,9 @@ public class SetUpLocationDrivenGeotriggersController {
 
   }
 
+  /**
+   * Removes the name of the fence feature being exited from the collection of feature names, and updates the label on the UI.
+   */
   private void handleRemovingFeatureInfoFromUI() {
     names.remove(fenceFeatureName);
     String str = String.join(", ", names);
@@ -245,6 +245,9 @@ public class SetUpLocationDrivenGeotriggersController {
     }
   }
 
+  /**
+   * Creates and sets up a location display from the simulated location data source, and starts it.
+   */
   private void setUpAndStartLocationDisplay() {
     // configure the map view's location display to follow the simulated location data source
     LocationDisplay locationDisplay = mapView.getLocationDisplay();
