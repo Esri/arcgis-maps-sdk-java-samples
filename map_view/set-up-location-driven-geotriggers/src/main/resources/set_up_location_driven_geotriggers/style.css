@@ -3,16 +3,10 @@ VBox {
     -fx-padding: 20;
     -fx-spacing: 5;
     -fx-alignment: top-left;
-    -fx-max-height: Infinity;
-    -fx-max-width: 300;
-    -fx-min-width: 300;
+    -fx-max-height: 450;
+    -fx-max-width: 320;
+    -fx-min-width: 320;
 
-}
-
-.separator {
-  -fx-background-color: #ac901e;
-  -fx-border-width: 3px;
-  -fx-background-radius: 2;
 }
 
 .panel-region .label {

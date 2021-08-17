@@ -24,19 +24,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.HBox?>
 <StackPane fx:controller="com.esri.samples.set_up_location_driven_geotriggers.SetUpLocationDrivenGeotriggersController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/set_up_location_driven_geotriggers/style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView">
-        <viewInsets><Insets right="220"/></viewInsets>
+        <viewInsets><Insets right="320"/></viewInsets>
     </MapView>
     <!--Controls box-->
-        <VBox StackPane.alignment="CENTER_RIGHT" styleClass="panel-region">
+        <VBox StackPane.alignment="TOP_RIGHT" styleClass="panel-region">
             <Label fx:id="currentGardenSectionTitle" styleClass="title-label"/>
             <Label fx:id="currentGardenSectionDescription" wrapText="true" styleClass="content"/>
-        <ImageView fx:id="gardenSectionImageView" fitHeight="200" preserveRatio="true"/>
-        <Separator />
+        <ImageView fx:id="gardenSectionImageView" fitWidth="290" preserveRatio="true"/>
+        <Separator prefWidth="3" />
             <Label text="Nearby: " styleClass="title-label" wrapText="true"/>
             <Label fx:id="pointsOfInterestTitle" text="No features nearby" styleClass="poi-detail" wrapText="true"/>
         </VBox>
