@@ -27,9 +27,7 @@
 <StackPane fx:controller="com.esri.samples.set_up_location_driven_geotriggers.SetUpLocationDrivenGeotriggersController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/set_up_location_driven_geotriggers/style.css">
     <!--SDK MapView-->
-    <MapView fx:id="mapView">
-        <viewInsets><Insets right="320"/></viewInsets>
-    </MapView>
+    <MapView fx:id="mapView"/>
     <!--Controls box-->
         <VBox StackPane.alignment="TOP_RIGHT" styleClass="panel-region">
             <Label fx:id="currentGardenSectionTitle" styleClass="title-label"/>
