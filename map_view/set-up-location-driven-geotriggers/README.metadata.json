@@ -1,19 +1,52 @@
 {
-  "category": "Map view",
-  "description": "",
-  "ignore": false,
-  "images": [
-    ""
-  ],
-  "keywords": [
-
-  ],
-  "redirect_from": "",
-  "relevant_apis": [
-
-  ],
-  "snippets": [
-    ""
-  ],
-  "title": ""
+    "category": "Map view",
+    "description": "Create a notification every time a given location data source has entered and/or exited a set of features or graphics.",
+    "ignore": false,
+    "images": [
+        "SetUpLocationDrivenGeotriggers.png"
+    ],
+    "keywords": [
+        "alert",
+        "arcade",
+        "fence",
+        "geofence",
+        "geotrigger",
+        "location",
+        "navigation",
+        "notification",
+        "notify",
+        "routing",
+        "trigger",
+        "ArcadeExpression",
+        "FeatureFenceParameters",
+        "FenceGeotrigger",
+        "FenceGeotriggerNotificationInfo ",
+        "FenceNotificationType",
+        "FenceRuleType",
+        "Geotrigger",
+        "GeotriggerFeed",
+        "GeotriggerMonitor",
+        "GeotriggerNotificationInfo",
+        "SimulatedLocationDataSource"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "ArcadeExpression",
+        "FeatureFenceParameters",
+        "FenceGeotrigger",
+        "FenceGeotriggerNotificationInfo ",
+        "FenceNotificationType",
+        "FenceRuleType",
+        "Geotrigger",
+        "GeotriggerFeed",
+        "GeotriggerMonitor",
+        "GeotriggerNotificationInfo",
+        "SimulatedLocationDataSource"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/set_up_location_driven_geotriggers/SetUpLocationDrivenGeotriggersController.java",
+        "src/main/java/com/esri/samples/set_up_location_driven_geotriggers/SetUpLocationDrivenGeotriggersSample.java",
+        "src/main/resources/set_up_location_driven_geotriggers/main.fxml"
+    ],
+    "title": "Set up location driven Geotriggers"
 }

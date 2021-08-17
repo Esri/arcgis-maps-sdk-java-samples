@@ -14,27 +14,26 @@ Observe a virtual walking tour of the Santa Barbara Botanic Garden. Information 
 
 ## How it works
 
-1. Create a `GeotriggerFeed` with an `AbstractLocationDataSource` class (in this case, a `SimulatedLocationDataSource`).
-2. Create a `FeatureFenceParameters` class from a `ServiceFeatureTable`, a buffer distance at which to monitor each feature, an Arcade Expression, and a name for the specific geotrigger.
-3. Create a `FenceGeotrigger` with the geotrigger feed, a `FenceRuleType`, and the fence parameters.
-4. Create a `GeotriggerMonitor` with the fence geotrigger and call `GeotriggerMonitor::start()` to begin listening for events that meet the `FenceRuleType`.
-5. When a `GeotriggerMonitor::geotriggerNotification` emits, capture the `GeotriggerNotificationInfo`.
-6. For more information about the feature that triggered the notification, cast the `GeotriggerNotificationInfo` to a `FenceGeotriggerNotificationInfo` and call `FenceGeotriggerNotificationInfo::fenceGeoElement()`.
-7. Depending on the `FenceGeotriggerNotificationInfo::fenceNotificationType()` display or hide information on the UI from the `GeoElement`'s attributes.
+1. Create a `LocationGeotriggerFeed` with a `SimulatedLocationDataSource`.
+2. Create `FeatureFenceParameters` from a `ServiceFeatureTable`, and an optional buffer distance at which to monitor each feature.
+3. Create a `FenceGeotrigger` with the location geotrigger feed, a `FenceRuleType.ENTER_OR_EXIT`, the feature fence parameters, an Arcade Expression, and a name for the specific geotrigger.
+4. Create a `GeotriggerMonitor` with the fence geotrigger and call `.startAsync()` on it to begin listening for events that meet the `FenceRuleType`.
+5. When a `GeotriggerMonitorNotificationEvent` emits, capture the `GeotriggerNotificationInfo`.
+6. For more information about the feature that triggered the notification, cast the `GeotriggerNotificationInfo` to a `FenceGeotriggerNotificationInfo` and call `fenceGeotriggerNotificationInfo.getFenceGeoElement()` to get the fence feature, casting the geoelement as an `ArcGISFeature`.
+7. Depending on the geotrigger notification info's `FenceNotificationType()` display (on notification type `ENTERED`) or hide (on notification type `EXITED`) information about the feature on the UI.
 
 ## Relevant API
 
 * ArcadeExpression
 * FeatureFenceParameters
 * FenceGeotrigger
-* FenceGeotriggerNotificationInfo
+* FenceGeotriggerNotificationInfo 
+* FenceNotificationType
 * FenceRuleType
-* GeoElement
 * Geotrigger
 * GeotriggerFeed
 * GeotriggerMonitor
 * GeotriggerNotificationInfo
-* ServiceFeatureTable
 * SimulatedLocationDataSource
 
 ## About the data

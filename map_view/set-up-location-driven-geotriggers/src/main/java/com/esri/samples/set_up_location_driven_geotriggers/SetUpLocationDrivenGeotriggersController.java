@@ -29,12 +29,18 @@ import com.esri.arcgisruntime.data.Attachment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Polyline;
-import com.esri.arcgisruntime.geotriggers.*;
-import com.esri.arcgisruntime.location.*;
+import com.esri.arcgisruntime.geotriggers.FeatureFenceParameters;
+import com.esri.arcgisruntime.geotriggers.FenceGeotrigger;
+import com.esri.arcgisruntime.geotriggers.FenceGeotriggerNotificationInfo;
+import com.esri.arcgisruntime.geotriggers.FenceNotificationType;
+import com.esri.arcgisruntime.geotriggers.FenceRuleType;
+import com.esri.arcgisruntime.geotriggers.GeotriggerMonitor;
+import com.esri.arcgisruntime.geotriggers.LocationGeotriggerFeed;
+import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
+import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,17 +62,12 @@ public class SetUpLocationDrivenGeotriggersController {
   @FXML
   private Label currentGardenSectionDescription;
   @FXML
-  private Label pointsOfInterestDescription;
-  @FXML
   private Label pointsOfInterestTitle;
 
-  private LocationGeotriggerFeed locationGeotriggerFeed;
   private SimulatedLocationDataSource simulatedLocationDataSource;
   private GeotriggerMonitor gardenSectionGeotriggerMonitor;
   private GeotriggerMonitor gardenPOIGeotriggerMonitor;
   private String fenceFeatureName;
-  //  private FenceGeotrigger gardenSectionFenceGeotrigger;
-//  private FenceGeotrigger gardenPOIFenceGeotrigger;
   private HashSet<String> names;
 
   public void initialize() throws IOException {
@@ -96,7 +97,7 @@ public class SetUpLocationDrivenGeotriggersController {
         // create fence parameters for the garden points of interest section with a buffer distance of 10m
         FeatureFenceParameters featureFenceParametersPOI = new FeatureFenceParameters(gardenPOIFeatureTable, 10);
 
-        // define an arcade expression that returns the value for the "name" field of the feaeture that triggered the monitor
+        // define an arcade expression that returns the value for the "name" field of the feature that triggered the monitor
         ArcadeExpression arcadeExpression = new ArcadeExpression("$fenceFeature.name");
         // create a location geotrigger feed from the simulated location data source
         LocationGeotriggerFeed locationGeotriggerFeed = new LocationGeotriggerFeed(simulatedLocationDataSource);
