@@ -23,7 +23,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.set_up_location_driven_geotriggers.SetUpLocationDrivenGeotriggersController" xmlns:fx="http://javafx.com/fxml"
            stylesheets="/set_up_location_driven_geotriggers/style.css">
     <!--SDK MapView-->
@@ -37,7 +36,5 @@
             <Label text="Nearby: " styleClass="title-label" wrapText="true"/>
             <Label fx:id="pointsOfInterestTitle" text="No features nearby" styleClass="poi-detail" wrapText="true"/>
         </VBox>
-
-<!--    </HBox>-->
 
 </StackPane>

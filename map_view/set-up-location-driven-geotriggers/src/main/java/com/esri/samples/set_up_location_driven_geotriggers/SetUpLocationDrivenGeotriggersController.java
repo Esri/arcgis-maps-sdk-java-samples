@@ -17,10 +17,21 @@
 
 package com.esri.samples.set_up_location_driven_geotriggers;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import com.esri.arcgisruntime.arcade.ArcadeExpression;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -29,6 +40,7 @@ import com.esri.arcgisruntime.data.Attachment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.geotriggers.FeatureFenceParameters;
 import com.esri.arcgisruntime.geotriggers.FenceGeotrigger;
 import com.esri.arcgisruntime.geotriggers.FenceGeotriggerNotificationInfo;
@@ -36,39 +48,29 @@ import com.esri.arcgisruntime.geotriggers.FenceNotificationType;
 import com.esri.arcgisruntime.geotriggers.FenceRuleType;
 import com.esri.arcgisruntime.geotriggers.GeotriggerMonitor;
 import com.esri.arcgisruntime.geotriggers.LocationGeotriggerFeed;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.view.LocationDisplay;
+import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
 import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
-import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.view.LocationDisplay;
-import com.esri.arcgisruntime.mapping.view.MapView;
 import org.apache.commons.io.IOUtils;
 
 public class SetUpLocationDrivenGeotriggersController {
 
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ImageView gardenSectionImageView;
-  @FXML
-  private Label currentGardenSectionTitle;
-  @FXML
-  private Label currentGardenSectionDescription;
-  @FXML
-  private Label pointsOfInterestTitle;
+  @FXML private MapView mapView;
+  @FXML private ImageView gardenSectionImageView;
+  @FXML private Label currentGardenSectionTitle;
+  @FXML private Label currentGardenSectionDescription;
+  @FXML private Label pointsOfInterestTitle;
 
-  private SimulatedLocationDataSource simulatedLocationDataSource;
   private GeotriggerMonitor gardenSectionGeotriggerMonitor;
   private GeotriggerMonitor gardenPOIGeotriggerMonitor;
-  private String fenceFeatureName;
   private HashSet<String> names;
+  private SimulatedLocationDataSource simulatedLocationDataSource;
+  private String fenceFeatureName;
 
   public void initialize() throws IOException {
 
@@ -86,15 +88,16 @@ public class SetUpLocationDrivenGeotriggersController {
     // initialize the simulated location display
     initializeSimulatedLocationDisplay();
 
+    // once the simulated location data source has started, set up and start the location display and handle geotriggers
     simulatedLocationDataSource.addStartedListener(() -> {
       if (simulatedLocationDataSource.isStarted()) {
 
         // create, configure and start a location display that follows the simulated location data source
         setUpAndStartLocationDisplay();
 
-        // create fence parameters for the garden section
+        // create feature fence parameters for the garden section
         FeatureFenceParameters featureFenceParametersGardenSection = new FeatureFenceParameters(gardenSectionFeatureTable);
-        // create fence parameters for the garden points of interest section with a buffer distance of 10m
+        // create feature fence parameters for the garden points of interest section with a buffer distance of 10m
         FeatureFenceParameters featureFenceParametersPOI = new FeatureFenceParameters(gardenPOIFeatureTable, 10);
 
         // define an arcade expression that returns the value for the "name" field of the feature that triggered the monitor
@@ -116,10 +119,9 @@ public class SetUpLocationDrivenGeotriggersController {
           gardenSectionGeotriggerMonitor, gardenPOIGeotriggerMonitor));
         // for each geotrigger monitor, start it and add a notification listener
         geotriggerMonitors.forEach(monitor -> {
-          // start each geotrigger monitor and add a notification event listener
+
           monitor.startAsync();
 //          monitor.addGeotriggerMonitorStatusChangedEventListener(statusChangedEvent -> {
-
 
 //            if (statusChangedEvent.getStatus() == GeotriggerMonitorStatus.STARTED) {
 
@@ -127,24 +129,23 @@ public class SetUpLocationDrivenGeotriggersController {
             // fence geotrigger notification info provides access to the feature that triggered the notification
             var fenceGeotriggerNotificationInfo = (FenceGeotriggerNotificationInfo) notificationEvent.getGeotriggerNotificationInfo();
 
-            // name of the fence feature
+            // get the name of the fence feature
             fenceFeatureName = fenceGeotriggerNotificationInfo.getMessage();
+            // determine the notification type on the notification info (entered or exited)
             FenceNotificationType fenceNotificationType = fenceGeotriggerNotificationInfo.getFenceNotificationType();
-
             // when entering a given geofence, add the feature's information to the UI and save the feature for querying
             if (fenceNotificationType == FenceNotificationType.ENTERED) {
-              // get the fence Geoelement as an ArcGISFeature, and the description from the feature's attributes
+              // get the fence Geoelement as an ArcGISFeature, and add the description from the feature's attributes to the UI
               ArcGISFeature fenceFeature = (ArcGISFeature) fenceGeotriggerNotificationInfo.getFenceGeoElement();
               handleAddingFeatureInfoToUI(fenceFeature, fenceGeotriggerNotificationInfo);
 
-              // when exiting a given geofence, remove its information from the UI
             } else if (fenceNotificationType == FenceNotificationType.EXITED) {
-
+              // when exiting a given geofence, remove its information from the UI
               handleRemovingFeatureInfoFromUI();
             }
           });
         });
-      }
+      } else new Alert(Alert.AlertType.ERROR, "Simulated data location source failed to start").show();
     });
 
   }
@@ -214,7 +215,6 @@ public class SetUpLocationDrivenGeotriggersController {
                 String firstSentenceOfDescription = fenceFeature.getAttributes().get("description").toString().split("\\.")[0];
                 currentGardenSectionDescription.setText(firstSentenceOfDescription + ".");
                 gardenSectionImageView.setImage(imageFromStream);
-
               } else if (geoTriggerName.equals(gardenPOIGeotriggerMonitor.getGeotrigger().getName())) {
                 // add details to the UI
                 names.add(fenceFeatureName);
