@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -74,6 +75,7 @@ public class SetUpLocationDrivenGeotriggersController {
   private HashSet<String> names;
   private SimulatedLocationDataSource simulatedLocationDataSource;
   private String fenceFeatureName;
+  private String geoTriggerName;
 
   public void initialize() throws IOException {
 
@@ -87,11 +89,6 @@ public class SetUpLocationDrivenGeotriggersController {
 
     // initialize the simulated location display
     initializeSimulatedLocationDisplay();
-
-    //TODO: DEMO
-    // create service feature tables to add geotrigger monitors for later
-//    ServiceFeatureTable gardenSectionFeatureTable = new ServiceFeatureTable(new PortalItem(portal, "1ba816341ea04243832136379b8951d9"), 0);
-//    ServiceFeatureTable gardenPOIFeatureTable = new ServiceFeatureTable(new PortalItem(portal, "7c6280c290c34ae8aeb6b5c4ec841167"), 0);
 
     // once the map has loaded, obtain service feature tables from its list of operational layers
     map.addDoneLoadingListener(() -> {
@@ -145,6 +142,7 @@ public class SetUpLocationDrivenGeotriggersController {
 
               // get the name of the fence feature
               fenceFeatureName = fenceGeotriggerNotificationInfo.getMessage();
+              geoTriggerName = fenceGeotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
               // determine the notification type on the notification info (entered or exited)
               FenceNotificationType fenceNotificationType = fenceGeotriggerNotificationInfo.getFenceNotificationType();
               ArcGISFeature fenceFeature = (ArcGISFeature) fenceGeotriggerNotificationInfo.getFenceGeoElement();
@@ -163,8 +161,7 @@ public class SetUpLocationDrivenGeotriggersController {
           });
         } else new Alert(Alert.AlertType.ERROR, "Simulated data location source failed to start").show();
       });
-
-
+      
     });
   }
 
@@ -188,8 +185,8 @@ public class SetUpLocationDrivenGeotriggersController {
     simulatedLocationDataSource.startAsync();
 
     // disable map view interaction, the location display will automatically center on the mock device location
-//    mapView.setEnableMousePan(false);
-//    mapView.setEnableKeyboardNavigation(false);
+    mapView.setEnableMousePan(false);
+    mapView.setEnableKeyboardNavigation(false);
 
   }
 
@@ -201,8 +198,6 @@ public class SetUpLocationDrivenGeotriggersController {
    * @param fenceGeotriggerNotificationInfo the fence geotrigger notification info
    */
   private void handleAddingFeatureInfoToUI(ArcGISFeature fenceFeature, FenceGeotriggerNotificationInfo fenceGeotriggerNotificationInfo) {
-
-    String geoTriggerName = fenceGeotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
 
     // fetch the fence feature's attachments
     ListenableFuture<List<Attachment>> attachmentsFuture = fenceFeature.fetchAttachmentsAsync();
@@ -221,6 +216,7 @@ public class SetUpLocationDrivenGeotriggersController {
             // get the attachments data as an input stream
             try {
               // show the UI once data has been fetched
+              mapView.setViewInsets(new Insets(0, vBox.getWidth(), 0, 0));
               vBox.setVisible(true);
 
               InputStream attachmentInputStream = attachmentDataFuture.get();
@@ -261,8 +257,6 @@ public class SetUpLocationDrivenGeotriggersController {
    * Removes the name of the fence feature being exited from the collection of feature names, and updates the label on the UI.
    */
   private void handleRemovingFeatureInfoFromUI(FenceGeotriggerNotificationInfo fenceGeotriggerNotificationInfo) {
-
-    String geoTriggerName = fenceGeotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
 
     if (geoTriggerName.equals(gardenSectionGeotriggerMonitor.getGeotrigger().getName())) {
       currentGardenSectionTitle.setText("On the path");
