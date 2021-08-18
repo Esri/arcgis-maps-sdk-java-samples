@@ -28,11 +28,12 @@
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <!--Controls box-->
-        <VBox StackPane.alignment="TOP_RIGHT" styleClass="panel-region">
+        <VBox fx:id="vBox" StackPane.alignment="TOP_RIGHT" styleClass="panel-region" visible="false">
+            <Label text="Current section:" styleClass="title-label"/>
             <Label fx:id="currentGardenSectionTitle" styleClass="title-label"/>
-            <Label fx:id="currentGardenSectionDescription" wrapText="true" styleClass="content"/>
+            <Label fx:id="currentGardenSectionDescription" wrapText="true" styleClass="garden-section-content"/>
         <ImageView fx:id="gardenSectionImageView" fitWidth="290" preserveRatio="true"/>
-        <Separator prefWidth="3" />
+        <Separator minWidth="5" />
             <Label text="Nearby: " styleClass="title-label" wrapText="true"/>
             <Label fx:id="pointsOfInterestTitle" text="No features nearby" styleClass="poi-detail" wrapText="true"/>
         </VBox>

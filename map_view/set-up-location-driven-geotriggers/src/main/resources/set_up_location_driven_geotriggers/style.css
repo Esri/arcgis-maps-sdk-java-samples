@@ -3,7 +3,7 @@ VBox {
     -fx-padding: 20;
     -fx-spacing: 5;
     -fx-alignment: top-left;
-    -fx-max-height: 450;
+    -fx-max-height: 500;
     -fx-max-width: 320;
     -fx-min-width: 320;
 
@@ -13,18 +13,18 @@ VBox {
   -fx-text-fill: white;
 }
 
-.content {
-  -fx-font-size: 15;
+.garden-section-content {
+  -fx-font-size: 18;
 }
 
 .poi-detail {
   -fx-background-color: #ac901e;
-  -fx-background-radius: 50px;
+  -fx-background-radius: 75px;
   -fx-font-size: 18;
   -fx-font-weight: bold;
 }
 
 .title-label {
-    -fx-font-size: 20;
+    -fx-font-size: 22;
     -fx-font-weight: bold;
 }
