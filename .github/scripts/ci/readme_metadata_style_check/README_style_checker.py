@@ -19,6 +19,7 @@ exception_proper_nouns = {
     'Web Mercator',
     'ArcGIS Pro',
     'GeoPackage',
+    'Geotriggers'
     'loadStatus',
     'Integrated Windows Authentication',
     'GeoElement',
