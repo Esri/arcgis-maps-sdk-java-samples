@@ -132,9 +132,6 @@ public class SetUpLocationDrivenGeotriggersController {
           geotriggerMonitors.forEach(monitor -> {
 
             monitor.startAsync();
-//          monitor.addGeotriggerMonitorStatusChangedEventListener(statusChangedEvent -> {
-
-//            if (statusChangedEvent.getStatus() == GeotriggerMonitorStatus.STARTED) {
 
             monitor.addGeotriggerMonitorNotificationEventListener(notificationEvent -> {
               // fence geotrigger notification info provides access to the feature that triggered the notification
