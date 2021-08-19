@@ -33,6 +33,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 import com.esri.arcgisruntime.arcade.ArcadeExpression;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -58,7 +59,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 
-import javafx.scene.layout.VBox;
 import org.apache.commons.io.IOUtils;
 
 public class SetUpLocationDrivenGeotriggersController {
@@ -161,7 +161,7 @@ public class SetUpLocationDrivenGeotriggersController {
           });
         } else new Alert(Alert.AlertType.ERROR, "Simulated data location source failed to start").show();
       });
-      
+
     });
   }
 
