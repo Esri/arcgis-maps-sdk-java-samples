@@ -119,14 +119,13 @@ public class ExportTilesSample extends Application {
           // create a tiled layer from the basemap
           ArcGISTiledLayer tiledLayer = (ArcGISTiledLayer) map.getBasemap().getBaseLayers().get(0);
 
-          // create button to export tiles
-          Button exportTilesButton = new Button("Export Tiles");
-
           // create progress bar to show task progress
           var progressBar = new ProgressBar();
           progressBar.setProgress(0.0);
           progressBar.setVisible(false);
 
+          // create button to export tiles
+          Button exportTilesButton = new Button("Export Tiles");
           // when the button is clicked, export the tiles to a temporary file
           exportTilesButton.setOnAction(e -> {
             try {
@@ -138,11 +137,13 @@ public class ExportTilesSample extends Application {
               File tempFile = File.createTempFile("tiles", ".tpkx");
               tempFile.deleteOnExit();
 
-              // create a task
+              // create a new export tile cache task
               var exportTileCacheTask = new ExportTileCacheTask(tiledLayer.getUri());
 
               // create parameters for the export tiles job
               double mapScale = mapView.getMapScale();
+              // the max scale is parameter is set to 10% of the map's scale to limit the
+              // number of tiles exported to within the tiled layer's max tile export limit
               ListenableFuture<ExportTileCacheParameters> exportTileCacheParametersListenableFuture =
                 exportTileCacheTask.createDefaultExportTileCacheParametersAsync(downloadArea.getGeometry(), mapScale, mapScale * 0.1);
 
