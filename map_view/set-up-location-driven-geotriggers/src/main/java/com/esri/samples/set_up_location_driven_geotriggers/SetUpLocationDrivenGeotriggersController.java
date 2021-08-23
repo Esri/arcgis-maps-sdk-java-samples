@@ -142,17 +142,18 @@ public class SetUpLocationDrivenGeotriggersController {
               geoTriggerName = fenceGeotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
               // determine the notification type on the notification info (entered or exited)
               FenceNotificationType fenceNotificationType = fenceGeotriggerNotificationInfo.getFenceNotificationType();
+              // get a reference to the fence feature that triggered the notification
               ArcGISFeature fenceFeature = (ArcGISFeature) fenceGeotriggerNotificationInfo.getFenceGeoElement();
 
-              // when entering a given geofence, add the feature's information to the UI and save the feature for querying
+              // when entering a given geofence, add the feature's information to the UI
               if (fenceNotificationType == FenceNotificationType.ENTERED) {
 
                 // add the description from the feature's attributes to the UI
-                handleAddingFeatureInfoToUI(fenceFeature, fenceGeotriggerNotificationInfo);
+                handleAddingFeatureInfoToUI(fenceFeature);
 
               } else if (fenceNotificationType == FenceNotificationType.EXITED) {
                 // when exiting a given geofence, remove its information from the UI
-                handleRemovingFeatureInfoFromUI(fenceGeotriggerNotificationInfo);
+                handleRemovingFeatureInfoFromUI();
               }
             });
           });
@@ -192,9 +193,8 @@ public class SetUpLocationDrivenGeotriggersController {
    * to the UI either as a formatted string or as an image.
    *
    * @param fenceFeature                    the feature
-   * @param fenceGeotriggerNotificationInfo the fence geotrigger notification info
    */
-  private void handleAddingFeatureInfoToUI(ArcGISFeature fenceFeature, FenceGeotriggerNotificationInfo fenceGeotriggerNotificationInfo) {
+  private void handleAddingFeatureInfoToUI(ArcGISFeature fenceFeature) {
 
     // fetch the fence feature's attachments
     ListenableFuture<List<Attachment>> attachmentsFuture = fenceFeature.fetchAttachmentsAsync();
@@ -221,7 +221,7 @@ public class SetUpLocationDrivenGeotriggersController {
               Image imageFromStream = new Image(attachmentInputStream);
               attachmentInputStream.close();
 
-              // if the geotrigger notification belongs to the garden section, populate the garden section part of the UI
+              // if the geotrigger notification was from entering a garden section, populate the garden section part of the UI
               if (geoTriggerName.equals(gardenSectionGeotriggerMonitor.getGeotrigger().getName())) {
                 // add details to the UI
                 currentGardenSectionTitle.setText(fenceFeatureName);
@@ -229,6 +229,8 @@ public class SetUpLocationDrivenGeotriggersController {
                 String firstSentenceOfDescription = fenceFeature.getAttributes().get("description").toString().split("\\.")[0];
                 currentGardenSectionDescription.setText(firstSentenceOfDescription + ".");
                 gardenSectionImageView.setImage(imageFromStream);
+
+                // if the geotrigger notification was from entering a POI buffer, populate the POI part of the UI
               } else if (geoTriggerName.equals(gardenPOIGeotriggerMonitor.getGeotrigger().getName())) {
                 // add details to the UI
                 names.add(fenceFeatureName);
@@ -241,7 +243,7 @@ public class SetUpLocationDrivenGeotriggersController {
               new Alert(Alert.AlertType.ERROR, "Error getting attachment").show();
             }
           });
-        }
+        } else new Alert(Alert.AlertType.ERROR, "No attachments to display").show();
       } catch (InterruptedException | ExecutionException e) {
         e.printStackTrace();
         new Alert(Alert.AlertType.ERROR, "Error getting fence feature attachments").show();
@@ -253,12 +255,15 @@ public class SetUpLocationDrivenGeotriggersController {
   /**
    * Removes the name of the fence feature being exited from the collection of feature names, and updates the label on the UI.
    */
-  private void handleRemovingFeatureInfoFromUI(FenceGeotriggerNotificationInfo fenceGeotriggerNotificationInfo) {
+  private void handleRemovingFeatureInfoFromUI() {
 
+    // if exiting a garden section, reset the UI to inform the user they are walking on a path
     if (geoTriggerName.equals(gardenSectionGeotriggerMonitor.getGeotrigger().getName())) {
       currentGardenSectionTitle.setText("On the path");
       currentGardenSectionDescription.setText("You are walking between sections");
       gardenSectionImageView.setImage(null);
+
+      // if exiting a POI buffer, remove the name of the buffer from the list displayed and handle UI for if no features are nearby
     } else if (geoTriggerName.equals(gardenPOIGeotriggerMonitor.getGeotrigger().getName())) {
       names.remove(fenceFeatureName);
       String str = String.join(", ", names);
