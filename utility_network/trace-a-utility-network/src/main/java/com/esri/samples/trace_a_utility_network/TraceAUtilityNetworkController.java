@@ -80,20 +80,13 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
 
 public class TraceAUtilityNetworkController {
 
-  @FXML
-  private Button resetButton;
-  @FXML
-  private Button traceButton;
-  @FXML
-  private ComboBox<UtilityTraceType> traceTypeSelectionCombobox;
-  @FXML
-  private Label statusLabel;
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ProgressIndicator progressIndicator;
-  @FXML
-  private RadioButton startingLocationsRadioButton;
+  @FXML private Button resetButton;
+  @FXML private Button traceButton;
+  @FXML private ComboBox<UtilityTraceType> traceTypeSelectionCombobox;
+  @FXML private Label statusLabel;
+  @FXML private MapView mapView;
+  @FXML private ProgressIndicator progressIndicator;
+  @FXML private RadioButton startingLocationsRadioButton;
 
   private ArrayList<UtilityElement> barriers;
   private ArrayList<UtilityElement> startingLocations;
@@ -390,7 +383,7 @@ public class TraceAUtilityNetworkController {
     utilityTraceParameters.getBarriers().addAll(barriers);
 
     // set the trace configuration using the tier from the utility domain network
-    utilityTraceParameters.setTraceConfiguration(mediumVoltageTier.getTraceConfiguration());
+    utilityTraceParameters.setTraceConfiguration(mediumVoltageTier.getDefaultTraceConfiguration());
 
     // run the utility trace and get the results
     ListenableFuture<List<UtilityTraceResult>> utilityTraceResultsFuture =
