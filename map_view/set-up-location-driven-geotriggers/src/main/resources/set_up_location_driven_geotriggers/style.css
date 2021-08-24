@@ -1,0 +1,27 @@
+VBox {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+    -fx-padding: 20;
+    -fx-spacing: 5;
+    -fx-alignment: top-left;
+}
+
+.panel-region .label {
+  -fx-text-fill: white;
+}
+
+.garden-section-content {
+  -fx-font-size: 14;
+}
+
+.poi-detail {
+  -fx-background-color: #ac901e;
+  -fx-background-radius: 75px;
+  -fx-font-size: 14;
+  -fx-font-weight: bold;
+  -fx-padding: 10px;
+}
+
+.title-label {
+    -fx-font-size: 17;
+    -fx-font-weight: bold;
+}
