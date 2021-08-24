@@ -75,8 +75,6 @@ public class SetUpLocationDrivenGeotriggersController {
   private GeotriggerMonitor gardenPOIGeotriggerMonitor;
   private HashSet<String> names;
   private SimulatedLocationDataSource simulatedLocationDataSource;
-  private String fenceFeatureName;
-  private String geoTriggerName;
 
   public void initialize() throws IOException {
 
@@ -139,9 +137,10 @@ public class SetUpLocationDrivenGeotriggersController {
               // fence geotrigger notification info provides access to the feature that triggered the notification
               var fenceGeotriggerNotificationInfo = (FenceGeotriggerNotificationInfo) notificationEvent.getGeotriggerNotificationInfo();
 
-              // get the name of the fence feature
-              fenceFeatureName = fenceGeotriggerNotificationInfo.getMessage();
-              geoTriggerName = fenceGeotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
+              // get the name of the fence feature and geotrigger
+              String fenceFeatureName = fenceGeotriggerNotificationInfo.getMessage();
+              String geoTriggerName = fenceGeotriggerNotificationInfo.getGeotriggerMonitor().getGeotrigger().getName();
+
               // determine the notification type on the notification info (entered or exited)
               FenceNotificationType fenceNotificationType = fenceGeotriggerNotificationInfo.getFenceNotificationType();
               // get a reference to the fence feature that triggered the notification
@@ -151,12 +150,13 @@ public class SetUpLocationDrivenGeotriggersController {
               if (fenceNotificationType == FenceNotificationType.ENTERED) {
 
                 // add the description from the feature's attributes to the UI
-                handleAddingFeatureInfoToUI(fenceFeature);
+                handleAddingFeatureInfoToUI(fenceFeature, fenceFeatureName, geoTriggerName);
 
               } else if (fenceNotificationType == FenceNotificationType.EXITED) {
                 // when exiting a given geofence, remove its information from the UI
-                handleRemovingFeatureInfoFromUI();
+                handleRemovingFeatureInfoFromUI(fenceFeatureName, geoTriggerName);
               }
+
             });
 
             // start the geotrigger monitor
@@ -174,15 +174,15 @@ public class SetUpLocationDrivenGeotriggersController {
    */
   private void initializeSimulatedLocationDisplay() throws IOException {
 
-    // access the json of the walking route points
+    // read a json string which contains a set of points collected along a walking route
     String polylineData = IOUtils.toString(getClass().getResourceAsStream(
       "/set_up_location_driven_geotriggers/polyline_data.json"), StandardCharsets.UTF_8);
-    // create a polyline from the location points
+    // create a polyline representing a walking route from the json string
     Polyline locations = (Polyline) Geometry.fromJson(polylineData, SpatialReferences.getWgs84());
 
     // create a new simulated location data source to replicate the path walked around the garden
     simulatedLocationDataSource = new SimulatedLocationDataSource();
-    // set the location of the simulated location data source with simulation parameters to set a consistent velocity
+    // set the location of the simulated location data source with simulation parameters with a velocity of 2m/s
     simulatedLocationDataSource.setLocations(
       locations, new SimulationParameters(Calendar.getInstance(), 2.0, 0.0, 0.0));
 
@@ -200,7 +200,7 @@ public class SetUpLocationDrivenGeotriggersController {
    *
    * @param fenceFeature                    the feature
    */
-  private void handleAddingFeatureInfoToUI(ArcGISFeature fenceFeature) {
+  private void handleAddingFeatureInfoToUI(ArcGISFeature fenceFeature, String fenceFeatureName, String geoTriggerName) {
 
     // fetch the fence feature's attachments
     ListenableFuture<List<Attachment>> attachmentsFuture = fenceFeature.fetchAttachmentsAsync();
@@ -257,7 +257,7 @@ public class SetUpLocationDrivenGeotriggersController {
   /**
    * Removes the name of the fence feature being exited from the collection of feature names, and updates the label on the UI.
    */
-  private void handleRemovingFeatureInfoFromUI() {
+  private void handleRemovingFeatureInfoFromUI(String fenceFeatureName, String geoTriggerName) {
 
     // if exiting a garden section, reset the UI to inform the user they are walking on a path
     if (geoTriggerName.equals(gardenSectionGeotriggerMonitor.getGeotrigger().getName())) {
