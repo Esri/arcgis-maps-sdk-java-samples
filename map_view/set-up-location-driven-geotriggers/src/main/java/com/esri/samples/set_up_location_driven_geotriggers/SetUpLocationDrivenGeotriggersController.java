@@ -49,6 +49,7 @@ import com.esri.arcgisruntime.geotriggers.FenceGeotriggerNotificationInfo;
 import com.esri.arcgisruntime.geotriggers.FenceNotificationType;
 import com.esri.arcgisruntime.geotriggers.FenceRuleType;
 import com.esri.arcgisruntime.geotriggers.GeotriggerMonitor;
+import com.esri.arcgisruntime.geotriggers.GeotriggerMonitorStatus;
 import com.esri.arcgisruntime.geotriggers.LocationGeotriggerFeed;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
@@ -99,6 +100,9 @@ public class SetUpLocationDrivenGeotriggersController {
       // get the points of interest feature table from the map's list of feature layers
       FeatureLayer gardenPOISectionFeatureLayer = (FeatureLayer) map.getOperationalLayers().get(2);
       ServiceFeatureTable gardenPOIFeatureTable = (ServiceFeatureTable) gardenPOISectionFeatureLayer.getFeatureTable();
+      // set view insets to the map view when the map has loaded
+      Insets insets = new Insets(0, vBox.getWidth(), 0, 0);
+      mapView.setViewInsets(insets);
 
       // once the simulated location data source has started, set up and start the location display and handle geotriggers
       simulatedLocationDataSource.addStartedListener(() -> {
@@ -122,16 +126,21 @@ public class SetUpLocationDrivenGeotriggersController {
           FenceGeotrigger fenceGeotriggerPOI = new FenceGeotrigger(locationGeotriggerFeed, FenceRuleType.ENTER_OR_EXIT,
             featureFenceParametersPOI, arcadeExpression, "POI Geotrigger");
 
-          // create geotrigger monitors from the fence geotriggers and start them
+          // create geotrigger monitors from the fence geotriggers
           gardenSectionGeotriggerMonitor = new GeotriggerMonitor(fenceGeotriggerGardenSection);
           gardenPOIGeotriggerMonitor = new GeotriggerMonitor(fenceGeotriggerPOI);
-
           List<GeotriggerMonitor> geotriggerMonitors = new ArrayList<>(Arrays.asList(
             gardenSectionGeotriggerMonitor, gardenPOIGeotriggerMonitor));
+
           // for each geotrigger monitor, start it and add a notification listener
           geotriggerMonitors.forEach(monitor -> {
 
-            monitor.startAsync();
+            monitor.addGeotriggerMonitorStatusChangedEventListener(geotriggerMonitorStatusChangedEvent -> {
+              if (geotriggerMonitorStatusChangedEvent.getStatus() == GeotriggerMonitorStatus.STARTED) {
+                // show the UI when the simulation data source is started
+                vBox.setVisible(true);
+              }
+            });
 
             monitor.addGeotriggerMonitorNotificationEventListener(notificationEvent -> {
               // fence geotrigger notification info provides access to the feature that triggered the notification
@@ -156,6 +165,9 @@ public class SetUpLocationDrivenGeotriggersController {
                 handleRemovingFeatureInfoFromUI();
               }
             });
+
+            monitor.startAsync();
+
           });
         } else new Alert(Alert.AlertType.ERROR, "Simulated data location source failed to start").show();
       });
@@ -212,9 +224,7 @@ public class SetUpLocationDrivenGeotriggersController {
           attachmentDataFuture.addDoneListener(() -> {
             // get the attachments data as an input stream
             try {
-              // show the UI once data has been fetched
-              mapView.setViewInsets(new Insets(0, vBox.getWidth(), 0, 0));
-              vBox.setVisible(true);
+
 
               InputStream attachmentInputStream = attachmentDataFuture.get();
               // save the input stream to a temporary directory and get a reference to its URI

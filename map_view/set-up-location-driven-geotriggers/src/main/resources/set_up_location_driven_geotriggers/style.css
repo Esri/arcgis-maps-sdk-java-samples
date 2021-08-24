@@ -18,6 +18,7 @@ VBox {
   -fx-background-radius: 75px;
   -fx-font-size: 14;
   -fx-font-weight: bold;
+  -fx-padding: 10px;
 }
 
 .title-label {
