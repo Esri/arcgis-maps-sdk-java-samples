@@ -132,12 +132,12 @@ public class SetUpLocationDrivenGeotriggersController {
           List<GeotriggerMonitor> geotriggerMonitors = new ArrayList<>(Arrays.asList(
             gardenSectionGeotriggerMonitor, gardenPOIGeotriggerMonitor));
 
-          // for each geotrigger monitor, start it and add a notification listener
+          // for each geotrigger monitor, add a status changed and notification event listener, and start the monitor
           geotriggerMonitors.forEach(monitor -> {
 
             monitor.addGeotriggerMonitorStatusChangedEventListener(geotriggerMonitorStatusChangedEvent -> {
               if (geotriggerMonitorStatusChangedEvent.getStatus() == GeotriggerMonitorStatus.STARTED) {
-                // show the UI when the simulation data source is started
+                // show the UI
                 vBox.setVisible(true);
               }
             });
@@ -166,6 +166,7 @@ public class SetUpLocationDrivenGeotriggersController {
               }
             });
 
+            // start the geotrigger monitor
             monitor.startAsync();
 
           });
