@@ -49,7 +49,6 @@ import com.esri.arcgisruntime.geotriggers.FenceGeotriggerNotificationInfo;
 import com.esri.arcgisruntime.geotriggers.FenceNotificationType;
 import com.esri.arcgisruntime.geotriggers.FenceRuleType;
 import com.esri.arcgisruntime.geotriggers.GeotriggerMonitor;
-import com.esri.arcgisruntime.geotriggers.GeotriggerMonitorStatus;
 import com.esri.arcgisruntime.geotriggers.LocationGeotriggerFeed;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
@@ -99,8 +98,7 @@ public class SetUpLocationDrivenGeotriggersController {
       FeatureLayer gardenPOISectionFeatureLayer = (FeatureLayer) map.getOperationalLayers().get(2);
       ServiceFeatureTable gardenPOIFeatureTable = (ServiceFeatureTable) gardenPOISectionFeatureLayer.getFeatureTable();
       // set view insets to the map view when the map has loaded
-      Insets insets = new Insets(0, vBox.getWidth(), 0, 0);
-      mapView.setViewInsets(insets);
+      mapView.setViewInsets(new Insets(0, vBox.getWidth(), 0, 0));
 
       // once the simulated location data source has started, set up and start the location display and handle geotriggers
       simulatedLocationDataSource.addStartedListener(() -> {
