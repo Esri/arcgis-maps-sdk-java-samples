@@ -132,15 +132,8 @@ public class SetUpLocationDrivenGeotriggersController {
           List<GeotriggerMonitor> geotriggerMonitors = new ArrayList<>(Arrays.asList(
             gardenSectionGeotriggerMonitor, gardenPOIGeotriggerMonitor));
 
-          // for each geotrigger monitor, add a status changed and notification event listener, and start the monitor
+          // for each geotrigger monitor, add a notification event listener, and start the monitor
           geotriggerMonitors.forEach(monitor -> {
-
-            monitor.addGeotriggerMonitorStatusChangedEventListener(geotriggerMonitorStatusChangedEvent -> {
-              if (geotriggerMonitorStatusChangedEvent.getStatus() == GeotriggerMonitorStatus.STARTED) {
-                // show the UI
-                vBox.setVisible(true);
-              }
-            });
 
             monitor.addGeotriggerMonitorNotificationEventListener(notificationEvent -> {
               // fence geotrigger notification info provides access to the feature that triggered the notification
@@ -225,8 +218,6 @@ public class SetUpLocationDrivenGeotriggersController {
           attachmentDataFuture.addDoneListener(() -> {
             // get the attachments data as an input stream
             try {
-
-
               InputStream attachmentInputStream = attachmentDataFuture.get();
               // save the input stream to a temporary directory and get a reference to its URI
               Image imageFromStream = new Image(attachmentInputStream);

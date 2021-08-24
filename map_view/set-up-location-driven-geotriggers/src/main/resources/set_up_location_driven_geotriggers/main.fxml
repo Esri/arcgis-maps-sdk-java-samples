@@ -28,10 +28,10 @@
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <!--Controls box-->
-        <VBox fx:id="vBox" StackPane.alignment="TOP_RIGHT" styleClass="panel-region" visible="false" maxWidth="250" minWidth="250">
+        <VBox fx:id="vBox" StackPane.alignment="TOP_RIGHT" styleClass="panel-region" maxWidth="250" minWidth="250">
             <Label text="Current section:" styleClass="title-label"/>
-            <Label fx:id="currentGardenSectionTitle" styleClass="title-label"/>
-            <Label fx:id="currentGardenSectionDescription" wrapText="true" styleClass="garden-section-content" VBox.vgrow="ALWAYS"/>
+            <Label fx:id="currentGardenSectionTitle" text="Waiting..." styleClass="title-label"/>
+            <Label fx:id="currentGardenSectionDescription" text="Waiting for geotrigger event" wrapText="true" styleClass="garden-section-content" VBox.vgrow="ALWAYS"/>
         <ImageView fx:id="gardenSectionImageView" fitWidth="220" preserveRatio="true"/>
         <Separator minWidth="5" />
             <Label text="Nearby: " styleClass="title-label" wrapText="true"/>
