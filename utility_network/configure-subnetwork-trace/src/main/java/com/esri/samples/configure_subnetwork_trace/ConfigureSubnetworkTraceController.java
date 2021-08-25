@@ -141,14 +141,14 @@ public class ConfigureSubnetworkTraceController {
           UtilityDomainNetwork utilityDomainNetwork =
               utilityNetwork.getDefinition().getDomainNetwork("ElectricDistribution");
           UtilityTier utilityTier = utilityDomainNetwork.getTier("Medium Voltage Radial");
-          utilityTraceConfiguration = utilityTier.getTraceConfiguration();
+          utilityTraceConfiguration = utilityTier.getDefaultTraceConfiguration();
 
           // save the default trace configuration to restore when the application is reset
           initialUtilityTraceConfiguration = utilityTraceConfiguration;
 
           // save the initial expression
           initialExpression =
-              (UtilityTraceConditionalExpression) utilityTier.getTraceConfiguration().getTraversability().getBarriers();
+              (UtilityTraceConditionalExpression) initialUtilityTraceConfiguration.getTraversability().getBarriers();
 
           // show the initial expression in the text area
           traceConditionsTextArea.setText(expressionToString(initialExpression));
