@@ -88,7 +88,7 @@ public class ExportVectorTilesSample extends Application {
       // set the map to the mapview
       mapView.setMap(map);
 
-      // set the viewpoint over California, USA
+      // set the viewpoint over Redlands, California, USA
       mapView.setViewpointAsync(new Viewpoint(34.049, -117.181, 1e4));
 
       // create a graphics overlay for the map view
@@ -106,7 +106,7 @@ public class ExportVectorTilesSample extends Application {
       exportVectorTilesButton.setDisable(true);
 
       // create progress bar to show task progress
-      ProgressBar progressBar = new ProgressBar(0.0);
+      var progressBar = new ProgressBar(0.0);
       progressBar.setVisible(false);
 
       // update the square whenever the viewpoint changes
@@ -134,7 +134,7 @@ public class ExportVectorTilesSample extends Application {
           exportVectorTilesButton.setDisable(false);
 
           // check that the layer from the basemap is a vector tiled layer
-          Layer layer = map.getBasemap().getBaseLayers().get(0);
+          var layer = map.getBasemap().getBaseLayers().get(0);
           if (layer instanceof ArcGISVectorTiledLayer) {
             ArcGISVectorTiledLayer vectorTiledLayer = (ArcGISVectorTiledLayer) layer;
 
@@ -152,7 +152,7 @@ public class ExportVectorTilesSample extends Application {
               resDir.deleteOnExit();
 
               // create a new export vector tiles task
-              ExportVectorTilesTask exportVectorTilesTask = new ExportVectorTilesTask(vectorTiledLayer.getUri());
+              var exportVectorTilesTask = new ExportVectorTilesTask(vectorTiledLayer.getUri());
 
               // create parameters for the export vector tiles job
               double mapScale = mapView.getMapScale();
@@ -163,10 +163,10 @@ public class ExportVectorTilesSample extends Application {
 
               exportVectorTilesParametersFuture.addDoneListener(() -> {
                 try {
-                  ExportVectorTilesParameters exportVectorTilesParameters = exportVectorTilesParametersFuture.get();
+                  var exportVectorTilesParameters = exportVectorTilesParametersFuture.get();
 
                   // create a job with the parameters
-                  ExportVectorTilesJob exportVectorTilesJob =
+                  var exportVectorTilesJob =
                     exportVectorTilesTask.exportVectorTiles(exportVectorTilesParameters, vtpkFile.getAbsolutePath(), resDir.getAbsolutePath());
 
                   // start the job and wait for it to finish
