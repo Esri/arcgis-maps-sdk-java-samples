@@ -14,7 +14,7 @@ When the vector tiled layer loads, zoom in to the extent you want to export. The
 
 ## How it works
 
-1. Create an `ExportVectorTilesTask`, passing in the `PortalItem` for the vector tiled layer. Since vector tiled layers are premium content, you must first authenticate with the Portal.
+1. Create an `ExportVectorTilesTask`, passing in the URI of the vector tiled layer.
 2. Create default `ExportVectorTilesParameters` from the task, specifying extent and maximum scale.
 3. Create a `ExportVectorTilesJob` from the task using the parameters, and specifying a vector tile cache path and an item resource path. The resource path is required if you want to export the tiles with the style.
 4. Start the job, and once it completes successfully, get the resulting `ExportVectorTilesResult`.
@@ -31,8 +31,6 @@ When the vector tiled layer loads, zoom in to the extent you want to export. The
 * VectorTileCache
 
 ## Additional information
-
-**NOTE:** Downloading Tiles for offline use requires authentication with the web map's server. To use this sample, you will require an [ArcGIS Online](https://www.arcgis.com) account.
 
 Vector tiles have high drawing performance and smaller file size compared to regular tiled layers, due to consisting solely of points, lines, and polygons. However, in the ArcGIS Runtime API they cannot be displayed in scenes.
 
