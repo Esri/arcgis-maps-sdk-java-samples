@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
@@ -69,15 +70,16 @@ public class GenerateOfflineMapSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a button to take the map offline
       Button offlineMapButton = new Button("Take Map Offline");
       offlineMapButton.setDisable(true);
 
-      // handle authentication with the portal
-      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
-
       // create a portal item with the itemId of the web map
-      Portal portal = new Portal("https://www.arcgis.com", true);
+      Portal portal = new Portal("https://www.arcgis.com");
       PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
       // create a map with the portal item
@@ -122,8 +124,7 @@ public class GenerateOfflineMapSample extends Application {
       });
 
       // create progress bar to show download progress
-      ProgressBar progressBar = new ProgressBar();
-      progressBar.setProgress(0.0);
+      ProgressBar progressBar = new ProgressBar(0.0);
       progressBar.setVisible(false);
 
       // when the button is clicked, start the offline map task job
