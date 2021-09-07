@@ -10,6 +10,7 @@
         "download",
         "extent",
         "filter",
+        "LOD",
         "offline",
         "override",
         "parameters",
@@ -23,7 +24,6 @@
         "GenerateOfflineMapParameterOverrides",
         "GenerateOfflineMapParameters",
         "GenerateOfflineMapResult",
-        "LOD",
         "OfflineMapParametersKey",
         "OfflineMapTask"
     ],
