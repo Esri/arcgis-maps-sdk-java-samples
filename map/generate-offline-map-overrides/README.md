@@ -10,7 +10,7 @@ When taking a web map offline, you may adjust the data (such as layers or tiles)
 
 ## How to use the sample
 
-Sign in with an ArcGIS Online account when prompted for credentials (taking web maps offline requires an account) and modify the overrides parameters:
+Modify the overrides parameters:
 
 * Use the min/max scale input fields to adjust the level IDs to be taken offline for the streets basemap.
 * Use the "Extent Buffer Distance" input field to set the buffer radius for the streets basemap.
@@ -18,7 +18,7 @@ Sign in with an ArcGIS Online account when prompted for credentials (taking web 
 * Use the "Min Hydrant Flow Rate" input field to only download features with a flow rate higher than this value.
 * Select the "Water Pipes" checkbox if you want to crop the water pipe features to the extent of the map.
 
-After you have set up the overrides to your liking, click the "Generate offline map" button to start the download. A progress bar will display. Click the "Cancel" button if you want to stop the download. When the download is complete, the view will display the offline map. Pan around to see that the map is cropped to the download area's extent.
+Set up the overrides to your liking, click the "Generate offline map" button to start the download. A progress bar will display. Click the "Cancel" button if you want to stop the download. When the download is complete, the view will display the offline map. Pan around to see that the map is cropped to the download area's extent.
 
 ## How it works
 

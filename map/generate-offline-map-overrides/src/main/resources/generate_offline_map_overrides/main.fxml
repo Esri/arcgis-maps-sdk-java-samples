@@ -29,7 +29,7 @@
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <!--Offline Map Override Parameters-->
-    <VBox StackPane.alignment="TOP_LEFT" maxWidth="350" prefWidth="300" maxHeight="300" spacing="6"
+    <VBox StackPane.alignment="TOP_LEFT" maxWidth="360" prefWidth="300" maxHeight="300" spacing="6"
           styleClass="panel-region" alignment="CENTER">
         <padding>
             <Insets topRightBottomLeft="10"/>
