@@ -35,6 +35,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -49,8 +50,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import com.esri.arcgisruntime.security.AuthenticationManager;
-import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapJob;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameters;
@@ -64,7 +63,7 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
   private ArcGISMap map;
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
     try {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
@@ -78,26 +77,30 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a map view
       mapView = new MapView();
       // create a graphics overlay to show the download area extent
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+      var graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a graphic to show a box around the extent we want to download
       downloadArea = new Graphic();
       graphicsOverlay.getGraphics().add(downloadArea);
-      SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+      var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
       downloadArea.setSymbol(simpleLineSymbol);
 
       // load a web map from a portal item
-      Portal portal = new Portal("https://www.arcgis.com");
-      PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
+      var portal = new Portal("https://www.arcgis.com");
+      var portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
       map = new ArcGISMap(portalItem);
       mapView.setMap(map);
 
       // draw the download extent area as a red outline when the draw status is completed for the first time
-      DrawStatusChangedListener drawStatusChangedListener = new DrawStatusChangedListener() {
+      var drawStatusChangedListener = new DrawStatusChangedListener() {
         @Override
         public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
           if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
@@ -112,8 +115,7 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
       mapView.addViewpointChangedListener(viewpointChangedEvent -> updateDownloadArea());
 
       // create a progress bar to show download progress
-      ProgressBar progressBar = new ProgressBar();
-      progressBar.setProgress(0.0);
+      var progressBar = new ProgressBar(0.0);
       progressBar.setVisible(false);
       progressBar.setMaxSize(200, 25);
 
@@ -148,10 +150,12 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
             Optional<Boolean> usingLocalBasemap = dialog.showAndWait();
             // if the user chose to cancel, the optional will be empty
             if (usingLocalBasemap.isPresent()) {
-              // if the user chose to use a local basemap, this will be true, otherwise false
+              // if the user chose to use a local basemap, this will be true
+              // if the user chose to download the basemap again, this requires authentication, which is handled via the API key set at
+              // the start of this sample
               if (usingLocalBasemap.get()) {
                 // open a directory chooser to select the directory containing the referenced basemap
-                DirectoryChooser directoryChooser = new DirectoryChooser();
+                var directoryChooser = new DirectoryChooser();
                 // for this sample, the directory chosen should be "naperville"
                 directoryChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/"));
                 directoryChooser.setTitle("Choose directory containing local basemap");
@@ -162,9 +166,6 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
                   generateOfflineMapParameters.setReferenceBasemapFilename("naperville_imagery.tpkx");
                   generateOfflineMapParameters.setReferenceBasemapDirectory(localBasemapDirectory.getAbsolutePath());
                 }
-              } else {
-                // since the remote basemap requires authentication, set the default challenge handler
-                AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
               }
 
               // create an offline map job with the download directory path and parameters and start the job
