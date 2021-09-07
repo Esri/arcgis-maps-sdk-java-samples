@@ -6,7 +6,6 @@
         "GenerateOfflineMapOverrides.png"
     ],
     "keywords": [
-        "LOD",
         "adjust",
         "download",
         "extent",
@@ -24,6 +23,7 @@
         "GenerateOfflineMapParameterOverrides",
         "GenerateOfflineMapParameters",
         "GenerateOfflineMapResult",
+        "LOD",
         "OfflineMapParametersKey",
         "OfflineMapTask"
     ],
