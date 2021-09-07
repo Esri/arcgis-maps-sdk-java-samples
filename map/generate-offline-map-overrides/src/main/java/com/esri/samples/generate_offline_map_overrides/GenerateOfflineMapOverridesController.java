@@ -83,8 +83,8 @@ public class GenerateOfflineMapOverridesController {
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
     // create a portal item with the itemId of the web map
-    Portal portal = new Portal("https://www.arcgis.com");
-    PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
+    var portal = new Portal("https://www.arcgis.com");
+    var portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
     // create a map with the portal item
     map = new ArcGISMap(portalItem);
