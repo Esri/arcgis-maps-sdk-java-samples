@@ -31,6 +31,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
@@ -41,8 +42,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import com.esri.arcgisruntime.security.AuthenticationManager;
-import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapJob;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameters;
@@ -69,16 +68,17 @@ public class GenerateOfflineMapSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a button to take the map offline
       Button offlineMapButton = new Button("Take Map Offline");
       offlineMapButton.setDisable(true);
 
-      // handle authentication with the portal
-      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
-
       // create a portal item with the itemId of the web map
-      Portal portal = new Portal("https://www.arcgis.com", true);
-      PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
+      var portal = new Portal("https://www.arcgis.com");
+      var portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
       // create a map with the portal item
       map = new ArcGISMap(portalItem);
@@ -94,7 +94,7 @@ public class GenerateOfflineMapSample extends Application {
       mapView.setMap(map);
 
       // create a graphics overlay for the map view
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+      var graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a graphic to show a box around the extent we want to download
@@ -122,8 +122,7 @@ public class GenerateOfflineMapSample extends Application {
       });
 
       // create progress bar to show download progress
-      ProgressBar progressBar = new ProgressBar();
-      progressBar.setProgress(0.0);
+      var progressBar = new ProgressBar(0.0);
       progressBar.setVisible(false);
 
       // when the button is clicked, start the offline map task job
@@ -178,7 +177,7 @@ public class GenerateOfflineMapSample extends Application {
   }
 
   /**
-   * Stops and releases all resources used in application.
+   * Stops and releases all resources used in the application.
    */
   @Override
   public void stop() {
