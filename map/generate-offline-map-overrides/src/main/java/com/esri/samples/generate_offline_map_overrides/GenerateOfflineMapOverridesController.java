@@ -35,6 +35,7 @@ import javafx.scene.control.Spinner;
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
@@ -55,6 +56,7 @@ import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapResult;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapParametersKey;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
+import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheParameters;
 
 public class GenerateOfflineMapOverridesController {
 
@@ -147,7 +149,7 @@ public class GenerateOfflineMapOverridesController {
               // get the export tile cache parameters for the base layer
               OfflineMapParametersKey basemapParamKey = new OfflineMapParametersKey(
                   mapView.getMap().getBasemap().getBaseLayers().get(0));
-              var exportTileCacheParameters =
+              ExportTileCacheParameters exportTileCacheParameters =
                   overrides.getExportTileCacheParameters().get(basemapParamKey);
 
               // create a new sublist of level IDs in the range requested by the user
@@ -167,7 +169,7 @@ public class GenerateOfflineMapOverridesController {
                   long layerId = featureTable.getLayerInfo().getServiceLayerId();
                   // get the layer option parameters specifically for this layer
                   OfflineMapParametersKey key = new OfflineMapParametersKey(layer);
-                  var generateGeodatabaseParameters = overrides.getGenerateGeodatabaseParameters().get(key);
+                  GenerateGeodatabaseParameters generateGeodatabaseParameters = overrides.getGenerateGeodatabaseParameters().get(key);
                   List<GenerateLayerOption> layerOptions = generateGeodatabaseParameters.getLayerOptions();
                   // use an iterator so we can remove layer options while looping over them
                   Iterator<GenerateLayerOption> layerOptionsIterator = layerOptions.iterator();
