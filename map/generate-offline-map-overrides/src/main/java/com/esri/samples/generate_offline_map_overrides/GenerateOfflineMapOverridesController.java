@@ -32,8 +32,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Spinner;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
@@ -46,10 +48,7 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import com.esri.arcgisruntime.security.AuthenticationManager;
-import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateLayerOption;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapJob;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameterOverrides;
@@ -80,15 +79,19 @@ public class GenerateOfflineMapOverridesController {
 
   @FXML
   private void initialize() {
-    // handle authentication with the portal
-    AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
+
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
     // create a portal item with the itemId of the web map
-    Portal portal = new Portal("https://www.arcgis.com", true);
-    PortalItem portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
+    var portal = new Portal("https://www.arcgis.com");
+    var portalItem = new PortalItem(portal, "acc027394bc84c2fb04d1ed317aac674");
 
     // create a map with the portal item
     map = new ArcGISMap(portalItem);
+    // display the generate offline map area as a red box on the map
+    updateDownloadArea();
     map.addDoneLoadingListener(() -> {
       // enable the generate offline map button when the map is loaded
       if (map.getLoadStatus() == LoadStatus.LOADED) {
@@ -101,10 +104,9 @@ public class GenerateOfflineMapOverridesController {
         // show a red border around the download area
         downloadArea = new Graphic();
         graphicsOverlay.getGraphics().add(downloadArea);
-        SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+        var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
         downloadArea.setSymbol(simpleLineSymbol);
 
-        updateDownloadArea();
       }
     });
 
@@ -126,7 +128,7 @@ public class GenerateOfflineMapOverridesController {
       progressBar.setVisible(true);
 
       // create an offline map task with the map
-      OfflineMapTask offlineMapTask = new OfflineMapTask(map);
+      var offlineMapTask = new OfflineMapTask(map);
 
       // get default offline map parameters for this task given the download area
       ListenableFuture<GenerateOfflineMapParameters> generateOfflineMapParametersFuture = offlineMapTask
@@ -162,13 +164,12 @@ public class GenerateOfflineMapOverridesController {
               // configure layer option parameters for each layer depending on the options selected in the UI
               for (Layer layer : map.getOperationalLayers()) {
                 if (layer instanceof FeatureLayer) {
-                  FeatureLayer featureLayer = (FeatureLayer) layer;
+                  var featureLayer = (FeatureLayer) layer;
                   ServiceFeatureTable featureTable = (ServiceFeatureTable) featureLayer.getFeatureTable();
                   long layerId = featureTable.getLayerInfo().getServiceLayerId();
                   // get the layer option parameters specifically for this layer
                   OfflineMapParametersKey key = new OfflineMapParametersKey(layer);
-                  GenerateGeodatabaseParameters generateGeodatabaseParameters =
-                      overrides.getGenerateGeodatabaseParameters().get(key);
+                  GenerateGeodatabaseParameters generateGeodatabaseParameters = overrides.getGenerateGeodatabaseParameters().get(key);
                   List<GenerateLayerOption> layerOptions = generateGeodatabaseParameters.getLayerOptions();
                   // use an iterator so we can remove layer options while looping over them
                   Iterator<GenerateLayerOption> layerOptionsIterator = layerOptions.iterator();
@@ -194,7 +195,7 @@ public class GenerateOfflineMapOverridesController {
                             layerOption.setWhereClause("FLOW >= " + minHydrantFlowRateSpinner.getValue());
                             layerOption.setQueryOption(GenerateLayerOption.QueryOption.USE_FILTER);
                             break;
-                          //clip water main feature geometries to the extent if the checkbox is selected
+                          // clip water main feature geometries to the extent if the checkbox is selected
                           case "Main":
                             layerOption.setUseGeometry(waterPipesCheckBox.isSelected());
                         }
@@ -263,7 +264,7 @@ public class GenerateOfflineMapOverridesController {
 
   /**
    * Cancels the current offline map job.
-      */
+   */
   @FXML
   private void cancelJob() {
     if (job != null) {
@@ -272,7 +273,7 @@ public class GenerateOfflineMapOverridesController {
   }
 
   /**
-   * Stops the animation and disposes of application resources.
+   * Stops and releases all resources used in the application.
    */
   void terminate() {
 

@@ -22,7 +22,6 @@ import java.nio.file.Files;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -33,6 +32,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.VectorTileCache;
@@ -43,14 +43,13 @@ import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.ItemResourceCache;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import com.esri.arcgisruntime.security.AuthenticationManager;
-import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesJob;
 import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesParameters;
@@ -77,41 +76,42 @@ public class ExportVectorTilesSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a new map with the streets night style (a vector tile layer)
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
+
       // set the map to the map view
       mapView = new MapView();
+      // set the map to the mapview
+      mapView.setMap(map);
 
-      // authenticate with an organization account on arcgis.com
-      AuthenticationManager.setAuthenticationChallengeHandler(new DefaultAuthenticationChallengeHandler());
-
-      // get the portal item of the vector tile service
-      Portal portal = new Portal("http://www.arcgis.com", true);
-      portalItem = new PortalItem(portal, "86f556a2d1fd468181855a35e344567f");
-      portalItem.addDoneLoadingListener(() -> {
-        if (portalItem.getLoadStatus() == LoadStatus.LOADED) {
-          // loading the vector tiled layer will invoke the authentication challenge
-          ArcGISVectorTiledLayer vectorTiledLayer = new ArcGISVectorTiledLayer(portalItem);
-          ArcGISMap map = new ArcGISMap(new Basemap(vectorTiledLayer));
-          mapView.setMap(map);
-        } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, portalItem.getLoadError().getCause().getMessage());
-          alert.show();
-        }
-      });
-      portalItem.loadAsync();
+      // set the viewpoint over Redlands, California, USA
+      mapView.setViewpointAsync(new Viewpoint(34.049, -117.181, 1e4));
 
       // create a graphics overlay for the map view
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+      var graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create a graphic to show a box around the tiles we want to download
+      // create a graphic to show a red outline square around the tiles to be downloaded
       Graphic downloadArea = new Graphic();
       graphicsOverlay.getGraphics().add(downloadArea);
-      SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+      var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
       downloadArea.setSymbol(simpleLineSymbol);
 
-      // update the box whenever the viewpoint changes
+      // create button to export tiles
+      Button exportVectorTilesButton = new Button("Export Vector Tiles");
+      exportVectorTilesButton.setDisable(true);
+
+      // create progress bar to show task progress
+      var progressBar = new ProgressBar(0.0);
+      progressBar.setVisible(false);
+
+      // update the square whenever the viewpoint changes
       mapView.addViewpointChangedListener(viewpointChangedEvent -> {
-        if (mapView.getMap().getLoadStatus() == LoadStatus.LOADED) {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
           // upper left corner of the downloaded tile cache area
           Point2D minScreenPoint = new Point2D(50, 50);
           // lower right corner of the downloaded tile cache area
@@ -127,94 +127,107 @@ public class ExportVectorTilesSample extends Application {
         }
       });
 
-      // create button to export tiles
-      Button exportTilesButton = new Button("Export Vector Tiles");
+      // when the map has loaded, create a vector tiled layer from it and export tiles
+      map.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          // enable the export tiles button
+          exportVectorTilesButton.setDisable(false);
 
-      // create progress bar to show task progress
-      ProgressBar progressBar = new ProgressBar();
-      progressBar.setProgress(0.0);
-      progressBar.setVisible(false);
+          // check that the layer from the basemap is a vector tiled layer
+          var layer = map.getBasemap().getBaseLayers().get(0);
+          if (layer instanceof ArcGISVectorTiledLayer) {
+            ArcGISVectorTiledLayer vectorTiledLayer = (ArcGISVectorTiledLayer) layer;
 
-      // when the button is clicked, export the tiles to a temporary file
-      exportTilesButton.setOnAction(e -> {
-        try {
-          // disable the button and show the progress bar
-          exportTilesButton.setDisable(true);
-          progressBar.setVisible(true);
-
-          // create a file and define the scale for the job
-          File vtpkFile = File.createTempFile("tiles", ".vtpk");
-          File resDir = Files.createTempDirectory("StyleItemResources").toFile();
-
-          Layer layer = mapView.getMap().getBasemap().getBaseLayers().get(0);
-          double maxScale = layer.getMaxScale();
-
-          // create a task
-          ExportVectorTilesTask exportVectorTilesTask = new ExportVectorTilesTask((PortalItem) layer.getItem());
-
-          // create parameters for the export vector tiles job
-          ListenableFuture<ExportVectorTilesParameters> exportVectorTilesParametersFuture = exportVectorTilesTask
-              .createDefaultExportVectorTilesParametersAsync(downloadArea.getGeometry(), maxScale);
-          exportVectorTilesParametersFuture.addDoneListener(() -> {
+          // when the button is clicked, export the tiles to a temporary file
+          exportVectorTilesButton.setOnAction(e -> {
             try {
-              ExportVectorTilesParameters exportVectorTilesParameters = exportVectorTilesParametersFuture.get();
+              // disable the button and show the progress bar
+              exportVectorTilesButton.setDisable(true);
+              progressBar.setVisible(true);
 
-              // create a job with the parameters
-              ExportVectorTilesJob exportVectorTilesJob =
-                      exportVectorTilesTask.exportVectorTiles(exportVectorTilesParameters, vtpkFile.getAbsolutePath(), resDir.getAbsolutePath());
+              // create temporary files for the .vtpk file and style item resources
+              File vtpkFile = File.createTempFile("tiles", ".vtpk");
+              File resDir = Files.createTempDirectory("StyleItemResources").toFile();
+              vtpkFile.deleteOnExit();
+              resDir.deleteOnExit();
 
-              // start the job and wait for it to finish
-              exportVectorTilesJob.start();
-              exportVectorTilesJob.addProgressChangedListener(() -> progressBar.setProgress(exportVectorTilesJob.getProgress() / 100.0));
-              exportVectorTilesJob.addJobDoneListener(() -> {
+              // create a new export vector tiles task
+              var exportVectorTilesTask = new ExportVectorTilesTask(vectorTiledLayer.getUri());
 
-                if (exportVectorTilesJob.getStatus() == Job.Status.SUCCEEDED) {
-                  // show preview of exported tiles in alert
-                  ExportVectorTilesResult tilesResult = exportVectorTilesJob.getResult();
-                  VectorTileCache tileCache = tilesResult.getVectorTileCache();
-                  ItemResourceCache resourceCache = tilesResult.getItemResourceCache();
-                  Alert preview = new Alert(Alert.AlertType.INFORMATION);
-                  preview.initOwner(mapView.getScene().getWindow());
-                  preview.setTitle("Preview");
-                  preview.setHeaderText("Exported tiles to " + tileCache.getPath() + "\nExported resources to " +
-                      resourceCache.getPath());
-                  MapView mapPreview = new MapView();
-                  mapPreview.setMinSize(400, 400);
-                  ArcGISVectorTiledLayer tiledLayerPreview = new ArcGISVectorTiledLayer(tileCache, resourceCache);
-                  ArcGISMap previewMap = new ArcGISMap(new Basemap(tiledLayerPreview));
-                  mapPreview.setMap(previewMap);
-                  preview.getDialogPane().setContent(mapPreview);
-                  preview.show();
+              // create parameters for the export vector tiles job
+              double mapScale = mapView.getMapScale();
+              // the max scale parameter is set to 10% of the map's scale to limit the
+              // number of tiles exported to within the vector tiled layer's max tile export limit
+              ListenableFuture<ExportVectorTilesParameters> exportVectorTilesParametersFuture = exportVectorTilesTask
+                .createDefaultExportVectorTilesParametersAsync(downloadArea.getGeometry(), mapScale * 0.1);
 
-                } else {
-                  Alert alert = new Alert(Alert.AlertType.ERROR, exportVectorTilesJob.getError().getAdditionalMessage());
+              exportVectorTilesParametersFuture.addDoneListener(() -> {
+                try {
+                  var exportVectorTilesParameters = exportVectorTilesParametersFuture.get();
+
+                  // create a job with the parameters
+                  var exportVectorTilesJob =
+                    exportVectorTilesTask.exportVectorTiles(exportVectorTilesParameters, vtpkFile.getAbsolutePath(), resDir.getAbsolutePath());
+
+                  // start the job and wait for it to finish
+                  exportVectorTilesJob.start();
+                  exportVectorTilesJob.addProgressChangedListener(() -> progressBar.setProgress(exportVectorTilesJob.getProgress() / 100.0));
+                  exportVectorTilesJob.addJobDoneListener(() -> {
+
+                    if (exportVectorTilesJob.getStatus() == Job.Status.SUCCEEDED) {
+                      // show preview of exported tiles in alert
+                      ExportVectorTilesResult tilesResult = exportVectorTilesJob.getResult();
+                      VectorTileCache tileCache = tilesResult.getVectorTileCache();
+                      ItemResourceCache resourceCache = tilesResult.getItemResourceCache();
+                      Alert preview = new Alert(Alert.AlertType.INFORMATION);
+                      preview.initOwner(mapView.getScene().getWindow());
+                      preview.setTitle("Preview");
+                      preview.setHeaderText("Exported tiles to " + tileCache.getPath() + "\nExported resources to " +
+                        resourceCache.getPath());
+                      MapView mapPreview = new MapView();
+                      mapPreview.setMinSize(400, 400);
+                      ArcGISVectorTiledLayer vectorTiledLayerPreview = new ArcGISVectorTiledLayer(tileCache, resourceCache);
+                      ArcGISMap previewMap = new ArcGISMap(new Basemap(vectorTiledLayerPreview));
+                      mapPreview.setMap(previewMap);
+                      preview.getDialogPane().setContent(mapPreview);
+                      preview.show();
+
+                    } else {
+                      Alert alert = new Alert(Alert.AlertType.ERROR, exportVectorTilesJob.getError().getAdditionalMessage());
+                      alert.show();
+                    }
+
+                    // reset the UI
+                    progressBar.setVisible(false);
+                    progressBar.setProgress(0);
+                    exportVectorTilesButton.setDisable(false);
+                  });
+
+                } catch (InterruptedException | ExecutionException ex) {
+                  Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
                   alert.show();
-                }
-
-                Platform.runLater(() -> {
                   progressBar.setVisible(false);
-                  exportTilesButton.setDisable(false);
-                });
+                  progressBar.setProgress(0);
+                }
               });
 
-            } catch (InterruptedException | ExecutionException ex) {
-              Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            } catch (IOException ex) {
+              Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to create temporary file");
               alert.show();
-              progressBar.setVisible(false);
-              progressBar.setProgress(0);
             }
           });
-
-        } catch (IOException ex) {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to create temporary file");
-          alert.show();
         }
+
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Map could not be loaded").show();
+        }
+
       });
 
       // add the map view, button, and progress bar to stack pane
-      stackPane.getChildren().addAll(mapView, exportTilesButton, progressBar);
-      StackPane.setAlignment(exportTilesButton, Pos.BOTTOM_CENTER);
-      StackPane.setMargin(exportTilesButton, new Insets(0, 0, 100, 0));
+      stackPane.getChildren().addAll(mapView, exportVectorTilesButton, progressBar);
+      StackPane.setAlignment(exportVectorTilesButton, Pos.BOTTOM_CENTER);
+      StackPane.setMargin(exportVectorTilesButton, new Insets(0, 0, 100, 0));
       StackPane.setAlignment(progressBar, Pos.BOTTOM_CENTER);
       StackPane.setMargin(progressBar, new Insets(0, 0, 80, 0));
 

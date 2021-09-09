@@ -133,7 +133,7 @@ public class ExportTilesSample extends Application {
                 exportTilesButton.setDisable(true);
                 progressBar.setVisible(true);
 
-                // create a file and define the scale for the job
+                // create a file
                 File tempFile = File.createTempFile("tiles", ".tpkx");
                 tempFile.deleteOnExit();
 
@@ -142,7 +142,7 @@ public class ExportTilesSample extends Application {
 
                 // create parameters for the export tiles job
                 double mapScale = mapView.getMapScale();
-                // the max scale is parameter is set to 10% of the map's scale to limit the
+                // the max scale parameter is set to 10% of the map's scale to limit the
                 // number of tiles exported to within the tiled layer's max tile export limit
                 ListenableFuture<ExportTileCacheParameters> exportTileCacheParametersListenableFuture =
                   exportTileCacheTask.createDefaultExportTileCacheParametersAsync(downloadArea.getGeometry(), mapScale, mapScale * 0.1);
@@ -179,6 +179,7 @@ public class ExportTilesSample extends Application {
                       }
                       // reset the UI
                       progressBar.setVisible(false);
+                      progressBar.setProgress(0);
                       exportTilesButton.setDisable(false);
                     });
 
@@ -188,6 +189,7 @@ public class ExportTilesSample extends Application {
                     progressBar.setProgress(0);
                   }
                 });
+
               } catch (IOException ex) {
                 new Alert(Alert.AlertType.ERROR, "Failed to create temporary file").show();
               }
