@@ -6,12 +6,12 @@
         "OpenStreetMapLayer.png"
     ],
     "keywords": [
-        "OSM",
-        "OpenStreetMap",
         "basemap",
         "layers",
         "map",
         "open",
+        "OpenStreetMap",
+        "OSM",
         "street",
         "ArcGISMap",
         "MapView",
