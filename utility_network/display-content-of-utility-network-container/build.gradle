@@ -1,0 +1,81 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+group = 'com.esri.samples'
+
+ext {
+    arcgisVersion = '100.12.0'
+}
+
+javafx {
+    version = "11.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://esri.jfrog.io/artifactory/arcgis'
+    }
+    maven {
+        url 'https://olympus.esri.com/artifactory/arcgisruntime-repo'
+    }
+}
+
+configurations {
+    natives
+}
+
+dependencies {
+    implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
+    natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
+    natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
+    // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
+    runtimeOnly 'org.slf4j:slf4j-nop:1.7.32'
+}
+
+task copyNatives(type: Copy) {
+    description = "Copies the arcgis native libraries into the project build directory for development."
+    group = "build"
+    configurations.natives.asFileTree.each {
+        from(zipTree(it))
+    }
+    // store native libraries in a common location shared with other samples
+    into "${System.properties.getProperty("user.home")}/.arcgis/$arcgisVersion"
+}
+
+run {
+    dependsOn copyNatives
+    mainClassName = 'com.esri.samples.display_content_of_utility_network_container.DisplayContentOfUtilityNetworkContainerLauncher'
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes("Main-Class": "$mainClassName")
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    // exclude signing files that come from dependencies
+    exclude "META-INF/*.SF"
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
+}
+
+task productionZip(type: Zip) {
+    group = 'distribution'
+    from copyNatives
+    from jar.destinationDirectory
+    into (project.name)
+    archiveBaseName = project.name
+}
+
+wrapper {
+    gradleVersion = '7.0.2'
+}
