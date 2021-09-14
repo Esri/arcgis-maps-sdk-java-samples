@@ -6,21 +6,22 @@ Add OpenStreetMap as a basemap layer.
 
 ## Use case
 
-[OpenStreetMap](https://www.openstreetmap.org) is a free community-edited basemap.
+[OpenStreetMap](https://www.openstreetmap.org) is a free community-edited map of the world.
 
 ## How to use the sample
 
-When the sample opens, it will automatically display the map with the OpenStreetMap basemap. Pan and zoom to observe the basemap.
+When the sample opens, it will automatically display the OpenStreetMap basemap. Pan and zoom to explore the basemap.
 
 ## How it works
 
-1. Create an `ArcGISMap` with the OSM standard basemap style `BasemapStyle.OSM_STANDARD`.
+1. Create an `OpenStreetMapLayer`, and set it as the `ArcGISMap`'s basemap.
 2. Set the map to a `MapView`.
 
 ## Relevant API
 
 * ArcGISMap
 * MapView
+* OpenStreetMapLayer
 
 ## Additional information
 

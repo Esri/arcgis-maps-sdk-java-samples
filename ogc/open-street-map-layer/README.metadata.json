@@ -6,22 +6,24 @@
         "OpenStreetMapLayer.png"
     ],
     "keywords": [
-        "OSM",
-        "OpenStreetMap",
         "basemap",
         "layers",
         "map",
         "open",
+        "OpenStreetMap",
+        "OSM",
         "street",
         "ArcGISMap",
-        "MapView"
+        "MapView",
+        "OpenStreetMapLayer"
     ],
     "redirect_from": [
         "/java/latest/sample-code/openstreetmap-layer.htm"
     ],
     "relevant_apis": [
         "ArcGISMap",
-        "MapView"
+        "MapView",
+        "OpenStreetMapLayer"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/open_street_map_layer/OpenStreetMapLayerSample.java"
