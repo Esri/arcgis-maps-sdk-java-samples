@@ -18,12 +18,14 @@ package com.esri.samples.open_street_map_layer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.layers.OpenStreetMapLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
@@ -40,18 +42,25 @@ public class OpenStreetMapLayerSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Open Street Map Sample");
+      stage.setTitle("Open Street Map Layer Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
       stage.show();
 
-      // authentication with an API key or named user is required to access basemaps and other location services
-      String yourAPIKey = System.getProperty("apiKey");
-      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+      // create an open street map layer (a layer that requests images from OpenStreetMap servers)
+      var openStreetMapLayer = new OpenStreetMapLayer();
 
-      // create a map with the OpenStreetMap basemap style
-      ArcGISMap map = new ArcGISMap(BasemapStyle.OSM_STANDARD);
+      // if the layer failed to load, display an alert
+      openStreetMapLayer.addDoneLoadingListener(() -> {
+        if (openStreetMapLayer.getLoadStatus() != LoadStatus.LOADED) {
+          new Alert(Alert.AlertType.INFORMATION, "Open Street Map Layer failed to load").show();
+        }
+      });
+
+      // create a map and set the open street map layer as its basemap
+      ArcGISMap map = new ArcGISMap();
+      map.setBasemap(new Basemap(openStreetMapLayer));
 
       // create a map view and set the map to it
       mapView = new MapView();
