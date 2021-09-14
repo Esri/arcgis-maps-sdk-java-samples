@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.esri.samples.configure_subnetwork_trace;
+package com.esri.samples.display_content_of_utility_network_container;
 
 /**
  * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
