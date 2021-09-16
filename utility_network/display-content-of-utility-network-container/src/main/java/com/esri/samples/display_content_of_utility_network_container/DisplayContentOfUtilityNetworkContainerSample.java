@@ -38,9 +38,17 @@ public class DisplayContentOfUtilityNetworkContainerSample extends Application {
     // set title, size, and add scene to stage
     stage.setTitle("Display Content of Utility Network Container Sample");
     stage.setWidth(800);
-    stage.setHeight(400);
+    stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
+    controller.terminate();
   }
 
   /**
