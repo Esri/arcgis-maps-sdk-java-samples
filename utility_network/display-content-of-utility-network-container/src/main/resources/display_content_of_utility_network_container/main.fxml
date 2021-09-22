@@ -21,13 +21,15 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Button?>
 <StackPane
         fx:controller="com.esri.samples.display_content_of_utility_network_container.DisplayContentOfUtilityNetworkContainerController"
         xmlns:fx="http://javafx.com/fxml" stylesheets="/display_content_of_utility_network_container/style.css">
     <!--SDK MapView-->
-    <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked" />
+    <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"  />
     <!--Controls Area-->
-    <VBox StackPane.alignment="TOP_LEFT">
-    </VBox>
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
+    <VBox StackPane.alignment="TOP_LEFT" fx:id="vBox" visible="false">
+        <Button fx:id="exitButton" onMouseClicked="#handleExitButtonClicked" text="Exit container view"/>
+    </VBox>
 </StackPane>
