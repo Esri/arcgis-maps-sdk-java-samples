@@ -18,14 +18,28 @@ package com.esri.samples.display_content_of_utility_network_container;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
-import com.esri.arcgisruntime.geometry.*;
+import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
+import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.SubtypeFeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.*;
-import com.esri.arcgisruntime.security.*;
-import com.esri.arcgisruntime.symbology.*;
-import com.esri.arcgisruntime.utilitynetworks.*;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.security.AuthenticationChallengeHandler;
+import com.esri.arcgisruntime.security.AuthenticationChallengeResponse;
+import com.esri.arcgisruntime.security.AuthenticationManager;
+import com.esri.arcgisruntime.security.UserCredential;
+import com.esri.arcgisruntime.symbology.ColorUtil;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.Symbol;
+import com.esri.arcgisruntime.utilitynetworks.UtilityAssociation;
+import com.esri.arcgisruntime.utilitynetworks.UtilityAssociationType;
+import com.esri.arcgisruntime.utilitynetworks.UtilityElement;
+import com.esri.arcgisruntime.utilitynetworks.UtilityNetwork;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
@@ -35,17 +49,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class DisplayContentOfUtilityNetworkContainerController {
 
-  @FXML Button exitButton;
+  @FXML
+  Button exitButton;
   @FXML
   VBox vBox;
+  @FXML
+  GridPane gridPane;
   @FXML
   private MapView mapView;
   @FXML
@@ -82,26 +101,25 @@ public class DisplayContentOfUtilityNetworkContainerController {
 
       // create a new map from the web map URL (includes ArcGIS Pro subtype group layers with only container features visible)
       ArcGISMap map = new ArcGISMap("https://sampleserver7.arcgisonline.com/portal/home/item.html?id=813eda749a9444e4a9d833a4db19e1c8");
-
       // the feature service url contains a utility network used to find associations shown in this sample
-      String featureServiceURL =
-        "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
+      String featureServiceURL = "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer";
 
       // create a utility network, add it to the map's collection of utility networks, and load it
       utilityNetwork = new UtilityNetwork(featureServiceURL);
       map.getUtilityNetworks().add(utilityNetwork);
-      utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
         // show an error if the utility network did not load
         if (utilityNetwork.getLoadStatus() != LoadStatus.LOADED) {
           new Alert(Alert.AlertType.ERROR, "Error loading Utility Network.").show();
         }
       });
+      utilityNetwork.loadAsync();
 
       // hide the progress indicator once the map view draw status has completed
       mapView.addDrawStatusChangedListener(listener -> {
         if (listener.getDrawStatus() == DrawStatus.COMPLETED) {
           progressIndicator.setVisible(false);
+
         }
       });
 
@@ -115,6 +133,9 @@ public class DisplayContentOfUtilityNetworkContainerController {
   }
 
   /**
+   * Identifies the feature clicked on the map, gets their containment associations and elements, and displays the content
+   * of the elements features in a container view.
+   *
    * @param e event registered when the map view is clicked on
    */
   @FXML
@@ -141,17 +162,10 @@ public class DisplayContentOfUtilityNetworkContainerController {
                 // loop through each sub layer result
                 layerResult.getSublayerResults().forEach(sublayerResult -> {
                   // filter the sublayer result's elements to find the first one which is an ArcGIS feature
-                  sublayerResult.getElements().stream()
-                    .filter(element -> element instanceof ArcGISFeature)
-                    .findFirst().ifPresent(geoElement ->
-                      selectedContainerFeature = (ArcGISFeature) geoElement);
+                  sublayerResult.getElements().stream().filter(element -> element instanceof ArcGISFeature)
+                    .findFirst().ifPresent(geoElement -> selectedContainerFeature = (ArcGISFeature) geoElement);
 
                 });
-
-//                var geoElement = layerResult.getSublayerResults().get(0).getElements().get(0);
-//                if (geoElement instanceof ArcGISFeature) {
-//                  containerFeature = (ArcGISFeature) geoElement;
-//                }
               }
             });
 
@@ -164,18 +178,20 @@ public class DisplayContentOfUtilityNetworkContainerController {
 
             containmentAssociationsFuture.addDoneListener(() -> {
               try {
-                // get and store a list of features from the result of the query (there may be more than one)
+                // get and store a list of elements from the result of the query
                 List<UtilityElement> contentElements = new ArrayList<>();
 
+                // get the list of containment associations and loop through them to get their elements
                 List<UtilityAssociation> containmentAssociations = containmentAssociationsFuture.get();
                 containmentAssociations.forEach(association -> {
-                  UtilityElement otherElement =
-                    association.getFromElement().getObjectId() ==
+                  UtilityElement utilityElement = association.getFromElement().getObjectId() ==
                       containerElement.getObjectId() ? association.getToElement() : association.getFromElement();
-                  contentElements.add(otherElement);
+                  contentElements.add(utilityElement);
                 });
-                if (contentElements.size() > 0) {
 
+                // check the list of elements isn't empty, and store the current viewpoint (this will be used later
+                // when exiting the container view
+                if (contentElements.size() > 0) {
                   previousViewpoint = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY);
                   mapView.getMap().getOperationalLayers().forEach(layer -> {
                     layer.setVisible(false);
@@ -184,26 +200,25 @@ public class DisplayContentOfUtilityNetworkContainerController {
                   // enable container view vbox
                   vBox.setVisible(true);
 
+                  // fetch the features from the elements
                   ListenableFuture<List<ArcGISFeature>> fetchFeaturesFuture = utilityNetwork.fetchFeaturesForElementsAsync(contentElements);
-
                   fetchFeaturesFuture.addDoneListener(() -> {
                     try {
+                      // get the content features and give them each a symbol, and add them as a graphic to the graphics overlay
                       List<ArcGISFeature> contentFeatures = fetchFeaturesFuture.get();
                       contentFeatures.forEach(content -> {
-                        Symbol symbol = (content.getFeatureTable()).getLayerInfo().getDrawingInfo().getRenderer().getSymbol(content);
+                        Symbol symbol = content.getFeatureTable().getLayerInfo().getDrawingInfo().getRenderer().getSymbol(content);
                         graphicsOverlay.getGraphics().add(new Graphic(content.getGeometry(), symbol));
-
                       });
 
-                      // the bounding box which defines the container view may be computed using the extent of the features it contains
-                      // or centered around its geometry at the container's view scale.
-
                       Geometry firstGraphic = graphicsOverlay.getGraphics().get(0).getGeometry();
+                      double containerViewScale = containerElement.getAssetType().getContainerViewScale();
+
                       if (graphicsOverlay.getGraphics().size() == 1 && firstGraphic instanceof Point) {
+                        mapView.setViewpointCenterAsync((Point) firstGraphic, containerViewScale).addDoneListener(() -> {
 
-                        mapView.setViewpointCenterAsync(
-                          (Point) firstGraphic, containerElement.getAssetType().getContainerViewScale()).addDoneListener(() -> {
-
+                          // the bounding box, which defines the container view, may be computed using the extent of the features
+                          // it contains or centered around its geometry at the container's view scale
                           Geometry boundingBox = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY).getTargetGeometry();
                           identifyAssociationsWithExtent(boundingBox);
                           new Alert(Alert.AlertType.INFORMATION, "This feature has no associations").show();
@@ -217,18 +232,24 @@ public class DisplayContentOfUtilityNetworkContainerController {
 
                     } catch (Exception ex) {
                       new Alert(Alert.AlertType.ERROR, "Error fetching features for elements.").show();
+                      ex.printStackTrace();
                     }
                   });
+
+                } else {
+                  new Alert(Alert.AlertType.ERROR, "No content elements found").show();
                 }
 
               } catch (Exception ex) {
                 new Alert(Alert.AlertType.ERROR, "Error getting containment associations.").show();
+                ex.printStackTrace();
               }
             });
           }
 
         } catch (InterruptedException | ExecutionException ex) {
           new Alert(Alert.AlertType.ERROR, "Error getting result of the query.").show();
+          ex.printStackTrace();
         }
       });
 
@@ -237,30 +258,32 @@ public class DisplayContentOfUtilityNetworkContainerController {
   }
 
   /**
+   * Get associations for the specified geometry and display its associations.
    *
+   * @param boundingBox the geometry from which to get associations.
    */
   private void identifyAssociationsWithExtent(Geometry boundingBox) {
 
     graphicsOverlay.getGraphics().add(new Graphic(boundingBox, boundingBoxSymbol));
     mapView.setViewpointGeometryAsync(GeometryEngine.buffer(graphicsOverlay.getExtent(), 0.05));
 
-//    get the associations for this extent to display how content features are attached or connected.
+    // get the associations for this extent to display how content features are attached or connected.
     ListenableFuture<List<UtilityAssociation>> extentAssociations = utilityNetwork.getAssociationsAsync(graphicsOverlay.getExtent());
 
     extentAssociations.addDoneListener(() -> {
       try {
-          extentAssociations.get().forEach(association -> {
-            Symbol symbol = association.getAssociationType() == UtilityAssociationType.ATTACHMENT ? attachmentSymbol :
-              connectivitySymbol;
-            graphicsOverlay.getGraphics().add(new Graphic(association.getGeometry(), symbol));
-          });
+        extentAssociations.get().forEach(association -> {
+          // assign the appropriate symbol if the association is an attachment or connectivity type
+          Symbol symbol = association.getAssociationType() == UtilityAssociationType.ATTACHMENT ? attachmentSymbol :
+            connectivitySymbol;
+          graphicsOverlay.getGraphics().add(new Graphic(association.getGeometry(), symbol));
+        });
 
       } catch (Exception ex) {
         new Alert(Alert.AlertType.ERROR, "Error getting extent associations").show();
         ex.printStackTrace();
       }
     });
-
   }
 
   /**

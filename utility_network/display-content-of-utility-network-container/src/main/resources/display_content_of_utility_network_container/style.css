@@ -4,7 +4,3 @@ VBox{
   -fx-min-width: 800;
   -fx-max-width: 800;
 }
-
-.label {
-  -fx-font-weight: bold;
-}

@@ -19,7 +19,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Button?>
 <StackPane
