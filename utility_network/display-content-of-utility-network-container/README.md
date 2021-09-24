@@ -10,7 +10,7 @@ Offering a container view for features aids in the review for valid structural a
 
 ## How to use the sample
 
-Tap on a container feature to show all features inside the container.  The container is shown as a polygon graphic with the content features contained within. The viewpoint and scale of the map are also changed to the container's extent. Connectivity and Attachment associations inside the container are shown as dotted lines.
+Click on a container feature to show all features inside the container (the container view bounding box is marked by a yellow dashed line).  The container is shown with the content features contained within. The viewpoint and scale of the map are also changed to the container's extent. Connectivity and attachment associations inside the container are shown as red and blue dotted lines respectively.
 
 ## How it works
 

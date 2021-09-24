@@ -49,7 +49,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -59,16 +58,10 @@ import java.util.concurrent.ExecutionException;
 
 public class DisplayContentOfUtilityNetworkContainerController {
 
-  @FXML
-  Button exitButton;
-  @FXML
-  VBox vBox;
-  @FXML
-  GridPane gridPane;
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ProgressIndicator progressIndicator;
+  @FXML Button exitButton;
+  @FXML VBox vBox;
+  @FXML private MapView mapView;
+  @FXML private ProgressIndicator progressIndicator;
 
   private ArcGISFeature selectedContainerFeature;
   private GraphicsOverlay graphicsOverlay;
@@ -88,7 +81,7 @@ public class DisplayContentOfUtilityNetworkContainerController {
 
       // create three new simple line symbols for displaying container view features
       boundingBoxSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.YELLOW), 3);
-      attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.BLUE), 3);
+      attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.CORNFLOWERBLUE), 3);
       connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.RED), 3);
 
       // set user credentials to authenticate with the feature service and webmap url
@@ -119,7 +112,6 @@ public class DisplayContentOfUtilityNetworkContainerController {
       mapView.addDrawStatusChangedListener(listener -> {
         if (listener.getDrawStatus() == DrawStatus.COMPLETED) {
           progressIndicator.setVisible(false);
-
         }
       });
 
