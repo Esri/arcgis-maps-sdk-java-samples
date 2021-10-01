@@ -18,10 +18,12 @@ package com.esri.samples.display_content_of_utility_network_container;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.SubtypeFeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
@@ -40,13 +42,12 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityAssociation;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssociationType;
 import com.esri.arcgisruntime.utilitynetworks.UtilityElement;
 import com.esri.arcgisruntime.utilitynetworks.UtilityNetwork;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
-
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -54,14 +55,15 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class DisplayContentOfUtilityNetworkContainerController {
 
-  @FXML Button exitButton;
-  @FXML VBox vBox;
+  @FXML private VBox vBox;
   @FXML private MapView mapView;
   @FXML private ProgressIndicator progressIndicator;
+  @FXML private ImageView attachmentImageView;
+  @FXML private ImageView boundingBoxImageView;
+  @FXML private ImageView connectivityImageView;
 
   private ArcGISFeature selectedContainerFeature;
   private GraphicsOverlay graphicsOverlay;
@@ -83,6 +85,11 @@ public class DisplayContentOfUtilityNetworkContainerController {
       boundingBoxSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.YELLOW), 3);
       attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.CORNFLOWERBLUE), 3);
       connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.RED), 3);
+
+      // set image views for the association and bounding box symbols to display them in the legend
+      attachmentImageView.setImage(attachmentSymbol.createSwatchAsync(0x00000000).get());
+      connectivityImageView.setImage(connectivitySymbol.createSwatchAsync(0x000000000).get());
+      boundingBoxImageView.setImage(boundingBoxSymbol.createSwatchAsync(0x000000000).get());
 
       // set user credentials to authenticate with the feature service and webmap url
       // NOTE: a licensed user is required to perform utility network operations
@@ -156,97 +163,97 @@ public class DisplayContentOfUtilityNetworkContainerController {
                   // filter the sublayer result's elements to find the first one which is an ArcGIS feature
                   sublayerResult.getElements().stream().filter(element -> element instanceof ArcGISFeature)
                     .findFirst().ifPresent(geoElement -> selectedContainerFeature = (ArcGISFeature) geoElement);
-
                 });
               }
             });
 
             // create a container element using the selected feature
-            UtilityElement containerElement = utilityNetwork.createElement(selectedContainerFeature);
+            if (selectedContainerFeature != null) {
 
-            // get the containment associations from this element to display its content
-            ListenableFuture<List<UtilityAssociation>> containmentAssociationsFuture =
-              utilityNetwork.getAssociationsAsync(containerElement, UtilityAssociationType.CONTAINMENT);
+              UtilityElement containerElement = utilityNetwork.createElement(selectedContainerFeature);
 
-            containmentAssociationsFuture.addDoneListener(() -> {
-              try {
-                // get and store a list of elements from the result of the query
-                List<UtilityElement> contentElements = new ArrayList<>();
+              // get the containment associations from this element to display its content
+              ListenableFuture<List<UtilityAssociation>> containmentAssociationsFuture =
+                utilityNetwork.getAssociationsAsync(containerElement, UtilityAssociationType.CONTAINMENT);
 
-                // get the list of containment associations and loop through them to get their elements
-                List<UtilityAssociation> containmentAssociations = containmentAssociationsFuture.get();
-                containmentAssociations.forEach(association -> {
-                  UtilityElement utilityElement = association.getFromElement().getObjectId() ==
+              containmentAssociationsFuture.addDoneListener(() -> {
+                try {
+                  // get and store a list of elements from the result of the query
+                  List<UtilityElement> contentElements = new ArrayList<>();
+
+                  // get the list of containment associations and loop through them to get their elements
+                  List<UtilityAssociation> containmentAssociations = containmentAssociationsFuture.get();
+                  containmentAssociations.forEach(association -> {
+                    UtilityElement utilityElement = association.getFromElement().getObjectId() ==
                       containerElement.getObjectId() ? association.getToElement() : association.getFromElement();
-                  contentElements.add(utilityElement);
-                });
-
-                // check the list of elements isn't empty, and store the current viewpoint (this will be used later
-                // when exiting the container view
-                if (contentElements.size() > 0) {
-                  previousViewpoint = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY);
-                  mapView.getMap().getOperationalLayers().forEach(layer -> {
-                    layer.setVisible(false);
+                    contentElements.add(utilityElement);
                   });
 
-                  // enable container view vbox
-                  vBox.setVisible(true);
+                  // check the list of elements isn't empty, and store the current viewpoint (this will be used later
+                  // when exiting the container view
+                  if (!contentElements.isEmpty()) {
+                    previousViewpoint = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY);
+                    mapView.getMap().getOperationalLayers().forEach(layer -> {
+                      layer.setVisible(false);
+                    });
 
-                  // fetch the features from the elements
-                  ListenableFuture<List<ArcGISFeature>> fetchFeaturesFuture = utilityNetwork.fetchFeaturesForElementsAsync(contentElements);
-                  fetchFeaturesFuture.addDoneListener(() -> {
-                    try {
-                      // get the content features and give them each a symbol, and add them as a graphic to the graphics overlay
-                      List<ArcGISFeature> contentFeatures = fetchFeaturesFuture.get();
-                      contentFeatures.forEach(content -> {
-                        Symbol symbol = content.getFeatureTable().getLayerInfo().getDrawingInfo().getRenderer().getSymbol(content);
-                        graphicsOverlay.getGraphics().add(new Graphic(content.getGeometry(), symbol));
-                      });
+                    // enable container view vbox
+                    vBox.setVisible(true);
 
-                      Geometry firstGraphic = graphicsOverlay.getGraphics().get(0).getGeometry();
-                      double containerViewScale = containerElement.getAssetType().getContainerViewScale();
-
-                      if (graphicsOverlay.getGraphics().size() == 1 && firstGraphic instanceof Point) {
-                        mapView.setViewpointCenterAsync((Point) firstGraphic, containerViewScale).addDoneListener(() -> {
-
-                          // the bounding box, which defines the container view, may be computed using the extent of the features
-                          // it contains or centered around its geometry at the container's view scale
-                          Geometry boundingBox = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY).getTargetGeometry();
-                          identifyAssociationsWithExtent(boundingBox);
-                          new Alert(Alert.AlertType.INFORMATION, "This feature has no associations").show();
-
+                    // fetch the features from the elements
+                    ListenableFuture<List<ArcGISFeature>> fetchFeaturesFuture = utilityNetwork.fetchFeaturesForElementsAsync(contentElements);
+                    fetchFeaturesFuture.addDoneListener(() -> {
+                      try {
+                        // get the content features and give them each a symbol, and add them as a graphic to the graphics overlay
+                        List<ArcGISFeature> contentFeatures = fetchFeaturesFuture.get();
+                        contentFeatures.forEach(content -> {
+                          Symbol symbol = content.getFeatureTable().getLayerInfo().getDrawingInfo().getRenderer().getSymbol(content);
+                          graphicsOverlay.getGraphics().add(new Graphic(content.getGeometry(), symbol));
                         });
 
-                      } else {
-                        Geometry boundingBox = GeometryEngine.buffer(graphicsOverlay.getExtent(), 0.05);
-                        identifyAssociationsWithExtent(boundingBox);
+                        Geometry firstGraphic = graphicsOverlay.getGraphics().get(0).getGeometry();
+                        double containerViewScale = containerElement.getAssetType().getContainerViewScale();
+
+                        if (graphicsOverlay.getGraphics().size() == 1 && firstGraphic instanceof Point) {
+                          mapView.setViewpointCenterAsync((Point) firstGraphic, containerViewScale).addDoneListener(() -> {
+
+                            // the bounding box, which defines the container view, may be computed using the extent of the features
+                            // it contains or centered around its geometry at the container's view scale
+                            Geometry boundingBox = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY).getTargetGeometry();
+                            identifyAssociationsWithExtent(boundingBox);
+                            new Alert(Alert.AlertType.INFORMATION, "This feature has no associations").show();
+
+                          });
+
+                        } else {
+                          Geometry boundingBox = GeometryEngine.buffer(graphicsOverlay.getExtent(), 0.05);
+                          identifyAssociationsWithExtent(boundingBox);
+                        }
+
+                      } catch (Exception ex) {
+                        new Alert(Alert.AlertType.ERROR, "Error fetching features for elements.").show();
+                        ex.printStackTrace();
                       }
+                    });
 
-                    } catch (Exception ex) {
-                      new Alert(Alert.AlertType.ERROR, "Error fetching features for elements.").show();
-                      ex.printStackTrace();
-                    }
-                  });
+                  } else {
+                    new Alert(Alert.AlertType.ERROR, "No content elements found").show();
+                  }
 
-                } else {
-                  new Alert(Alert.AlertType.ERROR, "No content elements found").show();
+                } catch (Exception ex) {
+                  new Alert(Alert.AlertType.ERROR, "Error getting containment associations.").show();
+                  ex.printStackTrace();
                 }
-
-              } catch (Exception ex) {
-                new Alert(Alert.AlertType.ERROR, "Error getting containment associations.").show();
-                ex.printStackTrace();
-              }
-            });
+              });
+            } else new Alert(Alert.AlertType.ERROR, "No feature found").show();
           }
 
-        } catch (InterruptedException | ExecutionException ex) {
+        } catch (Exception ex) {
           new Alert(Alert.AlertType.ERROR, "Error getting result of the query.").show();
           ex.printStackTrace();
         }
       });
-
     }
-
   }
 
   /**
@@ -256,11 +263,13 @@ public class DisplayContentOfUtilityNetworkContainerController {
    */
   private void identifyAssociationsWithExtent(Geometry boundingBox) {
 
+    // adds a graphic representing the bounding box of the associations identified and zooms to its extent
+    Envelope graphicsOverlayExtent = graphicsOverlay.getExtent();
     graphicsOverlay.getGraphics().add(new Graphic(boundingBox, boundingBoxSymbol));
-    mapView.setViewpointGeometryAsync(GeometryEngine.buffer(graphicsOverlay.getExtent(), 0.05));
+    mapView.setViewpointGeometryAsync(GeometryEngine.buffer(graphicsOverlayExtent, 0.05));
 
     // get the associations for this extent to display how content features are attached or connected.
-    ListenableFuture<List<UtilityAssociation>> extentAssociations = utilityNetwork.getAssociationsAsync(graphicsOverlay.getExtent());
+    ListenableFuture<List<UtilityAssociation>> extentAssociations = utilityNetwork.getAssociationsAsync(graphicsOverlayExtent);
 
     extentAssociations.addDoneListener(() -> {
       try {

@@ -14,7 +14,7 @@ Click on a container feature to show all features inside the container (the cont
 
 ## How it works
 
-1. Load a web map that include ArcGIS Pro [Subtype Group Layers](https://pro.arcgis.com/en/pro-app/help/mapping/layer-properties/subtype-layers.htm) with only container features visible (i.e. fuse bank, switch bank, transformer bank, hand hole and junction box).
+1. Load a web map that includes ArcGIS Pro [Subtype Group Layers](https://pro.arcgis.com/en/pro-app/help/mapping/layer-properties/subtype-layers.htm) with only container features visible (i.e. fuse bank, switch bank, transformer bank, hand hole and junction box).
 2. Create a `GraphicsOverlay` for displaying a container view.
 3. Create and load a `UtilityNetwork` with the same feature service URL as the layers in the web map ([Naperville electric network feature service](https://sampleserver7.arcgisonline.com/arcgis/rest/services/UtilityNetwork/NapervilleElectric/FeatureServer) in this sample).
 4. Add an event handler for the `onMouseClicked` event of the `MapView`.
@@ -24,9 +24,9 @@ Click on a container feature to show all features inside the container (the cont
 8. Get the features for the `UtilityElement`(s) from the associations using `fetchFeaturesForElementsAsync(List<UtilityElement>)`.
 9. Add a `Graphic` with the same geometry and symbol as these features.
 10. Add another `Graphic` that represents this extent and zoom to this extent with a buffer.
-11. Get associations for this extent using `getAssociationsAsync(Envelope)`
+11. Get associations for this extent using `getAssociationsAsync(Envelope)`.
 12. Add a `Graphic` to represent the association geometry between them using a symbol that distinguishes between association types (attachment and connectivity in this sample data).
-13. Turn on the visibility of all the map's operational layers, clear the graphics in the graphics overlay, and zoom out to previous extent to exit container view.
+13. Turn on the visibility of all the map's operational layers, clear the graphics in the graphics overlay, and zoom out to the previous extent to exit the container view.
 
 ## Relevant API
 
