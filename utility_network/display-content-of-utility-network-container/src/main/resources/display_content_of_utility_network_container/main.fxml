@@ -28,7 +28,7 @@
     <!--Controls Area-->
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>
     <VBox StackPane.alignment="TOP_LEFT" fx:id="vBox" visible="false">
-        <Button fx:id="exitButton" onMouseClicked="#handleExitButtonClicked" text="Exit container view" alignment="CENTER"/>
+        <Button onMouseClicked="#handleExitButtonClicked" text="Exit container view" alignment="CENTER"/>
         <GridPane>
             <ImageView fx:id="attachmentImageView" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
             <Label text="Attachment" GridPane.rowIndex="0" GridPane.columnIndex="1"/>

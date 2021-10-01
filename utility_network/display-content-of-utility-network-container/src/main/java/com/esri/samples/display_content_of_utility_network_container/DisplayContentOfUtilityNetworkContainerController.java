@@ -197,8 +197,9 @@ public class DisplayContentOfUtilityNetworkContainerController {
                       layer.setVisible(false);
                     });
 
-                    // enable container view vbox
+                    // enable container view vbox and disable interaction with the map view to avoid navigating away from container view
                     vBox.setVisible(true);
+                    mapView.setDisable(true);
 
                     // fetch the features from the elements
                     ListenableFuture<List<ArcGISFeature>> fetchFeaturesFuture = utilityNetwork.fetchFeaturesForElementsAsync(contentElements);
@@ -264,12 +265,12 @@ public class DisplayContentOfUtilityNetworkContainerController {
   private void identifyAssociationsWithExtent(Geometry boundingBox) {
 
     // adds a graphic representing the bounding box of the associations identified and zooms to its extent
-    Envelope graphicsOverlayExtent = graphicsOverlay.getExtent();
+//    Envelope graphicsOverlayExtent = graphicsOverlay.getExtent();
     graphicsOverlay.getGraphics().add(new Graphic(boundingBox, boundingBoxSymbol));
-    mapView.setViewpointGeometryAsync(GeometryEngine.buffer(graphicsOverlayExtent, 0.05));
+    mapView.setViewpointGeometryAsync(GeometryEngine.buffer(graphicsOverlay.getExtent(), 0.05));
 
     // get the associations for this extent to display how content features are attached or connected.
-    ListenableFuture<List<UtilityAssociation>> extentAssociations = utilityNetwork.getAssociationsAsync(graphicsOverlayExtent);
+    ListenableFuture<List<UtilityAssociation>> extentAssociations = utilityNetwork.getAssociationsAsync(graphicsOverlay.getExtent());
 
     extentAssociations.addDoneListener(() -> {
       try {
@@ -289,14 +290,15 @@ public class DisplayContentOfUtilityNetworkContainerController {
 
   /**
    * Hides the exit container button, clears the graphics that were added to the graphics overlay,
-   * returns the viewpoint to where it was prior to entering the container view, and sets all the layers in
-   * the map's operational layers to visible, when the container view is exited.
+   * returns the viewpoint to where it was prior to entering the container view, enables map view interaction,
+   * and sets all the layers in the map's operational layers to visible, when the container view is exited.
    */
   @FXML
   private void handleExitButtonClicked() {
 
     vBox.setVisible(false);
     graphicsOverlay.getGraphics().clear();
+    mapView.setDisable(false);
     mapView.setViewpointAsync(previousViewpoint);
     mapView.getMap().getOperationalLayers().forEach(layer -> layer.setVisible(true));
 
