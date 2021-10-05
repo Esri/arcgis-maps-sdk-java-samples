@@ -28,14 +28,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -56,8 +52,8 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
 
   private MapView mapView;
   private GridPane legendGridPane;
-  private GridPane headerGridPane;
   private SymbolStyle symbolStyle;
+  private VBox vBox;
 
   @Override
   public void start(Stage stage) {
@@ -174,12 +170,10 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
       mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
         featureLayer.setScaleSymbols(mapView.getMapScale() >= 80000));
 
-      // add the map view and grid pane to the stack pane
-      stackPane.getChildren().addAll(mapView, headerGridPane, legendGridPane);
-      StackPane.setAlignment(headerGridPane, Pos.TOP_LEFT);
-      StackPane.setAlignment(legendGridPane, Pos.TOP_LEFT);
-      StackPane.setMargin(headerGridPane, new Insets(10, 0, 0, 10));
-      StackPane.setMargin(legendGridPane, new Insets(80, 0, 0, 10));
+      // add the map view and vbox to the stack pane
+      stackPane.getChildren().addAll(mapView, vBox);
+      StackPane.setAlignment(vBox, Pos.TOP_LEFT);
+      StackPane.setMargin(vBox, new Insets(10, 0, 0, 10));
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -193,34 +187,29 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
    */
   private void setupLegend() {
 
-    // create a grid pane and set the size, background color and spacing
+    // create a box to show the legend
+    vBox = new VBox();
+    vBox.setMaxSize(220, 300);
+    vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255 ,0.5)"), CornerRadii.EMPTY,
+      Insets.EMPTY)));
+    vBox.setPadding(new Insets(10.0));
+    vBox.setAlignment(Pos.TOP_CENTER);
+
+    // create a grid pane
     legendGridPane = new GridPane();
-    legendGridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(70), new ColumnConstraints(120)));
+    legendGridPane.getColumnConstraints().add(new ColumnConstraints(50));
     legendGridPane.setPadding(new Insets(10));
     legendGridPane.setMaxWidth(175);
     legendGridPane.setVgap(12);
 
-    headerGridPane = new GridPane();
-    headerGridPane.getColumnConstraints().addAll(Arrays.asList(new ColumnConstraints(70), new ColumnConstraints(120)));
-    headerGridPane.setMaxWidth(175);
-    headerGridPane.setMaxHeight(570);
-    headerGridPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255, 0.9)"), CornerRadii.EMPTY,
-      Insets.EMPTY)));
-    headerGridPane.setPadding(new Insets(10));
-    headerGridPane.setVgap(12);
-
     // create a label to display the symbol style name as the title of the legend and add to the grid pane
     Label legendHeader = new Label("Style: " + symbolStyle.getStyleName());
-    legendHeader.setStyle("-fx-font-weight: bold");
-    headerGridPane.add(legendHeader, 0, 0,2,1);
+    legendHeader.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
 
-    // create labels for the column headings and add to the grid pane
-    Label symbolHeader = new Label("Symbol");
-    symbolHeader.setStyle("-fx-font-weight: bold");
-    Label nameHeader = new Label("Name");
-    nameHeader.setStyle("-fx-font-weight: bold");
-    headerGridPane.add(symbolHeader, 0, 1);
-    headerGridPane.add(nameHeader, 1, 1);
+    // create a scroll pane to contain the legend
+    ScrollPane scrollPane = new ScrollPane();
+    scrollPane.setContent(legendGridPane);
+    vBox.getChildren().addAll(legendHeader, scrollPane);
   }
 
   /**
@@ -285,7 +274,7 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
 
     // create an image view for displaying the symbol in the legend
     ImageView imageView = new ImageView();
-    ListenableFuture<Image> imageOfSymbol = symbol.createSwatchAsync(0x00000000);
+    ListenableFuture<Image> imageOfSymbol = symbol.createSwatchAsync(0x00000000, 1f);
     imageOfSymbol.addDoneListener(() -> {
       try {
         // add the symbol image to the image view
