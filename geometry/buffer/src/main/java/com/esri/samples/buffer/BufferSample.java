@@ -23,9 +23,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -109,13 +115,29 @@ public class BufferSample extends Application {
           // show a white marker where clicked
           Graphic markerGraphic = new Graphic(point, markerSymbol);
           graphicsOverlay.getGraphics().add(markerGraphic);
+          // set the z index of each graphic so they display in the correct order
+          geodesicBufferGraphic.setZIndex(0);
+          planarBufferGraphic.setZIndex(1);
+          markerGraphic.setZIndex(2);
         }
       });
 
-      // add the map view to the stack pane
-      stackPane.getChildren().addAll(mapView, bufferSpinner);
-      StackPane.setAlignment(bufferSpinner, Pos.TOP_LEFT);
-      StackPane.setMargin(bufferSpinner, new Insets(10, 0, 0, 10));
+      // create a button to clear graphics and reset sample
+      Button resetButton = new Button("Reset");
+      // clear the graphics overlay when the reset button is clicked
+      resetButton.setOnMouseClicked(event -> graphicsOverlay.getGraphics().clear());
+
+      // create a vbox that contains the spinner and reset button
+      VBox controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+        Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(100, 75);
+      controlsVBox.getChildren().addAll(bufferSpinner, resetButton);
+      // add the map view and vbox to the stack pane
+      stackPane.getChildren().addAll(mapView, controlsVBox);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
