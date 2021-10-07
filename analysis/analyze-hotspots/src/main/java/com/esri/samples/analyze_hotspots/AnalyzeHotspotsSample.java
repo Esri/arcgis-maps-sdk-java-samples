@@ -57,6 +57,8 @@ import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
 public class AnalyzeHotspotsSample extends Application {
 
   private MapView mapView;
+  private DatePicker begDatePicker;
+  private DatePicker endDatePicker;
   private GeoprocessingJob geoprocessingJob;
   private GeoprocessingTask geoprocessingTask; // keep loadable in scope to avoid garbage collection
 
@@ -94,13 +96,16 @@ public class AnalyzeHotspotsSample extends Application {
       progress.setMaxWidth(30);
 
       // create date pickers to choose the date range, initialize with the min & max dates
-      SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       Timestamp minDate = Timestamp.valueOf("1998-01-01 00:00:00");
       Timestamp maxDate = Timestamp.valueOf("1998-05-31 00:00:00");
-      DatePicker begDatePicker = new DatePicker(minDate.toLocalDateTime().toLocalDate());
+      begDatePicker = new DatePicker(minDate.toLocalDateTime().toLocalDate());
       begDatePicker.setPromptText("Beg");
-      DatePicker endDatePicker = new DatePicker(maxDate.toLocalDateTime().toLocalDate());
+      endDatePicker = new DatePicker(maxDate.toLocalDateTime().toLocalDate());
       endDatePicker.setPromptText("End");
+      // if the start date chosen is later than the end date, set the end date to that of the start date
+      begDatePicker.setOnAction(e -> handleDatePickerInteraction());
+      endDatePicker.setOnAction(e -> handleDatePickerInteraction());
 
       // create a button to create and start the geoprocessing job, disable until geoprocessing task is loaded
       Button analyzeButton = new Button("Analyze Hotspots");
@@ -189,9 +194,11 @@ public class AnalyzeHotspotsSample extends Application {
                     }
                   });
                 } else {
-                  new Alert(AlertType.ERROR, "Time range must be within " + minDate.toString() + " and " + maxDate
-                      .toString()).show();
+                  // display alert and reset time range in date pickers
+                  new Alert(AlertType.ERROR, "Time range must be within " + minDate + " and " + maxDate).show();
                   progress.setVisible(false);
+                  begDatePicker.setValue(minDate.toLocalDateTime().toLocalDate());
+                  endDatePicker.setValue(maxDate.toLocalDateTime().toLocalDate());
                 }
               } catch (InterruptedException | ExecutionException ex) {
                 new Alert(AlertType.ERROR, "Error creating default geoprocessing parameters").show();
@@ -207,6 +214,16 @@ public class AnalyzeHotspotsSample extends Application {
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
+    }
+  }
+
+  /**
+   * Handles user interaction with the date picker to ensure the end date time is not earlier than the start date.
+   */
+  private void handleDatePickerInteraction() {
+
+    if (begDatePicker.getValue().toEpochDay() > endDatePicker.getValue().toEpochDay()) {
+      endDatePicker.setValue(begDatePicker.getValue());
     }
   }
 
