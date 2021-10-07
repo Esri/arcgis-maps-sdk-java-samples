@@ -1,0 +1,20 @@
+VBox {
+  -fx-background-color: rgba(0, 0, 0, 0.3);
+  -fx-spacing: 10;
+  -fx-padding: 10;
+  -fx-min-width: 175;
+  -fx-max-width: 175;
+  -fx-max-height: 200;
+  -fx-alignment: top-left
+
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+GridPane {
+    -fx-hgap: 30;
+    -fx-vgap: 10;
+    -fx-max-width: 240;
+}
