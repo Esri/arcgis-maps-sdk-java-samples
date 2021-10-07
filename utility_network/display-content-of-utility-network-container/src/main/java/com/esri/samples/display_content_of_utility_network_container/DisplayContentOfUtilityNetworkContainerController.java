@@ -265,7 +265,6 @@ public class DisplayContentOfUtilityNetworkContainerController {
   private void identifyAssociationsWithExtent(Geometry boundingBox) {
 
     // adds a graphic representing the bounding box of the associations identified and zooms to its extent
-//    Envelope graphicsOverlayExtent = graphicsOverlay.getExtent();
     graphicsOverlay.getGraphics().add(new Graphic(boundingBox, boundingBoxSymbol));
     mapView.setViewpointGeometryAsync(GeometryEngine.buffer(graphicsOverlay.getExtent(), 0.05));
 
