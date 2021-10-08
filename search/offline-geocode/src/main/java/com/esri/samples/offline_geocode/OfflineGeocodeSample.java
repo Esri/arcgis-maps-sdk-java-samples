@@ -17,7 +17,6 @@
 package com.esri.samples.offline_geocode;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 
 import javafx.application.Application;
@@ -254,24 +253,11 @@ public class OfflineGeocodeSample extends Application {
         try {
           // get the geocode from the result
           List<GeocodeResult> geocodes = results.get();
-          GeocodeResult geocode = geocodes.get(0);
+          GeocodeResult geocodeResult = geocodes.get(0);
 
-          // update the marker's position
-          graphicsOverlay.getGraphics().get(0).setGeometry(geocode.getDisplayLocation());
-
-          // format result's attributes for callout
-          String street = geocode.getAttributes().get("Street").toString();
-          String city = geocode.getAttributes().get("City").toString();
-          String state = geocode.getAttributes().get("State").toString();
-          String zip = geocode.getAttributes().get("ZIP").toString();
-
-          // update the callout
-          Platform.runLater(() -> {
-            Callout callout = mapView.getCallout();
-            callout.setTitle(street);
-            callout.setDetail(city + ", " + state + " " + zip);
-            callout.showCalloutAt(geocode.getDisplayLocation(), new Point2D(0, -24), Duration.ZERO);
-          });
+          // update the marker's position and display result of the geocode result in a callout
+          graphicsOverlay.getGraphics().get(0).setGeometry(geocodeResult.getDisplayLocation());
+          displayCallout(geocodeResult);
 
         } catch (Exception e) {
           // mouse is out of bounds
@@ -306,59 +292,42 @@ public class OfflineGeocodeSample extends Application {
         List<GeocodeResult> geocodes = results.get();
         if (geocodes.size() > 0) {
           // get the top result
-          GeocodeResult geocode = geocodes.get(0);
+          GeocodeResult geocodeResult = geocodes.get(0);
 
           // set the viewpoint to the marker
-          Point location = geocode.getDisplayLocation();
+          Point location = geocodeResult.getDisplayLocation();
           mapView.setViewpointCenterAsync(location, 10000);
 
-          // get attributes from the result for the callout
-          String title;
-          String detail;
-          Object matchAddr = geocode.getAttributes().get("Match_addr");
-          if (matchAddr != null) {
-            // attributes from a query-based search
-            title = matchAddr.toString().split(",")[0];
-            detail = matchAddr.toString().substring(matchAddr.toString().indexOf(",") + 1);
-          } else {
-            // attributes from a click-based search
-            String street = geocode.getAttributes().get("Street").toString();
-            String city = geocode.getAttributes().get("City").toString();
-            String state = geocode.getAttributes().get("State").toString();
-            String zip = geocode.getAttributes().get("ZIP").toString();
-            title = street;
-            detail = city + ", " + state + " " + zip;
-          }
+          // create the marker and display result of the geocode result in a callout
+          Graphic marker = new Graphic(location, pinSymbol);
+          displayCallout(geocodeResult);
 
-          // get attributes from the result for the callout
-          HashMap<String, Object> attributes = new HashMap<>();
-          attributes.put("title", title);
-          attributes.put("detail", detail);
-
-          // create the marker
-          Graphic marker = new Graphic(geocode.getDisplayLocation(), attributes, pinSymbol);
-
-          // update the callout
-          Platform.runLater(() -> {
-            // clear out previous results
-            graphicsOverlay.getGraphics().clear();
-
-            // add the markers to the graphics overlay
-            graphicsOverlay.getGraphics().add(marker);
-
-            // display the callout
-            Callout callout = mapView.getCallout();
-            callout.setTitle(marker.getAttributes().get("title").toString());
-            callout.setDetail(marker.getAttributes().get("detail").toString());
-            callout.showCalloutAt(location, new Point2D(0, -24), Duration.ZERO);
-          });
+          // remove marker from previous query
+          graphicsOverlay.getGraphics().clear();
+          // add the marker showing the location of the current geocode query to the graphics overlay
+          graphicsOverlay.getGraphics().add(marker);
         }
-
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+  }
 
+  /**
+   * Displays the address from the geocode result in a callout.
+   */
+  private void displayCallout(GeocodeResult geocodeResult) {
+
+    // get attributes from the result for the callout
+    Object matchAddr = geocodeResult.getAttributes().get("Match_addr");
+    String title = matchAddr.toString().split(",")[0];
+    String detail = matchAddr.toString().substring(matchAddr.toString().indexOf(",") + 1);
+
+    // update the callout
+    Callout callout = mapView.getCallout();
+    callout.setTitle(title);
+    callout.setDetail(detail);
+    callout.showCalloutAt(geocodeResult.getDisplayLocation(), new Point2D(0, -24), Duration.ZERO);
   }
 
   /**
