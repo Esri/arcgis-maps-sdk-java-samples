@@ -90,25 +90,24 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
       featureTable = new ServiceFeatureTable(SERVICE_FEATURE_URL);
       // create a feature layer from the service feature table
       featureLayer = new FeatureLayer(featureTable);
-
+      // set up the control panel for switching between request modes
       setUpUi();
 
-
-
+      // listen for when a radio button within the toggle group is selected
       toggleGroup.selectedToggleProperty().addListener(e -> {
 
-        // check if the feature layer has already been added to the map's operationa layers, and if not, add it
+        // check if the feature layer has already been added to the map's operational layers, and if not, add it
         if (map.getOperationalLayers().size() == 0){
           map.getOperationalLayers().add(featureLayer);
         }
 
-        // show error alert if the feature layer didn't load
+        // check the feature layer has loaded before setting the request mode of the feature table, selected from
+        // the radio button's user data
         featureLayer.addDoneLoadingListener(() -> {
-
           if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
-
+            // enable populate button if the manual cache radio button is selected
             populateButton.setDisable(!manualCacheButton.isSelected());
-
+            // if the manual radio button isn't selected, display a blank label, otherwise display instruction to user
             if (!manualCacheButton.isSelected()) {
               label.setText("");
             } else {
@@ -118,13 +117,10 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
             featureTable.setFeatureRequestMode((ServiceFeatureTable.FeatureRequestMode)
               toggleGroup.getSelectedToggle().getUserData());
 
-
           } else {
             new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!").show();
           }
         });
-
-
       });
 
       // fetch cache manually when the populate button is clicked
@@ -132,11 +128,11 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
 
       // create a map view and set the map to it
       mapView = new MapView();
-      mapView.addDrawStatusChangedListener(e -> progressIndicator.setVisible(e.getDrawStatus() == DrawStatus.IN_PROGRESS));
-
       mapView.setMap(map);
       // set the starting viewpoint for the map view
       mapView.setViewpoint(new Viewpoint(45.5266, -122.6219, 6000));
+      // show a progress indicator when the map view is drawing (e.g. when fetching caches)
+      mapView.addDrawStatusChangedListener(e -> progressIndicator.setVisible(e.getDrawStatus() == DrawStatus.IN_PROGRESS));
 
       // add label and button to the control panel
       controlsVBox.getChildren().addAll(cacheButton, noCacheButton, manualCacheButton, label, populateButton);
@@ -156,14 +152,13 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
    */
   private void fetchCacheManually() {
 
-    // create query to select all tree or damage features
+    // create query to select all tree features
     QueryParameters queryParams = new QueryParameters();
     // query for all tree conditions except "dead" with coded value '4' within the visible extent
     queryParams.setWhereClause("Condition < '4'");
     queryParams.setGeometry(mapView.getVisibleArea().getExtent());
 
-    // * means all features
-    List<String> outfields = Collections.singletonList("*");
+    List<String> outfields = Collections.singletonList("*");     // * means all features
     // get queried features from service feature table and clear previous cache
     ListenableFuture<FeatureQueryResult> tableResult = featureTable.populateFromServiceAsync(queryParams, true, outfields);
 
@@ -200,7 +195,6 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
 
     // create a label to display number of features returned
     label = new Label("Choose a feature request mode.");
-    label.getStyleClass().add("panel-label");
 
     // set the feature request mode as the user data on the equivalent radio button
     cacheButton = new RadioButton("Cache");
@@ -210,6 +204,7 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
     manualCacheButton = new RadioButton("Manual cache");
     manualCacheButton.setUserData(ServiceFeatureTable.FeatureRequestMode.MANUAL_CACHE);
 
+    // create a new toggle group and add the radio buttons to it
     toggleGroup = new ToggleGroup();
     toggleGroup.getToggles().addAll(cacheButton, noCacheButton, manualCacheButton);
 
@@ -218,6 +213,7 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
     populateButton.setMaxWidth(Double.MAX_VALUE);
     populateButton.setDisable(true);
 
+    // create a progress indicator
     progressIndicator = new ProgressIndicator();
     progressIndicator.setVisible(false);
   }
