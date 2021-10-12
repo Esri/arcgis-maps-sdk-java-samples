@@ -22,7 +22,7 @@
         "ServiceFeatureTable.FeatureRequestMode"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/service_feature_table_manual_cache/ServiceFeatureTableManualCacheSample.java"
+        "src/main/java/com/esri/samples/service_feature_table_manual_cache/ToggleBetweenFeatureRequestModesSample.java"
     ],
-    "title": "Service feature table (manual cache)"
+    "title": "Toggle between feature request modes"
 }
