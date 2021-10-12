@@ -1,28 +1,28 @@
 {
-    "category": "Feature layers",
-    "description": "Display a feature layer from a service using the **manual cache** feature request mode.",
-    "ignore": false,
-    "images": [
-        "ServiceFeatureTableManualCache.png"
-    ],
-    "keywords": [
-        "cache",
-        "feature request mode",
-        "performance",
-        "FeatureLayer",
-        "ServiceFeatureTable",
-        "ServiceFeatureTable.FeatureRequestMode"
-    ],
-    "redirect_from": [
-        "/java/latest/sample-code/service-feature-table-manual-cache-.htm"
-    ],
-    "relevant_apis": [
-        "FeatureLayer",
-        "ServiceFeatureTable",
-        "ServiceFeatureTable.FeatureRequestMode"
-    ],
-    "snippets": [
-        "src/main/java/com/esri/samples/service_feature_table_manual_cache/ToggleBetweenFeatureRequestModesSample.java"
-    ],
-    "title": "Toggle between feature request modes"
+  "category": "Feature layers",
+  "description": "Use different feature request modes to populate the map from a service feature table.",
+  "ignore": false,
+  "images": [
+    "ToggleBetweenFeatureRequestModes.png"
+  ],
+  "keywords": [
+    "cache",
+    "data",
+    "feature",
+    "feature request mode",
+    "performance",
+    "FeatureLayer",
+    "ServiceFeatureTable",
+    "ServiceFeatureTable.FeatureRequestMode"
+  ],
+  "redirect_from": "",
+  "relevant_apis": [
+    "FeatureLayer",
+    "ServiceFeatureTable",
+    "ServiceFeatureTable.FeatureRequestMode"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/toggle_between_feature_request_modes/ToggleBetweenFeatureRequestModesSample.java"
+  ],
+  "title": "Toggle between feature request modes"
 }

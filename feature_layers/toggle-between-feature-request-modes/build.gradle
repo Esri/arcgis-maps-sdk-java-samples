@@ -65,7 +65,7 @@ run {
         systemProperty 'apiKey', apiKey
     }
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.service_feature_table_manual_cache.ToggleBetweenFeatureRequestModesLauncher'
+    mainClassName = 'com.esri.samples.toggle_between_feature_request_modes.ToggleBetweenFeatureRequestModesLauncher'
 }
 
 jar {

@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -44,6 +43,7 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class ToggleBetweenFeatureRequestModesSample extends Application {
@@ -93,12 +93,7 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
 
       setUpUi();
 
-      // show error alert if the feature layer didn't load
-      featureLayer.addDoneLoadingListener(() -> {
-        if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
-          new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!").show();
-        }
-      });
+
 
       toggleGroup.selectedToggleProperty().addListener(e -> {
 
@@ -107,16 +102,28 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
           map.getOperationalLayers().add(featureLayer);
         }
 
-        populateButton.setDisable(!manualCacheButton.isSelected());
+        // show error alert if the feature layer didn't load
+        featureLayer.addDoneLoadingListener(() -> {
 
-        if (!manualCacheButton.isSelected()) {
-          label.setText("");
-        } else {
-          label.setText("Click populate to view results");
-        }
-        // set request mode of service feature table to selected toggle option
-        featureTable.setFeatureRequestMode((ServiceFeatureTable.FeatureRequestMode)
-          toggleGroup.getSelectedToggle().getUserData());
+          if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+
+            populateButton.setDisable(!manualCacheButton.isSelected());
+
+            if (!manualCacheButton.isSelected()) {
+              label.setText("");
+            } else {
+              label.setText("Click populate to view results");
+            }
+            // set request mode of service feature table to selected toggle option
+            featureTable.setFeatureRequestMode((ServiceFeatureTable.FeatureRequestMode)
+              toggleGroup.getSelectedToggle().getUserData());
+
+
+          } else {
+            new Alert(Alert.AlertType.ERROR, "Feature Layer Failed to Load!").show();
+          }
+        });
+
 
       });
 
@@ -185,7 +192,7 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
 
     // create a control panel
     controlsVBox = new VBox(6);
-    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
       Insets.EMPTY)));
     controlsVBox.setPadding(new Insets(10.0));
     controlsVBox.setMaxSize(200, 80);
