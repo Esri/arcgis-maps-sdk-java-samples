@@ -189,11 +189,12 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
 
     // create a box to show the legend
     vBox = new VBox();
-    vBox.setMaxSize(220, 300);
+    vBox.setMaxSize(230, 300);
     vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255 ,0.5)"), CornerRadii.EMPTY,
       Insets.EMPTY)));
     vBox.setPadding(new Insets(10.0));
     vBox.setAlignment(Pos.TOP_CENTER);
+    vBox.setSpacing(10);
 
     // create a grid pane
     legendGridPane = new GridPane();
