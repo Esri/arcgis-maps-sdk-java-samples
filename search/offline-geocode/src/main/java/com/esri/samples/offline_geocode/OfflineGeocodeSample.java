@@ -315,6 +315,8 @@ public class OfflineGeocodeSample extends Application {
 
   /**
    * Displays the address from the geocode result in a callout.
+   *
+   * @param geocodeResult the geocode result to get attributes from
    */
   private void displayCallout(GeocodeResult geocodeResult) {
 
