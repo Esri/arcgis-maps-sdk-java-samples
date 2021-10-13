@@ -131,8 +131,12 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
       mapView.setMap(map);
       // set the starting viewpoint for the map view
       mapView.setViewpoint(new Viewpoint(45.5266, -122.6219, 6000));
-      // show a progress indicator when the map view is drawing (e.g. when fetching caches)
-      mapView.addDrawStatusChangedListener(e -> progressIndicator.setVisible(e.getDrawStatus() == DrawStatus.IN_PROGRESS));
+      // disable the vbox and show a progress indicator when the map view is drawing (e.g. when fetching caches)
+      mapView.addDrawStatusChangedListener(e -> {
+        boolean drawStatusInProgress = e.getDrawStatus() == DrawStatus.IN_PROGRESS;
+        progressIndicator.setVisible(drawStatusInProgress);
+        controlsVBox.setDisable(drawStatusInProgress);
+      });
 
       // add label and button to the control panel
       controlsVBox.getChildren().addAll(cacheButton, noCacheButton, manualCacheButton, label, populateButton);
@@ -168,7 +172,7 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
         AtomicInteger featuresReturned = new AtomicInteger();
         tableResult.get().forEach(feature -> featuresReturned.getAndIncrement());
 
-        // display to user how many features where returned
+        // display number of returned features to the user
         // note the service has a maximum record count of 2000
         label.setText("Populated " + featuresReturned + " features.");
       } catch (Exception e) {
@@ -179,7 +183,7 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
   }
 
   /**
-   * Sets up control panel with radio buttons to toggle between feature request modes, a label displaying the features
+   * Sets up a control panel with radio buttons to toggle between feature request modes, a label displaying the features
    * returned from a manual cache result, and a button to manually request cache if manual cache feature request mode
    * is selected.
    */
@@ -193,7 +197,7 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
     controlsVBox.setMaxSize(200, 80);
     controlsVBox.getStyleClass().add("panel-region");
 
-    // create a label to display number of features returned
+    // create a label to display information on the UI
     label = new Label("Choose a feature request mode.");
 
     // set the feature request mode as the user data on the equivalent radio button

@@ -21,10 +21,10 @@ Note: The service limits requests to 2000 features.
 
 ## How it works
 
-1. Create an `ServiceFeatureTable` with a feature service URL.
+1. Create a `ServiceFeatureTable` with a feature service URL.
 2. Set the `FeatureRequestMode` property of the service feature table to the desired mode (`ON_INTERACTION_CACHE`, `ON_INTERACTION_NO_CACHE`, or `MANUAL_CACHE`).
     * If using `MANUAL_CACHE`, populate the features with `ServiceFeatureTable.populateFromServiceAsync()`.
-3. Create a `FeatureLayer` with the feature table and add it to an `ArcGISMap's` operational layers to display it.
+3. Create a `FeatureLayer` with the feature table and add it to an `ArcGISMap`'s operational layers to display it.
 
 ## Relevant API
 
