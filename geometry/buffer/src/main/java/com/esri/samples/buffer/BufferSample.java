@@ -122,12 +122,12 @@ public class BufferSample extends Application {
         }
       });
 
-      // create a button to clear graphics and reset sample
+      // create a button to clear graphics
       Button clearButton = new Button("Clear");
-      // clear the graphics overlay when the reset button is clicked
+      // clear the graphics overlay when the clear button is clicked
       clearButton.setOnMouseClicked(event -> graphicsOverlay.getGraphics().clear());
 
-      // create a vbox that contains the spinner and reset button
+      // create a vbox that contains the spinner and clear button
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
