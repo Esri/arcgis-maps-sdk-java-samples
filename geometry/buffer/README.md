@@ -10,7 +10,7 @@ Creating buffers is a core concept in GIS proximity analysis that allows you to 
 
 ## How to use the sample
 
-Click on the map. A planar and a geodesic buffer will be created at the click location using the distance (miles) specified in the text box. Continue clicking to create additional buffers. Notice that buffers closer to the equator appear similar in size. As you move north or south from the equator, however, the geodesic polygons become much larger. Geodesic polygons are in fact a better representation of the true shape and size of the buffer.
+Click on the map. A planar and a geodesic buffer will be created at the click location using the distance (miles) specified in the text box. Continue clicking to create additional buffers. Notice that buffers closer to the equator appear similar in size. As you move north or south from the equator, however, the geodesic polygons become much larger. Geodesic polygons are in fact a better representation of the true shape and size of the buffer. Click "Clear" to clear the buffers from the map.
 
 ## How it works
 

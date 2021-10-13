@@ -123,9 +123,9 @@ public class BufferSample extends Application {
       });
 
       // create a button to clear graphics and reset sample
-      Button resetButton = new Button("Reset");
+      Button clearButton = new Button("Clear");
       // clear the graphics overlay when the reset button is clicked
-      resetButton.setOnMouseClicked(event -> graphicsOverlay.getGraphics().clear());
+      clearButton.setOnMouseClicked(event -> graphicsOverlay.getGraphics().clear());
 
       // create a vbox that contains the spinner and reset button
       VBox controlsVBox = new VBox(6);
@@ -133,7 +133,7 @@ public class BufferSample extends Application {
         Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(100, 75);
-      controlsVBox.getChildren().addAll(bufferSpinner, resetButton);
+      controlsVBox.getChildren().addAll(bufferSpinner, clearButton);
       // add the map view and vbox to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
