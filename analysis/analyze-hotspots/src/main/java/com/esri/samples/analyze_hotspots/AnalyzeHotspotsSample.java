@@ -19,7 +19,6 @@ package com.esri.samples.analyze_hotspots;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
