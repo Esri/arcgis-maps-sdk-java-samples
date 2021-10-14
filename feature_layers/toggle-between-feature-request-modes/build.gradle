@@ -11,7 +11,7 @@ ext {
 
 javafx {
     version = "11.0.2"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.controls' ]
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -65,7 +65,7 @@ run {
         systemProperty 'apiKey', apiKey
     }
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.query_with_cql_filters.QueryWithCqlFiltersLauncher'
+    mainClassName = 'com.esri.samples.toggle_between_feature_request_modes.ToggleBetweenFeatureRequestModesLauncher'
 }
 
 jar {
@@ -74,8 +74,13 @@ jar {
         attributes("Main-Class": "$mainClassName")
     }
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+
+    // exclude signing files that come from dependencies
+    exclude "META-INF/*.SF"
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
 }
 
 task productionZip(type: Zip) {

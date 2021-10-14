@@ -39,7 +39,7 @@
                 <ToggleGroup fx:id="toggleGroup"/>
             </fx:define>
             <ToggleButton fx:id="btnAddFacility" text="Add Facilities" toggleGroup="$toggleGroup"/>
-            <ToggleButton fx:id="btnAddBarrier" text="Add Barrier" toggleGroup="$toggleGroup"
+            <ToggleButton fx:id="btnAddBarrier" text="Add Barriers" toggleGroup="$toggleGroup"
                           onAction="#createBarrier"/>
         </HBox>
         <Button text="Show Service Areas" onAction="#showServiceAreas"/>

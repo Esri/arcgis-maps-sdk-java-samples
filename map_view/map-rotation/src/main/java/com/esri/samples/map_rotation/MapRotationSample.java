@@ -22,7 +22,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -41,6 +45,7 @@ public class MapRotationSample extends Application {
 
   private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
+  private Slider slider;
 
   @Override
   public void start(Stage stage) {
@@ -49,6 +54,7 @@ public class MapRotationSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
+      scene.getStylesheets().add(getClass().getResource("/map_rotation/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Map Rotation Sample");
@@ -61,13 +67,9 @@ public class MapRotationSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a slider with a range of 360 units and start it half way
-      Slider slider = new Slider(-180.0, 180.0, 0.0);
-      slider.setMaxWidth(240.0);
-      slider.setShowTickLabels(true);
-      slider.setShowTickMarks(true);
-      slider.setMajorTickUnit(90);
-      slider.setDisable(true);
+      // create a slider with a range of 360 units and set it to 5 degrees
+      slider = new Slider(-180.0, 180.0, 5.0);
+      styleSlider();
 
       // listen for the value in the slider to change
       slider.valueProperty().addListener(e -> {
@@ -90,12 +92,14 @@ public class MapRotationSample extends Application {
 
       // create a map view and set the map to it
       mapView = new MapView();
+      // disable keyboard navigation to focus on slider/compass map rotation interaction
+      mapView.setEnableKeyboardNavigation(false);
       mapView.setMap(map);
 
       // create a compass to show the current heading when rotated
       Compass compass = new Compass(mapView);
 
-      // clicking the compass sets the map's heading to 0.0
+      // clicking the compass sets the map's heading to 0.0 (north) and the compass is hidden
       // add a listener to reset the slider when this happens
       compass.setOnMouseClicked(e -> slider.setValue(0.0));
 
@@ -104,6 +108,7 @@ public class MapRotationSample extends Application {
       Point pointBottomLeft = new Point(-13639984.0, 4537387.0, spatialReference);
       Point pointTopRight = new Point(-13606734.0, 4558866, spatialReference);
       Envelope envelope = new Envelope(pointBottomLeft, pointTopRight);
+      // set the viewpoint with a rotation of 5 degrees (so that the sample loads with the compass visible)
       Viewpoint viewpoint = new Viewpoint(envelope, 5.0f);
 
       // set viewpoint to the map view
@@ -113,12 +118,28 @@ public class MapRotationSample extends Application {
       stackPane.getChildren().addAll(mapView, slider, compass);
       StackPane.setAlignment(slider, Pos.TOP_LEFT);
       StackPane.setAlignment(compass, Pos.TOP_RIGHT);
-      StackPane.setMargin(slider, new Insets(10, 0, 0, 10));
+      StackPane.setMargin(slider, new Insets(50, 0, 0, 10));
       StackPane.setMargin(compass, new Insets(10, 10, 0, 0));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Styles the slider component for enhanced visibility on the map view.
+   */
+  private void styleSlider() {
+
+    slider.setMaxWidth(240.0);
+    slider.setMajorTickUnit(90);
+    slider.setShowTickLabels(true);
+    slider.setShowTickMarks(true);
+    slider.setDisable(true);
+    slider.setStyle("-fx-font-weight: bold; -fx-font-size: 15;");
+    slider.setPadding(new Insets(10, 10, 0, 10));
+    slider.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
+
   }
 
   /**
