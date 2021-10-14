@@ -100,12 +100,8 @@ public class AnalyzeHotspotsSample extends Application {
       Timestamp minDate = Timestamp.valueOf("1998-01-01 00:00:00");
       Timestamp maxDate = Timestamp.valueOf("1998-05-31 00:00:00");
       begDatePicker = new DatePicker(minDate.toLocalDateTime().toLocalDate());
-      begDatePicker.setPromptText("Beg");
       endDatePicker = new DatePicker(maxDate.toLocalDateTime().toLocalDate());
-      endDatePicker.setPromptText("End");
-      // if the start date chosen is later than the end date, set the end date to that of the start date
-      begDatePicker.setOnAction(e -> handleDatePickerInteraction());
-      endDatePicker.setOnAction(e -> handleDatePickerInteraction());
+      setUpDatePickerUI();
 
       // create a button to create and start the geoprocessing job, disable until geoprocessing task is loaded
       Button analyzeButton = new Button("Analyze Hotspots");
@@ -218,13 +214,30 @@ public class AnalyzeHotspotsSample extends Application {
   }
 
   /**
-   * Handles user interaction with the date picker to ensure the end date time is not earlier than the start date.
+   * Handles user interaction with the date picker to ensure the end date time is not earlier than the start date, and that
+   * the start date is not later than the end date.
    */
   private void handleDatePickerInteraction() {
 
     if (begDatePicker.getValue().toEpochDay() > endDatePicker.getValue().toEpochDay()) {
       endDatePicker.setValue(begDatePicker.getValue());
     }
+  }
+
+  /**
+   * Sets up each date picker's prompt text, disables keyboard interaction, and ensures a start date cannot be chosen later
+   * than the end date, and an end date cannot be chosen earlier than the start date.
+   */
+  private void setUpDatePickerUI() {
+
+    begDatePicker.setPromptText("Beg");
+    endDatePicker.setPromptText("End");
+    begDatePicker.setOnAction(e -> handleDatePickerInteraction());
+    endDatePicker.setOnAction(e -> handleDatePickerInteraction());
+    begDatePicker.getEditor().setDisable(true);
+    begDatePicker.getEditor().setOpacity(1);
+    endDatePicker.getEditor().setDisable(true);
+    endDatePicker.getEditor().setOpacity(1);
   }
 
   /**
