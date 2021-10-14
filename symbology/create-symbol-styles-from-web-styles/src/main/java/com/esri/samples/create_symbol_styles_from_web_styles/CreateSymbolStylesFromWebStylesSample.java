@@ -205,8 +205,7 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
 
     // create a label to display the symbol style name as the title of the legend and add to the grid pane
     Label legendHeader = new Label("Style: " + symbolStyle.getStyleName());
-    legendHeader.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
-
+    legendHeader.setStyle("-fx-font: bold 12pt 'Segoe UI'");
     // create a scroll pane to contain the legend
     ScrollPane scrollPane = new ScrollPane();
     scrollPane.setContent(legendGridPane);

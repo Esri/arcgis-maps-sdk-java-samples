@@ -18,6 +18,8 @@ package com.esri.samples.analyze_hotspots;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
@@ -99,8 +101,10 @@ public class AnalyzeHotspotsSample extends Application {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       Timestamp minDate = Timestamp.valueOf("1998-01-01 00:00:00");
       Timestamp maxDate = Timestamp.valueOf("1998-05-31 00:00:00");
-      begDatePicker = new DatePicker(minDate.toLocalDateTime().toLocalDate());
-      endDatePicker = new DatePicker(maxDate.toLocalDateTime().toLocalDate());
+      LocalDate minLocalDate = minDate.toLocalDateTime().toLocalDate();
+      LocalDate maxLocalDate = maxDate.toLocalDateTime().toLocalDate();
+      begDatePicker = new DatePicker(minLocalDate);
+      endDatePicker = new DatePicker(maxLocalDate);
       setUpDatePickerUI();
 
       // create a button to create and start the geoprocessing job, disable until geoprocessing task is loaded
@@ -191,10 +195,11 @@ public class AnalyzeHotspotsSample extends Application {
                   });
                 } else {
                   // display alert and reset time range in date pickers
-                  new Alert(AlertType.ERROR, "Time range must be within " + minDate + " and " + maxDate).show();
+                  new Alert(AlertType.ERROR, "Time range must be within " + minLocalDate
+                    + " and " + maxLocalDate).show();
                   progress.setVisible(false);
-                  begDatePicker.setValue(minDate.toLocalDateTime().toLocalDate());
-                  endDatePicker.setValue(maxDate.toLocalDateTime().toLocalDate());
+                  begDatePicker.setValue(minLocalDate);
+                  endDatePicker.setValue(maxLocalDate);
                 }
               } catch (InterruptedException | ExecutionException ex) {
                 new Alert(AlertType.ERROR, "Error creating default geoprocessing parameters").show();
