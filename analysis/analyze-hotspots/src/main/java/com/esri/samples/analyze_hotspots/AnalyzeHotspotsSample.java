@@ -18,6 +18,7 @@ package com.esri.samples.analyze_hotspots;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
@@ -57,6 +58,8 @@ import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
 public class AnalyzeHotspotsSample extends Application {
 
   private MapView mapView;
+  private DatePicker begDatePicker;
+  private DatePicker endDatePicker;
   private GeoprocessingJob geoprocessingJob;
   private GeoprocessingTask geoprocessingTask; // keep loadable in scope to avoid garbage collection
 
@@ -94,13 +97,14 @@ public class AnalyzeHotspotsSample extends Application {
       progress.setMaxWidth(30);
 
       // create date pickers to choose the date range, initialize with the min & max dates
-      SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       Timestamp minDate = Timestamp.valueOf("1998-01-01 00:00:00");
       Timestamp maxDate = Timestamp.valueOf("1998-05-31 00:00:00");
-      DatePicker begDatePicker = new DatePicker(minDate.toLocalDateTime().toLocalDate());
-      begDatePicker.setPromptText("Beg");
-      DatePicker endDatePicker = new DatePicker(maxDate.toLocalDateTime().toLocalDate());
-      endDatePicker.setPromptText("End");
+      LocalDate minLocalDate = minDate.toLocalDateTime().toLocalDate();
+      LocalDate maxLocalDate = maxDate.toLocalDateTime().toLocalDate();
+      begDatePicker = new DatePicker(minLocalDate);
+      endDatePicker = new DatePicker(maxLocalDate);
+      setUpDatePickerUI();
 
       // create a button to create and start the geoprocessing job, disable until geoprocessing task is loaded
       Button analyzeButton = new Button("Analyze Hotspots");
@@ -189,9 +193,12 @@ public class AnalyzeHotspotsSample extends Application {
                     }
                   });
                 } else {
-                  new Alert(AlertType.ERROR, "Time range must be within " + minDate.toString() + " and " + maxDate
-                      .toString()).show();
+                  // display alert and reset time range in date pickers
+                  new Alert(AlertType.ERROR, "Time range must be within " + minLocalDate
+                    + " and " + maxLocalDate).show();
                   progress.setVisible(false);
+                  begDatePicker.setValue(minLocalDate);
+                  endDatePicker.setValue(maxLocalDate);
                 }
               } catch (InterruptedException | ExecutionException ex) {
                 new Alert(AlertType.ERROR, "Error creating default geoprocessing parameters").show();
@@ -208,6 +215,33 @@ public class AnalyzeHotspotsSample extends Application {
       // on any error, display the stack trace.
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Handles user interaction with the date picker to ensure the end date time is not earlier than the start date, and that
+   * the start date is not later than the end date.
+   */
+  private void handleDatePickerInteraction() {
+
+    if (begDatePicker.getValue().toEpochDay() > endDatePicker.getValue().toEpochDay()) {
+      endDatePicker.setValue(begDatePicker.getValue());
+    }
+  }
+
+  /**
+   * Sets up each date picker's prompt text, disables keyboard interaction, and ensures a start date cannot be chosen later
+   * than the end date, and an end date cannot be chosen earlier than the start date.
+   */
+  private void setUpDatePickerUI() {
+
+    begDatePicker.setPromptText("Beg");
+    endDatePicker.setPromptText("End");
+    begDatePicker.setOnAction(e -> handleDatePickerInteraction());
+    endDatePicker.setOnAction(e -> handleDatePickerInteraction());
+    begDatePicker.getEditor().setDisable(true);
+    begDatePicker.getEditor().setOpacity(1);
+    endDatePicker.getEditor().setDisable(true);
+    endDatePicker.getEditor().setOpacity(1);
   }
 
   /**

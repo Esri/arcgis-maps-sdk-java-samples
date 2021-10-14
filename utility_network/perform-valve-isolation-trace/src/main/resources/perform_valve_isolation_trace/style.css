@@ -28,6 +28,6 @@ CheckBox {
    -fx-text-fill: white;
 }
 
-Label {
+.label {
   -fx-text-fill: white;
 }

@@ -73,10 +73,10 @@
             </padding>
             <Label text="Start" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
             <DatePicker fx:id="startDatePicker" onAction="#handleDatePickerInteraction" onMouseClicked="#handleDatePickerInteraction"
-                        GridPane.rowIndex="0" GridPane.columnIndex="1" disable="true" styleClass="date-picker"/>
+                        editable="false" GridPane.rowIndex="0" GridPane.columnIndex="1" disable="true" styleClass="date-picker"/>
             <Label text="End" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
             <DatePicker fx:id="endDatePicker" onAction="#handleDatePickerInteraction" onMouseClicked="#handleDatePickerInteraction"
-                        GridPane.rowIndex="1" GridPane.columnIndex="1" disable="true" styleClass="date-picker"/>
+                        editable="false" GridPane.rowIndex="1" GridPane.columnIndex="1" disable="true" styleClass="date-picker"/>
         </GridPane>
         <Button fx:id="applyQueryButton" text="Apply query" onMouseClicked="#query" alignment="CENTER" disable="true" maxWidth="250"/>
         <Button fx:id="revertToInitialQueryButton" text="Revert to initial query" onMouseClicked="#setInitialQueryOnOgcFeatureTable" alignment="CENTER" disable="true" maxWidth="250"/>

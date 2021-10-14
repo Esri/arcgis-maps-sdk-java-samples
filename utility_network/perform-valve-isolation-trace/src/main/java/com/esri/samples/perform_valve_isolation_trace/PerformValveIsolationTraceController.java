@@ -316,112 +316,115 @@ public class PerformValveIsolationTraceController {
   @FXML
   private void handleMapViewClicked(MouseEvent e) {
 
-    categorySelectionComboBox.setDisable(true);
-    promptLabel.setText("Add another filter barrier by clicking the map or click Trace");
+    if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
 
-    // ensure the utility network is loaded before processing clicks on the map view
-    if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED && e.getButton() == MouseButton.PRIMARY &&
-      e.isStillSincePress()) {
+      categorySelectionComboBox.setDisable(true);
+      promptLabel.setText("Add another filter barrier by clicking the map or click Trace");
 
-      // show the progress indicator
-      progressIndicator.setVisible(true);
+      // ensure the utility network is loaded before processing clicks on the map view
+      if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED && e.getButton() == MouseButton.PRIMARY &&
+        e.isStillSincePress()) {
 
-      // get the clicked map point
-      Point2D screenPoint = new Point2D(e.getX(), e.getY());
-      Point mapPoint = mapView.screenToLocation(screenPoint);
+        // show the progress indicator
+        progressIndicator.setVisible(true);
 
-      // identify the feature to be used
-      ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture =
-        mapView.identifyLayersAsync(screenPoint, 10, false);
+        // get the clicked map point
+        Point2D screenPoint = new Point2D(e.getX(), e.getY());
+        Point mapPoint = mapView.screenToLocation(screenPoint);
 
-      identifyLayerResultsFuture.addDoneListener(() -> {
-        try {
-          // get the result of the query
-          List<IdentifyLayerResult> identifyLayerResults = identifyLayerResultsFuture.get();
+        // identify the feature to be used
+        ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture =
+          mapView.identifyLayersAsync(screenPoint, 10, false);
 
-          // return if no features are identified
-          if (!identifyLayerResults.isEmpty()) {
+        identifyLayerResultsFuture.addDoneListener(() -> {
+          try {
+            // get the result of the query
+            List<IdentifyLayerResult> identifyLayerResults = identifyLayerResultsFuture.get();
 
-            // get and store a list of features from the result of the query (there may be more than one)
-            List<ArcGISFeature> listOfFeatures = new ArrayList<>();
-            identifyLayerResults.forEach(result -> listOfFeatures.add((ArcGISFeature) result.getElements().get(0)));
+            // return if no features are identified
+            if (!identifyLayerResults.isEmpty()) {
 
-            // create an utility element for each feature and store it in a list
-            List<UtilityElement> utilityElementList = new ArrayList<>();
-            listOfFeatures.forEach(feature -> utilityElementList.add(utilityNetwork.createElement(feature)));
+              // get and store a list of features from the result of the query (there may be more than one)
+              List<ArcGISFeature> listOfFeatures = new ArrayList<>();
+              identifyLayerResults.forEach(result -> listOfFeatures.add((ArcGISFeature) result.getElements().get(0)));
 
-            // check the utility network source type of every utility element
-            utilityElementList.forEach(utilityElement -> {
+              // create an utility element for each feature and store it in a list
+              List<UtilityElement> utilityElementList = new ArrayList<>();
+              listOfFeatures.forEach(feature -> utilityElementList.add(utilityNetwork.createElement(feature)));
 
-              // check if the network source is a junction or an edge
-              if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
+              // check the utility network source type of every utility element
+              utilityElementList.forEach(utilityElement -> {
 
-                // check if the feature has a terminal configuration and multiple terminals
-                if (utilityElement.getAssetType().getTerminalConfiguration() != null) {
-                  UtilityTerminalConfiguration utilityTerminalConfiguration = utilityElement.getAssetType().getTerminalConfiguration();
-                  List<UtilityTerminal> terminals = utilityTerminalConfiguration.getTerminals();
+                // check if the network source is a junction or an edge
+                if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
 
-                  if (terminals.size() > 1) {
-                    // prompt the user to select a terminal for this feature
-                    Optional<UtilityTerminal> userSelectedTerminal = promptForTerminalSelection(terminals);
+                  // check if the feature has a terminal configuration and multiple terminals
+                  if (utilityElement.getAssetType().getTerminalConfiguration() != null) {
+                    UtilityTerminalConfiguration utilityTerminalConfiguration = utilityElement.getAssetType().getTerminalConfiguration();
+                    List<UtilityTerminal> terminals = utilityTerminalConfiguration.getTerminals();
 
-                    // apply the selected terminal
-                    if (userSelectedTerminal.isPresent()) {
-                      UtilityTerminal terminal = userSelectedTerminal.get();
-                      utilityElement.setTerminal(terminal);
-                      // show the terminals name in the status label
-                      String terminalName = terminal.getName() != null ? terminal.getName() : "default";
-                      statusLabel.setText("Feature added at terminal: " + terminalName);
+                    if (terminals.size() > 1) {
+                      // prompt the user to select a terminal for this feature
+                      Optional<UtilityTerminal> userSelectedTerminal = promptForTerminalSelection(terminals);
 
-                      // don't create the element if no terminal was selected
-                    } else {
-                      statusLabel.setText("No terminal selected - no feature added");
+                      // apply the selected terminal
+                      if (userSelectedTerminal.isPresent()) {
+                        UtilityTerminal terminal = userSelectedTerminal.get();
+                        utilityElement.setTerminal(terminal);
+                        // show the terminals name in the status label
+                        String terminalName = terminal.getName() != null ? terminal.getName() : "default";
+                        statusLabel.setText("Feature added at terminal: " + terminalName);
+
+                        // don't create the element if no terminal was selected
+                      } else {
+                        statusLabel.setText("No terminal selected - no feature added");
+                      }
                     }
                   }
+
+                } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE) {
+
+                  // get the geometry of the identified feature as a polyline, and remove the z component
+                  Polyline polyline = (Polyline) GeometryEngine.removeZ(listOfFeatures.get(0).getGeometry());
+
+                  // compute how far the clicked location is along the edge feature
+                  double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
+                  if (Double.isNaN(fractionAlongEdge)) {
+                    new Alert(Alert.AlertType.ERROR, "Cannot add starting location / barrier here.");
+                    return;
+                  }
+
+                  // set the fraction along edge
+                  utilityElement.setFractionAlongEdge(fractionAlongEdge);
+
+                  // update the status label text
+                  statusLabel.setText("Fraction along edge: " + Math.round(utilityElement.getFractionAlongEdge() * 1000d) / 1000d);
                 }
+              });
 
-              } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE) {
+              // add the element to the list of filter barriers
+              utilityTraceParameters.getFilterBarriers().add(utilityElementList.get(0));
 
-                // get the geometry of the identified feature as a polyline, and remove the z component
-                Polyline polyline = (Polyline) GeometryEngine.removeZ(listOfFeatures.get(0).getGeometry());
+              // create a graphic for the new utility element
+              Graphic traceLocationGraphic = new Graphic();
 
-                // compute how far the clicked location is along the edge feature
-                double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
-                if (Double.isNaN(fractionAlongEdge)) {
-                  new Alert(Alert.AlertType.ERROR, "Cannot add starting location / barrier here.");
-                  return;
-                }
+              // find the closest coordinate on the selected element to the clicked point
+              ProximityResult proximityResult =
+                GeometryEngine.nearestCoordinate(listOfFeatures.get(0).getGeometry(), mapPoint);
 
-                // set the fraction along edge
-                utilityElement.setFractionAlongEdge(fractionAlongEdge);
+              // set the graphic's geometry to the coordinate on the element and add it to the graphics overlay
+              traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
+              filterBarriersGraphicsOverlay.getGraphics().add(traceLocationGraphic);
+            }
 
-                // update the status label text
-                statusLabel.setText("Fraction along edge: " + Math.round(utilityElement.getFractionAlongEdge() * 1000d) / 1000d);
-              }
-            });
-
-            // add the element to the list of filter barriers
-            utilityTraceParameters.getFilterBarriers().add(utilityElementList.get(0));
-
-            // create a graphic for the new utility element
-            Graphic traceLocationGraphic = new Graphic();
-
-            // find the closest coordinate on the selected element to the clicked point
-            ProximityResult proximityResult =
-              GeometryEngine.nearestCoordinate(listOfFeatures.get(0).getGeometry(), mapPoint);
-
-            // set the graphic's geometry to the coordinate on the element and add it to the graphics overlay
-            traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
-            filterBarriersGraphicsOverlay.getGraphics().add(traceLocationGraphic);
+          } catch (InterruptedException | ExecutionException ex) {
+            statusLabel.setText("Error identifying clicked features.");
+            new Alert(Alert.AlertType.ERROR, "Error identifying clicked features.").show();
+          } finally {
+            progressIndicator.setVisible(false);
           }
-
-        } catch (InterruptedException | ExecutionException ex) {
-          statusLabel.setText("Error identifying clicked features.");
-          new Alert(Alert.AlertType.ERROR, "Error identifying clicked features.").show();
-        } finally {
-          progressIndicator.setVisible(false);
-        }
-      });
+        });
+      }
     }
   }
 
