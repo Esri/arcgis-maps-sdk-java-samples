@@ -18,7 +18,7 @@ Feature tables can be initialized with a feature request mode which controls how
 
 ## How to use the sample
 
-Choose a request mode by clicking on a radio button. Pan and zoom to see how the features update at different scales. If you choose "Manual Cache", click the "Populate" button to manually get a cache with a subset of features.
+Choose a request mode by clicking on a radio button. Pan and zoom to see how the features update at different scales. If you choose "Manual cache", click the "Populate" button to manually get a cache with a subset of features.
 
 Note: The service limits requests to 2000 features.
 
