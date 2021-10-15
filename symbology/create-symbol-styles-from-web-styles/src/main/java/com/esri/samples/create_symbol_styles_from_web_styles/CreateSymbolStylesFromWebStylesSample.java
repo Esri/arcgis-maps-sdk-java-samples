@@ -190,7 +190,7 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
     // create a box to show the legend
     vBox = new VBox();
     vBox.setMaxSize(250, 300);
-    vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255 ,0.5)"), CornerRadii.EMPTY,
+    vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255 , 0.7)"), CornerRadii.EMPTY,
       Insets.EMPTY)));
     vBox.setPadding(new Insets(10.0));
     vBox.setAlignment(Pos.TOP_CENTER);
@@ -205,7 +205,7 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
 
     // create a label to display the symbol style name as the title of the legend and add to the grid pane
     Label legendHeader = new Label("Style: " + symbolStyle.getStyleName());
-    legendHeader.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
+    legendHeader.setStyle("-fx-font-size: 12; -fx-font-weight: bold;");
 
     // create a scroll pane to contain the legend
     ScrollPane scrollPane = new ScrollPane();
