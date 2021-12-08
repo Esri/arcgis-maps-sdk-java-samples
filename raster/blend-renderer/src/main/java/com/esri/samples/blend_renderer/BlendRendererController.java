@@ -24,6 +24,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 
 import com.esri.arcgisruntime.layers.RasterLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -49,15 +50,20 @@ public class BlendRendererController {
     imageryRasterPath = new File(System.getProperty("data.dir"), "./samples-data/raster/Shasta.tif").getAbsolutePath();
     elevationRasterPath = new File(System.getProperty("data.dir"), "./samples-data/raster/Shasta_Elevation.tif").getAbsolutePath();
 
-    // create a raster layer
+    // create and load a raster layer
     RasterLayer rasterLayer = new RasterLayer(new Raster(imageryRasterPath));
+    rasterLayer.loadAsync();
+    // when the raster has loaded create a basemap from it and create a new ArcGISMap with the basemap
+    rasterLayer.addDoneLoadingListener(() -> {
+      if (rasterLayer.getLoadStatus() == LoadStatus.LOADED) {
 
-    // create a basemap from the raster layer
-    Basemap basemap = new Basemap(rasterLayer);
-    ArcGISMap map = new ArcGISMap(basemap);
-
-    // set the map to the map view
-    mapView.setMap(map);
+        Basemap basemap = new Basemap(rasterLayer);
+        ArcGISMap map = new ArcGISMap(basemap);
+        // set the map to the map view
+        mapView.setMap(map);
+        updateRenderer();
+      }
+    });
 
     // set defaults
     colorRampComboBox.getItems().setAll(ColorRamp.PresetType.values());
@@ -77,7 +83,6 @@ public class BlendRendererController {
       }
     });
 
-    updateRenderer();
   }
 
   /**
@@ -85,19 +90,28 @@ public class BlendRendererController {
    */
   public void updateRenderer() {
 
-    ColorRamp colorRamp = colorRampComboBox.getSelectionModel().getSelectedItem() != ColorRamp.PresetType.NONE
-        ? new ColorRamp(colorRampComboBox.getSelectionModel().getSelectedItem(), 800) : null;
+    ColorRamp colorRamp;
+    // if the color ramp selection is none, don't apply a color ramp otherwise apply the selected color ramp
+    if (colorRampComboBox.getSelectionModel().getSelectedItem() == ColorRamp.PresetType.NONE) {
+      colorRamp = null;
+    } else {
+      colorRamp = new ColorRamp(colorRampComboBox.getSelectionModel().getSelectedItem(), 800);
+    }
 
-    // if color ramp is not NONE, color the hillshade elevation raster instead of using satellite imagery raster color
-    RasterLayer rasterLayer = colorRamp != null ? new RasterLayer(new Raster(elevationRasterPath))
-        : new RasterLayer(new Raster(imageryRasterPath));
-
+    // if color ramp is NONE, use the satellite imagery raster color instead of coloring the hillshade elevation raster
+    RasterLayer rasterLayer;
+    if (colorRamp == null) {
+      rasterLayer = new RasterLayer(new Raster(imageryRasterPath));
+    } else {
+      rasterLayer = new RasterLayer(new Raster(elevationRasterPath));
+    }
+    // set the basemap to the raster layer
     mapView.getMap().setBasemap(new Basemap(rasterLayer));
 
-    // create blend renderer
+    // create blend renderer and set it to the raster layer
     BlendRenderer blendRenderer = new BlendRenderer(new Raster(elevationRasterPath), Collections.singletonList(9.0),
-        Collections.singletonList(255.0), null, null, null, null, colorRamp, altitudeSlider.getValue(),
-        azimuthSlider.getValue(), 1, slopeTypeComboBox.getSelectionModel().getSelectedItem(), 1, 1, 8);
+      Collections.singletonList(255.0), null, null, null, null, colorRamp, altitudeSlider.getValue(),
+      azimuthSlider.getValue(), 1, slopeTypeComboBox.getSelectionModel().getSelectedItem(), 1, 1, 8);
 
     rasterLayer.setRasterRenderer(blendRenderer);
   }
