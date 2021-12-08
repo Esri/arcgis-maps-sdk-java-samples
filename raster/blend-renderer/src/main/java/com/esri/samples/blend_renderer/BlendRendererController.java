@@ -52,7 +52,6 @@ public class BlendRendererController {
 
     // create and load a raster layer
     RasterLayer rasterLayer = new RasterLayer(new Raster(imageryRasterPath));
-    rasterLayer.loadAsync();
     // when the raster has loaded create a basemap from it and create a new ArcGISMap with the basemap
     rasterLayer.addDoneLoadingListener(() -> {
       if (rasterLayer.getLoadStatus() == LoadStatus.LOADED) {
@@ -64,6 +63,7 @@ public class BlendRendererController {
         updateRenderer();
       }
     });
+    rasterLayer.loadAsync();
 
     // set defaults
     colorRampComboBox.getItems().setAll(ColorRamp.PresetType.values());
