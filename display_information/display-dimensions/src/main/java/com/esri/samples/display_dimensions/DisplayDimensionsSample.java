@@ -23,8 +23,6 @@ import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -68,10 +66,10 @@ public class DisplayDimensionsSample extends Application {
 
       // add the label and checkboxes to a JavaFX VBox
       VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(250, 100);
+      controlsVBox.setMaxSize(220, 100);
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren().addAll(dimensionLayerName, visibilityCheckBox, defExpressionCheckBox);
       controlsVBox.setDisable(true);
