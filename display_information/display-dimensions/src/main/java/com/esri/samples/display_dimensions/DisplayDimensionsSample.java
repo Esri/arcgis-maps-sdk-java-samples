@@ -59,7 +59,7 @@ public class DisplayDimensionsSample extends Application {
 
       // set up display label for dimension layer name, and check boxes for controlling visibility and definition expression
       Label dimensionLayerName = new Label();
-      CheckBox visibilityCheckBox = new CheckBox("Dimensions visibility");
+      CheckBox visibilityCheckBox = new CheckBox("Dimension Layer visibility");
       visibilityCheckBox.setSelected(true);
       CheckBox defExpressionCheckBox = new CheckBox("Definition Expression:" + "\n" + "Dimensions >= 450m");
       defExpressionCheckBox.setWrapText(true);
