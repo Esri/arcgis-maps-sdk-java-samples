@@ -55,7 +55,6 @@ public class BlendRendererController {
     // when the raster has loaded create a basemap from it and create a new ArcGISMap with the basemap
     rasterLayer.addDoneLoadingListener(() -> {
       if (rasterLayer.getLoadStatus() == LoadStatus.LOADED) {
-
         Basemap basemap = new Basemap(rasterLayer);
         ArcGISMap map = new ArcGISMap(basemap);
         // set the map to the map view
