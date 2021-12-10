@@ -1,28 +1,26 @@
 {
     "category": "Display information",
-    "description": "Display annotation from a feature service URL.",
+    "description": "Display dimension features from a mobile map package.",
     "ignore": false,
     "images": [
-        "DisplayAnnotation.png"
+        "DisplayDimensions.png"
     ],
     "keywords": [
-        "annotation",
-        "cartography",
-        "labels",
-        "placement",
-        "reference scale",
-        "text",
+        "dimension",
+        "layer",
+        "mmpk",
+        "mobile map package",
         "utility",
-        "AnnotationLayer",
-        "FeatureLayer"
+        "DimensionLayer",
+        "MobileMapPackage"
     ],
     "redirect_from": "",
     "relevant_apis": [
-        "AnnotationLayer",
-        "FeatureLayer"
+        "DimensionLayer",
+        "MobileMapPackage"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/display_annotation/DisplayDimensionsSample.java"
+        "src/main/java/com/esri/samples/display_dimensions/DisplayDimensionsSample.java"
     ],
     "title": "Display dimensions"
 }
