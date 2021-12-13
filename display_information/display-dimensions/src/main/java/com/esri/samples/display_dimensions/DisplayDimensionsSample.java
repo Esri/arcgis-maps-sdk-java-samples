@@ -84,7 +84,7 @@ public class DisplayDimensionsSample extends Application {
 
       mobileMapPackage.addDoneLoadingListener(() -> {
         // check the mmpk has loaded successfully and that it contains a map
-        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && mobileMapPackage.getMaps().size() > 0) {
+        if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
           // add the map from the mobile map package to the map view
           mapView.setMap(mobileMapPackage.getMaps().get(0));
           mapView.setViewpoint(new Viewpoint(55.908, -3.305, 20310));
