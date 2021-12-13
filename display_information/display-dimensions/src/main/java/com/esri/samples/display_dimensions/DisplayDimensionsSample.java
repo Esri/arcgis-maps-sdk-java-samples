@@ -104,7 +104,7 @@ public class DisplayDimensionsSample extends Application {
         }
       });
 
-      // set a definition expression to show dimension lengths of over or equal to 450 m when the checkbox is selected,
+      // set a definition expression to show dimension lengths of greater than or equal to 450m when the checkbox is selected,
       // or to reset the definition expression to show all dimension lengths when unselected
       defExpressionCheckBox.setOnAction(e -> {
         String defExpression = defExpressionCheckBox.isSelected() ? "DIMLENGTH >= 450" : "";
