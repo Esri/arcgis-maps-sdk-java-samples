@@ -40,7 +40,7 @@ public class DisplayDimensionsSample extends Application {
 
   private DimensionLayer dimensionLayer;
   private MapView mapView;
-  private MobileMapPackage mobileMapPackage;
+  private MobileMapPackage mobileMapPackage; // keep loadable in scope to avoid garbage collection
 
   @Override
   public void start(Stage stage) {
