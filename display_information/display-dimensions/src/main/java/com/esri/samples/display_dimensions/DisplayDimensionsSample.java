@@ -69,7 +69,7 @@ public class DisplayDimensionsSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(220, 100);
+      controlsVBox.setMaxSize(220, 120);
       controlsVBox.getStyleClass().add("panel-region");
       controlsVBox.getChildren().addAll(dimensionLayerName, visibilityCheckBox, defExpressionCheckBox);
       controlsVBox.setDisable(true);
@@ -77,16 +77,16 @@ public class DisplayDimensionsSample extends Application {
       // create a map view
       mapView = new MapView();
 
-      // load a mobile map package
+      // create and load a mobile map package
       final String mmpkPath = new File(System.getProperty("data.dir"), "./samples-data/mmpk/EdinburghPylonsDimensions.mmpk").getAbsolutePath();
       mobileMapPackage = new MobileMapPackage(mmpkPath);
-      mobileMapPackage.loadAsync();
 
       mobileMapPackage.addDoneLoadingListener(() -> {
         // check the mmpk has loaded successfully and that it contains a map
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
-          // add the map from the mobile map package to the map view
+          // add the map from the mobile map package to the map view, and set a min scale to maintain dimension readability
           mapView.setMap(mobileMapPackage.getMaps().get(0));
+          mapView.getMap().setMinScale(35000);
           mapView.setViewpoint(new Viewpoint(55.908, -3.305, 20310));
 
           // find the dimension layer within the map
@@ -97,12 +97,14 @@ public class DisplayDimensionsSample extends Application {
               dimensionLayerName.setText(dimensionLayer.getName());
               // enable the vbox for dimension layer controls
               controlsVBox.setDisable(false);
+              visibilityCheckBox.setSelected(dimensionLayer.isVisible());
             }
           }
         } else {
           new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package").show();
         }
       });
+      mobileMapPackage.loadAsync();
 
       // set a definition expression to show dimension lengths of greater than or equal to 450m when the checkbox is selected,
       // or to reset the definition expression to show all dimension lengths when unselected
