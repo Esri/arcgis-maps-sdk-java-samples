@@ -87,7 +87,7 @@ public class DisplayDimensionsSample extends Application {
         if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && mobileMapPackage.getMaps().size() > 0) {
           // add the map from the mobile map package to the map view
           mapView.setMap(mobileMapPackage.getMaps().get(0));
-          mapView.setViewpoint(new Viewpoint(55.908386, -3.305863, 20310));
+          mapView.setViewpoint(new Viewpoint(55.908, -3.305, 20310));
 
           // find the dimension layer within the map
           for (Layer layer : mapView.getMap().getOperationalLayers()) {
