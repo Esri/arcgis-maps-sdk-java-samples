@@ -37,4 +37,4 @@ This sample shows a [New York City infrastructure](https://www.arcgis.com/home/i
 
 ## Tags
 
-arcade, attribute, buildings, label, model, scene, symbol, text, visualization
+3D, arcade, attribute, buildings, label, model, scene, symbol, text, visualization
