@@ -23,7 +23,7 @@
         "SceneView",
         "TextSymbol"
     ],
-    "redirect_from": "",
+    "redirect_from": [],
     "relevant_apis": [
         "ArcadeLabelExpression",
         "ArcGISScene",
