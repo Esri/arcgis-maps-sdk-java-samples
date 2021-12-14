@@ -14,12 +14,12 @@ Pan and zoom to explore the scene. Notice the labels showing installation dates 
 
 ## How it works
 
-1. Create an `ArcGISScene` using a URL.
-2. Apply the scene to a `SceneView` and load it.
+1. Create an `ArcGISScene` using a `PortalItem`.
+2. Add the scene to a `SceneView` and load it.
 3. After loading is complete, obtain the `FeatureLayer` from the scene's operational layers.
 4. Set the feature layer's `setLabelsEnabled` property to `true`.
 5. Create a `TextSymbol` to use for displaying the label text.
-6. Create a `LabelDefinition` using an `ArcadeLabelExpression`.
+6. Create a `LabelDefinition` using an `ArcadeLabelExpression` and the text symbol.
 7. Add the definition to the feature layer's `labelDefinitions` list.
 
 ## Relevant API
@@ -37,4 +37,4 @@ This sample shows a [New York City infrastructure](https://www.arcgis.com/home/i
 
 ## Tags
 
-3D, arcade, attribute, buildings, label, model, scene, symbol, text, URL, visualization
+3D, arcade, attribute, buildings, label, model, scene, symbol, text, visualization

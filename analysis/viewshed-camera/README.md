@@ -22,9 +22,9 @@ The sample will start with a viewshed created from the initial camera location, 
 
 * AnalysisOverlay
 * ArcGISScene
-* ArcGISSceneLayer
 * ArcGISTiledElevationSource
 * Camera
+* IntegratedMeshLayer
 * LocationViewshed
 * SceneView
 
