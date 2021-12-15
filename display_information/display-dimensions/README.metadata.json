@@ -1,0 +1,26 @@
+{
+    "category": "Display information",
+    "description": "Display dimension features from a mobile map package.",
+    "ignore": false,
+    "images": [
+        "DisplayDimensions.png"
+    ],
+    "keywords": [
+        "dimension",
+        "layer",
+        "mmpk",
+        "mobile map package",
+        "utility",
+        "DimensionLayer",
+        "MobileMapPackage"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "DimensionLayer",
+        "MobileMapPackage"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/display_dimensions/DisplayDimensionsSample.java"
+    ],
+    "title": "Display dimensions"
+}

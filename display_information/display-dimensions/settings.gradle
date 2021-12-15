@@ -1,0 +1,12 @@
+rootProject.name = 'display-dimensions'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    file("./samples-data/mmpk").mkdirs()
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/f5ff6f5556a945bca87ca513b8729a1e/data",
+            dest: file("./samples-data/mmpk/EdinburghPylonsDimensions.mmpk")
+    )
+}
