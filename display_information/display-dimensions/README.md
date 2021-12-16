@@ -2,7 +2,7 @@
 
 Display dimension features from a mobile map package.
 
-![Image showing the Display Dimensions sample](display-dimensions.png)
+![Image showing the Display Dimensions sample](DisplayDimensions.png)
 
 ## Use case
 
