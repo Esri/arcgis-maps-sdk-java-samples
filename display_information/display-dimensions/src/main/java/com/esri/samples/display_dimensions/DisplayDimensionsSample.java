@@ -20,7 +20,6 @@ import com.esri.arcgisruntime.layers.DimensionLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
-import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -87,7 +86,6 @@ public class DisplayDimensionsSample extends Application {
           // add the map from the mobile map package to the map view, and set a min scale to maintain dimension readability
           mapView.setMap(mobileMapPackage.getMaps().get(0));
           mapView.getMap().setMinScale(35000);
-          mapView.setViewpoint(new Viewpoint(55.908, -3.305, 20310));
 
           // find the dimension layer within the map
           for (Layer layer : mapView.getMap().getOperationalLayers()) {
