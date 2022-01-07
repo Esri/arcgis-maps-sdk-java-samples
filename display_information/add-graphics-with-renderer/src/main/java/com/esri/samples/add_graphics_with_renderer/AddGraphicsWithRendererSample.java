@@ -212,12 +212,13 @@ public class AddGraphicsWithRendererSample extends Application {
   }
 
   /**
-   * Create an ellipse shaded polygon.
+   * Create an ellipse shaped polygon.
    *
    * @return ellipse shaped polygon
    */
   private Polygon makeEllipse() {
-    // create parameters and set all the parameters
+    // create and set all the parameters so that the ellipse has a major axis of 400 kilometres,
+    // a minor axis of 200 kilometres and is rotated at an angle of -45 degrees.
     GeodesicEllipseParameters parameters = new GeodesicEllipseParameters();
 
     parameters.setCenter(new Point(40e5,25e5, SpatialReferences.getWebMercator()));
