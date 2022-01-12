@@ -16,10 +16,12 @@
         "level",
         "site",
         "story",
+        "FloorLevel",
         "FloorManager"
     ],
     "redirect_from":"",
     "relevant_apis": [
+        "FloorLevel",
         "FloorManager"
     ],
     "snippets": [

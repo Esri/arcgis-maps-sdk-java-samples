@@ -17,14 +17,15 @@ Use the spinner to browse different floor levels in the facility. Only the selec
 1. Create a `PortalItem` using the identifier of a floor-aware web map.
 2. Create a map using the portal item.
 3. Create a map view and assign the map to it.
-4. Wait for the map to load and retrieve the map's `floorManager` property.
-5. Wait for the floor manager to load and retrieve the floor-aware data.
-6. Set all floors to not visible.
+4. Wait for the map to load and retrieve the map's `FloorManager`.
+5. Wait for the floor manager to load and get its list of  `FloorLevel`s.
+6. Set all floor levels `isVisible` property to false.
 7. Set only the selected `FloorLevel` to visible using the `isVisible` property of the floor level.
 * **Note:** Manually set the default floor level to the first floor.
 
 ## Relevant API
 
+* FloorLevel
 * FloorManager
 
 ## About the data
