@@ -65,20 +65,23 @@ public class BrowseBuildingFloorsSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
+      // set up the combobox UI for choosing which floor level to display
       ComboBox<FloorLevel> comboBox = new ComboBox<>();
+      comboBox.setMaxWidth(150);
+      // disable combobox interaction until the floor levels have loaded
       comboBox.setDisable(true);
 
       // create a portal item with a floor-aware web map
       var portalItem = new PortalItem(new Portal("https://www.arcgis.com/", false), "f133a698536f44c8884ad81f80b6cfc7");
       // create a map with the portal item
       ArcGISMap map = new ArcGISMap(portalItem);
-
       // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
-
+      // add a done loading listener to the map
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED && map.getFloorDefinition() != null) {
+
           // get the floor manager from the map, and load it
           floorManager = map.getFloorManager();
           floorManager.addDoneLoadingListener(() -> {
@@ -86,13 +89,14 @@ public class BrowseBuildingFloorsSample extends Application {
             if (floorManager.getLoadStatus() == LoadStatus.LOADED && !floorManager.getLevels().isEmpty()) {
               // add each floor level to the combo box
               floorManager.getLevels().forEach(floorLevel -> comboBox.getItems().add(floorLevel));
-              // check the floor levels have been added to the combobox before selecting the first floor and enabling
-              // interaction
+              // check the floor levels have been added to the combobox before selecting the first floor and enabling interaction
+
               if (comboBox.getItems().size() == floorManager.getLevels().size()) {
                 // select the first floor level in the building (Level 1)
                 comboBox.getSelectionModel().select(0);
                 comboBox.setDisable(false);
               }
+
             }
           });
           floorManager.loadAsync();
@@ -108,26 +112,30 @@ public class BrowseBuildingFloorsSample extends Application {
         comboBox.getSelectionModel().getSelectedItem().setVisible(true);
       });
 
-      // add the map view to the stack pane
-      var label = new Label("Choose Floor Level to Display");
-
+      // set up the UI
+      var label = new Label("Choose floor level to display");
       var vBox = new VBox(6);
       vBox.getChildren().addAll(label, comboBox);
-      vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
+      vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
       vBox.setPadding(new Insets(10.0));
-      vBox.setMaxSize(260, 160);
+      vBox.setMaxSize(200, 50);
       vBox.getStyleClass().add("panel-region");
 
+      // add the map view and UI to the stack pane
       stackPane.getChildren().addAll(mapView, vBox);
       StackPane.setMargin(vBox, new Insets(10, 0, 0, 10));
       StackPane.setAlignment(vBox, Pos.TOP_LEFT);
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
     }
   }
 
+  /**
+   * Converts FloorLevel objects to strings to display floor level name on the combobox.
+   */
   private static class FloorLevelStringConverter extends StringConverter<FloorLevel> {
 
     @Override

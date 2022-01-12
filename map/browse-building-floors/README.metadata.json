@@ -1,27 +1,29 @@
 {
     "category": "Map",
-    "description": "Display a map with an imagery basemap.",
+    "description": "Display and browse through building floors from a floor-aware web map.",
     "ignore": false,
     "images": [
-        "DisplayMap.png"
+        "BrowseBuildingFloors.png"
     ],
     "keywords": [
-        "basemap",
-        "map",
-        "ArcGISMap",
-        "BasemapStyle",
-        "MapView"
+        "building",
+        "facility",
+        "floor",
+        "floor-aware",
+        "floors",
+        "ground floor",
+        "indoor",
+        "level",
+        "site",
+        "story",
+        "FloorManager"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/display-a-map.htm"
-    ],
+    "redirect_from":"",
     "relevant_apis": [
-        "ArcGISMap",
-        "BasemapStyle",
-        "MapView"
+        "FloorManager"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/display_map/DisplayMapSample.java"
+        "src/main/java/com/esri/samples/browse_building_floors/BrowseBuildingFloorsSample.java"
     ],
-    "title": "Display map"
+    "title": "Browse building floors"
 }
