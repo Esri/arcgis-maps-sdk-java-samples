@@ -39,7 +39,6 @@ import com.esri.arcgisruntime.data.VectorTileCache;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.ArcGISVectorTiledLayer;
-import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -49,9 +48,7 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesJob;
 import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesParameters;
 import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesResult;
 import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesTask;
@@ -59,7 +56,7 @@ import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesTask;
 public class ExportVectorTilesSample extends Application {
 
   private MapView mapView;
-  private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
+  private MapView previewMapView;
 
   @Override
   public void start(Stage stage) {
@@ -138,85 +135,85 @@ public class ExportVectorTilesSample extends Application {
           if (layer instanceof ArcGISVectorTiledLayer) {
             ArcGISVectorTiledLayer vectorTiledLayer = (ArcGISVectorTiledLayer) layer;
 
-          // when the button is clicked, export the tiles to a temporary file
-          exportVectorTilesButton.setOnAction(e -> {
-            try {
-              // disable the button and show the progress bar
-              exportVectorTilesButton.setDisable(true);
-              progressBar.setVisible(true);
+            // when the button is clicked, export the tiles to a temporary file
+            exportVectorTilesButton.setOnAction(e -> {
+              try {
+                // disable the button and show the progress bar
+                exportVectorTilesButton.setDisable(true);
+                progressBar.setVisible(true);
 
-              // create temporary files for the .vtpk file and style item resources
-              File vtpkFile = File.createTempFile("tiles", ".vtpk");
-              File resDir = Files.createTempDirectory("StyleItemResources").toFile();
-              vtpkFile.deleteOnExit();
-              resDir.deleteOnExit();
+                // create temporary files for the .vtpk file and style item resources
+                File vtpkFile = File.createTempFile("tiles", ".vtpk");
+                File resDir = Files.createTempDirectory("StyleItemResources").toFile();
+                vtpkFile.deleteOnExit();
+                resDir.deleteOnExit();
 
-              // create a new export vector tiles task
-              var exportVectorTilesTask = new ExportVectorTilesTask(vectorTiledLayer.getUri());
+                // create a new export vector tiles task
+                var exportVectorTilesTask = new ExportVectorTilesTask(vectorTiledLayer.getUri());
 
-              // create parameters for the export vector tiles job
-              double mapScale = mapView.getMapScale();
-              // the max scale parameter is set to 10% of the map's scale to limit the
-              // number of tiles exported to within the vector tiled layer's max tile export limit
-              ListenableFuture<ExportVectorTilesParameters> exportVectorTilesParametersFuture = exportVectorTilesTask
-                .createDefaultExportVectorTilesParametersAsync(downloadArea.getGeometry(), mapScale * 0.1);
+                // create parameters for the export vector tiles job
+                double mapScale = mapView.getMapScale();
+                // the max scale parameter is set to 10% of the map's scale to limit the
+                // number of tiles exported to within the vector tiled layer's max tile export limit
+                ListenableFuture<ExportVectorTilesParameters> exportVectorTilesParametersFuture = exportVectorTilesTask
+                  .createDefaultExportVectorTilesParametersAsync(downloadArea.getGeometry(), mapScale * 0.1);
 
-              exportVectorTilesParametersFuture.addDoneListener(() -> {
-                try {
-                  var exportVectorTilesParameters = exportVectorTilesParametersFuture.get();
+                exportVectorTilesParametersFuture.addDoneListener(() -> {
+                  try {
+                    var exportVectorTilesParameters = exportVectorTilesParametersFuture.get();
 
-                  // create a job with the parameters
-                  var exportVectorTilesJob =
-                    exportVectorTilesTask.exportVectorTiles(exportVectorTilesParameters, vtpkFile.getAbsolutePath(), resDir.getAbsolutePath());
+                    // create a job with the parameters
+                    var exportVectorTilesJob =
+                      exportVectorTilesTask.exportVectorTiles(exportVectorTilesParameters, vtpkFile.getAbsolutePath(), resDir.getAbsolutePath());
 
-                  // start the job and wait for it to finish
-                  exportVectorTilesJob.start();
-                  exportVectorTilesJob.addProgressChangedListener(() -> progressBar.setProgress(exportVectorTilesJob.getProgress() / 100.0));
-                  exportVectorTilesJob.addJobDoneListener(() -> {
+                    // start the job and wait for it to finish
+                    exportVectorTilesJob.start();
+                    exportVectorTilesJob.addProgressChangedListener(() -> progressBar.setProgress(exportVectorTilesJob.getProgress() / 100.0));
+                    exportVectorTilesJob.addJobDoneListener(() -> {
 
-                    if (exportVectorTilesJob.getStatus() == Job.Status.SUCCEEDED) {
-                      // show preview of exported tiles in alert
-                      ExportVectorTilesResult tilesResult = exportVectorTilesJob.getResult();
-                      VectorTileCache tileCache = tilesResult.getVectorTileCache();
-                      ItemResourceCache resourceCache = tilesResult.getItemResourceCache();
-                      Alert preview = new Alert(Alert.AlertType.INFORMATION);
-                      preview.initOwner(mapView.getScene().getWindow());
-                      preview.setTitle("Preview");
-                      preview.setHeaderText("Exported tiles to " + tileCache.getPath() + "\nExported resources to " +
-                        resourceCache.getPath());
-                      MapView mapPreview = new MapView();
-                      mapPreview.setMinSize(400, 400);
-                      ArcGISVectorTiledLayer vectorTiledLayerPreview = new ArcGISVectorTiledLayer(tileCache, resourceCache);
-                      ArcGISMap previewMap = new ArcGISMap(new Basemap(vectorTiledLayerPreview));
-                      mapPreview.setMap(previewMap);
-                      preview.getDialogPane().setContent(mapPreview);
-                      preview.show();
+                      if (exportVectorTilesJob.getStatus() == Job.Status.SUCCEEDED) {
+                        // show preview of exported tiles in alert
+                        ExportVectorTilesResult tilesResult = exportVectorTilesJob.getResult();
+                        VectorTileCache tileCache = tilesResult.getVectorTileCache();
+                        ItemResourceCache resourceCache = tilesResult.getItemResourceCache();
+                        Alert preview = new Alert(Alert.AlertType.INFORMATION);
+                        preview.initOwner(mapView.getScene().getWindow());
+                        preview.setTitle("Preview");
+                        preview.setHeaderText("Exported tiles to " + tileCache.getPath() + "\nExported resources to " +
+                          resourceCache.getPath());
+                        previewMapView = new MapView();
+                        previewMapView.setMinSize(400, 400);
+                        ArcGISVectorTiledLayer vectorTiledLayerPreview = new ArcGISVectorTiledLayer(tileCache, resourceCache);
+                        ArcGISMap previewMap = new ArcGISMap(new Basemap(vectorTiledLayerPreview));
+                        previewMapView.setMap(previewMap);
+                        preview.getDialogPane().setContent(previewMapView);
+                        preview.show();
+                        // dispose of the preview mapview's resources
+                        preview.setOnCloseRequest(event -> previewMapView.dispose());
 
-                    } else {
-                      Alert alert = new Alert(Alert.AlertType.ERROR, exportVectorTilesJob.getError().getAdditionalMessage());
-                      alert.show();
-                    }
+                      } else {
+                        new Alert(Alert.AlertType.ERROR, exportVectorTilesJob.getError().getAdditionalMessage()).show();
+                      }
 
-                    // reset the UI
+                      // reset the UI
+                      progressBar.setVisible(false);
+                      progressBar.setProgress(0);
+                      exportVectorTilesButton.setDisable(false);
+                    });
+
+                  } catch (InterruptedException | ExecutionException ex) {
+                    new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                     progressBar.setVisible(false);
                     progressBar.setProgress(0);
-                    exportVectorTilesButton.setDisable(false);
-                  });
+                  }
+                });
 
-                } catch (InterruptedException | ExecutionException ex) {
-                  Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
-                  alert.show();
-                  progressBar.setVisible(false);
-                  progressBar.setProgress(0);
-                }
-              });
-
-            } catch (IOException ex) {
-              Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to create temporary file");
-              alert.show();
-            }
-          });
-        }
+              } catch (IOException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to create temporary file");
+                alert.show();
+              }
+            });
+          }
 
         } else {
           new Alert(Alert.AlertType.ERROR, "Map could not be loaded").show();
