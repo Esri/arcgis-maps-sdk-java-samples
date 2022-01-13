@@ -56,7 +56,6 @@ import com.esri.arcgisruntime.tasks.vectortilecache.ExportVectorTilesTask;
 public class ExportVectorTilesSample extends Application {
 
   private MapView mapView;
-  private MapView previewMapView;
 
   @Override
   public void start(Stage stage) {
@@ -181,7 +180,7 @@ public class ExportVectorTilesSample extends Application {
                         preview.setTitle("Preview");
                         preview.setHeaderText("Exported tiles to " + tileCache.getPath() + "\nExported resources to " +
                           resourceCache.getPath());
-                        previewMapView = new MapView();
+                        MapView previewMapView = new MapView();
                         previewMapView.setMinSize(400, 400);
                         ArcGISVectorTiledLayer vectorTiledLayerPreview = new ArcGISVectorTiledLayer(tileCache, resourceCache);
                         ArcGISMap previewMap = new ArcGISMap(new Basemap(vectorTiledLayerPreview));

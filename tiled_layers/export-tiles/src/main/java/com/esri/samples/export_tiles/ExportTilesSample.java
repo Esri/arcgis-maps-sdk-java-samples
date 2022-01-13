@@ -54,7 +54,6 @@ import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheTask;
 public class ExportTilesSample extends Application {
 
   private MapView mapView;
-  private MapView previewMapView;
 
   @Override
   public void start(Stage stage) {
@@ -166,7 +165,7 @@ public class ExportTilesSample extends Application {
                         preview.initOwner(mapView.getScene().getWindow());
                         preview.setTitle("Preview");
                         preview.setHeaderText("Exported to " + tileCache.getPath());
-                        previewMapView = new MapView();
+                        MapView previewMapView = new MapView();
                         previewMapView.setMinSize(400, 400);
                         ArcGISTiledLayer tiledLayerPreview = new ArcGISTiledLayer(tileCache);
                         ArcGISMap previewMap = new ArcGISMap(new Basemap(tiledLayerPreview));
