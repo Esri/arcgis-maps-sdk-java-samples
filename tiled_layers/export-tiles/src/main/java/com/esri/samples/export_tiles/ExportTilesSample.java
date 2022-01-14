@@ -119,7 +119,6 @@ public class ExportTilesSample extends Application {
           Layer layer = map.getBasemap().getBaseLayers().get(0);
           if (layer instanceof ArcGISTiledLayer) {
             ArcGISTiledLayer tiledLayer = (ArcGISTiledLayer) layer;
-
             // create progress bar to show task progress
             var progressBar = new ProgressBar(0.0);
             progressBar.setVisible(false);
@@ -166,13 +165,15 @@ public class ExportTilesSample extends Application {
                         preview.initOwner(mapView.getScene().getWindow());
                         preview.setTitle("Preview");
                         preview.setHeaderText("Exported to " + tileCache.getPath());
-                        MapView mapPreview = new MapView();
-                        mapPreview.setMinSize(400, 400);
+                        MapView previewMapView = new MapView();
+                        previewMapView.setMinSize(400, 400);
                         ArcGISTiledLayer tiledLayerPreview = new ArcGISTiledLayer(tileCache);
                         ArcGISMap previewMap = new ArcGISMap(new Basemap(tiledLayerPreview));
-                        mapPreview.setMap(previewMap);
-                        preview.getDialogPane().setContent(mapPreview);
+                        previewMapView.setMap(previewMap);
+                        preview.getDialogPane().setContent(previewMapView);
                         preview.show();
+                        // dispose of the preview mapview's resources
+                        preview.setOnCloseRequest(event -> previewMapView.dispose());
 
                       } else {
                         new Alert(Alert.AlertType.ERROR, exportTileCacheJob.getError().getAdditionalMessage()).show();
