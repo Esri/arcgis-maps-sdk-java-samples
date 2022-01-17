@@ -10,7 +10,7 @@ Having map data to aid indoor navigation in buildings with multiple floors such 
 
 ## How to use the sample
 
-Use the spinner to browse different floor levels in the facility. Only the selected floor will be displayed.
+Use the dropdown menu to browse different floor levels in the facility. Only the selected floor will be displayed.
 
 ## How it works
 
@@ -18,8 +18,8 @@ Use the spinner to browse different floor levels in the facility. Only the selec
 2. Create a map using the portal item.
 3. Create a map view and assign the map to it.
 4. Wait for the map to load and retrieve the map's `FloorManager`.
-5. Wait for the floor manager to load and get its list of  `FloorLevel`s.
-6. Set all floor levels `isVisible` property to false.
+5. Wait for the floor manager to load and get its list of `FloorLevel`s.
+6. Set the `isVisible` property to false for all floor levels.
 7. Set only the selected `FloorLevel` to visible using the `isVisible` property of the floor level.
 * **Note:** Manually set the default floor level to the first floor.
 

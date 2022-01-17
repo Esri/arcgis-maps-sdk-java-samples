@@ -16,11 +16,6 @@
 
 package com.esri.samples.browse_building_floors;
 
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.mapping.floor.FloorLevel;
-import com.esri.arcgisruntime.mapping.floor.FloorManager;
-import com.esri.arcgisruntime.portal.Portal;
-import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,19 +25,25 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.view.MapView;
 import javafx.util.StringConverter;
 
-import java.util.List;
 import java.util.Objects;
+
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+import com.esri.arcgisruntime.mapping.floor.FloorLevel;
+import com.esri.arcgisruntime.mapping.floor.FloorManager;
+import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
 
 public class BrowseBuildingFloorsSample extends Application {
 
   private MapView mapView;
   private FloorManager floorManager;
+  private Viewpoint initialViewpoint;
 
   @Override
   public void start(Stage stage) {
@@ -80,8 +81,10 @@ public class BrowseBuildingFloorsSample extends Application {
       mapView.setMap(map);
       // add a done loading listener to the map
       map.addDoneLoadingListener(() -> {
+        // check the map has loaded successfully and that the map is floor-aware)
         if (map.getLoadStatus() == LoadStatus.LOADED && map.getFloorDefinition() != null) {
-
+          // get the initial view point of the map
+          initialViewpoint = map.getInitialViewpoint();
           // get the floor manager from the map, and load it
           floorManager = map.getFloorManager();
           floorManager.addDoneLoadingListener(() -> {
@@ -89,14 +92,9 @@ public class BrowseBuildingFloorsSample extends Application {
             if (floorManager.getLoadStatus() == LoadStatus.LOADED && !floorManager.getLevels().isEmpty()) {
               // add each floor level to the combo box
               floorManager.getLevels().forEach(floorLevel -> comboBox.getItems().add(floorLevel));
-              // check the floor levels have been added to the combobox before selecting the first floor and enabling interaction
-
-              if (comboBox.getItems().size() == floorManager.getLevels().size()) {
-                // select the first floor level in the building (Level 1)
-                comboBox.getSelectionModel().select(0);
-                comboBox.setDisable(false);
-              }
-
+              // select the first floor level in the building (Level 1)
+              comboBox.getSelectionModel().select(0);
+              comboBox.setDisable(false);
             }
           });
           floorManager.loadAsync();
@@ -106,10 +104,12 @@ public class BrowseBuildingFloorsSample extends Application {
       // set a string converter to the combobox to display the floor level's name
       comboBox.setConverter(new FloorLevelStringConverter());
 
-      // when a floor level from the combobox is selected, set its visibility to true
+      // when a floor level from the combobox is selected, set its visibility property to true and set the map view's
+      // viewpoint back to the extent of Building L
       comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
         comboBox.getItems().forEach(item -> item.setVisible(false));
         comboBox.getSelectionModel().getSelectedItem().setVisible(true);
+        mapView.setViewpoint(initialViewpoint);
       });
 
       // set up the UI
@@ -147,7 +147,6 @@ public class BrowseBuildingFloorsSample extends Application {
     public FloorLevel fromString(String fileName) {
       return null;
     }
-
   }
 
   /**
