@@ -1,11 +1,15 @@
 {
     "category": "Display information",
-    "description": "Create graphics using a local mil2525d style file and an XML file with key/value pairs for each graphic.",
+    "description": "Create graphics from an XML file with key-value pairs for each graphic, and display the military symbols using a MIL-STD-2525D web style in 2D.",
     "ignore": false,
     "images": [
         "DictionaryRendererGraphicsOverlay.png"
     ],
     "keywords": [
+        "defense",
+        "military",
+        "situational awareness",
+        "tactical",
         "visualization",
         "DictionaryRenderer",
         "DictionarySymbolStyle",
