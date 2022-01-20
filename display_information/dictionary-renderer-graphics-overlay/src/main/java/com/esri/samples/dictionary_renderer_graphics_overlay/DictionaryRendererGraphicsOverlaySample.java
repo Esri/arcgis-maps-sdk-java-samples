@@ -52,10 +52,11 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
   private GraphicsOverlay graphicsOverlay;
 
   @Override
-  public void start(Stage stage) throws Exception {
-    mapView = new MapView();
-    StackPane appWindow = new StackPane(mapView);
-    Scene scene = new Scene(appWindow);
+  public void start(Stage stage) {
+    try {
+    // create stack pane and application scene
+    var stackPane = new StackPane();
+    var scene = new Scene(stackPane);
 
     // set title, size, and add scene to stage
     stage.setTitle("Dictionary Renderer Graphics Overlay Sample");
@@ -68,6 +69,8 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
+    // create a map view
+    mapView = new MapView();
     // create a map with the topographic basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
@@ -89,7 +92,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
             // find the first configuration setting which has the property name "model",
             // and set its value to "ORDERED ANCHOR POINT"
             dictionarySymbolStyle.getConfigurations().stream()
-              .filter(configuration -> Objects.equals(configuration.getName(), "model"))
+              .filter(configuration -> configuration.getName().equals("model"))
               .findFirst()
               .ifPresent(modelConfiguration -> modelConfiguration.setValue("ORDERED ANCHOR POINT"));
 
@@ -116,7 +119,6 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
           } else {
             new Alert(Alert.AlertType.ERROR,
               "Failed to load symbol style " + dictionarySymbolStyle.getLoadError().getCause().getMessage()).show();
-            System.out.println(dictionarySymbolStyle.getLoadError().getCause().getMessage());
           }
         });
       } else {
@@ -126,9 +128,14 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
       dictionarySymbolStyle.loadAsync();
     });
 
-    // set the map to the map view
+    // set the map to the map view and add the map view to the stack pane
     mapView.setMap(map);
+    stackPane.getChildren().add(mapView);
 
+    } catch (Exception ex) {
+      // on any exception, print the stacktrace
+      ex.printStackTrace();
+    }
   }
 
   /**
@@ -170,7 +177,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     int wkid = Integer.parseInt((String) attributes.get("_wkid"));
     SpatialReference sr = SpatialReference.create(wkid);
 
-    // get points from coordinates' string
+    // get points from the coordinate string in the "_control_points" attribute (delimited with ';')
     PointCollection points = new PointCollection(sr);
     String[] coordinates = ((String) attributes.get("_control_points")).split(";");
     Stream.of(coordinates)

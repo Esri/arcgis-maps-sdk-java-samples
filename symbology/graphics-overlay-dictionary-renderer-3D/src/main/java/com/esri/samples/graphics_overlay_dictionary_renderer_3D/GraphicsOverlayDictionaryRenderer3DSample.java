@@ -16,19 +16,22 @@
 
 package com.esri.samples.graphics_overlay_dictionary_renderer_3D;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Multipoint;
 import com.esri.arcgisruntime.geometry.Point;
@@ -36,19 +39,15 @@ import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
-import static org.joox.JOOX.$;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
 
@@ -58,7 +57,7 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
   public void start(Stage stage) {
     try {
       // create stack pane and application scene
-      StackPane stackPane = new StackPane();
+      var stackPane = new StackPane();
       Scene fxScene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
@@ -68,40 +67,71 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // create a scene and add a basemap to it
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a scene view
       sceneView = new SceneView();
-      ArcGISScene scene = new ArcGISScene(Basemap.Type.IMAGERY);
-      sceneView.setArcGISScene(scene);
+      // create a scene with the topographic basemap style
+      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-      stackPane.getChildren().add(sceneView);
-
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
+      var graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create symbol dictionary from specification
-      // the specification style file comes with the SDK in the resources/symbols directory
-      // see this directory for other specification types
-      File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/mil2525d.stylx");
-      DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
+      // create the dictionary symbol style from the  Joint Military Symbology MIL-STD-2525D portal item
+      var portalItem = new PortalItem(new Portal("https://www.arcgis.com/", false), "d815f3bdf6e6452bb8fd153b654c94ca");
+      var dictionarySymbolStyle = new DictionarySymbolStyle(portalItem);
 
-      // tells graphics overlay how to render graphics with symbol dictionary attributes set
-      DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
-      graphicsOverlay.setRenderer(renderer);
+      // add done loading listeners to the scene and dictionary symbol style and check they have loaded
+      scene.addDoneLoadingListener(() -> {
+        if (scene.getLoadStatus() == LoadStatus.LOADED) {
+          dictionarySymbolStyle.addDoneLoadingListener(() -> {
+            if (dictionarySymbolStyle.getLoadStatus() == LoadStatus.LOADED) {
 
-      // parse graphic attributes from a XML file following the mil2525d specification
-      List<Map<String, Object>> messages = parseMessages();
+              // find the first configuration setting which has the property name "model",
+              // and set its value to "ORDERED ANCHOR POINT"
+              dictionarySymbolStyle.getConfigurations().stream()
+                .filter(configuration -> configuration.getName().equals("model"))
+                .findFirst()
+                .ifPresent(modelConfiguration -> modelConfiguration.setValue("ORDERED ANCHOR POINT"));
 
-      // create graphics with attributes and add to graphics overlay
-      List<Graphic> graphics = messages.stream()
-          .map(GraphicsOverlayDictionaryRenderer3DSample::createGraphic)
-          .collect(Collectors.toList());
+              // create a new dictionary renderer from the dictionary symbol style to render graphics
+              // with symbol dictionary attributes and set it to the graphics overlay renderer
+              var dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle);
+              graphicsOverlay.setRenderer(dictionaryRenderer);
 
-      graphicsOverlay.getGraphics().addAll(graphics);
+              // parse graphic attributes from a XML file following the mil2525d specification
+              try {
+                List<Map<String, Object>> messages = parseMessages();
 
-      // when the scene loads and the sceneview has a spatial reference, move the camera to show the graphics
-      sceneView.setViewpointCamera(new Camera((graphicsOverlay.getGraphics().get(0).getGeometry()).getExtent().getCenter(), 15000, 0, 70, 0));
+                // create graphics with attributes and add to graphics overlay
+                List<Graphic> graphics = messages.stream()
+                  .map(GraphicsOverlayDictionaryRenderer3DSample::createGraphic)
+                  .collect(Collectors.toList());
+                graphicsOverlay.getGraphics().addAll(graphics);
+                // set the viewpoint to the extent of the graphics overlay
+                sceneView.setViewpointCamera(new Camera((graphicsOverlay.getExtent().getCenter()), 15000, 0, 70, 0));
 
-      // add the scene view to the stack pane
+              } catch (Exception e) {
+                e.printStackTrace();
+              }
+            } else {
+              new Alert(Alert.AlertType.ERROR,
+                "Failed to load symbol style " + dictionarySymbolStyle.getLoadError().getCause().getMessage()).show();
+            }
+          });
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Scene failed to load" + scene.getLoadError().getCause().getMessage()).show();
+        }
+        // load the dictionary symbol style once the map has loaded
+        dictionarySymbolStyle.loadAsync();
+      });
+
+      // set the scene to the scene view and add the scene view to the stack pane
+      sceneView.setArcGISScene(scene);
+      stackPane.getChildren().add(sceneView);
+
     } catch (Exception ex) {
       // on any exception, print the stacktrace
       ex.printStackTrace();
@@ -114,9 +144,9 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
   private List<Map<String, Object>> parseMessages() throws Exception {
 
     File mil2525dFile = new File(System.getProperty("data.dir"), "./samples-data/xml/Mil2525DMessages.xml");
-    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-    Document document = documentBuilder.parse(mil2525dFile);
+    var documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    var documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    var document = documentBuilder.parse(mil2525dFile);
     document.getDocumentElement().normalize();
 
     final List<Map<String, Object>> messages = new ArrayList<>();
@@ -150,12 +180,12 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
     String[] coordinates = ((String) attributes.get("_control_points")).split(";");
     List<Point> points = Stream.of(coordinates)
         .map(cs -> cs.split(",")) // get each ordinate
-        .map(c -> new Point(Double.valueOf(c[0]), Double.valueOf(c[1]), sr))// create a Point with the ordinates
+        .map(c -> new Point(Double.parseDouble(c[0]), Double.parseDouble(c[1]), sr))// create a Point with the ordinates
         .map(c -> (Point) GeometryEngine.project(c, SpatialReferences.getWgs84())) // project to display in scene
         .collect(Collectors.toList());
 
     // create a point collection with the points
-    PointCollection pointCollection = new PointCollection(SpatialReferences.getWgs84());
+    var pointCollection = new PointCollection(SpatialReferences.getWgs84());
     pointCollection.addAll(points);
 
     // remove unneeded attributes, use geometry for graphic positioning instead
