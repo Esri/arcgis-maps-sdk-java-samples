@@ -101,7 +101,7 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
               var dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle);
               graphicsOverlay.setRenderer(dictionaryRenderer);
 
-              // parse graphic attributes from a XML file following the mil2525d specification
+              // parse graphic attributes from an XML file following the mil2525d specification
               try {
                 List<Map<String, Object>> messages = parseMessages();
 
