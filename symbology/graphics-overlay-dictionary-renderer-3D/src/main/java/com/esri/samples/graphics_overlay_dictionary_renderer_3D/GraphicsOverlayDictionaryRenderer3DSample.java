@@ -79,7 +79,7 @@ public class GraphicsOverlayDictionaryRenderer3DSample extends Application {
       var graphicsOverlay = new GraphicsOverlay(GraphicsOverlay.RenderingMode.DYNAMIC);
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create the dictionary symbol style from the  Joint Military Symbology MIL-STD-2525D portal item
+      // create the dictionary symbol style from the Joint Military Symbology MIL-STD-2525D portal item
       var portalItem = new PortalItem(new Portal("https://www.arcgis.com/", false), "d815f3bdf6e6452bb8fd153b654c94ca");
       var dictionarySymbolStyle = new DictionarySymbolStyle(portalItem);
 
