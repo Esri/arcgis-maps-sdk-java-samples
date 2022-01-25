@@ -79,7 +79,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     graphicsOverlay.setMinScale(1000000);
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    // create the dictionary symbol style from the  Joint Military Symbology MIL-STD-2525D portal item
+    // create the dictionary symbol style from the Joint Military Symbology MIL-STD-2525D portal item
     var portalItem = new PortalItem(new Portal("https://www.arcgis.com/", false), "d815f3bdf6e6452bb8fd153b654c94ca");
     var dictionarySymbolStyle = new DictionarySymbolStyle(portalItem);
 
@@ -101,7 +101,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
             var dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle);
             graphicsOverlay.setRenderer(dictionaryRenderer);
 
-            // parse graphic attributes from a XML file following the mil2525d specification
+            // parse graphic attributes from an XML file following the mil2525d specification
             try {
               List<Map<String, Object>> messages = parseMessages();
 
