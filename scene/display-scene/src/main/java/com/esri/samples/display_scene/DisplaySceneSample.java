@@ -22,10 +22,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
@@ -58,7 +57,6 @@ public class DisplaySceneSample extends Application {
 
       // create a scene with basemap style
       ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
-      scene.setBasemap(Basemap.createImagery());
 
       // add the SceneView to the stack pane
       sceneView = new SceneView();
