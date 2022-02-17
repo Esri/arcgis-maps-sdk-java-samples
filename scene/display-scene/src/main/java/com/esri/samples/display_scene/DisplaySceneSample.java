@@ -55,7 +55,7 @@ public class DisplaySceneSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a scene with basemap style
+      // create a scene with a basemap style
       ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
 
       // add the SceneView to the stack pane
