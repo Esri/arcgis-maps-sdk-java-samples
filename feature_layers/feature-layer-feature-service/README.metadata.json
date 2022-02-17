@@ -11,7 +11,6 @@
         "layers",
         "service",
         "ArcGISMap",
-        "Basemap",
         "FeatureLayer",
         "MapView",
         "ServiceFeatureTable"
@@ -21,7 +20,6 @@
     ],
     "relevant_apis": [
         "ArcGISMap",
-        "Basemap",
         "FeatureLayer",
         "MapView",
         "ServiceFeatureTable"
