@@ -21,16 +21,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
-import com.esri.arcgisruntime.layers.IntegratedMeshLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.Camera;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.mapping.Surface;
 
 public class AddAPointSceneLayerSample extends Application {
 
@@ -56,9 +53,12 @@ public class AddAPointSceneLayerSample extends Application {
       sceneView = new SceneView();
       stackPane.getChildren().add(sceneView);
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a scene with a basemap and add it to the scene view
-      ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createImagery());
+      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
       sceneView.setArcGISScene(scene);
 
       // set the base surface with world elevation
