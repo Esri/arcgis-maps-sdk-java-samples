@@ -62,7 +62,7 @@ public class ChangeAtmosphereEffectSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a scene with a basemap
+      // create a scene with a basemap style
       ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
 
       // set the scene to a scene view
