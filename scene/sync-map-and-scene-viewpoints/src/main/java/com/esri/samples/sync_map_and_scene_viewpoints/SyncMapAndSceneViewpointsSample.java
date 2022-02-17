@@ -25,9 +25,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.GeoView;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -44,6 +45,10 @@ public class SyncMapAndSceneViewpointsSample extends Application {
 
     try {
 
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create split pane and JavaFX app scene
       SplitPane splitPane = new SplitPane();
       splitPane.setOrientation(Orientation.HORIZONTAL);
@@ -56,13 +61,11 @@ public class SyncMapAndSceneViewpointsSample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // create a map and add a basemap to it
-      ArcGISMap map = new ArcGISMap();
-      map.setBasemap(Basemap.createImagery());
+      // create a map with a basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY);
 
-      // create a scene and add a basemap to it
-      ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createImagery());
+      // create a scene with a basemap style
+      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
 
       // set the map to a map view
       mapView = new MapView();
