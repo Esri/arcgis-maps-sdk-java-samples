@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
@@ -35,6 +36,7 @@ import com.esri.arcgisruntime.geometry.Distance;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
@@ -84,7 +86,13 @@ public class DistanceMeasurementAnalysisController {
     analysisOverlay.getAnalyses().add(distanceMeasurement);
 
     // zoom to the initial measurement
-    sceneView.setViewpointCamera(new Camera(start, 200.0, 0.0, 45.0, 0.0));
+    scene.addDoneLoadingListener(() -> {
+      if (scene.getLoadStatus() == LoadStatus.LOADED) {
+        sceneView.setViewpointCamera(new Camera(start, 200.0, 0.0, 45.0, 0.0));
+      } else {
+        new Alert(Alert.AlertType.ERROR, "Scene failed to load").show();
+      }
+    });
 
     // show the distances in the UI when the measurement changes
     DecimalFormat decimalFormat = new DecimalFormat("#.##");
