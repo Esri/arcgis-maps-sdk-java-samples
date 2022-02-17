@@ -49,13 +49,13 @@ public class AddAPointSceneLayerSample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // create a scene view and add it to the stack pane
-      sceneView = new SceneView();
-      stackPane.getChildren().add(sceneView);
-
       // authentication with an API key or named user is required to access basemaps and other location services
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a scene view and add it to the stack pane
+      sceneView = new SceneView();
+      stackPane.getChildren().add(sceneView);
 
       // create a scene with a basemap and add it to the scene view
       ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
