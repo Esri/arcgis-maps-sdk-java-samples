@@ -31,10 +31,11 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.layers.KmlLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.ogc.kml.KmlContainer;
@@ -66,8 +67,12 @@ public class ListKMLContentsSample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // create a map and add it to the map view
-      ArcGISScene scene = new ArcGISScene(Basemap.createImageryWithLabels());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a scene add it to the scene view
+      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
       sceneView = new SceneView();
       sceneView.setArcGISScene(scene);
 
