@@ -64,12 +64,12 @@ public class StyleWmsLayerSample extends Application {
 
       // create style toggle button, disable until layer is loaded
       ToggleButton styleToggleButton = new ToggleButton();
-      styleToggleButton.setText("Toggle style");
+      styleToggleButton.setText("Default");
       styleToggleButton.setDisable(true);
 
       // create a WMS layer
-      List<String> wmsLayerNames = Collections.singletonList("fsa2017");
-      String url = "http://geoint.lmic.state.mn.us/cgi-bin/wms?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetCapabilities";
+      List<String> wmsLayerNames = Collections.singletonList("mncomp");
+      String url = "https://imageserver.gisdata.mn.gov/cgi-bin/mncomp?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities";
       wmsLayer = new WmsLayer(url, wmsLayerNames);
       wmsLayer.addDoneLoadingListener(() -> {
         if (wmsLayer.getLoadStatus() == LoadStatus.LOADED) {
@@ -85,9 +85,12 @@ public class StyleWmsLayerSample extends Application {
           // set the style when the button is toggled
           styleToggleButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (styleToggleButton.isSelected()) {
+              // contrast Stretch - 2 Std. Deviations contrast stretch
+              styleToggleButton.setText("Contrast Stretch");
               wmsLayer.getSublayers().get(0).setCurrentStyle(styles.get(1));
             } else {
-              // default style
+              // default - color as it appears in aerial imagery
+              styleToggleButton.setText("Default");
               wmsLayer.getSublayers().get(0).setCurrentStyle(styles.get(0));
             }
           });
