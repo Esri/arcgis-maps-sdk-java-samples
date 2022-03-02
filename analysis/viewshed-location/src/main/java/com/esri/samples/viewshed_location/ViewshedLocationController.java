@@ -27,6 +27,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geoanalysis.LocationViewshed;
 import com.esri.arcgisruntime.geoanalysis.Viewshed;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -35,7 +36,7 @@ import com.esri.arcgisruntime.geometry.PointBuilder;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.AnalysisOverlay;
 import com.esri.arcgisruntime.mapping.view.Camera;
@@ -54,9 +55,13 @@ public class ViewshedLocationController {
   @FXML private Slider maxDistanceSlider;
 
   public void initialize() {
-    // create a scene and add a basemap to it
-    ArcGISScene scene = new ArcGISScene();
-    scene.setBasemap(Basemap.createImagery());
+
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+    // create a scene with a basemap style and set it to the scene view
+    ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
     sceneView.setArcGISScene(scene);
 
     // add base surface for elevation data

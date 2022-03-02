@@ -22,11 +22,13 @@ import java.util.concurrent.ExecutionException;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.UnitSystem;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geoanalysis.LocationDistanceMeasurement;
@@ -34,9 +36,10 @@ import com.esri.arcgisruntime.geometry.Distance;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.AnalysisOverlay;
 import com.esri.arcgisruntime.mapping.view.Camera;
@@ -54,9 +57,12 @@ public class DistanceMeasurementAnalysisController {
 
   public void initialize() {
 
-    // create a scene and set it to the scene view
-    ArcGISScene scene = new ArcGISScene();
-    scene.setBasemap(Basemap.createTopographic());
+    // authentication with an API key or named user is required to access basemaps and other location services
+    String yourAPIKey = System.getProperty("apiKey");
+    ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+    // create a scene with a basemap style and set it to the scene view
+    ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_TOPOGRAPHIC);
     sceneView.setArcGISScene(scene);
 
     // add base surface for elevation data
@@ -80,7 +86,13 @@ public class DistanceMeasurementAnalysisController {
     analysisOverlay.getAnalyses().add(distanceMeasurement);
 
     // zoom to the initial measurement
-    sceneView.setViewpointCamera(new Camera(start, 200.0, 0.0, 45.0, 0.0));
+    scene.addDoneLoadingListener(() -> {
+      if (scene.getLoadStatus() == LoadStatus.LOADED) {
+        sceneView.setViewpointCamera(new Camera(start, 200.0, 0.0, 45.0, 0.0));
+      } else {
+        new Alert(Alert.AlertType.ERROR, "Scene failed to load").show();
+      }
+    });
 
     // show the distances in the UI when the measurement changes
     DecimalFormat decimalFormat = new DecimalFormat("#.##");

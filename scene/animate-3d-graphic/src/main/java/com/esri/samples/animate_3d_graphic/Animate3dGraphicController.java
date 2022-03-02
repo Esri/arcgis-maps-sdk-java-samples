@@ -36,6 +36,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.util.Duration;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
@@ -44,7 +45,7 @@ import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.GlobeCameraController;
@@ -91,8 +92,13 @@ public class Animate3dGraphicController {
   public void initialize() {
 
     try {
+
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a scene
-      ArcGISScene scene = new ArcGISScene(Basemap.createImagery());
+      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
       sceneView.setArcGISScene(scene);
 
       // add elevation data
@@ -114,7 +120,7 @@ public class Animate3dGraphicController {
       sceneOverlay.setRenderer(renderer3D);
 
       // set up mini map
-      ArcGISMap map = new ArcGISMap(Basemap.createImagery());
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY);
       mapView.setMap(map);
 
       // create a graphics overlay for the mini map

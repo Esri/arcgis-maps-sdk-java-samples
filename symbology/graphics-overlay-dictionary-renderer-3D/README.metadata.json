@@ -1,6 +1,6 @@
 {
     "category": "Symbology",
-    "description": "Display MIL-STD-2525. military symbology in 3D.",
+    "description": "Create graphics from an XML file with key-value pairs for each graphic, and display the military symbols using a MIL-STD-2525D web style in 3D.",
     "ignore": false,
     "images": [
         "GraphicsOverlayDictionaryRenderer3D.png"

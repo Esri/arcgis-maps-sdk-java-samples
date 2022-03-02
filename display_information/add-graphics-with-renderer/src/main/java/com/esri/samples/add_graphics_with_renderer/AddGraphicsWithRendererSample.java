@@ -17,11 +17,19 @@
 package com.esri.samples.add_graphics_with_renderer;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.geometry.AngularUnit;
+import com.esri.arcgisruntime.geometry.AngularUnitId;
 import com.esri.arcgisruntime.geometry.CubicBezierSegment;
 import com.esri.arcgisruntime.geometry.EllipticArcSegment;
+import com.esri.arcgisruntime.geometry.GeodesicEllipseParameters;
 import com.esri.arcgisruntime.geometry.Geometry;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
+import com.esri.arcgisruntime.geometry.GeometryType;
+import com.esri.arcgisruntime.geometry.LinearUnit;
+import com.esri.arcgisruntime.geometry.LinearUnitId;
 import com.esri.arcgisruntime.geometry.Part;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.PolygonBuilder;
 import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.geometry.SpatialReference;
@@ -136,6 +144,15 @@ public class AddGraphicsWithRendererSample extends Application {
       curvedGraphicOverlay.getGraphics().add(heartGraphic);
       mapView.getGraphicsOverlays().add(curvedGraphicOverlay);
 
+      // purple ellipse polygon graphic
+      GraphicsOverlay ellipseGraphicOverlay = new GraphicsOverlay();
+      SimpleFillSymbol ellipseSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.PURPLE), null);
+      SimpleRenderer ellipseRenderer = new SimpleRenderer(ellipseSymbol);
+      ellipseGraphicOverlay.setRenderer(ellipseRenderer);
+      Graphic ellipseGraphic = new Graphic(makeEllipse());
+      ellipseGraphicOverlay.getGraphics().add(ellipseGraphic);
+      mapView.getGraphicsOverlays().add(ellipseGraphicOverlay);
+
       // add the map view to stack pane
       stackPane.getChildren().add(mapView);
 
@@ -192,6 +209,29 @@ public class AddGraphicsWithRendererSample extends Application {
 
     // return the geometry of the heart-shaped polygon
     return heartShape.toGeometry();
+  }
+
+  /**
+   * Create an ellipse shaped polygon.
+   *
+   * @return ellipse shaped polygon
+   */
+  private Polygon makeEllipse() {
+    // create and set all the parameters so that the ellipse has a major axis of 400 kilometres,
+    // a minor axis of 200 kilometres and is rotated at an angle of -45 degrees.
+    GeodesicEllipseParameters parameters = new GeodesicEllipseParameters();
+
+    parameters.setCenter(new Point(40e5,25e5, SpatialReferences.getWebMercator()));
+    parameters.setGeometryType(GeometryType.POLYGON);
+    parameters.setSemiAxis1Length(200);
+    parameters.setSemiAxis2Length(400);
+    parameters.setAxisDirection(-45);
+    parameters.setMaxPointCount(100);
+    parameters.setAngularUnit(new AngularUnit(AngularUnitId.DEGREES));
+    parameters.setLinearUnit(new LinearUnit(LinearUnitId.KILOMETERS));
+    parameters.setMaxSegmentLength(20);
+
+    return (Polygon) GeometryEngine.ellipseGeodesic(parameters);
   }
 
   /**
