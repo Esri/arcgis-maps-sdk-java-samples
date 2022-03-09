@@ -129,6 +129,16 @@
                     <Tooltip text="Freehand Polygon"/>
                 </tooltip>
             </Button>
+            <Button onAction="#handleRectangleButtonClicked" GridPane.rowIndex="3" GridPane.columnIndex="0">
+                <graphic>
+                    <ImageView>
+                        <Image url="/sketch_on_map/rectangle.png"/>
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Rectangle"/>
+                </tooltip>
+            </Button>
         </GridPane>
         <Separator maxWidth="100"/>
         <GridPane vgap="6" hgap="6">
