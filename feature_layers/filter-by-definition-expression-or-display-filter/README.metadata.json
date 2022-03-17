@@ -20,7 +20,8 @@
         "ServiceFeatureTable"
     ],
     "redirect_from": [
-        "/java/latest/sample-code/feature-layer-definition-expression.htm"
+        "/java/latest/sample-code/feature-layer-definition-expression.htm",
+        "/java/sample-code/feature-layer-definition-expression/"
     ],
     "relevant_apis": [
         "DefinitionExpression",

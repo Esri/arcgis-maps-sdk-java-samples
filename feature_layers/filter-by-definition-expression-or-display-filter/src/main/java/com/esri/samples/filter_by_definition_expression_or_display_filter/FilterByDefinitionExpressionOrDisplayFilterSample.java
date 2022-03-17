@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2021 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -190,6 +190,7 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
 
   /**
    * Creates a UI with three buttons and a label.
+   * @return a vBox populated with buttons and labels
    */
   private VBox controlsVBox() {
 
@@ -219,7 +220,6 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
     controlsVBox.getChildren().addAll(hBox, buttonVBox);
 
     return controlsVBox;
-
   }
 
   /**
