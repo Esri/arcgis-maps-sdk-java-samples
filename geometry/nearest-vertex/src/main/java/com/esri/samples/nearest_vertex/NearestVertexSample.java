@@ -35,17 +35,19 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.ProximityResult;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -53,6 +55,8 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 public class NearestVertexSample extends Application {
 
   private MapView mapView;
+  // California zone 5 (ftUS) state plane coordinate system.
+  private final SpatialReference statePlaneCaliforniaZone5SpatialReference = SpatialReference.create(2229);
 
   @Override
   public void start(Stage stage) {
@@ -74,8 +78,14 @@ public class NearestVertexSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the topographic basemap style
-      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+      // create a new feature layer from a new portal item 
+      var portalItem = new PortalItem(
+        new Portal("https://arcgisruntime.maps.arcgis.com", false), "99fd67933e754a1181cc755146be21ca");
+      FeatureLayer usStatesGeneralizedLayer = new FeatureLayer(portalItem, 0);
+      // create a new map using the California zone 5 spatial reference
+      ArcGISMap map = new ArcGISMap(statePlaneCaliforniaZone5SpatialReference);
+      // add the feature layer to the map's list of base layers
+      map.getBasemap().getBaseLayers().add(usStatesGeneralizedLayer);
 
       // create a map view and set the map to it
       mapView = new MapView();
@@ -85,14 +95,16 @@ public class NearestVertexSample extends Application {
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create a graphic for the polygon
-      PointCollection polygonPoints = new PointCollection(SpatialReferences.getWebMercator());
+      // create a point collection to construct a polygon with, using the California zone 5 (ftUS) state plane coordinate system
+      PointCollection polygonPoints = new PointCollection(statePlaneCaliforniaZone5SpatialReference);
       polygonPoints.addAll(Arrays.asList(
-          new Point(-5991501.677830, 5599295.131468),
-          new Point(-6928550.398185, 2087936.739807),
-          new Point(-3149463.800709, 1840803.011362),
-          new Point(-1563689.043184, 3714900.452072),
-          new Point(-3180355.516764, 5619889.608838)));
+          new Point(6627416.41469281, 1804532.53233782),
+          new Point(6669147.89779046, 2479145.16609522),
+          new Point(7265673.02678292, 2484254.50442408),
+          new Point(7676192.55880379, 2001458.66365744),
+          new Point(7175695.94143837, 1840722.34474458)));
+
+      // create a graphic for the polygon
       Polygon polygon = new Polygon(polygonPoints);
       SimpleLineSymbol polygonOutlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF00FF00, 2);
       SimpleFillSymbol polygonFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL, 0xFF00FF00, polygonOutlineSymbol);
@@ -135,22 +147,20 @@ public class NearestVertexSample extends Application {
 
           // create a map point from a point
           Point mapPoint = mapView.screenToLocation(point);
-
-          // the map point should be normalized to the central meridian when wrapping around a map, so its value stays within the coordinate system of the map view
-          Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
+          
           // show where the user clicked
-          clickedLocationGraphic.setGeometry(normalizedMapPoint);
+          clickedLocationGraphic.setGeometry(mapPoint);
 
           // show the nearest coordinate and vertex
-          ProximityResult nearestCoordinateResult = GeometryEngine.nearestCoordinate(polygon, normalizedMapPoint);
-          ProximityResult nearestVertexResult = GeometryEngine.nearestVertex(polygon, normalizedMapPoint);
+          ProximityResult nearestCoordinateResult = GeometryEngine.nearestCoordinate(polygon, mapPoint);
+          ProximityResult nearestVertexResult = GeometryEngine.nearestVertex(polygon, mapPoint);
           nearestVertexGraphic.setGeometry(nearestVertexResult.getCoordinate());
           nearestCoordinateGraphic.setGeometry(nearestCoordinateResult.getCoordinate());
 
-          // show the distances to the nearest vertex and nearest coordinate rounded to the nearest kilometer
-          int vertexDistance = (int) (nearestVertexResult.getDistance() / 1000.0);
-          int coordinateDistance = (int) (nearestCoordinateResult.getDistance() / 1000.0);
-          distancesLabel.setText("Vertex distance: " + vertexDistance + " km\nCoordinate distance: " + coordinateDistance + " km");
+          // show the distances to the nearest vertex and nearest coordinate, converted from feet to miles
+          int vertexDistance = (int) (nearestVertexResult.getDistance() / 5280.0);
+          int coordinateDistance = (int) (nearestCoordinateResult.getDistance() / 5280.0);
+          distancesLabel.setText("Vertex distance: " + vertexDistance + " mi\nCoordinate distance: " + coordinateDistance + " mi");
         }
       });
 
