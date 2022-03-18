@@ -14,9 +14,9 @@ Alternatively, display filters limit which features are drawn, but retain all fe
 
 In this sample you can filter a dataset of tree quality selecting for only those trees which require maintenance or are damaged.
 
-Click the 'Apply definition expression' button to limit the features requested from the feature layer to those specified by the SQL query definition expression. This option not only narrows down the results that are drawn, but also removes those features from the layer's attribute table. 
+Click the 'Apply definition expression' button to limit the features requested from the feature layer to those specified by the SQL query definition expression. This option not only narrows down the results that are drawn, but also removes those features from the layer's attribute table.
 
-To filter the results being drawn without modifying the attribute table, click the 'Apply display filter' button. 
+To filter the results being drawn without modifying the attribute table, click the 'Apply display filter' button.
 
 Click the 'Reset' button to remove the definition expression or display filter on the feature layer, and return all records.
 
