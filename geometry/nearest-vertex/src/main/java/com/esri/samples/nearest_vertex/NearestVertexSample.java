@@ -95,7 +95,7 @@ public class NearestVertexSample extends Application {
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create a point collection to construct a polygon with, using the California zone 5 (ftUS) state plane coordinate system
+      // construct a polygon from a point collection that uses the California zone 5 (ftUS) state plane coordinate system
       PointCollection polygonPoints = new PointCollection(statePlaneCaliforniaZone5SpatialReference);
       polygonPoints.addAll(Arrays.asList(
           new Point(6627416.41469281, 1804532.53233782),
