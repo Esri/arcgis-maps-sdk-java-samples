@@ -65,7 +65,7 @@ run {
         systemProperty 'apiKey', apiKey
     }
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.feature_layer_definition_expression.FeatureLayerDefinitionExpressionLauncher'
+    mainClassName = 'com.esri.samples.filter_by_definition_expression_or_display_filter.FilterByDefinitionExpressionOrDisplayFilterLauncher'
 }
 
 jar {
