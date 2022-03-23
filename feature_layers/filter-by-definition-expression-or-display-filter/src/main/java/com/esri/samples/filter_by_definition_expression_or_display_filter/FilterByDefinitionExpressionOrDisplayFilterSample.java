@@ -62,7 +62,7 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
   private MapView mapView;
   private FeatureLayer featureLayer;
 
-  private final static String FEATURE_SERVICE_URL =
+  private static final String FEATURE_SERVICE_URL =
     "https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/SF_311_Incidents/FeatureServer/0";
 
   @Override
