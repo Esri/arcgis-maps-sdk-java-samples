@@ -60,7 +60,7 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
   private Label featureCountLabel;
 
   private MapView mapView;
-  private FeatureLayer featureLayer;
+  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
 
   private static final String FEATURE_SERVICE_URL =
     "https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/SF_311_Incidents/FeatureServer/0";
