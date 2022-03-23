@@ -55,7 +55,7 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 public class NearestVertexSample extends Application {
 
   private MapView mapView;
-  // California zone 5 (ftUS) state plane coordinate system.
+  // California zone 5 (ftUS) state plane coordinate system
   private final SpatialReference statePlaneCaliforniaZone5SpatialReference = SpatialReference.create(2229);
 
   @Override
