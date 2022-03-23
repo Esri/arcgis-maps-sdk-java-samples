@@ -1,0 +1,36 @@
+{
+    "category": "Feature layers",
+    "description": "Display features on a map using a definition expression or a display filter.",
+    "ignore": false,
+    "images": [
+        "FilterByDefinitionExpressionOrDisplayFilter.png"
+    ],
+    "keywords": [
+        "definition expression",
+        "display filter",
+        "filter",
+        "limit data",
+        "query",
+        "restrict data",
+        "SQL",
+        "where clause",
+        "DefinitionExpression",
+        "DisplayFilter",
+        "FeatureLayer",
+        "ServiceFeatureTable"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/feature-layer-definition-expression.htm",
+        "/java/sample-code/feature-layer-definition-expression/"
+    ],
+    "relevant_apis": [
+        "DefinitionExpression",
+        "DisplayFilter",
+        "FeatureLayer",
+        "ServiceFeatureTable"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/filter_by_definition_expression_or_display_filter/FilterByDefinitionExpressionOrDisplayFilterSample.java"
+    ],
+    "title": "Filter by definition expression or display filter"
+}
