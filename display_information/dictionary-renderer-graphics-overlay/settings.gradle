@@ -6,7 +6,7 @@ def ant = new groovy.util.AntBuilder()
 if (!file("./samples-data").exists()) {
     file("./samples-data/xml").mkdirs()
     ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/623382e0113d40698538f249e3bcb1c0/data",
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/8776cfc26eed4485a03de6316826384c/data",
             dest: file("./data.zip")
     )
     ant.unzip(
