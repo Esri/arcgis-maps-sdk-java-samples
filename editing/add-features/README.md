@@ -14,11 +14,12 @@ Click on a location on the map to add a feature at that location.
 
 ## How it works
 
-1. Create a `ServiceFeatureTable` from a URL.
-2. Create a `FeatureLayer` derived from the `ServiceFeatureTable` instance.
-3. Create a `Feature` with attributes and a location using the `ServiceFeatureTable`.
-4. Add the `Feature` to the `ServiceFeatureTable`.
-5. *Apply edits* to the `ServiceFeatureTable` which will upload the new feature to the online service.
+1. Create and load a `ServiceGeodatabase` with a feature service URL.
+2. Get the `ServiceFeatureTable` from the service geodatabase.
+3. Create a `FeatureLayer` from the service feature table.
+4. Create a `Feature` with attributes and a location using the `ServiceFeatureTable`.
+5. Add the `Feature` to the `ServiceFeatureTable`.
+6. Apply edits to the `ServiceGeodatabase` by calling `applyEditsAsync`, which will upload the new feature to the online service.
 
 ## Relevant API
 
@@ -26,6 +27,7 @@ Click on a location on the map to add a feature at that location.
 * FeatureEditResult
 * FeatureLayer
 * ServiceFeatureTable
+* ServiceGeodatabase
 
 ## Tags
 
