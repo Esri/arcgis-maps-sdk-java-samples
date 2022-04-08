@@ -36,9 +36,10 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.data.FeatureEditResult;
+import com.esri.arcgisruntime.data.FeatureTableEditResult;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.ServiceGeodatabase;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
@@ -55,7 +56,7 @@ public class DeleteFeaturesSample extends Application {
   private ListenableFuture<FeatureQueryResult> selectionResult;
 
   private static final String FEATURE_LAYER_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer";
 
   @Override
   public void start(Stage stage) {
@@ -106,14 +107,20 @@ public class DeleteFeaturesSample extends Application {
       // set a viewpoint on the map view
       mapView.setViewpoint(new Viewpoint(40, -95, 36978595));
 
-      // create service feature table from URL
-      featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
+      // create a service geodatabase from the service layer url and load it
+      var serviceGeodatabase = new ServiceGeodatabase(FEATURE_LAYER_URL);
+      serviceGeodatabase.addDoneLoadingListener(() -> {
 
-      // create a feature layer from table
-      featureLayer = new FeatureLayer(featureTable);
+        // create service feature table from the service geodatabase's table first layer
+        featureTable = serviceGeodatabase.getTable(0);
 
-      // add the layer to the ArcGISMap
-      map.getOperationalLayers().add(featureLayer);
+        // create a feature layer from table
+        featureLayer = new FeatureLayer(featureTable);
+
+        // add the layer to the ArcGISMap
+        map.getOperationalLayers().add(featureLayer);
+      });
+      serviceGeodatabase.loadAsync();
 
       mapView.setOnMouseClicked(event -> {
         // check for primary or secondary mouse click
@@ -125,13 +132,22 @@ public class DeleteFeaturesSample extends Application {
           results.addDoneListener(() -> {
             try {
               IdentifyLayerResult layer = results.get();
-              // search the layers for identified features
-              List<Feature> features = layer.getElements().stream().filter(g -> g instanceof Feature).map(
-                  g -> (Feature) g).collect(Collectors.toList());
-              // add the clicked feature to the selection
-              if (features.size() > 0) {
-                featureLayer.selectFeatures(features);
-                deleteButton.setDisable(false);
+              if (!layer.getElements().isEmpty()) {
+                // search the layers for identified features
+                List<Feature> features = layer.getElements()
+                  .stream()
+                  .filter(g -> g instanceof Feature)
+                  .map(g -> (Feature) g)
+                  .collect(Collectors.toList());
+                // add the clicked feature to the selection
+                if (features.size() > 0) {
+                  featureLayer.selectFeatures(features);
+                  deleteButton.setDisable(false);
+                }
+                // when no features are clicked on, clear any existing feature selection, and disable delete button
+              } else {
+                featureLayer.clearSelection();
+                deleteButton.setDisable(true);
               }
             } catch (InterruptedException | ExecutionException e) {
               displayMessage("Exception getting identify result", e.getCause().getMessage());
@@ -169,16 +185,18 @@ public class DeleteFeaturesSample extends Application {
   private void applyEdits(ServiceFeatureTable featureTable) {
 
     // apply the changes to the server
-    ListenableFuture<List<FeatureEditResult>> editResult = featureTable.applyEditsAsync();
+    ListenableFuture<List<FeatureTableEditResult>> editResult = featureTable.getServiceGeodatabase().applyEditsAsync();
     editResult.addDoneListener(() -> {
       try {
-        List<FeatureEditResult> edits = editResult.get();
+        List<FeatureTableEditResult> edits = editResult.get();
         // check if the server edit was successful
         if (edits != null && edits.size() > 0) {
-          if (!edits.get(0).hasCompletedWithErrors()) {
+          var featureEditResult = edits.get(0).getEditResult().get(0);
+          if (!featureEditResult.hasCompletedWithErrors()) {
             displayMessage(null, "Feature successfully deleted");
+            deleteButton.setDisable(true);
           } else {
-            throw edits.get(0).getError();
+            throw featureEditResult.getError();
           }
         }
       } catch (InterruptedException | ExecutionException e) {
