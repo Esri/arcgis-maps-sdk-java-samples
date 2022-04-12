@@ -114,7 +114,7 @@ public class DeleteFeaturesSample extends Application {
         // create a service feature table from the first layer on the service geodatabase's table
         featureTable = serviceGeodatabase.getTable(0);
 
-        // create a feature layer from table
+        // create a feature layer from the feature table
         featureLayer = new FeatureLayer(featureTable);
 
         // add the layer to the ArcGISMap
