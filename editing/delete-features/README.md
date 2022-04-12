@@ -30,4 +30,4 @@ Click on a feature on the Map, then click the 'delete' button to delete.
 
 ## Tags
 
-deletion, feature, online, Service, table
+deletion, feature, online, service, table
