@@ -139,7 +139,7 @@ public class UpdateAttributesSample extends Application {
       var serviceGeodatabase = new ServiceGeodatabase(FEATURE_LAYER_URL);
       serviceGeodatabase.addDoneLoadingListener(() -> {
 
-        // create service feature table from the service geodatabase's table first layer
+        // create a service feature table from the first layer on the service geodatabase's table
         featureTable = serviceGeodatabase.getTable(0);
 
         // create a feature layer from table
