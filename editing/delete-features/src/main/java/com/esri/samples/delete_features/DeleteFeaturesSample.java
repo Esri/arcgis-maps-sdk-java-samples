@@ -127,6 +127,11 @@ public class DeleteFeaturesSample extends Application {
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
           // create a point from where the user clicked
           Point2D point = new Point2D(event.getX(), event.getY());
+
+          // clear any previous selection
+          featureLayer.clearSelection();
+          deleteButton.setDisable(true);
+          
           // identify the clicked feature
           ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false);
           results.addDoneListener(() -> {
@@ -144,10 +149,6 @@ public class DeleteFeaturesSample extends Application {
                   featureLayer.selectFeatures(features);
                   deleteButton.setDisable(false);
                 }
-                // when no features are clicked on, clear any existing feature selection, and disable delete button
-              } else {
-                featureLayer.clearSelection();
-                deleteButton.setDisable(true);
               }
             } catch (InterruptedException | ExecutionException e) {
               displayMessage("Exception getting identify result", e.getCause().getMessage());

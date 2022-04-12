@@ -14,18 +14,19 @@ Click a feature to select it. Click again to set the updated location for that f
 
 ## How it works
 
-1. Create a `ServiceFeatureTable` object from a URL.
-2. Create a `FeatureLayer` object from the `ServiceFeatureTable`.
-3. Select a feature from the `FeatureLayer` using `.selectFeature()`.
-4. Load the selected feature.
+1. Create and load a `ServiceGeodatabase` with a feature service URL.
+2. Get the `ServiceFeatureTable` from the service geodatabase.
+3. Create a `FeatureLayer` from the service feature table.
+4. Select and load a feature from the `FeatureLayer`.
 5. Change the selected feature's location using `Feature.setGeometry(geometry)`.
-6. After the change, update the table on the server using `.applyEditsAsync()`.
+6. Apply edits to the `ServiceGeodatabase` by calling `applyEditsAsync`, which will update the feature's geometry on the online service.
 
 ## Relevant API
 
 * Feature
 * FeatureLayer
 * ServiceFeatureTable
+* ServiceGeodatabase
 
 ## Tags
 

@@ -34,11 +34,14 @@ import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.data.FeatureEditResult;
+import com.esri.arcgisruntime.data.FeatureTableEditResult;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.ServiceGeodatabase;
+
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.GeoElement;
@@ -54,7 +57,7 @@ public class UpdateGeometriesSample extends Application {
   private ArcGISFeature selectedFeature; // keep loadable in scope to avoid garbage collection
 
   private static final String FEATURE_LAYER_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer";
 
   @Override
   public void start(Stage stage) {
@@ -85,10 +88,28 @@ public class UpdateGeometriesSample extends Application {
       // set a viewpoint on the map view
       mapView.setViewpoint(new Viewpoint(40, -95, 36978595));
 
-      // add features from a feature service
-      featureTable = new ServiceFeatureTable(FEATURE_LAYER_URL);
-      featureLayer = new FeatureLayer(featureTable);
-      map.getOperationalLayers().add(featureLayer);
+      // create a service geodatabase from the service layer url and load it
+      var serviceGeodatabase = new ServiceGeodatabase(FEATURE_LAYER_URL);
+      serviceGeodatabase.addDoneLoadingListener(() -> {
+
+        // create service feature table from the service geodatabase's table first layer
+        featureTable = serviceGeodatabase.getTable(0);
+
+        // create a feature layer from table
+        featureLayer = new FeatureLayer(featureTable);
+
+        // add the layer to the ArcGISMap
+        map.getOperationalLayers().add(featureLayer);
+
+        // show alert if layer fails to load
+        featureLayer.addDoneLoadingListener(()->{
+          if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
+            displayMessage("Error", "Error loading feature layer");
+          }
+        });
+
+      });
+      serviceGeodatabase.loadAsync();
 
       // handle clicks on the map view to select and move features
       mapView.setOnMouseClicked((MouseEvent event) -> {
@@ -168,20 +189,22 @@ public class UpdateGeometriesSample extends Application {
   private void applyEdits() {
 
     // apply the changes to the server
-    ListenableFuture<List<FeatureEditResult>> editResult = featureTable.applyEditsAsync();
+    ListenableFuture<List<FeatureTableEditResult>> editResult = featureTable.getServiceGeodatabase().applyEditsAsync();
     editResult.addDoneListener(() -> {
       try {
-        List<FeatureEditResult> edits = editResult.get();
+        List<FeatureTableEditResult> edits = editResult.get();
         // check if the server edit was successful
         if (edits != null && edits.size() > 0) {
-          if (!edits.get(0).hasCompletedWithErrors()) {
+          var featureEditResult = edits.get(0).getEditResult().get(0);
+          if (!featureEditResult.hasCompletedWithErrors()) {
             displayMessage(null, "Geometry updated");
+            featureLayer.clearSelection();
           } else {
-            throw edits.get(0).getError();
+            throw featureEditResult.getError();
           }
         }
       } catch (InterruptedException | ExecutionException e) {
-        displayMessage("Error applying edits on server", e.getCause().getMessage());
+        displayMessage("Exception applying edits on server", e.getCause().getMessage());
       }
     });
   }

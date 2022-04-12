@@ -42,8 +42,9 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
-import com.esri.arcgisruntime.data.FeatureEditResult;
+import com.esri.arcgisruntime.data.FeatureTableEditResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.ServiceGeodatabase;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -57,9 +58,13 @@ public class UpdateAttributesSample extends Application {
 
   private ArcGISFeature identifiedFeature;
   private ServiceFeatureTable featureTable;
+  private FeatureLayer featureLayer;
   private MapView mapView;
 
   private ComboBox<String> comboBox;
+
+  private static final String FEATURE_LAYER_URL =
+    "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer";
 
   @Override
   public void start(Stage stage) {
@@ -130,21 +135,28 @@ public class UpdateAttributesSample extends Application {
       // set a viewpoint on the map view
       mapView.setViewpoint(new Viewpoint(40, -95,36978595));
 
-      // create service feature table from URL
-      featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
+      // create a service geodatabase from the service layer url and load it
+      var serviceGeodatabase = new ServiceGeodatabase(FEATURE_LAYER_URL);
+      serviceGeodatabase.addDoneLoadingListener(() -> {
 
-      // create a feature layer with the feature table
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+        // create service feature table from the service geodatabase's table first layer
+        featureTable = serviceGeodatabase.getTable(0);
 
-      // add the feature layer to the map
-      map.getOperationalLayers().add(featureLayer);
+        // create a feature layer from table
+        featureLayer = new FeatureLayer(featureTable);
 
-      // show alert if layer fails to load
-      featureLayer.addDoneLoadingListener(()->{
-        if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
-          displayMessage("Error", "Error loading feature layer");
-        }
+        // add the layer to the ArcGISMap
+        map.getOperationalLayers().add(featureLayer);
+
+        // show alert if layer fails to load
+        featureLayer.addDoneLoadingListener(()->{
+          if (featureLayer.getLoadStatus() != LoadStatus.LOADED) {
+            displayMessage("Error", "Error loading feature layer");
+          }
+        });
+        
       });
+      serviceGeodatabase.loadAsync();
 
       mapView.setOnMouseClicked(event -> {
         // accept only primary mouse click
@@ -222,21 +234,22 @@ public class UpdateAttributesSample extends Application {
    */
   private void applyEdits(ServiceFeatureTable featureTable) {
 
-    // apply the changes to the server
-    ListenableFuture<List<FeatureEditResult>> editResult = featureTable.applyEditsAsync();
+// apply the changes to the server
+    ListenableFuture<List<FeatureTableEditResult>> editResult = featureTable.getServiceGeodatabase().applyEditsAsync();
     editResult.addDoneListener(() -> {
       try {
-        List<FeatureEditResult> edits = editResult.get();
+        List<FeatureTableEditResult> edits = editResult.get();
         // check if the server edit was successful
         if (edits != null && edits.size() > 0) {
-          if (!edits.get(0).hasCompletedWithErrors()) {
-            displayMessage(null, "Attributes updated.");
+          var featureEditResult = edits.get(0).getEditResult().get(0);
+          if (!featureEditResult.hasCompletedWithErrors()) {
+            displayMessage(null, "Attributes updated");
           } else {
-            throw edits.get(0).getError();
+            throw featureEditResult.getError();
           }
         }
       } catch (InterruptedException | ExecutionException e) {
-        displayMessage("Error applying edits on server", e.getCause().getMessage());
+        displayMessage("Exception applying edits on server", e.getCause().getMessage());
       }
     });
   }
