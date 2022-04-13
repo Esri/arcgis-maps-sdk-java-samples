@@ -12,7 +12,8 @@
         "Feature",
         "FeatureEditResult",
         "FeatureLayer",
-        "ServiceFeatureTable"
+        "ServiceFeatureTable",
+        "ServiceGeodatabase"
     ],
     "redirect_from": [
         "/java/latest/sample-code/add-features.htm"
@@ -21,7 +22,8 @@
         "Feature",
         "FeatureEditResult",
         "FeatureLayer",
-        "ServiceFeatureTable"
+        "ServiceFeatureTable",
+        "ServiceGeodatabase"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/add_features/AddFeaturesSample.java"
