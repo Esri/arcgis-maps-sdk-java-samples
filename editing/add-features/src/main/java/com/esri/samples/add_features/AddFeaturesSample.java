@@ -34,8 +34,9 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.data.FeatureEditResult;
+import com.esri.arcgisruntime.data.FeatureTableEditResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
+import com.esri.arcgisruntime.data.ServiceGeodatabase;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
@@ -51,7 +52,7 @@ public class AddFeaturesSample extends Application {
   private ServiceFeatureTable featureTable;
 
   private static final String SERVICE_LAYER_URL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0";
+      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer";
 
   @Override
   public void start(Stage stage) {
@@ -82,15 +83,21 @@ public class AddFeaturesSample extends Application {
       // set a viewpoint on the map view
       mapView.setViewpoint(new Viewpoint(40, -95, 36978595));
 
-      // create service feature table from URL
-      featureTable = new ServiceFeatureTable(SERVICE_LAYER_URL);
+      // create a service geodatabase from the service layer url and load it
+      var serviceGeodatabase = new ServiceGeodatabase(SERVICE_LAYER_URL);
+      serviceGeodatabase.addDoneLoadingListener(() -> {
 
-      // create a feature layer from table
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+        // create service feature table from the service geodatabase's table first layer
+        featureTable = serviceGeodatabase.getTable(0);
 
-      // add the layer to the ArcGISMap
-      map.getOperationalLayers().add(featureLayer);
-
+        // create a feature layer from table
+        var featureLayer = new FeatureLayer(featureTable);
+        
+        // add the layer to the ArcGISMap
+        map.getOperationalLayers().add(featureLayer);
+      });
+      serviceGeodatabase.loadAsync();
+      
       mapView.setOnMouseClicked(event -> {
         // check that the primary mouse button was clicked
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
@@ -152,16 +159,17 @@ public class AddFeaturesSample extends Application {
   private void applyEdits(ServiceFeatureTable featureTable) {
 
     // apply the changes to the server
-    ListenableFuture<List<FeatureEditResult>> editResult = featureTable.applyEditsAsync();
+    ListenableFuture<List<FeatureTableEditResult>> editResult = featureTable.getServiceGeodatabase().applyEditsAsync();
     editResult.addDoneListener(() -> {
       try {
-        List<FeatureEditResult> edits = editResult.get();
+        List<FeatureTableEditResult> edits = editResult.get();
         // check if the server edit was successful
         if (edits != null && edits.size() > 0) {
-          if (!edits.get(0).hasCompletedWithErrors()) {
+          var featureEditResult = edits.get(0).getEditResult().get(0);
+          if (!featureEditResult.hasCompletedWithErrors()) {
             displayMessage(null, "Feature successfully added");
           } else {
-            throw edits.get(0).getError();
+            throw featureEditResult.getError();
           }
         }
       } catch (InterruptedException | ExecutionException e) {
