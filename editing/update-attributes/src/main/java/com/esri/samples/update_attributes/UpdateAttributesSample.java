@@ -234,7 +234,7 @@ public class UpdateAttributesSample extends Application {
    */
   private void applyEdits(ServiceFeatureTable featureTable) {
 
-// apply the changes to the server
+    // apply the changes to the server
     ListenableFuture<List<FeatureTableEditResult>> editResult = featureTable.getServiceGeodatabase().applyEditsAsync();
     editResult.addDoneListener(() -> {
       try {
