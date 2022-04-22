@@ -57,7 +57,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
       scene.getStylesheets().add(getClass().getResource(
-              "/apply_scheduled_updates_to_preplanned_map_area/style.css").toExternalForm());
+        "/apply_scheduled_updates_to_preplanned_map_area/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Apply Scheduled Updates to Preplanned Map Area");
@@ -122,7 +122,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           long updateSize = offlineMapUpdatesInfo.getScheduledUpdatesDownloadSize();
 
           // create a dialog to show the update information
-          Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Update size: " + updateSize + " bytes. Apply the update?");
+          var alert = new Alert(Alert.AlertType.CONFIRMATION, "Update size: " + updateSize + " bytes. Apply the update?");
           alert.setTitle("Updates Available");
           alert.setHeaderText("An update is available for this preplanned map area.");
 
@@ -136,7 +136,7 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
 
         } else {
           // show a dialog that no updates are available
-          Alert alert = new Alert(Alert.AlertType.INFORMATION, "The preplanned map area is up to date.");
+          var alert = new Alert(Alert.AlertType.INFORMATION, "The preplanned map area is up to date.");
           alert.setTitle("Up to Date");
           alert.setHeaderText("No updates available.");
           alert.show();
@@ -173,20 +173,20 @@ public class ApplyScheduledUpdatesToPreplannedMapAreaSample extends Application 
           if (offlineMapSyncJob.getStatus() == Job.Status.SUCCEEDED) {
             OfflineMapSyncResult offlineMapSyncResult = offlineMapSyncJob.getResult();
 
-            // if mobile map package reopen is required, close the existing mobile map package and load it again
+            // if mobile map package reopen is required, close the existing mobile map package
             if (offlineMapSyncResult.isMobileMapPackageReopenRequired()) {
               mobileMapPackage.close();
-              mobileMapPackage.loadAsync();
-              mobileMapPackage.addDoneLoadingListener(() -> {
-                if (mobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !mobileMapPackage.getMaps().isEmpty()) {
-
-                  // add the map from the mobile map package to the map view
-                  mapView.setMap(mobileMapPackage.getMaps().get(0));
-
+              // create a new instance of the now updated mobile map package and load it
+              var updatedMobileMapPackage = new MobileMapPackage(tempMobileMapPackageDirectory.toString());
+              updatedMobileMapPackage.addDoneLoadingListener(() -> {
+                if (updatedMobileMapPackage.getLoadStatus() == LoadStatus.LOADED && !updatedMobileMapPackage.getMaps().isEmpty()) {
+                  // add the map from the updated mobile map package to the map view
+                  mapView.setMap(updatedMobileMapPackage.getMaps().get(0));
                 } else {
                   new Alert(Alert.AlertType.ERROR, "Failed to load the mobile map package.").show();
                 }
               });
+              updatedMobileMapPackage.loadAsync();
             }
 
             // perform another check for updates, to make sure that the newest update was applied

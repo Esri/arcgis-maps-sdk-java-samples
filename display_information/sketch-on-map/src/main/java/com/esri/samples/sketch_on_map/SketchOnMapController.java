@@ -36,7 +36,6 @@ import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
-
 public class SketchOnMapController {
 
   @FXML
@@ -187,6 +186,15 @@ public class SketchOnMapController {
   private void handleFreehandPolygonButtonClicked() {
     graphicsOverlay.clearSelection();
     sketchEditor.start(SketchCreationMode.FREEHAND_POLYGON);
+  }
+
+  /**
+   * Clear selection of any graphic in the graphics overlay and start a new rectangle sketch.
+   */
+  @FXML
+  private void handleRectangleButtonClicked() {
+    graphicsOverlay.clearSelection();
+    sketchEditor.start(SketchCreationMode.RECTANGLE);
   }
 
   /**

@@ -28,6 +28,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geoanalysis.GeoElementViewshed;
 import com.esri.arcgisruntime.geometry.AngularUnit;
 import com.esri.arcgisruntime.geometry.AngularUnitId;
@@ -41,7 +42,7 @@ import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.AnalysisOverlay;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -80,9 +81,12 @@ public class ViewshedGeoElementSample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // create a scene and add a basemap to it
-      ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createImagery());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a scene with a basemap style
+      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
 
       // add the SceneView to the stack pane
       sceneView = new SceneView();

@@ -15,7 +15,11 @@
     "ServiceFeatureTable",
     "ServiceFeatureTable.FeatureRequestMode"
   ],
-  "redirect_from": "",
+  "redirect_from": [
+    "/java/sample-code/service-feature-table-cache/",
+    "/java/sample-code/service-feature-table-manual-cache/",
+    "/java/sample-code/service-feature-table-no-cache/"
+  ],
   "relevant_apis": [
     "FeatureLayer",
     "ServiceFeatureTable",

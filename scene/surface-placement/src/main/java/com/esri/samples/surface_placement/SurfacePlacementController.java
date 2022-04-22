@@ -23,6 +23,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
@@ -30,7 +31,7 @@ import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -50,8 +51,13 @@ public class SurfacePlacementController {
 
   public void initialize() {
     try {
+
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
       // create a scene and add a basemap to it
-      ArcGISScene scene = new ArcGISScene(Basemap.Type.IMAGERY);
+      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
 
       // set the scene to the scene view
       sceneView.setArcGISScene(scene);

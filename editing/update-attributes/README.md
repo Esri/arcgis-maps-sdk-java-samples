@@ -14,18 +14,20 @@ To change the feature's damage property, click on the feature to select it, and 
 
 ## How it works
 
-1. Create a `ServiceFeatureTable` object from a URL.
-2. Create a `FeatureLayer` object from the `ServiceFeatureTable`.
-3. Select features from the `FeatureLayer`.
-4. To update the feature's attribute, first load it, then use `.getAttributes().put(keyValuePair)` to modify the desired attribute.
-5. Update the feature table with `.updateFeatureAsync(feature)`.
-6. After a change, apply the changes on the service feature table using `.applyEditsAsync()`.
+1. Create and load a `ServiceGeodatabase` with a feature service URL.
+2. Get the `ServiceFeatureTable` from the service geodatabase.
+3. Create a `FeatureLayer` from the service feature table.
+4. Select features from the `FeatureLayer`.
+5. To update the feature's attribute, first load it, then use `.getAttributes().put(keyValuePair)` to modify the desired attribute.
+6. Update the feature table with `.updateFeatureAsync(feature)`.
+7. Apply edits to the `ServiceGeodatabase` by calling `applyEditsAsync`, which will update the feature on the online service.
 
 ## Relevant API
 
 * ArcGISFeature
 * FeatureLayer
 * ServiceFeatureTable
+* ServiceGeodatabase
 
 ## Tags
 

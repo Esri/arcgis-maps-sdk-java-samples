@@ -1,12 +1,12 @@
 /*
  * Copyright 2017 Esri.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,35 +16,33 @@
 
 package com.esri.samples.dictionary_renderer_graphics_overlay;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Multipoint;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.portal.Portal;
+import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.symbology.DictionaryRenderer;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 
@@ -54,10 +52,11 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
   private GraphicsOverlay graphicsOverlay;
 
   @Override
-  public void start(Stage stage) throws Exception {
-    mapView = new MapView();
-    StackPane appWindow = new StackPane(mapView);
-    Scene scene = new Scene(appWindow);
+  public void start(Stage stage) {
+    try {
+    // create stack pane and application scene
+    var stackPane = new StackPane();
+    var scene = new Scene(stackPane);
 
     // set title, size, and add scene to stage
     stage.setTitle("Dictionary Renderer Graphics Overlay Sample");
@@ -70,36 +69,73 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a map with the topographic basemap style and set it to the map view
+    // create a map view
+    mapView = new MapView();
+    // create a map with the topographic basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
-    mapView.setMap(map);
 
     graphicsOverlay = new GraphicsOverlay();
     // graphics no longer show after zooming passed this scale
     graphicsOverlay.setMinScale(1000000);
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-    // create symbol dictionary from style file
-    File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/mil2525d.stylx");
-    DictionarySymbolStyle symbolDictionary = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
+    // create the dictionary symbol style from the Joint Military Symbology MIL-STD-2525D portal item
+    var portalItem = new PortalItem(new Portal("https://www.arcgis.com/", false), "d815f3bdf6e6452bb8fd153b654c94ca");
+    var dictionarySymbolStyle = new DictionarySymbolStyle(portalItem);
 
-    // tells graphics overlay how to render graphics with symbol dictionary attributes set
-    DictionaryRenderer renderer = new DictionaryRenderer(symbolDictionary);
-    graphicsOverlay.setRenderer(renderer);
+    // add done loading listeners to the map and dictionary symbol style and check they have loaded
+    map.addDoneLoadingListener(() -> {
+      if (map.getLoadStatus() == LoadStatus.LOADED) {
+        dictionarySymbolStyle.addDoneLoadingListener(() -> {
+          if (dictionarySymbolStyle.getLoadStatus() == LoadStatus.LOADED) {
 
-    // parse graphic attributes from a XML file
-    List<Map<String, Object>> messages = parseMessages();
+            // find the first configuration setting which has the property name "model",
+            // and set its value to "ORDERED ANCHOR POINTS"
+            dictionarySymbolStyle.getConfigurations().stream()
+              .filter(configuration -> configuration.getName().equals("model"))
+              .findFirst()
+              .ifPresent(modelConfiguration -> modelConfiguration.setValue("ORDERED ANCHOR POINTS"));
 
-    // create graphics with attributes and add to graphics overlay
-    messages.stream()
-        .map(DictionaryRendererGraphicsOverlaySample::createGraphic)
-        .collect(Collectors.toCollection(() -> graphicsOverlay.getGraphics()));
+            // create a new dictionary renderer from the dictionary symbol style to render graphics
+            // with symbol dictionary attributes and set it to the graphics overlay renderer
+            var dictionaryRenderer = new DictionaryRenderer(dictionarySymbolStyle);
+            graphicsOverlay.setRenderer(dictionaryRenderer);
 
-    // once view has loaded
-    mapView.addSpatialReferenceChangedListener(e -> {
-      // set initial viewpoint
-      mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
+            // parse graphic attributes from an XML file following the mil2525d specification
+            try {
+              List<Map<String, Object>> messages = parseMessages();
+
+              // create graphics with attributes and add to graphics overlay
+              List<Graphic> graphics = messages.stream()
+                .map(DictionaryRendererGraphicsOverlaySample::createGraphic)
+                .collect(Collectors.toList());
+              graphicsOverlay.getGraphics().addAll(graphics);
+              // set the viewpoint to the extent of the graphics overlay
+              mapView.setViewpointGeometryAsync(graphicsOverlay.getExtent());
+
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          } else {
+            new Alert(Alert.AlertType.ERROR,
+              "Failed to load symbol style " + dictionarySymbolStyle.getLoadError().getCause().getMessage()).show();
+          }
+        });
+      } else {
+        new Alert(Alert.AlertType.ERROR, "Map failed to load" + map.getLoadError().getCause().getMessage()).show();
+      }
+      // load the dictionary symbol style once the map has loaded
+      dictionarySymbolStyle.loadAsync();
     });
+
+    // set the map to the map view and add the map view to the stack pane
+    mapView.setMap(map);
+    stackPane.getChildren().add(mapView);
+
+    } catch (Exception ex) {
+      // on any exception, print the stacktrace
+      ex.printStackTrace();
+    }
   }
 
   /**
@@ -108,20 +144,20 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
   private List<Map<String, Object>> parseMessages() throws Exception {
 
     File mil2525dFile = new File(System.getProperty("data.dir"), "./samples-data/xml/Mil2525DMessages.xml");
-    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-    Document document = documentBuilder.parse(mil2525dFile);
+    var documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    var documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    var document = documentBuilder.parse(mil2525dFile);
     document.getDocumentElement().normalize();
 
     final List<Map<String, Object>> messages = new ArrayList<>();
 
-    for (int i = 0; i < document.getElementsByTagName("message").getLength() ; i++) {
+    for (int i = 0; i < document.getElementsByTagName("message").getLength(); i++) {
       Node message = document.getElementsByTagName("message").item(i);
 
       Map<String, Object> attributes = new HashMap<>();
 
       NodeList childNodes = message.getChildNodes();
-      for (int j = 0; j < childNodes.getLength() ; j++) {
+      for (int j = 0; j < childNodes.getLength(); j++) {
         attributes.put(childNodes.item(j).getNodeName(), childNodes.item(j).getTextContent());
       }
       messages.add(attributes);
@@ -132,7 +168,7 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
 
   /**
    * Creates a graphic using a symbol dictionary and the attributes that were passed.
-   * 
+   *
    * @param attributes tells symbol dictionary what symbol to apply to graphic
    */
   private static Graphic createGraphic(Map<String, Object> attributes) {
@@ -141,13 +177,13 @@ public class DictionaryRendererGraphicsOverlaySample extends Application {
     int wkid = Integer.parseInt((String) attributes.get("_wkid"));
     SpatialReference sr = SpatialReference.create(wkid);
 
-    // get points from coordinates' string
+    // get points from the coordinate string in the "_control_points" attribute (delimited with ';')
     PointCollection points = new PointCollection(sr);
     String[] coordinates = ((String) attributes.get("_control_points")).split(";");
     Stream.of(coordinates)
-        .map(cs -> cs.split(","))
-        .map(c -> new Point(Double.valueOf(c[0]), Double.valueOf(c[1]), sr))
-        .collect(Collectors.toCollection(() -> points));
+      .map(cs -> cs.split(","))
+      .map(c -> new Point(Double.parseDouble(c[0]), Double.parseDouble(c[1]), sr))
+      .collect(Collectors.toCollection(() -> points));
 
     // return a graphic with multipoint geometry
     return new Graphic(new Multipoint(points), attributes);

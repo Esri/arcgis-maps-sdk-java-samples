@@ -16,30 +16,30 @@
 
 package com.esri.samples.distance_composite_symbol;
 
-import java.io.File;
-
-import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Surface;
-import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
+import com.esri.arcgisruntime.mapping.view.OrbitGeoElementCameraController;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.DistanceCompositeSceneSymbol;
 import com.esri.arcgisruntime.symbology.ModelSceneSymbol;
 import com.esri.arcgisruntime.symbology.SceneSymbol.AnchorPosition;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSceneSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+
+import java.io.File;
 
 public class DistanceCompositeSymbolSample extends Application {
 
@@ -63,9 +63,12 @@ public class DistanceCompositeSymbolSample extends Application {
       stage.setScene(fxScene);
       stage.show();
 
-      // create a scene and add a basemap to it
-      ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createImagery());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a scene with a basemap style
+      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
 
       // add the SceneView to the stack pane
       sceneView = new SceneView();

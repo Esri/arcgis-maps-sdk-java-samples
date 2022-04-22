@@ -16,19 +16,20 @@
 
 package com.esri.samples.create_terrain_surface_from_local_tile_package;
 
-import java.io.File;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
-import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+
+import java.io.File;
 
 public class CreateTerrainSurfaceFromLocalTilePackageSample extends Application {
 
@@ -49,9 +50,12 @@ public class CreateTerrainSurfaceFromLocalTilePackageSample extends Application 
       stage.setScene(fxScene);
       stage.show();
 
-      // create a scene and add a basemap to it
-      ArcGISScene scene = new ArcGISScene();
-      scene.setBasemap(Basemap.createImagery());
+      // authentication with an API key or named user is required to access basemaps and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+      // create a scene with a basemap style
+      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
 
       // add the SceneView to the stack pane
       sceneView = new SceneView();

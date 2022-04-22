@@ -6,14 +6,15 @@
         "DeleteFeatures.gif"
     ],
     "keywords": [
-        "Service",
         "deletion",
         "feature",
         "online",
+        "service",
         "table",
         "Feature",
         "FeatureLayer",
-        "ServiceFeatureTable"
+        "ServiceFeatureTable",
+        "ServiceGeodatabase"
     ],
     "redirect_from": [
         "/java/latest/sample-code/delete-features.htm"
@@ -21,7 +22,8 @@
     "relevant_apis": [
         "Feature",
         "FeatureLayer",
-        "ServiceFeatureTable"
+        "ServiceFeatureTable",
+        "ServiceGeodatabase"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/delete_features/DeleteFeaturesSample.java"
