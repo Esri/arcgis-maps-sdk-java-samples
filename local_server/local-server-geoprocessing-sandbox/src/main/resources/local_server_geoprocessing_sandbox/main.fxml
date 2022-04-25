@@ -59,7 +59,7 @@
 <!--      <TextField fx:id="txtInterval" text="200" maxWidth="50"/>-->
 <!--    </HBox>-->
     
-    <Button fx:id="btnGenerate" disable="true" text="Generate 5km Buffers" onAction="#handleGenerateContours" 
+    <Button fx:id="btnGenerate" disable="true" text="Draw Elevation Profile" onAction="#handleGenerateContours" 
        maxWidth="Infinity"/>
     <Button fx:id="btnClear" disable="true" text="Clear Results" onAction="#handleClearResults" maxWidth="Infinity"/>
   </VBox>

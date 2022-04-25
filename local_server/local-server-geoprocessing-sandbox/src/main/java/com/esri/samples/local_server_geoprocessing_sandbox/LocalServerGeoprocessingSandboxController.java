@@ -18,31 +18,17 @@ package com.esri.samples.local_server_geoprocessing_sandbox;
 
 import java.io.File;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
-import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.data.FeatureQueryResult;
-import com.esri.arcgisruntime.data.FeatureSet;
 import com.esri.arcgisruntime.data.FeatureTable;
-import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceGeodatabase;
-import com.esri.arcgisruntime.geometry.Envelope;
-import com.esri.arcgisruntime.internal.jni.CoreRequest;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.view.Graphic;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.Viewpoint;
+
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
-import com.esri.arcgisruntime.symbology.FillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
-import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
+
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingFeatures;
-import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingRaster;
-import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingResult;
+import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingString;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -53,23 +39,21 @@ import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.Job;
-import com.esri.arcgisruntime.data.TileCache;
-import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
+
 import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
 import com.esri.arcgisruntime.localserver.LocalGeoprocessingService.ServiceType;
 import com.esri.arcgisruntime.localserver.LocalServer;
 import com.esri.arcgisruntime.localserver.LocalServerStatus;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
+
 import com.esri.arcgisruntime.mapping.BasemapStyle;
-import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingDouble;
+
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingJob;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameter;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameters;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
-import javafx.scene.paint.Color;
+
 
 public class LocalServerGeoprocessingSandboxController {
 
@@ -117,19 +101,10 @@ public class LocalServerGeoprocessingSandboxController {
         server.addStatusChangedListener(status -> {
           if (server.getStatus() == LocalServerStatus.STARTED) {
             try {
-//              String gpServiceURL = new File(System.getProperty("data.dir"), "
-//              ./samples-data/local_server/new_script_test.gpkx").getAbsolutePath();
-              String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server/interpolate" +
-                ".gpkx").getAbsolutePath();
-//              String gpServiceURL = new File(System.getProperty("data.dir"), "
-//              ./samples-data/local_server/Fivekm_buffer_result.gpkx").getAbsolutePath();
-//              String gpServiceURL = new File(System.getProperty("data.dir"), "
-//              ./samples-data/local_server/clip_buffer_munros_model_builder_convert_data_to_file_geodatabase.gpkx")
-//              .getAbsolutePath();
-//              String gpServiceURL = new File(System.getProperty("data.dir"), "
-//              ./samples-data/local_server/contour_model_builder.gpkx").getAbsolutePath();
-//              String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server/Contour
-//              .gpkx").getAbsolutePath();
+//              String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server/interpolate" +
+//                ".gpkx").getAbsolutePath();
+              String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server/create_elevation_profile_model.gpkx").getAbsolutePath();
+
               // need map server result to add contour lines to map
               localGPService =
                 new LocalGeoprocessingService(gpServiceURL, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
@@ -140,12 +115,10 @@ public class LocalServerGeoprocessingSandboxController {
             localGPService.addStatusChangedListener(s -> {
               // create geoprocessing task once local geoprocessing service is started 
               if (s.getNewStatus() == LocalServerStatus.STARTED) {
-                // add `/Contour` to use contour geoprocessing tool 
-                gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Model");
+                // add `/NameOfScript/Model` to use contour geoprocessing tool 
+                gpTask = new GeoprocessingTask(localGPService.getUrl() + "/CreateElevationProfileModel");
 //                gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Model");
-//                gpTask = new GeoprocessingTask(localGPService.getUrl() + "/NewScriptTest");
-//                gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Contour");
-//                gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Model 1");
+
                 System.out.println(localGPService.getUrl());
                 btnClear.disableProperty().bind(btnGenerate.disabledProperty().not());
                 btnGenerate.setDisable(false);
@@ -173,17 +146,7 @@ public class LocalServerGeoprocessingSandboxController {
    */
   @FXML
   protected void handleGenerateContours() {
-
-
-    GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-    graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.RELATIVE);
-    // create an output graphics overlay to show the viewsheds as orange areas
-    int fillColor = ColorUtil.colorToArgb(Color.rgb(226, 119, 40, 0.5));
-    SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, fillColor, 50);
-    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, fillColor, 10);
-    graphicsOverlay.setRenderer(new SimpleRenderer(lineSymbol));
-    sceneView.getGraphicsOverlays().add(graphicsOverlay);
-
+    
     // tracking progress of creating contour map 
     progressBar.setVisible(true);
     // create parameter using interval set
@@ -193,121 +156,69 @@ public class LocalServerGeoprocessingSandboxController {
     System.out.println("gpParameters: " + gpParameters.getInputs());
 
     final Map<String, GeoprocessingParameter> inputs = gpParameters.getInputs();
+    System.out.println("Values " + inputs.values());
 //    double interval = Double.parseDouble(txtInterval.getText());
-    var mergedRasterTifUrl = ("C:\\Users\\rach9955\\Downloads\\arran-lidar-data\\arran-lidar-data\\MergedArranRasters" +
+    var inputRasterPath = ("C:\\Users\\rach9955\\Downloads\\arran-lidar-data\\arran-lidar-data\\MergedArranRasters" +
       ".tif");
-    inputs.put("MergedArranRasters_tif", new GeoprocessingRaster(mergedRasterTifUrl, "tif"));
+    // input raster data
+    // name of input parameter, input type (geoprocessing raster)
+//    inputs.put("MergedArranRasters_tif", new GeoprocessingRaster(inputRasterPath, "tif")); // just the string, GeoprocessingString
+    inputs.put("Input_Raster", new GeoprocessingString(inputRasterPath)); // just the string, GeoprocessingString
 
-    inputs.put("Profile", new GeoprocessingFeatures("C:\\Users\\rach9955\\Documents\\ArcGIS\\Projects" +
+    // input line of section path
+    // name of input parameter, json url
+//    inputs.put("Profile", new GeoprocessingFeatures("C:\\Users\\rach9955\\Documents\\ArcGIS\\Projects" +
+//      "\\ArranCrossSection\\Profile_FeaturesToJSON.json"));
+    inputs.put("Input_Polyline", new GeoprocessingFeatures("C:\\Users\\rach9955\\Documents\\ArcGIS\\Projects" +
       "\\ArranCrossSection\\Profile_FeaturesToJSON.json"));
 
     // adds contour lines to map
     GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
-
-    gpJob.addProgressChangedListener(() -> {
-        System.out.println(gpJob.getProgress());
-        progressBar.setProgress(((double) gpJob.getProgress()) / 100);
-      }
-    );
 
     gpJob.addJobDoneListener(() -> {
 
       System.out.println("GP Job status: " + gpJob.getStatus());
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
 
-        GeoprocessingResult geoprocessingResult = gpJob.getResult(); // gets a collection of outputs, can get 
+//        GeoprocessingResult geoprocessingResult = gpJob.getResult(); // gets a collection of outputs, can get 
         // parameter from this. name of the output will be the name in the model builder
 
         // creating map image url from local geoprocessing service url
-
-
-        GeoprocessingFeatures resultFeatures = (GeoprocessingFeatures) geoprocessingResult.getOutputs().get(
-          "XYZ_Profile");
-        Map<String, GeoprocessingParameter> outputs = geoprocessingResult.getOutputs();
-
-        System.out.println("Output size " + geoprocessingResult.getOutputs().size()); // Returns: 1
-        System.out.println("Contains XYZ Profile? " + outputs.containsKey("XYZ_Profile")); // Returns: true
-        System.out.println("Can fetch output features? " + resultFeatures.canFetchOutputFeatures()); // Returns: true
-
-//        resultFeatures.fetchOutputFeaturesAsync().addDoneListener(() -> {
+//        GeoprocessingFeatures resultFeatures = (GeoprocessingFeatures) geoprocessingResult.getOutputs().get(
+//          "XYZ_Profile");
+//        Map<String, GeoprocessingParameter> outputs = geoprocessingResult.getOutputs();
 //
-//          resultFeatures.getFeatures();
-//          var feature = resultFeatures.getFeatures();
-//          System.out.println(feature.getGeometryType()); // null thrown here
-//
-//        });
-//
-////         loop through the result features to get the viewshed geometries
-//        FeatureSet featureSet = resultFeatures.getFeatures();
-//        System.out.println("feature set to string" + featureSet.toString());
-//        for (Feature feature : featureSet) {
-//          // add the viewshed geometry as a graphic to the output graphics overlay
-//          Graphic graphic = new Graphic(feature.getGeometry());
-//          graphicsOverlay.getGraphics().add(graphic);
-//        }
+//        System.out.println("Output size " + geoprocessingResult.getOutputs().size()); // Returns: 1
+//        System.out.println("Contains XYZ Profile? " + outputs.containsKey("XYZ_Profile")); // Returns: true
+//        System.out.println("Can fetch output features? " + resultFeatures.canFetchOutputFeatures()); // Returns: true
 
         String serviceUrl = localGPService.getUrl();
-        System.out.println("service url: " + serviceUrl);
         String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
-        String mapServerUrlFirstLayer = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId() +
-          "/0");
+
+        System.out.println("service url: " + serviceUrl);
         System.out.println("Server Job ID: " + gpJob.getServerJobId());
         System.out.println("Map server url: " + mapServerUrl);
-        System.out.println("Map server first layer url: " + mapServerUrlFirstLayer);
-        ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer(mapServerUrl);
-        mapImageLayer.loadAsync();
-//        sceneView.getArcGISScene().getOperationalLayers().add(mapImageLayer);
 
         ServiceGeodatabase serviceGeodatabase = new ServiceGeodatabase(mapServerUrl);
-        serviceGeodatabase.loadAsync();
         serviceGeodatabase.addDoneLoadingListener(() -> {
 
           FeatureTable featureTable = serviceGeodatabase.getTable(0);
           FeatureLayer featureLayer = new FeatureLayer(featureTable);
           featureLayer.loadAsync();
+          featureLayer.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
 
+          featureLayer.addDoneLoadingListener(() -> {
 
-          // create a query for the state that was entered
-          QueryParameters query = new QueryParameters();
-          query.setWhereClause("1=1");
-
-          // search for the state feature in the feature table
-          var tableQueryResult = featureTable.queryFeaturesAsync(query);
+            sceneView.getArcGISScene().getOperationalLayers().add(featureLayer); // purple profile line
+            sceneView.setViewpoint(new Viewpoint(featureLayer.getFullExtent()));
           
-          tableQueryResult.addDoneListener(() -> {
-
-            // get the result from the query
-            FeatureQueryResult result = null;
-            try {
-              result = tableQueryResult.get();
-            } catch (InterruptedException | ExecutionException e) {
-              e.printStackTrace();
-            }
-            // if a state feature was found
-            assert result != null;
-            if (result.iterator().hasNext()) {
-              // get state feature and zoom to it
-              Feature feature = result.iterator().next();
-              Envelope envelope = feature.getGeometry().getExtent();
-              Graphic graphic = new Graphic(feature.getGeometry());
-              graphicsOverlay.getGraphics().add(graphic);
-
-
-              featureLayer.addDoneLoadingListener(() -> System.out.println(featureLayer.getLoadStatus()));
-              sceneView.getArcGISScene().getOperationalLayers().add(featureLayer);
-              System.out.println(featureLayer.getName());
-
-            }
           });
-
-
-
+          
           btnGenerate.setDisable(true);
-//        if (mapImageLayer.getFullExtent() != null) {
-//          sceneView.setViewpoint(mapImageLayer.getFullExtent());
-//        }
 
         });
+        serviceGeodatabase.loadAsync();
+
       } else {
         Alert dialog = new Alert(AlertType.ERROR);
         dialog.setHeaderText("Geoprocess Job Fail");
