@@ -160,13 +160,6 @@ public class FindRouteSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // enable find a route button when mapview is done loading
-      mapView.addDrawStatusChangedListener(e -> {
-        if (e.getDrawStatus() == DrawStatus.COMPLETED) {
-          findButton.setDisable(false);
-        }
-      });
-
       // set the viewpoint to San Diego (U.S.)
       mapView.setViewpointGeometryAsync(new Envelope(-13067866, 3843014, -13004499, 3871296, ESPG_3857));
 
@@ -182,6 +175,10 @@ public class FindRouteSample extends Application {
         routeTask.addDoneLoadingListener(() -> {
           if (routeTask.getLoadStatus() == LoadStatus.LOADED) {
             try {
+              
+              // enable the find route button
+              findButton.setDisable(false);
+              
               // get default route parameters
               routeParameters = routeTask.createDefaultParametersAsync().get();
               routeParameters.setOutputSpatialReference(ESPG_3857);
