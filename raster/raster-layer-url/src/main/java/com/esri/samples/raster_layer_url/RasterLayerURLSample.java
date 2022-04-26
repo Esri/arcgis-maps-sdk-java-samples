@@ -57,7 +57,7 @@ public class RasterLayerURLSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create an image service raster from an online raster service
-      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://gis.ngdc.noaa.gov/arcgis/rest/services/bag_hillshades/ImageServer");
+      ImageServiceRaster imageServiceRaster = new ImageServiceRaster("https://gis.ngdc.noaa.gov/arcgis/rest/services/bag_hillshades_subsets/ImageServer");
 
       // create a raster layer
       rasterLayer = new RasterLayer(imageServiceRaster);

@@ -22,7 +22,7 @@ To add a `RasterLayer` as an operational layer from an `ImageServiceRaster`:
 
 ## About the data
 
-This sample uses a [NOAA raster image service](https://gis.ngdc.noaa.gov/arcgis/rest/services/bag_hillshades/ImageServer). The service computes a hillshade image from the depth (in meters) of U.S. coastal waters.
+This sample uses a [NOAA raster image service](https://gis.ngdc.noaa.gov/arcgis/rest/services/bag_hillshades_subsets/ImageServer). The service computes a hillshade image from the depth (in meters) of U.S. coastal waters.
 
 ## Relevant API
 
