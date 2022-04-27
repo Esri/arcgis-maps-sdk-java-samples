@@ -26,8 +26,8 @@ This sample uses a [NOAA raster image service](https://gis.ngdc.noaa.gov/arcgis/
 
 ## Relevant API
 
-*  ImageServiceRaster
-*  RasterLayer
+* ImageServiceRaster
+* RasterLayer
 
 ## Tags
 
