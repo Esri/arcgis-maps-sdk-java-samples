@@ -86,7 +86,6 @@ import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameters;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
-import org.json.JSONObject;
 
 
 public class LocalServerGeoprocessingSandboxController {
@@ -103,6 +102,7 @@ public class LocalServerGeoprocessingSandboxController {
   private SceneView sceneView;
 
   private Polyline polyline;
+//  private PolylineBuilder polylineBuilder;
 
   private FeatureCollection featureCollection;
   private GeoprocessingTask gpTask;
@@ -137,7 +137,7 @@ public class LocalServerGeoprocessingSandboxController {
       // create a graphics overlay for the sketch polyline 
       graphicsOverlay = new GraphicsOverlay();
       // thin green line for polylines
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF64c113, 4);
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF64c113, 5);
       SimpleRenderer polylineRenderer = new SimpleRenderer(lineSymbol);
       graphicsOverlay.setRenderer(polylineRenderer);
 
@@ -155,9 +155,6 @@ public class LocalServerGeoprocessingSandboxController {
         server.addStatusChangedListener(status -> {
           if (server.getStatus() == LocalServerStatus.STARTED) {
             try {
-//              String gpServiceURL = new File(System.getProperty("data.dir"), "
-//              ./samples-data/local_server/interpolate" +
-//                ".gpkx").getAbsolutePath();
               String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
                 "/create_elevation_profile_model.gpkx").getAbsolutePath();
 
@@ -221,88 +218,17 @@ public class LocalServerGeoprocessingSandboxController {
     graphicsOverlay.getGraphics().clear();
     GraphicsOverlay anewtempGraphicsOverlay = new GraphicsOverlay();
     sceneView.getGraphicsOverlays().add(anewtempGraphicsOverlay);
-    SimpleLineSymbol newsimpleMarkerSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH,
-      ColorUtil.colorToArgb(Color.DARKORANGE), 5);
+    SimpleLineSymbol newsimpleMarkerSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID,
+      ColorUtil.colorToArgb(Color.DARKORANGE), 1);
     SimpleRenderer newrenderer = new SimpleRenderer(newsimpleMarkerSymbol);
     anewtempGraphicsOverlay.setRenderer(newrenderer);
     anewtempGraphicsOverlay.getGraphics().add(new Graphic(polyline));
 
-    // create required viewshed fields
-    List<Field> polylineField = new ArrayList<>();
-
-    polylineField.add(Field.createString("Shape_Length", "Length of shape", 20));
-
-//    Field geometryField = Field.createString("geometry", "geometry", 50); // pass in json
-//    Field attributesField = Field.createString("attributes", "attributes", 50); // don't think these are really 
-//    // needed so can be blank
-//
-//    subFields.add(geometryField);
-//    subFields.add(attributesField);
-
-//    Field featuresField = Field.createString("features", "features", 1000000000);
-//    List<Field> featureField = new ArrayList<>();
-//    featureField.add(featuresField);
-
-//    Map<String, Object> attributes = new HashMap<>();
-//    Map<String, Object> featuresAttributes = new HashMap<>();
-//    featuresAttributes.put(subFields.get(0).getName(), polyline.toJson()); // geometry
-//    featuresAttributes.put(subFields.get(1).getName(), ""); // attributes
-//
-//    attributes.put(featureField.get(0).getName(), featuresAttributes); //features
-
-//    JSONObject json = new JSONObject(attributes);
-//    System.out.println("Json :" + json);
-
-    // debug from here
-    // try adding feature collection table as feature layer to scene view again and see it re-projected to see if 
-    // reprojected line is going on ok
-    // try Geometry.fromJson on the json response from the query of working input parameters from browser query 
-
-    FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(polylineField, GeometryType.POLYLINE,
-      SpatialReference.create(27700));
-
-
-    SimpleLineSymbol tableStyle = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH,
-      ColorUtil.colorToArgb(Color.TURQUOISE), 5);
-    SimpleRenderer tableRenderer = new SimpleRenderer(tableStyle);
-    featureCollectionTable.setRenderer(tableRenderer);
-
-    featureCollection.getTables().add(featureCollectionTable);
-
-    System.out.println(featureCollectionTable.getLoadStatus());
-
-    Map<String, Object> attributes = new HashMap<>();
-    attributes.put(polylineField.get(0).getName(), "19840");
-
-    var testFeature = featureCollectionTable.createFeature(attributes, polyline);
-//        testFeature.setGeometry(polyline); // correct projection
-
-    featureCollectionTable.addFeatureAsync(testFeature);
+    // create the feature collection table
+    createPolylineTable();
     
-//    System.out.println(featureCollection.getTables().size());
-//
-//    System.out.println("Added feature");
-//    
-//    System.out.println("Feature Collection as json: " + featureCollection.toJson());
-//    System.out.println("Test feature in json: " + testFeature.getGeometry().toJson());
-//
-//    System.out.println("Test feature geometry as json: " + testFeature.getGeometry().toJson());
-//    System.out.println("Attribute: " + attributes);
+    inputs.put("Input_Polyline", new GeoprocessingFeatures(featureCollection.getTables().get(0)));
     
-    
-    ////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    
-    inputs.put("Input_Polyline", new GeoprocessingFeatures(featureCollectionTable));
-
-
-//    Feature addedFeature = featureCollectionTable.createFeature(attributes, polyline);
-//    var testFeature = featureCollectionTable.createFeature();
-//    var projectedPolyline = GeometryEngine.project(polyline, SpatialReference.create(27700)); // projects polyline 
-//    to BNG
-
-
     // input raster data
     // name of input parameter, input type (geoprocessing raster)
     inputs.put("Input_Raster", new GeoprocessingString(inputRasterPath)); // just the string, GeoprocessingString
@@ -400,6 +326,8 @@ public class LocalServerGeoprocessingSandboxController {
 
     // British National Grid
     PointCollection pointCollection = new PointCollection(SpatialReference.create(27700));
+//    polylineBuilder = new PolylineBuilder(SpatialReference.create(27700));
+
 
     sceneView.setOnMouseClicked(event -> {
       if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
@@ -410,8 +338,14 @@ public class LocalServerGeoprocessingSandboxController {
           try {
             Point point = pointFuture.get();
             Point projectedPoint = (Point) GeometryEngine.project(point, SpatialReference.create(27700)); // british 
+            double pointX = projectedPoint.getX();
+            double pointY = projectedPoint.getY();
+            
+            Point xyPoint = new Point(pointX, pointY);
+
+//            polylineBuilder.addPoint(xyPoint);
             // national grid
-            pointCollection.add(projectedPoint);
+            pointCollection.add(xyPoint);
             tempGraphicsOverlay.getGraphics().add(new Graphic(projectedPoint));
 
 
@@ -422,43 +356,75 @@ public class LocalServerGeoprocessingSandboxController {
       } else if (event.getButton() == MouseButton.SECONDARY) {
 
         tempGraphicsOverlay.getGraphics().clear();
+
         polyline = new Polyline(pointCollection);
         Graphic graphic = new Graphic(polyline);
         graphicsOverlay.getGraphics().add(graphic);
         new Alert(AlertType.INFORMATION, "Polyline sketched").show();
+        
+        
       }
     });
 
     return polyline;
   }
 
-  private void createPolylineTable(FeatureCollection featureCollection) {
+  @FXML
+  private void createPolylineTable() {
 
-    // defines the schema for the geometry's attribute
-    List<Field> polylineFields = new ArrayList<>();
-    polylineFields.add(Field.createString("Boundary", "Boundary Name", 50));
 
-    // a feature collection table that creates polyline geometry
-    FeatureCollectionTable polylineTable = new FeatureCollectionTable(polylineFields, GeometryType.POLYLINE, WGS84);
+//     create required viewshed fields
+    List<Field> polylineField = new ArrayList<>();
 
-    // set a default symbol for features in the collection table
-    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF00FF00, 3);
-    SimpleRenderer renderer = new SimpleRenderer(lineSymbol);
-    polylineTable.setRenderer(renderer);
+    polylineField.add(Field.createString("Shape_Length", "Length of shape", 20));
 
-    // add feature collection table to feature collection
-    featureCollection.getTables().add(polylineTable);
+    // debug from here
+    // try adding feature collection table as feature layer to scene view again and see it re-projected to see if 
+    // reprojected line is going on ok
+    // try Geometry.fromJson on the json response from the query of working input parameters from browser query 
 
-    // create feature using the collection table by passing an attribute and geometry
-    Map<String, Object> attributes = new HashMap<>();
-    attributes.put(polylineFields.get(0).getName(), "AManAPlanACanalPanama");
-    PolylineBuilder builder = new PolylineBuilder(WGS84);
-    builder.addPoint(new Point(-79.497238, 8.849289, WGS84));
-    builder.addPoint(new Point(-80.035568, 9.432302, WGS84));
-    Feature addedFeature = polylineTable.createFeature(attributes, builder.toGeometry());
+    FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(polylineField, GeometryType.POLYLINE,
+      SpatialReference.create(27700));
 
+    featureCollection.getTables().add(featureCollectionTable);
+
+    System.out.println(featureCollectionTable.getLoadStatus());
+    
+//    PolylineBuilder builder = new PolylineBuilder(SpatialReference.create(27700));
+//    builder.addPoint(new Point(-79.497238, 8.849289, SpatialReference.create(27700)));
+//    builder.addPoint(new Point(-80.035568, 9.432302, SpatialReference.create(27700)));
+//    Feature addedFeature = featureCollectionTable.createFeature(attributes, polylineBuilder.toGeometry());
+
+        Feature addedFeature = featureCollectionTable.createFeature();
+        addedFeature.setGeometry(polyline);
+
+    
     // add feature to collection table
-    polylineTable.addFeatureAsync(addedFeature);
+    featureCollectionTable.addFeatureAsync(addedFeature);
+    System.out.println("polyline table" + featureCollectionTable.getLoadStatus());
+    featureCollectionTable.addFeatureAsync(addedFeature).addDoneListener(() -> {
+      
+      if (featureCollectionTable.getLoadStatus() == LoadStatus.LOADED) {
+
+        System.out.println("polyline table" + featureCollectionTable.getLoadStatus());
+
+      } else {
+
+        System.out.println("polyline table" + featureCollectionTable.getLoadStatus());
+        featureCollectionTable.getLoadError().printStackTrace();
+
+
+
+      }
+      
+    });
+
+
+//
+//    var testFeature = featureCollectionTable.createFeature(attributes, polyline);
+////        testFeature.setGeometry(polyline); // correct projection
+//
+//    featureCollectionTable.addFeatureAsync(testFeature);
     System.out.println(featureCollection.toJson());
 
   }
