@@ -59,9 +59,10 @@
 <!--      <TextField fx:id="txtInterval" text="200" maxWidth="50"/>-->
 <!--    </HBox>-->
     
-    <Button fx:id="btnGenerate" disable="true" text="Draw Elevation Profile" onAction="#handleGenerateContours" 
+    <Button fx:id="btnGenerate" disable="true" text="Draw Elevation Profile" onAction="#handleDrawElevationProfile" 
        maxWidth="Infinity"/>
     <Button fx:id="btnClear" disable="true" text="Clear Results" onAction="#handleClearResults" maxWidth="Infinity"/>
+      <Button fx:id="drawPolyline" text="Draw polyline" onAction="#startPolylineSketchEditor" maxWidth="Infinity"/>
   </VBox>
   
   <ProgressBar fx:id="progressBar" maxWidth="240.0" progress="-100.0" visible="false"/>
