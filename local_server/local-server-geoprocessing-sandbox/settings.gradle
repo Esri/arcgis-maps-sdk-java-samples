@@ -6,7 +6,7 @@ def ant = new groovy.util.AntBuilder()
 if (!file("./samples-data").exists()) {
     file("./samples-data/local_server").mkdirs()
     ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/3f38e1ae7c5948cc95334ba3a142a4ec/data",
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/db9cd9beedce4e0987c33c198c8dfb45/data",
             dest: file("./data.zip")
     )
     ant.unzip(
@@ -17,8 +17,8 @@ if (!file("./samples-data").exists()) {
     delete file("./data.zip")
 
     ant.get(
-            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/a680362d6a7447e8afe2b1eb85fcde30/data",
-            dest: file("./samples-data/local_server/Contour.gpkx")
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/831cbdc61b1c4cd3bfedd1af91d09d36/data",
+            dest: file("./samples-data/local_server/create_elevation_profile_model.gpkx")
     )
 
 }

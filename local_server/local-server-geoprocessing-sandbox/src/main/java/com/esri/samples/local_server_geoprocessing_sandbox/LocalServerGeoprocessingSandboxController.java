@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2022 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,29 +22,28 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureCollection;
 import com.esri.arcgisruntime.data.FeatureCollectionTable;
-import com.esri.arcgisruntime.data.FeatureSet;
 import com.esri.arcgisruntime.data.FeatureTable;
 import com.esri.arcgisruntime.data.Field;
-import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceGeodatabase;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
-import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.layers.Layer;
+import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.RasterElevationSource;
+import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -52,26 +51,26 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
-import com.esri.arcgisruntime.mapping.view.SketchEditor;
+import com.esri.arcgisruntime.raster.HillshadeRenderer;
+import com.esri.arcgisruntime.raster.Raster;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingFeatures;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingString;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.Job;
-
-import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 
 import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
 import com.esri.arcgisruntime.localserver.LocalGeoprocessingService.ServiceType;
@@ -91,23 +90,27 @@ import javafx.scene.paint.Color;
 public class LocalServerGeoprocessingSandboxController {
 
   @FXML
+  private Label label;
+  @FXML
   private Button drawPolyline;
   @FXML
-  private Button btnGenerate;
+  private Button generateProfileButton;
   @FXML
-  private Button btnClear;
+  private Button clearResultsButton;
   @FXML
   private ProgressBar progressBar;
   @FXML
   private SceneView sceneView;
 
+  private ArcGISScene scene;
   private Polyline polyline;
-//  private PolylineBuilder polylineBuilder;
-
+  private RasterLayer rasterLayer;
   private FeatureCollection featureCollection;
   private GeoprocessingTask gpTask;
   private GraphicsOverlay graphicsOverlay;
   private LocalGeoprocessingService localGPService;
+
+  private String rasterPath = "./samples-data/local_server/Arran_10m.tif";
 
   private static LocalServer server;
 
@@ -117,76 +120,34 @@ public class LocalServerGeoprocessingSandboxController {
   public void initialize() {
 
     try {
+
       // authentication with an API key or named user is required to access basemaps and other location services
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the light gray basemap style
-      ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_LIGHT_GRAY);
+      // create a scene with a topographic basemap style
+      scene = new ArcGISScene(BasemapStyle.ARCGIS_HILLSHADE_LIGHT);
 
-      // set the map to the map view
-      sceneView.setArcGISScene(scene);
+      // set the scene to the scene view and viewpoint to the Isle of Arran, Scotland
       sceneView.setViewpointAsync(new Viewpoint(55.60, -5.28, 100000));
 
+      // set up a new feature collection layer from a new feature collection, and add it to the scene's operational 
+      // layer list
       featureCollection = new FeatureCollection();
       var featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
+      scene.getOperationalLayers().add(featureCollectionLayer);
 
-      sceneView.getArcGISScene().getOperationalLayers().add(featureCollectionLayer);
-
-
-      // create a graphics overlay for the sketch polyline 
+      // create a graphics overlay for displaying the sketched polyline and add it to the scene view's list of 
+      // graphics overlays
       graphicsOverlay = new GraphicsOverlay();
-      // thin green line for polylines
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF64c113, 5);
-      SimpleRenderer polylineRenderer = new SimpleRenderer(lineSymbol);
-      graphicsOverlay.setRenderer(polylineRenderer);
-
-      // add the graphics overlay to the map view
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH,
+        ColorUtil.colorToArgb(Color.BLACK), 3);
+      graphicsOverlay.setRenderer(new SimpleRenderer(lineSymbol));
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
+      displayRaster();
+      startLocalServer();
+      sceneView.setArcGISScene(scene);
 
-      // check that local server install path can be accessed
-      System.out.println(LocalServer.INSTANCE.getInstallPath());
-
-      if (LocalServer.INSTANCE.checkInstallValid()) {
-        progressBar.setVisible(true);
-        server = LocalServer.INSTANCE;
-        System.out.println("Temp data path " + server.getTempDataPath());
-        // start the local server
-        server.addStatusChangedListener(status -> {
-          if (server.getStatus() == LocalServerStatus.STARTED) {
-            try {
-              String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
-                "/create_elevation_profile_model.gpkx").getAbsolutePath();
-
-              // need map server result to add contour lines to map
-              localGPService =
-                new LocalGeoprocessingService(gpServiceURL, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-
-            localGPService.addStatusChangedListener(s -> {
-              // create geoprocessing task once local geoprocessing service is started 
-              if (s.getNewStatus() == LocalServerStatus.STARTED) {
-                // add `/NameOfScript/Model` to use contour geoprocessing tool 
-                gpTask = new GeoprocessingTask(localGPService.getUrl() + "/CreateElevationProfileModel");
-//                gpTask = new GeoprocessingTask(localGPService.getUrl() + "/Model");
-
-                System.out.println(localGPService.getUrl());
-                btnClear.disableProperty().bind(btnGenerate.disabledProperty().not());
-                btnGenerate.setDisable(false);
-                progressBar.setVisible(false);
-              }
-            });
-            localGPService.startAsync();
-          } else if (server.getStatus() == LocalServerStatus.FAILED) {
-            showMessage("Local Geoprocessing Load Error", "Local Geoprocessing Failed to load.");
-          }
-        });
-        server.startAsync();
-      } else {
-        showMessage("Local Server Load Error", "Local Server install path couldn't be located.");
-      }
 
     } catch (Exception e) {
       // on any exception, print the stack trace
@@ -194,57 +155,129 @@ public class LocalServerGeoprocessingSandboxController {
     }
   }
 
+  private void displayRaster() {
+
+    var hillshadeRenderer = new HillshadeRenderer(30, 210, 1);
+
+    scene.addDoneLoadingListener(() -> {
+      if (scene.getLoadStatus() == LoadStatus.LOADED) {
+
+        // loop through the GeoTIFFs
+//            for (String geoTiffFile : geoTiffFiles) {
+        // create a raster from every GeoTIFF
+        var raster = new Raster("C:\\Users\\rach9955\\Desktop\\Arran_10m_ProjectRaster.tif");
+        // create a raster layer from the raster
+        rasterLayer = new RasterLayer(raster);
+        // set a hillshade renderer to the raster layer
+        rasterLayer.setRasterRenderer(hillshadeRenderer);
+        // add the raster layer to the scene's operational layers
+
+        scene.getOperationalLayers().add(rasterLayer);
+        rasterLayer.addDoneLoadingListener(() -> {
+          if (rasterLayer.getLoadStatus() == LoadStatus.LOADED && rasterLayer.getFullExtent() != null) {
+            sceneView.setViewpointAsync(new Viewpoint(rasterLayer.getFullExtent()));
+            System.out.println(rasterLayer.getFullExtent());
+          }
+        });
+
+
+//            }
+
+      }
+    });
+
+
+  }
+
   /**
-   * Creates a Map Image Layer that displays contour lines on the map using the interval the that is set.
+   * Checks that there is a valid install of Local Server, and if so starts the Local Server Instance from the create
+   * elevation profile model geoprocessing package
+   */
+  private void startLocalServer() {
+
+    // check that there is a valid install on user machine
+    if (LocalServer.INSTANCE.checkInstallValid()) {
+      progressBar.setVisible(true);
+      server = LocalServer.INSTANCE;
+
+      // start the local server
+      server.addStatusChangedListener(status -> {
+        if (server.getStatus() == LocalServerStatus.STARTED) {
+          try {
+            // get the path to the geoprocessing package (created in ArcGIS Pro) that creates elevation profile from 
+            // raster data
+            String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
+              "/create_elevation_profile_model.gpkx").getAbsolutePath();
+
+            // need map server result to display elevation profile on scene
+            localGPService =
+              new LocalGeoprocessingService(gpServiceURL, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+
+          localGPService.addStatusChangedListener(s -> {
+            // create geoprocessing task once local geoprocessing service is started 
+            if (s.getNewStatus() == LocalServerStatus.STARTED) {
+              // add the name of the model used to create the gpkx in ArcGIS Pro to the Url of the local 
+              // geoprocessing task
+              // e.g. the model name in this sample's gpkx created in ArcGIS Pro is CreateElevationProfileModel
+              gpTask = new GeoprocessingTask(localGPService.getUrl() + "/CreateElevationProfileModel");
+
+              // handle UI behaviour
+              label.setText("Draw line of section with button above");
+              drawPolyline.setDisable(false);
+              progressBar.setVisible(false);
+            }
+          });
+          localGPService.startAsync();
+
+        } else if (server.getStatus() == LocalServerStatus.FAILED) {
+          showMessage("Local Geoprocessing Load Error", "Local Geoprocessing Failed to load.");
+        }
+      });
+
+      server.startAsync();
+    } else {
+      showMessage("Local Server Load Error", "Local Server install path couldn't be located.");
+    }
+  }
+
+  /**
+   * Generates an elevation profile when the "Generate Elevation Profile" button is clicked. The elevation profile is
+   * generated from an input raster (Isle of Arran Lidar data) and a polyline sketched by the user.
    */
   @FXML
-  protected void handleDrawElevationProfile() {
+  protected void handleGenerateElevationProfile() {
 
-    // tracking progress of creating contour map 
+    // tracking progress of generating elevation profile
     progressBar.setVisible(true);
-    // create parameter using interval set
+    label.setVisible(false);
 
+    // create geoprocessing parameters and get their inputs
     GeoprocessingParameters gpParameters = new GeoprocessingParameters(
       GeoprocessingParameters.ExecutionType.ASYNCHRONOUS_SUBMIT);
-
     final Map<String, GeoprocessingParameter> inputs = gpParameters.getInputs();
-    System.out.println("Values " + inputs.values());
-//    double interval = Double.parseDouble(txtInterval.getText());
-    var inputRasterPath = ("C:\\Users\\rach9955\\Downloads\\arran-lidar-data\\arran-lidar-data\\MergedArranRasters" +
-      ".tif");
-
-//**??**??**////**??**??**////**??**??**////**??**??**////**??**??**////**??**??**//
-
-    graphicsOverlay.getGraphics().clear();
-    GraphicsOverlay anewtempGraphicsOverlay = new GraphicsOverlay();
-    sceneView.getGraphicsOverlays().add(anewtempGraphicsOverlay);
-    SimpleLineSymbol newsimpleMarkerSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID,
-      ColorUtil.colorToArgb(Color.DARKORANGE), 1);
-    SimpleRenderer newrenderer = new SimpleRenderer(newsimpleMarkerSymbol);
-    anewtempGraphicsOverlay.setRenderer(newrenderer);
-    anewtempGraphicsOverlay.getGraphics().add(new Graphic(polyline));
 
     // create the feature collection table
     createPolylineTable();
-    
+
+    var inputRasterPath =
+      new File(System.getProperty("data.dir"), "C:\\Users\\rach9955\\Desktop\\Arran_10m_ProjectRaster.tif").getAbsolutePath();
+
+    // input polyline path
+    // name of input parameter, input type (geoprocessing feature, pointing to polyline)
     inputs.put("Input_Polyline", new GeoprocessingFeatures(featureCollection.getTables().get(0)));
-    
+
     // input raster data
-    // name of input parameter, input type (geoprocessing raster)
-    inputs.put("Input_Raster", new GeoprocessingString(inputRasterPath)); // just the string, GeoprocessingString
-
-    // input line of section path
-    // name of input parameter, json url
-//    inputs.put("Input_Polyline", new GeoprocessingFeatures("C:\\Users\\rach9955\\Documents\\ArcGIS\\Projects" +
-//      "\\ArranCrossSection\\Profile_FeaturesToJSON.json"));
-
+    // name of input parameter, input type (geoprocessing string pointing to raster file)
+    inputs.put("Input_Raster", new GeoprocessingString(inputRasterPath));
 
     // adds contour lines to map
     GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
 
     gpJob.addJobDoneListener(() -> {
 
-      System.out.println("GP Job status: " + gpJob.getStatus());
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
 
         String serviceUrl = localGPService.getUrl();
@@ -265,12 +298,11 @@ public class LocalServerGeoprocessingSandboxController {
           featureLayer.addDoneLoadingListener(() -> {
 
             sceneView.getArcGISScene().getOperationalLayers().add(featureLayer);
-            // try reprojecting back to wgs84
-            sceneView.setViewpoint(new Viewpoint(featureLayer.getFullExtent()));
 
           });
 
-          btnGenerate.setDisable(true);
+          generateProfileButton.setDisable(true);
+          clearResultsButton.setDisable(false);
 
         });
         serviceGeodatabase.loadAsync();
@@ -295,10 +327,14 @@ public class LocalServerGeoprocessingSandboxController {
   @FXML
   protected void handleClearResults() {
 
-    if (sceneView.getArcGISScene().getOperationalLayers().size() > 1) {
-      sceneView.getArcGISScene().getOperationalLayers().remove(1);
-      btnGenerate.setDisable(false);
-    }
+    graphicsOverlay.getGraphics().clear();
+    sceneView.getArcGISScene().getOperationalLayers().clear();
+    generateProfileButton.setDisable(true);
+    drawPolyline.setDisable(false);
+    clearResultsButton.setDisable(true);
+    featureCollection.getTables().clear();
+    label.setVisible(true);
+    label.setText("Draw line of section with button above");
   }
 
   private void showMessage(String title, String message) {
@@ -315,54 +351,62 @@ public class LocalServerGeoprocessingSandboxController {
   }
 
   @FXML
-  private Polyline startPolylineSketchEditor() {
+  private Polyline handleDrawPolyline() {
+    System.out.println(rasterLayer.getFullExtent());
+
+    label.setText("Right click to save line of section");
 
     GraphicsOverlay tempGraphicsOverlay = new GraphicsOverlay();
     sceneView.getGraphicsOverlays().add(tempGraphicsOverlay);
     SimpleMarkerSymbol simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE,
-      ColorUtil.colorToArgb(Color.AQUA), 5);
-    SimpleRenderer renderer = new SimpleRenderer(simpleMarkerSymbol);
-    tempGraphicsOverlay.setRenderer(renderer);
+      ColorUtil.colorToArgb(Color.BLUE), 5);
+    tempGraphicsOverlay.setRenderer(new SimpleRenderer(simpleMarkerSymbol));
 
-    // British National Grid
+    // create a point collection with the British National Grid (BNG) spatial reference
     PointCollection pointCollection = new PointCollection(SpatialReference.create(27700));
-//    polylineBuilder = new PolylineBuilder(SpatialReference.create(27700));
-
 
     sceneView.setOnMouseClicked(event -> {
       if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
         // get the clicked location
+        drawPolyline.setDisable(true);
         Point2D point2D = new Point2D(event.getX(), event.getY());
         ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
         pointFuture.addDoneListener(() -> {
           try {
             Point point = pointFuture.get();
-            Point projectedPoint = (Point) GeometryEngine.project(point, SpatialReference.create(27700)); // british 
+            Point projectedPoint = (Point) GeometryEngine.project(point, SpatialReference.create(27700)); // BNG
             double pointX = projectedPoint.getX();
             double pointY = projectedPoint.getY();
-            
+
             Point xyPoint = new Point(pointX, pointY);
 
-//            polylineBuilder.addPoint(xyPoint);
-            // national grid
-            pointCollection.add(xyPoint);
-            tempGraphicsOverlay.getGraphics().add(new Graphic(projectedPoint));
+            if (GeometryEngine.intersects(xyPoint, rasterLayer.getFullExtent())) {
+              pointCollection.add(xyPoint);
+              tempGraphicsOverlay.getGraphics().add(new Graphic(projectedPoint));
+            } else {
+              new Alert(AlertType.ERROR, "Clicked point must be within raster layer extent").show();
+            }
 
 
           } catch (Exception e) {
             e.printStackTrace();
           }
         });
-      } else if (event.getButton() == MouseButton.SECONDARY) {
+      } else if (event.getButton() == MouseButton.SECONDARY && !tempGraphicsOverlay.getGraphics().isEmpty()) {
 
         tempGraphicsOverlay.getGraphics().clear();
 
+        // create a polyline from the clicked points on the scene and add it as a graphic to the graphics overlay
         polyline = new Polyline(pointCollection);
         Graphic graphic = new Graphic(polyline);
         graphicsOverlay.getGraphics().add(graphic);
         new Alert(AlertType.INFORMATION, "Polyline sketched").show();
-        
-        
+        drawPolyline.setDisable(true);
+        generateProfileButton.setDisable(false);
+        label.setText("Generate elevation profile along the polyline using the above button");
+        pointCollection.clear();
+
+
       }
     });
 
@@ -372,59 +416,22 @@ public class LocalServerGeoprocessingSandboxController {
   @FXML
   private void createPolylineTable() {
 
-
-//     create required viewshed fields
+    // create name field for polyline
     List<Field> polylineField = new ArrayList<>();
+    polylineField.add(Field.createString("Name", "Name of feature", 20));
 
-    polylineField.add(Field.createString("Shape_Length", "Length of shape", 20));
-
-    // debug from here
-    // try adding feature collection table as feature layer to scene view again and see it re-projected to see if 
-    // reprojected line is going on ok
-    // try Geometry.fromJson on the json response from the query of working input parameters from browser query 
-
+    // create a feature collection table with BNG spatial reference
     FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(polylineField, GeometryType.POLYLINE,
       SpatialReference.create(27700));
 
+    // add the feature collection table to the feature collection, and create a feature from it
     featureCollection.getTables().add(featureCollectionTable);
+    Map<String, Object> attributes = new HashMap<>();
+    attributes.put(polylineField.get(0).getName(), "ElevationSection");
+    Feature addedFeature = featureCollectionTable.createFeature(attributes, polyline);
 
-    System.out.println(featureCollectionTable.getLoadStatus());
-    
-//    PolylineBuilder builder = new PolylineBuilder(SpatialReference.create(27700));
-//    builder.addPoint(new Point(-79.497238, 8.849289, SpatialReference.create(27700)));
-//    builder.addPoint(new Point(-80.035568, 9.432302, SpatialReference.create(27700)));
-//    Feature addedFeature = featureCollectionTable.createFeature(attributes, polylineBuilder.toGeometry());
-
-        Feature addedFeature = featureCollectionTable.createFeature();
-        addedFeature.setGeometry(polyline);
-
-    
     // add feature to collection table
     featureCollectionTable.addFeatureAsync(addedFeature);
-    System.out.println("polyline table" + featureCollectionTable.getLoadStatus());
-    featureCollectionTable.addFeatureAsync(addedFeature).addDoneListener(() -> {
-      
-      if (featureCollectionTable.getLoadStatus() == LoadStatus.LOADED) {
-
-        System.out.println("polyline table" + featureCollectionTable.getLoadStatus());
-
-      } else {
-
-        System.out.println("polyline table" + featureCollectionTable.getLoadStatus());
-        featureCollectionTable.getLoadError().printStackTrace();
-
-
-
-      }
-      
-    });
-
-
-//
-//    var testFeature = featureCollectionTable.createFeature(attributes, polyline);
-////        testFeature.setGeometry(polyline); // correct projection
-//
-//    featureCollectionTable.addFeatureAsync(testFeature);
     System.out.println(featureCollection.toJson());
 
   }
