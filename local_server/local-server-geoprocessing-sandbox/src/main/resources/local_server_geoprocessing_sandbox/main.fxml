@@ -52,8 +52,8 @@
     
     <Button fx:id="generateProfileButton" disable="true" text="Generate Elevation Profile" onAction="#handleGenerateElevationProfile" maxWidth="Infinity"/>
     <Button fx:id="clearResultsButton" disable="true" text="Clear Results" onAction="#handleClearResults" maxWidth="Infinity"/>
-      <Button fx:id="drawPolyline" text="Draw polyline" disable="true" onAction="#handleDrawPolyline" maxWidth="Infinity"/>
-      <Label fx:id="label" text="Starting local server..." maxWidth="Infinity" wrapText="true"/>
+      <Button fx:id="drawPolylineButton" text="Draw polyline" disable="true" onAction="#handleDrawPolyline" maxWidth="Infinity"/>
+      <Label fx:id="instructionsLabel" text="Starting local server..." maxWidth="Infinity" wrapText="true"/>
 
   </VBox>
   

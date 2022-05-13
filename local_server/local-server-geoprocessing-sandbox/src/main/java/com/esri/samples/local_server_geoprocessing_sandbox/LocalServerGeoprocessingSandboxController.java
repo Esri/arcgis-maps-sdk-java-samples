@@ -18,7 +18,6 @@ package com.esri.samples.local_server_geoprocessing_sandbox;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,15 +34,12 @@ import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
-import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
-import com.esri.arcgisruntime.mapping.RasterElevationSource;
-import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -90,9 +86,9 @@ import javafx.scene.paint.Color;
 public class LocalServerGeoprocessingSandboxController {
 
   @FXML
-  private Label label;
+  private Label instructionsLabel;
   @FXML
-  private Button drawPolyline;
+  private Button drawPolylineButton;
   @FXML
   private Button generateProfileButton;
   @FXML
@@ -110,12 +106,12 @@ public class LocalServerGeoprocessingSandboxController {
   private GraphicsOverlay graphicsOverlay;
   private LocalGeoprocessingService localGPService;
 
-  private String rasterPath = "./samples-data/local_server/Arran_10m.tif";
+  private Raster raster;
 
   private static LocalServer server;
 
   /**
-   * Called after FXML loads. Sets up scene and map and configures property bindings.
+   * Called after FXML loads. Sets up scene..
    */
   public void initialize() {
 
@@ -129,8 +125,11 @@ public class LocalServerGeoprocessingSandboxController {
       scene = new ArcGISScene(BasemapStyle.ARCGIS_HILLSHADE_LIGHT);
 
       // set the scene to the scene view and viewpoint to the Isle of Arran, Scotland
-      sceneView.setViewpointAsync(new Viewpoint(55.60, -5.28, 100000));
+//      sceneView.setViewpointAsync(new Viewpoint(55.60, -5.28, 100000));
 
+      raster = new Raster(new File
+        (System.getProperty("data.dir"), "./samples-data/local_server/Arran_10m_raster.tif").getAbsolutePath());
+      
       // set up a new feature collection layer from a new feature collection, and add it to the scene's operational 
       // layer list
       featureCollection = new FeatureCollection();
@@ -144,10 +143,13 @@ public class LocalServerGeoprocessingSandboxController {
         ColorUtil.colorToArgb(Color.BLACK), 3);
       graphicsOverlay.setRenderer(new SimpleRenderer(lineSymbol));
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
-      displayRaster();
+      
+      // add raster to the scene and start the local server instance
+      createAndDisplayRaster();
       startLocalServer();
+      
+      // set the scene to the scene view
       sceneView.setArcGISScene(scene);
-
 
     } catch (Exception e) {
       // on any exception, print the stack trace
@@ -155,38 +157,32 @@ public class LocalServerGeoprocessingSandboxController {
     }
   }
 
-  private void displayRaster() {
+  /**
+   * Creates a new raster and adds it to a raster layer. Applys a hillshade renderer to the raster layer, and adds
+   * the raster layer to the scene's list of operational layers.
+   */
+  private void createAndDisplayRaster() {
 
-    var hillshadeRenderer = new HillshadeRenderer(30, 210, 1);
 
     scene.addDoneLoadingListener(() -> {
       if (scene.getLoadStatus() == LoadStatus.LOADED) {
-
-        // loop through the GeoTIFFs
-//            for (String geoTiffFile : geoTiffFiles) {
-        // create a raster from every GeoTIFF
-        var raster = new Raster("C:\\Users\\rach9955\\Desktop\\Arran_10m_ProjectRaster.tif");
+        
         // create a raster layer from the raster
         rasterLayer = new RasterLayer(raster);
+//        rasterLayer = new RasterLayer(new Raster("C:\\Users\\rach9955\\Desktop\\Arran_10m_raster.tif"));
         // set a hillshade renderer to the raster layer
-        rasterLayer.setRasterRenderer(hillshadeRenderer);
+        rasterLayer.setRasterRenderer(new HillshadeRenderer(30, 210, 1));
+        
         // add the raster layer to the scene's operational layers
-
         scene.getOperationalLayers().add(rasterLayer);
+        // once the raster layer has loaded, set the viewpoint of the sceneview to the raster layer's full extent
         rasterLayer.addDoneLoadingListener(() -> {
           if (rasterLayer.getLoadStatus() == LoadStatus.LOADED && rasterLayer.getFullExtent() != null) {
             sceneView.setViewpointAsync(new Viewpoint(rasterLayer.getFullExtent()));
-            System.out.println(rasterLayer.getFullExtent());
           }
         });
-
-
-//            }
-
       }
     });
-
-
   }
 
   /**
@@ -225,21 +221,23 @@ public class LocalServerGeoprocessingSandboxController {
               gpTask = new GeoprocessingTask(localGPService.getUrl() + "/CreateElevationProfileModel");
 
               // handle UI behaviour
-              label.setText("Draw line of section with button above");
-              drawPolyline.setDisable(false);
+              instructionsLabel.setText("Draw line of section with button above");
+              drawPolylineButton.setDisable(false);
               progressBar.setVisible(false);
             }
           });
           localGPService.startAsync();
 
         } else if (server.getStatus() == LocalServerStatus.FAILED) {
-          showMessage("Local Geoprocessing Load Error", "Local Geoprocessing Failed to load.");
+          // display an information alert and close the application if the server status failed to start
+          showMessage("Local Server Status Error", "Local Server Status Failed to start.");
         }
       });
 
       server.startAsync();
     } else {
-      showMessage("Local Server Load Error", "Local Server install path couldn't be located.");
+      // display an information alert and close the application if a local server install path couldn't be located
+      showMessage("Local Server Install Error", "Local Server install path couldn't be located.");
     }
   }
 
@@ -252,7 +250,7 @@ public class LocalServerGeoprocessingSandboxController {
 
     // tracking progress of generating elevation profile
     progressBar.setVisible(true);
-    label.setVisible(false);
+    instructionsLabel.setVisible(false);
 
     // create geoprocessing parameters and get their inputs
     GeoprocessingParameters gpParameters = new GeoprocessingParameters(
@@ -271,7 +269,7 @@ public class LocalServerGeoprocessingSandboxController {
 
     // input raster data
     // name of input parameter, input type (geoprocessing string pointing to raster file)
-    inputs.put("Input_Raster", new GeoprocessingString(inputRasterPath));
+    inputs.put("Input_Raster", new GeoprocessingString(raster.getPath()));
 
     // adds contour lines to map
     GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
@@ -292,15 +290,10 @@ public class LocalServerGeoprocessingSandboxController {
 
           FeatureTable featureTable = serviceGeodatabase.getTable(0);
           FeatureLayer featureLayer = new FeatureLayer(featureTable);
-          featureLayer.loadAsync();
           featureLayer.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
-
-          featureLayer.addDoneLoadingListener(() -> {
-
-            sceneView.getArcGISScene().getOperationalLayers().add(featureLayer);
-
-          });
-
+          sceneView.getArcGISScene().getOperationalLayers().add(featureLayer);
+          
+          // handle UI
           generateProfileButton.setDisable(true);
           clearResultsButton.setDisable(false);
 
@@ -308,11 +301,8 @@ public class LocalServerGeoprocessingSandboxController {
         serviceGeodatabase.loadAsync();
 
       } else {
-        Alert dialog = new Alert(AlertType.ERROR);
-        dialog.setHeaderText("Geoprocess Job Fail");
-        dialog.setContentText("Error: " + gpJob.getError().getAdditionalMessage());
-        System.out.println("Error: " + gpJob.getError().getAdditionalMessage());
-        dialog.showAndWait();
+        new Alert(AlertType.ERROR, "Geoprocess Job Fail. Error: " + 
+          gpJob.getError().getAdditionalMessage()).showAndWait();
       }
       progressBar.setVisible(false);
 
@@ -322,21 +312,39 @@ public class LocalServerGeoprocessingSandboxController {
   }
 
   /**
-   * Removes contour lines from map if any are applied.
+   * Removes operational layers and graphics from the scene.
    */
   @FXML
   protected void handleClearResults() {
 
+    // remove all graphics 
     graphicsOverlay.getGraphics().clear();
-    sceneView.getArcGISScene().getOperationalLayers().clear();
-    generateProfileButton.setDisable(true);
-    drawPolyline.setDisable(false);
-    clearResultsButton.setDisable(true);
-    featureCollection.getTables().clear();
-    label.setVisible(true);
-    label.setText("Draw line of section with button above");
+    
+    // remove all operational layers bar the raster layer
+    sceneView.getArcGISScene().getOperationalLayers().forEach(layer -> {
+      if (!(layer instanceof RasterLayer)) {
+        scene.getOperationalLayers().remove(layer);
+      }
+    });
+    
+    // handle UI after checking there is still an operational layer in the scene (raster layer)
+    if (scene.getOperationalLayers().size() == 1) {
+
+      generateProfileButton.setDisable(true);
+      drawPolylineButton.setDisable(false);
+      clearResultsButton.setDisable(true);
+      featureCollection.getTables().clear();
+      instructionsLabel.setVisible(true);
+      instructionsLabel.setText("Draw line of section with button above");
+      
+    }
   }
 
+  /**
+   * Displays an information alert and closes the application when dialog is closed.
+   * @param title header text of the dialog
+   * @param message content text of the dialog
+   */
   private void showMessage(String title, String message) {
 
     Platform.runLater(() -> {
@@ -354,7 +362,7 @@ public class LocalServerGeoprocessingSandboxController {
   private Polyline handleDrawPolyline() {
     System.out.println(rasterLayer.getFullExtent());
 
-    label.setText("Right click to save line of section");
+    instructionsLabel.setText("Right click to save line of section");
 
     GraphicsOverlay tempGraphicsOverlay = new GraphicsOverlay();
     sceneView.getGraphicsOverlays().add(tempGraphicsOverlay);
@@ -363,30 +371,30 @@ public class LocalServerGeoprocessingSandboxController {
     tempGraphicsOverlay.setRenderer(new SimpleRenderer(simpleMarkerSymbol));
 
     // create a point collection with the British National Grid (BNG) spatial reference
-    PointCollection pointCollection = new PointCollection(SpatialReference.create(27700));
+    PointCollection pointCollection = new PointCollection(rasterLayer.getSpatialReference());
 
     sceneView.setOnMouseClicked(event -> {
       if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
+        drawPolylineButton.setDisable(true);
         // get the clicked location
-        drawPolyline.setDisable(true);
         Point2D point2D = new Point2D(event.getX(), event.getY());
         ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
         pointFuture.addDoneListener(() -> {
+          // project the clicked location point, and gets its x y values
           try {
             Point point = pointFuture.get();
-            Point projectedPoint = (Point) GeometryEngine.project(point, SpatialReference.create(27700)); // BNG
+            Point projectedPoint = (Point) GeometryEngine.project(point, rasterLayer.getSpatialReference());
             double pointX = projectedPoint.getX();
             double pointY = projectedPoint.getY();
+            Point xyPoint = new Point(pointX, pointY, rasterLayer.getSpatialReference());
 
-            Point xyPoint = new Point(pointX, pointY);
-
+            // check that the user has clicked within the extent of the raster
             if (GeometryEngine.intersects(xyPoint, rasterLayer.getFullExtent())) {
               pointCollection.add(xyPoint);
-              tempGraphicsOverlay.getGraphics().add(new Graphic(projectedPoint));
+              tempGraphicsOverlay.getGraphics().add(new Graphic(xyPoint));
             } else {
               new Alert(AlertType.ERROR, "Clicked point must be within raster layer extent").show();
             }
-
 
           } catch (Exception e) {
             e.printStackTrace();
@@ -394,6 +402,7 @@ public class LocalServerGeoprocessingSandboxController {
         });
       } else if (event.getButton() == MouseButton.SECONDARY && !tempGraphicsOverlay.getGraphics().isEmpty()) {
 
+        // clear the temporary graphics overlay displaying clicked points
         tempGraphicsOverlay.getGraphics().clear();
 
         // create a polyline from the clicked points on the scene and add it as a graphic to the graphics overlay
@@ -401,12 +410,14 @@ public class LocalServerGeoprocessingSandboxController {
         Graphic graphic = new Graphic(polyline);
         graphicsOverlay.getGraphics().add(graphic);
         new Alert(AlertType.INFORMATION, "Polyline sketched").show();
-        drawPolyline.setDisable(true);
+        
+        // handle UI
+        drawPolylineButton.setDisable(true);
         generateProfileButton.setDisable(false);
-        label.setText("Generate elevation profile along the polyline using the above button");
+        instructionsLabel.setText("Generate elevation profile along the polyline using the above button");
+        // reset point collection
         pointCollection.clear();
-
-
+        
       }
     });
 
@@ -422,7 +433,7 @@ public class LocalServerGeoprocessingSandboxController {
 
     // create a feature collection table with BNG spatial reference
     FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(polylineField, GeometryType.POLYLINE,
-      SpatialReference.create(27700));
+      SpatialReferences.getWgs84());
 
     // add the feature collection table to the feature collection, and create a feature from it
     featureCollection.getTables().add(featureCollectionTable);
