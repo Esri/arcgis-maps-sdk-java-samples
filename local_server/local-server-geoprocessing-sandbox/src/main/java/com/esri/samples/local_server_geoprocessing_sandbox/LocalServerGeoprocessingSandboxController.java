@@ -35,13 +35,13 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 
+import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
@@ -105,8 +105,9 @@ public class LocalServerGeoprocessingSandboxController {
   private GeoprocessingTask gpTask;
   private GraphicsOverlay graphicsOverlay;
   private LocalGeoprocessingService localGPService;
+  private Viewpoint rasterExtentViewPoint;
 
-  private Raster raster;
+  private Raster arranRaster;
 
   private static LocalServer server;
 
@@ -122,19 +123,15 @@ public class LocalServerGeoprocessingSandboxController {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a scene with a topographic basemap style
-      scene = new ArcGISScene(BasemapStyle.ARCGIS_HILLSHADE_LIGHT);
+      scene = new ArcGISScene(BasemapStyle.ARCGIS_HILLSHADE_DARK);
 
-      // set the scene to the scene view and viewpoint to the Isle of Arran, Scotland
-//      sceneView.setViewpointAsync(new Viewpoint(55.60, -5.28, 100000));
-
-      raster = new Raster(new File
+      // create a new raster and display it on the scene
+      arranRaster = new Raster(new File
         (System.getProperty("data.dir"), "./samples-data/local_server/Arran_10m_raster.tif").getAbsolutePath());
-      
-      // set up a new feature collection layer from a new feature collection, and add it to the scene's operational 
-      // layer list
+      displayRaster(arranRaster);
+
+      // set up a new feature collection
       featureCollection = new FeatureCollection();
-      var featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
-      scene.getOperationalLayers().add(featureCollectionLayer);
 
       // create a graphics overlay for displaying the sketched polyline and add it to the scene view's list of 
       // graphics overlays
@@ -143,11 +140,10 @@ public class LocalServerGeoprocessingSandboxController {
         ColorUtil.colorToArgb(Color.BLACK), 3);
       graphicsOverlay.setRenderer(new SimpleRenderer(lineSymbol));
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
-      
-      // add raster to the scene and start the local server instance
-      createAndDisplayRaster();
+
+      // start the local server instance
       startLocalServer();
-      
+
       // set the scene to the scene view
       sceneView.setArcGISScene(scene);
 
@@ -161,26 +157,29 @@ public class LocalServerGeoprocessingSandboxController {
    * Creates a new raster and adds it to a raster layer. Applys a hillshade renderer to the raster layer, and adds
    * the raster layer to the scene's list of operational layers.
    */
-  private void createAndDisplayRaster() {
-
+  private void displayRaster(Raster raster) {
 
     scene.addDoneLoadingListener(() -> {
       if (scene.getLoadStatus() == LoadStatus.LOADED) {
-        
+
         // create a raster layer from the raster
         rasterLayer = new RasterLayer(raster);
-//        rasterLayer = new RasterLayer(new Raster("C:\\Users\\rach9955\\Desktop\\Arran_10m_raster.tif"));
         // set a hillshade renderer to the raster layer
         rasterLayer.setRasterRenderer(new HillshadeRenderer(30, 210, 1));
-        
-        // add the raster layer to the scene's operational layers
-        scene.getOperationalLayers().add(rasterLayer);
-        // once the raster layer has loaded, set the viewpoint of the sceneview to the raster layer's full extent
+
+        // once the raster layer has loaded, set the viewpoint of the scene view to the raster layer's full extent
         rasterLayer.addDoneLoadingListener(() -> {
           if (rasterLayer.getLoadStatus() == LoadStatus.LOADED && rasterLayer.getFullExtent() != null) {
-            sceneView.setViewpointAsync(new Viewpoint(rasterLayer.getFullExtent()));
+            // centered on the raster covering the Isle of Arran, Scotland
+            rasterExtentViewPoint = new Viewpoint(rasterLayer.getFullExtent());
+            sceneView.setViewpointAsync(rasterExtentViewPoint);
+          } else {
+            new Alert(AlertType.ERROR, "Raster layer failed to load.").show();
           }
         });
+
+        // add the raster layer to the scene's operational layers
+        scene.getOperationalLayers().add(rasterLayer);
       }
     });
   }
@@ -205,7 +204,7 @@ public class LocalServerGeoprocessingSandboxController {
             String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
               "/create_elevation_profile_model.gpkx").getAbsolutePath();
 
-            // need map server result to display elevation profile on scene
+            // create new local geoprocessing service with map server result to display elevation profile on scene
             localGPService =
               new LocalGeoprocessingService(gpServiceURL, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
           } catch (Exception e) {
@@ -221,13 +220,13 @@ public class LocalServerGeoprocessingSandboxController {
               gpTask = new GeoprocessingTask(localGPService.getUrl() + "/CreateElevationProfileModel");
 
               // handle UI behaviour
-              instructionsLabel.setText("Draw line of section with button above");
+              instructionsLabel.setText("Draw a polyline on the scene with the 'Draw Polyline' button");
               drawPolylineButton.setDisable(false);
               progressBar.setVisible(false);
             }
           });
-          localGPService.startAsync();
 
+          localGPService.startAsync();
         } else if (server.getStatus() == LocalServerStatus.FAILED) {
           // display an information alert and close the application if the server status failed to start
           showMessage("Local Server Status Error", "Local Server Status Failed to start.");
@@ -257,11 +256,8 @@ public class LocalServerGeoprocessingSandboxController {
       GeoprocessingParameters.ExecutionType.ASYNCHRONOUS_SUBMIT);
     final Map<String, GeoprocessingParameter> inputs = gpParameters.getInputs();
 
-    // create the feature collection table
-    createPolylineTable();
-
-    var inputRasterPath =
-      new File(System.getProperty("data.dir"), "C:\\Users\\rach9955\\Desktop\\Arran_10m_ProjectRaster.tif").getAbsolutePath();
+    // create the feature collection table from sketched polyline
+    createFeatureCollectionTableWithPolylineFeature();
 
     // input polyline path
     // name of input parameter, input type (geoprocessing feature, pointing to polyline)
@@ -269,30 +265,48 @@ public class LocalServerGeoprocessingSandboxController {
 
     // input raster data
     // name of input parameter, input type (geoprocessing string pointing to raster file)
-    inputs.put("Input_Raster", new GeoprocessingString(raster.getPath()));
+    inputs.put("Input_Raster", new GeoprocessingString(arranRaster.getPath()));
 
-    // adds contour lines to map
+    // create geoprocessing job from the geoprocessing parameters to show elevation profile on the scene
     GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
-
     gpJob.addJobDoneListener(() -> {
-
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
 
+        // convert geoprocesser server url to that of a map server, and get the job id
         String serviceUrl = localGPService.getUrl();
         String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
 
         System.out.println("service url: " + serviceUrl);
         System.out.println("Server Job ID: " + gpJob.getServerJobId());
         System.out.println("Map server url: " + mapServerUrl);
-
+        
+        // create a service geodatabase from the map server url
         ServiceGeodatabase serviceGeodatabase = new ServiceGeodatabase(mapServerUrl);
         serviceGeodatabase.addDoneLoadingListener(() -> {
 
           FeatureTable featureTable = serviceGeodatabase.getTable(0);
           FeatureLayer featureLayer = new FeatureLayer(featureTable);
           featureLayer.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
+          featureLayer.setRenderer(new SimpleRenderer(
+            new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.WHITE), 3)));
           sceneView.getArcGISScene().getOperationalLayers().add(featureLayer);
           
+          featureLayer.addDoneLoadingListener(() -> {
+
+            var x = polyline.getExtent().getXMax();
+            var y = polyline.getExtent().getYMax();
+            var centrex = polyline.getExtent().getCenter().getX();
+            var centrey = polyline.getExtent().getCenter().getY();
+
+            double theta = Math.toRadians(Math.atan((y-centrey)/(x-centrex)));
+
+            System.out.println(theta);
+            
+            Camera camera = new Camera((polyline.getExtent().getCenter()), 10000, theta, 80, 0);
+
+            sceneView.setViewpointCameraAsync(camera, 2);
+          });
+
           // handle UI
           generateProfileButton.setDisable(true);
           clearResultsButton.setDisable(false);
@@ -301,7 +315,7 @@ public class LocalServerGeoprocessingSandboxController {
         serviceGeodatabase.loadAsync();
 
       } else {
-        new Alert(AlertType.ERROR, "Geoprocess Job Fail. Error: " + 
+        new Alert(AlertType.ERROR, "Geoprocess Job Fail. Error: " +
           gpJob.getError().getAdditionalMessage()).showAndWait();
       }
       progressBar.setVisible(false);
@@ -312,66 +326,56 @@ public class LocalServerGeoprocessingSandboxController {
   }
 
   /**
-   * Removes operational layers and graphics from the scene.
+   * Creates a feature collection table, and adds a feature to it constructed from the sketched polyline. A feature
+   * collection table is the parameter type required for the GeoprocessingFeatures constructor in this sample.
    */
   @FXML
-  protected void handleClearResults() {
+  private void createFeatureCollectionTableWithPolylineFeature() {
 
-    // remove all graphics 
-    graphicsOverlay.getGraphics().clear();
-    
-    // remove all operational layers bar the raster layer
-    sceneView.getArcGISScene().getOperationalLayers().forEach(layer -> {
-      if (!(layer instanceof RasterLayer)) {
-        scene.getOperationalLayers().remove(layer);
-      }
-    });
-    
-    // handle UI after checking there is still an operational layer in the scene (raster layer)
-    if (scene.getOperationalLayers().size() == 1) {
+    // create name field for polyline
+    List<Field> polylineField = new ArrayList<>();
+    polylineField.add(Field.createString("Name", "Name of feature", 20));
 
-      generateProfileButton.setDisable(true);
-      drawPolylineButton.setDisable(false);
-      clearResultsButton.setDisable(true);
-      featureCollection.getTables().clear();
-      instructionsLabel.setVisible(true);
-      instructionsLabel.setText("Draw line of section with button above");
-      
-    }
+    // create a feature collection table
+    FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(polylineField, GeometryType.POLYLINE,
+      SpatialReferences.getWgs84());
+
+    // add the feature collection table to the feature collection, and create a feature from it, using the polyline
+    // sketched by the user
+    featureCollection.getTables().add(featureCollectionTable);
+    Map<String, Object> attributes = new HashMap<>();
+    attributes.put(polylineField.get(0).getName(), "ElevationSection");
+    Feature addedFeature = featureCollectionTable.createFeature(attributes, polyline);
+
+    // add feature to collection table
+    featureCollectionTable.addFeatureAsync(addedFeature);
+    featureCollection.loadAsync();
+    System.out.println(featureCollection.toJson());
+
   }
 
   /**
-   * Displays an information alert and closes the application when dialog is closed.
-   * @param title header text of the dialog
-   * @param message content text of the dialog
+   * Handles "Draw Polyline" button. Creates a temporary graphics overlay and adds points clicked on the scene
+   * to a point collection. On right click of the mouse button, the points are used to construct a polyline which is 
+   * returned.
+   *
    */
-  private void showMessage(String title, String message) {
-
-    Platform.runLater(() -> {
-      Alert dialog = new Alert(AlertType.INFORMATION);
-      dialog.initOwner(sceneView.getScene().getWindow());
-      dialog.setHeaderText(title);
-      dialog.setContentText(message);
-      dialog.showAndWait();
-
-      Platform.exit();
-    });
-  }
-
   @FXML
-  private Polyline handleDrawPolyline() {
-    System.out.println(rasterLayer.getFullExtent());
+  private void handleDrawPolyline() {
 
-    instructionsLabel.setText("Right click to save line of section");
+    instructionsLabel.setText("Click on the map to draw polyline path, then right click to save it");
+    drawPolylineButton.setDisable(true);
 
+    // create a temporary graphics overlay to display point collection on map
     GraphicsOverlay tempGraphicsOverlay = new GraphicsOverlay();
     sceneView.getGraphicsOverlays().add(tempGraphicsOverlay);
-    SimpleMarkerSymbol simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE,
-      ColorUtil.colorToArgb(Color.BLUE), 5);
+    SimpleMarkerSymbol simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS,
+      ColorUtil.colorToArgb(Color.BLACK), 10);
     tempGraphicsOverlay.setRenderer(new SimpleRenderer(simpleMarkerSymbol));
 
-    // create a point collection with the British National Grid (BNG) spatial reference
-    PointCollection pointCollection = new PointCollection(rasterLayer.getSpatialReference());
+    // create a point collection with the same spatial reference as the raster layer
+    var rasterLayerSpatialReference = rasterLayer.getSpatialReference();
+    PointCollection pointCollection = new PointCollection(rasterLayerSpatialReference);
 
     sceneView.setOnMouseClicked(event -> {
       if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
@@ -383,10 +387,10 @@ public class LocalServerGeoprocessingSandboxController {
           // project the clicked location point, and gets its x y values
           try {
             Point point = pointFuture.get();
-            Point projectedPoint = (Point) GeometryEngine.project(point, rasterLayer.getSpatialReference());
+            Point projectedPoint = (Point) GeometryEngine.project(point, rasterLayerSpatialReference);
             double pointX = projectedPoint.getX();
             double pointY = projectedPoint.getY();
-            Point xyPoint = new Point(pointX, pointY, rasterLayer.getSpatialReference());
+            Point xyPoint = new Point(pointX, pointY, rasterLayerSpatialReference);
 
             // check that the user has clicked within the extent of the raster
             if (GeometryEngine.intersects(xyPoint, rasterLayer.getFullExtent())) {
@@ -395,7 +399,6 @@ public class LocalServerGeoprocessingSandboxController {
             } else {
               new Alert(AlertType.ERROR, "Clicked point must be within raster layer extent").show();
             }
-
           } catch (Exception e) {
             e.printStackTrace();
           }
@@ -410,41 +413,58 @@ public class LocalServerGeoprocessingSandboxController {
         Graphic graphic = new Graphic(polyline);
         graphicsOverlay.getGraphics().add(graphic);
         new Alert(AlertType.INFORMATION, "Polyline sketched").show();
-        
+
         // handle UI
         drawPolylineButton.setDisable(true);
         generateProfileButton.setDisable(false);
-        instructionsLabel.setText("Generate elevation profile along the polyline using the above button");
-        // reset point collection
+        instructionsLabel.setText("Generate an elevation profile along the polyline using the above button");
+        // clear point collection
         pointCollection.clear();
-        
+
       }
     });
-
-    return polyline;
   }
 
+  /**
+   * Removes all operational layers (apart from the raster layer), and graphics from the scene.
+   */
   @FXML
-  private void createPolylineTable() {
+  protected void handleClearResults() {
 
-    // create name field for polyline
-    List<Field> polylineField = new ArrayList<>();
-    polylineField.add(Field.createString("Name", "Name of feature", 20));
+    // remove all graphics 
+    graphicsOverlay.getGraphics().clear();
 
-    // create a feature collection table with BNG spatial reference
-    FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(polylineField, GeometryType.POLYLINE,
-      SpatialReferences.getWgs84());
+    // remove all operational layers bar the raster layer
+    scene.getOperationalLayers().remove(1);
 
-    // add the feature collection table to the feature collection, and create a feature from it
-    featureCollection.getTables().add(featureCollectionTable);
-    Map<String, Object> attributes = new HashMap<>();
-    attributes.put(polylineField.get(0).getName(), "ElevationSection");
-    Feature addedFeature = featureCollectionTable.createFeature(attributes, polyline);
+    // handle UI after checking there is still an operational layer in the scene (raster layer)
 
-    // add feature to collection table
-    featureCollectionTable.addFeatureAsync(addedFeature);
-    System.out.println(featureCollection.toJson());
+    generateProfileButton.setDisable(true);
+    drawPolylineButton.setDisable(false);
+    clearResultsButton.setDisable(true);
+    sceneView.setViewpointAsync(rasterExtentViewPoint);
+    featureCollection.getTables().clear();
+    instructionsLabel.setVisible(true);
+    instructionsLabel.setText("Draw a polyline on the scene with the 'Draw Polyline' button");
+  }
 
+  /**
+   * Displays an information alert and closes the application when dialog is closed.
+   *
+   * @param title header text of the dialog
+   * @param message content text of the dialog
+   */
+  private void showMessage(String title, String message) {
+
+    Platform.runLater(() -> {
+      Alert dialog = new Alert(AlertType.INFORMATION);
+      dialog.initOwner(sceneView.getScene().getWindow());
+      dialog.setHeaderText(title);
+      dialog.setContentText(message);
+      dialog.showAndWait();
+
+      Platform.exit();
+    });
   }
 
   /**
