@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.local_server_geoprocessing_sandbox;
+package com.esri.samples.local_server_generate_elevation_profile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -80,11 +80,14 @@ import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameter;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameters;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 
-public class LocalServerGeoprocessingSandboxController {
+public class LocalServerGenerateElevationProfileController {
 
+  @FXML
+  private VBox vBox;
   @FXML
   private Label instructionsLabel;
   @FXML
@@ -249,7 +252,6 @@ public class LocalServerGeoprocessingSandboxController {
 
     // tracking progress of generating elevation profile
     progressBar.setVisible(true);
-    instructionsLabel.setVisible(false);
 
     // create geoprocessing parameters and get their inputs
     GeoprocessingParameters gpParameters = new GeoprocessingParameters(
@@ -292,19 +294,40 @@ public class LocalServerGeoprocessingSandboxController {
           sceneView.getArcGISScene().getOperationalLayers().add(featureLayer);
           
           featureLayer.addDoneLoadingListener(() -> {
-
-            var x = polyline.getExtent().getXMax();
-            var y = polyline.getExtent().getYMax();
-            var centrex = polyline.getExtent().getCenter().getX();
-            var centrey = polyline.getExtent().getCenter().getY();
-
-            double theta = Math.toRadians(Math.atan((y-centrey)/(x-centrex)));
-
-            System.out.println(theta);
             
-            Camera camera = new Camera((polyline.getExtent().getCenter()), 10000, theta, 80, 0);
+            var endPoint = polyline.getParts().get(0).getEndPoint();
+            var endPointX = endPoint.getX();
+            var endPointY = endPoint.getY();
+            
+            Graphic maxPoint = new Graphic(new Point(endPointX, endPointY, SpatialReferences.getWebMercator()));
+            var centerX = polyline.getExtent().getCenter().getX();
+            var centerY = polyline.getExtent().getCenter().getY();
+            
+            double lengthX = centerX - endPointX;
+            double lengthY = centerY - endPointY;
+            Point cameraPositionPoint = new Point(centerX + lengthY * 2 , centerY - lengthX  * 2, SpatialReferences.getWebMercator());
+            
+//            double theta = Math.atan2((centerX - cameraPositionPoint.getX()),(centerY - cameraPositionPoint.getY()) ) - 90;
+            
+            double theta = Math.atan(centerX - endPointX / centerY - endPointY);
+
+            
+            Camera camera = new Camera(cameraPositionPoint, theta, 80, 0);
+
+            System.out.println("Camera heading: " + camera.getHeading());
+            System.out.println("Theta: " + theta);
+
+            GraphicsOverlay tempGraphicsOverlay = new GraphicsOverlay();
+            sceneView.getGraphicsOverlays().add(tempGraphicsOverlay);
+            SimpleMarkerSymbol simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND,
+              ColorUtil.colorToArgb(Color.ORANGE), 10);
+            tempGraphicsOverlay.setRenderer(new SimpleRenderer(simpleMarkerSymbol));
+            tempGraphicsOverlay.getGraphics().add(maxPoint);
+            tempGraphicsOverlay.getGraphics().add(new Graphic(camera.getLocation()));
+            tempGraphicsOverlay.getGraphics().add(new Graphic(polyline.getExtent().getCenter()));
 
             sceneView.setViewpointCameraAsync(camera, 2);
+            instructionsLabel.setText("Elevation Profile drawn");
           });
 
           // handle UI
@@ -363,6 +386,7 @@ public class LocalServerGeoprocessingSandboxController {
   @FXML
   private void handleDrawPolyline() {
 
+    vBox.setDisable(true);
     instructionsLabel.setText("Click on the map to draw polyline path, then right click to save it");
     drawPolylineButton.setDisable(true);
 
@@ -376,33 +400,36 @@ public class LocalServerGeoprocessingSandboxController {
     // create a point collection with the same spatial reference as the raster layer
     var rasterLayerSpatialReference = rasterLayer.getSpatialReference();
     PointCollection pointCollection = new PointCollection(rasterLayerSpatialReference);
-
+    
+      
+      
     sceneView.setOnMouseClicked(event -> {
-      if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
-        drawPolylineButton.setDisable(true);
-        // get the clicked location
-        Point2D point2D = new Point2D(event.getX(), event.getY());
-        ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
-        pointFuture.addDoneListener(() -> {
-          // project the clicked location point, and gets its x y values
-          try {
-            Point point = pointFuture.get();
-            Point projectedPoint = (Point) GeometryEngine.project(point, rasterLayerSpatialReference);
-            double pointX = projectedPoint.getX();
-            double pointY = projectedPoint.getY();
-            Point xyPoint = new Point(pointX, pointY, rasterLayerSpatialReference);
+      if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY && vBox.isDisabled()) {
 
-            // check that the user has clicked within the extent of the raster
-            if (GeometryEngine.intersects(xyPoint, rasterLayer.getFullExtent())) {
-              pointCollection.add(xyPoint);
-              tempGraphicsOverlay.getGraphics().add(new Graphic(xyPoint));
-            } else {
-              new Alert(AlertType.ERROR, "Clicked point must be within raster layer extent").show();
+          // get the clicked location
+          Point2D point2D = new Point2D(event.getX(), event.getY());
+          ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
+          pointFuture.addDoneListener(() -> {
+            // project the clicked location point, and gets its x y values
+            try {
+              Point point = pointFuture.get();
+              Point projectedPoint = (Point) GeometryEngine.project(point, rasterLayerSpatialReference);
+              double pointX = projectedPoint.getX();
+              double pointY = projectedPoint.getY();
+              Point xyPoint = new Point(pointX, pointY, rasterLayerSpatialReference);
+
+              // check that the user has clicked within the extent of the raster
+              if (GeometryEngine.intersects(xyPoint, rasterLayer.getFullExtent())) {
+                pointCollection.add(xyPoint);
+                tempGraphicsOverlay.getGraphics().add(new Graphic(xyPoint));
+              } else {
+                new Alert(AlertType.ERROR, "Clicked point must be within raster layer extent").show();
+              }
+            } catch (Exception e) {
+              e.printStackTrace();
             }
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        });
+          });
+        
       } else if (event.getButton() == MouseButton.SECONDARY && !tempGraphicsOverlay.getGraphics().isEmpty()) {
 
         // clear the temporary graphics overlay displaying clicked points
@@ -415,6 +442,7 @@ public class LocalServerGeoprocessingSandboxController {
         new Alert(AlertType.INFORMATION, "Polyline sketched").show();
 
         // handle UI
+        vBox.setDisable(false);
         drawPolylineButton.setDisable(true);
         generateProfileButton.setDisable(false);
         instructionsLabel.setText("Generate an elevation profile along the polyline using the above button");
@@ -433,6 +461,7 @@ public class LocalServerGeoprocessingSandboxController {
 
     // remove all graphics 
     graphicsOverlay.getGraphics().clear();
+    sceneView.getGraphicsOverlays().forEach(graphicsOverlay1 -> graphicsOverlay1.getGraphics().clear());
 
     // remove all operational layers bar the raster layer
     scene.getOperationalLayers().remove(1);

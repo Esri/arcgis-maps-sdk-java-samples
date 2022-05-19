@@ -65,7 +65,7 @@ run {
         systemProperty 'apiKey', apiKey
     }
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.local_server_geoprocessing_sandbox.LocalServerGeoprocessingSandboxLauncher'
+    mainClassName = 'com.esri.samples.local_server_generate_elevation_profile.LocalServerGenerateElevationProfileLauncher'
 }
 
 jar {

@@ -1,4 +1,4 @@
-rootProject.name = 'local-server-geoprocessing-sandbox'
+rootProject.name = 'local-server-generate-elevation-profile'
 
 // download sample data
 def ant = new groovy.util.AntBuilder()

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.local_server_geoprocessing_sandbox;
+package com.esri.samples.local_server_generate_elevation_profile;
 
 import java.io.IOException;
 
@@ -24,14 +24,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class LocalServerGeoprocessingSandboxSample extends Application {
+public class LocalServerGenerateElevationProfileSample extends Application {
 
-  private static LocalServerGeoprocessingSandboxController controller;
+  private static LocalServerGenerateElevationProfileController controller;
 
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/local_server_geoprocessing_sandbox/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/local_server_generate_elevation_profile/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
     Scene scene = new Scene(root);
