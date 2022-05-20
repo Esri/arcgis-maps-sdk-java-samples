@@ -22,6 +22,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.FeatureCollection;
@@ -38,15 +52,18 @@ import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
+import com.esri.arcgisruntime.localserver.LocalGeoprocessingService.ServiceType;
+import com.esri.arcgisruntime.localserver.LocalServer;
+import com.esri.arcgisruntime.localserver.LocalServerStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
-
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-
 import com.esri.arcgisruntime.raster.HillshadeRenderer;
 import com.esri.arcgisruntime.raster.Raster;
 import com.esri.arcgisruntime.symbology.ColorUtil;
@@ -54,68 +71,36 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingFeatures;
-import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingString;
-
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.concurrent.Job;
-
-import com.esri.arcgisruntime.localserver.LocalGeoprocessingService;
-import com.esri.arcgisruntime.localserver.LocalGeoprocessingService.ServiceType;
-import com.esri.arcgisruntime.localserver.LocalServer;
-import com.esri.arcgisruntime.localserver.LocalServerStatus;
-
-import com.esri.arcgisruntime.mapping.BasemapStyle;
-
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingJob;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameter;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameters;
+import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingString;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-
 
 public class LocalServerGenerateElevationProfileController {
 
-  @FXML
-  private VBox vBox;
-  @FXML
-  private Label instructionsLabel;
-  @FXML
-  private Button drawPolylineButton;
-  @FXML
-  private Button generateProfileButton;
-  @FXML
-  private Button clearResultsButton;
-  @FXML
-  private ProgressBar progressBar;
-  @FXML
-  private SceneView sceneView;
+  @FXML private Button drawPolylineButton;
+  @FXML private Button generateProfileButton;
+  @FXML private Button clearResultsButton;
+  @FXML private Label instructionsLabel;
+  @FXML private ProgressBar progressBar;
+  @FXML private SceneView sceneView;
+  @FXML private VBox vBox;
 
   private ArcGISScene scene;
-  private Polyline polyline;
-  private RasterLayer rasterLayer;
   private FeatureCollection featureCollection;
   private GeoprocessingTask gpTask;
   private GraphicsOverlay graphicsOverlay;
   private LocalGeoprocessingService localGPService;
-  private Viewpoint rasterExtentViewPoint;
-
+  private Polyline polyline;
   private Raster arranRaster;
+  private RasterLayer rasterLayer;
+  private Viewpoint rasterExtentViewPoint;
 
   private static LocalServer server;
 
   /**
-   * Called after FXML loads. Sets up scene..
+   * Called after FXML loads. Sets up scene.
    */
   public void initialize() {
 
@@ -128,7 +113,7 @@ public class LocalServerGenerateElevationProfileController {
       // create a scene with a topographic basemap style
       scene = new ArcGISScene(BasemapStyle.ARCGIS_HILLSHADE_DARK);
 
-      // create a new raster and display it on the scene
+      // create a new raster from local file and display it on the scene
       arranRaster = new Raster(new File
         (System.getProperty("data.dir"), "./samples-data/local_server/Arran_10m_raster.tif").getAbsolutePath());
       displayRaster(arranRaster);
@@ -281,7 +266,7 @@ public class LocalServerGenerateElevationProfileController {
         System.out.println("service url: " + serviceUrl);
         System.out.println("Server Job ID: " + gpJob.getServerJobId());
         System.out.println("Map server url: " + mapServerUrl);
-        
+
         // create a service geodatabase from the map server url
         ServiceGeodatabase serviceGeodatabase = new ServiceGeodatabase(mapServerUrl);
         serviceGeodatabase.addDoneLoadingListener(() -> {
@@ -292,40 +277,43 @@ public class LocalServerGenerateElevationProfileController {
           featureLayer.setRenderer(new SimpleRenderer(
             new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.WHITE), 3)));
           sceneView.getArcGISScene().getOperationalLayers().add(featureLayer);
-          
+
           featureLayer.addDoneLoadingListener(() -> {
             
-            var endPoint = polyline.getParts().get(0).getEndPoint();
+            // get the polyline's end point co-ordinates
+            Point endPoint = polyline.getParts().get(0).getEndPoint();
             var endPointX = endPoint.getX();
             var endPointY = endPoint.getY();
+            // get the polyline's center point co-ordinates
+            Point centerPoint = polyline.getExtent().getCenter();
+            var centerX = centerPoint.getX();
+            var centerY = centerPoint.getY();
+            // calculate the position of a point perpendicular to the centre of the polyline
+            double lengthX = endPointX - centerX;
+            double lengthY = endPointY - centerY;
+            Point cameraPositionPoint = new Point(centerX + lengthY * 2, centerY - lengthX * 2, 1000,
+              SpatialReferences.getWebMercator());
             
-            Graphic maxPoint = new Graphic(new Point(endPointX, endPointY, SpatialReferences.getWebMercator()));
-            var centerX = polyline.getExtent().getCenter().getX();
-            var centerY = polyline.getExtent().getCenter().getY();
+            // calculate the heading for the camera position so that it points perpendicularly towards the elevation profile
+            double theta;
+            double cameraHeadingPerpToProfile;
+            // account for switching opposite and adjacent depending on angle direction from drawn line
+            if (lengthY < 0) { // accounts for a downwards angle
+              theta = Math.toDegrees(Math.atan((centerX - endPointX) / (centerY - endPointY)));
+              cameraHeadingPerpToProfile = theta + 90; //
+            } else { // accounts for an upwards angle
+              theta = Math.toDegrees(Math.atan((centerY - endPointY) / (centerX - endPointX)));
+              // determine if theta is positive or negative, then account accordingly for calculating the angle back from north
+              // and then rotate that value by + or - 90 to get the angle perpendicular to the drawn line
+              if (theta > 0) { // accounts for if theta is positive
+                cameraHeadingPerpToProfile = (90 - theta) - 90; // (calculated angle from north) - rotate anticlockwise by 90
+              } else { // accounts for if theta is negative
+                cameraHeadingPerpToProfile = (90 - theta) + 90; // (calculated angle from north) - rotate clockwise by 90
+              }
+            }
             
-            double lengthX = centerX - endPointX;
-            double lengthY = centerY - endPointY;
-            Point cameraPositionPoint = new Point(centerX + lengthY * 2 , centerY - lengthX  * 2, SpatialReferences.getWebMercator());
-            
-//            double theta = Math.atan2((centerX - cameraPositionPoint.getX()),(centerY - cameraPositionPoint.getY()) ) - 90;
-            
-            double theta = Math.atan(centerX - endPointX / centerY - endPointY);
-
-            
-            Camera camera = new Camera(cameraPositionPoint, theta, 80, 0);
-
-            System.out.println("Camera heading: " + camera.getHeading());
-            System.out.println("Theta: " + theta);
-
-            GraphicsOverlay tempGraphicsOverlay = new GraphicsOverlay();
-            sceneView.getGraphicsOverlays().add(tempGraphicsOverlay);
-            SimpleMarkerSymbol simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND,
-              ColorUtil.colorToArgb(Color.ORANGE), 10);
-            tempGraphicsOverlay.setRenderer(new SimpleRenderer(simpleMarkerSymbol));
-            tempGraphicsOverlay.getGraphics().add(maxPoint);
-            tempGraphicsOverlay.getGraphics().add(new Graphic(camera.getLocation()));
-            tempGraphicsOverlay.getGraphics().add(new Graphic(polyline.getExtent().getCenter()));
-
+            // create a new camera from the calculated camera position point and camera angle perpendicular to profile
+            Camera camera = new Camera(cameraPositionPoint, cameraHeadingPerpToProfile, 80, 0); //
             sceneView.setViewpointCameraAsync(camera, 2);
             instructionsLabel.setText("Elevation Profile drawn");
           });
@@ -361,7 +349,7 @@ public class LocalServerGenerateElevationProfileController {
 
     // create a feature collection table
     FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(polylineField, GeometryType.POLYLINE,
-      SpatialReferences.getWgs84());
+      SpatialReferences.getWebMercator());
 
     // add the feature collection table to the feature collection, and create a feature from it, using the polyline
     // sketched by the user
@@ -379,9 +367,8 @@ public class LocalServerGenerateElevationProfileController {
 
   /**
    * Handles "Draw Polyline" button. Creates a temporary graphics overlay and adds points clicked on the scene
-   * to a point collection. On right click of the mouse button, the points are used to construct a polyline which is 
+   * to a point collection. On right click of the mouse button, the points are used to construct a polyline which is
    * returned.
-   *
    */
   @FXML
   private void handleDrawPolyline() {
@@ -400,36 +387,36 @@ public class LocalServerGenerateElevationProfileController {
     // create a point collection with the same spatial reference as the raster layer
     var rasterLayerSpatialReference = rasterLayer.getSpatialReference();
     PointCollection pointCollection = new PointCollection(rasterLayerSpatialReference);
-    
-      
-      
+
+
     sceneView.setOnMouseClicked(event -> {
       if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY && vBox.isDisabled()) {
 
-          // get the clicked location
-          Point2D point2D = new Point2D(event.getX(), event.getY());
-          ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
-          pointFuture.addDoneListener(() -> {
-            // project the clicked location point, and gets its x y values
-            try {
-              Point point = pointFuture.get();
-              Point projectedPoint = (Point) GeometryEngine.project(point, rasterLayerSpatialReference);
-              double pointX = projectedPoint.getX();
-              double pointY = projectedPoint.getY();
-              Point xyPoint = new Point(pointX, pointY, rasterLayerSpatialReference);
+        // get the clicked location
+        Point2D point2D = new Point2D(event.getX(), event.getY());
+        ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
+        pointFuture.addDoneListener(() -> {
+          // project the clicked location point, and gets its x y values
+          try {
+            Point point = pointFuture.get();
+            Point projectedPoint = (Point) GeometryEngine.project(point, rasterLayerSpatialReference);
+            double pointX = projectedPoint.getX();
+            double pointY = projectedPoint.getY();
+            Point xyPoint = new Point(pointX, pointY, rasterLayerSpatialReference);
 
-              // check that the user has clicked within the extent of the raster
-              if (GeometryEngine.intersects(xyPoint, rasterLayer.getFullExtent())) {
-                pointCollection.add(xyPoint);
-                tempGraphicsOverlay.getGraphics().add(new Graphic(xyPoint));
-              } else {
-                new Alert(AlertType.ERROR, "Clicked point must be within raster layer extent").show();
-              }
-            } catch (Exception e) {
-              e.printStackTrace();
+            // check that the user has clicked within the extent of the raster
+            if (GeometryEngine.intersects(xyPoint, rasterLayer.getFullExtent())) {
+              pointCollection.add(xyPoint);
+              tempGraphicsOverlay.getGraphics().add(new Graphic(xyPoint));
+            } else {
+              new Alert(AlertType.ERROR, "Clicked point must be within raster layer extent").show();
+              drawPolylineButton.setDisable(false);
             }
-          });
-        
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        });
+
       } else if (event.getButton() == MouseButton.SECONDARY && !tempGraphicsOverlay.getGraphics().isEmpty()) {
 
         // clear the temporary graphics overlay displaying clicked points
@@ -461,7 +448,6 @@ public class LocalServerGenerateElevationProfileController {
 
     // remove all graphics 
     graphicsOverlay.getGraphics().clear();
-    sceneView.getGraphicsOverlays().forEach(graphicsOverlay1 -> graphicsOverlay1.getGraphics().clear());
 
     // remove all operational layers bar the raster layer
     scene.getOperationalLayers().remove(1);

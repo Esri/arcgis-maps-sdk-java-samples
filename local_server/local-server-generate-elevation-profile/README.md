@@ -1,12 +1,12 @@
 # Local Server generate elevation profile
 
-Create contour lines from local raster data using a local geoprocessing package `.gpkx` and the contour geoprocessing tool.
+Create an elevation profile from local raster data and a polyline, using a local geoprocessing package `.gpkx` created using the interpolate shape geoprocessing tool in ArcGIS Pro.
 
-![Image of local server generate elevation profile](LocalServerGeoprocessing.png)
+![Image of local server generate elevation profile](LocalServerGenerateElevationProfile.png)
 
 ## Use case
 
-For executing offline geoprocessing tasks in your ArcGIS Runtime apps via an offline (local) server.
+Local server applications are helpful for executing offline geoprocessing tasks in your ArcGIS Runtime apps via an offline (local) server. This sample uses a geoprocessing package created with the Interpolate Shape tool, which creates 3D feature by interpolating z-values from a surface.
 
 ## How to use the sample
 
