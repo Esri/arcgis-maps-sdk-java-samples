@@ -26,7 +26,6 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.geometry.Insets?>
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Separator?>
 <StackPane fx:controller="com.esri.samples.local_server_generate_elevation_profile.LocalServerGenerateElevationProfileController"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/local_server_generate_elevation_profile/style.css">
@@ -55,11 +54,10 @@
 
         <Button fx:id="generateProfileButton" disable="true" text="Generate Elevation Profile"
                 onAction="#handleGenerateElevationProfile" maxWidth="Infinity"/>
-        <Button fx:id="clearResultsButton" disable="true" text="Clear Results" onAction="#handleClearResults"
-                maxWidth="Infinity"/>
         <Button fx:id="drawPolylineButton" text="Draw Polyline" disable="true" onAction="#handleDrawPolyline"
                 maxWidth="Infinity"/>
-
+        <Button fx:id="clearResultsButton" disable="true" text="Clear Results" onAction="#handleClearResults"
+                maxWidth="Infinity"/>
 
     </VBox>
     <VBox StackPane.alignment="TOP_RIGHT" spacing="5" maxWidth="200" maxHeight="120" styleClass="panel-region">

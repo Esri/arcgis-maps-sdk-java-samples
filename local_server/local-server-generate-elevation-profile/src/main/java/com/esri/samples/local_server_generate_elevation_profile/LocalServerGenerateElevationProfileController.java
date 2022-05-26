@@ -202,8 +202,7 @@ public class LocalServerGenerateElevationProfileController {
           localGPService.addStatusChangedListener(s -> {
             // create geoprocessing task once local geoprocessing service is started 
             if (s.getNewStatus() == LocalServerStatus.STARTED) {
-              // add the name of the model used to create the gpkx in ArcGIS Pro to the Url of the local 
-              // geoprocessing task
+              // add the name of the model used to create the gpkx in ArcGIS Pro to the Url of the local geoprocessing task
               // e.g. the model name in this sample's gpkx created in ArcGIS Pro is CreateElevationProfileModel
               gpTask = new GeoprocessingTask(localGPService.getUrl() + "/CreateElevationProfileModel");
 
@@ -235,6 +234,7 @@ public class LocalServerGenerateElevationProfileController {
   @FXML
   protected void handleGenerateElevationProfile() {
 
+    generateProfileButton.setDisable(true);
     // tracking progress of generating elevation profile
     progressBar.setVisible(true);
 
@@ -266,20 +266,20 @@ public class LocalServerGenerateElevationProfileController {
         System.out.println("service url: " + serviceUrl);
         System.out.println("Server Job ID: " + gpJob.getServerJobId());
         System.out.println("Map server url: " + mapServerUrl);
-
+        
         // create a service geodatabase from the map server url
-        ServiceGeodatabase serviceGeodatabase = new ServiceGeodatabase(mapServerUrl);
+        var serviceGeodatabase = new ServiceGeodatabase(mapServerUrl);
         serviceGeodatabase.addDoneLoadingListener(() -> {
 
           FeatureTable featureTable = serviceGeodatabase.getTable(0);
           FeatureLayer featureLayer = new FeatureLayer(featureTable);
-          featureLayer.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
-          featureLayer.setRenderer(new SimpleRenderer(
-            new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.WHITE), 3)));
-          sceneView.getArcGISScene().getOperationalLayers().add(featureLayer);
-
+          
           featureLayer.addDoneLoadingListener(() -> {
             
+            featureLayer.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
+            featureLayer.setRenderer(new SimpleRenderer(
+              new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.WHITE), 3)));
+
             // get the polyline's end point co-ordinates
             Point endPoint = polyline.getParts().get(0).getEndPoint();
             var endPointX = endPoint.getX();
@@ -291,7 +291,7 @@ public class LocalServerGenerateElevationProfileController {
             // calculate the position of a point perpendicular to the centre of the polyline
             double lengthX = endPointX - centerX;
             double lengthY = endPointY - centerY;
-            Point cameraPositionPoint = new Point(centerX + lengthY * 2, centerY - lengthX * 2, 1000,
+            Point cameraPositionPoint = new Point(centerX + lengthY * 2, centerY - lengthX * 2, 1200,
               SpatialReferences.getWebMercator());
             
             // calculate the heading for the camera position so that it points perpendicularly towards the elevation profile
@@ -305,11 +305,10 @@ public class LocalServerGenerateElevationProfileController {
               theta = Math.toDegrees(Math.atan((centerY - endPointY) / (centerX - endPointX)));
               // determine if theta is positive or negative, then account accordingly for calculating the angle back from north
               // and then rotate that value by + or - 90 to get the angle perpendicular to the drawn line
-              if (theta > 0) { // accounts for if theta is positive
-                cameraHeadingPerpToProfile = (90 - theta) - 90; // (calculated angle from north) - rotate anticlockwise by 90
-              } else { // accounts for if theta is negative
-                cameraHeadingPerpToProfile = (90 - theta) + 90; // (calculated angle from north) - rotate clockwise by 90
-              }
+              double angleFromNorth = (90 - theta);
+              // if theta is positive, rotate angle anticlockwise by 90 degrees, else, clockwise by 90 degrees
+              cameraHeadingPerpToProfile = theta > 0 ? angleFromNorth - 90 : angleFromNorth + 90;
+              
             }
             
             // create a new camera from the calculated camera position point and camera angle perpendicular to profile
@@ -317,6 +316,8 @@ public class LocalServerGenerateElevationProfileController {
             sceneView.setViewpointCameraAsync(camera, 2);
             instructionsLabel.setText("Elevation Profile drawn");
           });
+
+          scene.getOperationalLayers().add(featureLayer);
 
           // handle UI
           generateProfileButton.setDisable(true);
@@ -349,19 +350,28 @@ public class LocalServerGenerateElevationProfileController {
 
     // create a feature collection table
     FeatureCollectionTable featureCollectionTable = new FeatureCollectionTable(polylineField, GeometryType.POLYLINE,
-      SpatialReferences.getWebMercator());
+      SpatialReferences.getWebMercator(), true, false);
 
-    // add the feature collection table to the feature collection, and create a feature from it, using the polyline
-    // sketched by the user
-    featureCollection.getTables().add(featureCollectionTable);
-    Map<String, Object> attributes = new HashMap<>();
-    attributes.put(polylineField.get(0).getName(), "ElevationSection");
-    Feature addedFeature = featureCollectionTable.createFeature(attributes, polyline);
+    // add the feature collection table to the feature collection and load it
+    featureCollection.addDoneLoadingListener(() -> {
+      if (featureCollection.getLoadStatus() == LoadStatus.LOADED) {
 
-    // add feature to collection table
-    featureCollectionTable.addFeatureAsync(addedFeature);
+        // add the feature collection table to the feature collection, and create a feature from it, using the polyline
+        // sketched by the user
+        featureCollection.getTables().add(featureCollectionTable);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(polylineField.get(0).getName(), "ElevationSection");
+        Feature addedFeature = featureCollectionTable.createFeature(attributes, polyline);
+
+        // add feature to collection table
+        featureCollectionTable.addFeatureAsync(addedFeature);
+        
+      } else {
+        new Alert(AlertType.ERROR, "Feature collection failed to load").show();
+      }
+    });
+
     featureCollection.loadAsync();
-    System.out.println(featureCollection.toJson());
 
   }
 
@@ -387,8 +397,7 @@ public class LocalServerGenerateElevationProfileController {
     // create a point collection with the same spatial reference as the raster layer
     var rasterLayerSpatialReference = rasterLayer.getSpatialReference();
     PointCollection pointCollection = new PointCollection(rasterLayerSpatialReference);
-
-
+    
     sceneView.setOnMouseClicked(event -> {
       if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY && vBox.isDisabled()) {
 
@@ -396,18 +405,16 @@ public class LocalServerGenerateElevationProfileController {
         Point2D point2D = new Point2D(event.getX(), event.getY());
         ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
         pointFuture.addDoneListener(() -> {
-          // project the clicked location point, and gets its x y values
+          // project the clicked location point, and add it to the point collection and temporarily display the clicked
+          // location on the map
           try {
             Point point = pointFuture.get();
             Point projectedPoint = (Point) GeometryEngine.project(point, rasterLayerSpatialReference);
-            double pointX = projectedPoint.getX();
-            double pointY = projectedPoint.getY();
-            Point xyPoint = new Point(pointX, pointY, rasterLayerSpatialReference);
 
             // check that the user has clicked within the extent of the raster
-            if (GeometryEngine.intersects(xyPoint, rasterLayer.getFullExtent())) {
-              pointCollection.add(xyPoint);
-              tempGraphicsOverlay.getGraphics().add(new Graphic(xyPoint));
+            if (GeometryEngine.intersects(projectedPoint, rasterLayer.getFullExtent())) {
+              pointCollection.add(projectedPoint);
+              tempGraphicsOverlay.getGraphics().add(new Graphic(projectedPoint));
             } else {
               new Alert(AlertType.ERROR, "Clicked point must be within raster layer extent").show();
               drawPolylineButton.setDisable(false);
@@ -417,7 +424,7 @@ public class LocalServerGenerateElevationProfileController {
           }
         });
 
-      } else if (event.getButton() == MouseButton.SECONDARY && !tempGraphicsOverlay.getGraphics().isEmpty()) {
+      } else if (event.getButton() == MouseButton.SECONDARY && tempGraphicsOverlay.getGraphics().size() > 1 ) {
 
         // clear the temporary graphics overlay displaying clicked points
         tempGraphicsOverlay.getGraphics().clear();
@@ -436,6 +443,9 @@ public class LocalServerGenerateElevationProfileController {
         // clear point collection
         pointCollection.clear();
 
+      }
+      else if (event.getButton() == MouseButton.SECONDARY && tempGraphicsOverlay.getGraphics().size() == 1) {
+        new Alert(AlertType.WARNING, "More than one point required to draw polyline").show();
       }
     });
   }
