@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.13.0'
+    arcgisVersion = '100.14.0'
 }
 
 javafx {
@@ -65,7 +65,7 @@ run {
         systemProperty 'apiKey', apiKey
     }
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.feature_layer_definition_expression.FeatureLayerDefinitionExpressionLauncher'
+    mainClassName = 'com.esri.samples.filter_by_definition_expression_or_display_filter.FilterByDefinitionExpressionOrDisplayFilterLauncher'
 }
 
 jar {
