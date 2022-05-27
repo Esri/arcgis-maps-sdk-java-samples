@@ -258,14 +258,10 @@ public class LocalServerGenerateElevationProfileController {
     GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
     gpJob.addJobDoneListener(() -> {
       if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
-
+        
         // convert geoprocesser server url to that of a map server, and get the job id
         String serviceUrl = localGPService.getUrl();
         String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
-
-        System.out.println("service url: " + serviceUrl);
-        System.out.println("Server Job ID: " + gpJob.getServerJobId());
-        System.out.println("Map server url: " + mapServerUrl);
         
         // create a service geodatabase from the map server url
         var serviceGeodatabase = new ServiceGeodatabase(mapServerUrl);
@@ -300,7 +296,7 @@ public class LocalServerGenerateElevationProfileController {
             // account for switching opposite and adjacent depending on angle direction from drawn line
             if (lengthY < 0) { // accounts for a downwards angle
               theta = Math.toDegrees(Math.atan((centerX - endPointX) / (centerY - endPointY)));
-              cameraHeadingPerpToProfile = theta + 90; //
+              cameraHeadingPerpToProfile = theta + 90;
             } else { // accounts for an upwards angle
               theta = Math.toDegrees(Math.atan((centerY - endPointY) / (centerX - endPointX)));
               // determine if theta is positive or negative, then account accordingly for calculating the angle back from north

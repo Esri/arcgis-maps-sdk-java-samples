@@ -6,15 +6,11 @@ Create an elevation profile from local raster data and a polyline, using a local
 
 ## Use case
 
-Local server applications are helpful for executing offline geoprocessing tasks in your ArcGIS Runtime apps via an offline (local) server. This sample uses a geoprocessing package created with the Interpolate Shape tool, which creates 3D feature by interpolating z-values from a surface.
+Local server applications are helpful for executing offline geoprocessing tasks in your ArcGIS Runtime apps via an offline (local) server. This sample uses a geoprocessing package created with the Interpolate Shape tool, which creates a 3D feature by interpolating z-values on to a surface.
 
 ## How to use the sample
 
-Contour Line Controls (Top Left):
-
-* Interval - Specifies the spacing between contour lines.
-* Generate Contours - Adds contour lines to map using interval.
-* Clear Results - Removes contour lines from map.
+The sample loads with a raster. Click the "Draw Polyline" button and sketch a polyline where the elevation profile is to be drawn. Right-click to save the sketch and draw the polyline, then click "Generate Elevation Profile" to interpolate the sketched polyline onto the raster surface in 3D. Once ready, the view will auto zoom side on to the newly drawn elevation profile. Click "Clear Results" to reset the sample.
 
 ## How it works
 
@@ -25,18 +21,16 @@ Contour Line Controls (Top Left):
 4. Start a `LocalGeoprocessingService` and run a `GeoprocessingTask`.
     1. Instantiate `LocalGeoprocessingService(Url, ServiceType)` to create a local geoprocessing service.
     2. Invoke `LocalGeoprocessingService.start()` to start the service asynchronously.
-    3. Instantiate `GeoprocessingTask(LocalGeoprocessingService.url() + "/Contour")` to create a geoprocessing task that uses the contour lines tool.
-5. Create an instance of `GeoprocessingParameters` and add a `GeoprocessingDouble` as a parameter using `setInterval`.
-    1. Instantiate `GeoprocessingParameters(ExecutionType)` creates geoprocessing parameters.
-    2. Create a parameter using `GeoprocessingParameters.getInputs().put("Interval", new GeoprocessingDouble(double))` with name "Interval" and with the interval set as its value.
+    3. Instantiate `GeoprocessingTask(LocalGeoprocessingService.url() + "/CreateElevationProfileModel")` to create a geoprocessing task that uses the elevation profile tool.
+5. Create an instance of `GeoprocessingParameters` and get its list of inputs with `gpParameters.getInputs()`. Add  `GeoprocessingFeatures` with a `FeatureCollectionTable` pointing to a polyline geometry, and `GeoprocessingString` with a path to raster data on disk to the list of inputs.
 6. Create and start a `GeoprocessingJob` using the previous parameters.
     1. Create a geoprocessing job with `GeoprocessingTask.createJob(GeoprocessingParameters)`.
     2. Start the job with `GeoprocessingJob.start()`.
-7. Add contour lines as an `ArcGISMapImageLayer` to the map.
+7. Add generated elevation profile as a `FeatureLayer` to the scene.
     1. Get url from local geoprocessing service using `LocalGeoprocessingService.getUrl()`.
     2. Get server job id of geoprocessing job using `GeoprocessingJob.getServerJobId()`.
-    3. Replace `GPServer` from url with `MapServer/jobs/jobId`, to get generate contour lines data.
-    4. Create a map image layer from that new url and add that layer to the map.
+    3. Replace `GPServer` from url with `MapServer/jobs/jobId`, to get generate elevation profile data.
+    4. Create a `ServiceGeodatabase` from the new url, get its first `FeatureTable` and create a `FeatureLayer` from it. Set the surface placement and a renderer to the feature layer, and add it to the scene's list of operational layers.
 
 ## Relevant API
 
@@ -54,15 +48,8 @@ Contour Line Controls (Top Left):
 
 Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server is not supported on macOS.
 
-Specific versions of ArcGIS Runtime Local Server are compatible with the version of ArcGIS Pro you use to create geoprocessing and map packages. For example, the ArcGIS Runtime API for Java v100.11.0 is configured for Local Server v100.10.0 which provides compatibility for packages created with ArcGIS Pro 2.7.x. For more information see the [ArcGIS Developers guide](https://developers.arcgis.com/java/reference/system-requirements/#local-server-version-compatibility-with-arcgis-desktop-and-arcgis-pro).
-
-To configure the ArcGIS Runtime API for Java v100.11.0 to work with Local Server 100.9.0:
-
-* Development machine:
-    * Locate the Local Server installation directory and rename the folder from `LocalServer100.9` to `LocalServer100.10`.
-    * Update the environment variable from `RUNTIME_LOCAL_SERVER_100_9` to `RUNTIME_LOCAL_SERVER_100_10`.
-* Deployment machine(s): Rename the deployment folder included with your application (or referenced by the LocalServerEnvironment.InstallPath property) from `LocalServer100.9` to `LocalServer100.10`.
+The [Package Result](https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/package-result.htm) tool (in ArcGIS Pro) is used to author ArcGIS Runtime compatible [geoprocessing](https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/what-is-geoprocessing-.htm) packages (.gpkx files). For more information on running powerful offline geoprocessing tasks to provide advanced spatial analysis to your applications, see [ArcGIS Runtime Local Server SDK](https://developers.arcgis.com/java/local-server/).
 
 ## Tags
 
-geoprocessing, local, offline, parameters, processing, service
+elevation profile, geoprocessing, interpolate shape, local, offline, parameters, processing, service
