@@ -1,13 +1,14 @@
 {
     "category": "Local server",
-    "description": "Create contour lines from local raster data using a local geoprocessing package `.gpk` and the contour geoprocessing tool.",
+    "description": "Create an elevation profile from local raster data and a polyline, using a local geoprocessing package `.gpkx` created using the interpolate shape geoprocessing tool in ArcGIS Pro.",
     "ignore": false,
     "images": [
-        "LocalServerGeoprocessing.png"
+        "LocalServerGenerateElevationProfile.png"
     ],
     "keywords": [
-        "",
+        "elevation profile",
         "geoprocessing",
+        "interpolate shape",
         "local",
         "offline",
         "parameters",
@@ -38,9 +39,10 @@
         "LocalServerStatus"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingController.java",
-        "src/main/java/com/esri/samples/local_server_geoprocessing/LocalServerGeoprocessingSample.java",
-        "src/main/resources/local_server_geoprocessing/main.fxml"
+        "build/resources/main/local_server_generate_elevation_profile/main.fxml",
+        "src/main/java/com/esri/samples/local_server_generate_elevation_profile/LocalServerGenerateElevationProfileController.java",
+        "src/main/java/com/esri/samples/local_server_generate_elevation_profile/LocalServerGenerateElevationProfileSample.java",
+        "src/main/resources/local_server_generate_elevation_profile/main.fxml"
     ],
-    "title": "Local Server geoprocessing"
+    "title": "Local Server generate elevation profile"
 }
