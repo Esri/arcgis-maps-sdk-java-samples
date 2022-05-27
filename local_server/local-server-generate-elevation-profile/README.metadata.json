@@ -14,7 +14,7 @@
         "parameters",
         "processing",
         "service",
-        "GeoprocessingDouble",
+        "GeoprocessingFeatures",
         "GeoprocessingJob",
         "GeoprocessingParameter",
         "GeoprocessingParameters",
@@ -26,7 +26,7 @@
     ],
     "redirect_from": "",
     "relevant_apis": [
-        "GeoprocessingDouble",
+        "GeoprocessingFeatures",
         "GeoprocessingJob",
         "GeoprocessingParameter",
         "GeoprocessingParameters",
@@ -37,7 +37,6 @@
         "LocalServerStatus"
     ],
     "snippets": [
-        "build/resources/main/local_server_generate_elevation_profile/main.fxml",
         "src/main/java/com/esri/samples/local_server_generate_elevation_profile/LocalServerGenerateElevationProfileController.java",
         "src/main/java/com/esri/samples/local_server_generate_elevation_profile/LocalServerGenerateElevationProfileSample.java",
         "src/main/resources/local_server_generate_elevation_profile/main.fxml"

@@ -34,7 +34,7 @@ The sample loads with a raster. Click the "Draw Polyline" button and sketch a po
 
 ## Relevant API
 
-* GeoprocessingDouble
+* GeoprocessingFeatures
 * GeoprocessingJob
 * GeoprocessingParameter
 * GeoprocessingParameters
