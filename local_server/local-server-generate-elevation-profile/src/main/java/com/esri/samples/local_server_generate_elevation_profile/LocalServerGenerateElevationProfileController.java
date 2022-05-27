@@ -435,7 +435,7 @@ public class LocalServerGenerateElevationProfileController {
         vBox.setDisable(false);
         drawPolylineButton.setDisable(true);
         generateProfileButton.setDisable(false);
-        instructionsLabel.setText("Generate an elevation profile along the polyline using the above button");
+        instructionsLabel.setText("Generate an elevation profile along the polyline using the Generate Elevation Profile button");
         // clear point collection
         pointCollection.clear();
 

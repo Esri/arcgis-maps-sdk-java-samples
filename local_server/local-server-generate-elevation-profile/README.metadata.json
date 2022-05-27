@@ -24,9 +24,7 @@
         "LocalServer",
         "LocalServerStatus"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/local-server-geoprocessing.htm"
-    ],
+    "redirect_from": "",
     "relevant_apis": [
         "GeoprocessingDouble",
         "GeoprocessingJob",
