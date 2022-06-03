@@ -50,6 +50,8 @@ Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS
 
 The [Package Result](https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/package-result.htm) tool (in ArcGIS Pro) is used to author ArcGIS Runtime compatible [geoprocessing](https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/what-is-geoprocessing-.htm) packages (.gpkx files). For more information on running powerful offline geoprocessing tasks to provide advanced spatial analysis to your applications, see [ArcGIS Runtime Local Server SDK](https://developers.arcgis.com/java/local-server/).
 
+The results of the geoprocessing tasks carried out via local server are shareable (unlike on-the-fly geoprocessing operations in runtime, such as viewshed analysis). They can be shared as portal items or exported locally.
+
 ## Tags
 
-elevation profile, geoprocessing, interpolate shape, local, offline, parameters, processing, service
+elevation profile, geoprocessing, interpolate shape, local, offline, parameters, processing, raster, raster function, service

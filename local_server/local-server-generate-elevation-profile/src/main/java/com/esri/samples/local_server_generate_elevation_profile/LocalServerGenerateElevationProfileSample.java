@@ -37,7 +37,7 @@ public class LocalServerGenerateElevationProfileSample extends Application {
     Scene scene = new Scene(root);
 
     // set up the stage
-    stage.setTitle("Local Server Geoprocessing Sandbox");
+    stage.setTitle("Local Server Generate Elevation Profile");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);

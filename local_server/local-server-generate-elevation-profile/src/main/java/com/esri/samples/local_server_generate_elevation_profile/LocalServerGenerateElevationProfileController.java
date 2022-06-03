@@ -17,10 +17,13 @@
 package com.esri.samples.local_server_generate_elevation_profile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -66,14 +69,14 @@ import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.raster.HillshadeRenderer;
 import com.esri.arcgisruntime.raster.Raster;
+import com.esri.arcgisruntime.raster.RasterFunction;
+import com.esri.arcgisruntime.raster.RasterFunctionArguments;
 import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingFeatures;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingJob;
-import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameter;
-import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingParameters;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingString;
 import com.esri.arcgisruntime.tasks.geoprocessing.GeoprocessingTask;
 
@@ -142,18 +145,25 @@ public class LocalServerGenerateElevationProfileController {
   }
 
   /**
-   * Creates a new raster and adds it to a raster layer. Applys a hillshade renderer to the raster layer, and adds
-   * the raster layer to the scene's list of operational layers.
+   * Creates a new raster, applies various raster functions to mask the data to only show data above sea level, and adds
+   * it to a raster layer. Applies a hillshade renderer to the raster layer, and adds the raster layer to the scene's
+   * list of operational layers.
    */
   private void displayRaster(Raster raster) {
 
     scene.addDoneLoadingListener(() -> {
       if (scene.getLoadStatus() == LoadStatus.LOADED) {
 
-        // create a raster layer from the raster
-        rasterLayer = new RasterLayer(raster);
-        // set a hillshade renderer to the raster layer
-        rasterLayer.setRasterRenderer(new HillshadeRenderer(30, 210, 1));
+        // raster function on raster data
+        try {
+          Raster maskedRaster = applyMaskingRasterFunction(raster);
+          // create a raster layer from the raster
+          rasterLayer = new RasterLayer(maskedRaster);
+          // set a hillshade renderer to the raster layer
+          rasterLayer.setRasterRenderer(new HillshadeRenderer(30, 210, 1));
+        } catch (FileNotFoundException e) {
+          e.printStackTrace();
+        }
 
         // once the raster layer has loaded, set the viewpoint of the scene view to the raster layer's full extent
         rasterLayer.addDoneLoadingListener(() -> {
@@ -165,7 +175,6 @@ public class LocalServerGenerateElevationProfileController {
             new Alert(AlertType.ERROR, "Raster layer failed to load.").show();
           }
         });
-
         // add the raster layer to the scene's operational layers
         scene.getOperationalLayers().add(rasterLayer);
       }
@@ -202,7 +211,8 @@ public class LocalServerGenerateElevationProfileController {
           localGPService.addStatusChangedListener(s -> {
             // create geoprocessing task once local geoprocessing service is started 
             if (s.getNewStatus() == LocalServerStatus.STARTED) {
-              // add the name of the model used to create the gpkx in ArcGIS Pro to the Url of the local geoprocessing task
+              // add the name of the model used to create the gpkx in ArcGIS Pro to the Url of the local 
+              // geoprocessing task
               // e.g. the model name in this sample's gpkx created in ArcGIS Pro is CreateElevationProfileModel
               gpTask = new GeoprocessingTask(localGPService.getUrl() + "/CreateElevationProfileModel");
 
@@ -212,15 +222,15 @@ public class LocalServerGenerateElevationProfileController {
               progressBar.setVisible(false);
             }
           });
-
           localGPService.startAsync();
+          
         } else if (server.getStatus() == LocalServerStatus.FAILED) {
           // display an information alert and close the application if the server status failed to start
           showMessage("Local Server Status Error", "Local Server Status Failed to start.");
         }
       });
-
       server.startAsync();
+      
     } else {
       // display an information alert and close the application if a local server install path couldn't be located
       showMessage("Local Server Install Error", "Local Server install path couldn't be located.");
@@ -238,99 +248,73 @@ public class LocalServerGenerateElevationProfileController {
     // tracking progress of generating elevation profile
     progressBar.setVisible(true);
 
-    // create geoprocessing parameters and get their inputs
-    GeoprocessingParameters gpParameters = new GeoprocessingParameters(
-      GeoprocessingParameters.ExecutionType.ASYNCHRONOUS_SUBMIT);
-    final Map<String, GeoprocessingParameter> inputs = gpParameters.getInputs();
-
     // create the feature collection table from sketched polyline
     createFeatureCollectionTableWithPolylineFeature();
 
-    // input polyline path
-    // name of input parameter, input type (geoprocessing feature, pointing to polyline)
-    inputs.put("Input_Polyline", new GeoprocessingFeatures(featureCollection.getTables().get(0)));
+    // create default parameters and get their inputs
+    var defaultParamsListener = gpTask.createDefaultParametersAsync();
+    defaultParamsListener.addDoneListener(() -> {
+      try {
+        var params = defaultParamsListener.get();
+        var inputParams = params.getInputs();
 
-    // input raster data
-    // name of input parameter, input type (geoprocessing string pointing to raster file)
-    inputs.put("Input_Raster", new GeoprocessingString(arranRaster.getPath()));
+        // input polyline path
+        // name of input parameter, input type (geoprocessing feature, pointing to polyline)
+        inputParams.put("Input_Polyline", new GeoprocessingFeatures(featureCollection.getTables().get(0)));
 
-    // create geoprocessing job from the geoprocessing parameters to show elevation profile on the scene
-    GeoprocessingJob gpJob = gpTask.createJob(gpParameters);
-    gpJob.addJobDoneListener(() -> {
-      if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
-        
-        // convert geoprocesser server url to that of a map server, and get the job id
-        String serviceUrl = localGPService.getUrl();
-        String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
-        
-        // create a service geodatabase from the map server url
-        var serviceGeodatabase = new ServiceGeodatabase(mapServerUrl);
-        serviceGeodatabase.addDoneLoadingListener(() -> {
+        // input raster data
+        // name of input parameter, input type (geoprocessing string pointing to raster file)
+        inputParams.put("Input_Raster", new GeoprocessingString(arranRaster.getPath()));
 
-          FeatureTable featureTable = serviceGeodatabase.getTable(0);
-          FeatureLayer featureLayer = new FeatureLayer(featureTable);
-          
-          featureLayer.addDoneLoadingListener(() -> {
-            
-            featureLayer.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
-            featureLayer.setRenderer(new SimpleRenderer(
-              new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.WHITE), 3)));
+        // create geoprocessing job from the geoprocessing parameters to show elevation profile on the scene
+        GeoprocessingJob gpJob = gpTask.createJob(params);
+        gpJob.addJobDoneListener(() -> {
+          if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
 
-            // get the polyline's end point co-ordinates
-            Point endPoint = polyline.getParts().get(0).getEndPoint();
-            var endPointX = endPoint.getX();
-            var endPointY = endPoint.getY();
-            // get the polyline's center point co-ordinates
-            Point centerPoint = polyline.getExtent().getCenter();
-            var centerX = centerPoint.getX();
-            var centerY = centerPoint.getY();
-            // calculate the position of a point perpendicular to the centre of the polyline
-            double lengthX = endPointX - centerX;
-            double lengthY = endPointY - centerY;
-            Point cameraPositionPoint = new Point(centerX + lengthY * 2, centerY - lengthX * 2, 1200,
-              SpatialReferences.getWebMercator());
-            
-            // calculate the heading for the camera position so that it points perpendicularly towards the elevation profile
-            double theta;
-            double cameraHeadingPerpToProfile;
-            // account for switching opposite and adjacent depending on angle direction from drawn line
-            if (lengthY < 0) { // accounts for a downwards angle
-              theta = Math.toDegrees(Math.atan((centerX - endPointX) / (centerY - endPointY)));
-              cameraHeadingPerpToProfile = theta + 90;
-            } else { // accounts for an upwards angle
-              theta = Math.toDegrees(Math.atan((centerY - endPointY) / (centerX - endPointX)));
-              // determine if theta is positive or negative, then account accordingly for calculating the angle back from north
-              // and then rotate that value by + or - 90 to get the angle perpendicular to the drawn line
-              double angleFromNorth = (90 - theta);
-              // if theta is positive, rotate angle anticlockwise by 90 degrees, else, clockwise by 90 degrees
-              cameraHeadingPerpToProfile = theta > 0 ? angleFromNorth - 90 : angleFromNorth + 90;
-              
-            }
-            
-            // create a new camera from the calculated camera position point and camera angle perpendicular to profile
-            Camera camera = new Camera(cameraPositionPoint, cameraHeadingPerpToProfile, 80, 0); //
-            sceneView.setViewpointCameraAsync(camera, 2);
-            instructionsLabel.setText("Elevation Profile drawn");
-          });
+            // convert geoprocesser server url to that of a map server, and get the job id
+            String serviceUrl = localGPService.getUrl();
+            String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
+            System.out.println(serviceUrl);
+            System.out.println(mapServerUrl);
 
-          scene.getOperationalLayers().add(featureLayer);
+            // create a service geodatabase from the map server url
+            var serviceGeodatabase = new ServiceGeodatabase(mapServerUrl);
+            serviceGeodatabase.addDoneLoadingListener(() -> {
 
-          // handle UI
-          generateProfileButton.setDisable(true);
-          clearResultsButton.setDisable(false);
+              FeatureTable featureTable = serviceGeodatabase.getTable(0);
+              FeatureLayer featureLayer = new FeatureLayer(featureTable);
+
+              featureLayer.addDoneLoadingListener(() -> {
+
+                featureLayer.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
+                featureLayer.setRenderer(new SimpleRenderer(
+                  new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.WHITE), 3)));
+
+                sceneView.setViewpointCameraAsync(createCameraFacingElevationProfile(), 2);
+                instructionsLabel.setText("Elevation Profile drawn");
+              });
+              scene.getOperationalLayers().add(featureLayer);
+
+              // handle UI
+              generateProfileButton.setDisable(true);
+              clearResultsButton.setDisable(false);
+
+            });
+            serviceGeodatabase.loadAsync();
+
+          } else {
+            new Alert(AlertType.ERROR, "Geoprocess Job Fail. Error: " +
+              gpJob.getError().getAdditionalMessage()).showAndWait();
+          }
+          progressBar.setVisible(false);
 
         });
-        serviceGeodatabase.loadAsync();
-
-      } else {
-        new Alert(AlertType.ERROR, "Geoprocess Job Fail. Error: " +
-          gpJob.getError().getAdditionalMessage()).showAndWait();
+        gpJob.start();
+        
+      } catch (InterruptedException | ExecutionException e) {
+        e.printStackTrace();
       }
-      progressBar.setVisible(false);
-
     });
-    gpJob.start();
-
   }
 
   /**
@@ -361,12 +345,11 @@ public class LocalServerGenerateElevationProfileController {
 
         // add feature to collection table
         featureCollectionTable.addFeatureAsync(addedFeature);
-        
+
       } else {
         new Alert(AlertType.ERROR, "Feature collection failed to load").show();
       }
     });
-
     featureCollection.loadAsync();
 
   }
@@ -393,7 +376,7 @@ public class LocalServerGenerateElevationProfileController {
     // create a point collection with the same spatial reference as the raster layer
     var rasterLayerSpatialReference = rasterLayer.getSpatialReference();
     PointCollection pointCollection = new PointCollection(rasterLayerSpatialReference);
-    
+
     sceneView.setOnMouseClicked(event -> {
       if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY && vBox.isDisabled()) {
 
@@ -420,8 +403,7 @@ public class LocalServerGenerateElevationProfileController {
           }
         });
 
-      } else if (event.getButton() == MouseButton.SECONDARY && tempGraphicsOverlay.getGraphics().size() > 1 ) {
-
+      } else if (event.getButton() == MouseButton.SECONDARY && tempGraphicsOverlay.getGraphics().size() > 1) {
         // clear the temporary graphics overlay displaying clicked points
         tempGraphicsOverlay.getGraphics().clear();
 
@@ -435,12 +417,11 @@ public class LocalServerGenerateElevationProfileController {
         vBox.setDisable(false);
         drawPolylineButton.setDisable(true);
         generateProfileButton.setDisable(false);
-        instructionsLabel.setText("Generate an elevation profile along the polyline using the Generate Elevation Profile button");
+        instructionsLabel.setText("Generate an elevation profile along the polyline using the Generate Elevation " +
+          "Profile button");
         // clear point collection
         pointCollection.clear();
-
-      }
-      else if (event.getButton() == MouseButton.SECONDARY && tempGraphicsOverlay.getGraphics().size() == 1) {
+      } else if (event.getButton() == MouseButton.SECONDARY && tempGraphicsOverlay.getGraphics().size() == 1) {
         new Alert(AlertType.WARNING, "More than one point required to draw polyline").show();
       }
     });
@@ -459,7 +440,6 @@ public class LocalServerGenerateElevationProfileController {
     scene.getOperationalLayers().remove(1);
 
     // handle UI after checking there is still an operational layer in the scene (raster layer)
-
     generateProfileButton.setDisable(true);
     drawPolylineButton.setDisable(false);
     clearResultsButton.setDisable(true);
@@ -467,6 +447,97 @@ public class LocalServerGenerateElevationProfileController {
     featureCollection.getTables().clear();
     instructionsLabel.setVisible(true);
     instructionsLabel.setText("Draw a polyline on the scene with the 'Draw Polyline' button");
+  }
+
+  /**
+   * Performs a sequence of raster functions to the original raster data that finds data with a value above 0m (sea
+   * level)
+   * and masks the data to only show that data above sea level.
+   *
+   * @param originalRaster the initial raster to perform raster function on
+   * @return masked raster (hides data less than 0m above sea level)
+   * @throws FileNotFoundException if the json raster functions are not found
+   */
+  private Raster applyMaskingRasterFunction(Raster originalRaster) throws FileNotFoundException {
+
+    // initiate raster for output
+    Raster maskedRaster;
+
+    // raster function to get pixels above 0m (above sea level)
+    var aboveSeaLevelJsonFile = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
+      "/above_sea_level_raster_calculation" +
+      ".json");
+    String aboveSeaLevelRasterFunctionScanner = new Scanner(aboveSeaLevelJsonFile).useDelimiter("\\A").next();
+    var aboveSeaLevelRasterFunction = RasterFunction.fromJson(aboveSeaLevelRasterFunctionScanner);
+    RasterFunctionArguments aboveSeaLevelArguments = aboveSeaLevelRasterFunction.getArguments();
+    // apply the raster function to the input raster
+    aboveSeaLevelArguments.setRaster(aboveSeaLevelArguments.getRasterNames().get(0), originalRaster);
+    Raster aboveSeaLevelRaster = new Raster(aboveSeaLevelRasterFunction); // gets raster composed of 1s and 0s, 1 
+    // represents data above sea level
+
+    // raster function to restore elevation profiles post above sea level calculations
+    var restoreElevationJsonFile = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
+      "/restore_elevation_raster_calculation" +
+      ".json");
+    String restoreElevationRasterFunctionScanner = new Scanner(restoreElevationJsonFile).useDelimiter("\\A").next();
+    var restoreElevationRasterFunction = RasterFunction.fromJson(restoreElevationRasterFunctionScanner);
+    RasterFunctionArguments restoreElevationArguments = restoreElevationRasterFunction.getArguments();
+    // set the rasters to the raster function arguments
+    restoreElevationArguments.setRaster(restoreElevationArguments.getRasterNames().get(0), originalRaster);
+    restoreElevationArguments.setRaster(restoreElevationArguments.getRasterNames().get(1), aboveSeaLevelRaster);
+    Raster restoredElevationRaster = new Raster(restoreElevationRasterFunction); // creates new raster with elevation
+    // values restored above 0 
+
+    // raster function to mask out values below sea level (pixels with value of 0)
+    var maskJsonFile = new File(System.getProperty("data.dir"), "./samples-data/local_server/mask.json");
+    String maskScanner = new Scanner(maskJsonFile).useDelimiter("\\A").next();
+    var maskRasterFunction = RasterFunction.fromJson(maskScanner);
+    RasterFunctionArguments maskArguments = maskRasterFunction.getArguments();
+    // apply the raster function to the restored elevation raster
+    maskArguments.setRaster(maskArguments.getRasterNames().get(0), restoredElevationRaster);
+    maskedRaster = new Raster(maskRasterFunction); // creates new raster with values equal to 0 masked out
+
+    return maskedRaster;
+  }
+
+  /**
+   * Calculates a camera position and heading angle that is placed perpendicularly to the polyline sketch. 
+   * @return camera with calculated camera position and heading angle
+   */
+  private Camera createCameraFacingElevationProfile() {
+
+    // get the polyline's end point co-ordinates
+    Point endPoint = polyline.getParts().get(0).getEndPoint();
+    var endPointX = endPoint.getX();
+    var endPointY = endPoint.getY();
+    // get the polyline's center point co-ordinates
+    Point centerPoint = polyline.getExtent().getCenter();
+    var centerX = centerPoint.getX();
+    var centerY = centerPoint.getY();
+    // calculate the position of a point perpendicular to the centre of the polyline
+    double lengthX = endPointX - centerX;
+    double lengthY = endPointY - centerY;
+    Point cameraPositionPoint = new Point(centerX + lengthY * 2, centerY - lengthX * 2, 1200,
+      SpatialReferences.getWebMercator());
+
+    // calculate the heading for the camera position so that it points perpendicularly towards the elevation profile
+    double theta;
+    double cameraHeadingPerpToProfile;
+    // account for switching opposite and adjacent depending on angle direction from drawn line
+    if (lengthY < 0) { // accounts for a downwards angle
+      theta = Math.toDegrees(Math.atan((centerX - endPointX) / (centerY - endPointY)));
+      cameraHeadingPerpToProfile = theta + 90;
+    } else { // accounts for an upwards angle
+      theta = Math.toDegrees(Math.atan((centerY - endPointY) / (centerX - endPointX)));
+      // determine if theta is positive or negative, then account accordingly for calculating the angle back from north
+      // and then rotate that value by + or - 90 to get the angle perpendicular to the drawn line
+      double angleFromNorth = (90 - theta);
+      // if theta is positive, rotate angle anticlockwise by 90 degrees, else, clockwise by 90 degrees
+      cameraHeadingPerpToProfile = theta > 0 ? angleFromNorth - 90 : angleFromNorth + 90;
+    }
+    // create a new camera from the calculated camera position point and camera angle perpendicular to profile
+    return new Camera(cameraPositionPoint, cameraHeadingPerpToProfile, 80, 0);
+
   }
 
   /**

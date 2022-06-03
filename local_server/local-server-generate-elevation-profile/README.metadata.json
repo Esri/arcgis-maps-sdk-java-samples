@@ -13,6 +13,8 @@
         "offline",
         "parameters",
         "processing",
+        "raster",
+        "raster function",
         "service",
         "GeoprocessingFeatures",
         "GeoprocessingJob",
