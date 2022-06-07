@@ -465,8 +465,7 @@ public class LocalServerGenerateElevationProfileController {
 
     // raster function to get pixels above 0m (above sea level)
     var aboveSeaLevelJsonFile = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
-      "/above_sea_level_raster_calculation" +
-      ".json");
+      "/raster_functions/above_sea_level_raster_calculation.json");
     String aboveSeaLevelRasterFunctionScanner = new Scanner(aboveSeaLevelJsonFile).useDelimiter("\\A").next();
     var aboveSeaLevelRasterFunction = RasterFunction.fromJson(aboveSeaLevelRasterFunctionScanner);
     RasterFunctionArguments aboveSeaLevelArguments = aboveSeaLevelRasterFunction.getArguments();
@@ -477,8 +476,7 @@ public class LocalServerGenerateElevationProfileController {
 
     // raster function to restore elevation profiles post above sea level calculations
     var restoreElevationJsonFile = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
-      "/restore_elevation_raster_calculation" +
-      ".json");
+      "/raster_functions/restore_elevation_raster_calculation.json");
     String restoreElevationRasterFunctionScanner = new Scanner(restoreElevationJsonFile).useDelimiter("\\A").next();
     var restoreElevationRasterFunction = RasterFunction.fromJson(restoreElevationRasterFunctionScanner);
     RasterFunctionArguments restoreElevationArguments = restoreElevationRasterFunction.getArguments();
@@ -489,7 +487,7 @@ public class LocalServerGenerateElevationProfileController {
     // values restored above 0 
 
     // raster function to mask out values below sea level (pixels with value of 0)
-    var maskJsonFile = new File(System.getProperty("data.dir"), "./samples-data/local_server/mask.json");
+    var maskJsonFile = new File(System.getProperty("data.dir"), "./samples-data/local_server/raster_functions/mask.json");
     String maskScanner = new Scanner(maskJsonFile).useDelimiter("\\A").next();
     var maskRasterFunction = RasterFunction.fromJson(maskScanner);
     RasterFunctionArguments maskArguments = maskRasterFunction.getArguments();
