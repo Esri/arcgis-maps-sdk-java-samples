@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 group = 'com.esri.samples'
@@ -10,7 +10,7 @@ ext {
 }
 
 javafx {
-    version = "11.0.2"
+    version = "17.0.2"
     modules = [ 'javafx.controls' ]
 }
 
@@ -36,7 +36,7 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
     // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
     runtimeOnly 'org.slf4j:slf4j-nop:1.7.32'
-    implementation 'com.esri.arcgisruntime:arcgis-java-toolkit:100.2.1'
+    implementation 'com.esri.arcgisruntime:arcgis-java-toolkit:100.14.0'
 }
 
 task createGradlePropertiesAndWriteApiKey {

@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 group = 'com.esri.samples'
@@ -10,7 +10,7 @@ ext {
 }
 
 javafx {
-    version = "11.0.2"
+    version = "17.0.2"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
