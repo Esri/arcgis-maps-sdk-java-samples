@@ -14,19 +14,20 @@ The sample loads with a raster. Click the "Draw Polyline" button and sketch a po
 
 ## How it works
 
-1. Create and run a local server with `LocalServer.INSTANCE`.
-2. Start the server asynchronously with `Server.startAsync()`.
-3. Wait for server to be in the  `LocalServerStatus.STARTED` state.
+1. Create a `Raster` from a raster dataset, and apply a series of `RasterFunction`s to it, to mask any data at or below sea level (see code for details).
+2. Create and run a local server with `LocalServer.INSTANCE`.
+3. Start the server asynchronously with `Server.startAsync()`.
+4. Wait for server to be in the  `LocalServerStatus.STARTED` state.
     * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
-4. Start a `LocalGeoprocessingService` and run a `GeoprocessingTask`.
+5. Start a `LocalGeoprocessingService` and run a `GeoprocessingTask`.
     1. Instantiate `LocalGeoprocessingService(Url, ServiceType)` to create a local geoprocessing service.
     2. Invoke `LocalGeoprocessingService.start()` to start the service asynchronously.
     3. Instantiate `GeoprocessingTask(LocalGeoprocessingService.url() + "/CreateElevationProfileModel")` to create a geoprocessing task that uses the elevation profile tool.
-5. Create an instance of `GeoprocessingParameters` and get its list of inputs with `gpParameters.getInputs()`. Add  `GeoprocessingFeatures` with a `FeatureCollectionTable` pointing to a polyline geometry, and `GeoprocessingString` with a path to raster data on disk to the list of inputs.
-6. Create and start a `GeoprocessingJob` using the previous parameters.
+6. Create an instance of `GeoprocessingParameters` and get its list of inputs with `gpParameters.getInputs()`. Add  `GeoprocessingFeatures` with a `FeatureCollectionTable` pointing to a polyline geometry, and `GeoprocessingString` with a path to the raster data on disk to the list of inputs.
+7. Create and start a `GeoprocessingJob` using the previous parameters.
     1. Create a geoprocessing job with `GeoprocessingTask.createJob(GeoprocessingParameters)`.
     2. Start the job with `GeoprocessingJob.start()`.
-7. Add generated elevation profile as a `FeatureLayer` to the scene.
+8. Add generated elevation profile as a `FeatureLayer` to the scene.
     1. Get url from local geoprocessing service using `LocalGeoprocessingService.getUrl()`.
     2. Get server job id of geoprocessing job using `GeoprocessingJob.getServerJobId()`.
     3. Replace `GPServer` from url with `MapServer/jobs/jobId`, to get generate elevation profile data.
@@ -43,6 +44,8 @@ The sample loads with a raster. Click the "Draw Polyline" button and sketch a po
 * LocalGeoprocessingService.ServiceType
 * LocalServer
 * LocalServerStatus
+* Raster
+* RasterFunction
 
 ## Additional information
 
