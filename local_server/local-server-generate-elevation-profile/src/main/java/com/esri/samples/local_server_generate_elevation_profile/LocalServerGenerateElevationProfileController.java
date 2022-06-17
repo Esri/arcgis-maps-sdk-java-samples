@@ -92,6 +92,7 @@ public class LocalServerGenerateElevationProfileController {
 
   private ArcGISScene scene;
   private FeatureCollection featureCollection;
+  private FeatureLayer featureLayer;
   private GeoprocessingTask gpTask;
   private GraphicsOverlay graphicsOverlay;
   private LocalGeoprocessingService localGPService;
@@ -282,7 +283,7 @@ public class LocalServerGenerateElevationProfileController {
             serviceGeodatabase.addDoneLoadingListener(() -> {
 
               FeatureTable featureTable = serviceGeodatabase.getTable(0);
-              FeatureLayer featureLayer = new FeatureLayer(featureTable);
+              featureLayer = new FeatureLayer(featureTable);
 
               featureLayer.addDoneLoadingListener(() -> {
 
