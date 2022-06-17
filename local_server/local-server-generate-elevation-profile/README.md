@@ -49,6 +49,14 @@ The sample loads with a raster. Click the "Draw Polyline" button and sketch a po
 * Raster
 * RasterFunction
 
+## About the data
+
+This sample loads with a [10m resolution digital terrain elevation model](https://www.arcgis.com/home/item.html?id=db9cd9beedce4e0987c33c198c8dfb45) of the Island of Arran, Scotland (data Copyright Scottish Government and Sepa 2014).
+
+[Three raster functions (json format)](https://www.arcgis.com/home/item.html?id=259f420250a444b4944a277eec2c4e42) are applied to the raster data to mask out data at or below sea level.
+
+The geoprocessing task is started with a .gpkx (geoprocessing package). [This package](https://www.arcgis.com/home/item.html?id=831cbdc61b1c4cd3bfedd1af91d09d36) was authored in ArcGIS Pro using model builder, and the Interpolate Shape tool.  
+
 ## Additional information
 
 Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server is not supported on macOS.
