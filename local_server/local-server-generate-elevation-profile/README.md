@@ -21,7 +21,7 @@ The sample loads with a raster. Click the "Draw Polyline" button and sketch a po
 3. Start the server asynchronously with `Server.startAsync()`.
 4. Wait for server to be in the  `LocalServerStatus.STARTED` state.
     * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
-5. Start a `LocalGeoprocessingService` and run a `GeoprocessingTask`.
+5. Start a `LocalGeoprocessingService` and create a `GeoprocessingTask`.
     1. Instantiate `LocalGeoprocessingService(Url, ServiceType)` to create a local geoprocessing service.
     2. Invoke `LocalGeoprocessingService.start()` to start the service asynchronously.
     3. Instantiate `GeoprocessingTask(LocalGeoprocessingService.url() + "/CreateElevationProfileModel")` to create a geoprocessing task that uses the elevation profile tool.
