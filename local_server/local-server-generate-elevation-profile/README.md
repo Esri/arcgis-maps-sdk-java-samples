@@ -1,6 +1,6 @@
 # Local Server generate elevation profile
 
-Create an elevation profile from local raster data and a polyline, using a local geoprocessing package `.gpkx` created using the interpolate shape geoprocessing tool in ArcGIS Pro.
+Create an elevation profile from local raster data and a user defined polyline. This sample uses a geoprocessing package `.gpkx` created in ArcGIS Pro involving a custom geoprocessing model that includes the [Interpolate Shape (3D Analyst)](https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/interpolate-shape.htm) geoprocessing tool. The geoprocessing package is executed with ArcGIS Runtime Local Server.
 
 ![Image of local server generate elevation profile](LocalServerGenerateElevationProfile.png)
 
