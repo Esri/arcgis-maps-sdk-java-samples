@@ -17,7 +17,7 @@ The sample loads with a raster. Click the "Draw Polyline" button and sketch a po
 ## How it works
 
 1. Create a `Raster` from a raster dataset, and apply a series of `RasterFunction`s to it, to mask any data at or below sea level (see code for details).
-2. Create and run a local server with `LocalServer.INSTANCE`.
+2. Start the Local Server instance with `LocalServer.INSTANCE`.
 3. Start the server asynchronously with `Server.startAsync()`.
 4. Wait for server to be in the  `LocalServerStatus.STARTED` state.
     * Callbacks attached to `Server.addStatusChangedListener()` will invoke whenever the status of the local server has changed.
