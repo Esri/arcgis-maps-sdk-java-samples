@@ -23,7 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -193,7 +195,7 @@ public class LocalServerGenerateElevationProfileController {
       progressBar.setVisible(true);
       server = LocalServer.INSTANCE;
 
-      // start the local server
+      // check the local server instance status
       server.addStatusChangedListener(status -> {
         if (server.getStatus() == LocalServerStatus.STARTED) {
           try {
@@ -230,6 +232,7 @@ public class LocalServerGenerateElevationProfileController {
           showMessage("Local Server Status Error", "Local Server Status Failed to start.");
         }
       });
+      // start the local server
       server.startAsync();
       
     } else {
@@ -273,10 +276,8 @@ public class LocalServerGenerateElevationProfileController {
           if (gpJob.getStatus() == Job.Status.SUCCEEDED) {
 
             // convert geoprocesser server url to that of a map server, and get the job id
-            String serviceUrl = localGPService.getUrl();
-            String mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
-            System.out.println(serviceUrl);
-            System.out.println(mapServerUrl);
+            var serviceUrl = localGPService.getUrl();
+            var mapServerUrl = serviceUrl.replace("GPServer", "MapServer/jobs/" + gpJob.getServerJobId());
 
             // create a service geodatabase from the map server url
             var serviceGeodatabase = new ServiceGeodatabase(mapServerUrl);
@@ -368,9 +369,9 @@ public class LocalServerGenerateElevationProfileController {
     drawPolylineButton.setDisable(true);
 
     // create a temporary graphics overlay to display point collection on map
-    GraphicsOverlay tempGraphicsOverlay = new GraphicsOverlay();
+    var tempGraphicsOverlay = new GraphicsOverlay();
     sceneView.getGraphicsOverlays().add(tempGraphicsOverlay);
-    SimpleMarkerSymbol simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS,
+    var simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS,
       ColorUtil.colorToArgb(Color.BLACK), 10);
     tempGraphicsOverlay.setRenderer(new SimpleRenderer(simpleMarkerSymbol));
 
@@ -382,7 +383,7 @@ public class LocalServerGenerateElevationProfileController {
       if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY && vBox.isDisabled()) {
 
         // get the clicked location
-        Point2D point2D = new Point2D(event.getX(), event.getY());
+        var point2D = new Point2D(event.getX(), event.getY());
         ListenableFuture<Point> pointFuture = sceneView.screenToLocationAsync(point2D);
         pointFuture.addDoneListener(() -> {
           // project the clicked location point, and add it to the point collection and temporarily display the clicked
@@ -452,11 +453,11 @@ public class LocalServerGenerateElevationProfileController {
 
   /**
    * Performs a sequence of raster functions to the original raster data that finds data with a value above 0m (sea
-   * level)
-   * and masks the data to only show that data above sea level.
+   * level) and masks the data to only show that data above sea level. The data is masked for visual purposes to show
+   * only the island extent, and also masks out the edge effects from the original data.
    *
    * @param originalRaster the initial raster to perform raster function on
-   * @return masked raster (hides data less than 0m above sea level)
+   * @return masked raster (hides data less than or equal to 0m above sea level)
    * @throws FileNotFoundException if the json raster functions are not found
    */
   private Raster applyMaskingRasterFunction(Raster originalRaster) throws FileNotFoundException {
@@ -506,17 +507,17 @@ public class LocalServerGenerateElevationProfileController {
   private Camera createCameraFacingElevationProfile() {
 
     // get the polyline's end point co-ordinates
-    Point endPoint = polyline.getParts().get(0).getEndPoint();
+    var endPoint = polyline.getParts().get(0).getEndPoint();
     var endPointX = endPoint.getX();
     var endPointY = endPoint.getY();
     // get the polyline's center point co-ordinates
-    Point centerPoint = polyline.getExtent().getCenter();
+    var centerPoint = polyline.getExtent().getCenter();
     var centerX = centerPoint.getX();
     var centerY = centerPoint.getY();
     // calculate the position of a point perpendicular to the centre of the polyline
     double lengthX = endPointX - centerX;
     double lengthY = endPointY - centerY;
-    Point cameraPositionPoint = new Point(centerX + lengthY * 2, centerY - lengthX * 2, 1200,
+    var cameraPositionPoint = new Point(centerX + lengthY * 2, centerY - lengthX * 2, 1200,
       SpatialReferences.getWebMercator());
 
     // calculate the heading for the camera position so that it points perpendicularly towards the elevation profile
@@ -561,10 +562,16 @@ public class LocalServerGenerateElevationProfileController {
   /**
    * Stops and releases all resources used in application.
    */
-  void terminate() {
+  void terminate() throws InterruptedException {
 
     if (sceneView != null) {
       sceneView.dispose();
+
+      CountDownLatch latch = new CountDownLatch(1);
+      server.stopAsync().addDoneListener(latch::countDown);
+      if (!latch.await(2, TimeUnit.SECONDS)) {
+        System.err.println("Local server failed to shutdown in 2 seconds");
+      }
     }
   }
 }

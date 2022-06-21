@@ -48,7 +48,7 @@ public class LocalServerGenerateElevationProfileSample extends Application {
    * Stops and releases all resources used in application.
    */
   @Override
-  public void stop() {
+  public void stop() throws InterruptedException {
     controller.terminate();
   }
 
