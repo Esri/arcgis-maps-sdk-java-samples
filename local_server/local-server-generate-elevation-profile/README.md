@@ -55,7 +55,7 @@ This sample loads with a [10m resolution digital terrain elevation model](https:
 
 [Three raster functions (json format)](https://www.arcgis.com/home/item.html?id=259f420250a444b4944a277eec2c4e42) are applied to the raster data to mask out data at or below sea level.
 
-The geoprocessing task is started with a .gpkx (geoprocessing package). [This package](https://www.arcgis.com/home/item.html?id=831cbdc61b1c4cd3bfedd1af91d09d36) was authored in ArcGIS Pro using model builder, and the Interpolate Shape tool.  
+The geoprocessing task is started with a geoprocessing package (.gpkx). [This package](https://www.arcgis.com/home/item.html?id=831cbdc61b1c4cd3bfedd1af91d09d36) was authored in ArcGIS Pro using model builder, and includes the [Interpolate Shape (3D Analyst)](https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/interpolate-shape.htm) tool.
 
 ## Additional information
 
