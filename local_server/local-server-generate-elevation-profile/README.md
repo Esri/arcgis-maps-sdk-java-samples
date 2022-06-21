@@ -6,7 +6,7 @@ Create an elevation profile from local raster data and a user defined polyline. 
 
 ## Use case
 
-Local server applications are helpful for executing offline geoprocessing tasks in your ArcGIS Runtime apps via an offline (local) server. This sample uses a geoprocessing package created with the Interpolate Shape tool, which creates a 3D feature by interpolating z-values on to a surface.
+Applications that include ArcGIS Runtime Local Server are valuable in offline workflows that require advanced spatial analysis or data manipulation. This sample uses a geoprocessing package created with the [Interpolate Shape (3D Analyst)](https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/interpolate-shape.htm) tool, which creates a 3D feature by interpolating z-values from a surface.
 
 You might want to generate elevation profiles to carry out topographical analysis of valley profiles, or simply to visualise a hiking, cycling or road trip over varied topography.
 
