@@ -12,7 +12,7 @@ You might want to generate elevation profiles to carry out topographical analysi
 
 ## How to use the sample
 
-The sample loads with a raster. Click the "Draw Polyline" button and sketch a polyline where the elevation profile is to be drawn. Right-click to save the sketch and draw the polyline, then click "Generate Elevation Profile" to interpolate the sketched polyline onto the raster surface in 3D. Once ready, the view will auto zoom side on to the newly drawn elevation profile. Click "Clear Results" to reset the sample.
+The sample loads at the full extent of the raster dataset. Click the "Draw Polyline" button and sketch a polyline where you want to calculate the elevation profile. Right-click to save the sketch and draw the polyline, then click "Generate Elevation Profile" to interpolate the sketched polyline onto the raster surface in 3D. Once ready, the view will auto zoom side on to the newly drawn elevation profile. Click "Clear Results" to reset the sample.
 
 ## How it works
 
