@@ -63,7 +63,7 @@ Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS
 
 The [Package Result](https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/package-result.htm) tool (in ArcGIS Pro) is used to author ArcGIS Runtime compatible [geoprocessing](https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/what-is-geoprocessing-.htm) packages (.gpkx files). For more information on running powerful offline geoprocessing tasks to provide advanced spatial analysis to your applications, see [ArcGIS Runtime Local Server SDK](https://developers.arcgis.com/java/local-server/).
 
-The results of the geoprocessing tasks carried out via local server are shareable (unlike on-the-fly geoprocessing operations in runtime, such as viewshed analysis). They can be shared as portal items or exported locally.
+The results of the geoprocessing tasks executed with local server can be accessed with code, persisted, and shared, for example as a feature collection portal item. This contrasts with the Scene visibility analyses, viewshed and line of sight, which are calculated dynamically at render-time and are displayed only in analysis overlays.
 
 ## Tags
 
