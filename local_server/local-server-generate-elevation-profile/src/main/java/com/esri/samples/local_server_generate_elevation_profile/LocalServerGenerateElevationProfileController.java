@@ -457,7 +457,7 @@ public class LocalServerGenerateElevationProfileController {
    * only the island extent, and also masks out the edge effects from the original data.
    *
    * @param originalRaster the initial raster to perform raster function on
-   * @return masked raster (hides data less than or equal to 0m above sea level)
+   * @return masked raster (hides data at or below sea level (0m))
    * @throws FileNotFoundException if the json raster functions are not found
    */
   private Raster applyMaskingRasterFunction(Raster originalRaster) throws FileNotFoundException {
@@ -506,11 +506,11 @@ public class LocalServerGenerateElevationProfileController {
    */
   private Camera createCameraFacingElevationProfile() {
 
-    // get the polyline's end point co-ordinates
+    // get the polyline's end point coordinates
     var endPoint = polyline.getParts().get(0).getEndPoint();
     var endPointX = endPoint.getX();
     var endPointY = endPoint.getY();
-    // get the polyline's center point co-ordinates
+    // get the polyline's center point coordinates
     var centerPoint = polyline.getExtent().getCenter();
     var centerX = centerPoint.getX();
     var centerY = centerPoint.getY();
