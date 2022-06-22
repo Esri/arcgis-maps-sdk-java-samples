@@ -1,6 +1,6 @@
 # Generate elevation profile with Local Server
 
-Create an elevation profile using a local geoprocessing package (`gpkx`).
+Create an elevation profile using a geoprocessing package executed with ArcGIS Runtime Local Server.
 
 ![Image of local server generate elevation profile](LocalServerGenerateElevationProfile.png)
 
@@ -34,7 +34,8 @@ The sample loads at the full extent of the raster dataset. Click the "Draw Polyl
     1. Get url from local geoprocessing service using `LocalGeoprocessingService.getUrl()`.
     2. Get server job id of geoprocessing job using `GeoprocessingJob.getServerJobId()`.
     3. Replace `GPServer` from url with `MapServer/jobs/jobId`, to get generate elevation profile data.
-    4. Create a `ServiceGeodatabase` from the derived url and create a `FeatureLayer` from the first `FeatureTable`. Set the surface placement mode and add a renderer to the feature layer, then add the new layer to the scene's list of operational layers.
+    4. Create a `ServiceGeodatabase` from the derived url and create a `FeatureLayer` from the first `FeatureTable`. 
+    5. Set the surface placement mode and add a renderer to the feature layer, then add the new layer to the scene's list of operational layers.
 
 ## Relevant API
 

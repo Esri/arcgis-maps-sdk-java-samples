@@ -1,6 +1,6 @@
 {
     "category": "Local server",
-    "description": "Create an elevation profile from local raster data and a polyline, using a local geoprocessing package `.gpkx` created using the interpolate shape geoprocessing tool in ArcGIS Pro.",
+    "description": "Create an elevation profile using a geoprocessing package executed with ArcGIS Runtime Local Server.
     "ignore": false,
     "images": [
         "LocalServerGenerateElevationProfile.png"
@@ -15,7 +15,9 @@
         "processing",
         "raster",
         "raster function",
+        "scene",
         "service",
+        "terrain",
         "GeoprocessingFeatures",
         "GeoprocessingJob",
         "GeoprocessingParameter",
