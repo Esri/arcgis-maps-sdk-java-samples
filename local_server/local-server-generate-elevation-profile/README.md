@@ -31,9 +31,9 @@ The sample loads at the full extent of the raster dataset. Click the "Draw Polyl
     1. Create a geoprocessing job with `GeoprocessingTask.createJob(GeoprocessingParameters)`.
     2. Start the job with `GeoprocessingJob.start()`.
 9. Add generated elevation profile as a `FeatureLayer` to the scene.
-    1. Get url from local geoprocessing service using `LocalGeoprocessingService.getUrl()`.
-    2. Get server job id of geoprocessing job using `GeoprocessingJob.getServerJobId()`.
-    3. Replace `GPServer` from url with `MapServer/jobs/jobId`, to get generate elevation profile data.
+    1. Get the url from the local geoprocessing service using `LocalGeoprocessingService.getUrl()`.
+    2. Get the server job id of the geoprocessing job using `GeoprocessingJob.getServerJobId()`.
+    3. Replace `GPServer` from the url with `MapServer/jobs/jobId`, to get generate elevation profile data.
     4. Create a `ServiceGeodatabase` from the derived url and create a `FeatureLayer` from the first `FeatureTable`. 
     5. Set the surface placement mode and add a renderer to the feature layer, then add the new layer to the scene's list of operational layers.
 
@@ -57,7 +57,7 @@ This sample loads with a [10m resolution digital terrain elevation model](https:
 
 [Three raster functions (json format)](https://www.arcgis.com/home/item.html?id=259f420250a444b4944a277eec2c4e42) are applied to the raster data to mask out data at or below sea level.
 
-The geoprocessing task is started with a `gpkx`. This [Create elevation profile geoprocessing package](https://www.arcgis.com/home/item.html?id=831cbdc61b1c4cd3bfedd1af91d09d36) was authored in ArcGIS Pro using ModelBuilder, and the [Interpolate Shape (3D Analyst) tool](https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/interpolate-shape.htm) tool.
+The geoprocessing task is started with a `gpkx`. This [Create elevation profile geoprocessing package](https://www.arcgis.com/home/item.html?id=831cbdc61b1c4cd3bfedd1af91d09d36) was authored in ArcGIS Pro using ModelBuilder, and the [Interpolate Shape (3D Analyst) tool](https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/interpolate-shape.htm).
 
 ## Additional information
 
@@ -69,4 +69,4 @@ The results of the geoprocessing tasks executed with ArcGIS Runtime Local Server
 
 ## Tags
 
-elevation profile, geoprocessing, interpolate shape, local, offline, parameters, processing, raster, raster function, scene, service, terrain
+elevation profile, geoprocessing, interpolate shape, local server, offline, parameters, processing, raster, raster function, scene, service, terrain
