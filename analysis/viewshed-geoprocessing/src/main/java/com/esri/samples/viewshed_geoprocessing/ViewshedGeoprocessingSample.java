@@ -193,7 +193,7 @@ public class ViewshedGeoprocessingSample extends Application {
                         progress.setVisible(false);
                         // cancel the job if it's still going and set it to null to re-enable the mouse click listener
                         if (geoprocessingJob != null) {
-                          geoprocessingJob.cancel();
+                          geoprocessingJob.cancelAsync();
                           geoprocessingJob = null;
                         }
                       });

@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 /**
@@ -34,15 +35,24 @@ class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
       ImageView symbolImageView = new ImageView();
       setGraphic(symbolImageView);
       // get the symbol from the list view entry, and create an image from it
-      ListenableFuture<Image> symbolImageFuture = item.getSymbol().createSwatchAsync(0x00000000, 1);
-      symbolImageFuture.addDoneListener(() -> {
+      ListenableFuture<Symbol> symbolFuture = item.getSymbolAsync();
+      symbolFuture.addDoneListener(() -> {
         try {
-          // get the resulting image
-          Image symbolImage = symbolImageFuture.get();
-          // update the image view with the symbol swatch
-          symbolImageView.setImage(symbolImage);
+          // get the resulting symbol
+          Symbol symbol = symbolFuture.get();
+          // create a bitmap swatch from the symbol
+          ListenableFuture<Image> imageListenableFuture = symbol.createSwatchAsync(0x00000000, 1);
+          imageListenableFuture.addDoneListener(() -> {
+            try {
+              Image symbolImage = imageListenableFuture.get();
+              // update the image view with the symbol swatch
+              symbolImageView.setImage(symbolImage);
+            } catch (InterruptedException | ExecutionException e) {
+              new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
+            }
+          });
         } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
+          new Alert(Alert.AlertType.ERROR, "Error getting symbol" + e.getMessage()).show();
         }
       });
     }

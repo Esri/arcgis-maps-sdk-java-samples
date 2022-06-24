@@ -268,7 +268,7 @@ public class GenerateOfflineMapOverridesController {
   @FXML
   private void cancelJob() {
     if (job != null) {
-      job.cancel();
+      job.cancelAsync();
     }
   }
 

@@ -183,7 +183,7 @@ public class EditAndSyncFeaturesController {
 
         // show the job's progress in the progress bar
         progressBar.setVisible(true);
-        generateGeodatabaseJob.addJobChangedListener(() ->
+        generateGeodatabaseJob.addProgressChangedListener(() ->
             progressBar.setProgress((double) generateGeodatabaseJob.getProgress() / 100.0)
         );
 
@@ -316,7 +316,7 @@ public class EditAndSyncFeaturesController {
 
     // show the job's progress in the progress bar
     progressBar.setVisible(true);
-    syncGeodatabaseJob.addJobChangedListener(() ->
+    syncGeodatabaseJob.addProgressChangedListener(() ->
         progressBar.setProgress((double) syncGeodatabaseJob.getProgress() / 100.0)
     );
 
