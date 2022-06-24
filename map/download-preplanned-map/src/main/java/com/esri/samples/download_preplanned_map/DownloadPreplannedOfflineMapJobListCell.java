@@ -1,6 +1,5 @@
 package com.esri.samples.download_preplanned_map;
 
-import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapJob;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;

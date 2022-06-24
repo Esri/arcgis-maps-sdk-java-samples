@@ -2,7 +2,6 @@ package com.esri.samples.read_symbols_from_mobile_style_file;
 
 import java.util.concurrent.ExecutionException;
 
-import com.esri.arcgisruntime.symbology.Symbol;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContentDisplay;
@@ -11,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 /**

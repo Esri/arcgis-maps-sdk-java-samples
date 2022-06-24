@@ -27,8 +27,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.esri.arcgisruntime.concurrent.Job;
-import com.esri.arcgisruntime.location.LocationDataSource;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -53,6 +51,7 @@ import com.esri.arcgisruntime.geotriggers.FenceRuleType;
 import com.esri.arcgisruntime.geotriggers.GeotriggerMonitor;
 import com.esri.arcgisruntime.geotriggers.LocationGeotriggerFeed;
 import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.location.LocationDataSource;
 import com.esri.arcgisruntime.location.SimulatedLocationDataSource;
 import com.esri.arcgisruntime.location.SimulationParameters;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
