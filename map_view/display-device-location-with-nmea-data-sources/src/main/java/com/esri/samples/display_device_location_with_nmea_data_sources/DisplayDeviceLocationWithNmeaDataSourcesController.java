@@ -210,7 +210,7 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
   private void stop() {
 
     // stop receiving and displaying location data
-    nmeaLocationDataSource.stop();
+    nmeaLocationDataSource.stopAsync();
 
   }
 
@@ -219,7 +219,7 @@ public class DisplayDeviceLocationWithNmeaDataSourcesController {
    */
   void terminate() {
     if (mapView != null) {
-      nmeaLocationDataSource.stop();
+      nmeaLocationDataSource.stopAsync();
       mapView.dispose();
     }
   }

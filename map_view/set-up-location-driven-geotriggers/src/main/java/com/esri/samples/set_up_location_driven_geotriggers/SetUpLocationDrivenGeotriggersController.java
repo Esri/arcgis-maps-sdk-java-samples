@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.esri.arcgisruntime.concurrent.Job;
+import com.esri.arcgisruntime.location.LocationDataSource;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -101,8 +103,9 @@ public class SetUpLocationDrivenGeotriggersController {
       mapView.setViewInsets(new Insets(0, vBox.getWidth(), 0, 0));
 
       // once the simulated location data source has started, set up and start the location display and handle geotriggers
-      simulatedLocationDataSource.addStartedListener(() -> {
-        if (simulatedLocationDataSource.isStarted()) {
+      simulatedLocationDataSource.addStatusChangedListener( statusChangedEvent -> {
+        System.out.println(statusChangedEvent.getStatus());
+        if (statusChangedEvent.getStatus() == LocationDataSource.Status.STARTED) {
 
           // create, configure and start a location display that follows the simulated location data source
           setUpAndStartLocationDisplay();
@@ -161,9 +164,11 @@ public class SetUpLocationDrivenGeotriggersController {
             monitor.startAsync();
 
           });
-        } else new Alert(Alert.AlertType.ERROR, "Simulated data location source failed to start").show();
+        } else if (statusChangedEvent.getStatus() == LocationDataSource.Status.FAILED_TO_START) {
+          new Alert(Alert.AlertType.ERROR, "Simulated data location source failed to start").show();
+        }
       });
-
+      simulatedLocationDataSource.startAsync();
     });
   }
 
@@ -183,9 +188,7 @@ public class SetUpLocationDrivenGeotriggersController {
     // set the location of the simulated location data source with simulation parameters with a velocity of 2m/s
     simulatedLocationDataSource.setLocations(
       locations, new SimulationParameters(Calendar.getInstance(), 2.0, 0.0, 0.0));
-
-    simulatedLocationDataSource.startAsync();
-
+    
     // disable map view interaction, the location display will automatically center on the mock device location
     mapView.setEnableMousePan(false);
     mapView.setEnableKeyboardNavigation(false);
@@ -293,7 +296,7 @@ public class SetUpLocationDrivenGeotriggersController {
    */
   void terminate() {
     if (mapView != null) {
-      simulatedLocationDataSource.stop();
+      simulatedLocationDataSource.stopAsync();
       gardenPOIGeotriggerMonitor.stop();
       gardenSectionGeotriggerMonitor.stop();
       mapView.dispose();
