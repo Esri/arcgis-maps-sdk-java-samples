@@ -26,7 +26,9 @@
         "LocalGeoprocessingService",
         "LocalGeoprocessingService.ServiceType",
         "LocalServer",
-        "LocalServerStatus"
+        "LocalServerStatus",
+        "Raster",
+        "RasterFunction"
     ],
     "redirect_from": "",
     "relevant_apis": [
@@ -38,12 +40,14 @@
         "LocalGeoprocessingService",
         "LocalGeoprocessingService.ServiceType",
         "LocalServer",
-        "LocalServerStatus"
+        "LocalServerStatus",
+        "Raster",
+        "RasterFunction"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/local_server_generate_elevation_profile/LocalServerGenerateElevationProfileController.java",
         "src/main/java/com/esri/samples/local_server_generate_elevation_profile/LocalServerGenerateElevationProfileSample.java",
         "src/main/resources/local_server_generate_elevation_profile/main.fxml"
     ],
-    "title": "Local Server generate elevation profile"
+    "title": "Generate elevation profile with Local Server"
 }
