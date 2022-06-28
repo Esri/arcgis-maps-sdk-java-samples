@@ -122,7 +122,15 @@ public class LocalServerGenerateElevationProfileController {
       // create a new raster from local file and display it on the scene
       arranRaster = new Raster(new File
         (System.getProperty("data.dir"), "./samples-data/local_server/Arran_10m_raster.tif").getAbsolutePath());
-      displayRaster(arranRaster);
+
+      // when the scene has loaded, display the raster
+      scene.addDoneLoadingListener(() -> {
+        if (scene.getLoadStatus() == LoadStatus.LOADED) {
+          displayRaster(arranRaster);
+        } else if (scene.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+          new Alert(AlertType.ERROR, "Scene failed to load").show();
+        }
+      });
 
       // set up a new feature collection
       featureCollection = new FeatureCollection();
@@ -154,39 +162,35 @@ public class LocalServerGenerateElevationProfileController {
    */
   private void displayRaster(Raster raster) {
 
-    scene.addDoneLoadingListener(() -> {
-      if (scene.getLoadStatus() == LoadStatus.LOADED) {
 
-        // raster function on raster data
-        try {
-          Raster maskedRaster = applyMaskingRasterFunction(raster);
-          // create a raster layer from the raster
-          rasterLayer = new RasterLayer(maskedRaster);
-          // set a hillshade renderer to the raster layer
-          rasterLayer.setRasterRenderer(new HillshadeRenderer(30, 210, 1));
-        } catch (FileNotFoundException e) {
-          e.printStackTrace();
-        }
+    // raster function on raster data
+    try {
+      Raster maskedRaster = applyMaskingRasterFunction(raster);
+      // create a raster layer from the raster
+      rasterLayer = new RasterLayer(maskedRaster);
+      // set a hillshade renderer to the raster layer
+      rasterLayer.setRasterRenderer(new HillshadeRenderer(30, 210, 1));
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
 
-        // once the raster layer has loaded, set the viewpoint of the scene view to the raster layer's full extent
-        rasterLayer.addDoneLoadingListener(() -> {
-          if (rasterLayer.getLoadStatus() == LoadStatus.LOADED && rasterLayer.getFullExtent() != null) {
-            // centered on the raster covering the Isle of Arran, Scotland
-            rasterExtentViewPoint = new Viewpoint(rasterLayer.getFullExtent());
-            sceneView.setViewpointAsync(rasterExtentViewPoint);
-          } else {
-            new Alert(AlertType.ERROR, "Raster layer failed to load.").show();
-          }
-        });
-        // add the raster layer to the scene's operational layers
-        scene.getOperationalLayers().add(rasterLayer);
+    // once the raster layer has loaded, set the viewpoint of the scene view to the raster layer's full extent
+    rasterLayer.addDoneLoadingListener(() -> {
+      if (rasterLayer.getLoadStatus() == LoadStatus.LOADED && rasterLayer.getFullExtent() != null) {
+        // centered on the raster covering the Isle of Arran, Scotland
+        rasterExtentViewPoint = new Viewpoint(rasterLayer.getFullExtent());
+        sceneView.setViewpointAsync(rasterExtentViewPoint);
+      } else {
+        new Alert(AlertType.ERROR, "Raster layer failed to load.").show();
       }
     });
+    // add the raster layer to the scene's operational layers
+    scene.getOperationalLayers().add(rasterLayer);
   }
 
   /**
-   * Checks that there is a valid install of Local Server, and if so starts the Local Server Instance from the create
-   * elevation profile model geoprocessing package
+   * Checks that there is a valid install of Local Server, and if so starts the Local Server, and then starts a local
+   * geoprocessing service from the create_elevation_profile_model geoprocessing package.
    */
   private void startLocalServer() {
 
@@ -196,26 +200,25 @@ public class LocalServerGenerateElevationProfileController {
       server = LocalServer.INSTANCE;
 
       // check the local server instance status
-      server.addStatusChangedListener(status -> {
-        if (server.getStatus() == LocalServerStatus.STARTED) {
+      server.addStatusChangedListener(serverStatus -> {
+        if (serverStatus.getNewStatus() == LocalServerStatus.STARTED) {
           try {
             // get the path to the geoprocessing package (created in ArcGIS Pro) that creates elevation profile from 
             // raster data
-            String gpServiceURL = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
+            String geoprocessingPackagePath = new File(System.getProperty("data.dir"), "./samples-data/local_server" +
               "/create_elevation_profile_model.gpkx").getAbsolutePath();
 
             // create new local geoprocessing service with map server result to display elevation profile on scene
             localGPService =
-              new LocalGeoprocessingService(gpServiceURL, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
+              new LocalGeoprocessingService(geoprocessingPackagePath, ServiceType.ASYNCHRONOUS_SUBMIT_WITH_MAP_SERVER_RESULT);
           } catch (Exception e) {
             e.printStackTrace();
           }
 
-          localGPService.addStatusChangedListener(s -> {
+          localGPService.addStatusChangedListener(serviceStatus -> {
             // create geoprocessing task once local geoprocessing service is started 
-            if (s.getNewStatus() == LocalServerStatus.STARTED) {
-              // add the name of the model used to create the gpkx in ArcGIS Pro to the Url of the local 
-              // geoprocessing task
+            if (serviceStatus.getNewStatus() == LocalServerStatus.STARTED) {
+              // add the name of the model used to create the gpkx in ArcGIS Pro to the Url of the local geoprocessing task
               // e.g. the model name in this sample's gpkx created in ArcGIS Pro is CreateElevationProfileModel
               gpTask = new GeoprocessingTask(localGPService.getUrl() + "/CreateElevationProfileModel");
 
@@ -223,13 +226,16 @@ public class LocalServerGenerateElevationProfileController {
               instructionsLabel.setText("Draw a polyline on the scene with the 'Draw Polyline' button");
               drawPolylineButton.setDisable(false);
               progressBar.setVisible(false);
+            } else if (localGPService.getStatus() == LocalServerStatus.FAILED) {
+              // display an information alert and close the application if the geoprocessing service failed to start
+              showMessage("Local Server Status Error", "Local Geoprocessing Service failed to start.");
             }
           });
           localGPService.startAsync();
           
         } else if (server.getStatus() == LocalServerStatus.FAILED) {
-          // display an information alert and close the application if the server status failed to start
-          showMessage("Local Server Status Error", "Local Server Status Failed to start.");
+          // display an information alert and close the application if the server failed to start
+          showMessage("Local Server Status Error", "Local Server failed to start.");
         }
       });
       // start the local server
@@ -430,7 +436,7 @@ public class LocalServerGenerateElevationProfileController {
   }
 
   /**
-   * Removes all operational layers (apart from the raster layer), and graphics from the scene.
+   * Remove feature layer from list of operational layers (retains the raster layer), and graphics from the scene.
    */
   @FXML
   protected void handleClearResults() {
@@ -438,7 +444,7 @@ public class LocalServerGenerateElevationProfileController {
     // remove all graphics 
     graphicsOverlay.getGraphics().clear();
 
-    // remove all operational layers bar the raster layer
+    // remove last operational layer added to the scene (feature layer), retains the raster layer
     scene.getOperationalLayers().remove(1);
 
     // handle UI after checking there is still an operational layer in the scene (raster layer)
@@ -533,7 +539,11 @@ public class LocalServerGenerateElevationProfileController {
       // and then rotate that value by + or - 90 to get the angle perpendicular to the drawn line
       double angleFromNorth = (90 - theta);
       // if theta is positive, rotate angle anticlockwise by 90 degrees, else, clockwise by 90 degrees
-      cameraHeadingPerpToProfile = theta > 0 ? angleFromNorth - 90 : angleFromNorth + 90;
+      if (theta > 0) {
+        cameraHeadingPerpToProfile = angleFromNorth - 90;
+      } else {
+        cameraHeadingPerpToProfile = angleFromNorth + 90;
+      }
     }
     // create a new camera from the calculated camera position point and camera angle perpendicular to profile
     return new Camera(cameraPositionPoint, cameraHeadingPerpToProfile, 80, 0);
