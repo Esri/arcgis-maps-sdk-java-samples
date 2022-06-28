@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -76,15 +77,26 @@ class SymbolView extends HBox implements Initializable {
 
     // set image for non-text symbols
     if (!category.getText().startsWith("Text")) {
-      Symbol symbol = styleSymbolSearchResult.getSymbol();
-      ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, 0x00FFFFFF, new Point(0, 0, 0));
-      imageResult.addDoneListener(() -> {
+      ListenableFuture<Symbol> symbolFuture = styleSymbolSearchResult.getSymbolAsync();
+      symbolFuture.addDoneListener(() -> {
         try {
-          imageView.setImage(imageResult.get());
-        } catch (ExecutionException | InterruptedException e) {
-          e.printStackTrace();
+          // get the resulting symbol
+          Symbol symbol = symbolFuture.get();
+          // create a swatch from the symbol
+          ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, 0x00FFFFFF, new Point(0, 0, 0));
+          imageResult.addDoneListener(() -> {
+            try {
+              imageView.setImage(imageResult.get());
+            } catch (ExecutionException | InterruptedException e) {
+              e.printStackTrace();
+            }
+          });
+          
+        } catch (InterruptedException | ExecutionException e) {
+          new Alert(Alert.AlertType.ERROR, "Error getting symbol" + e.getMessage()).show();
         }
       });
+
     }
   }
 }

@@ -18,8 +18,8 @@ public class DownloadPreplannedOfflineMapJobListCell extends ListCell<DownloadPr
             // show the job's progress with a progress indicator
             ProgressIndicator progressIndicator = new ProgressIndicator(downloadPreplannedOfflineMapJob.getProgress() / 100.0);
 
-            downloadPreplannedOfflineMapJob.addJobChangedListener(() ->
-                    progressIndicator.setProgress(downloadPreplannedOfflineMapJob.getProgress() / 100.0)
+            downloadPreplannedOfflineMapJob.addProgressChangedListener(() -> 
+                  progressIndicator.setProgress(downloadPreplannedOfflineMapJob.getProgress() / 100.0)
             );
 
             setGraphic(progressIndicator);
