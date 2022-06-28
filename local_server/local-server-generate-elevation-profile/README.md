@@ -25,7 +25,7 @@ The sample loads at the full extent of the raster dataset. Click the "Draw Polyl
     1. Instantiate `LocalGeoprocessingService(Url, ServiceType)` to create a local geoprocessing service.
     2. Invoke `LocalGeoprocessingService.start()` to start the service asynchronously.
     3. Instantiate `GeoprocessingTask(LocalGeoprocessingService.url() + "/CreateElevationProfileModel")` to create a geoprocessing task that uses the elevation profile tool.
-6. Create an instance of `GeoprocessingParameters` and get its list of inputs with `gpParameters.getInputs()`. 
+6. Create an instance of `GeoprocessingParameters` and get its list of inputs with `gpParameters.getInputs()`.
 7. Add `GeoprocessingFeatures` with a `FeatureCollectionTable` pointing to a polyline geometry, and `GeoprocessingString` with a path to the raster data on disk to the list of inputs.
 8. Create and start a `GeoprocessingJob` using the input parameters.
     1. Create a geoprocessing job with `GeoprocessingTask.createJob(GeoprocessingParameters)`.
@@ -34,7 +34,7 @@ The sample loads at the full extent of the raster dataset. Click the "Draw Polyl
     1. Get the url from the local geoprocessing service using `LocalGeoprocessingService.getUrl()`.
     2. Get the server job id of the geoprocessing job using `GeoprocessingJob.getServerJobId()`.
     3. Replace `GPServer` from the url with `MapServer/jobs/jobId`, to get generate elevation profile data.
-    4. Create a `ServiceGeodatabase` from the derived url and create a `FeatureLayer` from the first `FeatureTable`. 
+    4. Create a `ServiceGeodatabase` from the derived url and create a `FeatureLayer` from the first `FeatureTable`.
     5. Set the surface placement mode and add a renderer to the feature layer, then add the new layer to the scene's list of operational layers.
 
 ## Relevant API
