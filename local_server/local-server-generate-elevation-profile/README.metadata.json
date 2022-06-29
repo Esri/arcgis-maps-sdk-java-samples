@@ -1,0 +1,53 @@
+{
+    "category": "Local server",
+    "description": "Create an elevation profile using a geoprocessing package executed with ArcGIS Runtime Local Server.",
+    "ignore": false,
+    "images": [
+        "LocalServerGenerateElevationProfile.png"
+    ],
+    "keywords": [
+        "elevation profile",
+        "geoprocessing",
+        "interpolate shape",
+        "local server",
+        "offline",
+        "parameters",
+        "processing",
+        "raster",
+        "raster function",
+        "scene",
+        "service",
+        "terrain",
+        "GeoprocessingFeatures",
+        "GeoprocessingJob",
+        "GeoprocessingParameter",
+        "GeoprocessingParameters",
+        "GeoprocessingTask",
+        "LocalGeoprocessingService",
+        "LocalGeoprocessingService.ServiceType",
+        "LocalServer",
+        "LocalServerStatus",
+        "Raster",
+        "RasterFunction"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "GeoprocessingFeatures",
+        "GeoprocessingJob",
+        "GeoprocessingParameter",
+        "GeoprocessingParameters",
+        "GeoprocessingTask",
+        "LocalGeoprocessingService",
+        "LocalGeoprocessingService.ServiceType",
+        "LocalServer",
+        "LocalServerStatus",
+        "Raster",
+        "RasterFunction"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/local_server_generate_elevation_profile/LocalServerGenerateElevationProfileController.java",
+        "src/main/java/com/esri/samples/local_server_generate_elevation_profile/LocalServerGenerateElevationProfileSample.java",
+        "src/main/resources/local_server_generate_elevation_profile/main.fxml"
+    ],
+    "title": "Generate elevation profile with Local Server"
+}

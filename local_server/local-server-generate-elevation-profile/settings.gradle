@@ -1,0 +1,38 @@
+rootProject.name = 'local-server-generate-elevation-profile'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    file("./samples-data/local_server").mkdirs()
+    // get the raster data
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/db9cd9beedce4e0987c33c198c8dfb45/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/local_server")
+    )
+
+    delete file("./data.zip")
+
+    // get the raster function json files
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/259f420250a444b4944a277eec2c4e42/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/local_server")
+    )
+
+    delete file("./data.zip")
+    
+    // get the geoprocessing package
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/831cbdc61b1c4cd3bfedd1af91d09d36/data",
+            dest: file("./samples-data/local_server/create_elevation_profile_model.gpkx")
+    )
+
+}
