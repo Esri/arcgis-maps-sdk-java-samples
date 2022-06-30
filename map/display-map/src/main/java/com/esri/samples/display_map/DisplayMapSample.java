@@ -56,6 +56,7 @@ public class DisplayMapSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
+
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView);
     } catch (Exception e) {
