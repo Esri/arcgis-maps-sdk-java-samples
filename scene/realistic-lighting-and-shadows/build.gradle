@@ -6,18 +6,25 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.14.1'
+    //arcgisVersion = '100.14.1'
+    arcgisVersion = '200.0.0-mod1'
 }
 
 javafx {
     version = "17.0.2"
-    modules = ['javafx.controls','javafx.fxml']
+    modules = ['javafx.base', 'javafx.controls','javafx.media', 'javafx.web', 'javafx.fxml']
+}
+
+application {
+    mainModule = "realistic.lighting.and.shadows.main"
+    mainClass = "com.esri.samples.realistic_lighting_and_shadows.RealisticLightingAndShadowsSample"
 }
 
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         url 'https://esri.jfrog.io/artifactory/arcgis'
     }
@@ -68,6 +75,7 @@ run {
     mainClassName = 'com.esri.samples.realistic_lighting_and_shadows.RealisticLightingAndShadowsLauncher'
 }
 
+/*
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
@@ -83,6 +91,8 @@ jar {
     exclude "META-INF/*.RSA"
 }
 
+ */
+
 task productionZip(type: Zip) {
     group = 'distribution'
     from copyNatives
@@ -92,5 +102,5 @@ task productionZip(type: Zip) {
 }
 
 wrapper {
-    gradleVersion = '7.3'
+    gradleVersion = '7.4.1'
 }
