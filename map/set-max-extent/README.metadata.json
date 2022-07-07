@@ -1,0 +1,27 @@
+{
+    "category": "Map",
+    "description": "Limit the view of a map to a particular area.",
+    "ignore": false,
+    "images": [
+        "SetMaxExtent.png"
+    ],
+    "keywords": [
+        "extent",
+        "limit panning",
+        "map",
+        "mapview",
+        "max extent",
+        "zoom"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/set-max-extent.htm"
+    ],
+    "relevant_apis": [
+        "ArcGISMap",
+        "Envelope"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/set_max_extent/SetMaxExtentSample.java"
+    ],
+    "title": "Set max extent"
+}
