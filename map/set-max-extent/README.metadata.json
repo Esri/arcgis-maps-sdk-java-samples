@@ -15,15 +15,13 @@
         "ArcGISMap",
         "Envelope"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/set-max-extent.htm"
-    ],
+    "redirect_from": "",
     "relevant_apis": [
         "ArcGISMap",
         "Envelope"
     ],
     "snippets": [
-        "src/main/java/com.esri.samples.set_max_extent/SetMaxExtentSample.java"
+        "src/main/java/com/esri/samples/set_max_extent/SetMaxExtentSample.java"
     ],
     "title": "Set max extent"
 }

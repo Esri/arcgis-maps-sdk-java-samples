@@ -5,5 +5,7 @@ package com.esri.samples.set_max_extent;
  */
 public class SetMaxExtentLauncher {
 
-    public static void main(String[] args) { SetMaxExtentSample.main(args); }
+  public static void main(String[] args) {
+    SetMaxExtentSample.main(args);
+  }
 }
