@@ -17,11 +17,11 @@ by the max extent. Use the "Max Extent OFF" button to disable the max extent to 
 
 ## How it works
 
-1. Create an `ArcGISMap` object.
-2. Create an envelope of the extent using `Envelope(Point(x, y), Point(x, y))`
-3. Set the maximum extent of the map with `map.setMaxExtent(envelope)`.
-4. Set the map to a `MapView` object.
-5. Set `map.setMaxExtent(null)` to disable the maximum extent of the map
+1. Create an `ArcGISMap`.
+2. Create a new envelope `Envelope(Point(x, y), Point(x, y))` with the required max extent.
+3. Wait for the map to load, then set the maximum extent of the map with `map.setMaxExtent(envelope)`.
+4. Create a new `MapView` and set the map to it.
+5. Set `map.setMaxExtent(null)` to disable the maximum extent of the map.
 
 ## Relevant API
 

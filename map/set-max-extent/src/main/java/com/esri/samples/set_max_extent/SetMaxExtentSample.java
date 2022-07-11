@@ -34,7 +34,6 @@ import javafx.stage.Stage;
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
@@ -65,6 +64,14 @@ public class SetMaxExtentSample extends Application {
       stage.setScene(scene);
       stage.show();
 
+      // create a control panel for toggling the max extent setting
+      var controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"),
+        CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(145, 40);
+      controlsVBox.setDisable(true);
+
       // authentication with an API key or named user is required to access basemaps and other location services
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
@@ -84,20 +91,12 @@ public class SetMaxExtentSample extends Application {
       // create a new graphics overlay and add a new graphic to it that shows the Colorado border as a red dashed line
       var graphicsOverlay = new GraphicsOverlay();
       graphicsOverlay.getGraphics().add(new Graphic(envelope));
-     var simpleRenderer = new SimpleRenderer(
-       new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.RED), 5));
+      var simpleRenderer = new SimpleRenderer(
+        new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.RED), 5));
       graphicsOverlay.setRenderer(simpleRenderer);
 
       // add the graphics overlay to the map view
       mapView.getGraphicsOverlays().add(graphicsOverlay);
-
-      // create a control panel for toggling the max extent setting
-      var controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"),
-        CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(145, 40);
-      controlsVBox.setDisable(true);
 
       // create a checkbox for toggling max extent
       var checkbox = new CheckBox("Enable Max Extent");
