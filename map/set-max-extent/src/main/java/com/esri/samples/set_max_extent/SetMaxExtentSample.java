@@ -97,6 +97,7 @@ public class SetMaxExtentSample extends Application {
         CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(145, 40);
+      controlsVBox.setDisable(true);
 
       // create a checkbox for toggling max extent
       var checkbox = new CheckBox("Enable Max Extent");
@@ -120,6 +121,8 @@ public class SetMaxExtentSample extends Application {
           map.setMaxExtent(envelope);
           // set the map view's viewpoint with the envelope
           mapView.setViewpoint(new Viewpoint(envelope));
+          //enable the checkbox now that the map has loaded
+          controlsVBox.setDisable(false);
         } else if (map.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
           new Alert(Alert.AlertType.ERROR, "Map failed to load").show();
         }
