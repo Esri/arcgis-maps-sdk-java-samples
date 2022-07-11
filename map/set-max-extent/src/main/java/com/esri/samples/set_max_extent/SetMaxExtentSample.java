@@ -77,15 +77,15 @@ public class SetMaxExtentSample extends Application {
       mapView.setMap(map);
 
       // create an envelope with an extent covering the state of Colorado
-      Point coloradoNorthWestPoint = new Point(-12139393.2109, 5012444.0468, SpatialReferences.getWebMercator());
-      Point coloradoSouthEastPoint = new Point(-11359277.5124, 4438148.7816, SpatialReferences.getWebMercator());
+      Point coloradoNorthWestPoint = new Point(-12139393.2109, 5012444.0468);
+      Point coloradoSouthEastPoint = new Point(-11359277.5124, 4438148.7816);
       var envelope = new Envelope(coloradoNorthWestPoint, coloradoSouthEastPoint);
 
       // create a new graphics overlay and add a new graphic to it that shows the Colorado border as a red dashed line
       var graphicsOverlay = new GraphicsOverlay();
       graphicsOverlay.getGraphics().add(new Graphic(envelope));
-      var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.DASH,
-        ColorUtil.colorToArgb(Color.RED), 5));
+     var simpleRenderer = new SimpleRenderer(
+       new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.RED), 5));
       graphicsOverlay.setRenderer(simpleRenderer);
 
       // add the graphics overlay to the map view
@@ -93,7 +93,7 @@ public class SetMaxExtentSample extends Application {
 
       // create a control panel for toggling the max extent setting
       var controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255,0.5)"),
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"),
         CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(145, 40);
@@ -101,6 +101,7 @@ public class SetMaxExtentSample extends Application {
 
       // create a checkbox for toggling max extent
       var checkbox = new CheckBox("Enable Max Extent");
+      checkbox.setTextFill(Color.WHITE);
       checkbox.setSelected(true);
       checkbox.setOnMouseClicked(e -> {
         if (checkbox.isSelected()) {
@@ -110,18 +111,17 @@ public class SetMaxExtentSample extends Application {
         }
       });
 
-      //add the checkbox to the control panel
+      // add the checkbox to the control panel
       controlsVBox.getChildren().add(checkbox);
 
       // listen for the map to finish loading, and check it has loaded
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
-          // constrain the display of the map to the state borders of Colorado by setting the map's max extent to the
-          // envelope
+          // constrain the display of the map to the borders of Colorado by setting the map's max extent to the envelope
           map.setMaxExtent(envelope);
           // set the map view's viewpoint with the envelope
           mapView.setViewpoint(new Viewpoint(envelope));
-          //enable the checkbox now that the map has loaded
+          // enable the checkbox now that the map has loaded
           controlsVBox.setDisable(false);
         } else if (map.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
           new Alert(Alert.AlertType.ERROR, "Map failed to load").show();
