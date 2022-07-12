@@ -7,7 +7,8 @@ group = 'com.esri.samples'
 
 ext {
     //arcgisVersion = '100.14.1'
-    arcgisVersion = '200.0.0-mod1'
+    //arcgisVersion = '200.0.0-mod1'
+    arcgisVersion = '200.0.0-9999'
 }
 
 javafx {
@@ -39,8 +40,8 @@ configurations {
 
 dependencies {
     implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
-    natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
-    natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
+    //natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
+    //natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
     // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
     runtimeOnly 'org.slf4j:slf4j-nop:1.7.32'
 }
