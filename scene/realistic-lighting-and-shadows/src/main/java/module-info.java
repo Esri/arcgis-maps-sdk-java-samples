@@ -4,8 +4,8 @@ module realistic.lighting.and.shadows.main {
   requires javafx.controls;
   requires javafx.base;
   requires javafx.graphics;
-  requires javafx.media;
-  requires javafx.web;
+  //requires javafx.media;
+  //requires javafx.web;
   requires javafx.fxml;
 
   exports com.esri.samples.realistic_lighting_and_shadows;
