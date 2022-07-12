@@ -1,0 +1,36 @@
+{
+    "category": "Symbology",
+    "description": "Apply a unique value with alternate symbols at different scales.",
+    "ignore": false,
+    "images": [
+        "ApplyUniqueValuesWithAlternateSymbols.gif"
+    ],
+    "keywords": [
+        "alternate symbols",
+        "multilayer symbol",
+        "scale based rendering",
+        "simple marker symbol",
+        "symbology",
+        "unique value",
+        "unique value renderer",
+        "MultilayerPointSymbol",
+        "SimpleMarkerSymbol",
+        "SymbolReferenceProperties",
+        "UniqueValue",
+        "UniqueValueRenderer"
+    ],
+    "redirect_from": [
+        ""
+    ],
+    "relevant_apis": [
+        "MultilayerSymbol",
+        "SimpleMarkerSymbol",
+        "SymbolReferenceProperties",
+        "UniqueValue",
+        "UniqueValueRenderer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/apply_unique_values_with_alternate_symbols/ApplyUniqueValuesWithAlternateSymbolsSample.java"
+    ],
+    "title": "Apply unique values with alternate symbols"
+}
