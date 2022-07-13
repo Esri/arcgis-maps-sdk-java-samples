@@ -1,0 +1,40 @@
+{
+    "category": "Symbology",
+    "description": "Show different kinds of multilayer symbols on a map similar to some pre-defined 2D simple symbol styles.",
+    "ignore": false,
+    "images": [
+        "RenderMultilayerSymbols.png"
+    ],
+    "keywords": [
+        "graphic",
+        "marker",
+        "multilayer",
+        "picture",
+        "symbol",
+        "Graphic",
+        "GraphicsOverlay",
+        "MultiLayerPoint",
+        "MultiLayerPolygon",
+        "MultiLayerPolyline",
+        "PictureMarkerSymbolLayer",
+        "SolidFillSymbolLayer",
+        "SolidStrokeSymbolLayer",
+        "VectorMarkerSymbolLayer"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "Graphic",
+        "GraphicsOverlay",
+        "MultiLayerPoint",
+        "MultiLayerPolygon",
+        "MultiLayerPolyline",
+        "PictureMarkerSymbolLayer",
+        "SolidFillSymbolLayer",
+        "SolidStrokeSymbolLayer",
+        "VectorMarkerSymbolLayer"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/render_multilayer_symbols/RenderMultilayerSymbolsSample.java"
+    ],
+    "title": "Render multilayer symbols"
+}
