@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '200.0.0-mod1'
+    arcgisVersion = '200.0.0-3570'
 }
 
 javafx {
@@ -14,12 +14,10 @@ javafx {
     modules = [ 'javafx.base', 'javafx.controls','javafx.media', 'javafx.web', 'javafx.fxml' ]
 }
 
-
 application {
     mainModule = "display.map.main"
     mainClass = "com.esri.samples.display_map.DisplayMapSample"
 }
-
 
 compileJava.options.encoding = 'UTF-8'
 
@@ -68,7 +66,6 @@ task copyNatives(type: Copy) {
     into "${System.properties.getProperty("user.home")}/.arcgis/$arcgisVersion"
 }
 
-
 run {
     doFirst {
         // sets the API key from the gradle.properties file as a Java system property
@@ -76,26 +73,7 @@ run {
         systemProperty 'apiKey', apiKey
     }
     dependsOn copyNatives
-    //mainClassName = 'com.esri.samples.display_map.DisplayMapSample'
 }
-
-/*
-jar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes("Main-Class": "$mainClassName")
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-    // exclude signing files that come from dependencies
-    exclude "META-INF/*.SF"
-    exclude "META-INF/*.DSA"
-    exclude "META-INF/*.RSA"
-}
-
- */
 
 task productionZip(type: Zip) {
     group = 'distribution'
