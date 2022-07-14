@@ -64,14 +64,6 @@ public class SetMaxExtentSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      // create a control panel for toggling the max extent setting
-      var controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"),
-        CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(145, 40);
-      controlsVBox.setDisable(true);
-
       // authentication with an API key or named user is required to access basemaps and other location services
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
@@ -110,6 +102,14 @@ public class SetMaxExtentSample extends Application {
         }
       });
 
+      // create a control panel
+      var controlsVBox = new VBox(6);
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"),
+        CornerRadii.EMPTY, Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(145, 40);
+      controlsVBox.setDisable(true);
+
       // add the checkbox to the control panel
       controlsVBox.getChildren().add(checkbox);
 
@@ -120,7 +120,7 @@ public class SetMaxExtentSample extends Application {
           map.setMaxExtent(envelope);
           // set the map view's viewpoint with the envelope
           mapView.setViewpoint(new Viewpoint(envelope));
-          // enable the checkbox now that the map has loaded
+          // enable the UI now that the map has loaded
           controlsVBox.setDisable(false);
         } else if (map.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
           new Alert(Alert.AlertType.ERROR, "Map failed to load").show();
