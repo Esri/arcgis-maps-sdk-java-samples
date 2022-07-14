@@ -2,7 +2,7 @@
 
 Apply a unique value with alternate symbols at different scales.
 
-![ApplyUniqueValuesWithAlternateSymbols](ApplyUniqueValuesWithAlternateSymbols.gif)
+![ApplyUniqueValuesWithAlternateSymbols](ApplyUniqueValuesWithAlternateSymbols.png)
 
 ## Use case
 
@@ -12,26 +12,21 @@ Once scale ranges are applied to unique values, you can further refine the appea
 
 ## How to use the sample
 
-Zoom in and out of the map to see alternate symbols at each scale. The symbology changes according to the following scale ranges: 0-5000, 5000-10000, 10000-20000. To go back to the initial viewpoint, tap "Reset Viewpoint".
+Zoom in and out of the map to see alternate symbols at each scale. The symbology changes according to the following scale ranges: 1:0-1:5000, 1:5000-1:10000, 1:10000-1:20000. To go back to the initial viewpoint, click "Reset Viewpoint".
 
 ## How it works
 
 1. Create a `FeatureLayer` using the service url and add it to the map's list of operational layers.
-2. Create two alternate symbols (a blue square and a yellow diamond) to be used as alternate symbols. To create an alternate symbol:
+2. Create two alternate symbols:
 
    a. Create a symbol using `SimpleMarkerSymbol`.
-
    b. Convert the simple marker symbol to a `MultilayerPointSymbol` using `SimpleMarkerSymbol.toMultilayerSymbol()`.
+   c. Set the valid scale range through reference properties on the multilayer point symbols by calling `multilayerPointSymbol.referenceProperties = SymbolReferenceProperties(double minScale, double maxScale)`.
 
-   c. Set the valid scale range through reference properties on the multilayer point symbols blue square and yellow diamond by calling `multilayerPointSymbol.referenceProperties = SymbolReferenceProperties(double minScale, double maxScale)`.
-
-3. Create a third multilayer symbol to be used to create a `UniqueValue` class.
-4. Create a unique value using the red triangle and the list of alternate symbols.
-5. Create a `UniqueValueRenderer` and add the unique value.
-6. Create a purple diamond simple marker and convert it to a multilayer symbol to be used as the default symbol.
-7. Set the default symbol on the unique value renderer to the purple diamond using `uniqueValueRenderer.defaultSymbol`.
-8. Set the `uniqueValueRenderer.fieldNames` on the unique value renderer to "req_type".
-9. Apply this unique value renderer to the `featureLayer.renderer`.
+3. Create a new `UniqueValue`, and add it to a new `UniqueValueRenderer` with `uniqueValueRenderer.getUniqueValues.add(uniqueValue)`
+4. Set the default symbol on the unique value renderer to a multilayer point symbol with `uniqueValueRenderer.setDefaultSymbol(multilayerPointSymbol)`.
+5. Set the field name on the unique value renderer with `uniqueValueRenderer.getFieldNames().add(("req_type))`.
+6. Apply this unique value renderer to the feature layer with `featureLayer.setRenderer(uniqueValueRenderer)`.
 
 ## Relevant API
 
@@ -39,6 +34,7 @@ Zoom in and out of the map to see alternate symbols at each scale. The symbology
 * SimpleMarkerSymbol
 * SymbolReferenceProperties
 * UniqueValue
+* 
 * UniqueValueRenderer
 
 ## About the data

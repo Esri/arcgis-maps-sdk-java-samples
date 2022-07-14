@@ -5,5 +5,7 @@ package com.esri.samples.apply_unique_values_with_alternate_symbols;
  */
 public class ApplyUniqueValuesWithAlternateSymbolsLauncher {
 
-  public static void main(String[] args) { ApplyUniqueValuesWithAlternateSymbolsSample.main(args); }
+  public static void main(String[] args) {
+    ApplyUniqueValuesWithAlternateSymbolsSample.main(args);
+  }
 }

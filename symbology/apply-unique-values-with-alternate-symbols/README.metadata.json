@@ -3,7 +3,7 @@
     "description": "Apply a unique value with alternate symbols at different scales.",
     "ignore": false,
     "images": [
-        "ApplyUniqueValuesWithAlternateSymbols.gif"
+        "ApplyUniqueValuesWithAlternateSymbols.png"
     ],
     "keywords": [
         "alternate symbols",
@@ -19,9 +19,8 @@
         "UniqueValue",
         "UniqueValueRenderer"
     ],
-    "redirect_from": [
-        ""
-    ],
+    "redirect_from": "",
+
     "relevant_apis": [
         "MultilayerSymbol",
         "SimpleMarkerSymbol",
