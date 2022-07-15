@@ -24,7 +24,7 @@
            xmlns:fx="http://javafx.com/fxml" stylesheets="/add_features_with_contingent_values/style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="50" styleClass="panel-region">
+    <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="50" styleClass="panel-region" fx:id="vBox" disable="true">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -40,14 +40,14 @@
             </Background>
         </background>
         <Label text="Status"/>
-        <ComboBox fx:id="statusComboBox" />
+        <ComboBox fx:id="statusComboBox" promptText="Select a status:" onAction="#handleStatusCombobox"/>
         <Label text="Protection"/>
-        <ComboBox fx:id="protectionComboBox" />
+        <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionCombobox" />
         <Label text="Buffer size"/>
         <Label fx:id="bufferLimitLabel"/>
         <Slider fx:id="bufferSlider" />
         <Button fx:id="saveButton" text="Save" />
-        <Button fx:id="discardButton" text="Discard"/>
+        <Button fx:id="discardButton" text="Discard" onAction="#discardFeature"/>
 
     </VBox>
     
