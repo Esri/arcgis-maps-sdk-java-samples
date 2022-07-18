@@ -16,11 +16,10 @@
 
 package com.esri.samples.render_multilayer_symbols;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 
+import com.esri.arcgisruntime.symbology.MultilayerSymbol;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -59,6 +58,7 @@ import com.esri.arcgisruntime.symbology.VectorMarkerSymbolLayer;
 
 public class RenderMultilayerSymbolsSample extends Application {
 
+  private GraphicsOverlay graphicsOverlay; // TODO: I've made this a member variable for readability
   private MapView mapView;
   private final double offset = 20; //used to keep a consistent distance between symbols in the same column
 
@@ -89,18 +89,40 @@ public class RenderMultilayerSymbolsSample extends Application {
       mapView.setMap(map);
 
       // create a graphics overlay and add it to the map view
-      var graphicsOverlay = new GraphicsOverlay();
+      graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
+      
+      // create picture marker symbols, from URI or embedded resources
+      PictureMarkerSymbolLayer pictureMarkerFromUri = new PictureMarkerSymbolLayer((
+        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images" +
+          "/e82f744ebb069bb35b234b3fea46deae"));
+      addGraphicFromPictureMarkerSymbolLayer(pictureMarkerFromUri, 0);
+      
+      PictureMarkerSymbolLayer pictureMarkerFromImage = new PictureMarkerSymbolLayer(
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/blue_pin.png")), 
+          0, 50, true, true));
+      addGraphicFromPictureMarkerSymbolLayer(pictureMarkerFromImage, offset);
 
+      // add graphics with simple vector marker symbol elements (MultilayerPoint Simple Markers on app UI)
+      var solidFillSymbolLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.RED));
+      var multilayerPolygonSymbol = new MultilayerPolygonSymbol(List.of(solidFillSymbolLayer));
+      var solidStrokeSymbolLayer = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.RED),
+        List.of(new DashGeometricEffect()));
+      var multilayerPolylineSymbol = new MultilayerPolylineSymbol(List.of(solidStrokeSymbolLayer));
+      
+      // define vector element for a diamond, triangle and cross
+      var diamondGeometry = Geometry.fromJson("{\"rings\":[[[0.0,2.5],[2.5,0.0],[0.0,-2.5],[-2.5,0.0],[0.0,2.5]]]}");
+      var triangleGeometry = Geometry.fromJson("{\"rings\":[[[0.0,5.0],[5,-5.0],[-5,-5.0],[0.0,5.0]]]}");
+      var crossGeometry = Geometry.fromJson("{\"paths\":[[[-1,1],[0,0],[1,-1]],[[1,1],[0,0],[-1,-1]]]}");
+      
+      addGraphicsWithVectorMarkerSymbolElements(multilayerPolygonSymbol, diamondGeometry, 0);
+      addGraphicsWithVectorMarkerSymbolElements(multilayerPolygonSymbol, triangleGeometry, 20);
+      addGraphicsWithVectorMarkerSymbolElements(multilayerPolylineSymbol, crossGeometry, (int)(2 * offset));
+      
+      // TODO: see if it's possible to cut down the lines of code as I've demonstrated above for the remaining methods!
+      
       // create labels to go above each category of graphic
       addTextGraphics(graphicsOverlay);
-
-      // create simple shape markers
-      addPointGraphicsWithMarkerSymbols(graphicsOverlay);
-
-      // create picture marker symbols, from URI or embedded resources
-      addPointGraphicsWithPictureMarkerSymbolFromUri(graphicsOverlay);
-      addPointGraphicsWithPictureMarkerSymbolFromResources(graphicsOverlay);
 
       // create line marker symbols
       addLineGraphicsWithMarkerSymbols(graphicsOverlay);
@@ -121,104 +143,55 @@ public class RenderMultilayerSymbolsSample extends Application {
     }
   }
 
-  private void addPointGraphicsWithMarkerSymbols(GraphicsOverlay graphicsOverlay) {
-    Graphic pointGraphic;
-    MultilayerPointSymbol markerSymbol;
-    VectorMarkerSymbolLayer vectorMarkerSymbol;
-    SolidFillSymbolLayer vectorElementFill = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.RED));
-    var multilayerPolygonSymbol = new MultilayerPolygonSymbol(List.of(vectorElementFill));
-
-    // define a vector element - a diamond in this case
-    Geometry vectorElementGeometry = Geometry.fromJson("{\"rings\":[[[0.0,2.5],[2.5,0.0],[0.0,-2.5],[-2.5,0.0],[0.0,2.5]]]}");
-    VectorMarkerSymbolElement vectorMarkerDiamond = new VectorMarkerSymbolElement(vectorElementGeometry,
-      multilayerPolygonSymbol);
-    vectorMarkerSymbol = new VectorMarkerSymbolLayer(List.of(vectorMarkerDiamond));
-    markerSymbol = new MultilayerPointSymbol(List.of(vectorMarkerSymbol));
-
-    // create point graphic using the diamond symbol and add it to the graphics overlay
-    pointGraphic = new Graphic(new Point(-150, 20, SpatialReferences.getWgs84()), markerSymbol);
-    graphicsOverlay.getGraphics().add(pointGraphic);
-
-    // define a vector element - a triangle in this case
-    vectorElementGeometry = Geometry.fromJson("{\"rings\":[[[0.0,5.0],[5,-5.0],[-5,-5.0],[0.0,5.0]]]}");
-    VectorMarkerSymbolElement vectorMarkerTriangle = new VectorMarkerSymbolElement(vectorElementGeometry,
-      multilayerPolygonSymbol);
-    vectorMarkerSymbol = new VectorMarkerSymbolLayer(List.of(vectorMarkerTriangle));
-    markerSymbol = new MultilayerPointSymbol(List.of(vectorMarkerSymbol));
-
-    // create point graphic using the triangle symbol and add it to the graphics overlay
-    pointGraphic = new Graphic(new Point(-150, 20 - offset, SpatialReferences.getWgs84()), markerSymbol);
-    graphicsOverlay.getGraphics().add(pointGraphic);
-
-    // define a vector element - a cross in this case
-    vectorElementGeometry = Geometry.fromJson("{\"paths\":[[[-1,1],[0,0],[1,-1]],[[1,1],[0,0],[-1,-1]]]}");
-    SolidStrokeSymbolLayer vectorElementStroke = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.RED),
-      List.of(new DashGeometricEffect()));
-    var multilayerPolylineSymbol = new MultilayerPolylineSymbol(List.of(vectorElementStroke));
-    VectorMarkerSymbolElement vectorMarkerX = new VectorMarkerSymbolElement(vectorElementGeometry,
-      multilayerPolylineSymbol);
-    vectorMarkerSymbol = new VectorMarkerSymbolLayer(List.of(vectorMarkerX));
-    markerSymbol = new MultilayerPointSymbol(List.of(vectorMarkerSymbol));
-
-    // create point graphic using the cross symbol and add it to the graphics overlay
-    pointGraphic = new Graphic(new Point(-150, 20 - 2 * offset, SpatialReferences.getWgs84()), markerSymbol);
-    graphicsOverlay.getGraphics().add(pointGraphic);
-  }
-
-  private void addPointGraphicsWithPictureMarkerSymbolFromUri(GraphicsOverlay graphicsOverlay) {
-    try {
-      // create URI to the image to be used.
-      var uri = new URI("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae");
-      // create a new symbol using asynchronous factory method from URI
-      PictureMarkerSymbolLayer campsiteMarker = new PictureMarkerSymbolLayer(uri.toString());
-      campsiteMarker.addDoneLoadingListener(() -> {
-        if (campsiteMarker.getLoadStatus() == LoadStatus.LOADED) {
-          campsiteMarker.setSize(40);
-          MultilayerPointSymbol campsiteSymbol = new MultilayerPointSymbol(List.of(campsiteMarker));
-
-          // create location for the symbol
-          Point campsitePoint = new Point(-80, 20, SpatialReferences.getWgs84());
-
-          // create graphic with the location and symbol and add it to the graphics overlay
-          Graphic campsiteGraphic = new Graphic(campsitePoint, campsiteSymbol);
-          graphicsOverlay.getGraphics().add(campsiteGraphic);
-        } else if (campsiteMarker.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-          new Alert(Alert.AlertType.ERROR, "Image failed to load from URI").show();
-        }});
-      campsiteMarker.loadAsync();
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private void addPointGraphicsWithPictureMarkerSymbolFromResources(GraphicsOverlay graphicsOverlay) {
-
-    // create a runtime image that loads the image as a stream from resources
-    var image = new Image(
-      Objects.requireNonNull(getClass().getResourceAsStream("/blue_pin.png")),
-      0,
-      50,
-      true,
-      true
-    );
-
-    // create new PictureMarkerSymbolLayer from the runtime image, and use it to create a symbol
-    PictureMarkerSymbolLayer pinMarker = new PictureMarkerSymbolLayer(image);
-    pinMarker.addDoneLoadingListener(() -> {
-      if (pinMarker.getLoadStatus() == LoadStatus.LOADED) {
-        pinMarker.setSize(50);
-        MultilayerPointSymbol pinSymbol = new MultilayerPointSymbol(List.of(pinMarker));
+  /**
+   * Loads a picture marker symbol layer and after it has loaded, creates a new multilayer point symbol from it.
+   * A graphic is created from the multilayer point symbol and added to the graphics overlay.
+   * 
+   * @param pictureMarkerSymbolLayer the picture marker symbol layer to be loaded
+   * @param offset the value used to keep a consistent distance between symbols in the same column
+   * 
+   */
+  private void addGraphicFromPictureMarkerSymbolLayer(PictureMarkerSymbolLayer pictureMarkerSymbolLayer, double offset) {
+    // wait for the picture marker symbol layer to load and check it has loaded
+    pictureMarkerSymbolLayer.addDoneLoadingListener(() -> {
+      if (pictureMarkerSymbolLayer.getLoadStatus() == LoadStatus.LOADED) {
+        // set the size of the layer and create a new multilayer point symbol from it
+        pictureMarkerSymbolLayer.setSize(40);
+        var multilayerPointSymbol = new MultilayerPointSymbol(List.of(pictureMarkerSymbolLayer));
 
         // create location for the symbol
-        Point pinPoint = new Point(-80, 20 - offset, SpatialReferences.getWgs84());
+        Point point = new Point(-80, 20 - offset, SpatialReferences.getWgs84());
 
         // create graphic with the location and symbol and add it to the graphics overlay
-        Graphic pinGraphic = new Graphic(pinPoint, pinSymbol);
-        graphicsOverlay.getGraphics().add(pinGraphic);
-      } else if (pinMarker.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-        new Alert(Alert.AlertType.ERROR, "Image failed to load from local resources").show();
-      }});
-    pinMarker.loadAsync();
+        var graphic = new Graphic(point, multilayerPointSymbol);
+        graphicsOverlay.getGraphics().add(graphic);
+      } else if (pictureMarkerSymbolLayer.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+        new Alert(Alert.AlertType.ERROR, "Picture marker symbol layer failed to load").show();
+      }
+    });
+    // load the picture marker symbol layer
+    pictureMarkerSymbolLayer.loadAsync();
+
+  }
+
+  /**
+   * Adds a new graphic constructed from a multilayer point symbol.
+   * 
+   * @param multilayerSymbol the multilayer symbol to construct the vector marker symbol element with
+   * @param geometry the input geometry for the vector marker symbol element
+   * @param offset the value used to keep a consistent distance between symbols in the same column
+   */
+  private void addGraphicsWithVectorMarkerSymbolElements(MultilayerSymbol multilayerSymbol, Geometry geometry, int offset) {
+    
+    // define a vector element and create a new multilayer point symbol from it
+    var vectorMarkerSymbolElement = new VectorMarkerSymbolElement(geometry, multilayerSymbol);
+    var vectorMarkerSymbolLayer = new VectorMarkerSymbolLayer(List.of(vectorMarkerSymbolElement));
+    var multilayerPointSymbol = new MultilayerPointSymbol(List.of(vectorMarkerSymbolLayer));
+    
+    // create point graphic using the symbol and add it to the graphics overlay
+    var graphic = new Graphic(new Point(-150, 20 - offset, SpatialReferences.getWgs84()), multilayerPointSymbol);
+    graphicsOverlay.getGraphics().add(graphic);
+    
   }
 
   private void addLineGraphicsWithMarkerSymbols(GraphicsOverlay graphicsOverlay) {
@@ -342,7 +315,8 @@ public class RenderMultilayerSymbolsSample extends Application {
     polygonBuilder.addPoint(new Point(60, 20 - 2 * offset));
 
     // create a vertical pattern hatch symbol layer for vertical fill style
-    HatchFillSymbolLayer vertical = new HatchFillSymbolLayer(new MultilayerPolylineSymbol(List.of(strokeForHatches)), 90);
+    HatchFillSymbolLayer vertical = new HatchFillSymbolLayer(new MultilayerPolylineSymbol(List.of(strokeForHatches)),
+      90);
 
     // define separation distance for lines in a hatch pattern
     vertical.setSeparation(9);
@@ -367,7 +341,8 @@ public class RenderMultilayerSymbolsSample extends Application {
     );
     VectorMarkerSymbolElement orangeSquareVectorElement = new VectorMarkerSymbolElement(orangeSquareGeometry,
       new MultilayerPolygonSymbol(List.of(orangeFillLayer, blueOutline)));
-    VectorMarkerSymbolLayer orangeSquareVectorMarkerLayer = new VectorMarkerSymbolLayer(List.of(orangeSquareVectorElement));
+    VectorMarkerSymbolLayer orangeSquareVectorMarkerLayer =
+      new VectorMarkerSymbolLayer(List.of(orangeSquareVectorElement));
     orangeSquareVectorMarkerLayer.setSize(11);
     orangeSquareVectorMarkerLayer.setAnchor(new SymbolAnchor(-4, -6, SymbolAnchor.PlacementMode.ABSOLUTE));
 
@@ -381,7 +356,8 @@ public class RenderMultilayerSymbolsSample extends Application {
     );
     VectorMarkerSymbolElement blackSquareVectorElement = new VectorMarkerSymbolElement(blackSquareGeometry,
       new MultilayerPolygonSymbol(List.of(blackFillLayer, orangeOutline)));
-    VectorMarkerSymbolLayer blackSquareVectorMarkerLayer = new VectorMarkerSymbolLayer(List.of(blackSquareVectorElement));
+    VectorMarkerSymbolLayer blackSquareVectorMarkerLayer =
+      new VectorMarkerSymbolLayer(List.of(blackSquareVectorElement));
     blackSquareVectorMarkerLayer.setSize(6);
     blackSquareVectorMarkerLayer.setAnchor(new SymbolAnchor(2, 1, SymbolAnchor.PlacementMode.ABSOLUTE));
 
@@ -482,7 +458,8 @@ public class RenderMultilayerSymbolsSample extends Application {
     polygonBuilder.addPoint(new Point(140, -10));
     polygonBuilder.addPoint(new Point(120, -10));
 
-    // create a multilayer polygon graphic with geometry using the symbols created above and add it to the graphics overlay
+    // create a multilayer polygon graphic with geometry using the symbols created above and add it to the graphics 
+    // overlay
     var complexPolygonGraphic = new Graphic(polygonBuilder.toGeometry(), multilayerPolygonSymbol);
     graphicsOverlay.getGraphics().add(complexPolygonGraphic);
 
