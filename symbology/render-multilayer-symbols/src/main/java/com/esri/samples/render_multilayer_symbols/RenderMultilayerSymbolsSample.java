@@ -21,8 +21,10 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -167,18 +169,23 @@ public class RenderMultilayerSymbolsSample extends Application {
     try {
       // create URI to the image to be used.
       var uri = new URI("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae");
-
       // create a new symbol using asynchronous factory method from URI
       PictureMarkerSymbolLayer campsiteMarker = new PictureMarkerSymbolLayer(uri.toString());
-      campsiteMarker.setSize(40);
-      MultilayerPointSymbol campsiteSymbol = new MultilayerPointSymbol(List.of(campsiteMarker));
+      campsiteMarker.addDoneLoadingListener(() -> {
+        if (campsiteMarker.getLoadStatus() == LoadStatus.LOADED) {
+          campsiteMarker.setSize(40);
+          MultilayerPointSymbol campsiteSymbol = new MultilayerPointSymbol(List.of(campsiteMarker));
 
-      // create location for the symbol
-      Point campsitePoint = new Point(-80, 20, SpatialReferences.getWgs84());
+          // create location for the symbol
+          Point campsitePoint = new Point(-80, 20, SpatialReferences.getWgs84());
 
-      // create graphic with the location and symbol and add it to the graphics overlay
-      Graphic campsiteGraphic = new Graphic(campsitePoint, campsiteSymbol);
-      graphicsOverlay.getGraphics().add(campsiteGraphic);
+          // create graphic with the location and symbol and add it to the graphics overlay
+          Graphic campsiteGraphic = new Graphic(campsitePoint, campsiteSymbol);
+          graphicsOverlay.getGraphics().add(campsiteGraphic);
+        } else if (campsiteMarker.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+          new Alert(Alert.AlertType.ERROR, "Image failed to load from URI").show();
+        }});
+      campsiteMarker.loadAsync();
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     }
@@ -197,15 +204,21 @@ public class RenderMultilayerSymbolsSample extends Application {
 
     // create new PictureMarkerSymbolLayer from the runtime image, and use it to create a symbol
     PictureMarkerSymbolLayer pinMarker = new PictureMarkerSymbolLayer(image);
-    pinMarker.setSize(50);
-    MultilayerPointSymbol pinSymbol = new MultilayerPointSymbol(List.of(pinMarker));
+    pinMarker.addDoneLoadingListener(() -> {
+      if (pinMarker.getLoadStatus() == LoadStatus.LOADED) {
+        pinMarker.setSize(50);
+        MultilayerPointSymbol pinSymbol = new MultilayerPointSymbol(List.of(pinMarker));
 
-    // create location for the symbol
-    Point pinPoint = new Point(-80, 20 - offset, SpatialReferences.getWgs84());
+        // create location for the symbol
+        Point pinPoint = new Point(-80, 20 - offset, SpatialReferences.getWgs84());
 
-    // create graphic with the location and symbol and add it to the graphics overlay
-    Graphic pinGraphic = new Graphic(pinPoint, pinSymbol);
-    graphicsOverlay.getGraphics().add(pinGraphic);
+        // create graphic with the location and symbol and add it to the graphics overlay
+        Graphic pinGraphic = new Graphic(pinPoint, pinSymbol);
+        graphicsOverlay.getGraphics().add(pinGraphic);
+      } else if (pinMarker.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+        new Alert(Alert.AlertType.ERROR, "Image failed to load from local resources").show();
+      }});
+    pinMarker.loadAsync();
   }
 
   private void addLineGraphicsWithMarkerSymbols(GraphicsOverlay graphicsOverlay) {
