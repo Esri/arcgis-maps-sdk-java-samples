@@ -32,7 +32,6 @@ Zoom in and out of the map to see alternate symbols at each scale. The symbology
 * SimpleMarkerSymbol
 * SymbolReferenceProperties
 * UniqueValue
-* 
 * UniqueValueRenderer
 
 ## About the data
