@@ -22,7 +22,7 @@
     "redirect_from": "",
 
     "relevant_apis": [
-        "MultilayerSymbol",
+        "MultilayerPointSymbol",
         "SimpleMarkerSymbol",
         "SymbolReferenceProperties",
         "UniqueValue",
