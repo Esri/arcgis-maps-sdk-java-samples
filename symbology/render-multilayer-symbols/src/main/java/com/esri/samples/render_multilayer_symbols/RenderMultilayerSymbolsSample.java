@@ -101,7 +101,7 @@ public class RenderMultilayerSymbolsSample extends Application {
       PictureMarkerSymbolLayer pictureMarkerFromImage = new PictureMarkerSymbolLayer(
         new Image(Objects.requireNonNull(getClass().getResourceAsStream("/blue_pin.png")), 
           0, 50, true, true));
-      addGraphicFromPictureMarkerSymbolLayer(pictureMarkerFromImage, offset);
+      addGraphicFromPictureMarkerSymbolLayer(pictureMarkerFromImage, 20);
 
       // add graphics with simple vector marker symbol elements (MultilayerPoint Simple Markers on app UI)
       var solidFillSymbolLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.RED));
@@ -117,7 +117,7 @@ public class RenderMultilayerSymbolsSample extends Application {
       
       addGraphicsWithVectorMarkerSymbolElements(multilayerPolygonSymbol, diamondGeometry, 0);
       addGraphicsWithVectorMarkerSymbolElements(multilayerPolygonSymbol, triangleGeometry, 20);
-      addGraphicsWithVectorMarkerSymbolElements(multilayerPolylineSymbol, crossGeometry, (int)(2 * offset));
+      addGraphicsWithVectorMarkerSymbolElements(multilayerPolylineSymbol, crossGeometry, (int)(2 * 20));
       
       // TODO: see if it's possible to cut down the lines of code as I've demonstrated above for the remaining methods!
       
