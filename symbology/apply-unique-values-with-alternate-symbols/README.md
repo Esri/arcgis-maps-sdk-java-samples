@@ -20,8 +20,8 @@ Zoom in and out of the map to see alternate symbols at each scale. The symbology
 2. Create two alternate symbols:
    * Create a symbol using `SimpleMarkerSymbol`.
    * Convert the simple marker symbol to a `MultilayerPointSymbol` using `SimpleMarkerSymbol.toMultilayerSymbol()`.
-   * Set the valid scale range through reference properties on the multilayer point symbols by calling `multilayerPointSymbol.referenceProperties = SymbolReferenceProperties(double minScale, double maxScale)`.
-3. Create a new `UniqueValue`, and add it to a new `UniqueValueRenderer` with `uniqueValueRenderer.getUniqueValues.add(uniqueValue)`
+   * Set the valid scale range through reference properties on the multilayer point symbols by calling `multilayerPointSymbol.setReferenceProperties(new SymbolReferenceProperties(double minScale, double maxScale))`.
+3. Create a new `UniqueValue`, and add it to a new `UniqueValueRenderer` with `uniqueValueRenderer.getUniqueValues.add(uniqueValue)`.
 4. Set the default symbol on the unique value renderer to a multilayer point symbol with `uniqueValueRenderer.setDefaultSymbol(multilayerPointSymbol)`.
 5. Set the field name on the unique value renderer with `uniqueValueRenderer.getFieldNames().add(("req_type))`.
 6. Apply this unique value renderer to the feature layer with `featureLayer.setRenderer(uniqueValueRenderer)`.

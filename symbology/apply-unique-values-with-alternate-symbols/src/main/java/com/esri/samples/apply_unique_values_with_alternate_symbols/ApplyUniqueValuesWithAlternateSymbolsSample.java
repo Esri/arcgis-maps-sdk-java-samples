@@ -16,7 +16,6 @@
 
 package com.esri.samples.apply_unique_values_with_alternate_symbols;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import javafx.application.Application;
@@ -54,7 +53,7 @@ import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
 
   private MapView mapView;
-  private FeatureLayer featureLayer;
+  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
   private final static String FEATURE_SERVICE_URL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
   private Button button;
   private Label label;
@@ -79,7 +78,10 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a map with the standard imagery basemap style
+      // create a controls vbox, button, and label UI components
+      setUpControlsVBox();
+
+      // create a map with the topographic imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
       // create a map view and set the map to it
@@ -88,23 +90,19 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
 
       // create a point located at San Francisco, CA to be used as the viewpoint for the map
       var point = new Point(-13631205.660131, 4546829.846004, SpatialReferences.getWebMercator());
+      var viewpoint = new Viewpoint(point, 25000);
 
       // set a viewpoint to the map view centered on a point
       mapView.setViewpointCenterAsync(point, 25000.0);
 
-      // create a controls vbox, button, and label UI components
-      setUpControlsVBox();
-
-      var viewpoint = new Viewpoint(point, 25000);
       button.setOnAction(event -> {
         // reset the map viewpoint
         mapView.setViewpointAsync(viewpoint, 1.5f, AnimationCurve.EASE_IN_OUT_SINE);
       });
 
-      DecimalFormat decFormat = new DecimalFormat("#");
       mapView.addViewpointChangedListener(event->
         // update label text and formatting scale values
-        label.setText("Current scale: 1:" + decFormat.format(mapView.getMapScale())));
+        label.setText("Current scale: 1:" + Math.round(mapView.getMapScale())));
 
       // create simple marker symbols where the blue square and yellow diamond are alternate symbols
       // the red triangle is used to create a unique symbol and the purple diamond is the default symbol for the unique value renderer
