@@ -42,7 +42,7 @@
         <Label text="Status"/>
         <ComboBox fx:id="statusComboBox" promptText="Select a status:" onAction="#handleStatusCombobox"/>
         <Label text="Protection"/>
-        <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionCombobox" />
+        <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionCombobox" disable="true" />
         <Label text="Buffer size"/>
         <Label fx:id="bufferLimitLabel"/>
         <Slider fx:id="bufferSlider" />

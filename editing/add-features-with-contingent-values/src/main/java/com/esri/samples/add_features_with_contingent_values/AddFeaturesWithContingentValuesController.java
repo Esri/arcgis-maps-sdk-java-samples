@@ -134,146 +134,172 @@ public class AddFeaturesWithContingentValuesController {
       geodatabase = new Geodatabase(new File(System.getProperty("data.dir"),
         "./samples-data/ContingentValuesBirdNests.geodatabase").getAbsolutePath());
 
+      // wait for the geodatabase to finish loading and check it has loaded
       geodatabase.addDoneLoadingListener(() -> {
-
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
 
+          // get the BirdNests geodatabase feature table, and wait for it to load
           geodatabaseFeatureTable = geodatabase.getGeodatabaseFeatureTable("BirdNests");
+          System.out.println(geodatabaseFeatureTable.getLoadStatus());
+
           geodatabaseFeatureTable.addDoneLoadingListener(() -> {
+            if (geodatabaseFeatureTable.getLoadStatus() == LoadStatus.LOADED) {
 
-            newFeature = (ArcGISFeature) geodatabaseFeatureTable.createFeature();
-            
-            System.out.println(geodatabaseFeatureTable.getTotalFeatureCount());
+              featureLayer = new FeatureLayer(geodatabaseFeatureTable);
+              map.getOperationalLayers().add(featureLayer);
+              // when the feature has loaded, set the viewpoint on the map to its full extent, and add buffers to
+              // the features
+              featureLayer.addDoneLoadingListener(() -> {
+                if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+                  mapView.setViewpointGeometryAsync(featureLayer.getFullExtent(), 50);
+                  // queries the features in the feature table and applies a buffer to them
+                  queryAndBufferFeatures();
+                }
+              });
 
-            loadContingentDefinition();
+              // create a new feature that matches the schema of the geodatabase feature table
+              newFeature = (ArcGISFeature) geodatabaseFeatureTable.createFeature();
 
-            featureLayer = new FeatureLayer(geodatabaseFeatureTable);
+              // get and load the table's contingent values definition. this must be loaded after the table has loaded
+              definition = geodatabaseFeatureTable.getContingentValuesDefinition();
+//              definition.loadAsync();
+              definition.addDoneLoadingListener(() -> {
 
-            featureLayer.addDoneLoadingListener(() -> {
-              if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+                // check the contingent values definition has field groups (if the list is empty, there are no 
+                // contingent values defined for this table
+                if (definition.getLoadStatus() == LoadStatus.LOADED && !definition.getFieldGroups().isEmpty()) {
 
-                mapView.setViewpointGeometryAsync(featureLayer.getFullExtent(), 50);
-                // queries the features in the feature table and applies a buffer to them
-                queryAndBufferFeatures();
-              }
-            });
+//                  definition.getFieldGroups().forEach(fieldGroup -> {
+//                    System.out.println("Name: " + fieldGroup.getName());
+//                    System.out.println("Fields: " + fieldGroup.getFields());
+//                    System.out.println("First contingency value of field group : " + fieldGroup.getContingencies()
+//                    .get(0).getValues());
+//                  });
 
-            map.getOperationalLayers().add(featureLayer);
+//                  System.out.println("Name of first field group: " + definition.getFieldGroups().get(0).getName());
+//        var protectionFieldGroup = definition.getFieldGroups().get(0);
+//
+//        CodedValueDomain protectionDomain = (CodedValueDomain)geodatabaseFeatureTable.getField("Protection")
+//        .getDomain();
+//        for (CodedValue codedValue : protectionDomain.getCodedValues()) {
+//          System.out.println(codedValue.getName()); // this gets endangered/not endangered back but doesn't follow 
+//          the design
+//        }
+
+
+                  handleMouseClick();
+
+                  CodedValueDomain statusCodedValueDomain =
+                    (CodedValueDomain) geodatabaseFeatureTable.getField("Status").getDomain();
+
+                  // printing out the possible values for status
+                  for (CodedValue codedValue : statusCodedValueDomain.getCodedValues()) {
+                    // requires some mapping of object code back to string
+                    statusComboBox.getItems().add(codedValue.getCode().toString());
+                  }
+
+                  // check the combobox has been populated, then select the first option ("Occupied")
+                  if (!statusComboBox.getItems().isEmpty()) {
+                    statusComboBox.getSelectionModel().selectFirst();
+                    // add "Status" attribute to the new feature: this will allow the related contingent value in the
+                    // "Protected" field to be detected
+                    newFeature.getAttributes().put("Status", statusComboBox.getSelectionModel().getSelectedIndex());
+                    // activate protection combo box once the status has been set
+                    protectionComboBox.setDisable(false);
+                  }
+
+
+                }
+              });
+              definition.loadAsync();
+
+            } else if (geodatabase.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+              new Alert(Alert.AlertType.ERROR, "Geodatabase failed to load").show();
+            }
           });
-          geodatabaseFeatureTable.loadAsync();
 
-          
-        } else if (geodatabase.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-          new Alert(Alert.AlertType.ERROR, "Geodatabase failed to load").show();
+          // load the geodatabase feature table
+          geodatabaseFeatureTable.loadAsync();
         }
       });
-
       // load the geodatabase
       geodatabase.loadAsync();
-      
-//      // when the map view is clicked, add a new feature 
-//      mapView.setOnMouseClicked(event -> {
-//        // check that the primary mouse button was clicked
-//        if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
-//
-//          vBox.setDisable(false);
-//          // create a point from where the user clicked
-//          Point2D point = new Point2D(event.getX(), event.getY());
-//          // create a map point from a point
-//          Point mapPoint = mapView.screenToLocation(point);
-//          
-//          // get the normalized geometry for the clicked location and use it as the feature's geometry
-//          Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
-//          newFeature.setGeometry(normalizedMapPoint);
-//          
-//        }
-//      });
 
 
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
     }
-
   }
+
 
   private void loadContingentDefinition() {
 
-    definition = geodatabaseFeatureTable.getContingentValuesDefinition();
-    definition.loadAsync();
-    definition.addDoneLoadingListener(() -> {
-      
-      if (definition.getLoadStatus() == LoadStatus.LOADED) {
 
-        definition.getFieldGroups().forEach(fieldGroup -> {
-          System.out.println("Name: " + fieldGroup.getName());
-          System.out.println("Fields: " + fieldGroup.getFields());
-          System.out.println("First contingency value of field group : " + fieldGroup.getContingencies().get(0).getValues());
-        });
+    System.out.println("Before contingent values: " + newFeature.getAttributes());
 
-        System.out.println("Name of first field group: " + definition.getFieldGroups().get(0).getName());
-//        var protectionFieldGroup = definition.getFieldGroups().get(0);
-//
-//        CodedValueDomain protectionDomain = (CodedValueDomain)geodatabaseFeatureTable.getField("Protection").getDomain();
-//        for (CodedValue codedValue : protectionDomain.getCodedValues()) {
-//          System.out.println(codedValue.getName()); // this gets endangered/not endangered back but doesn't follow the design
-//        }
+    try {
 
+      // handle protection contingent value
+      var valuesResult = geodatabaseFeatureTable.getContingentValues(newFeature, "Protection");
 
-        handleMouseClick();
+      System.out.println("After contingent values: " + newFeature.getAttributes().values());
 
-        CodedValueDomain statusCodedValueDomain =
-          (CodedValueDomain) geodatabaseFeatureTable.getField("Status").getDomain();
-
-        // printing out the possible values for status
-        for (CodedValue codedValue : statusCodedValueDomain.getCodedValues()) {
-          statusComboBox.getItems().add(codedValue.getName());
-        }
-
-        // handle protection contingent value
-        var valuesResult = geodatabaseFeatureTable.getContingentValues(newFeature, "Protection");
-//
 //      System.out.println(valuesResult.getContingentValuesByFieldGroup().values());
 //
-//      var values = valuesResult.getContingentValuesByFieldGroup();
+      var values = valuesResult.getContingentValuesByFieldGroup();
 //
-//      for (String valueName : values.keySet()) {
-//        System.out.println("value name " + valueName);
+      for (String valueName : values.keySet()) {
+        System.out.println("value name " + valueName);
+
 //
-//        for (ContingentValue contingentValue : values.get(valueName)) {
+        for (ContingentValue contingentValue : values.get(valueName)) {
+          System.out.println("not outputting");
 //
+          ContingentCodedValue codedValue = (ContingentCodedValue) contingentValue;
+//
+          System.out.println("possible species : " + codedValue.getCodedValue().getCode());
+          protectionComboBox.getItems().add(codedValue.getCodedValue().getCode().toString());
+
+          // set the protection field then get the ranged value
+
+        }
+      }
+
+    } catch (Exception e) {
+      if (definition.getLoadError() != null) {
+        System.out.println(definition.getLoadError().getCause().getMessage());
+      }
+      e.printStackTrace();
+    }
+
+
+//        var values = valuesResult.getContingentValuesByFieldGroup().get("ProtectionFieldGroup");
+
+    // add coded values of the "protection" contingent value to the combobox
+//        for (ContingentValue contingentValue : values) {
 //          ContingentCodedValue codedValue = (ContingentCodedValue) contingentValue;
 //
-//          System.out.println("possible species : " + codedValue.getCodedValue().getCode());
-        var values = valuesResult.getContingentValuesByFieldGroup().get("ProtectionFieldGroup");
+//          System.out.println(codedValue);
+//
+//          protectionComboBox.getItems().add(codedValue.getCodedValue().getName());
+//        }
 
-        System.out.println(valuesResult.getContingentValuesAllGroups().size());
-        System.out.println(values.size());
+    var contingentValueResult = geodatabaseFeatureTable.getContingentValues(newFeature, "BufferSize");
 
-        // add coded values of the "protection" contingent value to the combobox
-        for (ContingentValue contingentValue : values) {
-          ContingentCodedValue codedValue = (ContingentCodedValue) contingentValue;
+//        var bufferSizeGroupContingentValues = (ContingentRangeValue) contingentValueResult
+//        .getContingentValuesByFieldGroup().get("BufferSizeFieldGroup");
+//        System.out.println(bufferSizeGroupContingentValues);
 
-          System.out.println(codedValue);
+//        var minValue = (int) bufferSizeGroupContingentValues.getMinValue();
+//        var maxValue = (int) bufferSizeGroupContingentValues.getMaxValue();
 
-          protectionComboBox.getItems().add(codedValue.getCodedValue().getName());
-        }
+//        System.out.println(minValue);
 
-        var contingentValueResult = geodatabaseFeatureTable.getContingentValues(newFeature, "BufferSize");
-
-        var bufferSizeGroupContingentValues = (ContingentRangeValue) contingentValueResult.getContingentValuesByFieldGroup().get("BufferSizeFieldGroup");
-        System.out.println(bufferSizeGroupContingentValues);
-
-        var minValue = (int) bufferSizeGroupContingentValues.getMinValue();
-        var maxValue = (int) bufferSizeGroupContingentValues.getMaxValue();
-
-        System.out.println(minValue);
-        
-      }
-      
+//      }
 
 
-    });
+//    });
 
 
   }
