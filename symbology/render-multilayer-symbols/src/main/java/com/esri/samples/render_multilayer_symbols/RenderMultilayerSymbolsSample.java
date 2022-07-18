@@ -21,7 +21,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -37,6 +36,7 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PolygonBuilder;
 import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -492,13 +492,13 @@ public class RenderMultilayerSymbolsSample extends Application {
 
     // create labels for each category of marker/symbol
     Graphic textGraphicForMarkers = new Graphic(new Point(-150, 50, SpatialReferences.getWgs84()),
-      getTextSymbol("MultilayerPoint\nsimple markers"));
+      getTextSymbol("MultilayerPoint\nSimple Markers"));
 
     Graphic textGraphicForPictureMarkers = new Graphic(new Point(-80, 50, SpatialReferences.getWgs84()),
-      getTextSymbol("MultilayerPoint\npicture markers"));
+      getTextSymbol("MultilayerPoint\nPicture Markers"));
 
     Graphic textGraphicForLineSymbols = new Graphic(new Point(0, 50, SpatialReferences.getWgs84()),
-      getTextSymbol("Multilayer\npolyline"));
+      getTextSymbol("Multilayer\nPolyline"));
 
     Graphic textGraphicForFillSymbols = new Graphic(new Point(65, 50, SpatialReferences.getWgs84()),
       getTextSymbol("Multilayer\nPolygon"));
