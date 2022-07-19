@@ -19,7 +19,6 @@ package com.esri.samples.render_multilayer_symbols;
 import java.util.List;
 import java.util.Objects;
 
-import com.esri.arcgisruntime.symbology.MultilayerSymbol;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -47,20 +46,21 @@ import com.esri.arcgisruntime.symbology.HatchFillSymbolLayer;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
 import com.esri.arcgisruntime.symbology.MultilayerPolygonSymbol;
 import com.esri.arcgisruntime.symbology.MultilayerPolylineSymbol;
+import com.esri.arcgisruntime.symbology.MultilayerSymbol;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbolLayer;
 import com.esri.arcgisruntime.symbology.SolidFillSymbolLayer;
 import com.esri.arcgisruntime.symbology.SolidStrokeSymbolLayer;
 import com.esri.arcgisruntime.symbology.StrokeSymbolLayer;
 import com.esri.arcgisruntime.symbology.SymbolAnchor;
+import com.esri.arcgisruntime.symbology.SymbolLayer;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 import com.esri.arcgisruntime.symbology.VectorMarkerSymbolElement;
 import com.esri.arcgisruntime.symbology.VectorMarkerSymbolLayer;
 
 public class RenderMultilayerSymbolsSample extends Application {
 
-  private GraphicsOverlay graphicsOverlay; // TODO: I've made this a member variable for readability
+  private GraphicsOverlay graphicsOverlay;
   private MapView mapView;
-  private final double offset = 20; //used to keep a consistent distance between symbols in the same column
 
   @Override
   public void start(Stage stage) {
@@ -91,6 +91,12 @@ public class RenderMultilayerSymbolsSample extends Application {
       // create a graphics overlay and add it to the map view
       graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
+
+      // define offset used to keep a consistent distance between symbols in the same column
+      double offset = 20;
+
+      // create labels to go above each category of graphic
+      addTextGraphics();
       
       // create picture marker symbols, from URI or embedded resources
       PictureMarkerSymbolLayer pictureMarkerFromUri = new PictureMarkerSymbolLayer((
@@ -101,6 +107,7 @@ public class RenderMultilayerSymbolsSample extends Application {
       PictureMarkerSymbolLayer pictureMarkerFromImage = new PictureMarkerSymbolLayer(
         new Image(Objects.requireNonNull(getClass().getResourceAsStream("/blue_pin.png")), 
           0, 50, true, true));
+
       addGraphicFromPictureMarkerSymbolLayer(pictureMarkerFromImage, offset);
 
       // add graphics with simple vector marker symbol elements (MultilayerPoint Simple Markers on app UI)
@@ -116,24 +123,28 @@ public class RenderMultilayerSymbolsSample extends Application {
       var crossGeometry = Geometry.fromJson("{\"paths\":[[[-1,1],[0,0],[1,-1]],[[1,1],[0,0],[-1,-1]]]}");
       
       addGraphicsWithVectorMarkerSymbolElements(multilayerPolygonSymbol, diamondGeometry, 0);
-      addGraphicsWithVectorMarkerSymbolElements(multilayerPolygonSymbol, triangleGeometry, 20);
-      addGraphicsWithVectorMarkerSymbolElements(multilayerPolylineSymbol, crossGeometry, (int)(2 * offset));
+      addGraphicsWithVectorMarkerSymbolElements(multilayerPolygonSymbol, triangleGeometry, offset);
+      addGraphicsWithVectorMarkerSymbolElements(multilayerPolylineSymbol, crossGeometry, 2 * offset);
       
       // TODO: see if it's possible to cut down the lines of code as I've demonstrated above for the remaining methods!
-      
-      // create labels to go above each category of graphic
-      addTextGraphics(graphicsOverlay);
 
       // create line marker symbols
-      addLineGraphicsWithMarkerSymbols(graphicsOverlay);
+      addLineGraphicsWithMarkerSymbols(List.of(4.0, 6.0, 0.5, 6.0, 0.5, 6.0), 0);
+      addLineGraphicsWithMarkerSymbols(List.of(4.0, 6.0), offset);
+      addLineGraphicsWithMarkerSymbols(List.of(7.0, 9.0, 0.5, 9.0), 2 * offset);
 
       // create polygon marker symbols
-      addPolygonGraphicsWithMarkerSymbols(graphicsOverlay);
+      addPolygonGraphicsWithMarkerSymbols(List.of(-45.0,45.0),0);
+      addPolygonGraphicsWithMarkerSymbols(List.of(-45.0), offset);
+      addPolygonGraphicsWithMarkerSymbols(List.of(90.0), 2 * offset);
+
+      // define vector element for a hexagon which will be used as the basis of a complex point
+      var complexPointGeometry = Geometry.fromJson("{\"rings\":[[[-2.89,5.0],[2.89,5.0],[5.77,0.0],[2.89,-5.0],[-2.89,-5.0],[-5.77,0.0],[-2.89,5.0]]]}");
 
       // create the more complex multilayer graphics: a point, polygon, and polyline
-      addComplexPoint(graphicsOverlay);
-      addComplexPolygon(graphicsOverlay);
-      addComplexPolyline(graphicsOverlay);
+      addComplexPoint(complexPointGeometry);
+      addComplexPolygon();
+      addComplexPolyline();
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView);
@@ -141,6 +152,45 @@ public class RenderMultilayerSymbolsSample extends Application {
       // on any error, display the stack trace.
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Creates the label graphics to be displayed above each category of symbol,
+   * and adds them to the graphics overlay.
+   */
+  private void addTextGraphics() {
+    graphicsOverlay.getGraphics().addAll(
+      List.of(
+        new Graphic(new Point(-150, 50, SpatialReferences.getWgs84()),
+          getTextSymbol("MultilayerPoint\nSimple Markers")),
+        new Graphic(new Point(-80, 50, SpatialReferences.getWgs84()),
+          getTextSymbol("MultilayerPoint\nPicture Markers")),
+        new Graphic(new Point(0, 50, SpatialReferences.getWgs84()),
+          getTextSymbol("Multilayer\nPolyline")),
+        new Graphic(new Point(65, 50, SpatialReferences.getWgs84()),
+          getTextSymbol("Multilayer\nPolygon")),
+        new Graphic(new Point(130, 50, SpatialReferences.getWgs84()),
+          getTextSymbol("Multilayer\nComplex Symbols"))));
+  }
+
+  /**
+   * Creates a text symbol with the provided text and consistent styling.
+   *
+   * @param text text to be displayed by the text symbol
+   * @return the constructed text symbol
+   */
+  private TextSymbol getTextSymbol(String text) {
+    var textSymbol = new TextSymbol(
+      20,
+      text,
+      ColorUtil.colorToArgb(Color.BLACK),
+      TextSymbol.HorizontalAlignment.CENTER,
+      TextSymbol.VerticalAlignment.MIDDLE
+    );
+
+    // give the text symbol a white background
+    textSymbol.setBackgroundColor(ColorUtil.colorToArgb(Color.WHITE));
+    return textSymbol;
   }
 
   /**
@@ -155,6 +205,7 @@ public class RenderMultilayerSymbolsSample extends Application {
     // wait for the picture marker symbol layer to load and check it has loaded
     pictureMarkerSymbolLayer.addDoneLoadingListener(() -> {
       if (pictureMarkerSymbolLayer.getLoadStatus() == LoadStatus.LOADED) {
+
         // set the size of the layer and create a new multilayer point symbol from it
         pictureMarkerSymbolLayer.setSize(40);
         var multilayerPointSymbol = new MultilayerPointSymbol(List.of(pictureMarkerSymbolLayer));
@@ -175,13 +226,13 @@ public class RenderMultilayerSymbolsSample extends Application {
   }
 
   /**
-   * Adds a new graphic constructed from a multilayer point symbol.
+   * Adds new graphics constructed from multilayer point symbols.
    * 
    * @param multilayerSymbol the multilayer symbol to construct the vector marker symbol element with
    * @param geometry the input geometry for the vector marker symbol element
    * @param offset the value used to keep a consistent distance between symbols in the same column
    */
-  private void addGraphicsWithVectorMarkerSymbolElements(MultilayerSymbol multilayerSymbol, Geometry geometry, int offset) {
+  private void addGraphicsWithVectorMarkerSymbolElements(MultilayerSymbol multilayerSymbol, Geometry geometry, double offset) {
     
     // define a vector element and create a new multilayer point symbol from it
     var vectorMarkerSymbolElement = new VectorMarkerSymbolElement(geometry, multilayerSymbol);
@@ -194,262 +245,151 @@ public class RenderMultilayerSymbolsSample extends Application {
     
   }
 
-  private void addLineGraphicsWithMarkerSymbols(GraphicsOverlay graphicsOverlay) {
-    Graphic lineGraphic;
+  /**
+   * Adds new graphics constructed from multilayer polyline symbols.
+   *
+   * @param dashSpacing The pattern of dots/dashes used by the line.
+   * @param offset The value used to keep a consistent distance between symbols in the same column.
+   */
+  private void addLineGraphicsWithMarkerSymbols(List<Double> dashSpacing, double offset) {
 
-    // multilayer polyline symbol for different line styles
-    MultilayerPolylineSymbol lineSymbol;
-
-    // create a dash effect similar to SimpleLineSymbolStyle.SHORTDASHDOTDOT
-    var dashGeometricEffect = new DashGeometricEffect(List.of(4.0, 6.0, 0.5, 6.0, 0.5, 6.0));
+    // create a dash effect from the provided values
+    var dashGeometricEffect = new DashGeometricEffect(dashSpacing);
 
     // stroke used by line symbols
-    SolidStrokeSymbolLayer strokeLayer = new SolidStrokeSymbolLayer(3.0, ColorUtil.colorToArgb(Color.RED),
-      List.of(dashGeometricEffect));
-    strokeLayer.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
+    var solidStrokeSymbolLayer = new SolidStrokeSymbolLayer(3.0, ColorUtil.colorToArgb(Color.RED), List.of(dashGeometricEffect));
+    solidStrokeSymbolLayer.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
 
     // create a polyline for the multilayer polyline symbol
     var polylineBuilder = new PolylineBuilder(SpatialReferences.getWgs84());
-    polylineBuilder.addPoint(new Point(-30, 20));
-    polylineBuilder.addPoint(new Point(30, 20));
+    polylineBuilder.addPoint(new Point(-30, 20-offset));
+    polylineBuilder.addPoint(new Point(30, 20-offset));
 
-    lineSymbol = new MultilayerPolylineSymbol(List.of(strokeLayer));
+    // create a multilayer polyline symbol from the solidStrokeSymbolLayer
+    var multilayerPolylineSymbol = new MultilayerPolylineSymbol(List.of(solidStrokeSymbolLayer));
 
-    // create a polyline graphic with geometry using the symbol created above
-    lineGraphic = new Graphic(polylineBuilder.toGeometry(), lineSymbol);
-    graphicsOverlay.getGraphics().add(lineGraphic);
-
-
-    polylineBuilder = new PolylineBuilder(SpatialReferences.getWgs84());
-    polylineBuilder.addPoint(new Point(-30, 20 - offset));
-    polylineBuilder.addPoint(new Point(30, 20 - offset));
-
-    // create a dash effect similar to SimpleLineSymbolStyle.SHORTDASH
-    dashGeometricEffect = new DashGeometricEffect(List.of(4.0, 6.0));
-    strokeLayer = new SolidStrokeSymbolLayer(3.0, ColorUtil.colorToArgb(Color.RED), List.of(dashGeometricEffect));
-
-    lineSymbol = new MultilayerPolylineSymbol(List.of(strokeLayer));
-
-    // create a polyline graphic with geometry using the symbol created above
-    lineGraphic = new Graphic(polylineBuilder.toGeometry(), lineSymbol);
-    graphicsOverlay.getGraphics().add(lineGraphic);
-
-
-    polylineBuilder = new PolylineBuilder(SpatialReferences.getWgs84());
-    polylineBuilder.addPoint(new Point(-30, 20 - 2 * offset));
-    polylineBuilder.addPoint(new Point(30, 20 - 2 * offset));
-
-    // create a dash effect similar to SimpleLineSymbolStyle.DASHDOTDOT
-    dashGeometricEffect = new DashGeometricEffect(List.of(7.0, 9.0, 0.5, 9.0));
-    strokeLayer = new SolidStrokeSymbolLayer(3.0, ColorUtil.colorToArgb(Color.RED), List.of(dashGeometricEffect));
-    strokeLayer.getGeometricEffects().add(dashGeometricEffect);
-
-    lineSymbol = new MultilayerPolylineSymbol(List.of(strokeLayer));
-
-    // create a polyline graphic with geometry using the symbol created above
-    lineGraphic = new Graphic(polylineBuilder.toGeometry(), lineSymbol);
-    graphicsOverlay.getGraphics().add(lineGraphic);
+    // create a polyline graphic with geometry using the symbol created above, and add it to the graphics overlay
+    graphicsOverlay.getGraphics().add(new Graphic(polylineBuilder.toGeometry(), multilayerPolylineSymbol));
   }
 
-  private void addPolygonGraphicsWithMarkerSymbols(GraphicsOverlay graphicsOverlay) {
+  /**
+   * Adds new graphics constructed from multilayer polygon symbols.
+   *
+   * @param angles A list containing the angle at which to draw any fill lines within the polygon.
+   * @param offset The value used to keep a consistent distance between symbols in the same column.
+   */
+  private void addPolygonGraphicsWithMarkerSymbols(List<Double> angles, double offset) {
     var polygonBuilder = new PolygonBuilder(SpatialReferences.getWgs84());
-    polygonBuilder.addPoint(new Point(60, 25));
-    polygonBuilder.addPoint(new Point(70, 25));
-    polygonBuilder.addPoint(new Point(70, 20));
-    polygonBuilder.addPoint(new Point(60, 20));
+    polygonBuilder.addPoint(new Point(60, 25-offset));
+    polygonBuilder.addPoint(new Point(70, 25-offset));
+    polygonBuilder.addPoint(new Point(70, 20-offset));
+    polygonBuilder.addPoint(new Point(60, 20-offset));
 
-    // create a stroke symbol layer to be used by hatch patterns
+    // create a stroke symbol layer to be used by patterns
     SolidStrokeSymbolLayer strokeForHatches = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(Color.RED),
       List.of(new DashGeometricEffect()));
 
-    // create a stroke symbol layer to be used as an outline for aforementioned hatch patterns
+    // create a stroke symbol layer to be used as an outline for aforementioned patterns
     SolidStrokeSymbolLayer strokeForOutline = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.BLACK),
       List.of(new DashGeometricEffect()));
 
-    // create a diagonal cross pattern hatch symbol layers for diagonal cross fill style
-    HatchFillSymbolLayer diagonalStroke1 =
-      new HatchFillSymbolLayer(new MultilayerPolylineSymbol(List.of(strokeForHatches)), 45);
-    HatchFillSymbolLayer diagonalStroke2 =
-      new HatchFillSymbolLayer(new MultilayerPolylineSymbol(List.of(strokeForHatches)), -45);
+    var symbolLayerArray = new SymbolLayer[angles.size() + 1];
+    for (int i = 0; i < angles.size(); i++) {
+      var hatchFillSymbolLayer = new HatchFillSymbolLayer(new MultilayerPolylineSymbol(List.of(strokeForHatches)), angles.get(i));
 
-    // define separation distance for lines in a hatch pattern
-    diagonalStroke1.setSeparation(9);
-    diagonalStroke2.setSeparation(9);
-
+      // define separation distance for lines and add them to the symbol layer list
+      hatchFillSymbolLayer.setSeparation(9);
+      symbolLayerArray[i] = hatchFillSymbolLayer;
+    }
+    symbolLayerArray[symbolLayerArray.length - 1] = strokeForOutline;
     // create a multilayer polygon symbol with symbol layers
-    MultilayerPolygonSymbol diagonalCrossPolygonSymbol = new MultilayerPolygonSymbol(
-      List.of(diagonalStroke1, diagonalStroke2, strokeForOutline)
-    );
+    var multilayerPolygonSymbol = new MultilayerPolygonSymbol(List.of(symbolLayerArray));
 
     // create a polygon graphic with geometry using the symbol created above, and add it to the graphics overlay
-    Graphic diagonalCrossGraphic = new Graphic(polygonBuilder.toGeometry(), diagonalCrossPolygonSymbol);
-    graphicsOverlay.getGraphics().add(diagonalCrossGraphic);
-
-
-    polygonBuilder = new PolygonBuilder(SpatialReferences.getWgs84());
-    polygonBuilder.addPoint(new Point(60, 25 - offset));
-    polygonBuilder.addPoint(new Point(70, 25 - offset));
-    polygonBuilder.addPoint(new Point(70, 20 - offset));
-    polygonBuilder.addPoint(new Point(60, 20 - offset));
-
-    // create a forward diagonal pattern hatch symbol layer for forward diagonal fill style
-    HatchFillSymbolLayer forwardDiagonal =
-      new HatchFillSymbolLayer(new MultilayerPolylineSymbol(List.of(strokeForHatches)), -45);
-
-    // define separation distance for lines in a hatch pattern
-    forwardDiagonal.setSeparation(9);
-
-    // create a multilayer polygon symbol with symbol layers
-    MultilayerPointSymbol forwardDiagonalPolySymbol = new MultilayerPointSymbol(
-      List.of(forwardDiagonal, strokeForOutline)
-    );
-
-    // create a polygon graphic with geometry using the symbol created above
-    Graphic forwardDiagonalGraphic = new Graphic(polygonBuilder.toGeometry(), forwardDiagonalPolySymbol);
-    graphicsOverlay.getGraphics().add(forwardDiagonalGraphic);
-
-    polygonBuilder = new PolygonBuilder(SpatialReferences.getWgs84());
-    polygonBuilder.addPoint(new Point(60, 25 - 2 * offset));
-    polygonBuilder.addPoint(new Point(70, 25 - 2 * offset));
-    polygonBuilder.addPoint(new Point(70, 20 - 2 * offset));
-    polygonBuilder.addPoint(new Point(60, 20 - 2 * offset));
-
-    // create a vertical pattern hatch symbol layer for vertical fill style
-    HatchFillSymbolLayer vertical = new HatchFillSymbolLayer(new MultilayerPolylineSymbol(List.of(strokeForHatches)),
-      90);
-
-    // define separation distance for lines in a hatch pattern
-    vertical.setSeparation(9);
-
-    // create a multilayer polygon symbol with symbol layers
-    MultilayerPolygonSymbol verticalPolygonSymbol = new MultilayerPolygonSymbol(List.of(vertical, strokeForOutline));
-
-    // create a polygon graphic with geometry using the symbol created above
-    Graphic verticalPolygonGraphic = new Graphic(polygonBuilder.toGeometry(), verticalPolygonSymbol);
-    graphicsOverlay.getGraphics().add(verticalPolygonGraphic);
+    var graphic = new Graphic(polygonBuilder.toGeometry(), multilayerPolygonSymbol);
+    graphicsOverlay.getGraphics().add(graphic);
   }
 
-  private void addComplexPoint(GraphicsOverlay graphicsOverlay) {
+  /**
+   * Creates a complex point from multiple symbol layers and a provided geometry.
+   * @param complexPointGeometry A base geometry upon which other symbol layers are drawn.
+   */
+  private void addComplexPoint(Geometry complexPointGeometry) {
+    // create marker layers for complex point
+    var orangeSquareVectorMarkerLayer = getLayerForComplexPoint(Color.ORANGE, Color.BLUE, 11);
+    var blackSquareVectorMarkerLayer = getLayerForComplexPoint(Color.BLACK, Color.ORANGERED, 6);
+    var purpleSquareVectorMarkerLayer = getLayerForComplexPoint(Color.TRANSPARENT, Color.PURPLE, 14);
 
-    // create an orange envelope with a blue outline
-    SolidFillSymbolLayer orangeFillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.ORANGE));
-    SolidStrokeSymbolLayer blueOutline = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(Color.BLUE),
-      List.of(new DashGeometricEffect()));
-    Envelope orangeSquareGeometry = new Envelope(
-      new Point(-0.5, -0.5, SpatialReferences.getWgs84()),
-      new Point(0.5, 0.5, SpatialReferences.getWgs84())
-    );
-    VectorMarkerSymbolElement orangeSquareVectorElement = new VectorMarkerSymbolElement(orangeSquareGeometry,
-      new MultilayerPolygonSymbol(List.of(orangeFillLayer, blueOutline)));
-    VectorMarkerSymbolLayer orangeSquareVectorMarkerLayer =
-      new VectorMarkerSymbolLayer(List.of(orangeSquareVectorElement));
-    orangeSquareVectorMarkerLayer.setSize(11);
+    // set anchors for marker layers
     orangeSquareVectorMarkerLayer.setAnchor(new SymbolAnchor(-4, -6, SymbolAnchor.PlacementMode.ABSOLUTE));
-
-    // create a black envelope with an orange-red outline
-    SolidFillSymbolLayer blackFillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.BLACK));
-    SolidStrokeSymbolLayer orangeOutline = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(Color.ORANGERED),
-      List.of(new DashGeometricEffect()));
-    Envelope blackSquareGeometry = new Envelope(
-      new Point(-0.5, -0.5, SpatialReferences.getWgs84()),
-      new Point(0.5, 0.5, SpatialReferences.getWgs84())
-    );
-    VectorMarkerSymbolElement blackSquareVectorElement = new VectorMarkerSymbolElement(blackSquareGeometry,
-      new MultilayerPolygonSymbol(List.of(blackFillLayer, orangeOutline)));
-    VectorMarkerSymbolLayer blackSquareVectorMarkerLayer =
-      new VectorMarkerSymbolLayer(List.of(blackSquareVectorElement));
-    blackSquareVectorMarkerLayer.setSize(6);
     blackSquareVectorMarkerLayer.setAnchor(new SymbolAnchor(2, 1, SymbolAnchor.PlacementMode.ABSOLUTE));
-
-    // create a transparent envelope with a purple outline
-    SolidFillSymbolLayer transparentFillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.TRANSPARENT));
-    SolidStrokeSymbolLayer purpleOutline = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(Color.PURPLE),
-      List.of(new DashGeometricEffect()));
-    Envelope purpleSquareGeometry = new Envelope(
-      new Point(-0.5, -0.5, SpatialReferences.getWgs84()),
-      new Point(0.5, 0.5, SpatialReferences.getWgs84())
-    );
-    VectorMarkerSymbolElement purpleSquareVectorElement = new VectorMarkerSymbolElement(purpleSquareGeometry,
-      new MultilayerPolygonSymbol(List.of(transparentFillLayer, purpleOutline)));
-    VectorMarkerSymbolLayer purpleSquareVectorMarkerLayer =
-      new VectorMarkerSymbolLayer(List.of(purpleSquareVectorElement));
-    purpleSquareVectorMarkerLayer.setSize(14);
     purpleSquareVectorMarkerLayer.setAnchor(new SymbolAnchor(4, 2, SymbolAnchor.PlacementMode.ABSOLUTE));
 
     // create a yellow hexagon with a black outline
-    Geometry hexagonElementGeometry = Geometry.fromJson(
-      "{\"rings\":[[[-2.89,5.0],[2.89,5.0],[5.77,0.0],[2.89,-5.0]," + "[-2.89,-5.0],[-5.77,0.0],[-2.89,5.0]]]}");
     SolidFillSymbolLayer yellowFillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.YELLOW));
     SolidStrokeSymbolLayer blackOutline = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(Color.BLACK),
       List.of(new DashGeometricEffect()));
-    VectorMarkerSymbolElement hexagonVectorElement = new VectorMarkerSymbolElement(hexagonElementGeometry,
+    VectorMarkerSymbolElement hexagonVectorElement = new VectorMarkerSymbolElement(complexPointGeometry,
       new MultilayerPolylineSymbol(List.of(yellowFillLayer, blackOutline)));
     VectorMarkerSymbolLayer hexagonVectorMarkerLayer = new VectorMarkerSymbolLayer(List.of(hexagonVectorElement));
     hexagonVectorMarkerLayer.setSize(35);
 
     // create the multilayer point symbol
-    var multilayerPointSymbol = new MultilayerPointSymbol(
-      List.of(hexagonVectorMarkerLayer,
-        orangeSquareVectorMarkerLayer,
-        blackSquareVectorMarkerLayer,
-        purpleSquareVectorMarkerLayer));
+    var multilayerPointSymbol = new MultilayerPointSymbol(List.of(
+      hexagonVectorMarkerLayer,
+      orangeSquareVectorMarkerLayer,
+      blackSquareVectorMarkerLayer,
+      purpleSquareVectorMarkerLayer
+    ));
 
     // create the multilayer point graphic using the symbols created above
     Graphic complexPointGraphic = new Graphic(new Point(130, 20, SpatialReferences.getWgs84()), multilayerPointSymbol);
     graphicsOverlay.getGraphics().add(complexPointGraphic);
   }
 
-  private void addComplexPolyline(GraphicsOverlay graphicsOverlay) {
-
-    // symbol layers for multilayer polyline
-    SolidStrokeSymbolLayer blackDashes = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.BLACK),
-      List.of(new DashGeometricEffect(List.of(5.0, 3.0))));
-    blackDashes.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
-
-    // create the yellow stroke inside
-    SolidStrokeSymbolLayer yellowStroke = new SolidStrokeSymbolLayer(5, ColorUtil.colorToArgb(Color.YELLOW),
+  /**
+   * Creates a symbol layer for use in the composition of a complex point.
+   *
+   * @param fillColor Fill colour of the symbol
+   * @param outlineColor Outline colour of the symbol
+   * @param size size of the symbol
+   * @return something idk
+   */
+  private VectorMarkerSymbolLayer getLayerForComplexPoint(Color fillColor, Color outlineColor, double size){
+    SolidFillSymbolLayer fillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(fillColor));
+    SolidStrokeSymbolLayer outline = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(outlineColor),
       List.of(new DashGeometricEffect()));
-    yellowStroke.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
+    var geometry =  new Envelope(new Point(-0.5, -0.5, SpatialReferences.getWgs84()),
+      new Point(0.5, 0.5, SpatialReferences.getWgs84()));
+    var vectorMarkerSymbolElement = new VectorMarkerSymbolElement(geometry,
+      new MultilayerPolygonSymbol(List.of(fillLayer, outline)));
+    var vectorMarkerSymbolLayer = new VectorMarkerSymbolLayer(List.of(vectorMarkerSymbolElement));
+    vectorMarkerSymbolLayer.setSize(size);
+    return vectorMarkerSymbolLayer;
+  }
 
-    // create the black outline
-    SolidStrokeSymbolLayer blackOutline = new SolidStrokeSymbolLayer(7, ColorUtil.colorToArgb(Color.BLACK),
-      List.of(new DashGeometricEffect()));
-    blackOutline.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
+  /**
+   * Adds a complex polyline generated with multiple symbol layers.
+   */
+  private void addComplexPolyline() {
 
     // create the multilayer polyline symbol
-    var multilayerPolylineSymbol = new MultilayerPolylineSymbol(List.of(blackOutline, yellowStroke, blackDashes));
+    var multilayerPolylineSymbol = new MultilayerPolylineSymbol(getLayersForComplexPolys(false));
     PolylineBuilder polylineBuilder = new PolylineBuilder(SpatialReferences.getWgs84());
     polylineBuilder.addPoint(new Point(120, -25));
     polylineBuilder.addPoint(new Point(140, -25));
 
-    // create the multilayer polyline graphic with geometry using the symbols created above
-    Graphic complexLineGraphic = new Graphic(polylineBuilder.toGeometry(), multilayerPolylineSymbol);
-    graphicsOverlay.getGraphics().add(complexLineGraphic);
+    // create the multilayer polyline graphic with geometry using the symbols created above and add it to the graphics overlay
+    graphicsOverlay.getGraphics().add(new Graphic(polylineBuilder.toGeometry(), multilayerPolylineSymbol));
   }
 
-  private void addComplexPolygon(GraphicsOverlay graphicsOverlay) {
-
-    // create the black outline
-    SolidStrokeSymbolLayer blackOutline = new SolidStrokeSymbolLayer(7, ColorUtil.colorToArgb(Color.BLACK),
-      List.of(new DashGeometricEffect()));
-    blackOutline.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
-
-    // create the yellow stroke inside
-    SolidStrokeSymbolLayer yellowStroke = new SolidStrokeSymbolLayer(5, ColorUtil.colorToArgb(Color.YELLOW),
-      List.of(new DashGeometricEffect()));
-    yellowStroke.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
-
-    // symbol layers for multilayer polyline
-    SolidStrokeSymbolLayer blackDashes = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.BLACK),
-      List.of(new DashGeometricEffect(List.of(5.0, 3.0))));
-    blackDashes.setCapStyle(StrokeSymbolLayer.CapStyle.SQUARE);
-
-    // create a red filling for the polygon
-    SolidFillSymbolLayer redFillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.RED));
+  /**
+   * Adds a complex polygon generated with multiple symbol layers.
+   */
+  private void addComplexPolygon() {
 
     // create the multilayer polygon symbol
-    var multilayerPolygonSymbol = new MultilayerPolygonSymbol(List.of(redFillLayer, blackOutline, yellowStroke,
-      blackDashes));
+    var multilayerPolygonSymbol = new MultilayerPolygonSymbol(getLayersForComplexPolys(true));
 
     // create the polygon
     var polygonBuilder = new PolygonBuilder(SpatialReferences.getWgs84());
@@ -460,52 +400,39 @@ public class RenderMultilayerSymbolsSample extends Application {
 
     // create a multilayer polygon graphic with geometry using the symbols created above and add it to the graphics 
     // overlay
-    var complexPolygonGraphic = new Graphic(polygonBuilder.toGeometry(), multilayerPolygonSymbol);
-    graphicsOverlay.getGraphics().add(complexPolygonGraphic);
+    graphicsOverlay.getGraphics().add(new Graphic(polygonBuilder.toGeometry(), multilayerPolygonSymbol));
 
   }
 
-  private void addTextGraphics(GraphicsOverlay overlay) {
+  /**
+   * Generates and returns the symbol layers used by the addComplexPolygon and addComplexPolyline methods.
+   *
+   * @param includeRedFill Boolean indicating whether to include the red fill needed by the complex polygon.
+   * @return A list of symbol layers including the necessary effects.
+   */
+  private List<SymbolLayer> getLayersForComplexPolys(boolean includeRedFill){
+    // create a black dash effect
+    SolidStrokeSymbolLayer blackDashes = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.BLACK),
+      List.of(new DashGeometricEffect(List.of(5.0, 3.0))));
+    blackDashes.setCapStyle(StrokeSymbolLayer.CapStyle.SQUARE);
 
-    // create labels for each category of marker/symbol
-    Graphic textGraphicForMarkers = new Graphic(new Point(-150, 50, SpatialReferences.getWgs84()),
-      getTextSymbol("MultilayerPoint\nSimple Markers"));
+    // create a black outline
+    SolidStrokeSymbolLayer blackOutline = new SolidStrokeSymbolLayer(7, ColorUtil.colorToArgb(Color.BLACK),
+      List.of(new DashGeometricEffect()));
+    blackOutline.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
 
-    Graphic textGraphicForPictureMarkers = new Graphic(new Point(-80, 50, SpatialReferences.getWgs84()),
-      getTextSymbol("MultilayerPoint\nPicture Markers"));
+    // create a yellow stroke inside
+    SolidStrokeSymbolLayer yellowStroke = new SolidStrokeSymbolLayer(5, ColorUtil.colorToArgb(Color.YELLOW),
+      List.of(new DashGeometricEffect()));
+    yellowStroke.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
 
-    Graphic textGraphicForLineSymbols = new Graphic(new Point(0, 50, SpatialReferences.getWgs84()),
-      getTextSymbol("Multilayer\nPolyline"));
-
-    Graphic textGraphicForFillSymbols = new Graphic(new Point(65, 50, SpatialReferences.getWgs84()),
-      getTextSymbol("Multilayer\nPolygon"));
-
-    Graphic textGraphicForComplexSymbols = new Graphic(new Point(130, 50, SpatialReferences.getWgs84()),
-      getTextSymbol("Multilayer\nPolygon"));
-
-    // add all graphics to the graphics overlay
-    overlay.getGraphics().addAll(
-      List.of(
-        textGraphicForMarkers,
-        textGraphicForPictureMarkers,
-        textGraphicForLineSymbols,
-        textGraphicForFillSymbols,
-        textGraphicForComplexSymbols));
-  }
-
-  private TextSymbol getTextSymbol(String text) {
-    // create a text symbol with the provided text and consistent style
-    var textSymbol = new TextSymbol(
-      20,
-      text,
-      ColorUtil.colorToArgb(Color.BLACK),
-      TextSymbol.HorizontalAlignment.CENTER,
-      TextSymbol.VerticalAlignment.MIDDLE
-    );
-
-    // give the text symbol a white background
-    textSymbol.setBackgroundColor(ColorUtil.colorToArgb(Color.WHITE));
-    return textSymbol;
+    if (includeRedFill) {
+      // create a red filling for the polygon
+      SolidFillSymbolLayer redFillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.RED));
+      return List.of(redFillLayer, blackOutline, yellowStroke, blackDashes);
+    } else {
+      return List.of(blackOutline, yellowStroke, blackDashes);
+    }
   }
 
   /**
