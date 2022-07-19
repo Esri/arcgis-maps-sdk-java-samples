@@ -81,11 +81,9 @@ public class AddFeaturesWithContingentValuesController {
   @FXML
   private MapView mapView;
   @FXML
-  private ComboBox<String> statusComboBox;
+  private ComboBox<CodedValue> statusComboBox;
   @FXML
-  private ComboBox<String> protectionComboBox;
-  @FXML
-  private Label bufferLimitLabel;
+  private ComboBox<CodedValue> protectionComboBox;
   @FXML
   private Slider bufferSlider;
   @FXML
@@ -113,6 +111,12 @@ public class AddFeaturesWithContingentValuesController {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
+      // display the name of the coded values in the attribute combo boxes
+      protectionComboBox.setButtonCell(new CodedValueListCell());
+      protectionComboBox.setCellFactory(c -> new CodedValueListCell());
+      statusComboBox.setButtonCell(new CodedValueListCell());
+      statusComboBox.setCellFactory(c -> new CodedValueListCell());
+
       // create a new vector tile package from a vector tile package path
       var vectorTiledLayer = new ArcGISVectorTiledLayer(new File(System.getProperty("data.dir"), "./samples-data" +
         "/FillmoreTopographicMap.vtpk").getAbsolutePath());
@@ -135,7 +139,7 @@ public class AddFeaturesWithContingentValuesController {
       var symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, ColorUtil.colorToArgb(Color.BLACK), 11);
       graphic.setSymbol(symbol);
       graphicsOverlay.getGraphics().add(graphic);
-      
+
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       geodatabase = new Geodatabase(new File(System.getProperty("data.dir"),
@@ -169,7 +173,7 @@ public class AddFeaturesWithContingentValuesController {
                   mapView.setDisable(false);
                 }
               });
-              
+
             } else if (geodatabase.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
               new Alert(Alert.AlertType.ERROR, "Geodatabase failed to load").show();
             }
@@ -181,7 +185,7 @@ public class AddFeaturesWithContingentValuesController {
       });
       // load the geodatabase
       geodatabase.loadAsync();
-      
+
       // set up mouse clicked listener
       mapView.setOnMouseClicked(event -> {
 
@@ -195,7 +199,6 @@ public class AddFeaturesWithContingentValuesController {
           Point mapPoint = mapView.screenToLocation(point);
           // get the normalized geometry for the clicked location and use it as the feature's geometry
           Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
-          
 
           newFeature.setGeometry(normalizedMapPoint);
           graphic.setGeometry(newFeature.getGeometry());
@@ -209,7 +212,7 @@ public class AddFeaturesWithContingentValuesController {
       e.printStackTrace();
     }
   }
-  
+
   private void getAndLoadContingentDefinitionAndSetStatus() {
     // get and load the table's contingent values definition. this must be loaded after the table has loaded
     definition = geodatabaseFeatureTable.getContingentValuesDefinition();
@@ -217,7 +220,7 @@ public class AddFeaturesWithContingentValuesController {
     definition.addDoneLoadingListener(() -> {
 
       vBox.setDisable(false);
-      
+
       // check the contingent values definition has field groups (if the list is empty, there are no 
       // contingent values defined for this table
       if (definition.getLoadStatus() == LoadStatus.LOADED && !definition.getFieldGroups().isEmpty()) {
@@ -228,18 +231,17 @@ public class AddFeaturesWithContingentValuesController {
         // printing out the possible values for status
         for (CodedValue codedValue : statusCodedValueDomain.getCodedValues()) {
           // requires some mapping of object code back to string
-          statusComboBox.getItems().add(codedValue.getCode().toString());
+          statusComboBox.getItems().add(codedValue);
         }
-        
+
         if (statusComboBox.getItems().size() == statusCodedValueDomain.getCodedValues().size()) {
           statusComboBox.getSelectionModel().selectFirst();
         }
-        
+
       }
     });
     definition.loadAsync();
   }
-  
 
 
 //  private void loadContingentDefinition() {
@@ -306,87 +308,66 @@ public class AddFeaturesWithContingentValuesController {
 //  }
 
   /**
-   * Handles protection combobox selection
+   * Handles interaction with the protection combo box.
    */
   @FXML
-  private void handleProtectionCombobox() {
+  private void handleProtectionComboBox() {
 
-    bufferSlider.setDisable(false);
-    bufferSlider.setValue(0);
-    if (!protectionComboBox.getItems().isEmpty()) {
-      newFeature.getAttributes().put("Protection", protectionComboBox.getSelectionModel().getSelectedItem());
+    // put the value chosen from the protection combobox as the attribute for the new feature
+    newFeature.getAttributes().put("Protection", protectionComboBox.getSelectionModel().getSelectedItem().getCode());
 
-      // handle buffer contingent value
-      var valuesResult = geodatabaseFeatureTable.getContingentValues(newFeature, "BufferSize");
-      System.out.println("After contingent values: " + newFeature.getAttributes().values());
+    // get contingent values for the buffer size field
+    ContingentValuesResult bufferContingentValues = geodatabaseFeatureTable.getContingentValues(newFeature, "BufferSize");
+    // get contingent range values for the buffer size field group
+    ContingentRangeValue bufferRangeValue = (ContingentRangeValue) bufferContingentValues.getContingentValuesByFieldGroup()
+      .get("BufferSizeFieldGroup").get(0);
 
-      var bufferRangeValues = (ContingentRangeValue) valuesResult.getContingentValuesByFieldGroup().get("BufferSizeFieldGroup").get(0);
-      
-      var minValue = (int) bufferRangeValues.getMinValue();
-      var maxValue = (int) bufferRangeValues.getMaxValue();
-      // check if there can be a maximum value, if not disable the slider bar and set value to attribute size 0
+    // get the minimum and maximum value from the buffer contingent range values
+    var minValue = (int) bufferRangeValue.getMinValue();
+    var maxValue = (int) bufferRangeValue.getMaxValue();
 
-      System.out.println("Min value: " + minValue);
-      System.out.println("Max value: " + maxValue);
-      
-      if (maxValue > 0) {
-        // get slider instance
-        bufferSlider.setMin(minValue);
-        bufferSlider.setMax(maxValue);
-        bufferSlider.setValue(minValue);
-      } else {
-        bufferSlider.setValue(minValue);
-      }
-      
-    }
-
+    // set the min and max value of the buffer slider depending on the returned value of the contingent range value
+    bufferSlider.setMin(minValue);
+    bufferSlider.setMax(maxValue);
+    bufferSlider.setValue(minValue);
   }
 
   /**
-   * Handles status combobox selection
+   * Handles interaction with the status combo box.
    */
   @FXML
-  private void handleStatusCombobox() {
+  private void handleStatusComboBox() {
 
+    // clear the protection attribute combobox of values
     protectionComboBox.getItems().clear();
 
-    // check the combobox has been populated, then select the first option ("Occupied")
-    
-      // add "Status" attribute to the new feature: this will allow the related contingent value in the
-      // "Protected" field to be detected
-        newFeature.getAttributes().put("Status", statusComboBox.getSelectionModel().getSelectedItem());
+    // add "Status" attribute to the new feature: this will allow the related contingent value in the
+    // "Protected" field to be detected
+    newFeature.getAttributes().put("Status", statusComboBox.getSelectionModel().getSelectedItem().getCode());
 
-        protectionComboBox.setDisable(false);
+    // get contingent values for the protection field
+    ContingentValuesResult protectionContingentValues = geodatabaseFeatureTable.getContingentValues(newFeature, 
+      "Protection");
 
-        // handle protection contingent value
-        var valuesResult = geodatabaseFeatureTable.getContingentValues(newFeature, "Protection");
-        System.out.println("After contingent values: " + newFeature.getAttributes().values());
-
-        var values = valuesResult.getContingentValuesByFieldGroup().get("ProtectionFieldGroup");
-        values.forEach(contingentValue -> {
-          var contingentCodedValue = (ContingentCodedValue) contingentValue; // cast to required contingent value type
-          protectionComboBox.getItems().add(contingentCodedValue.getCodedValue().getCode().toString());
-        });
-      
-
-    
-    if (statusComboBox.getSelectionModel().getSelectedItem().equals("UNOCCUPIED")) {
-      bufferSlider.setValue(0);
-    }
-    
-    System.out.println(newFeature.getAttributes().get("Status"));
-
+    List<ContingentValue> protectionFieldGroupValues = protectionContingentValues.getContingentValuesByFieldGroup().get("ProtectionFieldGroup");
+    protectionFieldGroupValues.forEach(contingentValue -> {
+      var contingentCodedValue = (ContingentCodedValue) contingentValue; // cast to required contingent value type
+      // add contingent coded values to the protection attribute combobox
+      protectionComboBox.getItems().add(contingentCodedValue.getCodedValue());
+      protectionComboBox.getSelectionModel().selectFirst();
+    });
   }
 
   /**
-   * 
+   *
    */
   @FXML
   private void handleBufferSlider() {
 
     // set the initial attribute and the text to the min of the contingent range value
-    newFeature.getAttributes().put("BufferSize", bufferSlider.getValue());
-    
+    newFeature.getAttributes().put("BufferSize", Math.round(bufferSlider.getValue()));
+    System.out.println("buffer slider value: " + bufferSlider.getValue());
+
   }
 
   /**
@@ -481,7 +462,7 @@ public class AddFeaturesWithContingentValuesController {
     });
 
     geodatabase.close();
-    
+
 
   }
 

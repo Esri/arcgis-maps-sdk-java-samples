@@ -24,7 +24,7 @@
            xmlns:fx="http://javafx.com/fxml" stylesheets="/add_features_with_contingent_values/style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="50" styleClass="panel-region" fx:id="vBox" disable="true">
+    <VBox StackPane.alignment="TOP_RIGHT" spacing="5" maxWidth="200" maxHeight="50" styleClass="panel-region" fx:id="vBox" disable="true">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -39,13 +39,12 @@
                 </fills>
             </Background>
         </background>
-        <Label text="Status"/>
-        <ComboBox fx:id="statusComboBox" promptText="Select a status:" onAction="#handleStatusCombobox"/>
-        <Label text="Protection"/>
-        <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionCombobox" disable="true" />
-        <Label text="Buffer size"/>
-        <Label fx:id="bufferLimitLabel"/>
-        <Slider fx:id="bufferSlider" disable="true" onMouseClicked="#handleBufferSlider" showTickLabels="true" showTickMarks="true"/>
+        <Label text="Status Attribute"/>
+        <ComboBox fx:id="statusComboBox" promptText="Select status:" onAction="#handleStatusComboBox"/>
+        <Label text="Protection Attribute"/>
+        <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionComboBox"/>
+        <Label text="Exclusion Area Buffer Size"/>
+        <Slider fx:id="bufferSlider" onMouseClicked="#handleBufferSlider" showTickLabels="true" showTickMarks="true"/>
         <Button fx:id="saveButton" text="Save" />
         <Button fx:id="discardButton" text="Discard" onAction="#discardFeature"/>
 
