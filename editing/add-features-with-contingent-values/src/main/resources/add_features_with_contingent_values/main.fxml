@@ -45,7 +45,7 @@
         <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionCombobox" disable="true" />
         <Label text="Buffer size"/>
         <Label fx:id="bufferLimitLabel"/>
-        <Slider fx:id="bufferSlider" />
+        <Slider fx:id="bufferSlider" disable="true" onMouseClicked="#handleBufferSlider" showTickLabels="true" showTickMarks="true"/>
         <Button fx:id="saveButton" text="Save" />
         <Button fx:id="discardButton" text="Discard" onAction="#discardFeature"/>
 
