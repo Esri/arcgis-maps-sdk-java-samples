@@ -11,6 +11,7 @@ You might cut a polygon representing a large parcel to subdivide it into smaller
 ## How to use the sample
 
 Click the "Cut" button to cut the polygon with the polyline and see the resulting parts (shaded in different colors).
+Click the "Reset" button to remove the separate parts.
 
 ## How it works
 

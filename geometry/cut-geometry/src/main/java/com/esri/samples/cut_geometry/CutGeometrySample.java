@@ -90,19 +90,30 @@ public class CutGeometrySample extends Application {
       // zoom to show the polygon graphic
       mapView.setViewpointGeometryAsync(polygonGraphic.getGeometry());
 
+      // create a graphics overlay to contain the cut areas
+      GraphicsOverlay cutAreasOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(cutAreasOverlay);
+
       // create a button to perform the cut operation
       Button cutButton = new Button("Cut");
       cutButton.setOnAction(e -> {
-        // cut the polygon geometry with the polyline, expect two geometries
-        List<Geometry> parts = GeometryEngine.cut(polygonGraphic.getGeometry(), (Polyline) polylineGraphic.getGeometry());
-        // create graphics for the US and Canada sides
-        Graphic canadaSide = new Graphic(parts.get(0), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
+        if (cutButton.getText().equals("Cut")){
+          // cut the polygon geometry with the polyline, expect two geometries
+          List<Geometry> parts = GeometryEngine.cut(polygonGraphic.getGeometry(), (Polyline) polylineGraphic.getGeometry());
+          // create graphics for the US and Canada sides
+          Graphic canadaSide = new Graphic(parts.get(0), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
             0xFF00FF00, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, 0xFFFFFFFF, 0)));
-        Graphic usSide = new Graphic(parts.get(1), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
+          Graphic usSide = new Graphic(parts.get(1), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
             0xFFFFFF00, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, 0xFFFFFFFF, 0)));
-        graphicsOverlay.getGraphics().addAll(Arrays.asList(canadaSide, usSide));
-        // only cut once
-        cutButton.setDisable(true);
+          cutAreasOverlay.getGraphics().addAll(Arrays.asList(canadaSide, usSide));
+          // convert the cut button into a reset button
+          cutButton.setText("Reset");
+        } else if (cutButton.getText().equals("Reset")) {
+          // remove cut graphics
+          cutAreasOverlay.getGraphics().clear();
+          // convert the reset button back to a cut button
+          cutButton.setText("Cut");
+        }
       });
 
       // add the map view to the stack pane

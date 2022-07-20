@@ -116,18 +116,28 @@ public class ClipGeometrySample extends Application {
       // create a button to perform the clip operation
       Button clipButton = new Button("Clip");
       clipButton.setOnAction(e -> {
-        // for each envelope, clip the Colorado geometry and show the result, replacing the original Colorado graphic
-        coloradoGraphic.setVisible(false);
-        envelopesOverlay.getGraphics().forEach(graphic -> {
-          Geometry geometry = GeometryEngine.clip(coloradoGraphic.getGeometry(), (Envelope) graphic.getGeometry());
-          if (geometry != null) {
-            Graphic clippedGraphic = new Graphic(geometry, fillSymbol);
-            clipAreasOverlay.getGraphics().add(clippedGraphic);
-          }
-        });
-        // only clip once
-        clipButton.setDisable(true);
-      });
+        if (clipButton.getText().equals("Clip")){
+
+          // for each envelope, clip the Colorado geometry and show the result, replacing the original Colorado graphic
+          coloradoGraphic.setVisible(false);
+          envelopesOverlay.getGraphics().forEach(graphic -> {
+            Geometry geometry = GeometryEngine.clip(coloradoGraphic.getGeometry(), (Envelope) graphic.getGeometry());
+            if (geometry != null) {
+              Graphic clippedGraphic = new Graphic(geometry, fillSymbol);
+              clipAreasOverlay.getGraphics().add(clippedGraphic);}
+          });
+
+          // convert the clip button into a reset button
+          clipButton.setText("Reset");
+        } else if (clipButton.getText().equals("Reset")){
+
+          // remove clipped graphics and re-enable the original Colorado graphic
+          clipAreasOverlay.getGraphics().clear();
+          coloradoGraphic.setVisible(true);
+
+          // convert the reset button back to a clip button
+          clipButton.setText("Clip");
+        }});
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView, clipButton);

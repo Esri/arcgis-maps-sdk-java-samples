@@ -11,6 +11,8 @@ Create a new set of geometries for analysis (e.g. displaying buffer zones around
 ## How to use the sample
 
 Click the "Clip" button to clip the blue graphic with the red dashed envelopes.
+Click the "Reset" button to remove the clipped graphics and restore the original blue graphic.
+
 
 ## How it works
 
