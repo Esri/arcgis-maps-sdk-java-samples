@@ -1,6 +1,6 @@
 {
     "category": "Symbology",
-    "description": "Show different kinds of multilayer symbols on a map similar to some pre-defined 2D simple symbol styles.",
+    "description": "Show different kinds of multilayer symbols on a map.",
     "ignore": false,
     "images": [
         "RenderMultilayerSymbols.png"
