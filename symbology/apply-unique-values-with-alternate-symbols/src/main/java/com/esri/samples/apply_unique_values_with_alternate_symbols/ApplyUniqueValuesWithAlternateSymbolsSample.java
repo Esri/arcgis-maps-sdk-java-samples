@@ -50,7 +50,7 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SymbolReferenceProperties;
 import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 
-public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
+public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application {
 
   private MapView mapView;
   private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
@@ -68,7 +68,7 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Apply unique values with alternate symbols");
+      stage.setTitle("Apply Unique Values With Alternate Symbols");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -92,7 +92,7 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
       var point = new Point(-13631205.660131, 4546829.846004, SpatialReferences.getWebMercator());
       var viewpoint = new Viewpoint(point, 25000);
 
-      // set a viewpoint to the map view centered on a point
+      // set the viewpoint to the map view
       mapView.setViewpointCenterAsync(point, 25000.0);
 
       button.setOnAction(event -> {
@@ -100,9 +100,10 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
         mapView.setViewpointAsync(viewpoint, 1.5f, AnimationCurve.EASE_IN_OUT_SINE);
       });
 
-      mapView.addViewpointChangedListener(event->
+      mapView.addViewpointChangedListener(event-> {
         // update label text and formatting scale values
-        label.setText("Current scale: 1:" + Math.round(mapView.getMapScale())));
+        label.setText("Current scale: 1:" + Math.round(mapView.getMapScale()));
+      });
 
       // create simple marker symbols where the blue square and yellow diamond are alternate symbols
       // the red triangle is used to create a unique symbol and the purple diamond is the default symbol for the unique value renderer
@@ -129,10 +130,10 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
       // create unique value renderer
       var uniqueValRenderer = new UniqueValueRenderer(List.of("req_type"), List.of(uniqueValue), "", multilayerPurpleDiamondSymbol);
 
-      // apply default symbol for the unique value renderer.
+      // apply default symbol for the unique value renderer
       uniqueValRenderer.setDefaultSymbol(multilayerPurpleDiamondSymbol);
 
-      // create a service feature table using the url
+      // create a service feature table using the feature service url
       final var serviceFeatureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);
 
       // create a feature layer from the service feature table
@@ -148,7 +149,7 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
           vBox.setDisable(false);
         } else {
           new Alert(Alert.AlertType.ERROR,
-            "Error loading Feature Table from service" + serviceFeatureTable.getLoadError().getMessage()).show();
+            "Error loading Feature Table from Service: " + serviceFeatureTable.getLoadError().getMessage()).show();
         }
       });
       // load the service feature table
@@ -170,11 +171,12 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
    */
   private void setUpControlsVBox() {
 
-    // creating label to show scale values and button to reset viewpoint
+    // create label to show scale values and button to reset viewpoint
     label = new Label("Current scale: 1:25000");
     label .setTextFill(Color.WHITE);
     button = new Button("Reset Viewpoint");
 
+    // create and configure a VBox
     vBox = new VBox(10);
     vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"),
       CornerRadii.EMPTY, Insets.EMPTY)));
@@ -182,6 +184,7 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application{
     vBox.setMaxSize(180, 75);
     vBox.setDisable(true);
 
+    // add the label and button to the VBos
     vBox.getChildren().addAll(label, button);
 
   }

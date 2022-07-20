@@ -36,7 +36,7 @@ Zoom in and out of the map to see alternate symbols at each scale. The symbology
 
 ## About the data
 
-The [San Francisco 311 incidents layer](https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0) in this sample displays point features related to crime incidents such as graffiti and tree damage that have been reported by city residents.
+The [San Francisco 311 incidents layer](https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0) used in this sample displays point features related to crime incidents such as graffiti and tree damage that have been reported by city residents.
 
 ## Tags
 
