@@ -24,6 +24,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.CodedValue;
@@ -54,16 +64,6 @@ import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 public class AddFeaturesWithContingentValuesController {
 
@@ -72,12 +72,10 @@ public class AddFeaturesWithContingentValuesController {
   @FXML private ComboBox<CodedValue> protectionComboBox;
   @FXML private Label label;
   @FXML private Slider bufferSlider;
-  @FXML private Button saveButton;
-  @FXML private Button discardButton;
   @FXML private VBox vBox;
 
   private ArcGISFeature newFeature;
-  private ContingentValuesDefinition definition;
+  private ContingentValuesDefinition contingentValuesDefinition;
   private FeatureLayer featureLayer;
   private Graphic graphic;
   private Geodatabase geodatabase;
@@ -126,14 +124,12 @@ public class AddFeaturesWithContingentValuesController {
       
       geodatabase = new Geodatabase(new File(System.getProperty("data.dir"),
         "./samples-data/ContingentValuesBirdNests.geodatabase").getAbsolutePath());
-
       // wait for the geodatabase to finish loading and check it has loaded
       geodatabase.addDoneLoadingListener(() -> {
         if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
 
           // get the BirdNests geodatabase feature table, and wait for it to load
           geodatabaseFeatureTable = geodatabase.getGeodatabaseFeatureTable("BirdNests");
-
           geodatabaseFeatureTable.addDoneLoadingListener(() -> {
             if (geodatabaseFeatureTable.getLoadStatus() == LoadStatus.LOADED) {
               // create a new feature that matches the schema of the geodatabase feature table
@@ -151,7 +147,7 @@ public class AddFeaturesWithContingentValuesController {
                   queryParameters = new QueryParameters();
                   queryParameters.setWhereClause("BufferSize > 0");
                   queryAndBufferFeatures();
-                  getAndLoadContingentDefinitionAndSetStatus();
+                  getAndLoadContingentDefinitionAndSetStatusAttribute();
                   // finally, prompt the user 
                   new Alert(Alert.AlertType.INFORMATION, "Click on the map to add a feature, and click save to " +
                     "save the chosen attributes to it").show();
@@ -211,14 +207,14 @@ public class AddFeaturesWithContingentValuesController {
    * Gets and loads the contingent values definition from the geodatabase feature table, checks it contains field groups, and gets
    * the coded value domains from the "Status" field. 
    */
-  private void getAndLoadContingentDefinitionAndSetStatus() {
+  private void getAndLoadContingentDefinitionAndSetStatusAttribute() {
     
     // get and load the table's contingent values definition. this must be loaded after the table has loaded
-    definition = geodatabaseFeatureTable.getContingentValuesDefinition();
-    definition.addDoneLoadingListener(() -> {
+    contingentValuesDefinition = geodatabaseFeatureTable.getContingentValuesDefinition();
+    contingentValuesDefinition.addDoneLoadingListener(() -> {
       // check the contingent values definition has field groups (if the list is empty, there are no 
       // contingent values defined for this table
-      if (definition.getLoadStatus() == LoadStatus.LOADED && !definition.getFieldGroups().isEmpty()) {
+      if (contingentValuesDefinition.getLoadStatus() == LoadStatus.LOADED && !contingentValuesDefinition.getFieldGroups().isEmpty()) {
         // get the coded value domains for the "Status" field name
         CodedValueDomain statusCodedValueDomain =
           (CodedValueDomain) geodatabaseFeatureTable.getField("Status").getDomain();
@@ -236,7 +232,7 @@ public class AddFeaturesWithContingentValuesController {
       }
     });
 
-    definition.loadAsync();
+    contingentValuesDefinition.loadAsync();
   }
 
   /**
@@ -385,7 +381,6 @@ public class AddFeaturesWithContingentValuesController {
     if (contingentValuesAreValid()) {
       // add the feature to the table
       geodatabaseFeatureTable.addFeatureAsync(newFeature).addDoneListener(() -> {
-        newFeature.refresh();
         // query and buffer features again now that a new feature has been added to the table
         queryAndBufferFeatures();
         // now the new feature has been added set it to null to continue adding new features
