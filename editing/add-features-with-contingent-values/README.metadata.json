@@ -1,27 +1,42 @@
 {
-    "category": "Map",
-    "description": "Display a map with an imagery basemap.",
+    "category": "Editing",
+    "description": "Create and add features whose attribute values satisfy a predefined set of contingencies.",
     "ignore": false,
     "images": [
-        "DisplayMap.png"
+        "AddFeaturesWithContingentValues.png"
     ],
     "keywords": [
-        "basemap",
-        "map",
-        "ArcGISMap",
-        "BasemapStyle",
-        "MapView"
+        "coded values",
+        "contingent values",
+        "feature table",
+        "geodatabase",
+        "CodedValue",
+        "CodedValueDomain",
+        "ContingencyConstraintViolation",
+        "ContingentCodedValue",
+        "ContingentRangeValue",
+        "ContingentValue",
+        "ContingentValuesDefinition",
+        "ContingentValuesResult",
+        "GeodatabaseFeatureTable"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/display-a-map.htm"
-    ],
+    "redirect_from": "",
     "relevant_apis": [
-        "ArcGISMap",
-        "BasemapStyle",
-        "MapView"
+        "CodedValue",
+        "CodedValueDomain",
+        "ContingencyConstraintViolation",
+        "ContingentCodedValue",
+        "ContingentRangeValue",
+        "ContingentValue",
+        "ContingentValuesDefinition",
+        "ContingentValuesResult",
+        "GeodatabaseFeatureTable"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/display_map/DisplayMapSample.java"
+        "src/main/java/com/esri/samples/add_features_with_contingent_values/AddFeaturesWithContingentValuesController.java",
+        "src/main/java/com/esri/samples/add_features_with_contingent_values/AddFeaturesWithContingentValuesSample.java",
+        "src/main/java/com/esri/samples/add_features_with_contingent_values/CodedValueListCell.java",
+        "src/main/resources/add_features_with_contingent_values/main.fxml"
     ],
-    "title": "Display map"
+    "title": "Add features with contingent values"
 }
