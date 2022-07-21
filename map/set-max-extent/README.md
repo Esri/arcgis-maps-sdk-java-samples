@@ -13,7 +13,7 @@ ability to pan or zoom away.
 
 The application loads with a map whose maximum extent has been set to the borders of Colorado. Note
 that you won't be able to pan far from the Colorado border or zoom out beyond the minimum scale set
-by the max extent. Use the "Max Extent OFF" button to disable the max extent to freely pan/zoom around the map.
+by the max extent. Click the "Enable Max Extent" checkbox to disable the max extent to freely pan/zoom around the map.
 
 ## How it works
 
