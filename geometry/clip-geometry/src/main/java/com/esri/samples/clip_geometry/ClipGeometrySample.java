@@ -113,26 +113,34 @@ public class ClipGeometrySample extends Application {
       GraphicsOverlay clipAreasOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(clipAreasOverlay);
 
-      // create a button to perform the clip operation
-      Button clipButton = new Button("Clip");
-      clipButton.setOnAction(e -> {
-        // for each envelope, clip the Colorado geometry and show the result, replacing the original Colorado graphic
-        coloradoGraphic.setVisible(false);
-        envelopesOverlay.getGraphics().forEach(graphic -> {
-          Geometry geometry = GeometryEngine.clip(coloradoGraphic.getGeometry(), (Envelope) graphic.getGeometry());
-          if (geometry != null) {
-            Graphic clippedGraphic = new Graphic(geometry, fillSymbol);
-            clipAreasOverlay.getGraphics().add(clippedGraphic);
-          }
-        });
-        // only clip once
-        clipButton.setDisable(true);
-      });
+      // create a button to perform the clip and reset operation
+      var button = new Button("Clip");
+      button.setOnAction(e -> {
+        if (clipAreasOverlay.getGraphics().isEmpty()){
+          // for each envelope, clip the Colorado geometry and show the result, replacing the original Colorado graphic
+          coloradoGraphic.setVisible(false);
+          envelopesOverlay.getGraphics().forEach(graphic -> {
+            Geometry geometry = GeometryEngine.clip(coloradoGraphic.getGeometry(), (Envelope) graphic.getGeometry());
+            if (geometry != null) {
+              Graphic clippedGraphic = new Graphic(geometry, fillSymbol);
+              clipAreasOverlay.getGraphics().add(clippedGraphic);}
+          });
+
+          // update the button text
+          button.setText("Reset");
+        } else {
+          // remove clipped graphics and re-enable the original Colorado graphic
+          clipAreasOverlay.getGraphics().clear();
+          coloradoGraphic.setVisible(true);
+
+          // update the button text
+          button.setText("Clip");
+        }});
 
       // add the map view to the stack pane
-      stackPane.getChildren().addAll(mapView, clipButton);
-      StackPane.setAlignment(clipButton, Pos.TOP_LEFT);
-      StackPane.setMargin(clipButton, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, button);
+      StackPane.setAlignment(button, Pos.TOP_LEFT);
+      StackPane.setMargin(button, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
