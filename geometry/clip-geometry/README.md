@@ -11,11 +11,12 @@ Create a new set of geometries for analysis (e.g. displaying buffer zones around
 ## How to use the sample
 
 Click the "Clip" button to clip the blue graphic with the red dashed envelopes.
+Click the "Reset" button to remove the clipped graphics and restore the original blue graphic.
 
 ## How it works
 
-1.  Use the static method `GeometryEngine.clip()` to generate a clipped `Geometry`, passing in an existing `Geometry` and an `Envelope` as parameters.  The existing geometry will be clipped where it intersects an envelope.
-2.  Create a new `Graphic` from the clipped geometry and add it to a `GraphicsOverlay` on the `MapView`.
+1. Use the static method `GeometryEngine.clip()` to generate a clipped `Geometry`, passing in an existing `Geometry` and an `Envelope` as parameters.  The existing geometry will be clipped where it intersects an envelope.
+2. Create a new `Graphic` from the clipped geometry and add it to a `GraphicsOverlay` on the `MapView`.
 
 ## Relevant API
 
