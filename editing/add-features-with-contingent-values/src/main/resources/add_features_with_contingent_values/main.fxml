@@ -43,10 +43,10 @@
         <ComboBox fx:id="statusComboBox" promptText="Select status:" onAction="#handleStatusComboBox"/>
         <Label text="Protection Attribute"/>
         <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionComboBox"/>
-        <Label text="Exclusion Area Buffer Size"/>
+        <Label fx:id="label" text="Exclusion Area Buffer Size: "/>
         <Slider fx:id="bufferSlider" onMouseDragged="#handleBufferSlider" onMouseReleased="#handleBufferSlider" showTickLabels="true" style="-fx-font-size: 14"/>
         <Button fx:id="saveButton" text="Save" onAction="#handleSaveButton" />
-        <Button fx:id="discardButton" text="Discard" onAction="#discardFeature"/>
+        <Button fx:id="discardButton" text="Discard" onAction="#deleteFeature"/>
 
     </VBox>
     

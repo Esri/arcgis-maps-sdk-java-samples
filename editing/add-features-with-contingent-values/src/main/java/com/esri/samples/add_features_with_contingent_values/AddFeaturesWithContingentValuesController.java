@@ -59,6 +59,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
@@ -66,27 +67,23 @@ import javafx.scene.paint.Color;
 
 public class AddFeaturesWithContingentValuesController {
 
-  @FXML
-  private MapView mapView;
-  @FXML
-  private ComboBox<CodedValue> statusComboBox;
-  @FXML
-  private ComboBox<CodedValue> protectionComboBox;
-  @FXML
-  private Slider bufferSlider;
-  @FXML
-  private Button saveButton;
-  @FXML
-  private Button discardButton;
-  @FXML
-  private VBox vBox;
+  @FXML private MapView mapView;
+  @FXML private ComboBox<CodedValue> statusComboBox;
+  @FXML private ComboBox<CodedValue> protectionComboBox;
+  @FXML private Label label;
+  @FXML private Slider bufferSlider;
+  @FXML private Button saveButton;
+  @FXML private Button discardButton;
+  @FXML private VBox vBox;
 
   private ArcGISFeature newFeature;
   private ContingentValuesDefinition definition;
   private FeatureLayer featureLayer;
+  private Graphic graphic;
   private Geodatabase geodatabase;
   private GeodatabaseFeatureTable geodatabaseFeatureTable;
   private GraphicsOverlay graphicsOverlay;
+  private QueryParameters queryParameters;
 
   /**
    * Called after FXML loads. Sets up map.
@@ -122,14 +119,11 @@ public class AddFeaturesWithContingentValuesController {
         ColorUtil.colorToArgb(Color.RED), new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID,
         ColorUtil.colorToArgb(Color.BLACK), 2));
       graphicsOverlay.setRenderer(new SimpleRenderer(bufferSymbol));
-
-      var graphic = new Graphic();
+      // create a new simple marker symbol to mark where new feature is being added on the map
       var symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, ColorUtil.colorToArgb(Color.BLACK), 11);
-      graphic.setSymbol(symbol);
-      graphicsOverlay.getGraphics().add(graphic);
-
+      // add the graphics overlay to the mapview
       mapView.getGraphicsOverlays().add(graphicsOverlay);
-
+      
       geodatabase = new Geodatabase(new File(System.getProperty("data.dir"),
         "./samples-data/ContingentValuesBirdNests.geodatabase").getAbsolutePath());
 
@@ -142,18 +136,20 @@ public class AddFeaturesWithContingentValuesController {
 
           geodatabaseFeatureTable.addDoneLoadingListener(() -> {
             if (geodatabaseFeatureTable.getLoadStatus() == LoadStatus.LOADED) {
-
               // create a new feature that matches the schema of the geodatabase feature table
               newFeature = (ArcGISFeature) geodatabaseFeatureTable.createFeature();
-
               featureLayer = new FeatureLayer(geodatabaseFeatureTable);
               map.getOperationalLayers().add(featureLayer);
+              
               // when the feature layer has loaded, set the viewpoint on the map to its full extent, and add buffers to
               // the features
               featureLayer.addDoneLoadingListener(() -> {
                 if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
                   mapView.setViewpointGeometryAsync(featureLayer.getFullExtent(), 50);
                   // queries the features in the feature table and applies a buffer to them
+                  // set up query parameters for generating buffer graphic
+                  queryParameters = new QueryParameters();
+                  queryParameters.setWhereClause("BufferSize > 0");
                   queryAndBufferFeatures();
                   getAndLoadContingentDefinitionAndSetStatus();
                   // finally, prompt the user 
@@ -162,19 +158,17 @@ public class AddFeaturesWithContingentValuesController {
                   mapView.setDisable(false);
                 }
               });
-
             } else if (geodatabase.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
               new Alert(Alert.AlertType.ERROR, "Geodatabase failed to load").show();
             }
           });
-
           // load the geodatabase feature table
           geodatabaseFeatureTable.loadAsync();
         }
       });
       // load the geodatabase
       geodatabase.loadAsync();
-
+      
       // set up mouse clicked listener
       mapView.setOnMouseClicked(event -> {
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
@@ -184,97 +178,104 @@ public class AddFeaturesWithContingentValuesController {
           if (newFeature == null) {
             newFeature = (ArcGISFeature) geodatabaseFeatureTable.createFeature();
             newFeature.getAttributes().put("Status", statusComboBox.getSelectionModel().getSelectedItem().getCode());
-            newFeature.getAttributes().put("Protection", protectionComboBox.getSelectionModel().getSelectedItem().getCode());
+            newFeature.getAttributes().put("Protection",
+              protectionComboBox.getSelectionModel().getSelectedItem().getCode());
             newFeature.getAttributes().put("BufferSize", (int) bufferSlider.getValue());
           }
-          
+
           // create a point from where the user clicked
           Point2D point = new Point2D(event.getX(), event.getY());
-          // create a map point from a point
           Point mapPoint = mapView.screenToLocation(point);
           // get the normalized geometry for the clicked location and use it as the feature's geometry
           Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
           newFeature.setGeometry(normalizedMapPoint);
-          graphic.setGeometry(newFeature.getGeometry());
+
+          // check if the graphics overlay already contains the graphic, and if not, add it to the graphics overlay
+          if (!graphicsOverlay.getGraphics().contains(graphic)) {
+            graphic = new Graphic();
+            graphicsOverlay.getGraphics().add(graphic);
+            graphic.setSymbol(symbol);
+            graphic.setGeometry(newFeature.getGeometry());
+          } else { // otherwise, update the geometry of the graphic as the user clicks the map
+            graphic.setGeometry(newFeature.getGeometry());
+          }
         }
-
       });
-
-
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
     }
   }
 
+  /**
+   * Gets and loads the contingent values definition from the geodatabase feature table, checks it contains field groups, and gets
+   * the coded value domains from the "Status" field. 
+   */
   private void getAndLoadContingentDefinitionAndSetStatus() {
-
-
+    
     // get and load the table's contingent values definition. this must be loaded after the table has loaded
     definition = geodatabaseFeatureTable.getContingentValuesDefinition();
     definition.addDoneLoadingListener(() -> {
-      
-        // check the contingent values definition has field groups (if the list is empty, there are no 
-        // contingent values defined for this table
-        if (definition.getLoadStatus() == LoadStatus.LOADED && !definition.getFieldGroups().isEmpty()) {
-
-          CodedValueDomain statusCodedValueDomain =
-            (CodedValueDomain) geodatabaseFeatureTable.getField("Status").getDomain();
-
-          // printing out the possible values for status
-          for (CodedValue codedValue : statusCodedValueDomain.getCodedValues()) {
-            // requires some mapping of object code back to string
-            statusComboBox.getItems().add(codedValue);
-          }
-            
-          // once the combo box has been populated with coded values, select the first one
-          if (statusComboBox.getItems().size() == statusCodedValueDomain.getCodedValues().size()) {
-            statusComboBox.getSelectionModel().selectFirst();
-          }
-          
-          // check the contingent values are valid
-          contingentValuesAreValid();
-
+      // check the contingent values definition has field groups (if the list is empty, there are no 
+      // contingent values defined for this table
+      if (definition.getLoadStatus() == LoadStatus.LOADED && !definition.getFieldGroups().isEmpty()) {
+        // get the coded value domains for the "Status" field name
+        CodedValueDomain statusCodedValueDomain =
+          (CodedValueDomain) geodatabaseFeatureTable.getField("Status").getDomain();
+        // add each returned coded value as an item to the status combo box
+        for (CodedValue codedValue : statusCodedValueDomain.getCodedValues()) {
+          // requires some mapping of object code back to string
+          statusComboBox.getItems().add(codedValue);
         }
+        // once the combo box has been populated with coded values, select the first one
+        if (statusComboBox.getItems().size() == statusCodedValueDomain.getCodedValues().size()) {
+          statusComboBox.getSelectionModel().selectFirst();
+        }
+        // check the contingent values are valid
+        contingentValuesAreValid();
+      }
     });
 
     definition.loadAsync();
   }
 
   /**
-   * Handles interaction with the protection combo box.
+   * Handles interaction with the protection combo box. Gets the coded value chosen from the combo box and sets it as
+   * the feature's "Protection" attribute. Also sets the min and max value of the bufferSlider based on the contingent
+   * range value of the returned contingent range value. 
    */
   @FXML
   private void handleProtectionComboBox() {
 
     // put the value chosen from the protection combobox as the attribute for the new feature
-    if (protectionComboBox.getSelectionModel().getSelectedItem() != null) {
+    newFeature.getAttributes().put("Protection", protectionComboBox.getSelectionModel().getSelectedItem().getCode());
 
-      newFeature.getAttributes().put("Protection", protectionComboBox.getSelectionModel().getSelectedItem().getCode());
+    // get contingent values for the buffer size field
+    ContingentValuesResult bufferContingentValues = geodatabaseFeatureTable.getContingentValues(newFeature,
+      "BufferSize");
+    // get contingent range values for the buffer size field group
+    ContingentRangeValue bufferRangeValue =
+      (ContingentRangeValue) bufferContingentValues.getContingentValuesByFieldGroup()
+        .get("BufferSizeFieldGroup").get(0); // cast to required contingent value type
 
-      // get contingent values for the buffer size field
-      ContingentValuesResult bufferContingentValues = geodatabaseFeatureTable.getContingentValues(newFeature, 
-        "BufferSize");
-      // get contingent range values for the buffer size field group
-      ContingentRangeValue bufferRangeValue =
-        (ContingentRangeValue) bufferContingentValues.getContingentValuesByFieldGroup()
-        .get("BufferSizeFieldGroup").get(0);
+    // get the minimum and maximum value from the buffer contingent range values
+    var minValue = (Integer) bufferRangeValue.getMinValue();
+    var maxValue = (Integer) bufferRangeValue.getMaxValue();
 
-      // get the minimum and maximum value from the buffer contingent range values
-      var minValue = (Integer) bufferRangeValue.getMinValue();
-      var maxValue = (Integer) bufferRangeValue.getMaxValue();
+    // set the min and max value of the buffer slider depending on the returned value of the contingent range value
+    bufferSlider.setMin(minValue);
+    bufferSlider.setMax(maxValue);
+    bufferSlider.setValue(minValue);
+    // set the "BufferSize" attribute to that of the value of the slider
+    newFeature.getAttributes().put("BufferSize", (int) bufferSlider.getValue());
+    // update label to show buffer size value
+    label.setText("Exclusion Area Buffer Size: " + (Math.round(bufferSlider.getValue())));
 
-      // set the min and max value of the buffer slider depending on the returned value of the contingent range value
-      bufferSlider.setMin(minValue);
-      bufferSlider.setMax(maxValue);
-      bufferSlider.setValue(minValue);
-      newFeature.getAttributes().put("BufferSize", (int) bufferSlider.getValue());
-
-    }
   }
 
   /**
-   * Handles interaction with the status combo box.
+   * Handles interaction with the status combo box. Gets the coded value chosen from the combo box and sets it as
+   * the feature's "Status" attribute.
    */
   @FXML
   private void handleStatusComboBox() {
@@ -290,6 +291,7 @@ public class AddFeaturesWithContingentValuesController {
     ContingentValuesResult protectionContingentValues = geodatabaseFeatureTable.getContingentValues(newFeature,
       "Protection");
 
+    // get contingent values by field group for the protection field group
     List<ContingentValue> protectionFieldGroupValues =
       protectionContingentValues.getContingentValuesByFieldGroup().get("ProtectionFieldGroup");
     protectionFieldGroupValues.forEach(contingentValue -> {
@@ -298,57 +300,59 @@ public class AddFeaturesWithContingentValuesController {
       protectionComboBox.getItems().add(contingentCodedValue.getCodedValue());
     });
 
+    // once the combo box has populated, select the first coded value
     if (protectionComboBox.getItems().size() == protectionFieldGroupValues.size()) {
       protectionComboBox.getSelectionModel().selectFirst();
-      System.out.println("selects protection combobox");
     }
   }
 
   /**
-   *
+   * Handles interaction with the buffer slider. Gets the buffer slider value and sets is as the feature's "BufferSize"
+   * attribute.
    */
   @FXML
   private void handleBufferSlider() {
 
     // set the initial attribute and the text to the min of the contingent range value
-    newFeature.getAttributes().put("BufferSize", (int) Math.round(bufferSlider.getValue())); // TODO demo for review
-    System.out.println(Math.round(bufferSlider.getValue()));
+    newFeature.getAttributes().put("BufferSize", (int) Math.round(bufferSlider.getValue()));
+    label.setText("Exclusion Area Buffer Size: " + (Math.round(bufferSlider.getValue())));
 
   }
 
   /**
-   * Queries and buffers features
+   * Queries features in the geodatabase feature table, and creates a buffer for each feature based on its "BufferSize"
+   * attribute.
    */
   private void queryAndBufferFeatures() {
 
     // get all the features that have buffer size greater than zero
-    QueryParameters parameters = new QueryParameters();
-    parameters.setWhereClause("BufferSize > 0");
-    var results = geodatabaseFeatureTable.queryFeaturesAsync(parameters);
-
+    var results = geodatabaseFeatureTable.queryFeaturesAsync(queryParameters);
     results.addDoneListener(() -> {
+
       try {
         // clear the existing buffer graphics
         graphicsOverlay.getGraphics().clear();
 
+        // get the features from the result
         var featureQueryResult = results.get();
         for (Feature feature : featureQueryResult) {
 
+          // get the feature's buffer size attribute and create a new buffer geometry from it
           Integer bufferDistance = (Integer) feature.getAttributes().get("BufferSize");
           Geometry buffer = GeometryEngine.buffer(feature.getGeometry(), bufferDistance);
-          graphicsOverlay.getGraphics().add(new Graphic(buffer));
-
+          Graphic bufferGraphic = new Graphic(buffer);
+          graphicsOverlay.getGraphics().add(bufferGraphic);
         }
 
       } catch (InterruptedException | ExecutionException e) {
         e.printStackTrace();
       }
+
     });
   }
 
-
   /**
-   * Validate contingent values
+   * Validate contingency constraints of the new feature. If there are constraints, an error dialog will display.
    */
   private boolean contingentValuesAreValid() {
 
@@ -367,59 +371,48 @@ public class AddFeaturesWithContingentValuesController {
       String errorType = contingencyConstraintViolations.get(0).getType().toString();
       new Alert(Alert.AlertType.ERROR,
         errorType + "! " + numberOfViolations + " violations found in: " + Arrays.toString(fieldGroupsNames.toArray())).show();
-      
       return false;
     }
   }
 
   /**
-   * Create new nest
+   * Handles interaction with the save button. Checks that the contingent values set to the feature are valid and
+   * adds the feature to the geodatabase feature table.
    */
   @FXML
   private void handleSaveButton() {
-    
+
     if (contingentValuesAreValid()) {
-      System.out.println("Contingent Values are valid");
+      // add the feature to the table
+      geodatabaseFeatureTable.addFeatureAsync(newFeature).addDoneListener(() -> {
+        newFeature.refresh();
+        // query and buffer features again now that a new feature has been added to the table
+        queryAndBufferFeatures();
+        // now the new feature has been added set it to null to continue adding new features
+        newFeature = null;
+        // reset the UI until the user clicks to add a point
+        vBox.setDisable(true);
+      });
     }
-    // add the empty feature to the table
-    geodatabaseFeatureTable.addFeatureAsync(newFeature).addDoneListener(() -> {
-
-      newFeature.refresh();
-
-      System.out.println("Buffer size attribute " + newFeature.getAttributes().get("BufferSize"));
-      System.out.println("Protection attribute " + newFeature.getAttributes().get("Protection"));
-      System.out.println("Status attribute " + newFeature.getAttributes().get("Status"));
-
-      System.out.println(geodatabaseFeatureTable.getTotalFeatureCount());
-      queryAndBufferFeatures();
-
-      newFeature = null;
-      
-      vBox.setDisable(true);
-      
-    });
-    
-
-
   }
 
-
   /**
-   * Discards the nearly created feature
+   * Handles interaction with the Delete button. Deletes the nearly created feature from the geodatabase feature table.
    */
   @FXML
-  private void discardFeature() {
+  private void deleteFeature() {
 
-    // delete the newly created feature from the geodatabase feature table
+    // delete the feature from the geodatabase feature table
     var delete = geodatabaseFeatureTable.deleteFeatureAsync(newFeature);
+
+    // now the new feature has been deleted set it to null to continue adding new features, and remove the graphic 
     delete.addDoneListener(() -> {
       newFeature = null;
+      graphicsOverlay.getGraphics().remove(graphic);
     });
 
+    // reset the UI until the user clicks to add a point
     vBox.setDisable(true);
-    geodatabase.close();
-
-
   }
 
 
