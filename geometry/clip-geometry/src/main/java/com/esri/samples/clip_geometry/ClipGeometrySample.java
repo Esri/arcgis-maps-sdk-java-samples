@@ -113,11 +113,10 @@ public class ClipGeometrySample extends Application {
       GraphicsOverlay clipAreasOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(clipAreasOverlay);
 
-      // create a button to perform the clip operation
-      Button clipButton = new Button("Clip");
-      clipButton.setOnAction(e -> {
-        if (clipButton.getText().equals("Clip")){
-
+      // create a button to perform the clip and reset operation
+      var button = new Button("Clip");
+      button.setOnAction(e -> {
+        if (clipAreasOverlay.getGraphics().isEmpty()){
           // for each envelope, clip the Colorado geometry and show the result, replacing the original Colorado graphic
           coloradoGraphic.setVisible(false);
           envelopesOverlay.getGraphics().forEach(graphic -> {
@@ -127,22 +126,21 @@ public class ClipGeometrySample extends Application {
               clipAreasOverlay.getGraphics().add(clippedGraphic);}
           });
 
-          // convert the clip button into a reset button
-          clipButton.setText("Reset");
-        } else if (clipButton.getText().equals("Reset")){
-
+          // update the button text
+          button.setText("Reset");
+        } else {
           // remove clipped graphics and re-enable the original Colorado graphic
           clipAreasOverlay.getGraphics().clear();
           coloradoGraphic.setVisible(true);
 
-          // convert the reset button back to a clip button
-          clipButton.setText("Clip");
+          // update the button text
+          button.setText("Clip");
         }});
 
       // add the map view to the stack pane
-      stackPane.getChildren().addAll(mapView, clipButton);
-      StackPane.setAlignment(clipButton, Pos.TOP_LEFT);
-      StackPane.setMargin(clipButton, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, button);
+      StackPane.setAlignment(button, Pos.TOP_LEFT);
+      StackPane.setMargin(button, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();

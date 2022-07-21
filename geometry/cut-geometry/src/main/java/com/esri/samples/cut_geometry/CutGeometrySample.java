@@ -94,32 +94,35 @@ public class CutGeometrySample extends Application {
       GraphicsOverlay cutAreasOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(cutAreasOverlay);
 
-      // create a button to perform the cut operation
-      Button cutButton = new Button("Cut");
-      cutButton.setOnAction(e -> {
-        if (cutButton.getText().equals("Cut")){
+      // create a button to perform the cut and reset operation
+      var button = new Button("Cut");
+      button.setOnAction(e -> {
+        if (cutAreasOverlay.getGraphics().isEmpty()){
           // cut the polygon geometry with the polyline, expect two geometries
           List<Geometry> parts = GeometryEngine.cut(polygonGraphic.getGeometry(), (Polyline) polylineGraphic.getGeometry());
+
           // create graphics for the US and Canada sides
           Graphic canadaSide = new Graphic(parts.get(0), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
             0xFF00FF00, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, 0xFFFFFFFF, 0)));
           Graphic usSide = new Graphic(parts.get(1), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
             0xFFFFFF00, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, 0xFFFFFFFF, 0)));
           cutAreasOverlay.getGraphics().addAll(Arrays.asList(canadaSide, usSide));
-          // convert the cut button into a reset button
-          cutButton.setText("Reset");
-        } else if (cutButton.getText().equals("Reset")) {
+
+          // update the button text
+          button.setText("Reset");
+        } else {
           // remove cut graphics
           cutAreasOverlay.getGraphics().clear();
-          // convert the reset button back to a cut button
-          cutButton.setText("Cut");
+
+          // update the button text
+          button.setText("Cut");
         }
       });
 
       // add the map view to the stack pane
-      stackPane.getChildren().addAll(mapView, cutButton);
-      StackPane.setAlignment(cutButton, Pos.TOP_LEFT);
-      StackPane.setMargin(cutButton, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(mapView, button);
+      StackPane.setAlignment(button, Pos.TOP_LEFT);
+      StackPane.setMargin(button, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
