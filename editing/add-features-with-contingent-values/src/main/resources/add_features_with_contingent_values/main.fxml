@@ -44,10 +44,9 @@
         <Label text="Protection Attribute"/>
         <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionComboBox"/>
         <Label fx:id="label" text="Exclusion Area Buffer Size: "/>
-        <Slider fx:id="bufferSlider" onMouseDragged="#handleBufferSlider" onMouseReleased="#handleBufferSlider" showTickLabels="true" style="-fx-font-size: 14"/>
-        <Button fx:id="saveButton" text="Save Feature" onAction="#handleSaveButton" />
-        <Button fx:id="discardButton" text="Discard Feature" onAction="#deleteFeature"/>
-
+        <Slider fx:id="bufferSlider" onMouseDragged="#handleBufferSlider" onMouseReleased="#handleBufferSlider" majorTickUnit="100" showTickLabels="true" style="-fx-font-size: 14"/>
+        <Button text="Save Feature" onAction="#handleSaveButton" />
+        <Button text="Discard Feature" onAction="#deleteFeature"/>
     </VBox>
     
 </StackPane>
