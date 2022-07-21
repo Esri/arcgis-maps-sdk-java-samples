@@ -18,15 +18,15 @@ Click on the map to add a feature symbolizing a bird's nest. Then choose values 
 
 1. Create and load the `Geodatabase` from the mobile geodatabase location on file.
 2. Load the `GeodatabaseFeatureTable` from the geodatabase.
-4. Create a new `FeatureLayer` from the geodatabase feature table and add it to the map.
-5. Create a new `ArcGISFeature` using `geodatabaseFeatureTable.createFeature()`
-3. Load the `ContingentValuesDefinition` from the feature table.
+3. Create a new `FeatureLayer` from the geodatabase feature table and add it to the map.
+4. Create a new `ArcGISFeature` using `geodatabaseFeatureTable.createFeature()`
+5. Load the `ContingentValuesDefinition` from the feature table.
 6. Get the required geodatabase feature table field by name using `.getField(String fieldName)`.
 7. Then get the `CodedValueDomain` of the field with `field.getDomain()`.
 8. Get the coded value domain's `CodedValue`s with `codedValueDomain.getCodedValues()`.
-9. After selecting a value from the initial coded values for the first field, retrieve the remaining valid contingent values for each field as you select the values for the attributes.  
-   i. Get the `ContingentValueResult`s by using `geodatabaseFeatureTable.getContingentValues(Feature feature, String field)` with the feature and the target field by name.  
-   ii. Get an array of valid `ContingentValue`s from `contingentValuesResult.getContingentValuesByFieldGroup().get(String fieldGroupName)`  with the name of the relevant field group. 
+9. After selecting a value from the initial coded values for the first field, retrieve the remaining valid contingent values for each field as you select the values for the attributes.
+   i. Get the `ContingentValueResult`s by using `geodatabaseFeatureTable.getContingentValues(Feature feature, String field)` with the feature and the target field by name.
+   ii. Get an array of valid `ContingentValue`s from `contingentValuesResult.getContingentValuesByFieldGroup().get(String fieldGroupName)`  with the name of the relevant field group.
    iii. Iterate through the array of valid contingent values to create an array of `ContingentCodedValue` names or the minimum and maximum values of a `ContingentRangeValue` depending on the type of `ContingentValue` returned.
 10. Validate the feature's contingent values by using `validateContingencyConstraints(Feature feature)` with the current feature. If the resulting array is empty, the selected values are valid.
 
