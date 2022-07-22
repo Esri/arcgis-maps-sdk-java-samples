@@ -107,7 +107,7 @@ public class SetMaxExtentSample extends Application {
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"),
         CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(145, 40);
+      controlsVBox.setMaxSize(160, 40);
       controlsVBox.setDisable(true);
 
       // add the checkbox to the control panel
