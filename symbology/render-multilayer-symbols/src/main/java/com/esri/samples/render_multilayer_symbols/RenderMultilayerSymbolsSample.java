@@ -16,6 +16,7 @@
 
 package com.esri.samples.render_multilayer_symbols;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -159,15 +160,15 @@ public class RenderMultilayerSymbolsSample extends Application {
     graphicsOverlay.getGraphics().addAll(
       List.of(
         new Graphic(new Point(-150, 50, SpatialReferences.getWgs84()),
-          getTextSymbol("MultilayerPoint\nSimple Markers")),
+          createTextSymbol("MultilayerPoint\nSimple Markers")),
         new Graphic(new Point(-80, 50, SpatialReferences.getWgs84()),
-          getTextSymbol("MultilayerPoint\nPicture Markers")),
+          createTextSymbol("MultilayerPoint\nPicture Markers")),
         new Graphic(new Point(0, 50, SpatialReferences.getWgs84()),
-          getTextSymbol("Multilayer\nPolyline")),
+          createTextSymbol("Multilayer\nPolyline")),
         new Graphic(new Point(65, 50, SpatialReferences.getWgs84()),
-          getTextSymbol("Multilayer\nPolygon")),
+          createTextSymbol("Multilayer\nPolygon")),
         new Graphic(new Point(130, 50, SpatialReferences.getWgs84()),
-          getTextSymbol("Multilayer\nComplex Symbols"))));
+          createTextSymbol("Multilayer\nComplex Symbols"))));
   }
 
   /**
@@ -176,7 +177,7 @@ public class RenderMultilayerSymbolsSample extends Application {
    * @param text text to be displayed by the text symbol
    * @return the constructed text symbol
    */
-  private TextSymbol getTextSymbol(String text) {
+  private TextSymbol createTextSymbol(String text) {
     var textSymbol = new TextSymbol(
       20,
       text,
@@ -196,7 +197,6 @@ public class RenderMultilayerSymbolsSample extends Application {
    * 
    * @param pictureMarkerSymbolLayer the picture marker symbol layer to be loaded
    * @param offset the value used to keep a consistent distance between symbols in the same column
-   * 
    */
   private void addGraphicFromPictureMarkerSymbolLayer(PictureMarkerSymbolLayer pictureMarkerSymbolLayer, double offset) {
     // wait for the picture marker symbol layer to load and check it has loaded
@@ -273,10 +273,10 @@ public class RenderMultilayerSymbolsSample extends Application {
    */
   private void addPolygonGraphicsWithMarkerSymbols(List<Double> angles, double offset) {
     var polygonBuilder = new PolygonBuilder(SpatialReferences.getWgs84());
-    polygonBuilder.addPoint(new Point(60, 25-offset));
-    polygonBuilder.addPoint(new Point(70, 25-offset));
-    polygonBuilder.addPoint(new Point(70, 20-offset));
-    polygonBuilder.addPoint(new Point(60, 20-offset));
+    polygonBuilder.addPoint(new Point(60, 25 - offset));
+    polygonBuilder.addPoint(new Point(70, 25 - offset));
+    polygonBuilder.addPoint(new Point(70, 20 - offset));
+    polygonBuilder.addPoint(new Point(60, 20 - offset));
 
     // create a stroke symbol layer to be used by patterns
     SolidStrokeSymbolLayer strokeForHatches = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(Color.RED),
@@ -286,23 +286,23 @@ public class RenderMultilayerSymbolsSample extends Application {
     SolidStrokeSymbolLayer strokeForOutline = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.BLACK),
       List.of(new DashGeometricEffect()));
 
-    // create an array to hold all necessary symbol layers - at least one for patterns and one for an outline at the end
-    var symbolLayerArray = new SymbolLayer[angles.size() + 1];
+    // create an array to hold one symbol layer for each angle, and one for the outline
+    var symbolLayerArray = new ArrayList<SymbolLayer>();
 
     // for each angle, create a symbol layer using the pattern stroke, with hatched lines at the given angle
-    for (int i = 0; i < angles.size(); i++) {
-      var hatchFillSymbolLayer = new HatchFillSymbolLayer(new MultilayerPolylineSymbol(List.of(strokeForHatches)), angles.get(i));
+    for (Double angle: angles) {
+      var hatchFillSymbolLayer = new HatchFillSymbolLayer(new MultilayerPolylineSymbol(List.of(strokeForHatches)), angle);
 
-      // define separation distance for lines and add them to the symbol layer array
+      // define separation distance for lines and add them to the symbol layer list
       hatchFillSymbolLayer.setSeparation(9);
-      symbolLayerArray[i] = hatchFillSymbolLayer;
+      symbolLayerArray.add(hatchFillSymbolLayer);
     }
 
-    // assign the outline layer to the last element of the symbol layer array
-    symbolLayerArray[symbolLayerArray.length - 1] = strokeForOutline;
+    // assign the outline layer to the last element of the symbol layer list
+    symbolLayerArray.add(strokeForOutline);
 
     // create a multilayer polygon symbol from the symbol layer array
-    var multilayerPolygonSymbol = new MultilayerPolygonSymbol(List.of(symbolLayerArray));
+    var multilayerPolygonSymbol = new MultilayerPolygonSymbol(symbolLayerArray);
 
     // create a polygon graphic with geometry using the symbol created above, and add it to the graphics overlay
     var graphic = new Graphic(polygonBuilder.toGeometry(), multilayerPolygonSymbol);
