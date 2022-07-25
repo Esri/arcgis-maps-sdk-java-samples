@@ -91,7 +91,7 @@ public class SetMaxExtentSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a checkbox for toggling max extent
-      var checkbox = new CheckBox("Enable Max Extent");
+      var checkbox = new CheckBox("Max Extent Enabled");
       checkbox.setTextFill(Color.WHITE);
       checkbox.setSelected(true);
       checkbox.setOnMouseClicked(e -> {
