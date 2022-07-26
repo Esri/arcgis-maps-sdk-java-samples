@@ -98,16 +98,35 @@ public class RenderMultilayerSymbolsSample extends Application {
       // create labels to go above each category of graphic
       addTextGraphics();
       
-      // create picture marker symbols, from URI or embedded resources
+      // create picture marker symbol from URI
       PictureMarkerSymbolLayer pictureMarkerFromUri = new PictureMarkerSymbolLayer((
         "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images" +
           "/e82f744ebb069bb35b234b3fea46deae"));
-      addGraphicFromPictureMarkerSymbolLayer(pictureMarkerFromUri, 0);
-      
+
+      // wait for picture marker symbol to load before creating graphics from it
+      pictureMarkerFromUri.addDoneLoadingListener(() -> {
+        if (pictureMarkerFromUri.getLoadStatus() == LoadStatus.LOADED) {
+          addGraphicFromPictureMarkerSymbolLayer(pictureMarkerFromUri, 0);
+        } else if (pictureMarkerFromUri.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+          new Alert(Alert.AlertType.ERROR, "Picture marker symbol layer failed to load from URI").show();
+        }
+      });
+      pictureMarkerFromUri.loadAsync();
+
+      // create picture marker symbol from embedded resources
       PictureMarkerSymbolLayer pictureMarkerFromImage = new PictureMarkerSymbolLayer(
         new Image(Objects.requireNonNull(getClass().getResourceAsStream("/blue_pin.png")), 
           0, 50, true, true));
-      addGraphicFromPictureMarkerSymbolLayer(pictureMarkerFromImage, offset);
+
+      // wait for picture marker symbol to load before creating graphics from it
+      pictureMarkerFromImage.addDoneLoadingListener(() -> {
+        if (pictureMarkerFromImage.getLoadStatus() == LoadStatus.LOADED) {
+          addGraphicFromPictureMarkerSymbolLayer(pictureMarkerFromImage, offset);
+        } else if (pictureMarkerFromImage.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
+          new Alert(Alert.AlertType.ERROR, "Picture marker symbol layer failed to load from image").show();
+        }
+      });
+      pictureMarkerFromImage.loadAsync();
 
       // add graphics with simple vector marker symbol elements (MultilayerPoint Simple Markers on app UI)
       var solidFillSymbolLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.RED));
@@ -192,17 +211,12 @@ public class RenderMultilayerSymbolsSample extends Application {
   }
 
   /**
-   * Loads a picture marker symbol layer and after it has loaded, creates a new multilayer point symbol from it.
-   * A graphic is created from the multilayer point symbol and added to the graphics overlay.
-   * 
-   * @param pictureMarkerSymbolLayer the picture marker symbol layer to be loaded
+   * Adds a new graphic constructed from a loaded picture marker symbol layer.
+   *
+   * @param pictureMarkerSymbolLayer a loaded picture marker symbol layer
    * @param offset the value used to keep a consistent distance between symbols in the same column
    */
   private void addGraphicFromPictureMarkerSymbolLayer(PictureMarkerSymbolLayer pictureMarkerSymbolLayer, double offset) {
-    // wait for the picture marker symbol layer to load and check it has loaded
-    pictureMarkerSymbolLayer.addDoneLoadingListener(() -> {
-      if (pictureMarkerSymbolLayer.getLoadStatus() == LoadStatus.LOADED) {
-
         // set the size of the layer and create a new multilayer point symbol from it
         pictureMarkerSymbolLayer.setSize(40);
         var multilayerPointSymbol = new MultilayerPointSymbol(List.of(pictureMarkerSymbolLayer));
@@ -213,12 +227,6 @@ public class RenderMultilayerSymbolsSample extends Application {
         // create graphic with the location and symbol and add it to the graphics overlay
         var graphic = new Graphic(point, multilayerPointSymbol);
         graphicsOverlay.getGraphics().add(graphic);
-      } else if (pictureMarkerSymbolLayer.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
-        new Alert(Alert.AlertType.ERROR, "Picture marker symbol layer failed to load").show();
-      }
-    });
-    // load the picture marker symbol layer
-    pictureMarkerSymbolLayer.loadAsync();
   }
 
   /**
