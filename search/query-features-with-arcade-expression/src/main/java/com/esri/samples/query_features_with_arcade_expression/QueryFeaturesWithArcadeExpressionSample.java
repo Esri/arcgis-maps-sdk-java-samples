@@ -134,7 +134,8 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
             ArcGISFeature feature = (ArcGISFeature) identifyLayerResult.getElements().get(0);
 
             // show callout and text without data
-            mapView.getCallout().setDetail(calloutText);
+            mapView.getCallout().setTitle(calloutText);
+            mapView.getCallout().setDetail("");
             mapView.getCallout().showCalloutAt(mapPoint);
             mapView.getCallout().setVisible(true);
 
@@ -161,7 +162,7 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
                   var crimesCount = (int) ((double) arcadeEvaluationResult.getResult());
 
                   // add data from arcade evaluation to callout
-                  mapView.getCallout().setDetail(calloutText + crimesCount);
+                  mapView.getCallout().setDetail(String.valueOf(crimesCount));
                 } catch (Exception e) {
                   throw new RuntimeException(e);
                 }
