@@ -10,34 +10,23 @@ Arcade is a portable, lightweight, and secure expression language used to create
 
 ## How to use the sample
 
-Tap on any neighborhood to see the number of crimes in the last 60 days in a callout.
+Click on any neighborhood to see the number of crimes in the last 60 days in a callout.
 
 ## How it works
 
-1. Create a `Portal` using the URL
+1. Create a `Portal` using the URL.
 2. Create a `PortalItem` using the `Portal` and ID.
-3. Create a `ArcGISMap` using the `PortalItem`.
-4. Set up a listener for taps on the map.
-5. Identify the visible layer where it is tapped using `mapView.identifyLayerAsync()` and get the feature.
+3. Create an `ArcGISMap` using the `PortalItem`.
+4. Set up a listener for clicks on the map.
+5. Identify the visible layer where it is clicked using `mapView.identifyLayerAsync()` and get the feature.
 6. Create the following `ArcadeExpression`:
-```java
-var arcadeExpression = new ArcadeExpression("var crimes = FeatureSetByName(\$map, 'Crime in the last 60 days');\n" + 
-  "return Count(Intersects(\$feature, crimes));");
-```
-
-6. Create an `ArcadeEvaluator` using the Arcade expression and `ArcadeProfile.FORM_CALCULATION`.
-7. Create a map of profile variables with the following key-value pairs:
-```java
-var hashMap = new HashMap<String, Object>();
-hashMap.put("$feature", feature);
-hashMap.put("$map", mapView.getMap());
-```
-
-8. Call `ArcadeEvaluator.evaluateAsync()` on the Arcade evaluator object and pass it the profile variables map.
-Assign the resulting `ListenableFuture<ArcadeEvaluationResult>` to its own variable.
-9. Add an `addDoneListener` to the `ListenableFuture`.
-10. Once the ListenableFuture is done, get the `ArcadeEvaluationResult` with `listenableFuture.get()`.
-11. Get the result from the `ArcadeEvaluationResult` with `arcadeEvaluationResult.getResult()`.
+`new ArcadeExpression("var crimes = FeatureSetByName(\$map, 'Crime in the last 60 days');\n" + 
+  "return Count(Intersects(\$feature, crimes));");`
+7. Create an `ArcadeEvaluator` using the Arcade expression and `ArcadeProfile.FORM_CALCULATION`.
+8. Create a map of profile variables with `$feature` and `$map` as keys.
+9. Call `arcadeEvaluator.evaluateAsync()` and pass it the profile variables map as parameters.
+10. Once the `evaluateAsync()` has finished evaluating, get the `ArcadeEvaluationResult` with `listenableFuture.get()`
+11. Get the result from the arcade evaluation result with `arcadeEvaluationResult.getResult()`.
 12. Convert the result to a numerical value (integer) and populate the callout with the crime count.
 
 ## Relevant API

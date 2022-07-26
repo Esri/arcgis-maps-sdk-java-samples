@@ -17,7 +17,10 @@
 package com.esri.samples.query_features_with_arcade_expression;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
+import com.esri.arcgisruntime.arcade.ArcadeEvaluationResult;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -76,29 +79,32 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // set callout properties that never change
+      // set callout leader to appear at the bottom of the callout
       mapView.getCallout().setLeaderPosition(Callout.LeaderPosition.BOTTOM);
-      mapView.getCallout().setTitle("RPD Beats");
 
       // wait for the map to finish loading data from portal before accessing its layers
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           // hide all layers other than the RPD Beats Layer to reduce clutter
-          map.getOperationalLayers().forEach(layer -> layer.setVisible(layer.getName().equals(rpdBeatsLayerName)));
+          map.getOperationalLayers().forEach(layer ->
+            layer.setVisible(layer.getName().equals(rpdBeatsLayerName)));
 
-          // get the RPD beats layer.
-          policeBeatsLayer = map.getOperationalLayers().stream().filter(
-            layer -> layer.getName().equals(rpdBeatsLayerName)).toList().get(0);
+          // get the RPD beats layer
+          policeBeatsLayer = map.getOperationalLayers()
+            .stream()
+            .filter(layer -> layer.getName().equals(rpdBeatsLayerName))
+            .collect(Collectors.toList()).get(0);
 
           // if map clicked, evaluate an arcade expression at that point
-          mapView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+          mapView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
               try {
                 evaluateArcadeExpression(new Point2D(event.getX(), event.getY()));
               } catch (Exception e) {
                 throw new RuntimeException(e);
               }
-            }});
+            }
+          });
         } else if (map.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
           new Alert(Alert.AlertType.ERROR, "Map failed to load").show();
         }
@@ -113,7 +119,7 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
   }
 
   /**
-   * Evaluates an arcade expression at the point on the map that was clicked.
+   * Evaluates an arcade expression at the point where the map was clicked.
    *
    * @param point The point on the map which was clicked, in screen (rather than map) coordinates.
    * @throws RuntimeException If unable to get results from futures due to interruption or concurrent execution.
@@ -135,14 +141,14 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
 
             // show callout and text without data
             mapView.getCallout().setTitle(calloutText);
-            mapView.getCallout().setDetail("");
+            mapView.getCallout().setDetail("...");
             mapView.getCallout().showCalloutAt(mapPoint);
             mapView.getCallout().setVisible(true);
 
-            //setup arcade expression and evaluator
-            String expressionString = "var crimes = FeatureSetByName($map, 'Crime in the last 60 days');\n" +
+            // setup arcade expression and evaluator
+            String arcadeExpressionString = "var crimes = FeatureSetByName($map, 'Crime in the last 60 days');\n" +
               "return Count(Intersects($feature, crimes));";
-            var arcadeExpression = new ArcadeExpression(expressionString);
+            var arcadeExpression = new ArcadeExpression(arcadeExpressionString);
             var arcadeEvaluator = new ArcadeEvaluator(arcadeExpression, ArcadeProfile.FORM_CALCULATION);
 
             // instantiate key/value pairs
@@ -151,7 +157,7 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
             hashMap.put("$map", mapView.getMap());
 
             // evaluate the arcade expression asynchronously
-            var resultFuture = arcadeEvaluator.evaluateAsync(hashMap);
+            ListenableFuture<ArcadeEvaluationResult> resultFuture = arcadeEvaluator.evaluateAsync(hashMap);
 
             // wait for the expression to finish evaluating before attempting to access it
             resultFuture.addDoneListener(() -> {
@@ -159,14 +165,15 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
                 try {
                   // get result from async method and cast to int
                   var arcadeEvaluationResult = resultFuture.get();
-                  var crimesCount = (int) ((double) arcadeEvaluationResult.getResult());
+                  var crimesCount = Math.round((double) arcadeEvaluationResult.getResult());
 
                   // add data from arcade evaluation to callout
                   mapView.getCallout().setDetail(String.valueOf(crimesCount));
                 } catch (Exception e) {
                   throw new RuntimeException(e);
                 }
-              }});
+              }
+            });
           } else {
             mapView.getCallout().setVisible(false);
           }
