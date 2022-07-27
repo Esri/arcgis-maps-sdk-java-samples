@@ -70,7 +70,7 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a progress indicator
-      var progressIndicator =  new ProgressIndicator();
+      var progressIndicator = new ProgressIndicator();
 
       // create a portal item and use it to create a map
       var portal = new Portal("https://www.arcgis.com/");
@@ -82,7 +82,8 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
       mapView.setMap(map);
 
       // set callout leader to appear at the bottom of the callout
-      mapView.getCallout().setLeaderPosition(Callout.LeaderPosition.BOTTOM);
+      Callout callout = mapView.getCallout();
+      callout.setLeaderPosition(Callout.LeaderPosition.BOTTOM);
 
       // wait for the map to finish loading data from portal before accessing its layers
       map.addDoneLoadingListener(() -> {
@@ -98,71 +99,76 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
               operationalLayer.setVisible(false);
             }
           }
+
           // if map clicked, evaluate an arcade expression at that point
           mapView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.isStillSincePress()) {
-                // get the location of the click on the screen
-                Point2D screenPoint = new Point2D(event.getX(), event.getY());
+              // get the location of the click on the screen
+              Point2D screenPoint = new Point2D(event.getX(), event.getY());
 
-                // convert the click location from screen coordinates to map coordinates
-                Point mapPoint = mapView.screenToLocation(screenPoint);
+              // convert the click location from screen coordinates to map coordinates
+              Point mapPoint = mapView.screenToLocation(screenPoint);
 
-                var identifyLayerResultFuture = mapView.identifyLayerAsync(policeBeatsLayer,
-                  screenPoint, 0, false);
-                identifyLayerResultFuture.addDoneListener(() -> {
-                  if (identifyLayerResultFuture.isDone()) {
-                    try {
-                      var identifyLayerResult = identifyLayerResultFuture.get();
+              var identifyLayerResultFuture = mapView.identifyLayerAsync(policeBeatsLayer,
+                screenPoint, 0, false);
+              identifyLayerResultFuture.addDoneListener(() -> {
+                if (identifyLayerResultFuture.isDone()) {
+                  try {
+                    var identifyLayerResult = identifyLayerResultFuture.get();
 
-                      // only execute query if the police beats layer has data at the selected point
-                      if (identifyLayerResult.getElements().size() != 0) {
-                        ArcGISFeature feature = (ArcGISFeature) identifyLayerResult.getElements().get(0);
+                    // only execute query if the police beats layer has data at the selected point
+                    if (identifyLayerResult.getElements().size() != 0) {
+                      ArcGISFeature feature = (ArcGISFeature) identifyLayerResult.getElements().get(0);
 
-                        // show callout and text without data
-                        mapView.getCallout().setTitle(calloutText);
-                        mapView.getCallout().setDetail("...");
-                        mapView.getCallout().showCalloutAt(mapPoint);
-                        mapView.getCallout().setVisible(true);
+                      // show callout and text without data
+                      callout.setTitle(calloutText);
+                      callout.setDetail("...");
+                      callout.showCalloutAt(mapPoint);
+                      callout.setVisible(true);
 
-                        // setup arcade expression and evaluator
-                        String arcadeExpressionString = "var crimes = FeatureSetByName($map, 'Crime in the last 60 days');\n" +
-                          "return Count(Intersects($feature, crimes));";
-                        var arcadeExpression = new ArcadeExpression(arcadeExpressionString);
-                        var arcadeEvaluator = new ArcadeEvaluator(arcadeExpression, ArcadeProfile.FORM_CALCULATION);
+                      // setup arcade expression and evaluator
+                      String arcadeExpressionString = "var crimes = FeatureSetByName($map, 'Crime in the last 60 days');\n" +
+                        "return Count(Intersects($feature, crimes));";
+                      var arcadeExpression = new ArcadeExpression(arcadeExpressionString);
+                      var arcadeEvaluator = new ArcadeEvaluator(arcadeExpression, ArcadeProfile.FORM_CALCULATION);
 
-                        // instantiate key/value pairs
-                        var hashMap = new HashMap<String, Object>();
-                        hashMap.put("$feature", feature);
-                        hashMap.put("$map", mapView.getMap());
+                      // instantiate key/value pairs
+                      var hashMap = new HashMap<String, Object>();
+                      hashMap.put("$feature", feature);
+                      hashMap.put("$map", mapView.getMap());
 
-                        // evaluate the arcade expression asynchronously
-                        ListenableFuture<ArcadeEvaluationResult> resultFuture = arcadeEvaluator.evaluateAsync(hashMap);
+                      // evaluate the arcade expression asynchronously
+                      ListenableFuture<ArcadeEvaluationResult> resultFuture = arcadeEvaluator.evaluateAsync(hashMap);
 
-                        // wait for the expression to finish evaluating before attempting to access it
-                        resultFuture.addDoneListener(() -> {
-                          if (resultFuture.isDone()) {
-                            try {
-                              // get result from async method and cast to int
-                              var arcadeEvaluationResult = resultFuture.get();
-                              var crimesCount = Math.round((double) arcadeEvaluationResult.getResult());
+                      // wait for the expression to finish evaluating before attempting to access it
+                      resultFuture.addDoneListener(() -> {
+                        if (resultFuture.isDone()) {
+                          try {
+                            // get result from async method and round
+                            var arcadeEvaluationResult = resultFuture.get();
+                            var crimesCount = Math.round((double) arcadeEvaluationResult.getResult());
 
-                              // add data from arcade evaluation to callout
-                              mapView.getCallout().setDetail(String.valueOf(crimesCount));
-                            } catch (Exception e) {
-                              throw new RuntimeException(e);
-                            }
+                            // add data from arcade evaluation to callout
+                            callout.setDetail(String.valueOf(crimesCount));
+                          } catch (Exception e) {
+                            throw new RuntimeException(e);
                           }
-                        });
-                      } else {
-                        mapView.getCallout().setVisible(false);
-                      }
-                    } catch (Exception e) {
-                      throw new RuntimeException(e);
+                        }
+                      });
+
+                    } else {
+                      // if no data is found at the selected point, hide the callout
+                      callout.setVisible(false);
                     }
+
+                  } catch (Exception e) {
+                    throw new RuntimeException(e);
                   }
-                });
+                }
+              });
             }
           });
+
         } else if (map.getLoadStatus() == LoadStatus.FAILED_TO_LOAD) {
           new Alert(Alert.AlertType.ERROR, "Map failed to load").show();
         }
