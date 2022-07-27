@@ -24,13 +24,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
-
 public class AddFeaturesWithContingentValuesSample extends Application {
 
   private static AddFeaturesWithContingentValuesController controller;
-
-
+  
   @Override
   public void start(Stage stage) throws IOException {
     // set up the scene
@@ -64,7 +61,4 @@ public class AddFeaturesWithContingentValuesSample extends Application {
 
     Application.launch(args);
   }
-  
- 
-
 }

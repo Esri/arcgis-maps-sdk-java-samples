@@ -48,5 +48,4 @@
         <Button text="Save Feature" onAction="#handleSaveButton" />
         <Button text="Discard Feature" onAction="#deleteFeature"/>
     </VBox>
-    
 </StackPane>

@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2022 Esri.
  *
@@ -14,7 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 
 package com.esri.samples.add_features_with_contingent_values;
 
@@ -192,7 +190,8 @@ public class AddFeaturesWithContingentValuesController {
             graphicsOverlay.getGraphics().add(graphic);
             graphic.setSymbol(symbol);
             graphic.setGeometry(newFeature.getGeometry());
-          } else { // otherwise, update the geometry of the graphic as the user clicks the map
+          } else { 
+            // otherwise, update the geometry of the graphic as the user clicks the map
             graphic.setGeometry(newFeature.getGeometry());
           }
         }
@@ -409,8 +408,7 @@ public class AddFeaturesWithContingentValuesController {
     // reset the UI until the user clicks to add a point
     vBox.setDisable(true);
   }
-
-
+  
   /**
    * Stops and releases all resources used in application.
    */
