@@ -53,7 +53,7 @@ import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application {
 
   private MapView mapView;
-  private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
+  private ServiceFeatureTable serviceFeatureTable; // keep loadable in scope to avoid garbage collection
   private final static String FEATURE_SERVICE_URL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0";
   private Button button;
   private Label label;
@@ -134,17 +134,15 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application {
       uniqueValRenderer.setDefaultSymbol(multilayerPurpleDiamondSymbol);
 
       // create a service feature table using the feature service url
-      final var serviceFeatureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);
-
-      // create a feature layer from the service feature table
-      featureLayer = new FeatureLayer(serviceFeatureTable);
-
-      // set the unique value renderer on the feature layer
-      featureLayer.setRenderer(uniqueValRenderer);
-
+      serviceFeatureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);
+      
       // check the service feature table has loaded before adding the feature layer to the map
       serviceFeatureTable.addDoneLoadingListener( () -> {
         if (serviceFeatureTable.getLoadStatus() == LoadStatus.LOADED) {
+          // create a feature layer from the service feature table
+          var featureLayer = new FeatureLayer(serviceFeatureTable);
+          // set the unique value renderer on the feature layer
+          featureLayer.setRenderer(uniqueValRenderer);
           map.getOperationalLayers().add(featureLayer);
           vBox.setDisable(false);
         } else {
@@ -173,7 +171,7 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application {
 
     // create label to show scale values and button to reset viewpoint
     label = new Label("Current scale: 1:25000");
-    label .setTextFill(Color.WHITE);
+    label.setStyle("-fx-text-fill: white");
     button = new Button("Reset Viewpoint");
 
     // create and configure a VBox
