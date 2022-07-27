@@ -13,7 +13,6 @@
         "geodatabase",
         "mobile geodatabase",
         "sqlite",
-        "ArcGISFeature",
         "FeatureLayer",
         "FeatureTable",
         "FieldDescription",
@@ -23,7 +22,6 @@
     ],
     "redirect_from": "",
     "relevant_apis": [
-        "ArcGISFeature",
         "FeatureLayer",
         "FeatureTable",
         "FieldDescription",

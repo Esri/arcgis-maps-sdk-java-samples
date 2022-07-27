@@ -26,7 +26,6 @@ Tap on the map to add a feature symbolizing the user's location. Tap "View Table
 
 ## Relevant API
 
-* ArcGISFeature
 * FeatureLayer
 * FeatureTable
 * FieldDescription
@@ -36,4 +35,4 @@ Tap on the map to add a feature symbolizing the user's location. Tap "View Table
 
 ## Tags
 
-arcgis pro, database, feature, feature table, geodatabase, mobile geodatabase, sqlite, ArcGISFeature, FeatureLayer, FeatureTable, FieldDescription, Geodatabase, GeodatabaseFeatureTable, TableDescription
+arcgis pro, database, feature, feature table, geodatabase, mobile geodatabase, sqlite, FeatureLayer, FeatureTable, FieldDescription, Geodatabase, GeodatabaseFeatureTable, TableDescription
