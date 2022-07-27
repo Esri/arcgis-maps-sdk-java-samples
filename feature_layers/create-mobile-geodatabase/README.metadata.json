@@ -6,13 +6,19 @@
         "CreateMobileGeodatabase.png"
     ],
     "keywords": [
+        "arcgis feature",
         "arcgis pro",
         "database",
         "feature",
+        "feature layer",
         "feature table",
+        "field description",
         "geodatabase",
+        "geodatabase feature table",
         "mobile geodatabase",
         "sqlite",
+        "table description",
+        "ArcGISFeature",
         "FeatureLayer",
         "FeatureTable",
         "FieldDescription",
@@ -22,6 +28,7 @@
     ],
     "redirect_from": "",
     "relevant_apis": [
+        "ArcGISFeature",
         "FeatureLayer",
         "FeatureTable",
         "FieldDescription",
