@@ -36,4 +36,4 @@ Tap on the map to add a feature symbolizing the user's location. Tap "View Table
 
 ## Tags
 
-arcgis pro, database, feature, feature table, geodatabase, mobile geodatabase, sqlite, arcgis feature, feature layer, field description, geodatabase feature table, table description
+arcgis feature, arcgis pro, database, feature, feature layer, feature table, field description, geodatabase, geodatabase feature table, mobile geodatabase, sqlite, table description
