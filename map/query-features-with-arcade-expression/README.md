@@ -19,9 +19,7 @@ Click on any neighborhood to see the number of crimes in the last 60 days in a c
 3. Create an `ArcGISMap` using the `PortalItem`.
 4. Set up a listener for clicks on the map.
 5. Identify the visible layer where it is clicked using `mapView.identifyLayerAsync()` and get the feature.
-6. Create the following `ArcadeExpression`:
-`new ArcadeExpression("var crimes = FeatureSetByName(\$map, 'Crime in the last 60 days');\n" + 
-  "return Count(Intersects(\$feature, crimes));");`
+6. Create the following `ArcadeExpression`: `new ArcadeExpression("var crimes = FeatureSetByName(\$map, 'Crime in the last 60 days');\n" + "return Count(Intersects(\$feature, crimes));");`
 7. Create an `ArcadeEvaluator` using the Arcade expression and `ArcadeProfile.FORM_CALCULATION`.
 8. Create a map of profile variables with `$feature` and `$map` as keys.
 9. Call `arcadeEvaluator.evaluateAsync()` and pass it the profile variables map as parameters.
