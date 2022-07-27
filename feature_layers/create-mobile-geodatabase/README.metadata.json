@@ -1,0 +1,38 @@
+{
+    "category": "Feature layers",
+    "description": "Create a mobile geodatabase.",
+    "ignore": false,
+    "images": [
+        "CreateMobileGeodatabase.png"
+    ],
+    "keywords": [
+        "arcgis pro",
+        "database",
+        "feature",
+        "feature table",
+        "geodatabase",
+        "mobile geodatabase",
+        "sqlite",
+        "ArcGISFeature",
+        "FeatureLayer",
+        "FeatureTable",
+        "FieldDescription",
+        "Geodatabase",
+        "GeodatabaseFeatureTable",
+        "TableDescription"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "ArcGISFeature",
+        "FeatureLayer",
+        "FeatureTable",
+        "FieldDescription",
+        "Geodatabase",
+        "GeodatabaseFeatureTable",
+        "TableDescription"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/create_mobile_geodatabase/CreateMobileGeodatabaseSample.java"
+    ],
+    "title": "Create mobile geodatabase"
+}
