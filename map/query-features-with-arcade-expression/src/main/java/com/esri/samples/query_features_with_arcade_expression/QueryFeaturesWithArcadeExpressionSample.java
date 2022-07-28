@@ -165,7 +165,7 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
       });
 
       // add the map view and progress indicator to the stack pane
-      stackPane.getChildren().addAll(progressIndicator, mapView);
+      stackPane.getChildren().addAll(mapView, progressIndicator);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
