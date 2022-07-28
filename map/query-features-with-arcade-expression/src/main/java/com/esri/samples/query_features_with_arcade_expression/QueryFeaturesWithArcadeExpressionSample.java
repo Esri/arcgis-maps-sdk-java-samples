@@ -94,9 +94,6 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
               policeBeatsLayer = operationalLayer;
               operationalLayer.setVisible(true);
               progressIndicator.setVisible(false);
-            } else {
-              // if the operational layer is any layer other than the RPD Beats layer, don't show it.
-              operationalLayer.setVisible(false);
             }
           }
 
