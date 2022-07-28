@@ -47,8 +47,6 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
 
   private MapView mapView;
   private ArcGISMap map;
-  private Layer policeBeatsLayer;
-  private final String rpdBeatsLayerName = "RPD Beats  - City_Beats_Border_1128-4500";
   private final String calloutText = "Crimes in the last 60 days: ";
 
   @Override
@@ -88,14 +86,8 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
       // wait for the map to finish loading data from portal before accessing its layers
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
-          for (Layer operationalLayer : map.getOperationalLayers()) {
-            // if the operational layer is the RPD Beats layer, show it on the map and hide the progress indicator
-            if (operationalLayer.getName().equals(rpdBeatsLayerName)) {
-              policeBeatsLayer = operationalLayer;
-              operationalLayer.setVisible(true);
-              progressIndicator.setVisible(false);
-            }
-          }
+          Layer policeBeatsLayer = map.getOperationalLayers().get(0);
+          progressIndicator.setVisible(false);
 
           // if map clicked, evaluate an arcade expression at that point
           mapView.setOnMouseClicked(event -> {
@@ -173,7 +165,7 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
       });
 
       // add the map view and progress indicator to the stack pane
-      stackPane.getChildren().addAll(progressIndicator, mapView);
+      stackPane.getChildren().addAll(mapView, progressIndicator);
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
