@@ -106,6 +106,7 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
               // convert the click location from screen coordinates to map coordinates
               Point mapPoint = mapView.screenToLocation(screenPoint);
 
+              // identify any features on the layer at the clicked location
               var identifyLayerResultFuture = mapView.identifyLayerAsync(policeBeatsLayer,
                 screenPoint, 0, false);
               identifyLayerResultFuture.addDoneListener(() -> {
@@ -171,7 +172,7 @@ public class QueryFeaturesWithArcadeExpressionSample extends Application {
         }
       });
 
-      // add the map view to the stack pane
+      // add the map view and progress indicator to the stack pane
       stackPane.getChildren().addAll(progressIndicator, mapView);
     } catch (Exception e) {
       // on any error, display the stack trace.
