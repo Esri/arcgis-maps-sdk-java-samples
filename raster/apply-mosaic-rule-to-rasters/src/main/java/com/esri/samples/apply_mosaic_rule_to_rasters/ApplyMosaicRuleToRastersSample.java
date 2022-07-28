@@ -168,7 +168,7 @@ public class ApplyMosaicRuleToRastersSample extends Application {
   private void setupUI() {
     // create a label
     Label mosaicRuleLabel = new Label("Choose a mosaic rule: ");
-    mosaicRuleLabel.setTextFill(Color.WHITE);
+    mosaicRuleLabel.setStyle("-fx-text-fill: white");
 
     // create a combo box
     mosaicRuleComboBox = new ComboBox<>(
