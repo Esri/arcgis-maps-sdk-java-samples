@@ -104,10 +104,9 @@ public class AddFeaturesWithContingentValuesController {
       // create a new basemap with the vector tiled layer and create a new map from it
       var basemap = new Basemap(vectorTiledLayer);
       ArcGISMap map = new ArcGISMap(basemap);
-
+      
       // set the map to the map view
       mapView.setMap(map);
-      mapView.setDisable(true);
 
       // create a graphics overlay to display the nest buffer exclusion area
       graphicsOverlay = new GraphicsOverlay();
@@ -167,7 +166,7 @@ public class AddFeaturesWithContingentValuesController {
       mapView.setOnMouseClicked(event -> {
         if (event.isStillSincePress() && event.getButton() == MouseButton.PRIMARY) {
           vBox.setDisable(false);
-
+          
           // if the newFeature object is null, create a new feature and set its attributes from the already populated UI
           if (newFeature == null) {
             newFeature = (ArcGISFeature) geodatabaseFeatureTable.createFeature();
