@@ -17,6 +17,7 @@ exception_proper_nouns = {
     'ArcGIS Online',
     'OAuth',
     'Web Mercator',
+    'Arcade',
     'ArcGIS Pro',
     'GeoPackage',
     'Geotriggers',
