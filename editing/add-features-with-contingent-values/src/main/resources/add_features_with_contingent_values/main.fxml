@@ -50,10 +50,8 @@
             <Label fx:id="label" text="Exclusion Area Buffer Size: "/>
             <Slider fx:id="bufferSlider" onMouseDragged="#handleBufferSlider" onMouseReleased="#handleBufferSlider" majorTickUnit="100" showTickLabels="true" style="-fx-font-size: 14" />
             <HBox spacing="10">
-                <children>
-                    <Button text="Save" onAction="#handleSaveButton" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
-                    <Button text="Delete" onAction="#deleteFeature"  maxWidth="Infinity" HBox.hgrow="ALWAYS" />
-                </children>
+                <Button text="Save" onAction="#handleSaveButton" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                <Button text="Delete" onAction="#deleteFeature" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
             </HBox>
         </VBox>
     </VBox>
