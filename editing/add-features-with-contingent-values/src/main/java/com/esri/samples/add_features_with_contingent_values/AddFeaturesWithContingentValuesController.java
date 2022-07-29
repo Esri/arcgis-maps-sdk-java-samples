@@ -83,7 +83,6 @@ public class AddFeaturesWithContingentValuesController {
   private Geodatabase geodatabase;
   private GeodatabaseFeatureTable geodatabaseFeatureTable;
   private GraphicsOverlay graphicsOverlay;
-  private QueryParameters queryParameters;
 
   private final SimpleBooleanProperty isEditingFeatureProperty = new SimpleBooleanProperty(false);
 
@@ -160,8 +159,6 @@ public class AddFeaturesWithContingentValuesController {
                   mapView.setViewpointGeometryAsync(featureLayer.getFullExtent(), 50);
                   // queries the features in the feature table and applies a buffer to them
                   // set up query parameters for generating buffer graphic
-                  queryParameters = new QueryParameters();
-                  queryParameters.setWhereClause("BufferSize > 0");
                   queryAndBufferFeatures();
                   getAndLoadContingentDefinitionAndSetStatusAttribute();
                   mapView.setDisable(false);
@@ -334,6 +331,10 @@ public class AddFeaturesWithContingentValuesController {
    */
   private void queryAndBufferFeatures() {
 
+    // create new query parameters and set its where clause
+    var queryParameters = new QueryParameters();
+    queryParameters.setWhereClause("BufferSize > 0");
+    
     // get all the features that have buffer size greater than zero
     var results = geodatabaseFeatureTable.queryFeaturesAsync(queryParameters);
     results.addDoneListener(() -> {
