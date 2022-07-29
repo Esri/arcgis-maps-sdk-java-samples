@@ -16,15 +16,15 @@
   -->
 
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <StackPane fx:controller="com.esri.samples.add_features_with_contingent_values.AddFeaturesWithContingentValuesController"
            xmlns:fx="http://javafx.com/fxml" stylesheets="/add_features_with_contingent_values/style.css">
     <!--SDK MapView-->
-    <MapView fx:id="mapView" disable="true"/>
-    <VBox StackPane.alignment="TOP_RIGHT" spacing="5" maxWidth="200" maxHeight="50" styleClass="panel-region" fx:id="vBox" disable="true">
+    <MapView fx:id="mapView"/>
+    <VBox spacing="10" StackPane.alignment="TOP_RIGHT" maxWidth="210" maxHeight="300" styleClass="panel-region">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -33,19 +33,28 @@
                 <fills>
                     <BackgroundFill>
                         <fill>
-                            <Color opacity="0.3"/>
+                            <Color opacity="0.7"/>
                         </fill>
                     </BackgroundFill>
                 </fills>
             </Background>
         </background>
-        <Label text="Status Attribute"/>
-        <ComboBox fx:id="statusComboBox" promptText="Select status:" onAction="#handleStatusComboBox"/>
-        <Label text="Protection Attribute"/>
-        <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionComboBox"/>
-        <Label fx:id="label" text="Exclusion Area Buffer Size: "/>
-        <Slider fx:id="bufferSlider" onMouseDragged="#handleBufferSlider" onMouseReleased="#handleBufferSlider" majorTickUnit="100" showTickLabels="true" style="-fx-font-size: 14"/>
-        <Button text="Save Feature" onAction="#handleSaveButton" />
-        <Button text="Discard Feature" onAction="#deleteFeature"/>
+        <Label fx:id="addFeatureLabel" text="Click on the map to add a new feature." managed="${addFeatureLabel.visible}" minHeight="50" />
+        <Label fx:id="attributesLabel"  text="Add attributes to the feature and click save to apply, or cancel to remove the feature." managed="${attributesLabel.visible}" visible="false" />
+        <Separator VBox.vgrow="ALWAYS"/>
+        <VBox fx:id="attributeControlsVBox" spacing="5" maxWidth="200" styleClass="panel-region" disable="true">
+            <Label text="Status Attribute"/>
+            <ComboBox fx:id="statusComboBox" promptText="Select status:" onAction="#handleStatusComboBox"/>
+            <Label text="Protection Attribute"/>
+            <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionComboBox"/>
+            <Label fx:id="label" text="Exclusion Area Buffer Size: "/>
+            <Slider fx:id="bufferSlider" onMouseDragged="#handleBufferSlider" onMouseReleased="#handleBufferSlider" majorTickUnit="100" showTickLabels="true" style="-fx-font-size: 14" />
+            <HBox spacing="10">
+                <children>
+                    <Button text="Save" onAction="#handleSaveButton" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+                    <Button text="Delete" onAction="#deleteFeature"  maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+                </children>
+            </HBox>
+        </VBox>
     </VBox>
 </StackPane>
