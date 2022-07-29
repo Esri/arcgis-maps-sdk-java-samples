@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2022 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<StackPane fx:controller="com.esri.samples.add_features_with_contingent_values.AddFeaturesWithContingentValuesController"
+           xmlns:fx="http://javafx.com/fxml" stylesheets="/add_features_with_contingent_values/style.css">
+    <!--SDK MapView-->
+    <MapView fx:id="mapView" disable="true"/>
+    <VBox spacing="10" StackPane.alignment="TOP_RIGHT" maxWidth="210" maxHeight="300" styleClass="panel-region">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.7"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+        <Label fx:id="addFeatureLabel" text="Click on the map to add a new feature." managed="${addFeatureLabel.visible}" minHeight="50" />
+        <Label fx:id="attributesLabel"  text="Add attributes to the feature and click save to apply, or cancel to remove the feature." managed="${attributesLabel.visible}" visible="false" />
+        <Separator VBox.vgrow="ALWAYS"/>
+        <VBox fx:id="attributeControlsVBox" spacing="5" maxWidth="200" styleClass="panel-region" disable="true">
+            <Label text="Status Attribute"/>
+            <ComboBox fx:id="statusComboBox" promptText="Select status:" onAction="#handleStatusComboBox"/>
+            <Label text="Protection Attribute"/>
+            <ComboBox fx:id="protectionComboBox" promptText="Select protection:" onAction="#handleProtectionComboBox"/>
+            <Label fx:id="label" text="Exclusion Area Buffer Size: "/>
+            <Slider fx:id="bufferSlider" onMouseDragged="#handleBufferSlider" onMouseReleased="#handleBufferSlider" majorTickUnit="100" showTickLabels="true" style="-fx-font-size: 14" />
+            <HBox spacing="10">
+                <Button text="Save" onAction="#handleSaveButton" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                <Button text="Delete" onAction="#deleteFeature" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </VBox>
+    </VBox>
+</StackPane>

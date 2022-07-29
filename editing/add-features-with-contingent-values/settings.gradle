@@ -1,0 +1,21 @@
+rootProject.name = 'add-features-with-contingent-values'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/e12b54ea799f4606a2712157cf9f6e41/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data")
+    )
+    delete file("./data.zip")
+
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/b5106355f1634b8996e634c04b6a930a/data",
+            dest: file("./samples-data/FillmoreTopographicMap.vtpk")
+    )
+}
