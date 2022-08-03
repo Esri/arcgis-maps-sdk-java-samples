@@ -71,8 +71,8 @@ public class FeatureLayerDictionaryRendererSample extends Application {
       ".geodatabase");
     geodatabase = new Geodatabase(geodatabaseFile.getAbsolutePath());
 
-    // check the geodatabase has loaded successfully
     geodatabase.addDoneLoadingListener(() -> {
+    // check if the geodatabase has loaded successfully
       if (geodatabase.getLoadStatus() == LoadStatus.LOADED) {
         var mapOperationalLayersList = map.getOperationalLayers();
         var geodatabaseFeatureTablesList = geodatabase.getGeodatabaseFeatureTables();
