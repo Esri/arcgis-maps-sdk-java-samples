@@ -50,7 +50,7 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.generate_geodatabase.GenerateGeodatabaseLauncher'
+    mainClassName = 'com.esri.samples.generate_geodatabase_replica_from_feature_service.GenerateGeodatabaseReplicaFromFeatureServiceLauncher'
 }
 
 jar {

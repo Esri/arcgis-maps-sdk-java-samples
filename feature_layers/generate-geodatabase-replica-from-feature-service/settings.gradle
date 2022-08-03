@@ -1,4 +1,4 @@
-rootProject.name = 'generate-geodatabase'
+rootProject.name = 'generate-geodatabase-replica-from-feature-service'
 
 // download sample data
 def ant = new groovy.util.AntBuilder()

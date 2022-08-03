@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.esri.samples.generate_geodatabase;
+package com.esri.samples.generate_geodatabase_replica_from_feature_service;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,7 +50,7 @@ import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseJob;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
 import com.esri.arcgisruntime.tasks.geodatabase.GeodatabaseSyncTask;
 
-public class GenerateGeodatabaseSample extends Application {
+public class GenerateGeodatabaseReplicaFromFeatureServiceSample extends Application {
 
   private MapView mapView;
   // keep loadables in scope to avoid garbage collection
@@ -68,7 +68,7 @@ public class GenerateGeodatabaseSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // size the stage, add a title, and set scene to stage
-      stage.setTitle("Generate Geodatabase Sample");
+      stage.setTitle("Generate Geodatabase Replica from Feature Service Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
