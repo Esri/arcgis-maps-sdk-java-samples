@@ -112,7 +112,6 @@ public class FeatureLayerDictionaryRendererSample extends Application {
         } else {
           new Alert(Alert.AlertType.ERROR, "Error: Map operational list size does not match geodatabase feature table list size").show();
         }
-        
       } else {
         new Alert(Alert.AlertType.ERROR, "Geodatabase Failed to Load!").show();
       }
