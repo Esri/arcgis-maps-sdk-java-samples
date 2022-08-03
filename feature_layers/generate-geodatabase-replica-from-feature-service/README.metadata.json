@@ -3,7 +3,7 @@
     "description": "Generate a local geodatabase replica from an online feature service.",
     "ignore": false,
     "images": [
-        "GenerateGeodatabase.png"
+        "GenerateGeodatabaseReplicaFromFeatureService.png"
     ],
     "keywords": [
         "disconnected",
