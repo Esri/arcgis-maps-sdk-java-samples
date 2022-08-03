@@ -61,7 +61,7 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
     mapView.setMap(map);
 
-    // render tells layer what symbols to apply to what features
+    // define and load a dictionary symbol style from a local style file
     File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/mil2525d.stylx");
     var dictionarySymbolStyle = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
     dictionarySymbolStyle.loadAsync();
