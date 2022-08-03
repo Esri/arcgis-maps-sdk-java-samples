@@ -120,7 +120,6 @@ public class FeatureLayerDictionaryRendererSample extends Application {
     
     // load the geodatabase
     geodatabase.loadAsync();
-    
   }
 
   /**
