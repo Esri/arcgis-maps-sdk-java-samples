@@ -1,6 +1,6 @@
 {
     "category": "Feature layers",
-    "description": "Generate a local geodatabase from an online feature service.",
+    "description": "Generate a local geodatabase replica from an online feature service.",
     "ignore": false,
     "images": [
         "GenerateGeodatabase.png"
@@ -9,6 +9,7 @@
         "disconnected",
         "local geodatabase",
         "offline",
+        "replica",
         "sync",
         "GenerateGeodatabaseJob",
         "GenerateGeodatabaseParameters",
@@ -16,7 +17,7 @@
         "GeodatabaseSyncTask"
     ],
     "redirect_from": [
-        "/java/latest/sample-code/generate-geodatabase.htm"
+        "/java/sample-code/generate-geodatabase/"
     ],
     "relevant_apis": [
         "GenerateGeodatabaseJob",
@@ -25,7 +26,7 @@
         "GeodatabaseSyncTask"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/generate_geodatabase/GenerateGeodatabaseSample.java"
+        "src/main/java/com/esri/samples/generate_geodatabase_replica_from_feature_service/GenerateGeodatabaseReplicaFromFeatureServiceSample.java"
     ],
-    "title": "Generate geodatabase"
+    "title": "Generate geodatabase replica from feature service"
 }
