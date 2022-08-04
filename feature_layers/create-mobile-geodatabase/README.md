@@ -33,7 +33,7 @@ Click on the map to add a feature. Click "View Table" to view the contents of th
 * GeodatabaseFeatureTable
 * TableDescription
 
-## Additional Information
+## Additional information
 
 Learn more about mobile geodatabases and how to utilize them on the [ArcGIS Pro documentation](https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/manage-mobile-gdb/mobile-geodatabases.htm) page. The following mobile geodatabase behaviors are supported in ArcGIS Runtime: annotation, attachments, attribute rules, contingent values, dimensions, domains, feature-linked annotation, subtypes, utility network and relationship classes.
 
