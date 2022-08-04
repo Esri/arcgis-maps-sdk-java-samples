@@ -12,28 +12,33 @@ For example, a user would like to track the location of their device at various 
 
 ## How to use the sample
 
-Tap on the map to add a feature symbolizing the user's location. Tap "View Table" to view the contents of the geodatabase feature table. Once you have added the location points to the map, click on "Create Mobile Geodatabase" to retrieve the .geodatabase file which can then be imported into ArcGIS Pro or opened in an ArcGIS Runtime application.
+Click on the map to add a feature. Click "View Table" to view the contents of the geodatabase feature table. Once you have added the features to the map, click on "Create Geodatabase" to create, save, and retrieve the .geodatabase file which can then be imported into ArcGIS Pro or opened in an ArcGIS Runtime application.
 
 ## How it works
 
-1. Create the Geodatabase from the mobile geodatabase location on file using `Geodatabase.createAsync()`.
-2. Create a new TableDescription and add the list of FieldDescriptions to the table description.
-3. Create a GeodatabaseFeatureTable in the geodatabase from the TableDescription using `Geodatabase.createTableAsync()`.
-4. Create a feature on the selected map point using `GeodatabaseFeatureTable.createFeature(featureAttributes, normalizedMapPoint)`.
-5. Add the feature to the table using `GeodatabaseFeatureTable.addFeatureAsync(feature)`.
-6. Each feature added to the GeodatabaseFeatureTable is committed to the mobile geodatabase file.
-7. Close the mobile geodatabase to save the ".geodatabase" file using `Geodatabase.close()`.
+1. Create an empty mobile geodatabase with `Geodatabase.createAsync(String path)` and pass in a specific path as the parameter.
+2. Create a new `TableDescription` and add a list of new `FieldDescription`s to its collection of field descriptions with `tableDescription.getFieldDescriptions().addAll()`.
+3. Create a new table in the geodatabase from the table description with `geodatabase.createTableAsync()`. Once the listenable future has completed, get the newly created geodatabase feature table with `geodatabaseFeatureTableFuture.get()`.
+4. Create a feature on the selected map point using `geodatabaseFeatureTable.createFeature()`, passing a map of feature attributes and a geometry as parameters.
+5. Add the feature to the table using `geodatabaseFeatureTable.addFeatureAsync(feature)`.
+6. Each feature added to the geodatabase feature table is committed to the mobile geodatabase file.
+7. Close the mobile geodatabase with `geodatabase.close()`.
 
 ## Relevant API
 
 * ArcGISFeature
 * FeatureLayer
-* FeatureTable
 * FieldDescription
 * Geodatabase
 * GeodatabaseFeatureTable
 * TableDescription
 
+## Additional Information
+
+Learn more about mobile geodatabases and how to utilize them on the [ArcGIS Pro documentation](https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/manage-mobile-gdb/mobile-geodatabases.htm) page. The following mobile geodatabase behaviors are supported in ArcGIS Runtime: annotation, attachments, attribute rules, contingent values, dimensions, domains, feature-linked annotation, subtypes, utility network and relationship classes.
+
+Learn more about the types of fields supported with mobile geodatabases on the [ArcGIS Pro documentation](https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/manage-mobile-gdb/mobile-geodatabases.htm) page.
+
 ## Tags
 
-arcgis feature, arcgis pro, database, feature, feature layer, feature table, field description, geodatabase, geodatabase feature table, mobile geodatabase, sqlite, table description
+arcgis pro, database, feature, feature table, geodatabase, mobile geodatabase, sqlite
