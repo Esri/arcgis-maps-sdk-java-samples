@@ -74,6 +74,7 @@ public class FindPlaceController {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
+    // handle JavaFX bug where entering a space between words in the combobox editor will reset the text there
     handleSpaceEntered(placeBox);
     handleSpaceEntered(locationBox);
 
