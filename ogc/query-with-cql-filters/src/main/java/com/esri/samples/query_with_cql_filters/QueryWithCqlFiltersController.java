@@ -281,15 +281,13 @@ public class QueryWithCqlFiltersController {
     ObservableList<String> cqlQueryList = FXCollections.observableArrayList();
 
     // sample query 1: query for features with an F_CODE attribute property of "AP010".
-    cqlQueryList.add("F_CODE = 'AP010'"); // cql-text query
-    cqlQueryList.add("{ \"eq\" : [ { \"property\" : \"F_CODE\" }, \"AP010\" ] }"); // cql-json query
+    cqlQueryList.add("{ \"op\": \"=\", \"args\": [ { \"property\": \"F_CODE\" }, \"AP010\" ] }"); // cql2-json query
 
     // sample query 2: cql-text query for features with an F_CODE attribute property similar to "AQ".
     cqlQueryList.add("F_CODE LIKE 'AQ%'");
 
-    // sample query 3: use cql-json to combine "before" and "eq" operators with the logical "and" operator
-    cqlQueryList.add("{\"and\":[{\"eq\":[{ \"property\" : \"F_CODE\" }, \"AP010\"]},{ \"before\":" +
-      "[{ \"property\" : \"ZI001_SDV\"},\"2013-01-01\"]}]}");
+    // sample query 3: use cql2-json to combine "before" and "eq" operators with the logical "and" operator
+    cqlQueryList.add("{\"op\": \"and\", \"args\":[{ \"op\": \"=\", \"args\":[{ \"property\" : \"F_CODE\" }, \"AP010\"]}, { \"op\": \"t_before\", \"args\":[{ \"property\" : \"ZI001_SDV\"},\"2013-01-01\"]}]}");
 
     // add sample CQL queries to the UI combobox
     comboBox.getItems().addAll(cqlQueryList);
