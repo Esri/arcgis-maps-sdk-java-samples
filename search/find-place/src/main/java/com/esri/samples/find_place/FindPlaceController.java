@@ -27,7 +27,9 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
@@ -71,6 +73,10 @@ public class FindPlaceController {
     // authentication with an API key or named user is required to access basemaps and other location services
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+
+    // handle JavaFX bug where entering a space between words in the combobox editor will reset the text there
+    handleSpaceEntered(placeBox);
+    handleSpaceEntered(locationBox);
 
     // create a map with the streets basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
@@ -139,7 +145,8 @@ public class FindPlaceController {
         Point2D point = new Point2D(evt.getX(), evt.getY());
 
         // get layers with elements near the clicked location
-        ListenableFuture<IdentifyGraphicsOverlayResult> identifyResults = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, point,
+        ListenableFuture<IdentifyGraphicsOverlayResult> identifyResults =
+          mapView.identifyGraphicsOverlayAsync(graphicsOverlay, point,
             10, false);
         identifyResults.addDoneListener(() -> {
           try {
@@ -159,6 +166,23 @@ public class FindPlaceController {
         });
       }
     });
+  }
+
+  /**
+   * Handles a JavaFX bug (https://bugs.openjdk.org/browse/JDK-8087549) where when the user enters a space the combobox editor TextField is reset.
+   *
+   * @param comboBox the comboBox to apply the JavaFX bug work around to
+   */
+  private void handleSpaceEntered(ComboBox<String> comboBox) {
+
+    var comboBoxListViewSkin = new ComboBoxListViewSkin<>(comboBox);
+    comboBoxListViewSkin.getPopupContent().addEventFilter(KeyEvent.ANY, (event -> {
+        if (event.getCode() == KeyCode.SPACE) {
+          event.consume();
+        }
+      })
+    );
+    comboBox.setSkin(comboBoxListViewSkin);
   }
 
   /**
@@ -182,14 +206,14 @@ public class FindPlaceController {
             // create a search area envelope around the location
             Point p = points.get(0).getDisplayLocation();
             Envelope preferredSearchArea = new Envelope(p.getX() - 10000, p.getY() - 10000, p.getX() + 10000, p.getY
-                () + 10000, p.getSpatialReference());
+              () + 10000, p.getSpatialReference());
             // set the geocode parameters search area to the envelope
             geocodeParameters.setSearchArea(preferredSearchArea);
             // zoom to the envelope
             mapView.setViewpointAsync(new Viewpoint(preferredSearchArea));
             // perform the geocode operation
             ListenableFuture<List<GeocodeResult>> geocodeTask = locatorTask.geocodeAsync(placeQuery,
-                geocodeParameters);
+              geocodeParameters);
 
             // add a listener to display the results when loaded
             geocodeTask.addDoneListener(new ResultsLoadedListener(geocodeTask));
@@ -206,17 +230,17 @@ public class FindPlaceController {
    */
   @FXML
   private void searchByCurrentViewpoint() {
-      String placeQuery = placeBox.getEditor().getText();
-      GeocodeParameters geocodeParameters = new GeocodeParameters();
-      geocodeParameters.getResultAttributeNames().add("*"); // return all attributes
-      geocodeParameters.setOutputSpatialReference(mapView.getSpatialReference());
-      geocodeParameters.setSearchArea(mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY).getTargetGeometry());
+    String placeQuery = placeBox.getEditor().getText();
+    GeocodeParameters geocodeParameters = new GeocodeParameters();
+    geocodeParameters.getResultAttributeNames().add("*"); // return all attributes
+    geocodeParameters.setOutputSpatialReference(mapView.getSpatialReference());
+    geocodeParameters.setSearchArea(mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY).getTargetGeometry());
 
-      //perform the geocode operation
-      ListenableFuture<List<GeocodeResult>> geocodeTask = locatorTask.geocodeAsync(placeQuery, geocodeParameters);
+    //perform the geocode operation
+    ListenableFuture<List<GeocodeResult>> geocodeTask = locatorTask.geocodeAsync(placeQuery, geocodeParameters);
 
-      // add a listener to display the results when loaded
-      geocodeTask.addDoneListener(new ResultsLoadedListener(geocodeTask));
+    // add a listener to display the results when loaded
+    geocodeTask.addDoneListener(new ResultsLoadedListener(geocodeTask));
   }
 
   /**
