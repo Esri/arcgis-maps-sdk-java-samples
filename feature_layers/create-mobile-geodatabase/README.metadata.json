@@ -30,6 +30,7 @@
         "TableDescription"
     ],
     "snippets": [
+        "src/main/java/com/esri/samples/create_mobile_geodatabase/CreateMobileGeodatabaseController.java",
         "src/main/java/com/esri/samples/create_mobile_geodatabase/CreateMobileGeodatabaseSample.java",
         "src/main/java/com/esri/samples/create_mobile_geodatabase/FeatureAttributeField.java"
     ],
