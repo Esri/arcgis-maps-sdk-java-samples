@@ -78,7 +78,7 @@ public class CreateMobileGeodatabaseController {
   private boolean isTableWindowOpen;
 
   @FXML
-  public void initialize() {
+  private void initialize() {
 
     try {
       // authentication with an API key or named user is required to access base maps and other location services
