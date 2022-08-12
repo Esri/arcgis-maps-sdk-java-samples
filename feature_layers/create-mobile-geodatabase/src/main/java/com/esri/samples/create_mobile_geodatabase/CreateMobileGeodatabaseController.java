@@ -16,7 +16,6 @@
 
 package com.esri.samples.create_mobile_geodatabase;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -162,20 +161,15 @@ public class CreateMobileGeodatabaseController {
    * Creates geodatabase and feature layer from geodatabase feature table descriptions.
    */
   @FXML
-  private void handleCreateGeodatabase() throws FileNotFoundException {
+  private void handleCreateGeodatabase() {
 
-    // get the path for the geodatabase file and check if it exists
+    // get the path for the geodatabase file
     geodatabasePath = Paths.get(System.getProperty("user.dir") + "/LocationHistory.geodatabase");
-    if (Files.exists(geodatabasePath)) {
-      try {
-        // delete geodatabase from previous run
-        Files.deleteIfExists(geodatabasePath);
-      } catch (IOException ioException) {
-        ioException.printStackTrace();
-      }
-    } else {
-      new Alert(Alert.AlertType.ERROR, "Failed to create geodatabase.").show();
-      throw new FileNotFoundException();
+    try {
+      // delete geodatabase from previous run
+      Files.deleteIfExists(geodatabasePath);
+    } catch (IOException ioException) {
+      ioException.printStackTrace();
     }
 
     // create geodatabase from the specified geodatabase file path
