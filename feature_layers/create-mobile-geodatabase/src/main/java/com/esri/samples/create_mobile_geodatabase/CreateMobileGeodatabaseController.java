@@ -16,6 +16,7 @@
 
 package com.esri.samples.create_mobile_geodatabase;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -91,9 +92,9 @@ public class CreateMobileGeodatabaseController {
       // set the map to the mapview
       mapView.setMap(map);
 
-      // create a point located at Redlands, CA to be used as the viewpoint for the map
-      var point = new Point(-117.195800, 34.056295, SpatialReferences.getWgs84());
-      mapView.setViewpointCenterAsync(point, 10000);
+      // create a point located at Harper's Ferry, West Virginia to be used as the viewpoint for the map
+      var point = new Point(-77.7332, 39.3238, SpatialReferences.getWgs84());
+      mapView.setViewpointCenterAsync(point, 15000);
 
       // create a graphics overlay to display the input points
       graphicsOverlay = new GraphicsOverlay();
@@ -110,7 +111,7 @@ public class CreateMobileGeodatabaseController {
 
       // create a point from user input and add it to the geodatabase feature table
       mapView.setOnMouseClicked(e -> {
-        if(createGeodatabaseButton.isDisabled() && !isTableWindowOpen) {
+        if (createGeodatabaseButton.isDisabled() && !isTableWindowOpen) {
           if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
             // create 2D point from pointer location
             var point2D = new Point2D(e.getX(), e.getY());
@@ -145,8 +146,7 @@ public class CreateMobileGeodatabaseController {
               });
             }
           }
-        }
-        else {
+        } else {
           // close table before adding a new feature to the map
           handleTableWindowVisibility();
         }
@@ -159,20 +159,26 @@ public class CreateMobileGeodatabaseController {
   }
 
   /**
-   * create geodatabase and feature layer from geodatabase feature table descriptions
+   * Creates geodatabase and feature layer from geodatabase feature table descriptions.
    */
   @FXML
-  private void createGeodatabase() {
+  private void handleCreateGeodatabase() throws FileNotFoundException {
 
-    // get the path for the geodatabase file
+    // get the path for the geodatabase file and check if it exists
     geodatabasePath = Paths.get(System.getProperty("user.dir") + "/LocationHistory.geodatabase");
-    try {
-      Files.deleteIfExists(geodatabasePath);
-    } catch (IOException ioException) {
-      ioException.printStackTrace();
+    if (Files.exists(geodatabasePath)) {
+      try {
+        // delete geodatabase from previous run
+        Files.deleteIfExists(geodatabasePath);
+      } catch (IOException ioException) {
+        ioException.printStackTrace();
+      }
+    } else {
+      new Alert(Alert.AlertType.ERROR, "Failed to create geodatabase.").show();
+      throw new FileNotFoundException();
     }
 
-    // create geodatabase from the specified mobile geodatabase file path
+    // create geodatabase from the specified geodatabase file path
     var geodatabaseFuture = Geodatabase.createAsync(geodatabasePath.toString());
     geodatabaseFuture.addDoneListener(() -> {
       try {
@@ -183,7 +189,7 @@ public class CreateMobileGeodatabaseController {
         var tableDescription = new TableDescription("LocationHistory", SpatialReferences.getWgs84(),
           GeometryType.POINT);
 
-        // Set up the fields for the table. FieldType.OID is the primary key of the SQLite table.
+        // set up the fields for the table. FieldType.OID is the primary key of the SQLite table
         var fieldDescriptionOID = new FieldDescription("oid", Field.Type.OID);
         var fieldDescriptionText = new FieldDescription("collection_timestamp", Field.Type.TEXT);
         tableDescription.getFieldDescriptions().addAll(List.of(fieldDescriptionOID, fieldDescriptionText));
@@ -191,14 +197,14 @@ public class CreateMobileGeodatabaseController {
         // add a new table to the geodatabase feature table by creating one from the table description
         var geodatabaseFeatureTableFuture = geodatabase.createTableAsync(tableDescription);
 
-        // set up the map view to display the feature layer using the loaded [tableFuture] geodatabase feature table
+        // set up the map view to display the feature layer using the loaded tableFuture geodatabase feature table
         geodatabaseFeatureTableFuture.addDoneListener(() -> {
           try {
             // get the result of the loaded "LocationHistory" table
             geodatabaseFeatureTable = geodatabaseFeatureTableFuture.get();
             // create a feature layer for the map using the GeodatabaseFeatureTable
             var featureLayer = new FeatureLayer(geodatabaseFeatureTable);
-            mapView.getMap().getOperationalLayers().add(featureLayer);
+            map.getOperationalLayers().add(featureLayer);
             createGeodatabaseButton.setDisable(true);
             closeGeodatabaseButton.setDisable(false);
             viewTableButton.setDisable(false);
@@ -218,14 +224,14 @@ public class CreateMobileGeodatabaseController {
   }
 
   /**
-   * close the geodatabase, display its directory, and disable UI
+   * Closes the geodatabase, display its directory, and disables UI.
    */
   @FXML
-  private void closeGeodatabase() {
+  private void handleCloseGeodatabase() {
 
     geodatabase.close();
-    Alert dialog = new Alert(Alert.AlertType.INFORMATION, "Mobile geodatabase has been closed and stored " +
-      "in the following directory: \n\n" + geodatabasePath);
+    Alert dialog = new Alert(Alert.AlertType.INFORMATION,
+      "Mobile geodatabase has been closed and saved in the following directory: " + geodatabasePath.toString());
     dialog.initOwner(mapView.getScene().getWindow());
     dialog.setHeaderText(null);
     dialog.setTitle(("Information"));
@@ -242,10 +248,10 @@ public class CreateMobileGeodatabaseController {
   }
 
   /**
-   * Display a new window with the table of features stored in the geodatabase feature table
+   * Displays a new window with the table of features stored in the geodatabase feature table.
    */
   @FXML
-  private void displayTable() {
+  private void handleDisplayTable() {
 
     // create observable list of type GeoFeature to store the geodatabase features
     final ObservableList<FeatureAttributeField> fieldData = FXCollections.observableArrayList();
@@ -296,9 +302,8 @@ public class CreateMobileGeodatabaseController {
   }
 
   /**
-   * Handles visibility of the table window.
+   * Handles visibility of the table window and closes table window before adding new features.
    */
-  @FXML
   private void handleTableWindowVisibility() {
 
     if (tableStage != null) {
@@ -308,16 +313,20 @@ public class CreateMobileGeodatabaseController {
     }
 
     if (isTableWindowOpen && tableStage != null) {
-      // close table window if open
       tableStage.close();
       isTableWindowOpen = false;
     }
   }
 
   /**
-   * Stops the animation and disposes of application resources.
+   * Closes the geodatabase and disposes of application resources.
    */
   void terminate() {
+
+    if (geodatabase != null) {
+      geodatabase.close();
+    }
+
     if (mapView != null) {
       mapView.dispose();
     }

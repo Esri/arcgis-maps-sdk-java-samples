@@ -49,23 +49,24 @@
         </background>
         <StackPane.margin><Insets left="10" top="10"/></StackPane.margin>
         <Label  fx:id="label"
-                text="Create mobile geodatabase"/>
+                text="Create mobile geodatabase"
+                wrapText="true"/>
         <Button fx:id="createGeodatabaseButton"
                 text="Create geodatabase"
                 textAlignment="CENTER"
                 prefWidth="150"
-                onAction="#createGeodatabase"/>
-        <Button fx:id="closeGeodatabaseButton"
-                text="Close geodatabase"
-                textAlignment="CENTER"
-                prefWidth="150"
-                disable="true"
-                onAction="#closeGeodatabase"/>
+                onAction="#handleCreateGeodatabase"/>
         <Button fx:id="viewTableButton"
                 text="View table"
                 textAlignment="CENTER"
                 prefWidth="150"
                 disable="true"
-                onAction="#displayTable"/>
+                onAction="#handleDisplayTable"/>
+        <Button fx:id="closeGeodatabaseButton"
+                text="Close geodatabase"
+                textAlignment="CENTER"
+                prefWidth="150"
+                disable="true"
+                onAction="#handleCloseGeodatabase"/>
     </VBox>
 </StackPane>

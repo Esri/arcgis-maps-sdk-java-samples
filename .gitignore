@@ -37,3 +37,4 @@ samples-data/
 ehthumbs.db
 /arcgis-runtime-samples-java.iws
 /arcgis-runtime-samples-java.iml
+/feature_layers/create-mobile-geodatabase/LocationHistory.geodatabase
