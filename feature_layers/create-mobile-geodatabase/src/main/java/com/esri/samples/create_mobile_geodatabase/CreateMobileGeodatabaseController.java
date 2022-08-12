@@ -75,6 +75,7 @@ public class CreateMobileGeodatabaseController {
   private Geodatabase geodatabase;
   private Path geodatabasePath;
   private GeodatabaseFeatureTable geodatabaseFeatureTable;
+  private List<Point> inputs;
   private boolean isTableWindowOpen;
 
   @FXML
@@ -106,7 +107,7 @@ public class CreateMobileGeodatabaseController {
       graphicsOverlay.getGraphics().add(graphic);
 
       // keep track of the points added by the user
-      List<Point> inputs = new ArrayList<>();
+      inputs = new ArrayList<>();
 
       // create a point from user input and add it to the geodatabase feature table
       mapView.setOnMouseClicked(e -> {
@@ -218,12 +219,14 @@ public class CreateMobileGeodatabaseController {
   }
 
   /**
-   * Closes the geodatabase, display its directory, and disables UI.
+   * Closes the geodatabase, displays its directory, and updates UI components.
    */
   @FXML
   private void handleCloseGeodatabase() {
 
     geodatabase.close();
+    inputs.clear();
+
     Alert dialog = new Alert(Alert.AlertType.INFORMATION,
       "Mobile geodatabase has been closed and saved in the following directory: " + geodatabasePath.toString());
     dialog.initOwner(mapView.getScene().getWindow());
@@ -234,11 +237,10 @@ public class CreateMobileGeodatabaseController {
     // handle UI
     viewTableButton.setDisable(true);
     closeGeodatabaseButton.setDisable(true);
-    createGeodatabaseButton.setDisable(true);
-    label.setText("Restart sample to begin again");
+    createGeodatabaseButton.setDisable(false);
+    label.setText("Create mobile geodatabase");
     graphicsOverlay.getGraphics().clear();
     map.getOperationalLayers().clear();
-    mapView.setDisable(true);
   }
 
   /**
