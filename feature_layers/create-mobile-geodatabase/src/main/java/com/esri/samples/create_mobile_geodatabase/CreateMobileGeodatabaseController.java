@@ -111,7 +111,7 @@ public class CreateMobileGeodatabaseController {
 
       // create a point from user input and add it to the geodatabase feature table
       mapView.setOnMouseClicked(e -> {
-        if (createGeodatabaseButton.isDisabled() && !isTableWindowOpen) {
+        if (createGeodatabaseButton.isDisabled()) {
           if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY) {
             // create 2D point from pointer location
             var point2D = new Point2D(e.getX(), e.getY());
@@ -128,6 +128,8 @@ public class CreateMobileGeodatabaseController {
             graphic.setGeometry(inputsGeometry);
 
             if (inputs.size() > 0) {
+              // close and refresh table display
+              handleTableWindowVisibility();
               // set up the feature attributes
               Map<String, Object> featureAttributes = new HashMap<>(Map.of("collection_timestamp", Calendar.getInstance().getTime().toString()));
               // create a new feature at the map point
@@ -146,9 +148,6 @@ public class CreateMobileGeodatabaseController {
               });
             }
           }
-        } else {
-          // close table before adding a new feature to the map
-          handleTableWindowVisibility();
         }
       });
 
@@ -224,9 +223,10 @@ public class CreateMobileGeodatabaseController {
   @FXML
   private void handleCloseGeodatabase() {
 
-    // close geodatabase and clear input list if new geodatabase is created
+    // close geodatabase, table, and clear input list
     geodatabase.close();
     inputs.clear();
+    tableStage.close();
 
     // display geodatabase file location
     Alert dialog = new Alert(Alert.AlertType.INFORMATION,
@@ -240,7 +240,7 @@ public class CreateMobileGeodatabaseController {
     viewTableButton.setDisable(true);
     closeGeodatabaseButton.setDisable(true);
     createGeodatabaseButton.setDisable(false);
-    label.setText("Create mobile geodatabase");
+    label.setText("");
     graphicsOverlay.getGraphics().clear();
     map.getOperationalLayers().clear();
   }
@@ -250,6 +250,9 @@ public class CreateMobileGeodatabaseController {
    */
   @FXML
   private void handleDisplayTable() {
+
+    // close previous table
+    handleTableWindowVisibility();
 
     // create observable list of type GeoFeature to store the geodatabase features
     final ObservableList<FeatureAttributeField> fieldData = FXCollections.observableArrayList();
@@ -289,7 +292,6 @@ public class CreateMobileGeodatabaseController {
         tableStage.setTitle("Features");
         tableStage.setScene(scene);
         tableStage.show();
-        isTableWindowOpen = true; // to control window behaviour
 
       } catch (InterruptedException | ExecutionException e) {
         throw new RuntimeException(e);
@@ -303,12 +305,15 @@ public class CreateMobileGeodatabaseController {
   private void handleTableWindowVisibility() {
 
     if (tableStage != null) {
-      if (!tableStage.isShowing()) {
+      if (tableStage.isShowing()) {
+        isTableWindowOpen = true;
+      }
+      else if (!tableStage.isShowing()) {
         isTableWindowOpen = false;
       }
     }
 
-    if (isTableWindowOpen && tableStage != null) {
+    if (tableStage != null && isTableWindowOpen) {
       tableStage.close();
       isTableWindowOpen = false;
     }

@@ -49,7 +49,6 @@
         </background>
         <StackPane.margin><Insets left="10" top="10"/></StackPane.margin>
         <Label  fx:id="label"
-                text="Create mobile geodatabase"
                 wrapText="true"/>
         <Button fx:id="createGeodatabaseButton"
                 text="Create geodatabase"
