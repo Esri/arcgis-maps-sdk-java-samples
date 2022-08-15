@@ -3,8 +3,8 @@ module realistic.lighting.and.shadows.main {
   requires javafx.controls;
   requires javafx.graphics;
   requires javafx.fxml;
-  exports com.esri.samples.realistic_lighting_and_shadows;
-  opens com.esri.samples.realistic_lighting_and_shadows to javafx.fxml;
-  opens realistic_lighting_and_shadows;
 
+  exports com.esri.samples.realistic_lighting_and_shadows;
+
+  opens com.esri.samples.realistic_lighting_and_shadows to javafx.fxml;
 }

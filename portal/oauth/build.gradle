@@ -6,12 +6,17 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.14.1'
+    arcgisVersion = '200.0.0-3570'
 }
 
 javafx {
     version = "17.0.2"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.web' ]
+}
+
+application {
+    mainModule = "oauth.main"
+    mainClass = "com.esri.samples.oauth.OAuthSample"
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -50,9 +55,10 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.oauth.OAuthLauncher'
+    //mainClassName = 'com.esri.samples.oauth.OAuthLauncher'
 }
 
+/*
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
@@ -67,6 +73,8 @@ jar {
     exclude "META-INF/*.DSA"
     exclude "META-INF/*.RSA"
 }
+ */
+
 
 task productionZip(type: Zip) {
     group = 'distribution'

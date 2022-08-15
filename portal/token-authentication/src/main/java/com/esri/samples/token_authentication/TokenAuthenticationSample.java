@@ -16,6 +16,7 @@
 
 package com.esri.samples.token_authentication;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -91,7 +92,7 @@ public class TokenAuthenticationSample extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
-
+    ArcGISRuntimeEnvironment.setInstallDirectory("/Users/mark8487/.arcgis/200.0.0-3570");
     Application.launch(args);
   }
 }

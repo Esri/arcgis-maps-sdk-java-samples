@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import com.esri.arcgisruntime.data.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -35,11 +36,6 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.data.Feature;
-import com.esri.arcgisruntime.data.FeatureTableEditResult;
-import com.esri.arcgisruntime.data.FeatureQueryResult;
-import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.data.ServiceGeodatabase;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
@@ -88,9 +84,28 @@ public class DeleteFeaturesSample extends Application {
         selectionResult = featureLayer.getSelectedFeaturesAsync();
         selectionResult.addDoneListener(() -> {
           try {
-            FeatureQueryResult selected = selectionResult.get();
+            //FeatureQueryResult selected = selectionResult.get();
+
+            // query parameters to delete a specific
+            QueryParameters queryParameters = new QueryParameters();
+            queryParameters.setWhereClause("objectid=1594564");
+
+            // get a quest result containing the feature to be deleted.
+            var resultFuture = featureTable.queryFeaturesAsync(queryParameters);
+            FeatureQueryResult selected = resultFuture.get();
+
+
+
+            for (Feature feature: selected) {
+              var keys = feature.getAttributes().keySet();
+              for (String key : keys) {
+                System.out.println("key - " + key + " val - " + feature.getAttributes().get(key));
+              }
+            }
+
             // delete selected features
             deleteFeatures(selected, featureTable);
+
           } catch (InterruptedException | ExecutionException e) {
             displayMessage("Cannot delete features", e.getCause().getMessage());
           }

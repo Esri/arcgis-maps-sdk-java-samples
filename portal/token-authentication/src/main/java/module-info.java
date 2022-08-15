@@ -1,4 +1,4 @@
-module display.map.main {
+module token.authentication.main {
   requires com.esri.arcgisruntime;
 
   requires javafx.controls;
@@ -8,5 +8,5 @@ module display.map.main {
   requires javafx.web;
   requires javafx.fxml;
 
-  exports com.esri.samples.display_map;
+  exports com.esri.samples.token_authentication;
 }

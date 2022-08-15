@@ -16,6 +16,7 @@
 
 package com.esri.samples.oauth;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -93,6 +94,7 @@ public class OAuthSample extends Application {
    */
   public static void main(String[] args) {
 
+    ArcGISRuntimeEnvironment.setInstallDirectory("/Users/mark8487/.arcgis/200.0.0-3570");
     Application.launch(args);
   }
 }

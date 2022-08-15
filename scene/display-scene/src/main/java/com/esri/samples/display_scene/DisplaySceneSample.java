@@ -22,6 +22,7 @@ import com.esri.arcgisruntime.mapping.*;
 import com.esri.arcgisruntime.raster.Raster;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -34,6 +35,8 @@ import java.util.ArrayList;
 public class DisplaySceneSample extends Application {
 
   private SceneView sceneView;
+  private ArcGISScene scene;
+  private RasterElevationSource elevationSource;
   private static final String ELEVATION_IMAGE_SERVICE =
       "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
 
@@ -61,7 +64,7 @@ public class DisplaySceneSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a scene with a basemap style
-      ArcGISScene scene = new ArcGISScene(Basemap.createImageryWithLabels());
+      scene = new ArcGISScene(Basemap.createImageryWithLabels());
 
       // add the SceneView to the stack pane
       sceneView = new SceneView();
@@ -76,7 +79,7 @@ public class DisplaySceneSample extends Application {
       ArrayList<String> files = new ArrayList<>();
       files.add("./E000/N50.DT1");
 
-      RasterElevationSource elevationSource = new RasterElevationSource(files);
+      elevationSource = new RasterElevationSource(files);
       elevationSource.loadAsync();
       elevationSource.addDoneLoadingListener(()-> {
         System.out.println("Elevation load status " + elevationSource.getLoadStatus());
@@ -108,6 +111,18 @@ public class DisplaySceneSample extends Application {
       //Camera camera = new Camera(28.4, 83.9, 10010.0, 10.0, 80.0, 0.0);
       //sceneView.setViewpointCamera(camera);
 
+      Button button = new Button("close scene");
+      button.setOnAction(event  -> {
+        System.out.println("button pressed");
+
+        sceneView.setArcGISScene(null);
+        scene = null;
+        elevationSource = null;
+
+      });
+
+      stackPane.getChildren().add(button);
+
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
@@ -121,15 +136,30 @@ public class DisplaySceneSample extends Application {
   public void stop() {
 
     //Layer layer = sceneView.getArcGISScene().getOperationalLayers().get(0);
-    sceneView.getArcGISScene().getOperationalLayers().clear();
+    //sceneView.getArcGISScene().getOperationalLayers().clear();
+
 
     if (sceneView != null) {
       sceneView.dispose();
     }
 
+    scene = null;
+    elevationSource = null;
+
+    try {
+
+      System.out.println("keep alive for 5 seconds after null setting");
+      Thread.sleep(5000);
+      System.out.println("closing after delay...");
+
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("GC");
     System.gc();
 
-    /*
+
     try {
 
       System.out.println("keep alive for 5 seconds");
@@ -139,8 +169,6 @@ public class DisplaySceneSample extends Application {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-
-     */
   }
 
   /**
@@ -149,6 +177,7 @@ public class DisplaySceneSample extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
+    ArcGISRuntimeEnvironment.setInstallDirectory("/Users/mark8487/.arcgis/200.0.0-3570");
 
     Application.launch(args);
   }
