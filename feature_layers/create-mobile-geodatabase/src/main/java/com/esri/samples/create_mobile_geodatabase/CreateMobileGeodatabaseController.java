@@ -224,9 +224,11 @@ public class CreateMobileGeodatabaseController {
   @FXML
   private void handleCloseGeodatabase() {
 
+    // close geodatabase and clear input list if new geodatabase is created
     geodatabase.close();
     inputs.clear();
 
+    // display geodatabase file location
     Alert dialog = new Alert(Alert.AlertType.INFORMATION,
       "Mobile geodatabase has been closed and saved in the following directory: " + geodatabasePath.toString());
     dialog.initOwner(mapView.getScene().getWindow());
@@ -263,8 +265,6 @@ public class CreateMobileGeodatabaseController {
 
         // create and set up a new table view to display the features in a table
         TableView<FeatureAttributeField> table = new TableView<>();
-        table.setEditable(false);
-        table.setVisible(true);
 
         // create two table columns and add them to the table view
         TableColumn<FeatureAttributeField, String> oidCol = new TableColumn<>("OID");
