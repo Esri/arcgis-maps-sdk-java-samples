@@ -67,7 +67,9 @@ public class CreateMobileGeodatabaseController {
 
   @FXML private MapView mapView;
   @FXML private Label label;
-  @FXML private Button viewTableButton, createGeodatabaseButton, closeGeodatabaseButton;
+  @FXML private Button viewTableButton;
+  @FXML private Button createGeodatabaseButton;
+  @FXML private Button closeGeodatabaseButton;
   @FXML private Stage tableStage;
 
   private ArcGISMap map;
@@ -119,7 +121,8 @@ public class CreateMobileGeodatabaseController {
             // create a map point from 2D point
             Point mapPoint = mapView.screenToLocation(point2D);
 
-            // the map point should be normalized to the central meridian when wrapping around a map, so its value stays within the coordinate system of the map view
+            // the map point should be normalized to the central meridian when wrapping around a map, so its value
+            // stays within the coordinate system of the map view
             Point normalizedMapPoint = (Point) GeometryEngine.normalizeCentralMeridian(mapPoint);
 
             // add a point where the user clicks on the map and update the inputs graphic geometry
@@ -127,7 +130,7 @@ public class CreateMobileGeodatabaseController {
             Multipoint inputsGeometry = new Multipoint(new PointCollection(inputs));
             graphic.setGeometry(inputsGeometry);
 
-            if (inputs.size() > 0) {
+            if (!inputs.isEmpty()) {
               // close and refresh table display
               handleTableWindowVisibility();
               // set up the feature attributes
@@ -143,7 +146,8 @@ public class CreateMobileGeodatabaseController {
                   label.setText("Number of features added: " + geodatabaseFeatureTable.getTotalFeatureCount());
 
                 } catch (InterruptedException | ExecutionException ex) {
-                  throw new RuntimeException(ex);
+                  new Alert(Alert.AlertType.ERROR, "Unable to add feature.").show();
+                  ex.printStackTrace();
                 }
               });
             }
@@ -169,6 +173,7 @@ public class CreateMobileGeodatabaseController {
       // delete geodatabase from previous run
       Files.deleteIfExists(geodatabasePath);
     } catch (IOException ioException) {
+      new Alert(Alert.AlertType.ERROR, "Unable to delete previous geodatabase file").show();
       ioException.printStackTrace();
     }
 
@@ -226,7 +231,10 @@ public class CreateMobileGeodatabaseController {
     // close geodatabase, table, and clear input list
     geodatabase.close();
     inputs.clear();
-    tableStage.close();
+
+    if (tableStage != null) {
+      tableStage.close();
+    }
 
     // display geodatabase file location
     Alert dialog = new Alert(Alert.AlertType.INFORMATION,
@@ -240,7 +248,7 @@ public class CreateMobileGeodatabaseController {
     viewTableButton.setDisable(true);
     closeGeodatabaseButton.setDisable(true);
     createGeodatabaseButton.setDisable(false);
-    label.setText("");
+    label.setText("Click button to start.");
     graphicsOverlay.getGraphics().clear();
     map.getOperationalLayers().clear();
   }
@@ -264,7 +272,9 @@ public class CreateMobileGeodatabaseController {
         var queryResults = queryResultFuture.get();
         queryResults.forEach(feature ->
           // add features to the observable list
-          fieldData.add(new FeatureAttributeField(feature.getAttributes().get("oid").toString(), feature.getAttributes().get("collection_timestamp").toString())));
+          fieldData.add(
+            new FeatureAttributeField(feature.getAttributes().get("oid").toString(),
+              feature.getAttributes().get("collection_timestamp").toString())));
 
         // create and set up a new table view to display the features in a table
         TableView<FeatureAttributeField> table = new TableView<>();
@@ -294,7 +304,8 @@ public class CreateMobileGeodatabaseController {
         tableStage.show();
 
       } catch (InterruptedException | ExecutionException e) {
-        throw new RuntimeException(e);
+        new Alert(Alert.AlertType.ERROR, "Failed to query the feature table").show();
+        e.printStackTrace();
       }
     });
   }

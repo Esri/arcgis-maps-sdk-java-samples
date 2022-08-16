@@ -32,7 +32,7 @@
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <!--Controls box-->
-    <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="180" maxHeight="100" styleClass="panel-region">
+    <VBox StackPane.alignment="TOP_LEFT" spacing="5" maxWidth="200" maxHeight="100" styleClass="panel-region">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
@@ -49,22 +49,23 @@
         </background>
         <StackPane.margin><Insets left="10" top="10"/></StackPane.margin>
         <Label  fx:id="label"
+                text="Click button to start."
                 wrapText="true"/>
         <Button fx:id="createGeodatabaseButton"
                 text="Create geodatabase"
                 textAlignment="CENTER"
-                prefWidth="150"
+                prefWidth="Infinity"
                 onAction="#handleCreateGeodatabase"/>
         <Button fx:id="viewTableButton"
                 text="View table"
                 textAlignment="CENTER"
-                prefWidth="150"
+                prefWidth="Infinity"
                 disable="true"
                 onAction="#handleDisplayTable"/>
         <Button fx:id="closeGeodatabaseButton"
                 text="Close geodatabase"
                 textAlignment="CENTER"
-                prefWidth="150"
+                prefWidth="Infinity"
                 disable="true"
                 onAction="#handleCloseGeodatabase"/>
     </VBox>
