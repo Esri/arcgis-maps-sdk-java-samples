@@ -155,9 +155,9 @@ public class CreateMobileGeodatabaseController {
         }
       });
 
-    } catch (Exception e) {
+    } catch (Exception ex) {
       // on any error, display the stack trace.
-      e.printStackTrace();
+      ex.printStackTrace();
     }
   }
 
@@ -210,9 +210,9 @@ public class CreateMobileGeodatabaseController {
             mapView.setDisable(false);
             label.setText("Click map to add features");
 
-          } catch (Exception exception) {
+          } catch (Exception ex) {
             new Alert(Alert.AlertType.ERROR, "Failed to get feature table result").show();
-            exception.printStackTrace();
+            ex.printStackTrace();
           }
         });
 
@@ -303,9 +303,9 @@ public class CreateMobileGeodatabaseController {
         tableStage.setScene(scene);
         tableStage.show();
 
-      } catch (InterruptedException | ExecutionException e) {
+      } catch (InterruptedException | ExecutionException ex) {
         new Alert(Alert.AlertType.ERROR, "Failed to query the feature table").show();
-        e.printStackTrace();
+        ex.printStackTrace();
       }
     });
   }
