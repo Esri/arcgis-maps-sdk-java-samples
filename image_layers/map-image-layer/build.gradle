@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.14.1'
+    arcgisVersion = '100.15.0'
 }
 
 javafx {
@@ -77,5 +77,5 @@ task productionZip(type: Zip) {
 }
 
 wrapper {
-    gradleVersion = '7.3'
+    gradleVersion = '7.5'
 }
