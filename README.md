@@ -14,7 +14,7 @@
 
 ![Gradle build](https://github.com/Esri/arcgis-runtime-samples-java/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
-Welcome to the home of the ArcGIS Runtime API for Java samples Github page! This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Runtime API for Java.
+Welcome to the home of the ArcGIS Runtime API for Java samples! This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Runtime API for Java.
 
 ![Choose Camera Controller sample preview](https://user-images.githubusercontent.com/36415565/185649571-7d6feb6f-f0c2-42cb-9139-9d4541dd1da8.png)
 
@@ -34,7 +34,7 @@ Note: *in the following instructions for setting the API key, if a `gradle.prope
 
 1. Open IntelliJ IDEA and select _File > Open..._.
 2. Choose one of the sample project directories (not the category folder) and click _OK_.
-3. Select _File > Project Structure..._ and ensure that the Project SDK and language level are set to use Java 11.
+3. Select _File > Project Structure..._ and ensure that the Project SDK and language level are set to use Java 11 or Java 17.
 4. Store your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory. The API key will be set as a Java system property when the sample is run.
    ```
    apiKey = yourApiKey
