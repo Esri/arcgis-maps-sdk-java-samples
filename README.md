@@ -14,7 +14,7 @@
 
 ![Gradle build](https://github.com/Esri/arcgis-runtime-samples-java/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
-Welcome to the home of the ArcGIS Runtime API for Java samples! This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Runtime API for Java.
+Welcome to the home of the ArcGIS Runtime API for Java samples! The ArcGIS Runtime API for Java is used to build mapping, location, and GIS applications for desktop applications running on Windows, Mac, or Linux. This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Runtime API for Java.
 
 ![Choose Camera Controller sample preview](https://user-images.githubusercontent.com/36415565/185649571-7d6feb6f-f0c2-42cb-9139-9d4541dd1da8.png)
 
