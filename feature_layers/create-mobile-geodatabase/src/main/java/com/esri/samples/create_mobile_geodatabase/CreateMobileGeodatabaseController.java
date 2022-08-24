@@ -39,6 +39,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -242,6 +243,8 @@ public class CreateMobileGeodatabaseController {
     dialog.initOwner(mapView.getScene().getWindow());
     dialog.setHeaderText(null);
     dialog.setTitle(("Information"));
+    dialog.setResizable(true);
+    dialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
     dialog.showAndWait();
 
     // handle UI
@@ -301,6 +304,7 @@ public class CreateMobileGeodatabaseController {
         tableStage = new Stage();
         tableStage.setTitle("Features");
         tableStage.setScene(scene);
+        tableStage.centerOnScreen();
         tableStage.show();
 
       } catch (InterruptedException | ExecutionException ex) {
