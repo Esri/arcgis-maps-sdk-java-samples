@@ -1,8 +1,22 @@
 # ArcGIS Runtime API for Java Samples
 
+[![Link: ArcGIS Developers home](https://img.shields.io/badge/ArcGIS%20Developers%20Home-633b9b?style=flat-square)](https://developers.arcgis.com)
+[![Link: Documentation](https://img.shields.io/badge/Documentation-633b9b?style=flat-square)](https://developers.arcgis.com/java/)
+[![Link: API Reference](https://img.shields.io/badge/API%20Reference-633b9b?style=flat-square)](https://developers.arcgis.com/java/api-reference/reference/index.html)
+[![Link: Tutorials](https://img.shields.io/badge/Tutorials-633b9b?style=flat-square)](https://developers.arcgis.com/documentation/mapping-apis-and-services/tutorials/)
+[![Link: Demos](https://img.shields.io/badge/Demos-633b9b?style=flat-square)](https://github.com/Esri/arcgis-runtime-java-demos)
+[![Link: Toolkit](https://img.shields.io/badge/Toolkit-633b9b?style=flat-square)](https://github.com/Esri/arcgis-runtime-toolkit-java)
+
+[![Link: Esri Community](https://img.shields.io/badge/Esri%20Community%20Questions-2d2670?style=flat-square)](https://community.esri.com/t5/arcgis-runtime-sdk-for-java-questions/bd-p/arcgis-runtime-sdk-for-java-questions)
+![ArcGIS Developers Twitter](https://img.shields.io/twitter/url?label=ArcGIS%20Developers&logoColor=2d2670&url=https%3A%2F%2Ftwitter.com%2FArcGISDevs)
+[![Link: ArcGIS Runtime SDKs Blog](https://img.shields.io/badge/ArcGIS%20Runtime%20SDKS%20Blog-2d2670?style=flat-square)](https://community.esri.com/t5/arcgis-runtime-sdk-for-java-questions/bd-p/arcgis-runtime-sdk-for-java-questions)
+[![Link: ArcGIS Blog for Developers](https://img.shields.io/badge/ArcGIS%20Blog%20for%20Developers-2d2670?style=flat-square)](https://community.esri.com/t5/arcgis-runtime-sdk-for-java-questions/bd-p/arcgis-runtime-sdk-for-java-questions)
+
 ![Gradle build](https://github.com/Esri/arcgis-runtime-samples-java/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
-This repo contains a set of sample projects demonstrating how to accomplish various mapping and GIS tasks with the ArcGIS Runtime API for Java.
+Welcome to the home of the ArcGIS Runtime API for Java samples! The ArcGIS Runtime API for Java is used to build mapping, location, and GIS applications for desktop applications running on Windows, Mac, or Linux. This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Runtime API for Java.
+
+![Choose Camera Controller sample preview](https://user-images.githubusercontent.com/36415565/185649571-7d6feb6f-f0c2-42cb-9139-9d4541dd1da8.png)
 
 Browse the category directories to explore the samples. Each sample is an individual [Gradle](https://docs.gradle.org/current/userguide/userguide.html) project that can be run standalone. The Gradle buildscripts have tasks for running the application, building a jar, and distributing the app as a zip.
 
@@ -20,7 +34,7 @@ Note: *in the following instructions for setting the API key, if a `gradle.prope
 
 1. Open IntelliJ IDEA and select _File > Open..._.
 2. Choose one of the sample project directories (not the category folder) and click _OK_.
-3. Select _File > Project Structure..._ and ensure that the Project SDK and language level are set to use Java 11.
+3. Select _File > Project Structure..._ and ensure that the Project SDK and language level are set to use Java 11 or Java 17.
 4. Store your API key in the `gradle.properties` file located in the `/.gradle` folder within your home directory. The API key will be set as a Java system property when the sample is run.
    ```
    apiKey = yourApiKey
@@ -63,13 +77,6 @@ Some samples require offline data. A `samples-data` directory will automatically
 
 See the ArcGIS Runtime API's [system requirements](https://developers.arcgis.com/java/reference/system-requirements/).
 
-## Resources
-
-* [ArcGIS Runtime API for Java](https://developers.arcgis.com/java/)  
-* [Toolkit](https://github.com/Esri/arcgis-runtime-toolkit-java)
-* [ArcGIS Blog](https://blogs.esri.com/esri/arcgis/)  
-* [Esri Twitter](https://twitter.com/esri)  
-
 ## Issues
 
 Find a bug or want to request a new feature?  Please let us know by submitting an issue.
@@ -82,7 +89,7 @@ New to Git? Check out our [Working with Git](https://github.com/Esri/arcgis-runt
 
 ## Licensing
 
-Copyright 2021 Esri
+Copyright 2022 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy
