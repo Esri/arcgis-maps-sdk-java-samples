@@ -55,6 +55,8 @@ public class RealisticLightingAndShadowsController {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
+      System.out.println("resources dir :" + ArcGISRuntimeEnvironment.getResourcesDirectory());
+
       // create a scene with a basemap style
       ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 

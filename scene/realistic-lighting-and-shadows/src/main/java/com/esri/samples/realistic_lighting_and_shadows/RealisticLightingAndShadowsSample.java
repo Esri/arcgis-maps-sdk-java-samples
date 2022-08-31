@@ -33,7 +33,6 @@ public class RealisticLightingAndShadowsSample extends Application {
   public void start(Stage stage) throws IOException {
 
     // set up the scene
-    //FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/esri/samples/realistic_lighting_and_shadows/main.fxml"));
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/realistic_lighting_and_shadows/main.fxml"));
     Parent root = loader.load();
     controller = loader.getController();
@@ -61,12 +60,6 @@ public class RealisticLightingAndShadowsSample extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
-
-    //String location = System.getProperty("ARCGISRUNTIMESDKJAVA_200_0_0");
-    //System.out.println("location " + location);
-    //ArcGISRuntimeEnvironment.setInstallDirectory(location);
-
-    //ArcGISRuntimeEnvironment.setInstallDirectory("/Users/mark8487/.arcgis/200.0.0-3570");
     Application.launch(args);
   }
 }
