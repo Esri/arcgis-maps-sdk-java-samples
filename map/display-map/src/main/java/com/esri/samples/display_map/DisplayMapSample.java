@@ -16,11 +16,6 @@
 
 package com.esri.samples.display_map;
 
-import com.esri.arcgisruntime.layers.OpenStreetMapLayer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.MobileMapPackage;
-import com.esri.arcgisruntime.portal.Portal;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -30,10 +25,6 @@ import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class DisplayMapSample extends Application {
 
@@ -54,27 +45,16 @@ public class DisplayMapSample extends Application {
       stage.setScene(scene);
       stage.show();
 
-      OpenStreetMapLayer osm = new OpenStreetMapLayer();
-      osm.loadAsync();
-      osm.addDoneLoadingListener(()-> {
-        System.out.println("osm loaded " + osm.getLoadStatus());
-      });
-
-      Basemap basemap = new Basemap(osm);
-
       // authentication with an API key or named user is required to access basemaps and other location services
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-
+      // create a map with the standard imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
-      //ArcGISMap map = new ArcGISMap(basemap);
 
       // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
-
-
 
       // add the map view to the stack pane
       stackPane.getChildren().addAll(mapView);
@@ -101,16 +81,7 @@ public class DisplayMapSample extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
-    Path path = Paths.get("/Users/mark8487/.arcgis/200.0.0-3570/jniLibs/MACOS/x64/libruntimecore.dylib");
 
-    System.out.println(" .arcgis check : " + Files.exists(path));
-
-
-    //System.loadLibrary("/Users/mark8487/.arcgis/200.0.0-3570/jniLibs/MACOS/x64/libruntimecore.dylib");
-    //System.loadLibrary("jniLibs/MACOS/x64/libruntimecore.dylib");
-
-    //ArcGISRuntimeEnvironment.setInstallDirectory("/Users/mark8487/.arcgis/200.0.0-3586");
-    ArcGISRuntimeEnvironment.setInstallDirectory("/Users/mark8487/.arcgis/100.15.0-3600");
     Application.launch(args);
   }
 
