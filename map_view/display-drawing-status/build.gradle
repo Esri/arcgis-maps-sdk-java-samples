@@ -6,12 +6,17 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.15.0'
+    arcgisVersion = '200.0.0-3621'
 }
 
 javafx {
     version = "17.0.2"
-    modules = [ 'javafx.controls' ]
+    modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.web']
+}
+
+application {
+    mainModule = "display.drawing.status.main"
+    mainClass = "com.esri.samples.display_drawing_status.DisplayDrawingStatusSample"
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -65,22 +70,6 @@ run {
         systemProperty 'apiKey', apiKey
     }
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.display_drawing_status.DisplayDrawingStatusLauncher'
-}
-
-jar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes("Main-Class": "$mainClassName")
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-    // exclude signing files that come from dependencies
-    exclude "META-INF/*.SF"
-    exclude "META-INF/*.DSA"
-    exclude "META-INF/*.RSA"
 }
 
 task productionZip(type: Zip) {

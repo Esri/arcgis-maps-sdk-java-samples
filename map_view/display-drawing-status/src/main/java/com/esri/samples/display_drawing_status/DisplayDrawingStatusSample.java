@@ -17,6 +17,7 @@
 package com.esri.samples.display_drawing_status;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,7 +29,6 @@ import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -87,18 +87,14 @@ public class DisplayDrawingStatusSample extends Application {
       Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
       mapView.setViewpoint(new Viewpoint(envelope));
 
-      mapView.addDrawStatusChangedListener(e -> {
-        // check to see if draw status is in progress
-        if (e.getDrawStatus() == DrawStatus.IN_PROGRESS) {
-          // reset progress bar as in progress
-          progressBar.setProgress(-100.0);
-
-          // check to see if draw status is complete
-        } else if (e.getDrawStatus() == DrawStatus.COMPLETED) {
-          // set progress bar as complete
-          progressBar.setProgress(100.0);
-        }
-      });
+      // bind progress bar status and map view draw status
+      progressBar.progressProperty().bind(
+        Bindings.when(mapView.drawStatusProperty().isEqualTo(DrawStatus.COMPLETED))
+          // set progress bar as complete if draw status is complete
+          .then(1)
+          // set progress bar as loading if draw status incomplete
+          .otherwise(-1)
+      );
 
       // add the map view and progress bar to stack pane
       stackPane.getChildren().addAll(mapView, progressBar);
