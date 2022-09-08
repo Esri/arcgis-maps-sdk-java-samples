@@ -17,11 +17,10 @@
 package com.esri.samples.display_drawing_status;
 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -60,9 +59,8 @@ public class DisplayDrawingStatusSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create progress bar
-      ProgressBar progressBar = new ProgressBar();
-      progressBar.setMaxWidth(240.0);
+      // create progress indicator
+      var progressIndicator = new ProgressIndicator();
 
       // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
@@ -87,19 +85,13 @@ public class DisplayDrawingStatusSample extends Application {
       Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
       mapView.setViewpoint(new Viewpoint(envelope));
 
-      // bind progress bar status and map view draw status
-      progressBar.progressProperty().bind(
-        Bindings.when(mapView.drawStatusProperty().isEqualTo(DrawStatus.COMPLETED))
-          // set progress bar as complete if draw status is complete
-          .then(1)
-          // set progress bar as loading if draw status incomplete
-          .otherwise(-1)
-      );
+      // bind progress indicator visibility to map view draw status
+      progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
-      // add the map view and progress bar to stack pane
-      stackPane.getChildren().addAll(mapView, progressBar);
-      StackPane.setAlignment(progressBar, Pos.TOP_LEFT);
-      StackPane.setMargin(progressBar, new Insets(10, 0, 0, 10));
+      // add the map view and progress indicator to stack pane
+      stackPane.getChildren().addAll(mapView, progressIndicator);
+      StackPane.setAlignment(progressIndicator, Pos.TOP_LEFT);
+      StackPane.setMargin(progressIndicator, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();

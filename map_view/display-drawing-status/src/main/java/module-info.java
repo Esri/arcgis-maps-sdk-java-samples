@@ -8,6 +8,5 @@ module display.drawing.status.main {
   requires javafx.media;
   requires javafx.web;
 
-
   exports com.esri.samples.display_drawing_status;
 }
