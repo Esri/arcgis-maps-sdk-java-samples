@@ -4,6 +4,6 @@ module trace.a.utility.network.main {
   requires javafx.controls;
   requires javafx.fxml;
   requires javafx.graphics;
+
   exports com.esri.samples.trace_a_utility_network;
-  opens com.esri.samples.trace_a_utility_network to javafx.fxml;
 }
