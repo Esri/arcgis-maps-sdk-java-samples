@@ -24,7 +24,8 @@ module trace.a.utility.network.main {
   requires javafx.fxml;
   requires javafx.graphics;
 
-  // open fxml module for annotated objects to be reflectively accessible
+  // make all annotated objects reflectively accessible to the javafx.fxml module
   opens com.esri.samples.trace_a_utility_network to javafx.fxml;
+
   exports com.esri.samples.trace_a_utility_network;
 }
