@@ -80,13 +80,13 @@ import com.esri.arcgisruntime.utilitynetworks.UtilityTraceType;
 
 public class TraceAUtilityNetworkController {
 
-  @FXML public Button resetButton;
-  @FXML public Button traceButton;
-  @FXML public ComboBox<UtilityTraceType> traceTypeSelectionCombobox;
-  @FXML public Label statusLabel;
-  @FXML public MapView mapView;
-  @FXML public ProgressIndicator progressIndicator;
-  @FXML public RadioButton startingLocationsRadioButton;
+  @FXML private Button resetButton;
+  @FXML private Button traceButton;
+  @FXML private ComboBox<UtilityTraceType> traceTypeSelectionCombobox;
+  @FXML private Label statusLabel;
+  @FXML private MapView mapView;
+  @FXML private ProgressIndicator progressIndicator;
+  @FXML private RadioButton startingLocationsRadioButton;
 
   private ArrayList<UtilityElement> barriers;
   private ArrayList<UtilityElement> startingLocations;
@@ -206,7 +206,7 @@ public class TraceAUtilityNetworkController {
    * @param e mouse event registered when the map view is clicked on
    */
   @FXML
-  public void handleMapViewClicked(MouseEvent e) {
+  private void handleMapViewClicked(MouseEvent e) {
     // ensure the utility network is loaded before processing clicks on the map view
     if (utilityNetwork.getLoadStatus() == LoadStatus.LOADED && e.getButton() == MouseButton.PRIMARY &&
         e.isStillSincePress()) {
@@ -350,7 +350,7 @@ public class TraceAUtilityNetworkController {
    * selects all connected elements found in the trace to highlight them.
    */
   @FXML
-  public void handleTraceClick() {
+  private void handleTraceClick() {
 
     // clear the previous selection from the layer
     mapView.getMap().getOperationalLayers().forEach(layer -> {
@@ -466,7 +466,7 @@ public class TraceAUtilityNetworkController {
    * de-selecting all features and removing any graphics.
    */
   @FXML
-  public void handleResetClick() {
+  private void handleResetClick() {
     statusLabel.setText("");
     progressIndicator.setVisible(false);
 
