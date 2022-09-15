@@ -22,7 +22,7 @@
 <?import javafx.scene.layout.*?>
 <StackPane
         fx:controller="com.esri.samples.display_content_of_utility_network_container.DisplayContentOfUtilityNetworkContainerController"
-        xmlns:fx="http://javafx.com/fxml" stylesheets="/display_content_of_utility_network_container/style.css">
+        xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"  />
     <!--Controls Area-->
