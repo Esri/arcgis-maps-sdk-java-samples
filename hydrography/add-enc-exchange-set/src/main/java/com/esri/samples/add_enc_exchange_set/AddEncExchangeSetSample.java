@@ -83,10 +83,10 @@ public class AddEncExchangeSetSample extends Application {
       stackPane.getChildren().add(progressIndicator);
 
       // hide progress indicator when map is done drawing
-      mapView.addDrawStatusChangedListener(e -> {
-        if (e.getDrawStatus() == DrawStatus.IN_PROGRESS) {
+      mapView.drawStatusProperty().addListener((property, oldValue, newValue) -> {
+        if (newValue == DrawStatus.IN_PROGRESS) {
           progressIndicator.setVisible(true);
-        } else if (e.getDrawStatus() == DrawStatus.COMPLETED) {
+        } else if (newValue == DrawStatus.COMPLETED) {
           progressIndicator.setVisible(false);
         }
       });
