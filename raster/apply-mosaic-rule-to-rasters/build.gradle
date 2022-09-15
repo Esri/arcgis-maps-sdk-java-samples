@@ -6,12 +6,17 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '100.15.0'
+    arcgisVersion = '200.0.0-3634'
 }
 
 javafx {
     version = "17.0.2"
-    modules = [ 'javafx.controls', 'javafx.fxml']
+    modules = [ 'javafx.controls', 'javafx.media', 'javafx.fxml', 'javafx.web']
+}
+
+application {
+    mainModule = "apply.mosaic.rule.to.rasters.main"
+    mainClass = "com.esri.samples.apply_mosaic_rule_to_rasters.ApplyMosaicRuleToRastersSample"
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -65,9 +70,10 @@ run {
         systemProperty 'apiKey', apiKey
     }
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.apply_mosaic_rule_to_rasters.ApplyMosaicRuleToRastersLauncher'
+    //mainClassName = 'com.esri.samples.apply_mosaic_rule_to_rasters.ApplyMosaicRuleToRastersLauncher'
 }
 
+/*
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
@@ -83,6 +89,8 @@ jar {
     exclude "META-INF/*.RSA"
 }
 
+ */
+
 task productionZip(type: Zip) {
     group = 'distribution'
     from copyNatives
@@ -92,5 +100,5 @@ task productionZip(type: Zip) {
 }
 
 wrapper {
-    gradleVersion = '7.5'
+    gradleVersion = '7.5.1'
 }
