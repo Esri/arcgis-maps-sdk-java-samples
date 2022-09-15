@@ -142,9 +142,9 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
       // the features visible in the viewpoint extent every time the map is redrawn
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
-          mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
+          mapView.drawStatusProperty().addListener((property, oldValue, newValue) -> {
             // if the draw status is in progress, show the progress indicator and set the count label text
-            if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS) {
+            if (newValue == DrawStatus.IN_PROGRESS) {
               progressIndicator.setVisible(true);
               featureCountLabel.setText("updating..");
             } else {

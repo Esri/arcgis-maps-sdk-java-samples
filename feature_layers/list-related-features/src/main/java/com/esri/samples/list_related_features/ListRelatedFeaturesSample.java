@@ -84,8 +84,8 @@ public class ListRelatedFeaturesSample extends Application {
       mapView.getSelectionProperties().setColor(0xFFFFFF00);
 
       // hide the progress indicator when the layer is done drawing
-      mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
-        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+      mapView.drawStatusProperty().addListener((property, oldValue, newValue) -> {
+        if (newValue == DrawStatus.COMPLETED) {
           progressIndicator.setVisible(false);
         }
       });
