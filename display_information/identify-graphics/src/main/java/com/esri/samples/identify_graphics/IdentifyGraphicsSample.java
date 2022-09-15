@@ -80,7 +80,7 @@ public class IdentifyGraphicsSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // work with the MapView after it has loaded
-      mapView.addSpatialReferenceChangedListener(src -> addGraphicsOverlay());
+      mapView.spatialReferenceProperty().addListener(e -> addGraphicsOverlay());
 
       mapView.setOnMouseClicked(e -> {
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
