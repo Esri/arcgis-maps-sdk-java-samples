@@ -18,7 +18,7 @@ module display.scene.main {
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules
-  requires javafx.controls;
+  requires javafx.graphics;
 
   exports com.esri.samples.display_scene;
 }
