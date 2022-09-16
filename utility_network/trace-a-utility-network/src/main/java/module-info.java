@@ -19,7 +19,6 @@ module trace.a.utility.network.main {
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules
-  requires javafx.base;
   requires javafx.controls;
   requires javafx.fxml;
   requires javafx.graphics;
