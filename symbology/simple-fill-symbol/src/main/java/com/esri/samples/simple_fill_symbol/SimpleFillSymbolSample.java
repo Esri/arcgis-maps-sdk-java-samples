@@ -78,8 +78,7 @@ public class SimpleFillSymbolSample extends Application {
       controlsVBox.getStyleClass().add("panel-region");
 
       // create a fill symbol with an outline
-      var outline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
-      var fillSymbol = new SimpleFillSymbol(Style.SOLID, Color.RED, outline);
+      var fillSymbol = new SimpleFillSymbol(Style.SOLID, Color.RED, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3));
 
       // create a color picker that updates the fill symbol's color property
       var fillLabel = new Label("Change Fill Color");
@@ -93,7 +92,7 @@ public class SimpleFillSymbolSample extends Application {
       outlineLabel.getStyleClass().add("panel-label");
       var outlineColorPicker = new ColorPicker();
       outlineColorPicker.setMaxWidth(Double.MAX_VALUE);
-      outlineColorPicker.valueProperty().bindBidirectional(outline.colorProperty());
+      outlineColorPicker.valueProperty().bindBidirectional(fillSymbol.getOutline().colorProperty());
 
       // create a combobox that updates the fill symbol's fill style
       var styleLabel = new Label("Change Fill Style");
