@@ -85,15 +85,15 @@ public class SimpleFillSymbolSample extends Application {
       var fillLabel = new Label("Change Fill Color");
       fillLabel.getStyleClass().add("panel-label");
       var fillColorPicker = new ColorPicker();
-      fillColorPicker.setValue(fillSymbol.getColor());
-      fillSymbol.colorProperty().bindBidirectional(fillColorPicker.valueProperty());
+      fillColorPicker.setMaxWidth(Double.MAX_VALUE);
+      fillColorPicker.valueProperty().bindBidirectional(fillSymbol.colorProperty());
 
       // create a color picker that updates the fill symbol's outline color property
       var outlineLabel = new Label("Change Outline Color");
       outlineLabel.getStyleClass().add("panel-label");
       var outlineColorPicker = new ColorPicker();
-      outlineColorPicker.setValue(fillSymbol.getOutline().getColor());
-      fillSymbol.getOutline().colorProperty().bindBidirectional(outlineColorPicker.valueProperty());
+      outlineColorPicker.setMaxWidth(Double.MAX_VALUE);
+      outlineColorPicker.valueProperty().bindBidirectional(outline.colorProperty());
 
       // create a combobox that updates the fill symbol's fill style
       var styleLabel = new Label("Change Fill Style");
