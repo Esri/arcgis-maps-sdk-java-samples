@@ -22,9 +22,8 @@ Zoom in and out of the map to see alternate symbols at each scale. The symbology
    * Convert the simple marker symbol to a `MultilayerPointSymbol` using `SimpleMarkerSymbol.toMultilayerSymbol()`.
    * Set the valid scale range through reference properties on the multilayer point symbols by calling `multilayerPointSymbol.setReferenceProperties(new SymbolReferenceProperties(double minScale, double maxScale))`.
 3. Create a new `UniqueValue`, and add it to a new `UniqueValueRenderer` with `uniqueValueRenderer.getUniqueValues.add(uniqueValue)`.
-4. Set the default symbol on the unique value renderer to a multilayer point symbol with `uniqueValueRenderer.setDefaultSymbol(multilayerPointSymbol)`.
-5. Set the field name on the unique value renderer with `uniqueValueRenderer.getFieldNames().add(("req_type))`.
-6. Apply this unique value renderer to the feature layer with `featureLayer.setRenderer(uniqueValueRenderer)`.
+4. Set the field name, unique values, and the default symbol on the unique value renderer with `new UniqueValueRenderer(List.of("req_type"), List.of(uniqueValue), "", multilayerPurpleDiamondSymbol);`.
+5. Apply this unique value renderer to the feature layer with `featureLayer.setRenderer(uniqueValueRenderer)`.
 
 ## Relevant API
 
