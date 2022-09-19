@@ -33,6 +33,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -106,15 +107,13 @@ public class ShowLocationHistorySample extends Application {
 
       // create a graphics overlay for the points and use a red circle for the symbols
       GraphicsOverlay locationHistoryOverlay = new GraphicsOverlay();
-      SimpleMarkerSymbol locationSymbol = new SimpleMarkerSymbol(
-        SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10f);
+      SimpleMarkerSymbol locationSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10f);
       SimpleRenderer locationHistoryRenderer = new SimpleRenderer(locationSymbol);
       locationHistoryOverlay.setRenderer(locationHistoryRenderer);
 
       // create a graphics overlay for the lines connecting the points and use a green line for the symbol
       GraphicsOverlay locationHistoryLineOverlay = new GraphicsOverlay();
-      SimpleLineSymbol locationLineSymbol = new SimpleLineSymbol(
-        SimpleLineSymbol.Style.SOLID, 0xFF00FF00, 2.0f);
+      SimpleLineSymbol locationLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.LIME, 2.0f);
       SimpleRenderer locationHistoryLineRenderer = new SimpleRenderer(locationLineSymbol);
       locationHistoryLineOverlay.setRenderer(locationHistoryLineRenderer);
 
