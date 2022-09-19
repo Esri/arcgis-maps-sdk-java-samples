@@ -23,7 +23,7 @@
 <?import javafx.scene.control.ComboBox?>
 <StackPane fx:controller="com.esri.samples.realistic_lighting_and_shadows.RealisticLightingAndShadowsController"
            xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/realistic_lighting_and_shadows/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <!--SceneView-->
     <SceneView fx:id="sceneView"/>
     <StackPane.margin>
