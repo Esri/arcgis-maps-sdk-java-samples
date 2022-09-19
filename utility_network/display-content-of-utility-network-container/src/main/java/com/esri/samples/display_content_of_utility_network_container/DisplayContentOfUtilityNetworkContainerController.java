@@ -18,7 +18,6 @@ package com.esri.samples.display_content_of_utility_network_container;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
-import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
@@ -115,12 +114,8 @@ public class DisplayContentOfUtilityNetworkContainerController {
       });
       utilityNetwork.loadAsync();
 
-      // hide the progress indicator once the map view draw status has completed
-      mapView.addDrawStatusChangedListener(listener -> {
-        if (listener.getDrawStatus() == DrawStatus.COMPLETED) {
-          progressIndicator.setVisible(false);
-        }
-      });
+      // bind progress indicator visibility to map view draw status
+      progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
       // set the map to the mapview and set the map view's viewpoint
       mapView.setMap(map);
@@ -193,9 +188,7 @@ public class DisplayContentOfUtilityNetworkContainerController {
                   // when exiting the container view
                   if (!contentElements.isEmpty()) {
                     previousViewpoint = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY);
-                    mapView.getMap().getOperationalLayers().forEach(layer -> {
-                      layer.setVisible(false);
-                    });
+                    mapView.getMap().getOperationalLayers().forEach(layer -> layer.setVisible(false));
 
                     // enable container view vbox and disable interaction with the map view to avoid navigating away from container view
                     vBox.setVisible(true);

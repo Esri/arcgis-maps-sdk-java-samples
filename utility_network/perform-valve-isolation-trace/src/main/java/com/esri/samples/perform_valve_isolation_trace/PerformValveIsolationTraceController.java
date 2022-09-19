@@ -348,7 +348,7 @@ public class PerformValveIsolationTraceController {
               List<ArcGISFeature> listOfFeatures = new ArrayList<>();
               identifyLayerResults.forEach(result -> listOfFeatures.add((ArcGISFeature) result.getElements().get(0)));
 
-              // create an utility element for each feature and store it in a list
+              // create utility element for each feature and store it in a list
               List<UtilityElement> utilityElementList = new ArrayList<>();
               listOfFeatures.forEach(feature -> utilityElementList.add(utilityNetwork.createElement(feature)));
 
