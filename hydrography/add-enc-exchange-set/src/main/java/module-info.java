@@ -17,7 +17,6 @@ module add.enc.exchange.set.main {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
-  // NOTE: only require the JavaFX modules that the sample uses, all samples will use graphics.
   // require JavaFX modules
   requires javafx.graphics;
   requires javafx.controls;
