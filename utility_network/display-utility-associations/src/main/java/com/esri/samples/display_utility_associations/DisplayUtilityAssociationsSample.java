@@ -34,7 +34,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -127,8 +126,8 @@ public class DisplayUtilityAssociationsSample extends Application {
       Label connectivityLabel = new Label("Connectivity");
       
       // create symbols for the associations and preview
-      SimpleLineSymbol attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.LIME), 5);
-      SimpleLineSymbol connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.RED), 5);
+      SimpleLineSymbol attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.LIME, 5);
+      SimpleLineSymbol connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.RED, 5);
       
       // create image views for the association symbols to display them in the legend
       ImageView attachmentImageView = addSymbolToImageView(attachmentSymbol);
@@ -235,7 +234,7 @@ public class DisplayUtilityAssociationsSample extends Application {
     
     // add the connectivity symbol to the image view to display it in the legend
     ImageView imageView = new ImageView();
-    ListenableFuture<Image> connectivityImage = symbol.createSwatchAsync(0x00000000);
+    ListenableFuture<Image> connectivityImage = symbol.createSwatchAsync(Color.BLACK);
     connectivityImage.addDoneListener(() -> {
       try {
         // display the image in the image view
