@@ -117,7 +117,7 @@ public class AddEncExchangeSetSample extends Application {
         }
       });
 
-      // add the map view to the stack pane
+      // add the map view and the progress indicator to the stack pane
       stackPane.getChildren().addAll(mapView, progressIndicator);
 
     } catch (Exception e) {
