@@ -34,7 +34,6 @@ import com.esri.arcgisruntime.security.AuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.AuthenticationChallengeResponse;
 import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.UserCredential;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssociation;
@@ -81,14 +80,14 @@ public class DisplayContentOfUtilityNetworkContainerController {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create three new simple line symbols for displaying container view features
-      boundingBoxSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.YELLOW), 3);
-      attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.CORNFLOWERBLUE), 3);
-      connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.RED), 3);
+      boundingBoxSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.YELLOW, 3);
+      attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.CORNFLOWERBLUE, 3);
+      connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.RED, 3);
 
       // set image views for the association and bounding box symbols to display them in the legend
-      attachmentImageView.setImage(attachmentSymbol.createSwatchAsync(0x00000000).get());
-      connectivityImageView.setImage(connectivitySymbol.createSwatchAsync(0x000000000).get());
-      boundingBoxImageView.setImage(boundingBoxSymbol.createSwatchAsync(0x000000000).get());
+      attachmentImageView.setImage(attachmentSymbol.createSwatchAsync(Color.BLACK).get());
+      connectivityImageView.setImage(connectivitySymbol.createSwatchAsync(Color.BLACK).get());
+      boundingBoxImageView.setImage(boundingBoxSymbol.createSwatchAsync(Color.BLACK).get());
 
       // set user credentials to authenticate with the feature service and webmap url
       // NOTE: a licensed user is required to perform utility network operations
