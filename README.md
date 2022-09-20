@@ -1,4 +1,4 @@
-# ArcGIS Runtime API for Java Samples
+# ArcGIS Runtime API for Java Samples for 200.0.0-beta release
 
 [![Link: ArcGIS Developers home](https://img.shields.io/badge/ArcGIS%20Developers%20Home-633b9b?style=flat-square)](https://developers.arcgis.com)
 [![Link: Documentation](https://img.shields.io/badge/Documentation-633b9b?style=flat-square)](https://developers.arcgis.com/java/)
@@ -15,6 +15,16 @@
 ![Gradle build](https://github.com/Esri/arcgis-runtime-samples-java/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
 Welcome to the home of the ArcGIS Runtime API for Java samples! The ArcGIS Runtime API for Java is used to build mapping, location, and GIS applications for desktop applications running on Windows, Mac, or Linux. This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Runtime API for Java.
+
+This branch of the repository is to showcase changes we will be releasing in our upcoming 200.0.0 release.  To allow you to try out the improvements, we have released a beta release in our public maven repository and updated some samples to you can try it for yourself.
+
+The main aim of our 200.0.0 release is to modernize the API and to increase developer productivity allowing you to get your mapping and GIS apps to market quicker.
+
+The first in the 200 series will:
+ - Fully support the Java module system
+ - Adding JavaFX properties to key areas of the API.
+ 
+ 
 
 ![Choose Camera Controller sample preview](https://user-images.githubusercontent.com/36415565/185649571-7d6feb6f-f0c2-42cb-9139-9d4541dd1da8.png)
 
