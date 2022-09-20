@@ -17,7 +17,6 @@
 package com.esri.samples.display_drawing_status;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
@@ -91,7 +90,6 @@ public class DisplayDrawingStatusSample extends Application {
       // add the map view and progress indicator to stack pane
       stackPane.getChildren().addAll(mapView, progressIndicator);
       StackPane.setAlignment(progressIndicator, Pos.CENTER);
-      StackPane.setMargin(progressIndicator, new Insets(10, 0, 0, 10));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
