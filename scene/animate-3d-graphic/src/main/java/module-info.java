@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module animate3d.graphic.main {
+module animate._3d.graphic.main {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 

@@ -15,7 +15,7 @@ javafx {
 }
 
 application {
-    mainModule = "animate3d.graphic.main"
+    mainModule = "animate._3d.graphic.main"
     mainClass = "com.esri.samples.animate_3d_graphic.Animate3dGraphicSample"
 }
 
