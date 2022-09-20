@@ -54,7 +54,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.ViewpointChangedListener;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseJob;
@@ -97,7 +96,7 @@ public class EditAndSyncFeaturesController {
       // create a graphics overlay for displaying the download area
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       graphicsOverlay.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID,
-          ColorUtil.colorToArgb(Color.RED), 2)));
+          Color.RED, 2)));
       graphicsOverlay.getGraphics().add(downloadAreaGraphic);
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 

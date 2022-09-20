@@ -6,12 +6,17 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '200.0.0-3633'
+    arcgisVersion = '200.0.0-3638'
 }
 
 javafx {
     version = "17.0.2"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.media', 'javafx.web', 'javafx.fxml', 'javafx.graphics' ]
+}
+
+application {
+    mainModule = "edit.and.sync.features.main"
+    mainClass = "com.esri.samples.edit_and_sync_features.EditAndSyncFeaturesSample"
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -50,22 +55,6 @@ task copyNatives(type: Copy) {
 
 run {
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.edit_and_sync_features.EditAndSyncFeaturesLauncher'
-}
-
-jar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes("Main-Class": "$mainClassName")
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-    // exclude signing files that come from dependencies
-    exclude "META-INF/*.SF"
-    exclude "META-INF/*.DSA"
-    exclude "META-INF/*.RSA"
 }
 
 task productionZip(type: Zip) {
@@ -80,5 +69,5 @@ task productionZip(type: Zip) {
 }
 
 wrapper {
-    gradleVersion = '7.5'
+    gradleVersion = '7.5.1'
 }
