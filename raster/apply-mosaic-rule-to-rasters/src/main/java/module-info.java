@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 module apply.mosaic.rule.to.rasters.main {
+  // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
   requires javafx.controls;
