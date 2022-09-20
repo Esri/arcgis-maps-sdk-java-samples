@@ -33,7 +33,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.paint.Paint;
-import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -83,8 +82,8 @@ public class ApplyMosaicRuleToRastersSample extends Application {
 
       // show progress indicator while map view is drawing
       var progressIndicator = new ProgressIndicator();
-      mapView.addDrawStatusChangedListener(drawStatusChangedEvent ->
-        progressIndicator.setVisible(drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS));
+      progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
+
 
       // set the map to the map view
       mapView.setMap(map);
