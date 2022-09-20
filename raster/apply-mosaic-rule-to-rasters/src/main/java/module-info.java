@@ -17,7 +17,9 @@ module apply.mosaic.rule.to.rasters.main {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
+  // require JavaFX modules
   requires javafx.controls;
+  requires javafx.graphics;
 
   exports com.esri.samples.apply_mosaic_rule_to_rasters;
 }
