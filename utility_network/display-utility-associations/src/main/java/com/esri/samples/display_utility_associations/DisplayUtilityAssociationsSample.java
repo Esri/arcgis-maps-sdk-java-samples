@@ -234,7 +234,7 @@ public class DisplayUtilityAssociationsSample extends Application {
     
     // add the connectivity symbol to the image view to display it in the legend
     ImageView imageView = new ImageView();
-    ListenableFuture<Image> connectivityImage = symbol.createSwatchAsync(Color.BLACK);
+    ListenableFuture<Image> connectivityImage = symbol.createSwatchAsync(Color.TRANSPARENT);
     connectivityImage.addDoneListener(() -> {
       try {
         // display the image in the image view

@@ -85,9 +85,9 @@ public class DisplayContentOfUtilityNetworkContainerController {
       connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.RED, 3);
 
       // set image views for the association and bounding box symbols to display them in the legend
-      attachmentImageView.setImage(attachmentSymbol.createSwatchAsync(Color.BLACK).get());
-      connectivityImageView.setImage(connectivitySymbol.createSwatchAsync(Color.BLACK).get());
-      boundingBoxImageView.setImage(boundingBoxSymbol.createSwatchAsync(Color.BLACK).get());
+      attachmentImageView.setImage(attachmentSymbol.createSwatchAsync(Color.TRANSPARENT).get());
+      connectivityImageView.setImage(connectivitySymbol.createSwatchAsync(Color.TRANSPARENT).get());
+      boundingBoxImageView.setImage(boundingBoxSymbol.createSwatchAsync(Color.TRANSPARENT).get());
 
       // set user credentials to authenticate with the feature service and webmap url
       // NOTE: a licensed user is required to perform utility network operations
