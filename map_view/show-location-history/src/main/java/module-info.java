@@ -21,7 +21,7 @@ module show.location.history.main {
   requires javafx.graphics;
   requires javafx.controls;
 
-  // require other modules
+  // require other modules the application uses
   requires commons.io;
 
   exports com.esri.samples.show_location_history;
