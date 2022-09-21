@@ -10,7 +10,7 @@ You may want to display a loading indicator while layers are loading, which coul
 
 ## How to use the sample
 
-Pan and zoom around the map. Observe how the status bar changes from a loading animation to solid, indicating that drawing has completed.
+Pan and zoom around the map. Observe how the progress indicator is displayed and then hidden, indicating when drawing has completed.
 
 ## How it works
 
