@@ -16,15 +16,22 @@
 
 Welcome to the home of the ArcGIS Runtime API for Java samples! The ArcGIS Runtime API for Java is used to build mapping, location, and GIS applications for desktop applications running on Windows, Mac, or Linux. This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Runtime API for Java.
 
-This branch of the repository is to showcase changes we will be releasing in our upcoming 200.0.0 release.  To allow you to try out the improvements, we have released a beta release in our public maven repository and updated some samples to you can try it for yourself.
+This branch of the repository is to showcase changes we will be releasing in our upcoming 200.0.0 release.  To allow you to try out the improvements, we have released a beta release in our public maven repository and updated some samples, so you can try it out for yourself.
 
 The main aim of our 200.0.0 release is to modernize the API and to increase developer productivity allowing you to get your mapping and GIS apps to market quicker.
 
 The first in the 200 series will:
  - Fully support the Java module system
- - Adding JavaFX properties to key areas of the API.
+ - Adding JavaFX properties to key areas of the API
+ - Improve methods for getting exception messages
  
+ To showcase these changes we made modified the following samples:
  
+ |Sample | Module  | Property  | Exception  |
+ |---|---|---|---|
+ |   |   |   |   |
+ |   |   |   |   |
+ |   |   |   |   |
 
 ![Choose Camera Controller sample preview](https://user-images.githubusercontent.com/36415565/185649571-7d6feb6f-f0c2-42cb-9139-9d4541dd1da8.png)
 
@@ -35,7 +42,7 @@ Installing Gradle is not necessary since each sample includes the Gradle wrapper
 Accessing Esri location services, including basemaps, routing, and geocoding, requires authentication using either an ArcGIS identity or an API Key:
  1. ArcGIS identity: An ArcGIS named user account that is a member of an organization in ArcGIS Online or ArcGIS Enterprise.
  2. API key: A permanent key that gives your application access to Esri location services. Visit your [ArcGIS Developers Dashboard](https://developers.arcgis.com/dashboard) to create a new API key or access an existing API key.
-
+ 
 Note: *in the following instructions for setting the API key, if a `gradle.properties` file does not already exist in the `/.gradle` folder within your home directory, a Gradle task in the samples build.gradle file will generate one for you.*
 
 ## Instructions
