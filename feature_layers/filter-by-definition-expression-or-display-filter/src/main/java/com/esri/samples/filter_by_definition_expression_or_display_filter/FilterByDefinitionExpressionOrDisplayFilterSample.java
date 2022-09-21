@@ -58,6 +58,7 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
   private Button applyFilterButton;
   private Button resetButton;
   private Label featureCountLabel;
+  private VBox controlsVBox;
 
   private MapView mapView;
   private FeatureLayer featureLayer; // keep loadable in scope to avoid garbage collection
@@ -143,13 +144,13 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
           mapView.drawStatusProperty().addListener((property, oldValue, newValue) -> {
-            // if the draw status is in progress, show the progress indicator and set the count label text
+            // disable the vbox when the map view is drawing
+            controlsVBox.setDisable(newValue == DrawStatus.IN_PROGRESS);
             if (newValue == DrawStatus.IN_PROGRESS) {
-              progressIndicator.setVisible(true);
+              // bind progress indicator visibility to map view draw status
+              progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
               featureCountLabel.setText("updating..");
             } else {
-              // if draw status is complete, hide the progress indicator
-              progressIndicator.setVisible(false);
               // get the map view's current view point, create query parameters and set the view point to it
               Envelope viewPointExtent =
                 mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY).getTargetGeometry().getExtent();
@@ -209,7 +210,8 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
     applyFilterButton.prefWidthProperty().bind(buttonVBox.widthProperty());
     resetButton.prefWidthProperty().bind(buttonVBox.widthProperty());
 
-    VBox controlsVBox = new VBox(10);
+    controlsVBox = new VBox(10);
+    controlsVBox.setDisable(true);
     controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
       Insets.EMPTY)));
     controlsVBox.setPadding(new Insets(10.0));
