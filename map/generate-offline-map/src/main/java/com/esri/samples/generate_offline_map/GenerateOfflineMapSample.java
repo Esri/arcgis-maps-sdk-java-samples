@@ -20,17 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -47,6 +36,18 @@ import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapJob;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapResult;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class GenerateOfflineMapSample extends Application {
 
@@ -73,7 +74,7 @@ public class GenerateOfflineMapSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a button to take the map offline
-      Button offlineMapButton = new Button("Take Map Offline");
+      var offlineMapButton = new Button("Take Map Offline");
       offlineMapButton.setDisable(true);
 
       // create a portal item with the itemId of the web map
@@ -82,6 +83,7 @@ public class GenerateOfflineMapSample extends Application {
 
       // create a map with the portal item
       map = new ArcGISMap(portalItem);
+
       map.addDoneLoadingListener(() -> {
         // enable the button when the map is loaded
         if (map.getLoadStatus() == LoadStatus.LOADED) {
@@ -98,24 +100,24 @@ public class GenerateOfflineMapSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a graphic to show a box around the extent we want to download
-      Graphic downloadArea = new Graphic();
+      var downloadArea = new Graphic();
       graphicsOverlay.getGraphics().add(downloadArea);
-      SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+      var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 2);
       downloadArea.setSymbol(simpleLineSymbol);
 
       // update the box whenever the viewpoint changes
       mapView.addViewpointChangedListener(viewpointChangedEvent -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           // upper left corner of the area to take offline
-          Point2D minScreenPoint = new Point2D(50, 50);
+          var minScreenPoint = new Point2D(50, 50);
           // lower right corner of the downloaded area
-          Point2D maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
+          var maxScreenPoint = new Point2D(mapView.getWidth() - 50, mapView.getHeight() - 50);
           // convert screen points to map points
-          Point minPoint = mapView.screenToLocation(minScreenPoint);
-          Point maxPoint = mapView.screenToLocation(maxScreenPoint);
+          var minPoint = mapView.screenToLocation(minScreenPoint);
+          var maxPoint = mapView.screenToLocation(maxScreenPoint);
           // use the points to define and return an envelope
           if (minPoint != null && maxPoint != null) {
-            Envelope envelope = new Envelope(minPoint, maxPoint);
+            var envelope = new Envelope(minPoint, maxPoint);
             downloadArea.setGeometry(envelope);
           }
         }
@@ -130,6 +132,7 @@ public class GenerateOfflineMapSample extends Application {
         try {
           // show the progress bar
           progressBar.setVisible(true);
+          offlineMapButton.setDisable(true);
 
           // specify the extent, min scale, and max scale as parameters
           double minScale = mapView.getMapScale();
@@ -153,9 +156,8 @@ public class GenerateOfflineMapSample extends Application {
               GenerateOfflineMapResult result = job.getResult();
               mapView.setMap(result.getOfflineMap());
               graphicsOverlay.getGraphics().clear();
-              offlineMapButton.setDisable(true);
             } else {
-              new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage()).show();
+              new Alert(Alert.AlertType.ERROR, job.getError().getMessage()).show();
             }
             Platform.runLater(() -> progressBar.setVisible(false));
           });
@@ -169,7 +171,9 @@ public class GenerateOfflineMapSample extends Application {
       // add the map view, button, and progress bar to stack pane
       stackPane.getChildren().addAll(mapView, offlineMapButton, progressBar);
       StackPane.setAlignment(offlineMapButton, Pos.TOP_LEFT);
+      StackPane.setMargin(offlineMapButton, new Insets(10, 0, 0, 10));
       StackPane.setAlignment(progressBar, Pos.TOP_RIGHT);
+      StackPane.setMargin(progressBar, new Insets(10, 10, 0, 0));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
