@@ -54,10 +54,6 @@ The first in the 200 series will:
  | [Show location history](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map_view/show-location-history) | Module, color |
  | [Identify Graphics](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/display_information/identify-graphics) | Module, color |
  | [Edit and sync features](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/editing/edit-and-sync-features) | Module, drawStatusProperty |
- | [Filter by definition expression or display filter](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/feature_layers/filter-by-definition-expression-or-display-filter) | Module, drawStatusProperty |
- | [List related features](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/feature_layers/list-related-features) | Module, drawStatusProperty |
- | [Toggle between feature request modes](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/feature_layers/toggle-between-feature-request-modes) | Module, drawStatusProperty |
- | [Generate Offline Map](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map/generate-offline-map) | Module, Color, Exception |
 
 If you have any feedback on this beta release you can either enter issues in this repository, or you can register with our [early adopter website](https://earlyadopter.esri.com/) and give feedback there.
 
