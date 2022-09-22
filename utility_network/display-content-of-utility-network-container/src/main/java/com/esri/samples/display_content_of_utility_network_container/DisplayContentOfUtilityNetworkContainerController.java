@@ -18,7 +18,6 @@ package com.esri.samples.display_content_of_utility_network_container;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
-import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
@@ -35,7 +34,6 @@ import com.esri.arcgisruntime.security.AuthenticationChallengeHandler;
 import com.esri.arcgisruntime.security.AuthenticationChallengeResponse;
 import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.UserCredential;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.utilitynetworks.UtilityAssociation;
@@ -82,14 +80,14 @@ public class DisplayContentOfUtilityNetworkContainerController {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create three new simple line symbols for displaying container view features
-      boundingBoxSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.YELLOW), 3);
-      attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.CORNFLOWERBLUE), 3);
-      connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, ColorUtil.colorToArgb(Color.RED), 3);
+      boundingBoxSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.YELLOW, 3);
+      attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.CORNFLOWERBLUE, 3);
+      connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.RED, 3);
 
       // set image views for the association and bounding box symbols to display them in the legend
-      attachmentImageView.setImage(attachmentSymbol.createSwatchAsync(0x00000000).get());
-      connectivityImageView.setImage(connectivitySymbol.createSwatchAsync(0x000000000).get());
-      boundingBoxImageView.setImage(boundingBoxSymbol.createSwatchAsync(0x000000000).get());
+      attachmentImageView.setImage(attachmentSymbol.createSwatchAsync(Color.TRANSPARENT).get());
+      connectivityImageView.setImage(connectivitySymbol.createSwatchAsync(Color.TRANSPARENT).get());
+      boundingBoxImageView.setImage(boundingBoxSymbol.createSwatchAsync(Color.TRANSPARENT).get());
 
       // set user credentials to authenticate with the feature service and webmap url
       // NOTE: a licensed user is required to perform utility network operations
@@ -115,12 +113,8 @@ public class DisplayContentOfUtilityNetworkContainerController {
       });
       utilityNetwork.loadAsync();
 
-      // hide the progress indicator once the map view draw status has completed
-      mapView.addDrawStatusChangedListener(listener -> {
-        if (listener.getDrawStatus() == DrawStatus.COMPLETED) {
-          progressIndicator.setVisible(false);
-        }
-      });
+      // bind progress indicator visibility to map view draw status
+      progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
       // set the map to the mapview and set the map view's viewpoint
       mapView.setMap(map);
@@ -193,9 +187,7 @@ public class DisplayContentOfUtilityNetworkContainerController {
                   // when exiting the container view
                   if (!contentElements.isEmpty()) {
                     previousViewpoint = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY);
-                    mapView.getMap().getOperationalLayers().forEach(layer -> {
-                      layer.setVisible(false);
-                    });
+                    mapView.getMap().getOperationalLayers().forEach(layer -> layer.setVisible(false));
 
                     // enable container view vbox and disable interaction with the map view to avoid navigating away from container view
                     vBox.setVisible(true);
