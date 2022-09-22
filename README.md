@@ -16,22 +16,50 @@
 
 Welcome to the home of the ArcGIS Runtime API for Java samples! The ArcGIS Runtime API for Java is used to build mapping, location, and GIS applications for desktop applications running on Windows, Mac, or Linux. This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Runtime API for Java.
 
-This branch of the repository is to showcase changes we will be releasing in our upcoming 200.0.0 release.  To allow you to try out the improvements, we have released a beta release in our public maven repository and updated some samples, so you can try it out for yourself.
+This branch of the repository is to showcase changes we will be releasing in our upcoming 200.0.0 release.  To allow you to try out the improvements, we have released a beta release in our public maven repository and updated some samples, so you can try it out for yourself.  Release notes for the beta release are available from our [early adopter website](https://earlyadopter.esri.com/).
 
-The main aim of our 200.0.0 release is to modernize the API and to increase developer productivity allowing you to get your mapping and GIS apps to market quicker.
+The main aim of our [200.0.0 release](https://www.esri.com/arcgis-blog/products/runtime-sdk/announcements/arcgis-runtime-in-2022-and-beyond/) is to modernize the API and to increase developer productivity allowing you to get your mapping and GIS apps to market quicker.
 
 The first in the 200 series will:
- - Fully support the Java module system
+ - Support the Java [module](https://openjdk.org/jeps/261) system
  - Adding JavaFX properties to key areas of the API
+ - Support for JavaFX Color class
  - Improve methods for getting exception messages
  
  To showcase these changes we made modified the following samples:
  
- |Sample | Module  | Property  | Exception  |
- |---|---|---|---|
- |   |   |   |   |
- |   |   |   |   |
- |   |   |   |   |
+ |Sample | Features shown  |
+ |---|---|
+ | [Display Map](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map/display-map)  | Module |
+ | [Display Scene](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/display-scene) | Module |
+ | [Display Drawing Status](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map_view/display-drawing-status) | Module, drawStatusProperty |
+ | [Configure Subnetwork Trace](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/configure-subnetwork-trace) | Module |
+ | [Display Content of Utility Network Container](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/display-content-of-utility-network-container)| Color, drawStatusProperty| 
+ | [Display Utility Associations](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/display-utility-assocations)| Color, navigatingProperty|
+ | [Perform Valve Isolation Trace](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/perform-valve-isolation-trace) | Module, Colors |
+ | [Trace a Utility Network](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/trace-a-utility-network) | Module, Colors |
+ | [Simple Fill Symbol](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/symbology/simple-fill-symbol) | Module, Color property |
+ | [Simple Line Symbol](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/symbology/simple-line-symbol) | Module, Color property |
+ | [Symbols (Scene)](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/symbols) | Module, Color property |
+ | [OAuth](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/portal/oauth) | Module |
+ | [Token Authentication](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/portal/token-authentication) | Module |
+ | [Play a KML Tour](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/kml/play-a-kml-tour) | Module |
+ | [Animate 3D Graphic](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/animate-3d-graphic)| Module, Colors |
+ | [Change Atmospheric Effect](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/change-atmospheric-effect) | Module |
+ | [Apply Mosaic Rule to Raster](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/raster/apply-mosaic-rule-to-raster) | Module |
+ | [Add ENC Exchange Layer](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/hydrography/add-enc-exchange-layer) | Module, drawStatusProperty |
+ | [Apply unique values with alternate symbols](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/symbology/apply-unique-values-with-alternate-symbols) | Module, colors |
+ | [Realistic Lighting and Shadows](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/realistic-lighting-and-shadows) | Module |
+ | [Find route](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/network_analysis/find-route) | Module, colors |
+ | [Show location history](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map_view/show-location-history) | Module, color |
+ | [Identify Graphics](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/display_information/identify-graphics) | Module, color |
+ | [Edit and sync features](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/editing/edit-and-sync-features) | Module, drawStatusProperty |
+ | [Filter by definition expression or display filter](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/feature_layers/filter-by-definition-expression-or-display-filter) | Module, drawStatusProperty |
+ | [List related features](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/feature_layers/list-related-features) | Module, drawStatusProperty |
+ | [Toggle between feature request modes](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/feature_layers/toggle-between-feature-request-modes) | Module, drawStatusProperty |
+ | [Generate Offline Map](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map/generate-offline-map) | Module, Color, Exception |
+
+If you have any feedback on this beta release you can either enter issues in this repository, or you can register with our [early adopter website](https://earlyadopter.esri.com/) and give feedback there.
 
 ![Choose Camera Controller sample preview](https://user-images.githubusercontent.com/36415565/185649571-7d6feb6f-f0c2-42cb-9139-9d4541dd1da8.png)
 
