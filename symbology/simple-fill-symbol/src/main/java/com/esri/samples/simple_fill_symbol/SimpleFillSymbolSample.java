@@ -16,23 +16,6 @@
 
 package com.esri.samples.simple_fill_symbol;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polygon;
@@ -46,13 +29,25 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol.Style;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 
 public class SimpleFillSymbolSample extends Application {
 
-  private VBox controlsVBox;
   private MapView mapView;
-  private SimpleFillSymbol fillSymbol;
-  private List<SimpleLineSymbol> lineSymbols;
 
   @Override
   public void start(Stage stage) {
@@ -75,14 +70,43 @@ public class SimpleFillSymbolSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a control panel
-      controlsVBox = new VBox(6);
+      var controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-          Insets.EMPTY)));
+        Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 200);
       controlsVBox.getStyleClass().add("panel-region");
 
-      createSymbolFunctionality();
+      // create a fill symbol with an outline
+      var fillSymbol = new SimpleFillSymbol(Style.SOLID, Color.RED, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3));
+
+      // create a color picker that updates the fill symbol's color property
+      var fillLabel = new Label("Change Fill Color");
+      fillLabel.getStyleClass().add("panel-label");
+      var fillColorPicker = new ColorPicker();
+      fillColorPicker.setMaxWidth(Double.MAX_VALUE);
+      fillColorPicker.valueProperty().bindBidirectional(fillSymbol.colorProperty());
+
+      // create a color picker that updates the fill symbol's outline color property
+      var outlineLabel = new Label("Change Outline Color");
+      outlineLabel.getStyleClass().add("panel-label");
+      var outlineColorPicker = new ColorPicker();
+      outlineColorPicker.setMaxWidth(Double.MAX_VALUE);
+      outlineColorPicker.valueProperty().bindBidirectional(fillSymbol.getOutline().colorProperty());
+
+      // create a combobox that updates the fill symbol's fill style
+      var styleLabel = new Label("Change Fill Style");
+      styleLabel.getStyleClass().add("panel-label");
+      ComboBox<Style> styleBox = new ComboBox<>();
+      styleBox.getItems().addAll(Style.BACKWARD_DIAGONAL, Style.FORWARD_DIAGONAL, Style.DIAGONAL_CROSS, Style.HORIZONTAL,
+        Style.VERTICAL, Style.CROSS, Style.SOLID, Style.NULL);
+      styleBox.setMaxWidth(Double.MAX_VALUE);
+      styleBox.getSelectionModel().select(Style.SOLID);
+      styleBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        fillSymbol.setStyle(newValue));
+
+      // add all the controls to the control panel
+      controlsVBox.getChildren().addAll(fillLabel, fillColorPicker, outlineLabel, outlineColorPicker, styleLabel, styleBox);
 
       // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
@@ -94,25 +118,20 @@ public class SimpleFillSymbolSample extends Application {
       // set a viewpoint on the map view
       mapView.setViewpoint(new Viewpoint(43.03922, -108.55818, 10000000));
 
-      // creates a square from four points
+      // render graphics to the GeoView
+      var graphicsOverlay = new GraphicsOverlay();
+      mapView.getGraphicsOverlays().add(graphicsOverlay);
+
+      // create a graphic from a square and fill symbol and add to the graphics overlay
       PointCollection points = new PointCollection(SpatialReferences.getWebMercator());
       points.add(-1.1579397849033352E7, 5618494.623878779);
       points.add(-1.158486021463032E7, 5020365.591010623);
       points.add(-1.236324731219847E7, 5009440.859816683);
       points.add(-1.2360516129399985E7, 5621225.806677263);
       Polygon square = new Polygon(points);
-
-      // transparent red (0x88FF0000) color symbol
-      fillSymbol = new SimpleFillSymbol(Style.SOLID, 0x88FF0000, null);
-
-      // renders graphics to the GeoView
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-      mapView.getGraphicsOverlays().add(graphicsOverlay);
       graphicsOverlay.getGraphics().add(new Graphic(square, fillSymbol));
 
-      createLineSymbols();
-
-      // add the map view and control panel to stack pane
+      // add the map view and control panel to the stack pane
       stackPane.getChildren().addAll(mapView, controlsVBox);
       StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
       StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
@@ -121,79 +140,6 @@ public class SimpleFillSymbolSample extends Application {
       // on any error, display the stack trace
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Creates a list of three SimpleLineSymbols, (blue, red, green).
-   */
-  private void createLineSymbols() {
-
-    lineSymbols = new ArrayList<>();
-
-    // solid blue (0xFF0000FF) simple line symbol
-    SimpleLineSymbol blueLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
-    lineSymbols.add(blueLineSymbol);
-
-    // solid green (0xFF00FF00) simple line symbol
-    SimpleLineSymbol greenLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF00FF00, 3);
-    lineSymbols.add(greenLineSymbol);
-
-    // solid red (0xFFFF0000) simple line symbol
-    SimpleLineSymbol redLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3);
-    lineSymbols.add(redLineSymbol);
-  }
-
-  /**
-   * Creates the UI control pane for setting the SimpleFillSymbol properties:
-   * color, outline and style.
-   */
-  private void createSymbolFunctionality() {
-
-    // select a color for the fill symbol
-    Label colorLabel = new Label("Change Fill Color");
-    colorLabel.getStyleClass().add("panel-label");
-    ComboBox<String> colorBox = new ComboBox<>();
-    colorBox.getItems().addAll("Blue", "Green", "Red");
-    colorBox.setMaxWidth(Double.MAX_VALUE);
-
-    colorBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-      final int color;
-
-      switch (newValue) {
-        case "Blue":
-          color = 0x880000FF;
-          break;
-        case "Green":
-          color = 0x8800FF00;
-          break;
-        default:
-          color = 0xFFFF0000; // red
-          break;
-      }
-      fillSymbol.setColor(color);
-    });
-
-    // select the outline color
-    Label lineLabel = new Label("Change Outline Color");
-    lineLabel.getStyleClass().add("panel-label");
-    ComboBox<String> lineBox = new ComboBox<>();
-    lineBox.getItems().addAll("Blue", "Green", "Red");
-    lineBox.setMaxWidth(Double.MAX_VALUE);
-
-    lineBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> fillSymbol.setOutline(lineSymbols.get(lineBox.getSelectionModel().getSelectedIndex())));
-
-    // select a style for the fill symbol
-    Label stlyeLabel = new Label("Change Fill Style");
-    stlyeLabel.getStyleClass().add("panel-label");
-    ComboBox<Style> styleBox = new ComboBox<>();
-    styleBox.getItems().addAll(Style.BACKWARD_DIAGONAL, Style.FORWARD_DIAGONAL, Style.DIAGONAL_CROSS, Style.HORIZONTAL,
-        Style.VERTICAL, Style.CROSS, Style.SOLID, Style.NULL);
-    styleBox.setMaxWidth(Double.MAX_VALUE);
-
-    styleBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> fillSymbol.setStyle(newValue));
-
-    // add functionality to the control pane
-    controlsVBox.getChildren().addAll(colorLabel, colorBox, lineLabel, lineBox, stlyeLabel, styleBox);
   }
 
   /**
