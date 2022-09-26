@@ -53,7 +53,6 @@ The first in the 200 series will:
  | [Find route](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/network_analysis/find-route) | Module, colors |
  | [Show location history](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map_view/show-location-history) | Module, color |
  | [Identify Graphics](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/display_information/identify-graphics) | Module, color |
- | [Edit and sync features](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/editing/edit-and-sync-features) | Module, drawStatusProperty |
 
 If you have any feedback on this beta release you can either enter issues in this repository, or you can register with our [early adopter website](https://earlyadopter.esri.com/) and give feedback there.
 
