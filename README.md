@@ -28,31 +28,31 @@ The first in the 200 series will:
  
  To showcase these changes we made modified the following samples:
  
- | Sample                                                                                                                                                                             | Features shown  |
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|---|
- | [Display Map](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map/display-map)                                                                               | Module |
- | [Display Scene](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/display-scene)                                                                         | Module |
- | [Display Drawing Status](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map_view/display-drawing-status)                                                    | Module, drawStatusProperty |
- | [Configure Subnetwork Trace](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/configure-subnetwork-trace)                                     | Module |
- | [Display Content of Utility Network Container](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/display-content-of-utility-network-container) | Color, drawStatusProperty| 
- | [Display Utility Associations](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/display-utility-associations)                                 | Color, navigatingProperty|
- | [Perform Valve Isolation Trace](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/perform-valve-isolation-trace)                               | Module, Colors |
- | [Trace a Utility Network](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/trace-a-utility-network)                                           | Module, Colors |
- | [Simple Fill Symbol](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/symbology/simple-fill-symbol)                                                           | Module, Color property |
- | [Simple Line Symbol](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/symbology/simple-line-symbol)                                                           | Module, Color property |
- | [Symbols (Scene)](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/symbols)                                                                             | Module, Color property |
- | [OAuth](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/portal/oauth)                                                                                        | Module |
- | [Token Authentication](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/portal/token-authentication)                                                          | Module |
- | [Play a KML Tour](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/kml/play-a-kml-tour)                                                                       | Module |
- | [Animate 3D Graphic](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/animate-3d-graphic)                                                               | Module, Colors |
- | [Change Atmosphere Effect](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/change-atmosphere-effect)                                                 | Module |
- | [Apply Mosaic Rule to Rasters](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/raster/apply-mosaic-rule-to-rasters)                                            | Module |
- | [Add ENC Exchange Set](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/hydrography/add-enc-exchange-set)                                                 | Module, drawStatusProperty |
- | [Apply unique values with alternate symbols](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/symbology/apply-unique-values-with-alternate-symbols)           | Module, colors |
- | [Realistic Lighting and Shadows](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/realistic-lighting-and-shadows)                                       | Module |
- | [Find route](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/network_analysis/find-route)                                                                    | Module, colors |
- | [Show location history](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map_view/show-location-history)                                                      | Module, color |
- | [Identify Graphics](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/display_information/identify-graphics)                                                   | Module, color |
+ |Sample | Features shown  |
+ |---|---|
+ | [Display Map](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map/display-map)  | Module |
+ | [Display Scene](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/display-scene) | Module |
+ | [Display Drawing Status](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map_view/display-drawing-status) | Module, drawStatusProperty |
+ | [Configure Subnetwork Trace](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/configure-subnetwork-trace) | Module |
+ | [Display Content of Utility Network Container](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/display-content-of-utility-network-container)| Color, drawStatusProperty| 
+ | [Display Utility Associations](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/display-utility-associations)| Color, navigatingProperty|
+ | [Perform Valve Isolation Trace](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/perform-valve-isolation-trace) | Module, Colors |
+ | [Trace a Utility Network](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/utility_network/trace-a-utility-network) | Module, Colors |
+ | [Simple Fill Symbol](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/symbology/simple-fill-symbol) | Module, Color property |
+ | [Simple Line Symbol](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/symbology/simple-line-symbol) | Module, Color property |
+ | [Symbols (Scene)](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/symbols) | Module, Color property |
+ | [OAuth](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/portal/oauth) | Module |
+ | [Token Authentication](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/portal/token-authentication) | Module |
+ | [Play a KML Tour](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/kml/play-a-kml-tour) | Module |
+ | [Animate 3D Graphic](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/animate-3d-graphic)| Module, Colors |
+ | [Change Atmosphere Effect](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/change-atmosphere-effect) | Module |
+ | [Apply Mosaic Rule to Rasters](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/raster/apply-mosaic-rule-to-rasters) | Module |
+ | [Add ENC Exchange Set](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/hydrography/add-enc-exchange-set) | Module, drawStatusProperty |
+ | [Apply unique values with alternate symbols](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/symbology/apply-unique-values-with-alternate-symbols) | Module, colors |
+ | [Realistic Lighting and Shadows](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/scene/realistic-lighting-and-shadows) | Module |
+ | [Find route](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/network_analysis/find-route) | Module, colors |
+ | [Show location history](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/map_view/show-location-history) | Module, color |
+ | [Identify Graphics](https://github.com/Esri/arcgis-runtime-samples-java/tree/200.0.0-beta/display_information/identify-graphics) | Module, color |
 
 If you have any feedback on this beta release you can either enter issues in this repository, or you can register with our [early adopter website](https://earlyadopter.esri.com/) and give feedback there.
 
