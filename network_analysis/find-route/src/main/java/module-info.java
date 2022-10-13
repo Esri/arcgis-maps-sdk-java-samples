@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-module find.route.main {
+module com.esri.samples.find_route {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
-  // require JavaFX modules
+  // require JavaFX modules that the application uses
   requires javafx.controls;
   requires javafx.graphics;
 
