@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module identify.graphics.main {
+module com.esri.samples.identify_graphics {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
-  // require JavaFX modules
+  // require JavaFX modules that the application uses
   requires javafx.graphics;
   requires javafx.controls;
 
