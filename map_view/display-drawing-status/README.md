@@ -6,7 +6,7 @@ Get the draw status of your map view or scene view to know when all layers in th
 
 ## Use case
 
-You may want to display a loading indicator while layers are loading, which could then be removed on `DrawStatus.COMPLETED`.
+You may want to display a loading indicator while layers are loading, which displays on `DrawStatus.IN_PROGRESS`.
 
 ## How to use the sample
 
@@ -14,15 +14,13 @@ Pan and zoom around the map. Observe how the progress indicator is displayed and
 
 ## How it works
 
-1. Create a `MapView` and add a `DrawStatusChangedListener` to it.
-2. Use `getDrawStatus` on the `DrawStatusChangedEvent` to determine draw status.
+1. Create a `MapView` and a progress indicator.
+2. Bind the visibility of the progress indicator to the `drawStatusProperty`.
 
 ## Relevant API
 
 * ArcGISMap
 * DrawStatus
-* DrawStatusChangedEvent
-* DrawStatusChangedListener
 * MapView
 
 ## Tags

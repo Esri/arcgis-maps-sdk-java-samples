@@ -12,8 +12,6 @@
         "render",
         "ArcGISMap",
         "DrawStatus",
-        "DrawStatusChangedEvent",
-        "DrawStatusChangedListener",
         "MapView"
     ],
     "redirect_from": [
@@ -22,8 +20,6 @@
     "relevant_apis": [
         "ArcGISMap",
         "DrawStatus",
-        "DrawStatusChangedEvent",
-        "DrawStatusChangedListener",
         "MapView"
     ],
     "snippets": [

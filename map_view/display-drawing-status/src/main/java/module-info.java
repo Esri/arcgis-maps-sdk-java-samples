@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-module display.drawing.status.main {
+module com.esri.samples.display_drawing_status {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
-  // require JavaFX modules
+  // require JavaFX modules that the application uses
   requires javafx.controls;
   requires javafx.graphics;
 
