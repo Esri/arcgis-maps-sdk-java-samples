@@ -1,1 +1,8 @@
+pluginManagement {
+    plugins {
+        // version defined in settings.gradle to avoid version error when this sample is used in a multiproject build
+        id 'org.openjfx.javafxplugin' version "0.0.13"
+    }
+}
+
 rootProject.name = 'display-utility-associations'

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-module display.utility.associations.main {
+module com.esri.samples.display_utility_associations {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
-  // require JavaFX modules
-  requires javafx.controls;
+  // require JavaFX modules that the application uses
   requires javafx.graphics;
+  requires javafx.controls;
 
   exports com.esri.samples.display_utility_associations;
 }
