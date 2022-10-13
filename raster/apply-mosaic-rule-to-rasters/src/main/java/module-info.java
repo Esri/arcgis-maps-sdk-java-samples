@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module apply.mosaic.rule.to.rasters.main {
+module com.esri.samples.apply_mosaic_rule_to_rasters {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
-  // require JavaFX modules
+  // require JavaFX modules that the application uses
   requires javafx.controls;
   requires javafx.graphics;
 
