@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-module trace.a.utility.network.main {
+module com.esri.samples.trace_a_utility_network {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
-  // require JavaFX modules
+  // require JavaFX modules that the application uses
+  requires javafx.graphics;
   requires javafx.controls;
   requires javafx.fxml;
-  requires javafx.graphics;
 
-  // make all annotated objects reflectively accessible to the javafx.fxml module
+  // make all annotated @FXML objects reflectively accessible to the javafx.fxml module
   opens com.esri.samples.trace_a_utility_network to javafx.fxml;
 
   exports com.esri.samples.trace_a_utility_network;
