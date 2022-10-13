@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module show.location.history.main {
+module com.esri.samples.show_location_history {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
-  // require JavaFX modules
+  // require JavaFX modules that the application uses
   requires javafx.graphics;
   requires javafx.controls;
 
-  // require other modules the application uses
+  // require other modules that the application uses
   requires commons.io;
 
   exports com.esri.samples.show_location_history;
