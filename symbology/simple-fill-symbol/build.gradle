@@ -1,21 +1,21 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.openjfx.javafxplugin' // version is defined in settings.gradle
 }
 
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '200.0.0-3641'
+    arcgisVersion = '200.0.0-3661'
 }
 
 javafx {
     version = "17.0.2"
-    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.web', 'javafx.media', 'javafx.base', 'javafx.fxml' ]
+    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media' ]
 }
 
 application {
-    mainModule = "simple.fill.symbol.main"
+    mainModule = "com.esri.samples.simple_fill_symbol"
     mainClass = "com.esri.samples.simple_fill_symbol.SimpleFillSymbolSample"
 }
 
@@ -80,6 +80,9 @@ task productionZip(type: Zip) {
     archiveBaseName = project.name
 }
 
-wrapper {
-    gradleVersion = '7.5.1'
+if (rootProject == project) {
+    // the wrapper task is only used if this project is the root project i.e. not a subproject
+    wrapper {
+        gradleVersion = '7.5.1'
+    }
 }
