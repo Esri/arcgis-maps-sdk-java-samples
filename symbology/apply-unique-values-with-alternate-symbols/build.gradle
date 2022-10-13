@@ -6,16 +6,16 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '200.0.0-3638'
+    arcgisVersion = '200.0.0-3661'
 }
 
 javafx {
     version = "17.0.2"
-    modules = [ 'javafx.base', 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media'  ]
+    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media' ]
 }
 
 application {
-    mainModule = "apply.unique.values.with.alternate.symbols.main"
+    mainModule = "com.esri.samples.apply_unique_values_with_alternate_symbols"
     mainClass = "com.esri.samples.apply_unique_values_with_alternate_symbols.ApplyUniqueValuesWithAlternateSymbolsSample"
 }
 
