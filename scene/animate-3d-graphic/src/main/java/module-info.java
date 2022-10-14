@@ -22,7 +22,7 @@ module com.esri.samples.animate_3d_graphic {
   requires javafx.controls;
   requires javafx.fxml;
 
-  // make all annotated objects reflectively accessible to the javafx.fxml module
+  // make all @FXML annotated objects reflectively accessible to the javafx.fxml module
   opens com.esri.samples.animate_3d_graphic to javafx.fxml;
 
   exports com.esri.samples.animate_3d_graphic;

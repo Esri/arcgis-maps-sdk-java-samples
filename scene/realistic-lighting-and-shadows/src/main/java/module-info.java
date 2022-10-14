@@ -23,7 +23,7 @@ module com.esri.samples.realistic_lighting_and_shadows {
   requires javafx.controls;
   requires javafx.fxml;
 
-  // make all annotated objects reflectively accessible to the javafx.fxml module
+  // make all @FXML annotated objects reflectively accessible to the javafx.fxml module
   opens com.esri.samples.realistic_lighting_and_shadows to javafx.fxml;
 
   exports com.esri.samples.realistic_lighting_and_shadows;

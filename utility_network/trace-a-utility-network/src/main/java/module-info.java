@@ -23,7 +23,7 @@ module com.esri.samples.trace_a_utility_network {
   requires javafx.controls;
   requires javafx.fxml;
 
-  // make all annotated @FXML objects reflectively accessible to the javafx.fxml module
+  // make all @FXML annotated objects reflectively accessible to the javafx.fxml module
   opens com.esri.samples.trace_a_utility_network to javafx.fxml;
 
   exports com.esri.samples.trace_a_utility_network;
