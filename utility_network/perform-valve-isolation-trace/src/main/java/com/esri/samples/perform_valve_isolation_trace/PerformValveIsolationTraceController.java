@@ -37,7 +37,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.security.UserCredential;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.utilitynetworks.*;
@@ -151,7 +150,7 @@ public class PerformValveIsolationTraceController {
 
                       // create and apply a renderer for the starting point graphics overlay
                       SimpleMarkerSymbol startingPointSymbol =
-                        new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.LIGHTGREEN), 25);
+                        new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.LIGHTGREEN, 25);
                       startingLocationGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
 
                       // create a graphic for the starting location and add it to the graphics overlay
@@ -164,7 +163,7 @@ public class PerformValveIsolationTraceController {
 
                       // create and apply a renderer for the filter barriers graphics overlay
                       SimpleMarkerSymbol barrierPointSymbol =
-                        new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.RED), 25);
+                        new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.RED, 25);
                       filterBarriersGraphicsOverlay.setRenderer(new SimpleRenderer(barrierPointSymbol));
 
                       // set the map's viewpoint to the starting location
@@ -348,7 +347,7 @@ public class PerformValveIsolationTraceController {
               List<ArcGISFeature> listOfFeatures = new ArrayList<>();
               identifyLayerResults.forEach(result -> listOfFeatures.add((ArcGISFeature) result.getElements().get(0)));
 
-              // create an utility element for each feature and store it in a list
+              // create utility element for each feature and store it in a list
               List<UtilityElement> utilityElementList = new ArrayList<>();
               listOfFeatures.forEach(feature -> utilityElementList.add(utilityNetwork.createElement(feature)));
 

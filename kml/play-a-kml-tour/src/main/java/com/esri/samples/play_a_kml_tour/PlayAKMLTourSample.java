@@ -17,7 +17,6 @@
 package com.esri.samples.play_a_kml_tour;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javafx.application.Application;
@@ -53,7 +52,7 @@ public class PlayAKMLTourSample extends Application {
   private SceneView sceneView;
 
   @Override
-  public void start(Stage stage) throws IOException {
+  public void start(Stage stage) {
     try {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();

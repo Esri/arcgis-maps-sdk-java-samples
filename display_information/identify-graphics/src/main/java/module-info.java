@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Esri.
+ * Copyright 2022 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module com.esri.samples.identify_graphics {
+  // require ArcGIS Runtime module
+  requires com.esri.arcgisruntime;
 
-package com.esri.samples.display_content_of_utility_network_container;
+  // require JavaFX modules that the application uses
+  requires javafx.graphics;
+  requires javafx.controls;
 
-/**
- * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
- */
-public class DisplayContentOfUtilityNetworkContainerLauncher {
-
-  public static void main(String[] args) {
-    DisplayContentOfUtilityNetworkContainerSample.main(args);
-  }
+  exports com.esri.samples.identify_graphics;
 }

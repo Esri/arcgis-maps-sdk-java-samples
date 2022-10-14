@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Esri.
+ * Copyright 2022 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.esri.samples.configure_subnetwork_trace;
+module com.esri.samples.display_utility_associations {
+  // require ArcGIS Runtime module
+  requires com.esri.arcgisruntime;
 
-/**
- * Wrapper required for launching a JavaFX 11 app through Gradle or from a jar.
- */
-public class ConfigureSubnetworkTraceLauncher {
+  // require JavaFX modules that the application uses
+  requires javafx.graphics;
+  requires javafx.controls;
 
-  public static void main(String[] args) {
-    ConfigureSubnetworkTraceSample.main(args);
-  }
+  exports com.esri.samples.display_utility_associations;
 }

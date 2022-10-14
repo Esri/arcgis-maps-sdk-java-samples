@@ -17,10 +17,9 @@
 package com.esri.samples.display_drawing_status;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -28,7 +27,6 @@ import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -60,9 +58,8 @@ public class DisplayDrawingStatusSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create progress bar
-      ProgressBar progressBar = new ProgressBar();
-      progressBar.setMaxWidth(240.0);
+      // create progress indicator
+      var progressIndicator = new ProgressIndicator();
 
       // create a map with the topographic basemap style
       final ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
@@ -87,23 +84,12 @@ public class DisplayDrawingStatusSample extends Application {
       Envelope envelope = new Envelope(bottomLeftPoint, topRightPoint);
       mapView.setViewpoint(new Viewpoint(envelope));
 
-      mapView.addDrawStatusChangedListener(e -> {
-        // check to see if draw status is in progress
-        if (e.getDrawStatus() == DrawStatus.IN_PROGRESS) {
-          // reset progress bar as in progress
-          progressBar.setProgress(-100.0);
+      // bind progress indicator visibility to map view draw status
+      progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
-          // check to see if draw status is complete
-        } else if (e.getDrawStatus() == DrawStatus.COMPLETED) {
-          // set progress bar as complete
-          progressBar.setProgress(100.0);
-        }
-      });
-
-      // add the map view and progress bar to stack pane
-      stackPane.getChildren().addAll(mapView, progressBar);
-      StackPane.setAlignment(progressBar, Pos.TOP_LEFT);
-      StackPane.setMargin(progressBar, new Insets(10, 0, 0, 10));
+      // add the map view and progress indicator to stack pane
+      stackPane.getChildren().addAll(mapView, progressIndicator);
+      StackPane.setAlignment(progressIndicator, Pos.CENTER);
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();

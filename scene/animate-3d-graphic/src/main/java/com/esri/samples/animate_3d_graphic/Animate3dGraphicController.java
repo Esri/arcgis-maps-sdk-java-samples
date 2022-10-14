@@ -34,6 +34,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -129,13 +130,13 @@ public class Animate3dGraphicController {
 
       // create renderer to rotate the plane graphic in the mini map
       SimpleRenderer renderer2D = new SimpleRenderer();
-      SimpleMarkerSymbol plane2DSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFF0000FF, 10);
+      SimpleMarkerSymbol plane2DSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, Color.BLUE, 10);
       renderer2D.setSymbol(plane2DSymbol);
       renderer2D.setRotationExpression("[ANGLE]");
       mapOverlay.setRenderer(renderer2D);
 
       // create a placeholder graphic for showing the mission route in mini map
-      SimpleLineSymbol routeSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+      SimpleLineSymbol routeSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 2);
       routeGraphic = new Graphic();
       routeGraphic.setSymbol(routeSymbol);
       mapOverlay.getGraphics().add(routeGraphic);
