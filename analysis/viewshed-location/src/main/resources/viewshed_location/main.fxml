@@ -25,7 +25,7 @@
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.esri.samples.viewshed_location.ViewshedLocationController"
-           prefHeight="450.0" prefWidth="600.0" stylesheets="/viewshed_location/style.css">
+           prefHeight="450.0" prefWidth="600.0" stylesheets="@style.css">
     <SceneView fx:id="sceneView"/>
     <GridPane StackPane.alignment="TOP_LEFT" pickOnBounds="false" styleClass="panel-region" maxWidth="300"
               maxHeight="300" hgap="10" vgap="10">
