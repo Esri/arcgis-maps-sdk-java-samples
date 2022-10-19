@@ -100,8 +100,7 @@ public class RenderMultilayerSymbolsSample extends Application {
       
       // create picture marker symbol from URI
       PictureMarkerSymbolLayer pictureMarkerFromUri = new PictureMarkerSymbolLayer((
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images" +
-          "/e82f744ebb069bb35b234b3fea46deae"));
+        "https://static.arcgis.com/images/Symbols/OutdoorRecreation/Camping.png"));
 
       // wait for picture marker symbol to load before creating graphics from it
       pictureMarkerFromUri.addDoneLoadingListener(() -> {
