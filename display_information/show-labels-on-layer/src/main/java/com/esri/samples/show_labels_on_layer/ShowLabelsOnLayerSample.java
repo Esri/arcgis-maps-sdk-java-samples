@@ -37,7 +37,6 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.labeling.ArcadeLabelExpression;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 
 public class ShowLabelsOnLayerSample extends Application {
@@ -120,8 +119,8 @@ public class ShowLabelsOnLayerSample extends Application {
     // create text symbol for styling the label
     var textSymbol = new TextSymbol();
     textSymbol.setSize(12);
-    textSymbol.setColor(ColorUtil.colorToArgb(color));
-    textSymbol.setHaloColor(ColorUtil.colorToArgb(Color.WHITE));
+    textSymbol.setColor(color);
+    textSymbol.setHaloColor(Color.WHITE);
     textSymbol.setHaloWidth(2);
 
     // create a label definition with an Arcade expression script

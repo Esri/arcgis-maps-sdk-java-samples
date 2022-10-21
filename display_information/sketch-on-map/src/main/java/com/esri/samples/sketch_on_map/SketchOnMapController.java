@@ -19,6 +19,7 @@ package com.esri.samples.sketch_on_map;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -86,13 +87,13 @@ public class SketchOnMapController {
     mapView.setSketchEditor(sketchEditor);
 
     // red square for points
-    pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFFFF0000, 20);
+    pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, Color.RED, 20);
     // thin green line for polylines
-    lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF64c113, 4);
+    lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.GREENYELLOW, 4);
     // blue outline for polygons
-    SimpleLineSymbol polygonLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF1396c1, 4);
+    SimpleLineSymbol polygonLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.STEELBLUE, 4);
     // cross-hatched interior for polygons
-    fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0x40FFA9A9, polygonLineSymbol);
+    fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, Color.rgb(255, 169, 169, 0.4), polygonLineSymbol);
 
     // add a listener for when sketch geometry is changed
     sketchEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {

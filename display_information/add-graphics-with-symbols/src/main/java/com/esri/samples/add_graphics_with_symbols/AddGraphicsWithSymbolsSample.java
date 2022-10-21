@@ -19,6 +19,7 @@ package com.esri.samples.add_graphics_with_symbols;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -47,8 +48,6 @@ public class AddGraphicsWithSymbolsSample extends Application {
   private GraphicsOverlay graphicsOverlay;
 
   private static final SpatialReference SPATIAL_REFERENCE = SpatialReferences.getWgs84();
-
-  private static final int BLUE = 0xFF0000E6;
 
   @Override
   public void start(Stage stage) {
@@ -111,7 +110,7 @@ public class AddGraphicsWithSymbolsSample extends Application {
   private void createPoints() {
 
     // create a red (0xFFFF0000) circle simple marker symbol
-    SimpleMarkerSymbol redCircleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
+    SimpleMarkerSymbol redCircleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10);
 
     // create graphics and add to graphics overlay
     Graphic graphic;
@@ -134,7 +133,7 @@ public class AddGraphicsWithSymbolsSample extends Application {
   private void createPolyline() {
 
     // create a purple (0xFF800080) simple line symbol
-    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF800080, 4);
+    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.DARKBLUE, 4);
 
     // create a new point collection for polyline
     PointCollection points = new PointCollection(SPATIAL_REFERENCE);
@@ -164,9 +163,9 @@ public class AddGraphicsWithSymbolsSample extends Application {
   private void createPolygon() {
 
     // create a green (0xFF005000) simple line symbol
-    SimpleLineSymbol outlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF005000, 1);
+    SimpleLineSymbol outlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.DARKGREEN, 1);
     // create a green (0xFF005000) mesh simple fill symbol
-    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFF005000,
+    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, Color.DARKGREEN,
         outlineSymbol);
 
     // create a new point collection for polygon
@@ -196,10 +195,10 @@ public class AddGraphicsWithSymbolsSample extends Application {
   private void createText() {
 
     // create two text symbols
-    TextSymbol bassRockTextSymbol = new TextSymbol(10, "Bass Rock", BLUE, HorizontalAlignment.LEFT,
+    TextSymbol bassRockTextSymbol = new TextSymbol(10, "Bass Rock", Color.BLUE, HorizontalAlignment.LEFT,
         VerticalAlignment.BOTTOM);
 
-    TextSymbol craigleithTextSymbol = new TextSymbol(10, "Craigleith", BLUE, HorizontalAlignment.RIGHT,
+    TextSymbol craigleithTextSymbol = new TextSymbol(10, "Craigleith", Color.BLUE, HorizontalAlignment.RIGHT,
         VerticalAlignment.TOP);
 
     // create two points

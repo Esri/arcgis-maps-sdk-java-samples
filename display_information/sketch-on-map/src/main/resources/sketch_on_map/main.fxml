@@ -25,7 +25,7 @@
 <?import javafx.scene.image.Image?>
 <StackPane fx:controller="com.esri.samples.sketch_on_map.SketchOnMapController"
            xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/sketch_on_map/style.css">
+           stylesheets="@style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_RIGHT" maxWidth="100" maxHeight="110" styleClass="panel-region"
           alignment="CENTER" spacing="6">
