@@ -83,9 +83,8 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       Label currentMapScaleLabel = new Label();
 
       // listen for map scale changes and update the label
-      mapView.mapScaleProperty().addListener((observable, oldValue, newValue) -> {
-        currentMapScaleLabel.setText("Scale: 1:" + Math.round((double) newValue));
-      });
+      mapView.mapScaleProperty().addListener((observable, oldValue, newValue) ->
+        currentMapScaleLabel.setText("Scale: 1:" + Math.round((double) newValue)));
 
       // add checkboxes and label to the control panel
       controlsVBox.getChildren().addAll(closedSublayerCheckbox, openSublayerCheckbox, currentMapScaleLabel);
