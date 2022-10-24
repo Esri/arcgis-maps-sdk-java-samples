@@ -28,7 +28,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -82,7 +81,7 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // show current map scale in a label within the control panel
       Label currentMapScaleLabel = new Label();
       mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
-              currentMapScaleLabel.setText("Scale: 1:" + Math.round(mapView.getMapScale()))
+        currentMapScaleLabel.setText("Scale: 1:" + Math.round(mapView.getMapScale()))
       );
 
       // add checkboxes and label to the control panel
