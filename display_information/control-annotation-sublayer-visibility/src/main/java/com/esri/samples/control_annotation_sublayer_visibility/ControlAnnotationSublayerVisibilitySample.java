@@ -28,7 +28,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -81,10 +80,9 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
 
       // show current map scale in a label within the control panel
       Label currentMapScaleLabel = new Label();
-
-      // listen for map scale changes and update the label
-      mapView.mapScaleProperty().addListener((observable, oldValue, newValue) ->
-        currentMapScaleLabel.setText("Scale: 1:" + Math.round((double) newValue)));
+      mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
+        currentMapScaleLabel.setText("Scale: 1:" + Math.round(mapView.getMapScale()))
+      );
 
       // add checkboxes and label to the control panel
       controlsVBox.getChildren().addAll(closedSublayerCheckbox, openSublayerCheckbox, currentMapScaleLabel);
@@ -116,15 +114,14 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
                   closedSublayerCheckbox.setOnAction(event -> closedSublayer.setVisible(closedSublayerCheckbox.isSelected()));
                   openSublayerCheckbox.setOnAction(event -> openSublayer.setVisible(openSublayerCheckbox.isSelected()));
 
-                  // listen for map scale changes
-                  mapView.mapScaleProperty().addListener(((observable, oldValue, newValue) -> {
-                    // gray out the open sublayer when the layer is out of scale
-                    if (openSublayer.isVisibleAtScale((double) newValue)) {
+                  // gray out the open sublayer when the layer is out of scale
+                  mapView.addMapScaleChangedListener(mapScaleChangedEvent -> {
+                    if (openSublayer.isVisibleAtScale(mapView.getMapScale())) {
                       openSublayerCheckbox.setStyle("-fx-text-fill: white");
                     } else {
                       openSublayerCheckbox.setStyle("-fx-text-fill: darkgrey");
                     }
-                  }));
+                  });
 
                 } else {
                   new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer " + layer.getName()).show();
