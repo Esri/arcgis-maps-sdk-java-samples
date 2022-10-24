@@ -48,7 +48,7 @@
                     GridPane.columnIndex="0">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/edit.png"/>
+                        <Image url="@edit.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -59,7 +59,7 @@
                     GridPane.columnIndex="1">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/clear.png"/>
+                        <Image url="@clear.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -72,7 +72,7 @@
             <Button onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/point.png"/>
+                        <Image url="@point.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -82,7 +82,7 @@
             <Button onAction="#handleMultipointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="1">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/multipoint.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
+                        <Image url="@multipoint.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -92,7 +92,7 @@
             <Button onAction="#handlePolylineButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/polyline.png"/>
+                        <Image url="@polyline.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -102,7 +102,7 @@
             <Button onAction="#handlePolygonButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/polygon.png"/>
+                        <Image url="@polygon.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -112,7 +112,7 @@
             <Button onAction="#handleFreehandPolylineButtonClicked" GridPane.rowIndex="2" GridPane.columnIndex="0">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/freehand-polyline.png"/>
+                        <Image url="@freehand-polyline.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -122,7 +122,7 @@
             <Button onAction="#handleFreehandPolygonButtonClicked" GridPane.rowIndex="2" GridPane.columnIndex="1">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/brush.png"/>
+                        <Image url="@brush.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -132,7 +132,7 @@
             <Button onAction="#handleRectangleButtonClicked" GridPane.rowIndex="3" GridPane.columnIndex="0">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/rectangle.png"/>
+                        <Image url="@rectangle.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -146,7 +146,7 @@
                     GridPane.columnIndex="0">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/undo.png"/>
+                        <Image url="@undo.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -157,7 +157,7 @@
                     GridPane.columnIndex="1">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/redo.png"/>
+                        <Image url="@redo.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -168,7 +168,7 @@
                     GridPane.columnIndex="0">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/save.png"/>
+                        <Image url="@save.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -179,7 +179,7 @@
                     GridPane.columnIndex="1">
                 <graphic>
                     <ImageView>
-                        <Image url="/sketch_on_map/trash-can-outline.png"/>
+                        <Image url="@trash-can-outline.png"/>
                     </ImageView>
                 </graphic>
                 <tooltip>
