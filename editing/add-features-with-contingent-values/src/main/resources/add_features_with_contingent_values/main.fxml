@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <StackPane fx:controller="com.esri.samples.add_features_with_contingent_values.AddFeaturesWithContingentValuesController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/add_features_with_contingent_values/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView" disable="true"/>
     <VBox spacing="10" StackPane.alignment="TOP_RIGHT" maxWidth="210" maxHeight="300" styleClass="panel-region">
