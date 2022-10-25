@@ -17,6 +17,7 @@
 package com.esri.samples.control_annotation_sublayer_visibility;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -67,8 +69,10 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
       // create checkboxes for toggling the sublayer visibility manually
       CheckBox closedSublayerCheckbox = new CheckBox();
       closedSublayerCheckbox.setSelected(true);
+      closedSublayerCheckbox.setTextFill(Color.WHITE);
       CheckBox openSublayerCheckbox = new CheckBox();
       openSublayerCheckbox.setSelected(true);
+      openSublayerCheckbox.setTextFill(Color.WHITE);
 
       // create a control panel and label for the checkboxes
       VBox controlsVBox = new VBox(6);
@@ -115,15 +119,10 @@ public class ControlAnnotationSublayerVisibilitySample extends Application {
                   closedSublayerCheckbox.setOnAction(event -> closedSublayer.setVisible(closedSublayerCheckbox.isSelected()));
                   openSublayerCheckbox.setOnAction(event -> openSublayer.setVisible(openSublayerCheckbox.isSelected()));
 
-                  // listen for map scale changes
-                  mapView.mapScaleProperty().addListener(((observable, oldValue, newValue) -> {
-                    // gray out the open sublayer when the layer is out of scale
-                    if (openSublayer.isVisibleAtScale((double) newValue)) {
-                      openSublayerCheckbox.setStyle("-fx-text-fill: white");
-                    } else {
-                      openSublayerCheckbox.setStyle("-fx-text-fill: darkgrey");
-                    }
-                  }));
+                  // bind the checkbox disable property to its map scale visibility
+                  var mapScaleProperty = mapView.mapScaleProperty();
+                  openSublayerCheckbox.disableProperty().bind(Bindings.createBooleanBinding(() ->
+                    !openSublayer.isVisibleAtScale(mapScaleProperty.get()), mapScaleProperty));
 
                 } else {
                   new Alert(Alert.AlertType.ERROR, "Error loading Annotation Layer " + layer.getName()).show();
