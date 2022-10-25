@@ -24,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -82,12 +83,12 @@ public class GetElevationAtAPointSample extends Application {
       scene.setBaseSurface(surface);
 
       // create a point symbol and graphic to mark where elevation is being measured
-      SimpleLineSymbol elevationLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3.0f);
+      SimpleLineSymbol elevationLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 3.0f);
       Graphic polylineGraphic = new Graphic();
       polylineGraphic.setSymbol(elevationLineSymbol);
 
       // create a text symbol and graphic to display the elevation of selected points
-      TextSymbol elevationTextSymbol = new TextSymbol(20, null, 0xFFFF0000, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
+      TextSymbol elevationTextSymbol = new TextSymbol(20, null, Color.RED, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
       Graphic elevationTextGraphic = new Graphic();
       elevationTextGraphic.setSymbol(elevationTextSymbol);
 
