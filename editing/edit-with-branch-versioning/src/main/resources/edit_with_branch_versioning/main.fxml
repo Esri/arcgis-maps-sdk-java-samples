@@ -31,7 +31,7 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 
 <StackPane fx:controller="com.esri.samples.edit_with_branch_versioning.EditWithBranchVersioningController" xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/edit_with_branch_versioning/style.css">
+           stylesheets="@style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator" />
