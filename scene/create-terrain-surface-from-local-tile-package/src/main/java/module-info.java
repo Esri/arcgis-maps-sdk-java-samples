@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-module com.esri.samples.create_terrain_surface_from_local_tile_package{
+module com.esri.samples.create_terrain_surface_from_local_tile_package {
   // require ArcGIS Runtime module
   requires com.esri.arcgisruntime;
 
