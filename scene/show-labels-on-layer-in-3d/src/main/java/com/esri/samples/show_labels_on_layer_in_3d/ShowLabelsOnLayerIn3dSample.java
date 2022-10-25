@@ -34,7 +34,6 @@ import com.esri.arcgisruntime.mapping.labeling.ArcadeLabelExpression;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 
 public class ShowLabelsOnLayerIn3dSample extends Application {
@@ -91,8 +90,8 @@ public class ShowLabelsOnLayerIn3dSample extends Application {
 
                 // create a text symbol to set to the label definition
                 var textSymbol = new TextSymbol();
-                textSymbol.setColor(ColorUtil.colorToArgb(Color.ORANGE));
-                textSymbol.setHaloColor(ColorUtil.colorToArgb(Color.WHITE));
+                textSymbol.setColor(Color.ORANGE);
+                textSymbol.setHaloColor(Color.WHITE);
                 textSymbol.setHaloWidth(2);
                 textSymbol.setSize(16);
 
