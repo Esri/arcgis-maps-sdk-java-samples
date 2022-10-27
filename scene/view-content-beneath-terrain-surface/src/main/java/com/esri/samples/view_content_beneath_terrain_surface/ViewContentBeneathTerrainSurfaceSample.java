@@ -1,5 +1,6 @@
 package com.esri.samples.view_content_beneath_terrain_surface;
 
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
@@ -34,8 +35,9 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     sceneView = new SceneView();
     sceneView.setArcGISScene(scene);
 
-    // add a progress indicator to show the scene is loading
-    ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
+    // add a progress indicator and bind it to the scene view draw status
+    ProgressIndicator progressIndicator = new ProgressIndicator();
+    progressIndicator.visibleProperty().bind(sceneView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
     // once the scene has loaded, set the navigation constraint and opacity of the base surface
     scene.addDoneLoadingListener(() -> {
@@ -44,9 +46,6 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
       // set opacity to view content beneath the base surface
       scene.getBaseSurface().setOpacity(0.4f);
     });
-
-    // hide the progress indicator once the sceneview has completed drawing
-    sceneView.addDrawStatusChangedListener(event -> progressIndicator.setVisible(false));
 
     // add the scene view and progress indicator to the stack pane
     stackPane.getChildren().addAll(sceneView, progressIndicator);

@@ -103,10 +103,8 @@ public class RealisticLightingAndShadowsController {
       comboBox.setConverter(new ComboBoxStringConverter());
       comboBox.setCellFactory(comboBox -> new LightingModeListCell());
 
-      // update the sun lighting based on the lighting mode chosen from the combo box
-      comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
-        sceneView.setSunLighting(comboBox.getSelectionModel().getSelectedItem());
-      });
+      // bind the sun lighting to the lighting mode chosen from the combo box
+      comboBox.valueProperty().bindBidirectional(sceneView.sunLightingProperty());
 
       // launch the app with lighting mode set to NO_LIGHT
       comboBox.getSelectionModel().select(0);
