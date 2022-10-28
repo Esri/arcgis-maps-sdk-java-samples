@@ -22,9 +22,5 @@ module com.esri.samples.picture_marker_symbol {
   requires javafx.graphics;
   requires javafx.controls;
 
-  // require other modules that the application uses
-  requires java.desktop;
-  requires javafx.swing;
-
   exports com.esri.samples.picture_marker_symbol;
 }

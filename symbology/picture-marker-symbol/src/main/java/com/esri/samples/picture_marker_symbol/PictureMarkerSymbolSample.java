@@ -17,11 +17,10 @@
 package com.esri.samples.picture_marker_symbol;
 
 import java.io.File;
-
-import javax.imageio.ImageIO;
+import java.net.URL;
+import java.nio.file.Paths;
 
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
@@ -43,14 +42,11 @@ import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 public class PictureMarkerSymbolSample extends Application {
 
   private MapView mapView;
-  private File orangeSymbolPath;
   private GraphicsOverlay graphicsOverlay;
 
   // keep loadables in scope to avoid garbage collection
   private ArcGISMap map;
   private PictureMarkerSymbol campsiteSymbol;
-  private PictureMarkerSymbol blueSymbol;
-  private PictureMarkerSymbol orangeSymbol;
 
   private static final String CAMPSITE_SYMBOL = "https://static.arcgis.com/images/Symbols/OutdoorRecreation/Camping.png";
 
@@ -90,16 +86,16 @@ public class PictureMarkerSymbolSample extends Application {
       Point middlePoint = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
 
       // create orange picture marker symbol from disk
-      if (saveResourceToExternalStorage()) {
-        // create orange picture marker symbol
-        orangeSymbol = new PictureMarkerSymbol(orangeSymbolPath.getAbsolutePath());
-        // place orange picture marker symbol on ArcGISMap
-        placePictureMarkerSymbol(orangeSymbol, leftPoint);
-      }
+      URL res = getClass().getClassLoader().getResource("orange_symbol.png");
+      File file = Paths.get(res.toURI()).toFile();
+      // create orange picture marker symbol
+      var orangeSymbol = new PictureMarkerSymbol(file.getAbsolutePath());
+      // place orange picture marker symbol on ArcGISMap
+      placePictureMarkerSymbol(orangeSymbol, leftPoint);
 
       // create blue picture marker symbol from local
       Image newImage = new Image("/blue_symbol.png");
-      blueSymbol = new PictureMarkerSymbol(newImage);
+      var blueSymbol = new PictureMarkerSymbol(newImage);
       // place blue picture marker symbol on ArcGISMap
       placePictureMarkerSymbol(blueSymbol, middlePoint);
 
@@ -154,30 +150,6 @@ public class PictureMarkerSymbolSample extends Application {
       }
     });
 
-  }
-
-  /**
-   * Writes a resource image to a file.
-   * 
-   * @return true if successful
-   */
-  private boolean saveResourceToExternalStorage() {
-
-    try {
-      // create a file that will be deleted automatically
-      orangeSymbolPath = File.createTempFile("orange_symbol", ".png");
-
-      // save image from resources folder to computer's disk
-      Image orangeImage = new Image("orange_symbol.png");
-
-      ImageIO.write(SwingFXUtils.fromFXImage(orangeImage, null), "png", orangeSymbolPath.getAbsoluteFile());
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    // check to see if the resource was created on disk
-    return orangeSymbolPath.exists();
   }
 
   /**
