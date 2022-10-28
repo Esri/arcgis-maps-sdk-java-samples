@@ -23,7 +23,7 @@
 <StackPane fx:id="stackPane"
            fx:controller="com.esri.samples.create_and_save_kml_file.CreateAndSaveKMLFileController"
            xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/create_and_save_kml_file/style.css"
+           stylesheets="@style.css"
            onKeyPressed="#handleKeyReleased">
     <MapView fx:id="mapView" />
     <VBox maxWidth="180" maxHeight="160" spacing="10"

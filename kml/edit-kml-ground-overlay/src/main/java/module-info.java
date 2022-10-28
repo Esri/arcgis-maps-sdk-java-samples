@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Esri.
+ * Copyright 2022 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module com.esri.samples.edit_kml_ground_overlay {
+  // require ArcGIS Runtime module
+  requires com.esri.arcgisruntime;
 
-package com.esri.samples.create_and_save_kml_file;
+  // require JavaFX modules that the application uses
+  requires javafx.graphics;
+  requires javafx.controls;
 
-public class CreateAndSaveKMLFileLauncher {
-
-  public static void main(String[] args) {
-    CreateAndSaveKMLFileSample.main(args);
-  }
+  exports com.esri.samples.edit_kml_ground_overlay;
 }
