@@ -83,9 +83,6 @@ public class ChangeAtmosphereEffectSample extends Application {
       // bind the scene view atmosphere effect to the value chosen from the combo box
       comboBox.valueProperty().bindBidirectional(sceneView.atmosphereEffectProperty());
 
-      // launch the app with atmosphere effect set to NONE
-      comboBox.getSelectionModel().select(0);
-
       // add scene view and control panel to the stack pane
       stackPane.getChildren().addAll(sceneView, comboBox);
       StackPane.setAlignment(comboBox, Pos.TOP_RIGHT);

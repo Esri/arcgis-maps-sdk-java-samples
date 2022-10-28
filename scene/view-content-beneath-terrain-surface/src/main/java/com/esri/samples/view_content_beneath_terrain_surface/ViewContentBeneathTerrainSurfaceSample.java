@@ -1,12 +1,12 @@
 package com.esri.samples.view_content_beneath_terrain_surface;
 
-import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.NavigationConstraint;
 import com.esri.arcgisruntime.mapping.view.SceneView;

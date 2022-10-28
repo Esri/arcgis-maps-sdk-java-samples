@@ -106,8 +106,8 @@ public class RealisticLightingAndShadowsController {
       // bind the sun lighting to the lighting mode chosen from the combo box
       comboBox.valueProperty().bindBidirectional(sceneView.sunLightingProperty());
 
-      // launch the app with lighting mode set to NO_LIGHT
-      comboBox.getSelectionModel().select(0);
+      // launch the app with lighting mode set to LIGHT_AND_SHADOWS
+      comboBox.getSelectionModel().select(2);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
