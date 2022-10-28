@@ -22,6 +22,7 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -41,12 +42,6 @@ import com.esri.arcgisruntime.symbology.UniqueValueRenderer.UniqueValue;
 public class UniqueValueRendererSample extends Application {
 
   private MapView mapView;
-
-  // colors for symbols
-  private static final int GRAY = 0xFFD3D3D3;
-  private static final int RED = 0xFFFF0000;
-  private static final int GREEN = 0xFF00FF00;
-  private static final int BLUE = 0xFF0000FF;
 
   @Override
   public void start(Stage stage) {
@@ -92,14 +87,14 @@ public class UniqueValueRendererSample extends Application {
       uniqueValueRenderer.getFieldNames().add("STATE_ABBR");
 
       // create the symbols to be used in the renderer
-      SimpleFillSymbol defaultFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, 0x00000000,
-          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, GRAY, 2));
-      SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, RED,
-          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, RED, 2));
-      SimpleFillSymbol arizonaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, GREEN,
-          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, GREEN, 2));
-      SimpleFillSymbol nevadaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, BLUE, new SimpleLineSymbol(
-          SimpleLineSymbol.Style.SOLID, BLUE, 2));
+      SimpleFillSymbol defaultFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, Color.TRANSPARENT,
+          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.GRAY, 2));
+      SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.RED,
+          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 2));
+      SimpleFillSymbol arizonaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.GREEN,
+          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.GREEN, 2));
+      SimpleFillSymbol nevadaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.BLUE, new SimpleLineSymbol(
+          SimpleLineSymbol.Style.SOLID, Color.BLUE, 2));
 
       // set the default symbol
       uniqueValueRenderer.setDefaultSymbol(defaultFillSymbol);

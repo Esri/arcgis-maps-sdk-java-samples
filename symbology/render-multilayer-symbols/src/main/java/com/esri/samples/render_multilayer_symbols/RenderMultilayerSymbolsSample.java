@@ -41,7 +41,6 @@ import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.DashGeometricEffect;
 import com.esri.arcgisruntime.symbology.HatchFillSymbolLayer;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
@@ -128,9 +127,9 @@ public class RenderMultilayerSymbolsSample extends Application {
       pictureMarkerFromImage.loadAsync();
 
       // add graphics with simple vector marker symbol elements (MultilayerPoint Simple Markers on app UI)
-      var solidFillSymbolLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.RED));
+      var solidFillSymbolLayer = new SolidFillSymbolLayer(Color.RED);
       var multilayerPolygonSymbol = new MultilayerPolygonSymbol(List.of(solidFillSymbolLayer));
-      var solidStrokeSymbolLayer = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.RED),
+      var solidStrokeSymbolLayer = new SolidStrokeSymbolLayer(1, Color.RED,
         List.of(new DashGeometricEffect()));
       var multilayerPolylineSymbol = new MultilayerPolylineSymbol(List.of(solidStrokeSymbolLayer));
       
@@ -199,13 +198,13 @@ public class RenderMultilayerSymbolsSample extends Application {
     var textSymbol = new TextSymbol(
       20,
       text,
-      ColorUtil.colorToArgb(Color.BLACK),
+      Color.BLACK,
       TextSymbol.HorizontalAlignment.CENTER,
       TextSymbol.VerticalAlignment.MIDDLE
     );
 
     // give the text symbol a white background
-    textSymbol.setBackgroundColor(ColorUtil.colorToArgb(Color.WHITE));
+    textSymbol.setBackgroundColor(Color.WHITE);
     return textSymbol;
   }
 
@@ -257,7 +256,7 @@ public class RenderMultilayerSymbolsSample extends Application {
     var dashGeometricEffect = new DashGeometricEffect(dashSpacing);
 
     // create stroke used by line symbols
-    var solidStrokeSymbolLayer = new SolidStrokeSymbolLayer(3.0, ColorUtil.colorToArgb(Color.RED), List.of(dashGeometricEffect));
+    var solidStrokeSymbolLayer = new SolidStrokeSymbolLayer(3.0, Color.RED, List.of(dashGeometricEffect));
     solidStrokeSymbolLayer.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
 
     // create a polyline for the multilayer polyline symbol
@@ -286,11 +285,11 @@ public class RenderMultilayerSymbolsSample extends Application {
     polygonBuilder.addPoint(new Point(60, 20 - offset));
 
     // create a stroke symbol layer to be used by patterns
-    SolidStrokeSymbolLayer strokeForHatches = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(Color.RED),
+    SolidStrokeSymbolLayer strokeForHatches = new SolidStrokeSymbolLayer(2, Color.RED,
       List.of(new DashGeometricEffect()));
 
     // create a stroke symbol layer to be used as an outline for aforementioned patterns
-    SolidStrokeSymbolLayer strokeForOutline = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.BLACK),
+    SolidStrokeSymbolLayer strokeForOutline = new SolidStrokeSymbolLayer(1, Color.BLACK,
       List.of(new DashGeometricEffect()));
 
     // create an array to hold one symbol layer for each angle, and one for the outline
@@ -333,8 +332,8 @@ public class RenderMultilayerSymbolsSample extends Application {
     purpleSquareVectorMarkerLayer.setAnchor(new SymbolAnchor(4, 2, SymbolAnchor.PlacementMode.ABSOLUTE));
 
     // create a yellow hexagon with a black outline
-    SolidFillSymbolLayer yellowFillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.YELLOW));
-    SolidStrokeSymbolLayer blackOutline = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(Color.BLACK),
+    SolidFillSymbolLayer yellowFillLayer = new SolidFillSymbolLayer(Color.YELLOW);
+    SolidStrokeSymbolLayer blackOutline = new SolidStrokeSymbolLayer(2, Color.BLACK,
       List.of(new DashGeometricEffect()));
     VectorMarkerSymbolElement hexagonVectorElement = new VectorMarkerSymbolElement(complexPointGeometry,
       new MultilayerPolylineSymbol(List.of(yellowFillLayer, blackOutline)));
@@ -364,8 +363,8 @@ public class RenderMultilayerSymbolsSample extends Application {
    */
   private VectorMarkerSymbolLayer getLayerForComplexPoint(Color fillColor, Color outlineColor, double size){
     // create the fill layer and outline
-    SolidFillSymbolLayer fillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(fillColor));
-    SolidStrokeSymbolLayer outline = new SolidStrokeSymbolLayer(2, ColorUtil.colorToArgb(outlineColor),
+    SolidFillSymbolLayer fillLayer = new SolidFillSymbolLayer(fillColor);
+    SolidStrokeSymbolLayer outline = new SolidStrokeSymbolLayer(2, outlineColor,
       List.of(new DashGeometricEffect()));
 
     // create a geometry from an envelope
@@ -423,23 +422,23 @@ public class RenderMultilayerSymbolsSample extends Application {
    */
   private List<SymbolLayer> getLayersForComplexPolys(boolean includeRedFill){
     // create a black dash effect
-    SolidStrokeSymbolLayer blackDashes = new SolidStrokeSymbolLayer(1, ColorUtil.colorToArgb(Color.BLACK),
+    SolidStrokeSymbolLayer blackDashes = new SolidStrokeSymbolLayer(1, Color.BLACK,
       List.of(new DashGeometricEffect(List.of(5.0, 3.0))));
     blackDashes.setCapStyle(StrokeSymbolLayer.CapStyle.SQUARE);
 
     // create a black outline
-    SolidStrokeSymbolLayer blackOutline = new SolidStrokeSymbolLayer(7, ColorUtil.colorToArgb(Color.BLACK),
+    SolidStrokeSymbolLayer blackOutline = new SolidStrokeSymbolLayer(7, Color.BLACK,
       List.of(new DashGeometricEffect()));
     blackOutline.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
 
     // create a yellow stroke inside
-    SolidStrokeSymbolLayer yellowStroke = new SolidStrokeSymbolLayer(5, ColorUtil.colorToArgb(Color.YELLOW),
+    SolidStrokeSymbolLayer yellowStroke = new SolidStrokeSymbolLayer(5, Color.YELLOW,
       List.of(new DashGeometricEffect()));
     yellowStroke.setCapStyle(StrokeSymbolLayer.CapStyle.ROUND);
 
     if (includeRedFill) {
       // create a red filling for the polygon
-      SolidFillSymbolLayer redFillLayer = new SolidFillSymbolLayer(ColorUtil.colorToArgb(Color.RED));
+      SolidFillSymbolLayer redFillLayer = new SolidFillSymbolLayer(Color.RED);
       return List.of(redFillLayer, blackOutline, yellowStroke, blackDashes);
     } else {
       return List.of(blackOutline, yellowStroke, blackDashes);

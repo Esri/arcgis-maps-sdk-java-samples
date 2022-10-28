@@ -19,6 +19,7 @@ package com.esri.samples.simple_marker_symbol;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -70,8 +71,8 @@ public class SimpleMarkerSymbolSample extends Application {
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create a red (0xFFFF0000) simple marker symbol
-      SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 12);
+      // create a red simple marker symbol
+      SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 12);
 
       // create a new graphic with a our point and symbol
       Graphic graphic = new Graphic(point, symbol);

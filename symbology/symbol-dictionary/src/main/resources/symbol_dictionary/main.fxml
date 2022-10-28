@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <BorderPane fx:controller="com.esri.samples.symbol_dictionary.SymbolDictionaryController"
-            xmlns:fx="http://javafx.com/fxml" stylesheets="/symbol_dictionary/style.css">
+            xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <padding>
         <Insets bottom="10"/>
     </padding>
