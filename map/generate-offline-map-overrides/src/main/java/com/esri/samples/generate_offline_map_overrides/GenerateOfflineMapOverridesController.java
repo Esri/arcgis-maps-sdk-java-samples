@@ -23,19 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Spinner;
-
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
@@ -49,6 +39,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateLayerOption;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapJob;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameterOverrides;
@@ -57,6 +48,15 @@ import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapResult;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapParametersKey;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheParameters;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Spinner;
+import javafx.scene.paint.Color;
 
 public class GenerateOfflineMapOverridesController {
 
@@ -104,7 +104,7 @@ public class GenerateOfflineMapOverridesController {
         // show a red border around the download area
         downloadArea = new Graphic();
         graphicsOverlay.getGraphics().add(downloadArea);
-        var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+        var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 2);
         downloadArea.setSymbol(simpleLineSymbol);
 
       }
@@ -132,7 +132,7 @@ public class GenerateOfflineMapOverridesController {
 
       // get default offline map parameters for this task given the download area
       ListenableFuture<GenerateOfflineMapParameters> generateOfflineMapParametersFuture = offlineMapTask
-          .createDefaultGenerateOfflineMapParametersAsync(downloadArea.getGeometry());
+        .createDefaultGenerateOfflineMapParametersAsync(downloadArea.getGeometry());
 
       generateOfflineMapParametersFuture.addDoneListener(() -> {
         try {
@@ -140,7 +140,7 @@ public class GenerateOfflineMapOverridesController {
 
           // get additional offline parameters (overrides) for this task
           ListenableFuture<GenerateOfflineMapParameterOverrides> parameterOverridesFuture = offlineMapTask
-              .createGenerateOfflineMapParameterOverridesAsync(parameters);
+            .createGenerateOfflineMapParameterOverridesAsync(parameters);
 
           parameterOverridesFuture.addDoneListener(() -> {
             try {
@@ -148,9 +148,9 @@ public class GenerateOfflineMapOverridesController {
 
               // get the export tile cache parameters for the base layer
               OfflineMapParametersKey basemapParamKey = new OfflineMapParametersKey(
-                  mapView.getMap().getBasemap().getBaseLayers().get(0));
+                mapView.getMap().getBasemap().getBaseLayers().get(0));
               ExportTileCacheParameters exportTileCacheParameters =
-                  overrides.getExportTileCacheParameters().get(basemapParamKey);
+                overrides.getExportTileCacheParameters().get(basemapParamKey);
 
               // create a new sublist of level IDs in the range requested by the user
               exportTileCacheParameters.getLevelIDs().clear();
@@ -159,7 +159,7 @@ public class GenerateOfflineMapOverridesController {
               }
               // set the area of interest to the original download area plus a buffer
               exportTileCacheParameters.setAreaOfInterest(GeometryEngine.buffer(downloadArea.getGeometry(),
-                  extentBufferDistanceSpinner.getValue()));
+                extentBufferDistanceSpinner.getValue()));
 
               // configure layer option parameters for each layer depending on the options selected in the UI
               for (Layer layer : map.getOperationalLayers()) {
@@ -220,7 +220,7 @@ public class GenerateOfflineMapOverridesController {
                   // disable button since the offline map is already generated
                   generateOfflineMapButton.setDisable(true);
                 } else {
-                  new Alert(Alert.AlertType.WARNING, job.getError().getAdditionalMessage()).show();
+                  new Alert(Alert.AlertType.WARNING, job.getError().getMessage()).show();
                   generateOfflineMapButton.setDisable(false);
                 }
                 Platform.runLater(() -> progressBar.setVisible(false));

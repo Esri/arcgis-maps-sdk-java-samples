@@ -23,24 +23,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.TransportationNetworkDataset;
 import com.esri.arcgisruntime.geometry.Point;
@@ -61,6 +43,24 @@ import com.esri.arcgisruntime.tasks.networkanalysis.RouteParameters;
 import com.esri.arcgisruntime.tasks.networkanalysis.RouteResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.RouteTask;
 import com.esri.arcgisruntime.tasks.networkanalysis.Stop;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MobileMapSearchAndRouteSample extends Application {
 
@@ -132,8 +132,7 @@ public class MobileMapSearchAndRouteSample extends Application {
       });
 
       // create a custom list item for each of the map package's maps
-      mapPackageListView.setCellFactory(list -> new ListCell<ArcGISMap>() {
-
+      mapPackageListView.setCellFactory(list -> new ListCell<>() {
         @Override
         protected void updateItem(ArcGISMap map, boolean bln) {
           super.updateItem(map, bln);
@@ -193,7 +192,7 @@ public class MobileMapSearchAndRouteSample extends Application {
       // create a graphics overlay for showing routes (for when the map has transportation network datasets)
       GraphicsOverlay routesGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(routesGraphicsOverlay);
-      LineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
+      LineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
 
       // switch the map in the map view to the one selected in the list view
       mapPackageListView.getSelectionModel().selectedItemProperty().addListener(o -> {
@@ -217,7 +216,7 @@ public class MobileMapSearchAndRouteSample extends Application {
           ReverseGeocodeParameters reverseGeocodeParameters = new ReverseGeocodeParameters();
           reverseGeocodeParameters.setMaxResults(1);
           ListenableFuture<List<GeocodeResult>> results = mobileMapPackage.getLocatorTask().reverseGeocodeAsync(mapPoint,
-              reverseGeocodeParameters);
+            reverseGeocodeParameters);
           results.addDoneListener(() -> {
             try {
               // show a pin graphic and a callout with the geocode's address
@@ -251,9 +250,9 @@ public class MobileMapSearchAndRouteSample extends Application {
                   // create route parameters with the last two locations' stops
                   List<Graphic> locationGraphics = locationsGraphicsOverlay.getGraphics();
                   List<Stop> stops = locationGraphics.subList(Math.max(locationGraphics.size() - 2, 0), locationGraphics.size())
-                      .stream()
-                      .map(g -> new Stop((Point) g.getGeometry()))
-                      .collect(Collectors.toList());
+                    .stream()
+                    .map(g -> new Stop((Point) g.getGeometry()))
+                    .collect(Collectors.toList());
                   ListenableFuture<RouteParameters> defaultParameters = routeTask.createDefaultParametersAsync();
                   defaultParameters.addDoneListener(() -> {
                     try {
@@ -280,9 +279,9 @@ public class MobileMapSearchAndRouteSample extends Application {
                 }
               }
             } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "No address found at this location");
-                alert.initOwner(mapView.getScene().getWindow());
-                alert.show();
+              Alert alert = new Alert(Alert.AlertType.WARNING, "No address found at this location");
+              alert.initOwner(mapView.getScene().getWindow());
+              alert.show();
             }
           });
         }
