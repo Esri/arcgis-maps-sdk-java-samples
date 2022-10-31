@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <StackPane fx:controller="com.esri.samples.download_preplanned_map.DownloadPreplannedMapController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/download_preplanned_map/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" maxHeight="200" maxWidth="220" styleClass="panel-region" spacing="10">
         <padding>

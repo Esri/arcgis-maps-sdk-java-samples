@@ -20,17 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.Job;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -47,6 +36,17 @@ import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapJob;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapResult;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class GenerateOfflineMapSample extends Application {
 
@@ -100,7 +100,7 @@ public class GenerateOfflineMapSample extends Application {
       // create a graphic to show a box around the extent we want to download
       Graphic downloadArea = new Graphic();
       graphicsOverlay.getGraphics().add(downloadArea);
-      SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+      SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 2);
       downloadArea.setSymbol(simpleLineSymbol);
 
       // update the box whenever the viewpoint changes
@@ -155,7 +155,7 @@ public class GenerateOfflineMapSample extends Application {
               graphicsOverlay.getGraphics().clear();
               offlineMapButton.setDisable(true);
             } else {
-              new Alert(Alert.AlertType.ERROR, job.getError().getAdditionalMessage()).show();
+              new Alert(Alert.AlertType.ERROR, job.getError().getMessage()).show();
             }
             Platform.runLater(() -> progressBar.setVisible(false));
           });

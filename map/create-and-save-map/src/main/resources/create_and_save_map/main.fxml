@@ -31,7 +31,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.create_and_save_map.CreateAndSaveMapController" xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/create_and_save_map/style.css">
+           stylesheets="@style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" spacing="10" maxWidth="250" styleClass="panel-region" fx:id="vBox">
         <padding>
