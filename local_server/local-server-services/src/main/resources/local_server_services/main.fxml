@@ -54,7 +54,7 @@
       <Button onAction="#openPackage" text="Open" GridPane.rowIndex="1" GridPane.columnIndex="1">
         <graphic>
           <ImageView>
-            <Image url="/local_server_services/files-48.png" requestedHeight="16" preserveRatio="true" smooth="true"/>
+            <Image url="@files-48.png" requestedHeight="16" preserveRatio="true" smooth="true"/>
           </ImageView>
         </graphic>
       </Button>

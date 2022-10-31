@@ -30,7 +30,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.local_server_geoprocessing.LocalServerGeoprocessingController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/local_server_geoprocessing/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
            
    <!--SDK MapView-->
   <MapView fx:id="mapView"/>
