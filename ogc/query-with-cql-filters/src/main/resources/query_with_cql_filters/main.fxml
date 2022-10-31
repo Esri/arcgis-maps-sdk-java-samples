@@ -37,7 +37,7 @@
 <?import javafx.scene.paint.Color?>
 
 <StackPane fx:controller="com.esri.samples.query_with_cql_filters.QueryWithCqlFiltersController" xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/query_with_cql_filters/style.css">
+           stylesheets="@style.css">
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator"/>
     <VBox StackPane.alignment="TOP_RIGHT" maxWidth="300" maxHeight="50" spacing="5" styleClass="panel-region" alignment="CENTER">
