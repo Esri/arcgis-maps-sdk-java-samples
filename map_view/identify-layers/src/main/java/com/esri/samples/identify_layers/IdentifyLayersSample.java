@@ -19,20 +19,10 @@ package com.esri.samples.identify_layers;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import javafx.application.Application;
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.FeatureTable;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -41,12 +31,19 @@ import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import javafx.application.Application;
+import javafx.geometry.Point2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class IdentifyLayersSample extends Application {
 
   private MapView mapView;
   // keep loadables in scope to avoid garbage collection
-  private ArcGISMapImageLayer mapImageLayer; 
+  private ArcGISMapImageLayer mapImageLayer;
   private FeatureLayer featureLayer;
 
   /**

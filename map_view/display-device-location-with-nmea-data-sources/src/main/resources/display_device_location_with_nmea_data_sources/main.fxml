@@ -23,7 +23,7 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 
 <StackPane fx:controller="com.esri.samples.display_device_location_with_nmea_data_sources.DisplayDeviceLocationWithNmeaDataSourcesController" xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/display_device_location_with_nmea_data_sources/style.css">
+           stylesheets="@style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <!--Controls box-->
