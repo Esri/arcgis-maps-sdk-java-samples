@@ -74,6 +74,9 @@ run {
 
 task productionZip(type: Zip) {
     group = 'distribution'
+    from ("samples-data") {
+        into "samples-data"
+    }
     from copyNatives
     from jar.destinationDirectory
     into (project.name)

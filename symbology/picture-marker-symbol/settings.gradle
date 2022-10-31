@@ -6,3 +6,14 @@ pluginManagement {
 }
 
 rootProject.name = 'picture-marker-symbol'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    file("./samples-data/symbol").mkdirs()
+    ant.get(
+            src: "https://www.arcgis.com/sharing/rest/content/items/1c95ea3b6e4843cdbd6ae354efb97f0c/data",
+            dest: file("./samples-data/symbol/orange_symbol.png")
+    )
+}
