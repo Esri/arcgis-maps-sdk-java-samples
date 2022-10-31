@@ -28,7 +28,7 @@
 <?import com.esri.arcgisruntime.mapping.view.SceneView?>
 <?import javafx.scene.control.Separator?>
 <StackPane fx:controller="com.esri.samples.local_server_generate_elevation_profile.LocalServerGenerateElevationProfileController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/local_server_generate_elevation_profile/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
 
     <!--SDK SceneView-->
     <SceneView fx:id="sceneView"/>
