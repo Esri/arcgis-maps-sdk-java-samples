@@ -109,7 +109,7 @@ public class QueryWithCqlFiltersController {
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
-          var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKMAGENTA), 3));
+          var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.DARKMAGENTA, 3));
           featureLayer.setRenderer(simpleRenderer);
 
           // get the extent of the dataset
