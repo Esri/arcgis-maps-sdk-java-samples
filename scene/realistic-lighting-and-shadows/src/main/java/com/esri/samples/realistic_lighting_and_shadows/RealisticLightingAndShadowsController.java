@@ -22,10 +22,12 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javafx.fxml.FXML;
+import javafx.util.StringConverter;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Slider;
+import javafx.beans.property.SimpleObjectProperty;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
@@ -37,7 +39,6 @@ import com.esri.arcgisruntime.mapping.view.AtmosphereEffect;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.LightingMode;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-import javafx.util.StringConverter;
 
 public class RealisticLightingAndShadowsController {
 
@@ -45,8 +46,8 @@ public class RealisticLightingAndShadowsController {
   @FXML private Label timeLabel;
   @FXML private Slider timeSlider;
   @FXML private ComboBox<LightingMode> comboBox;
-  private Calendar calendar;
   private SimpleDateFormat dateFormat;
+  private SimpleObjectProperty<Calendar> calendarProperty = new SimpleObjectProperty<>();
 
   public void initialize() {
     try {
@@ -79,11 +80,12 @@ public class RealisticLightingAndShadowsController {
       sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC);
 
       // set a calendar with a date and time
-      calendar = new GregorianCalendar(2018, Calendar.AUGUST, 10, 12, 0, 0);
+      var calendar = new GregorianCalendar(2018, Calendar.AUGUST, 10, 12, 0, 0);
       calendar.setTimeZone(TimeZone.getTimeZone("PST"));
-
-      // set the sun time to the calendar
-      sceneView.setSunTime(calendar);
+      // set the calendar property
+      calendarProperty.set(calendar);
+      // bind the sun time property with the calendar property
+      sceneView.sunTimeProperty().bindBidirectional(calendarProperty);
 
       // format the string to just return the date and time (hours and minutes)
       dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm");
@@ -103,13 +105,11 @@ public class RealisticLightingAndShadowsController {
       comboBox.setConverter(new ComboBoxStringConverter());
       comboBox.setCellFactory(comboBox -> new LightingModeListCell());
 
-      // update the sun lighting based on the lighting mode chosen from the combo box
-      comboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
-        sceneView.setSunLighting(comboBox.getSelectionModel().getSelectedItem());
-      });
+      // bind the sun lighting to the lighting mode chosen from the combo box
+      comboBox.valueProperty().bindBidirectional(sceneView.sunLightingProperty());
 
-      // launch the app with lighting mode set to NO_LIGHT
-      comboBox.getSelectionModel().select(0);
+      // launch the app with lighting mode set to LIGHT_AND_SHADOWS
+      comboBox.getSelectionModel().select(2);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -135,19 +135,17 @@ public class RealisticLightingAndShadowsController {
         int minutes = sliderValue % 60;
 
         // set the calendar with the hour and minute values from the slider
-        calendar.set(Calendar.MONTH, 7);
-        calendar.set(Calendar.DAY_OF_MONTH, 10);
-        calendar.set(Calendar.HOUR_OF_DAY, hours);
-        calendar.set(Calendar.MINUTE, minutes);
+        var newCalendar = new GregorianCalendar(2018, Calendar.AUGUST, 10, hours, minutes, 0);
+        newCalendar.setTimeZone(TimeZone.getTimeZone("PST"));
 
         // format the string to just return the date and time (hours and minutes)
-        String formattedDateAndTime = dateFormat.format(calendar.getTime());
+        String formattedDateAndTime = dateFormat.format(newCalendar.getTime());
 
         // update the label to reflect the current date and time
         timeLabel.setText(formattedDateAndTime);
 
         // set the sun time to the calendar
-        sceneView.setSunTime(calendar);
+        calendarProperty.set(newCalendar);
       }
     );
   }
