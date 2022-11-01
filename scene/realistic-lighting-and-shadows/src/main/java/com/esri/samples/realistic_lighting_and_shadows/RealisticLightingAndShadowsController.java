@@ -134,7 +134,7 @@ public class RealisticLightingAndShadowsController {
         // get the minutes from the slider
         int minutes = sliderValue % 60;
 
-        // set the calendar with the hour and minute values from the slider
+        // create and set a calendar with the hour and minute values from the slider
         var newCalendar = new GregorianCalendar(2018, Calendar.AUGUST, 10, hours, minutes, 0);
         newCalendar.setTimeZone(TimeZone.getTimeZone("PST"));
 
@@ -144,7 +144,7 @@ public class RealisticLightingAndShadowsController {
         // update the label to reflect the current date and time
         timeLabel.setText(formattedDateAndTime);
 
-        // set the sun time to the calendar
+        // set the property to the new calendar
         calendarProperty.set(newCalendar);
       }
     );
