@@ -30,7 +30,7 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.scene.control.ColorPicker?>
 <StackPane fx:controller="com.esri.samples.read_symbols_from_mobile_style_file.ReadSymbolsFromMobileStyleFileController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/read_symbols_from_mobile_style_file/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView" onMouseClicked="#handleMouseClicked"/>
     <!--Control Panel-->

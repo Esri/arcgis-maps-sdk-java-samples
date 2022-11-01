@@ -18,16 +18,6 @@ package com.esri.samples.picture_marker_symbol;
 
 import java.io.File;
 
-import javax.imageio.ImageIO;
-
-import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
@@ -39,11 +29,16 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class PictureMarkerSymbolSample extends Application {
 
   private MapView mapView;
-  private File orangeSymbolPath;
   private GraphicsOverlay graphicsOverlay;
 
   // keep loadables in scope to avoid garbage collection
@@ -90,12 +85,10 @@ public class PictureMarkerSymbolSample extends Application {
       Point middlePoint = new Point(-226773, 6550477, SpatialReferences.getWebMercator());
 
       // create orange picture marker symbol from disk
-      if (saveResourceToExternalStorage()) {
-        // create orange picture marker symbol
-        orangeSymbol = new PictureMarkerSymbol(orangeSymbolPath.getAbsolutePath());
-        // place orange picture marker symbol on ArcGISMap
-        placePictureMarkerSymbol(orangeSymbol, leftPoint);
-      }
+      File orangeSymbolImage = new File(System.getProperty("data.dir"), "./samples-data/symbol/orange_symbol.png");
+      orangeSymbol = new PictureMarkerSymbol(orangeSymbolImage.getAbsolutePath());
+      // place orange picture marker symbol on ArcGISMap
+      placePictureMarkerSymbol(orangeSymbol, leftPoint);
 
       // create blue picture marker symbol from local
       Image newImage = new Image("/blue_symbol.png");
@@ -130,7 +123,7 @@ public class PictureMarkerSymbolSample extends Application {
   /**
    * Adds a Graphic to the Graphics Overlay using a Point and a Picture Marker
    * Symbol.
-   * 
+   *
    * @param markerSymbol PictureMarkerSymbol to be used
    * @param graphicPoint where the Graphic is going to be placed
    */
@@ -157,30 +150,6 @@ public class PictureMarkerSymbolSample extends Application {
   }
 
   /**
-   * Writes a resource image to a file.
-   * 
-   * @return true if successful
-   */
-  private boolean saveResourceToExternalStorage() {
-
-    try {
-      // create a file that will be deleted automatically
-      orangeSymbolPath = File.createTempFile("orange_symbol", ".png");
-
-      // save image from resources folder to computer's disk
-      Image orangeImage = new Image("orange_symbol.png");
-
-      ImageIO.write(SwingFXUtils.fromFXImage(orangeImage, null), "png", orangeSymbolPath.getAbsoluteFile());
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    // check to see if the resource was created on disk
-    return orangeSymbolPath.exists();
-  }
-
-  /**
    * Stops and releases all resources used in application.
    */
   @Override
@@ -194,7 +163,7 @@ public class PictureMarkerSymbolSample extends Application {
 
   /**
    * Opens and runs application.
-   * 
+   *
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
