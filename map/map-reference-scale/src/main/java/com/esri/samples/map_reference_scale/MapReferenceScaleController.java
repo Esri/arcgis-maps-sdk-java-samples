@@ -21,7 +21,6 @@ import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.LayerList;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
@@ -81,9 +80,9 @@ public class MapReferenceScaleController {
     });
 
     // create a label to display current scale of the map
-    mapView.addMapScaleChangedListener(event ->
-      scaleLabel.setText("Current Map Scale 1:" + Math.round(mapView.getMapScale()))
-    );
+    mapView.mapScaleProperty().addListener((observable, oldValue, newValue) -> {
+      scaleLabel.setText("Current Map Scale 1:" + Math.round((double) newValue));
+    });
 
     map.addDoneLoadingListener(() -> {
       if (map.getLoadStatus() == LoadStatus.LOADED) {
