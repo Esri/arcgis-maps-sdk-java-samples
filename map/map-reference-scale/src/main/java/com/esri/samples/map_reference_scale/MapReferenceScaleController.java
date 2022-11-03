@@ -26,6 +26,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
@@ -79,10 +80,10 @@ public class MapReferenceScaleController {
       }
     });
 
-    // create a label to display current scale of the map
-    mapView.mapScaleProperty().addListener((observable, oldValue, newValue) -> {
-      scaleLabel.setText("Current Map Scale 1:" + Math.round((double) newValue));
-    });
+    // display the current map scale
+    scaleLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+      return "Current map scale: 1:" + Math.round(mapView.mapScaleProperty().get());
+    }, mapView.mapScaleProperty()));
 
     map.addDoneLoadingListener(() -> {
       if (map.getLoadStatus() == LoadStatus.LOADED) {

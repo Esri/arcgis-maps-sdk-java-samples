@@ -15,6 +15,7 @@
  */
 package com.esri.samples.display_subtype_feature_layer;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
@@ -65,10 +66,11 @@ public class DisplaySubtypeFeatureLayerController {
       // create a map with the streets night basemap style and add it to the map view
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
       mapView.setMap(map);
+
       // display the current map scale
-      mapView.mapScaleProperty().addListener((observable, oldValue, newValue) -> {
-        currentMapScaleLabel.setText("Current map scale: 1:" + Math.round((double) newValue));
-      });
+      currentMapScaleLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+        return "Current map scale: 1:" + Math.round(mapView.mapScaleProperty().get());
+      }, mapView.mapScaleProperty()));
 
       // set a viewpoint on the map view, to Naperville, Illinois
       Viewpoint initialViewpoint = new Viewpoint(new Envelope(-9812691.11079696, 5128687.20710657,
