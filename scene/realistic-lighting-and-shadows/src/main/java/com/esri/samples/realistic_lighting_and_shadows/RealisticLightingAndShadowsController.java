@@ -23,11 +23,11 @@ import java.util.TimeZone;
 
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.util.StringConverter;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Slider;
+import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.ArcGISSceneLayer;
