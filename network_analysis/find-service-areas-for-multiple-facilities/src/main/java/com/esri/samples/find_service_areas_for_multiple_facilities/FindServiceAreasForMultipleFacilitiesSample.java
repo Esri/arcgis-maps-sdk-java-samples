@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -43,7 +42,6 @@ import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
-import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -128,24 +126,12 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
         // zoom to the extent of the feature layer
         mapView.setViewpointGeometryAsync(facilitiesFeatureLayer.getFullExtent(), 130);
 
-        // enable the find service areas button when the draw status is completed for the first time
-        ChangeListener<DrawStatus> drawStatusChangeListener = new ChangeListener<>() {
-          @Override
-          public void changed(ObservableValue<? extends DrawStatus> observable, DrawStatus oldValue, DrawStatus newValue) {
-            if (newValue == DrawStatus.COMPLETED) {
-              // enable the 'find service areas' button
-              findServiceAreasButton.setDisable(false);
-              mapView.drawStatusProperty().removeListener(this);
-            }
-          }
-        };
-        mapView.drawStatusProperty().addListener(drawStatusChangeListener);
+        // disable the find service areas button when the feature layer has not loaded
+        findServiceAreasButton.disableProperty().bind(Bindings.createBooleanBinding(()->
+          facilitiesFeatureLayer.getLoadStatus().equals(LoadStatus.NOT_LOADED)));
 
         // determine the service areas and display them when the button is clicked
         findServiceAreasButton.setOnAction(event -> {
-
-          // disable the button
-          findServiceAreasButton.setDisable(true);
 
           // show the progress indicator
           progressIndicator.setVisible(true);
