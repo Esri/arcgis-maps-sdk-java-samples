@@ -126,7 +126,7 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
         // zoom to the extent of the feature layer
         mapView.setViewpointGeometryAsync(facilitiesFeatureLayer.getFullExtent(), 130);
 
-        // enable the find service areas button when the feature layer has not loaded
+        // enable the find service areas button when the feature layer has loaded
         findServiceAreasButton.disableProperty().bind(Bindings.createBooleanBinding(()->
           facilitiesFeatureLayer.getLoadStatus() != LoadStatus.LOADED));
 
