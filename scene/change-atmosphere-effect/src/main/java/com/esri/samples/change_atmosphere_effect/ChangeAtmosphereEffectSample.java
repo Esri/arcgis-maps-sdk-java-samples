@@ -21,8 +21,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
@@ -80,6 +82,10 @@ public class ChangeAtmosphereEffectSample extends Application {
       comboBox.getItems().addAll(AtmosphereEffect.NONE,
         AtmosphereEffect.REALISTIC, AtmosphereEffect.HORIZON_ONLY);
 
+      // show the name of the atmosphere effects in the combo box
+      comboBox.setConverter(new ComboBoxStringConverter());
+      comboBox.setCellFactory(comboBox2 -> new AtmosphereEffectListCell());
+
       // bind the scene view atmosphere effect to the value chosen from the combo box
       comboBox.valueProperty().bindBidirectional(sceneView.atmosphereEffectProperty());
 
@@ -90,6 +96,44 @@ public class ChangeAtmosphereEffectSample extends Application {
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
+    }
+  }
+
+  /**
+   * Converts the AtmosphereEffect values to strings to display in the open ComboBox.
+   */
+  private class AtmosphereEffectListCell extends ListCell<AtmosphereEffect> {
+
+    @Override
+    protected void updateItem(AtmosphereEffect atmosphereMode, boolean empty) {
+
+      super.updateItem(atmosphereMode, empty);
+      if (atmosphereMode != null) {
+        if (atmosphereMode == AtmosphereEffect.NONE) setText("None");
+        else if (atmosphereMode == AtmosphereEffect.REALISTIC) setText("Realistic");
+        else if (atmosphereMode == AtmosphereEffect.HORIZON_ONLY) setText("Horizon only");
+      }
+    }
+  }
+
+  /**
+   * Converts the AtmosphereEffect values to strings to display in the ComboBox.
+   */
+  private class ComboBoxStringConverter extends StringConverter<AtmosphereEffect> {
+
+    @Override
+    public String toString(AtmosphereEffect atmosphereEffect) {
+      if (atmosphereEffect != null) {
+        if (atmosphereEffect == AtmosphereEffect.NONE) return "None";
+        else if (atmosphereEffect == AtmosphereEffect.REALISTIC) return "Realistic";
+        else if (atmosphereEffect == AtmosphereEffect.HORIZON_ONLY) return "Horizon only";
+      }
+      return "";
+    }
+
+    @Override
+    public AtmosphereEffect fromString(String string) {
+      return null;
     }
   }
 
