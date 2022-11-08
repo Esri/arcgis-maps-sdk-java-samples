@@ -35,13 +35,20 @@ import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import com.esri.arcgisruntime.tasks.offlinemap.*;
+import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapJob;
+import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapParameters;
+import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapResult;
+import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
+import com.esri.arcgisruntime.tasks.offlinemap.PreplannedMapArea;
+import com.esri.arcgisruntime.tasks.offlinemap.PreplannedUpdateMode;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -86,7 +93,7 @@ public class DownloadPreplannedMapController {
       mapView.getGraphicsOverlays().add(areasOfInterestGraphicsOverlay);
 
       // create a red outline to mark the areas of interest of the preplanned map areas
-      SimpleLineSymbol areaOfInterestLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x80FF0000, 5.0f);
+      SimpleLineSymbol areaOfInterestLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.web("FF0000", 0.8), 5.0f);
       SimpleRenderer areaOfInterestRenderer = new SimpleRenderer();
       areaOfInterestRenderer.setSymbol(areaOfInterestLineSymbol);
       areasOfInterestGraphicsOverlay.setRenderer(areaOfInterestRenderer);
@@ -177,9 +184,9 @@ public class DownloadPreplannedMapController {
 
                 new Alert(Alert.AlertType.ERROR, "One or more errors occurred with the Offline Map Result: " + stringBuilder.toString()).show();
               } else {
-                mapView.addNavigationChangedListener(listener -> {
+                mapView.navigatingProperty().addListener((observable1, oldValue1, newValue1) -> {
                   // if the mapview is navigating to a new pleplanned map area, wait for it to finish
-                  if (!listener.isNavigating()) {
+                  if (!newValue1) {
                     // show the offline map in the map view
                     ArcGISMap downloadOfflineMap = result.getOfflineMap();
                     mapView.setMap(downloadOfflineMap);
