@@ -30,6 +30,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -80,15 +81,11 @@ public class ListRelatedFeaturesSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // make selection outline yellow (0xFFFFFF00)
-      mapView.getSelectionProperties().setColor(0xFFFFFF00);
+      // make selection outline yellow
+      mapView.getSelectionProperties().setColor(Color.YELLOW);
 
-      // hide the progress indicator when the layer is done drawing
-      mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
-        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
-          progressIndicator.setVisible(false);
-        }
-      });
+      // display a progress indicator when drawing is in progress
+      progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
       // wait until the map is done loading
       map.addDoneLoadingListener(() -> {
