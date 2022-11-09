@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,6 +30,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -40,9 +42,6 @@ import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
-import com.esri.arcgisruntime.mapping.view.DrawStatus;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -102,8 +101,8 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
 
     // create fill symbols for rendering the result
     ArrayList<SimpleFillSymbol> fillSymbols = new ArrayList<>();
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FFA500, null));
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FF0000, null));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("FFA500", 0.7), null));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("FF0000", 0.7), null));
 
     // create a feature table of facilities using a FeatureServer
     ArcGISFeatureTable facilitiesTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
@@ -127,23 +126,12 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
         // zoom to the extent of the feature layer
         mapView.setViewpointGeometryAsync(facilitiesFeatureLayer.getFullExtent(), 130);
 
-        // enable the find service areas button when the draw status is completed for the first time
-        mapView.addDrawStatusChangedListener(new DrawStatusChangedListener() {
-          @Override
-          public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
-            if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
-              // enable the 'find service areas' button
-              findServiceAreasButton.setDisable(false);
-              mapView.removeDrawStatusChangedListener(this);
-            }
-          }
-        });
+        // enable the find service areas button when the feature layer has loaded
+        findServiceAreasButton.disableProperty().bind(Bindings.createBooleanBinding(()->
+          facilitiesFeatureLayer.getLoadStatus() != LoadStatus.LOADED));
 
         // determine the service areas and display them when the button is clicked
         findServiceAreasButton.setOnAction(event -> {
-
-          // disable the button
-          findServiceAreasButton.setDisable(true);
 
           // show the progress indicator
           progressIndicator.setVisible(true);

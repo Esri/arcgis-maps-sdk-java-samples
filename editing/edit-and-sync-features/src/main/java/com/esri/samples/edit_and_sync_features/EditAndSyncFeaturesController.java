@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
@@ -47,14 +49,11 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.ViewpointChangedListener;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseJob;
@@ -97,22 +96,23 @@ public class EditAndSyncFeaturesController {
       // create a graphics overlay for displaying the download area
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       graphicsOverlay.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID,
-          ColorUtil.colorToArgb(Color.RED), 2)));
+          Color.RED, 2)));
       graphicsOverlay.getGraphics().add(downloadAreaGraphic);
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // update the download area graphic when the map is initially drawn and when the viewpoint is changed
       viewpointChangedListener = viewpointChangedEvent -> updateDownloadArea();
-      DrawStatusChangedListener drawStatusChangedListener = new DrawStatusChangedListener() {
+
+      ChangeListener<DrawStatus> drawStatusPropertyChangedListener = new ChangeListener<>() {
         @Override
-        public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
-          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+        public void changed(ObservableValue<? extends DrawStatus> observable, DrawStatus oldValue, DrawStatus newValue) {
+          if (newValue == DrawStatus.COMPLETED) {
             updateDownloadArea();
-            mapView.removeDrawStatusChangedListener(this);
+            mapView.drawStatusProperty().removeListener(this);
           }
         }
       };
-      mapView.addDrawStatusChangedListener(drawStatusChangedListener);
+      mapView.drawStatusProperty().addListener(drawStatusPropertyChangedListener);
       mapView.addViewpointChangedListener(viewpointChangedListener);
 
       // create a geodatabase sync task using the feature service URL
