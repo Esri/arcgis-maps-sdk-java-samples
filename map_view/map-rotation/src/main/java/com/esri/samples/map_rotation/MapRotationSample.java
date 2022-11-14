@@ -96,8 +96,9 @@ public class MapRotationSample extends Application {
       mapView.setEnableKeyboardNavigation(false);
       mapView.setMap(map);
 
-      // create a compass to show the current heading when rotated
-      Compass compass = new Compass(mapView);
+      // create a compass and show the current heading when the map view rotates
+      Compass compass = new Compass();
+      compass.headingProperty().bind(mapView.mapRotationProperty());
 
       // clicking the compass sets the map's heading to 0.0 (north) and the compass is hidden
       // add a listener to reset the slider when this happens
