@@ -44,7 +44,6 @@ import com.esri.arcgisruntime.toolkit.Compass;
 
 public class MapRotationSample extends Application {
 
-  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
 
   @Override
@@ -67,7 +66,7 @@ public class MapRotationSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a map with the streets basemap style
-      map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
       // create a map view and set the map to it
       mapView = new MapView();
@@ -83,9 +82,8 @@ public class MapRotationSample extends Application {
       rotationLabel.setTextFill(Color.WHITE);
 
       // update the rotation label when the compass rotates
-      rotationLabel.textProperty().bind(Bindings.createStringBinding(()-> {
-        return "Current map rotation: " + Math.round(compass.headingProperty().get()) + "º";
-      }, compass.headingProperty()));
+      rotationLabel.textProperty().bind(Bindings.createStringBinding(()->
+        "Current map rotation: " + Math.round(compass.headingProperty().get()) + "º", compass.headingProperty()));
 
       // create a starting viewpoint for the map view
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
