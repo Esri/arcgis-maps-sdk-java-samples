@@ -93,7 +93,7 @@ public class DisplayWFSLayerSample extends Application {
     // make an initial call to load the initial extent's data from the WFS, using the WFS spatial reference
     populateFeaturesFromServer(wfsFeatureTable, initialExtent);
 
-    // use the navigation listener to populate the table with the features needed for the current extent
+    // use the navigation property listener to populate the table with the features needed for the current extent
     mapView.navigatingProperty().addListener((observable, oldValue, newValue) -> {
       // once the map view has stopped navigating
       if (!newValue) {
