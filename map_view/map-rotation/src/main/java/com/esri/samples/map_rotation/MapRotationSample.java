@@ -72,7 +72,7 @@ public class MapRotationSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // create a compass and show the current heading
+      // create a compass to show the direction of north
       var compass = new Compass(mapView);
 
       // create labels for instructions and map rotation
@@ -81,7 +81,7 @@ public class MapRotationSample extends Application {
       Label rotationLabel = new Label("Current rotation: ");
       rotationLabel.setTextFill(Color.WHITE);
 
-      // update the rotation label when the compass rotates
+      // update the rotation label when the map rotation property changes
       rotationLabel.textProperty().bind(Bindings.createStringBinding(()->
         "Current map rotation: " + Math.round(mapView.mapRotationProperty().get()) + "º", mapView.mapRotationProperty()));
 
