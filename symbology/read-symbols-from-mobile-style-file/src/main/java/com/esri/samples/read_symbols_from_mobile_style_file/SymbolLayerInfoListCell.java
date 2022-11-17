@@ -14,7 +14,6 @@ import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
-
 /**
  * Shows the available symbol of the SymbolStyleSearchResult in the symbol selection list view.
  */
