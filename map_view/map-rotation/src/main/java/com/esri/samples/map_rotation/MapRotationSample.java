@@ -83,7 +83,7 @@ public class MapRotationSample extends Application {
 
       // update the rotation label when the compass rotates
       rotationLabel.textProperty().bind(Bindings.createStringBinding(()->
-        "Current map rotation: " + Math.round(compass.headingProperty().get()) + "º", compass.headingProperty()));
+        "Current map rotation: " + Math.round(mapView.mapRotationProperty().get()) + "º", mapView.mapRotationProperty()));
 
       // create a starting viewpoint for the map view
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
