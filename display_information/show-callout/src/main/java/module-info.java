@@ -20,7 +20,6 @@ module com.esri.samples.show_callout {
 
   // require JavaFX modules that the application uses
   requires javafx.graphics;
-  requires javafx.controls;
 
   exports com.esri.samples.show_callout;
 }

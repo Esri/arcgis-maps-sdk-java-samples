@@ -30,6 +30,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -90,8 +91,8 @@ public class SpatialRelationshipsSample extends Application {
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // make selection outline yellow (0xFFFFFF00)
-      mapView.getSelectionProperties().setColor(0xFFFFFF00);
+      // make selection outline yellow
+      mapView.getSelectionProperties().setColor(Color.YELLOW);
 
       // create a polygon graphic
       PointCollection polygonPoints = new PointCollection(SpatialReferences.getWebMercator());
@@ -101,8 +102,8 @@ public class SpatialRelationshipsSample extends Application {
       polygonPoints.add(new Point(-1563689.043184, 3714900.452072));
       polygonPoints.add(new Point(-3180355.516764, 5619889.608838));
       Polygon polygon = new Polygon(polygonPoints);
-      SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL, 0xFF00FF00,
-          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF00FF00, 2));
+      SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL, Color.GREEN,
+          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.GREEN, 2));
       Graphic polygonGraphic = new Graphic(polygon, polygonSymbol);
       graphicsOverlay.getGraphics().add(polygonGraphic);
 
@@ -113,13 +114,13 @@ public class SpatialRelationshipsSample extends Application {
       polylinePoints.add(new Point(-2109442.693501, 4301843.057130));
       polylinePoints.add(new Point(-1810822.771630, 7205664.366363));
       Polyline polyline = new Polyline(polylinePoints);
-      Graphic polylineGraphic = new Graphic(polyline, new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFFFF0000,
+      Graphic polylineGraphic = new Graphic(polyline, new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.RED,
           4));
       graphicsOverlay.getGraphics().add(polylineGraphic);
 
       // create a point graphic
       Point point = new Point(-4487263.495911, 3699176.480377, SpatialReferences.getWebMercator());
-      SimpleMarkerSymbol locationMarker = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF0000FF, 10);
+      SimpleMarkerSymbol locationMarker = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 10);
       Graphic pointGraphic = new Graphic(point, locationMarker);
       graphicsOverlay.getGraphics().add(pointGraphic);
 

@@ -32,6 +32,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -87,13 +88,13 @@ public class ListTransformationsBySuitabilitySample extends Application {
       // create a blue square graphic located in the Greenwich observatory courtyard in London, UK, the location of the
       // Greenwich prime meridian. This will be projected using the selected transformation.
       Point originalPoint = new Point(538985.355, 177329.516, SpatialReference.create(27700));
-      Graphic originalGraphic = new Graphic(originalPoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFF0000FF,
+      Graphic originalGraphic = new Graphic(originalPoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, Color.BLUE,
         10));
       graphicsOverlay.getGraphics().add(originalGraphic);
 
       // create red cross graphic for transformed point
       Graphic transformedGraphic = new Graphic();
-      transformedGraphic.setSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFFFF0000, 10));
+      transformedGraphic.setSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.RED, 10));
       transformedGraphic.setVisible(false);
       graphicsOverlay.getGraphics().add(transformedGraphic);
 

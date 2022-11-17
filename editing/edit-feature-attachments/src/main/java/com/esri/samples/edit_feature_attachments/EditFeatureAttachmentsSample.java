@@ -16,6 +16,7 @@
 
 package com.esri.samples.edit_feature_attachments;
 
+import javafx.scene.paint.Color;
 import org.apache.commons.io.IOUtils;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -130,7 +131,7 @@ public class EditFeatureAttachmentsSample extends Application {
       mapView.setViewpoint(new Viewpoint(40, -95, 36978595));
 
       // set selection color
-      mapView.getSelectionProperties().setColor(0xff0000ff);
+      mapView.getSelectionProperties().setColor(Color.BLUE);
 
       // create service feature table from URL
       featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");

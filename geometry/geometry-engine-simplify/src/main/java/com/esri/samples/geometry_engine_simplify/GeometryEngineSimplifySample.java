@@ -27,6 +27,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -55,8 +56,8 @@ public class GeometryEngineSimplifySample extends Application {
   private Graphic polygon;
   private MapView mapView;
 
-  // simple black (0xFF000000) line symbol
-  private final SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1);
+  // simple black line symbol
+  private final SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLACK, 1);
 
   @Override
   public void start(Stage stage) {
@@ -106,7 +107,7 @@ public class GeometryEngineSimplifySample extends Application {
           Geometry resultPolygon = GeometryEngine.simplify(polygon.getGeometry());
 
           // update result as a red graphic
-          SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
+          SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.RED, line);
           resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
 
           resetButton.setDisable(false);
@@ -203,7 +204,7 @@ public class GeometryEngineSimplifySample extends Application {
     polygonParts.add(partThree);
 
     // transparent (0x00000000) fill
-    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x00000000, line);
+    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.TRANSPARENT, line);
     polygon = new Graphic(new Polygon(polygonParts), fillSymbol);
 
   }

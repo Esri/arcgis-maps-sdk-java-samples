@@ -34,6 +34,7 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import javafx.scene.paint.Color;
 
 public class DensifyAndGeneralizeController {
 
@@ -70,23 +71,23 @@ public class DensifyAndGeneralizeController {
     // show the original points as red dots on the map
     Multipoint originalMultipoint = new Multipoint(points);
     Graphic originalPointsGraphic = new Graphic(originalMultipoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE,
-        0xFFFF0000, 7));
+      Color.RED, 7));
     graphicsOverlay.getGraphics().add(originalPointsGraphic);
 
     // show a dotted red line connecting the original points
     originalPolyline = new Polyline(points);
     Graphic originalPolylineGraphic = new Graphic(originalPolyline, new SimpleLineSymbol(SimpleLineSymbol.Style.DOT,
-        0xFFFF0000, 3));
+        Color.RED, 3));
     graphicsOverlay.getGraphics().add(originalPolylineGraphic);
 
     // show the result (densified and generalized) points as magenta dots on the map
     resultPointsGraphic = new Graphic();
-    resultPointsGraphic.setSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF00FF, 7));
+    resultPointsGraphic.setSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.MAGENTA, 7));
     graphicsOverlay.getGraphics().add(resultPointsGraphic);
 
     // connect the result points with a magenta line
     resultPolylineGraphic = new Graphic();
-    resultPolylineGraphic.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF00FF, 3));
+    resultPolylineGraphic.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.MAGENTA, 3));
     graphicsOverlay.getGraphics().add(resultPolylineGraphic);
 
     // update the densified/generalized parameters when the slider values change

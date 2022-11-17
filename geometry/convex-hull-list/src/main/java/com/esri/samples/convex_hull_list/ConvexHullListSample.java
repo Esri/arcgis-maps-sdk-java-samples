@@ -29,6 +29,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
@@ -94,9 +95,10 @@ public class ConvexHullListSample extends Application {
       mapView.getGraphicsOverlays().add(polygonGraphicsOverlay);
 
       // create a simple line symbol for the outline of the two input polygon graphics
-      SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
+      SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
       // create a simple fill symbol for the two input polygon graphics
-      SimpleFillSymbol polygonFill = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x300000FF, polygonOutline);
+      SimpleFillSymbol polygonFill = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID,
+        Color.web("blue", 0.3), polygonOutline);
 
       // create a point collection that represents polygon1. Use the same spatial reference as the underlying base map.
       PointCollection pointCollection1 = new PointCollection(SpatialReferences.getWebMercator());
@@ -168,9 +170,9 @@ public class ConvexHullListSample extends Application {
         for (Geometry geometry : convexHullGeometries) {
 
           // create a simple line symbol for the outline of the convex hull graphic(s)
-          SimpleLineSymbol convexHullLine = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 5);
+          SimpleLineSymbol convexHullLine = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 5);
           // Create the simple fill symbol for the convex hull graphic(s)
-          SimpleFillSymbol convexHullFill = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, 0x00000000, convexHullLine);
+          SimpleFillSymbol convexHullFill = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, Color.TRANSPARENT, convexHullLine);
 
           // create the graphic for the convex hull(s)
           Graphic convexHullGraphic = new Graphic(geometry, convexHullFill);

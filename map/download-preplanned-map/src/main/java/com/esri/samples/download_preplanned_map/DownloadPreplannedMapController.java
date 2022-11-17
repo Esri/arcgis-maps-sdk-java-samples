@@ -42,6 +42,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -86,7 +87,8 @@ public class DownloadPreplannedMapController {
       mapView.getGraphicsOverlays().add(areasOfInterestGraphicsOverlay);
 
       // create a red outline to mark the areas of interest of the preplanned map areas
-      SimpleLineSymbol areaOfInterestLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x80FF0000, 5.0f);
+      SimpleLineSymbol areaOfInterestLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID,
+        Color.web("red", 0.8), 5.0f);
       SimpleRenderer areaOfInterestRenderer = new SimpleRenderer();
       areaOfInterestRenderer.setSymbol(areaOfInterestLineSymbol);
       areasOfInterestGraphicsOverlay.setRenderer(areaOfInterestRenderer);

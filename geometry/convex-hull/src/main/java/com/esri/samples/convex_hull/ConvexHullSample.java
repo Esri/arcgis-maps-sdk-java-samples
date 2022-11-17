@@ -31,6 +31,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -84,14 +85,14 @@ public class ConvexHullSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a graphic to show the points
-      SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
+      SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10);
       Graphic inputsGraphic = new Graphic();
       inputsGraphic.setSymbol(markerSymbol);
       graphicsOverlay.getGraphics().add(inputsGraphic);
 
       // create a graphic to show the convex hull as a blue outline
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
-      SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, 0x00000000, lineSymbol);
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
+      SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, Color.TRANSPARENT, lineSymbol);
       Graphic convexHullGraphic = new Graphic();
       graphicsOverlay.getGraphics().add(convexHullGraphic);
 

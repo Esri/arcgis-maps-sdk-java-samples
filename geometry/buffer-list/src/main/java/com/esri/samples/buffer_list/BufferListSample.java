@@ -35,6 +35,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -111,7 +112,7 @@ public class BufferListSample extends Application {
       // create a graphics overlay to show the spatial reference's valid area
       GraphicsOverlay boundaryGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(boundaryGraphicsOverlay);
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFFFF0000, 5);
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.RED, 5);
       Graphic boundaryGraphic = new Graphic(boundaryPolygon, lineSymbol);
       boundaryGraphicsOverlay.getGraphics().add(boundaryGraphic);
 
@@ -119,9 +120,10 @@ public class BufferListSample extends Application {
       mapView.getGraphicsOverlays().add(bufferGraphicsOverlay);
 
       // create a white cross marker symbol to show where the user clicked
-      final SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFFFFFFFF, 14);
+      final SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.WHITE, 14);
       // create a semi-transparent
-      final SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x88FF00FF, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3));
+      final SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("fuchsia", 0.8),
+        new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 3));
 
       // create a box to hold the input controls
       VBox controlsVBox = new VBox(6);

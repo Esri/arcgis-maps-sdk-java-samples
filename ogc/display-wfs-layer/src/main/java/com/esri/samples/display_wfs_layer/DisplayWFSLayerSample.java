@@ -19,6 +19,7 @@ package com.esri.samples.display_wfs_layer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -83,7 +84,7 @@ public class DisplayWFSLayerSample extends Application {
     FeatureLayer wfsFeatureLayer = new FeatureLayer(wfsFeatureTable);
 
     // apply a renderer to the feature layer
-    SimpleRenderer renderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 3));
+    SimpleRenderer renderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 3));
     wfsFeatureLayer.setRenderer(renderer);
 
     // add the layer to the map's operational layers

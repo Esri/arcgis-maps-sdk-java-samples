@@ -22,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseButton;
+import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.GeodesicEllipseParameters;
@@ -87,12 +88,12 @@ public class GeodesicSectorAndEllipseController {
     graphicsOverlay.getGraphics().add(sectorGraphic);
 
     // create green symbols for each sector output geometry type
-    sectorFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x8800FF00, null);
-    sectorLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x8800FF00, 3);
-    sectorMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0x8800FF00, 3);
+    sectorFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("lime", 0.8), null);
+    sectorLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.web("lime", 0.8), 3);
+    sectorMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.web("lime", 0.8), 3);
 
     // create a red dotted outline graph for showing the geodesic ellipse geometry
-    SimpleLineSymbol ellipseLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, 0xFFFF0000, 2);
+    SimpleLineSymbol ellipseLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.RED, 2);
     ellipseGraphic = new Graphic();
     ellipseGraphic.setSymbol(ellipseLineSymbol);
     graphicsOverlay.getGraphics().add(ellipseGraphic);

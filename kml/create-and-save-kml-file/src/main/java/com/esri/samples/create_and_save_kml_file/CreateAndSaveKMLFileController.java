@@ -27,7 +27,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
 import com.esri.arcgisruntime.mapping.view.SketchEditor;
 import com.esri.arcgisruntime.ogc.kml.*;
-import com.esri.arcgisruntime.symbology.ColorUtil;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
@@ -161,14 +161,14 @@ public class CreateAndSaveKMLFileController {
         case POLYLINE:
           Color polylineColor = colorPicker.getValue();
           if (polylineColor != null) {
-            KmlLineStyle kmlLineStyle = new KmlLineStyle(ColorUtil.colorToArgb(polylineColor), 8);
+            KmlLineStyle kmlLineStyle = new KmlLineStyle(polylineColor, 8);
             kmlStyle.setLineStyle(kmlLineStyle);
           }
           break;
         case POLYGON:
           Color polygonColor = colorPicker.getValue();
           if (polygonColor != null) {
-            KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(ColorUtil.colorToArgb(polygonColor));
+            KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(polygonColor);
             kmlPolygonStyle.setFilled(true);
             kmlPolygonStyle.setOutlined(false);
             kmlStyle.setPolygonStyle(kmlPolygonStyle);

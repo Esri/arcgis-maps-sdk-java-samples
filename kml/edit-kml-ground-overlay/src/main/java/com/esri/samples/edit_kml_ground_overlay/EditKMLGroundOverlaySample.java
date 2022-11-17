@@ -45,7 +45,6 @@ import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.ogc.kml.KmlDataset;
 import com.esri.arcgisruntime.ogc.kml.KmlGroundOverlay;
 import com.esri.arcgisruntime.ogc.kml.KmlIcon;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 
 public class EditKMLGroundOverlaySample extends Application {
 
@@ -107,7 +106,7 @@ public class EditKMLGroundOverlaySample extends Application {
 
       // add a listener to the slider's value property to set the opacity of the KML ground overlay
       slider.valueProperty().addListener(o ->
-              kmlGroundOverlay.setColor(ColorUtil.colorToArgb(new Color(0, 0, 0, slider.getValue())))
+              kmlGroundOverlay.setColor(new Color(0, 0, 0, slider.getValue()))
       );
 
       // create a controls box

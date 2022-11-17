@@ -39,7 +39,6 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.ClassBreaksRenderer;
 import com.esri.arcgisruntime.symbology.ClassBreaksRenderer.ClassBreak;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 
@@ -134,15 +133,14 @@ public class ChangeSublayerRendererSample extends Application {
   private ClassBreaksRenderer createPopulationClassBreaksRenderer() {
 
     // create colors
-    final int gray = ColorUtil.colorToArgb(Color.color(0.6, 0.6, 0.6, 1.0));
-    final int blue1 = ColorUtil.colorToArgb(Color.color(0.89, 0.92, 0.81, 1.0));
-    final int blue2 = ColorUtil.colorToArgb(Color.color(0.59, 0.76, 0.75, 1.0));
-    final int blue3 = ColorUtil.colorToArgb(Color.color(0.38, 0.65, 0.71, 1.0));
-    final int blue4 = ColorUtil.colorToArgb(Color.color(0.27, 0.49, 0.59, 1.0));
-    final int blue5 = ColorUtil.colorToArgb(Color.color(0.16, 0.33, 0.47, 1.0));
+    var blue1 = Color.color(0.89, 0.92, 0.81);
+    var blue2 = Color.color(0.59, 0.76, 0.75);
+    var blue3 = Color.color(0.38, 0.65, 0.71);
+    var blue4 = Color.color(0.27, 0.49, 0.59);
+    var blue5 = Color.color(0.16, 0.33, 0.47);
 
     // create 5 fill symbols with different shades of blue and a gray outline
-    SimpleLineSymbol outline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, gray, 1);
+    SimpleLineSymbol outline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.GRAY, 1);
     SimpleFillSymbol classSymbol1 = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, blue1, outline);
     SimpleFillSymbol classSymbol2 = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, blue2, outline);
     SimpleFillSymbol classSymbol3 = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, blue3, outline);
