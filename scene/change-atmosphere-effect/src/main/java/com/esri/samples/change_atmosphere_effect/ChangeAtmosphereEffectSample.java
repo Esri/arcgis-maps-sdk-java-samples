@@ -21,7 +21,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -74,7 +73,7 @@ public class ChangeAtmosphereEffectSample extends Application {
       scene.setBaseSurface(surface);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(64.416919, -14.483728, 100, 318, 105, 0);
+      var camera = new Camera(64.416919, -14.483728, 100, 318, 105, 0);
       sceneView.setViewpointCamera(camera);
 
       // create combo box for the atmosphere effects
@@ -84,7 +83,6 @@ public class ChangeAtmosphereEffectSample extends Application {
 
       // show the name of the atmosphere effects in the combo box
       comboBox.setConverter(new ComboBoxStringConverter());
-      comboBox.setCellFactory(comboBox2 -> new AtmosphereEffectListCell());
 
       // bind the scene view atmosphere effect to the value chosen from the combo box
       comboBox.valueProperty().bindBidirectional(sceneView.atmosphereEffectProperty());
@@ -100,26 +98,9 @@ public class ChangeAtmosphereEffectSample extends Application {
   }
 
   /**
-   * Converts the AtmosphereEffect values to strings to display in the open ComboBox.
-   */
-  private class AtmosphereEffectListCell extends ListCell<AtmosphereEffect> {
-
-    @Override
-    protected void updateItem(AtmosphereEffect atmosphereMode, boolean empty) {
-
-      super.updateItem(atmosphereMode, empty);
-      if (atmosphereMode != null) {
-        if (atmosphereMode == AtmosphereEffect.NONE) setText("None");
-        else if (atmosphereMode == AtmosphereEffect.REALISTIC) setText("Realistic");
-        else if (atmosphereMode == AtmosphereEffect.HORIZON_ONLY) setText("Horizon only");
-      }
-    }
-  }
-
-  /**
    * Converts the AtmosphereEffect values to strings to display in the ComboBox.
    */
-  private class ComboBoxStringConverter extends StringConverter<AtmosphereEffect> {
+  private static class ComboBoxStringConverter extends StringConverter<AtmosphereEffect> {
 
     @Override
     public String toString(AtmosphereEffect atmosphereEffect) {

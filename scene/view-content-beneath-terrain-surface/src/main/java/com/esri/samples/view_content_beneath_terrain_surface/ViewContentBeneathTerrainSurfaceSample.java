@@ -36,7 +36,7 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     sceneView.setArcGISScene(scene);
 
     // add a progress indicator and display it when scene view drawing is in progress
-    ProgressIndicator progressIndicator = new ProgressIndicator();
+    var progressIndicator = new ProgressIndicator();
     progressIndicator.visibleProperty().bind(sceneView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
     // once the scene has loaded, set the navigation constraint and opacity of the base surface
