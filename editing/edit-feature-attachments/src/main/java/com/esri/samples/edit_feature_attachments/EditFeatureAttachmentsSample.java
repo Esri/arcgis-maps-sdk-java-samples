@@ -16,7 +16,6 @@
 
 package com.esri.samples.edit_feature_attachments;
 
-import javafx.scene.paint.Color;
 import org.apache.commons.io.IOUtils;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -37,6 +36,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
