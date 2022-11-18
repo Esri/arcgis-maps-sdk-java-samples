@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.NavigationConstraint;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 
 public class ViewContentBeneathTerrainSurfaceSample extends Application {
@@ -34,8 +35,9 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
     sceneView = new SceneView();
     sceneView.setArcGISScene(scene);
 
-    // add a progress indicator to show the scene is loading
-    ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
+    // add a progress indicator and display it when scene view drawing is in progress
+    var progressIndicator = new ProgressIndicator();
+    progressIndicator.visibleProperty().bind(sceneView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
     // once the scene has loaded, set the navigation constraint and opacity of the base surface
     scene.addDoneLoadingListener(() -> {
@@ -44,9 +46,6 @@ public class ViewContentBeneathTerrainSurfaceSample extends Application {
       // set opacity to view content beneath the base surface
       scene.getBaseSurface().setOpacity(0.4f);
     });
-
-    // hide the progress indicator once the sceneview has completed drawing
-    sceneView.addDrawStatusChangedListener(event -> progressIndicator.setVisible(false));
 
     // add the scene view and progress indicator to the stack pane
     stackPane.getChildren().addAll(sceneView, progressIndicator);
