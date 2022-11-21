@@ -21,6 +21,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -85,49 +86,44 @@ public class DisplayLayerViewStateSample extends Application {
       // set the initial viewpoint for the map view
       mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), 40000000));
 
+      // create a new feature layer from a portal item
+      final var portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
+        "b8f4033069f141729ffb298b7418b653");
+      featureLayer = new FeatureLayer(portalItem, 0);
+      //  set a minimum and a maximum scale for the visibility of the feature layer
+      featureLayer.setMinScale(40000000);
+      featureLayer.setMaxScale(4000000);
+
       // create a label to display the view status
       Label layerViewStatusLabel = new Label("Current view status: ");
 
       // create a checkbox UI that toggles the visibility of the feature layer
       CheckBox visibilityCheckBox = new CheckBox();
-      visibilityCheckBox.setText("Layer visible");
-      visibilityCheckBox.setSelected(true);
       visibilityCheckBox.setDisable(true);
+      visibilityCheckBox.setSelected(true);
+      visibilityCheckBox.setText("Layer visible");
       visibilityCheckBox.setOnAction(event -> featureLayer.setVisible(visibilityCheckBox.isSelected()));
 
-      // create a button and a listener to load a feature layer
-      Button loadLayerButton = new Button("Load Layer");
+      // create a button and a listener to add the feature layer
+      Button loadLayerButton = new Button("Load layer");
       loadLayerButton.setOnAction(event -> {
 
-        // disable the checkbox when loading/reloading the feature layer, and, if it exists, remove it by clearing the map's operational layers
-        if (!visibilityCheckBox.isDisabled()) {
-          visibilityCheckBox.setDisable(true);
-        }
-
+        // clear the map's operational layers and reload the feature layer
         if (featureLayer != null) {
           map.getOperationalLayers().clear();
+          featureLayer = new FeatureLayer(portalItem, 0);
         }
-
-        // create a new feature layer from a portal item
-        final PortalItem portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
-          "b8f4033069f141729ffb298b7418b653");
-        featureLayer = new FeatureLayer(portalItem, 0);
-        //  set a minimum and a maximum scale for the visibility of the feature layer
-        featureLayer.setMinScale(40000000);
-        featureLayer.setMaxScale(4000000);
         // add the feature layer to the map
         map.getOperationalLayers().add(featureLayer);
 
-        // enable UI interactions once the feature layer has loaded
-        featureLayer.addDoneLoadingListener(() -> {
-          if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
-            visibilityCheckBox.setDisable(false);
-            featureLayer.setVisible(visibilityCheckBox.isSelected());
-            loadLayerButton.setText("Reload Layer");
-          } else {
-            new Alert(Alert.AlertType.ERROR, "Feature layer failed to load").show();
-          }
-        });
+        // Update feature layer visibility
+        featureLayer.setVisible(visibilityCheckBox.isSelected());
+
+        // Update UI when feature layer loads
+        visibilityCheckBox.disableProperty().bind(featureLayer.loadStatusProperty().isEqualTo(LoadStatus.NOT_LOADED));
+        loadLayerButton.textProperty().bind(Bindings.createStringBinding(() ->
+          featureLayer.loadStatusProperty().get() == LoadStatus.LOADED ? "Reload Layer" : "Loading..",
+          featureLayer.loadStatusProperty()));
       });
 
       // create a listener that fires every time a layer's view status changes
