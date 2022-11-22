@@ -15,7 +15,7 @@ Press the A and D keys to rotate the map. The text will update to display the ma
 ## How it works
 
 1. Create a `ArcGISMap` and set it to a `MapView`.
-2. Use `mapView.mapRotationProperty().get()` to get the map's rotation angle.
+2. Use `mapView.getMapRotation()` to get the map's rotation angle.
 3. Create a `new Compass(mapView)` to show the direction of north.
 
 ## Relevant API

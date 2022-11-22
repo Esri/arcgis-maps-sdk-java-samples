@@ -76,14 +76,14 @@ public class MapRotationSample extends Application {
       var compass = new Compass(mapView);
 
       // create labels for instructions and map rotation
-      Label instructionsLabel = new Label("Press the A and D keys to rotate the map.");
+      var instructionsLabel = new Label("Press the A and D keys to rotate the map.");
       instructionsLabel.setTextFill(Color.WHITE);
-      Label rotationLabel = new Label("Current rotation: ");
+      var rotationLabel = new Label("Current rotation: ");
       rotationLabel.setTextFill(Color.WHITE);
 
       // update the rotation label when the map rotation property changes
       rotationLabel.textProperty().bind(Bindings.createStringBinding(()->
-        "Current map rotation: " + Math.round(mapView.mapRotationProperty().get()) + "º", mapView.mapRotationProperty()));
+        "Current map rotation: " + Math.round(mapView.getMapRotation()) + "º", mapView.mapRotationProperty()));
 
       // create a starting viewpoint for the map view
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
@@ -97,7 +97,7 @@ public class MapRotationSample extends Application {
       mapView.setViewpointAsync(viewpoint);
 
       // create a vbox to add the labels
-      VBox controlsVBox = new VBox();
+      var controlsVBox = new VBox();
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
