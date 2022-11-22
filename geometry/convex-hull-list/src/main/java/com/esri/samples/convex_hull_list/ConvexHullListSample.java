@@ -145,15 +145,15 @@ public class ConvexHullListSample extends Application {
       polygonGraphicsOverlay.getGraphics().add(polygonGraphic2);
 
       // create a button to create and show the convex hull
-      Button convexHullButton = new Button("Create Convex Hull");
+      var convexHullButton = new Button("Create Convex Hull");
       convexHullButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a button to clear the convex hull results
-      Button clearButton = new Button("Clear");
+      var clearButton = new Button("Clear");
       clearButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a check box for toggling union option on or off
-      CheckBox checkBox = new CheckBox("Union");
+      var checkBox = new CheckBox("Union");
 
       convexHullButton.setOnAction(e -> {
         // reset the convex hull graphics overlay
@@ -198,7 +198,7 @@ public class ConvexHullListSample extends Application {
       });
 
       // create a control panel
-      VBox controlsVBox = new VBox(6);
+      var controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10));

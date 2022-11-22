@@ -80,17 +80,17 @@ public class ConvexHullSample extends Application {
       mapView.setMap(map);
 
       // create a graphics overlay to show the input points and convex hull
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+      var graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a graphic to show the points
-      SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10);
+      var simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10);
       Graphic inputsGraphic = new Graphic();
-      inputsGraphic.setSymbol(markerSymbol);
+      inputsGraphic.setSymbol(simpleMarkerSymbol);
       graphicsOverlay.getGraphics().add(inputsGraphic);
 
       // create a graphic to show the convex hull as a blue outline
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
+      var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
       Graphic convexHullGraphic = new Graphic();
       graphicsOverlay.getGraphics().add(convexHullGraphic);
 
@@ -98,7 +98,7 @@ public class ConvexHullSample extends Application {
       List<Point> inputs = new ArrayList<>();
 
       // create a button to create and show the convex hull
-      Button convexHullButton = new Button("Create Convex Hull");
+      var convexHullButton = new Button("Create Convex Hull");
       convexHullButton.setMaxWidth(130);
       convexHullButton.setDisable(true);
       convexHullButton.setOnAction(e -> {
@@ -107,18 +107,18 @@ public class ConvexHullSample extends Application {
         Geometry convexHull = GeometryEngine.convexHull(inputsGraphic.getGeometry());
         switch (convexHull.getGeometryType()) {
           case POINT:
-            convexHullGraphic.setSymbol(markerSymbol);
+            convexHullGraphic.setSymbol(simpleMarkerSymbol);
             break;
           case POLYLINE:
           case POLYGON:
-            convexHullGraphic.setSymbol(lineSymbol);
+            convexHullGraphic.setSymbol(simpleLineSymbol);
             break;
         }
         convexHullGraphic.setGeometry(convexHull);
       });
 
       // create a button to clear all graphics
-      Button clearButton = new Button("Clear");
+      var clearButton = new Button("Clear");
       clearButton.setMaxWidth(130);
       clearButton.setDisable(true);
       clearButton.setOnAction(e -> {
@@ -129,7 +129,7 @@ public class ConvexHullSample extends Application {
         clearButton.setDisable(true);
       });
 
-      VBox vBox = new VBox(6);
+      var vBox = new VBox(6);
       vBox.setPickOnBounds(false);
       vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
       vBox.setPadding(new Insets(10.0));
