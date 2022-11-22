@@ -164,7 +164,7 @@ public class SpatialOperationsSample extends Application {
    */
   private void createPolygons() {
 
-    // create blue (0xFF0000CC) polygon
+    // create blue polygon
     PointCollection pointsPoly = new PointCollection(SpatialReferences.getWebMercator());
     pointsPoly.add(new Point(-13960, 6709400));
     pointsPoly.add(new Point(-14660, 6710000));
@@ -176,7 +176,7 @@ public class SpatialOperationsSample extends Application {
     Polygon polygonSymbol = new Polygon(pointsPoly);
     polygon1 = new Graphic(polygonSymbol, fillSymbol);
 
-    // create green (0xFF009900) polygon
+    // create green polygon
     // outer ring
     PointCollection outerRingSegmentCollection = new PointCollection(SpatialReferences.getWebMercator());
     outerRingSegmentCollection.add(new Point(-13060, 6711030));

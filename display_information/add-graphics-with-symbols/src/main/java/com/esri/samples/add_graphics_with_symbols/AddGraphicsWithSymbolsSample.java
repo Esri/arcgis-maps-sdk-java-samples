@@ -109,7 +109,7 @@ public class AddGraphicsWithSymbolsSample extends Application {
    */
   private void createPoints() {
 
-    // create a red (0xFFFF0000) circle simple marker symbol
+    // create a red circle simple marker symbol
     SimpleMarkerSymbol redCircleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10);
 
     // create graphics and add to graphics overlay
@@ -132,7 +132,7 @@ public class AddGraphicsWithSymbolsSample extends Application {
    */
   private void createPolyline() {
 
-    // create a purple (0xFF800080) simple line symbol
+    // create a dark blue simple line symbol
     SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.DARKBLUE, 4);
 
     // create a new point collection for polyline
@@ -162,9 +162,9 @@ public class AddGraphicsWithSymbolsSample extends Application {
    */
   private void createPolygon() {
 
-    // create a green (0xFF005000) simple line symbol
+    // create a green simple line symbol
     SimpleLineSymbol outlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.DARKGREEN, 1);
-    // create a green (0xFF005000) mesh simple fill symbol
+    // create a green mesh simple fill symbol
     SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, Color.DARKGREEN,
         outlineSymbol);
 

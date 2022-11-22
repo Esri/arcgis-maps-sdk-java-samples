@@ -46,7 +46,6 @@ import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
@@ -92,7 +91,6 @@ public class ConvexHullSample extends Application {
 
       // create a graphic to show the convex hull as a blue outline
       SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
-      SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, Color.TRANSPARENT, lineSymbol);
       Graphic convexHullGraphic = new Graphic();
       graphicsOverlay.getGraphics().add(convexHullGraphic);
 
@@ -112,10 +110,8 @@ public class ConvexHullSample extends Application {
             convexHullGraphic.setSymbol(markerSymbol);
             break;
           case POLYLINE:
-            convexHullGraphic.setSymbol(lineSymbol);
-            break;
           case POLYGON:
-            convexHullGraphic.setSymbol(fillSymbol);
+            convexHullGraphic.setSymbol(lineSymbol);
             break;
         }
         convexHullGraphic.setGeometry(convexHull);

@@ -99,8 +99,8 @@ public class CreateAndSaveKMLFileController {
 
     // create a KML layer from a blank KML document and add it to the map
     kmlDocument = new KmlDocument();
-    KmlDataset kmlDataset = new KmlDataset(kmlDocument);
-    KmlLayer kmlLayer = new KmlLayer(kmlDataset);
+    var kmlDataset = new KmlDataset(kmlDocument);
+    var kmlLayer = new KmlLayer(kmlDataset);
     map.getOperationalLayers().add(kmlLayer);
 
     // create a file chooser to get a path for saving the KMZ file
@@ -141,11 +141,11 @@ public class CreateAndSaveKMLFileController {
       Geometry projectedGeometry = GeometryEngine.project(sketchGeometry, SpatialReferences.getWgs84());
 
       // create a new KML placemark
-      KmlGeometry kmlGeometry = new KmlGeometry(projectedGeometry, KmlAltitudeMode.CLAMP_TO_GROUND);
-      KmlPlacemark currentKmlPlacemark = new KmlPlacemark(kmlGeometry);
+      var kmlGeometry = new KmlGeometry(projectedGeometry, KmlAltitudeMode.CLAMP_TO_GROUND);
+      var currentKmlPlacemark = new KmlPlacemark(kmlGeometry);
 
       // update the style of the current KML placemark
-      KmlStyle kmlStyle = new KmlStyle();
+      var kmlStyle = new KmlStyle();
       currentKmlPlacemark.setStyle(kmlStyle);
 
       // set the selected style for the placemark
@@ -153,22 +153,22 @@ public class CreateAndSaveKMLFileController {
         case POINT:
           if (pointSymbolComboBox.getSelectionModel().getSelectedItem() != null) {
             String iconURI = pointSymbolComboBox.getSelectionModel().getSelectedItem();
-            KmlIcon kmlIcon = new KmlIcon(iconURI);
-            KmlIconStyle kmlIconStyle = new KmlIconStyle(kmlIcon, 1);
+            var kmlIcon = new KmlIcon(iconURI);
+            var kmlIconStyle = new KmlIconStyle(kmlIcon, 1);
             kmlStyle.setIconStyle(kmlIconStyle);
           }
           break;
         case POLYLINE:
           Color polylineColor = colorPicker.getValue();
           if (polylineColor != null) {
-            KmlLineStyle kmlLineStyle = new KmlLineStyle(polylineColor, 8);
+            var kmlLineStyle = new KmlLineStyle(polylineColor, 8);
             kmlStyle.setLineStyle(kmlLineStyle);
           }
           break;
         case POLYGON:
           Color polygonColor = colorPicker.getValue();
           if (polygonColor != null) {
-            KmlPolygonStyle kmlPolygonStyle = new KmlPolygonStyle(polygonColor);
+            var kmlPolygonStyle = new KmlPolygonStyle(polygonColor);
             kmlPolygonStyle.setFilled(true);
             kmlPolygonStyle.setOutlined(false);
             kmlStyle.setPolygonStyle(kmlPolygonStyle);

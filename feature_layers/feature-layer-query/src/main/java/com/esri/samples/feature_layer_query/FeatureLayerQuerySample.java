@@ -128,8 +128,7 @@ public class FeatureLayerQuerySample extends Application {
       // create a starting point for the view
       startPoint = new Point(-11000000, 5000000, SpatialReferences.getWebMercator());
 
-      // set fill orange (0xFFFFCC00) color for the US states with a black color
-      // (0xFF000000) outline
+      // set fill to golden color for the US states with a black color outline
       SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLACK, 1);
       SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.DARKGOLDENROD, lineSymbol);
 

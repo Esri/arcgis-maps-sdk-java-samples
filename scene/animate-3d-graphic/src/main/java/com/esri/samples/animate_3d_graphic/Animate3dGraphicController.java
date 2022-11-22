@@ -141,7 +141,7 @@ public class Animate3dGraphicController {
       routeGraphic.setSymbol(routeSymbol);
       mapOverlay.getGraphics().add(routeGraphic);
 
-      // create a graphic with a blue (0xFF0000FF) triangle symbol to represent the plane on the mini map
+      // create a graphic with a blue triangle symbol to represent the plane on the mini map
       Map<String, Object> attributes = new HashMap<>();
       attributes.put("ANGLE", 0f);
       plane2D = new Graphic(new Point(0, 0, WGS84), attributes);

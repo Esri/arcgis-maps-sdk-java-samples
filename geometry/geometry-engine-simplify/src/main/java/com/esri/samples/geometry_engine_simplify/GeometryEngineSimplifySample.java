@@ -203,7 +203,7 @@ public class GeometryEngineSimplifySample extends Application {
     polygonParts.add(partTwo);
     polygonParts.add(partThree);
 
-    // transparent (0x00000000) fill
+    // transparent fill
     SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.TRANSPARENT, line);
     polygon = new Graphic(new Polygon(polygonParts), fillSymbol);
 

@@ -108,7 +108,7 @@ public class ClosestFacilityStaticSample extends Application {
       PictureMarkerSymbol incidentSymbol = new PictureMarkerSymbol(new Image("https://static.arcgis.com/images/Symbols/SafetyHealth/esriCrimeMarker_56_Gradient.png", 30, 30, true, false));
 
       // create a line symbol to mark the route
-      SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.web("0x0000FF", 0.4), 5.0f);
+      SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.web("blue", 0.4), 5.0f);
 
       // create a closest facility task from a network analysis service
       closestFacilityTask = new ClosestFacilityTask("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");

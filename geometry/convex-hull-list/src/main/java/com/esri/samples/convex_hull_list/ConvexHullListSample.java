@@ -171,11 +171,9 @@ public class ConvexHullListSample extends Application {
 
           // create a simple line symbol for the outline of the convex hull graphic(s)
           SimpleLineSymbol convexHullLine = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 5);
-          // Create the simple fill symbol for the convex hull graphic(s)
-          SimpleFillSymbol convexHullFill = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, Color.TRANSPARENT, convexHullLine);
 
           // create the graphic for the convex hull(s)
-          Graphic convexHullGraphic = new Graphic(geometry, convexHullFill);
+          Graphic convexHullGraphic = new Graphic(geometry, convexHullLine);
 
           // add the convex hull(s) graphic to the convex hull graphics overlay
           convexHullGraphicsOverlay.getGraphics().add(convexHullGraphic);
