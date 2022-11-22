@@ -60,15 +60,15 @@ public class WmtsLayerSample extends Application {
       // create a WMTS service from a URL
       String serviceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS";
       wmtsService = new WmtsService(serviceURL);
-      wmtsService.addDoneLoadingListener(() -> {
-        if (wmtsService.getLoadStatus() == LoadStatus.LOADED) {
+      wmtsService.loadStatusProperty().addListener((observable, oldValue, newValue) -> {
+        if (newValue == LoadStatus.LOADED) {
           WmtsServiceInfo wmtsServiceInfo = wmtsService.getServiceInfo();
           // get the first layer's ID
           List<WmtsLayerInfo> layerInfos = wmtsServiceInfo.getLayerInfos();
           // create the WMTS layer with the LayerInfo
           WmtsLayer wmtsLayer = new WmtsLayer(layerInfos.get(0));
           map.setBasemap(new Basemap(wmtsLayer));
-        } else {
+        } else if (newValue == LoadStatus.NOT_LOADED || newValue == LoadStatus.FAILED_TO_LOAD) {
           Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load WMTS layer");
           alert.show();
         }

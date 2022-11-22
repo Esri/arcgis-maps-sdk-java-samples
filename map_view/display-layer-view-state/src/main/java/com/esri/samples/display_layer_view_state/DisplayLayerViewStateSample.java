@@ -86,44 +86,51 @@ public class DisplayLayerViewStateSample extends Application {
       // set the initial viewpoint for the map view
       mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), 40000000));
 
-      // create a new feature layer from a portal item
-      final var portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
-        "b8f4033069f141729ffb298b7418b653");
-      featureLayer = new FeatureLayer(portalItem, 0);
-      //  set a minimum and a maximum scale for the visibility of the feature layer
-      featureLayer.setMinScale(40000000);
-      featureLayer.setMaxScale(4000000);
-
       // create a label to display the view status
-      Label layerViewStatusLabel = new Label("Current view status: ");
+      var layerViewStatusLabel = new Label("Current view status: ");
 
       // create a checkbox UI that toggles the visibility of the feature layer
-      CheckBox visibilityCheckBox = new CheckBox();
+      var visibilityCheckBox = new CheckBox();
       visibilityCheckBox.setDisable(true);
       visibilityCheckBox.setSelected(true);
       visibilityCheckBox.setText("Layer visible");
       visibilityCheckBox.setOnAction(event -> featureLayer.setVisible(visibilityCheckBox.isSelected()));
 
       // create a button and a listener to add the feature layer
-      Button loadLayerButton = new Button("Load layer");
+      var loadLayerButton = new Button("Load layer");
       loadLayerButton.setOnAction(event -> {
 
-        // clear the map's operational layers and reload the feature layer
+        // clear the map's operational layers
         if (featureLayer != null) {
           map.getOperationalLayers().clear();
-          featureLayer = new FeatureLayer(portalItem, 0);
         }
-        // add the feature layer to the map
-        map.getOperationalLayers().add(featureLayer);
 
-        // Update feature layer visibility
+        // create a new feature layer from a portal item
+        final var portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
+          "b8f4033069f141729ffb298b7418b653");
+        featureLayer = new FeatureLayer(portalItem, 0);
+        //  set a minimum and a maximum scale for the visibility of the feature layer
+        featureLayer.setMinScale(40000000);
+        featureLayer.setMaxScale(4000000);
+
+        // add the feature layer to the map and update its visibility
+        map.getOperationalLayers().add(featureLayer);
         featureLayer.setVisible(visibilityCheckBox.isSelected());
 
-        // Update UI when feature layer loads
-        visibilityCheckBox.disableProperty().bind(featureLayer.loadStatusProperty().isEqualTo(LoadStatus.NOT_LOADED));
-        loadLayerButton.textProperty().bind(Bindings.createStringBinding(() ->
-          featureLayer.loadStatusProperty().get() == LoadStatus.LOADED ? "Reload Layer" : "Loading..",
-          featureLayer.loadStatusProperty()));
+        // update the button text when the layer load status changes
+        loadLayerButton.textProperty().bind(Bindings.createStringBinding(() -> {
+          LoadStatus loadStatus = featureLayer.loadStatusProperty().get();
+          return switch (loadStatus) {
+            case LOADED -> "Reload layer";
+            case NOT_LOADED -> "Load layer";
+            case LOADING -> "Loading";
+            default -> "Error";
+          };
+        }, featureLayer.loadStatusProperty()));
+
+        // disable checkbox and button when the layer is not loaded
+        visibilityCheckBox.disableProperty().bind(featureLayer.loadStatusProperty().isNotEqualTo(LoadStatus.LOADED));
+        loadLayerButton.disableProperty().bind(featureLayer.loadStatusProperty().isNotEqualTo(LoadStatus.LOADED));
       });
 
       // create a listener that fires every time a layer's view status changes
@@ -164,7 +171,7 @@ public class DisplayLayerViewStateSample extends Application {
       });
 
       // create a control panel and add the label, checkbox and button UI components
-      VBox controlsVBox = new VBox(15);
+      var controlsVBox = new VBox(15);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
