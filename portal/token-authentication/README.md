@@ -2,7 +2,6 @@
 
 Access a web map service that is secured with ArcGIS token-based authentication.
 
-
 ![Image of token authentication](TokenAuthentication.png)
 
 ## Use case
