@@ -35,7 +35,13 @@ import com.esri.arcgisruntime.security.AuthenticationManager;
 import com.esri.arcgisruntime.security.DefaultAuthenticationChallengeHandler;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import com.esri.arcgisruntime.tasks.offlinemap.*;
+import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapJob;
+import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapParameters;
+import com.esri.arcgisruntime.tasks.offlinemap.DownloadPreplannedOfflineMapResult;
+import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
+import com.esri.arcgisruntime.tasks.offlinemap.PreplannedMapArea;
+import com.esri.arcgisruntime.tasks.offlinemap.PreplannedUpdateMode;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -169,24 +175,19 @@ public class DownloadPreplannedMapController {
 
                 Map<Layer, ArcGISRuntimeException> layerErrors = result.getLayerErrors();
                 layerErrors.forEach((layer, exception) ->
-                        stringBuilder.append("Layer: ").append(layer.getName()).append(". Exception: ").append(exception.getMessage()).append(". ")
+                  stringBuilder.append("Layer: ").append(layer.getName()).append(". Exception: ").append(exception.getMessage()).append(". ")
                 );
 
                 Map<FeatureTable, ArcGISRuntimeException> tableError = result.getTableErrors();
                 tableError.forEach((table, exception) ->
-                        stringBuilder.append("Table: ").append(table.getTableName()).append(". Exception: ").append(exception.getMessage()).append(". ")
+                  stringBuilder.append("Table: ").append(table.getTableName()).append(". Exception: ").append(exception.getMessage()).append(". ")
                 );
 
-                new Alert(Alert.AlertType.ERROR, "One or more errors occurred with the Offline Map Result: " + stringBuilder.toString()).show();
+                new Alert(Alert.AlertType.ERROR, "One or more errors occurred with the Offline Map Result: " + stringBuilder).show();
               } else {
-                mapView.addNavigationChangedListener(listener -> {
-                  // if the mapview is navigating to a new pleplanned map area, wait for it to finish
-                  if (!listener.isNavigating()) {
-                    // show the offline map in the map view
-                    ArcGISMap downloadOfflineMap = result.getOfflineMap();
-                    mapView.setMap(downloadOfflineMap);
-                  }
-                });
+                // show the offline map in the map view
+                ArcGISMap downloadedOfflineMap = result.getOfflineMap();
+                mapView.setMap(downloadedOfflineMap);
               }
 
             } else {
@@ -243,7 +244,7 @@ public class DownloadPreplannedMapController {
 
         } catch (InterruptedException | ExecutionException e) {
           new Alert(Alert.AlertType.ERROR, "Failed to generate default parameters for the download job.").show();
-        } catch(IOException e) {
+        } catch (IOException e) {
           new Alert(Alert.AlertType.ERROR, "Failed to create a temporary directory for the download").show();
         }
       });
