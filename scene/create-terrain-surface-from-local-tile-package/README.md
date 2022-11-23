@@ -25,7 +25,7 @@ When loaded, the sample will show a scene with a terrain surface applied. Pan an
 
 ## About the data
 
-This sample uses the [Monterey Elevation](https://arcgisruntime.maps.arcgis.com/home/item.html?id=52ca74b4ba8042b78b3c653696f34a9c) tile package, using CompactV2 storage format (.tpkx).
+This sample uses the [Monterey Elevation](https://www.arcgis.com/home/item.html?id=52ca74b4ba8042b78b3c653696f34a9c) tile package, using CompactV2 storage format (.tpkx).
 
 ## Additional information
 

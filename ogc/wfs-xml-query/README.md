@@ -27,7 +27,7 @@ Run the sample and view the data loaded from the WFS feature table.
 
 This service shows trees in downtown Seattle and the surrounding area. An XML-encoded `GetFeature` request is used to limit results to only trees of the genus *Tilia*.
 
-For additional information, see the underlying service on [ArcGIS Online](https://arcgisruntime.maps.arcgis.com/home/item.html?id=1b81d35c5b0942678140efc29bc25391).
+For additional information, see the underlying service on [ArcGIS Online](https://www.arcgis.com/home/item.html?id=1b81d35c5b0942678140efc29bc25391).
 
 ## Tags
 
