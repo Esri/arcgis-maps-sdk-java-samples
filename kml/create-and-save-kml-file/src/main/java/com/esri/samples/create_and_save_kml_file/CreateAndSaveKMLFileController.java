@@ -26,7 +26,16 @@ import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
 import com.esri.arcgisruntime.mapping.view.SketchEditor;
-import com.esri.arcgisruntime.ogc.kml.*;
+import com.esri.arcgisruntime.ogc.kml.KmlAltitudeMode;
+import com.esri.arcgisruntime.ogc.kml.KmlDataset;
+import com.esri.arcgisruntime.ogc.kml.KmlDocument;
+import com.esri.arcgisruntime.ogc.kml.KmlGeometry;
+import com.esri.arcgisruntime.ogc.kml.KmlIcon;
+import com.esri.arcgisruntime.ogc.kml.KmlIconStyle;
+import com.esri.arcgisruntime.ogc.kml.KmlLineStyle;
+import com.esri.arcgisruntime.ogc.kml.KmlPlacemark;
+import com.esri.arcgisruntime.ogc.kml.KmlPolygonStyle;
+import com.esri.arcgisruntime.ogc.kml.KmlStyle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
