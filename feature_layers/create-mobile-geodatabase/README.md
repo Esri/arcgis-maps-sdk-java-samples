@@ -12,7 +12,7 @@ For example, a user would like to track the location of their device at various 
 
 ## How to use the sample
 
-Click "Create Geodatabase" to create the geodatabase and its feature table. Click on the map to add new features to the geodatabase. Click "View Table" to view the contents of the geodatabase feature table. Once you have added the features to the map, click on "Close Geodatabase" to save the .geodatabase file which can then be imported into ArcGIS Pro or opened in an ArcGIS Maps SDKs for Native App.
+Click "Create Geodatabase" to create the geodatabase and its feature table. Click on the map to add new features to the geodatabase. Click "View Table" to view the contents of the geodatabase feature table. Once you have added the features to the map, click on "Close Geodatabase" to save the .geodatabase file which can then be imported into ArcGIS Pro or opened in an ArcGIS Maps SDK application.
 
 ## How it works
 
