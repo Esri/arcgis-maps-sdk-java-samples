@@ -63,7 +63,7 @@ public class AccessLoadStatusSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a control panel
-      VBox controlsVBox = new VBox(6);
+      var controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
           Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
@@ -71,12 +71,12 @@ public class AccessLoadStatusSample extends Application {
       controlsVBox.getStyleClass().add("panel-region");
 
       // create area to display load status text
-      Label loadStatusLabel = new Label("Load Status");
+      var loadStatusLabel = new Label("Load Status");
       loadStatusLabel.getStyleClass().add("panel-label");
       TextArea loadStatusText = new TextArea();
       loadStatusText.setMaxHeight(200);
 
-      Button reloadMapButton = new Button("Reload ArcGISMap");
+      var reloadMapButton = new Button("Reload ArcGISMap");
       reloadMapButton.setMaxWidth(Double.MAX_VALUE);
 
       // reload the map when the button is clicked
@@ -86,26 +86,14 @@ public class AccessLoadStatusSample extends Application {
         // reload the map
         map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
-        map.addLoadStatusChangedListener(e -> {
-          String loadingStatus;
-
+        map.loadStatusProperty().addListener((observable, oldValue, newValue) -> {
           // check the loading status
-          switch (e.getNewLoadStatus()) {
-            case LOADING:
-              loadingStatus = "Load Status: LOADING!";
-              break;
-            case FAILED_TO_LOAD:
-              loadingStatus = "Load Status: FAILED TO LOAD!";
-              break;
-            case NOT_LOADED:
-              loadingStatus = "Load Status: NOT LOADED!";
-              break;
-            case LOADED:
-              loadingStatus = "Load Status: LOADED!";
-              break;
-            default:
-              loadingStatus = "Load Status: ERROR!";
-          }
+          String loadingStatus = switch (newValue) {
+            case LOADING -> "Load Status: LOADING!";
+            case FAILED_TO_LOAD -> "Load Status: FAILED TO LOAD!";
+            case NOT_LOADED -> "Load Status: NOT LOADED!";
+            case LOADED -> "Load Status: LOADED!";
+          };
 
           // update the load status text to the loading status that was fired
           Platform.runLater(() -> loadStatusText.appendText(loadingStatus + "\n"));
