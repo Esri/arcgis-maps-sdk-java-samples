@@ -32,7 +32,7 @@ The sample shows trailheads in the greater Los Angeles area displayed on top of 
 
 ## Additional information
 
-Learn more about geodatabases and how to utilize them on the [ArcGIS Pro documentation](https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/overview/what-is-a-geodatabase-.htm) page. 
+Learn more about geodatabases and how to utilize them on the [ArcGIS Pro documentation](https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/overview/what-is-a-geodatabase-.htm) page.
 
 Note: You could also use the 'Services Pattern' and access the `Geodatabase` class via a Feature Service served up via ArcGIS Online or ArcGIS Enterprise. Instead of using the `Geodatabase` class to access the .geodatabase file on disk, you would use `GeodatabaseSyncTask` to point to a Uri instead.
 

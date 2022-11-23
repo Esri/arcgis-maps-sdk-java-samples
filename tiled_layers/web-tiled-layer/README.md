@@ -31,13 +31,13 @@ The basemap in this sample is provided by [Stamen Design](http://maps.stamen.com
 
 Web tiled services use a uniform addressing scheme with pre-rendered tiles. Image tiles are accessed via a URL template string, with parameters for subdomain, level, column, and row.
 
-- Subdomain is optional and allows ArcGIS Maps SDKs for Native Apps to balance requests among multiple servers for enhanced performance.
-- Level, row, and column select the tiles to load based on the visible extent of the map.
+* Subdomain is optional and allows ArcGIS Maps SDKs for Native Apps to balance requests among multiple servers for enhanced performance.
+* Level, row, and column select the tiles to load based on the visible extent of the map.
 
 For more information about web tiled layers, see the following resources:
 
-- [Wikipedia: tiled web maps](https://en.wikipedia.org/wiki/Tiled_web_map)
-- [ArcGIS Pro: Share a web tile layer](http://pro.arcgis.com/en/pro-app/help/sharing/overview/web-tile-layer.htm)
+* [Wikipedia: tiled web maps](https://en.wikipedia.org/wiki/Tiled_web_map)
+* [ArcGIS Pro: Share a web tile layer](http://pro.arcgis.com/en/pro-app/help/sharing/overview/web-tile-layer.htm)
 
 ## Tags
 
