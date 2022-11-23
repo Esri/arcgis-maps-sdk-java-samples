@@ -6,11 +6,11 @@ Load a WFS feature table using an XML query.
 
 ## Use case
 
-ArcGIS Runtime `QueryParameters` objects can't represent all possible queries that can be made against a WFS feature service. For example, ArcGIS Runtime query parameters don't support wildcard searches. You can provide queries as raw XML strings, allowing you to access query functionality not available with `QueryParameters`.
+ArcGIS Maps SDKs for Native Apps `QueryParameters` objects can't represent all possible queries that can be made against a WFS feature service. For example, ArcGIS Maps SDKs for Native Apps query parameters don't support wildcard searches. You can provide queries as raw XML strings, allowing you to access query functionality not available with `QueryParameters`.
 
 ## How to use the sample
 
-Run the sample and view the data loaded from the the WFS feature table.
+Run the sample and view the data loaded from the WFS feature table.
 
 ## How it works
 

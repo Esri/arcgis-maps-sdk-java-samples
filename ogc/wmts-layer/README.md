@@ -6,7 +6,7 @@ Display a layer from a Web Map Tile Service.
 
 ## Use case
 
-WMTS services can have several layers. You can use ArcGIS Runtime to explore the layers available from a service. This would commonly be used to enable a browsing experience where users can choose which layers they want to display at run time.
+WMTS services can have several layers. You can use ArcGIS Maps SDKs for Native Apps to explore the layers available from a service. This would commonly be used to enable a browsing experience where users can choose which layers they want to display at run time.
 
 ## How to use the sample
 
