@@ -20,7 +20,6 @@ module com.esri.samples.line_of_sight_location {
 
   // require JavaFX modules that the application uses
   requires javafx.graphics;
-  requires javafx.controls;
 
   exports com.esri.samples.line_of_sight_location;
 }

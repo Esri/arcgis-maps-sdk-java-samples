@@ -22,6 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -29,9 +30,7 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -76,8 +75,8 @@ public class ClipGeometrySample extends Application {
       // create a blue graphic of Colorado
       Envelope colorado = new Envelope(new Point(-11362327.128340, 5012861.290274),
           new Point(-12138232.018408, 4441198.773776));
-      SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x220000FF,
-          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2));
+      SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("blue", 0.2),
+          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 2));
       Graphic coloradoGraphic = new Graphic(colorado, fillSymbol);
       graphicsOverlay.getGraphics().add(coloradoGraphic);
 
@@ -86,7 +85,7 @@ public class ClipGeometrySample extends Application {
       mapView.getGraphicsOverlays().add(envelopesOverlay);
 
       // create a dotted red outline symbol
-      SimpleLineSymbol redOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, 0xFFFF0000, 3);
+      SimpleLineSymbol redOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.RED, 3);
 
       // create a envelope outside Colorado
       Envelope outsideEnvelope =

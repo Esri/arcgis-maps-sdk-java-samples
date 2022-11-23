@@ -49,7 +49,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -108,15 +107,15 @@ public class NearestVertexSample extends Application {
 
       // create a graphic for the polygon
       Polygon polygon = new Polygon(polygonPoints);
-      SimpleLineSymbol polygonOutlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.LIMEGREEN), 2);
-      SimpleFillSymbol polygonFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL, ColorUtil.colorToArgb(Color.LIMEGREEN), polygonOutlineSymbol);
+      SimpleLineSymbol polygonOutlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.LIMEGREEN, 2);
+      SimpleFillSymbol polygonFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL, Color.LIMEGREEN, polygonOutlineSymbol);
       Graphic polygonGraphic = new Graphic(polygon, polygonFillSymbol);
       graphicsOverlay.getGraphics().add(polygonGraphic);
 
       // create graphics for the clicked location, nearest coordinate, and nearest vertex markers
-      SimpleMarkerSymbol clickedLocationSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.DARKORANGE), 15);
-      SimpleMarkerSymbol nearestCoordinateSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, ColorUtil.colorToArgb(Color.RED), 10);
-      SimpleMarkerSymbol nearestVertexSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, ColorUtil.colorToArgb(Color.BLUE), 15);
+      SimpleMarkerSymbol clickedLocationSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, Color.DARKORANGE, 15);
+      SimpleMarkerSymbol nearestCoordinateSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, Color.RED, 10);
+      SimpleMarkerSymbol nearestVertexSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 15);
       Graphic clickedLocationGraphic = new Graphic();
       clickedLocationGraphic.setSymbol(clickedLocationSymbol);
       Graphic nearestCoordinateGraphic = new Graphic();

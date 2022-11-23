@@ -41,6 +41,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -104,7 +105,7 @@ public class CreateMobileGeodatabaseController {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create a graphic to add the simple marker symbol in the graphics overlay
-      var simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF000000, 10);
+      var simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLACK, 10);
       var graphic = new Graphic();
       graphic.setSymbol(simpleMarkerSymbol);
       graphicsOverlay.getGraphics().add(graphic);

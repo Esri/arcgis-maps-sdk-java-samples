@@ -31,6 +31,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -92,13 +93,15 @@ public class BufferSample extends Application {
       final LinearUnit meters = new LinearUnit(LinearUnitId.METERS);
 
       // create a white cross marker symbol to show where the user clicked
-      final SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFFFFFFFF, 14);
+      final SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.BLACK, 14);
 
       // create a semi-transparent purple fill symbol for the geodesic buffers
-      final SimpleFillSymbol geodesicFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x88FF00FF, null);
+      final SimpleFillSymbol geodesicFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID,
+        Color.web("fuchsia", 0.8), null);
 
       // create a semi-transparent green fill symbol for the planar buffers
-      final SimpleFillSymbol planarFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x8800FF00, null);
+      final SimpleFillSymbol planarFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID,
+        Color.web("lime", 0.8), null);
 
       // create buffers around the clicked location
       mapView.setOnMouseClicked(e -> {
@@ -106,7 +109,8 @@ public class BufferSample extends Application {
           Point2D point2D = new Point2D(e.getX(), e.getY());
           // buffer around the clicked point
           Point point = mapView.screenToLocation(point2D);
-          Polygon geodesicBufferGeometry = GeometryEngine.bufferGeodetic(point, miles.convertTo(meters, bufferSpinner.getValue()), meters, Double.NaN, GeodeticCurveType.GEODESIC);
+          Polygon geodesicBufferGeometry = GeometryEngine.bufferGeodetic(point, miles.convertTo(meters, bufferSpinner.getValue()),
+            meters, Double.NaN, GeodeticCurveType.GEODESIC);
           Polygon planarBufferGeometry = GeometryEngine.buffer(point, miles.convertTo(meters, bufferSpinner.getValue()));
           // show the buffered regions
           Graphic geodesicBufferGraphic = new Graphic(geodesicBufferGeometry, geodesicFillSymbol);

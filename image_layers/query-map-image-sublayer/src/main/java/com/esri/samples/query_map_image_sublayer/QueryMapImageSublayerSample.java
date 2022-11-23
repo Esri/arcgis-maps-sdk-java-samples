@@ -29,6 +29,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -94,10 +95,10 @@ public class QueryMapImageSublayerSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create symbols for showing the results of each sublayer
-      SimpleMarkerSymbol citySymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 16);
-      SimpleLineSymbol stateSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 6);
-      SimpleLineSymbol countyLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF00FFFF, 2);
-      SimpleFillSymbol countySymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFF00FFFF,
+      SimpleMarkerSymbol citySymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 16);
+      SimpleLineSymbol stateSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 6);
+      SimpleLineSymbol countyLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.CYAN, 2);
+      SimpleFillSymbol countySymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, Color.CYAN,
           countyLineSymbol);
 
       // create a VBox to hold the controls

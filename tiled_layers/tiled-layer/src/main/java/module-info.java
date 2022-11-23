@@ -20,7 +20,6 @@ module com.esri.samples.tiled_layer {
 
   // require JavaFX modules that the application uses
   requires javafx.graphics;
-  requires javafx.controls;
 
   exports com.esri.samples.tiled_layer;
 }

@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -57,8 +58,8 @@ public class SpatialOperationsSample extends Application {
     NONE, UNION, DIFFERENCE, SYMMETRIC_DIFFERENCE, INTERSECTION
   }
 
-  // simple black (0xFF000000) line symbol
-  private final SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1);
+  // simple black line symbol
+  private final SimpleLineSymbol line = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLACK, 1);
 
   @Override
   public void start(Stage stage) {
@@ -109,8 +110,8 @@ public class SpatialOperationsSample extends Application {
             return;
         }
 
-        // update result as a red (0xFFE91F1F) geometry
-        SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFE91F1F, line);
+        // update result as a red geometry
+        SimpleFillSymbol redSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.RED, line);
         resultGeomOverlay.getGraphics().add(new Graphic(resultPolygon, redSymbol));
       });
 
@@ -163,7 +164,7 @@ public class SpatialOperationsSample extends Application {
    */
   private void createPolygons() {
 
-    // create blue (0xFF0000CC) polygon
+    // create blue polygon
     PointCollection pointsPoly = new PointCollection(SpatialReferences.getWebMercator());
     pointsPoly.add(new Point(-13960, 6709400));
     pointsPoly.add(new Point(-14660, 6710000));
@@ -171,11 +172,11 @@ public class SpatialOperationsSample extends Application {
     pointsPoly.add(new Point(-13300, 6710500));
     pointsPoly.add(new Point(-13160, 6710100));
 
-    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFF0000CC, line);
+    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.BLUE, line);
     Polygon polygonSymbol = new Polygon(pointsPoly);
     polygon1 = new Graphic(polygonSymbol, fillSymbol);
 
-    // create green (0xFF009900) polygon
+    // create green polygon
     // outer ring
     PointCollection outerRingSegmentCollection = new PointCollection(SpatialReferences.getWebMercator());
     outerRingSegmentCollection.add(new Point(-13060, 6711030));
@@ -194,7 +195,7 @@ public class SpatialOperationsSample extends Application {
 
     PartCollection polygonParts = new PartCollection(outerRing);
     polygonParts.add(innerRing);
-    fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFF009900, line);
+    fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.GREEN, line);
     polygon2 = new Graphic(new Polygon(polygonParts), fillSymbol);
   }
 

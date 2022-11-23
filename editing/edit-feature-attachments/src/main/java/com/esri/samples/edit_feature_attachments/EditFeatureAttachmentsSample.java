@@ -36,6 +36,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -130,7 +131,7 @@ public class EditFeatureAttachmentsSample extends Application {
       mapView.setViewpoint(new Viewpoint(40, -95, 36978595));
 
       // set selection color
-      mapView.getSelectionProperties().setColor(0xff0000ff);
+      mapView.getSelectionProperties().setColor(Color.BLUE);
 
       // create service feature table from URL
       featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");

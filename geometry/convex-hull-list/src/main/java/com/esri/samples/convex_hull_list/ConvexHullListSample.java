@@ -29,6 +29,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
@@ -94,9 +95,10 @@ public class ConvexHullListSample extends Application {
       mapView.getGraphicsOverlays().add(polygonGraphicsOverlay);
 
       // create a simple line symbol for the outline of the two input polygon graphics
-      SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
+      SimpleLineSymbol polygonOutline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
       // create a simple fill symbol for the two input polygon graphics
-      SimpleFillSymbol polygonFill = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x300000FF, polygonOutline);
+      SimpleFillSymbol polygonFill = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID,
+        Color.web("blue", 0.3), polygonOutline);
 
       // create a point collection that represents polygon1. Use the same spatial reference as the underlying base map.
       PointCollection pointCollection1 = new PointCollection(SpatialReferences.getWebMercator());
@@ -143,15 +145,15 @@ public class ConvexHullListSample extends Application {
       polygonGraphicsOverlay.getGraphics().add(polygonGraphic2);
 
       // create a button to create and show the convex hull
-      Button convexHullButton = new Button("Create Convex Hull");
+      var convexHullButton = new Button("Create Convex Hull");
       convexHullButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a button to clear the convex hull results
-      Button clearButton = new Button("Clear");
+      var clearButton = new Button("Clear");
       clearButton.setMaxWidth(Double.MAX_VALUE);
 
       // create a check box for toggling union option on or off
-      CheckBox checkBox = new CheckBox("Union");
+      var checkBox = new CheckBox("Union");
 
       convexHullButton.setOnAction(e -> {
         // reset the convex hull graphics overlay
@@ -168,12 +170,10 @@ public class ConvexHullListSample extends Application {
         for (Geometry geometry : convexHullGeometries) {
 
           // create a simple line symbol for the outline of the convex hull graphic(s)
-          SimpleLineSymbol convexHullLine = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 5);
-          // Create the simple fill symbol for the convex hull graphic(s)
-          SimpleFillSymbol convexHullFill = new SimpleFillSymbol(SimpleFillSymbol.Style.NULL, 0x00000000, convexHullLine);
+          SimpleLineSymbol convexHullLine = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 5);
 
           // create the graphic for the convex hull(s)
-          Graphic convexHullGraphic = new Graphic(geometry, convexHullFill);
+          Graphic convexHullGraphic = new Graphic(geometry, convexHullLine);
 
           // add the convex hull(s) graphic to the convex hull graphics overlay
           convexHullGraphicsOverlay.getGraphics().add(convexHullGraphic);
@@ -198,7 +198,7 @@ public class ConvexHullListSample extends Application {
       });
 
       // create a control panel
-      VBox controlsVBox = new VBox(6);
+      var controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
               CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10));
