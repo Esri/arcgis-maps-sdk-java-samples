@@ -117,16 +117,11 @@ public class DisplayLayerViewStateSample extends Application {
         map.getOperationalLayers().add(featureLayer);
         featureLayer.setVisible(visibilityCheckBox.isSelected());
 
-        // update the button text when the layer load status changes
-        loadLayerButton.textProperty().bind(Bindings.createStringBinding(() -> {
-          LoadStatus loadStatus = featureLayer.loadStatusProperty().get();
-          return switch (loadStatus) {
-            case LOADED -> "Reload layer";
-            case NOT_LOADED -> "Load layer";
-            case LOADING -> "Loading";
-            default -> "Error";
-          };
-        }, featureLayer.loadStatusProperty()));
+        // when the feature layer has loaded, update the button text when the layer load status changes
+        featureLayer.addDoneLoadingListener(() ->
+          loadLayerButton.textProperty().bind(Bindings.createStringBinding(() ->
+            featureLayer.loadStatusProperty().get() == LoadStatus.LOADED ? "Reload Layer" : "Load Layer",
+            featureLayer.loadStatusProperty())));
 
         // disable checkbox and button when the layer is not loaded
         visibilityCheckBox.disableProperty().bind(featureLayer.loadStatusProperty().isNotEqualTo(LoadStatus.LOADED));

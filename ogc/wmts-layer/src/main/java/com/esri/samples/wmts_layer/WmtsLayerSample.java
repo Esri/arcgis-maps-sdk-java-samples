@@ -68,7 +68,7 @@ public class WmtsLayerSample extends Application {
           // create the WMTS layer with the LayerInfo
           WmtsLayer wmtsLayer = new WmtsLayer(layerInfos.get(0));
           map.setBasemap(new Basemap(wmtsLayer));
-        } else if (newValue == LoadStatus.NOT_LOADED || newValue == LoadStatus.FAILED_TO_LOAD) {
+        } else if (newValue == LoadStatus.FAILED_TO_LOAD) {
           Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load WMTS layer");
           alert.show();
         }
