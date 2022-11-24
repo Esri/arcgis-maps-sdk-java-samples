@@ -6,15 +6,15 @@
         "DisplayWFSLayer.png"
     ],
     "keywords": [
-        "OGC",
-        "WFS",
         "browse",
         "catalog",
         "feature",
         "interaction cache",
         "layers",
+        "OGC",
         "service",
         "web",
+        "WFS",
         "FeatureLayer",
         "NavigationChangedEvent",
         "QueryParameters",

@@ -6,10 +6,10 @@
         "DisplayKML.png"
     ],
     "keywords": [
+        "keyhole",
         "KML",
         "KMZ",
         "OGC",
-        "keyhole",
         "KmlDataset",
         "KmlLayer"
     ],

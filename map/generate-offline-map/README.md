@@ -30,7 +30,7 @@ Once the map loads, zoom to the extent you want to take offline. The red border 
 
 ## About the data
 
-The map used in this sample shows the [stormwater network](https://arcgisruntime.maps.arcgis.com/home/item.html?id=acc027394bc84c2fb04d1ed317aac674) within Naperville, IL, USA, with cartography designed for web and mobile devices with offline support.
+The map used in this sample shows the [stormwater network](https://www.arcgis.com/home/item.html?id=acc027394bc84c2fb04d1ed317aac674) within Naperville, IL, USA, with cartography designed for web and mobile devices with offline support.
 
 ## Additional information
 

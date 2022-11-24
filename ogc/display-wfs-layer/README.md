@@ -6,7 +6,7 @@ Display a layer from a WFS service, requesting only features for the current ext
 
 ## Use case
 
-WFS is an open standard with functionality similar to ArcGIS feature services. Runtime support for WFS allows you to interoperate with open systems, which are often used in inter-agency efforts, like those for disaster relief.
+WFS is an open standard with functionality similar to ArcGIS feature services. The ArcGIS Maps SDKs for Native Apps support for WFS allows you to interoperate with open systems, which are often used in inter-agency efforts, like those for disaster relief.
 
 ## How to use the sample
 
@@ -28,7 +28,7 @@ Pan and zoom to see features within the current map extent.
 
 ## About the data
 
-This service shows building footprints for downtown Seattle. For additional information, see the underlying service on [ArcGIS Online](https://arcgisruntime.maps.arcgis.com/home/item.html?id=1b81d35c5b0942678140efc29bc25391).
+This service shows building footprints for downtown Seattle. For additional information, see the underlying service on [ArcGIS Online](https://www.arcgis.com/home/item.html?id=1b81d35c5b0942678140efc29bc25391).
 
 ## Tags
 

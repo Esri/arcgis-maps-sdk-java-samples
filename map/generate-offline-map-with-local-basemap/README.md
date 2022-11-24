@@ -45,7 +45,7 @@ If you choose to use the local basemap from the device, the offline map will be 
 
 ## Offline data
 
-This sample uses [naperville_imagery.tpkx](https://arcgisruntime.maps.arcgis.com/home/item.html?id=85282f2aaa2844d8935cdb8722e22a93) TileCache. It is downloaded from ArcGIS Online automatically.
+This sample uses [naperville_imagery.tpkx](https://www.arcgis.com/home/item.html?id=85282f2aaa2844d8935cdb8722e22a93) TileCache. It is downloaded from ArcGIS Online automatically.
 
 ## Tags
 

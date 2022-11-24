@@ -6,11 +6,11 @@
         "EditKMLGroundOverlay.png"
     ],
     "keywords": [
+        "imagery",
+        "Keyhole",
         "KML",
         "KMZ",
-        "Keyhole",
         "OGC",
-        "imagery",
         "KmlDataset",
         "KmlGroundOverlay",
         "KmlIcon",

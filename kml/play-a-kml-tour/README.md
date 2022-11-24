@@ -6,7 +6,7 @@ Play tours in KML files.
 
 ## Use case
 
-KML, the file format used by Google Earth, supports creating tours, which can control the viewpoint of the scene, hide and show content, and play audio. Tours allow you to easily share tours of geographic locations, which can be augmented with rich multimedia. Runtime allows you to consume these tours using a simple API.
+KML, the file format used by Google Earth, supports creating tours, which can control the viewpoint of the scene, hide and show content, and play audio. Tours allow you to easily share tours of geographic locations, which can be augmented with rich multimedia. ArcGIS Maps SDK for Java allows you to consume these tours using a simple API.
 
 ## How to use the sample
 
@@ -27,7 +27,7 @@ The sample will load the KMZ file from ArcGIS Online. Click the play button to s
 
 ## About the data
 
-This sample uses a custom tour created by a member of the ArcGIS Runtime API samples team. When you play the tour, you'll see a narrated journey through some of Esri's offices.
+This sample uses a custom tour created by the ArcGIS Maps SDKs for Native Apps samples team. When you play the tour, you'll see a narrated journey through some of Esri's offices.
 
 ## Additional information
 

@@ -25,7 +25,7 @@ When the sample opens, it will automatically display the map in the mobile map p
 
 ## About the data
 
-This sample shows points of interest within a [Yellowstone Mobile Map Package](https://arcgisruntime.maps.arcgis.com/home/item.html?id=e1f3a7254cb845b09450f54937c16061) hosted on ArcGIS Online.
+This sample shows points of interest within a [Yellowstone Mobile Map Package](https://www.arcgis.com/home/item.html?id=e1f3a7254cb845b09450f54937c16061) hosted on ArcGIS Online.
 
 ## Additional information
 
