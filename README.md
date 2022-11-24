@@ -9,7 +9,7 @@
 
 [![Link: Esri Community](https://img.shields.io/badge/Esri%20Community%20Questions-2d2670?style=flat-square)](https://community.esri.com/t5/arcgis-runtime-sdk-for-java-questions/bd-p/arcgis-runtime-sdk-for-java-questions)
 ![ArcGIS Developers Twitter](https://img.shields.io/twitter/url?label=ArcGIS%20Developers&logoColor=2d2670&url=https%3A%2F%2Ftwitter.com%2FArcGISDevs)
-[![Link: ArcGIS Runtime SDKs Blog](https://img.shields.io/badge/ArcGIS%20Runtime%20SDKS%20Blog-2d2670?style=flat-square)](https://community.esri.com/t5/arcgis-runtime-sdks-blog/bg-p/arcgis-runtime-sdks-blog)
+[![Link: ArcGIS Maps SDKs for Native Apps Blog](https://img.shields.io/badge/ArcGIS%20Runtime%20SDKS%20Blog-2d2670?style=flat-square)](https://community.esri.com/t5/arcgis-runtime-sdks-blog/bg-p/arcgis-runtime-sdks-blog)
 [![Link: ArcGIS Blog for Developers](https://img.shields.io/badge/ArcGIS%20Blog%20for%20Developers-2d2670?style=flat-square)](https://www.esri.com/arcgis-blog/developers/)
 
 ![Gradle build](https://github.com/Esri/arcgis-runtime-samples-java/workflows/Java%20CI%20with%20Gradle/badge.svg)
