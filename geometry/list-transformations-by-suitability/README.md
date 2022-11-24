@@ -42,10 +42,10 @@ This sample can be used with or without provisioning projection engine data to y
 To download projection engine data to your device:
 
 1. Log in to the [ArcGIS for Developers site](https://developers.arcgis.com/sign-in/) using your Developer account.
-2. In the Dashboard page, click '[Download APIs and SDKs](https://developers.arcgis.com/downloads/data)' and go to the `Supplemental ArcGIS Runtime Data` tab.
+2. In the Dashboard page, click '[Downloads](https://developers.arcgis.com/downloads/)' and go to the `Projection Engine Data` tab.
 3. Click the download button next to `Projection Engine Data` to download projection engine data to your computer.
 4. Unzip the downloaded data on your computer.
-5. Create an `~/ArcGIS/Runtime/Data/PEDataRuntime` directory on your device and copy the files to this directory.
+5. Create a `resources/pedata` directory on your device if it doesn't already exist in the ArcGIS Maps SDK for Java install directory, and copy the files to this directory.
 
 ## Tags
 

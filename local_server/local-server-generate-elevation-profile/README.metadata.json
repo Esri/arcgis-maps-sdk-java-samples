@@ -1,6 +1,6 @@
 {
     "category": "Local server",
-    "description": "Create an elevation profile using a geoprocessing package executed with ArcGIS Runtime Local Server.",
+    "description": "Create an elevation profile using a geoprocessing package executed with ArcGIS Maps SDK for Local Server.",
     "ignore": false,
     "images": [
         "LocalServerGenerateElevationProfile.png"

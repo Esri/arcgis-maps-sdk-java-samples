@@ -35,7 +35,7 @@ The route taken in this sample features a [one minute driving trip around Redlan
 
 ## Additional information
 
-To learn more about using the ArcGIS Runtime API for Java for retrieving NMEA sentences from a GPS dongle, see the
+To learn more about using the ArcGIS Maps SDK for Java for retrieving NMEA sentences from a GPS dongle, see the
 Esri Community blog post [Adding GPS data to your ArcGIS Runtime API for Java App](https://community.esri.com/t5/arcgis-runtime-sdks-blog/adding-gps-data-to-your-arcgis-runtime-api-for-java-app/ba-p/1054145/jump-to/first-unread-message).
 
 ## Tags

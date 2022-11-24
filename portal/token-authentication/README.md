@@ -2,7 +2,6 @@
 
 Access a web map service that is secured with ArcGIS token-based authentication.
 
-
 ![Image of token authentication](TokenAuthentication.png)
 
 ## Use case
@@ -34,7 +33,7 @@ Once you launch the sample, you will be challenged for an ArcGIS Online login to
 
 ## About the data
 
-The [Traffic web map](https://arcgisruntime.maps.arcgis.com/home/item.html?id=e5039444ef3c48b8a8fdc9227f9be7c1) uses public layers as well as the world traffic (premium content) layer. The world traffic service presents historical and near real-time traffic information for different regions in the world. The data is updated every 5 minutes. This map service requires an ArcGIS Online organizational subscription.
+The [Traffic web map](https://www.arcgis.com/home/item.html?id=e5039444ef3c48b8a8fdc9227f9be7c1) uses public layers as well as the world traffic (premium content) layer. The world traffic service presents historical and near real-time traffic information for different regions in the world. The data is updated every 5 minutes. This map service requires an ArcGIS Online organizational subscription.
 
 ## Additional information
 
