@@ -70,26 +70,24 @@ public class WmsLayerUrlSample extends Application {
       // start zoomed in over the US
       mapView.setViewpointGeometryAsync(new Envelope(-19195297.778679, 512343.939994, -3620418.579987, 8658913.035426, 0.0, 0.0, SpatialReferences.getWebMercator()));
 
-      // create a progress indicator and set its size
-      var progressIndicator = new ProgressIndicator();
-      progressIndicator.setMaxSize(25, 25);
-
       // create a WMS layer
       List<String> wmsLayerNames = Collections.singletonList("1");
       String url = "https://nowcoast.noaa.gov/arcgis/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer/WMSServer?request=GetCapabilities&service=WMS";
       wmsLayer = new WmsLayer(url, wmsLayerNames);
 
-      // show a progress indicator while the layer loads
-      progressIndicator.visibleProperty().bind(wmsLayer.loadStatusProperty().isEqualTo(LoadStatus.LOADING));
-
       // load the layer and add it as an operational layer
       wmsLayer.loadStatusProperty().addListener((observable, oldValue, newValue) -> {
         if (newValue == LoadStatus.FAILED_TO_LOAD) {
-          new Alert(Alert.AlertType.ERROR, "Failed to load WMS layer").show();
-          new Alert(Alert.AlertType.ERROR, wmsLayer.loadErrorProperty().get().toString()).show();
+          new Alert(Alert.AlertType.ERROR, "Failed to load WMS layer.\n" +
+            wmsLayer.loadErrorProperty().get().getCause().toString()).show();
         }
       });
       map.getOperationalLayers().add(wmsLayer);
+
+      // create a progress indicator and show it while the layer is loading
+      var progressIndicator = new ProgressIndicator();
+      progressIndicator.setMaxSize(25, 25);
+      progressIndicator.visibleProperty().bind(wmsLayer.loadStatusProperty().isEqualTo(LoadStatus.LOADING));
 
       // add the map view to stack pane
       stackPane.getChildren().addAll(mapView, progressIndicator);
