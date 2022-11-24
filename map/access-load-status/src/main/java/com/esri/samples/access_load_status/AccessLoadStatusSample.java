@@ -87,13 +87,24 @@ public class AccessLoadStatusSample extends Application {
         map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
 
         map.loadStatusProperty().addListener((observable, oldValue, newValue) -> {
-          // check the loading status
-          String loadingStatus = switch (newValue) {
-            case LOADING -> "Load Status: LOADING!";
-            case FAILED_TO_LOAD -> "Load Status: FAILED TO LOAD!";
-            case NOT_LOADED -> "Load Status: NOT LOADED!";
-            case LOADED -> "Load Status: LOADED!";
-          };
+          // create and update a string variable depending on the load status
+          String loadingStatus;
+          switch (newValue) {
+            case LOADING:
+              loadingStatus = "Load Status: LOADING!";
+              break;
+            case FAILED_TO_LOAD:
+              loadingStatus = "Load Status: FAILED TO LOAD!";
+              break;
+            case NOT_LOADED:
+              loadingStatus = "Load Status: NOT LOADED!";
+              break;
+            case LOADED:
+              loadingStatus = "Load Status: LOADED!";
+              break;
+            default:
+              loadingStatus = "Load Status: ERROR!";
+          }
 
           // update the load status text to the loading status that was fired
           Platform.runLater(() -> loadStatusText.appendText(loadingStatus + "\n"));
