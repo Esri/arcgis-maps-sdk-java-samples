@@ -120,7 +120,7 @@ public class DisplayLayerViewStateSample extends Application {
         // when the feature layer has loaded, update the button text when the layer load status changes
         featureLayer.addDoneLoadingListener(() ->
           loadLayerButton.textProperty().bind(Bindings.createStringBinding(() ->
-            featureLayer.loadStatusProperty().get() == LoadStatus.LOADED ? "Reload Layer" : "Load Layer",
+            featureLayer.loadStatusProperty().get() == LoadStatus.LOADED ? "Reload layer" : "Load layer",
             featureLayer.loadStatusProperty())));
 
         // disable checkbox and button when the layer is not loaded
